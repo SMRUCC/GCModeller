@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Get the implied library size of every training sample of the fitted network.</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>library_sizes {linear}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>Get the implied library size of every training sample of the fitted network.</h2>
+
+        <h3>Description</h3>
+
+        
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>library_sizes</strong>(<i>model</i>,
+    <i>pseudo</i> = <span style='color: green;'>1</span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>model</dt>
+<dd><p>the perturbation engine that is created via <code>elastic_model</code>. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/CellPhenotype/ElasticNet.html">ElasticNet</a>]</p></dd>
+
+
+<dt>pseudo</dt>
+<dd><p>the pseudo count offset that was used by the log transformation, default 1. [as double]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: block;">Details</h3>
+
+        <p>This vector is the bridge between an external raw count matrix and the model space: normalize the counts with <code>y = counts / sum(counts) * median(library_sizes)</code> and then apply <code>x = log2(y + pseudo)</code>.</p>
+
+        <h3 style="display: block">Authors</h3>
+
+        TRNtoolkit
+
+        <h3>Value</h3>
+
+        <p>a numeric vector, one value per training sample, i.e. <code>sum(2^x - pseudo)</code> of the expression matrix that was used to fit the network.</p><h4>clr value class</h4><ul><li>double</li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>linear</em> version 1.0.0.0 <a
+                href="../linear.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

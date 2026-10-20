@@ -120,6 +120,19 @@ Namespace LinearRegression
         Public Property priorityRegulators As String() = Nothing
 
         ''' <summary>
+        ''' 候选调控因子的相关性筛选后端。
+        ''' 
+        ''' 为空(默认)的时候使用内置的逐基因扫描(行为与原实现逐位一致)；
+        ''' 非空的时候由后端一次性算出每个目标基因的候选集，
+        ''' 从而把 "每个基因各扫一遍全表" 降为一次分块矩阵乘法。
+        ''' 
+        ''' 后端的 <c>Initialize</c> 会在 <see cref="GeneRegulatoryNetwork.Fit"/> 开始时
+        ''' 被调用一次，<c>Query</c> 会被并行拟合过程并发调用，因此实现必须是线程安全的只读。
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property correlationBackend As ICorrelationScreener = Nothing
+
+        ''' <summary>
         ''' 使用 LASSO 求解的时候，每一个目标基因最多允许保留多少个非零的调控关系。
         ''' 小于或者等于零的时候不做限制。
         ''' </summary>

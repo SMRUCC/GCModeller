@@ -1,10 +1,76 @@
 .\" man page create by R# package system.
 .TH LINEAR 1 2000-1月 "elastic_model" "elastic_model"
 .SH NAME
-elastic_model \- 
+elastic_model \- Build the in silico perturbation engine from a fitted linear GRN model.
 .SH SYNOPSIS
 \fIelastic_model(\fBgrn\fR as <generic> GeneRegulatoryNetwork, 
-\fBopts\fR as <generic> ElasticNetPerturbationOptions = \fB<NULL>\fR);\fR
+\fBopts\fR as <generic> ElasticNetPerturbationOptions = \fB<NULL>\fR, 
+\fBstrict\fR as boolean = TRUE, 
+\fBscale\fR as string = "linear", 
+\fBpropagation\fR as string = "cascade", 
+\fBsteps\fR as integer = -1, 
+\fBdamping\fR as double = -1, 
+\fBknockdown_residual\fR as double = -1, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Build the in silico perturbation engine from a fitted linear GRN model.
+.PP
+.SH OPTIONS
+.PP
+\fBgrn\fB \fR\- 
+ the fitted [GeneRegulatoryNetwork](cref:T:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GeneRegulatoryNetwork) object, it is the
+ \fBgrn\fR slot of the \fBelastic_net\fR result.
+. 
+.PP
+.PP
+\fBopts\fB \fR\- the perturbation options, a default configuration is used when this argument is not given. 
+.PP
+.PP
+\fBstrict\fB \fR\- 
+ in the strict mode an error will be thrown when the target gene of the perturbation
+ is not found in the model; in the non strict mode a warning will be printed and the
+ wildtype expression will be returned with the \fBUndefined\fR flag marked as TRUE.
+ For a batch run of hundreds of the perturbations it is recommended to disable it and
+ to check the \fBMissingGenes\fR field of the result.
+. 
+.PP
+.PP
+\fBscale\fB \fR\- 
+ the numeric space of the expression matrix that was used to fit the network:
+ \fBlinear\fR (default) or \fBlog2cpm\fR (i.e. \fBlog2(x + 1)\fR). For a log transformed
+ matrix this argument is required, otherwise the knockdown magnitude will be
+ over-estimated by about 2~3 times.
+. 
+.PP
+.PP
+\fBpropagation\fB \fR\- 
+ \fBcascade\fR (default) propagates the perturbation to the steady state,
+ \fBonehop\fR only keeps the direct effects,
+ \fBdelta\fR propagates the change only (recommended for the context conditioned
+ prediction: it is numerically identical to "mutant minus the matched control").
+. 
+.PP
+.PP
+\fBsteps\fB \fR\- the max cascade iteration steps, a value that is less than 1 means "use the default". 
+.PP
+.PP
+\fBdamping\fB \fR\- the damping factor of the cascade iteration, a value that is less than or equals to 0 means "use the default". 
+.PP
+.PP
+\fBknockdown_residual\fB \fR\- 
+ the fraction of the wildtype expression that is kept after a knockdown,
+ a negative value means "use the default" (0.2, i.e. about 80% knockdown).
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object. 
+.PP
+.SH VALUE
+.PP
+an [ElasticNet](cref:T:SMRUCC.genomics.Analysis.CellPhenotype.ElasticNet) engine which implements the
+ [InsilicoPerturbationExperiment](cref:T:SMRUCC.genomics.Analysis.BNLearn.InsilicoPerturbationExperiment) interface.
+.PP
 .SH SEE ALSO
 linear
 .SH FILES

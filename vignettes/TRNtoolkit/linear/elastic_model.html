@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>elastic_model</title>
+    <title>Build the in silico perturbation engine from a fitted linear GRN model.</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,23 +18,64 @@
             </tr>
         </table>
 
-        <h2>elastic_model</h2>
+        <h2>Build the in silico perturbation engine from a fitted linear GRN model.</h2>
 
         <h3>Description</h3>
 
-        elastic_model
+        
 
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
             <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>elastic_model</strong>(<i>grn</i>,
-    <i>opts</i> = <span style='color: blue !important;'>NULL</span>);</code></pre>
+    <i>opts</i> = <span style='color: blue !important;'>NULL</span>,
+    <i>strict</i> = <span style='color: blue !important;'>TRUE</span>,
+    <i>scale</i> = <span style='color: brown;'><strong>"linear"</strong></span>,
+    <i>propagation</i> = <span style='color: brown;'><strong>"cascade"</strong></span>,
+    <i>steps</i> = <span style='color: green;'>-1</span>,
+    <i>damping</i> = <span style='color: green;'>-1</span>,
+    <i>knockdown.residual</i> = <span style='color: green;'>-1</span>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
 
         <table>
             
+<dt>grn</dt>
+<dd><p>the fitted <a href="cref:T:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GeneRegulatoryNetwork">GeneRegulatoryNetwork</a> object, it is the <code>grn</code> slot of the <code>elastic_net</code> result. [as <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/GeneRegulatoryNetwork.html">GeneRegulatoryNetwork</a>]</p></dd>
+
+
+<dt>opts</dt>
+<dd><p>the perturbation options, a default configuration is used when this argument is not given. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/CellPhenotype/ElasticNetPerturbationOptions.html">ElasticNetPerturbationOptions</a>]</p></dd>
+
+
+<dt>strict</dt>
+<dd><p>in the strict mode an error will be thrown when the target gene of the perturbation is not found in the model; in the non strict mode a warning will be printed and the wildtype expression will be returned with the <code>Undefined</code> flag marked as TRUE. For a batch run of hundreds of the perturbations it is recommended to disable it and to check the <code>MissingGenes</code> field of the result. [as boolean]</p></dd>
+
+
+<dt>scale</dt>
+<dd><p>the numeric space of the expression matrix that was used to fit the network: <code>linear</code> (default) or <code>log2cpm</code> (i.e. <code>log2(x + 1)</code>). For a log transformed matrix this argument is required, otherwise the knockdown magnitude will be over-estimated by about 2~3 times. [as string]</p></dd>
+
+
+<dt>propagation</dt>
+<dd><p><code>cascade</code> (default) propagates the perturbation to the steady state, <code>onehop</code> only keeps the direct effects, <code>delta</code> propagates the change only (recommended for the context conditioned prediction: it is numerically identical to "mutant minus the matched control"). [as string]</p></dd>
+
+
+<dt>steps</dt>
+<dd><p>the max cascade iteration steps, a value that is less than 1 means "use the default". [as integer]</p></dd>
+
+
+<dt>damping</dt>
+<dd><p>the damping factor of the cascade iteration, a value that is less than or equals to 0 means "use the default". [as double]</p></dd>
+
+
+<dt>knockdown.residual</dt>
+<dd><p>the fraction of the wildtype expression that is kept after a knockdown, a negative value means "use the default" (0.2, i.e. about 80% knockdown). [as double]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
         </table>
 
 
@@ -48,7 +89,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Analysis/CellPhenotype/ElasticNet.html">ElasticNet</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/CellPhenotype/ElasticNet.html">ElasticNet</a></li></ul>
+        <p>an <a href="cref:T:SMRUCC.genomics.Analysis.CellPhenotype.ElasticNet">ElasticNet</a> engine which implements the <a href="cref:T:SMRUCC.genomics.Analysis.BNLearn.InsilicoPerturbationExperiment">InsilicoPerturbationExperiment</a> interface.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/CellPhenotype/ElasticNet.html">ElasticNet</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

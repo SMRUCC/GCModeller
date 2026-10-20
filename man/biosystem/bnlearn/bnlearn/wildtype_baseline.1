@@ -12,13 +12,22 @@ set wildtype baseline
 .PP
 .SH OPTIONS
 .PP
-\fBmodel\fB \fR\- [BNLearnWorkflow](cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.BNLearnWorkflow) or [BlockBayesianNetwork](cref:T:SMRUCC.genomics.Analysis.BNLearn.ModularNetwork.BlockBayesianNetwork). 
+\fBmodel\fB \fR\- 
+ [BNLearnWorkflow](cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.BNLearnWorkflow), [BlockBayesianNetwork](cref:T:SMRUCC.genomics.Analysis.BNLearn.ModularNetwork.BlockBayesianNetwork), or the elastic net
+ perturbation engine that is created via \fBlinear::elastic_model\fR.
+. 
 .PP
 .PP
 \fBbaseline\fB \fR\- a value list tuple of the baseline expression value, example as list(gene1=xxx,gene2=xxx,...). 
 .PP
 .PP
 \fBenv\fB \fR\- -. 
+.PP
+.SH DETAILS
+.PP
+For the elastic net engine the given values are interpreted in the model space
+ (i.e. the same numeric space as the expression matrix that was used to fit the network),
+ and the genes that are not modelled are simply ignored.
 .PP
 .SH SEE ALSO
 bnlearn

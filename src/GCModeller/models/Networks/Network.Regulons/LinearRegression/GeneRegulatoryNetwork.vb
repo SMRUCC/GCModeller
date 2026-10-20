@@ -71,6 +71,14 @@ Namespace LinearRegression
         ReadOnly priorityPool As Integer()
 
         ''' <summary>
+        ''' 本次 <see cref="Fit"/> 期间生效的相关性筛选后端；为空时使用内置的逐基因扫描。
+        ''' 
+        ''' 它只在 <see cref="Fit"/> 的生命周期内有效（Initialize 之后、Dispose 之前），
+        ''' 拟合完成之后会被清空。
+        ''' </summary>
+        Private activeScreener As ICorrelationScreener = Nothing
+
+        ''' <summary>
         ''' 拟合好的模型，键名是目标基因的编号
         ''' </summary>
         ReadOnly modelTable As New Dictionary(Of String, GeneRegressionModel)
@@ -383,9 +391,24 @@ Namespace LinearRegression
             End If
 
             Call "run parallel for fit elastic network".debug
-            Call Parallel.For(0, nG, popt, Sub(i As Integer)
-                                               buffer(i) = FitGene(i, maxCand)
-                                           End Sub)
+
+            ' 相关性筛选后端：一次性算出每个目标基因的候选集，之后 Query 只读
+            Dim backend As ICorrelationScreener = opt.correlationBackend
+
+            If backend IsNot Nothing Then
+                Call "run parallel for the correlation screening".debug
+                Call backend.Initialize(regulatorPool, vectors, maxCand, opt.minAbsCorrelation)
+                activeScreener = backend
+            End If
+
+            Try
+                Call Parallel.For(0, nG, popt, Sub(i As Integer)
+                                                   buffer(i) = FitGene(i, maxCand)
+                                               End Sub)
+            Finally
+                activeScreener = Nothing
+                backend?.Dispose()
+            End Try
 
             For i As Integer = 0 To nG - 1
                 modelTable(buffer(i).target) = buffer(i)
@@ -674,7 +697,12 @@ Namespace LinearRegression
                     .ToArray
 
                 If candidates.Length > maxCand OrElse opt.minAbsCorrelation > 0 Then
-                    candidates = TopCorrelated(target, candidates, maxCand)
+                    If activeScreener Is Nothing Then
+                        candidates = TopCorrelated(target, candidates, maxCand)
+                    Else
+                        ' 后端已经在 Fit 开始时算好，这里只是取预计算的结果
+                        candidates = activeScreener.Query(target)
+                    End If
                 End If
 
                 candidates = InjectPriorityRegulators(target, candidates)
@@ -961,19 +989,24 @@ Namespace LinearRegression
             ' 弹性网络的截距不会被惩罚，因此设计矩阵不需要常数项列
             Call BuildDesign(candidates, withIntercept:=False, featureNames:=featureNames, columns:=columns)
 
-            Dim X As Double()() = ToRows(columns, sampleNames.Length)
             Dim result As ElasticNetFitResult
 
             Select Case opt.elasticNet.mode
-                Case ElasticNetMode.PerGeneCrossValidation
-                    result = ElasticNetRegressor.FitByCrossValidation(
-                        X, y, featureNames, opt.elasticNet, opt.maxRegulatorsPerGene)
-                Case ElasticNetMode.GlobalCrossValidation
-                    result = ElasticNetRegressor.FitFixed(
-                        X, y, featureNames, opt.elasticNet, cvAlpha, cvL1Ratio, opt.maxRegulatorsPerGene)
+                Case ElasticNetMode.PerGeneCrossValidation, ElasticNetMode.GlobalCrossValidation
+                    ' 交叉验证需要按样本折划分，仍然走行主序入口
+                    Dim X As Double()() = ToRows(columns, sampleNames.Length)
+
+                    If opt.elasticNet.mode = ElasticNetMode.PerGeneCrossValidation Then
+                        result = ElasticNetRegressor.FitByCrossValidation(
+                            X, y, featureNames, opt.elasticNet, opt.maxRegulatorsPerGene)
+                    Else
+                        result = ElasticNetRegressor.FitFixed(
+                            X, y, featureNames, opt.elasticNet, cvAlpha, cvL1Ratio, opt.maxRegulatorsPerGene)
+                    End If
                 Case Else
-                    result = ElasticNetRegressor.FitByPath(
-                        X, y, featureNames, opt.elasticNet, opt.maxRegulatorsPerGene)
+                    ' 默认路径：直接把列向量交给求解器，省掉一次 n x p 的转置拷贝
+                    result = ElasticNetRegressor.FitByPathColumns(
+                        columns, y, featureNames, opt.elasticNet, opt.maxRegulatorsPerGene)
             End Select
 
             If result Is Nothing Then

@@ -42,6 +42,19 @@ export class PropagationMode extends <a href="/vignettes/clr/System/Enum.html">E
    # 只有被扰动基因的直接靶基因会产生变化，等价于 <code>delta_target = beta * delta_regulator</code>。结果保守且绝对不会发散。
    OneHop: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/CellPhenotype/PropagationMode.html">PropagationMode</a> = 1;
 
+   # 只传播"变化量"(推荐用于外部背景之下的条件化预测)。
+   # 
+   # 迭代从零开始，被扰动基因被钳制为 <code>目标值 - 基线</code>，其余基因按照 <code>delta_t = sum(beta * delta_r)</code> 更新(不含截距项)。由仿射变换的性质可知
+   # 
+   # 
+   # <pre><code> x(k+1) = c + B * x(k)   ==&gt;   (x_mutant - x_control)(k+1) = B * (x_mutant - x_control)(k)</code></pre>
+   # 
+   # 
+   # 因此这里的 <code>delta</code> 精确等于"同一个背景之下，扰动后的预测减去无扰动对照的预测"。 结果对象之中的 <a href="cref:P:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult.WildtypeMeans">InterventionResult.WildtypeMeans</a> 仍然是调用方给定的 背景，<a href="cref:P:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult.MutantMeans">InterventionResult.MutantMeans</a> 等于 <code>背景 + delta</code>， 两者的差就是净扰动效应。
+   # 
+   # 与 <a href="cref:F:SMRUCC.genomics.Analysis.CellPhenotype.PropagationMode.Cascade">PropagationMode.Cascade</a> 的区别：绝对量级联在外部背景之上会把预测拉向模型自身的 平均水平(回归到均值)，这部分漂移会混进变化量；本模式没有这个问题。
+   Delta: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/CellPhenotype/PropagationMode.html">PropagationMode</a> = 2;
+
 }
 </code>
         </pre>
@@ -52,6 +65,7 @@ export class PropagationMode extends <a href="/vignettes/clr/System/Enum.html">E
 <li>this class extends from <a href="/vignettes/clr/System/Enum.html">Enum</a> class: <a href="/vignettes/clr/System/Enum.html">Enum</a></li>
 <li>use by <i>field</i> member <code>Cascade</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/CellPhenotype/PropagationMode.html">PropagationMode</a></li>
 <li>use by <i>field</i> member <code>OneHop</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/CellPhenotype/PropagationMode.html">PropagationMode</a></li>
+<li>use by <i>field</i> member <code>Delta</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/CellPhenotype/PropagationMode.html">PropagationMode</a></li>
 </ol>
 
 

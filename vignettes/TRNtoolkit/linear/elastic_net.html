@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title></title>
+    <title>Fit a linear (elastic net) gene regulatory network from the expression matrix.</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,7 +18,7 @@
             </tr>
         </table>
 
-        <h2></h2>
+        <h2>Fit a linear (elastic net) gene regulatory network from the expression matrix.</h2>
 
         <h3>Description</h3>
 
@@ -28,12 +28,14 @@
 
         <div style="width: 100%; padding-left: 3%; color: black;">
             <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>elastic_net</strong>(<i>x</i>,
-    <i>top</i> = <span style='color: green;'>1000</span>,
     <i>candidates</i> = <span style='color: green;'>1000</span>,
     <i>maxreg</i> = <span style='color: green;'>10</span>,
     <i>l1.ratio</i> = <span style='color: green;'>0.7</span>,
     <i>alphas</i> = <span style='color: green;'>40</span>,
-    <i>mutual</i> = <span style='color: blue !important;'>FALSE</span>);</code></pre>
+    <i>mutual</i> = <span style='color: blue !important;'>FALSE</span>,
+    <i>TF</i> = <span style='color: blue !important;'>NULL</span>,
+    <i>standardize</i> = <span style='color: blue !important;'>FALSE</span>,
+    <i>min.abs.r</i> = <span style='color: green;'>0</span>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
@@ -41,31 +43,39 @@
         <table>
             
 <dt>x</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>]</p></dd>
-
-
-<dt>top</dt>
-<dd><p>[as integer]</p></dd>
+<dd><p>the gene expression matrix, rows are genes and columns are samples. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>]</p></dd>
 
 
 <dt>candidates</dt>
-<dd><p>[as integer]</p></dd>
+<dd><p>the max number of the candidate regulators for each target gene, the candidates are picked by the absolute pearson correlation with the target gene. [as integer]</p></dd>
 
 
 <dt>maxreg</dt>
-<dd><p>[as integer]</p></dd>
+<dd><p>the max number of the non-zero regulation edges that each target gene can keep. [as integer]</p></dd>
 
 
 <dt>l1.ratio</dt>
-<dd><p>[as double]</p></dd>
+<dd><p>the L1 mixing ratio of the elastic net, in the range [0, 1]. [as double]</p></dd>
 
 
 <dt>alphas</dt>
-<dd><p>[as double]</p></dd>
+<dd><p>the number of the alpha steps in the regularization path. [as double]</p></dd>
 
 
 <dt>mutual</dt>
-<dd><p>[as boolean]</p></dd>
+<dd><p>only keep the reversible (mutual) regulation pairs. [as boolean]</p></dd>
+
+
+<dt>TF</dt>
+<dd><p>an optional gene id vector of the transcript factors, these genes are always included in the candidate regulator pool (they are not affected by the <strong>candidates</strong> truncation). Non TF genes are still able to be the regulators, so that the knockdown of a non TF gene still has downstream responses.</p></dd>
+
+
+<dt>standardize</dt>
+<dd><p>z-score the expression vectors before the fitting. [as boolean]</p></dd>
+
+
+<dt>min.abs.r</dt>
+<dd><p>the minimal absolute pearson correlation for a gene to be a candidate regulator. [as double]</p></dd>
 
         </table>
 
@@ -80,7 +90,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object in these one of the listed data types: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/GeneRegulatoryNetwork.html">GeneRegulatoryNetwork</a>, <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/RegulationEdge.html">RegulationEdge</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/GeneRegulatoryNetwork.html">GeneRegulatoryNetwork</a></li><li><a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/RegulationEdge.html">RegulationEdge</a></li></ul>
+        <p>a list object with two slots: <code>grn</code> (the fitted <a href="cref:T:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GeneRegulatoryNetwork">GeneRegulatoryNetwork</a>) and <code>edges</code> (the <a href="cref:T:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.RegulationEdge">RegulationEdge</a> collection).</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/GeneRegulatoryNetwork.html">GeneRegulatoryNetwork</a></li><li><a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/RegulationEdge.html">RegulationEdge</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

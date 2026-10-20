@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>coef</title>
+    <title>Export the coefficient matrix of the fitted network.</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>coef</h2>
+        <h2>Export the coefficient matrix of the fitted network.</h2>
 
         <h3>Description</h3>
 
-        coef
+        
 
         <h3>Usage</h3>
 
@@ -34,6 +34,9 @@
 
         <table>
             
+<dt>grn</dt>
+<dd><p>the fitted linear GRN model. [as <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/GeneRegulatoryNetwork.html">GeneRegulatoryNetwork</a>]</p></dd>
+
         </table>
 
 
@@ -47,7 +50,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a></li></ul>
+        <p>a matrix whose rows are the target genes and columns are the regulators, an element is the regression coefficient of the <code>regulator -&gt; target</code> edge.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

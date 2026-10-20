@@ -1,9 +1,22 @@
 .\" man page create by R# package system.
 .TH LINEAR 1 2000-1月 "coef" "coef"
 .SH NAME
-coef \- 
+coef \- Export the coefficient matrix of the fitted network.
 .SH SYNOPSIS
 \fIcoef(\fBgrn\fR as <generic> GeneRegulatoryNetwork);\fR
+.SH DESCRIPTION
+.PP
+Export the coefficient matrix of the fitted network.
+.PP
+.SH OPTIONS
+.PP
+\fBgrn\fB \fR\- the fitted linear GRN model. 
+.PP
+.SH VALUE
+.PP
+a matrix whose rows are the target genes and columns are the regulators,
+ an element is the regression coefficient of the \fBregulator -> target\fR edge.
+.PP
 .SH SEE ALSO
 linear
 .SH FILES

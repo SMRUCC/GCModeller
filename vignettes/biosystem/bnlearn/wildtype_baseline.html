@@ -35,7 +35,7 @@
         <table>
             
 <dt>model</dt>
-<dd><p><a href="cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.BNLearnWorkflow">BNLearnWorkflow</a> or <a href="cref:T:SMRUCC.genomics.Analysis.BNLearn.ModularNetwork.BlockBayesianNetwork">BlockBayesianNetwork</a></p></dd>
+<dd><p><a href="cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.BNLearnWorkflow">BNLearnWorkflow</a>, <a href="cref:T:SMRUCC.genomics.Analysis.BNLearn.ModularNetwork.BlockBayesianNetwork">BlockBayesianNetwork</a>, or the elastic net perturbation engine that is created via <code>linear::elastic_model</code>.</p></dd>
 
 
 <dt>baseline</dt>
@@ -48,9 +48,9 @@
         </table>
 
 
-        <h3 style="display: none;">Details</h3>
+        <h3 style="display: block;">Details</h3>
 
-        
+        <p>For the elastic net engine the given values are interpreted in the model space (i.e. the same numeric space as the expression matrix that was used to fit the network), and the genes that are not modelled are simply ignored.</p>
 
         <h3 style="display: block">Authors</h3>
 
@@ -58,7 +58,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object in these one of the listed data types: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/BNLearnWorkflow.html">BNLearnWorkflow</a>, <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/ModularNetwork/BlockBayesianNetwork.html">BlockBayesianNetwork</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/BNLearnWorkflow.html">BNLearnWorkflow</a></li><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/ModularNetwork/BlockBayesianNetwork.html">BlockBayesianNetwork</a></li></ul>
+        this function returns data object in these one of the listed data types: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/BNLearnWorkflow.html">BNLearnWorkflow</a>, <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/ModularNetwork/BlockBayesianNetwork.html">BlockBayesianNetwork</a>, <a href="/vignettes/clr/SMRUCC/genomics/Analysis/CellPhenotype/ElasticNet.html">ElasticNet</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/BNLearnWorkflow.html">BNLearnWorkflow</a></li><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/ModularNetwork/BlockBayesianNetwork.html">BlockBayesianNetwork</a></li><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/CellPhenotype/ElasticNet.html">ElasticNet</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

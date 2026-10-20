@@ -1,0 +1,43 @@
+.\" man page create by R# package system.
+.TH LINEAR 1 2000-1月 "intervene" "intervene"
+.SH NAME
+intervene \- Run one in silico perturbation experiment and return the raw result object.
+.SH SYNOPSIS
+\fIintervene(\fBmodel\fR as <generic> ElasticNet, 
+\fBgene\fR as string, 
+\fBmode\fR as string = "knockout", 
+\fBvalue\fR as double = 0, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Run one in silico perturbation experiment and return the raw result object.
+.PP
+.SH OPTIONS
+.PP
+\fBmodel\fB \fR\- the perturbation engine that is created via \fBelastic_model\fR. 
+.PP
+.PP
+\fBgene\fB \fR\- the target gene id. 
+.PP
+.PP
+\fBmode\fB \fR\- \fBknockout\fR, \fBknockdown\fR, \fBoverexpress\fR or \fBcustom\fR. 
+.PP
+.PP
+\fBvalue\fB \fR\- 
+ the absolute expression value in the model space, only used by the \fBcustom\fR mode.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object. 
+.PP
+.SH VALUE
+.PP
+an [InterventionResult](cref:T:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult) object; use \fBas.list\fR to access the fields
+ (the \fB$\fR indexing is not supported on this object).
+.PP
+.SH SEE ALSO
+linear
+.SH FILES
+.PP
+TRNtoolkit.dll
+.PP

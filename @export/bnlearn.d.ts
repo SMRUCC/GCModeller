@@ -280,12 +280,16 @@ declare namespace bnlearn {
    /**
     * set wildtype baseline
     * 
+    * > For the elastic net engine the given values are interpreted in the model space
+    * >  (i.e. the same numeric space as the expression matrix that was used to fit the network),
+    * >  and the genes that are not modelled are simply ignored.
     * 
-     * @param model [BNLearnWorkflow](cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.BNLearnWorkflow) or [BlockBayesianNetwork](cref:T:SMRUCC.genomics.Analysis.BNLearn.ModularNetwork.BlockBayesianNetwork)
+     * @param model [BNLearnWorkflow](cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.BNLearnWorkflow), [BlockBayesianNetwork](cref:T:SMRUCC.genomics.Analysis.BNLearn.ModularNetwork.BlockBayesianNetwork), or the elastic net
+     *  perturbation engine that is created via ``linear::elastic_model``.
      * @param baseline a value list tuple of the baseline expression value, example as list(gene1=xxx,gene2=xxx,...)
      * @param env -
      * 
      * + default value Is ``null``.
    */
-   function wildtype_baseline(model: any, baseline: object, env?: object): object|object;
+   function wildtype_baseline(model: any, baseline: object, env?: object): object|object|object;
 }

@@ -10,7 +10,7 @@
     <meta name="keywords" content="R#; linear; TRNtoolkit" />
     <meta name="generator" content="https://github.com/rsharp-lang" />
     <meta name="theme-color" content="#333" />
-    <meta name="description" content="..." />
+    <meta name="description" content="The linear (elastic net) gene regulatory network builder and the..." />
     <meta class="foundation-data-attribute-namespace" />
     <meta class="foundation-mq-xxlarge" />
     <meta class="foundation-mq-xlarge" />
@@ -63,13 +63,22 @@ table caption {font-size:14px;font-weight:bolder;}
     <p style="     font-size: 1.125em;     line-height: .8em;     margin-left: 0.5%;     background-color: #fbfbfb;     padding: 24px; ">
       <code>
         <span style="color: blue;">require</span>(<span style="color: black; font-weight: bold;">GCModeller</span>);
-                               <br /><br /><span style="color: green;">{$desc_comments}</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "linear"</span><span style="color: blue;"> from</span><span style="color: brown"> "TRNtoolkit"</span>;
+                               <br /><br /><span style="color: green;">#' The linear (elastic net) gene regulatory network builder and the in silico perturbation toolkit that runs on top of the fitted linear models.</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "linear"</span><span style="color: blue;"> from</span><span style="color: brown"> "TRNtoolkit"</span>;
                            </code>
     </p>
-    <p></p>
+    <p><p>The linear (elastic net) gene regulatory network builder and the in silico perturbation toolkit that runs on top of the fitted linear models.</p></p>
     <blockquote>
       <p style="font-style: italic; font-size: 0.9em;">
-                           
+                           <p>This package provides two groups of the R# api:</p>
+
+
+<ul>
+<li><code>elastic_net</code> / <code>coef</code>: fit a <code>regulator -&gt; target</code> linear regulatory network from a gene expression matrix, and export the coefficient matrix;</li>
+<li><code>elastic_model</code> / <code>set_baseline</code> / <code>intervene</code> / <code>profiles_matrix</code>: build an in silico perturbation engine from the fitted network, condition it on a given cell context, and run the RNAi style knockdown experiments.</li>
+</ul>
+
+
+<p>The perturbation engine implements the <code>InsilicoPerturbationExperiment</code> interface, so the <code>knockouts</code> / <code>overexpress</code> / <code>knockdown</code> api of the <code>bnlearn</code> package can be used on the object that is created by <code>elastic_model</code> directly.</p>
                            </p>
     </blockquote>
     <div id="main-wrapper">
@@ -104,19 +113,61 @@ table caption {font-size:14px;font-weight:bolder;}
   <td id="elastic_net">
     <a href="./linear/elastic_net.html">elastic_net</a>
   </td>
-  <td></td>
+  <td><p>Fit a linear (elastic net) gene regulatory network from the expression matrix.</p></td>
 </tr>
 <tr>
   <td id="coef">
     <a href="./linear/coef.html">coef</a>
   </td>
-  <td></td>
+  <td><p>Export the coefficient matrix of the fitted network.</p></td>
 </tr>
 <tr>
   <td id="elastic_model">
     <a href="./linear/elastic_model.html">elastic_model</a>
   </td>
-  <td></td>
+  <td><p>Build the in silico perturbation engine from a fitted linear GRN model.</p></td>
+</tr>
+<tr>
+  <td id="gene_names">
+    <a href="./linear/gene_names.html">gene_names</a>
+  </td>
+  <td><p>Get the gene ids of the fitted network, in the row order of the expression matrix.</p></td>
+</tr>
+<tr>
+  <td id="wildtype_means">
+    <a href="./linear/wildtype_means.html">wildtype_means</a>
+  </td>
+  <td><p>Get the currently effective wildtype (baseline) expression vector of the model.</p></td>
+</tr>
+<tr>
+  <td id="library_sizes">
+    <a href="./linear/library_sizes.html">library_sizes</a>
+  </td>
+  <td><p>Get the implied library size of every training sample of the fitted network.</p></td>
+</tr>
+<tr>
+  <td id="set_baseline">
+    <a href="./linear/set_baseline.html">set_baseline</a>
+  </td>
+  <td><p>Set the wildtype baseline (the cell context) of the perturbation engine.</p></td>
+</tr>
+<tr>
+  <td id="intervene">
+    <a href="./linear/intervene.html">intervene</a>
+  </td>
+  <td><p>Run one in silico perturbation experiment and return the raw result object.</p></td>
+</tr>
+<tr>
+  <td id="profiles_matrix">
+    <a href="./linear/profiles_matrix.html">profiles_matrix</a>
+  </td>
+  <td><p>Run the perturbation experiment for a set of genes and collect the profiles into a matrix.</p></td>
+</tr>
+<tr>
+  <td id="export_profiles">
+    <a href="./linear/export_profiles.html">export_profiles</a>
+  </td>
+  <td><p>Run the perturbation experiment for a set of genes and save the profiles as a csv file.</p></td>
 </tr></tbody>
       </table>
     </div>

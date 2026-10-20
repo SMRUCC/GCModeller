@@ -1,36 +1,61 @@
 .\" man page create by R# package system.
 .TH LINEAR 1 2000-1月 "elastic_net" "elastic_net"
 .SH NAME
-elastic_net \- 
+elastic_net \- Fit a linear (elastic net) gene regulatory network from the expression matrix.
 .SH SYNOPSIS
 \fIelastic_net(\fBx\fR as <generic> Matrix, 
-\fBtop\fR as integer = 1000, 
 \fBcandidates\fR as integer = 1000, 
 \fBmaxreg\fR as integer = 10, 
 \fBl1_ratio\fR as double = 0.7, 
 \fBalphas\fR as double = 40, 
-\fBmutual\fR as boolean = FALSE);\fR
+\fBmutual\fR as boolean = FALSE, 
+\fBTF\fR as any = \fB<NULL>\fR, 
+\fBstandardize\fR as boolean = FALSE, 
+\fBmin_abs_r\fR as double = 0);\fR
+.SH DESCRIPTION
+.PP
+Fit a linear (elastic net) gene regulatory network from the expression matrix.
+.PP
 .SH OPTIONS
 .PP
-\fBx\fB \fR\- -. 
+\fBx\fB \fR\- the gene expression matrix, rows are genes and columns are samples. 
 .PP
 .PP
-\fBtop\fB \fR\- -. 
+\fBcandidates\fB \fR\- 
+ the max number of the candidate regulators for each target gene, the candidates
+ are picked by the absolute pearson correlation with the target gene.
+. 
 .PP
 .PP
-\fBcandidates\fB \fR\- -. 
+\fBmaxreg\fB \fR\- the max number of the non-zero regulation edges that each target gene can keep. 
 .PP
 .PP
-\fBmaxreg\fB \fR\- -. 
+\fBl1_ratio\fB \fR\- the L1 mixing ratio of the elastic net, in the range [0, 1]. 
 .PP
 .PP
-\fBl1_ratio\fB \fR\- -. 
+\fBalphas\fB \fR\- the number of the alpha steps in the regularization path. 
 .PP
 .PP
-\fBalphas\fB \fR\- -. 
+\fBmutual\fB \fR\- only keep the reversible (mutual) regulation pairs. 
 .PP
 .PP
-\fBmutual\fB \fR\- -. 
+\fBTF\fB \fR\- 
+ an optional gene id vector of the transcript factors, these genes are always
+ included in the candidate regulator pool (they are not affected by the
+ **candidates** truncation). Non TF genes are still able to be the
+ regulators, so that the knockdown of a non TF gene still has downstream responses.
+. 
+.PP
+.PP
+\fBstandardize\fB \fR\- z-score the expression vectors before the fitting. 
+.PP
+.PP
+\fBmin_abs_r\fB \fR\- the minimal absolute pearson correlation for a gene to be a candidate regulator. 
+.PP
+.SH VALUE
+.PP
+a list object with two slots: \fBgrn\fR (the fitted [GeneRegulatoryNetwork](cref:T:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GeneRegulatoryNetwork))
+ and \fBedges\fR (the [RegulationEdge](cref:T:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.RegulationEdge) collection).
 .PP
 .SH SEE ALSO
 linear

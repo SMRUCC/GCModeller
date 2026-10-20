@@ -30,8 +30,10 @@
 <pre><code> Knockout        : target = 0
  Knockdown       : target = KnockdownResidual * baseline
  Overexpression  : target = OverexpressionFold * baseline
- Custom          : target = spec.Value   (原始表达量尺度的绝对值)</code></pre>
+ Custom          : target = spec.Value   (模型空间之中的绝对值)</code></pre>
 
+
+<p>当 <a href="cref:P:SMRUCC.genomics.Analysis.CellPhenotype.ElasticNetPerturbationOptions.Scale">ElasticNetPerturbationOptions.Scale</a> 为 <a href="cref:F:SMRUCC.genomics.Analysis.CellPhenotype.PerturbationScale.Log2Plus1">PerturbationScale.Log2Plus1</a> 的时候， 上面的比例会先反变换到线性空间、按比例施加、再变换回 log 空间(见该枚举的说明)。</p>
 
 <p>这个约定与 <a href="cref:M:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionSpec.GetInterventionValue(System.Double,System.Double)">InterventionSpec.GetInterventionValue()</a> 的 <code>mean +/- k * SD</code> 公式不同，因此同一个基因在本引擎与贝叶斯网络引擎 上面的敲降/过表达效应量不能直接横向比较。</p>
 
@@ -53,6 +55,10 @@ export class ElasticNetPerturbationOptions {
    Damping: double;
    # 敲降之后保留下来的表达量比例，取值范围 [0, 1)，默认 0.2(即约 80% 的敲降)。
    KnockdownResidual: double;
+   # <a href="cref:F:SMRUCC.genomics.Analysis.CellPhenotype.PerturbationScale.Log2Plus1">PerturbationScale.Log2Plus1</a> 空间之中的伪计数偏移，默认 1。
+   # 
+   # 它必须与拟合网络时所用的变换保持一致(例如 <code>log2(x + 1)</code> 对应 1)。
+   LogPseudoCount: double;
    # 过表达之后的表达量相对于基线的倍数，默认 3。
    OverexpressionFold: double;
    # 效应传播方式，默认为级联到稳态。
@@ -65,6 +71,10 @@ export class ElasticNetPerturbationOptions {
    # 
    # <a href="cref:M:SMRUCC.genomics.Analysis.CellPhenotype.ElasticNet.SimulateCascade(SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionSpec,System.Int32)">ElasticNet.SimulateCascade()</a> 会自动开启轨迹记录。
    RecordTrajectory: boolean;
+   # 模型输入表达量的数值空间，默认为 <a href="cref:F:SMRUCC.genomics.Analysis.CellPhenotype.PerturbationScale.Linear">PerturbationScale.Linear</a>。
+   # 
+   # 如果拟合网络所用的表达矩阵是取过对数的(例如 <code>log2(CPM+1)</code>)，必须设置为 <a href="cref:F:SMRUCC.genomics.Analysis.CellPhenotype.PerturbationScale.Log2Plus1">PerturbationScale.Log2Plus1</a>，否则敲降/过表达的幅度会偏大 2~3 倍。
+   Scale: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/CellPhenotype/PerturbationScale.html">PerturbationScale</a>;
    # 显著性判据：变化量超过多少个标准差才算显著，默认 0.5。
    # 
    # 默认值与 <a href="cref:T:SMRUCC.genomics.Analysis.BNLearn.Intervention.BnInterventionAnalyzer">BnInterventionAnalyzer</a> 的 <code>|FC| &gt; 0.5 * SD</code> 判据一致。
@@ -83,6 +93,7 @@ export class ElasticNetPerturbationOptions {
 
         <ol>
 <li>use by <i>property</i> member <code>Propagation</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/CellPhenotype/PropagationMode.html">PropagationMode</a></li>
+<li>use by <i>property</i> member <code>Scale</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/CellPhenotype/PerturbationScale.html">PerturbationScale</a></li>
 </ol>
 
 

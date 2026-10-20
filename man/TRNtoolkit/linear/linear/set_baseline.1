@@ -1,0 +1,42 @@
+.\" man page create by R# package system.
+.TH LINEAR 1 2000-1月 "set_baseline" "set_baseline"
+.SH NAME
+set_baseline \- Set the wildtype baseline (the cell context) of the perturbation engine.
+.SH SYNOPSIS
+\fIset_baseline(\fBmodel\fR as <generic> ElasticNet, 
+\fBgenes\fR as any, 
+\fBvalues\fR as any, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Set the wildtype baseline (the cell context) of the perturbation engine.
+.PP
+.SH OPTIONS
+.PP
+\fBmodel\fB \fR\- the perturbation engine that is created via \fBelastic_model\fR. 
+.PP
+.PP
+\fBgenes\fB \fR\- 
+ the gene ids of the given expression profile, the matching against the model is
+ case insensitive and the genes that are not modelled are ignored.
+. 
+.PP
+.PP
+\fBvalues\fB \fR\- 
+ the baseline expression values, they must be in the model space (i.e. the same
+ transformation that was used to fit the network, for example \fBlog2(CPM + 1)\fR).
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object. 
+.PP
+.SH VALUE
+.PP
+the number of the genes that have been matched and written
+.PP
+.SH SEE ALSO
+linear
+.SH FILES
+.PP
+TRNtoolkit.dll
+.PP

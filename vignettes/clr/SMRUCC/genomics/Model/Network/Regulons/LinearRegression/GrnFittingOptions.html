@@ -56,6 +56,12 @@ export class GrnFittingOptions {
    # 
    # 开启之后，只有在 <code>A -&gt; B</code> 与 <code>B -&gt; A</code> 两个方向都被拟合出来、 并且回归系数同号的时候才会保留这条边，边的权重取两个方向的均值。
    mutualOnly: boolean;
+   # 需要优先纳入候选调控因子池的基因集合(例如转录因子列表)。
+   # 
+   # 与 <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GrnFittingOptions.regulators">GrnFittingOptions.regulators</a> 的"限定"语义不同：这里列出的基因不受 <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GrnFittingOptions.maxCandidates">GrnFittingOptions.maxCandidates</a> 与 <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GrnFittingOptions.minAbsCorrelation">GrnFittingOptions.minAbsCorrelation</a> 的截断影响， 总是会被追加进每一个目标基因的候选集(目标基因自身除外)。
+   # 
+   # 为空的时候不产生任何影响。大小写不敏感，表达矩阵之中不存在的基因会被忽略。
+   priorityRegulators: string;
    # p 值计算的容差：小于这个数值的 p 值会被修正为零。
    pvalueTolerance: double;
    # 可选的调控因子集合(例如转录因子列表)。

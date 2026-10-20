@@ -66,7 +66,7 @@ Namespace LinearRegression
         ''' 正则化路径上面的 alpha 步数(alpha 由大到小排列)
         ''' </summary>
         ''' <returns></returns>
-        Public Property numberOfAlphas As Integer = 50
+        Public Property numberOfAlphas As Integer = 20
 
         ''' <summary>
         ''' 正则化路径的终止比例，即最小的 alpha 等于最大的 alpha 乘以这个比例
@@ -113,14 +113,15 @@ Namespace LinearRegression
         Public Property globalCVReplicates As Integer = 20
 
         ''' <summary>
-        ''' 每一个目标基因允许纳入的最大候选调控因子数量。
+        ''' 每一个目标基因允许纳入的最大候选调控因子数量(默认 300)。
         ''' 
         ''' 弹性网络本身没有「自变量个数必须小于样本数量」的限制，
         ''' 因此这里是一个纯粹用于控制内存与计算量的预算：
-        ''' 求解器每一次都会复制一份 ``n x p`` 的设计矩阵。
+        ''' 求解器每一次都会复制一份 ``n x p`` 的设计矩阵，
+        ''' 单次拟合的成本与它近似成正比。
         ''' </summary>
         ''' <returns></returns>
-        Public Property maxCandidates As Integer = 1000
+        Public Property maxCandidates As Integer = 300
 
         ''' <summary>
         ''' 校验参数的取值范围，非法的时候抛出 <see cref="ArgumentException"/>

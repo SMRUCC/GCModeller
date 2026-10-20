@@ -1,0 +1,25 @@
+.\" man page create by R# package system.
+.TH LINEAR 1 2000-1月 "wildtype_means" "wildtype_means"
+.SH NAME
+wildtype_means \- Get the currently effective wildtype (baseline) expression vector of the model.
+.SH SYNOPSIS
+\fIwildtype_means(\fBmodel\fR as <generic> ElasticNet);\fR
+.SH DESCRIPTION
+.PP
+Get the currently effective wildtype (baseline) expression vector of the model.
+.PP
+.SH OPTIONS
+.PP
+\fBmodel\fB \fR\- the perturbation engine that is created via \fBelastic_model\fR. 
+.PP
+.SH VALUE
+.PP
+a numeric vector, one value per gene, in the same order as \fBgene_names\fR.
+ Before \fBset_baseline\fR is called this is the sample mean of the training matrix.
+.PP
+.SH SEE ALSO
+linear
+.SH FILES
+.PP
+TRNtoolkit.dll
+.PP

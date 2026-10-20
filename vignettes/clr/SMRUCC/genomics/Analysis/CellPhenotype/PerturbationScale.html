@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.CellPhenotype.PerturbationScale</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>PerturbationScale {SMRUCC.genomics.Analysis.CellPhenotype}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>PerturbationScale</h2>
+
+        <h3>Description</h3>
+
+        <p>模型输入表达量的数值空间。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.CellPhenotype
+export class PerturbationScale extends <a href="/vignettes/clr/System/Enum.html">Enum</a> {
+   # 模型输入就是线性表达量(默认值，保持与既有行为完全一致)。
+   Linear: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/CellPhenotype/PerturbationScale.html">PerturbationScale</a> = 0;
+
+   # 模型输入是 <code>x = log2(y + LogPseudoCount)</code> 之后的数值(例如 log2(CPM+1))。
+   # 
+   # 敲降与过表达的比例必须作用在反变换之后的线性空间 <code>y</code> 上，再把结果变换回 <code>x</code>；直接对 <code>x</code> 乘一个比例是错的：<code>x = 8</code>(约 255 CPM)时 80% 敲降的 正确目标是 <code>log2(0.2 * (2^8 - 1) + 1) = 5.68</code>，而不是 <code>0.2 * 8 = 1.6</code>。
+   Log2Plus1: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/CellPhenotype/PerturbationScale.html">PerturbationScale</a> = 1;
+
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>this class extends from <a href="/vignettes/clr/System/Enum.html">Enum</a> class: <a href="/vignettes/clr/System/Enum.html">Enum</a></li>
+<li>use by <i>field</i> member <code>Linear</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/CellPhenotype/PerturbationScale.html">PerturbationScale</a></li>
+<li>use by <i>field</i> member <code>Log2Plus1</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/CellPhenotype/PerturbationScale.html">PerturbationScale</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

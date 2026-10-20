@@ -120,8 +120,49 @@ Namespace LinearRegression
                                            l1Ratio As Double,
                                            maxFeatures As Integer) As ElasticNetFitResult
 
-            Dim path As ElasticNetPath = ElasticNetFitting.RegularizationPath(
-                x:=X,
+            Return FitByPathColumnsWithRatio(ToColumns(X), y, names, options, l1Ratio, maxFeatures)
+        End Function
+
+        ''' <summary>
+        ''' 按默认的 l1_ratio 求解正则化路径，入参为列主序的特征矩阵
+        ''' </summary>
+        ''' <param name="columns">特征列，<c>columns(j)</c> 是第 j 个特征在所有样本之上的取值</param>
+        ''' <param name="y">观测值向量</param>
+        ''' <param name="names">特征列的名称</param>
+        ''' <param name="options">弹性网络的参数</param>
+        ''' <param name="maxFeatures">允许保留的最大非零系数数量</param>
+        ''' <returns></returns>
+        Friend Function FitByPathColumns(columns As Double()(),
+                                         y As Double(),
+                                         names As String(),
+                                         options As ElasticNetOptions,
+                                         maxFeatures As Integer) As ElasticNetFitResult
+
+            Return FitByPathColumnsWithRatio(columns, y, names, options, options.l1Ratio, maxFeatures)
+        End Function
+
+        ''' <summary>
+        ''' 按照指定的 l1_ratio 求解正则化路径，入参为列主序的特征矩阵。
+        ''' 
+        ''' 与行主序版本完全等价，但省掉了 <see cref="ToColumns"/> 的一次转置，
+        ''' 并且把 <paramref name="maxFeatures"/> 传给求解器用于路径早停。
+        ''' </summary>
+        ''' <param name="columns">特征列</param>
+        ''' <param name="y">观测值向量</param>
+        ''' <param name="names">特征列的名称</param>
+        ''' <param name="options">弹性网络的参数</param>
+        ''' <param name="l1Ratio">本次求解所使用的 L1 混合比例</param>
+        ''' <param name="maxFeatures">允许保留的最大非零系数数量</param>
+        ''' <returns>求解失败的时候返回空引用</returns>
+        Friend Function FitByPathColumnsWithRatio(columns As Double()(),
+                                                  y As Double(),
+                                                  names As String(),
+                                                  options As ElasticNetOptions,
+                                                  l1Ratio As Double,
+                                                  maxFeatures As Integer) As ElasticNetFitResult
+
+            Dim path As ElasticNetPath = ElasticNetFitting.RegularizationPathColumns(
+                columns:=columns,
                 y:=y,
                 l1Ratio:=l1Ratio,
                 numberOfAlphas:=options.numberOfAlphas,
@@ -129,7 +170,8 @@ Namespace LinearRegression
                 standardize:=True,
                 tolerance:=options.tolerance,
                 maxIterations:=options.maxIterations,
-                featureNames:=names
+                featureNames:=names,
+                maxFeatures:=maxFeatures
             )
 
             If path Is Nothing OrElse path.Count = 0 Then
@@ -142,7 +184,34 @@ Namespace LinearRegression
                 Return Nothing
             End If
 
-            Return EnforceMaxFeatures(FromPath(path, stepId, y), X, y, maxFeatures)
+            Return EnforceMaxFeatures(FromPath(path, stepId, y), columns, y, maxFeatures)
+        End Function
+
+        ''' <summary>
+        ''' 行主序的特征矩阵转成"每个特征一列"的列主序形式。
+        ''' </summary>
+        ''' <param name="X">行主序特征矩阵</param>
+        ''' <returns></returns>
+        Private Function ToColumns(X As Double()()) As Double()()
+            If X Is Nothing OrElse X.Length = 0 Then
+                Return New Double()() {}
+            End If
+
+            Dim n As Integer = X.Length
+            Dim p As Integer = X(0).Length
+            Dim columns As Double()() = New Double(p - 1)() {}
+
+            For j As Integer = 0 To p - 1
+                Dim col As Double() = New Double(n - 1) {}
+
+                For i As Integer = 0 To n - 1
+                    col(i) = X(i)(j)
+                Next
+
+                columns(j) = col
+            Next
+
+            Return columns
         End Function
 
         ''' <summary>
@@ -218,6 +287,8 @@ Namespace LinearRegression
                 ' 共享的超参数在当前基因之上过于稠密，退化为该比例下的路径选步
                 Return FitByPathWithRatio(X, y, names, options, l1Ratio, maxFeatures)
             End If
+
+            ' 单点拟合的稀疏性已经满足约束，不需要再裁剪
 
             Return FromFit(fit, alpha, l1Ratio)
         End Function
@@ -343,12 +414,12 @@ Namespace LinearRegression
         ''' 以保证「每个基因最多 k 个上游调控因子」这一网络语义不被破坏。
         ''' </summary>
         ''' <param name="result">路径上面挑选出来的解</param>
-        ''' <param name="X">设计矩阵</param>
+        ''' <param name="columns">列主序的特征矩阵</param>
         ''' <param name="y">观测值向量</param>
         ''' <param name="maxFeatures">允许保留的最大非零系数数量，小于等于零表示不限制</param>
         ''' <returns></returns>
         Private Function EnforceMaxFeatures(result As ElasticNetFitResult,
-                                            X As Double()(),
+                                            columns As Double()(),
                                             y As Double(),
                                             maxFeatures As Integer) As ElasticNetFitResult
 
@@ -386,10 +457,11 @@ Namespace LinearRegression
             Dim intercept As Double = y.Average
 
             For j As Integer = 0 To p - 1
+                Dim col As Double() = columns(j)
                 Dim sum As Double = 0.0R
 
                 For i As Integer = 0 To n - 1
-                    sum += X(i)(j)
+                    sum += col(i)
                 Next
 
                 means(j) = sum / n
@@ -397,15 +469,24 @@ Namespace LinearRegression
             Next
 
             Dim sse As Double = 0.0R
+            Dim yhat As Double() = New Double(n - 1) {}
+
+            ' yhat 按列累加：yhat += w_j * column_j，一次遍历一整列
+            For j As Integer = 0 To p - 1
+                If weights(j) = 0.0R Then
+                    Continue For
+                End If
+
+                Dim col As Double() = columns(j)
+                Dim w As Double = weights(j)
+
+                For i As Integer = 0 To n - 1
+                    yhat(i) += w * col(i)
+                Next
+            Next
 
             For i As Integer = 0 To n - 1
-                Dim yhat As Double = intercept
-
-                For j As Integer = 0 To p - 1
-                    yhat += weights(j) * X(i)(j)
-                Next
-
-                sse += (y(i) - yhat) ^ 2
+                sse += (y(i) - (intercept + yhat(i))) ^ 2
             Next
 
             Dim sst As Double = RegressionStatistics.TotalSumOfSquares(y)

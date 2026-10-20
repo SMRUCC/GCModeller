@@ -1,0 +1,35 @@
+.\" man page create by R# package system.
+.TH LINEAR 1 2000-1月 "library_sizes" "library_sizes"
+.SH NAME
+library_sizes \- Get the implied library size of every training sample of the fitted network.
+.SH SYNOPSIS
+\fIlibrary_sizes(\fBmodel\fR as <generic> ElasticNet, 
+\fBpseudo\fR as double = 1);\fR
+.SH DESCRIPTION
+.PP
+Get the implied library size of every training sample of the fitted network.
+.PP
+.SH OPTIONS
+.PP
+\fBmodel\fB \fR\- the perturbation engine that is created via \fBelastic_model\fR. 
+.PP
+.PP
+\fBpseudo\fB \fR\- the pseudo count offset that was used by the log transformation, default 1. 
+.PP
+.SH VALUE
+.PP
+a numeric vector, one value per training sample, i.e. \fBsum(2^x - pseudo)\fR of the
+ expression matrix that was used to fit the network.
+.PP
+.SH DETAILS
+.PP
+This vector is the bridge between an external raw count matrix and the model space:
+ normalize the counts with \fBy = counts / sum(counts) * median(library_sizes)\fR and
+ then apply \fBx = log2(y + pseudo)\fR.
+.PP
+.SH SEE ALSO
+linear
+.SH FILES
+.PP
+TRNtoolkit.dll
+.PP
