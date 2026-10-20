@@ -12,6 +12,10 @@ declare namespace linear {
    */
    function coef(grn: object): object;
    /**
+     * @param opts default value Is ``null``.
+   */
+   function elastic_model(grn: object, opts?: object): object;
+   /**
     * 
     * 
      * @param x -

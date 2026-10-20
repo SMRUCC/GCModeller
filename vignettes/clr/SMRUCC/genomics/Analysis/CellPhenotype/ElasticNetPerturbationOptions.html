@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.CellPhenotype.ElasticNetPerturbationOptions</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>ElasticNetPerturbationOptions {SMRUCC.genomics.Analysis.CellPhenotype}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>ElasticNetPerturbationOptions</h2>
+
+        <h3>Description</h3>
+
+        <p>基于弹性网络线性调控网络的虚拟扰动参数。</p>
+
+<p>扰动值采用 乘性比例 语义(与真实的 CRISPRi/CRISPRa 实验更接近)：</p>
+
+
+<pre><code> Knockout        : target = 0
+ Knockdown       : target = KnockdownResidual * baseline
+ Overexpression  : target = OverexpressionFold * baseline
+ Custom          : target = spec.Value   (原始表达量尺度的绝对值)</code></pre>
+
+
+<p>这个约定与 <a href="cref:M:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionSpec.GetInterventionValue(System.Double,System.Double)">InterventionSpec.GetInterventionValue()</a> 的 <code>mean +/- k * SD</code> 公式不同，因此同一个基因在本引擎与贝叶斯网络引擎 上面的敲降/过表达效应量不能直接横向比较。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.CellPhenotype
+export class ElasticNetPerturbationOptions {
+   # 是否把迭代过程之中预测出来的表达量裁剪回观测区间。
+   # 
+   # 线性模型可以给出负的表达量，打开这个开关之后预测值会被裁剪到 <code>[观测最小值, 观测最大值 + 观测跨度]</code> 区间之内(这样既避免了负表达， 又不会过早地把级联效应截断)。干预值本身不受这个区间限制。
+   ClampToObserved: boolean;
+   # Jacobi 迭代的阻尼系数，取值范围 (0, 1]，默认为 1。
+   # 
+   # 取值小于 1 的时候每一轮只施加一部分修正量，可以抑制强反馈环上面的振荡。
+   # 
+   # 注意：这个系数只影响级联过程，<a href="cref:P:SMRUCC.genomics.Analysis.CellPhenotype.ElasticNetInterventionResult.FirstOrderDelta">ElasticNetInterventionResult.FirstOrderDelta</a> 永远是未经阻尼的一阶效应。
+   Damping: double;
+   # 敲降之后保留下来的表达量比例，取值范围 [0, 1)，默认 0.2(即约 80% 的敲降)。
+   KnockdownResidual: double;
+   # 过表达之后的表达量相对于基线的倍数，默认 3。
+   OverexpressionFold: double;
+   # 效应传播方式，默认为级联到稳态。
+   Propagation: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/CellPhenotype/PropagationMode.html">PropagationMode</a>;
+   # 蒙特卡洛抽样的随机数种子，默认 42。
+   RandomSeed: integer;
+   # 是否记录级联过程之中每一步的表达量轨迹(仅在确定性模式下有效)，默认关闭。
+   # 
+   # <a href="cref:P:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult.DynamicTrajectory">InterventionResult.DynamicTrajectory</a> 之中第 0 行是干预之前的基线， 之后每一行是一次迭代的结果。轨迹的每个元素都是一个长度为 1 的数组， 因此内存占用约为 <code>(步数 + 1) * 基因数量 * 40</code> 字节：在大网络之上 逐基因地做批量扰动的时候建议保持关闭。
+   # 
+   # <a href="cref:M:SMRUCC.genomics.Analysis.CellPhenotype.ElasticNet.SimulateCascade(SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionSpec,System.Int32)">ElasticNet.SimulateCascade()</a> 会自动开启轨迹记录。
+   RecordTrajectory: boolean;
+   # 显著性判据：变化量超过多少个标准差才算显著，默认 0.5。
+   # 
+   # 默认值与 <a href="cref:T:SMRUCC.genomics.Analysis.BNLearn.Intervention.BnInterventionAnalyzer">BnInterventionAnalyzer</a> 的 <code>|FC| &gt; 0.5 * SD</code> 判据一致。
+   SignificanceZ: double;
+   # 级联迭代的最大步数(默认 50)。
+   # 
+   # 把它设置为 1 等价于 <a href="cref:F:SMRUCC.genomics.Analysis.CellPhenotype.PropagationMode.OneHop">PropagationMode.OneHop</a>。 迭代会在相邻两轮的表达量最大变化小于 <a href="cref:P:SMRUCC.genomics.Analysis.CellPhenotype.ElasticNetPerturbationOptions.Tolerance">ElasticNetPerturbationOptions.Tolerance</a> 的时候提前结束。
+   Steps: integer;
+   # 级联迭代的收敛阈值，即相邻两轮之间表达量的最大允许变化量(默认 1e-6)。
+   Tolerance: double;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>Propagation</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/CellPhenotype/PropagationMode.html">PropagationMode</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

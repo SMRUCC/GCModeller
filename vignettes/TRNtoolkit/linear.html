@@ -73,9 +73,28 @@ table caption {font-size:14px;font-weight:bolder;}
                            </p>
     </blockquote>
     <div id="main-wrapper">
-      <table class="table-three-line" style="display: none">
+      <table class="table-three-line" style="display: block">
         <caption>.NET clr type export</caption>
-        <tbody></tbody>
+        <tbody><tr>
+  <td id="elastic_net.options">
+    <a href="/vignettes/clr/SMRUCC/genomics/Analysis/CellPhenotype/ElasticNetPerturbationOptions.html">elastic_net.options: ElasticNetPerturbationOptions</a>
+  </td>
+  <td><p>基于弹性网络线性调控网络的虚拟扰动参数。</p></td>
+</tr>
+<tr>
+  <td id="linear_grn">
+    <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/GeneRegulatoryNetwork.html">linear_grn: GeneRegulatoryNetwork</a>
+  </td>
+  <td><p>基于线性拟合的基因表达调控网络推断</p>
+
+<p>对于表达矩阵之中的每一个基因 <code>g</code>，都会建立如下的线性模型：</p>
+
+
+<pre><code> expr(g) = const + beta_1 * expr(r1) + beta_2 * expr(r2) + ...</code></pre>
+
+
+<p>其中 <code>r1, r2, ...</code> 为候选调控因子(默认从与 <code>g</code> 相关性最高的若干个基因之中选出， 并且总是排除 <code>g</code> 自身)。把所有基因的模型汇总之后，就得到了一个 <code>调控因子 -&gt; 目标基因</code> 的有向加权网络：边的权重即为回归系数。</p></td>
+</tr></tbody>
       </table>
       <br />
       <br />
@@ -90,6 +109,12 @@ table caption {font-size:14px;font-weight:bolder;}
 <tr>
   <td id="coef">
     <a href="./linear/coef.html">coef</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="elastic_model">
+    <a href="./linear/elastic_model.html">elastic_model</a>
   </td>
   <td></td>
 </tr></tbody>

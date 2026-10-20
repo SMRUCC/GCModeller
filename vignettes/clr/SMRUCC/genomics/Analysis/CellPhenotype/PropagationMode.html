@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.CellPhenotype.PropagationMode</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>PropagationMode {SMRUCC.genomics.Analysis.CellPhenotype}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>PropagationMode</h2>
+
+        <h3>Description</h3>
+
+        <p>虚拟扰动的效应传播方式。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.CellPhenotype
+export class PropagationMode extends <a href="/vignettes/clr/System/Enum.html">Enum</a> {
+   # 沿调控边级联迭代直到稳态(默认)。
+   # 
+   # 被扰动的基因在每一轮迭代之中都会被强制回设到干预值(do 算子语义)， 因此它不会被自己的上游调控因子"修复"回去；其余基因按照 <code>x_t = c_t + sum(beta * x_r)</code> 的 Jacobi 迭代更新。
+   # 
+   # 这是贝叶斯网络引擎"按拓扑序一次性联合采样"在有环线性图上面的等价物。
+   Cascade: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/CellPhenotype/PropagationMode.html">PropagationMode</a> = 0;
+
+   # 只计算一阶(直接)效应，不进行级联迭代。
+   # 
+   # 只有被扰动基因的直接靶基因会产生变化，等价于 <code>delta_target = beta * delta_regulator</code>。结果保守且绝对不会发散。
+   OneHop: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/CellPhenotype/PropagationMode.html">PropagationMode</a> = 1;
+
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>this class extends from <a href="/vignettes/clr/System/Enum.html">Enum</a> class: <a href="/vignettes/clr/System/Enum.html">Enum</a></li>
+<li>use by <i>field</i> member <code>Cascade</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/CellPhenotype/PropagationMode.html">PropagationMode</a></li>
+<li>use by <i>field</i> member <code>OneHop</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/CellPhenotype/PropagationMode.html">PropagationMode</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

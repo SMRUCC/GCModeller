@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.CellPhenotype.ElasticNet</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>ElasticNet {SMRUCC.genomics.Analysis.CellPhenotype}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>ElasticNet</h2>
+
+        <h3>Description</h3>
+
+        <p>基于弹性网络线性调控网络(<a href="cref:T:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GeneRegulatoryNetwork">GeneRegulatoryNetwork</a>)的虚拟扰动引擎。</p>
+
+<p>每一个基因的回归方程 <code>x_t = c_t + sum(beta_t,r * x_r)</code> 被当作一条结构方程， 于是整个网络构成一个线性动力系统。施加扰动的时候采用 Pearl 的 do 算子语义： 被扰动基因的入边被"切断"，在每一轮迭代之中都被强制固定为干预值，其余基因 迭代求解干预之后的稳态：</p>
+
+
+<pre><code> x_t(k+1) = x_t(k) + lambda * [ (c_t + sum(beta_t,r * x_r(k))) - x_t(k) ]</code></pre>
+
+
+<p>由于所有模型都带截距并且在同样的样本上面最小二乘拟合，样本均值本身就是一个 近似不动点，因此从基线起步的迭代等价于对变化量做 <code>delta(k+1) = B * delta(k)</code>： 第一步即为一阶直接效应，后续步骤为多跳传播。</p>
+
+<p>使用约束与已知偏差：</p>
+
+
+<ol>
+<li>回归系数是"其它调控因子保持不变"之下的条件效应，与被扰动基因高度共线的 另一批基因在模型里面仍然停留在基线之上，因此共线模块之中的单基因扰动 其效应量是不可辨识的(符号可靠、幅度不可靠)，只有整个模块的效应之和才有意义。</li>
+</ol>
+
+
+
+<ol start="2">
+<li>候选调控因子池会被 <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GrnFittingOptions.maxCandidates">GrnFittingOptions.maxCandidates</a>、 <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GrnFittingOptions.minAbsCorrelation">GrnFittingOptions.minAbsCorrelation</a> 与 <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GrnFittingOptions.maxRegulatorsPerGene">GrnFittingOptions.maxRegulatorsPerGene</a> 截断，因此部分真实的 调控边并没有进入模型，级联效应会被系统性地低估。请结合 <a href="cref:P:SMRUCC.genomics.Analysis.CellPhenotype.ElasticNetInterventionResult.UnmodelledRegulatorGenes">ElasticNetInterventionResult.UnmodelledRegulatorGenes</a> 判断结果。</li>
+</ol>
+
+
+
+<ol start="3">
+<li>本引擎只能用于假说生成与靶点排序，不能替代真实的 Perturb-seq 定量实验。</li>
+</ol>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.CellPhenotype
+export class ElasticNet {
+   # 野生型基线(原始表达量尺度)，默认是每一个基因的样本均值。
+   # 
+   # 可以显式赋值以指定对照组基线(例如某个对照样本子集的均值)， 赋值 Nothing 可以恢复默认行为。
+   Baseline: double;
+   # 被模拟的线性调控网络。
+   Network: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/GeneRegulatoryNetwork.html">GeneRegulatoryNetwork</a>;
+   # 虚拟扰动的参数配置。
+   Options: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/CellPhenotype/ElasticNetPerturbationOptions.html">ElasticNetPerturbationOptions</a>;
+   # 当前网络是否建立在 z-score 标准化之后的表达量之上。
+   # 
+   # 标准化模式之下回归系数位于 z-score 空间，本引擎会在内部完成 原始表达量与模型空间之间的换算，对外的结果始终是原始表达量尺度。
+   Standardized: boolean;
+   # 严格模式，默认为 True。
+   # 
+   # True：当扰动目标基因不在网络之中时抛出 <a href="cref:T:System.MissingMemberException">MissingMemberException</a>； False：打印一条警告，不执行虚拟扰动，直接以野生型数据作为扰动结果返回， 并把结果标记为未定义(<a href="cref:P:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult.Undefined">InterventionResult.Undefined</a> = True)。
+   # 
+   # 这个语义与 <a href="cref:P:SMRUCC.genomics.Analysis.BNLearn.Intervention.BnInterventionAnalyzer.Strict">BnInterventionAnalyzer.Strict</a> 保持一致。
+   Strict: boolean;
+   # 从未作为调控因子(非零出边)出现过的基因编号。
+   # 
+   # 这些基因的扰动效应恒为零，通常是因为候选调控因子池被截断， 不能解读为"该基因没有调控作用"。
+   UnmodelledGenes: string;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>Network</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/GeneRegulatoryNetwork.html">GeneRegulatoryNetwork</a></li>
+<li>use by <i>property</i> member <code>Options</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/CellPhenotype/ElasticNetPerturbationOptions.html">ElasticNetPerturbationOptions</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

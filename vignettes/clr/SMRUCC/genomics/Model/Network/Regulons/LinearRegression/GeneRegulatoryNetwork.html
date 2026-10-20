@@ -49,6 +49,20 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Model.Network.Regulons.LinearRegression
 export class GeneRegulatoryNetwork {
+   # 每一个基因的基线表达量，即 <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GeneRegulatoryNetwork.Vectors">GeneRegulatoryNetwork.Vectors</a> 之中的样本均值。
+   # 
+   # 开启了 <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GrnFittingOptions.standardize">GrnFittingOptions.standardize</a> 之后基线位于 z-score 空间，理论上恒为零；否则就是原始表达量尺度之上的均值。
+   # 
+   # 这个数组是虚拟扰动计算的起点：敲除(target=0)、敲降(target=residual<em>基线) 与过表达(target=fold</em>基线)都是以它为参照定义的。
+   Baseline: double;
+   # 每一个基因在 <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GeneRegulatoryNetwork.Vectors">GeneRegulatoryNetwork.Vectors</a> 之上的样本标准差(ddof = n - 1)。
+   # 
+   # 这个自由度约定与 <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GrnFittingOptions.standardize">GrnFittingOptions.standardize</a> 的算法一致， 因此开启了标准化之后该数组恒为 1。样本数量不足 2 或者表达量为常数的 基因返回零，调用方需要自行守卫除零。
+   BaselineSD: double;
+   # 构造当前网络对象时所使用的表达矩阵(行是基因、列是样本)。
+   # 
+   # 返回的就是构造函数的入参引用，本模块不会对它做任何修改，但调用方 也不应该在拿到引用之后修改其中的数据，否则会破坏已经拟合好的模型。
+   Expression: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>;
    # 表达矩阵之中的基因编号列表
    Genes: string;
    # 所有已经拟合成功的基因模型
@@ -57,6 +71,10 @@ export class GeneRegulatoryNetwork {
    Options: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/GrnFittingOptions.html">GrnFittingOptions</a>;
    # 基因的数量
    Size: integer;
+   # 每一个基因在拟合过程之中真正参与计算所使用的表达向量，下标与 <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GeneRegulatoryNetwork.Genes">GeneRegulatoryNetwork.Genes</a> 一致。
+   # 
+   # 开启了 <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GrnFittingOptions.standardize">GrnFittingOptions.standardize</a> 之后，这里保存的是 z-score 标准化之后的数据；否则就是原始表达量的一份副本。
+   Vectors: <a href="/vignettes/clr/System/Double[].html">Double[][]</a>;
 }
 </code>
         </pre>
@@ -64,8 +82,10 @@ export class GeneRegulatoryNetwork {
         <h3>.NET clr type reference tree</h3>
 
         <ol>
+<li>use by <i>property</i> member <code>Expression</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a></li>
 <li>use by <i>property</i> member <code>Models</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/GeneRegressionModel.html">iterates(GeneRegressionModel)</a></li>
 <li>use by <i>property</i> member <code>Options</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/GrnFittingOptions.html">GrnFittingOptions</a></li>
+<li>use by <i>property</i> member <code>Vectors</code>: <a href="/vignettes/clr/System/Double[].html">Double[]</a></li>
 </ol>
 
 
