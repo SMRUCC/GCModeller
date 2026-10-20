@@ -1,4 +1,6 @@
 Imports System.IO
+Imports System.IO.Compression
+Imports System.Text
 Imports Microsoft.VisualBasic.Data.Bootstrapping.ElasticNet
 Imports Microsoft.VisualBasic.Data.Bootstrapping.LASSO
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
@@ -39,6 +41,7 @@ Module Program
             Run("case 9: the grouping effect on collinear regulators", AddressOf CaseCollinearRegulators)
             Run("case 10: compare OLS / LASSO / elastic net on the same network", AddressOf CaseCompareMethods)
             Run("case 11: elastic net path consistency and export", AddressOf CaseElasticNetPath)
+            Run("case 13: save the fitted network into a zip archive and load it back", AddressOf CasePersistence)
         End If
 
         Console.WriteLine()
@@ -718,6 +721,135 @@ Module Program
     End Sub
 
     ''' <summary>
+    ''' 用例 13：模型文件的持久化往返
+    ''' 
+    ''' 拟合好的网络被保存成 ``zip`` 压缩包之后重新加载，检查表达矩阵、
+    ''' 拟合参数、逐基因的模型以及全局交叉验证的超参数是否被完整地还原。
+    ''' </summary>
+    Private Sub CasePersistence()
+        Dim synth As (matrix As Matrix, truth As TruthEdge()) = BuildNetwork(
+            nTf:=4, nTarget:=12, nSample:=40, noise:=0.2, seed:=41
+        )
+        Dim options As New GrnFittingOptions With {
+            .silent = True,
+            .maxCandidates = 10,
+            .minAbsWeight = 0.05,
+            .computeStatistics = True
+        }
+        Dim grn As GeneRegulatoryNetwork = synth.matrix.InferRegulatoryNetwork(options)
+        Dim dir As String = Path.Combine(Path.GetTempPath(), "grn-persistence-demo")
+        Dim zipFile As String = Path.Combine(dir, "ols-network.grn.zip")
+
+        Call grn.Save(zipFile)
+
+        Check(File.Exists(zipFile), $"the fitted network is saved into {zipFile}")
+        Check(New FileInfo(zipFile).Length > 0, $"the model file takes {New FileInfo(zipFile).Length} bytes")
+
+        Dim entries As String() = ZipEntries(zipFile)
+
+        Check(entries.OrderBy(Function(e) e).SequenceEqual(
+                  {"expression.tsv", "meta.json", "models.json", "options.json"}),
+            "the archive contains the entries: " & String.Join(", ", entries))
+
+        Dim loaded As GeneRegulatoryNetwork = GRNFile.Load(zipFile)
+
+        Check(loaded.Size = grn.Size, $"the gene size is restored: {loaded.Size}")
+        Check(loaded.Genes.SequenceEqual(grn.Genes), "the gene ids are restored in the original order")
+        Check(loaded.Expression.sampleID.SequenceEqual(grn.Expression.sampleID), "the sample ids are restored")
+        Check(loaded.Expression.tag = grn.Expression.tag, $"the expression matrix tag is restored: {loaded.Expression.tag}")
+        Check(loaded.Options.method = grn.Options.method, $"the fitting method is restored: {loaded.Options.method}")
+        Check(loaded.Options.maxCandidates = grn.Options.maxCandidates, "the fitting options are restored")
+
+        Check(SameMatrix(grn.Expression, loaded.Expression), "the raw expression matrix is restored without any precision loss")
+        Check(SameVectors(grn.Vectors, loaded.Vectors), "the standardized expression vectors are recomputed identically")
+        Check(SameVector(grn.Baseline, loaded.Baseline), "the baseline expression is recomputed identically")
+        Check(SameVector(grn.BaselineSD, loaded.BaselineSD), "the baseline deviation is recomputed identically")
+
+        Dim before As GeneRegressionModel() = grn.Models.OrderBy(Function(m) m.target).ToArray
+        Dim after As GeneRegressionModel() = loaded.Models.OrderBy(Function(m) m.target).ToArray
+
+        Check(before.Length = after.Length, $"{after.Length} gene model(s) are restored")
+        Check(SameModels(before, after), "each gene model is restored without any precision loss")
+
+        Dim edgesBefore As RegulationEdge() = grn.Regulations().ToArray
+        Dim edgesAfter As RegulationEdge() = loaded.Regulations().ToArray
+
+        Check(edgesBefore.Length > 0 AndAlso edgesBefore.Length = edgesAfter.Length,
+            $"{edgesAfter.Length} regulation edge(s) are restored")
+        Check(EdgeKeys(edgesBefore).SequenceEqual(EdgeKeys(edgesAfter)), "the regulation edges are identical")
+
+        Dim coefBefore As Matrix = grn.CoefMatrix()
+        Dim coefAfter As Matrix = loaded.CoefMatrix()
+
+        Check(coefAfter.tag = coefBefore.tag, $"the coefficient matrix is rebuilt: {coefAfter.tag}")
+        Check(SameMatrix(coefBefore, coefAfter), "the coefficient matrix values are identical")
+
+        ' 流式接口：写出去的流在方法返回之后仍然可用，直接回绕就可以读取
+        Dim buffer As New MemoryStream()
+
+        Call grn.Save(buffer)
+
+        Check(buffer.Length > 0, $"the network could be saved into a stream ({buffer.Length} bytes)")
+
+        buffer.Position = 0
+
+        Dim fromStream As GeneRegulatoryNetwork = GRNFile.Load(buffer)
+
+        Check(SameModels(before, fromStream.Models.OrderBy(Function(m) m.target).ToArray),
+            "the network could be restored from a stream")
+
+        ' 全局交叉验证解析出来的超参数也需要一起保存，否则系数矩阵的标签会退化
+        Dim cvGrn As GeneRegulatoryNetwork = synth.matrix.InferRegulatoryNetwork(
+            New GrnFittingOptions With {
+                .silent = True,
+                .method = FittingMethod.ElasticNet,
+                .maxRegulatorsPerGene = 5,
+                .elasticNet = New ElasticNetOptions With {
+                    .mode = ElasticNetMode.GlobalCrossValidation,
+                    .globalCVReplicates = 3,
+                    .cvAlphaSteps = 10,
+                    .numberOfAlphas = 20
+                }
+            }
+        )
+        Dim cvFile As String = Path.Combine(dir, "en-network.grn.zip")
+
+        Call cvGrn.Save(cvFile)
+
+        Dim cvLoaded As GeneRegulatoryNetwork = GRNFile.Load(cvFile)
+        Dim cvBefore As GeneRegressionModel() = cvGrn.Models.OrderBy(Function(m) m.target).ToArray
+        Dim cvAfter As GeneRegressionModel() = cvLoaded.Models.OrderBy(Function(m) m.target).ToArray
+
+        Check(SameModels(cvBefore, cvAfter), "the elastic net models are restored")
+        Check(cvLoaded.CoefMatrix().tag = cvGrn.CoefMatrix().tag,
+            $"the cv hyperparameters are restored: {cvLoaded.CoefMatrix().tag}")
+        Check(cvLoaded.Options.elasticNet.mode = ElasticNetMode.GlobalCrossValidation,
+            "the elastic net options are restored")
+
+        ' 还没有拟合的网络(空的模型集合)也必须能够往返，便于保存待分析的输入数据
+        Dim pending As New GeneRegulatoryNetwork(synth.matrix, options)
+        Dim pendingFile As String = Path.Combine(dir, "pending-network.grn.zip")
+
+        Call pending.Save(pendingFile)
+
+        Dim pendingLoaded As GeneRegulatoryNetwork = GRNFile.Load(pendingFile)
+
+        Check(pendingLoaded.Models.Count() = 0, "a network without any fitted model is saved and restored")
+        Check(pendingLoaded.Regulations().Count() = 0, "the restored pending network reports no regulation edge")
+        Check(pendingLoaded.Size = synth.matrix.size, "the expression matrix of the pending network is restored")
+
+        ' 损坏的文件必须给出明确的异常，而不是返回一个半成品对象
+        Dim garbage As New MemoryStream(Encoding.UTF8.GetBytes("this is not a grn model file"))
+
+        Check(Throws(Sub()
+                         Dim broken As GeneRegulatoryNetwork = GRNFile.Load(garbage)
+
+                         Check2(broken)
+                     End Sub),
+            "an invalid stream is rejected")
+    End Sub
+
+    ''' <summary>
     ''' 用例 12：在真实的基因表达矩阵之上用弹性网络建立调控网络
     ''' 
     ''' ```
@@ -983,6 +1115,159 @@ Module Program
             .sampleID = samples,
             .expression = rows
         }
+    End Function
+
+    ''' <summary>
+    ''' 枚举压缩包之中的条目名称
+    ''' </summary>
+    Private Function ZipEntries(zipFile As String) As String()
+        Using stream As New FileStream(zipFile, FileMode.Open, FileAccess.Read)
+            Using archive As New ZipArchive(stream, ZipArchiveMode.Read)
+                Return archive.Entries.Select(Function(e) e.FullName).ToArray
+            End Using
+        End Using
+    End Function
+
+    ''' <summary>
+    ''' 逐个元素(逐位)比较两个矩阵
+    ''' </summary>
+    Private Function SameMatrix(expected As Matrix, actual As Matrix) As Boolean
+        If expected.sample_count <> actual.sample_count Then
+            Return False
+        End If
+        If Not expected.sampleID.SequenceEqual(actual.sampleID) Then
+            Return False
+        End If
+        If expected.expression.Length <> actual.expression.Length Then
+            Return False
+        End If
+
+        For i As Integer = 0 To expected.expression.Length - 1
+            If expected.expression(i).geneID <> actual.expression(i).geneID Then
+                Return False
+            End If
+            If Not SameVector(expected.expression(i).experiments, actual.expression(i).experiments) Then
+                Return False
+            End If
+        Next
+
+        Return True
+    End Function
+
+    ''' <summary>
+    ''' 逐位比较两个向量
+    ''' </summary>
+    Private Function SameVector(expected As Double(), actual As Double()) As Boolean
+        If expected Is Nothing OrElse actual Is Nothing Then
+            Return expected Is actual
+        End If
+        If expected.Length <> actual.Length Then
+            Return False
+        End If
+
+        For i As Integer = 0 To expected.Length - 1
+            If Not SameValue(expected(i), actual(i)) Then
+                Return False
+            End If
+        Next
+
+        Return True
+    End Function
+
+    ''' <summary>
+    ''' 逐个向量比较两个锯齿数组
+    ''' </summary>
+    Private Function SameVectors(expected As Double()(), actual As Double()()) As Boolean
+        If expected Is Nothing OrElse actual Is Nothing Then
+            Return expected Is actual
+        End If
+        If expected.Length <> actual.Length Then
+            Return False
+        End If
+
+        For i As Integer = 0 To expected.Length - 1
+            If Not SameVector(expected(i), actual(i)) Then
+                Return False
+            End If
+        Next
+
+        Return True
+    End Function
+
+    Private Function SameStrings(expected As String(), actual As String()) As Boolean
+        If expected Is Nothing OrElse actual Is Nothing Then
+            Return expected Is actual
+        End If
+
+        Return expected.SequenceEqual(actual)
+    End Function
+
+    ''' <summary>
+    ''' 逐位比较两个数值，``NaN`` 与 ``NaN`` 也视为相等
+    ''' </summary>
+    Private Function SameValue(expected As Double, actual As Double) As Boolean
+        Return expected.Equals(actual)
+    End Function
+
+    ''' <summary>
+    ''' 逐个比较两组(已经按目标基因排序的)模型
+    ''' </summary>
+    Private Function SameModels(expected As GeneRegressionModel(), actual As GeneRegressionModel()) As Boolean
+        If expected.Length <> actual.Length Then
+            Return False
+        End If
+
+        For i As Integer = 0 To expected.Length - 1
+            If Not SameModel(expected(i), actual(i)) Then
+                Console.WriteLine($"     >> the model of '{expected(i).target}' is changed by the round trip")
+                Return False
+            End If
+        Next
+
+        Return True
+    End Function
+
+    ''' <summary>
+    ''' 比较两个基因模型的所有数据成员
+    ''' </summary>
+    Private Function SameModel(expected As GeneRegressionModel, actual As GeneRegressionModel) As Boolean
+        If expected.target <> actual.target OrElse expected.method <> actual.method Then
+            Return False
+        End If
+        If expected.N <> actual.N OrElse expected.df <> actual.df Then
+            Return False
+        End If
+        If String.CompareOrdinal(expected.errorMessage, actual.errorMessage) <> 0 Then
+            Return False
+        End If
+
+        Return SameValue(expected.intercept, actual.intercept) AndAlso
+               SameValue(expected.interceptT, actual.interceptT) AndAlso
+               SameValue(expected.interceptPvalue, actual.interceptPvalue) AndAlso
+               SameValue(expected.r2, actual.r2) AndAlso
+               SameValue(expected.sse, actual.sse) AndAlso
+               SameValue(expected.sst, actual.sst) AndAlso
+               SameValue(expected.lambda, actual.lambda) AndAlso
+               SameValue(expected.alpha, actual.alpha) AndAlso
+               SameValue(expected.l1Ratio, actual.l1Ratio) AndAlso
+               SameStrings(expected.regulators, actual.regulators) AndAlso
+               SameVector(expected.weights, actual.weights) AndAlso
+               SameVector(expected.tvalues, actual.tvalues) AndAlso
+               SameVector(expected.pvalues, actual.pvalues)
+    End Function
+
+    ''' <summary>
+    ''' 把调控边转换成可以逐字比较的文本指纹
+    ''' </summary>
+    Private Function EdgeKeys(edges As RegulationEdge()) As String()
+        Return edges _
+            .Select(Function(e)
+                        Return $"{e.UID}|p={e.pvalue.ToString("R", Globalization.CultureInfo.InvariantCulture)}|" &
+                               $"r2={e.r2.ToString("R", Globalization.CultureInfo.InvariantCulture)}|" &
+                               $"b={e.weight.ToString("R", Globalization.CultureInfo.InvariantCulture)}"
+                    End Function) _
+            .OrderBy(Function(s) s) _
+            .ToArray
     End Function
 
 #End Region

@@ -1,16 +1,56 @@
-﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
+﻿Imports System.IO
+Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.CellPhenotype
 Imports SMRUCC.genomics.Model.Network.Regulons
 Imports SMRUCC.genomics.Model.Network.Regulons.LinearRegression
 Imports SMRUCC.Rsharp
+Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 <Package("linear")>
 <RTypeExport("elastic_net.options", GetType(ElasticNetPerturbationOptions))>
+<RTypeExport("linear_grn", GetType(LinearRegression.GeneRegulatoryNetwork))>
 Module Linear
+
+    Sub Main()
+        Call RInternal.generic.add("writeBin", GetType(LinearRegression.GeneRegulatoryNetwork), AddressOf saveModel)
+        Call RInternal.generic.add("readBin.linear_grn", GetType(Stream), AddressOf loadModel)
+    End Sub
+
+    ''' <summary>
+    ''' R# ``writeBin`` handler: persist a GPS model into the given connection.
+    ''' </summary>
+    ''' <param name="model">the trained GPS model to be serialized</param>
+    ''' <param name="args">the R# named argument list; the ``con`` argument supplies the output stream</param>
+    ''' <param name="env">the R# runtime environment</param>
+    ''' <returns><c>True</c> when the model has been written successfully</returns>
+    Private Function saveModel(model As LinearRegression.GeneRegulatoryNetwork, args As list, env As Environment) As Object
+        Dim con As Stream = args!con
+
+        Try
+            Call model.Save(con)
+            Call con.Flush()
+        Catch ex As Exception
+
+        End Try
+
+        Return True
+    End Function
+
+    ''' <summary>
+    ''' R# ``readBin.modular_bayesian`` handler: restore a GPS model from a connection.
+    ''' </summary>
+    ''' <param name="s">the stream that contains a GPS model package</param>
+    ''' <param name="args">the R# named argument list (unused)</param>
+    ''' <param name="env">the R# runtime environment</param>
+    ''' <returns>the reconstructed <see cref="LinearRegression.GeneRegulatoryNetwork"/> object</returns>
+    Private Function loadModel(s As Stream, args As list, env As Environment) As Object
+        Return GRNFile.Load(s)
+    End Function
 
     ''' <summary>
     ''' 

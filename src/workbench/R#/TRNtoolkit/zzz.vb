@@ -60,5 +60,6 @@ Public Class zzz
     Public Shared Sub onLoad()
         Call MotifsTool.Main()
         Call miRNA.Main()
+        Call Linear.Main()
     End Sub
 End Class

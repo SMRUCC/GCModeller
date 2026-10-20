@@ -252,6 +252,64 @@ Namespace LinearRegression
         End Property
 
         ''' <summary>
+        ''' 全局交叉验证模式之下解析出来的共享 alpha，小于等于零表示没有启用该模式
+        ''' 
+        ''' 这个数值只用于模型文件的持久化，不会影响已经拟合好的模型。
+        ''' </summary>
+        ''' <returns></returns>
+        Friend ReadOnly Property CrossValidationAlpha As Double
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
+            Get
+                Return cvAlpha
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' 全局交叉验证模式之下解析出来的共享 L1 混合比例，小于等于零表示没有启用该模式
+        ''' 
+        ''' 这个数值只用于模型文件的持久化，不会影响已经拟合好的模型。
+        ''' </summary>
+        ''' <returns></returns>
+        Friend ReadOnly Property CrossValidationL1Ratio As Double
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
+            Get
+                Return cvL1Ratio
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' 使用已经拟合好的模型集合重建当前网络对象的内部状态
+        ''' 
+        ''' 该方法由模型文件的反序列化流程调用：表达矩阵、标准化之后的表达向量、
+        ''' 候选调控因子池这些可以从原始数据推导出来的内容都由构造函数重新计算，
+        ''' 这里只负责把拟合结果与交叉验证超参数回填到对象之中。
+        ''' </summary>
+        ''' <param name="models">每一个目标基因的线性模型</param>
+        ''' <param name="crossValidationAlpha">全局交叉验证解析出来的共享 alpha</param>
+        ''' <param name="crossValidationL1Ratio">全局交叉验证解析出来的共享 L1 混合比例</param>
+        Friend Sub RestoreModels(models As IEnumerable(Of GeneRegressionModel),
+                                 Optional crossValidationAlpha As Double = -1,
+                                 Optional crossValidationL1Ratio As Double = -1)
+
+            modelTable.Clear()
+
+            If models IsNot Nothing Then
+                For Each m As GeneRegressionModel In models
+                    If m Is Nothing OrElse String.IsNullOrEmpty(m.target) Then
+                        Continue For
+                    End If
+
+                    modelTable(m.target) = m
+                Next
+            End If
+
+            Me.baselineCache = Nothing
+            Me.baselineSdCache = Nothing
+            Me.cvAlpha = crossValidationAlpha
+            Me.cvL1Ratio = crossValidationL1Ratio
+        End Sub
+
+        ''' <summary>
         ''' 基于线性拟合重建基因调控网络
         ''' </summary>
         ''' <returns>返回当前对象自身，便于链式调用</returns>
