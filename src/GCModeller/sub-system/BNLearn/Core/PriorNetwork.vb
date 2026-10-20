@@ -70,8 +70,6 @@
 ' ============================================================
 
 Imports System.Globalization
-Imports System.Security.Policy
-Imports Microsoft.VisualBasic.ApplicationServices.Development.NetCoreApp
 Imports Microsoft.VisualBasic.MIME.application.json
 Imports Microsoft.VisualBasic.MIME.application.json.Javascript
 
