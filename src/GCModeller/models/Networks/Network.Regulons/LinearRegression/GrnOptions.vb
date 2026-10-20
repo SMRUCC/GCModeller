@@ -39,15 +39,6 @@ Namespace LinearRegression
         ''' LASSO 不提供显著性检验，其 ``pvalue`` 统一写为 ``1``。
         ''' </remarks>
         Lasso = 1
-
-        ''' <summary>
-        ''' 非负最小二乘(NNLS)，约束所有回归系数非负，即只保留激活(正向)类型的调控关系。
-        ''' </summary>
-        ''' <remarks>
-        ''' NNLS 不带截距项，模型退化为 ``target = sum(beta_i * regulator_i)``，
-        ''' 同时也不提供显著性检验。
-        ''' </remarks>
-        NonNegative = 2
     End Enum
 
     ''' <summary>

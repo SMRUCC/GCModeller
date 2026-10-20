@@ -40,7 +40,7 @@ Namespace LinearRegression
         Public Property r2 As Double
 
         ''' <summary>
-        ''' 回归系数的显著性 p 值，LASSO 与 NNLS 模型之下恒为 1。
+        ''' 回归系数的显著性 p 值，LASSO 模型之下恒为 1。
         ''' </summary>
         ''' <returns></returns>
         Public Property pvalue As Double = 1

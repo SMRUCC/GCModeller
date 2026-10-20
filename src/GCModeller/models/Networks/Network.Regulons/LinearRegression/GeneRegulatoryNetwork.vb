@@ -189,6 +189,12 @@ Namespace LinearRegression
 
             modelTable.Clear()
 
+            If opt.method = FittingMethod.Lasso Then
+                ' LASSO 求解器会在控制台打印每一个目标基因的正则化路径进度，
+                ' 并行拟合的时候这些输出是交错的，因此默认全部关闭
+                LassoFitGenerator.tqdm_verbose = False
+            End If
+
             Call Parallel.For(0, nG, popt, Sub(i As Integer)
                                                buffer(i) = FitGene(i, maxCand)
                                            End Sub)
@@ -228,7 +234,7 @@ Namespace LinearRegression
         ''' </param>
         ''' <param name="pvalueCutoff">
         ''' 显著性 p 值的阈值，大于这个阈值的边会被丢弃；
-        ''' 对于 LASSO 与 NNLS 模型，所有的 p 值都是 1，因此必须设置为 1 才能正常导出。
+        ''' 对于 LASSO 模型，所有的 p 值都是 1，因此必须设置为 1 才能正常导出。
         ''' </param>
         ''' <returns></returns>
         Public Iterator Function Regulations(Optional minAbsWeight As Double = -1,
@@ -457,14 +463,11 @@ Namespace LinearRegression
                     candidates = TopCorrelated(target, candidates, maxCand)
                 End If
 
-                Select Case opt.method
-                    Case FittingMethod.MultipleLinear
-                        Return FitOls(name, y, candidates)
-                    Case FittingMethod.Lasso
-                        Return FitLasso(name, y, candidates)
-                    Case Else
-                        Return FitNnls(name, y, candidates)
-                End Select
+                If opt.method = FittingMethod.Lasso Then
+                    Return FitLasso(name, y, candidates)
+                Else
+                    Return FitOls(name, y, candidates)
+                End If
             Catch ex As Exception
                 Return New GeneRegressionModel With {
                     .target = name,

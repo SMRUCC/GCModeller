@@ -25,7 +25,7 @@ Namespace LinearRegression
         ''' <summary>
         ''' 模型的常数项(截距)，即用户在公式之中写出来的 ``const``。
         ''' 
-        ''' <see cref="FittingMethod.NonNegative"/> 没有截距项，其数值恒为零。
+        ''' LASSO 求解器自身给出了标准化还原之后的截距，因此两种方法之下都有常数项。
         ''' </summary>
         ''' <returns></returns>
         Public Property intercept As Double
