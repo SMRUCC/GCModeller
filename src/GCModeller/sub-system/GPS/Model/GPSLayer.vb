@@ -76,6 +76,8 @@ Namespace Model
             Public LocalDropped As Tensor
             ''' <summary>注意力支路输出（dropout 后）</summary>
             Public GlobalDropped As Tensor
+            ''' <summary>两支路相加的结果 <c>local + global</c>（未含输入残差）</summary>
+            Public Merged As Tensor
             ''' <summary>第一次 AddNorm 的输出</summary>
             Public Normalized1 As Tensor
             ''' <summary>第一次 LayerNorm 的均值</summary>
@@ -288,9 +290,14 @@ Namespace Model
             End If
 
             ' ---- 并行融合 + 残差/归一化 ----
+            ' method.md §4.2 的伪代码是 h_local = h_local + H; LayerNorm_1(h_local)，
+            ' 即残差必须带上本层输入 H。原实现只做 LayerNorm(local + global)，
+            ' 把输入残差丢掉了：每层的 LayerNorm 都会以"全局主导分量"为尺度重新归一化，
+            ' 单基因扰动这类小信号经过叠加后会在 1e-4 量级被完全抹平。
+            Dim merged As Tensor = Tensor.computeKernel.Add(localDropped, globalDropped)
             Dim mean1 As Double() = Nothing
             Dim invStd1 As Double() = Nothing
-            Dim normalized1 As Tensor = TensorOps.AddNormForward(localDropped, globalDropped, mean1, invStd1)
+            Dim normalized1 As Tensor = TensorOps.AddNormForward(input, merged, mean1, invStd1)
 
             ' ---- FFN：Linear → ReLU → Linear ----
             Dim preActivation As Tensor = TensorOps.VecAdd(TensorOps.BatchedMatMul(normalized1, W1), b1)
@@ -313,6 +320,7 @@ Namespace Model
                 .GlobalBranch = global_,
                 .LocalDropped = localDropped,
                 .GlobalDropped = globalDropped,
+                .Merged = merged,
                 .Normalized1 = normalized1,
                 .Norm1Mean = mean1,
                 .Norm1InvStd = invStd1,
@@ -373,11 +381,15 @@ Namespace Model
             Call TensorOps.BatchedMatMulBackward(dPreActivation, cache.Normalized1, W1, dNormedFromFfn, dW1)
             Call TensorOps.Accumulate(w1Entry.Gradient, dW1)
 
-            ' ---- 第一次 AddNorm：normalized1 = LayerNorm(local + global) ----
+            ' ---- 第一次 AddNorm：normalized1 = LayerNorm(input + (local + global)) ----
             Dim dNormedTotal As Tensor = dNormed + dNormedFromFfn
-            Dim dLocal As Tensor = TensorOps.AddNormBackward(
-                dNormedTotal, cache.LocalDropped, cache.GlobalDropped, cache.Norm1Mean, cache.Norm1InvStd)
-            Dim dGlobal As Tensor = TensorOps.CloneTensor(dLocal)
+            Dim dMergedTotal As Tensor = TensorOps.AddNormBackward(
+                dNormedTotal, cache.Input, cache.Merged, cache.Norm1Mean, cache.Norm1InvStd)
+
+            ' 加法处对称：输入残差支路与两支路之和各自拿到同一份梯度
+            Dim dResidual As Tensor = TensorOps.CloneTensor(dMergedTotal)
+            Dim dLocal As Tensor = TensorOps.CloneTensor(dMergedTotal)
+            Dim dGlobal As Tensor = TensorOps.CloneTensor(dMergedTotal)
 
             If cache.DropoutApplied Then
                 dLocal = TensorOps.DropoutMaskBackward(dLocal, maskLocal, dropoutRate)
@@ -407,6 +419,9 @@ Namespace Model
 
             ' 两条支路都被关闭时（纯 FFN 消融），梯度直接沿输入返回
             If dInput Is Nothing Then dInput = dLocal
+
+            ' 叠加输入残差支路的梯度
+            Call TensorOps.Accumulate(dInput, dResidual)
 
             Return dInput
         End Function

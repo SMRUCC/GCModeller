@@ -92,9 +92,11 @@ Namespace Perturbation
         ''' </summary>
         ''' <returns>取值区间 <c>[0,1]</c>；0 表示敲低与敲除等价，默认 0.2（CRISPRi 的 80% 敲低）</returns>
         ''' <remarks>
-        ''' 干预值按 <c>GeneMeans(i) × residual</c> 计算，而不是 BNLearn 的
-        ''' <c>mean − 2σ</c>：后者对大多数基因为负，被非负钳位后恒等于 0，
-        ''' 使敲低与敲除完全等价。
+        ''' 干预值按"当前 context 基线的线性 CPM 比例"计算：
+        ''' <c>cpm_mut = residual × cpm_ctrl</c>（<c>cpm_ctrl</c> 由
+        ''' <see cref="BaselineRawValue"/> 反算），而不是 BNLearn 的 <c>mean − 2σ</c>
+        ''' （后者对大多数基因为负，被非负钳位后恒等于 0，使敲低与敲除完全等价），
+        ''' 也不是在 log 尺度上做 <c>GeneMeans × residual</c>（残余比例会随表达水平漂移）。
         ''' </remarks>
         Public Property KnockdownResidual As Double
             Get
@@ -190,25 +192,61 @@ Namespace Perturbation
         End Sub
 
         ''' <summary>
+        ''' 当前对照窗口（最后时间点）在该基因上的 raw log-CPM 基线值。
+        ''' </summary>
+        ''' <param name="idx">基因行号</param>
+        ''' <returns>当前 context 下该基因的未扰动表达水平（log2(CPM+1)）</returns>
+        ''' <remarks>
+        ''' 基线取自已注入的对照窗口（<see cref="SetBaselineWindow"/>），因此它随细胞上下文变化，
+        ''' 而不是训练集的全局均值。<see cref="BuildStaticWindow"/> 写入的窗口每列相同，
+        ''' 取最后一列与取任意列等价。
+        ''' </remarks>
+        Private Function BaselineRawValue(idx As Integer) As Double
+            Dim sd As Double = std.Max(expression.GeneSDs(idx), 1.0E-08)
+            Dim last As Integer = baselineWindow.GetLength(1) - 1
+            Dim z As Double = baselineWindow(idx, last)
+
+            Return std.Max(0.0, z * sd + expression.GeneMeans(idx))
+        End Function
+
+        ''' <summary>
         ''' 按干预模式求目标基因的干预值（raw log-CPM 尺度）。
         ''' </summary>
         ''' <param name="spec">干预定义</param>
         ''' <param name="idx">目标基因在建模基因中的行号</param>
+        ''' <param name="rawBaseline">该基因在当前 context 下的基线表达（log2(CPM+1)）</param>
         ''' <returns>干预后该基因应取的原始尺度表达值</returns>
         ''' <remarks>
-        ''' 这里不使用 <see cref="InterventionSpec.GetInterventionValue"/>：该实现把敲低
+        ''' <para>
+        ''' 敲低按 <b>线性 CPM 空间的比例</b> 定义：<c>cpm_mut = residual × cpm_ctrl</c>，
+        ''' 再变换回 <c>log2(CPM+1)</c>。基线 <paramref name="rawBaseline"/> 取自当前注入的
+        ''' 细胞上下文（见 <see cref="BaselineRawValue"/>），而不是训练集全局均值
+        ''' <see cref="PreprocessedExpression.GeneMeans"/>：后者把"20% 残余"实现在 log 尺度上
+        ''' 做乘法（<c>0.2 × mean</c>），残余比例会随表达水平漂移
+        ''' （实测 ABCD1 只剩约 12%），并且完全忽略 context 之间的基线差异。
+        ''' </para>
+        ''' <para>
+        ''' 这里同样不使用 <see cref="InterventionSpec.GetInterventionValue"/>：该实现把敲低
         ''' 定义为 <c>mean − 2σ</c>，对大多数基因为负，随后被非负钳位压成 0，
-        ''' 导致敲低与敲除逐位相同。此处把敲低改为按比例保留
-        ''' <see cref="KnockdownResidual"/>，敲除仍为 0。
+        ''' 导致敲低与敲除逐位相同。
+        ''' </para>
         ''' </remarks>
-        Private Function InterventionValueOf(spec As InterventionSpec, idx As Integer) As Double
+        Private Function InterventionValueOf(spec As InterventionSpec,
+                                            idx As Integer,
+                                            rawBaseline As Double) As Double
             Dim mean As Double = expression.GeneMeans(idx)
 
             Select Case spec.Mode
                 Case InterventionMode.Knockout
                     Return 0.0
                 Case InterventionMode.Knockdown
-                    Return mean * _knockdownResidual
+                    Dim cpmCtrl As Double = std.Pow(2.0, std.Max(0.0, rawBaseline)) - 1.0
+
+                    If cpmCtrl <= 0.0 Then
+                        Return 0.0
+                    End If
+
+                    Return std.Log(_knockdownResidual * cpmCtrl + 1.0, 2.0)
                 Case InterventionMode.Overexpression
                     Return mean + 3.0 * std.Max(expression.GeneSDs(idx), 1.0E-08)
                 Case Else
@@ -276,7 +314,9 @@ Namespace Perturbation
             For k As Integer = 0 To indices.Count - 1
                 Dim i As Integer = indices(k)
                 Dim sd As Double = std.Max(expression.GeneSDs(i), 1.0E-08)
-                Dim raw As Double = std.Max(0.0, InterventionValueOf(list(k), i))
+                ' 干预值的基线取自当前注入的 context（baselineWindow），
+                ' 而不是训练集全局均值，否则残余比例会随表达水平漂移
+                Dim raw As Double = std.Max(0.0, InterventionValueOf(list(k), i, BaselineRawValue(i)))
                 Dim normalized As Double = (raw - expression.GeneMeans(i)) / sd
 
                 interventionRaw(k) = raw
@@ -397,7 +437,7 @@ Namespace Perturbation
                 If Not geneIndex.TryGetValue(spec.GeneName, idx) Then Continue For
 
                 Dim sd As Double = std.Max(expression.GeneSDs(idx), 1.0E-08)
-                Dim raw As Double = std.Max(0.0, InterventionValueOf(spec, idx))
+                Dim raw As Double = std.Max(0.0, InterventionValueOf(spec, idx, BaselineRawValue(idx)))
                 Dim normalized As Double = (raw - expression.GeneMeans(idx)) / sd
 
                 For t As Integer = 0 To window.GetLength(1) - 1

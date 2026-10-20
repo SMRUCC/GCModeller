@@ -133,14 +133,26 @@ Partial Module Utilities
         Return 0
     End Function
 
-    <ExportAPI("/gwANI", Usage:="/gwANI /in <in.fasta> [/fast /out <out.Csv>]")>
+    <ExportAPI("/gwANI", Usage:="/gwANI /in <in.fasta> [/fast /out <out.Csv> /dedup]")>
     <Description("Given a multi-FASTA alignment, output the genome wide average nucleotide identity (gwANI) for Each sample against all other samples. A matrix containing the percentages Is outputted.")>
     <Group(CLIGrouping.DNA_ComparativeTools)>
     Public Function gwANIEvaluate(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".gwANI.Csv")
-        Dim fast As Boolean = args("/fast")
-        Call gwANI.Evaluate([in], out, fast)
+        Dim options As New GwaniOptions With {
+            .EnableDeduplication = args("/dedup")
+        }
+
+        ' the calculation kernel is always vectorized and parallel now, the legacy
+        ' /fast switch is still accepted for backwards compatibility
+
+        Try
+            Call GwaniCalculator.EvaluateToCsv([in], out, options)
+        Catch ex As Exception
+            Console.WriteLine($"[gwANI] {ex.Message}")
+            Return -1
+        End Try
+
         Return 0
     End Function
 

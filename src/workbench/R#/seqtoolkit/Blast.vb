@@ -237,6 +237,6 @@ Module Blast
     ''' </returns>
     <ExportAPI("align.gwANI")>
     Public Function gwANIMultipleAlignment(multipleSeq As FastaFile, Optional fast As Boolean = False) As DataSet()
-        Return gwANIMethod.Evaluate(multipleSeq, fast)
+        Return GwaniCalculator.Evaluate(multipleSeq)
     End Function
 End Module
