@@ -633,7 +633,7 @@ Public Class ElasticNet : Implements InsilicoPerturbationExperiment
             v(i) = 1.0R + 0.5R * std.Sin(i)
         Next
 
-        Dim norm As Double = Norm(v)
+        Dim norm As Double = VectorNorm(v)
 
         If norm <= 0 OrElse Not IsFinite(norm) Then
             spectralRadiusCache = 0
@@ -649,7 +649,7 @@ Public Class ElasticNet : Implements InsilicoPerturbationExperiment
         For it As Integer = 1 To 20
             Dim w As Double() = ApplyB(v)
 
-            norm = Norm(w)
+            norm = VectorNorm(w)
 
             If norm <= 0 OrElse Not IsFinite(norm) Then
                 spectralRadiusCache = 0
@@ -693,7 +693,6 @@ Public Class ElasticNet : Implements InsilicoPerturbationExperiment
         Dim intervened As New List(Of Integer)
         Dim missing As New List(Of String)
         Dim interventionValue As Double = 0
-
         For Each spec As InterventionSpec In list
             Dim idx As Integer = ResolveGeneIndex(spec)
 
@@ -886,18 +885,19 @@ Public Class ElasticNet : Implements InsilicoPerturbationExperiment
         Dim buffer As Double() = CType(x.Clone(), Double())
         Dim clamped As Boolean() = New Boolean(n - 1) {}
 
+        converged = False
+        diverged = False
+
+        If trajectory IsNot Nothing Then
+            ' 第 0 步记录干预之前的基线状态，之后每一步记录一次迭代结果
+            Call trajectory.Add(CType(x.Clone(), Double()))
+        End If
+
         For Each idx As Integer In clamps.Keys
             clamped(idx) = True
             x(idx) = clamps(idx)
             buffer(idx) = clamps(idx)
         Next
-
-        converged = False
-        diverged = False
-
-        If trajectory IsNot Nothing Then
-            Call trajectory.Add(CType(x.Clone(), Double()))
-        End If
 
         For k As Integer = 1 To steps
             Dim maxDiff As Double = 0
@@ -1284,6 +1284,21 @@ Public Class ElasticNet : Implements InsilicoPerturbationExperiment
     End Function
 
     ''' <summary>
+    ''' 查找基因编号在表达矩阵之中的行下标。
+    ''' </summary>
+    ''' <param name="name">基因编号</param>
+    ''' <returns>不存在的时候返回 -1</returns>
+    Private Function IndexOfGene(name As String) As Integer
+        Dim idx As Integer
+
+        If name IsNot Nothing AndAlso geneIndex.TryGetValue(name, idx) Then
+            Return idx
+        Else
+            Return -1
+        End If
+    End Function
+
+    ''' <summary>
     ''' 解析干预定义之中目标基因在表达矩阵之中的行下标。
     ''' </summary>
     ''' <param name="spec">干预定义</param>
@@ -1534,7 +1549,7 @@ Public Class ElasticNet : Implements InsilicoPerturbationExperiment
     ''' </summary>
     ''' <param name="v"></param>
     ''' <returns></returns>
-    Private Shared Function Norm(v As Double()) As Double
+    Private Shared Function VectorNorm(v As Double()) As Double
         Dim sum As Double = 0
 
         For i As Integer = 0 To v.Length - 1

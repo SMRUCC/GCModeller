@@ -9,6 +9,7 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 
 <Package("linear")>
+<RTypeExport("elastic_net.options", GetType(ElasticNetPerturbationOptions))>
 Module Linear
 
     ''' <summary>
@@ -81,8 +82,8 @@ Module Linear
     End Function
 
     <ExportAPI("elastic_model")>
-    Public Function elastic_model(grn As LinearRegression.GeneRegulatoryNetwork) As ElasticNet
-        Return New ElasticNet
+    Public Function elastic_model(grn As LinearRegression.GeneRegulatoryNetwork, Optional opts As ElasticNetPerturbationOptions = Nothing) As ElasticNet
+        Return New ElasticNet(grn, opts)
     End Function
 
 End Module
