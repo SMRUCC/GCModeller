@@ -193,10 +193,6 @@ Namespace Config
         ''' <returns>默认 0.15</returns>
         Public Property MaskRatio As Double = 0.15
 
-        ''' <summary>每隔多少个 epoch 打印一次损失；0 表示静默</summary>
-        ''' <returns>默认 5</returns>
-        Public Property PrintEvery As Integer = 5
-
         ''' <summary>训练集时间点占比（按时间顺序切分）</summary>
         ''' <returns>默认 0.7</returns>
         Public Property TrainRatio As Double = 0.7
@@ -319,7 +315,6 @@ Namespace Config
                 .GradientClip = GradientClip,
                 .EarlyStopPatience = EarlyStopPatience,
                 .MaskRatio = MaskRatio,
-                .PrintEvery = PrintEvery,
                 .TrainRatio = TrainRatio,
                 .ValidationRatio = ValidationRatio,
                 .Seed = Seed,

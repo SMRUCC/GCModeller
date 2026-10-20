@@ -210,30 +210,16 @@ Public Class GPSModel
     End Sub
 
     ''' <summary>
-    ''' 训练模型：掩码重建预训练 + 下一时刻预测微调。
-    ''' </summary>
-    ''' <param name="printEvery">打印间隔；0 表示静默，-1 表示使用配置值</param>
-    ''' <returns>训练结果</returns>
-    ''' <remarks>
-    ''' 每次都从第 0 epoch 全新开始（内部先重置 trainer 状态），
-    ''' 与启用 checkpoint 之前的行为逐位一致。
-    ''' </remarks>
-    Public Function Train(Optional printEvery As Integer = -1) As GPSTrainingResult
-        Return Train(resumeFromCheckpoint:=False, printEvery:=printEvery)
-    End Function
-
-    ''' <summary>
-    ''' 训练模型（可从中断的 checkpoint 续训）。
+    ''' 训练模型：掩码重建预训练 + 下一时刻预测微调。（可从中断的 checkpoint 续训）。
     ''' </summary>
     ''' <param name="resumeFromCheckpoint">为 True 时从 <see cref="TrainerState"/> 记录的进度续跑：
     ''' 跳过已完成的阶段与 epoch，恢复早停状态与损失曲线前缀；为 False 时全新训练</param>
-    ''' <param name="printEvery">打印间隔；0 表示静默，-1 表示使用配置值</param>
     ''' <returns>训练结果（损失曲线为历史前缀与新段拼接后的完整曲线）</returns>
     ''' <remarks>
     ''' <paramref name="resumeFromCheckpoint"/> 为 True 但没有任何已持久化的训练状态时，
     ''' 退化为全新训练（与 <see cref="Train(Integer)"/> 等价）。
     ''' </remarks>
-    Public Function Train(resumeFromCheckpoint As Boolean, Optional printEvery As Integer = -1) As GPSTrainingResult
+    Public Function Train(resumeFromCheckpoint As Boolean) As GPSTrainingResult
         If resumeFromCheckpoint Then
             Call trainer.RestoreState(_trainerState)
         Else
@@ -252,8 +238,8 @@ Public Class GPSModel
             trainer.OnCheckpoint = Nothing
         End If
 
-        Dim pretrain As Double() = trainer.Pretrain(windowDataset.Train(), -1, printEvery).ToArray()
-        Dim result As GPSTrainingResult = trainer.Finetune(windowDataset.Train(), windowDataset.Validation(), -1, printEvery)
+        Dim pretrain As Double() = trainer.Pretrain(windowDataset.Train(), -1).ToArray()
+        Dim result As GPSTrainingResult = trainer.Finetune(windowDataset.Train(), windowDataset.Validation(), -1)
 
         result.PretrainLoss = pretrain
         _lastResult = result

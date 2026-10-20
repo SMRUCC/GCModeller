@@ -255,9 +255,6 @@ Module gpsTools
     ''' fraction of genes whose last time frame is masked during the pre-training stage; must be
     ''' in ``[0, 1)``. Default 0.15.
     ''' </param>
-    ''' <param name="printEvery">
-    ''' print the loss every ``printEvery`` epochs; ``0`` keeps the training silent. Default 5.
-    ''' </param>
     ''' <param name="trainRatio">
     ''' fraction of the sliding windows used for training; the split is always performed in time
     ''' order, never randomly. Default 0.7.
@@ -338,7 +335,6 @@ Module gpsTools
                                Optional gradientClip As Double = 1.0,
                                Optional earlyStopPatience As Integer = 15,
                                Optional maskRatio As Double = 0.15,
-                               Optional printEvery As Integer = 5,
                                Optional trainRatio As Double = 0.7,
                                Optional validationRatio As Double = 0.15,
                                Optional seed As Integer = 2024,
@@ -383,7 +379,6 @@ Module gpsTools
             .GradientClip = gradientClip,
             .EarlyStopPatience = earlyStopPatience,
             .MaskRatio = maskRatio,
-            .PrintEvery = printEvery,
             .TrainRatio = trainRatio,
             .ValidationRatio = validationRatio,
             .Seed = seed,
@@ -507,7 +502,7 @@ Module gpsTools
 
         gps.CheckpointPath = checkpoint
 
-        Dim training As GPSTrainingResult = gps.Train(gps.Config.PrintEvery)
+        Dim training As GPSTrainingResult = gps.Train(resumeFromCheckpoint:=Not checkpoint.StringEmpty(, True))
         Dim report As New StringBuilder
         Dim plannedSteps As Integer = gps.Dataset.Train().Count * gps.Config.FinetuneEpochs
 
