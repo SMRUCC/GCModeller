@@ -1,0 +1,35 @@
+.\" man page create by R# package system.
+.TH GPS 1 2000-1月 "perturbation_channel_gain" "perturbation_channel_gain"
+.SH NAME
+perturbation_channel_gain \- Get or set the injection gain of the perturbation channel.
+.SH SYNOPSIS
+\fIperturbation_channel_gain(\fBgps\fR as <generic> GPSModel, 
+\fBgain\fR as double = -1, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Get or set the injection gain of the perturbation channel.
+.PP
+.SH OPTIONS
+.PP
+\fBgps\fB \fR\- the trained model object.. 
+.PP
+.PP
+\fBgain\fB \fR\- 
+ the non negative gain; a negative value (the default) only reads the current value.
+ \fB0\fR is equivalent to disabling the channel.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment.. 
+.PP
+.SH VALUE
+.PP
+the currently effective gain.
+.PP
+.SH SEE ALSO
+GPS
+.SH FILES
+.PP
+biosystem.dll
+.PP

@@ -333,16 +333,45 @@ declare namespace GPS {
      * 
      * + default value Is ``8``.
      * @param knockdownResidual the fraction of the wild type expression level that is kept for the target gene of an in
-     *  silico knockdown experiment: the intervention value is `gene mean * knockdownResidual`.
-     *  `0.2` corresponds to the CRISPRi setting of the Virtual Cell Challenge (more than 80
-     *  percent on target knockdown). Default 0.2.
+     *  silico knockdown experiment, applied in linear CPM space on the baseline of the
+     *  current cell context: `cpm_mut = knockdownResidual * cpm_ctrl`, then transformed back
+     *  to `log2(CPM + 1)`. `0.2` corresponds to the CRISPRi setting of the Virtual Cell
+     *  Challenge (more than 80 percent on target knockdown). Default 0.2.
      * 
      * + default value Is ``0.2``.
+     * @param edgeNormalization how the graph convolution normalises the aggregated edge weights: ``"mean"`` (the legacy
+     *  convex averaging, attenuates a single gene perturbation by about 1e-4 after three hops),
+     *  ``"sqrt"`` (default, keeps about 5 to 8 times more magnitude per hop) or ``"sum"`` (no
+     *  normalisation, strongest but easiest to saturate).
+     * 
+     * + default value Is ``'sqrt'``.
+     * @param perturbationChannel inject the change of the perturbed gene into the input window of its downstream targets
+     *  along the prior edges, so a knockdown does not have to survive several rounds of degree
+     *  normalisation. Default TRUE.
+     * 
+     * + default value Is ``true``.
+     * @param perturbationChannelGain injection gain of the perturbation channel; ``0`` disables it. Default 1.
+     * 
+     * + default value Is ``1``.
+     * @param perturbationChannelCoRegulation when the perturbed gene has no outgoing edge (every non transcription factor in a
+     *  TF to target prior), spread its change to the genes sharing the same upstream regulators.
+     *  Heuristic, therefore FALSE by default.
+     * 
+     * + default value Is ``false``.
      * @param env 
      * + default value Is ``null``.
      * @return a validated [GPSConfig](cref:T:SMRUCC.genomics.Analysis.GPS.Config.GPSConfig) object
    */
-   function gps_config(maxGenes?: object, cpmNormalize?: boolean, logTransform?: boolean, zScore?: boolean, peDim?: object, spdMaxDist?: object, coexpressionTopK?: object, minCoexpression?: number, dModel?: object, nLayers?: object, nHeads?: object, ffnDim?: object, dropout?: number, geneEmbedDim?: object, useSpdBias?: boolean, useGlobalAttention?: boolean, useLocalMpnn?: boolean, window?: object, gruHidden?: object, useUncertainty?: boolean, pretrainEpochs?: object, finetuneEpochs?: object, learningRate?: number, autofocusGamma?: number, lambdaDir?: number, lambdaL1?: number, lambdaPrior?: number, gradientClip?: number, earlyStopPatience?: object, maskRatio?: number, trainRatio?: number, validationRatio?: number, seed?: object, significanceZScore?: number, cascadeSteps?: object, CheckpointIntervalEpochs?: object, denseAttentionMaxNodes?: object, attentionNeighbors?: object, attentionRandomLinks?: object, attentionHubGenes?: object, knockdownResidual?: number, env?: object): object;
+   function gps_config(maxGenes?: object, cpmNormalize?: boolean, logTransform?: boolean, zScore?: boolean, peDim?: object, spdMaxDist?: object, coexpressionTopK?: object, minCoexpression?: number, dModel?: object, nLayers?: object, nHeads?: object, ffnDim?: object, dropout?: number, geneEmbedDim?: object, useSpdBias?: boolean, useGlobalAttention?: boolean, useLocalMpnn?: boolean, window?: object, gruHidden?: object, useUncertainty?: boolean, pretrainEpochs?: object, finetuneEpochs?: object, learningRate?: number, autofocusGamma?: number, lambdaDir?: number, lambdaL1?: number, lambdaPrior?: number, gradientClip?: number, earlyStopPatience?: object, maskRatio?: number, trainRatio?: number, validationRatio?: number, seed?: object, significanceZScore?: number, cascadeSteps?: object, CheckpointIntervalEpochs?: object, denseAttentionMaxNodes?: object, attentionNeighbors?: object, attentionRandomLinks?: object, attentionHubGenes?: object, knockdownResidual?: number, edgeNormalization?: string, perturbationChannel?: boolean, perturbationChannelGain?: number, perturbationChannelCoRegulation?: boolean, env?: object): object;
+   /**
+    * The edge normalisation mode that the graph convolution actually uses.
+    * 
+    * 
+     * @param gps the trained model object.
+     * @return ``mean`` (convex averaging, the legacy behaviour), ``sqrt`` (the default, keeps more of the
+     *  perturbation magnitude across hops) or ``sum`` (no normalisation).
+   */
+   function graph_normalization(gps: object): any;
    /**
     * Get or set the fraction of the wild type expression that is kept by an in silico knockdown.
     * 
@@ -368,6 +397,53 @@ declare namespace GPS {
      *  that the caller can reason about the count scale of the model output.
    */
    function library_sizes(gps: object): number;
+   /**
+    * Get or set whether the perturbation channel is enabled.
+    * 
+    * 
+     * @param gps the trained model object.
+     * @param enabled ``1`` enables, ``0`` disables; a negative value (the default) only reads the current state.
+     * 
+     * + default value Is ``-1``.
+     * @param env the R# runtime environment.
+     * 
+     * + default value Is ``null``.
+     * @return the currently effective flag. When enabled, the change of the perturbed gene is injected
+     *  into the input window of its downstream targets along the prior regulatory edges, so a
+     *  single gene knockdown does not have to survive several rounds of degree normalisation.
+   */
+   function perturbation_channel(gps: object, enabled?: object, env?: object): any;
+   /**
+    * Get or set the co-regulation fallback of the perturbation channel.
+    * 
+    * 
+     * @param gps the trained model object.
+     * @param enabled ``1`` enables, ``0`` disables; a negative value (the default) only reads the current state.
+     * 
+     * + default value Is ``-1``.
+     * @param env the R# runtime environment.
+     * 
+     * + default value Is ``null``.
+     * @return the currently effective flag. When enabled, perturbed genes without outgoing edges
+     *  (all non transcription factors in a TF to target prior) spread their change to the genes
+     *  that share the same upstream regulators.
+   */
+   function perturbation_channel_coregulation(gps: object, enabled?: object, env?: object): any;
+   /**
+    * Get or set the injection gain of the perturbation channel.
+    * 
+    * 
+     * @param gps the trained model object.
+     * @param gain the non negative gain; a negative value (the default) only reads the current value.
+     *  ``0`` is equivalent to disabling the channel.
+     * 
+     * + default value Is ``-1``.
+     * @param env the R# runtime environment.
+     * 
+     * + default value Is ``null``.
+     * @return the currently effective gain.
+   */
+   function perturbation_channel_gain(gps: object, gain?: number, env?: object): any;
    /**
     * Restore the control baseline of the model back to the training derived one.
     * 

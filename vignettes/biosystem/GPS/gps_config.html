@@ -68,7 +68,11 @@
     <i>attentionNeighbors</i> = <span style='color: green;'>32</span>,
     <i>attentionRandomLinks</i> = <span style='color: green;'>8</span>,
     <i>attentionHubGenes</i> = <span style='color: green;'>8</span>,
-    <i>knockdownResidual</i> = <span style='color: green;'>0.2</span>);</code></pre>
+    <i>knockdownResidual</i> = <span style='color: green;'>0.2</span>,
+    <i>edgeNormalization</i> = <span style='color: brown;'><strong>"sqrt"</strong></span>,
+    <i>perturbationChannel</i> = <span style='color: blue !important;'>TRUE</span>,
+    <i>perturbationChannelGain</i> = <span style='color: green;'>1</span>,
+    <i>perturbationChannelCoRegulation</i> = <span style='color: blue !important;'>FALSE</span>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
@@ -232,7 +236,23 @@
 
 
 <dt>knockdownResidual</dt>
-<dd><p>the fraction of the wild type expression level that is kept for the target gene of an in silico knockdown experiment: the intervention value is <code>gene mean * knockdownResidual</code>. <code>0.2</code> corresponds to the CRISPRi setting of the Virtual Cell Challenge (more than 80 percent on target knockdown). Default 0.2. [as double]</p></dd>
+<dd><p>the fraction of the wild type expression level that is kept for the target gene of an in silico knockdown experiment, applied in linear CPM space on the baseline of the current cell context: <code>cpm_mut = knockdownResidual * cpm_ctrl</code>, then transformed back to <code>log2(CPM + 1)</code>. <code>0.2</code> corresponds to the CRISPRi setting of the Virtual Cell Challenge (more than 80 percent on target knockdown). Default 0.2. [as double]</p></dd>
+
+
+<dt>edgeNormalization</dt>
+<dd><p>how the graph convolution normalises the aggregated edge weights: <code>"mean"</code> (the legacy convex averaging, attenuates a single gene perturbation by about 1e-4 after three hops), <code>"sqrt"</code> (default, keeps about 5 to 8 times more magnitude per hop) or <code>"sum"</code> (no normalisation, strongest but easiest to saturate). [as string]</p></dd>
+
+
+<dt>perturbationChannel</dt>
+<dd><p>inject the change of the perturbed gene into the input window of its downstream targets along the prior edges, so a knockdown does not have to survive several rounds of degree normalisation. Default TRUE. [as boolean]</p></dd>
+
+
+<dt>perturbationChannelGain</dt>
+<dd><p>injection gain of the perturbation channel; <code>0</code> disables it. Default 1. [as double]</p></dd>
+
+
+<dt>perturbationChannelCoRegulation</dt>
+<dd><p>when the perturbed gene has no outgoing edge (every non transcription factor in a TF to target prior), spread its change to the genes sharing the same upstream regulators. Heuristic, therefore FALSE by default. [as boolean]</p></dd>
 
         </table>
 

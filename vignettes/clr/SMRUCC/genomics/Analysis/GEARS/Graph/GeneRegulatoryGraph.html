@@ -42,6 +42,8 @@ export class GeneRegulatoryGraph {
    Graph: <a href="/vignettes/clr/Microsoft/VisualBasic/DeepLearning/GNN/Graph.html">Graph</a>;
    # 入边邻接的 CSR 载体：行 = 目标基因、列 = 源基因、值 = 归一化权重 × 关系符号。
    InEdgeCsr: <a href="/vignettes/clr/Microsoft/VisualBasic/MachineLearning/TensorFlow/Compute/SparseCsr.html">SparseCsr</a>;
+   # 本图实际采用的边权重归一化方式
+   Normalization: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GEARS/Graph/GraphEdgeNormalization.html">GraphEdgeNormalization</a>;
    # 追加的共表达边数量
    NumCoExpressionEdges: integer;
    # 基因数量（图中的节点数量）
@@ -62,6 +64,7 @@ export class GeneRegulatoryGraph {
 <li>use by <i>property</i> member <code>GeneIndex</code>: list</li>
 <li>use by <i>property</i> member <code>Graph</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/DeepLearning/GNN/Graph.html">Graph</a></li>
 <li>use by <i>property</i> member <code>InEdgeCsr</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/MachineLearning/TensorFlow/Compute/SparseCsr.html">SparseCsr</a></li>
+<li>use by <i>property</i> member <code>Normalization</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GEARS/Graph/GraphEdgeNormalization.html">GraphEdgeNormalization</a></li>
 <li>use by <i>property</i> member <code>SelfWeightVector</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/MachineLearning/TensorFlow/Tensor.html">Tensor</a></li>
 </ol>
 

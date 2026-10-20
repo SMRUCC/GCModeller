@@ -44,6 +44,10 @@ gps_config \- Create a GPS model hyper-parameter configuration object.
 \fBattentionRandomLinks\fR as integer = 8, 
 \fBattentionHubGenes\fR as integer = 8, 
 \fBknockdownResidual\fR as double = 0.2, 
+\fBedgeNormalization\fR as string = "sqrt", 
+\fBperturbationChannel\fR as boolean = TRUE, 
+\fBperturbationChannelGain\fR as double = 1, 
+\fBperturbationChannelCoRegulation\fR as boolean = FALSE, 
 [\fB<Environment>\fR]);\fR
 .SH DESCRIPTION
 .PP
@@ -289,9 +293,37 @@ Create a GPS model hyper-parameter configuration object.
 .PP
 \fBknockdownResidual\fB \fR\- 
  the fraction of the wild type expression level that is kept for the target gene of an in
- silico knockdown experiment: the intervention value is `gene mean * knockdownResidual`.
- `0.2` corresponds to the CRISPRi setting of the Virtual Cell Challenge (more than 80
- percent on target knockdown). Default 0.2.
+ silico knockdown experiment, applied in linear CPM space on the baseline of the
+ current cell context: `cpm_mut = knockdownResidual * cpm_ctrl`, then transformed back
+ to `log2(CPM + 1)`. `0.2` corresponds to the CRISPRi setting of the Virtual Cell
+ Challenge (more than 80 percent on target knockdown). Default 0.2.
+. 
+.PP
+.PP
+\fBedgeNormalization\fB \fR\- 
+ how the graph convolution normalises the aggregated edge weights: \fB"mean"\fR (the legacy
+ convex averaging, attenuates a single gene perturbation by about 1e-4 after three hops),
+ \fB"sqrt"\fR (default, keeps about 5 to 8 times more magnitude per hop) or \fB"sum"\fR (no
+ normalisation, strongest but easiest to saturate).
+. 
+.PP
+.PP
+\fBperturbationChannel\fB \fR\- 
+ inject the change of the perturbed gene into the input window of its downstream targets
+ along the prior edges, so a knockdown does not have to survive several rounds of degree
+ normalisation. Default TRUE.
+. 
+.PP
+.PP
+\fBperturbationChannelGain\fB \fR\- 
+ injection gain of the perturbation channel; \fB0\fR disables it. Default 1.
+. 
+.PP
+.PP
+\fBperturbationChannelCoRegulation\fB \fR\- 
+ when the perturbed gene has no outgoing edge (every non transcription factor in a
+ TF to target prior), spread its change to the genes sharing the same upstream regulators.
+ Heuristic, therefore FALSE by default.
 . 
 .PP
 .SH VALUE

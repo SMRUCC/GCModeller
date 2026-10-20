@@ -42,6 +42,7 @@ export class GPSConfig {
    DModel: integer;
    Dropout: double;
    EarlyStopPatience: integer;
+   EdgeNormalization: string;
    FfnDim: integer;
    FinetuneEpochs: integer;
    GeneEmbedDim: integer;
@@ -59,6 +60,9 @@ export class GPSConfig {
    NHeads: integer;
    NLayers: integer;
    PeDim: integer;
+   PerturbationChannel: boolean;
+   PerturbationChannelCoRegulation: boolean;
+   PerturbationChannelGain: double;
    PretrainEpochs: integer;
    Seed: integer;
    SignificanceZScore: double;

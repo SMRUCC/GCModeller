@@ -39,11 +39,15 @@ export class GPSModel {
    GeneNames: string;
    GeneSDs: double;
    GraphData: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GEARS/Graph/GeneRegulatoryGraph.html">GeneRegulatoryGraph</a>;
+   GraphNormalization: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GEARS/Graph/GraphEdgeNormalization.html">GraphEdgeNormalization</a>;
    IsTrained: boolean;
    KnockdownResidual: double;
    LastTrainingResult: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GPS/Training/GPSTrainingResult.html">GPSTrainingResult</a>;
    LibrarySizes: double;
    Model: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GPS/Model/GRNModel.html">GRNModel</a>;
+   PerturbationChannel: boolean;
+   PerturbationChannelCoRegulation: boolean;
+   PerturbationChannelGain: double;
    Preprocessed: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GPS/Data/PreprocessedExpression.html">PreprocessedExpression</a>;
    Prior: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/PriorNetwork.html">PriorNetwork</a>;
    TrainerState: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GPS/Training/GPSTrainingState.html">GPSTrainingState</a>;
@@ -59,6 +63,7 @@ export class GPSModel {
 <li>use by <i>property</i> member <code>Encoding</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GPS/Graph/GraphEncoding.html">GraphEncoding</a></li>
 <li>use by <i>property</i> member <code>Expression</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/GeneExpressionData.html">GeneExpressionData</a></li>
 <li>use by <i>property</i> member <code>GraphData</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GEARS/Graph/GeneRegulatoryGraph.html">GeneRegulatoryGraph</a></li>
+<li>use by <i>property</i> member <code>GraphNormalization</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GEARS/Graph/GraphEdgeNormalization.html">GraphEdgeNormalization</a></li>
 <li>use by <i>property</i> member <code>LastTrainingResult</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GPS/Training/GPSTrainingResult.html">GPSTrainingResult</a></li>
 <li>use by <i>property</i> member <code>Model</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GPS/Model/GRNModel.html">GRNModel</a></li>
 <li>use by <i>property</i> member <code>Preprocessed</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GPS/Data/PreprocessedExpression.html">PreprocessedExpression</a></li>

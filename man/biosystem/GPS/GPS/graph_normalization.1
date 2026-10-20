@@ -1,0 +1,25 @@
+.\" man page create by R# package system.
+.TH GPS 1 2000-1月 "graph_normalization" "graph_normalization"
+.SH NAME
+graph_normalization \- The edge normalisation mode that the graph convolution actually uses.
+.SH SYNOPSIS
+\fIgraph_normalization(\fBgps\fR as <generic> GPSModel);\fR
+.SH DESCRIPTION
+.PP
+The edge normalisation mode that the graph convolution actually uses.
+.PP
+.SH OPTIONS
+.PP
+\fBgps\fB \fR\- the trained model object.. 
+.PP
+.SH VALUE
+.PP
+\fBmean\fR (convex averaging, the legacy behaviour), \fBsqrt\fR (the default, keeps more of the
+ perturbation magnitude across hops) or \fBsum\fR (no normalisation).
+.PP
+.SH SEE ALSO
+GPS
+.SH FILES
+.PP
+biosystem.dll
+.PP

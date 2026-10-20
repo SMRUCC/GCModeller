@@ -1,0 +1,36 @@
+.\" man page create by R# package system.
+.TH GPS 1 2000-1月 "perturbation_channel" "perturbation_channel"
+.SH NAME
+perturbation_channel \- Get or set whether the perturbation channel is enabled.
+.SH SYNOPSIS
+\fIperturbation_channel(\fBgps\fR as <generic> GPSModel, 
+\fBenabled\fR as integer = -1, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Get or set whether the perturbation channel is enabled.
+.PP
+.SH OPTIONS
+.PP
+\fBgps\fB \fR\- the trained model object.. 
+.PP
+.PP
+\fBenabled\fB \fR\- 
+ \fB1\fR enables, \fB0\fR disables; a negative value (the default) only reads the current state.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment.. 
+.PP
+.SH VALUE
+.PP
+the currently effective flag. When enabled, the change of the perturbed gene is injected
+ into the input window of its downstream targets along the prior regulatory edges, so a
+ single gene knockdown does not have to survive several rounds of degree normalisation.
+.PP
+.SH SEE ALSO
+GPS
+.SH FILES
+.PP
+biosystem.dll
+.PP
