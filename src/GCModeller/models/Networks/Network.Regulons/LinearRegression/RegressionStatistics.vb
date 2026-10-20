@@ -8,7 +8,7 @@ Namespace LinearRegression
     ''' <summary>
     ''' 线性回归模型的显著性检验工具
     ''' 
-    ''' 由于 DataFittings 之中的 <see cref="Multivariate.MLRFit"/> 只给出了回归系数与拟合优度，
+    ''' 由于 DataFittings 之中的多元线性回归模型只给出了回归系数与拟合优度，
     ''' 这里补充 OLS 模型常用的 t 检验，用于给每一条调控边附上一个显著性 p 值。
     ''' </summary>
     Friend Module RegressionStatistics
