@@ -194,8 +194,11 @@
 
   <ItemGroup>
     <Compile Remove="RegulatesGraph\**" />
+    <Compile Remove="test\**" />
     <EmbeddedResource Remove="RegulatesGraph\**" />
+    <EmbeddedResource Remove="test\**" />
     <None Remove="RegulatesGraph\**" />
+    <None Remove="test\**" />
   </ItemGroup>
 
   <ItemGroup>
