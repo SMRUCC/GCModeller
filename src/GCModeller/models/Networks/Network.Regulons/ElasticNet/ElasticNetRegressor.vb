@@ -142,7 +142,7 @@ Namespace LinearRegression
                 Return Nothing
             End If
 
-            Return FromPath(path, stepId, y)
+            Return EnforceMaxFeatures(FromPath(path, stepId, y), X, y, maxFeatures)
         End Function
 
         ''' <summary>
@@ -332,6 +332,92 @@ Namespace LinearRegression
             Dim logAlpha As Double = Median(valid.Select(Function(cv) std.Log(cv.BestAlpha)))
 
             Return (std.Exp(logAlpha), l1)
+        End Function
+
+        ''' <summary>
+        ''' 强制满足「每个基因最多保留 maxFeatures 个调控因子」的约束
+        ''' 
+        ''' 正则化路径上相邻两步的非零系数数量可能发生跳跃，当路径之上没有任何一步
+        ''' 落在约束范围之内的时候(常见于样本很少、噪声很大的数据)，
+        ''' 这里直接保留绝对值最大的若干项，并重新计算截距与拟合优度，
+        ''' 以保证「每个基因最多 k 个上游调控因子」这一网络语义不被破坏。
+        ''' </summary>
+        ''' <param name="result">路径上面挑选出来的解</param>
+        ''' <param name="X">设计矩阵</param>
+        ''' <param name="y">观测值向量</param>
+        ''' <param name="maxFeatures">允许保留的最大非零系数数量，小于等于零表示不限制</param>
+        ''' <returns></returns>
+        Private Function EnforceMaxFeatures(result As ElasticNetFitResult,
+                                            X As Double()(),
+                                            y As Double(),
+                                            maxFeatures As Integer) As ElasticNetFitResult
+
+            If result Is Nothing OrElse maxFeatures <= 0 Then
+                Return result
+            End If
+            If result.Weights Is Nothing OrElse result.Weights.Length = 0 Then
+                Return result
+            End If
+            If result.NonZero <= maxFeatures Then
+                Return result
+            End If
+
+            Dim keep As Integer() = Enumerable _
+                .Range(0, result.Weights.Length) _
+                .Where(Function(j) result.Weights(j) <> 0.0R) _
+                .OrderByDescending(Function(j) std.Abs(result.Weights(j))) _
+                .Take(maxFeatures) _
+                .ToArray
+
+            If keep.Length = 0 Then
+                Return result
+            End If
+
+            Dim weights As Double() = New Double(result.Weights.Length - 1) {}
+
+            For Each j As Integer In keep
+                weights(j) = result.Weights(j)
+            Next
+
+            ' 截断之后模型发生变化，需要重新计算截距与拟合优度
+            Dim n As Integer = y.Length
+            Dim p As Integer = weights.Length
+            Dim means As Double() = New Double(p - 1) {}
+            Dim intercept As Double = y.Average
+
+            For j As Integer = 0 To p - 1
+                Dim sum As Double = 0.0R
+
+                For i As Integer = 0 To n - 1
+                    sum += X(i)(j)
+                Next
+
+                means(j) = sum / n
+                intercept -= weights(j) * means(j)
+            Next
+
+            Dim sse As Double = 0.0R
+
+            For i As Integer = 0 To n - 1
+                Dim yhat As Double = intercept
+
+                For j As Integer = 0 To p - 1
+                    yhat += weights(j) * X(i)(j)
+                Next
+
+                sse += (y(i) - yhat) ^ 2
+            Next
+
+            Dim sst As Double = RegressionStatistics.TotalSumOfSquares(y)
+
+            result.Weights = weights
+            result.Intercept = intercept
+            result.NonZero = keep.Length
+            result.SSE = sse
+            result.SST = sst
+            result.R2 = RegressionStatistics.Rsquared(sse, sst)
+
+            Return result
         End Function
 
         ''' <summary>
