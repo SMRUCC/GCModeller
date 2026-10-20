@@ -30,6 +30,46 @@ Public Enum PropagationMode
     ''' ``delta_target = beta * delta_regulator``。结果保守且绝对不会发散。
     ''' </summary>
     OneHop = 1
+
+    ''' <summary>
+    ''' 只传播"变化量"(推荐用于外部背景之下的条件化预测)。
+    ''' 
+    ''' 迭代从零开始，被扰动基因被钳制为 ``目标值 - 基线``，其余基因按照
+    ''' ``delta_t = sum(beta * delta_r)`` 更新(不含截距项)。由仿射变换的性质可知
+    ''' 
+    ''' ```
+    ''' x(k+1) = c + B * x(k)   ==>   (x_mutant - x_control)(k+1) = B * (x_mutant - x_control)(k)
+    ''' ```
+    ''' 
+    ''' 因此这里的 ``delta`` 精确等于"同一个背景之下，扰动后的预测减去无扰动对照的预测"。
+    ''' 结果对象之中的 <see cref="InterventionResult.WildtypeMeans"/> 仍然是调用方给定的
+    ''' 背景，<see cref="InterventionResult.MutantMeans"/> 等于 ``背景 + delta``，
+    ''' 两者的差就是净扰动效应。
+    ''' 
+    ''' 与 <see cref="Cascade"/> 的区别：绝对量级联在外部背景之上会把预测拉向模型自身的
+    ''' 平均水平(回归到均值)，这部分漂移会混进变化量；本模式没有这个问题。
+    ''' </summary>
+    Delta = 2
+End Enum
+
+''' <summary>
+''' 模型输入表达量的数值空间。
+''' </summary>
+Public Enum ExpressionScale
+
+    ''' <summary>
+    ''' 模型输入就是线性表达量(默认值，保持与既有行为完全一致)。
+    ''' </summary>
+    Linear = 0
+
+    ''' <summary>
+    ''' 模型输入是 ``x = log2(y + LogPseudoCount)`` 之后的数值(例如 log2(CPM+1))。
+    ''' 
+    ''' 敲降与过表达的比例必须作用在反变换之后的线性空间 ``y`` 上，再把结果变换回
+    ''' ``x``；直接对 ``x`` 乘一个比例是错的：``x = 8``(约 255 CPM)时 80% 敲降的
+    ''' 正确目标是 ``log2(0.2 * (2^8 - 1) + 1) = 5.68``，而不是 ``0.2 * 8 = 1.6``。
+    ''' </summary>
+    Log2Plus1 = 1
 End Enum
 
 ''' <summary>
@@ -42,8 +82,11 @@ End Enum
 ''' Knockout        : target = 0
 ''' Knockdown       : target = KnockdownResidual * baseline
 ''' Overexpression  : target = OverexpressionFold * baseline
-''' Custom          : target = spec.Value   (原始表达量尺度的绝对值)
+''' Custom          : target = spec.Value   (模型空间之中的绝对值)
 ''' ```
+''' 
+''' 当 <see cref="Scale"/> 为 <see cref="ExpressionScale.Log2Plus1"/> 的时候，
+''' 上面的比例会先反变换到线性空间、按比例施加、再变换回 log 空间(见该枚举的说明)。
 ''' 
 ''' 这个约定与 <see cref="InterventionSpec.GetInterventionValue"/> 的
 ''' ``mean +/- k * SD`` 公式不同，因此同一个基因在本引擎与贝叶斯网络引擎
@@ -56,6 +99,23 @@ Public Class ElasticNetPerturbationOptions
     ''' </summary>
     ''' <returns></returns>
     Public Property Propagation As PropagationMode = PropagationMode.Cascade
+
+    ''' <summary>
+    ''' 模型输入表达量的数值空间，默认为 <see cref="ExpressionScale.Linear"/>。
+    ''' 
+    ''' 如果拟合网络所用的表达矩阵是取过对数的(例如 ``log2(CPM+1)``)，必须设置为
+    ''' <see cref="ExpressionScale.Log2Plus1"/>，否则敲降/过表达的幅度会偏大 2~3 倍。
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property Scale As ExpressionScale = ExpressionScale.Linear
+
+    ''' <summary>
+    ''' <see cref="ExpressionScale.Log2Plus1"/> 空间之中的伪计数偏移，默认 1。
+    ''' 
+    ''' 它必须与拟合网络时所用的变换保持一致(例如 ``log2(x + 1)`` 对应 1)。
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property LogPseudoCount As Double = 1.0R
 
     ''' <summary>
     ''' 级联迭代的最大步数(默认 50)。
@@ -151,6 +211,9 @@ Public Class ElasticNetPerturbationOptions
         If Double.IsNaN(SignificanceZ) OrElse SignificanceZ < 0.0R Then
             Throw New ArgumentException($"the significance cutoff must be a non-negative number, but {SignificanceZ} was given!", NameOf(SignificanceZ))
         End If
+        If Double.IsNaN(LogPseudoCount) OrElse LogPseudoCount <= 0.0R Then
+            Throw New ArgumentException($"the pseudo count offset of the log scale must be a positive number, but {LogPseudoCount} was given!", NameOf(LogPseudoCount))
+        End If
     End Sub
 
     ''' <summary>
@@ -158,7 +221,7 @@ Public Class ElasticNetPerturbationOptions
     ''' </summary>
     ''' <returns></returns>
     Public Overrides Function ToString() As String
-        Return $"[elastic net perturbation] {Propagation}, steps<={Steps}, damping={Damping:G3}, " &
+        Return $"[elastic net perturbation] {Propagation}, scale={Scale}, steps<={Steps}, damping={Damping:G3}, " &
                $"knockdown={KnockdownResidual:G3}, overexpression={OverexpressionFold:G3}x, " &
                $"clamp={ClampToObserved}, significance|z|>{SignificanceZ:G3}"
     End Function
@@ -524,6 +587,52 @@ Public Class ElasticNet : Implements InsilicoPerturbationExperiment
     End Property
 
     ''' <summary>
+    ''' 按照基因编号对齐地设置野生型基线(原始表达量尺度)。
+    ''' 
+    ''' 与 <see cref="Baseline"/> 的严格长度校验不同，这里允许只提供一部分基因：
+    ''' 没有出现的基因会保留当前基线(默认是训练集的样本均值)，
+    ''' 因此特别适合把一条外部 context 的表达谱注入模型。
+    ''' </summary>
+    ''' <param name="genes">基因编号列表，大小写不敏感</param>
+    ''' <param name="values">与 <paramref name="genes"/> 一一对应的基线表达量</param>
+    ''' <returns>成功匹配并写入的基因数量</returns>
+    Public Function SetBaseline(genes As String(), values As Double()) As Integer
+        If genes Is Nothing Then
+            Throw New ArgumentNullException(NameOf(genes))
+        End If
+        If values Is Nothing Then
+            Throw New ArgumentNullException(NameOf(values))
+        End If
+        If genes.Length <> values.Length Then
+            Throw New ArgumentException(
+                $"the size of the given gene list({genes.Length}) is not equals to the size of the given values({values.Length})!",
+                NameOf(values))
+        End If
+
+        Dim aligned As Double() = CType(Baseline.Clone(), Double())
+        Dim hits As Integer = 0
+
+        For i As Integer = 0 To genes.Length - 1
+            If String.IsNullOrEmpty(genes(i)) OrElse Not IsFinite(values(i)) Then
+                Continue For
+            End If
+
+            Dim idx As Integer = IndexOfGene(genes(i))
+
+            If idx < 0 Then
+                Continue For
+            End If
+
+            aligned(idx) = values(i)
+            hits += 1
+        Next
+
+        Me.Baseline = aligned
+
+        Return hits
+    End Function
+
+    ''' <summary>
     ''' 从未作为调控因子(非零出边)出现过的基因编号。
     ''' 
     ''' 这些基因的扰动效应恒为零，通常是因为候选调控因子池被截断，
@@ -731,6 +840,7 @@ Public Class ElasticNet : Implements InsilicoPerturbationExperiment
             Return UndefinedResult(primarySpec, missing)
         End If
 
+        Dim deltaMode As Boolean = opt.Propagation = PropagationMode.Delta
         Dim steps As Integer = If(stepsOverride > 0, std.Max(1, stepsOverride), EffectiveSteps())
         Dim firstOrder As Double() = FirstOrderDelta(clamps, intervened)
         Dim converged As Boolean = False
@@ -742,7 +852,7 @@ Public Class ElasticNet : Implements InsilicoPerturbationExperiment
         End If
 
         Dim clipped As New HashSet(Of Integer)
-        Dim final As Double() = Propagate(clamps, steps, False, Nothing, trajectory, clipped, converged, diverged)
+        Dim final As Double() = Propagate(clamps, steps, deltaMode, False, Nothing, trajectory, clipped, converged, diverged)
 
         Dim wildtypeMeans As Double() = CType(Baseline.Clone(), Double())
         Dim wildtypeSd As Double() = CType(rawSd.Clone(), Double())
@@ -753,7 +863,7 @@ Public Class ElasticNet : Implements InsilicoPerturbationExperiment
         If diverged Then
             ' 数值爆炸，稍后回退到一阶效应
         ElseIf nSamples > 0 Then
-            Dim mc As MonteCarloResult = RunMonteCarlo(clamps, steps, nSamples)
+            Dim mc As MonteCarloResult = RunMonteCarlo(clamps, steps, deltaMode, nSamples)
 
             If mc.Diverged Then
                 diverged = True
@@ -768,6 +878,9 @@ Public Class ElasticNet : Implements InsilicoPerturbationExperiment
                     Call clipped.Add(idx)
                 Next
             End If
+        ElseIf deltaMode Then
+            ' Delta 模式之下的返回值是变化量，报告值需要加回背景
+            mutantMeans = ToRaw(AddDelta(modelBaseline, final))
         Else
             mutantMeans = ToRaw(final)
         End If
@@ -828,7 +941,13 @@ Public Class ElasticNet : Implements InsilicoPerturbationExperiment
 
             For t As Integer = 0 To trajectory.Count - 1
                 For i As Integer = 0 To n - 1
-                    dynamic(t, i) = New Double() {ToRaw(trajectory(t)(i), i)}
+                    Dim state As Double = trajectory(t)(i)
+
+                    If deltaMode Then
+                        state += modelBaseline(i)
+                    End If
+
+                    dynamic(t, i) = New Double() {ToRaw(state, i)}
                 Next
             Next
         End If
@@ -870,17 +989,25 @@ Public Class ElasticNet : Implements InsilicoPerturbationExperiment
     ''' <summary>
     ''' 执行级联迭代(可选地叠加高斯残差噪声)，返回模型空间之中的最终状态。
     ''' </summary>
-    ''' <param name="clamps">被钳制的基因行号到干预值(模型空间)的映射</param>
+    ''' <param name="clamps">被钳制的基因行号到干预值(模型空间绝对量)的映射</param>
     ''' <param name="steps">最大迭代步数</param>
+    ''' <param name="deltaMode">
+    ''' 是否只传播变化量。<c>True</c> 的时候函数内部把 <paramref name="clamps"/> 换算成
+    ''' ``目标值 - 基线``，迭代不含截距，返回值是相对于基线的变化量。
+    ''' </param>
     ''' <param name="noiseOn">是否在每一次更新的时候叠加残差噪声</param>
     ''' <param name="rng">随机数发生器，确定性模式下为空</param>
     ''' <param name="trajectory">轨迹记录器，为空的时候不记录</param>
     ''' <param name="clipped">被裁剪的基因行号集合</param>
     ''' <param name="converged">迭代是否收敛</param>
     ''' <param name="diverged">迭代是否发散</param>
-    ''' <returns>模型空间之中的最终表达量</returns>
+    ''' <returns>
+    ''' 模型空间之中的最终状态：绝对值模式之下是表达量本身，
+    ''' Delta 模式之下是相对于基线的变化量
+    ''' </returns>
     Private Function Propagate(clamps As Dictionary(Of Integer, Double),
                                steps As Integer,
+                               deltaMode As Boolean,
                                noiseOn As Boolean,
                                rng As Random,
                                trajectory As List(Of Double()),
@@ -889,22 +1016,38 @@ Public Class ElasticNet : Implements InsilicoPerturbationExperiment
                                ByRef diverged As Boolean) As Double()
 
         Dim n As Integer = net.Genes.Length
-        Dim x As Double() = CType(modelBaseline.Clone(), Double())
-        Dim buffer As Double() = CType(x.Clone(), Double())
+        Dim x As Double()
+        Dim buffer As Double()
+
+        If deltaMode Then
+            ' Delta 模式之下 x 表示"相对于背景的变化量"，起点为零
+            x = New Double(n - 1) {}
+        Else
+            x = CType(modelBaseline.Clone(), Double())
+        End If
+
+        buffer = CType(x.Clone(), Double())
+
         Dim clamped As Boolean() = New Boolean(n - 1) {}
 
         converged = False
         diverged = False
 
         If trajectory IsNot Nothing Then
-            ' 第 0 步记录干预之前的基线状态，之后每一步记录一次迭代结果
+            ' 第 0 步记录干预之前的状态(绝对值模式为基线，Delta 模式为零变化量)
             Call trajectory.Add(CType(x.Clone(), Double()))
         End If
 
         For Each idx As Integer In clamps.Keys
+            Dim value As Double = clamps(idx)
+
+            If deltaMode Then
+                value -= modelBaseline(idx)
+            End If
+
             clamped(idx) = True
-            x(idx) = clamps(idx)
-            buffer(idx) = clamps(idx)
+            x(idx) = value
+            buffer(idx) = value
         Next
 
         For k As Integer = 1 To steps
@@ -918,7 +1061,7 @@ Public Class ElasticNet : Implements InsilicoPerturbationExperiment
                     Continue For
                 End If
 
-                Dim value As Double = intercepts(r)
+                Dim value As Double = If(deltaMode, 0.0R, intercepts(r))
                 Dim regs As Integer() = regulatorIndex(r)
                 Dim coefs As Double() = coefficients(r)
 
@@ -937,14 +1080,18 @@ Public Class ElasticNet : Implements InsilicoPerturbationExperiment
                 If opt.ClampToObserved Then
                     Dim lo As Double = modelLower(t)
                     Dim hi As Double = modelUpper(t)
+                    ' Delta 模式之下裁剪边界作用在绝对量(baseline + delta)之上
+                    Dim absolute As Double = If(deltaMode, modelBaseline(t) + value, value)
 
-                    If value < lo Then
-                        value = lo
+                    If absolute < lo Then
+                        absolute = lo
                         Call clipped.Add(t)
-                    ElseIf value > hi Then
-                        value = hi
+                    ElseIf absolute > hi Then
+                        absolute = hi
                         Call clipped.Add(t)
                     End If
+
+                    value = If(deltaMode, absolute - modelBaseline(t), absolute)
                 End If
 
                 buffer(t) = x(t) + opt.Damping * (value - x(t))
@@ -997,12 +1144,14 @@ Public Class ElasticNet : Implements InsilicoPerturbationExperiment
     ''' <summary>
     ''' 按照各基因模型的残差标准差执行蒙特卡洛抽样。
     ''' </summary>
-    ''' <param name="clamps">被钳制的基因行号到干预值(模型空间)的映射</param>
+    ''' <param name="clamps">被钳制的基因行号到干预值(模型空间绝对量)的映射</param>
     ''' <param name="steps">最大迭代步数</param>
+    ''' <param name="deltaMode">是否只传播变化量(与 <see cref="Propagate"/> 一致)</param>
     ''' <param name="nSamples">抽样次数</param>
     ''' <returns></returns>
     Private Function RunMonteCarlo(clamps As Dictionary(Of Integer, Double),
                                    steps As Integer,
+                                   deltaMode As Boolean,
                                    nSamples As Integer) As MonteCarloResult
 
         Dim n As Integer = net.Genes.Length
@@ -1019,14 +1168,14 @@ Public Class ElasticNet : Implements InsilicoPerturbationExperiment
         Dim accepted As Integer = 0
 
         For k As Integer = 1 To nSamples
-            Dim wild As Double() = Propagate(noClamp, steps, True, rng, Nothing, clipped, converged, diverged)
+            Dim wild As Double() = Propagate(noClamp, steps, deltaMode, True, rng, Nothing, clipped, converged, diverged)
 
             If diverged Then
                 result.Diverged = True
                 Exit For
             End If
 
-            Dim mutant As Double() = Propagate(clamps, steps, True, rng, Nothing, clipped, converged, diverged)
+            Dim mutant As Double() = Propagate(clamps, steps, deltaMode, True, rng, Nothing, clipped, converged, diverged)
 
             If diverged Then
                 result.Diverged = True
@@ -1034,8 +1183,8 @@ Public Class ElasticNet : Implements InsilicoPerturbationExperiment
             End If
 
             For i As Integer = 0 To n - 1
-                Dim a As Double = ToRaw(wild(i), i)
-                Dim b As Double = ToRaw(mutant(i), i)
+                Dim a As Double = ToRaw(If(deltaMode, modelBaseline(i) + wild(i), wild(i)), i)
+                Dim b As Double = ToRaw(If(deltaMode, modelBaseline(i) + mutant(i), mutant(i)), i)
 
                 sumWild(i) += a
                 sumWild2(i) += a * a
@@ -1265,30 +1414,58 @@ Public Class ElasticNet : Implements InsilicoPerturbationExperiment
     End Function
 
     ''' <summary>
-    ''' 按照乘性比例语义解析扰动之后的表达量目标值(原始表达量尺度)。
+    ''' 按照乘性比例语义解析扰动之后的表达量目标值(模型空间)。
+    ''' 
+    ''' <see cref="ExpressionScale.Log2Plus1"/> 之下先在反变换后的线性空间之中施加
+    ''' 比例，再变换回 log 空间；<see cref="InterventionMode.Custom"/> 则直接使用调用方
+    ''' 给出的模型空间绝对值，不做任何变换。
     ''' </summary>
     ''' <param name="spec">干预定义</param>
-    ''' <param name="baselineValue">目标基因的野生型基线</param>
+    ''' <param name="baselineValue">目标基因的野生型基线(模型空间)</param>
     ''' <returns></returns>
     Private Function InterventionTarget(spec As InterventionSpec, baselineValue As Double) As Double
-        Dim value As Double
+        If spec.Mode = InterventionMode.Custom Then
+            ' Custom 模式的值约定为模型空间之中的绝对值，直接使用
+            If Not IsFinite(spec.Value) Then
+                Return 0
+            End If
+
+            Return std.Max(0.0R, spec.Value)
+        End If
+
+        Dim isLog As Boolean = opt.Scale = ExpressionScale.Log2Plus1
+        Dim value As Double = baselineValue
+
+        If isLog Then
+            value = std.Pow(2.0R, baselineValue) - opt.LogPseudoCount
+        End If
+
+        If Not IsFinite(value) Then
+            value = 0
+        End If
+
+        value = std.Max(0.0R, value)
 
         Select Case spec.Mode
             Case InterventionMode.Knockout
                 value = 0
             Case InterventionMode.Overexpression
-                value = opt.OverexpressionFold * baselineValue
+                value = opt.OverexpressionFold * value
             Case InterventionMode.Knockdown
-                value = opt.KnockdownResidual * baselineValue
-            Case Else
-                value = spec.Value
+                value = opt.KnockdownResidual * value
         End Select
 
         If Not IsFinite(value) Then
-            Return 0
+            value = 0
         End If
 
-        Return std.Max(0.0R, value)
+        value = std.Max(0.0R, value)
+
+        If isLog Then
+            value = std.Log(value + opt.LogPseudoCount, 2.0R)
+        End If
+
+        Return value
     End Function
 
     ''' <summary>
