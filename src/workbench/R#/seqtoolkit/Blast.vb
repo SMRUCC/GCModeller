@@ -63,6 +63,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.SequenceAlignment.BestLocalAlignment
 Imports SMRUCC.genomics.Analysis.SequenceAlignment.GlobalAlignment
 Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative
+Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.gwANI
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.Rsharp.Runtime.Internal
 Imports SMRUCC.Rsharp.Runtime.Interop
@@ -235,7 +236,7 @@ Module Blast
     ''' its details of one sequence pair in the input sequence collection.
     ''' </returns>
     <ExportAPI("align.gwANI")>
-    Public Function gwANIMultipleAlignment(multipleSeq As FastaFile) As DataSet()
-        Return gwANI.calculate_and_output_gwani(multipleSeq)
+    Public Function gwANIMultipleAlignment(multipleSeq As FastaFile, Optional fast As Boolean = False) As DataSet()
+        Return gwANIMethod.Evaluate(multipleSeq, fast)
     End Function
 End Module

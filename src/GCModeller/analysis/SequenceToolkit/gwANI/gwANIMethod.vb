@@ -157,7 +157,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 ''' End Sub
 ''' ```
 ''' </remarks>
-Public NotInheritable Class gwANI
+Public NotInheritable Class gwANIMethod
 
     Dim length_of_genome As Integer
     Dim number_of_samples As Integer

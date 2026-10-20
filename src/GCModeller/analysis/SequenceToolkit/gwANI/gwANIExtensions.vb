@@ -68,7 +68,7 @@ Public Module gwANIExtensions
     ''' </param>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function calculate_and_output_gwani(ByRef multipleSeq As FastaFile) As DataSet()
-        Return New gwANI().__calculate_and_output_gwani(multipleSeq).ToArray
+        Return New gwANIMethod().__calculate_and_output_gwani(multipleSeq).ToArray
     End Function
 
     ''' <summary>
@@ -79,6 +79,6 @@ Public Module gwANIExtensions
     ''' </param>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function fast_calculate_gwani(ByRef multipleSeq As FastaFile) As DataSet()
-        Return New gwANI().__fast_calculate_gwani(multipleSeq).ToArray
+        Return New gwANIMethod().__fast_calculate_gwani(multipleSeq).ToArray
     End Function
 End Module
