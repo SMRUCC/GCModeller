@@ -2,6 +2,8 @@
 Imports SMRUCC.genomics.Analysis.BNLearn.Core
 Imports SMRUCC.genomics.Analysis.BNLearn.DBN
 Imports SMRUCC.genomics.Analysis.BNLearn.ModularNetwork.WGCNA
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports std = System.Math
 
 Namespace ModularNetwork
 
@@ -48,7 +50,7 @@ Namespace ModularNetwork
         ''' 按 WGCNA 模块划分将基因分组（跳过 grey 模块，仅保留出现在 timeSeries 中的基因）。
         ''' </summary>
         <Extension>
-        Public Function SplitModules(assignment As IEnumerable(Of GeneModuleColor), timeSeries As Core.GeneExpressionData) As Dictionary(Of String, String())
+        Public Function SplitModules(assignment As IEnumerable(Of GeneModuleColor), timeSeries As GeneExpressionData) As Dictionary(Of String, String())
             Dim result As New Dictionary(Of String, List(Of String))
             Dim present As New HashSet(Of String)(timeSeries.GeneNames, StringComparer.OrdinalIgnoreCase)
 
@@ -136,7 +138,7 @@ Namespace ModularNetwork
             For i = 0 To modules.Count - 1
                 For j = i + 1 To modules.Count - 1
                     Dim c = Pearson(modules(i).Eigengene, modules(j).Eigengene)
-                    If Math.Abs(c) > threshold Then
+                    If std.Abs(c) > threshold Then
                         graph(modules(i).ModuleColor).Add((modules(j).ModuleColor, c))
                         graph(modules(j).ModuleColor).Add((modules(i).ModuleColor, c))
                     End If
@@ -155,7 +157,7 @@ Namespace ModularNetwork
         ''' 用分位数自适应阈值可以保证 Low / Medium / High 三态在数据侧获得合理比例。
         ''' </summary>
         <Extension>
-        Public Sub ApplyQuantileThresholds(net As DynamicBayesianNetwork, matrix As Core.GeneExpressionData)
+        Public Sub ApplyQuantileThresholds(net As DynamicBayesianNetwork, matrix As GeneExpressionData)
             If net Is Nothing OrElse matrix Is Nothing Then Return
             If matrix.NGene <= 0 OrElse matrix.NSample <= 0 Then Return
 
@@ -187,18 +189,18 @@ Namespace ModularNetwork
                 ' （单细胞 log1p 数据里大量基因存在 dropout 零值，33% 分位数常常就是 0，
                 '  这会让 Low 态在数据侧完全消失）
                 If low <= vmin Then
-                    low = vmin + (Math.Abs(vmin) * 0.001 + 0.001)
+                    low = vmin + (std.Abs(vmin) * 0.001 + 0.001)
                 End If
 
                 ' 同理，high 等于最大值时最大值判不到 High
                 If high >= vmax Then
-                    high = vmax - (Math.Abs(vmax) * 0.001 + 0.001)
+                    high = vmax - (std.Abs(vmax) * 0.001 + 0.001)
                 End If
 
                 ' 数据过于集中导致区间退化时，直接以最小/最大值为界划分三态
                 If high <= low Then
-                    low = vmin + (Math.Abs(vmin) * 0.001 + 0.001)
-                    high = vmax - (Math.Abs(vmax) * 0.001 + 0.001)
+                    low = vmin + (std.Abs(vmin) * 0.001 + 0.001)
+                    high = vmax - (std.Abs(vmax) * 0.001 + 0.001)
 
                     If high <= low Then
                         high = low + 0.001
@@ -238,7 +240,7 @@ Namespace ModularNetwork
         ''' TF[t] 与 target[t+1] 的**滞后相关**，正相关判为激活、负相关判为抑制。
         ''' </summary>
         <Extension>
-        Public Sub InferRegulationDirections(links As RegulatoryLink(), matrix As Core.GeneExpressionData)
+        Public Sub InferRegulationDirections(links As RegulatoryLink(), matrix As GeneExpressionData)
             If links Is Nothing OrElse links.Length = 0 OrElse matrix Is Nothing Then Return
             If matrix.NGene <= 0 OrElse matrix.NSample < 3 Then Return
 
@@ -290,7 +292,7 @@ Namespace ModularNetwork
         ''' 完全无法区分激活与抑制）。差分后保留的是同步波动，才能反映真实的耦合方向。
         ''' </summary>
         Private Function DifferencedLaggedCorrelation(x As Double(), y As Double()) As Double
-            Dim n As Integer = Math.Min(x.Length, y.Length)
+            Dim n As Integer = std.Min(x.Length, y.Length)
 
             If n < 4 Then Return Double.NaN
 
@@ -324,7 +326,7 @@ Namespace ModularNetwork
         ''' 刻画"上游 t 时刻状态 → 下游 t+1 时刻状态"的时序关联（2TBN 语义）。
         ''' </summary>
         Private Function LaggedCorrelation(x As Double(), y As Double()) As Double
-            Dim n As Integer = Math.Min(x.Length, y.Length) - 1
+            Dim n As Integer = std.Min(x.Length, y.Length) - 1
 
             If n < 2 Then Return Double.NaN
 
@@ -354,7 +356,7 @@ Namespace ModularNetwork
 
             If dx <= 0 OrElse dy <= 0 Then Return 0.0
 
-            Return num / Math.Sqrt(dx * dy)
+            Return num / std.Sqrt(dx * dy)
         End Function
 
         ''' <summary>
@@ -416,7 +418,7 @@ Namespace ModularNetwork
         Private Function Quantile(sorted As Double(), q As Double) As Double
             If sorted Is Nothing OrElse sorted.Length = 0 Then Return 0.0
 
-            Dim idx As Integer = CInt(Math.Floor(q * (sorted.Length - 1)))
+            Dim idx As Integer = CInt(std.Floor(q * (sorted.Length - 1)))
 
             If idx < 0 Then idx = 0
             If idx > sorted.Length - 1 Then idx = sorted.Length - 1
@@ -428,7 +430,7 @@ Namespace ModularNetwork
         ''' Pearson 相关（对不等长序列按较短者截断），用于模块 eigengene 轨迹相关度。
         ''' </summary>
         Private Function Pearson(x As Double(), y As Double()) As Double
-            Dim n = Math.Min(x.Length, y.Length)
+            Dim n = std.Min(x.Length, y.Length)
             If n < 2 Then Return 0
             Dim mx = x.Take(n).Average()
             Dim my = y.Take(n).Average()
@@ -441,7 +443,7 @@ Namespace ModularNetwork
                 dy += b * b
             Next
             If dx = 0 OrElse dy = 0 Then Return 0
-            Return num / Math.Sqrt(dx * dy)
+            Return num / std.Sqrt(dx * dy)
         End Function
     End Module
 End Namespace

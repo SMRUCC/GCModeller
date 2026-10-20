@@ -8,6 +8,7 @@ Imports SMRUCC.genomics.Analysis.GPS.Graph
 Imports SMRUCC.genomics.Analysis.GPS.Model
 Imports SMRUCC.genomics.Analysis.GPS.Perturbation
 Imports SMRUCC.genomics.Analysis.GPS.Training
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports GEARSGraph = SMRUCC.genomics.Analysis.GEARS.Graph
 
 ''' <summary>

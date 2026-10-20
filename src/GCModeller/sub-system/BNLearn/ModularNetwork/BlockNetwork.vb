@@ -4,6 +4,8 @@ Imports SMRUCC.genomics.Analysis.BNLearn.Core
 Imports SMRUCC.genomics.Analysis.BNLearn.ModularNetwork.WGCNA
 Imports SMRUCC.genomics.Analysis.BNLearn.ParameterLearning
 Imports SMRUCC.genomics.Analysis.BNLearn.StructureLearning
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports std = System.Math
 
 Namespace ModularNetwork
 
@@ -225,7 +227,7 @@ Namespace ModularNetwork
                     Dim mb = moduleColors(b)
 
                     ' 模块间 eigengene 相关不足则不连
-                    If Math.Abs(ModuleEigengeneCorrelation(ma, mb)) <= CrossModuleCorThreshold Then
+                    If std.Abs(ModuleEigengeneCorrelation(ma, mb)) <= CrossModuleCorThreshold Then
                         Continue For
                     End If
 
@@ -236,7 +238,7 @@ Namespace ModularNetwork
                             Dim igb = GetGlobalIndex(gb)
                             If igb < 0 Then Continue For
                             Dim r = GeneCorrelation(ga, gb)
-                            If Math.Abs(r) > CrossGeneCorThreshold Then
+                            If std.Abs(r) > CrossGeneCorThreshold Then
                                 ' 仅当目标方向尚无边（保留模块内学到的精确边）
                                 If _A(igb, iga) = 0 Then
                                     _A(igb, iga) = r * CrossScale
@@ -270,7 +272,7 @@ Namespace ModularNetwork
 
             For Each i As Integer In TqdmWrapper.Range(0, n)          ' child
                 For j = 0 To n - 1      ' parent
-                    If Math.Abs(_A(i, j)) > 0.000000000001 Then
+                    If std.Abs(_A(i, j)) > 0.000000000001 Then
                         ' AddEdge(parent, child)
                         _globalNet.AddEdge(j, i)
                     End If
@@ -304,7 +306,7 @@ Namespace ModularNetwork
             Dim c As Integer = 0
             For i = 0 To _genes.Length - 1
                 For j = 0 To _genes.Length - 1
-                    If Math.Abs(_A(i, j)) > 0.000000000001 Then c += 1
+                    If std.Abs(_A(i, j)) > 0.000000000001 Then c += 1
                 Next
             Next
             Return c

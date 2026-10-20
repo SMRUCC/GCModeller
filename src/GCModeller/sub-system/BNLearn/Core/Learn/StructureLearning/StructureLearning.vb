@@ -75,7 +75,9 @@ Imports System.Collections.Concurrent
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.Data.Bootstrapping.Multivariate
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports _rng = Microsoft.VisualBasic.Math.RandomExtensions
+Imports std = System.Math
 
 Namespace StructureLearning
 
@@ -84,7 +86,7 @@ Namespace StructureLearning
     ''' </summary>
     Public Class BnStructureLearner
 
-        Private _data As Core.GeneExpressionData
+        Private _data As GeneExpressionData
         Private _params As StructureLearningParams
 
         ' 缓存统计量
@@ -110,7 +112,7 @@ Namespace StructureLearning
         ''' <summary>
         ''' 从基因表达数据学习网络结构
         ''' </summary>
-        Public Function Learn(data As Core.GeneExpressionData, params As StructureLearningParams, Optional prior As Core.PriorNetwork = Nothing) As StructureLearningResult
+        Public Function Learn(data As GeneExpressionData, params As StructureLearningParams, Optional prior As Core.PriorNetwork = Nothing) As StructureLearningResult
             Dim t0 As Date = Now
 
             _data = data
@@ -203,7 +205,7 @@ Namespace StructureLearning
                 For j = 0 To nS - 1
                     ss += (col(j) - mean) ^ 2
                 Next
-                _sds(i) = Math.Sqrt(ss / (nS - 1))
+                _sds(i) = std.Sqrt(ss / (nS - 1))
                 If _sds(i) < 0.000000000000001 Then _sds(i) = 1.0
             Next
 
@@ -305,7 +307,7 @@ Namespace StructureLearning
                 For Each v In remaining
                     ' 计算偏相关系数 |ρ(target, v | CPC)|
                     Dim pCorr As Double = PartialCorrelation(target, v, CPC)
-                    Dim absPcorr As Double = Math.Abs(pCorr)
+                    Dim absPcorr As Double = std.Abs(pCorr)
 
                     If absPcorr > bestAssoc Then
                         bestAssoc = absPcorr
@@ -320,8 +322,8 @@ Namespace StructureLearning
                 Dim df As Integer = nS - 2 - CPC.Count
                 If df < 1 Then Exit While
 
-                Dim tStat As Double = bestAssoc * Math.Sqrt(df / (1.0 - bestAssoc * bestAssoc + 0.000000000000001))
-                Dim pValue As Double = TDistPValue(Math.Abs(tStat), df)
+                Dim tStat As Double = bestAssoc * std.Sqrt(df / (1.0 - bestAssoc * bestAssoc + 0.000000000000001))
+                Dim pValue As Double = TDistPValue(std.Abs(tStat), df)
 
                 If pValue < _params.Alpha Then
                     ' 显著依赖，加入候选集
@@ -346,7 +348,7 @@ Namespace StructureLearning
                 Dim df As Integer = nG - 2 - conditionSet.Count
                 If df < 1 Then Continue For
 
-                Dim tStat As Double = Math.Abs(pCorr) * Math.Sqrt(df / (1.0 - pCorr * pCorr + 0.000000000000001))
+                Dim tStat As Double = std.Abs(pCorr) * std.Sqrt(df / (1.0 - pCorr * pCorr + 0.000000000000001))
                 Dim pValue As Double = TDistPValue(tStat, df)
 
                 If pValue >= _params.Alpha Then
@@ -371,8 +373,8 @@ Namespace StructureLearning
                 Dim rxy As Double = _corrMatrix(x, y)
                 Dim rxz As Double = _corrMatrix(x, z)
                 Dim ryz As Double = _corrMatrix(y, z)
-                Dim denom As Double = Math.Sqrt((1 - rxz * rxz) * (1 - ryz * ryz))
-                If Math.Abs(denom) < 0.000000000000001 Then Return 0
+                Dim denom As Double = std.Sqrt((1 - rxz * rxz) * (1 - ryz * ryz))
+                If std.Abs(denom) < 0.000000000000001 Then Return 0
                 Return (rxy - rxz * ryz) / denom
             End If
 
@@ -396,7 +398,7 @@ Namespace StructureLearning
             If invR Is Nothing Then Return 0
 
             ' 偏相关 = -invR(0,1) / sqrt(invR(0,0) * invR(1,1))
-            Dim denomVal As Double = Math.Sqrt(Math.Abs(invR(0, 0) * invR(1, 1)))
+            Dim denomVal As Double = std.Sqrt(std.Abs(invR(0, 0) * invR(1, 1)))
             If denomVal < 0.000000000000001 Then Return 0
             Return -invR(0, 1) / denomVal
         End Function
@@ -449,8 +451,8 @@ Namespace StructureLearning
             Dim sigma2 As Double = rss / nS
             If sigma2 < 0.000000000000001 Then sigma2 = 0.000000000000001
 
-            Dim ll As Double = -nS / 2.0 * Math.Log(2 * Math.PI * sigma2) - rss / (2 * sigma2)
-            Return -2 * ll + 2 * Math.Log(nS) * _params.BICPenalty
+            Dim ll As Double = -nS / 2.0 * std.Log(2 * std.PI * sigma2) - rss / (2 * sigma2)
+            Return -2 * ll + 2 * std.Log(nS) * _params.BICPenalty
         End Function
 
         ''' <summary>
@@ -518,9 +520,9 @@ Namespace StructureLearning
             Dim sigma2 As Double = rss / nS
             If sigma2 < 0.000000000000001 Then sigma2 = 0.000000000000001
 
-            Dim ll As Double = -nS / 2.0 * Math.Log(2 * Math.PI * sigma2) - rss / (2 * sigma2)
+            Dim ll As Double = -nS / 2.0 * std.Log(2 * std.PI * sigma2) - rss / (2 * sigma2)
             Dim k As Integer = nP + 2  ' β0, β1...βp, σ²
-            Return -2 * ll + k * Math.Log(nS) * _params.BICPenalty
+            Return -2 * ll + k * std.Log(nS) * _params.BICPenalty
         End Function
 
         ''' <summary>
@@ -781,7 +783,7 @@ Namespace StructureLearning
             ' ---- 收尾自检：并行记账正确性 ----
             Dim trackedBIC As Double = If(_localScores Is Nothing, ComputeNetworkBIC(net), _localScores.Sum)
             Dim recomputedBIC As Double = ComputeNetworkBIC(net, parallelOp:=True)
-            Dim drift As Double = Math.Abs(trackedBIC - recomputedBIC)
+            Dim drift As Double = std.Abs(trackedBIC - recomputedBIC)
 
             Call $"[self-check] tracked-BIC={trackedBIC:F6}; recomputed-BIC={recomputedBIC:F6}; drift={drift:E3}".debug
 
@@ -967,7 +969,7 @@ Namespace StructureLearning
                 ' 正态近似
                 Dim z As Double = tStat
                 Dim p As Double = 2.0 * (1.0 - NormalCDF(z))
-                Return Math.Max(0, Math.Min(1, p))
+                Return std.Max(0, std.Min(1, p))
             Else
                 ' 小样本 t 分布近似
                 ' 使用 Hills 逼近
@@ -988,9 +990,9 @@ Namespace StructureLearning
             Dim p As Double = 0.3275911
 
             Dim sign As Integer = If(z < 0, -1, 1)
-            z = Math.Abs(z) / Math.Sqrt(2.0)
+            z = std.Abs(z) / std.Sqrt(2.0)
             Dim t As Double = 1.0 / (1.0 + p * z)
-            Dim y As Double = 1.0 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.Exp(-z * z)
+            Dim y As Double = 1.0 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * std.Exp(-z * z)
             Return 0.5 * (1.0 + sign * y)
         End Function
 
@@ -1000,9 +1002,9 @@ Namespace StructureLearning
             If x >= 1 Then Return 1
 
             ' 使用连分数展开近似
-            Dim bt As Double = Math.Exp(
+            Dim bt As Double = std.Exp(
                 GammaLn(a) + GammaLn(b) - GammaLn(a + b) +
-                a * Math.Log(x) + b * Math.Log(1 - x))
+                a * std.Log(x) + b * std.Log(1 - x))
 
             If x < (a + 1) / (a + b + 2) Then
                 Return bt * BetaCF(a, b, x) / a
@@ -1021,7 +1023,7 @@ Namespace StructureLearning
             Dim qam As Double = a - 1
             Dim c As Double = 1
             Dim d As Double = 1 - qab * x / qap
-            If Math.Abs(d) < 1.0E-30 Then d = 1.0E-30
+            If std.Abs(d) < 1.0E-30 Then d = 1.0E-30
             d = 1.0 / d
             Dim h As Double = d
 
@@ -1029,22 +1031,22 @@ Namespace StructureLearning
                 Dim m2 As Integer = 2 * m
                 Dim aa As Double = m * (b - m) * x / ((qam + m2) * (a + m2))
                 d = 1 + aa * d
-                If Math.Abs(d) < 1.0E-30 Then d = 1.0E-30
+                If std.Abs(d) < 1.0E-30 Then d = 1.0E-30
                 c = 1 + aa / c
-                If Math.Abs(c) < 1.0E-30 Then c = 1.0E-30
+                If std.Abs(c) < 1.0E-30 Then c = 1.0E-30
                 d = 1.0 / d
                 h *= d * c
 
                 aa = -(a + m) * (qab + m) * x / ((a + m2) * (qap + m2))
                 d = 1 + aa * d
-                If Math.Abs(d) < 1.0E-30 Then d = 1.0E-30
+                If std.Abs(d) < 1.0E-30 Then d = 1.0E-30
                 c = 1 + aa / c
-                If Math.Abs(c) < 1.0E-30 Then c = 1.0E-30
+                If std.Abs(c) < 1.0E-30 Then c = 1.0E-30
                 d = 1.0 / d
                 Dim del As Double = d * c
                 h *= del
 
-                If Math.Abs(del - 1) < eps Then Exit For
+                If std.Abs(del - 1) < eps Then Exit For
             Next
 
             Return h
@@ -1057,13 +1059,13 @@ Namespace StructureLearning
                                     0.001208650973866179, -0.000005395239384953}
             Dim y As Double = x
             Dim tmp As Double = x + 5.5
-            tmp -= (x + 0.5) * Math.Log(tmp)
+            tmp -= (x + 0.5) * std.Log(tmp)
             Dim ser As Double = 1.0000000001900149
             For j = 0 To 5
                 y += 1
                 ser += cof(j) / y
             Next
-            Return -tmp + Math.Log(2.5066282746310007 * ser / x)
+            Return -tmp + std.Log(2.5066282746310007 * ser / x)
         End Function
 
     End Class

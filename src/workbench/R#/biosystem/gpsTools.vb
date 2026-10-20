@@ -8,6 +8,7 @@ Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
 Imports SMRUCC.genomics.Analysis.GPS
 Imports SMRUCC.genomics.Analysis.GPS.Config
 Imports SMRUCC.genomics.Analysis.GPS.Training
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
