@@ -142,38 +142,38 @@ Namespace Training
         ''' <param name="epochs">轮数；&lt; 0 时取配置值</param>
         ''' <param name="printEvery">每隔多少轮打印；&lt; 0 时取配置值</param>
         ''' <returns>每个 epoch 的平均损失</returns>
-        Public Function Pretrain(windows As List(Of TimeSeriesWindow),
-                                 Optional epochs As Integer = -1,
-                                 Optional printEvery As Integer = -1) As List(Of Double)
-
+        Public Function Pretrain(windows As List(Of TimeSeriesWindow), Optional epochs As Integer = -1) As List(Of Double)
             Dim total As Integer = If(epochs >= 0, epochs, cfg.PretrainEpochs)
-            Dim print As Integer = If(printEvery >= 0, printEvery, cfg.PrintEvery)
 
             If total = 0 OrElse windows Is Nothing OrElse windows.Count = 0 Then
                 Return New List(Of Double)(_pretrainCurve)
             End If
 
             _phase = GPSTrainingState.PhasePretrain
-            Dim bar As ProgressBar = Nothing
 
             ' 每个 epoch 使用由 (种子, epoch) 决定的独立随机源：洗牌顺序与掩码采样
             ' 只依赖 epoch 序号，与"从头跑"还是"从 checkpoint 续跑"无关，保证轨迹可复现。
-            For Each epoch As Integer In TqdmWrapper.Range(_pretrainStart, total - _pretrainStart, bar:=bar)
+            For epoch As Integer = _pretrainStart To total - _pretrainStart
                 Dim epochRand As New Random(cfg.Seed + 7919 + epoch * 1000003)
                 Dim lossSum As Double = 0.0
                 Dim count As Integer = 0
+                Dim bar As ProgressBar = Nothing
 
-                For Each window As TimeSeriesWindow In Shuffle(windows, epochRand)
+                For Each window As TimeSeriesWindow In TqdmWrapper.Wrap(Shuffle(windows, epochRand), bar:=bar)
                     Dim loss As Double = TrainMaskedSample(window, epochRand)
 
                     lossSum += loss
                     count += 1
+
+                    Call bar.SetLabel($"GPS epoch {epoch}: LOSS={loss};total_loss={lossSum}")
                 Next
 
                 Dim epochLoss As Double = If(count > 0, lossSum / count, 0.0)
 
                 Call _pretrainCurve.Add(epochLoss)
-                Call bar.SetLabel($"  [GPS] 预训练 epoch {epoch,4} / {total}  loss = {epochLoss:F6}")
+                Call VBDebugger.WriteLine("")
+                Call $"  [GPS] 预训练 epoch {epoch,4} / {total}  loss = {epochLoss:F6}".debug
+                Call VBDebugger.WriteLine("")
                 Call MaybeCheckpoint()
             Next
 
@@ -190,12 +190,10 @@ Namespace Training
         ''' <returns>训练结果（含损失曲线与最优 epoch）</returns>
         Public Function Finetune(trainWindows As List(Of TimeSeriesWindow),
                                  Optional validationWindows As List(Of TimeSeriesWindow) = Nothing,
-                                 Optional epochs As Integer = -1,
-                                 Optional printEvery As Integer = -1) As GPSTrainingResult
+                                 Optional epochs As Integer = -1) As GPSTrainingResult
 
             Dim result As New GPSTrainingResult()
             Dim total As Integer = If(epochs >= 0, epochs, cfg.FinetuneEpochs)
-            Dim print As Integer = If(printEvery >= 0, printEvery, cfg.PrintEvery)
             Dim hasValidation As Boolean = validationWindows IsNot Nothing AndAlso validationWindows.Count > 0
 
             If trainWindows Is Nothing OrElse trainWindows.Count = 0 Then
@@ -207,19 +205,21 @@ Namespace Training
             End If
 
             _phase = GPSTrainingState.PhaseFinetune
-            Dim bar As ProgressBar = Nothing
 
             ' 与 Pretrain 相同：每 epoch 独立随机源，保证续跑轨迹与连续训练一致
-            For Each epoch As Integer In TqdmWrapper.Range(_finetuneStart, total - _finetuneStart, bar:=bar)
+            For epoch As Integer = _finetuneStart To total - _finetuneStart
                 Dim epochRand As New Random(cfg.Seed + 7919 + epoch * 1000003)
                 Dim lossSum As Double = 0.0
                 Dim count As Integer = 0
+                Dim bar As ProgressBar = Nothing
 
-                For Each window As TimeSeriesWindow In Shuffle(trainWindows, epochRand)
+                For Each window As TimeSeriesWindow In TqdmWrapper.Wrap(Shuffle(trainWindows, epochRand), bar:=bar)
                     Dim loss As Double = TrainPredictionSample(window)
 
                     lossSum += loss
                     count += 1
+
+                    Call bar.SetLabel($"GPS finetune epoch {epoch}: LOSS={loss};total_loss={lossSum}")
                 Next
 
                 Dim epochLoss As Double = If(count > 0, lossSum / count, 0.0)
@@ -244,14 +244,18 @@ Namespace Training
                     End If
                 End If
 
+                Call VBDebugger.WriteLine("")
+
                 If hasValidation Then
-                    Call bar.SetLabel($"  [GPS] 微调 epoch {epoch,4} / {total}  train = {epochLoss:F6}  val = {validationLoss:F6}")
+                    Call $"  [GPS] 微调 epoch {epoch,4} / {total}  train = {epochLoss:F6}  val = {validationLoss:F6}".debug
                 Else
-                    Call bar.SetLabel($"  [GPS] 微调 epoch {epoch,4} / {total}  train = {epochLoss:F6}")
+                    Call $"  [GPS] 微调 epoch {epoch,4} / {total}  train = {epochLoss:F6}".debug
                 End If
 
+                Call VBDebugger.WriteLine("")
+
                 If hasValidation AndAlso cfg.EarlyStopPatience > 0 AndAlso _patience >= cfg.EarlyStopPatience Then
-                    Console.WriteLine($"  [GPS] 验证集连续 {_patience} 轮未改善，提前停止")
+                    Call $"  [GPS] 验证集连续 {_patience} 轮未改善，提前停止".info
                     Exit For
                 End If
 
