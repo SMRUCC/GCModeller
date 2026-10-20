@@ -45,7 +45,7 @@ Namespace LinearRegression
         ''' </summary>
         ReadOnly raw As Matrix
 
-        ReadOnly options As GrnFittingOptions
+        ReadOnly opt As GrnFittingOptions
         ReadOnly geneNames As String()
         ReadOnly sampleNames As String()
 
@@ -69,7 +69,7 @@ Namespace LinearRegression
         ''' <summary>
         ''' 拟合好的模型，键名是目标基因的编号
         ''' </summary>
-        ReadOnly models As New Dictionary(Of String, GeneRegressionModel)
+        ReadOnly modelTable As New Dictionary(Of String, GeneRegressionModel)
 
         ''' <summary>
         ''' 从表达矩阵构造一个待拟合的调控网络推断模型
@@ -93,7 +93,7 @@ Namespace LinearRegression
                 .Select(Function(r) DirectCast(r.experiments.Clone(), Double())) _
                 .ToArray
 
-            If Me.options.standardize Then
+            If Me.opt.standardize Then
                 For i As Integer = 0 To vectors.Length - 1
                     vectors(i) = Standardize(vectors(i))
                 Next
@@ -103,13 +103,13 @@ Namespace LinearRegression
                 .Select(AddressOf UnitVector) _
                 .ToArray
 
-            If Me.options.regulators Is Nothing Then
+            If Me.opt.regulators Is Nothing Then
                 Me.regulatorPool = Enumerable.Range(0, geneNames.Length).ToArray
             Else
                 Dim pool As New List(Of Integer)
 
                 For i As Integer = 0 To geneNames.Length - 1
-                    If Me.options.regulators.IndexOf(geneNames(i)) >= 0 Then
+                    If Me.opt.regulators.IndexOf(geneNames(i)) >= 0 Then
                         pool.Add(i)
                     End If
                 Next
@@ -165,7 +165,7 @@ Namespace LinearRegression
         Public ReadOnly Property Models As IEnumerable(Of GeneRegressionModel)
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return models.Values
+                Return modelTable.Values
             End Get
         End Property
 
@@ -178,16 +178,16 @@ Namespace LinearRegression
             Dim maxCand As Integer = CandidateBudget()
             Dim buffer As GeneRegressionModel() = New GeneRegressionModel(nG - 1) {}
             Dim popt As New ParallelOptions With {
-                .MaxDegreeOfParallelism = options.maxDegreeOfParallelism
+                .MaxDegreeOfParallelism = opt.maxDegreeOfParallelism
             }
 
-            If Not options.silent Then
-                Call Console.WriteLine($"[GRN] {options.ToString}")
+            If Not opt.silent Then
+                Call Console.WriteLine($"[GRN] {opt.ToString}")
                 Call Console.WriteLine($"[GRN] {geneNames.Length} genes x {sampleNames.Length} samples, " &
                                        $"<= {maxCand} candidate regulators for each target gene")
             End If
 
-            models.Clear()
+            modelTable.Clear()
 
             Call Parallel.For(0, nG, popt, Sub(i As Integer)
                                                buffer(i) = FitGene(i, maxCand)
@@ -197,9 +197,9 @@ Namespace LinearRegression
                 models(buffer(i).target) = buffer(i)
             Next
 
-            Dim failed As Integer = models.Values.Count(Function(m) Not m.IsValid)
+            Dim failed As Integer = modelTable.Values.Count(Function(m) Not m.IsValid)
 
-            If failed > 0 AndAlso Not options.silent Then
+            If failed > 0 AndAlso Not opt.silent Then
                 Call Console.WriteLine($"[GRN] {failed} of {nG} gene models are failed to fit")
             End If
 
@@ -212,7 +212,7 @@ Namespace LinearRegression
         ''' <param name="targetGene">目标基因编号</param>
         ''' <returns>不存在对应模型的时候返回空引用</returns>
         Public Function GetModel(targetGene As String) As GeneRegressionModel
-            If models.ContainsKey(targetGene) Then
+            If modelTable.ContainsKey(targetGene) Then
                 Return models(targetGene)
             Else
                 Return Nothing
@@ -233,10 +233,10 @@ Namespace LinearRegression
         ''' <returns></returns>
         Public Iterator Function Regulations(Optional minAbsWeight As Double = -1,
                                              Optional pvalueCutoff As Double = 1) As IEnumerable(Of RegulationEdge)
-            Dim cutoff As Double = If(minAbsWeight < 0, options.minAbsWeight, minAbsWeight)
+            Dim cutoff As Double = If(minAbsWeight < 0, opt.minAbsWeight, minAbsWeight)
             Dim all As New Dictionary(Of String, RegulationEdge)
 
-            For Each model As GeneRegressionModel In models.Values
+            For Each model As GeneRegressionModel In modelTable.Values
                 If Not model.IsValid Then
                     Continue For
                 End If
@@ -260,7 +260,7 @@ Namespace LinearRegression
                         .weight = w,
                         .intercept = model.intercept,
                         .r2 = model.r2,
-                        .interaction = options.method.ToString(),
+                        .interaction = opt.method.ToString(),
                         .pvalue = If(model.pvalues Is Nothing, 1, model.pvalues(i))
                     }
 
@@ -270,7 +270,7 @@ Namespace LinearRegression
                 Next
             Next
 
-            If options.mutualOnly Then
+            If opt.mutualOnly Then
                 For Each edge As RegulationEdge In MutualOnly(all)
                     Yield edge
                 Next
@@ -312,7 +312,7 @@ Namespace LinearRegression
             Next
 
             Return New Matrix With {
-                .tag = $"GRN.{options.method}",
+                .tag = $"GRN.{opt.method}",
                 .sampleID = regulators,
                 .expression = rows.ToArray
             }
@@ -357,9 +357,9 @@ Namespace LinearRegression
         ''' </summary>
         ''' <returns></returns>
         Public Overrides Function ToString() As String
-            Dim n As Integer = models.Values.Count(Function(m) m.IsValid)
+            Dim n As Integer = modelTable.Values.Count(Function(m) m.IsValid)
 
-            Return $"GRN: {n} gene models, {options.ToString}"
+            Return $"GRN: {n} gene models, {opt.ToString}"
         End Function
 
         ''' <summary>
@@ -412,10 +412,10 @@ Namespace LinearRegression
             Dim hard As Integer = nS - 2
             Dim k As Integer
 
-            If options.maxCandidates > 0 Then
-                k = options.maxCandidates
+            If opt.maxCandidates > 0 Then
+                k = opt.maxCandidates
             Else
-                k = CInt(std.Floor(nS * options.candidateSampleRatio))
+                k = CInt(std.Floor(nS * opt.candidateSampleRatio))
             End If
 
             ' 目标基因自身不会被作为候选调控因子，因此候选池的上限需要先扣除掉自身
@@ -430,7 +430,7 @@ Namespace LinearRegression
                     NameOf(options))
             End If
 
-            If poolSize - 1 > k AndAlso Not options.silent Then
+            If poolSize - 1 > k AndAlso Not opt.silent Then
                 Call Console.WriteLine($"[GRN] the candidate regulator size is truncated " &
                                        $"from {poolSize - 1} to {k} for the sample size {nS}")
             End If
@@ -453,11 +453,11 @@ Namespace LinearRegression
                     .Where(Function(j) j <> target) _
                     .ToArray
 
-                If candidates.Length > maxCand OrElse options.minAbsCorrelation > 0 Then
+                If candidates.Length > maxCand OrElse opt.minAbsCorrelation > 0 Then
                     candidates = TopCorrelated(target, candidates, maxCand)
                 End If
 
-                Select Case options.method
+                Select Case opt.method
                     Case FittingMethod.MultipleLinear
                         Return FitOls(name, y, candidates)
                     Case FittingMethod.Lasso
@@ -468,7 +468,7 @@ Namespace LinearRegression
             Catch ex As Exception
                 Return New GeneRegressionModel With {
                     .target = name,
-                    .method = options.method,
+                    .method = opt.method,
                     .N = sampleNames.Length,
                     .regulators = {},
                     .weights = {},
@@ -500,7 +500,7 @@ Namespace LinearRegression
                     scores(i) = std.Abs(DotProduct(unit, v))
                 End If
 
-                If scores(i) >= options.minAbsCorrelation Then
+                If scores(i) >= opt.minAbsCorrelation Then
                     hits.Add(i)
                 End If
             Next
@@ -525,7 +525,7 @@ Namespace LinearRegression
         ''' </summary>
         Private Function DesignMatrix(candidates As Integer(), y As Double(), ByRef featureNames As String()) As Double()()
             Dim nS As Integer = sampleNames.Length
-            Dim withIntercept As Boolean = options.method = FittingMethod.MultipleLinear
+            Dim withIntercept As Boolean = opt.method = FittingMethod.MultipleLinear
             Dim offset As Integer = If(withIntercept, 1, 0)
             Dim width As Integer = candidates.Length + offset
             Dim X As Double()() = New Double(nS - 1)() {}
@@ -588,12 +588,12 @@ Namespace LinearRegression
                 .df = sampleNames.Length - X(0).Length
             }
 
-            If Not options.silent Then
+            If Not opt.silent Then
                 Call Console.WriteLine($"  [OLS] {model.ToString}")
             End If
 
-            If options.computeStatistics Then
-                Dim test = RegressionStatistics.TTest(X, beta, fit.SSE, options.pvalueTolerance)
+            If opt.computeStatistics Then
+                Dim test = RegressionStatistics.TTest(X, beta, fit.SSE, opt.pvalueTolerance)
 
                 If test.tstat IsNot Nothing Then
                     model.interceptT = test.tstat(0)
@@ -623,10 +623,10 @@ Namespace LinearRegression
             ' LASSO 求解器的内部实现要求自变量个数不能大于样本数量，
             ' 这里已经通过 maxCandidates 参数保证了这一点
             Dim path As LassoFit = table.LassoRegression(
-                maxAllowedFeaturesPerModel:=options.maxRegulatorsPerGene,
+                maxAllowedFeaturesPerModel:=opt.maxRegulatorsPerGene,
                 Silent:=True
             )
-            Dim stepId As Integer = PickLambdaStep(path, options.maxRegulatorsPerGene)
+            Dim stepId As Integer = PickLambdaStep(path, opt.maxRegulatorsPerGene)
             Dim model As New GeneRegressionModel With {
                 .target = name,
                 .method = FittingMethod.Lasso,
@@ -647,7 +647,7 @@ Namespace LinearRegression
                 model.pvalues(i) = 1
             Next
 
-            If Not options.silent Then
+            If Not opt.silent Then
                 Call Console.WriteLine($"  [LASSO] {model.ToString}")
             End If
 
@@ -683,7 +683,7 @@ Namespace LinearRegression
             model.sse = RegressionStatistics.SumOfSquaredErrors(X, y, beta)
             model.r2 = RegressionStatistics.Rsquared(model.sse, model.sst)
 
-            If Not options.silent Then
+            If Not opt.silent Then
                 Call Console.WriteLine($"  [NNLS] {model.ToString}")
             End If
 
@@ -693,7 +693,7 @@ Namespace LinearRegression
         Private Function Failed(name As String, message As String) As GeneRegressionModel
             Return New GeneRegressionModel With {
                 .target = name,
-                .method = options.method,
+                .method = opt.method,
                 .N = sampleNames.Length,
                 .regulators = {},
                 .weights = {},
