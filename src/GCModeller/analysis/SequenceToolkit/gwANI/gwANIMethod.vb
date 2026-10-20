@@ -165,6 +165,8 @@ Public NotInheritable Class gwANIMethod
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function Evaluate(msa As FastaFile, Optional fast As Boolean = False) As DataSet()
+        msa = New FastaFile(msa.UniqueTitle)
+
         If fast Then
             Return gwANIExtensions.fast_calculate_gwani(msa)
         Else
