@@ -1,0 +1,51 @@
+.\" man page create by R# package system.
+.TH GPS 1 2000-1月 "set_context" "set_context"
+.SH NAME
+set_context \- Inject an external cell context into the model as the control baseline of the following
+.SH SYNOPSIS
+\fIset_context(\fBgps\fR as <generic> GPSModel, 
+\fBgenes\fR as any, 
+\fBlogcpm\fR as any, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Inject an external cell context into the model as the control baseline of the following
+ in silico perturbation experiments.
+.PP
+.SH OPTIONS
+.PP
+\fBgps\fB \fR\- the trained model object.. 
+.PP
+.PP
+\fBgenes\fB \fR\- 
+ a character vector of the gene id of the context profile; the ids must live in the same
+ identifier space as the model (Ensembl gene id for the human model).
+. 
+.PP
+.PP
+\fBlogcpm\fB \fR\- 
+ a numeric vector of the `log2(CPM + 1)` expression value of the context, in the same
+ order as **genes**. The caller is responsible for the library size
+ normalization and for the log transform; the model only applies its own z-score.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment.. 
+.PP
+.SH VALUE
+.PP
+TRUE when the context has been applied; an R# error message object is returned when the
+ gene ids do not overlap the modelled genes at all.
+.PP
+.SH DETAILS
+.PP
+Genes of the model that are missing from **genes** keep their own mean
+ (that is a z-score of zero), so a context is allowed to cover only the genes of the
+ sequencing panel.
+.PP
+.SH SEE ALSO
+GPS
+.SH FILES
+.PP
+biosystem.dll
+.PP

@@ -137,6 +137,60 @@ table caption {font-size:14px;font-weight:bolder;}
     <a href="./GPS/train.html">train</a>
   </td>
   <td><p>Train the GPS model and return it together with the training diagnostics.</p></td>
+</tr>
+<tr>
+  <td id="gene_names">
+    <a href="./GPS/gene_names.html">gene_names</a>
+  </td>
+  <td><p>Get the gene ids of the trained GPS model, in the modelling order.</p></td>
+</tr>
+<tr>
+  <td id="gene_means">
+    <a href="./GPS/gene_means.html">gene_means</a>
+  </td>
+  <td><p>Get the per gene mean of the preprocessed expression data (log-CPM scale).</p></td>
+</tr>
+<tr>
+  <td id="gene_sds">
+    <a href="./GPS/gene_sds.html">gene_sds</a>
+  </td>
+  <td><p>Get the per gene standard deviation of the preprocessed expression data (log-CPM scale).</p></td>
+</tr>
+<tr>
+  <td id="library_sizes">
+    <a href="./GPS/library_sizes.html">library_sizes</a>
+  </td>
+  <td><p>Get the raw library size of every training sample (the denominator of the CPM normalization).</p></td>
+</tr>
+<tr>
+  <td id="gene_stats">
+    <a href="./GPS/gene_stats.html">gene_stats</a>
+  </td>
+  <td><p>Get the gene alignment and the de-normalization parameters of the model as a tuple list.</p></td>
+</tr>
+<tr>
+  <td id="set_context">
+    <a href="./GPS/set_context.html">set_context</a>
+  </td>
+  <td><p>Inject an external cell context into the model as the control baseline of the following in silico perturbation experiments.</p></td>
+</tr>
+<tr>
+  <td id="reset_context">
+    <a href="./GPS/reset_context.html">reset_context</a>
+  </td>
+  <td><p>Restore the control baseline of the model back to the training derived one.</p></td>
+</tr>
+<tr>
+  <td id="knockdown_residual">
+    <a href="./GPS/knockdown_residual.html">knockdown_residual</a>
+  </td>
+  <td><p>Get or set the fraction of the wild type expression that is kept by an in silico knockdown.</p></td>
+</tr>
+<tr>
+  <td id="export_profiles">
+    <a href="./GPS/export_profiles.html">export_profiles</a>
+  </td>
+  <td><p>Write the mutant (and the control) expression profiles of a set of in silico perturbation results as csv matrix files.</p></td>
 </tr></tbody>
       </table>
     </div>

@@ -68,7 +68,8 @@
     <i>denseAttentionMaxNodes</i> = <span style='color: green;'>1024</span>,
     <i>attentionNeighbors</i> = <span style='color: green;'>32</span>,
     <i>attentionRandomLinks</i> = <span style='color: green;'>8</span>,
-    <i>attentionHubGenes</i> = <span style='color: green;'>8</span>);</code></pre>
+    <i>attentionHubGenes</i> = <span style='color: green;'>8</span>,
+    <i>knockdownResidual</i> = <span style='color: green;'>0.2</span>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
@@ -233,6 +234,10 @@
 
 <dt>attentionHubGenes</dt>
 <dd><p>number of high degree genes included as global hubs in every candidate set of the sparse mode. Default 8. [as integer]</p></dd>
+
+
+<dt>knockdownResidual</dt>
+<dd><p>the fraction of the wild type expression level that is kept for the target gene of an in silico knockdown experiment: the intervention value is <code>gene mean * knockdownResidual</code>. <code>0.2</code> corresponds to the CRISPRi setting of the Virtual Cell Challenge (more than 80 percent on target knockdown). Default 0.2. [as double]</p></dd>
 
         </table>
 

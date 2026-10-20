@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Write the mutant (and the control) expression profiles of a set of in silico perturbation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>export_profiles {GPS}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>Write the mutant (and the control) expression profiles of a set of in silico perturbation</h2>
+
+        <h3>Description</h3>
+
+        <p>results as csv matrix files.</p>
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>export_profiles</strong>(<i>results</i>, <i>file</i>,
+    <i>controlFile</i> = <span style='color: blue !important;'>NULL</span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>results</dt>
+<dd><p>a collection of the <a href="cref:T:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult">InterventionResult</a> object, for example the value returned by the <code>knockouts</code> / <code>knockdown</code> / <code>overexpress</code> api of the <code>bnlearn</code> package.</p></dd>
+
+
+<dt>file</dt>
+<dd><p>the output file path of the mutant matrix (<code>mutant_means_matrix.csv</code>), rows are genes and columns are the intervention conditions. [as string]</p></dd>
+
+
+<dt>controlFile</dt>
+<dd><p>the output file path of the control matrix; when it is nothing the file <code>wildtype_means_matrix.csv</code> is written next to <strong>file</strong>. [as string]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: block;">Details</h3>
+
+        <p>The generated csv files use exactly the same layout as the ones produced by the <code>make_exports</code> api (four comment lines followed by a <code>Gene,&lt;condition&gt;...</code> header), but only the two matrices that are needed by the downstream submission builder are written; <code>make_exports</code> writes about eight tables per run which is several gigabytes for a few hundred conditions.</p>
+
+        <h3 style="display: block">Authors</h3>
+
+        biosystem
+
+        <h3>Value</h3>
+
+        <p>TRUE when both matrix files have been written; an R# error message object is returned when the input can not be treated as a collection of <a href="cref:T:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult">InterventionResult</a>.</p><h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>GPS</em> version 1.0.0.0 <a
+                href="../GPS.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

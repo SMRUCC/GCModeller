@@ -38,3 +38,12 @@ GPS: the GNN + Transformer based gene regulatory network modelling toolkit.
 + [gps_config](GPS/gps_config.1) Create a GPS model hyper-parameter configuration object.
 + [build_gps](GPS/build_gps.1) Build a GPS (GNN + Transformer) gene regulatory network model.
 + [train](GPS/train.1) Train the GPS model and return it together with the training diagnostics.
++ [gene_names](GPS/gene_names.1) Get the gene ids of the trained GPS model, in the modelling order.
++ [gene_means](GPS/gene_means.1) Get the per gene mean of the preprocessed expression data (log-CPM scale).
++ [gene_sds](GPS/gene_sds.1) Get the per gene standard deviation of the preprocessed expression data (log-CPM scale).
++ [library_sizes](GPS/library_sizes.1) Get the raw library size of every training sample (the denominator of the CPM normalization).
++ [gene_stats](GPS/gene_stats.1) Get the gene alignment and the de-normalization parameters of the model as a tuple list.
++ [set_context](GPS/set_context.1) Inject an external cell context into the model as the control baseline of the following
++ [reset_context](GPS/reset_context.1) Restore the control baseline of the model back to the training derived one.
++ [knockdown_residual](GPS/knockdown_residual.1) Get or set the fraction of the wild type expression that is kept by an in silico knockdown.
++ [export_profiles](GPS/export_profiles.1) Write the mutant (and the control) expression profiles of a set of in silico perturbation

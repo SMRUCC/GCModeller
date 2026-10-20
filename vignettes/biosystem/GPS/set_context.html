@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Inject an external cell context into the model as the control baseline of the following</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>set_context {GPS}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>Inject an external cell context into the model as the control baseline of the following</h2>
+
+        <h3>Description</h3>
+
+        <p>in silico perturbation experiments.</p>
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>set_context</strong>(<i>gps</i>, <i>genes</i>, <i>logcpm</i>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>gps</dt>
+<dd><p>the trained model object. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GPS/GPSModel.html">GPSModel</a>]</p></dd>
+
+
+<dt>genes</dt>
+<dd><p>a character vector of the gene id of the context profile; the ids must live in the same identifier space as the model (Ensembl gene id for the human model).</p></dd>
+
+
+<dt>logcpm</dt>
+<dd><p>a numeric vector of the <code>log2(CPM + 1)</code> expression value of the context, in the same order as <strong>genes</strong>. The caller is responsible for the library size normalization and for the log transform; the model only applies its own z-score.</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: block;">Details</h3>
+
+        <p>Genes of the model that are missing from <strong>genes</strong> keep their own mean (that is a z-score of zero), so a context is allowed to cover only the genes of the sequencing panel.</p>
+
+        <h3 style="display: block">Authors</h3>
+
+        biosystem
+
+        <h3>Value</h3>
+
+        <p>TRUE when the context has been applied; an R# error message object is returned when the gene ids do not overlap the modelled genes at all.</p><h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>GPS</em> version 1.0.0.0 <a
+                href="../GPS.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

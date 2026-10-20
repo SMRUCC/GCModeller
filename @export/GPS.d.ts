@@ -87,6 +87,70 @@ declare namespace GPS {
    */
    function build_gps(x: object, prior?: object, config?: object, env?: object): object;
    /**
+    * Write the mutant (and the control) expression profiles of a set of in silico perturbation
+    *  results as csv matrix files.
+    * 
+    * > The generated csv files use exactly the same layout as the ones produced by the
+    * >  ``make_exports`` api (four comment lines followed by a ``Gene,<condition>...`` header),
+    * >  but only the two matrices that are needed by the downstream submission builder are written;
+    * >  ``make_exports`` writes about eight tables per run which is several gigabytes for a few
+    * >  hundred conditions.
+    * 
+     * @param results a collection of the [InterventionResult](cref:T:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult) object, for example the value returned
+     *  by the ``knockouts`` / ``knockdown`` / ``overexpress`` api of the ``bnlearn`` package.
+     * @param file the output file path of the mutant matrix (``mutant_means_matrix.csv``), rows are genes and
+     *  columns are the intervention conditions.
+     * @param controlFile the output file path of the control matrix; when it is nothing the file
+     *  ``wildtype_means_matrix.csv`` is written next to **file**.
+     * 
+     * + default value Is ``null``.
+     * @param env the R# runtime environment.
+     * 
+     * + default value Is ``null``.
+     * @return TRUE when both matrix files have been written; an R# error message object is returned when
+     *  the input can not be treated as a collection of [InterventionResult](cref:T:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult).
+   */
+   function export_profiles(results: any, file: string, controlFile?: string, env?: object): any;
+   /**
+    * Get the per gene mean of the preprocessed expression data (log-CPM scale).
+    * 
+    * > Together with ``GPS::gene_sds`` this vector defines the z-score normalization of the
+    * >  model: `z = (log2(cpm + 1) - mean) / sd`. External context profiles must be
+    * >  normalized with exactly these two vectors before they are injected via ``GPS::set_context``.
+    * 
+     * @param gps the trained model object.
+     * @return a numeric vector, one value per modelled gene.
+   */
+   function gene_means(gps: object): number;
+   /**
+    * Get the gene ids of the trained GPS model, in the modelling order.
+    * 
+    * > The gene order of the model is not necessarily the same as the order of the input
+    * >  expression matrix, so any external profile must be aligned against this vector instead of
+    * >  against the raw input file.
+    * 
+     * @param gps the trained model object created by ``GPS::build_gps`` or restored by ``readBin``.
+     * @return a character vector of the gene id (Ensembl gene id for the human model), the order of
+     *  this vector is the row order of every expression profile produced by the model.
+   */
+   function gene_names(gps: object): string;
+   /**
+    * Get the per gene standard deviation of the preprocessed expression data (log-CPM scale).
+    * 
+    * 
+     * @param gps the trained model object.
+     * @return a numeric vector, one value per modelled gene.
+   */
+   function gene_sds(gps: object): number;
+   /**
+    * Get the gene alignment and the de-normalization parameters of the model as a tuple list.
+    * 
+    * 
+     * @param gps the trained model object.
+     * @return a list with the slots ``gene_names``, ``means``, ``sds`` and ``library_sizes``.
+   */
+   function gene_stats(gps: object): number;
+   /**
     * Create a GPS model hyper-parameter configuration object.
     * 
     * > The returned [GPSConfig](cref:T:SMRUCC.genomics.Analysis.GPS.Config.GPSConfig) object (registered as the ``gps_config`` R# type)
@@ -271,11 +335,71 @@ declare namespace GPS {
      *  mode. Default 8.
      * 
      * + default value Is ``8``.
+     * @param knockdownResidual the fraction of the wild type expression level that is kept for the target gene of an in
+     *  silico knockdown experiment: the intervention value is `gene mean * knockdownResidual`.
+     *  `0.2` corresponds to the CRISPRi setting of the Virtual Cell Challenge (more than 80
+     *  percent on target knockdown). Default 0.2.
+     * 
+     * + default value Is ``0.2``.
      * @param env 
      * + default value Is ``null``.
      * @return a validated [GPSConfig](cref:T:SMRUCC.genomics.Analysis.GPS.Config.GPSConfig) object
    */
-   function gps_config(maxGenes?: object, cpmNormalize?: boolean, logTransform?: boolean, zScore?: boolean, peDim?: object, spdMaxDist?: object, coexpressionTopK?: object, minCoexpression?: number, dModel?: object, nLayers?: object, nHeads?: object, ffnDim?: object, dropout?: number, geneEmbedDim?: object, useSpdBias?: boolean, useGlobalAttention?: boolean, useLocalMpnn?: boolean, window?: object, gruHidden?: object, useUncertainty?: boolean, pretrainEpochs?: object, finetuneEpochs?: object, learningRate?: number, autofocusGamma?: number, lambdaDir?: number, lambdaL1?: number, lambdaPrior?: number, gradientClip?: number, earlyStopPatience?: object, maskRatio?: number, printEvery?: object, trainRatio?: number, validationRatio?: number, seed?: object, significanceZScore?: number, cascadeSteps?: object, CheckpointIntervalEpochs?: object, denseAttentionMaxNodes?: object, attentionNeighbors?: object, attentionRandomLinks?: object, attentionHubGenes?: object, env?: object): object;
+   function gps_config(maxGenes?: object, cpmNormalize?: boolean, logTransform?: boolean, zScore?: boolean, peDim?: object, spdMaxDist?: object, coexpressionTopK?: object, minCoexpression?: number, dModel?: object, nLayers?: object, nHeads?: object, ffnDim?: object, dropout?: number, geneEmbedDim?: object, useSpdBias?: boolean, useGlobalAttention?: boolean, useLocalMpnn?: boolean, window?: object, gruHidden?: object, useUncertainty?: boolean, pretrainEpochs?: object, finetuneEpochs?: object, learningRate?: number, autofocusGamma?: number, lambdaDir?: number, lambdaL1?: number, lambdaPrior?: number, gradientClip?: number, earlyStopPatience?: object, maskRatio?: number, printEvery?: object, trainRatio?: number, validationRatio?: number, seed?: object, significanceZScore?: number, cascadeSteps?: object, CheckpointIntervalEpochs?: object, denseAttentionMaxNodes?: object, attentionNeighbors?: object, attentionRandomLinks?: object, attentionHubGenes?: object, knockdownResidual?: number, env?: object): object;
+   /**
+    * Get or set the fraction of the wild type expression that is kept by an in silico knockdown.
+    * 
+    * 
+     * @param gps the trained model object.
+     * @param residual the residual fraction in the range ``[0,1)``; a negative value (the default) means "only
+     *  read the current value without modifying it".
+     * 
+     * + default value Is ``-1``.
+     * @param env the R# runtime environment.
+     * 
+     * + default value Is ``null``.
+     * @return the currently effective residual fraction; ``0`` makes a knockdown identical to a knockout
+     *  and ``0.2`` is the CRISPRi setting used by the Virtual Cell Challenge.
+   */
+   function knockdown_residual(gps: object, residual?: number, env?: object): any;
+   /**
+    * Get the raw library size of every training sample (the denominator of the CPM normalization).
+    * 
+    * 
+     * @param gps the trained model object.
+     * @return a numeric vector of the library sizes, one value per training sample; it is exported so
+     *  that the caller can reason about the count scale of the model output.
+   */
+   function library_sizes(gps: object): number;
+   /**
+    * Restore the control baseline of the model back to the training derived one.
+    * 
+    * 
+     * @param gps the trained model object.
+     * @return TRUE
+   */
+   function reset_context(gps: object): any;
+   /**
+    * Inject an external cell context into the model as the control baseline of the following
+    *  in silico perturbation experiments.
+    * 
+    * > Genes of the model that are missing from **genes** keep their own mean
+    * >  (that is a z-score of zero), so a context is allowed to cover only the genes of the
+    * >  sequencing panel.
+    * 
+     * @param gps the trained model object.
+     * @param genes a character vector of the gene id of the context profile; the ids must live in the same
+     *  identifier space as the model (Ensembl gene id for the human model).
+     * @param logcpm a numeric vector of the `log2(CPM + 1)` expression value of the context, in the same
+     *  order as **genes**. The caller is responsible for the library size
+     *  normalization and for the log transform; the model only applies its own z-score.
+     * @param env the R# runtime environment.
+     * 
+     * + default value Is ``null``.
+     * @return TRUE when the context has been applied; an R# error message object is returned when the
+     *  gene ids do not overlap the modelled genes at all.
+   */
+   function set_context(gps: object, genes: any, logcpm: any, env?: object): any;
    /**
     * Train the GPS model and return it together with the training diagnostics.
     * 

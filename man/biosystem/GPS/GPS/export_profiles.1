@@ -1,0 +1,55 @@
+.\" man page create by R# package system.
+.TH GPS 1 2000-1月 "export_profiles" "export_profiles"
+.SH NAME
+export_profiles \- Write the mutant (and the control) expression profiles of a set of in silico perturbation
+.SH SYNOPSIS
+\fIexport_profiles(\fBresults\fR as any, 
+\fBfile\fR as string, 
+\fBcontrolFile\fR as string = \fB<NULL>\fR, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Write the mutant (and the control) expression profiles of a set of in silico perturbation
+ results as csv matrix files.
+.PP
+.SH OPTIONS
+.PP
+\fBresults\fB \fR\- 
+ a collection of the [InterventionResult](cref:T:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult) object, for example the value returned
+ by the \fBknockouts\fR / \fBknockdown\fR / \fBoverexpress\fR api of the \fBbnlearn\fR package.
+. 
+.PP
+.PP
+\fBfile\fB \fR\- 
+ the output file path of the mutant matrix (\fBmutant_means_matrix.csv\fR), rows are genes and
+ columns are the intervention conditions.
+. 
+.PP
+.PP
+\fBcontrolFile\fB \fR\- 
+ the output file path of the control matrix; when it is nothing the file
+ \fBwildtype_means_matrix.csv\fR is written next to **file**.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment.. 
+.PP
+.SH VALUE
+.PP
+TRUE when both matrix files have been written; an R# error message object is returned when
+ the input can not be treated as a collection of [InterventionResult](cref:T:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult).
+.PP
+.SH DETAILS
+.PP
+The generated csv files use exactly the same layout as the ones produced by the
+ \fBmake_exports\fR api (four comment lines followed by a \fBGene,<condition>...\fR header),
+ but only the two matrices that are needed by the downstream submission builder are written;
+ \fBmake_exports\fR writes about eight tables per run which is several gigabytes for a few
+ hundred conditions.
+.PP
+.SH SEE ALSO
+GPS
+.SH FILES
+.PP
+biosystem.dll
+.PP

@@ -1,0 +1,36 @@
+.\" man page create by R# package system.
+.TH GPS 1 2000-1月 "knockdown_residual" "knockdown_residual"
+.SH NAME
+knockdown_residual \- Get or set the fraction of the wild type expression that is kept by an in silico knockdown.
+.SH SYNOPSIS
+\fIknockdown_residual(\fBgps\fR as <generic> GPSModel, 
+\fBresidual\fR as double = -1, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Get or set the fraction of the wild type expression that is kept by an in silico knockdown.
+.PP
+.SH OPTIONS
+.PP
+\fBgps\fB \fR\- the trained model object.. 
+.PP
+.PP
+\fBresidual\fB \fR\- 
+ the residual fraction in the range \fB[0,1)\fR; a negative value (the default) means "only
+ read the current value without modifying it".
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment.. 
+.PP
+.SH VALUE
+.PP
+the currently effective residual fraction; \fB0\fR makes a knockdown identical to a knockout
+ and \fB0.2\fR is the CRISPRi setting used by the Virtual Cell Challenge.
+.PP
+.SH SEE ALSO
+GPS
+.SH FILES
+.PP
+biosystem.dll
+.PP

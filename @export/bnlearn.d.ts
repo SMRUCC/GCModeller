@@ -58,7 +58,7 @@ declare namespace bnlearn {
     * >  2. the parameter learning: the maximum likelihood estimation(MLE) of the 
     * >     Gaussian bayesian network.
     * 
-     * @param exprData the gene expression matrix object, could be load from csv file via ``geneExpression::load.expr`` api, or the [GeneExpressionData](cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.GeneExpressionData) matrix
+     * @param exprData the gene expression matrix object, could be load from csv file via ``geneExpression::load.expr`` api, or the [GeneExpressionData](cref:T:SMRUCC.genomics.Analysis.HTS.DataFrame.GeneExpressionData) matrix
      * @param priorNet a collection of the prior knowledge regulatory edge data 
      *  ([RegulatoryEdge](cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.RegulatoryEdge)), which is used as the whitelist of the 
      *  network structure learning: only the regulation relation that is described 

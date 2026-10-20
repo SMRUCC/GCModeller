@@ -31,7 +31,7 @@
 # namespace SMRUCC.genomics.Analysis.BNLearn.Core
 export class BNLearnWorkflow {
    # 基因表达矩阵
-   ExpressionData: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/GeneExpressionData.html">GeneExpressionData</a>;
+   ExpressionData: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/GeneExpressionData.html">GeneExpressionData</a>;
    # 观测证据：按基因名对齐后仅保留与训练网络重叠的（基因名 → 表达值）。 供"观测证据模式"虚拟扰动使用（在给定表达水平条件下做 do-演算）。
    ExternalEvidence: list;
    # 外部导入的新基因表达水平（单样本向量，基因名 → 表达值）。 通过 <a href="cref:M:SMRUCC.genomics.Analysis.BNLearn.Core.BNLearnWorkflow.SetExternalExpression(System.Collections.Generic.Dictionary{System.String,System.Double})">BNLearnWorkflow.SetExternalExpression()</a> 设置，通常来自用户新检测的转录组。 设置时仅保留与训练网络重叠的基因，并自动派生观测证据与动态初始状态。
@@ -65,7 +65,7 @@ export class BNLearnWorkflow {
         <h3>.NET clr type reference tree</h3>
 
         <ol>
-<li>use by <i>property</i> member <code>ExpressionData</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/GeneExpressionData.html">GeneExpressionData</a></li>
+<li>use by <i>property</i> member <code>ExpressionData</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/GeneExpressionData.html">GeneExpressionData</a></li>
 <li>use by <i>property</i> member <code>ExternalEvidence</code>: list</li>
 <li>use by <i>property</i> member <code>ExternalExpression</code>: list</li>
 <li>use by <i>property</i> member <code>FittedNetwork</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/BayesianNetwork.html">BayesianNetwork</a></li>

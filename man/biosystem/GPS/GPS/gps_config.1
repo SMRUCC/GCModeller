@@ -44,6 +44,7 @@ gps_config \- Create a GPS model hyper-parameter configuration object.
 \fBattentionNeighbors\fR as integer = 32, 
 \fBattentionRandomLinks\fR as integer = 8, 
 \fBattentionHubGenes\fR as integer = 8, 
+\fBknockdownResidual\fR as double = 0.2, 
 [\fB<Environment>\fR]);\fR
 .SH DESCRIPTION
 .PP
@@ -289,6 +290,14 @@ Create a GPS model hyper-parameter configuration object.
 \fBattentionHubGenes\fB \fR\- 
  number of high degree genes included as global hubs in every candidate set of the sparse
  mode. Default 8.
+. 
+.PP
+.PP
+\fBknockdownResidual\fB \fR\- 
+ the fraction of the wild type expression level that is kept for the target gene of an in
+ silico knockdown experiment: the intervention value is `gene mean * knockdownResidual`.
+ `0.2` corresponds to the CRISPRi setting of the Virtual Cell Challenge (more than 80
+ percent on target knockdown). Default 0.2.
 . 
 .PP
 .SH VALUE

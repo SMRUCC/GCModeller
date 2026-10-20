@@ -1,0 +1,25 @@
+.\" man page create by R# package system.
+.TH GPS 1 2000-1月 "library_sizes" "library_sizes"
+.SH NAME
+library_sizes \- Get the raw library size of every training sample (the denominator of the CPM normalization).
+.SH SYNOPSIS
+\fIlibrary_sizes(\fBgps\fR as <generic> GPSModel);\fR
+.SH DESCRIPTION
+.PP
+Get the raw library size of every training sample (the denominator of the CPM normalization).
+.PP
+.SH OPTIONS
+.PP
+\fBgps\fB \fR\- the trained model object.. 
+.PP
+.SH VALUE
+.PP
+a numeric vector of the library sizes, one value per training sample; it is exported so
+ that the caller can reason about the count scale of the model output.
+.PP
+.SH SEE ALSO
+GPS
+.SH FILES
+.PP
+biosystem.dll
+.PP
