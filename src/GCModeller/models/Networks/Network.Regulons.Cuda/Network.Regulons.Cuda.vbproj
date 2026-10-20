@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>SMRUCC.genomics.Model.Network.Regulons.Cuda</RootNamespace>
+    <TargetFramework>net10.0</TargetFramework>
+    <AssemblyName>SMRUCC.genomics.Model.Network.Regulons.Cuda</AssemblyName>
+    <Platforms>AnyCPU;x64</Platforms>
+    <Configurations>Debug;Release;Rsharp_app_release</Configurations>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionCompare>Binary</OptionCompare>
+    <OptionStrict>Off</OptionStrict>
+    <OptionInfer>On</OptionInfer>
+    <AssemblyTitle>GPU correlation screening backend for the linear GRN fitting</AssemblyTitle>
+    <Description>Screen the candidate regulators for the elastic net based gene regulatory network fitting on the GPU (float32 GEMM), with a graceful CPU fallback when no CUDA device is available.</Description>
+    <Company>SMRUCC genomics institute</Company>
+    <Product>GCModeller</Product>
+    <Version>10.5.9775.36927</Version>
+    <AssemblyVersion>1.0.9775.36927</AssemblyVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Network.Regulons\Network.Regulons.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\cuda\ILCuda\ILCuda.vbproj" />
+  </ItemGroup>
+
+</Project>
