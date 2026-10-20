@@ -2,9 +2,9 @@
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports SMRUCC.genomics.Analysis.CellPhenotype
 Imports SMRUCC.genomics.Analysis.BNLearn
 Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
+Imports SMRUCC.genomics.Analysis.CellPhenotype
 Imports SMRUCC.genomics.Model.Network.Regulons
 Imports SMRUCC.genomics.Model.Network.Regulons.LinearRegression
 Imports SMRUCC.Rsharp
@@ -13,8 +13,8 @@ Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
-Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 Imports DataFrameRow = SMRUCC.genomics.Analysis.HTS.DataFrame.DataFrameRow
+Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
