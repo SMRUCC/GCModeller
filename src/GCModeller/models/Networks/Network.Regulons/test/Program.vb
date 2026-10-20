@@ -1,4 +1,5 @@
 Imports System.IO
+Imports Microsoft.VisualBasic.Data.Bootstrapping.ElasticNet
 Imports Microsoft.VisualBasic.Data.Bootstrapping.LASSO
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Model.Network.Regulons
@@ -27,6 +28,10 @@ Module Program
         Run("case 5: export the coefficient matrix and the edge table", AddressOf CaseExport)
         Run("case 6: input validation", AddressOf CaseValidation)
         Run("case 7: lasso solver regression tests", AddressOf CaseLassoSolver)
+        Run("case 8: fit the network when there are more genes than samples", AddressOf CaseWideMatrix)
+        Run("case 9: the grouping effect on collinear regulators", AddressOf CaseCollinearRegulators)
+        Run("case 10: compare OLS / LASSO / elastic net on the same network", AddressOf CaseCompareMethods)
+        Run("case 11: elastic net path consistency and export", AddressOf CaseElasticNetPath)
 
         Console.WriteLine()
         Console.WriteLine(If(failures = 0, "PASS", "FAIL") & $": {failures} failure(s)")
@@ -235,7 +240,7 @@ Module Program
 
         Check(File.Exists(csv), $"edge table saved to {csv}")
         Check(lines.Length = edges.Length + 1, $"{lines.Length - 1} rows written into the edge table")
-        Check(lines(0) = "regulator,target,weight,abs_weight,intercept,r2,pvalue,interaction", "the csv header is correct")
+        Check(lines(0) = "regulator,target,weight,abs_weight,intercept,r2,pvalue,alpha,l1_ratio,interaction", "the csv header is correct")
 
         Check(coef.expression.Length = grn.Size, $"coefficient matrix rows = {coef.expression.Length}")
         Check(coef.sampleID.Length = grn.Size, $"coefficient matrix columns = {coef.sampleID.Length}")
@@ -397,6 +402,239 @@ Module Program
         ' 修复之后不能改变原有(不受限)行为：完整路径的非零权重数量应当达到全部特征
         Check(fullPath.nonZeroWeights.Take(fullPath.numberOfLambdas).Max() >= 5,
             $"the full path still grows to many non-zero weights: {fullPath.nonZeroWeights.Take(fullPath.numberOfLambdas).Max()}")
+    End Sub
+
+    ''' <summary>
+    ''' 用例 8：基因数量远大于样本数量(p > n)的场景
+    ''' 
+    ''' 普通最小二乘与 LASSO 求解器都要求自变量个数小于样本数量，因此候选调控因子
+    ''' 会被强行截断；弹性网络没有这个限制，可以把全部基因都作为候选。
+    ''' </summary>
+    Private Sub CaseWideMatrix()
+        Dim synth As (matrix As Matrix, truth As TruthEdge()) = BuildNetwork(
+            nTf:=10, nTarget:=50, nSample:=20, noise:=0.2, seed:=31
+        )
+        Dim nS As Integer = synth.matrix.sample_count
+
+        Console.WriteLine($"     >> {synth.matrix.size} genes x {nS} samples, {synth.truth.Length} true edges")
+
+        Dim ols As GeneRegulatoryNetwork = synth.matrix.InferRegulatoryNetwork(
+            New GrnFittingOptions With {
+                .silent = True,
+                .maxCandidates = 18
+            }
+        )
+        Dim wide As GeneRegulatoryNetwork = synth.matrix.InferRegulatoryNetwork(
+            New GrnFittingOptions With {
+                .silent = True,
+                .method = FittingMethod.ElasticNet,
+                .maxRegulatorsPerGene = 10,
+                .elasticNet = New ElasticNetOptions With {
+                    .l1Ratio = 0.8,
+                    .numberOfAlphas = 40
+                }
+            }
+        )
+        Dim olsMax As Integer = ols.Models.Max(Function(m) If(m.regulators Is Nothing, 0, m.regulators.Length))
+        Dim enMax As Integer = wide.Models.Max(Function(m) If(m.regulators Is Nothing, 0, m.regulators.Length))
+
+        Check(olsMax <= nS - 2, $"the ols candidates are truncated to {olsMax} (sample size - 2)")
+        Check(enMax > nS - 2, $"the elastic net keeps all of the {enMax} candidate regulators")
+
+        Dim edges As RegulationEdge() = wide.Regulations().ToArray
+        Dim score = Evaluate(synth.truth, edges)
+
+        Console.WriteLine($"     >> elastic net: {edges.Length} edges, " &
+                          $"recall = {score.recall:F3}, precision = {score.precision:F3}, f1 = {score.f1:F3}")
+
+        Check(edges.Length > 0, $"{edges.Length} regulation edges inferred under the p > n condition")
+        Check(wide.Models.Where(Function(m) Not m.IsValid).Count() = 0, "all of the gene models are fitted by the elastic net")
+        Check(score.f1 > 0.3, $"top-{synth.truth.Length} f1 = {score.f1:F3}")
+        Check(edges.All(Function(e) e.alpha > 0), "each edge reports the alpha of its elastic net model")
+    End Sub
+
+    ''' <summary>
+    ''' 用例 9：高度共线基因的分组效应
+    ''' 
+    ''' 当两个调控因子几乎完全共线的时候，弹性网络的 L2 惩罚项会让它们的系数
+    ''' 平均分配(``beta_1 = beta_2 = beta / 2``)，而纯 L1 的 LASSO 只会保留其中一个。
+    ''' </summary>
+    Private Sub CaseCollinearRegulators()
+        Dim synth As (matrix As Matrix, truth As TruthEdge()) = BuildCollinearNetwork(
+            nSample:=40, noise:=0.05, collinearNoise:=0.01, seed:=91
+        )
+        Dim options As New GrnFittingOptions With {
+            .silent = True,
+            .method = FittingMethod.ElasticNet,
+            .maxRegulatorsPerGene = 5,
+            .elasticNet = New ElasticNetOptions With {
+                .l1Ratio = 0.7,
+                .numberOfAlphas = 100,
+                .tolerance = 0.0000000001
+            }
+        }
+        Dim enGrn As GeneRegulatoryNetwork = synth.matrix.InferRegulatoryNetwork(options)
+        Dim model As GeneRegressionModel = enGrn.GetModel("G_1")
+        Dim betaA As Double = model.GetWeight("TF_A")
+        Dim betaB As Double = model.GetWeight("TF_B")
+
+        Console.WriteLine($"     >> elastic net: beta(TF_A) = {betaA:F4}, beta(TF_B) = {betaB:F4}")
+
+        Check(betaA <> 0 AndAlso betaB <> 0, "the elastic net keeps both of the collinear regulators")
+        Check(std.Sign(betaA) = std.Sign(betaB), "the collinear regulators get the same regulation direction")
+
+        Dim ratio As Double = std.Min(std.Abs(betaA), std.Abs(betaB)) / std.Max(std.Abs(betaA), std.Abs(betaB))
+
+        Check(ratio > 0.6, $"the collinear regulators share the weight: ratio = {ratio:F3}")
+
+        ' 纯 L1 的 LASSO 只会从这组共线基因之中保留一个
+        Dim l1Grn As GeneRegulatoryNetwork = synth.matrix.InferRegulatoryNetwork(
+            New GrnFittingOptions With {
+                .silent = True,
+                .method = FittingMethod.Lasso,
+                .maxRegulatorsPerGene = 5
+            }
+        )
+        Dim l1Model As GeneRegressionModel = l1Grn.GetModel("G_1")
+
+        Console.WriteLine($"     >> lasso: {l1Model.nonZeroWeights} of the 2 collinear regulators are kept")
+
+        Check(l1Model.nonZeroWeights = 1, $"the lasso keeps only {l1Model.nonZeroWeights} of the 2 collinear regulators")
+    End Sub
+
+    ''' <summary>
+    ''' 用例 10：同一个合成网络之上横向比较 OLS / LASSO / Elastic Net
+    ''' </summary>
+    Private Sub CaseCompareMethods()
+        Dim synth As (matrix As Matrix, truth As TruthEdge()) = BuildNetwork(4, 16, 60, 0.15, 7)
+        Dim watch As Diagnostics.Stopwatch = Diagnostics.Stopwatch.StartNew()
+        Dim olsGrn As GeneRegulatoryNetwork = synth.matrix.InferRegulatoryNetwork(
+            New GrnFittingOptions With {.silent = True, .maxCandidates = 10}
+        )
+        Dim timeOls As Double = watch.Elapsed.TotalSeconds
+
+        watch.Restart()
+
+        Dim l1Grn As GeneRegulatoryNetwork = synth.matrix.InferRegulatoryNetwork(
+            New GrnFittingOptions With {
+                .silent = True,
+                .method = FittingMethod.Lasso,
+                .maxCandidates = 18,
+                .maxRegulatorsPerGene = 8
+            }
+        )
+        Dim timeLasso As Double = watch.Elapsed.TotalSeconds
+
+        watch.Restart()
+
+        Dim enGrn As GeneRegulatoryNetwork = synth.matrix.InferRegulatoryNetwork(
+            New GrnFittingOptions With {
+                .silent = True,
+                .method = FittingMethod.ElasticNet,
+                .maxCandidates = 18,
+                .maxRegulatorsPerGene = 8,
+                .elasticNet = New ElasticNetOptions With {
+                    .l1Ratio = 0.7,
+                    .numberOfAlphas = 50
+                }
+            }
+        )
+        Dim timeEn As Double = watch.Elapsed.TotalSeconds
+
+        Dim olsScore = Evaluate(synth.truth, olsGrn.Regulations().ToArray)
+        Dim l1Score = Evaluate(synth.truth, l1Grn.Regulations().ToArray)
+        Dim enScore = Evaluate(synth.truth, enGrn.Regulations().ToArray)
+
+        Console.WriteLine($"     >> OLS         : f1={olsScore.f1:F3}, recall={olsScore.recall:F3}, " &
+                          $"precision={olsScore.precision:F3}, {timeOls:F2}s")
+        Console.WriteLine($"     >> LASSO       : f1={l1Score.f1:F3}, recall={l1Score.recall:F3}, " &
+                          $"precision={l1Score.precision:F3}, {timeLasso:F2}s")
+        Console.WriteLine($"     >> ElasticNet  : f1={enScore.f1:F3}, recall={enScore.recall:F3}, " &
+                          $"precision={enScore.precision:F3}, {timeEn:F2}s")
+
+        Check(enScore.f1 > 0.6, $"the elastic net f1 = {enScore.f1:F3}")
+        Check(enScore.f1 >= l1Score.f1 - 0.1, "the elastic net is comparable to the lasso on this data")
+        Check(enGrn.Regulations().ToArray().All(Function(e) e.l1Ratio = 0.7), "each edge reports the l1_ratio of its model")
+    End Sub
+
+    ''' <summary>
+    ''' 用例 11：弹性网络正则化路径的单调性、与单点拟合的一致性以及导出
+    ''' </summary>
+    Private Sub CaseElasticNetPath()
+        Dim synth As (matrix As Matrix, truth As TruthEdge()) = BuildNetwork(4, 16, 60, 0.15, 7)
+        Dim targetName As String = "G_1"
+        Dim features As String() = synth.matrix.rownames.Where(Function(id) id <> targetName).ToArray
+        Dim nS As Integer = synth.matrix.sample_count
+        Dim X As Double()() = New Double(nS - 1)() {}
+
+        For s As Integer = 0 To nS - 1
+            Dim sample As Integer = s
+
+            X(s) = features.Select(Function(id) synth.matrix(id).experiments(sample)).ToArray
+        Next
+
+        Dim y As Double() = synth.matrix(targetName).experiments
+        Dim ratio As Double = 0.5
+        Dim path As ElasticNetPath = ElasticNetFitting.RegularizationPath(
+            x:=X, y:=y, l1Ratio:=ratio, numberOfAlphas:=20, standardize:=True, tolerance:=0.0000000001)
+        Dim lastStep As Integer = path.Count - 1
+        Dim fit As ElasticNetFit = ElasticNetFitting.Fit(
+            x:=X, y:=y, alpha:=path.Alphas(lastStep), l1Ratio:=ratio, standardize:=True, tolerance:=0.0000000001)
+
+        Check(path.Count = 20, $"the elastic net path has {path.Count} step(s)")
+        Check(path.Alphas(0) > path.Alphas(lastStep), "the alphas decrease along the path")
+
+        Dim monotoneNonZero As Boolean = True
+        Dim monotoneR2 As Boolean = True
+
+        For k As Integer = 1 To lastStep
+            If path.NonZeroCounts(k) < path.NonZeroCounts(k - 1) Then
+                monotoneNonZero = False
+            End If
+            If path.RSquared(k) < path.RSquared(k - 1) - 0.000001 Then
+                monotoneR2 = False
+            End If
+        Next
+
+        Check(monotoneNonZero, "the number of the non-zero coefficients is monotone along the path")
+        Check(monotoneR2, "the R2 is monotone along the path")
+
+        Dim gap As Double = 0.0R
+        Dim lastCoef As Double() = path.Coefficients(lastStep)
+
+        For j As Integer = 0 To fit.Coefficients.Length - 1
+            gap = std.Max(gap, std.Abs(fit.Coefficients(j) - lastCoef(j)))
+        Next
+
+        Console.WriteLine($"     >> last path step: alpha = {path.Alphas(lastStep):G4}, " &
+                          $"nonzero = {path.NonZeroCounts(lastStep)}, R2 = {path.RSquared(lastStep):F4}")
+
+        Check(gap < 0.000001, $"the last path step matches a standalone fit, max |diff| = {gap:E2}")
+
+        ' 导出：边表需要携带 alpha / l1_ratio 两列，系数矩阵的 tag 需要标明算法与超参数
+        Dim enGrn As GeneRegulatoryNetwork = synth.matrix.InferRegulatoryNetwork(
+            New GrnFittingOptions With {
+                .silent = True,
+                .method = FittingMethod.ElasticNet,
+                .maxCandidates = 18,
+                .maxRegulatorsPerGene = 8,
+                .elasticNet = New ElasticNetOptions With {
+                    .l1Ratio = 0.7,
+                    .numberOfAlphas = 40
+                }
+            }
+        )
+        Dim dir As String = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "grn-en-demo")
+        Dim csv As String = System.IO.Path.Combine(dir, "elastic-net-edges.csv")
+
+        Call enGrn.WriteEdges(csv)
+
+        Dim header As String = File.ReadAllLines(csv)(0)
+
+        Check(header = "regulator,target,weight,abs_weight,intercept,r2,pvalue,alpha,l1_ratio,interaction",
+            "the edge table carries the alpha and l1_ratio columns")
+        Check(enGrn.CoefMatrix().tag.Contains("ElasticNet"), $"the coefficient matrix tag = {enGrn.CoefMatrix().tag}")
+        Check(enGrn.Regulations().ToArray().Any(), "the elastic net network exports at least one edge")
     End Sub
 
     ''' <summary>
