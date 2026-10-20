@@ -83,6 +83,7 @@
     <ProjectReference Include="..\..\..\runtime\Darwinism\src\data\BucketDb\BucketDb.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\dataframework-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Graph\graph-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\ElasticNet\ElasticNet.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math.Statistics\stats-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\DataFrame\dataframeUtils-netcore5.vbproj" />
@@ -95,6 +96,7 @@
     <ProjectReference Include="..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
     <ProjectReference Include="..\..\core\Bio.InteractionModel\InteractionModel.NET5.vbproj" />
     <ProjectReference Include="..\..\data\STRING\STRING-db.vbproj" />
+    <ProjectReference Include="..\..\models\Networks\Network.Regulons\Network.Regulons.vbproj" />
     <ProjectReference Include="..\BNLearn\BNLearn.vbproj" />
   </ItemGroup>
 

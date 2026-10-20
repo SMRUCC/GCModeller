@@ -1,5 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Analysis.CellPhenotype
 Imports SMRUCC.genomics.Model.Network.Regulons.LinearRegression
 Imports SMRUCC.Rsharp
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
@@ -76,6 +77,11 @@ Module Linear
     <ExportAPI("coef")>
     Public Function coef(grn As GeneRegulatoryNetwork) As Matrix
         Return grn.CoefMatrix
+    End Function
+
+    <ExportAPI("elastic_model")>
+    Public Function elastic_model(grn As GeneRegulatoryNetwork) As ElasticNet
+        Return New ElasticNet
     End Function
 
 End Module
