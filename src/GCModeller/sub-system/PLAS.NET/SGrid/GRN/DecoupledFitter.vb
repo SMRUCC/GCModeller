@@ -336,7 +336,7 @@ Namespace GRN
             Me.n = series.nGenes
             Me.m = series.nTimePoints
             Me.rnd = If(options.Seed > 0, New Random(options.Seed), New Random())
-        End Function
+        End Sub
 
         ''' <summary>
         ''' 执行逐基因的参数拟合
