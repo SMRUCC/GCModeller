@@ -1,7 +1,8 @@
 Imports System.IO
+Imports System.Text
 Imports System.Text.RegularExpressions
+Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Linq
-Imports L2 = SMRUCC.genomics.Model.SBML.Level2
 Imports L3 = SMRUCC.genomics.Model.SBML.Level3
 
 Namespace Script
@@ -187,8 +188,80 @@ Namespace Script
     End Class
 
     ''' <summary>
+    ''' 自包含的 SBML 物种节点模型，同时兼容 <c>initialAmount</c> 与 <c>initialConcentration</c> 两种属性写法
+    ''' </summary>
+    <XmlType("species", Namespace:=SBMLFileLoader.Level3Namespace)>
+    Public Class SbmlRawSpecies
+
+        <XmlAttribute> Public Property id As String
+        <XmlAttribute> Public Property name As String
+        <XmlAttribute> Public Property compartment As String
+        <XmlAttribute> Public Property initialAmount As Double
+        <XmlAttribute> Public Property initialConcentration As Double
+        <XmlAttribute> Public Property boundaryCondition As Boolean
+
+        ''' <summary>
+        ''' 取出当前物种节点的初始量：优先使用 initialAmount，其次使用 initialConcentration
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property InitialValue As Double
+            Get
+                If initialAmount > 0 Then
+                    Return initialAmount
+                Else
+                    Return initialConcentration
+                End If
+            End Get
+        End Property
+
+        Public Overrides Function ToString() As String
+            Return $"[{id}] {name} = {InitialValue}"
+        End Function
+    End Class
+
+    ''' <summary>
+    ''' 自包含的 SBML model 节点模型
+    ''' </summary>
+    <XmlType("model", Namespace:=SBMLFileLoader.Level3Namespace)>
+    Public Class SbmlRawModel
+
+        <XmlAttribute> Public Property id As String
+        <XmlAttribute> Public Property name As String
+        ''' <summary>
+        ''' 列表外层元素为 listOfSpecies，其中的子元素为 species 节点
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property listOfSpecies As SbmlRawSpecies()
+        ''' <summary>
+        ''' 列表外层元素为 listOfReactions，其中的子元素为 reaction 节点
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property listOfReactions As L3.reactionList(Of L3.Reaction)
+
+        Public Overrides Function ToString() As String
+            Return If(String.IsNullOrEmpty(name), id, name)
+        End Function
+    End Class
+
+    ''' <summary>
+    ''' 自包含的 SBML 文档根节点模型
+    ''' </summary>
+    <XmlRoot("sbml", Namespace:=SBMLFileLoader.Level3Namespace)>
+    Public Class SbmlRawDocument
+
+        <XmlAttribute> Public Property level As Integer
+        <XmlAttribute> Public Property version As Integer
+        <XmlElement("model")> Public Property model As SbmlRawModel
+    End Class
+
+    ''' <summary>
     ''' The SBML document loader for both of the level2 and level3 sbml file.(支持 Level2 与 Level3 的SBML文档加载器)
     ''' </summary>
+    ''' <remarks>
+    ''' 由于 <c>SMRUCC.genomics.Model.SBML.Level2.XmlFile</c> 的类型体系在 XmlSerializer 之上无法被反射
+    ''' （reaction.Id 与其基类成员存在自定义特性冲突），故这里统一使用 Level3 core 的命名空间来反序列化
+    ''' 两种版本的文档：加载之前会先把文档之中的 SBML 命名空间统一规整化为 Level3 core 的命名空间。
+    ''' </remarks>
     Public Module SBMLFileLoader
 
         ''' <summary>
@@ -197,6 +270,11 @@ Namespace Script
         Public Const Level3Namespace As String = "http://www.sbml.org/sbml/level3/version1/core"
 
         ReadOnly numberRegex As New Regex("\d", RegexOptions.Compiled)
+        ''' <summary>
+        ''' 匹配形如 http://www.sbml.org/sbml/level2 或者 .../level2/version4 / .../level3/version1/core 的命名空间
+        ''' （使用零宽后向断言确保不会误伤 fbc 这类扩展包的命名空间）
+        ''' </summary>
+        ReadOnly sbmlXmlnsRegex As New Regex("http://www\.sbml\.org/sbml/level\d+(/version\d+)?(/core)?(?=[""'\s/>])", RegexOptions.Compiled)
         ReadOnly sbmlRootRegex As New Regex("<sbml\b[^>]*>", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
         ReadOnly levelRegex As New Regex("level\s*=\s*""(?<lvl>\d+)""", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
 
@@ -207,11 +285,68 @@ Namespace Script
         ''' <param name="path"></param>
         ''' <returns></returns>
         Public Function Load(path As String) As SbmlNetwork
-            If IsLevel3(path) Then
-                Return loadLevel3(path)
-            Else
-                Return loadLevel2(path)
+            Dim document As SbmlRawDocument = LoadDocument(path)
+            Dim model As SbmlRawModel = document.model
+            Dim network As New SbmlNetwork With {
+                .Level = document.level,
+                .Version = document.version,
+                .ModelName = If(model Is Nothing, "", model.ToString)
+            }
+
+            If model Is Nothing Then
+                Return network
             End If
+
+            For Each sp As SbmlRawSpecies In model.listOfSpecies.SafeQuery
+                Dim initial As Double = sp.InitialValue
+
+                Call network.Species.Add(New SbmlSpecies With {
+                    .Id = StripNumber(sp.id),
+                    .Name = sp.name,
+                    .Compartment = sp.compartment,
+                    .InitialAmount = initial,
+                    .HasInitialAmount = initial > 0
+                })
+            Next
+
+            For Each rxn As L3.Reaction In model.listOfReactions.SafeQuery
+                Call network.Reactions.Add(New SbmlReaction With {
+                    .Id = rxn.id,
+                    .Reactants = rxn.listOfReactants _
+                        .SafeQuery _
+                        .Select(Function(m) StripNumber(m.species)) _
+                        .ToArray,
+                    .Products = rxn.listOfProducts _
+                        .SafeQuery _
+                        .Select(Function(m) StripNumber(m.species)) _
+                        .ToArray
+                })
+            Next
+
+            Return network
+        End Function
+
+        ''' <summary>
+        ''' 将SBML文档反序列化为自包含的文档对象模型
+        ''' </summary>
+        ''' <param name="path"></param>
+        ''' <returns></returns>
+        Public Function LoadDocument(path As String) As SbmlRawDocument
+            Dim xml As String = File.ReadAllText(path, Encoding.UTF8)
+
+            ' 统一规整化命名空间，这样 Level2 与 Level3 的文档都可以使用同一套类型进行反序列化
+            xml = sbmlXmlnsRegex.Replace(xml, Level3Namespace)
+
+            Using reader As New StringReader(xml)
+                Dim serializer As New XmlSerializer(GetType(SbmlRawDocument))
+                Dim document As SbmlRawDocument = DirectCast(serializer.Deserialize(reader), SbmlRawDocument)
+
+                If document.level = 0 Then
+                    document.level = DetectLevel(xml)
+                End If
+
+                Return document
+            End Using
         End Function
 
         ''' <summary>
@@ -220,32 +355,39 @@ Namespace Script
         ''' <param name="path"></param>
         ''' <returns></returns>
         Public Function IsLevel3(path As String) As Boolean
-            Using reader As New StreamReader(path)
-                Dim buffer As Char() = New Char(8191) {}
-                Dim count As Integer = reader.Read(buffer, 0, buffer.Length)
+            Return DetectLevel(path) >= 3
+        End Function
 
-                If count <= 0 Then
-                    Return False
-                End If
+        ''' <summary>
+        ''' 从SBML文档的根元素之上探测出文档的层级版本号
+        ''' </summary>
+        ''' <param name="document">可以是文件路径，也可以是XML文档的文本内容</param>
+        ''' <returns></returns>
+        Public Function DetectLevel(document As String) As Integer
+            Dim head As String
 
-                Dim head As String = New String(buffer, 0, count)
-                Dim root As String = sbmlRootRegex.Match(head).Value
+            If document.Length > 8192 Then
+                head = document.Substring(0, 8192)
+            Else
+                head = document
+            End If
 
-                If String.IsNullOrEmpty(root) Then
-                    Return False
-                End If
-                If InStr(root, Level3Namespace) > 0 Then
-                    Return True
-                End If
+            Dim root As String = sbmlRootRegex.Match(head).Value
 
-                Dim m As Match = levelRegex.Match(root)
+            If String.IsNullOrEmpty(root) Then
+                Return 2
+            End If
 
-                If m.Success Then
-                    Return Val(m.Groups("lvl").Value) >= 3
-                End If
+            Dim m As Match = levelRegex.Match(root)
 
-                Return False
-            End Using
+            If m.Success Then
+                Return CInt(Val(m.Groups("lvl").Value))
+            End If
+            If InStr(root, Level3Namespace) > 0 Then
+                Return 3
+            End If
+
+            Return 2
         End Function
 
         ''' <summary>
@@ -265,84 +407,6 @@ Namespace Script
             End If
 
             Return id.Replace("-", "_").Replace("+", "_")
-        End Function
-
-        Private Function loadLevel2(path As String) As SbmlNetwork
-            Dim document As L2.XmlFile = L2.XmlFile.Load(path)
-            Dim model As L2.Elements.Model = document.Model
-            Dim network As New SbmlNetwork With {
-                .Level = document.level,
-                .Version = document.version,
-                .ModelName = If(model Is Nothing, "", model.name)
-            }
-
-            If Not model Is Nothing Then
-                For Each sp As L2.Elements.Specie In model.listOfSpecies.SafeQuery
-                    Call network.Species.Add(New SbmlSpecies With {
-                        .Id = StripNumber(sp.ID),
-                        .Name = sp.name,
-                        .Compartment = sp.compartmentId,
-                        .InitialAmount = sp.InitialAmount,
-                        .HasInitialAmount = sp.InitialAmount > 0
-                    })
-                Next
-
-                For Each rxn As L2.Elements.Reaction In model.listOfReactions.SafeQuery
-                    Call network.Reactions.Add(New SbmlReaction With {
-                        .Id = rxn.id,
-                        .Reactants = rxn.Reactants _
-                            .SafeQuery _
-                            .Select(Function(m) StripNumber(m.species)) _
-                            .ToArray,
-                        .Products = rxn.Products _
-                            .SafeQuery _
-                            .Select(Function(m) StripNumber(m.species)) _
-                            .ToArray
-                    })
-                Next
-            End If
-
-            Return network
-        End Function
-
-        Private Function loadLevel3(path As String) As SbmlNetwork
-            Dim document As L3.XmlFile(Of L3.Reaction) = L3.XmlFile(Of L3.Reaction).LoadDocument(path)
-            Dim model As L3.Model(Of L3.Reaction) = document.model
-            Dim network As New SbmlNetwork With {
-                .Level = document.level,
-                .Version = document.version,
-                .ModelName = If(model Is Nothing, "", model.name)
-            }
-
-            If Not model Is Nothing Then
-                For Each sp As L3.species In model.listOfSpecies.SafeQuery
-                    Dim initial As Double = sp.initialConcentration
-
-                    Call network.Species.Add(New SbmlSpecies With {
-                        .Id = StripNumber(sp.id),
-                        .Name = sp.name,
-                        .Compartment = sp.compartmentId,
-                        .InitialAmount = initial,
-                        .HasInitialAmount = initial > 0
-                    })
-                Next
-
-                For Each rxn As L3.Reaction In model.listOfReactions.SafeQuery
-                    Call network.Reactions.Add(New SbmlReaction With {
-                        .Id = rxn.id,
-                        .Reactants = rxn.listOfReactants _
-                            .SafeQuery _
-                            .Select(Function(m) StripNumber(m.species)) _
-                            .ToArray,
-                        .Products = rxn.listOfProducts _
-                            .SafeQuery _
-                            .Select(Function(m) StripNumber(m.species)) _
-                            .ToArray
-                    })
-                Next
-            End If
-
-            Return network
         End Function
     End Module
 End Namespace

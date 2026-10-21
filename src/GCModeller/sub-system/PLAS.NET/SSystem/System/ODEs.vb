@@ -53,6 +53,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Language
@@ -76,6 +77,46 @@ Namespace Kernel
                 Return New DoubleRange(-5, 5)
             End Get
         End Property
+
+        ''' <summary>
+        ''' 将常微分方程组的求解结果导出为与离散内核一致的数据表（首列的列名为 #Time）
+        ''' </summary>
+        ''' <param name="output"></param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' 底层库的 DataFrame 扩展方法会把 y0 与 params 追加到前几行数据之中从而破坏数据表的结构，
+        ''' 故这里自行完成数据表的生成
+        ''' </remarks>
+        Public Function ToDataFrame(output As ODEsOut) As File
+            Dim names As String() = output.y _
+                .Values _
+                .Select(Function(v) v.name) _
+                .ToArray
+            Dim table As New File
+            Dim head As New RowObject
+
+            Call head.Add("#Time")
+
+            For Each name As String In names
+                Call head.Add(name)
+            Next
+
+            table += head
+
+            For i As Integer = 0 To output.x.Length - 1
+                Dim row As New RowObject
+
+                Call row.Add(CStr(output.x(i)))
+
+                For Each name As String In names
+                    Call row.Add(CStr(output.y(name).Value(i)))
+                Next
+
+                table += row
+            Next
+
+            Return table
+        End Function
 
         ''' <summary>
         ''' 使用常微分方程组来解模型的计算

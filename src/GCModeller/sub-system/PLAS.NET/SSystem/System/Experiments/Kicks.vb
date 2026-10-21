@@ -70,21 +70,23 @@ Namespace Kernel
         ''' Standing by
         ''' </summary>
         ''' <remarks></remarks>
-        ReadOnly __pendingKicks As List(Of Disturb)
+        ReadOnly __pendingKicks As System.Collections.Generic.List(Of Disturb)
         ''' <summary>
         ''' Active object.
         ''' </summary>
         ''' <remarks></remarks>
-        ReadOnly __runningKicks As New List(Of Disturb)
+        ReadOnly __runningKicks As New System.Collections.Generic.List(Of Disturb)
         ' ReadOnly __kernel As Kernel
 
         Sub New(kernel As Kernel, model As Script.Model)
             ' __kernel = kernel
             __pendingKicks = model.Experiments _
                 .SafeQuery _
-                .ToList(Function(x)
+                .Select(Function(x)
                             Return New Disturb(x, kernel.GetValue(x.Id), Function() CDbl(kernel.RuntimeTicks))
-                        End Function)
+                        End Function) _
+                .Where(Function(x) Not x.TargetVar Is Nothing) _
+                .ToList()
 
             ' For i As Integer = 0 To __pendingKicks.Count - 1
             '    __pendingKicks(i).Set(kernel)
@@ -101,19 +103,17 @@ Namespace Kernel
         ''' 在 ODE 求解器之下则应当返回当前的积分时间点
         ''' </param>
         Sub New(vars As Dictionary(Of String, Ivar), model As Script.Model, getRunTicks As Func(Of Double))
+            ' 目标变量并没有在模型之中被申明的时候，该扰动实验是没有任何意义的
             __pendingKicks = model.Experiments _
                 .SafeQuery _
-                .ToList(Function(x)
+                .Select(Function(x)
                             Return New Disturb(
                                 x,
                                 If(vars.ContainsKey(x.Id), vars(x.Id), Nothing),
                                 getRunTicks)
-                        End Function)
-            ' 目标变量并没有在模型之中被申明的时候，该扰动实验是没有任何意义的
-            __pendingKicks = (From x As Disturb
-                              In __pendingKicks
-                              Where Not x.TargetVar Is Nothing
-                              Select x).ToList
+                        End Function) _
+                .Where(Function(x) Not x.TargetVar Is Nothing) _
+                .ToList()
         End Sub
 
         Public Sub loadKernel(kernel As Kernel)

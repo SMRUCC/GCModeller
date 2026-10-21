@@ -145,7 +145,7 @@ Public Module RunModel
             Call Console.WriteLine($"PLAS using ODEs solver {options.Solver.ToString}....")
 
             Dim output As ODEsOut = Kernel.ODEs.RunSystem(model, Nothing, options)
-            Dim df As File = output.DataFrame(xDisp:="#Time")
+            Dim df As File = Kernel.ODEs.ToDataFrame(output)
 
             Return df.Save(out, Encodings.ASCII)
         Else
