@@ -57,117 +57,175 @@
 
 #End Region
 
-Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels
+Imports SMRUCC.genomics.Analysis.SSystem.Runner
 Imports SMRUCC.genomics.GCModeller.CompilerServices
-Imports SMRUCC.genomics.Model.SBML.Level2
-Imports SMRUCC.genomics.Model.SBML.Level2.Elements
 
 Namespace Script
 
     ''' <summary>
     ''' SBML模型编译器
     ''' </summary>
+    ''' <remarks>
+    ''' 本编译器同时支持 SBML Level2 与 Level3 格式的文档：
+    ''' Level2 走 <see cref="SMRUCC.genomics.Model.SBML.Level2.XmlFile"/>，
+    ''' Level3 走 <see cref="SMRUCC.genomics.Model.SBML.Level3.XmlFile(Of SMRUCC.genomics.Model.SBML.Level3.Reaction)"/>，
+    ''' 两种文档都会被规整化为同一个 <see cref="SbmlNetwork"/> 网络视图之后再做转换。
+    ''' </remarks>
     Public Class SBML : Inherits Compiler(Of Model)
 
-        Dim SBMLFile As XmlFile
+        ''' <summary>
+        ''' The file path of the source sbml document.(输入的SBML文档的文件路径)
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property SBMLPath As String
 
+        ''' <summary>
+        ''' The loaded sbml network model.(已经加载完成的SBML网络视图)
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property Network As SbmlNetwork
+            Get
+                Return sbmlNetwork
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' 当物种缺失初始量属性的时候所使用的默认初始量
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property InitialAmountFallback As Double = 1.0R
+
+        ''' <summary>
+        ''' 对缺失初始量的物种附加的确定性抖动幅度（相对比例）。
+        ''' 由于幂律的生成项与消耗项会互相抵消，当所有的初始量完全一致的时候
+        ''' 整个系统会恒等于零，故这里缺省会附加一个确定性的抖动量。
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property InitialJitter As Double = 0.01R
+
+        Dim sbmlNetwork As SbmlNetwork
+
+        ''' <summary>
+        ''' 是否自动修复模型之中的错误
+        ''' </summary>
+        ''' <returns></returns>
         Public Property AutoFixError As Boolean = False
 
         Protected Overrides Function PreCompile(args As CommandLine) As Integer
             m_compiledModel = New Model
+            sbmlNetwork = SBMLFileLoader.Load(SBMLPath)
+
             Return 0
         End Function
 
         Protected Overrides Function CompileImpl(args As CommandLine) As Integer
-            Call __strip()
             Call __generateSystem(m_compiledModel)
 
-            m_compiledModel.Title = SBMLFile.Model.name
+            m_compiledModel.Title = sbmlNetwork.ModelName
             m_compiledModel.FinalTime = 100
 
             Return 0
         End Function
 
-        ''' <summary>
-        ''' 需要在这里将``-``连接符替换为下划线``_``不然在解析数学表达式的时候会被当作为减号
-        ''' </summary>
-        Private Sub __strip()
-            For Each sp In SBMLFile.Model.listOfSpecies
-                Call __stripNumber(sp.ID)
-            Next
-            For Each rxn In SBMLFile.Model.listOfReactions
-                For Each m As speciesReference In rxn.Reactants
-                    Call __stripNumber(m.species)
-                Next
-                For Each m As speciesReference In rxn.Products
-                    Call __stripNumber(m.species)
-                Next
-            Next
-        End Sub
-
         Private Shared Sub __stripNumber(ByRef s As String)
-            Dim n As String = Regex.Match(s, "\d").Value
-            If Not String.IsNullOrEmpty(n) AndAlso InStr(s, n) = 1 Then
-                s = "N_" & s
-            End If
-            s = s.Replace("-", "_").Replace("+", "_")
+            s = SBMLFileLoader.StripNumber(s)
         End Sub
 
         ''' <summary>
         ''' Generate the equation group of the target modelling system.(生成目标模型系统的方程组)
         ''' </summary>
-        ''' <param name="Model"></param>
+        ''' <param name="model"></param>
         ''' <returns></returns>
-        ''' <remarks></remarks>
-        Private Function __generateSystem(Model As Script.Model) As Boolean
+        ''' <remarks>
+        ''' 这里使用<see cref="SbmlReactionIndex"/>反向索引，避免了对
+        ''' 代谢物列表 x 反应列表的 O(n*m) 全线性扫描
+        ''' </remarks>
+        Private Function __generateSystem(model As Script.Model) As Boolean
+            Dim index As New SbmlReactionIndex(sbmlNetwork)
             Dim reactions As New List(Of SEquation)
-            Dim metabolites As New Dictionary(Of var)
+            Dim referenced As New HashSet(Of String)
+            Dim metabolites As New List(Of var)
 
-            For Each m As Specie In SBMLFile.Model.listOfSpecies
-                ' If Not IsEntry(SBMLFile, m.ID) Then
-                reactions += New SEquation(m.ID, GenerateFunction(m.ID))
-                ' End If
+            ' 求解标准要求：方程 PST 之中每一行的 expression 由所有反应的反应物构成，
+            ' 故这里直接使用反应物的集合作为被引用的符号集合
+            For Each rxn As SbmlReaction In sbmlNetwork.Reactions
+                For Each id As String In rxn.Reactants.SafeQuery
+                    If Not String.IsNullOrEmpty(id) Then
+                        Call referenced.Add(id)
+                    End If
+                Next
+            Next
 
-                If metabolites & m.ID Then
+            For Each m As SbmlSpecies In sbmlNetwork.Species
+                If Not index.HasReaction(m.Id) Then
                     Continue For
                 End If
 
-                metabolites += New var With {
-                    .Id = m.ID,
-                    .title = m.name,
-                    .Value = m.InitialAmount
-                }
+                Dim expression As String = GenerateFunction(m.Id, index)
+
+                If String.IsNullOrEmpty(expression) Then
+                    Continue For
+                End If
+
+                Call reactions.Add(New SEquation(m.Id, expression))
             Next
 
-            Model.sEquations = reactions _
-                .Where(Function(x) Not String.IsNullOrEmpty(x.Expression)).ToArray
-            Model.Vars = metabolites.Values _
-                .Where(Function(x) __where(x, Model)).ToArray
+            For Each m As SbmlSpecies In sbmlNetwork.Species
+                If Not referenced.Contains(m.Id) Then
+                    Continue For
+                End If
+
+                Call metabolites.Add(New var With {
+                    .Id = m.Id,
+                    .title = m.Name,
+                    .Value = __initialValue(m)
+                })
+            Next
+
+            model.sEquations = reactions.ToArray
+            model.Vars = metabolites.ToArray
 
             Return True
         End Function
 
         ''' <summary>
-        ''' 检查目标反应物对象是否存在于模型的表达式之中
+        ''' 计算目标代谢物的初始量，缺失初始量属性的时候使用配置对象所给定的默认值
         ''' </summary>
-        ''' <param name="x"></param>
-        ''' <param name="model"></param>
+        ''' <param name="metabolite"></param>
         ''' <returns></returns>
-        Private Function __where(x As var, model As Script.Model) As Boolean
-            Dim name As String = x.Id
+        Private Function __initialValue(metabolite As SbmlSpecies) As Double
+            If metabolite.HasInitialAmount AndAlso metabolite.InitialAmount > 0 Then
+                Return metabolite.InitialAmount
+            End If
 
-            For Each eq As SEquation In model.sEquations
-                If InStr(eq.Expression, name) > 0 Then
-                    Return True
-                End If
+            Return InitialAmountFallback * (1 + __deterministicJitter(metabolite.Id))
+        End Function
+
+        ''' <summary>
+        ''' 依据代谢物的编号计算出一个确定性的抖动因子，取值区间为 [-InitialJitter, +InitialJitter]
+        ''' </summary>
+        ''' <param name="id"></param>
+        ''' <returns></returns>
+        Private Function __deterministicJitter(id As String) As Double
+            If InitialJitter <= 0 Then
+                Return 0
+            End If
+
+            ' djb2 hash，每一步都取模以避免 VB 的整数溢出检查抛出异常
+            Dim hash As Long = 5381
+
+            For Each c As Char In id
+                hash = ((hash << 5) + hash + AscW(c)) Mod 2147483647L
             Next
 
-            Return False
+            Dim ratio As Double = (hash Mod 2001L) / 1000.0 - 1.0
+
+            Return InitialJitter * ratio
         End Function
 
         ''' <summary>
@@ -181,9 +239,9 @@ Namespace Script
         ''' 
         ''' 故而两个方向都是取值来源为反应物
         ''' </remarks>
-        Private Function GenerateFunction(Metabolite As String) As String
-            Dim produce As String = GetAllProduce(SBMLFile, Metabolite).Select(Function(rxn) __contact(rxn.Reactants)).JoinBy("*")
-            Dim consume As String = GetAllConsume(SBMLFile, Metabolite).Select(Function(rxn) __contact(rxn.Reactants)).JoinBy("*") ' 在计算消耗的部分的时候，S系统方程中目标是作为反应物而被消耗掉的
+        Private Function GenerateFunction(Metabolite As String, index As SbmlReactionIndex) As String
+            Dim produce As String = __contact(index.Produce, Metabolite)
+            Dim consume As String = __contact(index.Consume, Metabolite) ' 在计算消耗的部分的时候，S系统方程中目标是作为反应物而被消耗掉的
             Dim eq As String = ""
 
             If Not String.IsNullOrEmpty(produce) Then
@@ -196,29 +254,61 @@ Namespace Script
             Return eq
         End Function
 
-        Private Function __contact(mlst As IEnumerable(Of speciesReference)) As String
-            If mlst.Count = 1 Then
-                Return mlst.First.species & "^0.5"
+        Private Function __contact(table As Dictionary(Of String, List(Of SbmlReaction)), Metabolite As String) As String
+            Dim reactions As List(Of SbmlReaction) = Nothing
+
+            If Not table.TryGetValue(Metabolite, reactions) Then
+                Return ""
+            End If
+
+            Return reactions _
+                .Select(Function(rxn) __contact(rxn.Reactants)) _
+                .Where(Function(s) Not String.IsNullOrEmpty(s)) _
+                .JoinBy("*")
+        End Function
+
+        Private Function __contact(mlst As IEnumerable(Of String)) As String
+            If mlst Is Nothing Then
+                Return ""
+            End If
+
+            Dim ids As String() = mlst _
+                .Where(Function(id) Not String.IsNullOrEmpty(id)) _
+                .ToArray
+
+            If ids.Length = 0 Then
+                Return ""
+            ElseIf ids.Length = 1 Then
+                Return ids(0) & "^0.5"
             Else
-                Return mlst.Select(Function(x) x.species & "^0.5").JoinBy("*")
+                Return ids.Select(Function(id) id & "^0.5").JoinBy("*")
             End If
         End Function
 
-        Public Overloads Shared Function Compile(path As String, Optional AutoFix As Boolean = False) As Script.Model
-            Using Compiler As New SBML With {
-                .SBMLFile = path,
-                .AutoFixError = AutoFix
-            }
-                Call Compiler.Compile()
-                Call Compiler.m_compiledModel.WriteScript(path & ".plas")
+        Public Overloads Shared Function Compile(path As String,
+                                                 Optional AutoFix As Boolean = False,
+                                                 Optional options As RunOptions = Nothing) As Script.Model
 
-                Return Compiler.Return
+            If options Is Nothing Then
+                options = New RunOptions()
+            End If
+
+            Using compiler As New SBML With {
+                .SBMLPath = path,
+                .AutoFixError = AutoFix,
+                .InitialAmountFallback = options.InitialAmountFallback,
+                .InitialJitter = options.InitialJitter
+            }
+                Call compiler.Compile()
+                Call compiler.m_compiledModel.WriteScript(path & ".plas")
+
+                Return compiler.Return
             End Using
         End Function
 
         Public Shared Widening Operator CType(path As String) As SBML
             Return New SBML With {
-                .SBMLFile = path
+                .SBMLPath = path
             }
         End Operator
     End Class
