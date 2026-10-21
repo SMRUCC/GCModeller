@@ -451,7 +451,6 @@ Namespace GRN
             Dim bestScore As Double = problem.Objective(best)
 
             ' 阶段一：差分进化全局粗搜
-            Dim seed As Random = New Random(rnd.Next())
             Dim factory As [New](Of ParameterIndividual) =
                 Function(s As Random) ParameterIndividual.Random(lower, upper, problem, s)
             Dim evaluate As Func(Of ParameterIndividual, Double) =
@@ -470,8 +469,7 @@ Namespace GRN
                     iteratePrints:=Sub(o)
                                        ' 静默：逐基因的迭代报告会淹没控制台
                                    End Sub,
-                    parallel:=False,
-                    seed:=seed)
+                    parallel:=False)
 
                 If Not de Is Nothing Then
                     Dim score As Double = problem.Objective(de.Genes)
