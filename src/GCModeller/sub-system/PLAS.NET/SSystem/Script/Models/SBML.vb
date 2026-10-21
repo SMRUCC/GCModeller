@@ -132,10 +132,6 @@ Namespace Script
             Return 0
         End Function
 
-        Private Shared Sub __stripNumber(ByRef s As String)
-            s = SBMLFileLoader.StripNumber(s)
-        End Sub
-
         ''' <summary>
         ''' Generate the equation group of the target modelling system.(生成目标模型系统的方程组)
         ''' </summary>
