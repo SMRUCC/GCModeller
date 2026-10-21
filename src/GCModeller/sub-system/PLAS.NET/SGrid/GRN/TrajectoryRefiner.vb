@@ -255,10 +255,11 @@ Namespace GRN
             Dim maxIterations As Integer = std.Max(1, std.Min(options.RefineMaxIterations, 50))
 
             For i As Integer = 0 To n - 1
+                Dim gene As Integer = i
                 ' 只优化稀疏化之后仍然保留下来的交互
                 Dim candidates As Integer() = Enumerable _
                     .Range(0, n) _
-                    .Where(Function(j) result.G(i)(j) <> 0 OrElse result.H(i)(j) <> 0) _
+                    .Where(Function(j) result.G(gene)(j) <> 0 OrElse result.H(gene)(j) <> 0) _
                     .ToArray
 
                 If candidates.Length = 0 Then

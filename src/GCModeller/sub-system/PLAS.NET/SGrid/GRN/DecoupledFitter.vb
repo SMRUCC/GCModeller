@@ -38,17 +38,33 @@ Namespace GRN
         ''' </summary>
         ''' <returns></returns>
         Public Property L1 As Double
+        ''' <summary>
+        ''' 自环在候选调控因子之中的下标，负数表示当前基因不包含自环
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property SelfIndex As Integer = -1
+        ''' <summary>
+        ''' 稳定性惩罚的权重：稳态的渐近稳定要求对数增益矩阵的对角元为负数，
+        ''' 故这里会对正的自环净弹性施加惩罚
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property StabilityWeight As Double = 1.0R
 
         ''' <summary>
         ''' 计算归一化的目标函数值（越小越好）
         ''' </summary>
         ''' <param name="p">参数向量 [ln(alpha), ln(beta), g(0..k-1), h(0..k-1)]</param>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' 目标函数取「相对均方根斜率误差」再乘以一个无量纲的惩罚因子：
+        ''' 相对误差项保证了目标函数的量级与表达尺度无关，
+        ''' 而乘性的惩罚因子（稀疏 + 稳定性）则保证了惩罚项不会压过残差项。
+        ''' </remarks>
         Public Function Objective(p As Double()) As Double
             Dim m As Integer = Observed.Length
             Dim k As Integer = (p.Length - 2) \ 2
             Dim err As Double = 0
-            Dim penalty As Double = 0
+            Dim penalty As Double = 1.0R
 
             For t As Integer = 0 To m - 1
                 Dim la As Double = p(0)
@@ -68,11 +84,27 @@ Namespace GRN
                 err += d * d
             Next
 
-            For c As Integer = 0 To k - 1
-                penalty += std.Abs(p(2 + c)) + std.Abs(p(2 + k + c))
-            Next
+            Dim relative As Double = std.Sqrt(err / m) / Scale
 
-            Dim f As Double = err / Scale + L1 * penalty
+            If L1 > 0 Then
+                Dim l1 As Double = 0
+
+                For c As Integer = 0 To k - 1
+                    l1 += std.Abs(p(2 + c)) + std.Abs(p(2 + k + c))
+                Next
+
+                penalty += L1 * l1
+            End If
+
+            If SelfIndex >= 0 AndAlso StabilityWeight > 0 Then
+                Dim netSelf As Double = p(2 + SelfIndex) - p(2 + k + SelfIndex)
+
+                If netSelf > 0 Then
+                    penalty += StabilityWeight * netSelf
+                End If
+            End If
+
+            Dim f As Double = relative * penalty
 
             If Double.IsNaN(f) OrElse Double.IsInfinity(f) Then
                 Return 1.0E+12
@@ -435,8 +467,10 @@ Namespace GRN
                     .Select(Function(j) series.LnX(j)) _
                     .ToArray,
                 .Observed = observed,
-                .Scale = m * std.Max(variance, 1.0E-9),
-                .L1 = options.L1Penalty
+                .Scale = std.Max(std.Sqrt(variance), 1.0E-9),
+                .L1 = options.L1Penalty,
+                .SelfIndex = Array.IndexOf(candidates, i),
+                .StabilityWeight = options.StabilityPenalty
             }
 
             Dim dims As Integer = 2 + 2 * k
@@ -451,31 +485,23 @@ Namespace GRN
             Dim bestScore As Double = problem.Objective(best)
 
             ' 阶段一：差分进化全局粗搜
-            Dim factory As [New](Of ParameterIndividual) =
-                Function(s As Random) ParameterIndividual.Random(lower, upper, problem, s)
-            Dim evaluate As Func(Of ParameterIndividual, Double) =
-                Function(ind) problem.Objective(ind.Genes)
-
             Try
-                Dim de As ParameterIndividual = DifferentialEvolution.Evolution(
-                    target:=evaluate,
-                    [new]:=factory,
-                    N:=dims,
+                Dim de As DifferentialEvolutionResult = DifferentialEvolutionLite.Minimize(
+                    target:=Function(p) problem.Objective(p),
+                    lower:=lower,
+                    upper:=upper,
+                    populationSize:=options.DEPopulationSize,
+                    maxIterations:=options.DEMaxIterations,
                     F:=options.DEF,
                     CR:=options.DECR,
                     threshold:=options.DEThreshold,
-                    maxIterations:=options.DEMaxIterations,
-                    PopulationSize:=options.DEPopulationSize,
-                    iteratePrints:=Sub(o)
-                                       ' 静默：逐基因的迭代报告会淹没控制台
-                                   End Sub,
-                    parallel:=False)
+                    seed:=rnd.Next())
 
-                If Not de Is Nothing Then
-                    Dim score As Double = problem.Objective(de.Genes)
+                If Not de Is Nothing AndAlso Not de.Best Is Nothing Then
+                    Dim score As Double = problem.Objective(de.Best)
 
                     If score < bestScore Then
-                        best = de.Genes
+                        best = de.Best
                         bestScore = score
                     End If
                 End If
@@ -532,22 +558,193 @@ Namespace GRN
         End Sub
 
         ''' <summary>
-        ''' 构造启发式初值：alpha - beta*X_i，即一阶衰减的先验形式
+        ''' 构造启发式初值：先用对数域的最小二乘回归给出 alpha/beta 与动力学阶的估计。
+        ''' 参看 method.md 的步骤2：在非零数据之上取对数可以把幂律项线性化。
         ''' </summary>
         Private Sub buildHeuristic(h As Double(), candidates As Integer(), mean As Double, lower As Double(), upper As Double(), i As Integer)
+            Dim k As Integer = candidates.Length
+            Dim positive As New System.Collections.Generic.List(Of Integer)
+            Dim negative As New System.Collections.Generic.List(Of Integer)
+
+            For t As Integer = 0 To slopes(i).Length - 1
+                Dim s As Double = slopes(i)(t)
+
+                If s > 1.0E-6 Then
+                    Call positive.Add(t)
+                ElseIf s < -1.0E-6 Then
+                    Call negative.Add(t)
+                End If
+            Next
+
+            ' 合成项的初值：ln(S) = ln(alpha) + sum(g * lnX)
             Dim a0 As Double = If(mean > 0, mean, 0) + 1
             Dim b0 As Double = If(mean < 0, -mean, 0) + 1
 
-            h(0) = clamp(std.Log(a0), lower(0), upper(0))
-            h(1) = clamp(std.Log(b0), lower(1), upper(1))
+            If positive.Count >= k + 1 Then
+                Dim coef As Double() = logDomainFit(i, candidates, positive, False)
 
-            For c As Integer = 0 To candidates.Length - 1
-                If candidates(c) = i Then
-                    ' 降解项对自身的一阶依赖是一个合理的先验
-                    h(2 + candidates.Length + c) = clamp(1.0R, lower(2 + candidates.Length + c), upper(2 + candidates.Length + c))
+                If Not coef Is Nothing Then
+                    a0 = std.Exp(coef(0))
+
+                    For c As Integer = 0 To k - 1
+                        h(2 + c) = clamp(coef(1 + c), lower(2 + c), upper(2 + c))
+                    Next
+                End If
+            ElseIf k > 0 Then
+                h(2 + k - 1) = clamp(0, lower(2 + k - 1), upper(2 + k - 1))
+            End If
+
+            ' 降解项的初值：ln(-S) = ln(beta) + sum(h * lnX)
+            If negative.Count >= k + 1 Then
+                Dim coef As Double() = logDomainFit(i, candidates, negative, True)
+
+                If Not coef Is Nothing Then
+                    b0 = std.Exp(coef(0))
+
+                    For c As Integer = 0 To k - 1
+                        h(2 + k + c) = clamp(coef(1 + c), lower(2 + k + c), upper(2 + k + c))
+                    Next
+                End If
+            ElseIf k > 0 Then
+                ' 没有负向的斜率，退化为一阶衰减的先验
+                For c As Integer = 0 To k - 1
+                    If candidates(c) = i Then
+                        h(2 + k + c) = clamp(1.0R, lower(2 + k + c), upper(2 + k + c))
+                    End If
+                Next
+            End If
+
+            h(0) = clamp(std.Log(std.Max(a0, 1.0E-6)), lower(0), upper(0))
+            h(1) = clamp(std.Log(std.Max(b0, 1.0E-6)), lower(1), upper(1))
+        End Sub
+
+        ''' <summary>
+        ''' 在给定的时间点集合之上做对数域的线性回归
+        ''' </summary>
+        ''' <param name="candidates">候选调控因子</param>
+        ''' <param name="rows">参与回归的时间点下标</param>
+        ''' <param name="negate">是否对斜率取负（用于降解项的拟合）</param>
+        ''' <returns>第一项为截距，其余为回归系数</returns>
+        Private Function logDomainFit(gene As Integer, candidates As Integer(), rows As System.Collections.Generic.List(Of Integer), negate As Boolean) As Double()
+            Dim nP As Integer = candidates.Length + 1
+            Dim nS As Integer = rows.Count
+            Dim X As Double(,) = New Double(nS - 1, nP - 1) {}
+            Dim y As Double() = New Double(nS - 1) {}
+
+            For r As Integer = 0 To nS - 1
+                Dim t As Integer = rows(r)
+
+                X(r, 0) = 1
+
+                For c As Integer = 0 To candidates.Length - 1
+                    X(r, 1 + c) = series.LnX(candidates(c))(t)
+                Next
+
+                Dim s As Double = slopes(gene)(t)
+
+                y(r) = std.Log(std.Max(If(negate, -s, s), 1.0E-12))
+            Next
+
+            Return leastSquares(X, y, nS, nP)
+        End Function
+
+        ''' <summary>
+        ''' 正规方程 + 高斯消元求解（带岭正则化的）最小二乘问题
+        ''' </summary>
+        ''' <remarks>
+        ''' 时序表达矩阵之中各个基因的对数表达量之间高度共线，正规方程是病态的，
+        ''' 故这里通过在对角线之上添加一个很小的岭参数来保证线性方程组可以稳定求解。
+        ''' </remarks>
+        Private Shared Function leastSquares(X As Double(,), y As Double(), nS As Integer, nP As Integer) As Double()
+            Dim A As Double(,) = New Double(nP - 1, nP - 1) {}
+            Dim b As Double() = New Double(nP - 1) {}
+            Dim ridge As Double = 1.0E-3 * nS
+
+            For i As Integer = 0 To nP - 1
+                For j As Integer = i To nP - 1
+                    Dim sum As Double = 0
+
+                    For r As Integer = 0 To nS - 1
+                        sum += X(r, i) * X(r, j)
+                    Next
+
+                    A(i, j) = sum
+                    A(j, i) = sum
+                Next
+
+                If i > 0 Then
+                    A(i, i) += ridge
+                End If
+
+                Dim sy As Double = 0
+
+                For r As Integer = 0 To nS - 1
+                    sy += X(r, i) * y(r)
+                Next
+
+                b(i) = sy
+            Next
+
+            ' 高斯消元（部分主元）
+            For col As Integer = 0 To nP - 1
+                Dim pivot As Integer = col
+                Dim maxAbs As Double = std.Abs(A(col, col))
+
+                For r As Integer = col + 1 To nP - 1
+                    If std.Abs(A(r, col)) > maxAbs Then
+                        maxAbs = std.Abs(A(r, col))
+                        pivot = r
+                    End If
+                Next
+
+                If maxAbs < 1.0E-12 Then
+                    Return Nothing
+                End If
+
+                If pivot <> col Then
+                    For j As Integer = 0 To nP - 1
+                        Dim tmp As Double = A(col, j)
+
+                        A(col, j) = A(pivot, j)
+                        A(pivot, j) = tmp
+                    Next
+
+                    Dim tb As Double = b(col)
+
+                    b(col) = b(pivot)
+                    b(pivot) = tb
+                End If
+
+                For r As Integer = col + 1 To nP - 1
+                    Dim factor As Double = A(r, col) / A(col, col)
+
+                    For j As Integer = col To nP - 1
+                        A(r, j) -= factor * A(col, j)
+                    Next
+
+                    b(r) -= factor * b(col)
+                Next
+            Next
+
+            ' 回代
+            Dim coef As Double() = New Double(nP - 1) {}
+
+            For r As Integer = nP - 1 To 0 Step -1
+                Dim sum As Double = b(r)
+
+                For j As Integer = r + 1 To nP - 1
+                    sum -= A(r, j) * coef(j)
+                Next
+
+                coef(r) = sum / A(r, r)
+
+                If Double.IsNaN(coef(r)) OrElse Double.IsInfinity(coef(r)) Then
+                    Return Nothing
                 End If
             Next
-        End Sub
+
+            Return coef
+        End Function
 
         Private Function refine(x0 As Double(), problem As SlopeProblem, lower As Double(), upper As Double()) As Double()
             Try

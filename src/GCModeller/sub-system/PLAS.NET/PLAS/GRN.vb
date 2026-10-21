@@ -137,6 +137,7 @@ Public Module GRN
 
         Dim finalTime As Double = optVal(args, "/time", 0)
         Dim runOptions As New RunOptions With {
+            .Input = input,
             .FinalTime = If(finalTime > 0, finalTime, model.FinalTime),
             .UseODEs = True,
             .Precise = optVal(args, "/precise", 0.1R),
@@ -206,7 +207,9 @@ Public Module GRN
     ''' <param name="args"></param>
     ''' <returns></returns>
     Public Function SelfTest(args As CommandLine) As Integer
-        Return SMRUCC.genomics.Analysis.SGrid.SelfTest.GrnSelfTest.Run()
+        Return SMRUCC.genomics.Analysis.SGrid.SelfTest.GrnSelfTest.Run(
+            verbose:=True,
+            export:=optStr(args, "/export", ""))
     End Function
 
     Private Function loadModel(path As String) As SSModel

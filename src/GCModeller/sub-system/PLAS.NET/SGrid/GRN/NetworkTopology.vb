@@ -110,8 +110,9 @@ Namespace GRN
 
                 ' 每基因限边数：按照净调控弹性的绝对值大小保留最强的若干条边
                 If options.MaxEdgesPerGene > 0 AndAlso candidates.Count > options.MaxEdgesPerGene Then
+                    Dim target As Integer = i
                     Dim drop As Integer() = candidates _
-                        .OrderBy(Function(j) std.Abs(net(i)(j))) _
+                        .OrderBy(Function(j) std.Abs(net(target)(j))) _
                         .Take(candidates.Count - options.MaxEdgesPerGene) _
                         .ToArray
 

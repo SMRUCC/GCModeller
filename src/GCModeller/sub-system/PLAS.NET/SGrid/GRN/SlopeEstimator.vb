@@ -10,8 +10,11 @@ Namespace GRN
     ''' (基因表达时序数据的数值微分，即 method.md 之中的 s_diff 步骤)
     ''' </summary>
     ''' <remarks>
-    ''' 通过对表达量做三次样条插值之后再求斜率，可以把ODE拟合问题转换为
+    ''' 通过对表达量做三次样条插值之后再求斜率，可以把 ODE 拟合问题转换为
     ''' 针对斜率的回归问题，从而避免对整个系统做反复的数值积分。
+    ''' 注意 <see cref="CubicSpline.GetPoint(Single)"/> 的参数是归一化到 [0,1] 区间的
+    ''' 曲线参数（与之对应的采样下标线性对应），而不是时间轴的绝对坐标，
+    ''' 因此求斜率的时候需要同时取得插值点的 X 与 Y，再用差分比值得到 dY/dX。
     ''' </remarks>
     Public Module SlopeEstimator
 
@@ -37,38 +40,17 @@ Namespace GRN
                 Throw New ArgumentException("At least 2 time points are required by the slope estimation!")
             End If
 
-            Dim dt As Double = minInterval(t)
-            Dim h As Double = dt / 10
-
             For i As Integer = 0 To n - 1
                 Dim y As Double() = series.X(i)
 
                 If denoise AndAlso m >= 4 Then
-                    slopes(i) = splineSlope(t, y, h)
+                    slopes(i) = splineSlope(t, y)
                 Else
                     slopes(i) = centralDifference(t, y)
                 End If
             Next
 
             Return slopes
-        End Function
-
-        Private Function minInterval(t As Double()) As Double
-            Dim dt As Double = Double.PositiveInfinity
-
-            For i As Integer = 1 To t.Length - 1
-                Dim d As Double = t(i) - t(i - 1)
-
-                If d > 0 AndAlso d < dt Then
-                    dt = d
-                End If
-            Next
-
-            If Double.IsInfinity(dt) Then
-                dt = 1
-            End If
-
-            Return dt
         End Function
 
         ''' <summary>
@@ -94,7 +76,9 @@ Namespace GRN
         ''' <summary>
         ''' 先做三次样条插值，再在插值函数之上做中心差分求斜率
         ''' </summary>
-        Private Function splineSlope(t As Double(), y As Double(), h As Double) As Double()
+        ''' <param name="t">时间轴</param>
+        ''' <param name="y">表达量</param>
+        Private Function splineSlope(t As Double(), y As Double()) As Double()
             Dim m As Integer = y.Length
             Dim s As Double() = New Double(m - 1) {}
 
@@ -109,30 +93,22 @@ Namespace GRN
 
                 Call spline.CalcSpline()
 
-                Dim t0 As Double = t(0)
-                Dim t1 As Double = t(m - 1)
+                ' 曲线参数是与采样下标线性对应的归一化参数
+                Dim ds As Double = 0.5R / (m - 1)
 
                 For k As Integer = 0 To m - 1
-                    Dim a As Double = t(k) - h
-                    Dim b As Double = t(k) + h
-                    Dim clamped As Boolean = False
+                    Dim position As Double = CDbl(k) / (m - 1)
+                    Dim a As Double = std.Max(position - ds, 0)
+                    Dim b As Double = std.Min(position + ds, 1)
 
-                    If a < t0 Then
-                        a = t0
-                        clamped = True
-                    End If
-                    If b > t1 Then
-                        b = t1
-                        clamped = True
-                    End If
+                    Dim pa As PointF = spline.GetPoint(CSng(a))
+                    Dim pb As PointF = spline.GetPoint(CSng(b))
+                    Dim dx As Double = pb.X - pa.X
 
-                    If clamped AndAlso b - a < 1.0E-12 Then
+                    If std.Abs(dx) < 1.0E-9 Then
                         s(k) = centralDifference(t, y)(k)
                     Else
-                        Dim ya As Double = spline.GetPoint(CSng(a)).Y
-                        Dim yb As Double = spline.GetPoint(CSng(b)).Y
-
-                        s(k) = (yb - ya) / (b - a)
+                        s(k) = (pb.Y - pa.Y) / dx
                     End If
 
                     If Double.IsNaN(s(k)) OrElse Double.IsInfinity(s(k)) Then

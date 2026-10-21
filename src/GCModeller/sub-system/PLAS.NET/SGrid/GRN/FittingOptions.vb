@@ -71,7 +71,13 @@ Namespace GRN
         ''' 稀疏惩罚项（L1）的权重系数，零表示不施加惩罚
         ''' </summary>
         ''' <returns></returns>
-        Public Property L1Penalty As Double = 0.0R
+        Public Property L1Penalty As Double = 0.01R
+        ''' <summary>
+        ''' 稳定性惩罚项的权重系数：稳态的渐近稳定性要求对数增益矩阵的对角元为负数，
+        ''' 故当拟合出正的自环净弹性的时候会施加惩罚。零表示关闭该约束
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property StabilityPenalty As Double = 0.2R
         ''' <summary>
         ''' 是否保留自环（X_i 调控其自身），默认保留
         ''' </summary>

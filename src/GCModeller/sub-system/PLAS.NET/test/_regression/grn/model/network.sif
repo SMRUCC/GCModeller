@@ -1,0 +1,7 @@
+X1	inhibits	X1
+X2	activates	X1
+X3	inhibits	X1
+X1	activates	X2
+X2	inhibits	X2
+X2	activates	X3
+X3	inhibits	X3
