@@ -120,6 +120,30 @@ Namespace LinearRegression
         Public Property priorityRegulators As String() = Nothing
 
         ''' <summary>
+        ''' 是否使用<b>偏相关</b>(而不是零阶 Pearson)来给候选调控因子排序，默认关闭。
+        ''' 
+        ''' 开启之后，会先找出表达谱最"像全局程序"的若干个 hub 基因
+        ''' (与随机抽样基因的平均 |r| 最大的一批，通常是线粒体/核糖体基因)，
+        ''' 把每个基因对这批 hub 做线性回归、取残差，再在残差上计算相关。
+        ''' 
+        ''' 这等价于以 hub 基因为条件集的偏相关(Frisch-Waugh-Lovell 残差回归，
+        ''' 与 <c>WGCNA/PartialCorrelation.vb::FromData</c> 使用的是同一个算法)，
+        ''' 可以显著削弱"所有基因共享同一个全局因子"造成的伪边。
+        ''' 
+        ''' 注意：只有当候选池大于 <see cref="maxCandidates"/> 或者设置了
+        ''' <see cref="minAbsCorrelation"/> 的时候才会触发候选筛选；
+        ''' 候选池本身很小(例如限定为 300 个靶基因)时本选项不起作用。
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property partialCorrelation As Boolean = False
+
+        ''' <summary>
+        ''' <see cref="partialCorrelation"/> 开启时，用作条件集的 hub 基因数量，默认 5。
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property partialConditionSize As Integer = 5
+
+        ''' <summary>
         ''' 候选调控因子的相关性筛选后端。
         ''' 
         ''' 为空(默认)的时候使用内置的逐基因扫描(行为与原实现逐位一致)；

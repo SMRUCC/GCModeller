@@ -396,6 +396,20 @@ Namespace LinearRegression
             ' 相关性筛选后端：一次性算出每个目标基因的候选集，之后 Query 只读
             Dim backend As ICorrelationScreener = opt.correlationBackend
 
+            If opt.partialCorrelation Then
+                ' 偏相关(以全局 hub 基因为条件集)优先于逐基因 Pearson 扫描；
+                ' 显式指定的 correlationBackend 仍然优先于本开关
+                If backend Is Nothing Then
+                    backend = New PartialCorrelationScreener With {
+                        .ConditionSize = std.Max(0, opt.partialConditionSize)
+                    }
+
+                    If Not opt.silent Then
+                        Call Console.WriteLine($"[GRN] candidate screening uses the partial correlation, conditioning on {opt.partialConditionSize} hub gene(s)")
+                    End If
+                End If
+            End If
+
             If backend IsNot Nothing Then
                 Call "run parallel for the correlation screening".debug
                 Call backend.Initialize(regulatorPool, Vectors, maxCand, opt.minAbsCorrelation)
@@ -708,7 +722,15 @@ Namespace LinearRegression
                         candidates = TopCorrelated(target, candidates, maxCand)
                     Else
                         ' 后端已经在 Fit 开始时算好，这里只是取预计算的结果
-                        candidates = activeScreener.Query(target)
+                        Dim screened As Integer() = activeScreener.Query(target)
+
+                        If screened.Length = 0 Then
+                            ' 目标基因本身不在候选池里(例如 regulators 限定了池子)，
+                            ' 后端没有它的行，这里退化为逐基因扫描
+                            candidates = TopCorrelated(target, candidates, maxCand)
+                        Else
+                            candidates = screened
+                        End If
                     End If
                 End If
 

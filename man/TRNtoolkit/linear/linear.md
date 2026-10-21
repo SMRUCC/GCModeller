@@ -16,6 +16,7 @@ The linear (elastic net) gene regulatory network builder and the in silico
 >  ``elastic_model`` directly.
 
 + [log2cpm](linear/log2cpm.1) 把原始 counts 矩阵变换成 ``log2(CPM + 1)``。
++ [remove_global_factor](linear/remove_global_factor.1) 去掉样本级的全局表达程序(每个样本减去跨基因均值)。
 + [elastic_net](linear/elastic_net.1) Fit a linear (elastic net) gene regulatory network from the expression matrix.
 + [coef](linear/coef.1) Export the coefficient matrix of the fitted network.
 + [elastic_formulas](linear/elastic_formulas.1) 

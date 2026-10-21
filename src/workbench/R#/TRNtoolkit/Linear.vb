@@ -141,6 +141,67 @@ Module Linear
     End Function
 
     ''' <summary>
+    ''' 去掉样本级的全局表达程序(每个样本减去跨基因均值)。
+    ''' 
+    ''' 对样本 s: ``x'(g, s) = x(g, s) - mean_g(x(g, s))``。
+    ''' 
+    ''' 横截面共表达数据里，所有基因都被同一个"全局程序"绑定(细胞状态、线粒体含量、
+    ''' 测序质量等)，导致任意两个基因的相关系数都被抬高、且几乎全为正。把这个样本级
+    ''' 常数移除之后，剩下的相关更接近"特异性共表达"，负相关才会出现：
+    ''' 这一步直接改善敲降之后"全部基因一起下调、极少上调"的现象。
+    ''' </summary>
+    ''' <param name="x">表达矩阵(行 = 基因、列 = 样本)，通常已经过 log2(CPM+1) 变换</param>
+    ''' <returns>变换之后的新矩阵；基因顺序与样本顺序保持不变</returns>
+    <ExportAPI("remove_global_factor")>
+    <RApiReturn(GetType(Matrix))>
+    Public Function remove_global_factor(x As Matrix) As Matrix
+        If x Is Nothing Then
+            Throw New ArgumentNullException(NameOf(x))
+        End If
+        If x.expression Is Nothing OrElse x.expression.Length = 0 Then
+            Throw New ArgumentException("the given expression matrix is empty!", NameOf(x))
+        End If
+
+        Dim n As Integer = x.expression.Length
+        Dim nSamples As Integer = If(x.expression(0).experiments Is Nothing, 0, x.expression(0).experiments.Length)
+        Dim means As Double() = New Double(nSamples - 1) {}
+
+        For i As Integer = 0 To n - 1
+            Dim values As Double() = x.expression(i).experiments
+
+            For s As Integer = 0 To nSamples - 1
+                means(s) += values(s)
+            Next
+        Next
+
+        For s As Integer = 0 To nSamples - 1
+            means(s) /= n
+        Next
+
+        Dim rows As New List(Of DataFrameRow)
+
+        For i As Integer = 0 To n - 1
+            Dim source As Double() = x.expression(i).experiments
+            Dim values As Double() = New Double(nSamples - 1) {}
+
+            For s As Integer = 0 To nSamples - 1
+                values(s) = source(s) - means(s)
+            Next
+
+            Call rows.Add(New DataFrameRow With {
+                .geneID = x.expression(i).geneID,
+                .experiments = values
+            })
+        Next
+
+        Return New Matrix With {
+            .tag = If(String.IsNullOrEmpty(x.tag), "deconfounded", x.tag & ".deconfounded"),
+            .sampleID = x.sampleID,
+            .expression = rows.ToArray
+        }
+    End Function
+
+    ''' <summary>
     ''' Fit a linear (elastic net) gene regulatory network from the expression matrix.
     ''' </summary>
     ''' <param name="x">the gene expression matrix, rows are genes and columns are samples</param>
@@ -177,7 +238,9 @@ Module Linear
                                 Optional standardize As Boolean = False,
                                 Optional min_abs_r As Double = 0,
                                 Optional gpu As Boolean = False,
-                                Optional block_screener As Boolean = False) As Object
+                                Optional block_screener As Boolean = False,
+                                Optional partial_correlation As Boolean = False,
+                                Optional partial_cond As Integer = 5) As Object
 
         Dim priority As String() = Nothing
 
@@ -225,6 +288,8 @@ Module Linear
             .minAbsCorrelation = min_abs_r,
             .regulators = restricted,
             .priorityRegulators = priority,
+            .partialCorrelation = partial_correlation,
+            .partialConditionSize = partial_cond,
             .elasticNet = New ElasticNetOptions With {
                 .l1Ratio = l1_ratio,
                 .numberOfAlphas = alphas
@@ -248,6 +313,10 @@ Module Linear
 
         If mutual Then
             Console.WriteLine("     >> only the mutual (reversible) regulation pairs are kept")
+        End If
+
+        If partial_correlation Then
+            Console.WriteLine($"     >> candidate screening uses the partial correlation (conditioning on {partial_cond} hub gene(s))")
         End If
 
         If restricted IsNot Nothing Then

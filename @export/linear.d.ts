@@ -118,10 +118,14 @@ declare namespace linear {
      * + default value Is ``false``.
      * @param block_screener 
      * + default value Is ``false``.
+     * @param partial_correlation 
+     * + default value Is ``false``.
+     * @param partial_cond 
+     * + default value Is ``5``.
      * @return a list object with two slots: ``grn`` (the fitted [GeneRegulatoryNetwork](cref:T:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GeneRegulatoryNetwork))
      *  and ``edges`` (the [RegulationEdge](cref:T:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.RegulationEdge) collection).
    */
-   function elastic_net(x: object, candidates?: object, maxreg?: object, l1_ratio?: number, alphas?: number, mutual?: boolean, TF?: any, regulators?: any, standardize?: boolean, min_abs_r?: number, gpu?: boolean, block_screener?: boolean): object|object;
+   function elastic_net(x: object, candidates?: object, maxreg?: object, l1_ratio?: number, alphas?: number, mutual?: boolean, TF?: any, regulators?: any, standardize?: boolean, min_abs_r?: number, gpu?: boolean, block_screener?: boolean, partial_correlation?: boolean, partial_cond?: object): object|object;
    /**
     * Run the perturbation experiment for a set of genes and save the profiles as a csv file.
     * 
@@ -220,6 +224,21 @@ declare namespace linear {
      *  the model are skipped, so the column number equals the number of the matched genes.
    */
    function profiles_matrix(model: object, genes: any, mode?: string, env?: object): object;
+   /**
+    * 去掉样本级的全局表达程序(每个样本减去跨基因均值)。
+    *  
+    *  对样本 s: ``x'(g, s) = x(g, s) - mean_g(x(g, s))``。
+    *  
+    *  横截面共表达数据里，所有基因都被同一个"全局程序"绑定(细胞状态、线粒体含量、
+    *  测序质量等)，导致任意两个基因的相关系数都被抬高、且几乎全为正。把这个样本级
+    *  常数移除之后，剩下的相关更接近"特异性共表达"，负相关才会出现：
+    *  这一步直接改善敲降之后"全部基因一起下调、极少上调"的现象。
+    * 
+    * 
+     * @param x 表达矩阵(行 = 基因、列 = 样本)，通常已经过 log2(CPM+1) 变换
+     * @return 变换之后的新矩阵；基因顺序与样本顺序保持不变
+   */
+   function remove_global_factor(x: object): object;
    /**
     * Set the wildtype baseline (the cell context) of the perturbation engine.
     * 

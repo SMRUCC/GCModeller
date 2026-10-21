@@ -62,6 +62,16 @@ export class GrnFittingOptions {
    # 
    # 开启之后，只有在 <code>A -&gt; B</code> 与 <code>B -&gt; A</code> 两个方向都被拟合出来、 并且回归系数同号的时候才会保留这条边，边的权重取两个方向的均值。
    mutualOnly: boolean;
+   # <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GrnFittingOptions.partialCorrelation">GrnFittingOptions.partialCorrelation</a> 开启时，用作条件集的 hub 基因数量，默认 5。
+   partialConditionSize: integer;
+   # 是否使用偏相关(而不是零阶 Pearson)来给候选调控因子排序，默认关闭。
+   # 
+   # 开启之后，会先找出表达谱最"像全局程序"的若干个 hub 基因 (与随机抽样基因的平均 |r| 最大的一批，通常是线粒体/核糖体基因)， 把每个基因对这批 hub 做线性回归、取残差，再在残差上计算相关。
+   # 
+   # 这等价于以 hub 基因为条件集的偏相关(Frisch-Waugh-Lovell 残差回归， 与 <code>WGCNA/PartialCorrelation.vb::FromData</code> 使用的是同一个算法)， 可以显著削弱"所有基因共享同一个全局因子"造成的伪边。
+   # 
+   # 注意：只有当候选池大于 <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GrnFittingOptions.maxCandidates">GrnFittingOptions.maxCandidates</a> 或者设置了 <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GrnFittingOptions.minAbsCorrelation">GrnFittingOptions.minAbsCorrelation</a> 的时候才会触发候选筛选； 候选池本身很小(例如限定为 300 个靶基因)时本选项不起作用。
+   partialCorrelation: boolean;
    # 需要优先纳入候选调控因子池的基因集合(例如转录因子列表)。
    # 
    # 与 <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GrnFittingOptions.regulators">GrnFittingOptions.regulators</a> 的"限定"语义不同：这里列出的基因不受 <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GrnFittingOptions.maxCandidates">GrnFittingOptions.maxCandidates</a> 与 <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GrnFittingOptions.minAbsCorrelation">GrnFittingOptions.minAbsCorrelation</a> 的截断影响， 总是会被追加进每一个目标基因的候选集(目标基因自身除外)。

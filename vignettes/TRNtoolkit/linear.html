@@ -118,6 +118,16 @@ table caption {font-size:14px;font-weight:bolder;}
 <p>逐样本按总计数归一化到 <strong>scale</strong>（默认 1e6，即 CPM）， 再取 <code>log2(x + pseudo)</code>。这个变换消除了样本之间测序深度的差异： 未取对数的 counts 矩阵上，任意两个基因的相关系数都会被共同的深度因子 拉到 0.6 以上且彼此接近，弹性网络的 L1 路径因此不存在稀疏的中间解， 拟合出来的模型会退化成 r2 ~ 0 的常数模型。</p></td>
 </tr>
 <tr>
+  <td id="remove_global_factor">
+    <a href="./linear/remove_global_factor.html">remove_global_factor</a>
+  </td>
+  <td><p>去掉样本级的全局表达程序(每个样本减去跨基因均值)。</p>
+
+<p>对样本 s: <code>x'(g, s) = x(g, s) - mean_g(x(g, s))</code>。</p>
+
+<p>横截面共表达数据里，所有基因都被同一个"全局程序"绑定(细胞状态、线粒体含量、 测序质量等)，导致任意两个基因的相关系数都被抬高、且几乎全为正。把这个样本级 常数移除之后，剩下的相关更接近"特异性共表达"，负相关才会出现： 这一步直接改善敲降之后"全部基因一起下调、极少上调"的现象。</p></td>
+</tr>
+<tr>
   <td id="elastic_net">
     <a href="./linear/elastic_net.html">elastic_net</a>
   </td>
