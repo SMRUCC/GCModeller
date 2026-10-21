@@ -78,8 +78,16 @@ Namespace Dynamics
         ''' <returns></returns>
         Public Property df As [Function]
 
+        ''' <summary>
+        ''' The initial values of the state variables which is captured at the construction
+        ''' time, so that each integration will start from the same state.
+        ''' (构造时捕获的初值快照，保证多次求解都从同一个起点开始)
+        ''' </summary>
+        ReadOnly initialValues As Double()
+
         Sub New(ParamArray vars As var())
             Me.vars = vars
+            Me.initialValues = vars.Select(Function(v) v.Value).ToArray
 
             For Each x As SeqValue(Of var) In vars.SeqIterator
                 x.value.Index = x.i
@@ -91,12 +99,41 @@ Namespace Dynamics
             Me.df = df
         End Sub
 
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        ''' <summary>
+        ''' Create a ODEs system with the array based derivative evaluator, the state variables
+        ''' will not be synchronized during the integration, so this constructor provides the
+        ''' best performance for the high frequency simulation.
+        ''' (使用数组式导数求值器构造方程组模型，积分过程中不再同步 var 变量，性能最佳)
+        ''' </summary>
+        ''' <param name="vars">The state variable definitions, it also provides the ``y0`` values.</param>
+        ''' <param name="derivative">
+        ''' The derivative evaluator ``derivative(t, y, dy)``, the ``dy`` buffer will be
+        ''' cleared before the evaluation, so only the assigned components are non-zero.
+        ''' </param>
+        Sub New(vars As var(), derivative As Action(Of Double, Double(), Double()))
+            Call Me.New(vars)
+            Me.FastDerivative = derivative
+        End Sub
+
         Protected Overrides Sub func(dx As Double, ByRef dy As Vector)
-            Call _df(dx, dy)
+            Dim f As [Function] = _df
+
+            If f Is Nothing Then
+                Throw New InvalidOperationException("The derivative function ``df`` of current GenericODEs model is not initialized!")
+            End If
+
+            Call f(dx, dy)
         End Sub
 
         Protected Overrides Function y0() As var()
+            ' 恢复构造时的初值：积分过程会修改各个 var 的数值，重复求解时不能以上一次的
+            ' 终值作为这一次的起点
+            If initialValues IsNot Nothing Then
+                For i As Integer = 0 To vars.Length - 1
+                    vars(i).Value = initialValues(i)
+                Next
+            End If
+
             Return vars
         End Function
     End Class
