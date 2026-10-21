@@ -6,6 +6,7 @@
     <TargetFramework>net10.0</TargetFramework>
     <ApplicationIcon>Metabolic-pathway.ico</ApplicationIcon>
     <OutputType>Exe</OutputType>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,15 +15,22 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\DataFrame\dataframework-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\DataMining\DataMining\DataMining.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\MachineLearning\MachineLearning\machine_learning-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\DataFittings\linear-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math.Statistics\stats-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj" />
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\ODESolver.Extensions\ODESolver.Extensions.NET5.vbproj" />
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\ODE\odes-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\application%rdf+xml\rdf_xml-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\application%xml\xml-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\workbench\modules\ExperimentDesigner\designer-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\analysis\HTS_matrix\HTS_matrix-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\engine\CompilerServices\CompilerServices.NET5.vbproj" />
     <ProjectReference Include="..\..\..\models\SBML\SBML\sbml-netcore5.vbproj" />
+    <ProjectReference Include="..\SGrid\SGrid.vbproj" />
     <ProjectReference Include="..\SSystem\SSystem.NET5.vbproj" />
   </ItemGroup>
   </Project>
