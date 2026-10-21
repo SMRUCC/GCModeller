@@ -65,46 +65,110 @@ Namespace Script
 
         Sub New()
             For Each token As ScriptTokens In Enums(Of ScriptTokens)()
-                tokens.Add(token.Description, token)
+                If Not String.IsNullOrEmpty(token.Description) Then
+                    tokens.Add(token.Description, token)
+                End If
             Next
         End Sub
 
-        Public Function TryParse(script As IEnumerable(Of String)) As ScriptToken()
-            Dim LQuery As ScriptToken() = LinqAPI.Exec(Of ScriptToken) _
- _
-                () <= From line As String
-                      In script
-                      Let token As ScriptToken = line.Trim.tokenParser()
-                      Where Not token Is Nothing
-                      Select token
+        ''' <summary>
+        ''' 注释行的前缀符号，以这些符号开头的脚本行会被直接忽略掉
+        ''' </summary>
+        ReadOnly commentPrefix As String() = {"//", "/*", "*", "#", "'"}
 
-            Return LQuery
+        ''' <summary>
+        ''' 判断目标脚本文本行是否为注释行
+        ''' </summary>
+        ''' <param name="line"></param>
+        ''' <returns></returns>
+        Public Function IsCommentLine(line As String) As Boolean
+            If String.IsNullOrWhiteSpace(line) Then
+                Return True
+            End If
+
+            Dim trim As String = line.Trim
+
+            For Each prefix As String In commentPrefix
+                If trim.StartsWith(prefix) Then
+                    Return True
+                End If
+            Next
+
+            Return False
+        End Function
+
+        Public Function TryParse(script As IEnumerable(Of String)) As ScriptToken()
+            Dim errors As List(Of ScriptError) = Nothing
+
+            Return TryParse(script, errors)
+        End Function
+
+        ''' <summary>
+        ''' 会忽略掉注释信息，无法识别的脚本行会被记录在<paramref name="errors"/>诊断列表之中
+        ''' </summary>
+        ''' <param name="script"></param>
+        ''' <param name="errors">脚本文法错误信息的收集容器</param>
+        ''' <returns></returns>
+        Public Function TryParse(script As IEnumerable(Of String), ByRef errors As List(Of ScriptError)) As ScriptToken()
+            Dim i As Integer = 0
+            Dim token As ScriptToken
+            Dim out As New List(Of ScriptToken)
+
+            For Each line As String In script
+                i += 1
+                token = tokenParser(line, i, errors)
+
+                If Not token Is Nothing Then
+                    Call out.Add(token)
+                End If
+            Next
+
+            Return out.ToArray
         End Function
 
         ''' <summary>
         ''' 会忽略掉注释信息
         ''' </summary>
         ''' <param name="line">类型的前缀应该是已经被切割掉了</param>
+        ''' <param name="lineNumber">当前文本行在脚本之中的行号，从1开始计数</param>
+        ''' <param name="errors">脚本文法错误信息的收集容器</param>
         ''' <returns></returns>
-        <Extension>
-        Private Function tokenParser(line As String) As ScriptToken
-            Dim x As String = line.Split.First.ToUpper
+        Private Function tokenParser(line As String, lineNumber As Integer, ByRef errors As List(Of ScriptError)) As ScriptToken
+            Dim raw As String = line
+            Dim x As String
             Dim type As ScriptTokens
             Dim text As String
 
+            line = If(line, "").Trim()
+
+            If IsCommentLine(line) Then
+                Return Nothing
+            End If
+
+            x = line.Split.First.ToUpper
+
             If Not tokens.ContainsKey(x) Then
+                Call appendError(errors, lineNumber, raw, $"Unknown script keyword ""{x}"", this line was ignored by the script compiler.")
                 Return Nothing
             Else
                 type = tokens(x)
             End If
 
-            If type = Script.ScriptTokens.Comment Then
-                Return Nothing
-            Else
-                text = Mid(line, x.Length + 1).Trim
+            text = Mid(line, x.Length + 1).Trim
+
+            Return New ScriptToken(type, text, lineNumber, raw)
+        End Function
+
+        Private Sub appendError(ByRef errors As List(Of ScriptError), lineNumber As Integer, line As String, message As String)
+            If errors Is Nothing Then
+                errors = New List(Of ScriptError)
             End If
 
-            Return New ScriptToken(type, text)
-        End Function
+            Call errors.Add(New ScriptError With {
+                .line = line,
+                .lineNumber = lineNumber,
+                .message = message
+            })
+        End Sub
     End Module
 End Namespace

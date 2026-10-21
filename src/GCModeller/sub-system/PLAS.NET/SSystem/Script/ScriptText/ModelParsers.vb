@@ -52,6 +52,7 @@
 
 #End Region
 
+Imports System.Linq
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels
@@ -80,20 +81,38 @@ Namespace Script
         ''' <param name="line"></param>
         ''' <returns></returns>
         Public Function ExperimentParser(line As String) As Experiment
-            Dim tokens As String() = line.Split
+            Return ExperimentParser(line, lineNumber:=-1)
+        End Function
+
+        ''' <summary>
+        ''' 解析出系统的状态扰动实验表达式
+        ''' </summary>
+        ''' <param name="line">
+        ''' STIMULATE 关键字之后的配置文本，形如：``OBJECT X2 START 5 KICKS -1 INTERVAL 2.5 VALUE --2``
+        ''' </param>
+        ''' <param name="lineNumber">当前行在脚本之中的行号，用于语法错误的定位</param>
+        ''' <returns></returns>
+        Public Function ExperimentParser(line As String, lineNumber As Integer) As Experiment
+            Dim body As String = stripComment(line)
+            Dim tokens As String() = body _
+                .Split _
+                .Where(Function(s) s.Length > 0) _
+                .ToArray
             Dim cfgs As New Dictionary(Of String, String)
             Dim disturb As New Experiment
 
-            For i As Integer = 1 To tokens.Length - 2 Step 2
-                cfgs.Add(tokens(i), tokens(i + 1))
+            ' 配置为 KEY VALUE 的键值对形式，关键字已经被词法器剥离掉
+            ' 所以这里必须从第0个元素开始，步长为2
+            For i As Integer = 0 To tokens.Length - 2 Step 2
+                cfgs(tokens(i).ToUpper) = tokens(i + 1)
             Next
 
-            disturb.Start = Val(cfgs("START"))
-            disturb.Interval = Val(cfgs("INTERVAL"))
-            disturb.Kicks = Val(cfgs("KICKS"))
-            disturb.Id = cfgs("OBJECT")
+            disturb.Id = requireKey(cfgs, "OBJECT", line, lineNumber)
+            disturb.Start = Val(requireKey(cfgs, "START", line, lineNumber))
+            disturb.Interval = Val(requireKey(cfgs, "INTERVAL", line, lineNumber))
+            disturb.Kicks = Val(requireKey(cfgs, "KICKS", line, lineNumber))
 
-            Dim value As String = cfgs("VALUE")
+            Dim value As String = requireKey(cfgs, "VALUE", line, lineNumber)
 
             If InStr(value, "++") = 1 Then
                 disturb.DisturbType = Types.Increase
@@ -107,6 +126,36 @@ Namespace Script
             End If
 
             Return disturb
+        End Function
+
+        Private Function requireKey(cfgs As Dictionary(Of String, String), key As String, line As String, lineNumber As Integer) As String
+            If cfgs.ContainsKey(key) Then
+                Return cfgs(key)
+            End If
+
+            Throw New System.Data.SyntaxErrorException(
+                $"Missing the required key ""{key}"" in STIMULATE config, the disturb experiment format should be: " &
+                $"OBJECT <id> START <number> KICKS <integer> INTERVAL <number> VALUE <number|++number|--number>" &
+                $"{If(lineNumber > 0, $" (script line {lineNumber})", "")}: {line}")
+        End Function
+
+        ''' <summary>
+        ''' 去除掉脚本行末尾的行注释内容
+        ''' </summary>
+        ''' <param name="line"></param>
+        ''' <returns></returns>
+        Private Function stripComment(line As String) As String
+            line = If(line, "")
+
+            For Each commentFlag As String In {"#", "//", "'"}
+                Dim offset As Integer = InStr(line, commentFlag)
+
+                If offset > 0 Then
+                    line = line.Substring(0, offset - 1)
+                End If
+            Next
+
+            Return line.Trim
         End Function
 
         ''' <summary>
