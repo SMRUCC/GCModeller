@@ -172,7 +172,9 @@ Namespace Script
             Next
 
             For Each m As SbmlSpecies In sbmlNetwork.Species
-                If Not referenced.Contains(m.Id) Then
+                ' 除了被引用的代谢物之外，方程所指向的目标代谢物自身也必须要有初始量，
+                ' 否则 ODE 求解器会因为缺失状态变量而把这些方程给丢掉
+                If Not (referenced.Contains(m.Id) OrElse index.HasReaction(m.Id)) Then
                     Continue For
                 End If
 
