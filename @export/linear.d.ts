@@ -80,13 +80,15 @@ declare namespace linear {
      *  model space contains negative values. Default 0 (no deconfounding).
      * 
      * + default value Is ``0``.
+     * @param clamp 
+     * + default value Is ``true``.
      * @param env the R# runtime environment object
      * 
      * + default value Is ``null``.
      * @return an [ElasticNet](cref:T:SMRUCC.genomics.Analysis.CellPhenotype.ElasticNet) engine which implements the
      *  [InsilicoPerturbationExperiment](cref:T:SMRUCC.genomics.Analysis.BNLearn.InsilicoPerturbationExperiment) interface.
    */
-   function elastic_model(grn: object, opts?: object, strict?: boolean, scale?: string, propagation?: string, steps?: object, damping?: number, knockdown_residual?: number, log_offset?: number, env?: object): object;
+   function elastic_model(grn: object, opts?: object, strict?: boolean, scale?: string, propagation?: string, steps?: object, damping?: number, knockdown_residual?: number, log_offset?: number, clamp?: boolean, env?: object): object;
    /**
     * Fit a linear (elastic net) gene regulatory network from the expression matrix.
     * 
@@ -114,6 +116,8 @@ declare namespace linear {
      *  regulators, so that the knockdown of a non TF gene still has downstream responses.
      * 
      * + default value Is ``null``.
+     * @param priority 
+     * + default value Is ``null``.
      * @param regulators 
      * + default value Is ``null``.
      * @param standardize z-score the expression vectors before the fitting
@@ -137,7 +141,7 @@ declare namespace linear {
      * @return a list object with two slots: ``grn`` (the fitted [GeneRegulatoryNetwork](cref:T:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GeneRegulatoryNetwork))
      *  and ``edges`` (the [RegulationEdge](cref:T:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.RegulationEdge) collection).
    */
-   function elastic_net(x: object, candidates?: object, maxreg?: object, l1_ratio?: number, alphas?: number, mutual?: boolean, TF?: any, regulators?: any, standardize?: boolean, min_abs_r?: number, gpu?: boolean, block_screener?: boolean, partial_correlation?: boolean, partial_cond?: object, negative_quota?: object, max_row_sum?: number): object|object;
+   function elastic_net(x: object, candidates?: object, maxreg?: object, l1_ratio?: number, alphas?: number, mutual?: boolean, TF?: any, priority?: any, regulators?: any, standardize?: boolean, min_abs_r?: number, gpu?: boolean, block_screener?: boolean, partial_correlation?: boolean, partial_cond?: object, negative_quota?: object, max_row_sum?: number): object|object;
    /**
     * Run the perturbation experiment for a set of genes and save the profiles as a csv file.
     * 
