@@ -165,7 +165,7 @@ End Function
 Public Function Compile(args As CommandLine) As Integer
     Dim options As RunOptions = ParseOptions(args)
 
-    Return Compilers(options.Input)(options.Input, options.Output, options.AutoFix).CLICode
+    Return Compilers(args <= "-f")(options.Input, options.Output, options.AutoFix).CLICode
 End Function
 
 <ExportAPI("Solvers")>
