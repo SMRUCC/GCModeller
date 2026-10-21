@@ -128,6 +128,16 @@ table caption {font-size:14px;font-weight:bolder;}
 <p>横截面共表达数据里，所有基因都被同一个"全局程序"绑定(细胞状态、线粒体含量、 测序质量等)，导致任意两个基因的相关系数都被抬高、且几乎全为正。把这个样本级 常数移除之后，剩下的相关更接近"特异性共表达"，负相关才会出现： 这一步直接改善敲降之后"全部基因一起下调、极少上调"的现象。</p></td>
 </tr>
 <tr>
+  <td id="remove_principal_components">
+    <a href="./linear/remove_principal_components.html">remove_principal_components</a>
+  </td>
+  <td><p>去掉表达矩阵的前若干个主成分(比"减去跨基因均值"更强的去全局因子)。</p>
+
+<p>做法：在基因抽样的子矩阵上用块幂迭代求出前 <strong>components</strong> 个 右奇异向量(样本空间的全局方向)，然后把每个基因的表达向量投影到这些方向上 并减掉。等于把"细胞组成 / 测序质量 / 全局调控程序"这类共同因子从数据里移除。</p>
+
+<p>与只减跨基因均值相比，这一步能真正削弱残留的全局共表达， 从而让网络里出现更多负相关(抑制型)的边。</p></td>
+</tr>
+<tr>
   <td id="elastic_net">
     <a href="./linear/elastic_net.html">elastic_net</a>
   </td>

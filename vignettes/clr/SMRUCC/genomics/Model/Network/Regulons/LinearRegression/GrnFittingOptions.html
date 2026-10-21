@@ -62,6 +62,12 @@ export class GrnFittingOptions {
    # 
    # 开启之后，只有在 <code>A -&gt; B</code> 与 <code>B -&gt; A</code> 两个方向都被拟合出来、 并且回归系数同号的时候才会保留这条边，边的权重取两个方向的均值。
    mutualOnly: boolean;
+   # 为负相关的候选调控因子保留的名额，默认 -1(不启用)。
+   # 
+   # 共表达网络里负相关的边极少，L1 会优先保留强正相关的候选， 于是敲降一个基因只会把整片基因一起拖下去(全下凋)。 设置成例如 15 之后，每个目标基因的候选集里会强制包含 15 个负相关基因 (其余名额仍给正相关)，网络里才会出现抑制型边，扰动响应才可能同时有升有降。
+   # 
+   # 该配额只在触发候选筛选的时候生效(候选池大于 <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GrnFittingOptions.maxCandidates">GrnFittingOptions.maxCandidates</a> 或设置了 <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GrnFittingOptions.minAbsCorrelation">GrnFittingOptions.minAbsCorrelation</a>)。
+   negativeCandidateQuota: integer;
    # <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GrnFittingOptions.partialCorrelation">GrnFittingOptions.partialCorrelation</a> 开启时，用作条件集的 hub 基因数量，默认 5。
    partialConditionSize: integer;
    # 是否使用偏相关(而不是零阶 Pearson)来给候选调控因子排序，默认关闭。

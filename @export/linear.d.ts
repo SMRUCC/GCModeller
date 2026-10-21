@@ -130,10 +130,12 @@ declare namespace linear {
      * + default value Is ``false``.
      * @param partial_cond 
      * + default value Is ``5``.
+     * @param negative_quota 
+     * + default value Is ``-1``.
      * @return a list object with two slots: ``grn`` (the fitted [GeneRegulatoryNetwork](cref:T:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GeneRegulatoryNetwork))
      *  and ``edges`` (the [RegulationEdge](cref:T:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.RegulationEdge) collection).
    */
-   function elastic_net(x: object, candidates?: object, maxreg?: object, l1_ratio?: number, alphas?: number, mutual?: boolean, TF?: any, regulators?: any, standardize?: boolean, min_abs_r?: number, gpu?: boolean, block_screener?: boolean, partial_correlation?: boolean, partial_cond?: object): object|object;
+   function elastic_net(x: object, candidates?: object, maxreg?: object, l1_ratio?: number, alphas?: number, mutual?: boolean, TF?: any, regulators?: any, standardize?: boolean, min_abs_r?: number, gpu?: boolean, block_screener?: boolean, partial_correlation?: boolean, partial_cond?: object, negative_quota?: object): object|object;
    /**
     * Run the perturbation experiment for a set of genes and save the profiles as a csv file.
     * 
@@ -247,6 +249,27 @@ declare namespace linear {
      * @return 变换之后的新矩阵；基因顺序与样本顺序保持不变
    */
    function remove_global_factor(x: object): object;
+   /**
+    * 去掉表达矩阵的前若干个主成分(比"减去跨基因均值"更强的去全局因子)。
+    *  
+    *  做法：在基因抽样的子矩阵上用块幂迭代求出前 **components** 个
+    *  右奇异向量(样本空间的全局方向)，然后把每个基因的表达向量投影到这些方向上
+    *  并减掉。等于把"细胞组成 / 测序质量 / 全局调控程序"这类共同因子从数据里移除。
+    *  
+    *  与只减跨基因均值相比，这一步能真正削弱残留的全局共表达，
+    *  从而让网络里出现更多负相关(抑制型)的边。
+    * 
+    * 
+     * @param x 表达矩阵(行 = 基因、列 = 样本)
+     * @param components 要移除的主成分个数，默认 3；小于等于 0 时原样返回
+     * 
+     * + default value Is ``3``.
+     * @param maxGenes 估计主成分时使用的基因抽样上限，默认 2000
+     * 
+     * + default value Is ``2000``.
+     * @return 变换之后的新矩阵
+   */
+   function remove_principal_components(x: object, components?: object, maxGenes?: object): object;
    /**
     * Set the wildtype baseline (the cell context) of the perturbation engine.
     * 
