@@ -176,4 +176,44 @@ Public Function Solvers(args As CommandLine) As Integer
 
     Return 0
 End Function
+
+<ExportAPI("grn-fit")>
+<Description("Infer the gene expression regulatory network from a gene expression matrix by the S-system inverse method.")>
+<Usage("grn-fit -i <expression_matrix.csv> -o <outDir> [/normalize log2] [/sparsity 0.2] [/max-edges 3] [/refine]")>
+<ArgumentAttribute("-i", False, Description:="The file path of the gene expression matrix, the first column is the gene id and the first row is the sample/time name.")>
+<ArgumentAttribute("-o", False, Description:="The output directory of the fitted model and the fitting report.")>
+<ArgumentAttribute("/normalize", True, Description:="Optional, the normalization method of the expression matrix: none, log2, zscore, quantile. The default value is log2.")>
+<ArgumentAttribute("/sparsity", True, Description:="Optional, the sparsity threshold of the regulatory interactions, the default value is 0.2.")>
+<ArgumentAttribute("/max-edges", True, Description:="Optional, the maximal number of the regulators per target gene, the default value is 3.")>
+<ArgumentAttribute("/refine", True, Description:="Optional, enables the phase 2 trajectory refinement, it requires lots of ODE integration and is slow.")>
+Public Function GRNFit(args As CommandLine) As Integer
+    Return GRN.Fit(args)
+End Function
+
+<ExportAPI("grn-perturb")>
+<Description("Run the virtual perturbation experiments against a fitted S-system model.")>
+<Usage("grn-perturb -i <model.plas/model.xml> -o <outDir> [/genes X1,X2] [/type knockdown] [/magnitude 0.8]")>
+<ArgumentAttribute("-i", False, Description:="The file path of the S-system model, it can be a PLAS script or a compiled xml model.")>
+<ArgumentAttribute("-o", False, Description:="The output directory of the perturbation trajectory files.")>
+<ArgumentAttribute("/genes", True, Description:="Optional, the comma separated target genes; all of the model variables will be used when this parameter is empty.")>
+<ArgumentAttribute("/type", True, Description:="Optional, the perturbation type: knockdown, knockout, overexpress, custom. The default value is knockdown.")>
+<ArgumentAttribute("/magnitude", True, Description:="Optional, the perturbation magnitude, the default value is 0.8 for the knock down.")>
+Public Function GRNPerturb(args As CommandLine) As Integer
+    Return GRN.Perturb(args)
+End Function
+
+<ExportAPI("grn-info")>
+<Description("Show the summary information of a S-system model.")>
+<Usage("grn-info -i <model.plas/model.xml>")>
+<ArgumentAttribute("-i", False, Description:="The file path of the S-system model, it can be a PLAS script or a compiled xml model.")>
+Public Function GRNInfo(args As CommandLine) As Integer
+    Return GRN.Info(args)
+End Function
+
+<ExportAPI("grn-selftest")>
+<Description("Run the self test of the SGrid S-system gene regulatory network inference.")>
+<Usage("grn-selftest")>
+Public Function GRNSelfTest(args As CommandLine) As Integer
+    Return GRN.SelfTest(args)
+End Function
 End Module

@@ -31,6 +31,7 @@
     <ProjectReference Include="..\..\..\engine\CompilerServices\CompilerServices.NET5.vbproj" />
     <ProjectReference Include="..\..\..\models\SBML\SBML\sbml-netcore5.vbproj" />
     <ProjectReference Include="..\SGrid\SGrid.vbproj" />
+    <ProjectReference Include="..\SGrid\SGrid.vbproj" />
     <ProjectReference Include="..\SSystem\SSystem.NET5.vbproj" />
   </ItemGroup>
   </Project>
