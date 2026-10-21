@@ -1,0 +1,39 @@
+.\" man page create by R# package system.
+.TH LINEAR 1 2000-1月 "normalize_log_matrix" "normalize_log_matrix"
+.SH NAME
+normalize_log_matrix \- 去掉样本级的全局表达程序(每个样本减去跨基因均值)。
+.SH SYNOPSIS
+\fInormalize_log_matrix(\fBx\fR as <generic> Matrix, 
+\fBtarget\fR as double = 1000000, 
+\fBpseudo\fR as double = 1);\fR
+.SH DESCRIPTION
+.PP
+去掉样本级的全局表达程序(每个样本减去跨基因均值)。
+ 
+ 对样本 s: \fBx'(g, s) = x(g, s) - mean_g(x(g, s))\fR。
+ 
+ 横截面共表达数据里，所有基因都被同一个"全局程序"绑定(细胞状态、线粒体含量、
+ 测序质量等)，导致任意两个基因的相关系数都被抬高、且几乎全为正。把这个样本级
+ 常数移除之后，剩下的相关更接近"特异性共表达"，负相关才会出现：
+ 这一步直接改善敲降之后"全部基因一起下调、极少上调"的现象。
+.PP
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- 对数空间的表达矩阵(行 = 基因、列 = 样本). 
+.PP
+.PP
+\fBtarget\fB \fR\- 目标文库规模，默认 1e6(CPM). 
+.PP
+.PP
+\fBpseudo\fB \fR\- 原变换使用的伪计数偏移，默认 1. 
+.PP
+.SH VALUE
+.PP
+重新标定之后的新矩阵
+.PP
+.SH SEE ALSO
+linear
+.SH FILES
+.PP
+TRNtoolkit.dll
+.PP

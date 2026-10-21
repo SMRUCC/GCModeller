@@ -69,6 +69,17 @@ Namespace LinearRegression
         Public Property numberOfAlphas As Integer = 20
 
         ''' <summary>
+        ''' 单个基因模型的 |系数| 之和上限，默认 0(不限制)。
+        ''' 
+        ''' 线性网络做虚拟扰动的时候，如果某一行的 |β| 之和大于 1，级联迭代的谱半径
+        ''' 就可能超过 1，扰动会被指数放大成"全基因组剧烈变化"的假象。
+        ''' 设为 0.9 之后，每一行都是压缩映射(下游变化不会超过上游变化的 0.9 倍)，
+        ''' 传播稳定、幅度可控；由于只是按比例缩小系数，R² 与边集都不变。
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property maxRowSum As Double = 0.0
+
+        ''' <summary>
         ''' 正则化路径的终止比例，即最小的 alpha 等于最大的 alpha 乘以这个比例
         ''' </summary>
         ''' <returns></returns>

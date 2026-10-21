@@ -142,6 +142,127 @@ Module Linear
     End Function
 
     ''' <summary>
+    ''' 按 MAD(中位数绝对偏差)降序挑选变异最大的若干个基因。
+    ''' 
+    ''' 用于扩充候选调控因子池：``TF ∪ 扰动靶基因`` 之外，再补上一批"在样本之间
+    ''' 波动最大"的基因，让每个目标基因的模型有机会用上真正与它共变的调控因子，
+    ''' 而不是被迫只能用 TF 和 300 个扰动靶基因去解释。
+    ''' 
+    ''' 使用 MAD 而不是标准差，是因为 MAD 对离群样本(双细胞、线粒体爆表)不敏感，
+    ''' 不会像 SD 那样把少数极端样本的基因顶到榜首。
+    ''' </summary>
+    ''' <param name="x">对数空间的表达矩阵(行 = 基因、列 = 样本)</param>
+    ''' <param name="topN">返回的基因数量</param>
+    ''' <param name="robust">True = MAD；False = 标准差(更快，但对离群值敏感)</param>
+    ''' <param name="excludeGlobal">
+    ''' 是否在排名时排除线粒体/核糖体基因(``MT-``、``MTRNR``、``RPL``、``RPS``)。
+    ''' 这些基因几乎总是 MAD 最高的，但它们代表的是细胞状态而不是特异调控；
+    ''' 把它们放进候选池会让所有基因的模型都挂到同一个全局程序上。
+    ''' </param>
+    ''' <returns>按变异程度降序排列的基因编号</returns>
+    <ExportAPI("top_variable_genes")>
+    <RApiReturn(GetType(String))>
+    Public Function top_variable_genes(x As Matrix,
+                                       Optional topN As Integer = 3000,
+                                       Optional robust As Boolean = True,
+                                       Optional excludeGlobal As Boolean = True) As Object
+
+        If x Is Nothing OrElse x.expression Is Nothing Then
+            Return New String() {}
+        End If
+
+        Dim n As Integer = x.expression.Length
+        Dim scores As Double() = New Double(n - 1) {}
+        Dim ids As String() = New String(n - 1) {}
+        Dim kept As Integer = 0
+
+        For i As Integer = 0 To n - 1
+            Dim id As String = x.expression(i).geneID
+
+            If excludeGlobal AndAlso IsGlobalProgramGene(id) Then
+                Continue For
+            End If
+
+            Dim values As Double() = x.expression(i).experiments
+
+            If values Is Nothing OrElse values.Length = 0 Then
+                Continue For
+            End If
+
+            Dim score As Double
+
+            If robust Then
+                Dim copy As Double() = CType(values.Clone(), Double())
+
+                Call Array.Sort(copy)
+
+                Dim median As Double = copy(copy.Length \ 2)
+                Dim dev As Double() = New Double(copy.Length - 1) {}
+
+                For s As Integer = 0 To copy.Length - 1
+                    dev(s) = std.Abs(values(s) - median)
+                Next
+
+                Call Array.Sort(dev)
+
+                score = dev(dev.Length \ 2)
+            Else
+                Dim sum As Double = 0.0R
+                Dim sum2 As Double = 0.0R
+
+                For s As Integer = 0 To values.Length - 1
+                    sum += values(s)
+                    sum2 += values(s) * values(s)
+                Next
+
+                Dim mean As Double = sum / values.Length
+                Dim variance As Double = sum2 / values.Length - mean * mean
+
+                score = If(variance > 0.0R, std.Sqrt(variance), 0.0R)
+            End If
+
+            scores(kept) = score
+            ids(kept) = id
+            kept += 1
+        Next
+
+        If kept = 0 Then
+            Return New String() {}
+        End If
+
+        Call Array.Resize(scores, kept)
+        Call Array.Resize(ids, kept)
+        Call Array.Sort(scores, ids)
+
+        Dim take As Integer = std.Min(std.Max(1, topN), kept)
+        Dim result As String() = New String(take - 1) {}
+
+        For i As Integer = 0 To take - 1
+            result(i) = ids(kept - 1 - i)
+        Next
+
+        Return result
+    End Function
+
+    ''' <summary>
+    ''' 判断一个基因是否属于"全局表达程序"(线粒体 / 核糖体)。
+    ''' </summary>
+    ''' <param name="id">基因编号</param>
+    ''' <returns></returns>
+    Private Function IsGlobalProgramGene(id As String) As Boolean
+        If String.IsNullOrEmpty(id) Then
+            Return False
+        End If
+
+        Dim name As String = id.Trim.ToUpperInvariant
+
+        Return name.StartsWith("MT-") OrElse
+            name.StartsWith("MTRNR") OrElse
+            name.StartsWith("RPL") OrElse
+            name.StartsWith("RPS")
+    End Function
+
+    ''' <summary>
     ''' 去掉样本级的全局表达程序(每个样本减去跨基因均值)。
     ''' 
     ''' 对样本 s: ``x'(g, s) = x(g, s) - mean_g(x(g, s))``。
@@ -151,6 +272,102 @@ Module Linear
     ''' 常数移除之后，剩下的相关更接近"特异性共表达"，负相关才会出现：
     ''' 这一步直接改善敲降之后"全部基因一起下调、极少上调"的现象。
     ''' </summary>
+    ''' <summary>
+    ''' 把一个已经在对数空间的表达矩阵重新标定到指定的文库规模(默认 CPM，1e6)。
+    ''' 
+    ''' 输入矩阵假定是 ``x = log2(y + pseudo)`` 的形式，其中 y 是"归一化之后的计数"
+    ''' (不必是整数)。先把 y 反解出来，整体乘以 ``target / median(Σy)``，再取对数：
+    ''' 
+    ''' ```
+    ''' S  = median_s( Σ_g (2^x - pseudo) )
+    ''' x' = log2( (2^x - pseudo) * target / S + pseudo )
+    ''' ```
+    ''' 
+    ''' 这一步不改变基因之间的相对丰度，只改变数值尺度。它解决的问题是：
+    ''' 低深度数据(例如每细胞只有几千个 UMI)上 ``log2(1 + y)`` 落在近似线性的区间里，
+    ''' 全矩阵被压到 0~2 之间，于是 80% 敲降只产生 0.05 量级的变化，下游传播几乎为 0；
+    ''' 重标到 CPM 之后，同一个基因的对数值落回对数区间，敲降幅度回到 2 左右、
+    ''' 下游响应回到可观测的量级，模型空间的语义也与 ``scale = "log2cpm"`` 一致。
+    ''' </summary>
+    ''' <param name="x">对数空间的表达矩阵(行 = 基因、列 = 样本)</param>
+    ''' <param name="target">目标文库规模，默认 1e6(CPM)</param>
+    ''' <param name="pseudo">原变换使用的伪计数偏移，默认 1</param>
+    ''' <returns>重新标定之后的新矩阵</returns>
+    <ExportAPI("normalize_log_matrix")>
+    <RApiReturn(GetType(Matrix))>
+    Public Function normalize_log_matrix(x As Matrix, Optional target As Double = 1000000.0, Optional pseudo As Double = 1.0) As Matrix
+        If x Is Nothing Then
+            Throw New ArgumentNullException(NameOf(x))
+        End If
+        If x.expression Is Nothing OrElse x.expression.Length = 0 Then
+            Throw New ArgumentException("the given expression matrix is empty!", NameOf(x))
+        End If
+
+        Dim n As Integer = x.expression.Length
+        Dim nSamples As Integer = If(x.expression(0).experiments Is Nothing, 0, x.expression(0).experiments.Length)
+
+        If nSamples < 1 Then
+            Return x
+        End If
+
+        ' 每个样本的 sum(2^x - pseudo)，取中位数作为当前尺度
+        Dim totals As Double() = New Double(nSamples - 1) {}
+
+        For i As Integer = 0 To n - 1
+            Dim values As Double() = x.expression(i).experiments
+
+            For s As Integer = 0 To nSamples - 1
+                Dim v As Double = std.Pow(2.0R, values(s)) - pseudo
+
+                If v > 0.0R Then
+                    totals(s) += v
+                End If
+            Next
+        Next
+
+        Dim sorted As Double() = CType(totals.Clone(), Double())
+
+        Call Array.Sort(sorted)
+
+        Dim median As Double = sorted(sorted.Length \ 2)
+
+        If median <= 0.0R Then
+            Return x
+        End If
+
+        Dim factor As Double = target / median
+
+        Call Console.WriteLine($"     >> expression matrix rescaled to the library size {target:G4} (current median {median:G4}, factor {factor:G6})")
+
+        Dim rows As New List(Of DataFrameRow)
+
+        For i As Integer = 0 To n - 1
+            Dim source As Double() = x.expression(i).experiments
+            Dim values As Double() = New Double(nSamples - 1) {}
+
+            For s As Integer = 0 To nSamples - 1
+                Dim y As Double = std.Pow(2.0R, source(s)) - pseudo
+
+                If y < 0.0R Then
+                    y = 0.0R
+                End If
+
+                values(s) = std.Log(y * factor + pseudo, 2.0R)
+            Next
+
+            Call rows.Add(New DataFrameRow With {
+                .geneID = x.expression(i).geneID,
+                .experiments = values
+            })
+        Next
+
+        Return New Matrix With {
+            .tag = If(String.IsNullOrEmpty(x.tag), "cpm", x.tag & ".cpm"),
+            .sampleID = x.sampleID,
+            .expression = rows.ToArray
+        }
+    End Function
+
     ''' <param name="x">表达矩阵(行 = 基因、列 = 样本)，通常已经过 log2(CPM+1) 变换</param>
     ''' <returns>变换之后的新矩阵；基因顺序与样本顺序保持不变</returns>
     <ExportAPI("remove_global_factor")>
@@ -409,7 +626,8 @@ Module Linear
                                 Optional block_screener As Boolean = False,
                                 Optional partial_correlation As Boolean = False,
                                 Optional partial_cond As Integer = 5,
-                                Optional negative_quota As Integer = -1) As Object
+                                Optional negative_quota As Integer = -1,
+                                Optional max_row_sum As Double = 0.9) As Object
 
         Dim priority As String() = Nothing
 
@@ -462,7 +680,8 @@ Module Linear
             .negativeCandidateQuota = negative_quota,
             .elasticNet = New ElasticNetOptions With {
                 .l1Ratio = l1_ratio,
-                .numberOfAlphas = alphas
+                .numberOfAlphas = alphas,
+                .maxRowSum = max_row_sum
             }
         }
         Dim t0 = Now

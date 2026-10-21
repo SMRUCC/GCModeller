@@ -132,10 +132,12 @@ declare namespace linear {
      * + default value Is ``5``.
      * @param negative_quota 
      * + default value Is ``-1``.
+     * @param max_row_sum 
+     * + default value Is ``0.9``.
      * @return a list object with two slots: ``grn`` (the fitted [GeneRegulatoryNetwork](cref:T:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GeneRegulatoryNetwork))
      *  and ``edges`` (the [RegulationEdge](cref:T:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.RegulationEdge) collection).
    */
-   function elastic_net(x: object, candidates?: object, maxreg?: object, l1_ratio?: number, alphas?: number, mutual?: boolean, TF?: any, regulators?: any, standardize?: boolean, min_abs_r?: number, gpu?: boolean, block_screener?: boolean, partial_correlation?: boolean, partial_cond?: object, negative_quota?: object): object|object;
+   function elastic_net(x: object, candidates?: object, maxreg?: object, l1_ratio?: number, alphas?: number, mutual?: boolean, TF?: any, regulators?: any, standardize?: boolean, min_abs_r?: number, gpu?: boolean, block_screener?: boolean, partial_correlation?: boolean, partial_cond?: object, negative_quota?: object, max_row_sum?: number): object|object;
    /**
     * Run the perturbation experiment for a set of genes and save the profiles as a csv file.
     * 
@@ -217,6 +219,27 @@ declare namespace linear {
    */
    function log2cpm(x: object, pseudo?: number, scale?: number): object;
    /**
+    * 去掉样本级的全局表达程序(每个样本减去跨基因均值)。
+    *  
+    *  对样本 s: ``x'(g, s) = x(g, s) - mean_g(x(g, s))``。
+    *  
+    *  横截面共表达数据里，所有基因都被同一个"全局程序"绑定(细胞状态、线粒体含量、
+    *  测序质量等)，导致任意两个基因的相关系数都被抬高、且几乎全为正。把这个样本级
+    *  常数移除之后，剩下的相关更接近"特异性共表达"，负相关才会出现：
+    *  这一步直接改善敲降之后"全部基因一起下调、极少上调"的现象。
+    * 
+    * 
+     * @param x 对数空间的表达矩阵(行 = 基因、列 = 样本)
+     * @param target 目标文库规模，默认 1e6(CPM)
+     * 
+     * + default value Is ``1000000``.
+     * @param pseudo 原变换使用的伪计数偏移，默认 1
+     * 
+     * + default value Is ``1``.
+     * @return 重新标定之后的新矩阵
+   */
+   function normalize_log_matrix(x: object, target?: number, pseudo?: number): object;
+   /**
     * Run the perturbation experiment for a set of genes and collect the profiles into a matrix.
     * 
     * > This api is the memory friendly replacement of the ``make_exports`` api for a batch run:
@@ -235,14 +258,6 @@ declare namespace linear {
    */
    function profiles_matrix(model: object, genes: any, mode?: string, env?: object): object;
    /**
-    * 去掉样本级的全局表达程序(每个样本减去跨基因均值)。
-    *  
-    *  对样本 s: ``x'(g, s) = x(g, s) - mean_g(x(g, s))``。
-    *  
-    *  横截面共表达数据里，所有基因都被同一个"全局程序"绑定(细胞状态、线粒体含量、
-    *  测序质量等)，导致任意两个基因的相关系数都被抬高、且几乎全为正。把这个样本级
-    *  常数移除之后，剩下的相关更接近"特异性共表达"，负相关才会出现：
-    *  这一步直接改善敲降之后"全部基因一起下调、极少上调"的现象。
     * 
     * 
      * @param x 表达矩阵(行 = 基因、列 = 样本)，通常已经过 log2(CPM+1) 变换

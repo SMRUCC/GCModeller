@@ -184,7 +184,85 @@ Namespace LinearRegression
                 Return Nothing
             End If
 
-            Return EnforceMaxFeatures(FromPath(path, stepId, y), columns, y, maxFeatures)
+            Dim fitted As ElasticNetFitResult = EnforceMaxFeatures(FromPath(path, stepId, y), columns, y, maxFeatures)
+
+            Return ApplyRowSumBudget(fitted, columns, y, options.maxRowSum)
+        End Function
+
+        ''' <summary>
+        ''' 把单基因模型的 |系数| 之和压缩到给定的预算之内。
+        ''' 
+        ''' 用途是保证扰动引擎的传播稳定：第 t 行的 |β| 之和就是"上游变化传递到 t 的
+        ''' 最大倍数"，只要它不超过 1，级联迭代就是压缩映射，不会把扰动指数放大。
+        ''' 压缩只按比例缩放系数、并重新计算截距与 SSE，边集与非零个数保持不变。
+        ''' </summary>
+        ''' <param name="result">路径选步之后的拟合结果</param>
+        ''' <param name="columns">列主序的特征矩阵</param>
+        ''' <param name="y">观测值向量</param>
+        ''' <param name="budget">允许的 |β| 之和，小于等于零表示不限制</param>
+        ''' <returns></returns>
+        Private Function ApplyRowSumBudget(result As ElasticNetFitResult,
+                                           columns As Double()(),
+                                           y As Double(),
+                                           budget As Double) As ElasticNetFitResult
+
+            If result Is Nothing OrElse result.Weights Is Nothing OrElse budget <= 0.0R Then
+                Return result
+            End If
+
+            Dim total As Double = 0.0R
+
+            For j As Integer = 0 To result.Weights.Length - 1
+                total += std.Abs(result.Weights(j))
+            Next
+
+            If total <= budget OrElse total <= 0.0R Then
+                Return result
+            End If
+
+            Dim factor As Double = budget / total
+            Dim n As Integer = y.Length
+            Dim p As Integer = columns.Length
+            Dim weights As Double() = New Double(p - 1) {}
+            Dim ySum As Double = 0.0R
+
+            For i As Integer = 0 To n - 1
+                ySum += y(i)
+            Next
+
+            Dim intercept As Double = ySum / n
+
+            For j As Integer = 0 To p - 1
+                Dim col As Double() = columns(j)
+                Dim sum As Double = 0.0R
+
+                For i As Integer = 0 To n - 1
+                    sum += col(i)
+                Next
+
+                weights(j) = result.Weights(j) * factor
+                intercept -= weights(j) * (sum / n)
+            Next
+
+            Dim sse As Double = 0.0R
+
+            For i As Integer = 0 To n - 1
+                Dim yhat As Double = intercept
+
+                For j As Integer = 0 To p - 1
+                    If weights(j) <> 0.0R Then
+                        yhat += weights(j) * columns(j)(i)
+                    End If
+                Next
+
+                sse += (y(i) - yhat) ^ 2
+            Next
+
+            result.Weights = weights
+            result.Intercept = intercept
+            result.SSE = sse
+
+            Return result
         End Function
 
         ''' <summary>
