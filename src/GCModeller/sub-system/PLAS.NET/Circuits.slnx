@@ -7,6 +7,12 @@
     <Project Path="../../../runtime/sciBASIC#/Data/DataFrame/dataframework-netcore5.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
+    <Project Path="../../../runtime/sciBASIC#/Data_science/DataMining/DataMining/DataMining.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../../runtime/sciBASIC#/Data_science/Graph/graph-netcore5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
     <Project Path="../../../runtime/sciBASIC#/Data_science/Mathematica/Math/CVODE_Solver/Sundials.CVODE.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
