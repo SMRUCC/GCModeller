@@ -77,6 +77,70 @@ Module Linear
     End Function
 
     ''' <summary>
+    ''' 把原始 counts 矩阵变换成 ``log2(CPM + 1)``。
+    ''' 
+    ''' 逐样本按总计数归一化到 <paramref name="scale"/>（默认 1e6，即 CPM），
+    ''' 再取 ``log2(x + pseudo)``。这个变换消除了样本之间测序深度的差异：
+    ''' 未取对数的 counts 矩阵上，任意两个基因的相关系数都会被共同的深度因子
+    ''' 拉到 0.6 以上且彼此接近，弹性网络的 L1 路径因此不存在稀疏的中间解，
+    ''' 拟合出来的模型会退化成 r2 ~ 0 的常数模型。
+    ''' </summary>
+    ''' <param name="x">原始表达矩阵（行 = 基因、列 = 样本）</param>
+    ''' <param name="pseudo">伪计数偏移，默认 1，即 ``log2(CPM + 1)``</param>
+    ''' <param name="scale">每个样本的归一化目标总量，默认 1e6（CPM）</param>
+    ''' <returns>变换之后的新矩阵；基因顺序与样本顺序保持不变</returns>
+    <ExportAPI("log2cpm")>
+    <RApiReturn(GetType(Matrix))>
+    Public Function log2cpm(x As Matrix, Optional pseudo As Double = 1.0, Optional scale As Double = 1000000.0) As Matrix
+        If x Is Nothing Then
+            Throw New ArgumentNullException(NameOf(x))
+        End If
+        If x.expression Is Nothing OrElse x.expression.Length = 0 Then
+            Throw New ArgumentException("the given expression matrix is empty!", NameOf(x))
+        End If
+
+        Dim n As Integer = x.expression.Length
+        Dim nSamples As Integer = If(x.expression(0).experiments Is Nothing, 0, x.expression(0).experiments.Length)
+        Dim totals As Double() = New Double(nSamples - 1) {}
+
+        For i As Integer = 0 To n - 1
+            Dim values As Double() = x.expression(i).experiments
+
+            For s As Integer = 0 To nSamples - 1
+                totals(s) += values(s)
+            Next
+        Next
+
+        Dim rows As New List(Of DataFrameRow)
+
+        For i As Integer = 0 To n - 1
+            Dim source As Double() = x.expression(i).experiments
+            Dim values As Double() = New Double(nSamples - 1) {}
+
+            For s As Integer = 0 To nSamples - 1
+                Dim total As Double = totals(s)
+
+                If total > 0.0R AndAlso source(s) > 0.0R Then
+                    values(s) = System.Math.Log(source(s) / total * scale + pseudo, 2.0R)
+                Else
+                    values(s) = 0.0R
+                End If
+            Next
+
+            Call rows.Add(New DataFrameRow With {
+                .geneID = x.expression(i).geneID,
+                .experiments = values
+            })
+        Next
+
+        Return New Matrix With {
+            .tag = If(String.IsNullOrEmpty(x.tag), "log2cpm", x.tag & ".log2cpm"),
+            .sampleID = x.sampleID,
+            .expression = rows.ToArray
+        }
+    End Function
+
+    ''' <summary>
     ''' Fit a linear (elastic net) gene regulatory network from the expression matrix.
     ''' </summary>
     ''' <param name="x">the gene expression matrix, rows are genes and columns are samples</param>
@@ -109,6 +173,7 @@ Module Linear
                                 Optional alphas As Double = 20,
                                 Optional mutual As Boolean = False,
                                 <RRawVectorArgument(TypeCodes.string)> Optional TF As Object = Nothing,
+                                <RRawVectorArgument(TypeCodes.string)> Optional regulators As Object = Nothing,
                                 Optional standardize As Boolean = False,
                                 Optional min_abs_r As Double = 0,
                                 Optional gpu As Boolean = False,
@@ -125,6 +190,31 @@ Module Linear
                 .ToArray
         End If
 
+        ' 限定候选调控因子池：只允许这些基因作为自变量。
+        ' 传入扰动靶基因列表即可把网络化简为「全部基因 x 扰动靶基因」的回归，
+        ' 候选筛选阶段会被完全跳过。
+        Dim restricted As String() = Nothing
+
+        If regulators IsNot Nothing Then
+            restricted = CLRVector _
+                .asCharacter(regulators) _
+                .Where(Function(s) Not String.IsNullOrEmpty(s)) _
+                .Select(Function(s) s.Trim) _
+                .Where(Function(s) s.Length > 0) _
+                .ToArray
+
+            If restricted.Length = 0 Then
+                restricted = Nothing
+            End If
+        End If
+
+        If restricted IsNot Nothing AndAlso priority IsNot Nothing Then
+            ' 语义冲突：限定池要求「只有这些基因」，而 TF 优先注入会额外放开 TF，
+            ' 这里以限定池为准，避免调用方误以为网络里只有扰动靶基因
+            Console.WriteLine("     >> [warn] 'TF' is ignored because the 'regulators' pool is restricted")
+            priority = Nothing
+        End If
+
         Dim options As New GrnFittingOptions With {
             .silent = True,
             .method = FittingMethod.ElasticNet,
@@ -133,6 +223,7 @@ Module Linear
             .mutualOnly = mutual,
             .standardize = standardize,
             .minAbsCorrelation = min_abs_r,
+            .regulators = restricted,
             .priorityRegulators = priority,
             .elasticNet = New ElasticNetOptions With {
                 .l1Ratio = l1_ratio,
@@ -159,7 +250,9 @@ Module Linear
             Console.WriteLine("     >> only the mutual (reversible) regulation pairs are kept")
         End If
 
-        If priority IsNot Nothing AndAlso priority.Length > 0 Then
+        If restricted IsNot Nothing Then
+            Console.WriteLine($"     >> the candidate regulator pool is restricted to {restricted.Length} gene(s)")
+        ElseIf priority IsNot Nothing AndAlso priority.Length > 0 Then
             Console.WriteLine($"     >> {priority.Length} priority (TF) genes are always included in the candidate pool")
         End If
 

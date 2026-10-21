@@ -32,6 +32,9 @@ declare namespace linear {
    */
    function coef(grn: object): object;
    /**
+   */
+   function elastic_formulas(x: object): object;
+   /**
     * Build the in silico perturbation engine from a fitted linear GRN model.
     * 
     * 
@@ -177,6 +180,26 @@ declare namespace linear {
      *  expression matrix that was used to fit the network.
    */
    function library_sizes(model: object, pseudo?: number): number;
+   /**
+    * 把原始 counts 矩阵变换成 ``log2(CPM + 1)``。
+    *  
+    *  逐样本按总计数归一化到 **scale**（默认 1e6，即 CPM），
+    *  再取 ``log2(x + pseudo)``。这个变换消除了样本之间测序深度的差异：
+    *  未取对数的 counts 矩阵上，任意两个基因的相关系数都会被共同的深度因子
+    *  拉到 0.6 以上且彼此接近，弹性网络的 L1 路径因此不存在稀疏的中间解，
+    *  拟合出来的模型会退化成 r2 ~ 0 的常数模型。
+    * 
+    * 
+     * @param x 原始表达矩阵（行 = 基因、列 = 样本）
+     * @param pseudo 伪计数偏移，默认 1，即 ``log2(CPM + 1)``
+     * 
+     * + default value Is ``1``.
+     * @param scale 每个样本的归一化目标总量，默认 1e6（CPM）
+     * 
+     * + default value Is ``1000000``.
+     * @return 变换之后的新矩阵；基因顺序与样本顺序保持不变
+   */
+   function log2cpm(x: object, pseudo?: number, scale?: number): object;
    /**
     * Run the perturbation experiment for a set of genes and collect the profiles into a matrix.
     * 

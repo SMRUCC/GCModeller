@@ -15,8 +15,10 @@ The linear (elastic net) gene regulatory network builder and the in silico
 >  ``bnlearn`` package can be used on the object that is created by
 >  ``elastic_model`` directly.
 
++ [log2cpm](linear/log2cpm.1) 把原始 counts 矩阵变换成 ``log2(CPM + 1)``。
 + [elastic_net](linear/elastic_net.1) Fit a linear (elastic net) gene regulatory network from the expression matrix.
 + [coef](linear/coef.1) Export the coefficient matrix of the fitted network.
++ [elastic_formulas](linear/elastic_formulas.1) 
 + [elastic_model](linear/elastic_model.1) Build the in silico perturbation engine from a fitted linear GRN model.
 + [gene_names](linear/gene_names.1) Get the gene ids of the fitted network, in the row order of the expression matrix.
 + [wildtype_means](linear/wildtype_means.1) Get the currently effective wildtype (baseline) expression vector of the model.

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>把原始 counts 矩阵变换成 ``log2(CPM + 1)``。</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>log2cpm {linear}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>把原始 counts 矩阵变换成 ``log2(CPM + 1)``。</h2>
+
+        <h3>Description</h3>
+
+        <p>&lt;br /&gt; 逐样本按总计数归一化到 <strong>scale</strong>（默认 1e6，即 CPM），&lt;br /&gt; 再取 <code>log2(x + pseudo)</code>。这个变换消除了样本之间测序深度的差异：&lt;br /&gt; 未取对数的 counts 矩阵上，任意两个基因的相关系数都会被共同的深度因子&lt;br /&gt; 拉到 0.6 以上且彼此接近，弹性网络的 L1 路径因此不存在稀疏的中间解，&lt;br /&gt; 拟合出来的模型会退化成 r2 ~ 0 的常数模型。</p>
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>log2cpm</strong>(<i>x</i>,
+    <i>pseudo</i> = <span style='color: green;'>1</span>,
+    <i>scale</i> = <span style='color: green;'>1000000</span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>x</dt>
+<dd><p>原始表达矩阵（行 = 基因、列 = 样本）. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>]</p></dd>
+
+
+<dt>pseudo</dt>
+<dd><p>伪计数偏移，默认 1，即 <code>log2(CPM + 1)</code>. [as double]</p></dd>
+
+
+<dt>scale</dt>
+<dd><p>每个样本的归一化目标总量，默认 1e6（CPM）. [as double]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: none;">Details</h3>
+
+        
+
+        <h3 style="display: block">Authors</h3>
+
+        TRNtoolkit
+
+        <h3>Value</h3>
+
+        <p>变换之后的新矩阵；基因顺序与样本顺序保持不变</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a></li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>linear</em> version 1.0.0.0 <a
+                href="../linear.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

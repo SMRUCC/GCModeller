@@ -110,6 +110,14 @@ table caption {font-size:14px;font-weight:bolder;}
       <table class="table-three-line">
         <caption>.NET clr function exports</caption>
         <tbody><tr>
+  <td id="log2cpm">
+    <a href="./linear/log2cpm.html">log2cpm</a>
+  </td>
+  <td><p>把原始 counts 矩阵变换成 <code>log2(CPM + 1)</code>。</p>
+
+<p>逐样本按总计数归一化到 <strong>scale</strong>（默认 1e6，即 CPM）， 再取 <code>log2(x + pseudo)</code>。这个变换消除了样本之间测序深度的差异： 未取对数的 counts 矩阵上，任意两个基因的相关系数都会被共同的深度因子 拉到 0.6 以上且彼此接近，弹性网络的 L1 路径因此不存在稀疏的中间解， 拟合出来的模型会退化成 r2 ~ 0 的常数模型。</p></td>
+</tr>
+<tr>
   <td id="elastic_net">
     <a href="./linear/elastic_net.html">elastic_net</a>
   </td>
@@ -120,6 +128,12 @@ table caption {font-size:14px;font-weight:bolder;}
     <a href="./linear/coef.html">coef</a>
   </td>
   <td><p>Export the coefficient matrix of the fitted network.</p></td>
+</tr>
+<tr>
+  <td id="elastic_formulas">
+    <a href="./linear/elastic_formulas.html">elastic_formulas</a>
+  </td>
+  <td></td>
 </tr>
 <tr>
   <td id="elastic_model">
