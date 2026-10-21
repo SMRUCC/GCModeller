@@ -106,6 +106,8 @@ declare namespace linear {
      *  regulators, so that the knockdown of a non TF gene still has downstream responses.
      * 
      * + default value Is ``null``.
+     * @param regulators 
+     * + default value Is ``null``.
      * @param standardize z-score the expression vectors before the fitting
      * 
      * + default value Is ``false``.
@@ -119,7 +121,7 @@ declare namespace linear {
      * @return a list object with two slots: ``grn`` (the fitted [GeneRegulatoryNetwork](cref:T:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GeneRegulatoryNetwork))
      *  and ``edges`` (the [RegulationEdge](cref:T:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.RegulationEdge) collection).
    */
-   function elastic_net(x: object, candidates?: object, maxreg?: object, l1_ratio?: number, alphas?: number, mutual?: boolean, TF?: any, standardize?: boolean, min_abs_r?: number, gpu?: boolean, block_screener?: boolean): object|object;
+   function elastic_net(x: object, candidates?: object, maxreg?: object, l1_ratio?: number, alphas?: number, mutual?: boolean, TF?: any, regulators?: any, standardize?: boolean, min_abs_r?: number, gpu?: boolean, block_screener?: boolean): object|object;
    /**
     * Run the perturbation experiment for a set of genes and save the profiles as a csv file.
     * 
