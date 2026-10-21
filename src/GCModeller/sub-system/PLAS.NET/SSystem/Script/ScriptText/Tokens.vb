@@ -67,9 +67,65 @@ Namespace Script
 
     Public Class ScriptToken : Inherits CodeToken(Of ScriptTokens)
 
+        ''' <summary>
+        ''' 当前记号所在的脚本文本的行号，从1开始计数，用于语法错误的精确定位
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property lineNumber As Integer
+
+        ''' <summary>
+        ''' 该记号所对应的原始脚本文本行
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property raw As String
+
         Sub New(token As ScriptTokens, text As String)
             Call MyBase.New(token, text)
         End Sub
+
+        Sub New(token As ScriptTokens, text As String, lineNumber As Integer, raw As String)
+            Call MyBase.New(token, text)
+            Me.lineNumber = lineNumber
+            Me.raw = raw
+        End Sub
+
+        ''' <summary>
+        ''' 唯一的记号描述信息
+        ''' </summary>
+        ''' <returns></returns>
+        Public Overrides Function ToString() As String
+            Return $"[{lineNumber}] {name}: {text}"
+        End Function
+    End Class
+
+    ''' <summary>
+    ''' 脚本解析过程之中的诊断信息（并非致命错误，可视具体情况忽略或者抛出异常）
+    ''' </summary>
+    Public Class ScriptError
+
+        ''' <summary>
+        ''' 出错的脚本行号，从1开始计数
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property lineNumber As Integer
+        ''' <summary>
+        ''' 出错的脚本行的原始文本内容
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property line As String
+        ''' <summary>
+        ''' 问题描述信息
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property message As String
+
+        ''' <summary>
+        ''' Gets the display text of current syntax diagnostic message.
+        ''' </summary>
+        ''' <returns></returns>
+        Public Overrides Function ToString() As String
+            Return $"line {lineNumber}: {message}    {line}"
+        End Function
     End Class
 
     Public Enum ScriptTokens
