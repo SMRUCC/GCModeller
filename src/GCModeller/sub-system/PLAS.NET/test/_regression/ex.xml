@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:vcellkit="https://bioCAD.gcmodeller.org/vcellkit/">
+   <!--
+     model:     SMRUCC.genomics.Analysis.SSystem.Script.Model
+     assembly:  SMRUCC.genomics.Analysis.SSystem, Version=1.0.9775.36927, Culture=neutral, PublicKeyToken=null
+     version:   1.0.9775.36927
+     built:     2026-10-05 08:06:22
+     md5:       4fdfdaf003c7e7acefa3134b515a0827
+     timestamp: 2026-10-21 21:40:01
+  -->
+   <Vars>
+      <var title="partially   N-deacetylated poly-beta-1,6-N-acetyl-D-glucosamine: ">
+         <Value>10</Value>
+         <Id>A</Id>
+      </var>
+      <var title="thiamin: C12H17N4OS">
+         <Value>100</Value>
+         <Id>B</Id>
+      </var>
+      <var title="poly-beta-1,6-N-acetyl-D-glucosamine: ">
+         <Value>10</Value>
+         <Id>C</Id>
+      </var>
+      <var title="a tRNA uridine34: ">
+         <Value>10</Value>
+         <Id>D</Id>
+      </var>
+   </Vars>
+   <sEquations>
+      <SEquation>
+         <x>A</x>
+         <Expression>0.5*C^0.5*D^0.5-0.5*A^0.5*B^0.5*A^0.5</Expression>
+      </SEquation>
+      <SEquation>
+         <x>B</x>
+         <Expression>0.5*A^0.5-0.5*A^0.5*B^0.5*B^0.5</Expression>
+      </SEquation>
+      <SEquation>
+         <x>C</x>
+         <Expression>0.5*A^0.5*B^0.5-0.5*C^0.5</Expression>
+      </SEquation>
+      <SEquation>
+         <x>D</x>
+         <Expression>0.5*B^0.5-0.5*D^0.5</Expression>
+      </SEquation>
+   </sEquations>
+   <Title>Generated from BioCyc Pathway/Genome Database</Title>
+   <FinalTime>100</FinalTime>
+</Model>

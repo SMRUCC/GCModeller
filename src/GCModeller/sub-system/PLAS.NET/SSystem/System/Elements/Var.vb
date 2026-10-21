@@ -68,7 +68,13 @@ Namespace Kernel.ObjectModels
         Public Overrides Property Id As String Implements Ivar.Identity
 
         <XmlAttribute> Public Property title As String
-        <XmlAttribute> Public Overrides Property Value As Double Implements Ivar.value
+        ''' <summary>
+        ''' 注意：基类的 Value 成员之上并没有任何序列化特性，假若这里标注了 XmlAttribute 
+        ''' 特性，则 XmlSerializer 会因为「成员隐藏但特性不一致」而无法反射本类型，
+        ''' 从而导致模型无法被保存为 xml 文件
+        ''' </summary>
+        ''' <returns></returns>
+        Public Overrides Property Value As Double Implements Ivar.value
 
         <XmlElement>
         Public Property comment As String

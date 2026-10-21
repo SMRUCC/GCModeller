@@ -271,6 +271,10 @@ Namespace Script
 
         ReadOnly numberRegex As New Regex("\d", RegexOptions.Compiled)
         ''' <summary>
+        ''' 标识符之中所不允许出现的字符
+        ''' </summary>
+        ReadOnly invalidCharRegex As New Regex("[^A-Za-z0-9_]", RegexOptions.Compiled)
+        ''' <summary>
         ''' 匹配形如 http://www.sbml.org/sbml/level2 或者 .../level2/version4 / .../level3/version1/core 的命名空间
         ''' （使用零宽后向断言确保不会误伤 fbc 这类扩展包的命名空间）
         ''' </summary>
@@ -391,7 +395,8 @@ Namespace Script
         End Function
 
         ''' <summary>
-        ''' 需要在这里将``-``连接符替换为下划线``_``不然在解析数学表达式的时候会被当作为减号
+        ''' 需要在这里将``-``连接符替换为下划线``_``不然在解析数学表达式的时候会被当作为减号；
+        ''' 同时数学表达式的标识符只允许字母开头，故这里还需要对不满足要求的编号做规整化
         ''' </summary>
         ''' <param name="id"></param>
         ''' <returns></returns>
@@ -406,7 +411,15 @@ Namespace Script
                 id = "N_" & id
             End If
 
-            Return id.Replace("-", "_").Replace("+", "_")
+            ' 连接符会被当作减号，其余的非法字符（例如冒号、点号）也无法被表达式引擎所识别
+            id = invalidCharRegex.Replace(id.Replace("-", "_").Replace("+", "_"), "_")
+
+            If Not Char.IsLetter(id.First) Then
+                ' 数学表达式的标识符必须以字母开头
+                id = "S_" & id
+            End If
+
+            Return id
         End Function
     End Module
 End Namespace
