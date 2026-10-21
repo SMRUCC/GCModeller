@@ -619,6 +619,7 @@ Module Linear
                                 Optional alphas As Double = 20,
                                 Optional mutual As Boolean = False,
                                 <RRawVectorArgument(TypeCodes.string)> Optional TF As Object = Nothing,
+                                <RRawVectorArgument(TypeCodes.string)> Optional priority As Object = Nothing,
                                 <RRawVectorArgument(TypeCodes.string)> Optional regulators As Object = Nothing,
                                 Optional standardize As Boolean = False,
                                 Optional min_abs_r As Double = 0,
@@ -629,15 +630,35 @@ Module Linear
                                 Optional negative_quota As Integer = -1,
                                 Optional max_row_sum As Double = 0.9) As Object
 
-        Dim priority As String() = Nothing
+        Dim priorityGenes As String() = Nothing
 
         If TF IsNot Nothing Then
-            priority = CLRVector _
+            priorityGenes = CLRVector _
                 .asCharacter(TF) _
                 .Where(Function(s) Not String.IsNullOrEmpty(s)) _
                 .Select(Function(s) s.Trim) _
                 .Where(Function(s) s.Length > 0) _
                 .ToArray
+        End If
+
+        ' 额外指定"必须进入每个基因候选集"的基因(例如 300 个扰动靶基因)。
+        ' 它们仍然要从限定池之内挑选，但如果被候选筛选(top-k 相关)挤出名单，
+        ' 会在筛选之后被追加回来，从而不会因为池子变大而丢失全部出边。
+        If priority IsNot Nothing Then
+            Dim extra As String() = CLRVector _
+                .asCharacter(priority) _
+                .Where(Function(s) Not String.IsNullOrEmpty(s)) _
+                .Select(Function(s) s.Trim) _
+                .Where(Function(s) s.Length > 0) _
+                .ToArray
+
+            If priorityGenes Is Nothing Then
+                priorityGenes = extra
+            Else
+                priorityGenes = priorityGenes _
+                    .Union(extra, StringComparer.OrdinalIgnoreCase) _
+                    .ToArray
+            End If
         End If
 
         ' 限定候选调控因子池：只允许这些基因作为自变量。
@@ -658,11 +679,18 @@ Module Linear
             End If
         End If
 
-        If restricted IsNot Nothing AndAlso priority IsNot Nothing Then
-            ' 语义冲突：限定池要求「只有这些基因」，而 TF 优先注入会额外放开 TF，
-            ' 这里以限定池为准，避免调用方误以为网络里只有扰动靶基因
-            Console.WriteLine("     >> [warn] 'TF' is ignored because the 'regulators' pool is restricted")
-            priority = Nothing
+        If restricted IsNot Nothing AndAlso priorityGenes IsNot Nothing Then
+            ' 限定池之下，优先注入只允许从池内挑选（池子之外不放开），
+            ' 但池内的基因即使被 top-k 相关筛选挤出名单，也会被追加回候选集
+            Dim allowed As New HashSet(Of String)(restricted, StringComparer.OrdinalIgnoreCase)
+
+            priorityGenes = priorityGenes _
+                .Where(Function(s) allowed.Contains(s)) _
+                .ToArray
+
+            If priorityGenes.Length = 0 Then
+                priorityGenes = Nothing
+            End If
         End If
 
         Dim options As New GrnFittingOptions With {
@@ -674,7 +702,7 @@ Module Linear
             .standardize = standardize,
             .minAbsCorrelation = min_abs_r,
             .regulators = restricted,
-            .priorityRegulators = priority,
+            .priorityRegulators = priorityGenes,
             .partialCorrelation = partial_correlation,
             .partialConditionSize = partial_cond,
             .negativeCandidateQuota = negative_quota,
@@ -714,8 +742,10 @@ Module Linear
 
         If restricted IsNot Nothing Then
             Console.WriteLine($"     >> the candidate regulator pool is restricted to {restricted.Length} gene(s)")
-        ElseIf priority IsNot Nothing AndAlso priority.Length > 0 Then
-            Console.WriteLine($"     >> {priority.Length} priority (TF) genes are always included in the candidate pool")
+        End If
+
+        If priorityGenes IsNot Nothing AndAlso priorityGenes.Length > 0 Then
+            Console.WriteLine($"     >> {priorityGenes.Length} priority gene(s) are always included in the candidate pool")
         End If
 
         Dim grn As LinearRegression.GeneRegulatoryNetwork = x.InferRegulatoryNetwork(options)
@@ -821,6 +851,7 @@ Module Linear
                                   Optional damping As Double = -1,
                                   Optional knockdown_residual As Double = -1,
                                   Optional log_offset As Double = 0,
+                                  Optional clamp As Boolean = True,
                                   Optional env As Environment = Nothing) As Object
 
         Dim config As ElasticNetPerturbationOptions
@@ -863,6 +894,11 @@ Module Linear
 
         ' 去全局因子之后模型空间带有整体偏移，扰动幅度必须按真实的 CPM 计算
         config.LogOffset = log_offset
+
+        ' 外部 context 往往落在训练矩阵的取值区间之外，此时"限幅到观测范围"会把
+        ' 一大批基因钉死在边界上：它们对任何扰动都给出同一个值，表现为一个与扰动
+        ' 无关的固定整体位移(A/C 面板上 +0.12 的来源)。做条件化预测时应当关掉它。
+        config.ClampToObserved = clamp
 
         Try
             Call config.Validate()
