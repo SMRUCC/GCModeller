@@ -68,7 +68,20 @@ Namespace Kernel.ObjectModels
         ' Dim Kernel As Kernel
         Dim model As Experiment
         Dim nextTime As Double
-        Dim getRunTicks As Func(Of Long)
+        ''' <summary>
+        ''' 获取当前的仿真时间（离散内核之下为迭代的 tick 计数，ODE 求解器之下为积分的时间点）
+        ''' </summary>
+        Dim getRunTicks As Func(Of Double)
+
+        ''' <summary>
+        ''' 本扰动实验所施加的目标对象
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property TargetVar As Ivar
+            Get
+                Return Target
+            End Get
+        End Property
 
         ''' <summary>
         ''' 周期性的实验之中所剩余的刺激
@@ -83,7 +96,7 @@ Namespace Kernel.ObjectModels
 
         ReadOnly __disturb As Func(Of Double, Double, Double)
 
-        Sub New(model As Experiment, target As Ivar, getRunTicks As Func(Of Long))
+        Sub New(model As Experiment, target As Ivar, getRunTicks As Func(Of Double))
             Me.model = model
             Me.Target = target
             Me.getRunTicks = getRunTicks

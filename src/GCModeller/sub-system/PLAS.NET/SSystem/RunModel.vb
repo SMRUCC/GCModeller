@@ -59,24 +59,29 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Math.Calculus
 Imports Microsoft.VisualBasic.Math.Calculus.Dynamics.Data
 Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.Analysis.SSystem.Runner
 Imports SMRUCC.genomics.Analysis.SSystem.Script
 
 Public Module RunModel
 
     ''' <summary>
-    ''' Run model from commandline.
+    ''' Run a S-system model by using the simulation configuration object.
+    ''' (以配置对象作为驱动的模型运行入口)
     ''' </summary>
-    ''' <param name="args"></param>
+    ''' <param name="options"></param>
     ''' <returns></returns>
-    Public Delegate Function IRunModel(args As CommandLine) As Integer
+    Public Delegate Function IRunModel(options As RunOptions) As Integer
 
+    ''' <summary>
+    ''' 依据输入模型的格式的名称，大小写不敏感
+    ''' </summary>
+    ''' <returns></returns>
     Public ReadOnly Property RunMethods As IReadOnlyDictionary(Of String, IRunModel) =
         New HashDictionary(Of IRunModel) From {
  _
@@ -85,42 +90,68 @@ Public Module RunModel
             {"sbml", AddressOf RunSBML}
     }
 
-    Public Function RunScript(args As CommandLine) As Integer
-        Return Script.ScriptCompiler.Compile(path:=args("-i")).RunModel(args:=args)
+    ''' <summary>
+    ''' 从 PLAS 脚本文本之中编译出模型并运行
+    ''' </summary>
+    ''' <param name="options"></param>
+    ''' <returns></returns>
+    Public Function RunScript(options As RunOptions) As Integer
+        Return Script.ScriptCompiler _
+            .Compile(path:=options.Input, AutoFix:=options.AutoFix) _
+            .RunModel(options:=options)
     End Function
 
-    Public Function RunModel(args As CommandLine) As Integer
-        Return Script.Model.Load(args("-i")).RunModel(args:=args)
+    ''' <summary>
+    ''' 直接运行一个已经编译好的模型文件
+    ''' </summary>
+    ''' <param name="options"></param>
+    ''' <returns></returns>
+    Public Function RunModel(options As RunOptions) As Integer
+        Return Script.Model _
+            .Load(options.Input) _
+            .RunModel(options:=options)
     End Function
 
-    Public Function RunSBML(args As CommandLine) As Integer
-        Return SBML.Compile(args("-i")).RunModel(args:=args)
+    ''' <summary>
+    ''' 从 SBML 文件之中编译出模型并运行
+    ''' </summary>
+    ''' <param name="options"></param>
+    ''' <returns></returns>
+    Public Function RunSBML(options As RunOptions) As Integer
+        Return Script.SBML _
+            .Compile(path:=options.Input, AutoFix:=options.AutoFix, options:=options) _
+            .RunModel(options:=options)
     End Function
 
-    ' /precise 0.1
-    ' /time 10
-
+    ''' <summary>
+    ''' Run model from the simulation configuration object.(依据配置对象运行模型并返回退出码)
+    ''' </summary>
+    ''' <param name="model"></param>
+    ''' <param name="options"></param>
+    ''' <returns></returns>
     <Extension>
-    Public Function RunModel(model As Script.Model, args As CommandLine) As Integer
-        Dim t As Double = args("/time")
-        Dim in$ = args <= "-i"
-        Dim out As String = args("-o") Or (in$.TrimSuffix & ".out.Csv")
-
-        If t > 0 Then
-            model.FinalTime = t
+    Public Function RunModel(model As Script.Model, options As RunOptions) As Integer
+        If options Is Nothing Then
+            options = New RunOptions()
         End If
 
-        If args("/ODEs") Then
-            Call "PLAS using ODEs solver....".debug
+        Call options.Validate()
 
-            Dim p As Double = args.GetValue("/precise", 10000)
-            Dim output As ODEsOut = Kernel.ODEs.RunSystem(model, Nothing)
+        Dim out As String = options.GetOutputPath()
+
+        model.FinalTime = options.GetFinalTime(model)
+
+        If options.UseODEs Then
+            Call Console.WriteLine($"PLAS using ODEs solver {options.Solver.ToString}....")
+
+            Dim output As ODEsOut = Kernel.ODEs.RunSystem(model, Nothing, options)
             Dim df As File = output.DataFrame(xDisp:="#Time")
 
             Return df.Save(out, Encodings.ASCII)
         Else
-            Dim p As Double = args("/precise") Or 0.1
-            Dim ds As IEnumerable(Of DataSet) = Kernel.Kernel.Run(model, p)
+            Call Console.WriteLine($"PLAS using discrete iteration kernel, ticks={Kernel.Kernel.TickCount(model.FinalTime, options.Precise)}....")
+
+            Dim ds As IEnumerable(Of DataSet) = Kernel.Kernel.Run(model, options)
             Dim maps As New Dictionary(Of String, String) From {
                 {NameOf(DataSet.ID), "#Time"}
             }

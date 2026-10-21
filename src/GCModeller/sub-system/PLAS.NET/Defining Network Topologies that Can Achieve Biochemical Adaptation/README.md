@@ -77,3 +77,208 @@ $$B^* = A^* \cdot \frac{k_{AB} K'_{FB}}{F_B k'_{FB}}$$
 ###### Figure 2. Minimal Networks (%3 Links) Capable of Adaptation
 + (A) Adaptive networks composed of negative feedback loops. Three examples of adaptation networks are shown in the upper panel. Each is one member(shaded) of a group of similar adaptation networks, whose signs of regulations are listed underneath. For comparison, three examples of nonadaptive networks are shown in the low panel, with their ‘‘defects’’ for adaptation function listed underneath.
 + (B) Adaptive networks composed of incoherent feedforward loops. The only two minimal adaptation networks in this case are shown in the upper panel. Examples of nonadaptive networks are shown in the lower panel.
+
+# 面向"功能拓扑搜索"的程序系统设计
+以这篇 Cell 2009 论文的方法为核心，系统本质上是一个**"枚举—模拟—评估—统计"四层流水线**：先枚举所有可能的网络拓扑，对每个拓扑在参数空间中大量采样，将每组参数代入 ODE 动力学模型仿真，评估其是否落入"功能区"，最后从统计上筛选出稳健的功能拓扑并归纳基序。下面从整体架构、六大核心模块、代码与数据结构建议、验证技巧四个层面展开。
+---
+## 一、整体系统架构
+```
+┌─────────────────────────────────────────────────────────────┐
+│                     工作流编排层（DAG 调度器）                  │
+└─────────────────────────────────────────────────────────────┘
+        ↓
+┌───────────────┐   ┌───────────────┐   ┌────────────────┐   ┌──────────────────┐
+│ ① 拓扑枚举器   │ → │ ② 参数采样器   │ → │ ③ 动力学仿真器  │ → │ ④ 功能评估器      │
+│ Topology      │   │ Parameter     │   │ ODE Solver     │   │ Functional       │
+│ Enumerator    │   │ Sampler (LHS) │   │                │   │ Assessor         │
+└───────────────┘   └───────────────┘   └────────────────┘   └──────────────────┘
+        ↓                                       ↓
+┌─────────────────────────────────────────────────────────────┐
+│              ⑤ 拓扑聚类与基序分析器（后处理）                   │
+└─────────────────────────────────────────────────────────────┘
+        ↓
+┌─────────────────────────────────────────────────────────────┐
+│         ⑥ 存储与可视化层（数据库 + 绘图，贯穿全流程）           │
+└─────────────────────────────────────────────────────────────┘
+```
+这与论文 Figure 1D 的流程一一对应：拓扑枚举 → 参数采样(10,000 组) → ODE 仿真 → sensitivity/precision 二维分布图与功能判据。类似的方法论在后续的开关响应拓扑搜索工作中也被沿用并系统化，可作为参照实现。
+---
+## 二、六大核心模块详细设计
+### 模块①：拓扑枚举器（Topology Enumerator）
+**功能**：穷举 N 节点网络的所有可能拓扑，并做结构预过滤。
+**实现要点**：
+- **枚举方式**：3 个节点共有 9 条有向链接（A→B, A→C, B→A, B→C, C→A, C→B, A→A, B→B, C→C），每条链接有 {正调控 +1, 负调控 −1, 无调控 0} 三种状态，故空间为 $3^9 = 19{,}683$ 种。可推广到 $N$ 节点时为 $3^{N^2}$（注意组合爆炸，$N\geq 5$ 时需引入剪枝或采样策略）。
+- **结构剪枝**：过滤掉"输入节点 A 到输出节点 C 之间不存在直接或间接因果连通路径"的拓扑。论文中 19,683 → 16,038，即剔除了约 3,645 种无连通拓扑。可用 BFS/DFS 在有向图上判定 A→C 可达性。
+- **拓扑编码**：把每条链接的符号编码成长度 9 的整数向量，作为拓扑的唯一 ID；后续所有统计都以此为 key。
+```python
+# 拓扑编码示例：9 维向量，元素 ∈ {-1, 0, +1}
+# 顺序固定为 [A→B, A→C, B→A, B→C, C→A, C→B, A→A, B→B, C→C]
+import itertools, numpy as np
+from collections import deque
+def enumerate_topologies(n=3):
+    links = [(i, j) for i in range(n) for j in range(n)]
+    for signs in itertools.product([-1, 0, 1], repeat=len(links)):
+        topo = np.array(signs, dtype=np.int8)
+        if has_io_path(topo, input_node=0, output_node=2, links=links):
+            yield topo
+def has_io_path(topo, input_node, output_node, links):
+    adj = {i: [] for i in range(3)}
+    for (i, j), s in zip(links, topo):
+        if s != 0:
+            adj[i].append(j)
+    visited, q = {input_node}, deque([input_node])
+    while q:
+        u = q.popleft()
+        if u == output_node: return True
+        for v in adj[u]:
+            if v not in visited:
+                visited.add(v); q.append(v)
+    return False
+```
+**输出**：拓扑 ID 列表 + 邻接矩阵缓存，供后续模块直接调用。
+---
+### 模块②：参数采样器（Parameter Sampler）
+**功能**：为每个拓扑生成大量参数组合，覆盖动力学的关键非线性区域。
+**实现要点**：
+- **维度计算**：参数量 $n_p = 2n_l + 2$，其中 $n_l$ 是网络中链接数（含背景酶引入的链接）。每个链接贡献一对 (k_cat, K_M)。
+- **采样策略**：使用 **Latin Hypercube Sampling (LHS)** 在**对数空间**均匀采样，$k \in [0.1, 10]$，$K \in [0.001, 100]$。论文采样了 10,000 组/拓扑，总电路数约 $1.6\times 10^8$。SciPy 提供现成的 `scipy.stats.qmc.LatinHypercube` 实现。
+- **背景酶常数**：E_i = F_i = 0.5（当某节点只有正调控入链时，加一个恒定失活酶做反向反应，反之亦然），作为非采样参数固定。
+- **可扩展**：如果未来要扩大采样量或加入约束采样（如饱和区/线性区针对性采样），采样器要可插拔。
+```python
+from scipy.stats import qmc
+import numpy as np
+def sample_parameters(n_links, n_samples=10_000, seed=42):
+    n_params = 2 * n_links + 2
+    sampler = qmc.LatinHypercube(d=n_params, seed=seed)
+    unit = sampler.random(n_samples)                     # [0,1]^n_p
+    # log10 范围：k ∈ [0.1, 10] → log10 ∈ [-1, 1]
+    #              K ∈ [0.001, 100] → log10 ∈ [-3, 2]
+    lb = np.tile([-1, -3], n_links + 1)[:n_params]
+    ub = np.tile([ 1,  2], n_links + 1)[:n_params]
+    log_params = lb + unit * (ub - lb)
+    return 10.0 ** log_params   # 每行一个参数集
+```
+**输出**：参数矩阵 (n_samples × n_params)，与拓扑 ID 关联。
+---
+### 模块③：动力学仿真器（ODE Simulator）
+**功能**：将"拓扑 + 参数"翻译成 ODE 方程组，数值求解并记录时序轨迹。
+**实现要点**：
+- **ODE 构建**：对每个节点 i，按论文 Equation (7) 写出 Michaelis-Menten 型速率方程：
+  
+  $$\frac{dB}{dt} = \sum_i X_i \cdot k_{X_iB}\cdot\frac{1-B}{(1-B)+K_{X_iB}} - \sum_i Y_i \cdot k'_{Y_iB}\cdot\frac{B}{B+k'_{Y_iB}}$$
+  
+  其中 $X_i$ 是所有激活酶（正调控者，含背景酶 E_i），$Y_i$ 是所有失活酶（负调控者，含背景酶 F_i）。
+- **输入协议**：输入 I 作用于 A 节点，采用阶跃方案：初始 I₁=0.5，稳态后变为 I₂=0.6（相对变化 20%）。
+- **求解器选择**：系统刚性程度取决于参数，推荐自适应刚性求解器（如 LSODA、BDF、Radau）。若追求性能，可用 JAX/numba 做 JIT 编译，或采用自适应概率 ODE 求解器以配合 JIT 获得数量级加速。
+- **批量计算**：这是整个系统的性能瓶颈，$10^8$ 量级仿真必须**高度并行**。建议：
+  - Python 层面：`multiprocessing` / `joblib` / `ray` / `dask` 多进程分发拓扑任务；
+  - JIT 加速：`numba.njit`、`jax.jit`（对 ODE right-hand side 向量化）；
+  - 或换用高性能库：`JiTCODE`、`diffrax`（JAX 生态）。
+- **异常处理**：仿真可能不收敛、溢出、出现持续振荡等，需要 try/except 包裹并记录失败案例，打上 `ill-behaved` 标签后跳过（论文也明确剔除"病态电路"）。
+```python
+from numba import njit
+from scipy.integrate import solve_ivp
+@njit(cache=True)
+def rhs(t, y, params, topo):
+    A, B, C = y
+    # 根据 topo 和 params 展开各链接项，逐项累加
+    dA = dB = dC = 0.0
+    # ... 按拓扑逐条链接累加米氏项 ...
+    return dA, dB, dC
+def simulate(topo, params, I1=0.5, I2=0.6, t_end=1000.0):
+    # Phase 1: 输入 I1，求稳态 O1
+    sol1 = solve_ivp(rhs, [0, t_end], [0.5,0.5,0.5],
+                     args=(params, topo), method='LSODA',
+                     rtol=1e-6, atol=1e-9)
+    O1 = sol1.y[2][-1]
+    y0 = sol1.y[:, -1]
+    # Phase 2: 输入跳变 I1→I2，记录 transient
+    sol2 = solve_ivp(rhs, [0, t_end], y0,
+                     args=(params, topo), method='LSODA',
+                     dense_output=True, rtol=1e-6, atol=1e-9)
+    return sol1, sol2
+```
+**输出**：每个 (topology, params) 的 O1、O2、O_peak（瞬态峰值），存入数据库。
+---
+### 模块④：功能评估器（Functional Assessor）
+**功能**：根据 O1、O2、O_peak 计算灵敏度与精度，判定电路是否落入功能区。
+**实现要点**：
+- **核心指标**（论文 Equation 8, 9）：
+  - 灵敏度 $S = \dfrac{|O_{peak}-O_1|/O_1}{|I_2-I_1|/I_1}$
+  - 精度 $P = \dfrac{|O_2-O_1|/O_1}{|I_2-I_1|/I_1}^{-1}$
+  - 功能判据：$S > 1$ 且 $P > 10$（即输出瞬态变化 >20%，最终稳态偏差 <2%）
+- **鲁棒性 Q 值**：对每个拓扑，统计落入功能区的参数集数量 Q。论文用 Q 作为"稳健性"指标（一个拓扑 Q 值大 = 大量参数下都能实现适应性）。
+- **过度代表分析**：论文以"Q > 10"作为进入功能拓扑列表的门槛（16,038 → 395 个拓扑）。这个阈值是超参数，可以做成可配置项。
+- **病态电路过滤**：稳态值过小（<0.001）、弛豫时间过长、持续振荡/欠阻尼严重的样本剔除。
+```python
+def assess(O1, O_peak, O2, I1=0.5, I2=0.6,
+           s_thresh=1.0, p_thresh=10.0):
+    denom = abs(I2 - I1) / I1
+    S = abs(O_peak - O1) / O1 / denom
+    E = abs(O2 - O1) / O1 / denom          # 相对适应误差
+    P = 1.0 / E if E > 0 else np.inf
+    return S, P, (S >= s_thresh and P >= p_thresh)
+```
+**输出**：`(topo_id, S, P, is_functional)` 记录流，聚合后得到每个拓扑的 Q 值。
+---
+### 模块⑤：拓扑聚类与基序分析器（Post-processing & Motif Analyzer）
+**功能**：对筛选出的功能拓扑做结构归纳，识别核心基序（NFBLB / IFFLP）。
+**实现要点**：
+- **基序自动识别**：遍历每个功能拓扑，检查是否含有：
+  - **负反馈环**（NFBLB 类）：从任一节点出发沿有向链接回到原点，链上符号乘积为负，且存在一个不直接回连输入的"缓冲节点"；
+  - **非相干前馈环**（IFFLP 类）：从输入节点 A 出发有两条路径汇于输出 C，两条路径累计符号一正一负。
+  
+  可用 DFS 枚举所有环与前馈路径，按符号乘积分类。
+- **Venn 图统计**：统计"含 NFBL / 含 IFFL / 功能性"三集合的交并关系，复现论文 Figure 4B。
+- **Hamming 距离聚类**：拓扑用长度 9 的符号向量表示，两拓扑间距离定义为不同符号位的个数；用层次聚类（`scipy.cluster.hierarchy` 或 MATLAB `clustergram` 等价物）分组，观察是否出现共享子结构的亚类。
+- **过度代表统计**：在功能区热点处（sensitivity-precision 平面右上角）统计哪些拓扑频繁出现，筛出 395 个鲁棒拓扑。
+```python
+from scipy.spatial.distance import pdist
+from scipy.cluster.hierarchy import linkage, fcluster
+def hamming_matrix(topo_ids):
+    X = np.array(topo_ids, dtype=np.int8)
+    D = pdist(X, metric='hamming') * X.shape[1]  # 还原为计数
+    return D
+def cluster_functional_topos(topo_ids, max_dist=3):
+    D = hamming_matrix(topo_ids)
+    Z = linkage(D, method='average')
+    labels = fcluster(Z, t=max_dist, criterion='distance')
+    return labels
+```
+**输出**：基序归属表、Venn 统计、聚类树状图、设计表雏形。
+---
+### 模块⑥：存储与可视化层（贯穿全流程）
+**实现要点**：
+- **数据模型**：
+  ```
+  Topology(id, sign_vector, adjacency_json)
+  ParameterSet(id, topology_id, values_json)
+  SimulationResult(id, paramset_id, O1, O_peak, O2, S, P, is_functional, ill_beaved_flag)
+  MotifAssignment(topology_id, has_nfblb, has_iffbp, cluster_label)
+  ```
+- **推荐数据库**：由于数据量大（$10^8$ 量级记录），建议：
+  - 轻量场景：SQLite + 索引
+  - 大规模：Parquet + DuckDB / ClickHouse / PostgreSQL + TimescaleDB
+- **可视化组件**：
+  - sensitivity–precision 散点/密度热图（复现 Figure 1D, 4A）
+  - 拓扑聚类树状图 + 每类代表网络（Figure 4C, 4D）
+  - 设计表生成器（Figure 6 风格：最小网络 + 附加基序 → Q 值提升）
+  - 网络示意图渲染（`networkx` + `matplotlib` 或 `pygraphviz`，用颜色标注正/负/无调控链接）
+---
+## 三、工作流编排层
+**功能**：把以上模块串成 DAG，支持断点续跑、并行分发、失败重试。
+**推荐方案**：
+- **轻量**：`prefect` / `dagster` / `airflow`，把"枚举 → 采样 → 仿真 → 评估"作为 4 个 task 节点；
+- **大规模并行**：`ray` 做分布式任务调度，拓扑间天然可并行（embarrassingly parallel），单个拓扑内部参数集也可再并行；
+- **容错**：任务幂等（同一拓扑重跑结果可复现），seed 固定（LHS 采样器 seed 与仿真初值 seed 都要固化），保证结果可复现。
+---
+## 四、验证技巧与陷阱提醒
+1. **单元测试锚点**：论文给出了一些"已知否定结论"可作为校验——例如 2 节点网络（4 链接、81 种拓扑）没有任何一个能实现适应性，3 节点 2 链接网络也不行；最小可行链接数是 3。跑通系统后这些数字必须一致。
+2. **复核校准**：跑一遍 11 个最小拓扑（3 节点 3 链接），它们的 Q 值分布应与论文 Figure 2 的热图定性一致。
+3. **阈值敏感性**：S > 1、P > 10、Q > 10 都是超参数，建议做成配置文件并在结果中报告不同阈值下的拓扑集合，评估结论稳定性。
+4. **动力学刚性**：Michaelis-Menten 项在 K 值极小时（接近 0.001 下界）会非常刚性，务必用刚性求解器并设置合理的 `atol/rtol`，否则会把数值噪声误判为适应行为。
+5. **符号约定统一**：正/负调控的约定务必与论文 Equation (7) 一致（$X_i$ 为激活酶列表，$Y_i$ 为失活酶列表，且隐含背景酶 E_i/F_i = 0.5 补全），否则基序识别会出错。
+6. **组合爆炸预警**：3 节点没问题，但若想推广到 4 节点（$3^{16} \approx 4.3\times10^7$ 拓扑 × 参数采样）计算量会瞬间爆炸，需要引入图同构去重（如 `nauty` 的 canonical labeling）和更激进的剪枝。
+---
+## 五、一句话总结
+把系统拆成 **"拓扑枚举器（3⁹ 穷举 + 连通性剪枝）→ 参数采样器（LHS 对数空间）→ ODE 仿真器（MM 动力学 + 刚性求解 + JIT 并行）→ 功能评估器（S/P/Q 三指标）→ 基序分析器（环/前馈符号扫描 + Hamming 聚类）→ 存储/可视化"** 六个松耦合模块，用 DAG 编排串联起来，即可复现论文的核心算法流程，并为扩展到其他功能（开关、振荡、双稳态等）留好接口。

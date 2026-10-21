@@ -103,7 +103,20 @@ Namespace Script
                 If value Is Nothing Then
                     __symbols = New Dictionary(Of var)
                 Else
-                    __symbols = value.ToDictionary
+                    __symbols = New Dictionary(Of var)
+
+                    For Each x As var In value
+                        If String.IsNullOrEmpty(x.Id) Then
+                            Continue For
+                        End If
+                        If __symbols.ContainsKey(x.Id) Then
+                            ' 重复的申明不应该被静默的覆盖掉，这里给出一条可见的诊断信息
+                            Call Console.WriteLine($"[WARN] Duplicated initial value declaration of the variable ""{x.Id}"", the last one was applied.")
+                            __symbols(x.Id) = x
+                        Else
+                            Call __symbols.Add(x)
+                        End If
+                    Next
                 End If
             End Set
         End Property
@@ -126,10 +139,11 @@ Namespace Script
 
         ''' <summary>
         ''' The ticks count value of the time that exit this simulation.
-        ''' (整个内核运行的退出时间) 
+        ''' (整个内核运行的退出时间，脚本之中的 FINALTIME 允许为浮点数值，
+        ''' 故这里必须为双精度浮点数，否则会出现 4.5 被舍入为整数的问题) 
         ''' </summary>
         ''' <remarks></remarks>
-        <XmlElement> Public Property FinalTime As Integer
+        <XmlElement> Public Property FinalTime As Double
 
         <ScriptIgnore> Public ReadOnly Property Summary As String
             Get

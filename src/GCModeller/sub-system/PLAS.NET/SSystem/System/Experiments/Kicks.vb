@@ -83,7 +83,7 @@ Namespace Kernel
             __pendingKicks = model.Experiments _
                 .SafeQuery _
                 .ToList(Function(x)
-                            Return New Disturb(x, kernel.GetValue(x.Id), Function() kernel.RuntimeTicks)
+                            Return New Disturb(x, kernel.GetValue(x.Id), Function() CDbl(kernel.RuntimeTicks))
                         End Function)
 
             ' For i As Integer = 0 To __pendingKicks.Count - 1
@@ -91,12 +91,29 @@ Namespace Kernel
             ' Next
         End Sub
 
-        Sub New(vars As Dictionary(Of String, Ivar), model As Script.Model, getRunTicks As Func(Of Long))
-            __pendingKicks = model.Experiments.ToList(
-                Function(x) New Disturb(
-                    x,
-                    vars(x.Id),
-                    getRunTicks))
+        ''' <summary>
+        ''' 构造扰动实验调度器
+        ''' </summary>
+        ''' <param name="vars"></param>
+        ''' <param name="model"></param>
+        ''' <param name="getRunTicks">
+        ''' 获取当前的仿真时间的函数句柄：在离散内核之下应当返回迭代的 tick 计数值，
+        ''' 在 ODE 求解器之下则应当返回当前的积分时间点
+        ''' </param>
+        Sub New(vars As Dictionary(Of String, Ivar), model As Script.Model, getRunTicks As Func(Of Double))
+            __pendingKicks = model.Experiments _
+                .SafeQuery _
+                .ToList(Function(x)
+                            Return New Disturb(
+                                x,
+                                If(vars.ContainsKey(x.Id), vars(x.Id), Nothing),
+                                getRunTicks)
+                        End Function)
+            ' 目标变量并没有在模型之中被申明的时候，该扰动实验是没有任何意义的
+            __pendingKicks = (From x As Disturb
+                              In __pendingKicks
+                              Where Not x.TargetVar Is Nothing
+                              Select x).ToList
         End Sub
 
         Public Sub loadKernel(kernel As Kernel)

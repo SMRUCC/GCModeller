@@ -171,15 +171,15 @@ Namespace Runner
             End If
 
             Dim precision As Double = If(Precise > 0, Precise, 0.1)
-            Dim steps As Long = CLng(System.Math.Ceiling(finalTime / precision))
+            Dim points As Long = CLng(System.Math.Ceiling(finalTime / precision))
 
-            If steps < 1 Then
-                steps = 1
-            ElseIf steps > MaxAutoSteps Then
-                steps = MaxAutoSteps
+            If points < 1 Then
+                points = 1
+            ElseIf points > MaxAutoSteps Then
+                points = MaxAutoSteps
             End If
 
-            Return CInt(steps)
+            Return CInt(points)
         End Function
 
         ''' <summary>
