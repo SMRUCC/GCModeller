@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>按 MAD(中位数绝对偏差)降序挑选变异最大的若干个基因。</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>top_variable_genes {linear}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>按 MAD(中位数绝对偏差)降序挑选变异最大的若干个基因。</h2>
+
+        <h3>Description</h3>
+
+        <p>&lt;br /&gt; 用于扩充候选调控因子池：<code>TF ∪ 扰动靶基因</code> 之外，再补上一批"在样本之间&lt;br /&gt; 波动最大"的基因，让每个目标基因的模型有机会用上真正与它共变的调控因子，&lt;br /&gt; 而不是被迫只能用 TF 和 300 个扰动靶基因去解释。&lt;br /&gt; &lt;br /&gt; 使用 MAD 而不是标准差，是因为 MAD 对离群样本(双细胞、线粒体爆表)不敏感，&lt;br /&gt; 不会像 SD 那样把少数极端样本的基因顶到榜首。</p>
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>top_variable_genes</strong>(<i>x</i>,
+    <i>topN</i> = <span style='color: green;'>3000</span>,
+    <i>robust</i> = <span style='color: blue !important;'>TRUE</span>,
+    <i>excludeGlobal</i> = <span style='color: blue !important;'>TRUE</span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>x</dt>
+<dd><p>对数空间的表达矩阵(行 = 基因、列 = 样本). [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>]</p></dd>
+
+
+<dt>topN</dt>
+<dd><p>返回的基因数量. [as integer]</p></dd>
+
+
+<dt>robust</dt>
+<dd><p>True = MAD；False = 标准差(更快，但对离群值敏感). [as boolean]</p></dd>
+
+
+<dt>excludeGlobal</dt>
+<dd><p>是否在排名时排除线粒体/核糖体基因(<code>MT-</code>、<code>MTRNR</code>、<code>RPL</code>、<code>RPS</code>)。 这些基因几乎总是 MAD 最高的，但它们代表的是细胞状态而不是特异调控； 把它们放进候选池会让所有基因的模型都挂到同一个全局程序上。. [as boolean]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: none;">Details</h3>
+
+        
+
+        <h3 style="display: block">Authors</h3>
+
+        TRNtoolkit
+
+        <h3>Value</h3>
+
+        <p>按变异程度降序排列的基因编号</p><h4>clr value class</h4><ul><li>string</li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>linear</em> version 1.0.0.0 <a
+                href="../linear.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

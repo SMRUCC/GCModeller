@@ -118,6 +118,16 @@ table caption {font-size:14px;font-weight:bolder;}
 <p>逐样本按总计数归一化到 <strong>scale</strong>（默认 1e6，即 CPM）， 再取 <code>log2(x + pseudo)</code>。这个变换消除了样本之间测序深度的差异： 未取对数的 counts 矩阵上，任意两个基因的相关系数都会被共同的深度因子 拉到 0.6 以上且彼此接近，弹性网络的 L1 路径因此不存在稀疏的中间解， 拟合出来的模型会退化成 r2 ~ 0 的常数模型。</p></td>
 </tr>
 <tr>
+  <td id="top_variable_genes">
+    <a href="./linear/top_variable_genes.html">top_variable_genes</a>
+  </td>
+  <td><p>按 MAD(中位数绝对偏差)降序挑选变异最大的若干个基因。</p>
+
+<p>用于扩充候选调控因子池：<code>TF ∪ 扰动靶基因</code> 之外，再补上一批"在样本之间 波动最大"的基因，让每个目标基因的模型有机会用上真正与它共变的调控因子， 而不是被迫只能用 TF 和 300 个扰动靶基因去解释。</p>
+
+<p>使用 MAD 而不是标准差，是因为 MAD 对离群样本(双细胞、线粒体爆表)不敏感， 不会像 SD 那样把少数极端样本的基因顶到榜首。</p></td>
+</tr>
+<tr>
   <td id="normalize_log_matrix">
     <a href="./linear/normalize_log_matrix.html">normalize_log_matrix</a>
   </td>

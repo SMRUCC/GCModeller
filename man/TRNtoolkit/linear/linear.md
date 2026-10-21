@@ -16,6 +16,7 @@ The linear (elastic net) gene regulatory network builder and the in silico
 >  ``elastic_model`` directly.
 
 + [log2cpm](linear/log2cpm.1) 把原始 counts 矩阵变换成 ``log2(CPM + 1)``。
++ [top_variable_genes](linear/top_variable_genes.1) 按 MAD(中位数绝对偏差)降序挑选变异最大的若干个基因。
 + [normalize_log_matrix](linear/normalize_log_matrix.1) 去掉样本级的全局表达程序(每个样本减去跨基因均值)。
 + [remove_global_factor](linear/remove_global_factor.1) 
 + [remove_principal_components](linear/remove_principal_components.1) 去掉表达矩阵的前若干个主成分(比"减去跨基因均值"更强的去全局因子)。
