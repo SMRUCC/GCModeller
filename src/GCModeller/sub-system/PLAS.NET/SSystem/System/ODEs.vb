@@ -69,6 +69,12 @@ Namespace Kernel
     Public Module ODEs
 
         ''' <summary>
+        ''' 方程所指向的目标变量没有被显式的申明初始量的时候所使用的默认初始量，
+        ''' 取值与离散内核 <see cref="Equation"/> 的实现保持一致
+        ''' </summary>
+        Public Const DefaultInitialValue As Double = 10.0R
+
+        ''' <summary>
         ''' 变量缺省的通量值上下区间，与离散内核的非严格模式之下所使用的区间保持一致
         ''' </summary>
         ''' <returns></returns>
@@ -155,6 +161,26 @@ Namespace Kernel
 
             If vars.Length = 0 Then
                 Throw New InvalidOperationException("There is no state variable was initialized in the target S-system model!")
+            End If
+
+            ' 与离散内核的行为保持一致：方程所指向的目标变量如果并没有被显式的申明初始量，
+            ' 则在这里补上使用默认值的状态变量，否则这些方程会被静默的丢弃掉
+            Dim declared As New HashSet(Of String)(vars.Select(Function(v) v.Name))
+            Dim missings As New List(Of var)
+
+            For Each channel As Script.SEquation In model.sEquations.SafeQuery
+                If Not declared.Contains(channel.x) Then
+                    Call declared.Add(channel.x)
+                    Call missings.Add(New var With {
+                        .Name = channel.x,
+                        .Value = DefaultInitialValue
+                    })
+                End If
+            Next
+
+            If missings.Count > 0 Then
+                Call Console.WriteLine($"[WARN] There are {missings.Count} equation target(s) without any initial value declaration, using the default value {DefaultInitialValue}.")
+                vars = vars.Concat(missings).ToArray
             End If
 
             Dim engine As New ExpressionEngine
