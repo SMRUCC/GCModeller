@@ -118,6 +118,22 @@ Public Class ElasticNetPerturbationOptions
     Public Property LogPseudoCount As Double = 1.0R
 
     ''' <summary>
+    ''' 模型空间的整体偏移量，默认 0。
+    ''' 
+    ''' 当拟合矩阵做过"逐样本减去跨基因均值"的去全局因子处理时，模型空间是
+    ''' ``x' = log2(CPM + 1) - offset``，其中 ``offset`` 是该样本的跨基因均值
+    ''' (再加上中位数校准)。此时：
+    ''' 
+    ''' * 真实的对数表达量是 ``x' + offset``，因此 ``2^((x' + offset)) - 1`` 才是 CPM；
+    ''' * 直接对 ``x'`` 做 ``2^x' - 1`` 会把负值压成 0，得到"敲到底"甚至反向的假象。
+    ''' 
+    ''' 本属性把偏移量加回之后再施加敲降/过表达比例，最后再减掉，
+    ''' 从而保证扰动幅度按真实的 CPM 计算，而报告出来的仍然是模型空间的数值。
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property LogOffset As Double = 0.0R
+
+    ''' <summary>
     ''' 级联迭代的最大步数(默认 50)。
     ''' 
     ''' 把它设置为 1 等价于 <see cref="PropagationMode.OneHop"/>。
@@ -214,6 +230,9 @@ Public Class ElasticNetPerturbationOptions
         If Double.IsNaN(LogPseudoCount) OrElse LogPseudoCount <= 0.0R Then
             Throw New ArgumentException($"the pseudo count offset of the log scale must be a positive number, but {LogPseudoCount} was given!", NameOf(LogPseudoCount))
         End If
+        If Double.IsNaN(LogOffset) OrElse Double.IsInfinity(LogOffset) Then
+            Throw New ArgumentException($"the log space offset must be a finite number, but {LogOffset} was given!", NameOf(LogOffset))
+        End If
     End Sub
 
     ''' <summary>
@@ -228,6 +247,7 @@ Public Class ElasticNetPerturbationOptions
             .Propagation = Propagation,
             .Scale = Scale,
             .LogPseudoCount = LogPseudoCount,
+            .LogOffset = LogOffset,
             .Steps = Steps,
             .Damping = Damping,
             .Tolerance = Tolerance,
@@ -245,7 +265,7 @@ Public Class ElasticNetPerturbationOptions
     ''' </summary>
     ''' <returns></returns>
     Public Overrides Function ToString() As String
-        Return $"[elastic net perturbation] {Propagation}, scale={Scale}, steps<={Steps}, damping={Damping:G3}, " &
+        Return $"[elastic net perturbation] {Propagation}, scale={Scale}, offset={LogOffset:G4}, steps<={Steps}, damping={Damping:G3}, " &
                $"knockdown={KnockdownResidual:G3}, overexpression={OverexpressionFold:G3}x, " &
                $"clamp={ClampToObserved}, significance|z|>{SignificanceZ:G3}"
     End Function
@@ -1491,7 +1511,8 @@ Public Class ElasticNet : Implements InsilicoPerturbationExperiment
         Dim value As Double = baselineValue
 
         If isLog Then
-            value = std.Pow(2.0R, baselineValue) - opt.LogPseudoCount
+            ' 先恢复到真实的对数空间(x' + offset)，再反变换成线性量(CPM)
+            value = std.Pow(2.0R, baselineValue + opt.LogOffset) - opt.LogPseudoCount
         End If
 
         If Not IsFinite(value) Then
@@ -1516,7 +1537,8 @@ Public Class ElasticNet : Implements InsilicoPerturbationExperiment
         value = std.Max(0.0R, value)
 
         If isLog Then
-            value = std.Log(value + opt.LogPseudoCount, 2.0R)
+            ' 变换回模型空间：减掉偏移量
+            value = std.Log(value + opt.LogPseudoCount, 2.0R) - opt.LogOffset
         End If
 
         Return value

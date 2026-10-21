@@ -404,6 +404,14 @@ Module Linear
     ''' the fraction of the wildtype expression that is kept after a knockdown,
     ''' a negative value means "use the default" (0.2, i.e. about 80% knockdown).
     ''' </param>
+    ''' <param name="log_offset">
+    ''' the constant that was subtracted from the log expression values before the
+    ''' network fitting (i.e. the cross gene mean of the sample when the global
+    ''' expression program was removed). It is added back before applying the
+    ''' knockdown/overexpression ratio and subtracted afterwards, so that the
+    ''' perturbation magnitude is computed on the real CPM scale even when the
+    ''' model space contains negative values. Default 0 (no deconfounding).
+    ''' </param>
     ''' <param name="env">the R# runtime environment object</param>
     ''' <returns>
     ''' an <see cref="ElasticNet"/> engine which implements the
@@ -419,6 +427,7 @@ Module Linear
                                   Optional steps As Integer = -1,
                                   Optional damping As Double = -1,
                                   Optional knockdown_residual As Double = -1,
+                                  Optional log_offset As Double = 0,
                                   Optional env As Environment = Nothing) As Object
 
         Dim config As ElasticNetPerturbationOptions
@@ -458,6 +467,9 @@ Module Linear
         If knockdown_residual >= 0 Then
             config.KnockdownResidual = knockdown_residual
         End If
+
+        ' 去全局因子之后模型空间带有整体偏移，扰动幅度必须按真实的 CPM 计算
+        config.LogOffset = log_offset
 
         Try
             Call config.Validate()
@@ -512,6 +524,28 @@ Module Linear
     <RApiReturn(GetType(Double))>
     Public Function wildtype_means(model As ElasticNet) As Object
         Return CType(model.Baseline.Clone(), Double())
+    End Function
+
+    ''' <summary>
+    ''' 设置模型空间的整体对数偏移量(去全局因子之后的 context 需要)。
+    ''' 
+    ''' 拟合矩阵做过"逐样本减去跨基因均值"之后，模型空间是
+    ''' ``x' = log2(CPM + 1) - offset``；扰动幅度必须先在 ``x' + offset`` 上计算，
+    ''' 再换算回来，否则负基线会被压成 0，敲降变成"敲到底"甚至反号。
+    ''' </summary>
+    ''' <param name="model">由 ``elastic_model`` 创建的扰动引擎</param>
+    ''' <param name="offset">偏移量，即该 context 的跨基因均值减去中位数校准量</param>
+    ''' <returns>同一个引擎对象，便于链式调用</returns>
+    <ExportAPI("set_log_offset")>
+    <RApiReturn(GetType(ElasticNet))>
+    Public Function set_log_offset(model As ElasticNet, offset As Double) As Object
+        If model Is Nothing Then
+            Throw New ArgumentNullException(NameOf(model))
+        End If
+
+        model.Options.LogOffset = offset
+
+        Return model
     End Function
 
     ''' <summary>
