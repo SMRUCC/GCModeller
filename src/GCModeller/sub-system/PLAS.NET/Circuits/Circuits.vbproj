@@ -1,8 +1,27 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <RootNamespace>Circuits</RootNamespace>
+    <RootNamespace>SMRUCC.genomics.Analysis.Circuits</RootNamespace>
     <TargetFramework>net10.0</TargetFramework>
+    <AssemblyName>SMRUCC.genomics.Analysis.Circuits</AssemblyName>
+    <AssemblyTitle>Defining Network Topologies that Can Achieve Biochemical Adaptation</AssemblyTitle>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>Defining Network Topologies that Can Achieve Biochemical Adaptation</Title>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="test\**" />
+    <EmbeddedResource Remove="test\**" />
+    <None Remove="test\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\DataFrame\dataframework-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\CVODE_Solver\Sundials.CVODE.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+  </ItemGroup>
 
 </Project>
