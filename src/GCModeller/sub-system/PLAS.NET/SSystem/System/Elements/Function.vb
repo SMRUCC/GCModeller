@@ -62,7 +62,7 @@ Namespace Kernel.ObjectModels
     ''' <summary>
     ''' User define function
     ''' </summary>
-    Public Structure [Function] : Implements INamedValue
+    Public Class [Function] : Implements INamedValue
 
         ''' <summary>
         ''' The function name
@@ -87,5 +87,5 @@ Namespace Kernel.ObjectModels
 
             Return [Function]
         End Operator
-    End Structure
+    End Class
 End Namespace

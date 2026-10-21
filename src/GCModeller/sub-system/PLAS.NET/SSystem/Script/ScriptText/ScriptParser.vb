@@ -1,65 +1,65 @@
 ﻿#Region "Microsoft.VisualBasic::061626b13533a231ca1db558ba99e059, sub-system\PLAS.NET\SSystem\Script\ScriptText\ScriptParser.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 189
-    '    Code Lines: 154 (81.48%)
-    ' Comment Lines: 11 (5.82%)
-    '    - Xml Docs: 81.82%
-    ' 
-    '   Blank Lines: 24 (12.70%)
-    '     File Size: 7.11 KB
+' Summaries:
 
 
-    '     Module ScriptParser
-    ' 
-    '         Function: getCommentText, getScriptTokenGroups, getTimeFinalConfig, getTitleOrDefault, getUserFunctionOrDefault
-    '                   ParseFile, ParseScript, ParseStream, setConstants
-    ' 
-    '         Sub: setAliasNames, setObjectComments
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 189
+'    Code Lines: 154 (81.48%)
+' Comment Lines: 11 (5.82%)
+'    - Xml Docs: 81.82%
+' 
+'   Blank Lines: 24 (12.70%)
+'     File Size: 7.11 KB
+
+
+'     Module ScriptParser
+' 
+'         Function: getCommentText, getScriptTokenGroups, getTimeFinalConfig, getTitleOrDefault, getUserFunctionOrDefault
+'                   ParseFile, ParseScript, ParseStream, setConstants
+' 
+'         Sub: setAliasNames, setObjectComments
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.IO
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Scripting.MathExpression
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels
 
 Namespace Script
@@ -82,8 +82,8 @@ Namespace Script
         End Function
 
         <Extension>
-        Private Function setConstants(env As ExpressionEngine, tokens As Dictionary(Of ScriptTokens, ScriptToken())) As NamedValue(Of String)()
-            Dim c As NamedValue(Of String)()
+        Private Function setConstants(env As ExpressionEngine, tokens As Dictionary(Of ScriptTokens, ScriptToken())) As NamedValue()
+            Dim c As NamedValue()
 
             If tokens.ContainsKey(ScriptTokens.Constant) Then
                 c = tokens(ScriptTokens.Constant) _
@@ -93,8 +93,8 @@ Namespace Script
                 c = {}
             End If
 
-            For Each x As NamedValue(Of String) In c
-                Call env.SetSymbol(x.Name, x.Value)
+            For Each x As NamedValue In c
+                Call env.SetSymbol(x.name, x.text)
             Next
 
             Return c
@@ -251,7 +251,7 @@ Namespace Script
             Dim disturbs As Experiment()
             Dim val As New ExpressionEngine
             Dim finalTime As Double = tokens.getTimeFinalConfig(val)
-            Dim c As NamedValue(Of String)() = val.setConstants(tokens)
+            Dim c As NamedValue() = val.setConstants(tokens)
             Dim inits = tokens(ScriptTokens.InitValue) _
                 .Select(Function(x) var.TryParse(x.text, val)) _
                 .ToArray

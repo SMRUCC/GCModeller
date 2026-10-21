@@ -1,54 +1,54 @@
 ﻿#Region "Microsoft.VisualBasic::a80767f1413b47ccb045c92ac949e510, sub-system\PLAS.NET\SSystem\System\ODEs.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 65
-    '    Code Lines: 50 (76.92%)
-    ' Comment Lines: 8 (12.31%)
-    '    - Xml Docs: 62.50%
-    ' 
-    '   Blank Lines: 7 (10.77%)
-    '     File Size: 2.83 KB
+' Summaries:
 
 
-    '     Module ODEs
-    ' 
-    '         Function: RunSystem
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 65
+'    Code Lines: 50 (76.92%)
+' Comment Lines: 8 (12.31%)
+'    - Xml Docs: 62.50%
+' 
+'   Blank Lines: 7 (10.77%)
+'     File Size: 2.83 KB
+
+
+'     Module ODEs
+' 
+'         Function: RunSystem
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -63,6 +63,7 @@ Imports Microsoft.VisualBasic.Math.Calculus.Dynamics.Data
 Imports Microsoft.VisualBasic.Math.Scripting
 Imports Microsoft.VisualBasic.Math.Scripting.MathExpression
 Imports SMRUCC.genomics.Analysis.SSystem.Runner
+Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace Kernel
 
@@ -115,7 +116,7 @@ Namespace Kernel
                 Call row.Add(CStr(output.x(i)))
 
                 For Each name As String In names
-                    Call row.Add(CStr(output.y(name).Value(i)))
+                    Call row.Add(CStr(output.y(name).value(i)))
                 Next
 
                 table += row
@@ -190,8 +191,8 @@ Namespace Kernel
             For Each userFunc In model.UserFunc.SafeQuery
                 Call engine.SetFunction(userFunc.Declaration)
             Next
-            For Each constant As NamedValue(Of String) In model.Constant.SafeQuery
-                Call engine.SetSymbol(constant.Name, constant.Value)
+            For Each constant As NamedValue In model.Constant.SafeQuery
+                Call engine.SetSymbol(constant.name, constant.text)
             Next
 
             Dim dynamics As New Dictionary(Of String, List(Of ObjectModels.Equation))

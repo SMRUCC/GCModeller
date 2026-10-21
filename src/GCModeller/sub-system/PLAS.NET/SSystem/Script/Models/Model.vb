@@ -63,6 +63,7 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Extensions
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels
 Imports SMRUCC.genomics.GCModeller.CompilerServices
 
@@ -82,7 +83,7 @@ Namespace Script
         ''' 假若在脚本里面，常数值是表达式，则求值的顺序会是从上到下
         ''' </summary>
         ''' <returns></returns>
-        <XmlElement> Public Property [Constant] As NamedValue(Of String)()
+        <XmlElement> Public Property [Constant] As NamedValue()
 
         Dim __symbols As Dictionary(Of var)
 
