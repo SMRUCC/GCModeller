@@ -203,6 +203,12 @@ Module Linear
         Return grn.CoefMatrix
     End Function
 
+    <ExportAPI("elastic_formulas")>
+    <RApiReturn(GetType(GeneRegressionModel))>
+    Public Function elastic_formulas(x As LinearRegression.GeneRegulatoryNetwork) As GeneRegressionModel()
+        Return x.Models.ToArray
+    End Function
+
     ''' <summary>
     ''' Build the in silico perturbation engine from a fitted linear GRN model.
     ''' </summary>
@@ -297,9 +303,28 @@ Module Linear
             Return RInternal.debug.stop(ex.Message, env)
         End Try
 
-        Return New ElasticNet(grn, config) With {
+        Dim engine As New ElasticNet(grn, config) With {
             .Strict = strict
         }
+
+        ' 量纲自检：log2cpm 空间之下 2^baseline 一旦溢出，敲降目标会被算术守卫压成 0，
+        ' 结果就是"敲除"；这通常说明训练矩阵并不是 log 变换之后的。
+        If config.Scale = PerturbationScale.Log2Plus1 Then
+            Dim baseline As Double() = engine.Baseline
+
+            If baseline IsNot Nothing AndAlso baseline.Length > 0 Then
+                Dim median As Double = baseline.OrderBy(Function(v) v).ElementAt(baseline.Length \ 2)
+
+                If median > 100.0 Then
+                    Return RInternal.debug.stop(
+                        $"the wildtype baseline median is {median:G4}, which looks like a raw count matrix; " &
+                        "the 'log2cpm' scale requires a network that was fitted on a log2(x + 1) matrix. " &
+                        "Please refit on the log matrix, or pass scale = ""linear"" for a raw count model.", env)
+                End If
+            End If
+        End If
+
+        Return engine
     End Function
 
     ''' <summary>

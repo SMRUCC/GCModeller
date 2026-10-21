@@ -360,19 +360,33 @@ Namespace LinearRegression
                 Return bestId
             End If
 
-            ' 没有任何一步满足约束：退化为非零系数数量最少的那一步
-            Dim minNonZero As Integer = Integer.MaxValue
+            ' 没有任何一步满足 maxFeatures 约束：退化为"解释力最强"的那一步，
+            ' 后面由 EnforceMaxFeatures 裁剪到 maxFeatures。
+            ' 
+            ' 注意不要退化成"非零系数数量最少的那一步"：在近似共线很强的数据上，
+            ' 路径第二步就会涌入成百上千个系数，而 alpha 最大处的第一步只剩下
+            ' 浮点噪声级别的系数 —— 取它等于得到一个 r2 = 0 的常数模型，
+            ' 后续虚拟扰动当然也就完全没有响应。
+            Dim fallbackId As Integer = -1
+            Dim fallbackR2 As Double = Double.NegativeInfinity
 
             For k As Integer = 0 To path.Count - 1
-                Dim n As Integer = path.NonZeroCounts(k)
+                If path.NonZeroCounts(k) = 0 Then
+                    Continue For
+                End If
 
-                If n > 0 AndAlso n < minNonZero Then
-                    minNonZero = n
-                    bestId = k
+                Dim r2 As Double = path.RSquared(k)
+
+                If Double.IsNaN(r2) OrElse Double.IsInfinity(r2) Then
+                    Continue For
+                End If
+                If r2 > fallbackR2 Then
+                    fallbackR2 = r2
+                    fallbackId = k
                 End If
             Next
 
-            Return bestId
+            Return fallbackId
         End Function
 
         ''' <summary>
