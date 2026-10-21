@@ -34,7 +34,8 @@
     <i>propagation</i> = <span style='color: brown;'><strong>"cascade"</strong></span>,
     <i>steps</i> = <span style='color: green;'>-1</span>,
     <i>damping</i> = <span style='color: green;'>-1</span>,
-    <i>knockdown.residual</i> = <span style='color: green;'>-1</span>);</code></pre>
+    <i>knockdown.residual</i> = <span style='color: green;'>-1</span>,
+    <i>log.offset</i> = <span style='color: green;'>0</span>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
@@ -71,6 +72,10 @@
 
 <dt>knockdown.residual</dt>
 <dd><p>the fraction of the wildtype expression that is kept after a knockdown, a negative value means "use the default" (0.2, i.e. about 80% knockdown). [as double]</p></dd>
+
+
+<dt>log.offset</dt>
+<dd><p>the constant that was subtracted from the log expression values before the network fitting (i.e. the cross gene mean of the sample when the global expression program was removed). It is added back before applying the knockdown/overexpression ratio and subtracted afterwards, so that the perturbation magnitude is computed on the real CPM scale even when the model space contains negative values. Default 0 (no deconfounding). [as double]</p></dd>
 
 
 <dt>env</dt>

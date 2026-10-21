@@ -17,6 +17,14 @@ Namespace LinearRegression
     Public Interface ICorrelationScreener : Inherits IDisposable
 
         ''' <summary>
+        ''' 为负相关候选保留的名额；小于等于 0 表示不启用符号配额。
+        ''' 
+        ''' 共表达网络里负相关的边很少，强制留出名额可以让扰动响应同时有升有降。
+        ''' </summary>
+        ''' <returns></returns>
+        Property NegativeQuota As Integer
+
+        ''' <summary>
         ''' 注入参与筛选的全部基因向量，并一次性完成每个目标基因的候选集计算。
         ''' </summary>
         ''' <param name="pool">
@@ -59,12 +67,16 @@ Namespace LinearRegression
         ''' <param name="topK">需要保留的候选数量</param>
         ''' <param name="minAbsR">相关系数绝对值下限，小于等于零表示不限制</param>
         ''' <param name="exclude">需要排除的候选池下标（目标基因自身）</param>
+        ''' <param name="requireSign">
+        ''' 0 = 不限制；1 = 只接受正相关；-1 = 只接受负相关
+        ''' </param>
         ''' <returns>候选基因的行号，按相关系数绝对值降序</returns>
         Public Function SelectTopK(row As Double(),
                                    pool As Integer(),
                                    topK As Integer,
                                    minAbsR As Double,
-                                   exclude As Integer) As Integer()
+                                   exclude As Integer,
+                                   Optional requireSign As Integer = 0) As Integer()
 
             Dim k As Integer = std.Min(topK, std.Max(0, row.Length - 1))
 
@@ -85,6 +97,12 @@ Namespace LinearRegression
                 Dim value As Double = std.Abs(row(j))
 
                 If value <= 0.0R OrElse value < floor Then
+                    Continue For
+                End If
+                If requireSign > 0 AndAlso row(j) <= 0.0R Then
+                    Continue For
+                End If
+                If requireSign < 0 AndAlso row(j) >= 0.0R Then
                     Continue For
                 End If
 
@@ -121,6 +139,67 @@ Namespace LinearRegression
             Next
 
             Return candidates
+        End Function
+
+        ''' <summary>
+        ''' 带符号配额的 top-k 选择：优先保留 <paramref name="negativeQuota"/> 个<b>负相关</b>
+        ''' 候选，剩下的名额给正相关。
+        ''' 
+        ''' 共表达网络里的边绝大多数是正的，L1 会优先保留这些强正相关，
+        ''' 于是敲降一个基因只会把整片基因一起拖下去(全下调)。强制给负相关留出名额，
+        ''' 可以让网络里出现"抑制型"的边，扰动响应才会同时有升有降。
+        ''' 
+        ''' 若某一侧的数量不足，会自动用另一侧补齐，不会因此少给候选。
+        ''' </summary>
+        ''' <param name="row">按候选池下标排列的<b>带符号</b>相关系数</param>
+        ''' <param name="pool">候选池下标到基因行号的映射</param>
+        ''' <param name="topK">需要保留的候选总数</param>
+        ''' <param name="minAbsR">相关系数绝对值下限</param>
+        ''' <param name="exclude">需要排除的候选池下标(目标基因自身)，-1 表示不排除</param>
+        ''' <param name="negativeQuota">为负相关保留的名额；小于等于 0 时退化为普通的 top-k</param>
+        ''' <returns>候选基因的行号</returns>
+        Public Function SelectTopKBalanced(row As Double(),
+                                           pool As Integer(),
+                                           topK As Integer,
+                                           minAbsR As Double,
+                                           exclude As Integer,
+                                           negativeQuota As Integer) As Integer()
+
+            If negativeQuota <= 0 Then
+                Return SelectTopK(row, pool, topK, minAbsR, exclude)
+            End If
+
+            Dim budget As Integer = std.Min(topK, std.Max(0, row.Length - 1))
+
+            If budget <= 0 Then
+                Return New Integer() {}
+            End If
+
+            Dim slots As Integer = std.Min(negativeQuota, budget)
+            Dim negatives As Integer() = SelectTopK(row, pool, slots, minAbsR, exclude, -1)
+            Dim positives As Integer() = SelectTopK(row, pool, budget - negatives.Length, minAbsR, exclude, 1)
+            Dim result As New List(Of Integer)
+
+            Call result.AddRange(negatives)
+            Call result.AddRange(positives)
+
+            ' 某一侧数量不足时，用另一侧补齐
+            If result.Count < budget Then
+                Dim extra As Integer() = SelectTopK(row, pool, budget, minAbsR, exclude)
+                Dim present As New HashSet(Of Integer)(result)
+
+                For Each idx As Integer In extra
+                    If present.Add(idx) Then
+                        Call result.Add(idx)
+
+                        If result.Count >= budget Then
+                            Exit For
+                        End If
+                    End If
+                Next
+            End If
+
+            Return result.ToArray
         End Function
 
         ''' <summary>

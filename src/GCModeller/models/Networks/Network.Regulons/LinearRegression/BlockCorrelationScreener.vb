@@ -39,6 +39,12 @@ Namespace LinearRegression
         ''' </summary>
         Public Const BlockSize As Integer = 64
 
+        ''' <summary>
+        ''' 为负相关候选保留的名额，小于等于 0 表示不启用符号配额。
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property NegativeQuota As Integer = -1 Implements ICorrelationScreener.NegativeQuota
+
         Private pool As Integer()
         Private means As Double()
         Private sds As Double()
@@ -171,7 +177,7 @@ Namespace LinearRegression
                 Dim pos As Integer = start + b
                 Dim gene As Integer = pool(pos)
 
-                results(gene) = CorrelationTopK.SelectTopK(rows(b), pool, topK, minAbsR, pos)
+                results(gene) = CorrelationTopK.SelectTopKBalanced(rows(b), pool, topK, minAbsR, pos, NegativeQuota)
             Next
         End Sub
 

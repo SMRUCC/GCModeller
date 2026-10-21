@@ -23,6 +23,7 @@ The linear (elastic net) gene regulatory network builder and the in silico
 + [elastic_model](linear/elastic_model.1) Build the in silico perturbation engine from a fitted linear GRN model.
 + [gene_names](linear/gene_names.1) Get the gene ids of the fitted network, in the row order of the expression matrix.
 + [wildtype_means](linear/wildtype_means.1) Get the currently effective wildtype (baseline) expression vector of the model.
++ [set_log_offset](linear/set_log_offset.1) 设置模型空间的整体对数偏移量(去全局因子之后的 context 需要)。
 + [library_sizes](linear/library_sizes.1) Get the implied library size of every training sample of the fitted network.
 + [set_baseline](linear/set_baseline.1) Set the wildtype baseline (the cell context) of the perturbation engine.
 + [intervene](linear/intervene.1) Run one in silico perturbation experiment and return the raw result object.

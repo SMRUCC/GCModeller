@@ -16,6 +16,7 @@ Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports DataFrameRow = SMRUCC.genomics.Analysis.HTS.DataFrame.DataFrameRow
 Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
+Imports std = System.Math
 
 ''' <summary>
 ''' The linear (elastic net) gene regulatory network builder and the in silico
@@ -202,6 +203,173 @@ Module Linear
     End Function
 
     ''' <summary>
+    ''' 去掉表达矩阵的前若干个主成分(比"减去跨基因均值"更强的去全局因子)。
+    ''' 
+    ''' 做法：在基因抽样的子矩阵上用块幂迭代求出前 <paramref name="components"/> 个
+    ''' 右奇异向量(样本空间的全局方向)，然后把每个基因的表达向量投影到这些方向上
+    ''' 并减掉。等于把"细胞组成 / 测序质量 / 全局调控程序"这类共同因子从数据里移除。
+    ''' 
+    ''' 与只减跨基因均值相比，这一步能真正削弱残留的全局共表达，
+    ''' 从而让网络里出现更多负相关(抑制型)的边。
+    ''' </summary>
+    ''' <param name="x">表达矩阵(行 = 基因、列 = 样本)</param>
+    ''' <param name="components">要移除的主成分个数，默认 3；小于等于 0 时原样返回</param>
+    ''' <param name="maxGenes">估计主成分时使用的基因抽样上限，默认 2000</param>
+    ''' <returns>变换之后的新矩阵</returns>
+    <ExportAPI("remove_principal_components")>
+    <RApiReturn(GetType(Matrix))>
+    Public Function remove_principal_components(x As Matrix, Optional components As Integer = 3, Optional maxGenes As Integer = 2000) As Matrix
+        If x Is Nothing Then
+            Throw New ArgumentNullException(NameOf(x))
+        End If
+        If x.expression Is Nothing OrElse x.expression.Length = 0 Then
+            Throw New ArgumentException("the given expression matrix is empty!", NameOf(x))
+        End If
+        If components <= 0 Then
+            Return x
+        End If
+
+        Dim n As Integer = x.expression.Length
+        Dim nSamples As Integer = If(x.expression(0).experiments Is Nothing, 0, x.expression(0).experiments.Length)
+
+        If nSamples < 2 Then
+            Return x
+        End If
+
+        Dim means As Double() = New Double(n - 1) {}
+        Dim centered As Double()() = New Double(n - 1)() {}
+
+        For i As Integer = 0 To n - 1
+            Dim src As Double() = x.expression(i).experiments
+            Dim row As Double() = New Double(nSamples - 1) {}
+            Dim sum As Double = 0.0
+
+            For s As Integer = 0 To nSamples - 1
+                sum += src(s)
+            Next
+
+            Dim mean As Double = sum / nSamples
+
+            means(i) = mean
+
+            For s As Integer = 0 To nSamples - 1
+                row(s) = src(s) - mean
+            Next
+
+            centered(i) = row
+        Next
+
+        Dim k As Integer = std.Min(std.Max(1, components), nSamples - 1)
+        Dim stride As Integer = std.Max(1, n \ std.Max(1, maxGenes))
+        Dim sample As New List(Of Double())
+
+        For i As Integer = 0 To n - 1 Step stride
+            Call sample.Add(centered(i))
+        Next
+
+        ' 块幂迭代 + Gram-Schmidt 正交化，求前 k 个样本空间方向
+        Dim vectors As Double()() = New Double(k - 1)() {}
+
+        For c As Integer = 0 To k - 1
+            Dim seed As Double() = New Double(nSamples - 1) {}
+
+            For s As Integer = 0 To nSamples - 1
+                seed(s) = std.Cos((c + 1) * (s + 1) * 0.7071067811865476)
+            Next
+
+            vectors(c) = seed
+        Next
+
+        For iteration As Integer = 0 To 30 - 1
+            For c As Integer = 0 To k - 1
+                Dim v As Double() = vectors(c)
+                Dim work As Double() = New Double(nSamples - 1) {}
+
+                For Each row As Double() In sample
+                    Dim dot As Double = 0.0
+
+                    For s As Integer = 0 To nSamples - 1
+                        dot += row(s) * v(s)
+                    Next
+
+                    If dot <> 0.0R Then
+                        For s As Integer = 0 To nSamples - 1
+                            work(s) += dot * row(s)
+                        Next
+                    End If
+                Next
+
+                ' 对已有的方向做 Gram-Schmidt 正交化
+                For p As Integer = 0 To c - 1
+                    Dim u As Double() = vectors(p)
+                    Dim proj As Double = 0.0
+
+                    For s As Integer = 0 To nSamples - 1
+                        proj += work(s) * u(s)
+                    Next
+
+                    For s As Integer = 0 To nSamples - 1
+                        work(s) -= proj * u(s)
+                    Next
+                Next
+
+                Dim norm As Double = 0.0
+
+                For s As Integer = 0 To nSamples - 1
+                    norm += work(s) * work(s)
+                Next
+
+                norm = std.Sqrt(norm)
+
+                If norm > 1.0E-12 Then
+                    For s As Integer = 0 To nSamples - 1
+                        work(s) /= norm
+                    Next
+
+                    vectors(c) = work
+                End If
+            Next
+        Next
+
+        ' 把每个基因投影到这些方向上并减掉
+        Dim rows As New List(Of DataFrameRow)
+
+        For i As Integer = 0 To n - 1
+            Dim row As Double() = CType(centered(i).Clone(), Double())
+
+            For c As Integer = 0 To k - 1
+                Dim v As Double() = vectors(c)
+                Dim proj As Double = 0.0
+
+                For s As Integer = 0 To nSamples - 1
+                    proj += row(s) * v(s)
+                Next
+
+                If proj <> 0.0R Then
+                    For s As Integer = 0 To nSamples - 1
+                        row(s) -= proj * v(s)
+                    Next
+                End If
+            Next
+
+            For s As Integer = 0 To nSamples - 1
+                row(s) += means(i)
+            Next
+
+            Call rows.Add(New DataFrameRow With {
+                .geneID = x.expression(i).geneID,
+                .experiments = row
+            })
+        Next
+
+        Return New Matrix With {
+            .tag = If(String.IsNullOrEmpty(x.tag), "pc_removed", x.tag & $".pc{k}"),
+            .sampleID = x.sampleID,
+            .expression = rows.ToArray
+        }
+    End Function
+
+    ''' <summary>
     ''' Fit a linear (elastic net) gene regulatory network from the expression matrix.
     ''' </summary>
     ''' <param name="x">the gene expression matrix, rows are genes and columns are samples</param>
@@ -240,7 +408,8 @@ Module Linear
                                 Optional gpu As Boolean = False,
                                 Optional block_screener As Boolean = False,
                                 Optional partial_correlation As Boolean = False,
-                                Optional partial_cond As Integer = 5) As Object
+                                Optional partial_cond As Integer = 5,
+                                Optional negative_quota As Integer = -1) As Object
 
         Dim priority As String() = Nothing
 
@@ -290,6 +459,7 @@ Module Linear
             .priorityRegulators = priority,
             .partialCorrelation = partial_correlation,
             .partialConditionSize = partial_cond,
+            .negativeCandidateQuota = negative_quota,
             .elasticNet = New ElasticNetOptions With {
                 .l1Ratio = l1_ratio,
                 .numberOfAlphas = alphas
@@ -317,6 +487,10 @@ Module Linear
 
         If partial_correlation Then
             Console.WriteLine($"     >> candidate screening uses the partial correlation (conditioning on {partial_cond} hub gene(s))")
+        End If
+
+        If negative_quota > 0 Then
+            Console.WriteLine($"     >> {negative_quota} negative-correlation candidate slot(s) are reserved for each target gene")
         End If
 
         If restricted IsNot Nothing Then

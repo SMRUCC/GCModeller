@@ -411,6 +411,10 @@ Namespace LinearRegression
             End If
 
             If backend IsNot Nothing Then
+                If opt.negativeCandidateQuota > 0 Then
+                    backend.NegativeQuota = opt.negativeCandidateQuota
+                End If
+
                 Call "run parallel for the correlation screening".debug
                 Call backend.Initialize(regulatorPool, Vectors, maxCand, opt.minAbsCorrelation)
                 activeScreener = backend
@@ -806,6 +810,7 @@ Namespace LinearRegression
             End If
 
             Dim scores As Double() = New Double(pool.Length - 1) {}
+            Dim signed As Double() = New Double(pool.Length - 1) {}
             Dim hits As New List(Of Integer)
 
             For i As Integer = 0 To pool.Length - 1
@@ -813,8 +818,12 @@ Namespace LinearRegression
 
                 If v Is Nothing Then
                     scores(i) = 0
+                    signed(i) = 0
                 Else
-                    scores(i) = std.Abs(DotProduct(unit, v))
+                    Dim r As Double = DotProduct(unit, v)
+
+                    signed(i) = r
+                    scores(i) = std.Abs(r)
                 End If
 
                 If scores(i) >= opt.minAbsCorrelation Then
@@ -824,6 +833,12 @@ Namespace LinearRegression
 
             If hits.Count = 0 Then
                 Return New Integer() {}
+            End If
+
+            ' 符号配额：强制为负相关保留名额，避免网络里全是正向的共表达边
+            If opt.negativeCandidateQuota > 0 Then
+                Return CorrelationTopK.SelectTopKBalanced(
+                    signed, pool, maxCand, opt.minAbsCorrelation, -1, opt.negativeCandidateQuota)
             End If
 
             Dim order As Integer() = hits _

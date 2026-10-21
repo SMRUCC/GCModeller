@@ -55,6 +55,19 @@ export class ElasticNetPerturbationOptions {
    Damping: double;
    # 敲降之后保留下来的表达量比例，取值范围 [0, 1)，默认 0.2(即约 80% 的敲降)。
    KnockdownResidual: double;
+   # 模型空间的整体偏移量，默认 0。
+   # 
+   # 当拟合矩阵做过"逐样本减去跨基因均值"的去全局因子处理时，模型空间是 <code>x' = log2(CPM + 1) - offset</code>，其中 <code>offset</code> 是该样本的跨基因均值 (再加上中位数校准)。此时：
+   # 
+   # 
+   # <ul>
+   # <li>真实的对数表达量是 <code>x' + offset</code>，因此 <code>2^((x' + offset)) - 1</code> 才是 CPM；</li>
+   # <li>直接对 <code>x'</code> 做 <code>2^x' - 1</code> 会把负值压成 0，得到"敲到底"甚至反向的假象。</li>
+   # </ul>
+   # 
+   # 
+   # 本属性把偏移量加回之后再施加敲降/过表达比例，最后再减掉， 从而保证扰动幅度按真实的 CPM 计算，而报告出来的仍然是模型空间的数值。
+   LogOffset: double;
    # <a href="cref:F:SMRUCC.genomics.Analysis.CellPhenotype.PerturbationScale.Log2Plus1">PerturbationScale.Log2Plus1</a> 空间之中的伪计数偏移，默认 1。
    # 
    # 它必须与拟合网络时所用的变换保持一致(例如 <code>log2(x + 1)</code> 对应 1)。

@@ -72,13 +72,21 @@ declare namespace linear {
      *  a negative value means "use the default" (0.2, i.e. about 80% knockdown).
      * 
      * + default value Is ``-1``.
+     * @param log_offset the constant that was subtracted from the log expression values before the
+     *  network fitting (i.e. the cross gene mean of the sample when the global
+     *  expression program was removed). It is added back before applying the
+     *  knockdown/overexpression ratio and subtracted afterwards, so that the
+     *  perturbation magnitude is computed on the real CPM scale even when the
+     *  model space contains negative values. Default 0 (no deconfounding).
+     * 
+     * + default value Is ``0``.
      * @param env the R# runtime environment object
      * 
      * + default value Is ``null``.
      * @return an [ElasticNet](cref:T:SMRUCC.genomics.Analysis.CellPhenotype.ElasticNet) engine which implements the
      *  [InsilicoPerturbationExperiment](cref:T:SMRUCC.genomics.Analysis.BNLearn.InsilicoPerturbationExperiment) interface.
    */
-   function elastic_model(grn: object, opts?: object, strict?: boolean, scale?: string, propagation?: string, steps?: object, damping?: number, knockdown_residual?: number, env?: object): object;
+   function elastic_model(grn: object, opts?: object, strict?: boolean, scale?: string, propagation?: string, steps?: object, damping?: number, knockdown_residual?: number, log_offset?: number, env?: object): object;
    /**
     * Fit a linear (elastic net) gene regulatory network from the expression matrix.
     * 
@@ -254,6 +262,19 @@ declare namespace linear {
      * @return the number of the genes that have been matched and written
    */
    function set_baseline(model: object, genes: any, values: any, env?: object): any;
+   /**
+    * 设置模型空间的整体对数偏移量(去全局因子之后的 context 需要)。
+    *  
+    *  拟合矩阵做过"逐样本减去跨基因均值"之后，模型空间是
+    *  ``x' = log2(CPM + 1) - offset``；扰动幅度必须先在 ``x' + offset`` 上计算，
+    *  再换算回来，否则负基线会被压成 0，敲降变成"敲到底"甚至反号。
+    * 
+    * 
+     * @param model 由 ``elastic_model`` 创建的扰动引擎
+     * @param offset 偏移量，即该 context 的跨基因均值减去中位数校准量
+     * @return 同一个引擎对象，便于链式调用
+   */
+   function set_log_offset(model: object, offset: number): object;
    /**
     * Get the currently effective wildtype (baseline) expression vector of the model.
     * 

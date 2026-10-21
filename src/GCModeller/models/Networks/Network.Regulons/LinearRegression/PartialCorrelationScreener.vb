@@ -34,6 +34,12 @@ Namespace LinearRegression
         ''' <summary>估计 hub 打分时使用的抽样基因数量，默认 200</summary>
         Public Property HubSampleSize As Integer = 200
 
+        ''' <summary>
+        ''' 为负相关候选保留的名额，小于等于 0 表示不启用符号配额。
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property NegativeQuota As Integer = -1 Implements ICorrelationScreener.NegativeQuota
+
         Private pool As Integer()
         Private sampleSize As Integer
         Private topK As Integer
@@ -282,7 +288,7 @@ Namespace LinearRegression
             For b = 0 To width - 1
                 Dim pos As Integer = start + b
 
-                results(pool(pos)) = CorrelationTopK.SelectTopK(rows(b), pool, topK, minAbsR, pos)
+                results(pool(pos)) = CorrelationTopK.SelectTopKBalanced(rows(b), pool, topK, minAbsR, pos, NegativeQuota)
             Next
         End Sub
 

@@ -11,6 +11,7 @@ elastic_model \- Build the in silico perturbation engine from a fitted linear GR
 \fBsteps\fR as integer = -1, 
 \fBdamping\fR as double = -1, 
 \fBknockdown_residual\fR as double = -1, 
+\fBlog_offset\fR as double = 0, 
 [\fB<Environment>\fR]);\fR
 .SH DESCRIPTION
 .PP
@@ -61,6 +62,16 @@ Build the in silico perturbation engine from a fitted linear GRN model.
 \fBknockdown_residual\fB \fR\- 
  the fraction of the wildtype expression that is kept after a knockdown,
  a negative value means "use the default" (0.2, i.e. about 80% knockdown).
+. 
+.PP
+.PP
+\fBlog_offset\fB \fR\- 
+ the constant that was subtracted from the log expression values before the
+ network fitting (i.e. the cross gene mean of the sample when the global
+ expression program was removed). It is added back before applying the
+ knockdown/overexpression ratio and subtracted afterwards, so that the
+ perturbation magnitude is computed on the real CPM scale even when the
+ model space contains negative values. Default 0 (no deconfounding).
 . 
 .PP
 .PP

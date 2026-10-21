@@ -164,6 +164,14 @@ table caption {font-size:14px;font-weight:bolder;}
   <td><p>Get the currently effective wildtype (baseline) expression vector of the model.</p></td>
 </tr>
 <tr>
+  <td id="set_log_offset">
+    <a href="./linear/set_log_offset.html">set_log_offset</a>
+  </td>
+  <td><p>设置模型空间的整体对数偏移量(去全局因子之后的 context 需要)。</p>
+
+<p>拟合矩阵做过"逐样本减去跨基因均值"之后，模型空间是 <code>x' = log2(CPM + 1) - offset</code>；扰动幅度必须先在 <code>x' + offset</code> 上计算， 再换算回来，否则负基线会被压成 0，敲降变成"敲到底"甚至反号。</p></td>
+</tr>
+<tr>
   <td id="library_sizes">
     <a href="./linear/library_sizes.html">library_sizes</a>
   </td>

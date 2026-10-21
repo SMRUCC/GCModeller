@@ -29,6 +29,12 @@ Namespace Cuda
         ''' </summary>
         Public Const BlockSize As Integer = 64
 
+        ''' <summary>
+        ''' 为负相关候选保留的名额，小于等于 0 表示不启用符号配额。
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property NegativeQuota As Integer = -1 Implements ICorrelationScreener.NegativeQuota
+
         Private engine As CudaEngine
         Private pool As Integer()
         Private means As Double()
@@ -215,7 +221,7 @@ Namespace Cuda
                         row(k) = (dot - meanB * means(k)) / (sb * sk)
                     Next
 
-                    results(pool(pos)) = CorrelationTopK.SelectTopK(row, pool, topK, minAbsR, pos)
+                    results(pool(pos)) = CorrelationTopK.SelectTopKBalanced(row, pool, topK, minAbsR, pos, NegativeQuota)
                 Next
             End Using
         End Sub

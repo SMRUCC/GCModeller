@@ -144,6 +144,20 @@ Namespace LinearRegression
         Public Property partialConditionSize As Integer = 5
 
         ''' <summary>
+        ''' 为<b>负相关</b>的候选调控因子保留的名额，默认 -1(不启用)。
+        ''' 
+        ''' 共表达网络里负相关的边极少，L1 会优先保留强正相关的候选，
+        ''' 于是敲降一个基因只会把整片基因一起拖下去(全下凋)。
+        ''' 设置成例如 15 之后，每个目标基因的候选集里会强制包含 15 个负相关基因
+        ''' (其余名额仍给正相关)，网络里才会出现抑制型边，扰动响应才可能同时有升有降。
+        ''' 
+        ''' 该配额只在触发候选筛选的时候生效(候选池大于 <see cref="maxCandidates"/>
+        ''' 或设置了 <see cref="minAbsCorrelation"/>)。
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property negativeCandidateQuota As Integer = -1
+
+        ''' <summary>
         ''' 候选调控因子的相关性筛选后端。
         ''' 
         ''' 为空(默认)的时候使用内置的逐基因扫描(行为与原实现逐位一致)；
