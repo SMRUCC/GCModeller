@@ -6,7 +6,7 @@ Namespace GRN
 
     ''' <summary>
     ''' A directed regulatory interaction edge of the gene regulatory network.
-    /// (基因调控网络之中的一条有向调控边)
+    ''' (基因调控网络之中的一条有向调控边)
     ''' </summary>
     ''' <remarks>
     ''' 边的权重取净调控弹性 g_ij - h_ij：为正表示源基因激活靶基因，
@@ -27,23 +27,23 @@ Namespace GRN
         ''' <summary>
         ''' 净调控弹性 g_ij - h_ij
         ''' </summary>
-        /// <returns></returns>
+        ''' <returns></returns>
         Public Property weight As Double
         ''' <summary>
         ''' 合成项之中的动力学阶 g_ij
         ''' </summary>
-        /// <returns></returns>
+        ''' <returns></returns>
         Public Property g As Double
         ''' <summary>
         ''' 降解项之中的动力学阶 h_ij
         ''' </summary>
-        /// <returns></returns>
+        ''' <returns></returns>
         Public Property h As Double
 
         ''' <summary>
         ''' 调控的类型：激活或者抑制
         ''' </summary>
-        /// <returns></returns>
+        ''' <returns></returns>
         Public ReadOnly Property interaction As String
             Get
                 If weight > 0 Then
@@ -192,7 +192,7 @@ Namespace GRN
         ''' </summary>
         ''' <param name="edges"></param>
         ''' <returns></returns>
-        Public Function ToSIF(edges As IEnumerable(Of RegulatoryEdge)) As String
+        Public Function ToSIF(edges As IReadOnlyCollection(Of RegulatoryEdge)) As String
             If edges.IsNullOrEmpty Then
                 Return ""
             End If
