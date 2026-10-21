@@ -63,7 +63,7 @@ Namespace GRN
 
     ''' <summary>
     ''' The network topology inference of the fitted S-system parameters.
-    /// (由拟合参数反推基因调控网络的拓扑结构)
+    ''' (由拟合参数反推基因调控网络的拓扑结构)
     ''' </summary>
     ''' <remarks>
     ''' 参看 method.md 的步骤3：基因之间的真实相互作用是稀疏的，
