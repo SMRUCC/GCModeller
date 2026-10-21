@@ -1,0 +1,243 @@
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
+Imports Microsoft.VisualBasic.Math.Calculus.Dynamics
+
+Namespace GRN
+
+    ''' <summary>
+    ''' The available normalization methods of the gene expression matrix.
+    ''' (基因表达矩阵的归一化方法)
+    ''' </summary>
+    Public Enum NormalizationMethods
+        ''' <summary>
+        ''' Do nothing on the raw expression data.(不做任何处理)
+        ''' </summary>
+        None = 0
+        ''' <summary>
+        ''' log2(x + pseudo) transform.(对数变换)
+        ''' </summary>
+        Log2 = 1
+        ''' <summary>
+        ''' z-score normalization on each gene row.(按行做 z-score 标准化)
+        ''' </summary>
+        RowZScore = 2
+        ''' <summary>
+        ''' Quantile normalization between samples.(分位数归一化)
+        ''' </summary>
+        Quantile = 3
+    End Enum
+
+    ''' <summary>
+    ''' The configuration object of the S-system gene regulatory network inference.
+    ''' (基因表达调控网络的S-system拟合参数配置)
+    ''' </summary>
+    ''' <remarks>
+    ''' 参数的生物学取值范围直接参考 method.md 的表格：
+    ''' alpha/beta 为速率常数（典型 [0,10]），g/h 为动力学阶（典型 [-3,3]）。
+    ''' </remarks>
+    Public Class FittingOptions
+
+        ''' <summary>
+        ''' The value bounds of the rate constant alpha.(合成速率常数的上下界)
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property AlphaBounds As DoubleRange = New DoubleRange(0, 10)
+        ''' <summary>
+        ''' The value bounds of the rate constant beta.(降解速率常数的上下界)
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property BetaBounds As DoubleRange = New DoubleRange(0, 10)
+        ''' <summary>
+        ''' The value bounds of the kinetic order g.(合成项动力学阶的上下界)
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property GBounds As DoubleRange = New DoubleRange(-3, 3)
+        ''' <summary>
+        ''' The value bounds of the kinetic order h.(降解项动力学阶的上下界)
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property HBounds As DoubleRange = New DoubleRange(-3, 3)
+
+        ''' <summary>
+        ''' 绝对值小于本阈值的交互会被置零（与 SPEM 包的 sparsity 参数同义，默认 0.2）
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Sparsity As Double = 0.2
+        ''' <summary>
+        ''' 每一个靶基因最多保留的调控边的数量（与 SPEM 包的 n 参数同义，默认 3）
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property MaxEdgesPerGene As Integer = 3
+        ''' <summary>
+        ''' 稀疏惩罚项（L1）的权重系数，零表示不施加惩罚
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property L1Penalty As Double = 0.0R
+        ''' <summary>
+        ''' 是否保留自环（X_i 调控其自身），默认保留
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property KeepSelfLoop As Boolean = True
+        ''' <summary>
+        ''' 预先使用相关性筛选出的候选调控因子的最大数量；零表示不筛选（使用全部基因作为候选）
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property MaxRegulators As Integer = 0
+
+        ''' <summary>
+        ''' 对表达矩阵施加的归一化方法
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Normalize As NormalizationMethods = NormalizationMethods.Log2
+        ''' <summary>
+        ''' 对数变换的伪计数，避免出现 log(0)
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property PseudoCount As Double = 1.0R
+        ''' <summary>
+        ''' 用户在外部显式给定的时间轴；为 Nothing 的时候会尝试从样本编号之中解析
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property TimePoints As Double() = Nothing
+        ''' <summary>
+        ''' 是否使用三次样条平滑之后再做数值微分
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Denoise As Boolean = True
+
+        ''' <summary>
+        ''' 差分进化算法的种群大小
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property DEPopulationSize As Integer = 60
+        ''' <summary>
+        ''' 差分进化算法的最大迭代次数
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property DEMaxIterations As Integer = 3000
+        ''' <summary>
+        ''' 差分进化算法的变异权重 F，取值区间 [0,2]
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property DEF As Double = 0.8R
+        ''' <summary>
+        ''' 差分进化算法的交叉概率 CR，取值区间 [0,1]
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property DECR As Double = 0.7R
+        ''' <summary>
+        ''' 差分进化算法的收敛阈值
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property DEThreshold As Double = 0.0001R
+        ''' <summary>
+        ''' L-BFGS-B 局部精修的最大迭代次数
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property LBFGSIterations As Integer = 500
+
+        ''' <summary>
+        ''' 是否执行第二阶段的轨迹精修（需要反复积分ODE，耗时较长，默认关闭）
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property RefineTrajectory As Boolean = False
+        ''' <summary>
+        ''' 轨迹精修阶段的最大迭代次数
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property RefineMaxIterations As Integer = 60
+
+        ''' <summary>
+        ''' 随机数种子，零表示使用系统种子
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Seed As Integer = 0
+        ''' <summary>
+        ''' 是否并行求解多个基因的参数（逐基因之间互相独立）
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Parallel As Boolean = True
+        ''' <summary>
+        ''' 是否输出拟合过程的详细信息
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Verbose As Boolean = True
+
+        ''' <summary>
+        ''' 仿真（轨迹精修与虚拟扰动）所使用的终止时间；零表示使用表达矩阵的时间轴终点
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property FinalTime As Double = 0
+        ''' <summary>
+        ''' 仿真所使用的积分步长
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Precise As Double = 0.1
+        ''' <summary>
+        ''' 仿真所使用的ODE求解引擎
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Solver As ODESolverMethod = ODESolverMethod.RK4
+        ''' <summary>
+        ''' 仿真采样点的数量；零表示由终止时间与步长自动推导
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Steps As Integer = 0
+
+        ''' <summary>
+        ''' Create a copy of current configuration object.
+        ''' </summary>
+        ''' <returns></returns>
+        Public Function Clone() As FittingOptions
+            Return DirectCast(Me.MemberwiseClone(), FittingOptions)
+        End Function
+
+        ''' <summary>
+        ''' 创建用于仿真求解的运行配置对象
+        ''' </summary>
+        ''' <param name="finalTime"></param>
+        ''' <returns></returns>
+        Public Function CreateRunOptions(Optional finalTime As Double = 0) As SMRUCC.genomics.Analysis.SSystem.Runner.RunOptions
+            Dim options As New SMRUCC.genomics.Analysis.SSystem.Runner.RunOptions With {
+                .FinalTime = If(finalTime > 0, finalTime, Me.FinalTime),
+                .Precise = Me.Precise,
+                .Solver = Me.Solver,
+                .Steps = Me.Steps,
+                .UseODEs = True,
+                .NonNegative = True
+            }
+
+            Return options
+        End Function
+
+        ''' <summary>
+        ''' 检查配置参数是否合法
+        ''' </summary>
+        Public Sub Validate()
+            If Sparsity < 0 Then
+                Throw New ArgumentException("The sparsity threshold of the S-system inference should not be a negative value!")
+            End If
+            If MaxEdgesPerGene < 0 Then
+                Throw New ArgumentException("The max edges per gene should not be a negative value!")
+            End If
+            If PseudoCount <= 0 Then
+                Throw New ArgumentException("The pseudo count value of the log transform should be a positive value!")
+            End If
+            If DEPopulationSize < 4 Then
+                DEPopulationSize = 4
+            End If
+            If DEMaxIterations < 1 Then
+                DEMaxIterations = 1
+            End If
+            If LBFGSIterations < 1 Then
+                LBFGSIterations = 1
+            End If
+            If Precise <= 0 Then
+                Precise = 0.1
+            End If
+        End Sub
+
+        Public Overrides Function ToString() As String
+            Return $"S-system fitting: sparsity={Sparsity}, maxEdges={MaxEdgesPerGene}, alpha[{AlphaBounds.Min},{AlphaBounds.Max}], g[{GBounds.Min},{GBounds.Max}]"
+        End Function
+    End Class
+End Namespace
