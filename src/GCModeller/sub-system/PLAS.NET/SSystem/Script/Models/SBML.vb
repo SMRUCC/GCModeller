@@ -240,8 +240,8 @@ Namespace Script
         ''' 故而两个方向都是取值来源为反应物
         ''' </remarks>
         Private Function GenerateFunction(Metabolite As String, index As SbmlReactionIndex) As String
-            Dim produce As String = __contact(index.Produce, Metabolite)
-            Dim consume As String = __contact(index.Consume, Metabolite) ' 在计算消耗的部分的时候，S系统方程中目标是作为反应物而被消耗掉的
+            Dim produce As String = __contact(index.GetProduce(Metabolite))
+            Dim consume As String = __contact(index.GetConsume(Metabolite)) ' 在计算消耗的部分的时候，S系统方程中目标是作为反应物而被消耗掉的
             Dim eq As String = ""
 
             If Not String.IsNullOrEmpty(produce) Then
@@ -254,10 +254,8 @@ Namespace Script
             Return eq
         End Function
 
-        Private Function __contact(table As Dictionary(Of String, List(Of SbmlReaction)), Metabolite As String) As String
-            Dim reactions As List(Of SbmlReaction) = Nothing
-
-            If Not table.TryGetValue(Metabolite, reactions) Then
+        Private Function __contact(reactions As SbmlReaction()) As String
+            If reactions Is Nothing OrElse reactions.Length = 0 Then
                 Return ""
             End If
 

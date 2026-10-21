@@ -113,12 +113,12 @@ Namespace Script
         ''' 生成目标代谢物的所有生化反应
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property Produce As Dictionary(Of String, List(Of SbmlReaction))
+        Private ReadOnly Property Produce As Dictionary(Of String, List(Of SbmlReaction))
         ''' <summary>
         ''' 消耗目标代谢物的所有生化反应
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property Consume As Dictionary(Of String, List(Of SbmlReaction))
+        Private ReadOnly Property Consume As Dictionary(Of String, List(Of SbmlReaction))
 
         Sub New(network As SbmlNetwork)
             Produce = New Dictionary(Of String, List(Of SbmlReaction))
@@ -155,6 +155,34 @@ Namespace Script
         ''' <returns></returns>
         Public Function HasReaction(id As String) As Boolean
             Return Produce.ContainsKey(id) OrElse Consume.ContainsKey(id)
+        End Function
+
+        ''' <summary>
+        ''' 获取生成目标代谢物的所有生化反应
+        ''' </summary>
+        ''' <param name="id"></param>
+        ''' <returns></returns>
+        Public Function GetProduce(id As String) As SbmlReaction()
+            Return rawChannels(Produce, id)
+        End Function
+
+        ''' <summary>
+        ''' 获取消耗目标代谢物的所有生化反应
+        ''' </summary>
+        ''' <param name="id"></param>
+        ''' <returns></returns>
+        Public Function GetConsume(id As String) As SbmlReaction()
+            Return rawChannels(Consume, id)
+        End Function
+
+        Private Shared Function rawChannels(table As Dictionary(Of String, List(Of SbmlReaction)), id As String) As SbmlReaction()
+            Dim list As List(Of SbmlReaction) = Nothing
+
+            If String.IsNullOrEmpty(id) OrElse Not table.TryGetValue(id, list) Then
+                Return New SbmlReaction() {}
+            End If
+
+            Return list.ToArray
         End Function
     End Class
 
