@@ -60,38 +60,67 @@ Private Function ParseOptions(args As CommandLine) As RunOptions
     Dim options As New RunOptions With {
         .Input = args("-i"),
         .Output = args("-o"),
-        .FinalTime = Val(args("/time")),
+        .FinalTime = Val(optStr(args, "/time", "0")),
         .UseODEs = args("/ODEs"),
-        .AutoFix = CBool(args("/auto-fix")),
-        .Chart = CBool(args("-chart")),
-        .Strict = CBool(args("/strict")),
-        .NonNegative = Not CBool(args("/allow-negative")),
-        .Steps = CInt(Val(args("/steps"))),
-        .InitialAmountFallback = If(Val(args("/initial")) > 0, Val(args("/initial")), 1.0R),
-        .InitialJitter = Val(args("/jitter")),
-        .SolverName = (args <= "/solver").Trim
+        .AutoFix = optBool(args, "/auto-fix", False),
+        .Chart = optBool(args, "-chart", False),
+        .Strict = optBool(args, "/strict", False),
+        .NonNegative = Not optBool(args, "/allow-negative", False),
+        .Steps = CInt(Val(optStr(args, "/steps", "0"))),
+        .InitialAmountFallback = If(Val(optStr(args, "/initial", "0")) > 0, Val(optStr(args, "/initial", "0")), 1.0R),
+        .InitialJitter = If(Val(optStr(args, "/jitter", "0.01")) >= 0, Val(optStr(args, "/jitter", "0.01")), 0.01R),
+        .SolverName = optStr(args, "/solver", "")
     }
 
-    If Val(args("/precise")) > 0 Then
-        options.Precise = Val(args("/precise"))
+    If Val(optStr(args, "/precise", "0")) > 0 Then
+        options.Precise = Val(optStr(args, "/precise", "0"))
     End If
 
     options.Solver = SolverRegistry.ParseSolver(options.SolverName, ODESolverMethod.RK4)
 
-    If Val(args("/atol")) > 0 Then
-        options.SolverTuning.Atol = Val(args("/atol"))
+    If Val(optStr(args, "/atol", "0")) > 0 Then
+        options.SolverTuning.Atol = Val(optStr(args, "/atol", "0"))
     End If
-    If Val(args("/rtol")) > 0 Then
-        options.SolverTuning.Rtol = Val(args("/rtol"))
+    If Val(optStr(args, "/rtol", "0")) > 0 Then
+        options.SolverTuning.Rtol = Val(optStr(args, "/rtol", "0"))
     End If
-    If Val(args("/initial-step")) > 0 Then
-        options.SolverTuning.InitialStep = Val(args("/initial-step"))
+    If Val(optStr(args, "/initial-step", "0")) > 0 Then
+        options.SolverTuning.InitialStep = Val(optStr(args, "/initial-step", "0"))
     End If
-    If Val(args("/max-steps")) > 0 Then
-        options.SolverTuning.MaxSteps = CInt(Val(args("/max-steps")))
+    If Val(optStr(args, "/max-steps", "0")) > 0 Then
+        options.SolverTuning.MaxSteps = CInt(Val(optStr(args, "/max-steps", "0")))
     End If
 
     Return options
+End Function
+
+''' <summary>
+''' 读取一个可选的命令行开关值，缺失的时候返回默认值
+''' </summary>
+Private Function optStr(args As CommandLine, name As String, Optional def As String = "") As String
+    Dim value As String = args.GetValue(name, def)
+
+    If value Is Nothing Then
+        Return def
+    Else
+        Return value.Trim
+    End If
+End Function
+
+''' <summary>
+''' 读取一个可选的布尔开关值，支持 T/F、true/false、1/0 的写法
+''' </summary>
+Private Function optBool(args As CommandLine, name As String, Optional def As Boolean = False) As Boolean
+    Dim value As String = optStr(args, name, If(def, "T", "F"))
+
+    Select Case value.ToLower
+        Case "t", "true", "1", "yes", "y"
+            Return True
+        Case "f", "false", "0", "no", "n", ""
+            Return False
+        Case Else
+            Return def
+    End Select
 End Function
 
 <ExportAPI("Run")>
@@ -134,7 +163,9 @@ End Function
 <Usage("compile -i <file> -f <script/sbml> -o <output_file> [/auto-fix]")>
 <Example("compile -i ""/home/xieguigang/proj/metacyc/xcc8004/17.0/data/metabolic-reactions.sbml"" -f sbml -o ""/home/xieguigang/Desktop/xcc8004.xml""")>
 Public Function Compile(args As CommandLine) As Integer
-    Return Compilers(args <= "-f")(args <= "-i", args <= "-o", CBool(args("/auto-fix"))).CLICode
+    Dim options As RunOptions = ParseOptions(args)
+
+    Return Compilers(options.Input)(options.Input, options.Output, options.AutoFix).CLICode
 End Function
 
 <ExportAPI("Solvers")>
