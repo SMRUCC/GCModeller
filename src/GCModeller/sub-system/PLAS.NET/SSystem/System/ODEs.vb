@@ -70,7 +70,7 @@ Namespace Kernel
 
         ''' <summary>
         ''' 方程所指向的目标变量没有被显式的申明初始量的时候所使用的默认初始量，
-        ''' 取值与离散内核 <see cref="Equation"/> 的实现保持一致
+        ''' 取值与离散内核之中方程对象的实现保持一致
         ''' </summary>
         Public Const DefaultInitialValue As Double = 10.0R
 
