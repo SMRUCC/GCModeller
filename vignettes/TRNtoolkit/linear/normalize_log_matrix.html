@@ -22,7 +22,7 @@
 
         <h3>Description</h3>
 
-        <p>&lt;br /&gt; 对样本 s: <code>x'(g, s) = x(g, s) - mean_g(x(g, s))</code>。&lt;br /&gt; &lt;br /&gt; 横截面共表达数据里，所有基因都被同一个"全局程序"绑定(细胞状态、线粒体含量、&lt;br /&gt; 测序质量等)，导致任意两个基因的相关系数都被抬高、且几乎全为正。把这个样本级&lt;br /&gt; 常数移除之后，剩下的相关更接近"特异性共表达"，负相关才会出现：&lt;br /&gt; 这一步直接改善敲降之后"全部基因一起下调、极少上调"的现象。</p>
+        <p>&lt;br /&gt; 对样本 s: <code>x'(g, s) = x(g, s) - mean_g(x(g, s))</code>。&lt;br /&gt; &lt;br /&gt; 横截面共表达数据里，所有基因都被同一个"全局程序"绑定(细胞状态、线粒体含量、&lt;br /&gt; 测序质量等)，导致任意两个基因的相关系数都被抬高、且几乎全为正。把这个样本级&lt;br /&gt; 常数移除之后，剩下的相关更接近"特异性共表达"，负相关才会出现：&lt;br /&gt; 这一步直接改善敲降之后"全部基因一起下调、极少上调"的现象。&lt;br /&gt;&lt;br /&gt; 把一个已经在对数空间的表达矩阵重新标定到指定的文库规模(默认 CPM，1e6)。&lt;br /&gt; &lt;br /&gt; 输入矩阵假定是 <code>x = log2(y + pseudo)</code> 的形式，其中 y 是"归一化之后的计数"&lt;br /&gt; (不必是整数)。先把 y 反解出来，整体乘以 <code>target / median(Σy)</code>，再取对数：&lt;br /&gt; &lt;br /&gt;<code>&lt;br /&gt; S  = median_s( Σ_g (2^x - pseudo) )&lt;br /&gt; x' = log2( (2^x - pseudo) * target / S + pseudo )&lt;br /&gt; </code>&lt;br /&gt; &lt;br /&gt; 这一步不改变基因之间的相对丰度，只改变数值尺度。它解决的问题是：&lt;br /&gt; 低深度数据(例如每细胞只有几千个 UMI)上 <code>log2(1 + y)</code> 落在近似线性的区间里，&lt;br /&gt; 全矩阵被压到 0~2 之间，于是 80% 敲降只产生 0.05 量级的变化，下游传播几乎为 0；&lt;br /&gt; 重标到 CPM 之后，同一个基因的对数值落回对数区间，敲降幅度回到 2 左右、&lt;br /&gt; 下游响应回到可观测的量级，模型空间的语义也与 <code>scale = "log2cpm"</code> 一致。</p>
 
         <h3>Usage</h3>
 

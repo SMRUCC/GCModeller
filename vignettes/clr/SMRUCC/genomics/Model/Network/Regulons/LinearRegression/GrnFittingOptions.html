@@ -88,6 +88,27 @@ export class GrnFittingOptions {
    # 
    # 为空的时候不产生任何影响。大小写不敏感，表达矩阵之中不存在的基因会被忽略。
    priorityRegulators: string;
+   # 采纳先验的最低置信度，默认 0.9(即只使用 High 置信度的边)。
+   # 
+   # 低于该阈值的边既不参与候选注入，也不参与惩罚放松。
+   priorMinConfidence: double;
+   # curated 数据库之中的 <code>TF -&gt; target</code> 调控关系先验，默认空。
+   # 
+   # 提供之后会启用两项机制：
+   # 
+   # 
+   # <ol>
+   # <li>候选注入：对于某个目标基因，先验中指向它的 TF 会被追加进候选集， 即使它被 top-k 相关性排名挤出了名单也会保留下来；</li>
+   # <li>自适应惩罚：先验支持的边在 L1 惩罚上乘以 <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GrnFittingOptions.priorPenalty">GrnFittingOptions.priorPenalty</a>， 在稀疏化过程中更容易存活。</li>
+   # </ol>
+   # 
+   # 
+   # 先验为空时，拟合行为与不提供先验时逐位一致。
+   priorNetwork: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/PriorEdge.html">PriorEdge[]</a>;
+   # 先验支持的边所享有的 L1 惩罚乘子，默认 1.0(不放松)。
+   # 
+   # 取值越小，先验边越容易被保留；0.3 是一个稳健的默认选择 (先验提供倾斜，但仍然由数据决定去留)。设为 1.0 等价于关闭方案 B。
+   priorPenalty: double;
    # p 值计算的容差：小于这个数值的 p 值会被修正为零。
    pvalueTolerance: double;
    # 可选的调控因子集合(例如转录因子列表)。
@@ -110,6 +131,7 @@ export class GrnFittingOptions {
 <li>use by <i>property</i> member <code>correlationBackend</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/ICorrelationScreener.html">ICorrelationScreener</a></li>
 <li>use by <i>property</i> member <code>elasticNet</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/ElasticNetOptions.html">ElasticNetOptions</a></li>
 <li>use by <i>property</i> member <code>method</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/FittingMethod.html">FittingMethod</a></li>
+<li>use by <i>property</i> member <code>priorNetwork</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/PriorEdge.html">PriorEdge</a></li>
 </ol>
 
 

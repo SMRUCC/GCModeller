@@ -21,7 +21,11 @@ elastic_net \- Fit a linear (elastic net) gene regulatory network from the expre
 \fBnegative_quota\fR as integer = -1, 
 \fBmax_row_sum\fR as double = 0.9, 
 \fBpriority_budget\fR as integer = 0, 
-\fBthreads\fR as integer = -1);\fR
+\fBprior\fR as any = \fB<NULL>\fR, 
+\fBprior_min_confidence\fR as double = 0.9, 
+\fBprior_penalty\fR as double = 0.3, 
+\fBthreads\fR as integer = -1, 
+[\fB<Environment>\fR]);\fR
 .SH DESCRIPTION
 .PP
 Fit a linear (elastic net) gene regulatory network from the expression matrix.
@@ -61,6 +65,9 @@ Fit a linear (elastic net) gene regulatory network from the expression matrix.
 .PP
 .PP
 \fBmin_abs_r\fB \fR\- the minimal absolute pearson correlation for a gene to be a candidate regulator. 
+.PP
+.PP
+\fBprior\fB \fR\- value from the bnlearn::prior_network function.. 
 .PP
 .SH VALUE
 .PP

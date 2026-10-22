@@ -140,12 +140,21 @@ declare namespace linear {
      * + default value Is ``0.9``.
      * @param priority_budget 
      * + default value Is ``0``.
+     * @param prior value from the bnlearn::prior_network function.
+     * 
+     * + default value Is ``null``.
+     * @param prior_min_confidence 
+     * + default value Is ``0.9``.
+     * @param prior_penalty 
+     * + default value Is ``0.3``.
      * @param threads 
      * + default value Is ``-1``.
+     * @param env 
+     * + default value Is ``null``.
      * @return a list object with two slots: ``grn`` (the fitted [GeneRegulatoryNetwork](cref:T:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GeneRegulatoryNetwork))
      *  and ``edges`` (the [RegulationEdge](cref:T:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.RegulationEdge) collection).
    */
-   function elastic_net(x: object, candidates?: object, maxreg?: object, l1_ratio?: number, alphas?: number, mutual?: boolean, TF?: any, priority?: any, regulators?: any, standardize?: boolean, min_abs_r?: number, gpu?: boolean, block_screener?: boolean, partial_correlation?: boolean, partial_cond?: object, negative_quota?: object, max_row_sum?: number, priority_budget?: object, threads?: object): object|object;
+   function elastic_net(x: object, candidates?: object, maxreg?: object, l1_ratio?: number, alphas?: number, mutual?: boolean, TF?: any, priority?: any, regulators?: any, standardize?: boolean, min_abs_r?: number, gpu?: boolean, block_screener?: boolean, partial_correlation?: boolean, partial_cond?: object, negative_quota?: object, max_row_sum?: number, priority_budget?: object, prior?: any, prior_min_confidence?: number, prior_penalty?: number, threads?: object, env?: object): object|object;
    /**
     * Run the perturbation experiment for a set of genes and save the profiles as a csv file.
     * 
@@ -235,6 +244,22 @@ declare namespace linear {
     *  测序质量等)，导致任意两个基因的相关系数都被抬高、且几乎全为正。把这个样本级
     *  常数移除之后，剩下的相关更接近"特异性共表达"，负相关才会出现：
     *  这一步直接改善敲降之后"全部基因一起下调、极少上调"的现象。
+    * 
+    *  把一个已经在对数空间的表达矩阵重新标定到指定的文库规模(默认 CPM，1e6)。
+    *  
+    *  输入矩阵假定是 ``x = log2(y + pseudo)`` 的形式，其中 y 是"归一化之后的计数"
+    *  (不必是整数)。先把 y 反解出来，整体乘以 ``target / median(Σy)``，再取对数：
+    *  
+    * ```
+    *  S  = median_s( Σ_g (2^x - pseudo) )
+    *  x' = log2( (2^x - pseudo) * target / S + pseudo )
+    *  ```
+    *  
+    *  这一步不改变基因之间的相对丰度，只改变数值尺度。它解决的问题是：
+    *  低深度数据(例如每细胞只有几千个 UMI)上 ``log2(1 + y)`` 落在近似线性的区间里，
+    *  全矩阵被压到 0~2 之间，于是 80% 敲降只产生 0.05 量级的变化，下游传播几乎为 0；
+    *  重标到 CPM 之后，同一个基因的对数值落回对数区间，敲降幅度回到 2 左右、
+    *  下游响应回到可观测的量级，模型空间的语义也与 ``scale = "log2cpm"`` 一致。
     * 
     * 
      * @param x 对数空间的表达矩阵(行 = 基因、列 = 样本)

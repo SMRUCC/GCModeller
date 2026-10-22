@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Model.Network.Regulons.LinearRegression.PriorEdge</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>PriorEdge {SMRUCC.genomics.Model.Network.Regulons.LinearRegression}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>PriorEdge</h2>
+
+        <h3>Description</h3>
+
+        <p>一条来自 curated 数据库的调控关系先验：<code>TF -&gt; TargetGene</code>。</p>
+
+<p>这是一个刻意做得很轻的结构：<a href="cref:!:SMRUCC.genomics.Analysis.BNLearn">BNLearn</a> 之中虽然已经有功能完整的 <code>RegulatoryEdge</code>，但让 <code>Network.Regulons</code> 依赖整个 BNLearn 工程并不划算， 因此先验在 R# 导出层被投影成本类型之后再传入拟合器。</p>
+
+<p>方向性(激活/抑制)在这里被刻意丢弃：本轮只把先验用于「哪些 TF 调控这个基因」 以及「这条边的惩罚要不要放松」，不使用先验的符号去约束回归系数。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Model.Network.Regulons.LinearRegression
+export class PriorEdge extends <a href="/vignettes/clr/System/ValueType.html">ValueType</a> {
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>this class extends from <a href="/vignettes/clr/System/ValueType.html">ValueType</a> class: <a href="/vignettes/clr/System/ValueType.html">ValueType</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>
