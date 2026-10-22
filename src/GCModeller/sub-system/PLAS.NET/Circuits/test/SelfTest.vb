@@ -9,11 +9,11 @@ Imports Microsoft.VisualBasic.Math.Distributions.LHS
 Imports SMRUCC.genomics.Analysis.Circuits.Analysis
 Imports SMRUCC.genomics.Analysis.Circuits.Assessment
 Imports SMRUCC.genomics.Analysis.Circuits.Enumeration
+Imports SMRUCC.genomics.Analysis.Circuits.IO
 Imports SMRUCC.genomics.Analysis.Circuits.Model
 Imports SMRUCC.genomics.Analysis.Circuits.Sampling
 Imports SMRUCC.genomics.Analysis.Circuits.Search
 Imports SMRUCC.genomics.Analysis.Circuits.Simulation
-Imports SelfTestFixtures
 
 ''' <summary>
 ''' The assertion suite of the adaptation topology search. Every check is an
@@ -136,11 +136,11 @@ Friend Module SelfTest
         Call CheckEqual(TopologyEnumerator.CountUpTo(2), 38, "the connected topologies with at most 2 links are 38")
         Call CheckEqual(TopologyEnumerator.CountUpTo(3), 310, "the connected topologies with at most 3 links are 310")
 
-        Dim twoNodeTotal As Integer = TwoNodeModel.Enumerate().Count()
+        Dim twoNodeTotal As Integer = SelfTestFixtures.TwoNodeModel.Enumerate().Count()
 
         Call CheckEqual(twoNodeTotal, 81, "the two node control network owns 3^4 = 81 topologies")
 
-        Dim twoNodeConnected As Integer = TwoNodeModel.Enumerate(requireConnected:=True).Count()
+        Dim twoNodeConnected As Integer = SelfTestFixtures.TwoNodeModel.Enumerate(requireConnected:=True).Count()
 
         Console.WriteLine("      (the connected two node topologies are {0})", twoNodeConnected)
         Check(twoNodeConnected > 0, "the two node control network owns connected topologies")
@@ -248,10 +248,11 @@ Friend Module SelfTest
         Check(MotifAnalyzer.HasNegativeFeedbackLoop(noBuffer), "the feedback onto the input node is a negative feedback loop")
         Check(Not MotifAnalyzer.HasNFBLB(noBuffer), "the negative feedback loop without a buffering node does not own the NFBLB motif")
 
-        ' a negative self loop on A is a negative feedback loop of length one
-        Dim selfLoop = NetworkTopology.FromSymbolString("-00000000")
+        ' a negative self loop on A (slot 6) is a negative feedback loop of length one
+        Dim selfLoop = NetworkTopology.FromSymbolString("000000-00")
 
         Check(MotifAnalyzer.HasNegativeFeedbackLoop(selfLoop), "a negative self loop is a negative feedback loop")
+        Check(Not MotifAnalyzer.HasNFBLB(selfLoop), "a self loop on the input node does not own the NFBLB motif")
 
         ' the NFBLB with the positive self loop on B
         Dim nfblbSelf = NetworkTopology.FromSymbolString("0+0-0+0+0")
@@ -414,11 +415,11 @@ Friend Module SelfTest
 
         Call WithSilencedErrors(
             Sub()
-                For Each signs In TwoNodeModel.Enumerate()
+                For Each signs In SelfTestFixtures.TwoNodeModel.Enumerate()
                     Dim sampled = SampleTwoNode(signs, samples, 42)
 
                     For i As Integer = 0 To sampled.Length - 1
-                        Dim model As New TwoNodeModel(signs, sampled(i))
+                        Dim model As New SelfTestFixtures.TwoNodeModel(signs, sampled(i))
                         Dim outcome = CircuitSimulator.Simulate(model, 0.5, 0.6, New CircuitSimulator.SimulationOptions())
 
                         If outcome.IsWellBehaved Then
@@ -442,13 +443,13 @@ Friend Module SelfTest
     ''' (用与三节点采样器相同的拉丁超立方策略采样双节点网络的参数集)
     ''' </summary>
     Private Function SampleTwoNode(signs As SByte(), samples As Integer, seed As Integer) As Double()()
-        Dim nParams As Integer = TwoNodeModel.ParameterCount(signs)
-        Dim sampler As New Distributions.LHS.LatinHypercubeSampler(nDims:=nParams, seed:=seed)
+        Dim nParams As Integer = SelfTestFixtures.TwoNodeModel.ParameterCount(signs)
+        Dim sampler As New LatinHypercubeSampler(nDims:=nParams, seed:=seed)
         Dim unit As Double()() = sampler.Random(samples)
-        Dim lower As Double() = Distributions.LHS.LhsScale.TileBounds(New Double() {-1.0, -3.0}, nParams)
-        Dim upper As Double() = Distributions.LHS.LhsScale.TileBounds(New Double() {1.0, 2.0}, nParams)
+        Dim lower As Double() = LhsScale.TileBounds(New Double() {-1.0, -3.0}, nParams)
+        Dim upper As Double() = LhsScale.TileBounds(New Double() {1.0, 2.0}, nParams)
 
-        Return Distributions.LHS.LhsScale.ScaleLog10(unit, lower, upper)
+        Return LhsScale.ScaleLog10(unit, lower, upper)
     End Function
 
     Private Sub TestSmallNetworksZero(samples As Integer)
@@ -631,9 +632,9 @@ Friend Module SelfTest
         Call CheckEqual(clustered.labels(2), clustered.labels(3), "the second pair shares a cluster")
         Check(clustered.labels(0) <> clustered.labels(2), "the two pairs own different clusters")
 
-        Dim single = TopologyClustering.Cluster(New NetworkTopology() {topologies(0)}, 2.0)
+        Dim loneCluster = TopologyClustering.Cluster(New NetworkTopology() {topologies(0)}, 2.0)
 
-        Call CheckEqual(single.clusterCount, 1, "a single topology forms a single cluster")
+        Call CheckEqual(loneCluster.clusterCount, 1, "a single topology forms a single cluster")
 
         Dim silhouette As Double = TopologyClustering.Silhouette(topologies, clustered.labels)
 
@@ -726,7 +727,8 @@ Friend Module SelfTest
         Check(File.Exists(Path.Combine(dir, "products", "venn_summary.csv")), "the venn summary product exists")
         Check(File.Exists(Path.Combine(dir, "products", "design_table.csv")), "the design table product exists")
         Check(File.Exists(Path.Combine(dir, "products", "report.txt")), "the report product exists")
-        Check(File.Exists(Path.Combine(dir, "checkpoints", "topo_00000.csv")), "the checkpoint of the first topology exists")
+        Call CheckEqual(Directory.EnumerateFiles(Path.Combine(dir, "checkpoints"), "topo_*.csv").Count(), 12,
+                        "every evaluated topology owns its checkpoint file")
 
         ' a resumed run reloads every topology from the checkpoints
         Dim resumed As SearchReport = Nothing

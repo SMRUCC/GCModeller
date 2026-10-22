@@ -125,7 +125,7 @@ Module Program
             ("coherent FFL (A→B+, A→C+, B→C+)", "++0+00000"),
             ("positive feedback (A→B+, B→C+, C→B+)", "+00+0+000"),
             ("negative feedback without buffer (A→C+, C⊣A−)", "0+00-0000"),
-            ("negative self loop (A⊣A)", "-00000000"),
+            ("negative self loop (A⊣A)", "000000-00"),
             ("NFBLB plus self loop (B→B+)", "0+0-0+0+0")
         }
 
