@@ -57,6 +57,7 @@ Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Analysis.BNLearn
 Imports SMRUCC.genomics.Analysis.BNLearn.Core
@@ -485,9 +486,18 @@ Module bnlearn
         Dim tfs As String() = CLRVector.asCharacter(TF)
         Dim targets As String() = CLRVector.asCharacter(target_gene)
         Dim reg_types As String() = CLRVector.asCharacter(regulation_type)
-        Dim confs As Double() = CLRVector.asNumeric(confidence)
+        Dim conf_str As String() = CLRVector.asCharacter(confidence)
         Dim evidences As String() = CLRVector.asCharacter(evidence)
         Dim priorNet As RegulatoryEdge() = New RegulatoryEdge(tfs.Length - 1) {}
+        Dim confs As Double()
+
+        If conf_str.All(Function(si) si.IsNumeric(True, True)) Then
+            confs = conf_str.AsDouble
+        Else
+            confs = conf_str _
+                .Select(Function(si) RegulatoryEdge.ParseConfidenceEnum(si)) _
+                .ToArray
+        End If
 
         For i As Integer = 0 To tfs.Length - 1
             priorNet(i) = New RegulatoryEdge With {

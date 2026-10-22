@@ -117,6 +117,21 @@ Namespace Core
             End Select
         End Function
 
+        Public Shared Function ParseConfidenceEnum(type As String) As Double
+            If type.StringEmpty(, True) Then
+                ' unknown confidence label
+                Return 0
+            End If
+
+            Select Case type
+                Case "High" : Return 0.95
+                Case "Medium" : Return 0.7
+                Case "Low" : Return 0.5
+                Case Else
+                    Return 0.1
+            End Select
+        End Function
+
     End Class
 
     ''' <summary>
