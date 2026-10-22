@@ -79,6 +79,10 @@ Public Class XpsImagePlacement
     Public Property Height As Double
     ''' <summary>图片资源 Uri（``/Resources/Images/1.png``）。</summary>
     Public Property ResourceUri As String
+    ''' <summary>图片原始像素宽度（ImageBrush 的 Viewbox 使用）。</summary>
+    Public Property PixelWidth As Integer
+    ''' <summary>图片原始像素高度（ImageBrush 的 Viewbox 使用）。</summary>
+    Public Property PixelHeight As Integer
 
 End Class
 
@@ -128,7 +132,6 @@ Public Class XpsLayoutEngine
     Private ReadOnly codeStyle As XpsTextStyle
     Private ReadOnly quoteStyle As XpsTextStyle
     Private ReadOnly titleStyle As XpsTextStyle
-    Private ReadOnly fontUri As String
 
     Private ReadOnly pages As New List(Of XpsPage)()
     Private ReadOnly tocEntries As New List(Of Tuple(Of Integer, String))()
@@ -140,13 +143,6 @@ Public Class XpsLayoutEngine
     Public ReadOnly Property ContentWidth As Double
         Get
             Return pageWidth - marginLeft - marginRight
-        End Get
-    End Property
-
-    ''' <summary>Glyphs 使用的字体部件 Uri（回退模式为空串）。</summary>
-    Public ReadOnly Property FontUri As String
-        Get
-            Return fontUri
         End Get
     End Property
 
@@ -165,13 +161,11 @@ Public Class XpsLayoutEngine
     ''' <param name="codeStyle">代码块样式。</param>
     ''' <param name="quoteStyle">引用块样式。</param>
     ''' <param name="titleStyle">文档大标题样式。</param>
-    ''' <param name="fontUri">Glyphs 引用的字体部件 Uri（回退模式为空串）。</param>
     Public Sub New(pageWidth As Double, pageHeight As Double,
                    marginTop As Double, marginRight As Double, marginBottom As Double, marginLeft As Double,
                    blocks As List(Of XpsBlock),
                    headingStyles As XpsTextStyle(), paragraphStyle As XpsTextStyle,
-                   codeStyle As XpsTextStyle, quoteStyle As XpsTextStyle, titleStyle As XpsTextStyle,
-                   fontUri As String)
+                   codeStyle As XpsTextStyle, quoteStyle As XpsTextStyle, titleStyle As XpsTextStyle)
 
         Me.pageWidth = pageWidth
         Me.pageHeight = pageHeight
@@ -185,7 +179,6 @@ Public Class XpsLayoutEngine
         Me.codeStyle = If(codeStyle, Me.paragraphStyle)
         Me.quoteStyle = If(quoteStyle, Me.paragraphStyle)
         Me.titleStyle = If(titleStyle, Me.paragraphStyle)
-        Me.fontUri = If(fontUri, "")
     End Sub
 
     ''' <summary>
@@ -391,7 +384,7 @@ Public Class XpsLayoutEngine
             Case XpsBlockType.PageBreak
                 Call NewPage()
             Case XpsBlockType.Toc
-                Call RenderToc(style)
+                Call RenderToc(style, If(block.Level <= 0, 6, block.Level))
             Case XpsBlockType.Table
                 Call RenderTable(block, style)
             Case XpsBlockType.Image
@@ -492,7 +485,7 @@ Public Class XpsLayoutEngine
         cursor += height
     End Sub
 
-    Private Sub RenderToc(style As XpsTextStyle)
+    Private Sub RenderToc(style As XpsTextStyle, maxLevel As Integer)
         If tocEntries.Count = 0 Then
             Return
         End If
@@ -500,6 +493,10 @@ Public Class XpsLayoutEngine
         cursor += style.SpaceBefore
 
         For Each entry As Tuple(Of Integer, String) In tocEntries
+            If entry.Item1 > maxLevel Then
+                Continue For
+            End If
+
             Dim tocStyle As XpsTextStyle = style.Clone()
 
             tocStyle.Indent = style.Indent + (entry.Item1 - 1) * 12
@@ -730,7 +727,9 @@ Public Class XpsLayoutEngine
             .Y = cursor,
             .Width = width,
             .Height = height,
-            .ResourceUri = resource.Uri
+            .ResourceUri = resource.Uri,
+            .PixelWidth = resource.PixelWidth,
+            .PixelHeight = resource.PixelHeight
         })
 
         cursor += height
