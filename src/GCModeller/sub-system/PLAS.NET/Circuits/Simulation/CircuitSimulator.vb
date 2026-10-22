@@ -196,6 +196,7 @@ Namespace Simulation
 
             outcome.Settled = settled
             outcome.O1 = y(outputNode)
+            outcome.PreStepState = CType(y.Clone(), Double())
 
             If Not settled Then
                 outcome.Status = SimulationOutcome.SimulationStatus.NotSettled
@@ -269,6 +270,7 @@ Namespace Simulation
             rhsEvals += solver2.RHSFunctionEvaluations
 
             outcome.O2 = y2(outputNode)
+            outcome.FinalState = CType(y2.Clone(), Double())
 
             ' the peak is the transient extreme that is furthest away from O1
             If std.Abs(cMax - outcome.O1) >= std.Abs(outcome.O1 - cMin) Then
