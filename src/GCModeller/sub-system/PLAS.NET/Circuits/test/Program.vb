@@ -71,6 +71,7 @@ Module Program
         Console.WriteLine("    --jobs N           the thread count (default = processor count)")
         Console.WriteLine("    --cluster-cutoff X the Hamming clustering cutoff (default 3, negative disables)")
         Console.WriteLine("    --checkpoints DIR  the checkpoint directory (default none)")
+        Console.WriteLine("    --design-samples N the sample count of the design table experiment (default = search samples)")
         Console.WriteLine("    --no-design-table  skip the design table experiment")
         Console.WriteLine("    --out DIR          the output directory of the products (default ./circuits_results)")
         Console.WriteLine("  selftest [--samples N]                   run the paper anchor assertion suite (default 100 samples)")
@@ -224,6 +225,7 @@ Module Program
         If options.ContainsKey("jobs") Then Integer.TryParse(options("jobs"), search.MaxDegreeOfParallelism)
         If options.ContainsKey("cluster-cutoff") Then Double.TryParse(options("cluster-cutoff"), search.ClusterCutoff)
         If options.ContainsKey("checkpoints") Then search.CheckpointDir = options("checkpoints")
+        If options.ContainsKey("design-samples") Then Integer.TryParse(options("design-samples"), search.DesignTableSamples)
         If hasFlag("no-design-table") Then search.RunDesignTable = False
 
         Console.WriteLine("search scope: at most {0} links, {1} topologies, {2} samples per topology, seed {3}",
