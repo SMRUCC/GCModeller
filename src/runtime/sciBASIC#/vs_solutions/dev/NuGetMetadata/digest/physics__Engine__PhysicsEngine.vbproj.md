@@ -1,0 +1,206 @@
+# physics/Engine/PhysicsEngine.vbproj
+
+- RootNamespace : Microsoft.VisualBasic.Engine.Physics
+- AssemblyName  : Microsoft.VisualBasic.Engine.Physics
+- TargetFramework: net10.0
+- Source files  : 45
+- Existing Title: 2D and 3D Rigid Body Physics Engine with Joints, Fields and Fluids
+- Existing Desc : A fixed-step rigid body physics engine for sciBASIC#: two and three dimensional worlds with broad and narrow phase collision detection, SAT based convex polyhedron contacts and manifolds, revolute, prismatic, spring, weld, ball and hinge joints, angular motors, gravity / wind / magnetic force fields, plus SPH fluid and boids hooks for particle scenes.
+- Existing Tags : scibasic;physics-engine;rigid-body;collision-detection;convex-hull;sat;joints;3d-simulation;sph
+
+## Namespaces
+- Collision  [files: 6]
+- Collision3D  [files: 8]
+- ForceFields  [files: 5]
+- ForceFields3D  [files: 2]
+- Joints  [files: 6]
+- Joints3D  [files: 4]
+- Math3D  [files: 3]
+
+## Public types
+- Module BroadPhase (Collision\BroadPhase.vb) - Broad Phase 宽相位剔除。将所有刚体的 AABB 写入均匀网格， 只返回网格相邻单元内可能相交的物体对，将碰撞检测从 O(n²) 降到约 O(n)。
+- Structure BodyPair (Collision\BroadPhase.vb)
+- Structure AABB (Collision\Collider.vb)
+- Enum ShapeKind (Collision\Collider.vb)
+- Class CircleCollider (Collision\Collider.vb)
+- Class PolygonCollider (Collision\Collider.vb)
+- Module ContactSolver (Collision\ContactSolver.vb) - 顺序冲量接触求解器。对每个接触点迭代计算法向冲量（含恢复系数与 Baumgarte 穿透修正）和切向冲量（库仑摩擦），并将冲量应用到两个刚体。
+- Class Manifold (Collision\Manifold.vb) - 碰撞流形（接触信息）。法向量 <see cref="Normal"/> 由 A 指向 B。 接触点最多 2 个（世界坐标），用于顺序冲量求解。
+- Module NamespaceDoc (Collision\NamespaceDoc.vb) - Broad and narrow phase collision detection for the physics engine.
+- Module NarrowPhase (Collision\NarrowPhase.vb) - Narrow Phase 窄相位精确碰撞检测。根据几何体类型分派到具体算法， 生成 <see cref="Manifold"/>（法向由 A 指向 B、穿透深度、接触点）。
+- Structure AABB3D (Collision3D\AABB3D.vb) - 三维轴对齐包围盒（AABB），用于宽相位剔除。
+- Structure BodyPair3D (Collision3D\BroadPhase3D.vb)
+- Module BroadPhase3D (Collision3D\BroadPhase3D.vb) - 3D 宽相位：AABB 重叠剔除 + 暴力配对。 本库面向的规模（几十个刚体）远小于空间哈希的收益拐点，因此采用 与 2D <see cref="Collision.BroadPhase"/> 相同的均匀网格思路的简化版：
+- Enum ShapeKind3D (Collision3D\Collider3D.vb) - 3D 碰撞体的形状种类。 枚举值的顺序同时也是窄相位的"规范顺序"：<see cref="NarrowPhase3D"/> 只实现 前者小于后者的组合，因此顺序必须与已实现的分支一致
+- Class SphereCollider3D (Collision3D\Collider3D.vb) - 球体碰撞体。惯性张量 = (2/5)·m·r² 的对角矩阵。
+- Class BoxCollider3D (Collision3D\Collider3D.vb) - 长方体碰撞体。构造参数传入完整尺寸（与 2D 的 <c>PhysicsWorld.Box(width, height)</c> 一致）。
+- Class CapsuleCollider3D (Collision3D\Collider3D.vb) - 胶囊体碰撞体：局部 Y 轴上的一条线段加上半径。用于火柴人的四肢与躯干。
+- Class PlaneCollider3D (Collision3D\Collider3D.vb) - 无限平面碰撞体，用于地面。平面方程 <c>dot(Normal, p) = Constant</c>， 法向指向"空气"一侧（即物体所在的一侧）。
+- Class ConvexPolyhedronCollider3D (Collision3D\Collider3D.vb) - 凸多面体碰撞体：四面体、圆锥、圆柱、楔形斜坡、任意凸壳。 碰撞走 SAT + 参考面/入射面裁剪（见 <c>ConvexNarrowPhase3D</c>）， 惯量由网格的四面体分解解析积分得到。
+- Module ContactSolver3D (Collision3D\ContactSolver3D.vb) - 3D 顺序冲量接触求解器：对每个接触点先解法向（含 Baumgarte 位置修正与恢复）， 再解两条正交切线的库仑摩擦。跨迭代累积冲量，保证多接触点情况下收敛。
+- Class ConvexMesh3D (Collision3D\ConvexMesh3D.vb) - 凸多面体网格：顶点表 + 面表（每个面是一圈顶点索引，外向法右手序）。 物理（碰撞与惯量）与渲染（三角形面）共用同一份几何，避免两处定义不一致。 局部坐标以质心为原点：刚体的 <see cref="RigidBody3D.Position"/> 是质心，
+- Module ConvexNarrowPhase3D (Collision3D\ConvexNarrowPhase3D.vb) - 凸多面体窄相位：盒-盒、盒-凸、凸-凸（SAT + 参考面/入射面裁剪）、 凸-平面（顶点投影）、球-凸（最近点）。 盒体通过 <see cref="BoxCollider3D.AsConvex"/> 复用同一套例程，
+- Class ContactPoint3D (Collision3D\Manifold3D.vb) - 单个接触点。除位置与穿透深度外，还缓存求解所需的力臂、有效质量与累积冲量 （顺序冲量法需要跨迭代累积冲量以收敛）。
+- Class Manifold3D (Collision3D\Manifold3D.vb) - 接触流形：一对刚体之间的一批接触点，法向由 A 指向 B。
+- Module NarrowPhase3D (Collision3D\NarrowPhase3D.vb) - 3D 窄相位碰撞检测：按碰撞体种类分派，输出接触流形。 覆盖的组合：球-球、球-胶囊、胶囊-胶囊、球-盒、胶囊-盒、球-平面、胶囊-平面， 以及盒-盒、盒-凸、盒-平面、凸-凸、凸-平面、球-凸（后六项由
+- Class GravityField (ForceFields\GravityField.vb) - 重力场：对场内每个刚体施加 F = m·g（默认向下）。 可用于创建局部重力井或不同强度的重力区域。
+- Class MagneticField (ForceFields\MagneticField.vb) - 磁力场（点源）：以 <see cref="Center"/> 为中心，对场内刚体施加随距离 平方衰减的吸引或排斥力，模拟磁极/引力井等效果。
+- Module NamespaceDoc (ForceFields\NamespaceDoc.vb) - Force field implementations (gravity and similar) applied by the physics engine.
+- Class WindField (ForceFields\WindField.vb) - 风力场：在区域内沿 <see cref="Direction"/> 施加风力，叠加正弦湍流使效果更自然。 力大小与刚体质量成正比（类比气压对物体的作用）。
+- Class GravityField3D (ForceFields3D\GravityField3D.vb) - 3D 重力场：对区域内每个非静态刚体施加 <c>F = m · g</c>。
+- Interface IStepHook (IStepHook.vb) - 子步钩子：需要在<strong>每个子步</strong>都重新施力的外部控制器实现该接口。 <see cref="PhysicsWorld3D.StepSub"/> 会在每个子步的末尾调用 <see cref="RigidBody3D.ClearForces"/>，因此在 <c>Step</c> 之前施加一次的力
+- Interface IConstraint (Joints\IConstraint.vb) - 约束（关节）统一接口。在物理世界的速度迭代阶段调用 <see cref="SolveVelocity"/>， 在位置阶段调用 <see cref="SolvePosition"/> 做穿透/漂移修正。
+- Module NamespaceDoc (Joints\NamespaceDoc.vb) - Physics joints: revolute, prismatic, spring and weld constraints between rigid bodies.
+- Class PrismaticJoint (Joints\PrismaticJoint.vb) - 滑块（棱柱）关节：允许两个刚体沿给定世界轴 <see cref="axis"/> 自由滑动， 但约束垂直于该轴的相对平移以及相对旋转。
+- Class RevoluteJoint (Joints\RevoluteJoint.vb) - 铰链（旋转）关节：将两个刚体在各自的局部锚点处钉在一起，允许绕该点自由旋转。 在 2D 中这与球窝关节等价。
+- Class SpringJoint (Joints\SpringJoint.vb) - 弹簧关节：在两个刚体的锚点之间施加胡克弹力（与形变成正比）和阻尼力 （与相对速度成正比），模拟弹性连接（如绳索、弹簧、悬挂）。
+- Class WeldJoint (Joints\WeldJoint.vb) - 固定（焊接）关节：将两个刚体的相对位置与相对角度完全锁定， 相当于刚性连接（如焊接、铆接）。
+- Class AngularMotor3D (Joints3D\AngularMotor3D.vb) - 角度马达：以 PD 控制把 B 相对 A 的朝向驱动到 <see cref="TargetRelative"/>。 这是"通过调节关节姿态驱动火柴人运动"的核心执行器。 控制律：<c>τ = Kp · axis · angle − Kd · (ωB − ωA)</c>，其中 <c>axis/angle</c>
+- Class BallJoint3D (Joints3D\BallJoint3D.vb) - 球窝关节：把两个刚体在各自的局部锚点处钉在一起，允许绕该点自由旋转（3 个转动自由度）。 这是火柴人骨骼的主力关节（肩、髋、踝等）。 速度层用三个世界坐标轴依次做高斯-赛德尔迭代（与 2D <see cref="Joints.RevoluteJoint"/>
+- Class HingeJoint3D (Joints3D\HingeJoint3D.vb) - 铰链关节：在球窝关节的基础上锁死两个转动自由度，只允许绕铰链轴相对旋转。 用于膝盖与肘部这类单轴关节。 两个单位轴要保持对齐需要 2 个角向约束（绕轴自身的扭转是自由的），
+- Interface IConstraint3D (Joints3D\IConstraint3D.vb) - 3D 约束（关节）统一接口，与 2D 的 <see cref="Joints.IConstraint"/> 完全同构。
+- Module ForceMath (Math.vb)
+- Structure Matrix3x3 (Math3D\Matrix3x3.vb) - 3x3 实矩阵。3D 刚体用它表示惯性张量（局部系）与随姿态旋转后的世界系逆惯性张量 <c>R · I⁻¹ · Rᵀ</c>。 元素命名 <c>mij</c> 表示第 i 行第 j 列，与 <see cref="Quaternion.ToMatrix3x3"/> 的
+- Structure Quaternion (Math3D\Quaternion.vb) - 单位四元数 <c>q = w + xi + yj + zk</c>，用于表示 3D 刚体的姿态。 旋转约定：局部坐标系的基向量为 X=right、Y=up、Z=forward（右手系，X×Y=Z）。 <see cref="Rotate(Vector3)"/> 把<strong>局部</strong>向量变换到<strong>世界</strong>坐标；
+- Module Vector3Math (Math3D\Vector3Math.vb) - 3D 向量数学辅助模块，镜像 2D 的 <see cref="Vector2Math"/>： 点积、叉积、长度、归一化、距离、线性插值与绕任意轴旋转。 3D 向量类型是 <see cref="Vector3"/>（与 3D 流体引擎共用的同一类型），
+- Class NamespaceDoc (NamespaceDoc.vb) - A fixed step 2D physics engine: rigid bodies, broad and narrow phase collision, revolute, prismatic, spring and weld joints, force fields, SPH fluids and boids flocking, plus force driven label placement.
+- Class PhysicsWorld (PhysicsWorld.vb) - 2D 物理世界。以 <see cref="PhysicsWorld.Step"/> 固定步长驱动，内部按子步执行： 施加力场 → 由力积分速度 → 宽相位 → 窄相位 → 顺序冲量求解（接触 + 关节）→ 由速度积分位置 → 关节位置修正。
+- Class PhysicsWorld3D (PhysicsWorld3D.vb) - 3D 物理世界。以 <see cref="PhysicsWorld3D.Step"/> 固定步长驱动，内部按子步执行： 施加马达扭矩 → 重力与力场 → 由力积分速度 → 宽相位 → 窄相位 → 顺序冲量求解（接触 + 关节）→ 由速度积分位置 → 关节位置修正 → 清除累加器。
+- Class PhysicsMaterial (RigidBody\PhysicsMaterial.vb) - 物理材质：摩擦系数 (friction) 与恢复系数 (restitution)。 碰撞时由碰撞双方材质组合得到最终的接触参数。
+- Class RigidBody (RigidBody\RigidBody.vb)
+- Class RigidBody3D (RigidBody3D\RigidBody3D.vb) - 3D 刚体：不会发生形变，受力后整体平动 + 绕质心转动。 位置 <see cref="Position"/> 为质心世界坐标，姿态 <see cref="Orientation"/> 为四元数。 与 2D 的 <see cref="RigidBody"/> 一一对应：同样采用半隐式（辛）欧拉积分与指数阻尼，
+- Class Vector2 (Vector2.vb)
+- Module Vector2Math (Vector2Math.vb) - unity math + 2D rigid body helpers
+- Class Vector3 (Vector3.vb) - A self-contained double precision 3D vector used by the 3D fluid simulation engine <see cref="FluidEngine3D"/>. This type mirrors the shape of the 2D <see cref="Vector2"/> so that the SPH pipeline can be
+
+## Notable public members
+- Public Function ComputePairs(bodies As List(Of RigidBody)) As List(Of BodyPair)
+- Public ReadOnly Property Center As Vector2
+- Public ReadOnly Property Extents As Vector2
+- Public Function Overlaps(other As AABB) As Boolean
+- Public Function Contains(p As Vector2) As Boolean
+- Public Shared Function Union(a As AABB, b As AABB) As AABB
+- Public MustOverride ReadOnly Property Kind As ShapeKind
+- Public MustOverride Function ComputeInertia(mass As Double) As Double
+- Public MustOverride Function GetAABB(pos As Vector2, rot As Double) As AABB
+- Public Overrides ReadOnly Property Kind As ShapeKind
+- Public Overrides Function ComputeInertia(mass As Double) As Double
+- Public Overrides Function GetAABB(pos As Vector2, rot As Double) As AABB
+- Public Overrides ReadOnly Property Kind As ShapeKind
+- Public ReadOnly Property Count As Integer
+- Public Function WorldVertex(i As Integer, pos As Vector2, rot As Double) As Vector2
+- Public Function WorldNormal(i As Integer, rot As Double) As Vector2
+- Public Function WorldSupport(dir As Vector2, pos As Vector2, rot As Double) As Vector2
+- Public Overrides Function ComputeInertia(mass As Double) As Double
+- Public Overrides Function GetAABB(pos As Vector2, rot As Double) As AABB
+- Public Const Baumgarte As Double = 0.2
+- Public Const Slop As Double = 0.05
+- Public Const RestitutionThreshold As Double = 1.0
+- Public Sub Solve(m As Manifold, dt As Double)
+- Public Sub InitSolver()
+- Public Function Collide(a As RigidBody, b As RigidBody) As Manifold
+- Public Shared Function FromPoint(p As Vector3) As AABB3D
+- Public ReadOnly Property Center As Vector3
+- Public ReadOnly Property Extents As Vector3
+- Public Function Overlaps(other As AABB3D) As Boolean
+- Public Function Contains(p As Vector3) As Boolean
+- Public Shared Function Union(a As AABB3D, b As AABB3D) As AABB3D
+- Public Function Expand(margin As Double) As AABB3D
+- Public Overrides Function ToString() As String
+- Public Property Margin As Double = 0.05
+- Public Function ComputePairs(bodies As List(Of RigidBody3D)) As List(Of BodyPair3D)
+- Public MustOverride ReadOnly Property Kind As ShapeKind3D
+- Public MustOverride Function ComputeInertia(mass As Double) As Matrix3x3
+- Public MustOverride Function GetAABB(position As Vector3, rotation As Quaternion) As AABB3D
+- Public MustOverride Function Support(dir As Vector3) As Vector3
+- Protected Shared Function RotatedExtents(rotation As Quaternion, half As Vector3) As Vector3
+- Public Overrides ReadOnly Property Kind As ShapeKind3D
+- Public Overrides Function ComputeInertia(mass As Double) As Matrix3x3
+- Public Overrides Function GetAABB(position As Vector3, rotation As Quaternion) As AABB3D
+- Public Overrides Function Support(dir As Vector3) As Vector3
+- Public ReadOnly Property HalfExtents As Vector3
+- Public ReadOnly Property Size As Vector3
+- Public Overrides ReadOnly Property Kind As ShapeKind3D
+- Public Overrides Function ComputeInertia(mass As Double) As Matrix3x3
+- Public Overrides Function GetAABB(position As Vector3, rotation As Quaternion) As AABB3D
+- Public Overrides Function Support(dir As Vector3) As Vector3
+- Public ReadOnly Property AsConvex As ConvexMesh3D
+- Public ReadOnly Property TotalLength As Double
+- Public ReadOnly Property LocalEndA As Vector3
+- Public ReadOnly Property LocalEndB As Vector3
+- Public Overrides ReadOnly Property Kind As ShapeKind3D
+- Public Overrides Function ComputeInertia(mass As Double) As Matrix3x3
+- Public Overrides Function GetAABB(position As Vector3, rotation As Quaternion) As AABB3D
+- Public Overrides Function Support(dir As Vector3) As Vector3
+- Public Function SignedDistance(p As Vector3) As Double
+- Public Overrides ReadOnly Property Kind As ShapeKind3D
+- ... and 252 more
+
+## Imports
+- Microsoft.VisualBasic.Engine.Physics.Collision
+- Microsoft.VisualBasic.Engine.Physics.Collision3D
+- Microsoft.VisualBasic.Engine.Physics.ForceFields
+- Microsoft.VisualBasic.Engine.Physics.ForceFields3D
+- Microsoft.VisualBasic.Engine.Physics.Joints
+- Microsoft.VisualBasic.Engine.Physics.Joints3D
+- Microsoft.VisualBasic.Engine.Physics.Math3D
+- Microsoft.VisualBasic.Imaging
+- Microsoft.VisualBasic.Imaging.Math2D
+- Microsoft.VisualBasic.Language
+- Microsoft.VisualBasic.Math
+- Microsoft.VisualBasic.Math.LinearAlgebra
+- randf = Microsoft.VisualBasic.Math.RandomExtensions
+- std = System.Math
+- System.Collections.Generic
+- System.Drawing
+- System.Linq
+- System.Math
+- System.Runtime.CompilerServices
+
+## File tree
+- Collision\BroadPhase.vb
+- Collision\Collider.vb
+- Collision\ContactSolver.vb
+- Collision\Manifold.vb
+- Collision\NamespaceDoc.vb
+- Collision\NarrowPhase.vb
+- Collision3D\AABB3D.vb
+- Collision3D\BroadPhase3D.vb
+- Collision3D\Collider3D.vb
+- Collision3D\ContactSolver3D.vb
+- Collision3D\ConvexMesh3D.vb
+- Collision3D\ConvexNarrowPhase3D.vb
+- Collision3D\Manifold3D.vb
+- Collision3D\NarrowPhase3D.vb
+- ForceFields\ForceField.vb
+- ForceFields\GravityField.vb
+- ForceFields\MagneticField.vb
+- ForceFields\NamespaceDoc.vb
+- ForceFields\WindField.vb
+- ForceFields3D\ForceField3D.vb
+- ForceFields3D\GravityField3D.vb
+- IStepHook.vb
+- Joints\IConstraint.vb
+- Joints\NamespaceDoc.vb
+- Joints\PrismaticJoint.vb
+- Joints\RevoluteJoint.vb
+- Joints\SpringJoint.vb
+- Joints\WeldJoint.vb
+- Joints3D\AngularMotor3D.vb
+- Joints3D\BallJoint3D.vb
+- Joints3D\HingeJoint3D.vb
+- Joints3D\IConstraint3D.vb
+- Math.vb
+- Math3D\Matrix3x3.vb
+- Math3D\Quaternion.vb
+- Math3D\Vector3Math.vb
+- NamespaceDoc.vb
+- PhysicsWorld.vb
+- PhysicsWorld3D.vb
+- RigidBody\PhysicsMaterial.vb
+- RigidBody\RigidBody.vb
+- RigidBody3D\RigidBody3D.vb
+- Vector2.vb
+- Vector2Math.vb
+- Vector3.vb
+
