@@ -746,27 +746,4 @@ Friend Module SelfTest
 
     #End Region
 
-    ' ------------------------------------------------------------------
-    ' the parameter sampler of the test project works on a plain sign vector,
-    ' so the two node control network is wrapped into a shim topology that
-    ' owns the same link count and the same parameter count
-    ' ------------------------------------------------------------------
-
-    Private Function SignVectorTopology(signs As SByte()) As NetworkTopology
-        ' the two node network is mapped onto a three node sign vector that
-        ' keeps the active link count and the background enzyme count: the
-        ' A→C slot of the two node network is mapped onto the A→C slot, the
-        ' C→A slot onto the C→A slot, and the two self loops onto the self
-        ' loops of A and C, while the links that involve B are dropped, which
-        ' keeps the parameter count of the sampler consistent with the model
-        Dim mapped As SByte() = New SByte(8) {}
-
-        mapped(1) = signs(0)   ' A→C
-        mapped(4) = signs(1)   ' C→A
-        mapped(6) = signs(2)   ' A→A
-        mapped(8) = signs(3)   ' C→C
-
-        Return New NetworkTopology(mapped)
-    End Function
-
 End Module
