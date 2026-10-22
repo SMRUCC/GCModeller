@@ -638,32 +638,40 @@ Module Linear
                                 Optional env As Environment = Nothing) As Object
 
         Dim priorityGenes As String() = Nothing
-        Dim priorNet As PipeIterator(Of RegulatoryEdge) = pipeline.Stream(Of RegulatoryEdge)(prior, env)
+        Dim priorNet As PipeIterator(Of RegulatoryEdge) = pipeline.Stream(Of RegulatoryEdge)(prior, env, nullPipe:=True)
 
-        If priorNet.isError Then
+        If priorNet IsNot Nothing AndAlso priorNet.isError Then
             Return priorNet.getError
         End If
-
-        ' maybe empty
-        Dim priorKnowledge As RegulatoryEdge() = priorNet.getData
 
         ' 先验只保留高置信度的边，并投影成拟合器自己的轻量结构（避免把 BNLearn 依赖带进 Network.Regulons）
         Dim priorEdges As PriorEdge() = Nothing
 
-        If priorKnowledge IsNot Nothing AndAlso priorKnowledge.Length > 0 Then
-            priorEdges = priorKnowledge _
-                .Where(Function(e) e IsNot Nothing) _
-                .Where(Function(e) Not e.TF.StringEmpty(, True) AndAlso Not e.TargetGene.StringEmpty(, True)) _
-                .Where(Function(e) e.Confidence >= prior_min_confidence) _
-                .Select(Function(e) New PriorEdge(e.TF.Trim, e.TargetGene.Trim, e.Confidence)) _
-                .ToArray
+        If priorNet IsNot Nothing AndAlso prior IsNot Nothing Then
+            Dim accepted As New List(Of PriorEdge)
 
-            If priorEdges.Length = 0 Then
-                priorEdges = Nothing
-                Console.WriteLine($"     >> [warn] none of the {priorKnowledge.Length} prior edge(s) reaches the confidence {prior_min_confidence:G3}")
+            ' 注意：这里要用 For Each 消费 pipe，PipeIterator.getData 对类数组不返回元素
+            For Each item As RegulatoryEdge In priorNet
+                If item Is Nothing Then
+                    Continue For
+                End If
+                If item.TF.StringEmpty(, True) OrElse item.TargetGene.StringEmpty(, True) Then
+                    Continue For
+                End If
+                If item.Confidence < prior_min_confidence Then
+                    Continue For
+                End If
+
+                Call accepted.Add(New PriorEdge(item.TF.Trim, item.TargetGene.Trim, item.Confidence))
+            Next
+
+            If accepted.Count = 0 Then
+                Console.WriteLine($"     >> [warn] no prior edge reaches the confidence {prior_min_confidence:G3}, the prior is ignored")
             Else
+                priorEdges = accepted.ToArray
+
                 Console.WriteLine(
-                    $"     >> prior knowledge: {priorEdges.Length} of {priorKnowledge.Length} edge(s) accepted " &
+                    $"     >> prior knowledge: {priorEdges.Length} edge(s) accepted " &
                     $"(confidence >= {prior_min_confidence:G3}), L1 penalty x{prior_penalty:G3} for the supported edges")
             End If
         End If
