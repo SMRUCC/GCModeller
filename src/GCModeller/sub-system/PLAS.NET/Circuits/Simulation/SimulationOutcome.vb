@@ -98,6 +98,14 @@ Namespace Simulation
         Public Property Message As String = ""
 
         ''' <summary>
+        ''' The drift of the output node per unit time at the end of the phase 1
+        ''' steady state search, i.e. the value that the settle criterion is
+        ''' judged on. It is a diagnostic of how well the circuit converged.
+        ''' (阶段一稳态搜索结束时输出节点的单位时间漂移，即稳态判据的实测值)
+        ''' </summary>
+        Public Property OutputDrift As Double
+
+        ''' <summary>
         ''' Whether the circuit is well behaved, i.e. whether its readouts can
         ''' be used by the functional criteria.
         ''' (电路是否表现良好，即其读出值能否用于功能判据)

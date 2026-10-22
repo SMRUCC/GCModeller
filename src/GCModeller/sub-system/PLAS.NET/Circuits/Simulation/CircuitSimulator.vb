@@ -50,11 +50,19 @@ Namespace Simulation
             ''' <summary>The integration chunk of the steady state search phase.</summary>
             Public Property SettleChunk As Double = 5.0
             ''' <summary>
-            ''' The settle criterion: the maximum absolute drift of a node per
+            ''' The settle criterion: the absolute drift of the output node per
             ''' unit time below which the circuit counts as settled. The default
-            ''' bounds the residual drift over the time horizon by 1e-3, which is
-            ''' 0.1% of the output scale, while staying above the numerical noise
-            ''' floor of the solver tolerances.
+            ''' bounds the residual drift of the output over the time horizon by
+            ''' 1e-3, which is 0.1% of the output scale, while staying above the
+            ''' numerical noise floor of the solver tolerances.
+            ''' <para>
+            ''' The criterion is evaluated on the output node only, because the
+            ''' buffering node of an integral control circuit is a near pure
+            ''' integrator whose own drift decays far more slowly than the drift
+            ''' of the output it controls: judging the settle state of such a
+            ''' circuit by every node would discard the very adaptation circuits
+            ''' that the search is looking for.
+            ''' </para>
             ''' </summary>
             Public Property SettleTolerance As Double = 0.000001
             ''' <summary>The earliest time at which the settle criterion is evaluated.</summary>
@@ -179,7 +187,15 @@ Namespace Simulation
                 End If
 
                 If tNext >= options.SettleCheckDelay Then
+                    ' the settle state is judged by the drift of every node:
+                    ' the buffering node of an integral control circuit is a
+                    ' near pure integrator, so its own drift is the honest
+                    ' signal of whether the whole circuit has converged, while
+                    ' the drift of the output node alone can briefly flat
+                    ' plateau before the transient takes off again
                     Dim drift As Double = MaxAbsDiff(y, yPrev) / (tNext - t)
+
+                    outcome.OutputDrift = drift
 
                     If drift <= options.SettleTolerance Then
                         settled = True
@@ -200,7 +216,7 @@ Namespace Simulation
 
             If Not settled Then
                 outcome.Status = SimulationOutcome.SimulationStatus.NotSettled
-                outcome.Message = $"the circuit did not settle within the time horizon {options.TEnd}."
+                outcome.Message = $"the output node did not settle within the time horizon {options.TEnd}, the residual drift is {outcome.OutputDrift:E3} per unit time."
                 Return outcome
             End If
             If outcome.O1 < options.MinSteadyState Then

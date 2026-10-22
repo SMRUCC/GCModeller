@@ -30,7 +30,7 @@ Namespace Model
     ''' </para>
     ''' <para>
     ''' The parameter vector layout is deterministic and shared with
-    ''' <see cref="Sampling.ParameterSampler"/>:
+    ''' <see cref="SMRUCC.genomics.Analysis.Circuits.Sampling.ParameterSampler"/>:
     ''' </para>
     ''' <list type="number">
     ''' <item> every active network link in the fixed slot order owns a (k, K) pair, </item>
