@@ -4,7 +4,6 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net10.0</TargetFramework>
     <RootNamespace>test</RootNamespace>
-    <StartupObject>Program</StartupObject>
     <OptionExplicit>On</OptionExplicit>
     <AssemblyName>XpsSelfTest</AssemblyName>
   </PropertyGroup>
