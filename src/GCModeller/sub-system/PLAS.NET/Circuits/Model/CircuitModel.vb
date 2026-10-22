@@ -30,7 +30,7 @@ Namespace Model
     ''' </para>
     ''' <para>
     ''' The parameter vector layout is deterministic and shared with
-    ''' <see cref="ParameterSampler"/>:
+    ''' <see cref="Sampling.ParameterSampler"/>:
     ''' </para>
     ''' <list type="number">
     ''' <item> every active network link in the fixed slot order owns a (k, K) pair, </item>
@@ -45,6 +45,7 @@ Namespace Model
     ''' </para>
     ''' </remarks>
     Public Class CircuitModel
+        Implements Simulation.IOdeModel
 
         ''' <summary>The fixed concentration of a background enzyme E_i or F_i.</summary>
         Public Const BackgroundEnzymeConcentration As Double = 0.5
@@ -170,7 +171,7 @@ Namespace Model
         ''' node A as an activating enzyme.
         ''' (当前输入信号强度，作为作用于节点 A 的激活酶)
         ''' </summary>
-        Public Property Input As Double
+        Public Property Input As Double Implements Simulation.IOdeModel.Input
             Get
                 Return m_input
             End Get
@@ -178,7 +179,6 @@ Namespace Model
                 m_input = value
             End Set
         End Property
-
         ''' <summary>
         ''' The number of sampled parameters of a circuit built on the given
         ''' topology: two parameters for every active network link, two for the
@@ -232,7 +232,7 @@ Namespace Model
         ''' </summary>
         ''' <param name="y">the active form concentration of every node, values inside of [0, 1]</param>
         ''' <param name="ydot">the output derivative vector, it is overwritten</param>
-        Public Sub Evaluate(y As Double(), ydot As Double())
+        Public Sub Evaluate(y As Double(), ydot As Double()) Implements Simulation.IOdeModel.Evaluate
             For j As Integer = 0 To NetworkTopology.NodeCount - 1
                 Dim yj As Double = y(j)
                 Dim free As Double = 1.0 - yj
