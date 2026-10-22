@@ -30,11 +30,13 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Analysis.SSystem.Kernel
 export class Kernel extends <a href="/vignettes/clr/Microsoft/VisualBasic/Math/Framework/Kernel.html">Kernel</a> {
-   finalTime: integer;
+   # 仿真的终止时间，FINALTIME 允许为浮点数值
+   finalTime: double;
    # 整个引擎的计算精度
    precision: double;
    # Gets the system run time ticks
    RuntimeTicks: integer;
+   # 严格模式之下，所有的变量都必须显式的申明其通量值的上下区间； 由于 PLAS 脚本并没有提供申明通量区间的语法，故这里默认为非严格模式， 缺失上下区间的变量会自动回落到默认的 <code>-5..5</code> 区间之上
    strict: boolean;
    # Store the system state.(变量，也就是生化反应底物)
    Vars: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SSystem/Kernel/ObjectModels/var.html">iterates(var)</a>;

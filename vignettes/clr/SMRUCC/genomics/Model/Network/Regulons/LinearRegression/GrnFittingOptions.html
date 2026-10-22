@@ -78,6 +78,10 @@ export class GrnFittingOptions {
    # 
    # 注意：只有当候选池大于 <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GrnFittingOptions.maxCandidates">GrnFittingOptions.maxCandidates</a> 或者设置了 <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GrnFittingOptions.minAbsCorrelation">GrnFittingOptions.minAbsCorrelation</a> 的时候才会触发候选筛选； 候选池本身很小(例如限定为 300 个靶基因)时本选项不起作用。
    partialCorrelation: boolean;
+   # 优先注入的基因数量上限，默认 0(不限制)。
+   # 
+   # <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GrnFittingOptions.priorityRegulators">GrnFittingOptions.priorityRegulators</a> 列出 1600+ 个基因的时候，每个目标基因的 候选数会从 <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GrnFittingOptions.maxCandidates">GrnFittingOptions.maxCandidates</a> 膨胀到 1900 左右，而求解器要为每个 基因分配 <code>p x n</code> 的列数组(大对象堆)。并发较高时这会触发 <code>OutOfMemoryException</code>，表现为大量基因"没有任何调控关系"。 把本属性设为与 <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GrnFittingOptions.maxCandidates">GrnFittingOptions.maxCandidates</a> 相同的量级，可以避免候选集爆炸。
+   priorityBudget: integer;
    # 需要优先纳入候选调控因子池的基因集合(例如转录因子列表)。
    # 
    # 与 <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GrnFittingOptions.regulators">GrnFittingOptions.regulators</a> 的"限定"语义不同：这里列出的基因不受 <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GrnFittingOptions.maxCandidates">GrnFittingOptions.maxCandidates</a> 与 <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GrnFittingOptions.minAbsCorrelation">GrnFittingOptions.minAbsCorrelation</a> 的截断影响， 总是会被追加进每一个目标基因的候选集(目标基因自身除外)。

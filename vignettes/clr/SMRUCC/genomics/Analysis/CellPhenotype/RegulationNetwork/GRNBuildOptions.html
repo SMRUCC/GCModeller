@@ -48,7 +48,7 @@ export class GRNBuildOptions {
    crossModuleEnabled: boolean;
    # 是否启用 DPI 三元组过滤（去除由共同上游调控造成的间接边）。
    dpiEnabled: boolean;
-   # 参与 DPI 的最小的相关绝对值。该值高于 <a href="cref:P:SMRUCC.genomics.Analysis.CellPhenotype.RegulationNetwork.GRNBuildOptions.minAbsCorrelation">GRNBuildOptions.minAbsCorrelation</a> 可以使 DPI 的邻接矩阵保持稀疏（DPI 是 O(n^3) 的三角形枚举，稠密邻接时代价极高）。 位于 <a href="cref:P:SMRUCC.genomics.Analysis.CellPhenotype.RegulationNetwork.GRNBuildOptions.minAbsCorrelation">[GRNBuildOptions.minAbsCorrelation</a>, 本值) 之间的弱边不参与 DPI，直接保留。
+   # 参与 DPI 的最小的相关绝对值。该值高于 <a href="cref:P:SMRUCC.genomics.Analysis.CellPhenotype.RegulationNetwork.GRNBuildOptions.minAbsCorrelation">GRNBuildOptions.minAbsCorrelation</a> 可以使 DPI 的邻接矩阵保持稀疏（DPI 是 O(n^3) 的三角形枚举，稠密邻接时代价极高）。 位于 [<a href="cref:P:SMRUCC.genomics.Analysis.CellPhenotype.RegulationNetwork.GRNBuildOptions.minAbsCorrelation">GRNBuildOptions.minAbsCorrelation</a>, 本值) 之间的弱边不参与 DPI，直接保留。
    dpiMinAbsCorrelation: double;
    # ARACNe 的 ε 容差：最弱边必须比另外两条边低超过该比例才被判定为间接边，接近平局时保留。
    dpiTolerance: double;
