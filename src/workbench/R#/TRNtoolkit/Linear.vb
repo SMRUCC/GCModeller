@@ -3,6 +3,7 @@ Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.BNLearn
+Imports SMRUCC.genomics.Analysis.BNLearn.Core
 Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
 Imports SMRUCC.genomics.Analysis.CellPhenotype
 Imports SMRUCC.genomics.Model.Network.Regulons
@@ -271,8 +272,7 @@ Module Linear
     ''' 测序质量等)，导致任意两个基因的相关系数都被抬高、且几乎全为正。把这个样本级
     ''' 常数移除之后，剩下的相关更接近"特异性共表达"，负相关才会出现：
     ''' 这一步直接改善敲降之后"全部基因一起下调、极少上调"的现象。
-    ''' </summary>
-    ''' <summary>
+    '''
     ''' 把一个已经在对数空间的表达矩阵重新标定到指定的文库规模(默认 CPM，1e6)。
     ''' 
     ''' 输入矩阵假定是 ``x = log2(y + pseudo)`` 的形式，其中 y 是"归一化之后的计数"
@@ -491,7 +491,7 @@ Module Linear
             Dim seed As Double() = New Double(nSamples - 1) {}
 
             For s As Integer = 0 To nSamples - 1
-                seed(s) = std.Cos((c + 1) * (s + 1) * 0.7071067811865476)
+                seed(s) = std.Cos((c + 1) * (s + 1) * 0.70710678118654757)
             Next
 
             vectors(c) = seed
@@ -538,7 +538,7 @@ Module Linear
 
                 norm = std.Sqrt(norm)
 
-                If norm > 1.0E-12 Then
+                If norm > 0.000000000001 Then
                     For s As Integer = 0 To nSamples - 1
                         work(s) /= norm
                     Next
@@ -606,6 +606,7 @@ Module Linear
     ''' </param>
     ''' <param name="standardize">z-score the expression vectors before the fitting</param>
     ''' <param name="min_abs_r">the minimal absolute pearson correlation for a gene to be a candidate regulator</param>
+    ''' <param name="prior">value from the bnlearn::prior_network function.</param>
     ''' <returns>
     ''' a list object with two slots: ``grn`` (the fitted <see cref="LinearRegression.GeneRegulatoryNetwork"/>)
     ''' and ``edges`` (the <see cref="RegulationEdge"/> collection).
@@ -630,9 +631,42 @@ Module Linear
                                 Optional negative_quota As Integer = -1,
                                 Optional max_row_sum As Double = 0.9,
                                 Optional priority_budget As Integer = 0,
-                                Optional threads As Integer = -1) As Object
+                                <RRawVectorArgument(GetType(RegulatoryEdge))> Optional prior As Object = Nothing,
+                                Optional prior_min_confidence As Double = 0.9,
+                                Optional prior_penalty As Double = 0.3,
+                                Optional threads As Integer = -1,
+                                Optional env As Environment = Nothing) As Object
 
         Dim priorityGenes As String() = Nothing
+        Dim priorNet As PipeIterator(Of RegulatoryEdge) = pipeline.Stream(Of RegulatoryEdge)(prior, env)
+
+        If priorNet.isError Then
+            Return priorNet.getError
+        End If
+
+        ' maybe empty
+        Dim priorKnowledge As RegulatoryEdge() = priorNet.getData
+
+        ' 先验只保留高置信度的边，并投影成拟合器自己的轻量结构（避免把 BNLearn 依赖带进 Network.Regulons）
+        Dim priorEdges As PriorEdge() = Nothing
+
+        If priorKnowledge IsNot Nothing AndAlso priorKnowledge.Length > 0 Then
+            priorEdges = priorKnowledge _
+                .Where(Function(e) e IsNot Nothing) _
+                .Where(Function(e) Not e.TF.StringEmpty(, True) AndAlso Not e.TargetGene.StringEmpty(, True)) _
+                .Where(Function(e) e.Confidence >= prior_min_confidence) _
+                .Select(Function(e) New PriorEdge(e.TF.Trim, e.TargetGene.Trim, e.Confidence)) _
+                .ToArray
+
+            If priorEdges.Length = 0 Then
+                priorEdges = Nothing
+                Console.WriteLine($"     >> [warn] none of the {priorKnowledge.Length} prior edge(s) reaches the confidence {prior_min_confidence:G3}")
+            Else
+                Console.WriteLine(
+                    $"     >> prior knowledge: {priorEdges.Length} of {priorKnowledge.Length} edge(s) accepted " &
+                    $"(confidence >= {prior_min_confidence:G3}), L1 penalty x{prior_penalty:G3} for the supported edges")
+            End If
+        End If
 
         If TF IsNot Nothing Then
             priorityGenes = CLRVector _
@@ -709,6 +743,9 @@ Module Linear
             .partialConditionSize = partial_cond,
             .negativeCandidateQuota = negative_quota,
             .priorityBudget = priority_budget,
+            .priorNetwork = priorEdges,
+            .priorMinConfidence = prior_min_confidence,
+            .priorPenalty = prior_penalty,
             .maxDegreeOfParallelism = threads,
             .elasticNet = New ElasticNetOptions With {
                 .l1Ratio = l1_ratio,

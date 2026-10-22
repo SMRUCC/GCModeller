@@ -131,14 +131,18 @@ Namespace LinearRegression
         ''' <param name="names">特征列的名称</param>
         ''' <param name="options">弹性网络的参数</param>
         ''' <param name="maxFeatures">允许保留的最大非零系数数量</param>
+        ''' <param name="penalty">
+        ''' 与 <paramref name="columns"/> 一一对应的逐特征 L1 惩罚权重，为空表示不加权。
+        ''' </param>
         ''' <returns></returns>
         Friend Function FitByPathColumns(columns As Double()(),
                                          y As Double(),
                                          names As String(),
                                          options As ElasticNetOptions,
-                                         maxFeatures As Integer) As ElasticNetFitResult
+                                         maxFeatures As Integer,
+                                         Optional penalty As Double() = Nothing) As ElasticNetFitResult
 
-            Return FitByPathColumnsWithRatio(columns, y, names, options, options.l1Ratio, maxFeatures)
+            Return FitByPathColumnsWithRatio(columns, y, names, options, options.l1Ratio, maxFeatures, penalty)
         End Function
 
         ''' <summary>
@@ -153,13 +157,18 @@ Namespace LinearRegression
         ''' <param name="options">弹性网络的参数</param>
         ''' <param name="l1Ratio">本次求解所使用的 L1 混合比例</param>
         ''' <param name="maxFeatures">允许保留的最大非零系数数量</param>
+        ''' <param name="penalty">
+        ''' 与 <paramref name="columns"/> 一一对应的逐特征 L1 惩罚权重，为空表示不加权。
+        ''' 先验知识支持的边会被赋予小于 1 的权重，从而在稀疏化过程中更容易存活。
+        ''' </param>
         ''' <returns>求解失败的时候返回空引用</returns>
         Friend Function FitByPathColumnsWithRatio(columns As Double()(),
                                                   y As Double(),
                                                   names As String(),
                                                   options As ElasticNetOptions,
                                                   l1Ratio As Double,
-                                                  maxFeatures As Integer) As ElasticNetFitResult
+                                                  maxFeatures As Integer,
+                                                  Optional penalty As Double() = Nothing) As ElasticNetFitResult
 
             Dim path As ElasticNetPath = ElasticNetFitting.RegularizationPathColumns(
                 columns:=columns,
@@ -171,7 +180,8 @@ Namespace LinearRegression
                 tolerance:=options.tolerance,
                 maxIterations:=options.maxIterations,
                 featureNames:=names,
-                maxFeatures:=maxFeatures
+                maxFeatures:=maxFeatures,
+                penalty:=penalty
             )
 
             If path Is Nothing OrElse path.Count = 0 Then

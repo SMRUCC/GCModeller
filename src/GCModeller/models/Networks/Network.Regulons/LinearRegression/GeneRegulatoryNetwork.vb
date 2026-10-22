@@ -72,6 +72,17 @@ Namespace LinearRegression
         ReadOnly priorityPool As Integer()
 
         ''' <summary>
+        ''' curated 先验网络解析之后的邻接表：<c>目标基因行号 -> 先验 TF 的行号集合</c>。
+        ''' 
+        ''' 空缺(<c>Nothing</c>)表示没有提供先验，或者没有一条边的置信度达到
+        ''' <see cref="GrnFittingOptions.priorMinConfidence"/>。
+        ''' 
+        ''' 它在构造函数里一次性建好，之后只读；<see cref="Fit"/> 用
+        ''' <c>Parallel.For</c> 并发调用 <see cref="FitGene"/>，因此不能在这里做惰性构造。
+        ''' </summary>
+        ReadOnly priorAdjacency As Dictionary(Of Integer, HashSet(Of Integer))
+
+        ''' <summary>
         ''' 本次 <see cref="Fit"/> 期间生效的相关性筛选后端；为空时使用内置的逐基因扫描。
         ''' 
         ''' 它只在 <see cref="Fit"/> 的生命周期内有效（Initialize 之后、Dispose 之前），
@@ -179,7 +190,84 @@ Namespace LinearRegression
 
                 Me.priorityPool = priority.ToArray
             End If
+
+            ' curated 先验网络：target -> 先验 TF 的行号集合（构造期一次建好，之后只读）
+            Me.priorAdjacency = BuildPriorAdjacency()
         End Sub
+
+        ''' <summary>
+        ''' 把 <see cref="GrnFittingOptions.priorNetwork"/> 解析成邻接表。
+        ''' 
+        ''' 过滤规则：置信度低于 <see cref="GrnFittingOptions.priorMinConfidence"/> 的边、
+        ''' 在表达矩阵里找不到的基因、以及自调控(TF 就是目标基因)的边都会被丢弃。
+        ''' </summary>
+        ''' <returns>没有任何有效边的时候返回空引用</returns>
+        Private Function BuildPriorAdjacency() As Dictionary(Of Integer, HashSet(Of Integer))
+            If Me.opt.priorNetwork Is Nothing OrElse Me.opt.priorNetwork.Length = 0 Then
+                Return Nothing
+            End If
+
+            Dim index As New Dictionary(Of String, Integer)(StringComparer.OrdinalIgnoreCase)
+
+            For i As Integer = 0 To geneNames.Length - 1
+                If Not index.ContainsKey(geneNames(i)) Then
+                    index(geneNames(i)) = i
+                End If
+            Next
+
+            Dim map As New Dictionary(Of Integer, HashSet(Of Integer))
+            Dim accepted As Integer = 0
+
+            For Each edge As PriorEdge In Me.opt.priorNetwork
+                If edge.Confidence < Me.opt.priorMinConfidence Then
+                    Continue For
+                End If
+                If String.IsNullOrEmpty(edge.TF) OrElse String.IsNullOrEmpty(edge.TargetGene) Then
+                    Continue For
+                End If
+
+                Dim tf As Integer
+                Dim target As Integer
+
+                If Not index.TryGetValue(edge.TF, tf) Then
+                    Continue For
+                End If
+                If Not index.TryGetValue(edge.TargetGene, target) Then
+                    Continue For
+                End If
+                If tf = target Then
+                    Continue For
+                End If
+
+                Dim linked As HashSet(Of Integer) = Nothing
+
+                If Not map.TryGetValue(target, linked) Then
+                    linked = New HashSet(Of Integer)
+                    map(target) = linked
+                End If
+
+                If linked.Add(tf) Then
+                    accepted += 1
+                End If
+            Next
+
+            If map.Count = 0 Then
+                If Not Me.opt.silent Then
+                    Call Console.WriteLine(
+                        $"[GRN][warn] the prior network contains no edge with confidence >= {Me.opt.priorMinConfidence:G3}")
+                End If
+
+                Return Nothing
+            End If
+
+            If Not Me.opt.silent Then
+                Call Console.WriteLine(
+                    $"[GRN] prior knowledge: {accepted} edge(s) accepted (confidence >= {Me.opt.priorMinConfidence:G3}), " &
+                    $"covering {map.Count} target gene(s); L1 penalty x{Me.opt.priorPenalty:G3} for the supported edges")
+            End If
+
+            Return map
+        End Function
 
         ''' <summary>
         ''' 表达矩阵之中的基因编号列表
@@ -741,7 +829,7 @@ Namespace LinearRegression
                 candidates = InjectPriorityRegulators(target, candidates)
 
                 Try
-                    Return FitSelected(name, y, candidates)
+                    Return FitSelected(target, name, y, candidates)
                 Catch oom As OutOfMemoryException
                     ' 特征太多时(例如优先级注入把 300 个候选扩到 1900 个)，一次性分配
                     ' p x n 的列数组会压垮 Large Object Heap。这里退化为只用一半候选重试，
@@ -750,7 +838,7 @@ Namespace LinearRegression
                         .Take(std.Max(32, candidates.Length \ 2)) _
                         .ToArray()
 
-                    Return FitSelected(name, y, reduced)
+                    Return FitSelected(target, name, y, reduced)
                 End Try
             Catch ex As Exception
                 Return New GeneRegressionModel With {
@@ -772,12 +860,12 @@ Namespace LinearRegression
         ''' <param name="y">观测向量</param>
         ''' <param name="candidates">候选调控因子的行号</param>
         ''' <returns></returns>
-        Private Function FitSelected(name As String, y As Double(), candidates As Integer()) As GeneRegressionModel
+        Private Function FitSelected(target As Integer, name As String, y As Double(), candidates As Integer()) As GeneRegressionModel
             Select Case opt.method
                 Case FittingMethod.Lasso
                     Return FitLasso(name, y, candidates)
                 Case FittingMethod.ElasticNet
-                    Return FitElasticNet(name, y, candidates)
+                    Return FitElasticNet(target, name, y, candidates)
                 Case Else
                     Return FitOls(name, y, candidates)
             End Select
@@ -794,20 +882,39 @@ Namespace LinearRegression
         ''' <param name="candidates">已经按照相关性挑选过的候选集</param>
         ''' <returns>合并之后的候选集(保持原有顺序，新基因追加在末尾)</returns>
         Private Function InjectPriorityRegulators(target As Integer, candidates As Integer()) As Integer()
-            If priorityPool.Length = 0 Then
+            Dim priorSet As HashSet(Of Integer) = Nothing
+            Dim hasPrior As Boolean = priorAdjacency IsNot Nothing AndAlso priorAdjacency.TryGetValue(target, priorSet)
+
+            If priorityPool.Length = 0 AndAlso Not hasPrior Then
                 Return candidates
             End If
 
             Dim present As New HashSet(Of Integer)(candidates)
             Dim merged As New List(Of Integer)
-            Dim added As Integer = 0
+            Dim budget As Integer = If(opt.priorityBudget > 0, opt.priorityBudget, Integer.MaxValue)
+            Dim fromPrior As Integer = 0
+            Dim fromGlobal As Integer = 0
 
             Call merged.AddRange(candidates)
 
-            Dim budget As Integer = If(opt.priorityBudget > 0, opt.priorityBudget, Integer.MaxValue)
+            ' 先验 TF 优先占用预算：它们比"全局优先基因"更有针对性
+            If hasPrior Then
+                For Each idx As Integer In priorSet.OrderBy(Function(i) i)
+                    If merged.Count - candidates.Length >= budget Then
+                        Exit For
+                    End If
+                    If idx = target Then
+                        Continue For
+                    End If
+                    If present.Add(idx) Then
+                        Call merged.Add(idx)
+                        fromPrior += 1
+                    End If
+                Next
+            End If
 
             For Each idx As Integer In priorityPool
-                If added >= budget Then
+                If merged.Count - candidates.Length >= budget Then
                     Exit For
                 End If
                 If idx = target Then
@@ -815,15 +922,53 @@ Namespace LinearRegression
                 End If
                 If present.Add(idx) Then
                     Call merged.Add(idx)
-                    added += 1
+                    fromGlobal += 1
                 End If
             Next
 
-            If added > 0 AndAlso Not opt.silent Then
-                Call Console.WriteLine($"[GRN] {added} priority regulator(s) injected into the candidate pool of '{geneNames(target)}'")
+            If (fromPrior > 0 OrElse fromGlobal > 0) AndAlso Not opt.silent Then
+                Call Console.WriteLine(
+                    $"[GRN] {fromPrior} prior + {fromGlobal} priority regulator(s) injected into the candidate pool of '{geneNames(target)}'")
             End If
 
             Return merged.ToArray
+        End Function
+
+        ''' <summary>
+        ''' 构造与列顺序严格对齐的逐特征 L1 惩罚权重。
+        ''' 
+        ''' 先验支持的边取 <see cref="GrnFittingOptions.priorPenalty"/>，其余取 1.0。
+        ''' 返回空引用表示"不启用加权"，求解器会走原来的标量分支，结果逐位不变。
+        ''' </summary>
+        ''' <param name="target">目标基因的行下标</param>
+        ''' <param name="candidates">候选调控因子的行号，顺序必须与设计矩阵的列一致</param>
+        ''' <returns>长度等于 <paramref name="candidates"/> 的权重数组，或者空引用</returns>
+        Private Function BuildPriorPenalty(target As Integer, candidates As Integer()) As Double()
+            Dim factor As Double = opt.priorPenalty
+
+            If priorAdjacency Is Nothing OrElse factor >= 1.0R OrElse factor <= 0.0R Then
+                Return Nothing
+            End If
+
+            Dim priorSet As HashSet(Of Integer) = Nothing
+
+            If Not priorAdjacency.TryGetValue(target, priorSet) Then
+                Return Nothing
+            End If
+
+            Dim penalty As Double() = New Double(candidates.Length - 1) {}
+            Dim hits As Integer = 0
+
+            For j As Integer = 0 To candidates.Length - 1
+                If priorSet.Contains(candidates(j)) Then
+                    penalty(j) = factor
+                    hits += 1
+                Else
+                    penalty(j) = 1.0R
+                End If
+            Next
+
+            Return If(hits = 0, Nothing, penalty)
         End Function
 
         ''' <summary>
@@ -1050,7 +1195,7 @@ Namespace LinearRegression
         ''' <param name="y">目标基因的表达向量</param>
         ''' <param name="candidates">候选调控因子在表达矩阵之中的行下标</param>
         ''' <returns></returns>
-        Private Function FitElasticNet(name As String, y As Double(), candidates As Integer()) As GeneRegressionModel
+        Private Function FitElasticNet(target As Integer, name As String, y As Double(), candidates As Integer()) As GeneRegressionModel
             If candidates.Length = 0 Then
                 Return Failed(name, "there is no candidate regulator for the elastic net fit")
             End If
@@ -1060,11 +1205,13 @@ Namespace LinearRegression
             ' 弹性网络的截距不会被惩罚，因此设计矩阵不需要常数项列
             Call BuildDesign(candidates, withIntercept:=False, featureNames:=featureNames, columns:=columns)
 
+            ' 先验支持的边享有更低的 L1 惩罚；没有先验时为空引用，求解器走原来的标量分支
+            Dim penalty As Double() = BuildPriorPenalty(target, candidates)
             Dim result As ElasticNetFitResult
 
             Select Case opt.elasticNet.mode
                 Case ElasticNetMode.PerGeneCrossValidation, ElasticNetMode.GlobalCrossValidation
-                    ' 交叉验证需要按样本折划分，仍然走行主序入口
+                    ' 交叉验证需要按样本折划分，仍然走行主序入口（该分支不支持逐特征惩罚）
                     Dim X As Double()() = ToRows(columns, sampleNames.Length)
 
                     If opt.elasticNet.mode = ElasticNetMode.PerGeneCrossValidation Then
@@ -1077,7 +1224,7 @@ Namespace LinearRegression
                 Case Else
                     ' 默认路径：直接把列向量交给求解器，省掉一次 n x p 的转置拷贝
                     result = ElasticNetRegressor.FitByPathColumns(
-                        columns, y, featureNames, opt.elasticNet, opt.maxRegulatorsPerGene)
+                        columns, y, featureNames, opt.elasticNet, opt.maxRegulatorsPerGene, penalty)
             End Select
 
             If result Is Nothing Then

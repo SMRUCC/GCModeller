@@ -132,6 +132,38 @@ Namespace LinearRegression
         Public Property priorityBudget As Integer = 0
 
         ''' <summary>
+        ''' curated 数据库之中的 <c>TF -> target</c> 调控关系先验，默认空。
+        ''' 
+        ''' 提供之后会启用两项机制：
+        ''' 
+        ''' 1. <b>候选注入</b>：对于某个目标基因，先验中指向它的 TF 会被追加进候选集，
+        '''    即使它被 top-k 相关性排名挤出了名单也会保留下来；
+        ''' 2. <b>自适应惩罚</b>：先验支持的边在 L1 惩罚上乘以 <see cref="priorPenalty"/>，
+        '''    在稀疏化过程中更容易存活。
+        ''' 
+        ''' 先验为空时，拟合行为与不提供先验时<b>逐位一致</b>。
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property priorNetwork As PriorEdge() = Nothing
+
+        ''' <summary>
+        ''' 采纳先验的最低置信度，默认 0.9(即只使用 High 置信度的边)。
+        ''' 
+        ''' 低于该阈值的边既不参与候选注入，也不参与惩罚放松。
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property priorMinConfidence As Double = 0.9R
+
+        ''' <summary>
+        ''' 先验支持的边所享有的 L1 惩罚乘子，默认 1.0(不放松)。
+        ''' 
+        ''' 取值越小，先验边越容易被保留；0.3 是一个稳健的默认选择
+        ''' (先验提供倾斜，但仍然由数据决定去留)。设为 1.0 等价于关闭方案 B。
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property priorPenalty As Double = 1.0R
+
+        ''' <summary>
         ''' 是否使用<b>偏相关</b>(而不是零阶 Pearson)来给候选调控因子排序，默认关闭。
         ''' 
         ''' 开启之后，会先找出表达谱最"像全局程序"的若干个 hub 基因
