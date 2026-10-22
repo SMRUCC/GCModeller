@@ -740,14 +740,18 @@ Namespace LinearRegression
 
                 candidates = InjectPriorityRegulators(target, candidates)
 
-                Select Case opt.method
-                    Case FittingMethod.Lasso
-                        Return FitLasso(name, y, candidates)
-                    Case FittingMethod.ElasticNet
-                        Return FitElasticNet(name, y, candidates)
-                    Case Else
-                        Return FitOls(name, y, candidates)
-                End Select
+                Try
+                    Return FitSelected(name, y, candidates)
+                Catch oom As OutOfMemoryException
+                    ' 特征太多时(例如优先级注入把 300 个候选扩到 1900 个)，一次性分配
+                    ' p x n 的列数组会压垮 Large Object Heap。这里退化为只用一半候选重试，
+                    ' 宁可少几条边，也不要留下一个"没有任何调控关系"的空模型。
+                    Dim reduced As Integer() = candidates _
+                        .Take(std.Max(32, candidates.Length \ 2)) _
+                        .ToArray()
+
+                    Return FitSelected(name, y, reduced)
+                End Try
             Catch ex As Exception
                 Return New GeneRegressionModel With {
                     .target = name,
@@ -759,6 +763,24 @@ Namespace LinearRegression
                     .errorMessage = ex.Message
                 }
             End Try
+        End Function
+
+        ''' <summary>
+        ''' 按照当前的拟合方法求解一个目标基因。
+        ''' </summary>
+        ''' <param name="name">目标基因的编号</param>
+        ''' <param name="y">观测向量</param>
+        ''' <param name="candidates">候选调控因子的行号</param>
+        ''' <returns></returns>
+        Private Function FitSelected(name As String, y As Double(), candidates As Integer()) As GeneRegressionModel
+            Select Case opt.method
+                Case FittingMethod.Lasso
+                    Return FitLasso(name, y, candidates)
+                Case FittingMethod.ElasticNet
+                    Return FitElasticNet(name, y, candidates)
+                Case Else
+                    Return FitOls(name, y, candidates)
+            End Select
         End Function
 
         ''' <summary>
@@ -782,7 +804,12 @@ Namespace LinearRegression
 
             Call merged.AddRange(candidates)
 
+            Dim budget As Integer = If(opt.priorityBudget > 0, opt.priorityBudget, Integer.MaxValue)
+
             For Each idx As Integer In priorityPool
+                If added >= budget Then
+                    Exit For
+                End If
                 If idx = target Then
                     Continue For
                 End If

@@ -628,7 +628,9 @@ Module Linear
                                 Optional partial_correlation As Boolean = False,
                                 Optional partial_cond As Integer = 5,
                                 Optional negative_quota As Integer = -1,
-                                Optional max_row_sum As Double = 0.9) As Object
+                                Optional max_row_sum As Double = 0.9,
+                                Optional priority_budget As Integer = 0,
+                                Optional threads As Integer = -1) As Object
 
         Dim priorityGenes As String() = Nothing
 
@@ -706,6 +708,8 @@ Module Linear
             .partialCorrelation = partial_correlation,
             .partialConditionSize = partial_cond,
             .negativeCandidateQuota = negative_quota,
+            .priorityBudget = priority_budget,
+            .maxDegreeOfParallelism = threads,
             .elasticNet = New ElasticNetOptions With {
                 .l1Ratio = l1_ratio,
                 .numberOfAlphas = alphas,

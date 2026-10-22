@@ -120,6 +120,18 @@ Namespace LinearRegression
         Public Property priorityRegulators As String() = Nothing
 
         ''' <summary>
+        ''' 优先注入的基因数量上限，默认 0(不限制)。
+        ''' 
+        ''' <see cref="priorityRegulators"/> 列出 1600+ 个基因的时候，每个目标基因的
+        ''' 候选数会从 <see cref="maxCandidates"/> 膨胀到 1900 左右，而求解器要为每个
+        ''' 基因分配 ``p x n`` 的列数组(大对象堆)。并发较高时这会触发
+        ''' <c>OutOfMemoryException</c>，表现为大量基因"没有任何调控关系"。
+        ''' 把本属性设为与 <see cref="maxCandidates"/> 相同的量级，可以避免候选集爆炸。
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property priorityBudget As Integer = 0
+
+        ''' <summary>
         ''' 是否使用<b>偏相关</b>(而不是零阶 Pearson)来给候选调控因子排序，默认关闭。
         ''' 
         ''' 开启之后，会先找出表达谱最"像全局程序"的若干个 hub 基因
