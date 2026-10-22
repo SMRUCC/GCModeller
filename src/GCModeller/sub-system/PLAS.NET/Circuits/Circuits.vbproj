@@ -12,8 +12,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Defining Network Topologies that Can Achieve Biochemical Adaptation\**" />
     <Compile Remove="test\**" />
+    <EmbeddedResource Remove="Defining Network Topologies that Can Achieve Biochemical Adaptation\**" />
     <EmbeddedResource Remove="test\**" />
+    <None Remove="Defining Network Topologies that Can Achieve Biochemical Adaptation\**" />
     <None Remove="test\**" />
   </ItemGroup>
 
