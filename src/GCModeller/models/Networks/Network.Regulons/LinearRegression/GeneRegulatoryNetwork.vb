@@ -72,7 +72,9 @@ Namespace LinearRegression
         ReadOnly priorityPool As Integer()
 
         ''' <summary>
-        ''' curated 先验网络解析之后的邻接表：<c>目标基因行号 -> 先验 TF 的行号集合</c>。
+        ''' curated 先验网络解析之后的邻接表：<c>目标基因行号 -> (先验 TF 行号 -> 因果符号)</c>。
+        ''' 
+        ''' 符号取值 +1(激活) / -1(抑制) / 0(未知)；它被用作 signed lasso 的可行域约束。
         ''' 
         ''' 空缺(<c>Nothing</c>)表示没有提供先验，或者没有一条边的置信度达到
         ''' <see cref="GrnFittingOptions.priorMinConfidence"/>。
@@ -80,7 +82,7 @@ Namespace LinearRegression
         ''' 它在构造函数里一次性建好，之后只读；<see cref="Fit"/> 用
         ''' <c>Parallel.For</c> 并发调用 <see cref="FitGene"/>，因此不能在这里做惰性构造。
         ''' </summary>
-        ReadOnly priorAdjacency As Dictionary(Of Integer, HashSet(Of Integer))
+        ReadOnly priorAdjacency As Dictionary(Of Integer, Dictionary(Of Integer, Integer))
 
         ''' <summary>
         ''' 本次 <see cref="Fit"/> 期间生效的相关性筛选后端；为空时使用内置的逐基因扫描。
@@ -202,7 +204,7 @@ Namespace LinearRegression
         ''' 在表达矩阵里找不到的基因、以及自调控(TF 就是目标基因)的边都会被丢弃。
         ''' </summary>
         ''' <returns>没有任何有效边的时候返回空引用</returns>
-        Private Function BuildPriorAdjacency() As Dictionary(Of Integer, HashSet(Of Integer))
+        Private Function BuildPriorAdjacency() As Dictionary(Of Integer, Dictionary(Of Integer, Integer))
             If Me.opt.priorNetwork Is Nothing OrElse Me.opt.priorNetwork.Length = 0 Then
                 Return Nothing
             End If
@@ -215,8 +217,9 @@ Namespace LinearRegression
                 End If
             Next
 
-            Dim map As New Dictionary(Of Integer, HashSet(Of Integer))
+            Dim map As New Dictionary(Of Integer, Dictionary(Of Integer, Integer))
             Dim accepted As Integer = 0
+            Dim signed As Integer = 0
 
             For Each edge As PriorEdge In Me.opt.priorNetwork
                 If edge.Confidence < Me.opt.priorMinConfidence Then
@@ -239,15 +242,21 @@ Namespace LinearRegression
                     Continue For
                 End If
 
-                Dim linked As HashSet(Of Integer) = Nothing
+                Dim linked As Dictionary(Of Integer, Integer) = Nothing
 
                 If Not map.TryGetValue(target, linked) Then
-                    linked = New HashSet(Of Integer)
+                    linked = New Dictionary(Of Integer, Integer)
                     map(target) = linked
                 End If
 
-                If linked.Add(tf) Then
+                If Not linked.ContainsKey(tf) Then
+                    linked(tf) = edge.Sign
+
                     accepted += 1
+
+                    If edge.Sign <> 0 Then
+                        signed += 1
+                    End If
                 End If
             Next
 
@@ -263,7 +272,8 @@ Namespace LinearRegression
             If Not Me.opt.silent Then
                 Call Console.WriteLine(
                     $"[GRN] prior knowledge: {accepted} edge(s) accepted (confidence >= {Me.opt.priorMinConfidence:G3}), " &
-                    $"covering {map.Count} target gene(s); L1 penalty x{Me.opt.priorPenalty:G3} for the supported edges")
+                    $"covering {map.Count} target gene(s), {signed} signed edge(s); " &
+                    $"L1 penalty x{Me.opt.priorPenalty:G3}, sign mode = {Me.opt.priorSignMode}")
             End If
 
             Return map
@@ -882,7 +892,7 @@ Namespace LinearRegression
         ''' <param name="candidates">已经按照相关性挑选过的候选集</param>
         ''' <returns>合并之后的候选集(保持原有顺序，新基因追加在末尾)</returns>
         Private Function InjectPriorityRegulators(target As Integer, candidates As Integer()) As Integer()
-            Dim priorSet As HashSet(Of Integer) = Nothing
+            Dim priorSet As Dictionary(Of Integer, Integer) = Nothing
             Dim hasPrior As Boolean = priorAdjacency IsNot Nothing AndAlso priorAdjacency.TryGetValue(target, priorSet)
 
             If priorityPool.Length = 0 AndAlso Not hasPrior Then
@@ -899,7 +909,7 @@ Namespace LinearRegression
 
             ' 先验 TF 优先占用预算：它们比"全局优先基因"更有针对性
             If hasPrior Then
-                For Each idx As Integer In priorSet.OrderBy(Function(i) i)
+                For Each idx As Integer In priorSet.Keys.OrderBy(Function(i) i)
                     If merged.Count - candidates.Length >= budget Then
                         Exit For
                     End If
@@ -950,7 +960,7 @@ Namespace LinearRegression
                 Return Nothing
             End If
 
-            Dim priorSet As HashSet(Of Integer) = Nothing
+            Dim priorSet As Dictionary(Of Integer, Integer) = Nothing
 
             If Not priorAdjacency.TryGetValue(target, priorSet) Then
                 Return Nothing
@@ -960,7 +970,7 @@ Namespace LinearRegression
             Dim hits As Integer = 0
 
             For j As Integer = 0 To candidates.Length - 1
-                If priorSet.Contains(candidates(j)) Then
+                If priorSet.ContainsKey(candidates(j)) Then
                     penalty(j) = factor
                     hits += 1
                 Else
@@ -970,6 +980,66 @@ Namespace LinearRegression
 
             Return If(hits = 0, Nothing, penalty)
         End Function
+
+        ''' <summary>
+        ''' 构造与列顺序严格对齐的<b>符号约束</b>向量（signed lasso 的可行域）。
+        ''' 
+        ''' 先验标记为激活的边返回 +1（只允许 β ≥ 0）、抑制的边返回 -1（只允许 β ≤ 0）、
+        ''' 其余（含符号未知的先验边）返回 0（不约束）。
+        ''' 
+        ''' 返回空引用表示"不启用符号约束"，求解器走原来的自由坐标下降，结果逐位不变。
+        ''' </summary>
+        ''' <param name="target">目标基因的行下标</param>
+        ''' <param name="candidates">候选调控因子的行号，顺序必须与设计矩阵的列一致</param>
+        ''' <returns>长度等于 <paramref name="candidates"/> 的符号数组，或者空引用</returns>
+        Private Function BuildPriorSign(target As Integer, candidates As Integer()) As Integer()
+            If priorAdjacency Is Nothing OrElse opt.priorSignMode = PriorSignMode.Off Then
+                Return Nothing
+            End If
+
+            Dim priorSet As Dictionary(Of Integer, Integer) = Nothing
+
+            If Not priorAdjacency.TryGetValue(target, priorSet) Then
+                Return Nothing
+            End If
+
+            Dim sign As Integer() = New Integer(candidates.Length - 1) {}
+            Dim hits As Integer = 0
+
+            For j As Integer = 0 To candidates.Length - 1
+                Dim s As Integer
+
+                If priorSet.TryGetValue(candidates(j), s) AndAlso s <> 0 Then
+                    sign(j) = s
+                    hits += 1
+                End If
+            Next
+
+            Return If(hits = 0, Nothing, sign)
+        End Function
+
+        ''' <summary>
+        ''' 按先验的因果符号重排系数：<b>保留 |β|，只把符号改成先验给定的方向</b>。
+        ''' 
+        ''' 与"符号约束"的区别是决定性的：共表达数据里抑制边的相关系数同样为正，
+        ''' 半空间约束只会把冲突的系数压成 0（等于这条边消失），
+        ''' 而翻号能保留幅度并输出正确的因果方向 —— 敲降抑制因子时靶基因<b>上调</b>。
+        ''' </summary>
+        ''' <param name="result">拟合结果（其 Weights 会被就地修改）</param>
+        ''' <param name="sign">与 Weights 一一对应的符号(+1 / -1 / 0)</param>
+        Private Sub ApplyPriorSignFlip(result As ElasticNetFitResult, sign As Integer())
+            If result Is Nothing OrElse result.Weights Is Nothing OrElse sign Is Nothing Then
+                Return
+            End If
+
+            For j As Integer = 0 To sign.Length - 1
+                If sign(j) = 0 OrElse result.Weights(j) = 0.0R Then
+                    Continue For
+                End If
+
+                result.Weights(j) = std.Sign(sign(j)) * std.Abs(result.Weights(j))
+            Next
+        End Sub
 
         ''' <summary>
         ''' 按与目标基因的 pearson 相关性绝对值降序挑选候选调控因子
@@ -1207,6 +1277,10 @@ Namespace LinearRegression
 
             ' 先验支持的边享有更低的 L1 惩罚；没有先验时为空引用，求解器走原来的标量分支
             Dim penalty As Double() = BuildPriorPenalty(target, candidates)
+            ' 先验因果符号：Constrain 模式把它交给求解器做半空间约束，
+            ' Flip 模式则在拟合之后按符号重排幅度（数据给幅度、先验给方向）
+            Dim sign As Integer() = BuildPriorSign(target, candidates)
+            Dim solverSign As Integer() = If(opt.priorSignMode = PriorSignMode.Constrain, sign, Nothing)
             Dim result As ElasticNetFitResult
 
             Select Case opt.elasticNet.mode
@@ -1224,11 +1298,15 @@ Namespace LinearRegression
                 Case Else
                     ' 默认路径：直接把列向量交给求解器，省掉一次 n x p 的转置拷贝
                     result = ElasticNetRegressor.FitByPathColumns(
-                        columns, y, featureNames, opt.elasticNet, opt.maxRegulatorsPerGene, penalty)
+                        columns, y, featureNames, opt.elasticNet, opt.maxRegulatorsPerGene, penalty, solverSign)
             End Select
 
             If result Is Nothing Then
                 Return Failed(name, "the elastic net solver returns no solution")
+            End If
+
+            If opt.priorSignMode = PriorSignMode.Flip Then
+                Call ApplyPriorSignFlip(result, sign)
             End If
 
             Dim model As New GeneRegressionModel With {

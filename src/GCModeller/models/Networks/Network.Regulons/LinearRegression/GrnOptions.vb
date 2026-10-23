@@ -164,6 +164,20 @@ Namespace LinearRegression
         Public Property priorPenalty As Double = 1.0R
 
         ''' <summary>
+        ''' 是否把先验的因果符号(激活/抑制)作为回归系数的<b>可行域约束</b>，默认开启。
+        ''' 
+        ''' 开启之后，先验中标记为 Activator 的边只允许 β ≥ 0、标记为 Inhibitor 的边
+        ''' 只允许 β ≤ 0(符号未知的边不受约束)。这就是 signed lasso：
+        ''' 幅度仍由数据决定，但方向由外部知识固定。
+        ''' 
+        ''' 之所以需要它：共表达数据无法区分激活与抑制(Inhibitor 边的相关系数同样为正)，
+        ''' 而 L1/L2/图拉普拉斯这些偶次惩罚对 β → -β 完全对称，
+        ''' 只有把可行域限制到半空间才能确定绝对符号。
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property priorSignMode As PriorSignMode = PriorSignMode.Off
+
+        ''' <summary>
         ''' 是否使用<b>偏相关</b>(而不是零阶 Pearson)来给候选调控因子排序，默认关闭。
         ''' 
         ''' 开启之后，会先找出表达谱最"像全局程序"的若干个 hub 基因

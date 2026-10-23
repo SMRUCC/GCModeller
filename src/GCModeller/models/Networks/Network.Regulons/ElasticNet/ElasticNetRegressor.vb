@@ -134,15 +134,19 @@ Namespace LinearRegression
         ''' <param name="penalty">
         ''' 与 <paramref name="columns"/> 一一对应的逐特征 L1 惩罚权重，为空表示不加权。
         ''' </param>
+        ''' <param name="sign">
+        ''' 与 <paramref name="columns"/> 一一对应的符号约束(+1 / -1 / 0)，为空表示不约束。
+        ''' </param>
         ''' <returns></returns>
         Friend Function FitByPathColumns(columns As Double()(),
                                          y As Double(),
                                          names As String(),
                                          options As ElasticNetOptions,
                                          maxFeatures As Integer,
-                                         Optional penalty As Double() = Nothing) As ElasticNetFitResult
+                                         Optional penalty As Double() = Nothing,
+                                         Optional sign As Integer() = Nothing) As ElasticNetFitResult
 
-            Return FitByPathColumnsWithRatio(columns, y, names, options, options.l1Ratio, maxFeatures, penalty)
+            Return FitByPathColumnsWithRatio(columns, y, names, options, options.l1Ratio, maxFeatures, penalty, sign)
         End Function
 
         ''' <summary>
@@ -161,6 +165,10 @@ Namespace LinearRegression
         ''' 与 <paramref name="columns"/> 一一对应的逐特征 L1 惩罚权重，为空表示不加权。
         ''' 先验知识支持的边会被赋予小于 1 的权重，从而在稀疏化过程中更容易存活。
         ''' </param>
+        ''' <param name="sign">
+        ''' 与 <paramref name="columns"/> 一一对应的符号约束(+1 / -1 / 0)，为空表示不约束。
+        ''' 这是 signed lasso：先验给出因果符号的边只允许落在半空间内。
+        ''' </param>
         ''' <returns>求解失败的时候返回空引用</returns>
         Friend Function FitByPathColumnsWithRatio(columns As Double()(),
                                                   y As Double(),
@@ -168,7 +176,8 @@ Namespace LinearRegression
                                                   options As ElasticNetOptions,
                                                   l1Ratio As Double,
                                                   maxFeatures As Integer,
-                                                  Optional penalty As Double() = Nothing) As ElasticNetFitResult
+                                                  Optional penalty As Double() = Nothing,
+                                                  Optional sign As Integer() = Nothing) As ElasticNetFitResult
 
             Dim path As ElasticNetPath = ElasticNetFitting.RegularizationPathColumns(
                 columns:=columns,
@@ -181,7 +190,8 @@ Namespace LinearRegression
                 maxIterations:=options.maxIterations,
                 featureNames:=names,
                 maxFeatures:=maxFeatures,
-                penalty:=penalty
+                penalty:=penalty,
+                sign:=sign
             )
 
             If path Is Nothing OrElse path.Count = 0 Then

@@ -634,6 +634,7 @@ Module Linear
                                 <RRawVectorArgument(GetType(RegulatoryEdge))> Optional prior As Object = Nothing,
                                 Optional prior_min_confidence As Double = 0.9,
                                 Optional prior_penalty As Double = 0.3,
+                                Optional prior_sign As String = "flip",
                                 Optional threads As Integer = -1,
                                 Optional env As Environment = Nothing) As Object
 
@@ -662,7 +663,19 @@ Module Linear
                     Continue For
                 End If
 
-                Call accepted.Add(New PriorEdge(item.TF.Trim, item.TargetGene.Trim, item.Confidence))
+                ' 因果符号：激活 +1、抑制 -1、未知 0。
+                ' 它被用作 signed lasso 的可行域约束(激活 β≥0 / 抑制 β≤0)，
+                ' 因为共表达数据无法区分激活与抑制。
+                Dim dir As Integer = 0
+
+                Select Case item.RegulationType
+                    Case Effector.Activator
+                        dir = 1
+                    Case Effector.Inhibitor
+                        dir = -1
+                End Select
+
+                Call accepted.Add(New PriorEdge(item.TF.Trim, item.TargetGene.Trim, item.Confidence, dir))
             Next
 
             If accepted.Count = 0 Then
@@ -754,6 +767,7 @@ Module Linear
             .priorNetwork = priorEdges,
             .priorMinConfidence = prior_min_confidence,
             .priorPenalty = prior_penalty,
+            .priorSignMode = ParsePriorSignMode(prior_sign),
             .maxDegreeOfParallelism = threads,
             .elasticNet = New ElasticNetOptions With {
                 .l1Ratio = l1_ratio,
@@ -1002,6 +1016,23 @@ Module Linear
     <RApiReturn(GetType(Double))>
     Public Function wildtype_means(model As ElasticNet) As Object
         Return CType(model.Baseline.Clone(), Double())
+    End Function
+
+    ''' <summary>
+    ''' 解析 <c>prior_sign</c> 参数：<c>off</c> 关闭、<c>constrain</c> 半空间约束、
+    ''' 其它值(默认)走保幅翻号。
+    ''' </summary>
+    ''' <param name="value">参数原文</param>
+    ''' <returns></returns>
+    Private Function ParsePriorSignMode(value As String) As PriorSignMode
+        Select Case If(value, "").Trim.ToLowerInvariant()
+            Case "", "0", "off", "false", "none"
+                Return PriorSignMode.Off
+            Case "constrain", "constraint", "signed", "lasso"
+                Return PriorSignMode.Constrain
+            Case Else
+                Return PriorSignMode.Flip
+        End Select
     End Function
 
     ''' <summary>
