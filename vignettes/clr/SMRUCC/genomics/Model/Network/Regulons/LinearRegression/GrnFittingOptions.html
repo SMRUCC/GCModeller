@@ -109,6 +109,12 @@ export class GrnFittingOptions {
    # 
    # 取值越小，先验边越容易被保留；0.3 是一个稳健的默认选择 (先验提供倾斜，但仍然由数据决定去留)。设为 1.0 等价于关闭方案 B。
    priorPenalty: double;
+   # 是否把先验的因果符号(激活/抑制)作为回归系数的可行域约束，默认开启。
+   # 
+   # 开启之后，先验中标记为 Activator 的边只允许 β ≥ 0、标记为 Inhibitor 的边 只允许 β ≤ 0(符号未知的边不受约束)。这就是 signed lasso： 幅度仍由数据决定，但方向由外部知识固定。
+   # 
+   # 之所以需要它：共表达数据无法区分激活与抑制(Inhibitor 边的相关系数同样为正)， 而 L1/L2/图拉普拉斯这些偶次惩罚对 β → -β 完全对称， 只有把可行域限制到半空间才能确定绝对符号。
+   priorSignMode: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/PriorSignMode.html">PriorSignMode</a>;
    # p 值计算的容差：小于这个数值的 p 值会被修正为零。
    pvalueTolerance: double;
    # 可选的调控因子集合(例如转录因子列表)。
@@ -132,6 +138,7 @@ export class GrnFittingOptions {
 <li>use by <i>property</i> member <code>elasticNet</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/ElasticNetOptions.html">ElasticNetOptions</a></li>
 <li>use by <i>property</i> member <code>method</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/FittingMethod.html">FittingMethod</a></li>
 <li>use by <i>property</i> member <code>priorNetwork</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/PriorEdge.html">PriorEdge</a></li>
+<li>use by <i>property</i> member <code>priorSignMode</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/PriorSignMode.html">PriorSignMode</a></li>
 </ol>
 
 

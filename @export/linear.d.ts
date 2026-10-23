@@ -147,6 +147,8 @@ declare namespace linear {
      * + default value Is ``0.9``.
      * @param prior_penalty 
      * + default value Is ``0.3``.
+     * @param prior_sign 
+     * + default value Is ``'flip'``.
      * @param threads 
      * + default value Is ``-1``.
      * @param env 
@@ -154,7 +156,7 @@ declare namespace linear {
      * @return a list object with two slots: ``grn`` (the fitted [GeneRegulatoryNetwork](cref:T:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GeneRegulatoryNetwork))
      *  and ``edges`` (the [RegulationEdge](cref:T:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.RegulationEdge) collection).
    */
-   function elastic_net(x: object, candidates?: object, maxreg?: object, l1_ratio?: number, alphas?: number, mutual?: boolean, TF?: any, priority?: any, regulators?: any, standardize?: boolean, min_abs_r?: number, gpu?: boolean, block_screener?: boolean, partial_correlation?: boolean, partial_cond?: object, negative_quota?: object, max_row_sum?: number, priority_budget?: object, prior?: any, prior_min_confidence?: number, prior_penalty?: number, threads?: object, env?: object): object|object;
+   function elastic_net(x: object, candidates?: object, maxreg?: object, l1_ratio?: number, alphas?: number, mutual?: boolean, TF?: any, priority?: any, regulators?: any, standardize?: boolean, min_abs_r?: number, gpu?: boolean, block_screener?: boolean, partial_correlation?: boolean, partial_cond?: object, negative_quota?: object, max_row_sum?: number, priority_budget?: object, prior?: any, prior_min_confidence?: number, prior_penalty?: number, prior_sign?: string, threads?: object, env?: object): object|object;
    /**
     * Run the perturbation experiment for a set of genes and save the profiles as a csv file.
     * 
