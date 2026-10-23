@@ -55,15 +55,17 @@ Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.Plots
 Imports Microsoft.VisualBasic.Data.Plots.Canvas
-Imports DensityCompat = Microsoft.VisualBasic.Data.Plots.Statistics.Heatmap
 Imports Microsoft.VisualBasic.Data.Framework.IO
+Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Shapes
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.Scripting.Runtime
 
 
 #If NET48 Then
@@ -143,49 +145,123 @@ Public Module RSDPdensity
 
         Call $"{NameOf(P_threshold)}={P_threshold}".debug
 
-        With points _
+        Dim pts As PointF() = points _
             .Where(Function(pt)
-                       Return Not New Double() {
-                           pt.X, pt.Y
-                       }.Any(Function(x)
-                                 Return x.IsNaNImaginary
-                             End Function)
+                       Return Not New Double() {pt.X, pt.Y}.Any(Function(x) x.IsNaNImaginary)
                    End Function) _
             .ToArray
 
-            Dim ticksX = .Select(Function(pt) CDbl(pt.X)).CreateAxisTicks.AsVector
-            Dim ticksY = .Select(Function(pt) CDbl(pt.Y)).CreateAxisTicks.AsVector
-            Dim css As CSSEnvirnment = CSSEnvirnment.Empty(100)
+        If pts.Length = 0 Then
+            Throw New ArgumentException("No valid points for the RSD density plot!", NameOf(points))
+        End If
 
-            ' 分别绘制出P值和RSD值得临界值线
-            ' P直线是横向的，即(0,P) (maxX,P)
-            ' RSD线是竖向的，即(RSD,minY) (RSD, maxY)
-            Dim P = P_threshold
-            Dim line As Stroke = Stroke.TryParse(lineStroke)
-            Dim xMax# = {1, ticksX.Max}.Max
+        Dim ticksX = pts.Select(Function(pt) CDbl(pt.X)).CreateAxisTicks.AsVector
+        Dim ticksY = pts.Select(Function(pt) CDbl(pt.Y)).CreateAxisTicks.AsVector
 
-            Dim Pa As New PointF(0!, P)
-            Dim Pb As New PointF(xMax, P)
-            Dim Ra As New PointF(CSng(RSD), 0)
-            Dim Rb As New PointF(CSng(RSD), CSng(ticksY.Max))
-            Dim ablines = {
-                New Line(Pa, Pb, line), New Line(Ra, Rb, line)
-            }
+        ' 分别绘制出P值和RSD值得临界值线
+        ' P直线是横向的，即(0,P) (maxX,P)
+        ' RSD线是竖向的，即(RSD,minY) (RSD, maxY)
+        Dim P As Double = P_threshold
+        Dim xMax As Double = {1, ticksX.Max}.Max
+        Dim sz As Size = size.SizeParser
 
-            ' 做出来的图不从零开始可能会比较好一些
-            Return DensityCompat.DensityPlot.Plot(
-                .ByRef,
-                size, padding, bg, schema, levels:=100,
-                ptSize:=10,
-                ablines:=ablines,
-                labX:="RSD", labY:="-log10(P.value)",
-                legendTitleFontCSS:=CSSFont.Win7Large,
-                htmlLabel:=False,
-                legendWidth:=200,
-                xMax:=xMax,
-                yMin:=0,
-                xMin:=-0.25
-            )
-        End With
+        ' 密度着色的散点：点越密集，颜色越靠近色阶的高端
+        Dim serials As List(Of Series) = densitySerials(pts, schema)
+
+        ' 竖向的 RSD 临界值线（新引擎的 AbLines 只能表达 y = a + b*x，竖直参考线用两点折线表达）
+        serials.Add(New Series With {
+            .Name = "",
+            .Color = Color.LightGray,
+            .X = {RSD, RSD},
+            .Y = {0.0, ticksY.Max},
+            .LineStyle = DashStyle.Dash,
+            .MarkerShape = MarkerShape.None
+        })
+
+        Dim theme As PlotTheme = PlotTheme.Light()
+
+        If Not bg.StringEmpty Then
+            theme.BackgroundColor = bg.TranslateColor(throwEx:=False)
+            theme.PlotAreaColor = theme.BackgroundColor
+        End If
+
+        Using plt As New ScatterPlot(sz.Width, sz.Height, theme)
+            plt.Title = ""
+            plt.XLabel = "RSD"
+            plt.YLabel = "-log10(P.value)"
+            plt.XMin = -0.25
+            plt.XMax = xMax
+            plt.YMin = 0
+
+            ' P 值的临界值线：y = P（斜率 0）
+            Call plt.AbLines.Add((0.0, P))
+
+            Return plt.Plot(serials, sz, 100, Drivers.Default)
+        End Using
+    End Function
+
+    ''' <summary>
+    ''' 按局部密度给每个点上色：把点网格化统计频数，再按频数映射到色阶。
+    ''' 返回的结果会按颜色分组成多条序列（同一颜色的点合并为一条序列）。
+    ''' </summary>
+    Private Function densitySerials(points As PointF(), schema As String) As List(Of Series)
+        Const levels As Integer = 64
+        Const bins As Integer = 48
+
+        Dim colors As Color() = Designer.GetColors(schema, n:=levels)
+        Dim xmin# = points.Min(Function(p) CDbl(p.X))
+        Dim xmax# = points.Max(Function(p) CDbl(p.X))
+        Dim ymin# = points.Min(Function(p) CDbl(p.Y))
+        Dim ymax# = points.Max(Function(p) CDbl(p.Y))
+        Dim grid(bins - 1, bins - 1) As Integer
+        Dim cells As Integer() = New Integer(points.Length - 1) {}
+
+        For i As Integer = 0 To points.Length - 1
+            Dim cx As Integer = binIndex(points(i).X, xmin, xmax, bins)
+            Dim cy As Integer = binIndex(points(i).Y, ymin, ymax, bins)
+
+            grid(cx, cy) += 1
+            cells(i) = cx * bins + cy
+        Next
+
+        Dim density As Integer() = cells _
+            .Select(Function(k) grid(k \ bins, k Mod bins)) _
+            .ToArray
+        Dim dmax As Integer = density.Max()
+
+        Return points _
+            .Select(Function(pt, i) (pt, level:=density(i))) _
+            .GroupBy(Function(n) levelColor(n.level, dmax, colors)) _
+            .Select(Function(g)
+                        Dim part = g.ToArray()
+
+                        Return New Series With {
+                            .Name = "",
+                            .Color = g.Key,
+                            .X = part.Select(Function(n) CDbl(n.pt.X)).ToArray,
+                            .Y = part.Select(Function(n) CDbl(n.pt.Y)).ToArray,
+                            .MarkerShape = MarkerShape.Circle,
+                            .LineStyle = DashStyle.Custom,
+                            .PointSize = 10
+                        }
+                    End Function) _
+            .ToList
+    End Function
+
+    Private Function binIndex(v As Single, min As Double, max As Double, bins As Integer) As Integer
+        If max <= min Then Return bins \ 2
+
+        Dim idx As Integer = CInt((v - min) / (max - min) * (bins - 1))
+
+        Return Math.Max(0, Math.Min(bins - 1, idx))
+    End Function
+
+    Private Function levelColor(count As Integer, maxCount As Integer, colors As Color()) As Color
+        If maxCount <= 1 Then Return colors(colors.Length - 1)
+
+        Dim t As Double = (count - 1) / (maxCount - 1)
+        Dim idx As Integer = CInt(t * (colors.Length - 1))
+
+        Return colors(Math.Max(0, Math.Min(colors.Length - 1, idx)))
     End Function
 End Module

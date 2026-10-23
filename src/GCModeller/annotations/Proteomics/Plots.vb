@@ -53,7 +53,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.Data.Plots.Legacy.BarPlot.Histogram
+Imports Microsoft.VisualBasic.Data.Plots
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Math
@@ -133,7 +133,6 @@ Public Module Plots
                                    Optional color$ = "lightblue",
                                    Optional type$ = NameOf(DEP_iTraq.log2FC)) As GraphicsData
 
-        Dim histData As HistogramData() = Nothing
         Dim logFC As Vector
 
         If type.TextEquals(NameOf(DEP_iTraq.log2FC)) Then
@@ -143,20 +142,20 @@ Public Module Plots
         End If
 
         Try
-            Return logFC.HistogramPlot(
-                [step],
-                serialsTitle:=serialTitle,
-                histData:=histData,
-                size:=size,
-                padding:=padding,
+            Return Histogram.Plot(
+                data:=logFC.ToArray,
+                binWidth:=[step],
+                title:=serialTitle,
                 xLabel:="log2FC",
                 yLabel:=serialTitle,
-                xAxis:=xAxis,
                 color:=color,
-                showLegend:=False)
+                size:=size,
+                dpi:=100,
+                driver:=Drivers.Default,
+                theme:=PlotTheme.Light())
         Catch ex As Exception
             ' 有时候标签没有设置正确会导致得到的向量全部为0，则绘图会出错，这个时候显示一下调试信息
-            Dim msg$ = $"tag={NameOf(DEP_iTraq.log2FC)}, vector={Mid(logFC.GetJson, 1, 256)}..., hist={Mid(histData.GetJson, 1, 300)}..."
+            Dim msg$ = $"tag={NameOf(DEP_iTraq.log2FC)}, vector={Mid(logFC.GetJson, 1, 256)}..."
             Throw New Exception(msg, ex)
         End Try
     End Function

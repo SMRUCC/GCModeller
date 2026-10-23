@@ -62,8 +62,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
-Imports Microsoft.VisualBasic.Data.Plots.Legacy.BarPlot
-Imports Microsoft.VisualBasic.Data.Plots.Legacy.BarPlot.Data
+Imports Microsoft.VisualBasic.Data.Plots
 Imports Microsoft.VisualBasic.Data.Plots.Canvas
 Imports Microsoft.VisualBasic.Data.visualize.KMeans
 Imports Microsoft.VisualBasic.DataMining.ComponentModel.EntityModels
@@ -193,7 +192,7 @@ Module visualPlot
             Throw New NotImplementedException
         End If
 
-        Dim bar As New BiDirectionData With {
+        Dim directionData As New BiDirectionData With {
             .Factor1 = upName,
             .Factor2 = downName,
             .samples = tags _
@@ -205,12 +204,16 @@ Module visualPlot
                         End Function) _
                 .ToArray
         }
-        Dim app As New BiDirectionBarPlot(bar, Color.Brown, Color.SteelBlue, theme) With {
-            .main = title,
-            .xlabel = "Number of Metabolites"
-        }
-
-        Return app.Plot(InteropArgumentHelper.getSize(size, env), ppi:=ppi, driver:=env.getDriver)
+        Return Bar.BiDirectionPlot(
+            bar:=directionData,
+            colorUp:=Color.Brown,
+            colorDown:=Color.SteelBlue,
+            title:=title,
+            xlabel:="Number of Metabolites",
+            size:=InteropArgumentHelper.getSize(size, env),
+            dpi:=ppi,
+            driver:=env.getDriver,
+            theme:=ThemeBridge.ToPlotTheme(theme))
     End Function
 
     ''' <summary>

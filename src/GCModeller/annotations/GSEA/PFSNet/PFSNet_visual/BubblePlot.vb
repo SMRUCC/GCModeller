@@ -57,7 +57,6 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.Plots
 Imports Microsoft.VisualBasic.Data.Plots.Canvas
-Imports Microsoft.VisualBasic.Data.Plots.Legacy.Plots
 Imports Microsoft.VisualBasic.Data.Plots.Plot3D.Legend
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Driver
@@ -118,13 +117,12 @@ Public Module BubblePlot
         Return Bubble.Plot(
             data:=bubbles,
             size:=size,
-            padding:=padding,
+            dpi:=100,
+            driver:=Drivers.Default,
             xlabel:="subnetwork statistics",
             ylabel:="-log10(pvalue)",
-            xAxis:="(-40,40),n=11",
-            ylayout:=YAxisLayoutStyles.Centra,
             title:="Consist Subnetwork Enrichment",
-            tagFontCSS:="font-style: normal; font-size: 10; font-family: " & FontFace.SegoeUI & ";"
+            theme:=PlotTheme.Light()
         )
     End Function
 

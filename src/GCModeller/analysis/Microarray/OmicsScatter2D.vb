@@ -58,7 +58,6 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data
 Imports Microsoft.VisualBasic.Data.Plots
 Imports Microsoft.VisualBasic.Data.Plots.Canvas
-Imports Microsoft.VisualBasic.Data.Plots.Legacy.Plots
 Imports Microsoft.VisualBasic.Data.Plots.Plot3D.Legend
 Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Imaging
@@ -171,17 +170,14 @@ Public Module OmicsScatter2D
         }
 
         Return Scatter.Plot(
-            c:={serial},
+            serials:={serial},
+            xlabel:=xlab,
+            ylabel:=ylab,
             drawLine:=False,
-            Xlabel:=xlab,
-            Ylabel:=ylab,
-            absoluteScaling:=False,
-            xlayout:=XAxisLayoutStyles.Bottom,
-            ylayout:=YAxisLayoutStyles.Right,
-            gridFill:="white",
-            gridColor:=Color.LightGray.ToHtmlColor,
             size:=size,
-            padding:=padding
+            dpi:=100,
+            driver:=Drivers.Default,
+            theme:=PlotTheme.Light()
         )
     End Function
 
