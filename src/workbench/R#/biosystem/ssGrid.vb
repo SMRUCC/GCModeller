@@ -29,6 +29,16 @@ Module ssGrid
         Call RInternal.generic.add("readBin.ssgrid_network", GetType(Stream), AddressOf loadModel)
     End Sub
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="model"></param>
+    ''' <param name="args"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    ''' <example>
+    ''' writeBin(model, con = file("/sgrid.zip"));
+    ''' </example>
     Private Function saveModel(model As SSystemNetwork, args As list, env As Environment) As Object
         Dim con As Stream = args!con
 
@@ -43,6 +53,16 @@ Module ssGrid
         Return True
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="s"></param>
+    ''' <param name="args"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    ''' <example>
+    ''' return(readBin(file("/sgrid.zip"), what = "ssgrid_network"));
+    ''' </example>
     Private Function loadModel(s As Stream, args As list, env As Environment) As Object
         Return ZipPersists.Load(s)
     End Function

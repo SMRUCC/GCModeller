@@ -1,5 +1,6 @@
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Math.Calculus.Dynamics
+Imports SMRUCC.genomics.Analysis.SSystem.Runner
 Imports PriorNet = SMRUCC.genomics.Analysis.BNLearn.Core.PriorNetwork
 
 Namespace GRN
@@ -265,8 +266,8 @@ Namespace GRN
         ''' </summary>
         ''' <param name="finalTime"></param>
         ''' <returns></returns>
-        Public Function CreateRunOptions(Optional finalTime As Double = 0) As SMRUCC.genomics.Analysis.SSystem.Runner.RunOptions
-            Dim options As New SMRUCC.genomics.Analysis.SSystem.Runner.RunOptions With {
+        Public Function CreateRunOptions(Optional finalTime As Double = 0) As RunOptions
+            Dim options As New RunOptions With {
                 .FinalTime = If(finalTime > 0, finalTime, Me.FinalTime),
                 .Precise = Me.Precise,
                 .Solver = Me.Solver,
