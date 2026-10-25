@@ -99,7 +99,7 @@ Namespace GRNDemo
             Return If(failures.Count = 0, 0, 1)
         End Function
 
-        #Region "commands"
+#Region "commands"
 
         Private Sub RunExtract(options As DemoOptions, report As StringBuilder, failures As List(Of String))
             Dim prior As PriorNet = loadPrior(options, report)
@@ -245,9 +245,9 @@ Namespace GRNDemo
             Call perturb(model, options, report, failures)
         End Sub
 
-        #End Region
+#End Region
 
-        #Region "data preparation"
+#Region "data preparation"
 
         Private Function loadPrior(options As DemoOptions, report As StringBuilder) As PriorNet
             If Not File.Exists(options.PriorFile) Then
@@ -386,9 +386,9 @@ Namespace GRNDemo
             Return fitOptions
         End Function
 
-        #End Region
+#End Region
 
-        #Region "persistence"
+#Region "persistence"
 
         Private Function saveAndVerify(network As SSystemNetwork,
                                        options As DemoOptions,
@@ -465,9 +465,9 @@ Namespace GRNDemo
             Return delta
         End Function
 
-        #End Region
+#End Region
 
-        #Region "virtual perturbation"
+#Region "virtual perturbation"
 
         Private Sub perturb(network As SSystemNetwork, options As DemoOptions, report As StringBuilder, failures As List(Of String))
             Dim hubs As String() = hubGenes(network, options.Hubs)
@@ -488,7 +488,7 @@ Namespace GRNDemo
             ' 单次扰动很容易被 S-system 的自我衰减项在很短的时间之内拉回稳态，
             ' 故这里使用周期性的刺激（模拟持续的敲除/过表达处理）来放大下游的响应
             Dim kicks As Integer = 6
-            Dim interval As Double = std.Max((finalTime - start) / kicks, 1.0E-6R)
+            Dim interval As Double = std.Max((finalTime - start) / kicks, 0.000001R)
 
             For Each hub As String In hubs
                 Call designs.Add(New PerturbationDesign With {
@@ -554,7 +554,7 @@ Namespace GRNDemo
 
                 Dim responded As Integer = screening _
                     .Records _
-                    .Where(Function(r) Not r.IsTarget AndAlso r.MaxDeviation > 1.0E-9) _
+                    .Where(Function(r) Not r.IsTarget AndAlso r.MaxDeviation > 0.000000001) _
                     .Count()
 
                 Call report.AppendLine($"propagated responses: {responded}")

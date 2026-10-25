@@ -27,6 +27,7 @@
     <ProjectReference Include="..\..\..\GCModeller\sub-system\GEARS\GEARS.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\sub-system\GPS\GPS.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\sub-system\Metaboliq\Metaboliq.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\sub-system\PLAS.NET\SGrid\SGrid.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\sub-system\PLAS.NET\SSystem\SSystem.NET5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\sub-system\SpikingLoop\SpikingLoop.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\sub-system\Squiiff\Squiiff\Squiiff.vbproj" />
