@@ -223,7 +223,7 @@ Namespace Perturbation
                 End If
 
                 If Not String.IsNullOrEmpty(outDir) Then
-                    Dim file As String = $"perturb_{safeFileName(design.TargetGene)}_{design.Type.ToString}.csv"
+                    Dim file As String = $"perturb_{design.TargetGene.NormalizePathString(False,)}_{design.Type.ToString}.csv"
 
                     Call SSOdes.ToDataFrame(perturbed).Save(Path.Combine(outDir, file), Encodings.UTF8)
                 End If
@@ -252,7 +252,7 @@ Namespace Perturbation
         ''' <param name="finalTime"></param>
         ''' <param name="runOptions"></param>
         ''' <returns></returns>
-        Public Function RunModel(model As SMRUCC.genomics.Analysis.SSystem.Script.Model,
+        Public Function RunModel(model As SSystem.Script.Model,
                                  designs As IEnumerable(Of PerturbationDesign),
                                  Optional outDir As String = Nothing,
                                  Optional finalTime As Double = 0,
@@ -276,7 +276,7 @@ Namespace Perturbation
             Dim result As New ScreeningResult With {
                 .Designs = designs.SafeQuery().ToArray
             }
-            Dim records As New System.Collections.Generic.List(Of ScreeningRecord)
+            Dim records As New List(Of ScreeningRecord)
 
             If Not String.IsNullOrEmpty(outDir) Then
                 If Not Directory.Exists(outDir) Then
@@ -312,7 +312,7 @@ Namespace Perturbation
                 End If
 
                 If Not String.IsNullOrEmpty(outDir) Then
-                    Dim file As String = $"perturb_{safeFileName(design.TargetGene)}_{design.Type.ToString}.csv"
+                    Dim file As String = $"perturb_{design.TargetGene.NormalizePathString(alphabetOnly:=False)}_{design.Type.ToString}.csv"
 
                     Call SSOdes.ToDataFrame(perturbed).Save(Path.Combine(outDir, file), Encodings.UTF8)
                 End If
@@ -426,20 +426,6 @@ Namespace Perturbation
             End If
 
             Return output.y(gene).Value
-        End Function
-
-        Private Function safeFileName(name As String) As String
-            Dim sb As New StringBuilder()
-
-            For Each c As Char In name
-                If Char.IsLetterOrDigit(c) OrElse c = "_"c OrElse c = "-"c Then
-                    Call sb.Append(c)
-                Else
-                    Call sb.Append("_"c)
-                End If
-            Next
-
-            Return sb.ToString
         End Function
     End Module
 End Namespace
