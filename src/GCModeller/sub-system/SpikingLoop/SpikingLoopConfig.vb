@@ -18,7 +18,6 @@
 ' ============================================================================
 
 Imports Microsoft.VisualBasic.DeepLearning.SpikingNeuralNetwork
-Imports std = System.Math
 
 ''' <summary>先验权重的归一化方式（readme 一.1 第三步）</summary>
 Public Enum PriorNormalization
