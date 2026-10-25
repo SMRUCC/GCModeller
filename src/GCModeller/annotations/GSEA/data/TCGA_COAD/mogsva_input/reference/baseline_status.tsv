@@ -1,6 +1,0 @@
-mRNA	OK	336 pathways x 160 samples
-protein	OK	336 pathways x 160 samples
-methylation	OK	335 pathways x 160 samples
-baseline_mean	OK	335 pathways averaged over 3 omics
-mogsa	OK	316 gene set(s) x 160 sample(s)
-multiGSEA	OK	336 pathway(s) x 3 omics
