@@ -140,7 +140,7 @@ Namespace IO
 
                 parameters.G = parseMatrix(readRequired(archive, "matrix_G.csv"), names, names.Length)
                 parameters.H = parseMatrix(readRequired(archive, "matrix_H.csv"), names, names.Length)
-                parameters.Candidates = parseCandidates(readEntry(archive, "candidates.txt"), names.Length)
+                parameters.Candidates = parseCandidates(readEntry(archive, "candidates.txt"), names)
                 series.LnX = series _
                     .X _
                     .SafeQuery() _
@@ -477,6 +477,7 @@ Namespace IO
             Dim sse As New List(Of Double)
             Dim rmse As New List(Of Double)
             Dim converged As New List(Of Boolean)
+            Dim sst As New List(Of Double)
             Dim header As Boolean = True
 
             For Each line As String In lines
@@ -497,6 +498,7 @@ Namespace IO
                 Call sse.Add(parseDouble(fields, 4))
                 Call rmse.Add(parseDouble(fields, 5))
                 Call converged.Add(parseBoolean(fields, 6))
+                Call sst.Add(parseDouble(fields, 7))
             Next
 
             If genes.Count = 0 Then
@@ -510,8 +512,58 @@ Namespace IO
                 .beta = beta.ToArray,
                 .SlopeSSE = sse.ToArray,
                 .SlopeRMSE = rmse.ToArray,
+                .SlopeSST = sst.ToArray,
                 .Converged = converged.ToArray
             }
+        End Function
+
+        ''' <summary>
+        ''' 解析候选调控因子条目；条目缺失的时候返回空值（表示全部基因都是候选）
+        ''' </summary>
+        ''' <param name="text"></param>
+        ''' <param name="names"></param>
+        ''' <returns></returns>
+        Private Function parseCandidates(text As String, names As String()) As Integer()()
+            If String.IsNullOrEmpty(text) Then
+                Return Nothing
+            End If
+
+            Dim result As Integer()() = New Integer(names.Length - 1)() {}
+            Dim header As Boolean = True
+            Dim row As Integer = 0
+
+            For Each line As String In textLines(text)
+                If String.IsNullOrWhiteSpace(line) Then
+                    Continue For
+                End If
+                If header Then
+                    header = False
+                    Continue For
+                End If
+                If row >= result.Length Then
+                    Exit For
+                End If
+
+                Dim fields As String() = PriorKnowledge.SplitCsvLine(line)
+
+                If fields.Length > 1 AndAlso Not String.IsNullOrWhiteSpace(fields(1)) Then
+                    Dim index As New List(Of Integer)
+
+                    For Each token As String In fields(1).Split(";"c)
+                        Dim value As Integer
+
+                        If Integer.TryParse(token.Trim(), value) AndAlso value >= 0 AndAlso value < names.Length Then
+                            Call index.Add(value)
+                        End If
+                    Next
+
+                    result(row) = index.ToArray
+                End If
+
+                row += 1
+            Next
+
+            Return If(row = 0, Nothing, result)
         End Function
 
         ''' <summary>

@@ -69,6 +69,26 @@ Namespace GRNDemo
         ''' <returns></returns>
         Public Property MaxEdgesPerGene As Integer = 4
         ''' <summary>
+        ''' 数值微分之前的滑动平均窗口（奇数）
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Smooth As Integer = 9
+        ''' <summary>
+        ''' 动力学阶的 L1 稀疏惩罚权重
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property L1Penalty As Double = 0
+        ''' <summary>
+        ''' 稳定性的自环惩罚权重
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property StabilityPenalty As Double = 0.05R
+        ''' <summary>
+        ''' 每一个靶基因预筛选的候选调控因子数量（按相关性挑选）；零表示使用全部基因
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property MaxRegulators As Integer = 0
+        ''' <summary>
         ''' 差分进化的种群大小
         ''' </summary>
         ''' <returns></returns>
@@ -87,12 +107,12 @@ Namespace GRNDemo
         ''' 该系数越大则网络越贴近先验，但斜率残差也会随之上升
         ''' （实测 1.5 时先验支持率不再提升，而 mean slope RMSE 由 0.10 升到 0.105）
         ''' </remarks>
-        Public Property PriorPenalty As Double = 1.0R
+        Public Property PriorPenalty As Double = 0.2R
         ''' <summary>
         ''' 先验知识对调控方向冲突的惩罚强度
         ''' </summary>
         ''' <returns></returns>
-        Public Property PriorSignPenalty As Double = 1.0R
+        Public Property PriorSignPenalty As Double = 0.2R
         ''' <summary>
         ''' 稀疏化阶段对先验支持边的排序加权系数
         ''' </summary>
@@ -256,6 +276,10 @@ Namespace GRNDemo
             options.Normalize = textOf(values, "normalize", options.Normalize)
             options.Sparsity = doubleOf(values, "sparsity", options.Sparsity)
             options.MaxEdgesPerGene = integerOf(values, "max-edges", options.MaxEdgesPerGene)
+            options.MaxRegulators = integerOf(values, "max-regulators", options.MaxRegulators)
+            options.Smooth = integerOf(values, "smooth", options.Smooth)
+            options.L1Penalty = doubleOf(values, "l1", options.L1Penalty)
+            options.StabilityPenalty = doubleOf(values, "stability", options.StabilityPenalty)
             options.DEPopulation = integerOf(values, "de-pop", options.DEPopulation)
             options.DEIterations = integerOf(values, "de-iters", options.DEIterations)
             options.PriorPenalty = doubleOf(values, "prior-penalty", options.PriorPenalty)
@@ -303,10 +327,14 @@ Namespace GRNDemo
                 Call sb.AppendLine("  --normalize <method>     none | log2 | zscore | quantile (default log2)")
                 Call sb.AppendLine("  --sparsity <x>           sparsity threshold of the network topology (default 0.01)")
                 Call sb.AppendLine("  --max-edges <n>          max edges per target gene (default 4)")
+                Call sb.AppendLine("  --max-regulators <n>     candidate regulators per target, by correlation (0 = all genes)")
+                Call sb.AppendLine("  --smooth <n>             moving average window before differentiation (default 9)")
+                Call sb.AppendLine("  --l1 <x>                 L1 penalty weight of the kinetic orders (default 0)")
+                Call sb.AppendLine("  --stability <x>          penalty weight of a positive self loop (default 0.05)")
                 Call sb.AppendLine("  --de-pop <n>             differential evolution population size (default 40)")
                 Call sb.AppendLine("  --de-iters <n>           differential evolution iterations (default 1200)")
-                Call sb.AppendLine("  --prior-penalty <x>      soft penalty for the interactions which are not supported by the prior (default 1.0)")
-                Call sb.AppendLine("  --prior-sign-penalty <x> penalty for the direction conflict against the prior (default 1.0)")
+                Call sb.AppendLine("  --prior-penalty <x>      soft penalty for the interactions which are not supported by the prior (default 0.2)")
+                Call sb.AppendLine("  --prior-sign-penalty <x> penalty for the direction conflict against the prior (default 0.2)")
                 Call sb.AppendLine("  --prior-rank-boost <x>   ranking boost of the prior supported edges (default 1.0)")
                 Call sb.AppendLine("  --seed <n>               random seed (default 1234567)")
                 Call sb.AppendLine("  --precise <x>            integration step of the simulation (default 0.1)")

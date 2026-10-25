@@ -102,7 +102,7 @@ Namespace GRN
                 Next
             End If
 
-            Dim slopes As Double()() = SlopeEstimator.Estimate(series, options.Denoise)
+            Dim slopes As Double()() = SlopeEstimator.Estimate(series, options.Denoise, fitOptions.SmoothWindow)
             Dim fitter As New DecoupledFitter(series, slopes, fitOptions)
             Dim parameters As SSystemParameters = fitter.Fit()
             Dim edges As RegulatoryEdge() = NetworkTopology.Sparsify(parameters, fitOptions, prior)
@@ -321,6 +321,26 @@ Namespace GRN
         ''' <returns></returns>
         Public Function SaveAll(dir As String) As Boolean
             Return IO.NetworkWriter.SaveAll(Me, dir)
+        End Function
+
+        ''' <summary>
+        ''' 导出拟合得到的系数矩阵（净调控弹性）：行为目标基因、列为调控因子
+        ''' </summary>
+        ''' <param name="file"></param>
+        ''' <param name="useOriginal">是否使用原始基因符号（面向 GO/KEGG 富集与先验比对）</param>
+        ''' <returns></returns>
+        Public Function ExportCoefficientMatrix(file As String, Optional useOriginal As Boolean = False) As Boolean
+            Return IO.CoefficientMatrix.SaveCoefficientMatrix(Me, file, useOriginal)
+        End Function
+
+        ''' <summary>
+        ''' 导出与弹性网络模型格式一致的系数表（每个靶基因一行）
+        ''' </summary>
+        ''' <param name="file"></param>
+        ''' <param name="useOriginal">是否使用原始基因符号（面向 GO/KEGG 富集与先验比对）</param>
+        ''' <returns></returns>
+        Public Function ExportFormulaTable(file As String, Optional useOriginal As Boolean = False) As Boolean
+            Return IO.CoefficientMatrix.SaveFormulaTable(Me, file, useOriginal)
         End Function
 
         ''' <summary>

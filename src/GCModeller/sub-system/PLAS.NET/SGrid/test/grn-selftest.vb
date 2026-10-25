@@ -109,6 +109,7 @@ Namespace SelfTest
                 .Sparsity = 0.2R,
                 .MaxEdgesPerGene = 3,
                 .KeepSelfLoop = True,
+                .SmoothWindow = 0,
                 .DEPopulationSize = 60,
                 .DEMaxIterations = 3000,
                 .Seed = 1234567,

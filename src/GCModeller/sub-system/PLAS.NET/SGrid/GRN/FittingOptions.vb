@@ -72,6 +72,17 @@ Namespace GRN
         ''' 稀疏惩罚项（L1）的权重系数，零表示不施加惩罚
         ''' </summary>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' 本目标函数之中的惩罚项是**乘性**的（<c>f = 相对误差 × (1 + 惩罚)</c>），
+        ''' L1 会与残差项直接争夺系数的大小：
+        ''' 在干净数据（例如由解析方程积分得到的合成轨迹）之上它能有效地抑制虚假的调控关系，
+        ''' 但是在噪声很强的单细胞 pseudotime 数据之上，即使 L1 只有 1E-4
+        ''' 也会把优化结果压到「系数为零、相对误差为 1」的平凡解（实测 R² 由 0.65 降到 0）。
+        ''' 
+        ''' 故本参数保留库层面的缺省值以维持干净数据上的表现，
+        ''' 而噪声数据（真实 pseudotime 场景）应当显式设为零，
+        ''' 稀疏性交由 <see cref="Sparsity"/> 与 <see cref="MaxEdgesPerGene"/> 在拓扑阶段控制。
+        ''' </remarks>
         Public Property L1Penalty As Double = 0.01R
         ''' <summary>
         ''' 稳定性惩罚项的权重系数：稳态的渐近稳定性要求对数增益矩阵的对角元为负数，
@@ -105,13 +116,13 @@ Namespace GRN
         ''' 故该项的取值是相对量，零表示关闭该约束
         ''' </summary>
         ''' <returns></returns>
-        Public Property PriorPenalty As Double = 0.3R
+        Public Property PriorPenalty As Double = 0.2R
         ''' <summary>
         ''' 与先验方向相冲突的交互的惩罚强度：惩罚量取「符号违背量的平均值」，
         ''' 零表示关闭该约束
         ''' </summary>
         ''' <returns></returns>
-        Public Property PriorSignPenalty As Double = 0.3R
+        Public Property PriorSignPenalty As Double = 0.2R
         ''' <summary>
         ''' 是否启用先验方向（激活/抑制）的符号约束
         ''' </summary>
@@ -150,6 +161,17 @@ Namespace GRN
         ''' </summary>
         ''' <returns></returns>
         Public Property Denoise As Boolean = True
+        ''' <summary>
+        ''' 数值微分之前的滑动平均窗口（奇数）；零或者小于 3 表示不做滑动平均。
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' 单细胞 pseudotime 分箱之后得到的轨迹由于细胞数量有限，
+        ''' 仍然带有很强的高频噪声，直接对插值样条求导会让斜率几乎全部由噪声构成
+        ''' （实测 80 个分箱之上一阶自相关只有 0.1~0.6，相邻箱几乎独立），
+        ''' 故默认在求导之前先做一次 5 点滑动平均。
+        ''' </remarks>
+        Public Property SmoothWindow As Integer = 5
 
         ''' <summary>
         ''' 差分进化算法的种群大小
@@ -280,6 +302,11 @@ Namespace GRN
             End If
             If Precise <= 0 Then
                 Precise = 0.1
+            End If
+            If SmoothWindow > 0 AndAlso SmoothWindow < 3 Then
+                SmoothWindow = 0
+            ElseIf SmoothWindow >= 3 AndAlso SmoothWindow Mod 2 = 0 Then
+                SmoothWindow += 1
             End If
             If PriorPenalty < 0 Then
                 PriorPenalty = 0

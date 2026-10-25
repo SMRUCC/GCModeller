@@ -60,6 +60,8 @@ Namespace GRNDemo
                         Call RunFit(options, report, failures, runPerturbation:=False)
                     Case "all"
                         Call RunFit(options, report, failures, runPerturbation:=True)
+                    Case "export"
+                        Call RunExport(options, report, failures)
                     Case "persist"
                         Call RunPersist(options, report, failures)
                     Case "perturb"
@@ -156,6 +158,7 @@ Namespace GRNDemo
 
             ' 拟合产物（表格 + 模型脚本）
             Call network.SaveAll(options.FitDir)
+            Call exportForR(network, options)
             Call writeText(Path.Combine(options.OutDir, "fit_report.txt"), network.Report())
             Call writeText(Path.Combine(options.OutDir, "prior_metrics.txt"), If(network.PriorStatistics Is Nothing, "prior is not enabled", network.PriorStatistics.Summary()))
 
@@ -168,6 +171,38 @@ Namespace GRNDemo
                 Call perturb(model, options, report, failures)
             End If
         End Sub
+
+        ''' <summary>
+        ''' 从已经保存的模型压缩包重新导出系数矩阵（不再重新拟合）
+        ''' </summary>
+        Private Sub RunExport(options As DemoOptions, report As StringBuilder, failures As List(Of String))
+            Dim model As SSystemNetwork = SSystemNetwork.LoadZip(options.ModelZipFile)
+
+            Call exportForR(model, options)
+
+            Call report.AppendLine()
+            Call report.AppendLine($"exported : {model.ToString}")
+            Call report.AppendLine($"r2 median: {medianR2(model).ToString("G4")}")
+        End Sub
+
+        ''' <summary>
+        ''' 模型中各基因斜率拟合 R² 的中位数
+        ''' </summary>
+        ''' <param name="network"></param>
+        ''' <returns></returns>
+        Private Function medianR2(network As SSystemNetwork) As Double
+            Dim values As Double() = Enumerable _
+                .Range(0, network.Parameters.nGenes) _
+                .Select(Function(i) network.Parameters.RSquared(i)) _
+                .OrderBy(Function(x) x) _
+                .ToArray()
+
+            If values.Length = 0 Then
+                Return 0
+            End If
+
+            Return values(values.Length \ 2)
+        End Function
 
         Private Sub RunPersist(options As DemoOptions, report As StringBuilder, failures As List(Of String))
             Dim model As SSystemNetwork = SSystemNetwork.LoadZip(options.ModelZipFile)
@@ -321,8 +356,12 @@ Namespace GRNDemo
                 .PseudoCount = 1.0R,
                 .TimePoints = binned.TimePoints,
                 .Denoise = True,
+                .SmoothWindow = options.Smooth,
                 .Sparsity = options.Sparsity,
                 .MaxEdgesPerGene = options.MaxEdgesPerGene,
+                .L1Penalty = options.L1Penalty,
+                .StabilityPenalty = options.StabilityPenalty,
+                .MaxRegulators = options.MaxRegulators,
                 .KeepSelfLoop = True,
                 .Prior = prior,
                 .UsePrior = True,
@@ -524,6 +563,21 @@ Namespace GRNDemo
                     Call failures.Add("the perturbation signal does not propagate to any downstream gene")
                 End If
             End If
+        End Sub
+
+        ''' <summary>
+        ''' 导出面向 R 分析脚本的系数矩阵（使用**原始**基因符号，
+        ''' 否则带连字符的基因名（如 NKX3-1）在规整化之后无法匹配 GO/KEGG 与先验表）
+        ''' </summary>
+        ''' <param name="network"></param>
+        ''' <param name="options"></param>
+        Public Sub exportForR(network As SSystemNetwork, options As DemoOptions)
+            Dim dir As String = Path.Combine(options.OutDir, "r_model")
+
+            Call network.ExportFormulaTable(Path.Combine(dir, "elastic_formulas.csv"), useOriginal:=True)
+            Call network.ExportCoefficientMatrix(Path.Combine(dir, "coefficient_matrix.csv"), useOriginal:=True)
+
+            Call Console.WriteLine($"[INFO] coefficient matrix for the R analysis: {dir}")
         End Sub
 
         ''' <summary>

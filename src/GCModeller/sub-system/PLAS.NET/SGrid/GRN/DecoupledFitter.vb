@@ -489,11 +489,21 @@ Namespace GRN
 
             Dim indices As Integer() = Enumerable.Range(0, n).ToArray
 
+            ' 随机数种子必须在并行之前**串行**地一次性生成：
+            ' 这样各个基因所得到的随机流与基因的先后顺序一一对应，
+            ' 既不会因为线程调度而改变（结果可复现），也不需要在线程之间共享 Random 实例
+            Dim seeds As New Random(If(options.Seed > 0, options.Seed, Environment.TickCount))
+            Dim geneSeeds As Integer() = New Integer(n - 1) {}
+
+            For i As Integer = 0 To n - 1
+                geneSeeds(i) = seeds.Next()
+            Next
+
             If options.Parallel AndAlso n > 1 Then
-                Call System.Threading.Tasks.Parallel.ForEach(indices, Sub(i) fitGene(i, result))
+                Call System.Threading.Tasks.Parallel.ForEach(indices, Sub(i) fitGene(i, result, geneSeeds(i)))
             Else
                 For Each i As Integer In indices
-                    Call fitGene(i, result)
+                    Call fitGene(i, result, geneSeeds(i))
                 Next
             End If
 
@@ -543,11 +553,47 @@ Namespace GRN
             Next
 
             If options.MaxRegulators > 0 AndAlso all.Count > options.MaxRegulators Then
-                Dim xi As Double() = series.X(i)
+                Dim selected As New System.Collections.Generic.List(Of Integer)
 
-                Return all _
-                    .OrderByDescending(Function(j) std.Abs(correlation(xi, series.X(j)))) _
-                    .Take(options.MaxRegulators) _
+                ' 先验知识优先进入候选池：转录因子的表达量与靶基因的相关性往往很弱，
+                ' 若候选池只按相关性挑选，绝大多数已知的调控关系在进入拟合之前就会被丢掉
+                ' （实测先验边只有约 1% 能够进入候选池）。
+                ' 故这里把先验调控因子直接放进候选池，再由数据（拟合与稀疏化）决定是否保留。
+                If Not prior Is Nothing Then
+                    Dim known As PriorEdge() = prior.RegulatorEdges(series.GeneNames(i))
+
+                    For Each edge As PriorEdge In known
+                        Dim j As Integer = series.GeneIndex(edge.TF)
+
+                        If j < 0 OrElse j = i OrElse Not all.Contains(j) Then
+                            Continue For
+                        End If
+                        If selected.Count >= options.MaxRegulators Then
+                            Exit For
+                        End If
+                        If Not selected.Contains(j) Then
+                            Call selected.Add(j)
+                        End If
+                    Next
+                End If
+
+                If selected.Count < options.MaxRegulators Then
+                    Dim xi As Double() = series.X(i)
+                    Dim rest As Integer() = all _
+                        .Where(Function(j) Not selected.Contains(j)) _
+                        .OrderByDescending(Function(j) std.Abs(correlation(xi, series.X(j)))) _
+                        .ToArray
+
+                    For Each j As Integer In rest
+                        If selected.Count >= options.MaxRegulators Then
+                            Exit For
+                        End If
+
+                        Call selected.Add(j)
+                    Next
+                End If
+
+                Return selected _
                     .OrderBy(Function(j) j) _
                     .ToArray
             End If
@@ -578,7 +624,13 @@ Namespace GRN
             Return sab / denom
         End Function
 
-        Private Sub fitGene(i As Integer, result As SSystemParameters)
+        ''' <summary>
+        ''' 拟合单个基因的参数
+        ''' </summary>
+        ''' <param name="i">基因的行号</param>
+        ''' <param name="result">参数结果的容器</param>
+        ''' <param name="geneSeed">该基因专用的随机数种子（在并行之前统一生成）</param>
+        Private Sub fitGene(i As Integer, result As SSystemParameters, geneSeed As Integer)
             Dim candidates As Integer() = selectCandidates(i)
             Dim k As Integer = candidates.Length
             Dim observed As Double() = slopes(i)
@@ -606,10 +658,6 @@ Namespace GRN
                 .PriorSignPenalty = If(options.UsePriorSign, options.PriorSignPenalty, 0)
             }
 
-            ' 每一个基因都使用与行号相关的确定性随机数种子：
-            ' 这样在并行求解的时候各个基因之间不会共享 Random 实例（该类型并非线程安全），
-            ' 并且同一个 Seed 配置下多次运行的结果完全一致。
-            Dim geneSeed As Integer = If(options.Seed > 0, options.Seed + i * 7919, Environment.TickCount + i * 7919)
             Dim geneRnd As New Random(geneSeed)
 
             Dim dims As Integer = 2 + 2 * k
@@ -682,7 +730,14 @@ Namespace GRN
             If options.Verbose Then
                 Dim supported As Integer = If(priorMask Is Nothing, 0, priorMask.Where(Function(x) x).Count())
 
-                Call Console.WriteLine($"  [{i + 1}/{n}] {series.GeneNames(i)}: alpha={result.alpha(i).ToString("G4")}, beta={result.beta(i).ToString("G4")}, rmse={result.SlopeRMSE(i).ToString("G4")}, candidates={k}, prior-supported={supported}")
+                Dim relative As Double = If(variance > 0, result.SlopeRMSE(i) / std.Sqrt(variance), 0)
+                Dim mass As Double = 0
+
+                For c As Integer = 0 To k - 1
+                    mass += std.Abs(best(2 + c)) + std.Abs(best(2 + k + c))
+                Next
+
+                Call Console.WriteLine($"  [{i + 1}/{n}] {series.GeneNames(i)}: alpha={result.alpha(i).ToString("G4")}, beta={result.beta(i).ToString("G4")}, rmse={result.SlopeRMSE(i).ToString("G4")}, relerr={relative.ToString("G3")}, r2={result.RSquared(i).ToString("G3")}, f={bestScore.ToString("G4")}, mass={mass.ToString("G4")}, candidates={k}, prior-supported={supported}")
             End If
         End Sub
 
@@ -935,6 +990,10 @@ Namespace GRN
 
                 Return solver.minimize(New SlopeObjective With {.Problem = problem}, x0, lower, upper)
             Catch ex As Exception
+                If options.Verbose Then
+                    Call Console.WriteLine($"[WARN] L-BFGS-B refinement failed: {ex.GetType().Name}: {ex.Message}")
+                End If
+
                 Return Nothing
             End Try
         End Function

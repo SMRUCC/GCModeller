@@ -48,6 +48,8 @@ Namespace IO
             ok = writeMatrix(network.Parameters.H, network.Parameters.GeneNames, Path.Combine(dir, "matrix_H.csv")) AndAlso ok
             ok = writeMatrix(network.Parameters.NetElasticity(), network.Parameters.GeneNames, Path.Combine(dir, "matrix_net.csv")) AndAlso ok
             ok = writeEdges(network.Edges, Path.Combine(dir, "edges.csv")) AndAlso ok
+            ok = network.ExportCoefficientMatrix(Path.Combine(dir, "coefficient_matrix.csv")) AndAlso ok
+            ok = network.ExportFormulaTable(Path.Combine(dir, "elastic_formulas.csv")) AndAlso ok
 
             Dim sif As String = GRN.NetworkTopology.ToSIF(network.Edges)
 
