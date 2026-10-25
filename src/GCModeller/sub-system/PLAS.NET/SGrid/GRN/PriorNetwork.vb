@@ -115,31 +115,6 @@ Namespace GRN
         End Property
 
         ''' <summary>
-        ''' 在本条记录之上应用一个基因符号的映射，映射不到的时候返回 Nothing
-        ''' </summary>
-        ''' <param name="nameMap"></param>
-        ''' <returns></returns>
-        Friend Function Remap(nameMap As System.Collections.Generic.IDictionary(Of String, String)) As PriorEdge
-            Dim source As String = Nothing
-            Dim target As String = Nothing
-
-            If Not nameMap.TryGetValue(TF, source) Then
-                Return Nothing
-            End If
-            If Not nameMap.TryGetValue(TargetGene, target) Then
-                Return Nothing
-            End If
-
-            Return New PriorEdge With {
-                .TF = source,
-                .TargetGene = target,
-                .RegulationType = RegulationType,
-                .Confidence = Confidence,
-                .Evidence = Evidence
-            }
-        End Function
-
-        ''' <summary>
         ''' 复制当前记录
         ''' </summary>
         ''' <returns></returns>

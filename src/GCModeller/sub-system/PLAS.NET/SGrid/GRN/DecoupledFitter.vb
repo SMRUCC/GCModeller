@@ -15,7 +15,7 @@ Namespace GRN
     ''' f = sum_k (alpha*prod(X^g) - beta*prod(X^h) - S_ik)^2 / scale + L1 * sum(|g| + |h|)
     ''' 其中所有的幂律项都通过对数域求和之后再取指数来计算，避免逐点调用 Pow 成为性能瓶颈。
     ''' </remarks>
-    Friend Class SlopeProblem
+    Public Class SlopeProblem
 
         ''' <summary>
         ''' 候选调控因子的对数表达量，第一维是候选因子、第二维是时间点

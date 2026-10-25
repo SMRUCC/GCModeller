@@ -1,6 +1,7 @@
 Imports System.Globalization
 Imports System.IO
 Imports System.Text
+Imports Microsoft.VisualBasic.Linq
 
 Namespace GRNDemo
 
@@ -56,7 +57,12 @@ Namespace GRNDemo
         ''' 稀疏化阈值
         ''' </summary>
         ''' <returns></returns>
-        Public Property Sparsity As Double = 0.2R
+        ''' <remarks>
+        ''' 真实的单细胞 pseudotime 数据经过分箱与对数变换之后动态范围被压缩，
+        ''' 净调控弹性的量级通常在 1E-2 附近（而非合成的金标准数据上的 0.5），
+        ''' 故这里的缺省阈值取得比库的缺省值（0.2）小很多。
+        ''' </remarks>
+        Public Property Sparsity As Double = 0.01R
         ''' <summary>
         ''' 每一个靶基因最多保留的调控边数量
         ''' </summary>
@@ -284,7 +290,7 @@ Namespace GRNDemo
                 Call sb.AppendLine("  --fit-genes <n>          number of genes used by the fitting (default 30)")
                 Call sb.AppendLine("  --bins <n>               number of pseudotime bins (default 60)")
                 Call sb.AppendLine("  --normalize <method>     none | log2 | zscore | quantile (default log2)")
-                Call sb.AppendLine("  --sparsity <x>           sparsity threshold of the network topology (default 0.2)")
+                Call sb.AppendLine("  --sparsity <x>           sparsity threshold of the network topology (default 0.01)")
                 Call sb.AppendLine("  --max-edges <n>          max edges per target gene (default 4)")
                 Call sb.AppendLine("  --de-pop <n>             differential evolution population size (default 40)")
                 Call sb.AppendLine("  --de-iters <n>           differential evolution iterations (default 1200)")

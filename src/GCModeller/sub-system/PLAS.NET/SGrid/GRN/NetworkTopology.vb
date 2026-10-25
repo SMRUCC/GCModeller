@@ -322,20 +322,23 @@ Namespace GRN
                 If edge.PriorSupported Then
                     metrics.SupportedEdges += 1
 
-                    Select Case edge.PriorType
-                        Case NameOf(PriorRegulationTypes.Activator)
-                            If edge.weight > 0 Then
-                                metrics.SignConsistent += 1
-                            Else
-                                Call metrics.SignViolations.Add(edge)
-                            End If
-                        Case NameOf(PriorRegulationTypes.Inhibitor)
-                            If edge.weight < 0 Then
-                                metrics.SignConsistent += 1
-                            Else
-                                Call metrics.SignViolations.Add(edge)
-                            End If
-                    End Select
+                    ' 自环承担的是降解项的自我衰减作用，不参与调控方向的一致性统计
+                    If Not String.Equals(edge.source, edge.target, StringComparison.OrdinalIgnoreCase) Then
+                        Select Case edge.PriorType
+                            Case NameOf(PriorRegulationTypes.Activator)
+                                If edge.weight > 0 Then
+                                    metrics.SignConsistent += 1
+                                Else
+                                    Call metrics.SignViolations.Add(edge)
+                                End If
+                            Case NameOf(PriorRegulationTypes.Inhibitor)
+                                If edge.weight < 0 Then
+                                    metrics.SignConsistent += 1
+                                Else
+                                    Call metrics.SignViolations.Add(edge)
+                                End If
+                        End Select
+                    End If
                 Else
                     Call metrics.UnsupportedEdges.Add(edge)
                 End If

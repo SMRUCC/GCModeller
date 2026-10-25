@@ -5,6 +5,8 @@ Imports Microsoft.VisualBasic.Math.Calculus.Dynamics.Data
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels
 Imports SMRUCC.genomics.Analysis.SSystem.Runner
+Imports GRN = SMRUCC.genomics.Analysis.SGrid.GRN
+Imports Perturbation = SMRUCC.genomics.Analysis.SGrid.Perturbation
 Imports SSOdes = SMRUCC.genomics.Analysis.SSystem.Kernel.ODEs
 Imports SSModel = SMRUCC.genomics.Analysis.SSystem.Script.Model
 Imports SSVar = SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels.var

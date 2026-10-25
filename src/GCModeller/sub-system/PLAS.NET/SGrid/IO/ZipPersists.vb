@@ -126,15 +126,16 @@ Namespace IO
 
                 Dim parameters As SSystemParameters = parseParameters(readRequired(archive, "parameters.csv"))
                 Dim names As String() = parameters.GeneNames
+                Dim axis As Double() = parseTimePoints(readRequired(archive, "timepoints.csv"))
                 Dim series As New ExpressionTimeSeries With {
                     .GeneNames = names,
                     .OriginalNames = parameters.OriginalNames,
-                    .TimePoints = parseTimePoints(readRequired(archive, "timepoints.csv")),
-                    .X = parseMatrix(readRequired(archive, "series.csv"), names)
+                    .TimePoints = axis,
+                    .X = parseMatrix(readRequired(archive, "series.csv"), names, axis.Length)
                 }
 
-                parameters.G = parseMatrix(readRequired(archive, "matrix_G.csv"), names)
-                parameters.H = parseMatrix(readRequired(archive, "matrix_H.csv"), names)
+                parameters.G = parseMatrix(readRequired(archive, "matrix_G.csv"), names, names.Length)
+                parameters.H = parseMatrix(readRequired(archive, "matrix_H.csv"), names, names.Length)
                 series.LnX = series _
                     .X _
                     .SafeQuery() _
@@ -484,10 +485,13 @@ Namespace IO
         ''' <summary>
         ''' 解析矩阵条目：首行为表头，首列为行标签
         ''' </summary>
-        Private Function parseMatrix(text As String, names As String()) As Double()()
+        ''' <param name="text">条目的文本内容</param>
+        ''' <param name="names">行标签（基因编号）</param>
+        ''' <param name="columns">每一行的数据列数</param>
+        ''' <returns></returns>
+        Private Function parseMatrix(text As String, names As String(), columns As Integer) As Double()()
             Dim lines As String() = textLines(text)
             Dim rows As New List(Of Double())
-            Dim n As Integer = names.Length
             Dim header As Boolean = True
 
             For Each line As String In lines
@@ -500,17 +504,17 @@ Namespace IO
                 End If
 
                 Dim fields As String() = PriorNetwork.SplitLine(line)
-                Dim values As Double() = New Double(n - 1) {}
+                Dim values As Double() = New Double(columns - 1) {}
 
-                For i As Integer = 0 To n - 1
+                For i As Integer = 0 To columns - 1
                     values(i) = parseDouble(fields, i + 1)
                 Next
 
                 Call rows.Add(values)
             Next
 
-            If rows.Count <> n Then
-                Throw New InvalidDataException($"The matrix entry of the network model archive is inconsistent: {rows.Count} row(s) for {n} gene(s)!")
+            If rows.Count <> names.Length Then
+                Throw New InvalidDataException($"The matrix entry of the network model archive is inconsistent: {rows.Count} row(s) for {names.Length} gene(s)!")
             End If
 
             Return rows.ToArray()
