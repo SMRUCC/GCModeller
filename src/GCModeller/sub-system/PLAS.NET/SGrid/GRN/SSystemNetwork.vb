@@ -1,9 +1,7 @@
 Imports System.Globalization
 Imports System.Text
-Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.SSystem.Runner
-Imports DisturbTypes = SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels.Types
 Imports SSExperiment = SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels.Experiment
 Imports SSModel = SMRUCC.genomics.Analysis.SSystem.Script.Model
 Imports SSVar = SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels.var
@@ -47,7 +45,7 @@ Namespace GRN
         ''' 拟合过程的诊断信息
         ''' </summary>
         ''' <returns></returns>
-        Public Property Warnings As New System.Collections.Generic.List(Of String)
+        Public Property Warnings As New List(Of String)
 
         ''' <summary>
         ''' 从基因表达矩阵之中反演出基因表达调控网络的S-system模型
