@@ -66,6 +66,7 @@ Namespace IO
             Using archive As New ZipArchive(file, ZipArchiveMode.Create, leaveOpen:=True)
                 Call writeEntry(archive, "manifest.txt", manifestOf(model))
                 Call writeEntry(archive, "parameters.csv", parametersOf(model.Parameters))
+                Call writeEntry(archive, "candidates.txt", candidatesOf(model.Parameters))
                 Call writeEntry(archive, "matrix_G.csv", matrixOf(model.Parameters.G, model.Parameters.GeneNames))
                 Call writeEntry(archive, "matrix_H.csv", matrixOf(model.Parameters.H, model.Parameters.GeneNames))
                 Call writeEntry(archive, "series.csv", matrixOf(model.Series.X, model.Series.GeneNames))
@@ -139,6 +140,7 @@ Namespace IO
 
                 parameters.G = parseMatrix(readRequired(archive, "matrix_G.csv"), names, names.Length)
                 parameters.H = parseMatrix(readRequired(archive, "matrix_H.csv"), names, names.Length)
+                parameters.Candidates = parseCandidates(readEntry(archive, "candidates.txt"), names.Length)
                 series.LnX = series _
                     .X _
                     .SafeQuery() _
@@ -217,7 +219,7 @@ Namespace IO
         Private Function parametersOf(parameters As SSystemParameters) As String
             Dim sb As New StringBuilder()
 
-            Call sb.AppendLine("gene,original,alpha,beta,slope_sse,slope_rmse,converged")
+            Call sb.AppendLine("gene,original,alpha,beta,slope_sse,slope_rmse,converged,slope_sst")
 
             For i As Integer = 0 To parameters.nGenes - 1
                 Call sb.Append(parameters.GeneNames(i))
@@ -232,7 +234,34 @@ Namespace IO
                 Call sb.Append(","c)
                 Call sb.Append(num(parameters.SlopeRMSE(i)))
                 Call sb.Append(","c)
-                Call sb.AppendLine(parameters.Converged(i).ToString())
+                Call sb.Append(parameters.Converged(i).ToString())
+                Call sb.Append(","c)
+                Call sb.AppendLine(num(If(parameters.SlopeSST.IsNullOrEmpty, 0, parameters.SlopeSST(i))))
+            Next
+
+            Return sb.ToString()
+        End Function
+
+        ''' <summary>
+        ''' 每一个基因的候选调控因子清单（矩阵行号），为空的时候不写出该条目
+        ''' </summary>
+        ''' <param name="parameters"></param>
+        ''' <returns></returns>
+        Private Function candidatesOf(parameters As SSystemParameters) As String
+            If parameters.Candidates.IsNullOrEmpty Then
+                Return ""
+            End If
+
+            Dim sb As New StringBuilder()
+
+            Call sb.AppendLine("gene,candidates")
+
+            For i As Integer = 0 To parameters.nGenes - 1
+                Dim index As Integer() = parameters.Candidates(i)
+
+                Call sb.Append(parameters.GeneNames(i))
+                Call sb.Append(","c)
+                Call sb.AppendLine(If(index Is Nothing, "", String.Join(";", index.Select(Function(x) x.ToString()))))
             Next
 
             Return sb.ToString()
