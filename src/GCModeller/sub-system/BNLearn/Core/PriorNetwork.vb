@@ -98,6 +98,17 @@ Namespace Core
         ''' <summary>证据来源</summary>
         Public Property Evidence As String = ""
 
+        Sub New()
+        End Sub
+
+        Sub New(copy As RegulatoryEdge)
+            TF = copy.TF
+            TargetGene = copy.TargetGene
+            RegulationType = copy.RegulationType
+            Confidence = copy.Confidence
+            Evidence = copy.Evidence
+        End Sub
+
         Public Overrides Function ToString() As String
             Return String.Format("{0} → {1} ({2}, conf={3:F2})", TF, TargetGene, RegulationType.Description, Confidence)
         End Function
