@@ -90,6 +90,23 @@ Public Module ArabidopsisThalianaTest
     Dim m_pass As Integer = 0
 
     Sub Main(args As String())
+        ' 以 "--" 开头的参数是模式开关，否则第一个参数仍然是 GSVA 测试的数据目录
+        If args.Length > 0 AndAlso args(0).StartsWith("--") Then
+            Select Case args(0).ToLowerInvariant
+                Case "--mogsva"
+                    Call Environment.Exit(MoGsvaTest.Run(args.Skip(1).ToArray))
+                    Return
+                Case "--help", "-h"
+                    Call Console.WriteLine("usage: test.exe [dataDir]")
+                    Call Console.WriteLine("       test.exe --mogsva [--dir=<TCGA_COAD>] [--no-real] [--perm=N] [--install-baselines]")
+                    Return
+                Case Else
+                    Call Console.WriteLine($"unknown option: {args(0)}")
+                    Call Environment.Exit(2)
+                    Return
+            End Select
+        End If
+
         If args.Length > 0 Then
             dataDir = args(0)
         End If

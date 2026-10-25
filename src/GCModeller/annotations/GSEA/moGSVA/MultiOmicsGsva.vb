@@ -1,0 +1,121 @@
+Imports System.Diagnostics
+Imports System.Linq
+Imports SMRUCC.genomics.Analysis.HTS.GSEA
+
+Namespace Global.SMRUCC.genomics.Analysis.HTS.GSVA
+
+    ''' <summary>
+    ''' 多组学 GSVA 的门面（method.md 五步流水线的串联入口）。
+    ''' </summary>
+    ''' <remarks>
+    ''' <code>
+    ''' Dim dataset = Omics.MultiOmicsDataset.Create({
+    '''     Omics.OmicsLayer.Create("mRNA", rna),
+    '''     Omics.OmicsLayer.Create("protein", protein)
+    ''' })
+    ''' Dim sets = Omics.GeneSetTable.LoadGmt("kegg.gmt")
+    ''' Dim result = MultiOmicsGsva.Compute(dataset, sets, New MultiOmicsGsvaOptions With {.FusionStrategy = Fusion.FusionMethods.Variance})
+    ''' </code>
+    ''' </remarks>
+    Public Module MultiOmicsGsva
+
+        ''' <summary>
+        ''' 执行完整的多组学 GSVA 分析。
+        ''' </summary>
+        ''' <param name="dataset">已对齐样本轴的多组学数据集</param>
+        ''' <param name="geneSets">基因集</param>
+        ''' <param name="options">运行配置</param>
+        Public Function Compute(dataset As Omics.MultiOmicsDataset,
+                                geneSets As Background,
+                                options As MultiOmicsGsvaOptions) As MultiOmicsGsvaResult
+
+            If dataset Is Nothing Then
+                Throw New ArgumentNullException(NameOf(dataset))
+            End If
+            If geneSets Is Nothing Then
+                Throw New ArgumentNullException(NameOf(geneSets))
+            End If
+            If options Is Nothing Then
+                options = New MultiOmicsGsvaOptions()
+            End If
+
+            Dim clock As Stopwatch = Stopwatch.StartNew()
+
+            If options.Verbose Then
+                Call $"[moGSVA] {dataset}".info
+                Call $"[moGSVA] {geneSets.clusters.Length} gene set(s), score method={options.ScoreMethod}, fusion={options.FusionStrategy}, lambda={options.ConsistencyLambda}".info
+            End If
+
+            ' 步骤2 + 步骤3：逐组学层估计分布并做富集打分
+            Dim scoreSet As PerOmics.OmicsScoreSet = PerOmics.OmicsScorer.Score(dataset, geneSets, options)
+
+            ' 步骤4：组学加权融合 + 跨组学一致性奖励
+            Dim fused As Fusion.MultiOmicsFusionResult = Fusion.MultiOmicsFusion.Compute(scoreSet, options)
+
+            Dim result As New MultiOmicsGsvaResult With {
+                .SampleID = dataset.SampleID,
+                .Pathways = fused.Pathways,
+                .Scores = fused.Scores,
+                .RawScores = fused.RawScores,
+                .Consistency = fused.Consistency,
+                .LayerScores = fused.LayerScores,
+                .Weights = fused.Weights,
+                .Contributions = fused.Contributions,
+                .ContributionShare = fused.ContributionShare,
+                .DominantOmics = fused.DominantOmics,
+                .Coverage = fused.Coverage,
+                .SkippedLayers = fused.SkippedLayers,
+                .OmicsNames = dataset.OmicsNames,
+                .Options = options
+            }
+
+            ' 消融对照
+            If options.ComputePooled Then
+                Dim pooled As Ablation.PooledBaselineResult = Ablation.PooledBaseline.Compute(dataset, geneSets, options)
+
+                result.Pooled = Ablation.PooledBaseline.Diagnose(pooled, fused.Scores, options.Verbose)
+            End If
+
+            ' 步骤5：置换检验 + 多重检验校正
+            If options.Permutations > 0 Then
+                Dim significance As StatTests.PermutationResult = StatTests.PermutationTest.Run(dataset, geneSets, options, fused)
+
+                result.Significance = significance
+
+                If significance IsNot Nothing AndAlso significance.PValues.Count > 0 Then
+                    Dim keys As String() = significance.Pathways
+                    Dim raw As Double() = keys.Select(Function(id) significance.PValues(id)).ToArray
+                    Dim adjusted As Double() = StatTests.MultipleTesting.BenjaminiHochberg(raw)
+                    Dim pValues As New Dictionary(Of String, Double)(StringComparer.Ordinal)
+                    Dim qValues As New Dictionary(Of String, Double)(StringComparer.Ordinal)
+
+                    For i As Integer = 0 To keys.Length - 1
+                        pValues(keys(i)) = raw(i)
+                        qValues(keys(i)) = adjusted(i)
+                    Next
+
+                    result.PValues = pValues
+                    result.QValues = qValues
+                End If
+            End If
+
+            clock.Stop()
+            result.ElapsedMilliseconds = clock.ElapsedMilliseconds
+
+            If options.Verbose Then
+                Call $"[moGSVA] done in {result.ElapsedMilliseconds} ms: {result.Pathways.Length} pathway(s) x {dataset.SampleCount} sample(s)".info
+            End If
+
+            Return result
+        End Function
+
+        ''' <summary>
+        ''' 只做逐组学打分与融合（不做消融与置换），便于参数扫描。
+        ''' </summary>
+        Public Function Fuse(scoreSet As PerOmics.OmicsScoreSet, options As MultiOmicsGsvaOptions) As Fusion.MultiOmicsFusionResult
+            Return Fusion.MultiOmicsFusion.Compute(scoreSet, If(options, New MultiOmicsGsvaOptions()))
+        End Function
+
+    End Module
+
+End Namespace
