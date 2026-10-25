@@ -569,7 +569,10 @@ Module ssGrid
     ''' get the R square of the slope fitting of each gene
     ''' </summary>
     ''' <param name="network"></param>
-    ''' <returns>a numeric vector, and the names of the vector are the gene symbols</returns>
+    ''' <returns>
+    ''' a numeric vector of the R square value of each gene, the order of the 
+    ''' values is the same as the row order of ``sgrid_parameters(network)$gene``
+    ''' </returns>
     ''' <example>
     ''' let r2 = sgrid_r2(network);
     ''' </example>
