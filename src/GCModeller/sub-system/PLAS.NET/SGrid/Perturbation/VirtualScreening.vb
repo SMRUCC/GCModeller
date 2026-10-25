@@ -184,10 +184,16 @@ Namespace Perturbation
         ''' <param name="outDir">可选的输出文件夹，非空的时候每一组扰动都会写出轨迹 csv</param>
         ''' <param name="finalTime">仿真的终止时间，非正数表示使用时间轴的终点</param>
         ''' <returns></returns>
+        ''' <param name="context">
+        ''' 可选的环境初值（<c>context</c>）：非空的时候 control 与每一组扰动
+        ''' 都从这同一个状态出发，因此三个不同的 pseudobulk panel 会得到三套互不相同的基线轨迹。
+        ''' 该表可以由 <see cref="GRN.SSystemNetwork.MapContext"/> 从原始 counts 构造
+        ''' </param>
         Public Function Run(network As GRN.SSystemNetwork,
                             designs As IEnumerable(Of PerturbationDesign),
                             Optional outDir As String = Nothing,
-                            Optional finalTime As Double = 0) As ScreeningResult
+                            Optional finalTime As Double = 0,
+                            Optional context As System.Collections.Generic.IDictionary(Of String, Double) = Nothing) As ScreeningResult
 
             If network Is Nothing Then
                 Throw New ArgumentNullException(NameOf(network))
@@ -195,7 +201,7 @@ Namespace Perturbation
 
             Dim t As Double = If(finalTime > 0, finalTime, network.Series.TimeEnd)
             Dim runOptions = network.CreateRunOptions(t)
-            Dim controlModel = network.CreateModel(finalTime:=t)
+            Dim controlModel = network.CreateModel(finalTime:=t, initial:=context)
             Dim control As ODEsOut = SSOdes.RunSystem(controlModel, Nothing, runOptions)
             Dim records As New System.Collections.Generic.List(Of ScreeningRecord)
             Dim result As New ScreeningResult With {
@@ -213,9 +219,9 @@ Namespace Perturbation
             End If
 
             For Each design As PerturbationDesign In result.Designs
-                Dim baseline As Double = baselineOf(network, design.TargetGene)
+                Dim baseline As Double = baselineOf(network, design.TargetGene, context)
                 Dim experiment = design.ToExperiment(baseline)
-                Dim model = network.CreateModel(New SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels.Experiment() {experiment}, finalTime:=t)
+                Dim model = network.CreateModel(New SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels.Experiment() {experiment}, finalTime:=t, initial:=context)
                 Dim perturbed As ODEsOut = SSOdes.RunSystem(model, Nothing, runOptions)
 
                 If perturbed Is Nothing Then
@@ -360,7 +366,26 @@ Namespace Perturbation
             Return Run(network, designs, outDir)
         End Function
 
-        Private Function baselineOf(network As GRN.SSystemNetwork, gene As String) As Double
+        ''' <summary>
+        ''' 取出目标基因的基线水平（敲降/过表达的幅度都是相对该基线计算的）。
+        ''' 当指定了 context 环境的时候，基线取该环境之下的初值，而不是时间序列的第一个采样点，
+        ''' 这样「敲降 80%」才是相对于这个 panel 的基线而言的
+        ''' </summary>
+        ''' <param name="network"></param>
+        ''' <param name="gene"></param>
+        ''' <param name="context"></param>
+        ''' <returns></returns>
+        Private Function baselineOf(network As GRN.SSystemNetwork,
+                                    gene As String,
+                                    Optional context As System.Collections.Generic.IDictionary(Of String, Double) = Nothing) As Double
+            Dim value As Double
+
+            If Not context Is Nothing Then
+                If context.TryGetValue(gene, value) Then
+                    Return value
+                End If
+            End If
+
             Dim idx As Integer = network.Series.GeneIndex(gene)
 
             If idx < 0 Then

@@ -70,6 +70,7 @@ Namespace IO
                 Call writeEntry(archive, "matrix_G.csv", matrixOf(model.Parameters.G, model.Parameters.GeneNames))
                 Call writeEntry(archive, "matrix_H.csv", matrixOf(model.Parameters.H, model.Parameters.GeneNames))
                 Call writeEntry(archive, "series.csv", matrixOf(model.Series.X, model.Series.GeneNames))
+                Call writeEntry(archive, "offsets.csv", offsetsOf(model.Series))
                 Call writeEntry(archive, "timepoints.csv", timePointsOf(model.Series.TimePoints))
                 Call writeEntry(archive, "edges.csv", edgesOf(model.Edges))
                 Call writeEntry(archive, "options.txt", optionsOf(model.Options))
@@ -141,6 +142,8 @@ Namespace IO
                 parameters.G = parseMatrix(readRequired(archive, "matrix_G.csv"), names, names.Length)
                 parameters.H = parseMatrix(readRequired(archive, "matrix_H.csv"), names, names.Length)
                 parameters.Candidates = parseCandidates(readEntry(archive, "candidates.txt"), names)
+
+                Call parseOffsets(readEntry(archive, "offsets.csv"), series)
                 series.LnX = series _
                     .X _
                     .SafeQuery() _
@@ -215,6 +218,81 @@ Namespace IO
 
             Return sb.ToString()
         End Function
+
+        ''' <summary>
+        ''' 写出预处理时的逐基因平移常数与归一化信息（外部 context 数据映射到模型空间时必需）
+        ''' </summary>
+        ''' <param name="series"></param>
+        ''' <returns></returns>
+        Private Function offsetsOf(series As ExpressionTimeSeries) As String
+            Dim sb As New StringBuilder()
+
+            Call sb.AppendLine($"normalize={series.Normalize.ToString()}")
+            Call sb.AppendLine($"pseudo={num(series.PseudoCount)}")
+            Call sb.AppendLine("gene,offset")
+
+            For i As Integer = 0 To series.nGenes - 1
+                Call sb.Append(series.GeneNames(i))
+                Call sb.Append(","c)
+
+                If series.Offsets.IsNullOrEmpty OrElse i >= series.Offsets.Length Then
+                    Call sb.AppendLine("0")
+                Else
+                    Call sb.AppendLine(num(series.Offsets(i)))
+                End If
+            Next
+
+            Return sb.ToString()
+        End Function
+
+        ''' <summary>
+        ''' 解析 offsets.csv，返回每一个基因的平移常数；老版本的存档没有该条目，返回全零
+        ''' </summary>
+        ''' <param name="text"></param>
+        ''' <param name="series"></param>
+        Private Sub parseOffsets(text As String, series As ExpressionTimeSeries)
+            Dim offsets As Double() = New Double(series.nGenes - 1) {}
+
+            If String.IsNullOrEmpty(text) Then
+                series.Offsets = offsets
+
+                Return
+            End If
+
+            For Each line As String In textLines(text)
+                Dim fields As String() = PriorKnowledge.SplitCsvLine(line)
+
+                If fields.Length < 2 Then
+                    Continue For
+                End If
+
+                Dim key As String = fields(0).Trim()
+
+                If key = "normalize" Then
+                    Dim value As NormalizationMethods
+
+                    If [Enum].TryParse(fields(1), ignoreCase:=True, result:=value) Then
+                        series.Normalize = value
+                    End If
+
+                    Continue For
+                ElseIf key = "pseudo" Then
+                    series.PseudoCount = parseDouble(fields, 1)
+
+                    Continue For
+                ElseIf key = "gene" Then
+                    Continue For
+                End If
+
+                Dim index As Integer = System.Array.IndexOf(series.GeneNames, key)
+
+                If index >= 0 Then
+                    offsets(index) = parseDouble(fields, 1)
+                End If
+            Next
+
+            series.Offsets = offsets
+        End Sub
 
         Private Function parametersOf(parameters As SSystemParameters) As String
             Dim sb As New StringBuilder()

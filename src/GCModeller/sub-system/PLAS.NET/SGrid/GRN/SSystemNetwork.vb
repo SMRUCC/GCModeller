@@ -1,8 +1,10 @@
 Imports System.Globalization
 Imports System.Text
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.SSystem.Runner
 Imports PriorNet = SMRUCC.genomics.Analysis.BNLearn.Core.PriorNetwork
+Imports std = System.Math
 Imports SSExperiment = SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels.Experiment
 Imports SSModel = SMRUCC.genomics.Analysis.SSystem.Script.Model
 Imports SSVar = SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels.var
@@ -165,9 +167,15 @@ Namespace GRN
         ''' </summary>
         ''' <param name="experiments">挂载到模型之上的扰动实验</param>
         ''' <param name="finalTime">仿真的终止时间，非正数表示使用时间轴的终点</param>
+        ''' <param name="initial">
+        ''' 可选的状态初值表（键可以是原始基因符号或者规整化之后的编号）。
+        ''' 非空的时候用它来代替「时间序列的第一个采样点」作为 ODE 积分的初值，
+        ''' 这是把模型放到某个具体样本环境（pseudobulk context）之下仿真的关键参数
+        ''' </param>
         ''' <returns></returns>
         Public Function CreateModel(Optional experiments As SSExperiment() = Nothing,
-                                    Optional finalTime As Double = 0) As SSModel
+                                    Optional finalTime As Double = 0,
+                                    Optional initial As System.Collections.Generic.IDictionary(Of String, Double) = Nothing) As SSModel
 
             Dim t As Double = If(finalTime > 0, finalTime, Series.TimeEnd)
             Dim equations As New System.Collections.Generic.List(Of SMRUCC.genomics.Analysis.SSystem.Script.SEquation)
@@ -181,7 +189,7 @@ Namespace GRN
                 Call vars.Add(New SSVar With {
                     .Id = Parameters.GeneNames(i),
                     .title = Parameters.OriginalNames(i),
-                    .Value = Series.X(i)(0)
+                    .Value = initialStateOf(initial, i)
                 })
             Next
 
@@ -195,6 +203,103 @@ Namespace GRN
             }
 
             Return model
+        End Function
+
+        ''' <summary>
+        ''' 把一个外部表达谱（例如 pseudobulk context 的原始 counts）映射到模型的状态空间
+        ''' </summary>
+        ''' <param name="counts">原始表达量表：键可以是原始基因符号或者规整化之后的编号</param>
+        ''' <param name="missing">
+        ''' 缺失基因的填充方式：<c>baseline</c> 表示使用该基因在训练集之中的最小采样值（推荐），
+        ''' <c>zero</c> 表示使用零表达
+        ''' </param>
+        ''' <returns>以规整化基因编号为键的状态初值表，可以直接传给 <see cref="CreateModel"/></returns>
+        ''' <remarks>
+        ''' 模型的状态并不是原始的 counts，而是
+        ''' <c>X = log2(max(raw,0) + pseudo) + δ</c>（见 <see cref="ExpressionTimeSeries.Offsets"/>）；
+        ''' 故外部数据必须经过完全相同的变换才能作为初值使用，
+        ''' 否则整体会偏移若干个对数单位（相当于成倍的浓度差异），幂律项也就完全错位了。
+        ''' </remarks>
+        Public Function MapContext(counts As System.Collections.Generic.IDictionary(Of String, Double),
+                                   Optional missing As String = "baseline") As System.Collections.Generic.Dictionary(Of String, Double)
+            If counts Is Nothing Then
+                Throw New ArgumentNullException(NameOf(counts))
+            End If
+
+            Dim result As New System.Collections.Generic.Dictionary(Of String, Double)(StringComparer.OrdinalIgnoreCase)
+            Dim useZero As Boolean = String.Equals(missing, "zero", StringComparison.OrdinalIgnoreCase)
+
+            For i As Integer = 0 To Parameters.nGenes - 1
+                Dim raw As Double
+                Dim hit As Boolean = False
+
+                If Not String.IsNullOrEmpty(Parameters.OriginalNames(i)) Then
+                    hit = counts.TryGetValue(Parameters.OriginalNames(i), raw)
+                End If
+                If Not hit Then
+                    hit = counts.TryGetValue(Parameters.GeneNames(i), raw)
+                End If
+
+                Dim value As Double
+
+                If hit Then
+                    value = toModelSpace(raw, i)
+                ElseIf useZero Then
+                    value = toModelSpace(0, i)
+                Else
+                    value = Series.X(i).Min
+                End If
+
+                result(Parameters.GeneNames(i)) = value
+            Next
+
+            Return result
+        End Function
+
+        ''' <summary>
+        ''' 把单个原始表达值变换到模型的状态空间
+        ''' </summary>
+        ''' <param name="raw"></param>
+        ''' <param name="i">基因的行号</param>
+        ''' <returns></returns>
+        Private Function toModelSpace(raw As Double, i As Integer) As Double
+            Dim offset As Double = 0
+
+            If Not Series.Offsets.IsNullOrEmpty AndAlso i < Series.Offsets.Length Then
+                offset = Series.Offsets(i)
+            End If
+
+            Select Case Series.Normalize
+                Case NormalizationMethods.Log2
+                    Return std.Log(std.Max(raw, 0) + Series.PseudoCount) / std.Log(2) + offset
+                Case NormalizationMethods.None
+                    Return raw + offset
+                Case Else
+                    Throw New NotSupportedException(
+                        $"The normalization method '{Series.Normalize.ToString}' is a per-row transformation, " &
+                        "the context data can not be mapped onto the model space by a single scalar formula.")
+            End Select
+        End Function
+
+        ''' <summary>
+        ''' 取出某一个基因的状态初值：优先使用外部给定的 context，否则回落到时间序列的第一个采样点
+        ''' </summary>
+        ''' <param name="initial"></param>
+        ''' <param name="i"></param>
+        ''' <returns></returns>
+        Private Function initialStateOf(initial As System.Collections.Generic.IDictionary(Of String, Double), i As Integer) As Double
+            Dim value As Double
+
+            If Not initial Is Nothing Then
+                If initial.TryGetValue(Parameters.GeneNames(i), value) Then
+                    Return value
+                End If
+                If Not String.IsNullOrEmpty(Parameters.OriginalNames(i)) AndAlso initial.TryGetValue(Parameters.OriginalNames(i), value) Then
+                    Return value
+                End If
+            End If
+
+            Return Series.X(i)(0)
         End Function
 
         ''' <summary>

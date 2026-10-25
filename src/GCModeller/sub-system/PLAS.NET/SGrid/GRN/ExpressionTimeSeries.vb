@@ -40,6 +40,23 @@ Namespace GRN
         ''' <returns></returns>
         Public Property LnX As Double()()
         ''' <summary>
+        ''' 每一个基因在预处理时被平移的常数 δ（幂律要求表达量为正数）：
+        ''' <c>X = log2(max(raw,0) + pseudo) + δ</c>。
+        ''' 把外部数据（例如 pseudobulk context）映射到模型空间时必须使用同一个 δ
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Offsets As Double()
+        ''' <summary>
+        ''' 建立该时序视图时所使用的归一化方法与伪计数
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Normalize As NormalizationMethods = NormalizationMethods.Log2
+        ''' <summary>
+        ''' 建立该时序视图时所使用的伪计数
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property PseudoCount As Double = 1.0R
+        ''' <summary>
         ''' 在预处理过程之中所产生的提示信息
         ''' </summary>
         ''' <returns></returns>
@@ -176,7 +193,9 @@ Namespace GRN
 
             Dim series As New ExpressionTimeSeries With {
                 .GeneNames = names,
-                .OriginalNames = originals
+                .OriginalNames = originals,
+                .Normalize = options.Normalize,
+                .PseudoCount = options.PseudoCount
             }
 
             ' 1. 缺失值插补
@@ -195,7 +214,10 @@ Namespace GRN
             End Select
 
             ' 3. 幂律要求所有的表达量都是严格的正数
-            raw = ensurePositive(raw, options.PseudoCount, series.Warnings, names)
+            Dim offsets As Double() = Nothing
+
+            raw = ensurePositive(raw, options.PseudoCount, series.Warnings, names, offsets)
+            series.Offsets = offsets
 
             ' 4. 时间轴
             series.TimePoints = resolveTimePoints(matrix.sampleID, m, options, series.Warnings)
@@ -371,9 +393,12 @@ Namespace GRN
         Private Shared Function ensurePositive(raw As Double()(),
                                                pseudo As Double,
                                                warns As System.Collections.Generic.List(Of String),
-                                               names As String()) As Double()()
+                                               names As String(),
+                                               ByRef offsets As Double()) As Double()()
 
             Dim shifted As Integer = 0
+            Dim deltas As Double() = New Double(raw.Length - 1) {}
+
             Dim out As Double()() = raw _
                 .Select(Function(row, i)
                             Dim min As Double = row.Min
@@ -387,9 +412,13 @@ Namespace GRN
                             ' 平移到正数区间：这是一个单调仿射变换，不会改变基因自身的动态趋势
                             Dim delta As Double = -min + pseudo
 
+                            deltas(i) = delta
+
                             Return row.Select(Function(x) x + delta).ToArray
                         End Function) _
                 .ToArray
+
+            offsets = deltas
 
             If shifted > 0 Then
                 Call warns.Add($"Shifted {shifted} gene expression row(s) into the positive value range, the power law term requires all values to be positive.")
