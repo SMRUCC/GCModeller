@@ -122,16 +122,23 @@ install_if_missing <- function(pkg) {
 if (length(exprs) >= 2) {
   if (install_if_missing("mogsa")) {
     ok <- tryCatch({
-      mats <- lapply(exprs, function(m) m)
+      ## MOGSA 需要各层共享相同的特征行
+      common <- Reduce(intersect, lapply(exprs, rownames))
+      mats <- lapply(exprs, function(m) m[common, , drop = FALSE])
+
       moaObj <- mogsa::moa(mats, proc.row = "center_ssq1", w.data = "lambda1", w.row = NULL)
-      fn <- if (exists("gsva", envir = asNamespace("mogsa"))) get("gsva", envir = asNamespace("mogsa")) else get("mgsa", envir = asNamespace("mogsa"))
-      res <- fn(moaObj, geneSets)
-      mat <- as.matrix(res)
+      ## prepSupMoa 只接受 character / matrix / list，不接受 moa 对象
+      sup <- mogsa::prepSupMoa(mats, geneSets, minMatch = 5, maxMatch = 500)
+      mg <- mogsa::mogsa(moaObj, sup, nf = 5, ks.stat = FALSE)
+      score <- as.matrix(mogsa::getmgsa(mg, "score"))
 
-      if (nrow(mat) == 0 || ncol(mat) == 0) stop("empty result matrix")
+      if (nrow(score) == 0 || ncol(score) == 0) stop("empty MOGSA score matrix")
 
-      write_ref(mat, "mogsa_scores.csv")
-      status("mogsa", TRUE, sprintf("%d x %d", nrow(mat), ncol(mat)))
+      df <- as.data.frame(score)
+      df <- cbind(id = rownames(df), df, row.names = NULL)
+      write.csv(df, file.path(outDir, "mogsa_scores.csv"), row.names = FALSE)
+      cat(sprintf("  %-26s : %4d x %d\n", "mogsa_scores.csv", nrow(score), ncol(score)))
+      status("mogsa", TRUE, sprintf("%d gene set(s) x %d sample(s)", nrow(score), ncol(score)))
       TRUE
     }, error = function(e) {
       status("mogsa", FALSE, conditionMessage(e))
@@ -145,16 +152,38 @@ if (length(exprs) >= 2) {
 }
 
 ## ------------------------------------------------ optional: multiGSEA
+## multiGSEA(pathways, ranks) 是"各层分别做 fgsea 再合并 p 值"的队列级基线，
+## 无表型标签时以「跨样本变异」作为基因排序统计量。
 if (length(exprs) >= 2) {
   if (install_if_missing("multiGSEA")) {
     ok <- tryCatch({
-      res <- multiGSEA::multiGSEA(omics = exprs, pathways = geneSets, beta = 2)
-      mat <- as.matrix(res)
+      ranks <- lapply(exprs, function(m) {
+        v <- apply(m, 1, stats::var)
+        v[is.na(v)] <- 0
+        stats::setNames(as.numeric(v), rownames(m))
+      })
+      pathways <- lapply(names(exprs), function(o) geneSets)
+      names(pathways) <- names(exprs)
 
-      if (nrow(mat) == 0 || ncol(mat) == 0) stop("empty result matrix")
+      res <- multiGSEA::multiGSEA(pathways = pathways, ranks = ranks)
+      tab <- NULL
 
-      write_ref(mat, "multigsea_scores.csv")
-      status("multiGSEA", TRUE, sprintf("%d x %d", nrow(mat), ncol(mat)))
+      for (omics in names(res)) {
+        df <- as.data.frame(res[[omics]])[, c("pathway", "pval")]
+        colnames(df) <- c("pathway", paste0(omics, "_pval"))
+        tab <- if (is.null(tab)) df else merge(tab, df, by = "pathway", all = TRUE)
+      }
+
+      pcols <- setdiff(colnames(tab), "pathway")
+      tab$combined_pval <- apply(tab[, pcols, drop = FALSE], 1, function(p) {
+        p <- p[!is.na(p)]
+        if (length(p) == 0) return(NA_real_)
+        min(1, min(p) * length(p))
+      })
+
+      write.csv(tab, file.path(outDir, "multigsea_pvalues.csv"), row.names = FALSE)
+      cat(sprintf("  %-26s : %4d pathway(s)\n", "multigsea_pvalues.csv", nrow(tab)))
+      status("multiGSEA", TRUE, sprintf("%d pathway(s) x %d omics", nrow(tab), length(pcols)))
       TRUE
     }, error = function(e) {
       status("multiGSEA", FALSE, conditionMessage(e))

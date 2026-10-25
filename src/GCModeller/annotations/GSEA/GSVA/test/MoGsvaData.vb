@@ -98,32 +98,44 @@ Public Module MoGsvaData
     ''' 因此这里按「类型 + 形状」识别：取面积最大的二维数值数组作为表达矩阵，
     ''' 取长度分别等于行数/列数的字符串数组作为特征名/样本名，缺失时用回退值。
     ''' </remarks>
-    Public Function LoadRnaMatrix(npyFile As String, Optional sampleHintFile As String = Nothing, Optional verbose As Boolean = True) As Matrix
-        Dim items As NpyArray() = ReadNpyArrays(npyFile)
-        Dim numeric As NpyArray() = items _
-            .Where(Function(a) a.Rank = 2 AndAlso a.DType.IsNumeric AndAlso a.Shape(0) > 1 AndAlso a.Shape(1) > 1) _
-            .OrderByDescending(Function(a) CLng(a.Shape(0)) * a.Shape(1)) _
-            .ToArray
+    ''' <summary>
+    ''' 读取 npy 文件的顶层元素（对象数组会被展开为元素列表）。
+    ''' </summary>
+    Public Function ReadNpyObjects(path As String) As Object()
+        Dim array As NpyArray = NpyFile.Read(path)
 
-        If numeric.Length = 0 Then
+        If array.IsObjectArray Then
+            Return array.AsObjectArray()
+        Else
+            Return New Object() {array}
+        End If
+    End Function
+
+    Public Function LoadRnaMatrix(npyFile As String, Optional sampleHintFile As String = Nothing, Optional verbose As Boolean = True) As Matrix
+        Dim objects As Object() = ReadNpyObjects(npyFile)
+        Dim numeric As New List(Of NpyArray)
+        Dim texts As New List(Of String())
+
+        For Each item As Object In objects
+            Dim nested As NpyArray = TryCast(item, NpyArray)
+
+            If nested IsNot Nothing AndAlso nested.Rank = 2 AndAlso nested.DType.IsNumeric AndAlso nested.Shape(0) > 1 AndAlso nested.Shape(1) > 1 Then
+                numeric.Add(nested)
+            End If
+
+            Call CollectStrings(item, texts)
+        Next
+
+        If numeric.Count = 0 Then
             Throw New InvalidDataException($"no 2-dimensional numeric array was found in the npy file: {npyFile}")
         End If
 
-        Dim payload As NpyArray = numeric(0)
+        Dim payload As NpyArray = numeric _
+            .OrderByDescending(Function(a) CLng(a.Shape(0)) * a.Shape(1)) _
+            .First()
         Dim nRow As Integer = payload.Shape(0)
         Dim nCol As Integer = payload.Shape(1)
         Dim values As Double() = payload.AsDouble()
-        Dim texts As New List(Of String())
-
-        For Each item As NpyArray In items
-            If item.DType.IsStringType AndAlso item.Rank >= 1 Then
-                Try
-                    texts.Add(item.AsString())
-                Catch ex As Exception
-                    ' 字符串数组解析失败不影响主流程（只是标签信息缺失）
-                End Try
-            End If
-        Next
 
         Dim features As String() = FindLabels(texts, nRow)
         Dim samples As String() = FindLabels(texts, nCol)
@@ -148,6 +160,7 @@ Public Module MoGsvaData
             Call $"[moGSVA] expression matrix: {nRow} features x {nCol} samples, dtype={payload.DType}".println
             Call $"[moGSVA] feature id sample: {String.Join(", ", features.Take(5))}".println
             Call $"[moGSVA] sample id sample : {String.Join(", ", samples.Take(5))}".println
+            Call $"[moGSVA] npy objects      : {String.Join("; ", objects.Select(Function(o) If(o Is Nothing, "null", o.GetType.Name)))}".println
             Call $"[moGSVA] npy string arrays: {String.Join("; ", texts.Select(Function(t) $"[{t.Length}] {String.Join("/", t.Take(3))}"))}".println
         End If
 
@@ -211,6 +224,69 @@ Public Module MoGsvaData
 
         Return result
     End Function
+
+    ''' <summary>
+    ''' 从任意 npy/pickle 元素中抽取「字符串集合」（ndarray 字符串、String()、List(Of String) 等）。
+    ''' </summary>
+    Private Sub CollectStrings(item As Object, texts As List(Of String()))
+        If item Is Nothing Then
+            Return
+        End If
+
+        Dim array As NpyArray = TryCast(item, NpyArray)
+
+        If array IsNot Nothing Then
+            If array.DType.IsStringType AndAlso array.Rank = 1 Then
+                Try
+                    texts.Add(array.AsString())
+                Catch ex As Exception
+                    ' 字符串数组解析失败只意味着标签信息缺失，不影响主流程
+                End Try
+            End If
+
+            Return
+        End If
+
+        Dim plain As String() = TryCast(item, String())
+
+        If plain IsNot Nothing Then
+            texts.Add(plain)
+
+            Return
+        End If
+
+        Dim objects As Object() = TryCast(item, Object())
+
+        If objects IsNot Nothing Then
+            If objects.All(Function(o) TypeOf o Is String) Then
+                texts.Add(objects.Select(Function(o) CStr(o)).ToArray)
+            Else
+                For Each nested As Object In objects
+                    Call CollectStrings(nested, texts)
+                Next
+            End If
+
+            Return
+        End If
+
+        If TypeOf item Is IEnumerable AndAlso Not TypeOf item Is String Then
+            Dim values As New List(Of String)
+
+            For Each element As Object In DirectCast(item, IEnumerable)
+                Dim text As String = TryCast(element, String)
+
+                If text Is Nothing Then
+                    Return
+                End If
+
+                values.Add(text)
+            Next
+
+            If values.Count > 0 Then
+                texts.Add(values.ToArray)
+            End If
+        End If
+    End Sub
 
     Private Function FindLabels(texts As List(Of String()), length As Integer) As String()
         ' 取第一个长度正好等于目标长度的字符串数组；若多个，取内容最长（信息量最大）的那个

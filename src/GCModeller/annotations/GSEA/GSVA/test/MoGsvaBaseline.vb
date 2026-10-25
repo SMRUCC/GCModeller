@@ -274,6 +274,46 @@ Public Module MoGsvaBaseline
         Return result
     End Function
 
+    ''' <summary>
+    ''' 读取 multiGSEA 的 p 值长表（首列 pathway，其余列是各组学的 p 值与 combined_pval）。
+    ''' </summary>
+    Public Function ReadPValueTable(path As String) As Dictionary(Of String, Dictionary(Of String, Double))
+        Dim result As New Dictionary(Of String, Dictionary(Of String, Double))(StringComparer.Ordinal)
+
+        Using parser As New Microsoft.VisualBasic.FileIO.TextFieldParser(path) With {
+            .TextFieldType = Microsoft.VisualBasic.FileIO.FieldType.Delimited,
+            .Delimiters = {","c},
+            .HasFieldsEnclosedInQuotes = True
+        }
+            Dim header As String() = parser.ReadFields()
+            Dim columns As String() = header.Skip(1).ToArray
+
+            While Not parser.EndOfData
+                Dim fields As String() = parser.ReadFields()
+
+                If fields Is Nothing OrElse fields.Length < 2 Then
+                    Continue While
+                End If
+
+                Dim row As New Dictionary(Of String, Double)(StringComparer.Ordinal)
+
+                For i As Integer = 0 To std.Min(columns.Length, fields.Length - 1) - 1
+                    Dim text As String = fields(i + 1)
+
+                    If text.StringEmpty(, True) OrElse text.TextEquals("NA") Then
+                        row(columns(i)) = Double.NaN
+                    Else
+                        row(columns(i)) = Double.Parse(text, Globalization.CultureInfo.InvariantCulture)
+                    End If
+                Next
+
+                result(fields(0)) = row
+            End While
+        End Using
+
+        Return result
+    End Function
+
     Private Sub LoadStatus(result As BaselineResult)
         Dim statusFile As String = Path.Combine(result.OutputDir, "baseline_status.tsv")
 

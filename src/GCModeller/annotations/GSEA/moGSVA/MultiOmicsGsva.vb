@@ -78,25 +78,7 @@ Namespace Global.SMRUCC.genomics.Analysis.HTS.GSVA
 
             ' 步骤5：置换检验 + 多重检验校正
             If options.Permutations > 0 Then
-                Dim significance As StatTests.PermutationResult = StatTests.PermutationTest.Run(dataset, geneSets, options, fused)
-
-                result.Significance = significance
-
-                If significance IsNot Nothing AndAlso significance.PValues.Count > 0 Then
-                    Dim keys As String() = significance.Pathways
-                    Dim raw As Double() = keys.Select(Function(id) significance.PValues(id)).ToArray
-                    Dim adjusted As Double() = StatTests.MultipleTesting.BenjaminiHochberg(raw)
-                    Dim pValues As New Dictionary(Of String, Double)(StringComparer.Ordinal)
-                    Dim qValues As New Dictionary(Of String, Double)(StringComparer.Ordinal)
-
-                    For i As Integer = 0 To keys.Length - 1
-                        pValues(keys(i)) = raw(i)
-                        qValues(keys(i)) = adjusted(i)
-                    Next
-
-                    result.PValues = pValues
-                    result.QValues = qValues
-                End If
+                Call ComputeSignificance(result, dataset, geneSets, options)
             End If
 
             clock.Stop()
@@ -114,6 +96,49 @@ Namespace Global.SMRUCC.genomics.Analysis.HTS.GSVA
         ''' </summary>
         Public Function Fuse(scoreSet As PerOmics.OmicsScoreSet, options As MultiOmicsGsvaOptions) As Fusion.MultiOmicsFusionResult
             Return Fusion.MultiOmicsFusion.Compute(scoreSet, If(options, New MultiOmicsGsvaOptions()))
+        End Function
+
+        ''' <summary>
+        ''' 在既有评分结果上单独执行置换检验，并把 p / q 值写回结果对象。
+        ''' </summary>
+        ''' <param name="result">已完成的评分结果</param>
+        ''' <param name="dataset">多组学数据集</param>
+        ''' <param name="geneSets">基因集</param>
+        ''' <param name="options">置换配置（<see cref="MultiOmicsGsvaOptions.Permutations"/> 必须大于 0）</param>
+        ''' <remarks>
+        ''' 逐组学打分代价较高，若只想补做显著性评估，应复用本方法而不是重跑 <see cref="Compute"/>。
+        ''' </remarks>
+        Public Function ComputeSignificance(result As MultiOmicsGsvaResult,
+                                            dataset As Omics.MultiOmicsDataset,
+                                            geneSets As Background,
+                                            options As MultiOmicsGsvaOptions) As MultiOmicsGsvaResult
+            If result Is Nothing Then
+                Throw New ArgumentNullException(NameOf(result))
+            End If
+
+            Dim significance As StatTests.PermutationResult = StatTests.PermutationTest.Run(dataset, geneSets, options, result.Scores)
+
+            result.Significance = significance
+
+            If significance Is Nothing OrElse significance.PValues.Count = 0 Then
+                Return result
+            End If
+
+            Dim keys As String() = significance.Pathways
+            Dim raw As Double() = keys.Select(Function(id) significance.PValues(id)).ToArray
+            Dim adjusted As Double() = StatTests.MultipleTesting.BenjaminiHochberg(raw)
+            Dim pValues As New Dictionary(Of String, Double)(StringComparer.Ordinal)
+            Dim qValues As New Dictionary(Of String, Double)(StringComparer.Ordinal)
+
+            For i As Integer = 0 To keys.Length - 1
+                pValues(keys(i)) = raw(i)
+                qValues(keys(i)) = adjusted(i)
+            Next
+
+            result.PValues = pValues
+            result.QValues = qValues
+
+            Return result
         End Function
 
     End Module

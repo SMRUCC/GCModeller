@@ -61,11 +61,11 @@ Namespace StatTests
         ''' <param name="dataset">多组学数据集</param>
         ''' <param name="geneSets">基因集</param>
         ''' <param name="options">运行配置（置换次数、种子、规模裁剪等）</param>
-        ''' <param name="observed">观测到的融合结果</param>
+        ''' <param name="observed">观测到的融合分数矩阵（通路 × 样本），只用于确定参与检验的通路集合</param>
         Public Function Run(dataset As Omics.MultiOmicsDataset,
                             geneSets As Background,
                             options As MultiOmicsGsvaOptions,
-                            observed As Fusion.MultiOmicsFusionResult) As PermutationResult
+                            observed As Matrix) As PermutationResult
 
             If dataset Is Nothing Then
                 Throw New ArgumentNullException(NameOf(dataset))
@@ -197,21 +197,23 @@ Namespace StatTests
             }
         End Function
 
-        Private Function SelectPathways(observed As Fusion.MultiOmicsFusionResult, options As MultiOmicsGsvaOptions) As String()
+        Private Function SelectPathways(observed As Matrix, options As MultiOmicsGsvaOptions) As String()
+            Dim available As New HashSet(Of String)(observed.rownames, StringComparer.Ordinal)
+
             If options.PermutationPathways IsNot Nothing AndAlso options.PermutationPathways.Length > 0 Then
                 Return options.PermutationPathways _
-                    .Where(Function(id) observed.HasPathway(id)) _
+                    .Where(Function(id) available.Contains(id)) _
                     .Distinct(StringComparer.Ordinal) _
                     .ToArray
             End If
 
             Dim limit As Integer = options.MaxPermutationPathways
 
-            If limit <= 0 Then
-                limit = observed.Pathways.Length
+            If limit <= 0 OrElse limit > observed.size Then
+                limit = observed.size
             End If
 
-            Return observed.Pathways.Take(limit).ToArray
+            Return observed.rownames.Take(limit).ToArray
         End Function
 
         Private Function SubsetGeneSets(geneSets As Background, pathways As String()) As Background

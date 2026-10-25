@@ -38,6 +38,9 @@ Public Module MoGsvaTest
         Dim skipReal As Boolean = False
         Dim permutations As Integer = 15
 
+        ' 中间产物全部写在测试程序的输出目录，避免污染仓库中的数据目录
+        Dim workDir As String = Path.Combine(AppContext.BaseDirectory, "mogsva_run")
+
         If args IsNot Nothing Then
             For Each arg As String In args
                 If arg.StartsWith("--dir=", StringComparison.OrdinalIgnoreCase) Then
@@ -69,7 +72,7 @@ Public Module MoGsvaTest
             Call "[info] 已跳过真实数据套件 (--no-real)".println
         Else
             Try
-                Call RealDataSuite(dataDir, installBaselines)
+                Call RealDataSuite(dataDir, workDir, installBaselines, permutations)
             Catch ex As Exception
                 Call check("TCGA COAD 真实数据套件", False, $"{ex.GetType.Name}: {ex.Message}")
                 Call Console.WriteLine(ex.StackTrace)
@@ -316,9 +319,10 @@ Public Module MoGsvaTest
     ' B. TCGA COAD 真实数据
     ' ==================================================================
 
-    Private Sub RealDataSuite(dataDir As String, installBaselines As Boolean)
+    Private Sub RealDataSuite(dataDir As String, workDir As String, installBaselines As Boolean, permutations As Integer)
         Call "".println
         Call "--- B. TCGA COAD（真实 mRNA + 确定性派生 protein / methylation） ---".println
+        Call $"[info] 中间产物目录: {workDir}".println
 
         Dim real As MoGsvaData.RealDataset = MoGsvaData.BuildRealDataset(dataDir, MoGsvaData.DefaultSeed, True, True)
 
@@ -366,9 +370,9 @@ Public Module MoGsvaTest
         Call "".println
         Call "--- B1. R 基线（逐组学 GSVA + 平均） ---".println
 
-        Call MoGsvaBaseline.PrepareInputs(real, Path.Combine(dataDir, "mogsva_input"))
+        Call MoGsvaBaseline.PrepareInputs(real, Path.Combine(workDir, "mogsva_input"))
 
-        Dim baseline As MoGsvaBaseline.BaselineResult = MoGsvaBaseline.Run(dataDir, installBaselines, True)
+        Dim baseline As MoGsvaBaseline.BaselineResult = MoGsvaBaseline.Run(workDir, installBaselines, True)
 
         If Not baseline.Available Then
             Call check("R 基线: 生成成功", False, If(baseline.Message, "unknown error"))
@@ -438,9 +442,45 @@ Public Module MoGsvaTest
 
         Call ReportOptionalBaselines(baseline, result)
 
+        ' ---------------- 显著性评估 ----------------
+        Call "".println
+        Call "--- B3. 置换检验（真实数据，取高活性通路子集） ---".println
+
+        If permutations <= 0 Then
+            Call check("真实数据: 跳过置换检验 (--perm=0)", True, "未请求置换")
+        Else
+            ' 只对活性最强的通路做置换，并在缩小后的基因视图上打分，控制耗时
+            Dim topPathways As String() = result.Pathways _
+                .OrderByDescending(Function(id) MeanAbs(result.ScoreVector(id))) _
+                .Take(10) _
+                .ToArray
+            Dim permOptions As MultiOmicsGsvaOptions = options.Clone()
+
+            permOptions.Permutations = permutations
+            permOptions.PermutationMethod = Methods.ssgsea
+            permOptions.PermutationPathways = topPathways
+            permOptions.PermutationGeneLimit = 3000
+            permOptions.Verbose = True
+
+            Call MultiOmicsGsva.ComputeSignificance(result, real.Dataset, real.GeneSets, permOptions)
+
+            Dim evaluated As String() = If(result.PValues Is Nothing, New String() {}, result.PValues.Keys.ToArray)
+
+            Call check("真实数据: 置换检验产出 p 值", evaluated.Length > 0, $"{evaluated.Length} 条通路（B={permutations}）")
+            Call check("真实数据: p 值落在 (0, 1]",
+                       evaluated.Length > 0 AndAlso evaluated.All(Function(id) result.PValueOf(id) > 0 AndAlso result.PValueOf(id) <= 1),
+                       String.Join(", ", evaluated.Take(5).Select(Function(id) $"{id}={result.PValueOf(id):F3}")))
+            Call check("真实数据: q 值不小于 p 值",
+                       evaluated.Length > 0 AndAlso evaluated.All(Function(id) result.QValueOf(id) >= result.PValueOf(id) - 1.0E-12),
+                       $"min q = {If(result.QValues Is Nothing, Double.NaN, result.QValues.Values.Min):F4}")
+            Call check("真实数据: 置换零分布已记录",
+                       result.Significance IsNot Nothing AndAlso result.Significance.NullStatistics.Count = evaluated.Length,
+                       $"{(If(result.Significance Is Nothing, New Dictionary(Of String, Double()), result.Significance.NullStatistics)).Count} 条通路")
+        End If
+
         ' ---------------- 消融对照 ----------------
         Call "".println
-        Call "--- B3. 消融对照（拼接矩阵单组学 GSVA） ---".println
+        Call "--- B4. 消融对照（拼接矩阵单组学 GSVA） ---".println
         Call check("真实数据: 拼接矩阵 GSVA 可运行",
                    result.Pooled IsNot Nothing AndAlso result.Pooled.Available,
                    If(result.Pooled Is Nothing, "null", result.Pooled.ToString))
@@ -449,7 +489,7 @@ Public Module MoGsvaTest
                    $"mean|diff| = {If(result.Pooled Is Nothing, Double.NaN, result.Pooled.MeanAbsoluteDifference):E3}")
 
         ' ---------------- 结果导出 ----------------
-        Dim outDir As String = Path.Combine(dataDir, "mogsva_output")
+        Dim outDir As String = Path.Combine(workDir, "mogsva_output")
         Dim files As String() = SMRUCC.genomics.Analysis.HTS.GSVA.Export.MultiOmicsResultWriter.Save(result, outDir)
 
         Call check("结果导出: 写出全部结果表",
@@ -458,44 +498,66 @@ Public Module MoGsvaTest
     End Sub
 
     Private Sub ReportOptionalBaselines(baseline As MoGsvaBaseline.BaselineResult, result As MultiOmicsGsvaResult)
-        Dim cases As (name As String, file As String)() = {
-            ("mogsa", "mogsa_scores.csv"),
-            ("multiGSEA", "multigsea_scores.csv")
-        }
+        ' --- MOGSA：同样是样本级通路打分，可直接与我们的融合分数比较相关
+        Dim mogsaStatus As String = Nothing
 
-        For Each item In cases
-            Dim status As String = Nothing
-
-            If Not baseline.Status.TryGetValue(item.name, status) Then
-                Call check($"{item.name}: 基线状态已知", False, "R 脚本未报告该基线")
-                Continue For
-            End If
-
-            If Not status.StartsWith("OK") Then
-                Call check($"{item.name}: 基线跳过（不影响结论）", True, status)
-                Continue For
-            End If
-
-            Dim reference As Dictionary(Of String, Double()) = MoGsvaBaseline.ReadReferenceMatrix(Path.Combine(baseline.OutputDir, item.file))
+        If Not baseline.Status.TryGetValue("mogsa", mogsaStatus) Then
+            Call check("mogsa: 基线状态已知", False, "R 脚本未报告该基线")
+        ElseIf Not mogsaStatus.StartsWith("OK") Then
+            Call check("mogsa: 基线跳过（不影响结论）", True, mogsaStatus)
+        Else
+            Dim reference As Dictionary(Of String, Double()) = MoGsvaBaseline.ReadReferenceMatrix(Path.Combine(baseline.OutputDir, "mogsa_scores.csv"))
             Dim commonPathways As String() = reference.Keys.Where(Function(id) result.ScoreVector(id) IsNot Nothing).ToArray
 
-            Call check($"{item.name}: 结果矩阵非空", reference.Count > 0, $"{reference.Count} 行")
+            Call check("mogsa: 结果矩阵非空", reference.Count > 0, $"{reference.Count} 行")
 
             If commonPathways.Length < 3 Then
-                Call check($"{item.name}: 与 moGSVA 存在可比通路", False, $"共享通路仅 {commonPathways.Length} 条")
-                Continue For
+                Call check("mogsa: 与 moGSVA 存在可比通路", False, $"共享通路仅 {commonPathways.Length} 条")
+            Else
+                Dim r As Double = CorrelationOfMeans(result, reference, commonPathways)
+
+                Call check("mogsa: 与 moGSVA 通路活性可比对（相关性可计算）",
+                           Not Double.IsNaN(r),
+                           $"pearson r = {r:F4} over {commonPathways.Length} shared pathway(s)")
+
+                If Not Double.IsNaN(r) AndAlso std.Abs(r) < 0.3 Then
+                    Call $"[info] MOGSA 与 moGSVA 的相关性偏低 (r = {r:F3})：MOGSA 走 MFA 降维后打分，属范式差异。".println
+                End If
             End If
+        End If
 
-            Dim r As Double = CorrelationOfMeans(result, reference, commonPathways)
+        ' --- multiGSEA：队列级 p 值（各层 fgsea 后合并），只能比较"通路排序的一致性"
+        Dim multiStatus As String = Nothing
 
-            Call check($"{item.name}: 与 moGSVA 通路活性可比对（相关性可计算）",
-                       Not Double.IsNaN(r),
-                       $"pearson r = {r:F4} over {commonPathways.Length} shared pathway(s)")
+        If Not baseline.Status.TryGetValue("multiGSEA", multiStatus) Then
+            Call check("multiGSEA: 基线状态已知", False, "R 脚本未报告该基线")
+        ElseIf Not multiStatus.StartsWith("OK") Then
+            Call check("multiGSEA: 基线跳过（不影响结论）", True, multiStatus)
+        Else
+            Dim table As Dictionary(Of String, Dictionary(Of String, Double)) =
+                MoGsvaBaseline.ReadPValueTable(Path.Combine(baseline.OutputDir, "multigsea_pvalues.csv"))
 
-            If Not Double.IsNaN(r) AndAlso std.Abs(r) < 0.3 Then
-                Call $"[info] {item.name} 与 moGSVA 的相关性偏低 (r = {r:F3})，两者整合范式不同，属预期差异。".println
-            End If
-        Next
+            Call check("multiGSEA: 结果表非空", table.Count > 0, $"{table.Count} 条通路")
+
+            Dim theirs As String() = table _
+                .Where(Function(p) p.Value.ContainsKey("combined_pval") AndAlso Not Double.IsNaN(p.Value("combined_pval"))) _
+                .OrderBy(Function(p) p.Value("combined_pval")) _
+                .Take(10) _
+                .Select(Function(p) p.Key) _
+                .ToArray
+            Dim ours As String() = result.Pathways _
+                .Where(Function(id) result.ScoreVector(id) IsNot Nothing) _
+                .OrderByDescending(Function(id) MeanAbs(result.ScoreVector(id))) _
+                .Take(10) _
+                .ToArray
+            Dim overlap As Integer = theirs.Intersect(ours, StringComparer.Ordinal).Count()
+
+            Call check("multiGSEA: 队列级显著通路与 moGSVA 高活性通路排序有重叠",
+                       theirs.Length > 0 AndAlso ours.Length > 0 AndAlso overlap >= 1,
+                       $"top10 overlap = {overlap} / {std.Min(theirs.Length, ours.Length)}")
+            Call $"[info] multiGSEA top10: {String.Join(", ", theirs.Take(5))}".println
+            Call $"[info] moGSVA   top10: {String.Join(", ", ours.Take(5))}".println
+        End If
     End Sub
 
     ''' <summary>比较两条通路活性向量（各取样本均值）的 Pearson 相关</summary>
