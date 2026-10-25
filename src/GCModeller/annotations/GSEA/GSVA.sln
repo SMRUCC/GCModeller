@@ -49,6 +49,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "moGSVA", "moGSVA\moGSVA.vbp
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "datastorage-netcore5", "..\..\..\runtime\sciBASIC#\Data\BinaryData\DataStorage\datastorage-netcore5.vbproj", "{BCB09445-FAAA-00D3-4C4B-3B741CE1A91F}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "FeatherFormat", "..\..\..\runtime\sciBASIC#\Data\BinaryData\Feather\FeatherFormat.vbproj", "{96DD50D4-A773-FF5F-393B-6958964EB680}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1052,6 +1054,60 @@ Global
 		{BCB09445-FAAA-00D3-4C4B-3B741CE1A91F}.Rsharp_app_release|x64.Build.0 = Rsharp_app_release|x64
 		{BCB09445-FAAA-00D3-4C4B-3B741CE1A91F}.Rsharp_app_release|x86.ActiveCfg = Rsharp_app_release|Any CPU
 		{BCB09445-FAAA-00D3-4C4B-3B741CE1A91F}.Rsharp_app_release|x86.Build.0 = Rsharp_app_release|Any CPU
+		{96DD50D4-A773-FF5F-393B-6958964EB680}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96DD50D4-A773-FF5F-393B-6958964EB680}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96DD50D4-A773-FF5F-393B-6958964EB680}.Debug|x64.ActiveCfg = Debug|x64
+		{96DD50D4-A773-FF5F-393B-6958964EB680}.Debug|x64.Build.0 = Debug|x64
+		{96DD50D4-A773-FF5F-393B-6958964EB680}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{96DD50D4-A773-FF5F-393B-6958964EB680}.Debug|x86.Build.0 = Debug|Any CPU
+		{96DD50D4-A773-FF5F-393B-6958964EB680}.gcmodeller_desktop|Any CPU.ActiveCfg = CellaLAB-Desktop|Any CPU
+		{96DD50D4-A773-FF5F-393B-6958964EB680}.gcmodeller_desktop|Any CPU.Build.0 = CellaLAB-Desktop|Any CPU
+		{96DD50D4-A773-FF5F-393B-6958964EB680}.gcmodeller_desktop|x64.ActiveCfg = CellaLAB-Desktop|x64
+		{96DD50D4-A773-FF5F-393B-6958964EB680}.gcmodeller_desktop|x64.Build.0 = CellaLAB-Desktop|x64
+		{96DD50D4-A773-FF5F-393B-6958964EB680}.gcmodeller_desktop|x86.ActiveCfg = CellaLAB-Desktop|Any CPU
+		{96DD50D4-A773-FF5F-393B-6958964EB680}.gcmodeller_desktop|x86.Build.0 = CellaLAB-Desktop|Any CPU
+		{96DD50D4-A773-FF5F-393B-6958964EB680}.LipidSearch|Any CPU.ActiveCfg = nuget_release|Any CPU
+		{96DD50D4-A773-FF5F-393B-6958964EB680}.LipidSearch|Any CPU.Build.0 = nuget_release|Any CPU
+		{96DD50D4-A773-FF5F-393B-6958964EB680}.LipidSearch|x64.ActiveCfg = nuget_release|x64
+		{96DD50D4-A773-FF5F-393B-6958964EB680}.LipidSearch|x64.Build.0 = nuget_release|x64
+		{96DD50D4-A773-FF5F-393B-6958964EB680}.LipidSearch|x86.ActiveCfg = nuget_release|Any CPU
+		{96DD50D4-A773-FF5F-393B-6958964EB680}.LipidSearch|x86.Build.0 = nuget_release|Any CPU
+		{96DD50D4-A773-FF5F-393B-6958964EB680}.mzkit_win32|Any CPU.ActiveCfg = Rsharp_app_release|Any CPU
+		{96DD50D4-A773-FF5F-393B-6958964EB680}.mzkit_win32|Any CPU.Build.0 = Rsharp_app_release|Any CPU
+		{96DD50D4-A773-FF5F-393B-6958964EB680}.mzkit_win32|x64.ActiveCfg = Rsharp_app_release|x64
+		{96DD50D4-A773-FF5F-393B-6958964EB680}.mzkit_win32|x64.Build.0 = Rsharp_app_release|x64
+		{96DD50D4-A773-FF5F-393B-6958964EB680}.mzkit_win32|x86.ActiveCfg = Rsharp_app_release|Any CPU
+		{96DD50D4-A773-FF5F-393B-6958964EB680}.mzkit_win32|x86.Build.0 = Rsharp_app_release|Any CPU
+		{96DD50D4-A773-FF5F-393B-6958964EB680}.mzkit|Any CPU.ActiveCfg = Debug|Any CPU
+		{96DD50D4-A773-FF5F-393B-6958964EB680}.mzkit|Any CPU.Build.0 = Debug|Any CPU
+		{96DD50D4-A773-FF5F-393B-6958964EB680}.mzkit|x64.ActiveCfg = Debug|x64
+		{96DD50D4-A773-FF5F-393B-6958964EB680}.mzkit|x64.Build.0 = Debug|x64
+		{96DD50D4-A773-FF5F-393B-6958964EB680}.mzkit|x86.ActiveCfg = Debug|Any CPU
+		{96DD50D4-A773-FF5F-393B-6958964EB680}.mzkit|x86.Build.0 = Debug|Any CPU
+		{96DD50D4-A773-FF5F-393B-6958964EB680}.NPSearch|Any CPU.ActiveCfg = Rsharp_app_release|Any CPU
+		{96DD50D4-A773-FF5F-393B-6958964EB680}.NPSearch|Any CPU.Build.0 = Rsharp_app_release|Any CPU
+		{96DD50D4-A773-FF5F-393B-6958964EB680}.NPSearch|x64.ActiveCfg = Rsharp_app_release|x64
+		{96DD50D4-A773-FF5F-393B-6958964EB680}.NPSearch|x64.Build.0 = Rsharp_app_release|x64
+		{96DD50D4-A773-FF5F-393B-6958964EB680}.NPSearch|x86.ActiveCfg = Rsharp_app_release|Any CPU
+		{96DD50D4-A773-FF5F-393B-6958964EB680}.NPSearch|x86.Build.0 = Rsharp_app_release|Any CPU
+		{96DD50D4-A773-FF5F-393B-6958964EB680}.PlantMAT|Any CPU.ActiveCfg = Rsharp_app_release|Any CPU
+		{96DD50D4-A773-FF5F-393B-6958964EB680}.PlantMAT|Any CPU.Build.0 = Rsharp_app_release|Any CPU
+		{96DD50D4-A773-FF5F-393B-6958964EB680}.PlantMAT|x64.ActiveCfg = Rsharp_app_release|x64
+		{96DD50D4-A773-FF5F-393B-6958964EB680}.PlantMAT|x64.Build.0 = Rsharp_app_release|x64
+		{96DD50D4-A773-FF5F-393B-6958964EB680}.PlantMAT|x86.ActiveCfg = Rsharp_app_release|Any CPU
+		{96DD50D4-A773-FF5F-393B-6958964EB680}.PlantMAT|x86.Build.0 = Rsharp_app_release|Any CPU
+		{96DD50D4-A773-FF5F-393B-6958964EB680}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96DD50D4-A773-FF5F-393B-6958964EB680}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96DD50D4-A773-FF5F-393B-6958964EB680}.Release|x64.ActiveCfg = Release|x64
+		{96DD50D4-A773-FF5F-393B-6958964EB680}.Release|x64.Build.0 = Release|x64
+		{96DD50D4-A773-FF5F-393B-6958964EB680}.Release|x86.ActiveCfg = Release|Any CPU
+		{96DD50D4-A773-FF5F-393B-6958964EB680}.Release|x86.Build.0 = Release|Any CPU
+		{96DD50D4-A773-FF5F-393B-6958964EB680}.Rsharp_app_release|Any CPU.ActiveCfg = Rsharp_app_release|Any CPU
+		{96DD50D4-A773-FF5F-393B-6958964EB680}.Rsharp_app_release|Any CPU.Build.0 = Rsharp_app_release|Any CPU
+		{96DD50D4-A773-FF5F-393B-6958964EB680}.Rsharp_app_release|x64.ActiveCfg = Rsharp_app_release|x64
+		{96DD50D4-A773-FF5F-393B-6958964EB680}.Rsharp_app_release|x64.Build.0 = Rsharp_app_release|x64
+		{96DD50D4-A773-FF5F-393B-6958964EB680}.Rsharp_app_release|x86.ActiveCfg = Rsharp_app_release|Any CPU
+		{96DD50D4-A773-FF5F-393B-6958964EB680}.Rsharp_app_release|x86.Build.0 = Rsharp_app_release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1075,6 +1131,7 @@ Global
 		{CD2ABC7E-200E-413F-BD2F-1F7F14C81CE0} = {47786F12-D338-4A1C-A698-C0E27094C9DB}
 		{1E3DFEEC-85F8-48BF-AEB4-277970F86E07} = {47786F12-D338-4A1C-A698-C0E27094C9DB}
 		{BCB09445-FAAA-00D3-4C4B-3B741CE1A91F} = {47786F12-D338-4A1C-A698-C0E27094C9DB}
+		{96DD50D4-A773-FF5F-393B-6958964EB680} = {47786F12-D338-4A1C-A698-C0E27094C9DB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {02A0E3FD-86D4-4E02-A711-378A2FF20E71}
