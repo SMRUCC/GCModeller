@@ -1,0 +1,124 @@
+.\" man page create by R# package system.
+.TH SSGRID 1 2000-1月 "sfit_options" "sfit_options"
+.SH NAME
+sfit_options \- create the fitting configuration object of the S-system network inference
+.SH SYNOPSIS
+\fIsfit_options(\fBnormalize\fR as string = "log2", 
+\fBpseudo\fR as double = 1, 
+\fBsparsity\fR as double = 0.2, 
+\fBmax_edges\fR as integer = 3, 
+\fBmax_regulators\fR as integer = 0, 
+\fBl1\fR as double = 0.01, 
+\fBstability\fR as double = 0.2, 
+\fBsmooth\fR as integer = 5, 
+\fBprior_penalty\fR as double = 0.2, 
+\fBprior_sign_penalty\fR as double = 0.2, 
+\fBprior_rank_boost\fR as double = 1, 
+\fBprior\fR as <generic> PriorNetwork = \fB<NULL>\fR, 
+\fBde_pop\fR as integer = 40, 
+\fBde_iters\fR as integer = 1200, 
+\fBseed\fR as integer = 1234567, 
+\fBparallel\fR as boolean = TRUE, 
+\fBverbose\fR as boolean = FALSE, 
+\fBrefine\fR as boolean = FALSE, 
+\fBfinal_time\fR as double = 0, 
+\fBprecise\fR as double = 0.1, 
+\fBsteps\fR as integer = 0);\fR
+.SH DESCRIPTION
+.PP
+create the fitting configuration object of the S-system network inference
+.PP
+.SH OPTIONS
+.PP
+\fBnormalize\fB \fR\- 
+ the normalization method of the gene expression matrix, could be 
+ \fBlog2\fR(default), \fBnone\fR, \fBrowzscore\fR or \fBquantile\fR.
+. 
+.PP
+.PP
+\fBpseudo\fB \fR\- the pseudo count that used by the log2 normalization.. 
+.PP
+.PP
+\fBsparsity\fB \fR\- 
+ the sparsity threshold of the net elasticity, the interaction with a smaller 
+ \fB|g - h|\fR than this threshold will not be kept in the network topology.
+. 
+.PP
+.PP
+\fBmax_edges\fB \fR\- the max number of the regulators that could be kept for each target gene.. 
+.PP
+.PP
+\fBmax_regulators\fB \fR\- 
+ the max number of the candidate regulators for each target gene, the prior 
+ supported regulators are always included before the correlation based 
+ preselection; zero means that all of the genes will be used as candidate.
+. 
+.PP
+.PP
+\fBl1\fB \fR\- the L1 penalty weight of the kinetic orders.. 
+.PP
+.PP
+\fBstability\fB \fR\- the penalty weight of a positive self loop.. 
+.PP
+.PP
+\fBsmooth\fB \fR\- 
+ the moving average window that used in the numerical differentiation, 
+ it is required by the noisy pseudotime data; zero means no smoothing.
+. 
+.PP
+.PP
+\fBprior_penalty\fB \fR\- the soft penalty weight of the interactions that are not supported by the prior.. 
+.PP
+.PP
+\fBprior_sign_penalty\fB \fR\- the penalty weight of the direction conflict against the prior.. 
+.PP
+.PP
+\fBprior_rank_boost\fB \fR\- the ranking boost of the prior supported edges in the sparsification.. 
+.PP
+.PP
+\fBprior\fB \fR\- the prior knowledge network object.. 
+.PP
+.PP
+\fBde_pop\fB \fR\- the population size of the differential evolution solver.. 
+.PP
+.PP
+\fBde_iters\fB \fR\- the max iteration number of the differential evolution solver.. 
+.PP
+.PP
+\fBseed\fB \fR\- the random seed.. 
+.PP
+.PP
+\fBparallel\fB \fR\- run the per gene fitting in parallel or not?. 
+.PP
+.PP
+\fBverbose\fB \fR\- print the fitting progress or not?. 
+.PP
+.PP
+\fBrefine\fB \fR\- 
+ refine the kinetic parameters by the trajectory fitting after the 
+ decoupled slope fitting?
+. 
+.PP
+.PP
+\fBfinal_time\fB \fR\- the final time of the simulation, zero means the end of the time axis.. 
+.PP
+.PP
+\fBprecise\fB \fR\- the integration step of the simulation.. 
+.PP
+.PP
+\fBsteps\fB \fR\- the number of the simulation sample points, zero means auto.. 
+.PP
+.SH VALUE
+.PP
+a [FittingOptions](cref:T:SMRUCC.genomics.Analysis.SGrid.GRN.FittingOptions) object
+.PP
+.SH EXAMPLES
+.PP
+let opts = sfit_options(sparsity = 0.01, max_edges = 6, smooth = 9);
+.PP
+.SH SEE ALSO
+ssGrid
+.SH FILES
+.PP
+biosystem.dll
+.PP

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.SGrid.GRN.ExpressionTimeSeries</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>ExpressionTimeSeries {SMRUCC.genomics.Analysis.SGrid.GRN}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>ExpressionTimeSeries</h2>
+
+        <h3>Description</h3>
+
+        <p>The time series view of a gene expression matrix.(基因表达矩阵的时序视图)</p>
+
+<p>本类型负责把 <a href="cref:T:SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix">Matrix</a> 之中的数据转换为可以被 S-system 逆问题所使用的形式： 行是基因、列是时间点，并且会预先计算出对数表达量矩阵以提升拟合时的求值性能。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.SGrid.GRN
+export class ExpressionTimeSeries {
+   # 已经规整化之后的基因编号（可以直接被数学表达式引擎所解析）
+   GeneNames: string;
+   # 表达量的自然对数矩阵，第一维是基因、第二维是时间点
+   LnX: <a href="/vignettes/clr/System/Double[].html">Double[][]</a>;
+   # 基因的数量
+   nGenes: integer;
+   # 建立该时序视图时所使用的归一化方法与伪计数
+   Normalize: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SGrid/GRN/NormalizationMethods.html">NormalizationMethods</a>;
+   # 时间点的数量
+   nTimePoints: integer;
+   # 每一个基因在预处理时被平移的常数 δ（幂律要求表达量为正数）： <code>X = log2(max(raw,0) + pseudo) + δ</code>。 把外部数据（例如 pseudobulk context）映射到模型空间时必须使用同一个 δ
+   Offsets: double;
+   # 原始的基因编号，用于结果标注
+   OriginalNames: string;
+   # 建立该时序视图时所使用的伪计数
+   PseudoCount: double;
+   # 时间轴的终点值
+   TimeEnd: double;
+   # 时间轴（每个采样点所对应的时间值）
+   TimePoints: double;
+   # 在预处理过程之中所产生的提示信息
+   Warnings: <a href="/vignettes/clr/System/String.html">iterates(String)</a>;
+   # 表达量矩阵，第一维是基因、第二维是时间点
+   X: <a href="/vignettes/clr/System/Double[].html">Double[][]</a>;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>LnX</code>: <a href="/vignettes/clr/System/Double[].html">Double[]</a></li>
+<li>use by <i>property</i> member <code>Normalize</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SGrid/GRN/NormalizationMethods.html">NormalizationMethods</a></li>
+<li>use by <i>property</i> member <code>Warnings</code>: <a href="/vignettes/clr/System/String.html">iterates(String)</a></li>
+<li>use by <i>property</i> member <code>X</code>: <a href="/vignettes/clr/System/Double[].html">Double[]</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

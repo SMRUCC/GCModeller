@@ -1,0 +1,39 @@
+.\" man page create by R# package system.
+.TH SSGRID 1 2000-1月 "perturb_export" "perturb_export"
+.SH NAME
+perturb_export \- save the virtual perturbation screening result as csv files
+.SH SYNOPSIS
+\fIperturb_export(\fBscreening\fR as <generic> ScreeningResult, 
+\fBdir\fR as string);\fR
+.SH DESCRIPTION
+.PP
+save the virtual perturbation screening result as csv files
+.PP
+.SH OPTIONS
+.PP
+\fBscreening\fB \fR\- the output of the \fBperturb\fR api.. 
+.PP
+.PP
+\fBdir\fB \fR\- the output directory.. 
+.PP
+.SH VALUE
+.PP
+the number of the files that has been written.
+.PP
+.SH DETAILS
+.PP
+this function writes the \fBcontrol.csv\fR and the \fBperturb_records.csv\fR; 
+ the trajectory of each perturbation design is not kept in the screening 
+ result object, so please use the \fBexport\fR parameter of the \fBperturb\fR 
+ api if the trajectory files are required.
+.PP
+.SH EXAMPLES
+.PP
+perturb_export(resp, "/tmp/ko");
+.PP
+.SH SEE ALSO
+ssGrid
+.SH FILES
+.PP
+biosystem.dll
+.PP

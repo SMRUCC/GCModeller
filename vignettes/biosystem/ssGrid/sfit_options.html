@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>create the fitting configuration object of the S-system network inference</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>sfit_options {ssGrid}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>create the fitting configuration object of the S-system network inference</h2>
+
+        <h3>Description</h3>
+
+        
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>sfit_options</strong>(
+    <i>normalize</i> = <span style='color: brown;'><strong>"log2"</strong></span>,
+    <i>pseudo</i> = <span style='color: green;'>1</span>,
+    <i>sparsity</i> = <span style='color: green;'>0.2</span>,
+    <i>max.edges</i> = <span style='color: green;'>3</span>,
+    <i>max.regulators</i> = <span style='color: green;'>0</span>,
+    <i>l1</i> = <span style='color: green;'>0.01</span>,
+    <i>stability</i> = <span style='color: green;'>0.2</span>,
+    <i>smooth</i> = <span style='color: green;'>5</span>,
+    <i>prior.penalty</i> = <span style='color: green;'>0.2</span>,
+    <i>prior.sign.penalty</i> = <span style='color: green;'>0.2</span>,
+    <i>prior.rank.boost</i> = <span style='color: green;'>1</span>,
+    <i>prior</i> = <span style='color: blue !important;'>NULL</span>,
+    <i>de.pop</i> = <span style='color: green;'>40</span>,
+    <i>de.iters</i> = <span style='color: green;'>1200</span>,
+    <i>seed</i> = <span style='color: green;'>1234567</span>,
+    <i>parallel</i> = <span style='color: blue !important;'>TRUE</span>,
+    <i>verbose</i> = <span style='color: blue !important;'>FALSE</span>,
+    <i>refine</i> = <span style='color: blue !important;'>FALSE</span>,
+    <i>final.time</i> = <span style='color: green;'>0</span>,
+    <i>precise</i> = <span style='color: green;'>0.1</span>,
+    <i>steps</i> = <span style='color: green;'>0</span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>normalize</dt>
+<dd><p>the normalization method of the gene expression matrix, could be <code>log2</code>(default), <code>none</code>, <code>rowzscore</code> or <code>quantile</code>. [as string]</p></dd>
+
+
+<dt>pseudo</dt>
+<dd><p>the pseudo count that used by the log2 normalization. [as double]</p></dd>
+
+
+<dt>sparsity</dt>
+<dd><p>the sparsity threshold of the net elasticity, the interaction with a smaller <code>|g - h|</code> than this threshold will not be kept in the network topology. [as double]</p></dd>
+
+
+<dt>max.edges</dt>
+<dd><p>the max number of the regulators that could be kept for each target gene. [as integer]</p></dd>
+
+
+<dt>max.regulators</dt>
+<dd><p>the max number of the candidate regulators for each target gene, the prior supported regulators are always included before the correlation based preselection; zero means that all of the genes will be used as candidate. [as integer]</p></dd>
+
+
+<dt>l1</dt>
+<dd><p>the L1 penalty weight of the kinetic orders. [as double]</p></dd>
+
+
+<dt>stability</dt>
+<dd><p>the penalty weight of a positive self loop. [as double]</p></dd>
+
+
+<dt>smooth</dt>
+<dd><p>the moving average window that used in the numerical differentiation, it is required by the noisy pseudotime data; zero means no smoothing. [as integer]</p></dd>
+
+
+<dt>prior.penalty</dt>
+<dd><p>the soft penalty weight of the interactions that are not supported by the prior. [as double]</p></dd>
+
+
+<dt>prior.sign.penalty</dt>
+<dd><p>the penalty weight of the direction conflict against the prior. [as double]</p></dd>
+
+
+<dt>prior.rank.boost</dt>
+<dd><p>the ranking boost of the prior supported edges in the sparsification. [as double]</p></dd>
+
+
+<dt>prior</dt>
+<dd><p>the prior knowledge network object. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/PriorNetwork.html">PriorNetwork</a>]</p></dd>
+
+
+<dt>de.pop</dt>
+<dd><p>the population size of the differential evolution solver. [as integer]</p></dd>
+
+
+<dt>de.iters</dt>
+<dd><p>the max iteration number of the differential evolution solver. [as integer]</p></dd>
+
+
+<dt>seed</dt>
+<dd><p>the random seed. [as integer]</p></dd>
+
+
+<dt>parallel</dt>
+<dd><p>run the per gene fitting in parallel or not?. [as boolean]</p></dd>
+
+
+<dt>verbose</dt>
+<dd><p>print the fitting progress or not?. [as boolean]</p></dd>
+
+
+<dt>refine</dt>
+<dd><p>refine the kinetic parameters by the trajectory fitting after the decoupled slope fitting?. [as boolean]</p></dd>
+
+
+<dt>final.time</dt>
+<dd><p>the final time of the simulation, zero means the end of the time axis. [as double]</p></dd>
+
+
+<dt>precise</dt>
+<dd><p>the integration step of the simulation. [as double]</p></dd>
+
+
+<dt>steps</dt>
+<dd><p>the number of the simulation sample points, zero means auto. [as integer]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: none;">Details</h3>
+
+        
+
+        <h3 style="display: block">Authors</h3>
+
+        biosystem
+
+        <h3>Value</h3>
+
+        <p>a <a href="cref:T:SMRUCC.genomics.Analysis.SGrid.GRN.FittingOptions">FittingOptions</a> object</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/SGrid/GRN/FittingOptions.html">FittingOptions</a></li></ul>
+
+        <h3 style="display: block;">Examples</h3>
+
+        <pre><code id="example_r"> let opts = sfit_options(sparsity = 0.01, max_edges = 6, smooth = 9);</code></pre>
+
+        <hr />
+        <div style="text-align: center;">[Package <em>ssGrid</em> version 1.0.0.0 <a
+                href="../ssGrid.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

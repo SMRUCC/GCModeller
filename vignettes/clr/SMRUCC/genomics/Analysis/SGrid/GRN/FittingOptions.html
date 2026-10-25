@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.SGrid.GRN.FittingOptions</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>FittingOptions {SMRUCC.genomics.Analysis.SGrid.GRN}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>FittingOptions</h2>
+
+        <h3>Description</h3>
+
+        <p>The configuration object of the S-system gene regulatory network inference. (基因表达调控网络的S-system拟合参数配置)</p>
+
+<p>参数的生物学取值范围直接参考 method.md 的表格： alpha/beta 为速率常数（典型 [0,10]），g/h 为动力学阶（典型 [-3,3]）。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.SGrid.GRN
+export class FittingOptions {
+   # The value bounds of the rate constant alpha.(合成速率常数的上下界)
+   AlphaBounds: <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/Ranges/Model/DoubleRange.html">DoubleRange</a>;
+   # The value bounds of the rate constant beta.(降解速率常数的上下界)
+   BetaBounds: <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/Ranges/Model/DoubleRange.html">DoubleRange</a>;
+   # 差分进化算法的交叉概率 CR，取值区间 [0,1]
+   DECR: double;
+   # 差分进化算法的变异权重 F，取值区间 [0,2]
+   DEF: double;
+   # 差分进化算法的最大迭代次数
+   DEMaxIterations: integer;
+   # 是否使用三次样条平滑之后再做数值微分
+   Denoise: boolean;
+   # 差分进化算法的种群大小
+   DEPopulationSize: integer;
+   # 差分进化算法的收敛阈值
+   DEThreshold: double;
+   # 仿真（轨迹精修与虚拟扰动）所使用的终止时间；零表示使用表达矩阵的时间轴终点
+   FinalTime: double;
+   # The value bounds of the kinetic order g.(合成项动力学阶的上下界)
+   GBounds: <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/Ranges/Model/DoubleRange.html">DoubleRange</a>;
+   # The value bounds of the kinetic order h.(降解项动力学阶的上下界)
+   HBounds: <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/Ranges/Model/DoubleRange.html">DoubleRange</a>;
+   # 是否保留自环（X_i 调控其自身），默认保留
+   KeepSelfLoop: boolean;
+   # 稀疏惩罚项（L1）的权重系数，零表示不施加惩罚
+   L1Penalty: double;
+   # L-BFGS-B 局部精修的最大迭代次数
+   LBFGSIterations: integer;
+   # 每一个靶基因最多保留的调控边的数量（与 SPEM 包的 n 参数同义，默认 3）
+   MaxEdgesPerGene: integer;
+   # 预先使用相关性筛选出的候选调控因子的最大数量；零表示不筛选（使用全部基因作为候选）
+   MaxRegulators: integer;
+   # 对表达矩阵施加的归一化方法
+   Normalize: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SGrid/GRN/NormalizationMethods.html">NormalizationMethods</a>;
+   # 是否并行求解多个基因的参数（逐基因之间互相独立）
+   Parallel: boolean;
+   # 仿真所使用的积分步长
+   Precise: double;
+   # 用于约束网络结构的先验知识网络；为空的时候不启用先验约束
+   Prior: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/PriorNetwork.html">PriorNetwork</a>;
+   # 是否启用先验的硬约束：候选调控因子只允许来自先验（加上自环）。 默认关闭，即保留发现新边的能力（软约束）
+   PriorCandidateRestriction: boolean;
+   # 先验不支持的交互的软惩罚强度：惩罚量取「非先验交互的质量占比」， 故该项的取值是相对量，零表示关闭该约束
+   PriorPenalty: double;
+   # 稀疏化阶段对先验支持边的排序加权：排序分数为 <code>|net| * (1 + PriorRankBoost * confidenceWeight)</code>
+   PriorRankBoost: double;
+   # 与先验方向相冲突的交互的惩罚强度：惩罚量取「符号违背量的平均值」， 零表示关闭该约束
+   PriorSignPenalty: double;
+   # 对数变换的伪计数，避免出现 log(0)
+   PseudoCount: double;
+   # 轨迹精修阶段的最大迭代次数
+   RefineMaxIterations: integer;
+   # 是否执行第二阶段的轨迹精修（需要反复积分ODE，耗时较长，默认关闭）
+   RefineTrajectory: boolean;
+   # 随机数种子，零表示使用系统种子
+   Seed: integer;
+   # 数值微分之前的滑动平均窗口（奇数）；零或者小于 3 表示不做滑动平均。
+   SmoothWindow: integer;
+   # 仿真所使用的ODE求解引擎
+   Solver: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/Calculus/Dynamics/ODESolverMethod.html">ODESolverMethod</a>;
+   # 绝对值小于本阈值的交互会被置零（与 SPEM 包的 sparsity 参数同义，默认 0.2）
+   Sparsity: double;
+   # 稳定性惩罚项的权重系数：稳态的渐近稳定性要求对数增益矩阵的对角元为负数， 故当拟合出正的自环净弹性的时候会施加惩罚。零表示关闭该约束
+   StabilityPenalty: double;
+   # 仿真采样点的数量；零表示由终止时间与步长自动推导
+   Steps: integer;
+   # 用户在外部显式给定的时间轴；为 Nothing 的时候会尝试从样本编号之中解析
+   TimePoints: double;
+   # 是否启用先验知识约束（<a href="cref:P:SMRUCC.genomics.Analysis.SGrid.GRN.FittingOptions.Prior">FittingOptions.Prior</a> 不为空的时候才有效）
+   UsePrior: boolean;
+   # 是否启用先验方向（激活/抑制）的符号约束
+   UsePriorSign: boolean;
+   # 是否输出拟合过程的详细信息
+   Verbose: boolean;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>AlphaBounds</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/Ranges/Model/DoubleRange.html">DoubleRange</a></li>
+<li>use by <i>property</i> member <code>BetaBounds</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/Ranges/Model/DoubleRange.html">DoubleRange</a></li>
+<li>use by <i>property</i> member <code>GBounds</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/Ranges/Model/DoubleRange.html">DoubleRange</a></li>
+<li>use by <i>property</i> member <code>HBounds</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/Ranges/Model/DoubleRange.html">DoubleRange</a></li>
+<li>use by <i>property</i> member <code>Normalize</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SGrid/GRN/NormalizationMethods.html">NormalizationMethods</a></li>
+<li>use by <i>property</i> member <code>Prior</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/PriorNetwork.html">PriorNetwork</a></li>
+<li>use by <i>property</i> member <code>Solver</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/Calculus/Dynamics/ODESolverMethod.html">ODESolverMethod</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

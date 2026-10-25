@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Microsoft.VisualBasic.Math.Calculus.Dynamics.ODESolverMethod</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>ODESolverMethod {Microsoft.VisualBasic.Math.Calculus.Dynamics}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>ODESolverMethod</h2>
+
+        <h3>Description</h3>
+
+        <p>The available integration algorithms of the <a href="cref:T:Microsoft.VisualBasic.Math.Calculus.Dynamics.ODEs">ODEs</a> dynamics system. (常微分方程组可用的积分算法)</p>
+
+
+<table>
+<thead>
+<tr><th>方法</th><th>阶数</th><th>类型</th><th>适用</th></tr>
+</thead>
+<tbody>
+<tr><td><a href="cref:F:Microsoft.VisualBasic.Math.Calculus.Dynamics.ODESolverMethod.Euler">ODESolverMethod.Euler</a></td><td>1</td><td>显式固定步长</td><td>教学 / 快速原型</td></tr>
+<tr><td><a href="cref:F:Microsoft.VisualBasic.Math.Calculus.Dynamics.ODESolverMethod.RK2">ODESolverMethod.RK2</a></td><td>2</td><td>显式固定步长</td><td>一般用途</td></tr>
+<tr><td><a href="cref:F:Microsoft.VisualBasic.Math.Calculus.Dynamics.ODESolverMethod.Gill">ODESolverMethod.Gill</a></td><td>4</td><td>显式固定步长</td><td>长时程积分(舍入误差累积较小)</td></tr>
+<tr><td><a href="cref:F:Microsoft.VisualBasic.Math.Calculus.Dynamics.ODESolverMethod.RK4">ODESolverMethod.RK4</a></td><td>4</td><td>显式固定步长</td><td><strong>默认推荐</strong></td></tr>
+<tr><td><a href="cref:F:Microsoft.VisualBasic.Math.Calculus.Dynamics.ODESolverMethod.ABM4">ODESolverMethod.ABM4</a></td><td>4</td><td>显式多步预测-校正</td><td>光滑非刚性问题的批量仿真</td></tr>
+<tr><td><a href="cref:F:Microsoft.VisualBasic.Math.Calculus.Dynamics.ODESolverMethod.BackwardEuler">ODESolverMethod.BackwardEuler</a></td><td>1</td><td>隐式(L-稳定)</td><td>强刚性问题</td></tr>
+<tr><td><a href="cref:F:Microsoft.VisualBasic.Math.Calculus.Dynamics.ODESolverMethod.Trapezoidal">ODESolverMethod.Trapezoidal</a></td><td>2</td><td>隐式(A-稳定)</td><td>一般刚性问题</td></tr>
+<tr><td><a href="cref:F:Microsoft.VisualBasic.Math.Calculus.Dynamics.ODESolverMethod.BDF2">ODESolverMethod.BDF2</a></td><td>2</td><td>隐式</td><td>刚性问题</td></tr>
+<tr><td><a href="cref:F:Microsoft.VisualBasic.Math.Calculus.Dynamics.ODESolverMethod.RosenbrockROS2">ODESolverMethod.RosenbrockROS2</a></td><td>2</td><td>线性隐式(L-稳定)</td><td>刚性问题(无需 Newton 迭代)</td></tr>
+<tr><td><a href="cref:F:Microsoft.VisualBasic.Math.Calculus.Dynamics.ODESolverMethod.RK23">ODESolverMethod.RK23</a></td><td>3(2)</td><td>自适应显式</td><td>粗略/低频仿真</td></tr>
+<tr><td><a href="cref:F:Microsoft.VisualBasic.Math.Calculus.Dynamics.ODESolverMethod.RK45">ODESolverMethod.RK45</a></td><td>5(4)</td><td>自适应显式</td><td>高精度通用</td></tr>
+<tr><td><a href="cref:F:Microsoft.VisualBasic.Math.Calculus.Dynamics.ODESolverMethod.Verlet">ODESolverMethod.Verlet</a></td><td>2</td><td>辛几何</td><td>哈密顿系统(位置/动量可分裂)</td></tr>
+<tr><td><a href="cref:F:Microsoft.VisualBasic.Math.Calculus.Dynamics.ODESolverMethod.Yoshida4">ODESolverMethod.Yoshida4</a></td><td>4</td><td>辛几何</td><td>哈密顿系统(高精度能量守恒)</td></tr>
+</tbody>
+</table>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace Microsoft.VisualBasic.Math.Calculus.Dynamics
+export class ODESolverMethod extends <a href="/vignettes/clr/System/Enum.html">Enum</a> {
+   # Forward Euler method, 1st order.(前向欧拉法)
+   Euler: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/Calculus/Dynamics/ODESolverMethod.html">ODESolverMethod</a> = 0;
+
+   # The improved Euler (Heun) method, 2nd order.(改进欧拉法)
+   RK2: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/Calculus/Dynamics/ODESolverMethod.html">ODESolverMethod</a> = 1;
+
+   # The 4-stage 4th order Gill method, it has a smaller round-off accumulation than RK4. (四阶 Gill 方法，舍入误差累积较小)
+   Gill: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/Calculus/Dynamics/ODESolverMethod.html">ODESolverMethod</a> = 2;
+
+   # The classical 4-stage 4th order Runge-Kutta method.(经典四阶龙格库塔法)
+   RK4: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/Calculus/Dynamics/ODESolverMethod.html">ODESolverMethod</a> = 3;
+
+   # The 4th order Adams-Bashforth-Moulton predictor-corrector method.(四阶阿当姆斯预测-校正法)
+   ABM4: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/Calculus/Dynamics/ODESolverMethod.html">ODESolverMethod</a> = 4;
+
+   # The implicit backward Euler method (BDF1), L-stable.(隐式后向欧拉法)
+   BackwardEuler: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/Calculus/Dynamics/ODESolverMethod.html">ODESolverMethod</a> = 5;
+
+   # The implicit trapezoidal rule (Crank-Nicolson), A-stable.(隐式梯形法)
+   Trapezoidal: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/Calculus/Dynamics/ODESolverMethod.html">ODESolverMethod</a> = 6;
+
+   # The 2nd order backward differentiation formula, it is suitable for the stiff problems. (二阶后向微分公式)
+   BDF2: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/Calculus/Dynamics/ODESolverMethod.html">ODESolverMethod</a> = 7;
+
+   # The 2-stage 2nd order L-stable Rosenbrock method (linearly implicit).(二阶线性隐式方法)
+   RosenbrockROS2: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/Calculus/Dynamics/ODESolverMethod.html">ODESolverMethod</a> = 8;
+
+   # The Bogacki-Shampine 3(2) adaptive step size method.(自适应 RK23 方法)
+   RK23: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/Calculus/Dynamics/ODESolverMethod.html">ODESolverMethod</a> = 9;
+
+   # The Dormand-Prince 5(4) adaptive step size method.(自适应 RK45 方法)
+   RK45: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/Calculus/Dynamics/ODESolverMethod.html">ODESolverMethod</a> = 10;
+
+   # The 2nd order Stormer-Verlet symplectic method.(二阶辛几何算法)
+   Verlet: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/Calculus/Dynamics/ODESolverMethod.html">ODESolverMethod</a> = 11;
+
+   # The 4th order Yoshida composition of the Stormer-Verlet method.(四阶吉田分解)
+   Yoshida4: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/Calculus/Dynamics/ODESolverMethod.html">ODESolverMethod</a> = 12;
+
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>this class extends from <a href="/vignettes/clr/System/Enum.html">Enum</a> class: <a href="/vignettes/clr/System/Enum.html">Enum</a></li>
+<li>use by <i>field</i> member <code>Euler</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/Calculus/Dynamics/ODESolverMethod.html">ODESolverMethod</a></li>
+<li>use by <i>field</i> member <code>RK2</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/Calculus/Dynamics/ODESolverMethod.html">ODESolverMethod</a></li>
+<li>use by <i>field</i> member <code>Gill</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/Calculus/Dynamics/ODESolverMethod.html">ODESolverMethod</a></li>
+<li>use by <i>field</i> member <code>RK4</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/Calculus/Dynamics/ODESolverMethod.html">ODESolverMethod</a></li>
+<li>use by <i>field</i> member <code>ABM4</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/Calculus/Dynamics/ODESolverMethod.html">ODESolverMethod</a></li>
+<li>use by <i>field</i> member <code>BackwardEuler</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/Calculus/Dynamics/ODESolverMethod.html">ODESolverMethod</a></li>
+<li>use by <i>field</i> member <code>Trapezoidal</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/Calculus/Dynamics/ODESolverMethod.html">ODESolverMethod</a></li>
+<li>use by <i>field</i> member <code>BDF2</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/Calculus/Dynamics/ODESolverMethod.html">ODESolverMethod</a></li>
+<li>use by <i>field</i> member <code>RosenbrockROS2</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/Calculus/Dynamics/ODESolverMethod.html">ODESolverMethod</a></li>
+<li>use by <i>field</i> member <code>RK23</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/Calculus/Dynamics/ODESolverMethod.html">ODESolverMethod</a></li>
+<li>use by <i>field</i> member <code>RK45</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/Calculus/Dynamics/ODESolverMethod.html">ODESolverMethod</a></li>
+<li>use by <i>field</i> member <code>Verlet</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/Calculus/Dynamics/ODESolverMethod.html">ODESolverMethod</a></li>
+<li>use by <i>field</i> member <code>Yoshida4</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/Calculus/Dynamics/ODESolverMethod.html">ODESolverMethod</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

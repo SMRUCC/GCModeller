@@ -1,0 +1,206 @@
+<!DOCTYPE html><html lang="zh-CN">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>ssGrid</title>
+    <meta name="author" content="xie.guigang@gcmodeller.org" />
+    <meta name="copyright" content="SMRUCC genomics Copyright (c) 2022" />
+    <meta name="keywords" content="R#; ssGrid; biosystem" />
+    <meta name="generator" content="https://github.com/rsharp-lang" />
+    <meta name="theme-color" content="#333" />
+    <meta name="description" content="The S-system based gene regulatory network inference toolkit (基于..." />
+    <meta class="foundation-data-attribute-namespace" />
+    <meta class="foundation-mq-xxlarge" />
+    <meta class="foundation-mq-xlarge" />
+    <meta class="foundation-mq-large" />
+    <meta class="foundation-mq-medium" />
+    <meta class="foundation-mq-small" />
+    <meta class="foundation-mq-topbar" />
+    <style>
+
+.table-three-line {
+border-collapse:collapse; /* 关键属性：合并表格内外边框(其实表格边框有2px，外面1px，里面还有1px哦) */
+border:solid #000000; /* 设置边框属性；样式(solid=实线)、颜色(#999=灰) */
+border-width:2px 0 2px 0px; /* 设置边框状粗细：上 右 下 左 = 对应：1px 0 0 1px */
+}
+.left-1{
+    border:solid #000000;border-width:1px 1px 2px 0px;padding:2px;
+    font-weight:bolder;
+}
+.right-1{
+    border:solid #000000;border-width:1px 0px 2px 1px;padding:2px;
+    font-weight:bolder;
+}
+.mid-1{
+    border:solid #000000;border-width:1px 1px 2px 1px;padding:2px;
+    font-weight:bolder;
+}
+.left{
+    border:solid #000000;border-width:1px 1px 1px 0px;padding:2px;
+}
+.right{
+    border:solid #000000;border-width:1px 0px 1px 1px;padding:2px;
+}
+.mid{
+    border:solid #000000;border-width:1px 1px 1px 1px;padding:2px;
+}
+table caption {font-size:14px;font-weight:bolder;}
+</style>
+  </head>
+  <body>
+    <table width="100%" summary="page for {ssGrid}">
+      <tbody>
+        <tr>
+          <td>{ssGrid}</td>
+          <td style="text-align: right;">R# Documentation</td>
+        </tr>
+      </tbody>
+    </table>
+    <h1>ssGrid</h1>
+    <hr />
+    <p style="     font-size: 1.125em;     line-height: .8em;     margin-left: 0.5%;     background-color: #fbfbfb;     padding: 24px; ">
+      <code>
+        <span style="color: blue;">require</span>(<span style="color: black; font-weight: bold;">GCModeller</span>);
+                               <br /><br /><span style="color: green;">#' The S-system based gene regulatory network inference toolkit (基于 S-system 动力学系统的基因表达调控网络拟合工具)</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "ssGrid"</span><span style="color: blue;"> from</span><span style="color: brown"> "biosystem"</span>;
+                           </code>
+    </p>
+    <p><p>The S-system based gene regulatory network inference toolkit (基于 S-system 动力学系统的基因表达调控网络拟合工具)</p></p>
+    <blockquote>
+      <p style="font-style: italic; font-size: 0.9em;">
+                           <p>This R# package module exposes the <code>SGrid</code> pipeline as a set of R functions:</p>
+
+
+<ul>
+<li><code>sfit_options</code>: create the fitting configuration object(<a href="cref:T:SMRUCC.genomics.Analysis.SGrid.GRN.FittingOptions">FittingOptions</a>);</li>
+<li><code>sfit</code>: infer the S-system gene regulatory network from a gene expression matrix(rows are genes and the columns are the time points), the optional <code>prior</code> knowledge network(<a href="cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.PriorNetwork">PriorNetwork</a>) is used as a soft constraint of the network structure;</li>
+<li><code>network_edges</code>, <code>sgrid_parameters</code>, <code>sgrid_coefficients</code> and <code>sgrid_r2</code>: query the fitted model, these functions return <code>data.frame</code> objects;</li>
+<li><code>sgrid_simulate</code>: integrate the fitted S-system model and return the trajectory as a <code>data.frame</code>;</li>
+<li><code>sgrid_context</code>: map a pseudobulk context(the raw counts) onto the model state space, so that it can be used as the ODE initial state;</li>
+<li><code>perturb</code>: run the in silico knockdown/knockout/overexpression experiment, optionally under a given sample context;</li>
+<li><code>perturb_export</code>: save the perturbation screening result as csv files;</li>
+<li><code>sgrid_prior</code>: read the prior knowledge regulatory network from a csv table(or a <code>data.frame</code>);</li>
+<li><code>sgrid_save</code>: export all of the model tables and the <code>.plas</code> model script;</li>
+</ul>
+
+
+<p>and the binary serialization support of the fitted model: <code>writeBin(model, con = file("network.zip"))</code> and <code>readBin(file("network.zip"), what = "ssgrid_network")</code>.</p>
+                           </p>
+    </blockquote>
+    <div id="main-wrapper">
+      <table class="table-three-line" style="display: block">
+        <caption>.NET clr type export</caption>
+        <tbody><tr>
+  <td id="ssgrid_network">
+    <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SGrid/GRN/SSystemNetwork.html">ssgrid_network: SSystemNetwork</a>
+  </td>
+  <td><p>The fitted S-system gene regulatory network model. (拟合得到的基因表达调控网络模型)</p></td>
+</tr>
+<tr>
+  <td id="sfit_options">
+    <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SGrid/GRN/FittingOptions.html">sfit_options: FittingOptions</a>
+  </td>
+  <td><p>The configuration object of the S-system gene regulatory network inference. (基因表达调控网络的S-system拟合参数配置)</p></td>
+</tr>
+<tr>
+  <td id="sgrid_prior">
+    <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/PriorNetwork.html">sgrid_prior: PriorNetwork</a>
+  </td>
+  <td><p>先验调控网络</p></td>
+</tr>
+<tr>
+  <td id="sgrid_screening">
+    <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SGrid/Perturbation/ScreeningResult.html">sgrid_screening: ScreeningResult</a>
+  </td>
+  <td><p>批量虚拟扰动筛选的结果</p></td>
+</tr></tbody>
+      </table>
+      <br />
+      <br />
+      <table class="table-three-line">
+        <caption>.NET clr function exports</caption>
+        <tbody><tr>
+  <td id="sfit_options">
+    <a href="./ssGrid/sfit_options.html">sfit_options</a>
+  </td>
+  <td><p>create the fitting configuration object of the S-system network inference</p></td>
+</tr>
+<tr>
+  <td id="sfit">
+    <a href="./ssGrid/sfit.html">sfit</a>
+  </td>
+  <td><p>infer the S-system gene regulatory network from the gene expression matrix</p></td>
+</tr>
+<tr>
+  <td id="sgrid_prior">
+    <a href="./ssGrid/sgrid_prior.html">sgrid_prior</a>
+  </td>
+  <td><p>read the prior knowledge regulatory network from a csv table or a data.frame</p></td>
+</tr>
+<tr>
+  <td id="network_edges">
+    <a href="./ssGrid/network_edges.html">network_edges</a>
+  </td>
+  <td><p>get the network topology of the fitted S-system model as a data.frame</p></td>
+</tr>
+<tr>
+  <td id="sgrid_parameters">
+    <a href="./ssGrid/sgrid_parameters.html">sgrid_parameters</a>
+  </td>
+  <td><p>get the fitted kinetic parameters of each gene as a data.frame</p></td>
+</tr>
+<tr>
+  <td id="sgrid_coefficients">
+    <a href="./ssGrid/sgrid_coefficients.html">sgrid_coefficients</a>
+  </td>
+  <td><p>get the coefficient matrix of the fitted S-system model</p></td>
+</tr>
+<tr>
+  <td id="sgrid_r2">
+    <a href="./ssGrid/sgrid_r2.html">sgrid_r2</a>
+  </td>
+  <td><p>get the R square of the slope fitting of each gene</p></td>
+</tr>
+<tr>
+  <td id="sgrid_report">
+    <a href="./ssGrid/sgrid_report.html">sgrid_report</a>
+  </td>
+  <td><p>get the fitting report of the S-system network model</p></td>
+</tr>
+<tr>
+  <td id="sgrid_save">
+    <a href="./ssGrid/sgrid_save.html">sgrid_save</a>
+  </td>
+  <td><p>export the model tables and the generated <code>.plas</code> model script into a directory</p></td>
+</tr>
+<tr>
+  <td id="sgrid_simulate">
+    <a href="./ssGrid/sgrid_simulate.html">sgrid_simulate</a>
+  </td>
+  <td><p>integrate the fitted S-system model and return the trajectory</p></td>
+</tr>
+<tr>
+  <td id="sgrid_context">
+    <a href="./ssGrid/sgrid_context.html">sgrid_context</a>
+  </td>
+  <td><p>map a pseudobulk context(the raw expression counts) onto the model state space</p></td>
+</tr>
+<tr>
+  <td id="perturb">
+    <a href="./ssGrid/perturb.html">perturb</a>
+  </td>
+  <td><p>run the in silico perturbation experiment on the fitted S-system network model</p></td>
+</tr>
+<tr>
+  <td id="perturb_export">
+    <a href="./ssGrid/perturb_export.html">perturb_export</a>
+  </td>
+  <td><p>save the virtual perturbation screening result as csv files</p></td>
+</tr></tbody>
+      </table>
+    </div>
+    <hr />
+    <div style="text-align: center;">[<a href="../index.html">Document Index</a>]</div>
+  </body>
+</html>

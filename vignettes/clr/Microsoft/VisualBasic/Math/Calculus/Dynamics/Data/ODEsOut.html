@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Microsoft.VisualBasic.Math.Calculus.Dynamics.Data.ODEsOut</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>ODEsOut {Microsoft.VisualBasic.Math.Calculus.Dynamics.Data}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>ODEsOut</h2>
+
+        <h3>Description</h3>
+
+        <p>ODEs output, this object can populates the <a href="cref:P:Microsoft.VisualBasic.Math.Calculus.Dynamics.Data.ODEsOut.y">ODEsOut.y</a> variables values through its enumerator interface.</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace Microsoft.VisualBasic.Math.Calculus.Dynamics.Data
+export class ODEsOut {
+   # 得到进行积分的步进值，采样点不足的时候返回零
+   dx: double;
+   # Is there NAN value in the function value <a href="cref:P:Microsoft.VisualBasic.Math.Calculus.Dynamics.Data.ODEsOut.y">ODEsOut.y</a> ???
+   HaveNaN: boolean;
+   params: list;
+   # 获取得到积分计算的分辨率的数值，采样点不足的时候返回零
+   Resolution: double;
+   x: double;
+   y: list;
+   # 方程组的初始值，积分结果会受到初始值的极大的影响
+   y0: list;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>params</code>: list</li>
+<li>use by <i>property</i> member <code>y</code>: list</li>
+<li>use by <i>property</i> member <code>y0</code>: list</li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

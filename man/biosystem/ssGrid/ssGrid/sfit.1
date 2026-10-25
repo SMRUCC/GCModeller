@@ -1,0 +1,56 @@
+.\" man page create by R# package system.
+.TH SSGRID 1 2000-1月 "sfit" "sfit"
+.SH NAME
+sfit \- infer the S-system gene regulatory network from the gene expression matrix
+.SH SYNOPSIS
+\fIsfit(\fBx\fR as <generic> Matrix, 
+\fBopts\fR as <generic> FittingOptions = \fB<NULL>\fR, 
+\fBprior\fR as any = \fB<NULL>\fR, 
+\fBtime\fR as any = \fB<NULL>\fR, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+infer the S-system gene regulatory network from the gene expression matrix
+.PP
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- 
+ the gene expression matrix(rows are genes and columns are the time points), 
+ this matrix object could be loaded from a csv file via \fBgeneExpression::load.expr\fR.
+. 
+.PP
+.PP
+\fBopts\fB \fR\- the fitting configuration object, see also: [ssGrid.sfitOptions()](cref:M:biosystem.ssGrid.sfitOptions(System.String,System.Double,System.Double,System.Int32,System.Int32,System.Double,System.Double,System.Int32,System.Double,System.Double,System.Double,SMRUCC.genomics.Analysis.BNLearn.Core.PriorNetwork,System.Int32,System.Int32,System.Int32,System.Boolean,System.Boolean,System.Boolean,System.Double,System.Double,System.Int32)).. 
+.PP
+.PP
+\fBprior\fB \fR\- 
+ the prior knowledge regulatory network, which could be a 
+ [PriorNetwork](cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.PriorNetwork) object(from \fBbnlearn::as.prior_net\fR or \fBsgrid_prior\fR) 
+ or a csv file path. This prior is used as a **soft** constraint: an interaction 
+ that is not supported by the prior will be shrunk, but a new regulation 
+ relation could still be discovered from the expression data.
+. 
+.PP
+.PP
+\fBtime\fB \fR\- the time points of the matrix columns, a numeric vector.. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a [SSystemNetwork](cref:T:SMRUCC.genomics.Analysis.SGrid.GRN.SSystemNetwork) object that contains the fitted network 
+ topology and the kinetic parameters; a R# error message object will be 
+ returned if the input data is not valid.
+.PP
+.SH EXAMPLES
+.PP
+let opts = sfit_options(sparsity = 0.01, max_edges = 6, smooth = 9);
+ let network = sfit(x, opts, prior = as.prior_net(prior_edges), time = t);
+.PP
+.SH SEE ALSO
+ssGrid
+.SH FILES
+.PP
+biosystem.dll
+.PP

@@ -1,0 +1,38 @@
+.\" man page create by R# package system.
+.TH SSGRID 1 2000-1月 "sgrid_prior" "sgrid_prior"
+.SH NAME
+sgrid_prior \- read the prior knowledge regulatory network from a csv table or a data.frame
+.SH SYNOPSIS
+\fIsgrid_prior(\fBdata\fR as any, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+read the prior knowledge regulatory network from a csv table or a data.frame
+.PP
+.SH OPTIONS
+.PP
+\fBdata\fB \fR\- 
+ a csv file path, or a data.frame object which contains the columns of 
+ \fBtf,target,type,confidence,evidence\fR(the column name is case insensitive, 
+ and the \fBconfidence\fR column could be a numeric score or the 
+ \fBHigh/Medium/Low\fR label).
+. 
+.PP
+.PP
+\fBenv\fB \fR\- -. 
+.PP
+.SH VALUE
+.PP
+a [PriorNetwork](cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.PriorNetwork) object, or a R# error message object.
+.PP
+.SH EXAMPLES
+.PP
+let prior = sgrid_prior("/data/TF_target_prior_curated.csv");
+ let prior = sgrid_prior(data.frame(tf = ..., target = ..., type = ..., confidence = ...));
+.PP
+.SH SEE ALSO
+ssGrid
+.SH FILES
+.PP
+biosystem.dll
+.PP

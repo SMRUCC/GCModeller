@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.SGrid.Perturbation.ScreeningResult</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>ScreeningResult {SMRUCC.genomics.Analysis.SGrid.Perturbation}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>ScreeningResult</h2>
+
+        <h3>Description</h3>
+
+        <p>批量虚拟扰动筛选的结果</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.SGrid.Perturbation
+export class ScreeningResult {
+   # 对照组的求解结果
+   Control: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/Calculus/Dynamics/Data/ODEsOut.html">ODEsOut</a>;
+   # 本次筛选所使用的扰动设计
+   Designs: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SGrid/Perturbation/PerturbationDesign.html">PerturbationDesign[]</a>;
+   # 按照影响强度降序排列的响应记录（只包含被扰动的目标基因自身的响应）
+   Ranking: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SGrid/Perturbation/ScreeningRecord.html">ScreeningRecord[]</a>;
+   # 全部响应记录
+   Records: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SGrid/Perturbation/ScreeningRecord.html">ScreeningRecord[]</a>;
+   # 仿真输出的时间轴
+   TimePoints: double;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>Control</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/Calculus/Dynamics/Data/ODEsOut.html">ODEsOut</a></li>
+<li>use by <i>property</i> member <code>Designs</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SGrid/Perturbation/PerturbationDesign.html">PerturbationDesign</a></li>
+<li>use by <i>property</i> member <code>Ranking</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SGrid/Perturbation/ScreeningRecord.html">ScreeningRecord</a></li>
+<li>use by <i>property</i> member <code>Records</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SGrid/Perturbation/ScreeningRecord.html">ScreeningRecord</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

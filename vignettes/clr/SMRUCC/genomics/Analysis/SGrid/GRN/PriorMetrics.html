@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.SGrid.GRN.PriorMetrics</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>PriorMetrics {SMRUCC.genomics.Analysis.SGrid.GRN}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>PriorMetrics</h2>
+
+        <h3>Description</h3>
+
+        <p>The evaluation of the prior knowledge against the recovered network topology. (先验知识与拟合得到的网络拓扑之间的对照指标)</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.SGrid.GRN
+export class PriorMetrics {
+   # 先验知识之中被成功复现出来的边数量
+   ConfirmedPriorEdges: integer;
+   # 先验知识之中没有被复现出来的边
+   MissedPriorEdges: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/RegulatoryEdge.html">iterates(RegulatoryEdge)</a>;
+   # 先验覆盖率：恢复出来的边之中有多少比例是有先验支持的
+   Precision: double;
+   # 恢复出来的调控边总数
+   RecoveredEdges: integer;
+   # 先验方向的整体一致率
+   SignConsistency: double;
+   # 有先验支持并且调控方向一致的边的数量
+   SignConsistent: integer;
+   # 有先验支持但是调控方向相反的边
+   SignViolations: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SGrid/GRN/RegulatoryEdge.html">iterates(RegulatoryEdge)</a>;
+   # 其中被先验知识所支持的边的数量
+   SupportedEdges: integer;
+   # 没有先验支持的边（新发现的调控关系）
+   UnsupportedEdges: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SGrid/GRN/RegulatoryEdge.html">iterates(RegulatoryEdge)</a>;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>MissedPriorEdges</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/RegulatoryEdge.html">iterates(RegulatoryEdge)</a></li>
+<li>use by <i>property</i> member <code>SignViolations</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SGrid/GRN/RegulatoryEdge.html">iterates(RegulatoryEdge)</a></li>
+<li>use by <i>property</i> member <code>UnsupportedEdges</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SGrid/GRN/RegulatoryEdge.html">iterates(RegulatoryEdge)</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

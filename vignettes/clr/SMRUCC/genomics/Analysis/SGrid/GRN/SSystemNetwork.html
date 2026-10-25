@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.SGrid.GRN.SSystemNetwork</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>SSystemNetwork {SMRUCC.genomics.Analysis.SGrid.GRN}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>SSystemNetwork</h2>
+
+        <h3>Description</h3>
+
+        <p>The fitted S-system gene regulatory network model. (拟合得到的基因表达调控网络模型)</p>
+
+<p>本对象是 SGrid 的门面类型：它同时持有</p>
+
+
+<ol>
+<li>预处理之后的时序数据 <a href="cref:P:SMRUCC.genomics.Analysis.SGrid.GRN.SSystemNetwork.Series">SSystemNetwork.Series</a></li>
+<li>动力学参数 <a href="cref:P:SMRUCC.genomics.Analysis.SGrid.GRN.SSystemNetwork.Parameters">SSystemNetwork.Parameters</a></li>
+<li>稀疏化之后的调控拓扑 <a href="cref:P:SMRUCC.genomics.Analysis.SGrid.GRN.SSystemNetwork.Edges">SSystemNetwork.Edges</a></li>
+</ol>
+
+
+<p>并且可以生成可以直接被 PLAS 运行的 S-system 模型对象。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.SGrid.GRN
+export class SSystemNetwork {
+   # 稀疏化之后的有向调控边集合
+   Edges: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SGrid/GRN/RegulatoryEdge.html">RegulatoryEdge[]</a>;
+   # 本次拟合所使用的配置
+   Options: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SGrid/GRN/FittingOptions.html">FittingOptions</a>;
+   # 拟合得到的动力学参数
+   Parameters: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SGrid/GRN/SSystemParameters.html">SSystemParameters</a>;
+   # 本次拟合所使用的先验知识网络（基因符号已经映射到规整化之后的编号）
+   Prior: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/PriorNetwork.html">PriorNetwork</a>;
+   # 先验知识与拟合拓扑之间的对照指标；没有启用先验的时候为空
+   PriorStatistics: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SGrid/GRN/PriorMetrics.html">PriorMetrics</a>;
+   # 预处理之后的基因表达时序数据
+   Series: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SGrid/GRN/ExpressionTimeSeries.html">ExpressionTimeSeries</a>;
+   # 拟合过程的诊断信息
+   Warnings: <a href="/vignettes/clr/System/String.html">iterates(String)</a>;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>Edges</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SGrid/GRN/RegulatoryEdge.html">RegulatoryEdge</a></li>
+<li>use by <i>property</i> member <code>Options</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SGrid/GRN/FittingOptions.html">FittingOptions</a></li>
+<li>use by <i>property</i> member <code>Parameters</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SGrid/GRN/SSystemParameters.html">SSystemParameters</a></li>
+<li>use by <i>property</i> member <code>Prior</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/PriorNetwork.html">PriorNetwork</a></li>
+<li>use by <i>property</i> member <code>PriorStatistics</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SGrid/GRN/PriorMetrics.html">PriorMetrics</a></li>
+<li>use by <i>property</i> member <code>Series</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SGrid/GRN/ExpressionTimeSeries.html">ExpressionTimeSeries</a></li>
+<li>use by <i>property</i> member <code>Warnings</code>: <a href="/vignettes/clr/System/String.html">iterates(String)</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

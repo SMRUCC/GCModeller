@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>infer the S-system gene regulatory network from the gene expression matrix</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>sfit {ssGrid}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>infer the S-system gene regulatory network from the gene expression matrix</h2>
+
+        <h3>Description</h3>
+
+        
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>sfit</strong>(<i>x</i>,
+    <i>opts</i> = <span style='color: blue !important;'>NULL</span>,
+    <i>prior</i> = <span style='color: blue !important;'>NULL</span>,
+    <i>time</i> = <span style='color: blue !important;'>NULL</span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>x</dt>
+<dd><p>the gene expression matrix(rows are genes and columns are the time points), this matrix object could be loaded from a csv file via <code>geneExpression::load.expr</code>. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>]</p></dd>
+
+
+<dt>opts</dt>
+<dd><p>the fitting configuration object, see also: <a href="cref:M:biosystem.ssGrid.sfitOptions(System.String,System.Double,System.Double,System.Int32,System.Int32,System.Double,System.Double,System.Int32,System.Double,System.Double,System.Double,SMRUCC.genomics.Analysis.BNLearn.Core.PriorNetwork,System.Int32,System.Int32,System.Int32,System.Boolean,System.Boolean,System.Boolean,System.Double,System.Double,System.Int32)">ssGrid.sfitOptions()</a>. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SGrid/GRN/FittingOptions.html">FittingOptions</a>]</p></dd>
+
+
+<dt>prior</dt>
+<dd><p>the prior knowledge regulatory network, which could be a <a href="cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.PriorNetwork">PriorNetwork</a> object(from <code>bnlearn::as.prior_net</code> or <code>sgrid_prior</code>) or a csv file path. This prior is used as a <strong>soft</strong> constraint: an interaction that is not supported by the prior will be shrunk, but a new regulation relation could still be discovered from the expression data.</p></dd>
+
+
+<dt>time</dt>
+<dd><p>the time points of the matrix columns, a numeric vector.</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: none;">Details</h3>
+
+        
+
+        <h3 style="display: block">Authors</h3>
+
+        biosystem
+
+        <h3>Value</h3>
+
+        <p>a <a href="cref:T:SMRUCC.genomics.Analysis.SGrid.GRN.SSystemNetwork">SSystemNetwork</a> object that contains the fitted network topology and the kinetic parameters; a R# error message object will be returned if the input data is not valid.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/SGrid/GRN/SSystemNetwork.html">SSystemNetwork</a></li></ul>
+
+        <h3 style="display: block;">Examples</h3>
+
+        <pre><code id="example_r"> let opts = sfit_options(sparsity = 0.01, max_edges = 6, smooth = 9);
+ let network = sfit(x, opts, prior = as.prior_net(prior_edges), time = t);</code></pre>
+
+        <hr />
+        <div style="text-align: center;">[Package <em>ssGrid</em> version 1.0.0.0 <a
+                href="../ssGrid.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.SGrid.Perturbation.ScreeningRecord</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>ScreeningRecord {SMRUCC.genomics.Analysis.SGrid.Perturbation}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>ScreeningRecord</h2>
+
+        <h3>Description</h3>
+
+        <p>一次虚拟扰动实验之中，某一个基因的响应记录</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.SGrid.Perturbation
+export class ScreeningRecord {
+   # 对照组在该基因之上的终末值
+   ControlLevel: double;
+   # 终末值的倍数变化（扰动组 / 对照组）
+   FoldChange: double;
+   # 观测的基因（响应者）
+   Gene: string;
+   # 该基因是否为本次扰动的直接目标
+   IsTarget: boolean;
+   # 整条轨迹之上相对对照组的最大绝对偏差
+   MaxDeviation: double;
+   # 扰动的类型描述
+   Perturbation: string;
+   # 扰动组在该基因之上的终末值
+   PerturbedLevel: double;
+   # 响应时间：轨迹第一次超出对照动态范围 5% 的时间点，负数表示没有任何响应
+   ResponseTime: double;
+   # 被扰动的目标基因
+   Target: string;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        this clr type has no other .net clr type reference.
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

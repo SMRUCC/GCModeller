@@ -1,0 +1,45 @@
+.\" man page create by R# package system.
+.TH SSGRID 1 2000-1月 "sgrid_coefficients" "sgrid_coefficients"
+.SH NAME
+sgrid_coefficients \- get the coefficient matrix of the fitted S-system model
+.SH SYNOPSIS
+\fIsgrid_coefficients(\fBnetwork\fR as <generic> SSystemNetwork, 
+\fBtype\fR as string = "net", 
+\fBoriginal\fR as boolean = TRUE, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+get the coefficient matrix of the fitted S-system model
+.PP
+.SH OPTIONS
+.PP
+\fBnetwork\fB \fR\- -. 
+.PP
+.PP
+\fBtype\fB \fR\- 
+ the matrix type: \fBnet\fR(default, the net elasticity \fBg - h\fR), 
+ \fBg\fR(the kinetic order of the synthesis term) or 
+ \fBh\fR(the kinetic order of the degradation term).
+. 
+.PP
+.PP
+\fBoriginal\fB \fR\- 
+ use the original gene symbol instead of the sanitized gene id? default is TRUE.
+. 
+.PP
+.SH VALUE
+.PP
+a wide dataframe: the rows are the target genes and the columns are the 
+ regulators. the matrix element is the fitted coefficient.
+.PP
+.SH EXAMPLES
+.PP
+let net = sgrid_coefficients(network);
+ let g = sgrid_coefficients(network, type = "g");
+.PP
+.SH SEE ALSO
+ssGrid
+.SH FILES
+.PP
+biosystem.dll
+.PP

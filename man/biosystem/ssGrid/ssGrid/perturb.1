@@ -1,0 +1,83 @@
+.\" man page create by R# package system.
+.TH SSGRID 1 2000-1月 "perturb" "perturb"
+.SH NAME
+perturb \- run the in silico perturbation experiment on the fitted S-system network model
+.SH SYNOPSIS
+\fIperturb(\fBnetwork\fR as <generic> SSystemNetwork, 
+\fBgeneIds\fR as any, 
+\fBtype\fR as string = "knockdown", 
+\fBmagnitude\fR as double = 0.8, 
+\fBkicks\fR as integer = 1, 
+\fBstart\fR as double = 0.1, 
+\fBfinal_time\fR as double = 0, 
+\fBcontext\fR as list = \fB<NULL>\fR, 
+\fBexport\fR as string = \fB<NULL>\fR, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+run the in silico perturbation experiment on the fitted S-system network model
+.PP
+.SH OPTIONS
+.PP
+\fBnetwork\fB \fR\- the fitted network model, which is the output of the \fBsfit\fR api.. 
+.PP
+.PP
+\fBgeneIds\fB \fR\- a character vector of the target gene id of the perturbation.. 
+.PP
+.PP
+\fBtype\fB \fR\- 
+ the perturbation type: \fBknockdown\fR(default), \fBknockout\fR or 
+ \fBoverexpress\fR.
+. 
+.PP
+.PP
+\fBmagnitude\fB \fR\- 
+ the perturbation strength: for the knockdown, \fB0.8\fR means that the target 
+ gene loses 80% of its activity; for the overexpress, \fB1\fR means that an 
+ extra 100% of the baseline expression will be added to the target gene.
+. 
+.PP
+.PP
+\fBkicks\fB \fR\- 
+ the times that the perturbation will be applied, a periodic stimulation is 
+ used to simulate a sustained treatment.
+. 
+.PP
+.PP
+\fBstart\fB \fR\- the time point that the first perturbation kick is applied.. 
+.PP
+.PP
+\fBfinal_time\fB \fR\- the final time of the simulation, zero means the end of the fitted time axis.. 
+.PP
+.PP
+\fBcontext\fB \fR\- 
+ the optional sample context(the ODE initial state), which should be 
+ created via the \fBsgrid_context\fR api.
+. 
+.PP
+.PP
+\fBexport\fB \fR\- 
+ the optional output directory for save the trajectory files of each 
+ perturbation design; nothing will be written if this parameter is not 
+ provided.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- -. 
+.PP
+.SH VALUE
+.PP
+a [ScreeningResult](cref:T:SMRUCC.genomics.Analysis.SGrid.Perturbation.ScreeningResult) object which could be converted to a 
+ \fBdata.frame\fR via \fBas.data.frame\fR, or a R# error message object.
+.PP
+.SH EXAMPLES
+.PP
+let ctx = sgrid_context(network, "/data/pseudobulk_context_A.csv");
+ let resp = perturb(network, c("ABCD1","ACLY"), context = ctx, export = "/tmp/ko");
+.PP
+.SH SEE ALSO
+ssGrid
+.SH FILES
+.PP
+biosystem.dll
+.PP
