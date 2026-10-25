@@ -270,6 +270,37 @@ Public Module MoGsvaTest
                    WeightCalculators.MutualInformation(ramp, ramp) > WeightCalculators.MutualInformation(ramp, flatY),
                    $"MI(x,x)={WeightCalculators.MutualInformation(ramp, ramp):F4}, MI(x,y)={WeightCalculators.MutualInformation(ramp, flatY):F4}")
 
+        ' --- 五种融合策略都能端到端跑通，且权重归一化 / 分数有限
+        Dim strategies As FusionMethods() = {
+            FusionMethods.Equal,
+            FusionMethods.Variance,
+            FusionMethods.Entropy,
+            FusionMethods.MutualInformation,
+            FusionMethods.Balanced
+        }
+
+        For Each strategy As FusionMethods In strategies
+            Dim strategyOptions As MultiOmicsGsvaOptions = baseOptions.Clone()
+
+            strategyOptions.FusionStrategy = strategy
+            strategyOptions.ComputePooled = False
+
+            Dim strategyResult As MultiOmicsGsvaResult = MultiOmicsGsva.Compute(planted.Dataset, planted.GeneSets, strategyOptions)
+            Dim weightOk As Boolean = strategyResult.Pathways.All(
+                Function(p)
+                    Dim sum As Double = strategyResult.OmicsNames.Sum(Function(o) strategyResult.Weights(p)(o))
+
+                    Return std.Abs(sum - 1) < 1.0E-12
+                End Function)
+            Dim valueOk As Boolean = strategyResult.Scores.expression _
+                .SelectMany(Function(r) r.experiments) _
+                .All(Function(x) Not Double.IsNaN(x) AndAlso Not Double.IsInfinity(x))
+
+            Call check($"融合策略 {strategy}: 权重归一化且分数有限",
+                       weightOk AndAlso valueOk,
+                       $"{strategyResult.Pathways.Length} 条通路")
+        Next
+
         ' --- 消融对照
         Call check("消融对照: 拼接矩阵单组学 GSVA 可运行",
                    resultEq.Pooled IsNot Nothing AndAlso resultEq.Pooled.Available,
