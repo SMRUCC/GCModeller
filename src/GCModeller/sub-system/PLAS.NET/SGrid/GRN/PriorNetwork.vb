@@ -456,8 +456,8 @@ Namespace GRN
             End If
 
             Dim records As New System.Collections.Generic.List(Of PriorEdge)
-            Dim source As String
-            Dim target As String
+            Dim source As String = Nothing
+            Dim target As String = Nothing
 
             For Each edge As PriorEdge In Edges.SafeQuery
                 If Not nameMap.TryGetValue(edge.TF, source) Then
