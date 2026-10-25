@@ -1,7 +1,8 @@
 ﻿Imports System.IO
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.GPS
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
@@ -13,6 +14,7 @@ Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
+Imports matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 Imports std = System.Math
 
@@ -45,7 +47,7 @@ Module ssGrid
     End Function
 
     <ExportAPI("sfit")>
-    Public Function sfit(x As Matrix, Optional opts As FittingOptions = Nothing, Optional env As Environment = Nothing) As SSystemNetwork
+    Public Function sfit(x As matrix, Optional opts As FittingOptions = Nothing, Optional env As Environment = Nothing) As SSystemNetwork
         Dim report As New StringBuilder
 
         Call Console.WriteLine("[INFO] fitting the S-system model...")
@@ -74,7 +76,9 @@ Module ssGrid
     Public Function perturb(network As SSystemNetwork, <RRawVectorArgument(TypeCodes.string)> geneIds As Object,
                             Optional kicks As Integer = 6,
                             Optional type As PerturbationTypes = PerturbationTypes.KnockOut,
-                            Optional magnitude As Double = 0.8) As ScreeningResult
+                            Optional magnitude As Double = 0.8,
+                            Optional context As list = Nothing,
+                            Optional env As Environment = Nothing) As ScreeningResult
 
         Dim finalTime As Double = network.Series.TimeEnd
         Dim start As Double = finalTime * 0.1R
@@ -82,6 +86,11 @@ Module ssGrid
         ' 单次扰动很容易被 S-system 的自我衰减项在很短的时间之内拉回稳态，
         ' 故这里使用周期性的刺激（模拟持续的敲除/过表达处理）来放大下游的响应
         Dim interval As Double = std.Max((finalTime - start) / kicks, 0.000001R)
+        Dim x0 As Dictionary(Of String, Double) = Nothing
+
+        If context IsNot Nothing Then
+            x0 = context.asGeneric(Of Double)(Function(x) CLRVector.asNumeric(x)(0))
+        End If
 
         For Each hub As String In CLRVector.asCharacter(geneIds)
             Call designs.Add(New PerturbationDesign With {
@@ -94,13 +103,13 @@ Module ssGrid
             })
         Next
 
-        Call $"virtual perturbation on {hubs.Length} hub gene(s): {hubs.JoinBy(", ")}".info
+        Call $"virtual perturbation on {designs.Count} target gene(s): {designs.Keys.JoinBy(", ")}".info
 
         Dim watch As Stopwatch = Stopwatch.StartNew()
         Dim screening As ScreeningResult = Nothing
 
         Try
-            screening = VirtualScreening.Run(network, designs, options.PerturbDir, finalTime)
+            screening = VirtualScreening.Run(network, designs, finalTime, context:=x0)
         Catch ex As Exception
             Call App.LogException(ex)
             Call $"the virtual perturbation screening was failed: {ex.Message}".error

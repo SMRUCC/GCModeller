@@ -34,7 +34,7 @@ Namespace LinearRegression
     ''' <summary>
     ''' 一条来自 curated 数据库的调控关系先验：<c>TF -> TargetGene</c>。
     ''' 
-    ''' 这是一个刻意做得很轻的结构：<see cref="SMRUCC.genomics.Analysis.BNLearn"/>
+    ''' 这是一个刻意做得很轻的结构："SMRUCC.genomics.Analysis.BNLearn"
     ''' 之中虽然已经有功能完整的 <c>RegulatoryEdge</c>，但让
     ''' <c>Network.Regulons</c> 依赖整个 BNLearn 工程并不划算，
     ''' 因此先验在 R# 导出层被投影成本类型之后再传入拟合器。
@@ -48,19 +48,16 @@ Namespace LinearRegression
         ''' <summary>
         ''' 调控者(转录因子)的基因编号
         ''' </summary>
-        ''' <returns></returns>
         Public ReadOnly TF As String
 
         ''' <summary>
         ''' 被调控的目标基因编号
         ''' </summary>
-        ''' <returns></returns>
         Public ReadOnly TargetGene As String
 
         ''' <summary>
         ''' 先验的置信度，取值 0~1(High = 0.95，Medium = 0.7，Low = 0.3)
         ''' </summary>
-        ''' <returns></returns>
         Public ReadOnly Confidence As Double
 
         ''' <summary>
@@ -74,7 +71,6 @@ Namespace LinearRegression
         ''' 而任何偶次惩罚(拉普拉斯、L1、L2)对 β → -β 都是对称的，
         ''' 只有把可行域限制到半空间才能固定绝对符号。
         ''' </summary>
-        ''' <returns></returns>
         Public ReadOnly Sign As Integer
 
         ''' <summary>

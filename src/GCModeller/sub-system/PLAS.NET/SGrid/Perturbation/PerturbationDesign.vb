@@ -1,3 +1,4 @@
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels
@@ -32,13 +33,13 @@ Namespace Perturbation
     ''' The design of a virtual perturbation experiment which will be applied on the fitted S-system model.
     ''' (加载到拟合模型之上的虚拟扰动实验设计)
     ''' </summary>
-    Public Class PerturbationDesign
+    Public Class PerturbationDesign : Implements INamedValue
 
         ''' <summary>
         ''' 扰动的目标基因（规整化之后的编号）
         ''' </summary>
         ''' <returns></returns>
-        Public Property TargetGene As String
+        Public Property TargetGene As String Implements INamedValue.Key
         ''' <summary>
         ''' 扰动的类型
         ''' </summary>
