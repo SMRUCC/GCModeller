@@ -95,6 +95,36 @@ Namespace Global.SMRUCC.genomics.Analysis.HTS.GSVA
             Return Scores.expression(row).experiments
         End Function
 
+        ''' <summary>取某条通路在指定组学层上的融合权重，缺失时返回 0</summary>
+        Public Function WeightOf(pathway As String, omics As String) As Double
+            Dim perPathway As Dictionary(Of String, Double) = Nothing
+
+            If Weights IsNot Nothing AndAlso Weights.TryGetValue(pathway, perPathway) Then
+                Dim w As Double
+
+                If perPathway.TryGetValue(omics, w) Then
+                    Return w
+                End If
+            End If
+
+            Return 0
+        End Function
+
+        ''' <summary>取某条通路在指定组学层上的成员数 |S_k|，缺失时返回 0</summary>
+        Public Function MemberCountOf(pathway As String, omics As String) As Integer
+            Dim perPathway As Dictionary(Of String, Integer) = Nothing
+
+            If Coverage IsNot Nothing AndAlso Coverage.TryGetValue(pathway, perPathway) Then
+                Dim n As Integer
+
+                If perPathway.TryGetValue(omics, n) Then
+                    Return n
+                End If
+            End If
+
+            Return 0
+        End Function
+
         ''' <summary>取某条通路的 p 值，缺失时返回 NaN</summary>
         Public Function PValueOf(pathway As String) As Double
             Dim p As Double

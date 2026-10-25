@@ -148,6 +148,7 @@ Public Module MoGsvaData
             Call $"[moGSVA] expression matrix: {nRow} features x {nCol} samples, dtype={payload.DType}".println
             Call $"[moGSVA] feature id sample: {String.Join(", ", features.Take(5))}".println
             Call $"[moGSVA] sample id sample : {String.Join(", ", samples.Take(5))}".println
+            Call $"[moGSVA] npy string arrays: {String.Join("; ", texts.Select(Function(t) $"[{t.Length}] {String.Join("/", t.Take(3))}"))}".println
         End If
 
         Dim rows As New List(Of DataFrameRow)

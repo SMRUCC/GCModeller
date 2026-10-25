@@ -119,12 +119,10 @@ Namespace Export
                 Call writer.WriteLine("pathway,omics,member_count,weight")
 
                 For Each pathway As String In result.Pathways
-                    Dim coverage As Dictionary(Of String, Integer) = result.Coverage(pathway)
-
                     For Each omics As String In result.OmicsNames
-                        Dim n As Integer = If(coverage.ContainsKey(omics), coverage(omics), 0)
+                        Dim n As Integer = result.MemberCountOf(pathway, omics)
 
-                        Call writer.WriteLine($"{Quote(pathway)},{Quote(omics)},{n},{Format(result.Weights(pathway)(omics))}")
+                        Call writer.WriteLine($"{Quote(pathway)},{Quote(omics)},{n},{Format(result.WeightOf(pathway, omics))}")
                     Next
                 Next
             End Using

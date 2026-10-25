@@ -1,0 +1,6 @@
+mRNA	OK	336 pathways x 160 samples
+protein	OK	336 pathways x 160 samples
+methylation	OK	335 pathways x 160 samples
+baseline_mean	OK	335 pathways averaged over 3 omics
+mogsa	SKIP	package 'mogsa' is not installed
+multiGSEA	SKIP	package 'multiGSEA' is not installed

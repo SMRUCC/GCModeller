@@ -29,7 +29,11 @@ Namespace Global.SMRUCC.genomics.Analysis.HTS.GSVA
         ''' <summary>
         ''' 是否叠加「组学特征数平衡项」<c>1/log2(2+|S_k|)</c>，用于抑制成员多的组学主导融合结果。
         ''' </summary>
-        Public Property BalanceFeatureSize As Boolean = True
+        ''' <remarks>
+        ''' 默认关闭：<see cref="Fusion.FusionMethods.Equal"/> 必须严格等于等权（Baseline 1），
+        ''' 特征数平衡属于额外的风险控制项，需要显式开启。
+        ''' </remarks>
+        Public Property BalanceFeatureSize As Boolean = False
 
         ''' <summary>基因集最小尺寸（成员数，映射到特征之后）</summary>
         Public Property MinSize As Integer = 5
