@@ -1,5 +1,6 @@
 Imports System.Globalization
 Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Calculus.Dynamics.Data
@@ -181,19 +182,23 @@ Namespace Perturbation
         ''' </summary>
         ''' <param name="network">已经拟合完成的调控网络模型</param>
         ''' <param name="designs">扰动实验的设计方案</param>
-        ''' <param name="outDir">可选的输出文件夹，非空的时候每一组扰动都会写出轨迹 csv</param>
         ''' <param name="finalTime">仿真的终止时间，非正数表示使用时间轴的终点</param>
-        ''' <returns></returns>
         ''' <param name="context">
         ''' 可选的环境初值（<c>context</c>）：非空的时候 control 与每一组扰动
         ''' 都从这同一个状态出发，因此三个不同的 pseudobulk panel 会得到三套互不相同的基线轨迹。
         ''' 该表可以由 <see cref="GRN.SSystemNetwork.MapContext"/> 从原始 counts 构造
         ''' </param>
+        ''' <param name="onSimulated">
+        ''' 可选的回调：每一组扰动积分完成之后会被调用一次。
+        ''' 需要在计算过程之中把轨迹落盘的调用方通过该回调配合 <see cref="SaveTrajectory"/> 完成，
+        ''' 本函数自身不做任何 IO
+        ''' </param>
+        ''' <returns></returns>
         Public Function Run(network As GRN.SSystemNetwork,
                             designs As IEnumerable(Of PerturbationDesign),
-                            Optional outDir As String = Nothing,
                             Optional finalTime As Double = 0,
-                            Optional context As System.Collections.Generic.IDictionary(Of String, Double) = Nothing) As ScreeningResult
+                            Optional context As System.Collections.Generic.IDictionary(Of String, Double) = Nothing,
+                            Optional onSimulated As Action(Of PerturbationDesign, ODEsOut) = Nothing) As ScreeningResult
 
             If network Is Nothing Then
                 Throw New ArgumentNullException(NameOf(network))
@@ -210,14 +215,6 @@ Namespace Perturbation
                 .TimePoints = control.x
             }
 
-            If Not String.IsNullOrEmpty(outDir) Then
-                If Not Directory.Exists(outDir) Then
-                    Call Directory.CreateDirectory(outDir)
-                End If
-
-                Call SSOdes.ToDataFrame(control).Save(Path.Combine(outDir, "control.csv"), Encodings.UTF8)
-            End If
-
             For Each design As PerturbationDesign In result.Designs
                 Dim baseline As Double = baselineOf(network, design.TargetGene, context)
                 Dim experiment = design.ToExperiment(baseline)
@@ -228,10 +225,8 @@ Namespace Perturbation
                     Continue For
                 End If
 
-                If Not String.IsNullOrEmpty(outDir) Then
-                    Dim file As String = $"perturb_{design.TargetGene.NormalizePathString(False,)}_{design.Type.ToString}.csv"
-
-                    Call SSOdes.ToDataFrame(perturbed).Save(Path.Combine(outDir, file), Encodings.UTF8)
+                If Not onSimulated Is Nothing Then
+                    Call onSimulated(design, perturbed)
                 End If
 
                 For Each gene As String In network.Parameters.GeneNames
@@ -254,15 +249,17 @@ Namespace Perturbation
         ''' </summary>
         ''' <param name="model">S-system 模型对象</param>
         ''' <param name="designs"></param>
-        ''' <param name="outDir"></param>
         ''' <param name="finalTime"></param>
         ''' <param name="runOptions"></param>
+        ''' <param name="onSimulated">
+        ''' 可选的回调：每一组扰动积分完成之后会被调用一次（本函数自身不做任何 IO）
+        ''' </param>
         ''' <returns></returns>
         Public Function RunModel(model As SSystem.Script.Model,
                                  designs As IEnumerable(Of PerturbationDesign),
-                                 Optional outDir As String = Nothing,
                                  Optional finalTime As Double = 0,
-                                 Optional runOptions As RunOptions = Nothing) As ScreeningResult
+                                 Optional runOptions As RunOptions = Nothing,
+                                 Optional onSimulated As Action(Of PerturbationDesign, ODEsOut) = Nothing) As ScreeningResult
 
             If model Is Nothing Then
                 Throw New ArgumentNullException(NameOf(model))
@@ -284,12 +281,6 @@ Namespace Perturbation
             }
             Dim records As New List(Of ScreeningRecord)
 
-            If Not String.IsNullOrEmpty(outDir) Then
-                If Not Directory.Exists(outDir) Then
-                    Call Directory.CreateDirectory(outDir)
-                End If
-            End If
-
             model.Experiments = Nothing
 
             Dim control As ODEsOut = SSOdes.RunSystem(model, Nothing, runOptions)
@@ -300,10 +291,6 @@ Namespace Perturbation
 
             result.Control = control
             result.TimePoints = control.x
-
-            If Not String.IsNullOrEmpty(outDir) Then
-                Call SSOdes.ToDataFrame(control).Save(Path.Combine(outDir, "control.csv"), Encodings.UTF8)
-            End If
 
             For Each design As PerturbationDesign In result.Designs
                 Dim baseline As Double = baselineOfModel(model, design.TargetGene)
@@ -317,10 +304,8 @@ Namespace Perturbation
                     Continue For
                 End If
 
-                If Not String.IsNullOrEmpty(outDir) Then
-                    Dim file As String = $"perturb_{design.TargetGene.NormalizePathString(alphabetOnly:=False)}_{design.Type.ToString}.csv"
-
-                    Call SSOdes.ToDataFrame(perturbed).Save(Path.Combine(outDir, file), Encodings.UTF8)
+                If Not onSimulated Is Nothing Then
+                    Call onSimulated(design, perturbed)
                 End If
 
                 For Each target As SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels.var In model.Vars.SafeQuery
@@ -354,17 +339,120 @@ Namespace Perturbation
         ''' <param name="network"></param>
         ''' <param name="type"></param>
         ''' <param name="magnitude"></param>
-        ''' <param name="outDir"></param>
+        ''' <param name="context">可选的环境初值，语义与 <see cref="Run"/> 一致</param>
+        ''' <param name="onSimulated">可选的回调，语义与 <see cref="Run"/> 一致</param>
         ''' <returns></returns>
         Public Function KnockdownAll(network As GRN.SSystemNetwork,
                                      Optional type As PerturbationTypes = PerturbationTypes.KnockDown,
                                      Optional magnitude As Double = 0.8R,
-                                     Optional outDir As String = Nothing) As ScreeningResult
+                                     Optional context As System.Collections.Generic.IDictionary(Of String, Double) = Nothing,
+                                     Optional onSimulated As Action(Of PerturbationDesign, ODEsOut) = Nothing) As ScreeningResult
 
             Dim designs As PerturbationDesign() = PerturbationDesign.Batch(network.Parameters.GeneNames, type, magnitude)
 
-            Return Run(network, designs, outDir)
+            Return Run(network, designs, context:=context, onSimulated:=onSimulated)
         End Function
+
+        #Region "io"
+
+        ''' <summary>
+        ''' 把一个 ODE 积分结果保存为 csv 文件（首列是 <c>#Time</c>，其余每一列是一个基因）
+        ''' </summary>
+        ''' <param name="output">积分结果</param>
+        ''' <param name="file">目标 csv 文件</param>
+        ''' <returns>实际写出的文件路径</returns>
+        ''' <remarks>
+        ''' 该函数只负责 IO，计算流程（<see cref="Run"/> / <see cref="RunModel"/>）不会调用它
+        ''' </remarks>
+        <Extension>
+        Public Function SaveTrajectory(output As ODEsOut, file As String) As String
+            If output Is Nothing Then
+                Throw New ArgumentNullException(NameOf(output))
+            End If
+            If String.IsNullOrEmpty(file) Then
+                Throw New ArgumentNullException(NameOf(file))
+            End If
+
+            Dim dir As String = Path.GetDirectoryName(Path.GetFullPath(file))
+
+            If Not String.IsNullOrEmpty(dir) AndAlso Not Directory.Exists(dir) Then
+                Call Directory.CreateDirectory(dir)
+            End If
+
+            Call SSOdes.ToDataFrame(output).Save(file, Encodings.UTF8)
+
+            Return file
+        End Function
+
+        ''' <summary>
+        ''' 为一组扰动设计生成轨迹文件的文件名
+        ''' </summary>
+        ''' <param name="design"></param>
+        ''' <returns></returns>
+        Public Function TrajectoryFileOf(design As PerturbationDesign) As String
+            Return $"perturb_{design.TargetGene.NormalizePathString(alphabetOnly:=False)}_{design.Type.ToString}.csv"
+        End Function
+
+        ''' <summary>
+        ''' 把一次筛选结果之中的 control 轨迹与逐条扰动响应写出为 csv 文件
+        ''' </summary>
+        ''' <param name="result"></param>
+        ''' <param name="outDir"></param>
+        ''' <returns>实际写出的文件数量</returns>
+        ''' <remarks>
+        ''' 每一组扰动的轨迹文件不在本函数之中写出（结果对象并不持有全部轨迹，
+        ''' 否则几百组扰动会占用大量内存），请在 <see cref="Run"/> 的 <c>onSimulated</c>
+        ''' 回调之中调用 <see cref="SaveTrajectory"/>，配合 <see cref="TrajectoryFileOf"/> 完成命名
+        ''' </remarks>
+        Public Function SaveScreening(result As ScreeningResult, outDir As String) As Integer
+            If result Is Nothing Then
+                Throw New ArgumentNullException(NameOf(result))
+            End If
+            If String.IsNullOrEmpty(outDir) Then
+                Throw New ArgumentNullException(NameOf(outDir))
+            End If
+            If Not Directory.Exists(outDir) Then
+                Call Directory.CreateDirectory(outDir)
+            End If
+
+            Dim written As Integer = 0
+
+            If Not result.Control Is Nothing Then
+                Call SaveTrajectory(result.Control, Path.Combine(outDir, "control.csv"))
+                written += 1
+            End If
+
+            Dim sb As New StringBuilder()
+
+            Call sb.AppendLine("target,perturbation,gene,control,perturbed,fold_change,max_deviation,response_time,is_target")
+
+            For Each record As ScreeningRecord In result.Records.SafeQuery()
+                Call sb.Append(record.Target)
+                Call sb.Append(","c)
+                Call sb.Append(record.Perturbation)
+                Call sb.Append(","c)
+                Call sb.Append(record.Gene)
+                Call sb.Append(","c)
+                Call sb.Append(record.ControlLevel.ToString("G6", CultureInfo.InvariantCulture))
+                Call sb.Append(","c)
+                Call sb.Append(record.PerturbedLevel.ToString("G6", CultureInfo.InvariantCulture))
+                Call sb.Append(","c)
+                Call sb.Append(record.FoldChange.ToString("G6", CultureInfo.InvariantCulture))
+                Call sb.Append(","c)
+                Call sb.Append(record.MaxDeviation.ToString("G6", CultureInfo.InvariantCulture))
+                Call sb.Append(","c)
+                Call sb.Append(record.ResponseTime.ToString("G6", CultureInfo.InvariantCulture))
+                Call sb.Append(","c)
+                Call sb.AppendLine(record.IsTarget.ToString())
+            Next
+
+            Call File.WriteAllText(Path.Combine(outDir, "perturb_records.csv"), sb.ToString(), New System.Text.UTF8Encoding(False))
+            written += 1
+
+            Return written
+        End Function
+
+        #End Region
 
         ''' <summary>
         ''' 取出目标基因的基线水平（敲降/过表达的幅度都是相对该基线计算的）。

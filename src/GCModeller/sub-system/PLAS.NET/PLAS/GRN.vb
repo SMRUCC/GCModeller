@@ -148,16 +148,28 @@ Public Module GRN
 
         Call runOptions.Validate()
 
+        ' 计算与 IO 分离：轨迹文件通过 onSimulated 回调交给 SaveTrajectory 写出
+        Dim onSimulated As Action(Of PerturbationDesign, SMRUCC.genomics.Analysis.SSystem.Kernel.ODEs.ODEsOut) = Nothing
+
+        If Not String.IsNullOrEmpty(outDir) Then
+            onSimulated = Sub(design, output)
+                              Call VirtualScreening.SaveTrajectory(
+                                  output,
+                                  Path.Combine(outDir, VirtualScreening.TrajectoryFileOf(design)))
+                          End Sub
+        End If
+
         Dim result As ScreeningResult = VirtualScreening.RunModel(
             model:=model,
             designs:=designs,
-            outDir:=outDir,
             finalTime:=finalTime,
-            runOptions:=runOptions)
+            runOptions:=runOptions,
+            onSimulated:=onSimulated)
 
         Call Console.WriteLine(result.Summary())
 
         If Not String.IsNullOrEmpty(outDir) Then
+            Call VirtualScreening.SaveScreening(result, outDir)
             Call Console.WriteLine($"The trajectory files of the perturbation screening were saved into: {outDir}")
         End If
 

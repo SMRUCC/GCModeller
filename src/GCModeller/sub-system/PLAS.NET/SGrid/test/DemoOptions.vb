@@ -134,6 +134,57 @@ Namespace GRNDemo
         ''' <returns></returns>
         Public Property Hubs As Integer = 5
         ''' <summary>
+        ''' 必须被包含进子网的基因清单（例如敲降实验的目标基因列表，每行一个基因符号）
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property MustIncludeFile As String = ""
+        ''' <summary>
+        ''' 作为 ODE 积分初值的 pseudobulk context 表格（列：gene_name,gene_id,mean_counts）；
+        ''' 可以是单个文件，也可以是包含多个 panel 的文件夹（每个 csv 视为一个 panel）
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property ContextFile As String = ""
+        ''' <summary>
+        ''' 敲降实验的目标基因清单（每行一个基因符号）；为空的时候使用 <see cref="MustIncludeFile"/>
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property PertFile As String = ""
+        ''' <summary>
+        ''' 敲降幅度：0.8 表示把目标基因的表达活性降低 80%（剩余 20%）
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Knockdown As Double = 0.8R
+        ''' <summary>
+        ''' 扰动开始的时间点占仿真总时长的比例
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property ContextStart As Double = 0.1R
+        ''' <summary>
+        ''' context 仿真所使用的积分步长（为了在几百个敲降目标之上快速跑完，通常比拟合时更粗）
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property ContextPrecise As Double = 0.5R
+        ''' <summary>
+        ''' context 仿真之中最多处理的敲降目标数量；零表示全部处理
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property ContextTargets As Integer = 0
+        ''' <summary>
+        ''' context 仿真的积分时长（pseudotime 单位）；零表示使用时间轴的终点。
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' 由 pseudotime 拟合出来的 S-system 只在训练轨迹的邻域之内有效，
+        ''' 换到差异很大的样本环境之下时，某些基因的正反馈会让积分在几个时间单位之内发散
+        ''' （实测 control 在 t≈8 就溢出了），故这里使用一个较短的仿真窗口
+        ''' </remarks>
+        Public Property ContextTime As Double = 5.0R
+        ''' <summary>
+        ''' context 仿真结果的有效上界：超过该数值的状态视为积分发散的记录，直接丢弃
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property ContextMaxLevel As Double = 100.0R
+        ''' <summary>
         ''' 是否是并行执行拟合
         ''' </summary>
         ''' <returns></returns>
@@ -288,6 +339,15 @@ Namespace GRNDemo
             options.Seed = integerOf(values, "seed", options.Seed)
             options.Precise = doubleOf(values, "precise", options.Precise)
             options.Hubs = integerOf(values, "hubs", options.Hubs)
+            options.MustIncludeFile = textOf(values, "must-include", options.MustIncludeFile)
+            options.ContextFile = textOf(values, "context", options.ContextFile)
+            options.PertFile = textOf(values, "pert", options.PertFile)
+            options.Knockdown = doubleOf(values, "knockdown", options.Knockdown)
+            options.ContextStart = doubleOf(values, "context-start", options.ContextStart)
+            options.ContextPrecise = doubleOf(values, "context-precise", options.ContextPrecise)
+            options.ContextTargets = integerOf(values, "context-targets", options.ContextTargets)
+            options.ContextTime = doubleOf(values, "context-time", options.ContextTime)
+            options.ContextMaxLevel = doubleOf(values, "context-max-level", options.ContextMaxLevel)
             options.Parallel = Not flags.Contains("serial")
             options.Quiet = flags.Contains("quiet") OrElse flags.Contains("q")
             options.Force = flags.Contains("force")
@@ -339,6 +399,15 @@ Namespace GRNDemo
                 Call sb.AppendLine("  --seed <n>               random seed (default 1234567)")
                 Call sb.AppendLine("  --precise <x>            integration step of the simulation (default 0.1)")
                 Call sb.AppendLine("  --hubs <n>               number of hub genes used by the perturbation (default 5)")
+                Call sb.AppendLine("  --must-include <file>    gene list which must be kept in the fitted sub network")
+                Call sb.AppendLine("  --context <path>         pseudobulk context csv (or a folder of panels) used as the ODE initial state")
+                Call sb.AppendLine("  --pert <file>            knockdown target list (default: the --must-include list)")
+                Call sb.AppendLine("  --knockdown <x>          knockdown magnitude, 0.8 = lose 80% of the activity (default 0.8)")
+                Call sb.AppendLine("  --context-start <x>      perturbation start as a fraction of the simulation time (default 0.1)")
+                Call sb.AppendLine("  --context-precise <x>    integration step of the context simulation (default 0.5)")
+                Call sb.AppendLine("  --context-targets <n>    limit the number of knockdown targets in the context run (0 = all)")
+                Call sb.AppendLine("  --context-time <x>       integration horizon of the context run, pseudotime units (default 5, 0 = full axis)")
+                Call sb.AppendLine("  --context-max-level <x>  states above this value are treated as diverged and dropped (default 100)")
                 Call sb.AppendLine("  --serial                 disable the parallel fitting")
                 Call sb.AppendLine("  --force                  ignore the cached subset matrix and gene list")
                 Call sb.AppendLine("  --quiet                  only print the stage summaries")

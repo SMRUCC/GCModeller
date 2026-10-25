@@ -62,6 +62,8 @@ Namespace GRNDemo
                         Call RunFit(options, report, failures, runPerturbation:=True)
                     Case "export"
                         Call RunExport(options, report, failures)
+                    Case "context"
+                        Call RunContext(options, report, failures)
                     Case "persist"
                         Call RunPersist(options, report, failures)
                     Case "perturb"
@@ -171,6 +173,396 @@ Namespace GRNDemo
                 Call perturb(model, options, report, failures)
             End If
         End Sub
+
+        ''' <summary>
+        ''' 以 pseudobulk context 作为 ODE 积分的初值，对目标基因清单做虚拟敲降分析
+        ''' </summary>
+        ''' <remarks>
+        ''' 每一个 panel 都会：
+        ''' 1. 把 context 的原始 counts 通过 <see cref="SSystemNetwork.MapContext"/> 映射到模型的状态空间
+        ''' 2. 用同一组初值积分得到该 panel 自己的 control 轨迹
+        ''' 3. 用同一组初值 + 敲降实验积分得到 perturbed 轨迹，并与 control 逐步相减
+        ''' 
+        ''' 这样三个 panel 得到的是三套互不相同的基线，而不是同一套 pseudotime 起点。
+        ''' </remarks>
+        Private Sub RunContext(options As DemoOptions, report As StringBuilder, failures As List(Of String))
+            Dim model As SSystemNetwork = SSystemNetwork.LoadZip(options.ModelZipFile)
+            Dim targetFile As String = If(String.IsNullOrEmpty(options.PertFile), options.MustIncludeFile, options.PertFile)
+            Dim targets As String() = readGeneList(targetFile)
+            Dim panels As List(Of Tuple(Of String, String)) = contextPanels(options.ContextFile)
+
+            Call report.AppendLine()
+            Call report.AppendLine($"context  : {options.ContextFile}")
+            Call report.AppendLine($"panels   : {panels.Count}")
+            Call report.AppendLine($"knockdown: {options.Knockdown.ToString("P0")} of the activity, start at {options.ContextStart.ToString("P0")} of the simulation")
+            Call report.AppendLine($"targets  : {targets.Length} gene(s) from {targetFile}")
+
+            If panels.Count = 0 Then
+                Call failures.Add($"no pseudobulk context csv file was found: '{options.ContextFile}'")
+
+                Return
+            End If
+            If targets.Length = 0 Then
+                Call failures.Add("the knockdown target list is empty")
+
+                Return
+            End If
+
+            ' 原始基因符号 → 模型内部（规整化）编号
+            Dim idMap As New Dictionary(Of String, String)(StringComparer.OrdinalIgnoreCase)
+
+            For i As Integer = 0 To model.Parameters.nGenes - 1
+                Dim original As String = model.Parameters.OriginalNames(i)
+                Dim sanitized As String = model.Parameters.GeneNames(i)
+
+                If Not String.IsNullOrEmpty(original) AndAlso Not idMap.ContainsKey(original) Then
+                    Call idMap.Add(original, sanitized)
+                End If
+                If Not idMap.ContainsKey(sanitized) Then
+                    Call idMap.Add(sanitized, sanitized)
+                End If
+            Next
+
+            Dim modeled As New List(Of String)
+            Dim missing As New List(Of String)
+
+            For Each gene As String In targets
+                Dim id As String = Nothing
+
+                If idMap.TryGetValue(gene, id) Then
+                    Call modeled.Add(id)
+                Else
+                    Call missing.Add(gene)
+                End If
+            Next
+
+            Call Console.WriteLine($"[INFO] {modeled.Count}/{targets.Length} knockdown target(s) is inside the fitted network.")
+
+            If options.ContextTargets > 0 AndAlso modeled.Count > options.ContextTargets Then
+                Call Console.WriteLine($"[INFO] only the first {options.ContextTargets} target(s) are simulated (--context-targets).")
+
+                Call modeled.RemoveRange(options.ContextTargets, modeled.Count - options.ContextTargets)
+            End If
+
+            If options.ContextPrecise > 0 Then
+                model.Options.Precise = options.ContextPrecise
+            End If
+
+            Dim tEnd As Double = If(options.ContextTime > 0, options.ContextTime, model.Series.TimeEnd)
+            Dim root As String = Path.Combine(options.OutDir, "context")
+
+            Call Console.WriteLine($"[INFO] context simulation horizon: 0 ~ {tEnd.ToString("G4")} (pseudotime), knockdown starts at {((tEnd * options.ContextStart)).ToString("G4")}")
+
+            Call writeText(Path.Combine(root, "unmodeled_targets.txt"), String.Join(vbLf, missing))
+            Call report.AppendLine($"modeled  : {modeled.Count} target(s), {missing.Count} target(s) is not in the model")
+
+            If modeled.Count = 0 Then
+                Call failures.Add("none of the knockdown targets is inside the fitted network")
+
+                Return
+            End If
+
+            Dim summary As New StringBuilder()
+
+            Call summary.AppendLine("panel,targets,records,usable,diverged,responders,control_drift")
+
+            For Each panel As Tuple(Of String, String) In panels
+                Dim counts As Dictionary(Of String, Double) = readContextPanel(panel.Item2)
+                Dim initial As Dictionary(Of String, Double) = model.MapContext(counts)
+                Dim designs As New List(Of PerturbationDesign)
+
+                For Each gene As String In modeled
+                    Call designs.Add(New PerturbationDesign With {
+                        .TargetGene = gene,
+                        .Type = PerturbationTypes.KnockDown,
+                        .Magnitude = options.Knockdown,
+                        .Start = tEnd * options.ContextStart,
+                        .Interval = 1,
+                        .Kicks = 1
+                    })
+                Next
+
+                Dim dir As String = Path.Combine(root, panel.Item1)
+                Dim watch As Stopwatch = Stopwatch.StartNew()
+
+                Call Console.WriteLine($"[INFO] panel {panel.Item1}: {counts.Count} gene(s) in the context, {designs.Count} knockdown design(s)...")
+
+                ' 计算与 IO 分离：Run 只做积分，轨迹通过回调交给 SaveTrajectory 落盘
+                Dim screening As ScreeningResult = VirtualScreening.Run(
+                    model,
+                    designs,
+                    finalTime:=tEnd,
+                    context:=initial,
+                    onSimulated:=Sub(design, output)
+                                     Call VirtualScreening.SaveTrajectory(
+                                         output,
+                                         Path.Combine(dir, VirtualScreening.TrajectoryFileOf(design)))
+                                 End Sub)
+
+                Call VirtualScreening.SaveScreening(screening, dir)
+
+                ' 换到差异很大的样本环境之后，部分基因的正反馈会让积分发散；
+                ' 这些记录的状态量已经溢出，直接丢弃，只统计有效范围内的响应
+                Dim cap As Double = options.ContextMaxLevel
+                Dim usable As ScreeningRecord() = screening _
+                    .Records _
+                    .SafeQuery() _
+                    .Where(Function(r) isUsable(r, cap)) _
+                    .ToArray()
+                Dim diverged As Integer = screening.Records.SafeQuery().Count() - usable.Length
+                Dim responders As Integer = usable _
+                    .Where(Function(r) Not r.IsTarget AndAlso r.MaxDeviation > 1.0E-9) _
+                    .Count()
+                Dim drift As String = controlDrift(Path.Combine(dir, "control.csv"), options.ContextMaxLevel)
+
+                Call summary.AppendLine($"{panel.Item1},{designs.Count},{screening.Records.SafeQuery().Count()},{usable.Length},{diverged},{responders},{drift}")
+                Call Console.WriteLine($"[INFO] panel {panel.Item1} finished in {watch.Elapsed.TotalSeconds.ToString("F1")}s: {usable.Length} usable record(s) ({diverged} diverged), {responders} propagated response(s), diverged control: {drift}")
+
+                ' 每个 panel 只报告最强的前若干个下游响应，避免刷屏
+                For Each record As ScreeningRecord In usable _
+                    .Where(Function(r) Not r.IsTarget) _
+                    .OrderByDescending(Function(r) std.Abs(r.MaxDeviation)) _
+                    .Take(10)
+
+                    Call summary.AppendLine($"  {panel.Item1}: {record.Target} -> {record.Gene}, maxdev={record.MaxDeviation.ToString("G4")}, fold={record.FoldChange.ToString("G4")}, response={record.ResponseTime.ToString("G4")}")
+                Next
+            Next
+
+            Call writeText(Path.Combine(root, "context_summary.txt"), summary.ToString())
+            Call report.Append(summary.ToString())
+        End Sub
+
+        ''' <summary>
+        ''' control 轨迹的漂移倍数：积分窗口之内状态的最大绝对值与初值最大绝对值之比。
+        ''' 该值接近 1 说明这个窗口之内系统还处于 context 附近，
+        ''' 远大于 1 则说明微分方程已经把状态带离了训练轨迹，此时的“响应”主要是漂移而不是扰动
+        ''' </summary>
+        ''' <param name="controlFile"></param>
+        ''' <returns></returns>
+        Private Function controlDrift(controlFile As String, cap As Double) As String
+            If Not File.Exists(controlFile) Then
+                Return "n/a"
+            End If
+
+            Dim peaks As New List(Of Double)
+            Dim header As Boolean = True
+            Dim firstData As Boolean = True
+
+            Using reader As New StreamReader(controlFile, Encoding.UTF8, detectEncodingFromByteOrderMarks:=True, bufferSize:=1 << 20)
+                Dim line As String
+
+                Do
+                    line = reader.ReadLine()
+
+                    If line Is Nothing Then
+                        Exit Do
+                    End If
+                    If String.IsNullOrWhiteSpace(line) Then
+                        Continue Do
+                    End If
+
+                    Dim fields As String() = PriorKnowledge.SplitCsvLine(line)
+
+                    If header Then
+                        header = False
+                        Continue Do
+                    End If
+                    If fields.Length < 2 Then
+                        Continue Do
+                    End If
+
+                    For i As Integer = 1 To fields.Length - 1
+                        If firstData Then
+                            Call peaks.Add(0)
+                        End If
+
+                        Dim value As Double
+
+                        If Not Double.TryParse(fields(i), NumberStyles.Float, CultureInfo.InvariantCulture, value) Then
+                            Continue For
+                        End If
+                        If Double.IsNaN(value) OrElse Double.IsInfinity(value) Then
+                            Continue For
+                        End If
+                        If i - 1 < peaks.Count Then
+                            peaks(i - 1) = std.Max(peaks(i - 1), std.Abs(value))
+                        End If
+                    Next
+
+                    firstData = False
+                Loop
+            End Using
+
+            ' 按基因统计发散比例：单个基因的溢出不应该主导整个 panel 的诊断
+            Dim exploded As Integer = peaks.Where(Function(x) x > cap).Count()
+            Dim ratio As Double = If(peaks.Count = 0, 0, exploded / peaks.Count)
+
+            Return $"{ratio.ToString("P1")} gene(s) exceeded {cap.ToString("G3")}"
+        End Function
+
+        ''' <summary>
+        ''' 判断一条扰动响应是否落在数值有效范围之内（发散或者 NaN 的记录不可用）
+        ''' </summary>
+        ''' <param name="record"></param>
+        ''' <param name="cap"></param>
+        ''' <returns></returns>
+        Private Function isUsable(record As ScreeningRecord, cap As Double) As Boolean
+            If record Is Nothing Then
+                Return False
+            End If
+            If Double.IsNaN(record.ControlLevel) OrElse Double.IsInfinity(record.ControlLevel) Then
+                Return False
+            End If
+            If Double.IsNaN(record.PerturbedLevel) OrElse Double.IsInfinity(record.PerturbedLevel) Then
+                Return False
+            End If
+            If std.Abs(record.ControlLevel) > cap OrElse std.Abs(record.PerturbedLevel) > cap Then
+                Return False
+            End If
+            If Double.IsNaN(record.MaxDeviation) OrElse Double.IsInfinity(record.MaxDeviation) Then
+                Return False
+            End If
+
+            Return True
+        End Function
+
+        ''' <summary>
+        ''' 读取一个 pseudobulk context 表格（列：gene_name,gene_id,mean_counts）
+        ''' </summary>
+        ''' <param name="filePath"></param>
+        ''' <returns></returns>
+        Private Function readContextPanel(filePath As String) As Dictionary(Of String, Double)
+            Dim counts As New Dictionary(Of String, Double)(StringComparer.OrdinalIgnoreCase)
+            Dim iGene As Integer = 0
+            Dim iValue As Integer = 2
+            Dim header As Boolean = True
+
+            Using reader As New StreamReader(filePath, Encoding.UTF8, detectEncodingFromByteOrderMarks:=True, bufferSize:=1 << 20)
+                Dim line As String
+
+                Do
+                    line = reader.ReadLine()
+
+                    If line Is Nothing Then
+                        Exit Do
+                    End If
+                    If String.IsNullOrWhiteSpace(line) Then
+                        Continue Do
+                    End If
+
+                    Dim fields As String() = PriorKnowledge.SplitCsvLine(line)
+
+                    If header Then
+                        header = False
+
+                        For i As Integer = 0 To fields.Length - 1
+                            Select Case fields(i).Trim().ToLowerInvariant()
+                                Case "gene_name", "gene", "symbol"
+                                    iGene = i
+                                Case "mean_counts", "counts", "mean", "expression"
+                                    iValue = i
+                            End Select
+                        Next
+
+                        Continue Do
+                    End If
+
+                    If fields.Length <= std.Max(iGene, iValue) Then
+                        Continue Do
+                    End If
+
+                    Dim gene As String = fields(iGene).Trim().Trim(""""c)
+                    Dim value As Double
+
+                    If gene.Length = 0 Then
+                        Continue Do
+                    End If
+                    If Not Double.TryParse(fields(iValue), NumberStyles.Float, CultureInfo.InvariantCulture, value) Then
+                        Continue Do
+                    End If
+
+                    counts(gene) = value
+                Loop
+            End Using
+
+            Return counts
+        End Function
+
+        ''' <summary>
+        ''' 取得所有的 panel：单个文件视为一个 panel，文件夹则枚举其中的 csv
+        ''' </summary>
+        ''' <param name="contextPath"></param>
+        ''' <returns></returns>
+        Private Function contextPanels(contextPath As String) As List(Of Tuple(Of String, String))
+            Dim panels As New List(Of Tuple(Of String, String))
+
+            If String.IsNullOrEmpty(contextPath) Then
+                Return panels
+            End If
+            If File.Exists(contextPath) Then
+                Call panels.Add(New Tuple(Of String, String)(Path.GetFileNameWithoutExtension(contextPath), contextPath))
+
+                Return panels
+            End If
+            If Directory.Exists(contextPath) Then
+                For Each file As String In Directory _
+                    .GetFiles(contextPath, "*.csv") _
+                    .OrderBy(Function(f) f, StringComparer.OrdinalIgnoreCase)
+
+                    Call panels.Add(New Tuple(Of String, String)(Path.GetFileNameWithoutExtension(file), file))
+                Next
+            End If
+
+            Return panels
+        End Function
+
+        ''' <summary>
+        ''' 读取基因清单（每行一个）或者 csv 表格的第一列
+        ''' </summary>
+        ''' <param name="filePath"></param>
+        ''' <returns></returns>
+        Private Function readGeneList(filePath As String) As String()
+            Dim genes As New List(Of String)
+
+            If String.IsNullOrEmpty(filePath) OrElse Not File.Exists(filePath) Then
+                Return genes.ToArray()
+            End If
+
+            For Each line As String In File.ReadAllLines(filePath)
+                Dim text As String = If(line, "").Trim()
+
+                If text.Length = 0 Then
+                    Continue For
+                End If
+
+                Dim fields As String() = PriorKnowledge.SplitCsvLine(text)
+                Dim gene As String = fields(0).Trim().Trim(""""c)
+
+                If String.Equals(gene, "target_gene", StringComparison.OrdinalIgnoreCase) Then
+                    Continue For
+                End If
+
+                Call genes.Add(gene)
+            Next
+
+            Return genes.ToArray()
+        End Function
+
+        ''' <summary>
+        ''' 判断基因清单之中是否包含指定的基因（大小写不敏感）
+        ''' </summary>
+        ''' <param name="genes"></param>
+        ''' <param name="gene"></param>
+        ''' <returns></returns>
+        Private Function containsGene(genes As String(), gene As String) As Boolean
+            For Each item As String In genes.SafeQuery()
+                If String.Equals(item, gene, StringComparison.OrdinalIgnoreCase) Then
+                    Return True
+                End If
+            Next
+
+            Return False
+        End Function
 
         ''' <summary>
         ''' 从已经保存的模型压缩包重新导出系数矩阵（不再重新拟合）
@@ -285,8 +677,12 @@ Namespace GRNDemo
             ' 1. 表达矩阵的基因清单（结果会被缓存，避免重复扫描数 GB 的文件）
             Dim matrixGenes As String() = GeneSelector.ReadMatrixGenes(options.MatrixFile, options.MatrixGeneFile, options.Force, options.Quiet)
 
-            ' 2. 先验驱动的基因挑选
-            Dim selected As String() = GeneSelector.SelectGenes(prior, matrixGenes, options.FitGenes, options.ExtractGenes, options.Quiet)
+            ' 2. 先验驱动的基因挑选（必选基因优先进入核心子网）
+            Dim mandatory As String() = readGeneList(options.MustIncludeFile)
+
+            Call Console.WriteLine($"[INFO] {mandatory.Length} mandatory gene(s) is declared by --must-include.")
+
+            Dim selected As String() = GeneSelector.SelectGenes(prior, matrixGenes, options.FitGenes, options.ExtractGenes, options.Quiet, mandatory)
             Dim cached As String() = GeneSelector.ReadGeneList(options.SubsetGeneFile)
             Dim cacheHit As Boolean = Not options.Force AndAlso File.Exists(options.SubsetFile) AndAlso sameList(cached, selected)
 
@@ -336,8 +732,19 @@ Namespace GRNDemo
                 Call failures.Add($"only {binned.nBins} pseudotime bin(s) can be built, at least 8 bins are required")
             End If
 
-            ' 5. 挑选动态范围最大的基因参与拟合
-            Dim fitData As BinnedExpression = PseudotimeMatrix.SelectDynamic(binned, options.FitGenes)
+            ' 5. 挑选动态范围最大的基因参与拟合（必选基因无论如何都保留）
+            Dim fitData As BinnedExpression = PseudotimeMatrix.SelectDynamic(binned, options.FitGenes, mandatory)
+
+            If mandatory.Length > 0 Then
+                Dim kept As Integer = fitData.Matrix.expression.Count(Function(row) containsGene(mandatory, row.geneID))
+
+                Call Console.WriteLine($"[INFO] {kept}/{mandatory.Length} mandatory gene(s) is kept in the fitted time series.")
+                Call report.AppendLine($"mandatory: {kept}/{mandatory.Length} gene(s) kept in the fitting matrix")
+
+                If kept < mandatory.Length Then
+                    Call failures.Add($"only {kept} of the {mandatory.Length} mandatory gene(s) is present in the binned matrix")
+                End If
+            End If
 
             Call PseudotimeMatrix.SaveCsv(fitData, Path.Combine(options.OutDir, "fit_expression_matrix.csv"))
 
@@ -514,7 +921,19 @@ Namespace GRNDemo
             Dim screening As ScreeningResult = Nothing
 
             Try
-                screening = VirtualScreening.Run(network, designs, options.PerturbDir, finalTime)
+                Dim perturbDir As String = options.PerturbDir
+
+                screening = VirtualScreening.Run(
+                    network,
+                    designs,
+                    finalTime:=finalTime,
+                    onSimulated:=Sub(design, output)
+                                     Call VirtualScreening.SaveTrajectory(
+                                         output,
+                                         Path.Combine(perturbDir, VirtualScreening.TrajectoryFileOf(design)))
+                                 End Sub)
+
+                Call VirtualScreening.SaveScreening(screening, perturbDir)
             Catch ex As Exception
                 Call Console.WriteLine($"[ERROR] the virtual perturbation screening was failed: {ex.Message}")
                 Call failures.Add($"the virtual perturbation screening was failed: {ex.Message}")
@@ -525,7 +944,6 @@ Namespace GRNDemo
             Call Console.WriteLine($"[INFO] virtual perturbation finished in {watch.Elapsed.TotalSeconds.ToString("F1")}s: {screening.Records.SafeQuery().Count()} record(s)")
 
             Call writeText(Path.Combine(options.OutDir, "perturb_summary.txt"), screening.Summary())
-            Call writeScreening(options, screening)
 
             Call report.AppendLine()
             Call report.AppendLine($"perturb  : {designs.Count} design(s), {screening.Records.SafeQuery().Count()} record(s) in {watch.Elapsed.TotalSeconds.ToString("F1")}s")
@@ -612,34 +1030,6 @@ Namespace GRNDemo
                 .Select(Function(a) a.Key) _
                 .ToArray()
         End Function
-
-        Private Sub writeScreening(options As DemoOptions, screening As ScreeningResult)
-            Dim sb As New StringBuilder()
-
-            Call sb.AppendLine("target,perturbation,gene,control,perturbed,fold_change,max_deviation,response_time,is_target")
-
-            For Each record As ScreeningRecord In screening.Records.SafeQuery()
-                Call sb.Append(record.Target)
-                Call sb.Append(","c)
-                Call sb.Append(record.Perturbation)
-                Call sb.Append(","c)
-                Call sb.Append(record.Gene)
-                Call sb.Append(","c)
-                Call sb.Append(record.ControlLevel.ToString("G6", CultureInfo.InvariantCulture))
-                Call sb.Append(","c)
-                Call sb.Append(record.PerturbedLevel.ToString("G6", CultureInfo.InvariantCulture))
-                Call sb.Append(","c)
-                Call sb.Append(record.FoldChange.ToString("G6", CultureInfo.InvariantCulture))
-                Call sb.Append(","c)
-                Call sb.Append(record.MaxDeviation.ToString("G6", CultureInfo.InvariantCulture))
-                Call sb.Append(","c)
-                Call sb.Append(record.ResponseTime.ToString("G6", CultureInfo.InvariantCulture))
-                Call sb.Append(","c)
-                Call sb.AppendLine(record.IsTarget.ToString())
-            Next
-
-            Call writeText(Path.Combine(options.OutDir, "perturb_records.csv"), sb.ToString())
-        End Sub
 
         #End Region
 

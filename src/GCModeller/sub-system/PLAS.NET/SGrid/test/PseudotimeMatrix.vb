@@ -281,15 +281,31 @@ Namespace GRNDemo
         ''' </summary>
         ''' <param name="binned"></param>
         ''' <param name="top">需要保留的基因数量；零或者负数表示全部保留</param>
+        ''' <param name="mustKeep">
+        ''' 必须被保留的基因（例如敲降实验的目标基因），无论其动态范围大小；
+        ''' 剩余的额度再按动态范围从高到低填充
+        ''' </param>
         ''' <returns></returns>
-        Public Function SelectDynamic(binned As BinnedExpression, Optional top As Integer = 30) As BinnedExpression
+        Public Function SelectDynamic(binned As BinnedExpression,
+                                      Optional top As Integer = 30,
+                                      Optional mustKeep As String() = Nothing) As BinnedExpression
             Dim rows As DataFrameRow() = binned.Matrix.expression
 
             If top <= 0 OrElse top >= rows.Length Then
                 Return binned
             End If
 
-            Dim scores As New List(Of Tuple(Of Double, DataFrameRow))
+            Dim keep As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)
+
+            For Each gene As String In mustKeep.SafeQuery()
+                Dim key As String = If(gene, "").Trim()
+
+                If key.Length > 0 Then
+                    Call keep.Add(key)
+                End If
+            Next
+
+            Dim scores As New List(Of Tuple(Of Double, DataFrameRow, Boolean))
 
             For Each row As DataFrameRow In rows
                 Dim values As Double() = row.experiments
@@ -303,12 +319,18 @@ Namespace GRNDemo
                 Dim mean As Double = values.Average
                 Dim dynamics As Double = ifFinite((hi - lo) / std.Max(std.Abs(mean), 1.0E-6))
 
-                Call scores.Add(New Tuple(Of Double, DataFrameRow)(dynamics, row))
+                Call scores.Add(New Tuple(Of Double, DataFrameRow, Boolean)(dynamics, row, keep.Contains(row.geneID)))
             Next
 
+            ' 必选基因先占用额度，其余按动态范围由高到低补齐
+            Dim mandatory As Integer = scores.Where(Function(a) a.Item3).Count()
+            Dim quota As Integer = std.Max(top - mandatory, 0)
             Dim selected As DataFrameRow() = scores _
-                .OrderByDescending(Function(a) a.Item1) _
-                .Take(top) _
+                .Where(Function(a) a.Item3) _
+                .Concat(scores _
+                    .Where(Function(a) Not a.Item3) _
+                    .OrderByDescending(Function(a) a.Item1) _
+                    .Take(quota)) _
                 .Select(Function(a) a.Item2) _
                 .ToArray
 

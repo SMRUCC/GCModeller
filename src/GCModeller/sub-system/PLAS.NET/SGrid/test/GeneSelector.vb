@@ -96,12 +96,17 @@ Namespace GRNDemo
         ''' <param name="coreSize">核心基因（最终参与拟合）的数量</param>
         ''' <param name="extractSize">需要导出到子集矩阵之中的基因数量</param>
         ''' <param name="quiet"></param>
+        ''' <param name="mustInclude">
+        ''' 必须被包含进核心子网的基因（例如需要用这批基因做虚拟扰动实验）；
+        ''' 它们会直接成为拓展的起点，先验得分只用于挑选额外的调控因子
+        ''' </param>
         ''' <returns>先验连接度最高的一个连通子网</returns>
         Public Function SelectGenes(prior As PriorNet,
                                     matrixGenes As String(),
                                     Optional coreSize As Integer = 30,
                                     Optional extractSize As Integer = 200,
-                                    Optional quiet As Boolean = False) As String()
+                                    Optional quiet As Boolean = False,
+                                    Optional mustInclude As String() = Nothing) As String()
 
             If prior Is Nothing Then
                 Throw New ArgumentNullException(NameOf(prior))
@@ -153,23 +158,66 @@ Namespace GRNDemo
             End If
 
             If score.Count = 0 Then
-                ' 先验知识全部无法匹配的时候退化为直接取矩阵的前若干个基因
+                ' 先验知识全部无法匹配的时候退化为直接取矩阵的前若干个基因，
+                ' 但是必选基因仍然必须保留
                 Call Console.WriteLine("[WARN] none of the prior edges can be matched on the expression matrix, the gene selection falls back to the matrix order.")
 
-                Return matrixGenes.Take(extractSize).ToArray
+                Dim fallback As New List(Of String)
+                Dim seen As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)
+
+                For Each gene As String In mustInclude.SafeQuery()
+                    If actual.ContainsKey(If(gene, "").Trim()) AndAlso seen.Add(actual(gene)) Then
+                        Call fallback.Add(actual(gene))
+                    End If
+                Next
+                For Each gene As String In matrixGenes
+                    If fallback.Count >= extractSize Then
+                        Exit For
+                    End If
+                    If seen.Add(gene) Then
+                        Call fallback.Add(gene)
+                    End If
+                Next
+
+                Return fallback.ToArray
             End If
 
             Dim selected As New List(Of String)
             Dim chosen As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)
             Dim frontier As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)
-            Dim seed As String = score _
-                .OrderByDescending(Function(a) a.Value) _
-                .Select(Function(a) a.Key) _
-                .First
 
-            Call selected.Add(seed)
-            Call chosen.Add(seed)
-            Call pushFrontier(adjacent, frontier, chosen, seed)
+            ' 必选基因（例如敲降实验的目标基因）优先进入核心子网，并由它们出发拓展调控因子
+            Dim seeds As New List(Of String)
+
+            For Each gene As String In mustInclude.SafeQuery()
+                Dim key As String = If(gene, "").Trim()
+
+                If key.Length = 0 OrElse Not actual.ContainsKey(key) Then
+                    Continue For
+                End If
+                If chosen.Add(actual(key)) Then
+                    Call selected.Add(actual(key))
+                    Call seeds.Add(actual(key))
+                End If
+            Next
+
+            If seeds.Count > 0 AndAlso Not quiet Then
+                Call Console.WriteLine($"[INFO] {seeds.Count} mandatory gene(s) was seeded into the core network.")
+            End If
+            If selected.Count = 0 Then
+                Dim seed As String = score _
+                    .OrderByDescending(Function(a) a.Value) _
+                    .Select(Function(a) a.Key) _
+                    .First
+
+                Call selected.Add(seed)
+                Call chosen.Add(seed)
+                Call seeds.Add(seed)
+            End If
+
+            For Each seed As String In seeds
+                Call pushFrontier(adjacent, frontier, chosen, seed)
+            Next
 
             While selected.Count < coreSize AndAlso frontier.Count > 0
                 Dim nextGene As String = frontier _
