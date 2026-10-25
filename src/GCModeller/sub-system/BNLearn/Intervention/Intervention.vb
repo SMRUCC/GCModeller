@@ -91,12 +91,6 @@ Namespace Intervention
         Private _network As Core.BayesianNetwork
         Private _data As GeneExpressionData
 
-        ''' <summary>初始化</summary>
-        Public Sub New(fittedNetwork As Core.BayesianNetwork, trainingData As GeneExpressionData)
-            _network = fittedNetwork
-            _data = trainingData
-        End Sub
-
         ''' <summary>
         ''' Strict 严格模式开关（默认 True）。
         ''' True: 在拟合网络中匹配不到干预目标基因时，抛出 <see cref="MissingMemberException"/> 错误；
@@ -104,6 +98,12 @@ Namespace Intervention
         ''' 并将结果对象标记为未定义（<see cref="InterventionResult.Undefined"/> = True）。
         ''' </summary>
         Public Property Strict As Boolean = True
+
+        ''' <summary>初始化</summary>
+        Public Sub New(fittedNetwork As Core.BayesianNetwork, trainingData As GeneExpressionData)
+            _network = fittedNetwork
+            _data = trainingData
+        End Sub
 
         Private Function FindGeneIndex(spec As InterventionSpec) As Integer
             Dim i As Integer = 0
