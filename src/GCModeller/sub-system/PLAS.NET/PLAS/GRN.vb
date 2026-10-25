@@ -3,15 +3,15 @@ Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.Calculus.Dynamics.Data
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.SGrid.GRN
 Imports SMRUCC.genomics.Analysis.SGrid.Perturbation
-Imports SSModel = SMRUCC.genomics.Analysis.SSystem.Script.Model
-Imports SSEquation = SMRUCC.genomics.Analysis.SSystem.Script.SEquation
-Imports SSCompiler = SMRUCC.genomics.Analysis.SSystem.Script.ScriptCompiler
-Imports SSExperiment = SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels.Experiment
-Imports SMRUCC.genomics.Analysis.HTS.DataFrame
-Imports SMRUCC.genomics.Analysis.SSystem
 Imports SMRUCC.genomics.Analysis.SSystem.Runner
+Imports SSCompiler = SMRUCC.genomics.Analysis.SSystem.Script.ScriptCompiler
+Imports SSEquation = SMRUCC.genomics.Analysis.SSystem.Script.SEquation
+Imports SSExperiment = SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels.Experiment
+Imports SSModel = SMRUCC.genomics.Analysis.SSystem.Script.Model
 
 ''' <summary>
 ''' 基因表达调控网络拟合与虚拟扰动实验的命令行实现
@@ -149,7 +149,7 @@ Public Module GRN
         Call runOptions.Validate()
 
         ' 计算与 IO 分离：轨迹文件通过 onSimulated 回调交给 SaveTrajectory 写出
-        Dim onSimulated As Action(Of PerturbationDesign, SMRUCC.genomics.Analysis.SSystem.Kernel.ODEs.ODEsOut) = Nothing
+        Dim onSimulated As Action(Of PerturbationDesign, ODEsOut) = Nothing
 
         If Not String.IsNullOrEmpty(outDir) Then
             onSimulated = Sub(design, output)
@@ -211,17 +211,6 @@ Public Module GRN
         End If
 
         Return 0
-    End Function
-
-    ''' <summary>
-    ''' 执行 SGrid 的自测（合成金标准网络 + 拓扑恢复率断言）
-    ''' </summary>
-    ''' <param name="args"></param>
-    ''' <returns></returns>
-    Public Function SelfTest(args As CommandLine) As Integer
-        Return SMRUCC.genomics.Analysis.SGrid.SelfTest.GrnSelfTest.Run(
-            verbose:=True,
-            export:=optStr(args, "/export", ""))
     End Function
 
     Private Function loadModel(path As String) As SSModel
