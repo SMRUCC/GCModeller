@@ -92,9 +92,9 @@ Module ssGrid
             x0 = context.asGeneric(Of Double)(Function(x) CLRVector.asNumeric(x)(0))
         End If
 
-        For Each hub As String In CLRVector.asCharacter(geneIds)
+        For Each target As String In CLRVector.asCharacter(geneIds)
             Call designs.Add(New PerturbationDesign With {
-                .TargetGene = hub,
+                .TargetGene = target,
                 .Type = type,
                 .Start = start,
                 .Interval = interval,
