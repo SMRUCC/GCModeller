@@ -94,16 +94,41 @@ Namespace DataStructure
         End Function
 
         Public Shared Function LoadData(path As String) As GraphEdge()
-            Dim LQuery As GraphEdge() =
-                LinqAPI.Exec(Of GraphEdge) <= From line As String
-                                              In IO.File.ReadAllLines(path)
-                                              Let tokens As String() = Strings.Split(line, vbTab)
-                                              Select New GraphEdge With {
-                                                  .pathwayID = tokens(0),
-                                                  .g1 = tokens(1),
-                                                  .g2 = tokens(2)
-                                              }
-            Return LQuery
+            Dim edges As New System.Collections.Generic.List(Of GraphEdge)
+
+            For Each raw As String In IO.File.ReadLines(path)
+                If String.IsNullOrWhiteSpace(raw) Then
+                    Continue For
+                End If
+
+                Dim tokens As String() = raw.Split(ControlChars.Tab)
+
+                If tokens.Length < 3 Then
+                    Continue For
+                End If
+
+                Dim pathway As String = tokens(0).Trim.TrimStart(ChrW(&HFEFF))
+                Dim gene1 As String = tokens(1).Trim
+                Dim gene2 As String = tokens(2).Trim
+
+                If pathway.Equals("pathway", StringComparison.OrdinalIgnoreCase) AndAlso
+                   gene1.Equals("gene1", StringComparison.OrdinalIgnoreCase) AndAlso
+                   gene2.Equals("gene2", StringComparison.OrdinalIgnoreCase) Then
+                    Continue For
+                End If
+
+                If pathway.Length = 0 OrElse gene1.Length = 0 OrElse gene2.Length = 0 Then
+                    Continue For
+                End If
+
+                edges.Add(New GraphEdge With {
+                    .pathwayID = pathway,
+                    .g1 = gene1,
+                    .g2 = gene2
+                })
+            Next
+
+            Return edges.ToArray
         End Function
     End Class
 End Namespace

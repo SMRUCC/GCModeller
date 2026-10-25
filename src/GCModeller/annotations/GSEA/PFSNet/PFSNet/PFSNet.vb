@@ -93,10 +93,8 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
         Dim geneIDs As New StringVector(From gene In w Select gene.geneID)
         Dim maskQuery = From row As DataFrameRow
                         In w
-                        Let x As Double() = row.experiments
-                        Let sumX = x.Where(Function(y) Not y.IsNaNImaginary).Sum
-                        Let countX = x.Where(Function(y) Not y.IsNaNImaginary).Count
-                        Select (sumX / countX) >= beta
+                        Let values As Double() = row.experiments.Where(Function(y) Double.IsFinite(y)).ToArray
+                        Select values.Length > 0 AndAlso values.Average >= beta
         Dim list_mask As Boolean() = maskQuery.ToArray
 
         Return geneIDs(list_mask)
@@ -122,7 +120,8 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
                            Optional b As Double = 0.5,
                            Optional t1 As Double = 0.95,
                            Optional t2 As Double = 0.85,
-                           Optional n As Double = 1000) As PFSNetResultOut
+                           Optional n As Double = 1000,
+                           Optional seed As Integer? = Nothing) As PFSNetResultOut
 
         cat("reading data files")
         Dim ggi As GraphEdge() = GraphEdge.LoadData(file3)
@@ -133,7 +132,15 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
         cat(".")
         cat("\t[DONE]\n")
 
-        Return pfsnet(expr1o, expr2o, ggi, b, t1, t2, n)
+        Dim output As PFSNetResultOut = pfsnet(expr1o, expr2o, ggi, b, t1, t2, CInt(n), seed)
+        Dim class1Name As String = System.IO.Path.GetFileNameWithoutExtension(file1)
+        Dim class2Name As String = System.IO.Path.GetFileNameWithoutExtension(file2)
+
+        output.class1 = class1Name
+        output.class2 = class2Name
+        output.tag = class1Name & "_vs_" & class2Name
+
+        Return output
     End Function
 
     <ExportAPI("PfsNET.Evaluate")>
@@ -143,7 +150,17 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
                            Optional b As Double = 0.5,
                            Optional t1 As Double = 0.95,
                            Optional t2 As Double = 0.85,
-                           Optional n As Integer = 1000) As PFSNetResultOut
+                           Optional n As Integer = 1000,
+                           Optional seed As Integer? = Nothing) As PFSNetResultOut
+
+        Dim alignment As GeneAlignmentResult = GeneAlignment.Align(expr1o, expr2o)
+
+        expr1o = alignment.First
+        expr2o = alignment.Second
+
+        If alignment.DroppedFromFirst > 0 OrElse alignment.DroppedFromSecond > 0 Then
+            cat($"aligned {expr1o.Length} common genes; dropped {alignment.DroppedFromFirst}/{alignment.DroppedFromSecond}.", vbLf)
+        End If
 
         Dim proc As Stopwatch = Stopwatch.StartNew
 
@@ -188,8 +205,9 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
         cat(".\t[DONE]\n")
         cat("computing permuation tests ")
 
-        Dim tdist = estimatetdist(expr1o, expr2o, ggi, b, t1, t2, n)
-        Dim tdist2 = estimatetdist(expr2o, expr1o, ggi, b, t1, t2, n)
+        Dim rng As Random = If(seed.HasValue, New Random(seed.Value), Nothing)
+        Dim tdist = estimatetdist(expr1o, expr2o, ggi, b, t1, t2, n, rng)
+        Dim tdist2 = estimatetdist(expr2o, expr1o, ggi, b, t1, t2, n, rng)
 
         ccs = ccs.doStatics(pscore, nscore, tdist)
         ccs2 = ccs2.doStatics(pscore2, nscore2, tdist2)
@@ -201,6 +219,9 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
         Dim class2 = (From item In ccs2 Where item.masked Select item).ToArray
 
         Return New PFSNetResultOut With {
+            .tag = "phenotype1_vs_phenotype2",
+            .class1 = "phenotype1",
+            .class2 = "phenotype2",
             .phenotype1 = class1,
             .phenotype2 = class2
         }
