@@ -1,6 +1,9 @@
 Imports System.Text
 Imports Microsoft.VisualBasic.Linq
 Imports std = System.Math
+Imports RegulationEdge = SMRUCC.genomics.Analysis.BNLearn.Core.RegulatoryEdge
+Imports PriorNet = SMRUCC.genomics.Analysis.BNLearn.Core.PriorNetwork
+Imports EffectorRole = SMRUCC.genomics.Analysis.BNLearn.Effector
 
 Namespace GRN
 
@@ -50,10 +53,10 @@ Namespace GRN
         ''' <returns></returns>
         Public Property PriorType As String = "Unknown"
         ''' <summary>
-        ''' 先验知识所记录的置信度（High/Medium/Low/Unknown）
+        ''' 先验知识所记录的置信度（0~1，零表示没有先验支持）
         ''' </summary>
         ''' <returns></returns>
-        Public Property PriorConfidence As String = "Unknown"
+        Public Property PriorConfidence As Double = 0
         ''' <summary>
         ''' 稀疏化排序时施加的先验加权（0 表示没有先验支持）
         ''' </summary>
@@ -121,7 +124,7 @@ Namespace GRN
         ''' 先验知识之中没有被复现出来的边
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property MissedPriorEdges As New List(Of PriorEdge)
+        Public ReadOnly Property MissedPriorEdges As New List(Of RegulationEdge)
 
         ''' <summary>
         ''' 先验覆盖率：恢复出来的边之中有多少比例是有先验支持的
@@ -198,7 +201,7 @@ Namespace GRN
         ''' </remarks>
         Public Function Sparsify(parameters As SSystemParameters,
                                  Optional options As FittingOptions = Nothing,
-                                 Optional prior As PriorNetwork = Nothing) As RegulatoryEdge()
+                                 Optional prior As PriorNet = Nothing) As RegulatoryEdge()
             If parameters Is Nothing Then
                 Throw New ArgumentNullException(NameOf(parameters))
             End If
@@ -251,10 +254,10 @@ Namespace GRN
                 End If
 
                 For Each j As Integer In candidates
-                    Dim record As PriorEdge = Nothing
+                    Dim record As RegulationEdge = Nothing
 
                     If Not prior Is Nothing Then
-                        record = prior.Lookup(parameters.GeneNames(j), parameters.GeneNames(i))
+                        record = prior.FindEdge(parameters.GeneNames(j), parameters.GeneNames(i))
                     End If
 
                     keep(i)(j) = True
@@ -266,9 +269,9 @@ Namespace GRN
                         .h = parameters.H(i)(j),
                         .weight = net(i)(j),
                         .PriorSupported = Not record Is Nothing,
-                        .PriorType = If(record Is Nothing, "Unknown", record.RegulationType.ToString),
-                        .PriorConfidence = If(record Is Nothing, "Unknown", record.Confidence.ToString),
-                        .PriorWeight = If(record Is Nothing, 0, record.Weight)
+                        .PriorType = record.RegulationName(),
+                        .PriorConfidence = If(record Is Nothing, 0, record.Confidence),
+                        .PriorWeight = record.EdgeWeight()
                     })
                 Next
             Next
@@ -293,18 +296,12 @@ Namespace GRN
         ''' <param name="source"></param>
         ''' <param name="target"></param>
         ''' <returns></returns>
-        Private Function priorWeightOf(prior As PriorNetwork, source As String, target As String) As Double
+        Private Function priorWeightOf(prior As PriorNet, source As String, target As String) As Double
             If prior Is Nothing Then
                 Return 0
             End If
 
-            Dim record As PriorEdge = prior.Lookup(source, target)
-
-            If record Is Nothing Then
-                Return 0
-            Else
-                Return record.Weight
-            End If
+            Return prior.FindEdge(source, target).EdgeWeight()
         End Function
 
         ''' <summary>
@@ -313,7 +310,7 @@ Namespace GRN
         ''' <param name="edges">稀疏化之后得到的调控边</param>
         ''' <param name="prior">本次拟合所使用的先验网络</param>
         ''' <returns></returns>
-        Public Function PriorMetrics(edges As RegulatoryEdge(), Optional prior As PriorNetwork = Nothing) As PriorMetrics
+        Public Function PriorMetrics(edges As RegulatoryEdge(), Optional prior As PriorNet = Nothing) As PriorMetrics
             Dim metrics As New PriorMetrics With {
                 .RecoveredEdges = edges.SafeQuery().Count()
             }
@@ -325,13 +322,13 @@ Namespace GRN
                     ' 自环承担的是降解项的自我衰减作用，不参与调控方向的一致性统计
                     If Not String.Equals(edge.source, edge.target, StringComparison.OrdinalIgnoreCase) Then
                         Select Case edge.PriorType
-                            Case NameOf(PriorRegulationTypes.Activator)
+                            Case NameOf(EffectorRole.Activator)
                                 If edge.weight > 0 Then
                                     metrics.SignConsistent += 1
                                 Else
                                     Call metrics.SignViolations.Add(edge)
                                 End If
-                            Case NameOf(PriorRegulationTypes.Inhibitor)
+                            Case NameOf(EffectorRole.Inhibitor)
                                 If edge.weight < 0 Then
                                     metrics.SignConsistent += 1
                                 Else
@@ -351,7 +348,7 @@ Namespace GRN
                     Call recovered.Add(edge.source & vbTab & edge.target)
                 Next
 
-                For Each record As PriorEdge In prior.Edges.SafeQuery
+                For Each record As RegulationEdge In prior.Edges.SafeQuery
                     If recovered.Contains(record.TF & vbTab & record.TargetGene) Then
                         metrics.ConfirmedPriorEdges += 1
                     Else

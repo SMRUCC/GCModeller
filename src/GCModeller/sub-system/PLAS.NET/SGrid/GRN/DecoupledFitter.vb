@@ -2,6 +2,8 @@ Imports System.Text
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MachineLearning.Darwinism
 Imports Microsoft.VisualBasic.Math.Framework.Optimization.LBFGSB
+Imports PriorEdge = SMRUCC.genomics.Analysis.BNLearn.Core.RegulatoryEdge
+Imports PriorNet = SMRUCC.genomics.Analysis.BNLearn.Core.PriorNetwork
 Imports std = System.Math
 
 Namespace GRN
@@ -436,7 +438,7 @@ Namespace GRN
         ''' <summary>
         ''' 本次拟合所使用的先验知识网络（已经过基因符号映射），为空表示不启用先验约束
         ''' </summary>
-        ReadOnly prior As PriorNetwork
+        ReadOnly prior As PriorNet
 
         ''' <summary>
         ''' 创建一个逐基因解耦的拟合器
@@ -475,6 +477,8 @@ Namespace GRN
                 .H = New Double(n - 1)() {},
                 .SlopeSSE = New Double(n - 1) {},
                 .SlopeRMSE = New Double(n - 1) {},
+                .SlopeSST = New Double(n - 1) {},
+                .Candidates = New Integer(n - 1)() {},
                 .Converged = New Boolean(n - 1) {}
             }
 
@@ -509,7 +513,7 @@ Namespace GRN
             If options.PriorCandidateRestriction AndAlso Not prior Is Nothing Then
                 Dim restricted As New System.Collections.Generic.List(Of Integer)
 
-                For Each edge As PriorEdge In prior.RegulatorsOf(series.GeneNames(i))
+                For Each edge As PriorEdge In prior.RegulatorEdges(series.GeneNames(i))
                     Dim j As Integer = series.GeneIndex(edge.TF)
 
                     If j >= 0 AndAlso Not restricted.Contains(j) Then
@@ -671,6 +675,8 @@ Namespace GRN
 
             result.SlopeSSE(i) = problem.RawSSE(best)
             result.SlopeRMSE(i) = std.Sqrt(result.SlopeSSE(i) / m)
+            result.SlopeSST(i) = variance * m
+            result.Candidates(i) = candidates
             result.Converged(i) = bestScore < 1.0E+11
 
             If options.Verbose Then
@@ -706,11 +712,11 @@ Namespace GRN
                     Continue For
                 End If
 
-                Dim edge As PriorEdge = prior.Lookup(source, target)
+                Dim edge As PriorEdge = prior.FindEdge(source, target)
 
                 If Not edge Is Nothing Then
                     mask(c) = True
-                    sign(c) = edge.Sign
+                    sign(c) = edge.EdgeSign()
                 Else
                     mask(c) = False
                     sign(c) = 0

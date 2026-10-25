@@ -57,6 +57,16 @@ Namespace GRN
         ''' <returns></returns>
         Public Property SlopeRMSE As Double()
         ''' <summary>
+        ''' 每一个基因的观测斜率的总平方和（用于计算拟合的 R²）
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property SlopeSST As Double()
+        ''' <summary>
+        ''' 每一个基因的候选调控因子（矩阵行号）；为空表示该基因使用了全部基因作为候选
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Candidates As Integer()()
+        ''' <summary>
         ''' 每一个基因的参数求解是否收敛
         ''' </summary>
         ''' <returns></returns>
@@ -86,6 +96,48 @@ Namespace GRN
                 If SlopeRMSE.IsNullOrEmpty Then Return 0 Else Return SlopeRMSE.Average
             End Get
         End Property
+
+        ''' <summary>
+        ''' 第 <paramref name="i"/> 个基因斜率拟合的决定系数 R²（残差平方和 / 总平方和）
+        ''' </summary>
+        ''' <param name="i"></param>
+        ''' <returns></returns>
+        Public Function RSquared(i As Integer) As Double
+            Dim sst As Double = 0
+            Dim sse As Double = 0
+
+            If Not SlopeSST.IsNullOrEmpty AndAlso i < SlopeSST.Length Then
+                sst = SlopeSST(i)
+            End If
+            If Not SlopeSSE.IsNullOrEmpty AndAlso i < SlopeSSE.Length Then
+                sse = SlopeSSE(i)
+            End If
+
+            If sst <= 1.0E-12 Then
+                Return 0
+            End If
+
+            Dim r2 As Double = 1 - sse / sst
+
+            If Double.IsNaN(r2) OrElse Double.IsInfinity(r2) Then
+                Return 0
+            End If
+
+            Return r2
+        End Function
+
+        ''' <summary>
+        ''' 第 <paramref name="i"/> 个基因的候选调控因子的矩阵行号；没有记录的时候返回全部基因
+        ''' </summary>
+        ''' <param name="i"></param>
+        ''' <returns></returns>
+        Public Function CandidateOf(i As Integer) As Integer()
+            If Not Candidates.IsNullOrEmpty AndAlso i < Candidates.Length AndAlso Not Candidates(i) Is Nothing Then
+                Return Candidates(i)
+            End If
+
+            Return Enumerable.Range(0, nGenes).ToArray
+        End Function
 
         ''' <summary>
         ''' 计算净调控弹性矩阵 E = G - H
@@ -120,6 +172,8 @@ Namespace GRN
                 .H = H.Select(Function(row) CType(row.Clone(), Double())).ToArray,
                 .SlopeSSE = CType(SlopeSSE.Clone(), Double()),
                 .SlopeRMSE = CType(SlopeRMSE.Clone(), Double()),
+                .SlopeSST = If(SlopeSST Is Nothing, Nothing, CType(SlopeSST.Clone(), Double())),
+                .Candidates = If(Candidates Is Nothing, Nothing, Candidates.Select(Function(row) CType(row.Clone(), Integer())).ToArray),
                 .Converged = CType(Converged.Clone(), Boolean()),
                 .TrajectoryRefined = TrajectoryRefined
             }

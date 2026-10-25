@@ -1,5 +1,6 @@
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Math.Calculus.Dynamics
+Imports PriorNet = SMRUCC.genomics.Analysis.BNLearn.Core.PriorNetwork
 
 Namespace GRN
 
@@ -93,7 +94,7 @@ Namespace GRN
         ''' 用于约束网络结构的先验知识网络；为空的时候不启用先验约束
         ''' </summary>
         ''' <returns></returns>
-        Public Property Prior As PriorNetwork = Nothing
+        Public Property Prior As PriorNet = Nothing
         ''' <summary>
         ''' 是否启用先验知识约束（<see cref="Prior"/> 不为空的时候才有效）
         ''' </summary>
@@ -292,7 +293,7 @@ Namespace GRN
         End Sub
 
         Public Overrides Function ToString() As String
-            Return $"S-system fitting: sparsity={Sparsity}, maxEdges={MaxEdgesPerGene}, alpha[{AlphaBounds.Min},{AlphaBounds.Max}], g[{GBounds.Min},{GBounds.Max}], prior={If(UsePrior AndAlso Not Prior Is Nothing, Prior.Size.ToString, "off")}"
+            Return $"S-system fitting: sparsity={Sparsity}, maxEdges={MaxEdgesPerGene}, alpha[{AlphaBounds.Min},{AlphaBounds.Max}], g[{GBounds.Min},{GBounds.Max}], prior={If(UsePrior AndAlso Not Prior Is Nothing, Prior.EdgeCount().ToString, "off")}"
         End Function
     End Class
 End Namespace

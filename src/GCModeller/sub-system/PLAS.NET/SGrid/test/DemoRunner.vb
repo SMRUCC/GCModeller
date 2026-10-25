@@ -7,6 +7,7 @@ Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.SGrid.GRN
 Imports SMRUCC.genomics.Analysis.SGrid.Perturbation
 Imports std = System.Math
+Imports PriorNet = SMRUCC.genomics.Analysis.BNLearn.Core.PriorNetwork
 
 Namespace GRNDemo
 
@@ -99,7 +100,7 @@ Namespace GRNDemo
         #Region "commands"
 
         Private Sub RunExtract(options As DemoOptions, report As StringBuilder, failures As List(Of String))
-            Dim prior As PriorNetwork = loadPrior(options, report)
+            Dim prior As PriorNet = loadPrior(options, report)
 
             If prior Is Nothing Then
                 Call failures.Add("the prior knowledge network can not be loaded")
@@ -120,7 +121,7 @@ Namespace GRNDemo
         End Sub
 
         Private Sub RunFit(options As DemoOptions, report As StringBuilder, failures As List(Of String), runPerturbation As Boolean)
-            Dim prior As PriorNetwork = loadPrior(options, report)
+            Dim prior As PriorNet = loadPrior(options, report)
 
             If prior Is Nothing Then
                 Call failures.Add("the prior knowledge network can not be loaded")
@@ -146,7 +147,7 @@ Namespace GRNDemo
             Call report.AppendLine()
             Call report.AppendLine($"fitting  : {watch.Elapsed.TotalSeconds.ToString("F1")}s, mean slope RMSE={network.Parameters.MeanRMSE.ToString("G6")}")
             Call report.AppendLine($"edges    : {network.Edges.Length}")
-            Call report.AppendLine($"prior    : {If(network.Prior Is Nothing, "none", network.Prior.Size & " edge(s)")}")
+            Call report.AppendLine($"prior    : {If(network.Prior Is Nothing, "none", network.Prior.EdgeCount() & " edge(s)")}")
 
             If Not network.PriorStatistics Is Nothing Then
                 Call report.AppendLine()
@@ -213,23 +214,23 @@ Namespace GRNDemo
 
         #Region "data preparation"
 
-        Private Function loadPrior(options As DemoOptions, report As StringBuilder) As PriorNetwork
+        Private Function loadPrior(options As DemoOptions, report As StringBuilder) As PriorNet
             If Not File.Exists(options.PriorFile) Then
                 Call Console.WriteLine($"[ERROR] the prior knowledge file '{options.PriorFile}' does not exist!")
 
                 Return Nothing
             End If
 
-            Dim prior As PriorNetwork = PriorNetwork.LoadCsv(options.PriorFile)
+            Dim prior As PriorNet = PriorKnowledge.LoadPriorNetwork(options.PriorFile)
 
-            Call Console.WriteLine($"[INFO] prior knowledge: {prior.Size} edge(s), {prior.GeneSymbols.Length} gene symbol(s) ({prior.TypeStatistic})")
-            Call report.AppendLine($"prior    : {prior.Size} edge(s), {prior.GeneSymbols.Length} gene symbol(s), {prior.TypeStatistic}")
+            Call Console.WriteLine($"[INFO] prior knowledge: {prior.EdgeCount()} edge(s), {prior.GeneSymbols().Length} gene symbol(s) ({prior.TypeStatistic()})")
+            Call report.AppendLine($"prior    : {prior.EdgeCount()} edge(s), {prior.GeneSymbols().Length} gene symbol(s), {prior.TypeStatistic()}")
 
             Return prior
         End Function
 
         Private Function prepare(options As DemoOptions,
-                                 prior As PriorNetwork,
+                                 prior As PriorNet,
                                  report As StringBuilder,
                                  failures As List(Of String)) As BinnedExpression
 
@@ -314,7 +315,7 @@ Namespace GRNDemo
             Return fitData
         End Function
 
-        Private Function createFittingOptions(options As DemoOptions, prior As PriorNetwork, binned As BinnedExpression) As FittingOptions
+        Private Function createFittingOptions(options As DemoOptions, prior As PriorNet, binned As BinnedExpression) As FittingOptions
             Dim fitOptions As New FittingOptions With {
                 .Normalize = parseNormalize(options.Normalize),
                 .PseudoCount = 1.0R,
@@ -328,7 +329,7 @@ Namespace GRNDemo
                 .PriorPenalty = options.PriorPenalty,
                 .PriorSignPenalty = options.PriorSignPenalty,
                 .UsePriorSign = True,
-                .PriorRankBoost = 0.5R,
+                .PriorRankBoost = options.PriorRankBoost,
                 .PriorCandidateRestriction = False,
                 .DEPopulationSize = options.DEPopulation,
                 .DEMaxIterations = options.DEIterations,
@@ -367,7 +368,7 @@ Namespace GRNDemo
             Call sb.AppendLine($"genes        : {reloaded.Parameters.nGenes}")
             Call sb.AppendLine($"time points  : {reloaded.Series.nTimePoints}")
             Call sb.AppendLine($"edges        : {reloaded.Edges.Length}")
-            Call sb.AppendLine($"prior edges  : {If(reloaded.Prior Is Nothing, 0, reloaded.Prior.Size)}")
+            Call sb.AppendLine($"prior edges  : {reloaded.Prior.EdgeCount()}")
             Call sb.AppendLine($"max |delta|  : {delta.ToString("G17", CultureInfo.InvariantCulture)}")
 
             Call Console.WriteLine($"[INFO] model archive reloaded, max |delta| = {delta.ToString("G6", CultureInfo.InvariantCulture)}")

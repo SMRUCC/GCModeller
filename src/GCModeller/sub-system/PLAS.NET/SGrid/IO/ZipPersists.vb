@@ -7,6 +7,9 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Calculus.Dynamics
 Imports SMRUCC.genomics.Analysis.SGrid.GRN
 Imports std = System.Math
+Imports EffectorRole = SMRUCC.genomics.Analysis.BNLearn.Effector
+Imports PriorEdge = SMRUCC.genomics.Analysis.BNLearn.Core.RegulatoryEdge
+Imports PriorNet = SMRUCC.genomics.Analysis.BNLearn.Core.PriorNetwork
 
 Namespace IO
 
@@ -142,7 +145,7 @@ Namespace IO
                     .Select(Function(row) row.Select(Function(x) std.Log(std.Max(x, 1.0E-12))).ToArray()) _
                     .ToArray
 
-                Dim prior As PriorNetwork = Nothing
+                Dim prior As PriorNet = Nothing
                 Dim priorText As String = readEntry(archive, "prior.csv")
 
                 If Not String.IsNullOrEmpty(priorText) Then
@@ -204,7 +207,7 @@ Namespace IO
             Call sb.AppendLine($"genes={model.Parameters.nGenes}")
             Call sb.AppendLine($"time_points={model.Series.nTimePoints}")
             Call sb.AppendLine($"edges={model.Edges.SafeQuery().Count()}")
-            Call sb.AppendLine($"prior_edges={If(model.Prior Is Nothing, 0, model.Prior.Size)}")
+            Call sb.AppendLine($"prior_edges={model.Prior.EdgeCount()}")
             Call sb.AppendLine($"trajectory_refined={model.Parameters.TrajectoryRefined}")
             Call sb.Append($"mean_slope_rmse={num(model.Parameters.MeanRMSE)}")
 
@@ -297,13 +300,13 @@ Namespace IO
                 Call sb.Append(","c)
                 Call sb.Append(edge.PriorType)
                 Call sb.Append(","c)
-                Call sb.AppendLine(edge.PriorConfidence)
+                Call sb.AppendLine(num(edge.PriorConfidence))
             Next
 
             Return sb.ToString()
         End Function
 
-        Private Function priorOf(prior As PriorNetwork) As String
+        Private Function priorOf(prior As PriorNet) As String
             Dim sb As New StringBuilder()
 
             Call sb.AppendLine("tf,target,type,confidence")
@@ -319,7 +322,7 @@ Namespace IO
                 Call sb.Append(","c)
                 Call sb.Append(edge.RegulationType.ToString())
                 Call sb.Append(","c)
-                Call sb.AppendLine(edge.Confidence.ToString())
+                Call sb.AppendLine(num(edge.Confidence))
             Next
 
             Return sb.ToString()
@@ -456,7 +459,7 @@ Namespace IO
                     Continue For
                 End If
 
-                Dim fields As String() = PriorNetwork.SplitLine(line)
+                Dim fields As String() = PriorKnowledge.SplitCsvLine(line)
 
                 Call genes.Add(fields(0))
                 Call originals.Add(If(fields.Length > 1, fields(1), fields(0)))
@@ -503,7 +506,7 @@ Namespace IO
                     Continue For
                 End If
 
-                Dim fields As String() = PriorNetwork.SplitLine(line)
+                Dim fields As String() = PriorKnowledge.SplitCsvLine(line)
                 Dim values As Double() = New Double(columns - 1) {}
 
                 For i As Integer = 0 To columns - 1
@@ -534,7 +537,7 @@ Namespace IO
                     Continue For
                 End If
 
-                Dim fields As String() = PriorNetwork.SplitLine(line)
+                Dim fields As String() = PriorKnowledge.SplitCsvLine(line)
 
                 Call values.Add(parseDouble(fields, 1))
             Next
@@ -556,7 +559,7 @@ Namespace IO
                     Continue For
                 End If
 
-                Dim fields As String() = PriorNetwork.SplitLine(line)
+                Dim fields As String() = PriorKnowledge.SplitCsvLine(line)
 
                 Call edges.Add(New RegulatoryEdge With {
                     .source = fields(0),
@@ -566,14 +569,14 @@ Namespace IO
                     .h = parseDouble(fields, 4),
                     .PriorSupported = parseBoolean(fields, 6),
                     .PriorType = parseText(fields, 7, "Unknown"),
-                    .PriorConfidence = parseText(fields, 8, "Unknown")
+                    .PriorConfidence = parseDouble(fields, 8)
                 })
             Next
 
             Return edges.ToArray
         End Function
 
-        Private Function parsePrior(text As String) As PriorNetwork
+        Private Function parsePrior(text As String) As PriorNet
             Dim lines As String() = textLines(text)
             Dim edges As New List(Of PriorEdge)
             Dim header As Boolean = True
@@ -587,7 +590,7 @@ Namespace IO
                     Continue For
                 End If
 
-                Dim fields As String() = PriorNetwork.SplitLine(line)
+                Dim fields As String() = PriorKnowledge.SplitCsvLine(line)
 
                 If fields.Length < 2 Then
                     Continue For
@@ -596,8 +599,8 @@ Namespace IO
                 Call edges.Add(New PriorEdge With {
                     .TF = fields(0),
                     .TargetGene = fields(1),
-                    .RegulationType = parseRegulationType(parseText(fields, 2, "Unknown")),
-                    .Confidence = parseConfidence(parseText(fields, 3, "Unknown"))
+                    .RegulationType = parseEffector(parseText(fields, 2, "Unknown")),
+                    .Confidence = parseConfidence(fields, 3)
                 })
             Next
 
@@ -605,7 +608,42 @@ Namespace IO
                 Return Nothing
             End If
 
-            Return PriorNetwork.FromEdges(edges)
+            Return New PriorNet(edges)
+        End Function
+
+        ''' <summary>
+        ''' 解析调控方向字段，无法识别的时候回落到 <see cref="EffectorRole.Unknown"/>
+        ''' </summary>
+        ''' <param name="text"></param>
+        ''' <returns></returns>
+        Private Function parseEffector(text As String) As EffectorRole
+            Return PriorEdge.ParseEffector(text)
+        End Function
+
+        ''' <summary>
+        ''' 解析置信度字段：既接受数值也接受 High/Medium/Low 这样的标签
+        ''' </summary>
+        ''' <param name="fields"></param>
+        ''' <param name="index"></param>
+        ''' <returns></returns>
+        Private Function parseConfidence(fields As String(), index As Integer) As Double
+            Dim text As String = parseText(fields, index, "")
+            Dim value As Double
+
+            If String.IsNullOrEmpty(text) Then
+                Return 1.0R
+            End If
+            If Double.TryParse(text, NumberStyles.Float, CultureInfo.InvariantCulture, value) Then
+                Return value
+            End If
+
+            Dim mapped As Double = PriorEdge.ParseConfidenceEnum(text)
+
+            If mapped <= 0 Then
+                Return 0.5R
+            Else
+                Return mapped
+            End If
         End Function
 
         Private Function parseOptions(text As String) As FittingOptions
@@ -774,26 +812,6 @@ Namespace IO
                 Return fallback
             Else
                 Return fields(index)
-            End If
-        End Function
-
-        Private Function parseRegulationType(text As String) As PriorRegulationTypes
-            Dim value As PriorRegulationTypes
-
-            If [Enum].TryParse(text, ignoreCase:=True, result:=value) Then
-                Return value
-            Else
-                Return PriorRegulationTypes.Unknown
-            End If
-        End Function
-
-        Private Function parseConfidence(text As String) As PriorConfidence
-            Dim value As PriorConfidence
-
-            If [Enum].TryParse(text, ignoreCase:=True, result:=value) Then
-                Return value
-            Else
-                Return PriorConfidence.Unknown
             End If
         End Function
 

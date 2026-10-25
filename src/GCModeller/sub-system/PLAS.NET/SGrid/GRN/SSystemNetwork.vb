@@ -2,6 +2,7 @@ Imports System.Globalization
 Imports System.Text
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.SSystem.Runner
+Imports PriorNet = SMRUCC.genomics.Analysis.BNLearn.Core.PriorNetwork
 Imports SSExperiment = SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels.Experiment
 Imports SSModel = SMRUCC.genomics.Analysis.SSystem.Script.Model
 Imports SSVar = SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels.var
@@ -45,7 +46,7 @@ Namespace GRN
         ''' 本次拟合所使用的先验知识网络（基因符号已经映射到规整化之后的编号）
         ''' </summary>
         ''' <returns></returns>
-        Public Property Prior As PriorNetwork
+        Public Property Prior As PriorNet
         ''' <summary>
         ''' 先验知识与拟合拓扑之间的对照指标；没有启用先验的时候为空
         ''' </summary>
@@ -75,17 +76,17 @@ Namespace GRN
 
             Dim series As ExpressionTimeSeries = ExpressionTimeSeries.FromMatrix(matrix, options)
             Dim fitOptions As FittingOptions = options.Clone()
-            Dim prior As PriorNetwork = Nothing
+            Dim prior As PriorNet = Nothing
 
             If options.UsePrior AndAlso Not options.Prior Is Nothing Then
                 prior = options.Prior.Remap(geneNameMap(series))
                 fitOptions.Prior = prior
 
                 If options.Verbose Then
-                    Call Console.WriteLine($"[INFO] prior knowledge: {options.Prior.Size} edge(s) loaded, {prior.Size} edge(s) matched to the expression matrix.")
+                    Call Console.WriteLine($"[INFO] prior knowledge: {options.Prior.EdgeCount()} edge(s) loaded, {prior.EdgeCount()} edge(s) matched to the expression matrix.")
                 End If
 
-                If prior.Size = 0 Then
+                If prior.EdgeCount() = 0 Then
                     Call series.Warnings.Add("None of the prior knowledge edges was matched to the expression matrix, the prior constraint is disabled.")
                     fitOptions.Prior = Nothing
                     prior = Nothing
@@ -291,7 +292,7 @@ Namespace GRN
 
             If Not Prior Is Nothing Then
                 Call sb.AppendLine()
-                Call sb.AppendLine($"prior knowledge : {Prior.Size} edge(s) mapped, {Prior.TypeStatistic}")
+                Call sb.AppendLine($"prior knowledge : {Prior.EdgeCount()} edge(s) mapped, {Prior.TypeStatistic()}")
 
                 If Not PriorStatistics Is Nothing Then
                     Call sb.Append(PriorStatistics.Summary())

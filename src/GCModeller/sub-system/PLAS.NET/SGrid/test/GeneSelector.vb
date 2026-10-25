@@ -3,6 +3,8 @@ Imports System.IO
 Imports System.Text
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.SGrid.GRN
+Imports PriorEdge = SMRUCC.genomics.Analysis.BNLearn.Core.RegulatoryEdge
+Imports PriorNet = SMRUCC.genomics.Analysis.BNLearn.Core.PriorNetwork
 
 Namespace GRNDemo
 
@@ -95,7 +97,7 @@ Namespace GRNDemo
         ''' <param name="extractSize">需要导出到子集矩阵之中的基因数量</param>
         ''' <param name="quiet"></param>
         ''' <returns>先验连接度最高的一个连通子网</returns>
-        Public Function SelectGenes(prior As PriorNetwork,
+        Public Function SelectGenes(prior As PriorNet,
                                     matrixGenes As String(),
                                     Optional coreSize As Integer = 30,
                                     Optional extractSize As Integer = 200,
@@ -138,7 +140,7 @@ Namespace GRNDemo
 
                 matched += 1
 
-                Dim weight As Double = edge.Weight
+                Dim weight As Double = edge.EdgeWeight()
 
                 bump(score, edge.TF, weight)
                 bump(score, edge.TargetGene, weight)

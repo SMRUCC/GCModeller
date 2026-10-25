@@ -99,7 +99,7 @@ Namespace GRNDemo
                         Continue Do
                     End If
 
-                    Dim fields As String() = SMRUCC.genomics.Analysis.SGrid.GRN.PriorNetwork.SplitLine(line)
+                    Dim fields As String() = SMRUCC.genomics.Analysis.SGrid.GRN.PriorKnowledge.SplitCsvLine(line)
 
                     If header Then
                         header = False

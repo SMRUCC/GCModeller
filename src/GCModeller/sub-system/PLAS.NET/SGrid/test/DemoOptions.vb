@@ -82,12 +82,22 @@ Namespace GRNDemo
         ''' 先验知识对非先验交互的软惩罚强度
         ''' </summary>
         ''' <returns></returns>
-        Public Property PriorPenalty As Double = 0.3R
+        ''' <remarks>
+        ''' 在这批数据之上取 1.0 时先验支持率与方向一致率都比较理想；
+        ''' 该系数越大则网络越贴近先验，但斜率残差也会随之上升
+        ''' （实测 1.5 时先验支持率不再提升，而 mean slope RMSE 由 0.10 升到 0.105）
+        ''' </remarks>
+        Public Property PriorPenalty As Double = 1.0R
         ''' <summary>
         ''' 先验知识对调控方向冲突的惩罚强度
         ''' </summary>
         ''' <returns></returns>
-        Public Property PriorSignPenalty As Double = 0.3R
+        Public Property PriorSignPenalty As Double = 1.0R
+        ''' <summary>
+        ''' 稀疏化阶段对先验支持边的排序加权系数
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property PriorRankBoost As Double = 1.0R
         ''' <summary>
         ''' 随机数种子
         ''' </summary>
@@ -250,6 +260,7 @@ Namespace GRNDemo
             options.DEIterations = integerOf(values, "de-iters", options.DEIterations)
             options.PriorPenalty = doubleOf(values, "prior-penalty", options.PriorPenalty)
             options.PriorSignPenalty = doubleOf(values, "prior-sign-penalty", options.PriorSignPenalty)
+            options.PriorRankBoost = doubleOf(values, "prior-rank-boost", options.PriorRankBoost)
             options.Seed = integerOf(values, "seed", options.Seed)
             options.Precise = doubleOf(values, "precise", options.Precise)
             options.Hubs = integerOf(values, "hubs", options.Hubs)
@@ -294,8 +305,9 @@ Namespace GRNDemo
                 Call sb.AppendLine("  --max-edges <n>          max edges per target gene (default 4)")
                 Call sb.AppendLine("  --de-pop <n>             differential evolution population size (default 40)")
                 Call sb.AppendLine("  --de-iters <n>           differential evolution iterations (default 1200)")
-                Call sb.AppendLine("  --prior-penalty <x>      soft penalty for the interactions which are not supported by the prior")
-                Call sb.AppendLine("  --prior-sign-penalty <x> penalty for the direction conflict against the prior")
+                Call sb.AppendLine("  --prior-penalty <x>      soft penalty for the interactions which are not supported by the prior (default 1.0)")
+                Call sb.AppendLine("  --prior-sign-penalty <x> penalty for the direction conflict against the prior (default 1.0)")
+                Call sb.AppendLine("  --prior-rank-boost <x>   ranking boost of the prior supported edges (default 1.0)")
                 Call sb.AppendLine("  --seed <n>               random seed (default 1234567)")
                 Call sb.AppendLine("  --precise <x>            integration step of the simulation (default 0.1)")
                 Call sb.AppendLine("  --hubs <n>               number of hub genes used by the perturbation (default 5)")
