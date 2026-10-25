@@ -1,33 +1,11 @@
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels
 Imports std = System.Math
 
 Namespace Perturbation
-
-    ''' <summary>
-    ''' The type of the virtual perturbation experiment.
-    ''' (虚拟扰动实验的类型)
-    ''' </summary>
-    Public Enum PerturbationTypes
-        ''' <summary>
-        ''' 敲低：把目标的表达量按照比例下调
-        ''' </summary>
-        KnockDown = 0
-        ''' <summary>
-        ''' 敲除：把目标的表达量直接置零
-        ''' </summary>
-        KnockOut = 1
-        ''' <summary>
-        ''' 过表达：把目标的表达量按照倍数上调
-        ''' </summary>
-        OverExpress = 2
-        ''' <summary>
-        ''' 自定义：直接改变到指定的数值
-        ''' </summary>
-        Custom = 3
-    End Enum
 
     ''' <summary>
     ''' The design of a virtual perturbation experiment which will be applied on the fitted S-system model.
@@ -44,7 +22,7 @@ Namespace Perturbation
         ''' 扰动的类型
         ''' </summary>
         ''' <returns></returns>
-        Public Property Type As PerturbationTypes = PerturbationTypes.KnockDown
+        Public Property Type As InterventionMode = InterventionMode.Knockdown
         ''' <summary>
         ''' 扰动的强度：
         ''' 敲低时为下调的比例（0..1，默认 0.8 表示降低到原来的 20%）；
@@ -91,13 +69,13 @@ Namespace Perturbation
             End If
 
             Select Case Type
-                Case PerturbationTypes.KnockDown
+                Case InterventionMode.Knockdown
                     experiment.DisturbType = Types.Decrease
                     experiment.Value = baseline * std.Max(std.Min(Magnitude, 1.0R), 0)
-                Case PerturbationTypes.KnockOut
+                Case InterventionMode.Knockout
                     experiment.DisturbType = Types.Decrease
                     experiment.Value = baseline
-                Case PerturbationTypes.OverExpress
+                Case InterventionMode.Overexpression
                     experiment.DisturbType = Types.Increase
                     experiment.Value = baseline * std.Max(Magnitude, 0)
                 Case Else
@@ -122,7 +100,7 @@ Namespace Perturbation
         ''' <param name="kicks"></param>
         ''' <returns></returns>
         Public Shared Function Batch(genes As IEnumerable(Of String),
-                                     Optional type As PerturbationTypes = PerturbationTypes.KnockDown,
+                                     Optional type As InterventionMode = InterventionMode.Knockdown,
                                      Optional magnitude As Double = 0.8R,
                                      Optional start As Double = 0,
                                      Optional kicks As Integer = 1) As PerturbationDesign()
@@ -149,7 +127,7 @@ Namespace Perturbation
         ''' <param name="magnitude"></param>
         ''' <returns></returns>
         Public Shared Function FromMatrix(matrix As Matrix,
-                                          Optional type As PerturbationTypes = PerturbationTypes.KnockDown,
+                                          Optional type As InterventionMode = InterventionMode.Knockdown,
                                           Optional magnitude As Double = 0.8R) As PerturbationDesign()
 
             Dim genes As String() = matrix _

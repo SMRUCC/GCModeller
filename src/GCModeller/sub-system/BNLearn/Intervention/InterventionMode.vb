@@ -59,7 +59,8 @@
 Namespace Intervention
 
     ''' <summary>
-    ''' 干预模式
+    ''' The type of the virtual perturbation experiment.
+    ''' (虚拟扰动实验的类型)
     ''' </summary>
     Public Enum InterventionMode
         ''' <summary>基因敲除（设为0）</summary>
@@ -69,6 +70,9 @@ Namespace Intervention
         ''' <summary>基因下调（设为低值）</summary>
         Knockdown
         ''' <summary>自定义值干预</summary>
+        ''' <remarks>
+        ''' 自定义：直接改变到指定的数值
+        ''' </remarks>
         Custom
     End Enum
 End Namespace

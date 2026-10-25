@@ -4,6 +4,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
 Imports SMRUCC.genomics.Analysis.GPS
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.SGrid.GRN
@@ -75,7 +76,7 @@ Module ssGrid
     <ExportAPI("perturb")>
     Public Function perturb(network As SSystemNetwork, <RRawVectorArgument(TypeCodes.string)> geneIds As Object,
                             Optional kicks As Integer = 6,
-                            Optional type As PerturbationTypes = PerturbationTypes.KnockOut,
+                            Optional type As InterventionMode = InterventionMode.Knockout,
                             Optional magnitude As Double = 0.8,
                             Optional context As list = Nothing,
                             Optional env As Environment = Nothing) As ScreeningResult

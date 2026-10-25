@@ -5,6 +5,7 @@ Imports System.Text
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Calculus.Dynamics.Data
 Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
 Imports SMRUCC.genomics.Analysis.SSystem.Runner
 Imports SSOdes = SMRUCC.genomics.Analysis.SSystem.Kernel.ODEs
 Imports std = System.Math
@@ -343,9 +344,9 @@ Namespace Perturbation
         ''' <param name="onSimulated">可选的回调，语义与 <see cref="Run"/> 一致</param>
         ''' <returns></returns>
         Public Function KnockdownAll(network As GRN.SSystemNetwork,
-                                     Optional type As PerturbationTypes = PerturbationTypes.KnockDown,
+                                     Optional type As InterventionMode = InterventionMode.Knockdown,
                                      Optional magnitude As Double = 0.8R,
-                                     Optional context As System.Collections.Generic.IDictionary(Of String, Double) = Nothing,
+                                     Optional context As IDictionary(Of String, Double) = Nothing,
                                      Optional onSimulated As Action(Of PerturbationDesign, ODEsOut) = Nothing) As ScreeningResult
 
             Dim designs As PerturbationDesign() = PerturbationDesign.Batch(network.Parameters.GeneNames, type, magnitude)
@@ -353,7 +354,7 @@ Namespace Perturbation
             Return Run(network, designs, context:=context, onSimulated:=onSimulated)
         End Function
 
-        #Region "io"
+#Region "io"
 
         ''' <summary>
         ''' 把一个 ODE 积分结果保存为 csv 文件（首列是 <c>#Time</c>，其余每一列是一个基因）
@@ -452,7 +453,7 @@ Namespace Perturbation
             Return written
         End Function
 
-        #End Region
+#End Region
 
         ''' <summary>
         ''' 取出目标基因的基线水平（敲降/过表达的幅度都是相对该基线计算的）。
@@ -499,7 +500,7 @@ Namespace Perturbation
             Dim cmin As Double = c.Min
             Dim cmax As Double = c.Max
             Dim span As Double = std.Abs(cmax - cmin)
-            Dim threshold As Double = std.Max(span * 0.05, 1.0E-9)
+            Dim threshold As Double = std.Max(span * 0.05, 0.000000001)
             Dim maxDev As Double = 0
             Dim response As Double = -1
 
@@ -516,7 +517,7 @@ Namespace Perturbation
 
             Dim cEnd As Double = c(c.Length - 1)
             Dim pEnd As Double = p(p.Length - 1)
-            Dim fold As Double = If(std.Abs(cEnd) < 1.0E-12, pEnd, pEnd / cEnd)
+            Dim fold As Double = If(std.Abs(cEnd) < 0.000000000001, pEnd, pEnd / cEnd)
 
             Return New ScreeningRecord With {
                 .Target = design.TargetGene,
@@ -538,7 +539,7 @@ Namespace Perturbation
                 Return Nothing
             End If
 
-            Return output.y(gene).Value
+            Return output.y(gene).value
         End Function
     End Module
 End Namespace
