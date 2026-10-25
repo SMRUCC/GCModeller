@@ -42,6 +42,16 @@ Namespace GRN
         ''' <returns></returns>
         Public Property Options As FittingOptions
         ''' <summary>
+        ''' 本次拟合所使用的先验知识网络（基因符号已经映射到规整化之后的编号）
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Prior As PriorNetwork
+        ''' <summary>
+        ''' 先验知识与拟合拓扑之间的对照指标；没有启用先验的时候为空
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property PriorStatistics As PriorMetrics
+        ''' <summary>
         ''' 拟合过程的诊断信息
         ''' </summary>
         ''' <returns></returns>
@@ -64,6 +74,23 @@ Namespace GRN
             Call options.Validate()
 
             Dim series As ExpressionTimeSeries = ExpressionTimeSeries.FromMatrix(matrix, options)
+            Dim fitOptions As FittingOptions = options.Clone()
+            Dim prior As PriorNetwork = Nothing
+
+            If options.UsePrior AndAlso Not options.Prior Is Nothing Then
+                prior = options.Prior.Remap(geneNameMap(series))
+                fitOptions.Prior = prior
+
+                If options.Verbose Then
+                    Call Console.WriteLine($"[INFO] prior knowledge: {options.Prior.Size} edge(s) loaded, {prior.Size} edge(s) matched to the expression matrix.")
+                End If
+
+                If prior.Size = 0 Then
+                    Call series.Warnings.Add("None of the prior knowledge edges was matched to the expression matrix, the prior constraint is disabled.")
+                    fitOptions.Prior = Nothing
+                    prior = Nothing
+                End If
+            End If
 
             If options.Verbose Then
                 Call Console.WriteLine($"[INFO] {series.ToString}")
@@ -75,9 +102,9 @@ Namespace GRN
             End If
 
             Dim slopes As Double()() = SlopeEstimator.Estimate(series, options.Denoise)
-            Dim fitter As New DecoupledFitter(series, slopes, options)
+            Dim fitter As New DecoupledFitter(series, slopes, fitOptions)
             Dim parameters As SSystemParameters = fitter.Fit()
-            Dim edges As RegulatoryEdge() = NetworkTopology.Sparsify(parameters, options)
+            Dim edges As RegulatoryEdge() = NetworkTopology.Sparsify(parameters, fitOptions, prior)
 
             If options.Verbose Then
                 Call Console.WriteLine($"[INFO] {edges.Length} regulatory edge(s) was recovered by the sparsity threshold {options.Sparsity}.")
@@ -88,18 +115,48 @@ Namespace GRN
                     Call Console.WriteLine("[INFO] phase 2: refining the parameters by the trajectory fitting...")
                 End If
 
-                parameters = TrajectoryRefiner.Refine(series, parameters, options)
+                parameters = TrajectoryRefiner.Refine(series, parameters, fitOptions)
                 parameters.TrajectoryRefined = True
-                edges = NetworkTopology.Sparsify(parameters, options)
+                edges = NetworkTopology.Sparsify(parameters, fitOptions, prior)
             End If
 
             Return New SSystemNetwork With {
                 .Series = series,
                 .Parameters = parameters,
                 .Edges = edges,
-                .Options = options,
+                .Options = fitOptions,
+                .Prior = prior,
+                .PriorStatistics = NetworkTopology.PriorMetrics(edges, prior),
                 .Warnings = series.Warnings
             }
+        End Function
+
+        ''' <summary>
+        ''' 构造「表达矩阵原始基因符号 → 规整化基因编号」的映射表，
+        ''' 用于把先验知识网络映射到拟合过程所使用的编号空间之上
+        ''' </summary>
+        ''' <param name="series"></param>
+        ''' <returns></returns>
+        Private Shared Function geneNameMap(series As ExpressionTimeSeries) As System.Collections.Generic.IDictionary(Of String, String)
+            Dim map As New System.Collections.Generic.Dictionary(Of String, String)(StringComparer.OrdinalIgnoreCase)
+
+            For i As Integer = 0 To series.nGenes - 1
+                Dim original As String = series.OriginalNames(i)
+                Dim sanitized As String = series.GeneNames(i)
+
+                If String.IsNullOrEmpty(original) Then
+                    Continue For
+                End If
+                If Not map.ContainsKey(original) Then
+                    Call map.Add(original, sanitized)
+                End If
+                ' 同时接受规整化之后的编号作为键，方便调用方直接使用规整化编号构建先验
+                If Not map.ContainsKey(sanitized) Then
+                    Call map.Add(sanitized, sanitized)
+                End If
+            Next
+
+            Return map
         End Function
 
         ''' <summary>
@@ -232,6 +289,15 @@ Namespace GRN
             Call sb.AppendLine($"trajectory refit: {Parameters.TrajectoryRefined}")
             Call sb.AppendLine(NetworkTopology.StabilityReport(Parameters))
 
+            If Not Prior Is Nothing Then
+                Call sb.AppendLine()
+                Call sb.AppendLine($"prior knowledge : {Prior.Size} edge(s) mapped, {Prior.TypeStatistic}")
+
+                If Not PriorStatistics Is Nothing Then
+                    Call sb.Append(PriorStatistics.Summary())
+                End If
+            End If
+
             If Not Warnings.IsNullOrEmpty Then
                 Call sb.AppendLine()
                 Call sb.AppendLine("warnings:")
@@ -254,6 +320,26 @@ Namespace GRN
         ''' <returns></returns>
         Public Function SaveAll(dir As String) As Boolean
             Return IO.NetworkWriter.SaveAll(Me, dir)
+        End Function
+
+        ''' <summary>
+        ''' 把整个模型对象持久化保存为一个压缩包文件
+        ''' </summary>
+        ''' <param name="zipFile"></param>
+        ''' <returns></returns>
+        Public Function SaveZip(zipFile As String) As Boolean
+            Call IO.ZipPersists.Save(Me, zipFile)
+
+            Return True
+        End Function
+
+        ''' <summary>
+        ''' 从压缩包文件之中重新加载模型对象
+        ''' </summary>
+        ''' <param name="zipFile"></param>
+        ''' <returns></returns>
+        Public Shared Function LoadZip(zipFile As String) As SSystemNetwork
+            Return IO.ZipPersists.Load(zipFile)
         End Function
 
         Public Overrides Function ToString() As String

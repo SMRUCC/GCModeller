@@ -50,6 +50,27 @@ Namespace GRN
         Public Property StabilityWeight As Double = 1.0R
 
         ''' <summary>
+        ''' 候选调控因子是否被先验知识所支持；为空的时候不启用先验软约束
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property PriorMask As Boolean()
+        ''' <summary>
+        ''' 先验知识所给出的调控方向（+1 激活 / -1 抑制 / 0 未知）；为空的时候不启用符号约束
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property PriorSign As Integer()
+        ''' <summary>
+        ''' 非先验交互的软惩罚强度
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property PriorPenalty As Double = 0
+        ''' <summary>
+        ''' 符号违背的惩罚强度
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property PriorSignPenalty As Double = 0
+
+        ''' <summary>
         ''' 计算归一化的目标函数值（越小越好）
         ''' </summary>
         ''' <param name="p">参数向量 [ln(alpha), ln(beta), g(0..k-1), h(0..k-1)]</param>
@@ -103,6 +124,8 @@ Namespace GRN
                 End If
             End If
 
+            penalty += priorPenaltyFactor(p, k)
+
             Dim f As Double = relative * penalty
 
             If Double.IsNaN(f) OrElse Double.IsInfinity(f) Then
@@ -110,6 +133,69 @@ Namespace GRN
             End If
 
             Return f
+        End Function
+
+        ''' <summary>
+        ''' 计算先验知识的乘性惩罚因子：非先验交互的质量占比 + 方向违背量
+        ''' </summary>
+        ''' <param name="p">参数向量</param>
+        ''' <param name="k">候选调控因子的数量</param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' 惩罚量全部采用**相对量**（质量占比与平均值）而不是绝对值，
+        ''' 这样惩罚强度与候选因子数量无关，也不会随着动力学阶的绝对大小而失控；
+        ''' 这一点与本目标函数的「相对误差 × 乘性惩罚」设计是一致的。
+        ''' 
+        ''' 自环（<c>j = i</c>）总是被视为先验支持：
+        ''' 它在 S-system 之中主要承担降解项的自我衰减作用（h_ii &gt; 0），
+        ''' 而整理过的转录因子-靶基因数据库一般不会收录这类自我降解关系。
+        ''' </remarks>
+        Private Function priorPenaltyFactor(p As Double(), k As Integer) As Double
+            If PriorMask Is Nothing Then
+                Return 0
+            End If
+            If PriorPenalty <= 0 AndAlso (PriorSign Is Nothing OrElse PriorSignPenalty <= 0) Then
+                Return 0
+            End If
+
+            Dim mass As Double = 0
+            Dim unsupported As Double = 0
+            Dim violations As Double = 0
+            Dim nSign As Integer = 0
+
+            For c As Integer = 0 To k - 1
+                Dim g As Double = p(2 + c)
+                Dim h As Double = p(2 + k + c)
+                Dim w As Double = std.Abs(g) + std.Abs(h)
+
+                mass += w
+
+                If Not PriorMask(c) Then
+                    unsupported += w
+                End If
+
+                If Not PriorSign Is Nothing AndAlso PriorSign(c) <> 0 Then
+                    Dim net As Double = g - h
+                    Dim violation As Double = -PriorSign(c) * net
+
+                    nSign += 1
+
+                    If violation > 0 Then
+                        violations += violation
+                    End If
+                End If
+            Next
+
+            Dim factor As Double = 0
+
+            If mass > 1.0E-12 AndAlso PriorPenalty > 0 Then
+                factor += PriorPenalty * (unsupported / mass)
+            End If
+            If nSign > 0 AndAlso PriorSignPenalty > 0 Then
+                factor += PriorSignPenalty * (violations / nSign)
+            End If
+
+            Return factor
         End Function
 
         ''' <summary>
@@ -347,7 +433,10 @@ Namespace GRN
         ReadOnly options As FittingOptions
         ReadOnly n As Integer
         ReadOnly m As Integer
-        ReadOnly rnd As Random
+        ''' <summary>
+        ''' 本次拟合所使用的先验知识网络（已经过基因符号映射），为空表示不启用先验约束
+        ''' </summary>
+        ReadOnly prior As PriorNetwork
 
         ''' <summary>
         ''' 创建一个逐基因解耦的拟合器
@@ -366,7 +455,10 @@ Namespace GRN
             Me.options = options
             Me.n = series.nGenes
             Me.m = series.nTimePoints
-            Me.rnd = If(options.Seed > 0, New Random(options.Seed), New Random())
+
+            If options.UsePrior Then
+                Me.prior = options.Prior
+            End If
         End Sub
 
         ''' <summary>
@@ -407,7 +499,35 @@ Namespace GRN
         ''' <summary>
         ''' 筛选出目标基因的候选调控因子；未开启筛选的时候返回全部的基因
         ''' </summary>
+        ''' <remarks>
+        ''' 默认是软约束模式：保留全部基因作为候选（保留发现新调控关系的可能），
+        ''' 先验知识只通过目标函数之中的惩罚项起作用。
+        ''' 当 <see cref="FittingOptions.PriorCandidateRestriction"/> 打开的时候才退化为硬约束模式，
+        ''' 此时候选因子只允许来自先验知识（并补上自环）；先验为空的时候仍然回退到全部基因。
+        ''' </remarks>
         Private Function selectCandidates(i As Integer) As Integer()
+            If options.PriorCandidateRestriction AndAlso Not prior Is Nothing Then
+                Dim restricted As New System.Collections.Generic.List(Of Integer)
+
+                For Each edge As PriorEdge In prior.RegulatorsOf(series.GeneNames(i))
+                    Dim j As Integer = series.GeneIndex(edge.TF)
+
+                    If j >= 0 AndAlso Not restricted.Contains(j) Then
+                        Call restricted.Add(j)
+                    End If
+                Next
+
+                If options.KeepSelfLoop AndAlso Not restricted.Contains(i) Then
+                    Call restricted.Add(i)
+                End If
+
+                If restricted.Count > 0 Then
+                    Return restricted _
+                        .OrderBy(Function(j) j) _
+                        .ToArray
+                End If
+            End If
+
             Dim all As New System.Collections.Generic.List(Of Integer)
 
             For j As Integer = 0 To n - 1
@@ -460,6 +580,12 @@ Namespace GRN
             Dim observed As Double() = slopes(i)
             Dim mean As Double = observed.Average
             Dim variance As Double = observed.Sum(Function(x) (x - mean) ^ 2) / observed.Length
+            Dim priorMask As Boolean() = Nothing
+            Dim priorSign As Integer() = Nothing
+
+            If Not prior Is Nothing Then
+                Call buildPriorConstraints(i, candidates, priorMask, priorSign)
+            End If
 
             Dim problem As New SlopeProblem With {
                 .LnX = candidates _
@@ -469,8 +595,18 @@ Namespace GRN
                 .Scale = std.Max(std.Sqrt(variance), 1.0E-9),
                 .L1 = options.L1Penalty,
                 .SelfIndex = Array.IndexOf(candidates, i),
-                .StabilityWeight = options.StabilityPenalty
+                .StabilityWeight = options.StabilityPenalty,
+                .PriorMask = priorMask,
+                .PriorSign = If(options.UsePriorSign, priorSign, Nothing),
+                .PriorPenalty = options.PriorPenalty,
+                .PriorSignPenalty = If(options.UsePriorSign, options.PriorSignPenalty, 0)
             }
+
+            ' 每一个基因都使用与行号相关的确定性随机数种子：
+            ' 这样在并行求解的时候各个基因之间不会共享 Random 实例（该类型并非线程安全），
+            ' 并且同一个 Seed 配置下多次运行的结果完全一致。
+            Dim geneSeed As Integer = If(options.Seed > 0, options.Seed + i * 7919, Environment.TickCount + i * 7919)
+            Dim geneRnd As New Random(geneSeed)
 
             Dim dims As Integer = 2 + 2 * k
             Dim lower As Double() = New Double(dims - 1) {}
@@ -494,7 +630,7 @@ Namespace GRN
                     F:=options.DEF,
                     CR:=options.DECR,
                     threshold:=options.DEThreshold,
-                    seed:=rnd.Next())
+                    seed:=geneRnd.Next())
 
                 If Not de Is Nothing AndAlso Not de.Best Is Nothing Then
                     Dim score As Double = problem.Objective(de.Best)
@@ -538,8 +674,48 @@ Namespace GRN
             result.Converged(i) = bestScore < 1.0E+11
 
             If options.Verbose Then
-                Call Console.WriteLine($"  [{i + 1}/{n}] {series.GeneNames(i)}: alpha={result.alpha(i).ToString("G4")}, beta={result.beta(i).ToString("G4")}, rmse={result.SlopeRMSE(i).ToString("G4")}")
+                Dim supported As Integer = If(priorMask Is Nothing, 0, priorMask.Where(Function(x) x).Count())
+
+                Call Console.WriteLine($"  [{i + 1}/{n}] {series.GeneNames(i)}: alpha={result.alpha(i).ToString("G4")}, beta={result.beta(i).ToString("G4")}, rmse={result.SlopeRMSE(i).ToString("G4")}, candidates={k}, prior-supported={supported}")
             End If
+        End Sub
+
+        ''' <summary>
+        ''' 依据先验知识为目标基因的候选调控因子构造软约束掩码与方向约束
+        ''' </summary>
+        ''' <param name="i">靶基因的行号</param>
+        ''' <param name="candidates">候选调控因子的行号</param>
+        ''' <param name="mask">先验是否支持该调控关系（自环总是视为支持）</param>
+        ''' <param name="sign">先验方向：+1 激活、-1 抑制、0 未知</param>
+        Private Sub buildPriorConstraints(i As Integer,
+                                          candidates As Integer(),
+                                          ByRef mask As Boolean(),
+                                          ByRef sign As Integer())
+            Dim target As String = series.GeneNames(i)
+
+            mask = New Boolean(candidates.Length - 1) {}
+            sign = New Integer(candidates.Length - 1) {}
+
+            For c As Integer = 0 To candidates.Length - 1
+                Dim source As String = series.GeneNames(candidates(c))
+
+                ' 自环承担降解项的自我衰减作用，不参与先验约束
+                If candidates(c) = i Then
+                    mask(c) = True
+                    sign(c) = 0
+                    Continue For
+                End If
+
+                Dim edge As PriorEdge = prior.Lookup(source, target)
+
+                If Not edge Is Nothing Then
+                    mask(c) = True
+                    sign(c) = edge.Sign
+                Else
+                    mask(c) = False
+                    sign(c) = 0
+                End If
+            Next
         End Sub
 
         Private Sub buildBounds(lower As Double(), upper As Double(), k As Integer)

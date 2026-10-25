@@ -90,6 +90,46 @@ Namespace GRN
         Public Property MaxRegulators As Integer = 0
 
         ''' <summary>
+        ''' 用于约束网络结构的先验知识网络；为空的时候不启用先验约束
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Prior As PriorNetwork = Nothing
+        ''' <summary>
+        ''' 是否启用先验知识约束（<see cref="Prior"/> 不为空的时候才有效）
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property UsePrior As Boolean = True
+        ''' <summary>
+        ''' 先验不支持的交互的软惩罚强度：惩罚量取「非先验交互的质量占比」，
+        ''' 故该项的取值是相对量，零表示关闭该约束
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property PriorPenalty As Double = 0.3R
+        ''' <summary>
+        ''' 与先验方向相冲突的交互的惩罚强度：惩罚量取「符号违背量的平均值」，
+        ''' 零表示关闭该约束
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property PriorSignPenalty As Double = 0.3R
+        ''' <summary>
+        ''' 是否启用先验方向（激活/抑制）的符号约束
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property UsePriorSign As Boolean = True
+        ''' <summary>
+        ''' 稀疏化阶段对先验支持边的排序加权：排序分数为
+        ''' <c>|net| * (1 + PriorRankBoost * confidenceWeight)</c>
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property PriorRankBoost As Double = 0.5R
+        ''' <summary>
+        ''' 是否启用先验的硬约束：候选调控因子只允许来自先验（加上自环）。
+        ''' 默认关闭，即保留发现新边的能力（软约束）
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property PriorCandidateRestriction As Boolean = False
+
+        ''' <summary>
         ''' 对表达矩阵施加的归一化方法
         ''' </summary>
         ''' <returns></returns>
@@ -240,10 +280,19 @@ Namespace GRN
             If Precise <= 0 Then
                 Precise = 0.1
             End If
+            If PriorPenalty < 0 Then
+                PriorPenalty = 0
+            End If
+            If PriorSignPenalty < 0 Then
+                PriorSignPenalty = 0
+            End If
+            If PriorRankBoost < 0 Then
+                PriorRankBoost = 0
+            End If
         End Sub
 
         Public Overrides Function ToString() As String
-            Return $"S-system fitting: sparsity={Sparsity}, maxEdges={MaxEdgesPerGene}, alpha[{AlphaBounds.Min},{AlphaBounds.Max}], g[{GBounds.Min},{GBounds.Max}]"
+            Return $"S-system fitting: sparsity={Sparsity}, maxEdges={MaxEdgesPerGene}, alpha[{AlphaBounds.Min},{AlphaBounds.Max}], g[{GBounds.Min},{GBounds.Max}], prior={If(UsePrior AndAlso Not Prior Is Nothing, Prior.Size.ToString, "off")}"
         End Function
     End Class
 End Namespace
