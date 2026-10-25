@@ -51,6 +51,23 @@ Imports std = System.Math
 ''' ``writeBin(model, con = file("network.zip"))`` and 
 ''' ``readBin(file("network.zip"), what = "ssgrid_network")``.
 ''' </remarks>
+''' <example>
+''' imports "ssGrid" from "biosystem";
+''' 
+''' let opts    = sfit_options(sparsity = 0.01, max_edges = 8, max_regulators = 24, smooth = 9, l1 = 0);
+''' let prior   = sgrid_prior("/data/TF_target_prior_curated.csv");
+''' let network = sfit(x, opts, prior = prior, time = t);
+''' 
+''' print(sgrid_r2(network) |> mean);
+''' write.csv(sgrid_coefficients(network), file = "/tmp/coef.csv");
+''' sgrid_save(network, "/tmp/network");
+''' 
+''' let ctx  = sgrid_context(network, "/data/pseudobulk_context_A.csv");
+''' let resp = perturb(network, c("ABCD1","ACLY"), type = "knockdown", magnitude = 0.8,
+'''                    context = ctx, export = "/tmp/ko");
+''' write.csv(as.data.frame(resp), file = "/tmp/ko/response.csv");
+''' 
+''' </example>
 <Package("ssGrid")>
 <RTypeExport("ssgrid_network", GetType(SSystemNetwork))>
 <RTypeExport("sfit_options", GetType(FittingOptions))>
@@ -70,7 +87,7 @@ Module ssGrid
         Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(ScreeningResult), AddressOf screeningTable)
     End Sub
 
-    #Region "as.data.frame"
+#Region "as.data.frame"
 
     ''' <summary>
     ''' convert the fitted network model to the edge table data
@@ -138,9 +155,9 @@ Module ssGrid
         Return newScreeningTable(screening)
     End Function
 
-    #End Region
+#End Region
 
-    #Region "binary serialization"
+#Region "binary serialization"
 
     ''' <summary>
     ''' save the fitted S-system network model as a zip archive
@@ -181,9 +198,9 @@ Module ssGrid
         Return ZipPersists.Load(s)
     End Function
 
-    #End Region
+#End Region
 
-    #Region "fitting"
+#Region "fitting"
 
     ''' <summary>
     ''' create the fitting configuration object of the S-system network inference
@@ -374,9 +391,9 @@ Module ssGrid
         End Try
     End Function
 
-    #End Region
+#End Region
 
-    #Region "prior knowledge"
+#Region "prior knowledge"
 
     ''' <summary>
     ''' read the prior knowledge regulatory network from a csv table or a data.frame
@@ -468,9 +485,9 @@ Module ssGrid
         Return New PriorNet(edges)
     End Function
 
-    #End Region
+#End Region
 
-    #Region "model query"
+#Region "model query"
 
     ''' <summary>
     ''' get the network topology of the fitted S-system model as a data.frame
@@ -615,9 +632,9 @@ Module ssGrid
         Return network.SaveAll(dir)
     End Function
 
-    #End Region
+#End Region
 
-    #Region "simulation"
+#Region "simulation"
 
     ''' <summary>
     ''' integrate the fitted S-system model and return the trajectory
@@ -715,9 +732,9 @@ Module ssGrid
         Return New list(network.MapContext(counts, missing))
     End Function
 
-    #End Region
+#End Region
 
-    #Region "virtual perturbation"
+#Region "virtual perturbation"
 
     ''' <summary>
     ''' run the in silico perturbation experiment on the fitted S-system network model
@@ -783,7 +800,7 @@ Module ssGrid
 
         Dim t As Double = If(final_time > 0, final_time, network.Series.TimeEnd)
         Dim first As Double = t * std.Max(std.Min(start, 0.9), 0)
-        Dim interval As Double = std.Max((t - first) / std.Max(kicks, 1), 1.0E-6)
+        Dim interval As Double = std.Max((t - first) / std.Max(kicks, 1), 0.000001)
         Dim mode As InterventionMode = parseMode(type)
         Dim x0 As Dictionary(Of String, Double) = contextValues(context)
         Dim designs As New List(Of PerturbationDesign)
@@ -856,9 +873,9 @@ Module ssGrid
         Return VirtualScreening.SaveScreening(screening, dir)
     End Function
 
-    #End Region
+#End Region
 
-    #Region "helpers"
+#Region "helpers"
 
     Private Function newEdgeTable(edges As RegulatoryEdge()) As dataframe
         Dim columns As New Dictionary(Of String, Array)
@@ -1146,5 +1163,5 @@ Module ssGrid
         End If
     End Function
 
-    #End Region
+#End Region
 End Module
