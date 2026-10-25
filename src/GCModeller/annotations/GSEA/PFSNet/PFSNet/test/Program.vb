@@ -188,34 +188,19 @@ Module Program
     End Sub
 
     Private Sub WriteResults(outputFile As String, result As PFSNetResultOut)
-        Dim parent As String = Path.GetDirectoryName(Path.GetFullPath(outputFile))
+        Dim rows As SubNetworkTableRow() = result.AsTabular()
+        Dim savedPath As String = result.SaveTabular(outputFile)
 
-        Directory.CreateDirectory(parent)
+        AssertTrue(rows.Length = result.phenotype1.Length + result.phenotype2.Length, "one tabular row is exported per significant subnetwork")
+        AssertTrue(rows.All(Function(row) row.phenotype = "A" OrElse row.phenotype = "B"), "exported phenotype column uses the legacy A/B labels")
+        AssertTrue(rows.All(Function(row) row.nodes >= 5), "exported rows keep the five-gene component threshold")
+        AssertTrue(rows.All(Function(row) row.genes.Split(New String() {"; "}, StringSplitOptions.None).Length = row.nodes), "exported gene list matches the exported node count")
 
-        Using writer As New StreamWriter(outputFile, append:=False, encoding:=New UTF8Encoding(False))
-            writer.WriteLine("phenotype,pathway,component_signature,nodes,edges,statistic,pvalue,genes")
-            WriteGraphRows(writer, result.class1, result.phenotype1)
-            WriteGraphRows(writer, result.class2, result.phenotype2)
-        End Using
-    End Sub
+        Dim written As String() = File.ReadAllLines(savedPath, Encoding.UTF8)
 
-    Private Sub WriteGraphRows(writer As StreamWriter, phenotype As String, graphs As PFSNetGraph())
-        For Each graph As PFSNetGraph In graphs
-            Dim genes As String() = graph.nodes.Select(Function(node) node.name).OrderBy(Function(gene) gene, StringComparer.Ordinal).ToArray
-            Dim signature As String = graph.Id & ":" & String.Join(";", genes)
-            Dim fields As String() = {
-                phenotype,
-                graph.Id,
-                signature,
-                graph.nodes.Length.ToString(CultureInfo.InvariantCulture),
-                graph.edges.Length.ToString(CultureInfo.InvariantCulture),
-                graph.statistics.ToString("R", CultureInfo.InvariantCulture),
-                graph.pvalue.ToString("R", CultureInfo.InvariantCulture),
-                String.Join(";", genes)
-            }
-
-            writer.WriteLine(String.Join(",", fields.Select(AddressOf CsvEscape)))
-        Next
+        AssertTrue(written(0) = "subnetwork,phenotype,statistics,pvalue,nodes,edges,weight1,weight2,genes", "exported csv uses the legacy PFSNet header")
+        AssertTrue(written.Length = rows.Length + 1, "exported csv contains the header and one line per row")
+        AssertTrue(written.Skip(1).All(Function(line) line.Split(","c).Length >= 9), "exported csv rows contain at least the nine leading columns")
     End Sub
 
     Private Function Row(gene As String, ParamArray values As Double()) As DataFrameRow
@@ -245,16 +230,6 @@ Module Program
             Console.Error.WriteLine("[FAIL] " & message)
         End If
     End Sub
-
-    Private Function CsvEscape(value As String) As String
-        value = If(value, "")
-
-        If value.IndexOfAny({","c, """"c, ControlChars.Cr, ControlChars.Lf}) >= 0 Then
-            Return ChrW(34) & value.Replace(ChrW(34), ChrW(34) & ChrW(34)) & ChrW(34)
-        Else
-            Return value
-        End If
-    End Function
 
     Private Function GetIntegerOption(args As String(), name As String, defaultValue As Integer) As Integer
         Dim text As String = GetStringOption(args, name)

@@ -133,12 +133,11 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
         cat("\t[DONE]\n")
 
         Dim output As PFSNetResultOut = pfsnet(expr1o, expr2o, ggi, b, t1, t2, CInt(n), seed)
-        Dim class1Name As String = System.IO.Path.GetFileNameWithoutExtension(file1)
-        Dim class2Name As String = System.IO.Path.GetFileNameWithoutExtension(file2)
 
-        output.class1 = class1Name
-        output.class2 = class2Name
-        output.tag = class1Name & "_vs_" & class2Name
+        ' 与既有的PFSNet结果表格格式保持一致：class1 -> A, class2 -> B
+        output.class1 = "A"
+        output.class2 = "B"
+        output.tag = output.class1 & "_vs_" & output.class2
 
         Return output
     End Function
