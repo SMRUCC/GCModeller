@@ -15,7 +15,7 @@
 '       SVMModel，并且 transform 必须是一个 RangeTransform 实例。
 ' ============================================================================
 
-Imports System.Diagnostics
+Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.DataMining.ComponentModel.Encoder
 Imports Microsoft.VisualBasic.MachineLearning.SVM
 Imports Microsoft.VisualBasic.MachineLearning.SVM.StorageProcedure

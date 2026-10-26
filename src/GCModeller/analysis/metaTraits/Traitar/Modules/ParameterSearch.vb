@@ -11,6 +11,7 @@
 ' 由传入的 Parameter 模板决定。
 ' ============================================================================
 
+Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.MachineLearning.SVM
 Imports Microsoft.VisualBasic.MachineLearning.SVM.StorageProcedure
 
@@ -165,13 +166,12 @@ Namespace Traitar.Modules
             Dim problem As Problem = subTable.GetProblem(topic)
 
             If trait.IsRegression() Then
-                Dim y As Microsoft.VisualBasic.DataMining.ComponentModel.Encoder.ColorClass() =
-                    New Microsoft.VisualBasic.DataMining.ComponentModel.Encoder.ColorClass(rows.Length - 1) {}
+                Dim y As ColorClass() = New ColorClass(rows.Length - 1) {}
 
                 For k As Integer = 0 To rows.Length - 1
                     Dim raw As String = rows(k).labels(topic)
 
-                    y(k) = New Microsoft.VisualBasic.DataMining.ComponentModel.Encoder.ColorClass With {
+                    y(k) = New ColorClass With {
                         .factor = Double.Parse(raw),
                         .name = raw,
                         .color = "#000000"

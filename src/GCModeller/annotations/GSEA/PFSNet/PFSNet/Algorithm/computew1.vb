@@ -1,53 +1,53 @@
 ﻿#Region "Microsoft.VisualBasic::30a8321309af0e675f0b51f1b6b5498c, annotations\GSEA\PFSNet\PFSNet\Algorithm\computew1.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 88
-    '    Code Lines: 56 (63.64%)
-    ' Comment Lines: 27 (30.68%)
-    '    - Xml Docs: 92.59%
-    ' 
-    '   Blank Lines: 5 (5.68%)
-    '     File Size: 3.56 KB
+' Summaries:
 
 
-    ' Module computew1Function
-    ' 
-    '     Function: computew1, getFuzzyWeight
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 88
+'    Code Lines: 56 (63.64%)
+' Comment Lines: 27 (30.68%)
+'    - Xml Docs: 92.59%
+' 
+'   Blank Lines: 5 (5.68%)
+'     File Size: 3.56 KB
+
+
+' Module computew1Function
+' 
+'     Function: computew1, getFuzzyWeight
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -85,7 +85,7 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
         Dim ranks As Vector() = expr _
             .Select(Function(r) r.experiments.AsVector) _
             .Apply(math:=Function(x) RankColumn(x.ToArray),
-                   axis:=ApplyOnAxis.Column,
+                   axis:=AxisMargins.Column,
                    aggregate:=Function(x) x.Select(Function(v) v.AsVector)) _
             .ToArray
         Dim result = ranks _
@@ -104,7 +104,7 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
 
                              Return x.Select(Function(y) getFuzzyWeight(y, q1, q2, delta_q12))
                          End Function,
-                   axis:=ApplyOnAxis.Row,
+                   axis:=AxisMargins.Row,
                    aggregate:=Function(x)
                                   Return x.Select(Function(v) v.ToArray)
                               End Function) _

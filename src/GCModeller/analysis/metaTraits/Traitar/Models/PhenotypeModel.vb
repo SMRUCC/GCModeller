@@ -8,9 +8,8 @@
 ' 一个 PhenotypeModel，全部训练与预测工作委托给底层的 LibSVM 算法库完成。
 ' ============================================================================
 
-Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.MachineLearning.SVM
-Imports Microsoft.VisualBasic.MachineLearning.SVM.StorageProcedure
 
 Namespace Traitar.Models
 
@@ -103,8 +102,7 @@ Namespace Traitar.Models
                 result.votes = pred.vote
                 result.confidence = 1.0 / (1.0 + System.Math.Exp(-System.Math.Abs(margin)))
 
-                Dim cls As Microsoft.VisualBasic.DataMining.ComponentModel.Encoder.ColorClass =
-                    Model.factors.GetColor(pred.class)
+                Dim cls As ColorClass = Model.factors.GetColor(pred.class)
 
                 If cls Is Nothing Then
                     result.predict = pred.class.ToString()

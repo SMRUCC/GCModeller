@@ -53,7 +53,6 @@
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
-Imports HeatmapCompat = Microsoft.VisualBasic.Data.Plots.Statistics.Heatmap
 Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
