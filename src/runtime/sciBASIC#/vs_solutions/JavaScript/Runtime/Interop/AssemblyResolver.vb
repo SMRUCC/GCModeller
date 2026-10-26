@@ -1,5 +1,7 @@
 Imports System.IO
 Imports System.Reflection
+Imports System.Runtime.InteropServices
+Imports System.Runtime.Loader
 
 Namespace Runtime
 
@@ -20,12 +22,26 @@ Namespace Runtime
     ''' such as <c>List(Of )</c> cannot be constructed, so it is left out). Scanning a
     ''' namespace happens once per (assembly, namespace) and is then cached.
     ''' </para>
+    ''' <para>
+    ''' An assembly loaded from an explicit path — <c>../../.nuget/net10.0/stdlib.dll</c>
+    ''' for instance — brings a whole dependency tree with it. The default load context
+    ''' does not probe the directory of that dll, so both resolving hooks are installed
+    ''' once and probe the imported dll folders: managed dependencies by simple name and
+    ''' native ones (for example <c>libSkiaSharp.dll</c>) under <c>runtimes/*/native</c>.
+    ''' </para>
     ''' </summary>
     Friend Module AssemblyResolver
 
         Private ReadOnly _assemblies As New Dictionary(Of String, Assembly)(StringComparer.OrdinalIgnoreCase)
         Private ReadOnly _namespaces As New Dictionary(Of String, Dictionary(Of String, Object))(StringComparer.Ordinal)
         Private ReadOnly _gate As New Object
+
+        ''' <summary>
+        ''' Directories of the dlls loaded through an import; they are the probe locations for
+        ''' the dependencies of those dlls (most recently loaded first).
+        ''' </summary>
+        Private ReadOnly _probeDirectories As New List(Of String)
+        Private _resolvingHooked As Boolean
 
         ''' <summary>Load (or reuse) the assembly named by an import specifier.</summary>
         Friend Function Resolve(specifier As String, baseDirectory As String) As Assembly
@@ -47,6 +63,8 @@ Namespace Runtime
                     tried.Add(path)
                     Try
                         found = Assembly.LoadFrom(path)
+                        ' its own dependencies live next to it; make them resolvable
+                        Call AddProbeDirectory(path)
                     Catch ex As Exception
                         Throw Failure("cannot load assembly '" & spec & "' from '" & path & "': " & ex.Message)
                     End Try
@@ -70,6 +88,7 @@ Namespace Runtime
                     If Not File.Exists(candidate) Then Continue For
                     Try
                         found = Assembly.LoadFrom(candidate)
+                        Call AddProbeDirectory(candidate)
                     Catch ex As Exception
                         found = Nothing
                     End Try
@@ -153,6 +172,115 @@ Namespace Runtime
                 _namespaces.Clear()
             End SyncLock
         End Sub
+
+        ' ======================================================== dependency probing
+
+        ''' <summary>
+        ''' Registers this directory as a dependency probe location and installs the
+        ''' <see cref="AssemblyLoadContext.Default"/> resolving hooks (managed + native) once.
+        ''' </summary>
+        Private Sub AddProbeDirectory(dllPath As String)
+            Dim directory As String = Nothing
+
+            Try
+                directory = Path.GetDirectoryName(Path.GetFullPath(dllPath))
+            Catch ex As Exception
+                Return
+            End Try
+
+            If String.IsNullOrEmpty(directory) Then Return
+
+            SyncLock _gate
+                If Not _probeDirectories.Contains(directory, StringComparer.OrdinalIgnoreCase) Then
+                    ' the most recently loaded dll wins: insert at the front
+                    _probeDirectories.Insert(0, directory)
+                End If
+
+                If Not _resolvingHooked Then
+                    AddHandler AssemblyLoadContext.Default.Resolving, AddressOf OnResolving
+                    AddHandler AssemblyLoadContext.Default.ResolvingUnmanagedDll, AddressOf OnResolveNative
+                    _resolvingHooked = True
+                End If
+            End SyncLock
+        End Sub
+
+        ''' <summary>
+        ''' Dependency resolution for assemblies loaded through an import: probe the directories
+        ''' of previously imported dlls and the host search paths by simple name.
+        ''' </summary>
+        Private Function OnResolving(context As AssemblyLoadContext, name As AssemblyName) As Assembly
+            Dim directories As String()
+
+            SyncLock _gate
+                directories = _probeDirectories.ToArray
+            End SyncLock
+
+            Dim candidates As New List(Of String)
+            For Each folder In directories
+                Call candidates.Add(Path.Combine(folder, name.Name & ".dll"))
+            Next
+            For Each folder In ClrInterop.AssemblySearchPaths
+                Call candidates.Add(Path.Combine(folder, name.Name & ".dll"))
+            Next
+
+            For Each candidate In candidates
+                If Not File.Exists(candidate) Then Continue For
+
+                Try
+                    Return context.LoadFromAssemblyPath(Path.GetFullPath(candidate))
+                Catch ex As Exception
+                    ' try the next candidate
+                End Try
+            Next
+
+            Return Nothing
+        End Function
+
+        ''' <summary>
+        ''' Search the probe directories (and their <c>runtimes/*/native</c> folders) for a native
+        ''' library: an assembly loaded from a directory outside the application base still needs
+        ''' its native dependency (for example <c>libSkiaSharp.dll</c>).
+        ''' </summary>
+        Private Function OnResolveNative(assembly As Assembly, libraryName As String) As IntPtr
+            Dim directories As String()
+
+            SyncLock _gate
+                directories = _probeDirectories.ToArray
+            End SyncLock
+
+            Dim fileName As String = libraryName
+            If Not fileName.EndsWith(".dll", StringComparison.OrdinalIgnoreCase) Then
+                fileName &= ".dll"
+            End If
+
+            Dim trials As New List(Of String)
+
+            ' the loop variable must not be named 'directory': VB is case insensitive and the
+            ' variable would shadow the System.IO.Directory type (same for the FileSystem.Dir function)
+            For Each folder In directories
+                Call trials.Add(Path.Combine(folder, fileName))
+
+                Dim runtimes = Path.Combine(folder, "runtimes")
+                If Not Directory.Exists(runtimes) Then Continue For
+
+                Try
+                    For Each rid As String In Directory.GetDirectories(runtimes)
+                        Call trials.Add(Path.Combine(rid, "native", fileName))
+                    Next
+                Catch ex As Exception
+                    ' unreadable runtimes folder: skip it
+                End Try
+            Next
+
+            For Each candidate In trials
+                If Not File.Exists(candidate) Then Continue For
+
+                Dim handle As IntPtr = IntPtr.Zero
+                If NativeLibrary.TryLoad(candidate, handle) Then Return handle
+            Next
+
+            Return IntPtr.Zero
+        End Function
 
         ' ---------------- helpers ----------------
 
