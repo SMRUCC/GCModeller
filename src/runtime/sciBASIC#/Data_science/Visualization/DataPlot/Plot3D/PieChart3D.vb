@@ -234,6 +234,13 @@ Namespace Plot3D
             Dim pieChart As New List(Of Surface)
             Dim topFace As New List(Of Integer)
             Dim start As Double = 0
+            ' 切片被推出去 e 之后半径同步缩小 e，这样每一片的外弧中点仍然落在半径为 1 的
+            ' 基准圆上，分离之后外缘不会出现"台阶"
+            Dim radius As Double = 1 - explode
+
+            If radius < 0.25 Then
+                radius = 0.25
+            End If
 
             For Each x As PieSlice In slices
                 Dim sweep As Double = 360 * x.Percentage / 100
@@ -242,17 +249,38 @@ Namespace Plot3D
 
                 If explode > 0 Then
                     ' 沿切片角平分线把切片向外推出去
-                    Dim d As Double = explode
                     Dim rad As Double = mid / 180 * std.PI
 
-                    origin = New Point3D(centra.X + std.Cos(rad) * d, centra.Y + std.Sin(rad) * d, centra.Z)
+                    origin = New Point3D(
+                        centra.X + std.Cos(rad) * explode,
+                        centra.Y + std.Sin(rad) * explode,
+                        centra.Z)
                 End If
 
-                Dim pie As New Pie(origin, 1, start, sweep, vertices, thickness)
+                Dim pie As New Pie(origin, radius, start, sweep, vertices, thickness)
                 Dim model As Surface() = pie.Model3D(x.Color)
-                Dim top As Integer = TopFaceIndex(model)
 
-                topFace += pieChart.Count + top
+                ' Extrude 的面序是固定的：0 = 底面、1 = 顶面、其余 = 侧面。
+                ' 用基色去画"朝向观察者的那一层盖子"、另一层压暗、侧面再压暗一档，
+                ' 这样无论从上方还是下方看，看到的都是与图例一致的基色，同时厚度可辨识；
+                ' 否则侧面会以"随机的细色条"形式出现，看起来像是切片错位。
+                Dim nearCap As Integer = VisibleCap(model, view)
+
+                For i As Integer = 0 To model.Length - 1
+                    Dim factor As Single
+
+                    If i = nearCap Then
+                        factor = 1.0F
+                    ElseIf i <= 1 Then
+                        factor = BottomShade
+                    Else
+                        factor = SideShade
+                    End If
+
+                    model(i).brush = New SolidBrush(ShadeColor(x.Color, factor))
+                Next
+
+                topFace += pieChart.Count + nearCap
                 pieChart += model
 
                 start += sweep
@@ -292,7 +320,21 @@ Namespace Plot3D
                         .TranslateBuffer(view, view.Rotate(matrix.Matrix), illumination) _
                         .AsList
 
-                    Call g.BufferPainting(model2D)
+                    ' 逐面填充并用自己的颜色描一圈 1px 的边：
+                    ' 相邻面片之间的抗锯齿接缝会被这条描边盖掉，否则浅色切片上会出现白色细线
+                    For Each face In model2D
+                        Using br As Brush = face.brush
+                            Call g.FillPolygon(br, face.points)
+                        End Using
+
+                        Dim solid = TryCast(face.brush, SolidBrush)
+
+                        If solid IsNot Nothing Then
+                            Using pen As New Pen(solid.Color, 1.0F)
+                                Call g.DrawPolygon(pen, face.points)
+                            End Using
+                        End If
+                    Next
 
                     If showLabels Then
                         Call DrawSliceLabels(g, view, centroid, pieChart, topFace, slices, theme, plotRect)
@@ -415,23 +457,52 @@ Namespace Plot3D
         End Function
 
         ''' <summary>
-        ''' 找出切片顶面（Z 最大的那个面）在 <see cref="Surface"/> 数组之中的下标，
-        ''' 顶面的投影中心就是切片标签的锚点。
+        ''' 找出朝向观察者的那一层盖子（顶面或底面）在 <see cref="Surface"/> 数组之中的下标。
+        '''
+        ''' <para>
+        ''' <see cref="Shape3D.Extrude"/> 生成的面序固定为：0 = 底面、1 = 顶面、其余 = 侧面，
+        ''' 但相机可以从前上方也可以从前下方观察，只有"离观察者更近"的那一层才会被看到。
+        ''' 投影之后 Z 越小表示越近，因此比较两个盖子的投影深度即可。
+        ''' </para>
         ''' </summary>
-        Private Function TopFaceIndex(model As Surface()) As Integer
-            Dim best As Integer = 0
-            Dim maxZ As Double = Double.MinValue
+        ''' <param name="model">一个切片的全部面</param>
+        ''' <param name="camera">相机</param>
+        Private Function VisibleCap(model As Surface(), camera As Camera) As Integer
+            If model.Length < 2 Then
+                Return 0
+            End If
 
-            For i As Integer = 0 To model.Length - 1
-                Dim z As Double = model(i).vertices.Average(Function(p) p.Z)
+            Dim top As Double = Depth(camera, model(1))
+            Dim bottom As Double = Depth(camera, model(0))
 
-                If z > maxZ Then
-                    maxZ = z
-                    best = i
-                End If
-            Next
+            Return If(top <= bottom, 1, 0)
+        End Function
 
-            Return best
+        ''' <summary>面片中心在投影之后的深度（越小越靠近观察者）</summary>
+        Private Function Depth(camera As Camera, face As Surface) As Double
+            Dim center As New Point3D(
+                face.vertices.Average(Function(p) p.X),
+                face.vertices.Average(Function(p) p.Y),
+                face.vertices.Average(Function(p) p.Z))
+
+            Return camera.Project(camera.Rotate(center)).Z
+        End Function
+
+        ''' <summary>饼图侧面的明度系数（相对顶面基色）</summary>
+        Private Const SideShade As Single = 0.84F
+
+        ''' <summary>饼图底面的明度系数（相对顶面基色）</summary>
+        Private Const BottomShade As Single = 0.72F
+
+        ''' <summary>按比例调整颜色的明度（保持色相与透明度不变）</summary>
+        ''' <param name="color">基色</param>
+        ''' <param name="factor">明度系数，小于 1 表示压暗</param>
+        Private Function ShadeColor(color As Color, factor As Single) As Color
+            Dim r% = CInt(std.Max(0, std.Min(255, color.R * factor)))
+            Dim g% = CInt(std.Max(0, std.Min(255, color.G * factor)))
+            Dim b% = CInt(std.Max(0, std.Min(255, color.B * factor)))
+
+            Return Color.FromArgb(color.A, r, g, b)
         End Function
 
         ''' <summary>文字光晕的四个偏移方向</summary>

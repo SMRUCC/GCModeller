@@ -71,6 +71,12 @@ Namespace Plot3D.Device
     Public Module RenderEngine
 
         ''' <summary>
+        ''' 调试开关：环境变量 <c>PLOT3D_DEBUG=1</c> 时输出每个文本图元的最终屏幕位置
+        ''' </summary>
+        Private ReadOnly DebugRender As Boolean =
+            String.Equals(Environment.GetEnvironmentVariable("PLOT3D_DEBUG"), "1", StringComparison.Ordinal)
+
+        ''' <summary>
         ''' 
         ''' </summary>
         ''' <param name="elements"></param>
@@ -97,8 +103,20 @@ Namespace Plot3D.Device
 
             ' 进行投影之后只需要直接取出XY即可得到二维的坐标
             ' 然后生成多边形，进行画布的居中处理
+            '
+            ' 注意：只使用"几何图元"（线、面、点）来解算缩放域，
+            ' 纯文本（刻度值、轴名）不参与。否则刻度值/轴名一旦落在盒体之外，
+            ' 就会把域撑大、导致盒体被整体缩小（轴名看起来像是画在了图里面）。
             Dim plotRect As Rectangle = region.PlotRegion(css)
-            Dim polygon As PointF() = models _
+            Dim geometry As Element3D() = models _
+                .Where(Function(element) Not (TypeOf element Is Label)) _
+                .ToArray
+
+            If geometry.Length = 0 Then
+                geometry = models
+            End If
+
+            Dim polygon As PointF() = geometry _
                 .Select(Function(element) element.EnumeratePath) _
                 .IteratesALL _
                 .Select(Function(pt) pt.PointXY(plotRect.Size)) _
@@ -117,6 +135,15 @@ Namespace Plot3D.Device
             For i As Integer = 0 To models.Length - 1
                 Dim index As Integer = orders(i)
                 Dim model As Element3D = models(index)
+
+                If DebugRender AndAlso TypeOf model Is Label Then
+                    With DirectCast(model, Label)
+                        Dim pos As PointF = .GetPosition(plotRect.Size)
+
+                        Call Console.WriteLine(
+                            $"[3d label] '{ .Text}' at {scaleX(pos.X) + .Offset.X},{scaleY(pos.Y) + .Offset.Y}")
+                    End With
+                End If
 
                 Call model.Draw(canvas, region, scaleX, scaleY)
 
