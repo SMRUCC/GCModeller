@@ -96,37 +96,122 @@ Module GSVA
     End Function
 
     ''' <summary>
-    ''' Gene Set Variation Analysis for microarray and RNA-seq data
-    ''' 
-    ''' Gene Set Variation Analysis (GSVA) is a non-parametric, unsupervised 
-    ''' method for estimating variation of gene set enrichment through the
-    ''' samples of a expression data set. GSVA performs a change in coordinate
-    ''' systems, transforming the data from a gene by sample matrix to a gene-set
-    ''' by sample matrix, thereby allowing the evaluation of pathway enrichment 
-    ''' for each sample. This new matrix of GSVA enrichment scores facilitates
-    ''' applying standard analytical methods like functional enrichment, 
-    ''' survival analysis, clustering, CNV-pathway analysis or cross-tissue 
-    ''' pathway analysis, in a pathway-centric manner.
-    ''' 
-    ''' main function of the package which estimates activity
-    ''' scores For Each given gene-Set
+    ''' Gene Set Variation Analysis (GSVA) for microarray and RNA-seq data.
     ''' </summary>
-    ''' <param name="expr">A raw gene expression data matrix object</param>
-    ''' <param name="geneSet">
-    ''' A gsea enrichment <see cref="Background"/> model
-    ''' </param>
-    ''' <param name="name_suffix">
-    ''' append the pathway name to the map id as suffix?
-    ''' </param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
     ''' <remarks>
+    ''' GSVA is a non-parametric, unsupervised method for estimating variation
+    ''' of gene set enrichment through the samples of an expression data set.
+    ''' It performs a change in coordinate systems, transforming the data from a
+    ''' gene-by-sample matrix to a gene-set-by-sample matrix, thereby allowing
+    ''' the evaluation of pathway enrichment for each sample. This new matrix of
+    ''' GSVA enrichment scores facilitates applying standard analytical methods
+    ''' such as functional enrichment, survival analysis, clustering,
+    ''' CNV-pathway analysis or cross-tissue pathway analysis, in a
+    ''' pathway-centric manner.
     ''' Hänzelmann S., Castelo R. and Guinney J. GSVA: gene set variation analysis
     ''' for microarray and RNA-Seq data. BMC Bioinformatics, 14:7, 2013.
     ''' </remarks>
+    ''' <param name="expr">
+    ''' A raw gene expression data matrix. Acceptable inputs are an
+    ''' <see cref="HTSMatrix"/> object or an R# <c>dataframe</c> whose rows are
+    ''' features (genes) and whose columns are samples.
+    ''' </param>
+    ''' <param name="geneSet">
+    ''' A gene-set collection supplied either as a GSEA
+    ''' <see cref="Background"/> model or as anything that
+    ''' <c>BackgroundHelper.CastBackground</c> can coerce into one (for example a
+    ''' GMT file path or a list of gene-set objects).
+    ''' </param>
+    ''' <param name="method">
+    ''' The enrichment scoring method:
+    ''' <see cref="Methods.gsva"/> (default, kernel based ES),
+    ''' <see cref="Methods.ssgsea"/>, <see cref="Methods.zscore"/> or
+    ''' <see cref="Methods.plage"/>.
+    ''' </param>
+    ''' <param name="kcdf">
+    ''' The kernel density estimation type used to estimate the cumulative
+    ''' distribution function of each expression profile:
+    ''' <see cref="KCDFs.Gaussian"/> for continuous data,
+    ''' <see cref="KCDFs.Poisson"/> for count data, or
+    ''' <see cref="KCDFs.none"/> for the empirical cumulative distribution
+    ''' function. Defaults to <see cref="KCDFs.none"/>, i.e. the same behavior as
+    ''' the underlying function when no kernel is requested.
+    ''' </param>
+    ''' <param name="min_sz">
+    ''' Minimum gene-set size (number of mapped features). Gene sets with fewer
+    ''' mapped features are removed from the analysis. Default 1.
+    ''' </param>
+    ''' <param name="max_sz">
+    ''' Maximum gene-set size (number of mapped features). Gene sets with more
+    ''' mapped features are removed from the analysis. Default unlimited.
+    ''' </param>
+    ''' <param name="mxdiff">
+    ''' When TRUE (default) the ES range is transformed to the interval
+    ''' [-1, 1] by using the difference between the largest and the smallest ES
+    ''' values; otherwise the original ES range is kept.
+    ''' </param>
+    ''' <param name="tau">
+    ''' Exponent (τ, default 1) applied to the weight of the cumulative
+    ''' distribution function when <paramref name="method"/> is
+    ''' <see cref="Methods.gsva"/>; higher values give more weight to the tails
+    ''' of the distribution.
+    ''' </param>
+    ''' <param name="kernel">
+    ''' Logical flag to use the Gaussian kernel to estimate the cumulative
+    ''' distribution function when <paramref name="method"/> is
+    ''' <see cref="Methods.gsva"/>. Ignored when a non-kernel
+    ''' <paramref name="kcdf"/> is requested.
+    ''' </param>
+    ''' <param name="rnaseq">
+    ''' Logical flag indicating that <paramref name="expr"/> is read count data
+    ''' from an RNA-seq experiment; this switches the kernel to a Poisson
+    ''' density when a kernel is used.
+    ''' </param>
+    ''' <param name="abs_ranking">
+    ''' When TRUE (default FALSE) the enrichment scores are computed using the
+    ''' absolute values of the ranking, which is appropriate for single-sample
+    ''' (ssGSEA-style) scoring.
+    ''' </param>
+    ''' <param name="alpha">
+    ''' The α (alpha) parameter (default 0.25) of the ssGSEA scoring method,
+    ''' controlling the weight of the random-walk deviation.
+    ''' </param>
+    ''' <param name="normalize">
+    ''' Logical flag (default TRUE) to normalize the enrichment scores so that
+    ''' each gene set has a mean enrichment of zero across samples.
+    ''' </param>
+    ''' <param name="name_suffix">
+    ''' Append the gene-set description (<c>names</c>) to the pathway identifier
+    ''' as a suffix in the returned matrix, e.g. <c>"hsa00010 - Glycolysis"</c>.
+    ''' </param>
+    ''' <param name="verbose">
+    ''' Logical flag (default FALSE) to emit progress and diagnostic messages
+    ''' during the calculation.
+    ''' </param>
+    ''' <param name="env">The R# runtime environment (used for error reporting).</param>
+    ''' <returns>
+    ''' An <see cref="HTSMatrix"/> of GSVA enrichment scores with gene sets in
+    ''' rows and samples in columns, or a <c>Message</c> describing the error
+    ''' when the gene-set collection cannot be parsed.
+    ''' </returns>
     <ExportAPI("gsva")>
     <RApiReturn(GetType(HTSMatrix))>
-    Public Function gsva(expr As Object, geneSet As Object, Optional name_suffix As Boolean = False, Optional env As Environment = Nothing) As Object
+    Public Function gsva(expr As Object,
+                         geneSet As Object,
+                         Optional method As Methods = Methods.gsva,
+                         Optional kcdf As KCDFs = KCDFs.none,
+                         Optional min_sz As Integer = 1,
+                         Optional max_sz As Integer = Integer.MaxValue,
+                         Optional mxdiff As Boolean = True,
+                         Optional tau As Double = 1,
+                         Optional kernel As Boolean = True,
+                         Optional rnaseq As Boolean = False,
+                         Optional abs_ranking As Boolean = False,
+                         Optional alpha As Double = 0.25,
+                         Optional normalize As Boolean = True,
+                         Optional name_suffix As Boolean = False,
+                         Optional verbose As Boolean = False,
+                         Optional env As Environment = Nothing) As Object
         Dim mat As HTSMatrix
         Dim background As [Variant](Of Background, Message) = BackgroundHelper.CastBackground(geneSet, env)
 
@@ -151,7 +236,19 @@ Module GSVA
             mat = expr
         End If
 
-        Dim gsva_result As HTSMatrix = mat.gsva(background)
+        Dim gsva_result As HTSMatrix = mat.gsva(background,
+                                                method,
+                                                kcdf,
+                                                min_sz,
+                                                max_sz,
+                                                mxdiff,
+                                                tau,
+                                                kernel,
+                                                rnaseq,
+                                                abs_ranking,
+                                                alpha,
+                                                normalize,
+                                                verbose)
 
         If name_suffix Then
             For Each pathway As DataFrameRow In gsva_result.expression

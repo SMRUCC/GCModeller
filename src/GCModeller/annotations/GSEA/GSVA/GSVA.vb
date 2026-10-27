@@ -65,6 +65,89 @@ Imports std = System.Math
 
 Public Module GSVA
 
+    ''' <summary>
+    ''' Gene Set Variation Analysis (GSVA): estimate, for every sample, an
+    ''' enrichment score of each gene set by transforming the gene-by-sample
+    ''' expression matrix into a gene-set-by-sample score matrix.
+    ''' </summary>
+    ''' <param name="expr">
+    ''' The raw gene expression matrix whose rows are features (genes) and whose
+    ''' columns are samples. Constant-expression rows are filtered out, except
+    ''' when <paramref name="method"/> is <see cref="Methods.ssgsea"/>.
+    ''' </param>
+    ''' <param name="gsetIdxList">
+    ''' The collection of gene sets (<see cref="Background"/>) to be scored.
+    ''' </param>
+    ''' <param name="method">
+    ''' The enrichment scoring method:
+    ''' <see cref="Methods.gsva"/> (default, kernel based ES),
+    ''' <see cref="Methods.ssgsea"/>, <see cref="Methods.zscore"/> or
+    ''' <see cref="Methods.plage"/>.
+    ''' </param>
+    ''' <param name="kcdf">
+    ''' The kernel density estimation type used to estimate the cumulative
+    ''' distribution function of each expression profile:
+    ''' <see cref="KCDFs.Gaussian"/> for continuous data,
+    ''' <see cref="KCDFs.Poisson"/> for count data, or
+    ''' <see cref="KCDFs.none"/> for the empirical cumulative distribution
+    ''' function. When omitted (Nothing) the empirical CDF is used.
+    ''' </param>
+    ''' <param name="min_sz">
+    ''' Minimum gene-set size (number of mapped features). Gene sets with fewer
+    ''' mapped features are removed from the analysis. Default 1.
+    ''' </param>
+    ''' <param name="max_sz">
+    ''' Maximum gene-set size (number of mapped features). Gene sets with more
+    ''' mapped features are removed from the analysis. Default unlimited.
+    ''' </param>
+    ''' <param name="mxdiff">
+    ''' When TRUE (default) the ES range is transformed to the interval
+    ''' [-1, 1] by using the difference between the largest and the smallest ES
+    ''' values; otherwise the original ES range is kept.
+    ''' </param>
+    ''' <param name="tau">
+    ''' Exponent (τ, default 1) applied to the weight of the cumulative
+    ''' distribution function when <paramref name="method"/> is
+    ''' <see cref="Methods.gsva"/>; higher values give more weight to the tails
+    ''' of the distribution.
+    ''' </param>
+    ''' <param name="kernel">
+    ''' Logical flag to use the Gaussian kernel to estimate the cumulative
+    ''' distribution function when <paramref name="method"/> is
+    ''' <see cref="Methods.gsva"/>. Ignored when a non-kernel
+    ''' <paramref name="kcdf"/> is requested.
+    ''' </param>
+    ''' <param name="rnaseq">
+    ''' Logical flag indicating that <paramref name="expr"/> is read count data
+    ''' from an RNA-seq experiment; this switches the kernel to a Poisson
+    ''' density when a kernel is used.
+    ''' </param>
+    ''' <param name="abs_ranking">
+    ''' When TRUE (default FALSE) the enrichment scores are computed using the
+    ''' absolute values of the ranking, which is appropriate for single-sample
+    ''' (ssGSEA-style) scoring.
+    ''' </param>
+    ''' <param name="alpha">
+    ''' The α (alpha) parameter (default 0.25) of the ssGSEA scoring method,
+    ''' controlling the weight of the random-walk deviation.
+    ''' </param>
+    ''' <param name="normalize">
+    ''' Logical flag (default TRUE) to normalize the enrichment scores so that
+    ''' each gene set has a mean enrichment of zero across samples.
+    ''' </param>
+    ''' <param name="verbose">
+    ''' Logical flag (default FALSE) to emit progress and diagnostic messages
+    ''' during the calculation.
+    ''' </param>
+    ''' <returns>
+    ''' A <see cref="Matrix"/> of GSVA enrichment scores: rows are the retained
+    ''' gene sets (ordered as in <paramref name="gsetIdxList"/>) and columns are
+    ''' the samples of <paramref name="expr"/>.
+    ''' </returns>
+    ''' <remarks>
+    ''' Hänzelmann S., Castelo R. and Guinney J. GSVA: gene set variation analysis
+    ''' for microarray and RNA-Seq data. BMC Bioinformatics, 14:7, 2013.
+    ''' </remarks>
     <Extension>
     Public Function gsva(expr As Matrix, gsetIdxList As Background,
                          Optional method As Methods = Methods.gsva,
