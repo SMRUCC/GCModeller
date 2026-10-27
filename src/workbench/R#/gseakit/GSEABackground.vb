@@ -453,14 +453,9 @@ Public Module GSEABackground
         Return file.LoadXml(Of Background)
     End Function
 
-    <ExportAPI("read_cls")>
-    Public Function readCLS(file As String) As CLS
-        Return CLS.ParseFile(file)
-    End Function
-
-    <ExportAPI("read_gct")>
-    Public Function readGct(file As String) As Gct
-        Return Gct.LoadFile(file)
+    <ExportAPI("read_gmx")>
+    Public Function readGct(file As String) As Gmx
+        Return Gmx.LoadFile(file)
     End Function
 
     <ExportAPI("read_gmt")>
@@ -1125,7 +1120,7 @@ Public Module GSEABackground
     ''' cast the cluster data as the enrichment background
     ''' </summary>
     ''' <param name="clusters">
-    ''' a data cluster or a collection of kegg pathway model
+    ''' a data cluster or a collection of kegg pathway model, value could be a collection of <see cref="Cluster"/> object, parsed <see cref="Gmt"/>, parsed <see cref="Gmx"/> file data.
     ''' </param>
     ''' <param name="background_size">
     ''' default value -1 or zero means auto evaluated
