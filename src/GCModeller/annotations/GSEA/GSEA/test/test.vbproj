@@ -14,9 +14,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GSEA\gsea-netcore5.vbproj" />
-    <ProjectReference Include="..\FisherCore\Fisher.NET5.vbproj" />
-    <ProjectReference Include="..\..\..\analysis\HTS_matrix\HTS_matrix-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\..\..\..\analysis\HTS_matrix\HTS_matrix-netcore5.vbproj" />
+    <ProjectReference Include="..\..\FisherCore\Fisher.NET5.vbproj" />
+    <ProjectReference Include="..\gsea-netcore5.vbproj" />
   </ItemGroup>
 
   <ItemGroup>
