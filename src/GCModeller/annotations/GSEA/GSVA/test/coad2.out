@@ -91,3 +91,68 @@ info, 7.7 seconds - [moGSVA] done in 6945 ms: 336 pathway(s) x 160 sample(s)
 
 --- B1. R 基线（逐组学 GSVA + 平均） ---
 [baseline] Rscript "G:\GCModeller\src\GCModeller\annotations\GSEA\GSVA\test\reference\mogsva_reference.R" "G:\GCModeller\src\GCModeller\annotations\GSEA\GSVA\test\bin\Debug\net10.0\mogsva_run"
+[1] TRUE
+== moGSVA baseline reference ==
+R    : R version 4.5.0 (2025-04-11 ucrt) 
+GSVA : 2.2.1 
+input: G:\GCModeller\src\GCModeller\annotations\GSEA\GSVA\test\bin\Debug\net10.0\mogsva_run/mogsva_input 
+
+gene sets : 336 
+samples   : 160 
+
+omics     : mRNA, protein, methylation 
+
+  r_mRNA_scores.csv          :  336 x 160
+  r_protein_scores.csv       :  336 x 160
+  r_methylation_scores.csv   :  335 x 160
+  r_baseline_mean.csv        :  335 x 160
+x is an object of "moa", statis is not used  mogsa_scores.csv           :  316 x 160
+  multigsea_pvalues.csv      :  336 pathway(s)
+
+~all done!
+
+[R stderr] loading from cache
+警告信息:
+1: In preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam,  :
+  There are ties in the preranked stats (99.68% of the list).
+The order of those tied genes will be arbitrary, which may produce unexpected results.
+2: In preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam,  :
+  All values in the stats vector are greater than zero and scoreType is "std", maybe you should switch to scoreType = "pos".
+3: In preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam,  :
+  All values in the stats vector are greater than zero and scoreType is "std", maybe you should switch to scoreType = "pos".
+4: In preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam,  :
+  All values in the stats vector are greater than zero and scoreType is "std", maybe you should switch to scoreType = "pos".
+5: In fgsea::fgseaMultilevel(pathways[[omics]], ranks[[omics]], eps = eps) :
+  For some of the pathways the P-values were likely overestimated. For such pathways log2err is set to NA.
+
+  [PASS] R 基线: 生成成功  (layers = 3, status = mRNA:OK(336 pathways x 160 samples); protein:OK(336 pathways x 160 samples); methylation:OK(335 pathways x 160 samples); baseline_mean:OK(335 pathways averaged over 3 omics); mogsa:OK(316 gene set(s) x 160 sample(s)); multiGSEA:OK(336 pathway(s) x 3 omics))
+  [PASS] mRNA: 与 R GSVA 逐元素一致  (compared 53760 value(s), max|diff| = 4.996E-016 (2-Oxocarboxylic acid metabolism), mean|diff| = 7.936E-017, 越界通路 0, 缺失 0)
+  [PASS] protein: 与 R GSVA 逐元素一致  (compared 53760 value(s), max|diff| = 4.996E-016 (2-Oxocarboxylic acid metabolism), mean|diff| = 1.031E-016, 越界通路 0, 缺失 0)
+  [PASS] methylation: 与 R GSVA 逐元素一致  (compared 53600 value(s), max|diff| = 4.996E-016 (2-Oxocarboxylic acid metabolism), mean|diff| = 1.062E-016, 越界通路 0, 缺失 0)
+  [PASS] Baseline 1: 等权融合 == R 逐层打分后平均  (compared 335 pathway(s), max|diff| = 4.996E-016)
+
+--- B2. 可选基线（MOGSA / multiGSEA） ---
+  [PASS] mogsa: 结果矩阵非空  (316 行)
+  [PASS] mogsa: 与 moGSVA 通路活性可比对（相关性可计算）  (pearson r = 0.1176 over 316 shared pathway(s))
+[info] MOGSA 与 moGSVA 的相关性偏低 (r = 0.118)：MOGSA 走 MFA 降维后打分，属范式差异。
+  [PASS] multiGSEA: 结果表非空  (336 条通路)
+  [PASS] multiGSEA: 队列级显著通路与 moGSVA 高活性通路排序有重叠  (top10 overlap = 1 / 10)
+[info] multiGSEA top10: Basal cell carcinoma, Valine, leucine and isoleucine degradation, RNA degradation, Glycolysis / Gluconeogenesis, Ovarian steroidogenesis
+[info] moGSVA   top10: Biotin metabolism, Phosphonate and phosphinate metabolism, Neomycin, kanamycin and gentamicin biosynthesis, Vitamin B6 metabolism, Sulfur relay system
+
+--- B3. 置换检验（真实数据，取高活性通路子集） ---
+info, 1.76 hours - [moGSVA] permutation view keeps 3000 feature(s) from 31122.
+info, 1.76 hours - [moGSVA] permutation 10/15 done.
+  [PASS] 真实数据: 置换检验产出 p 值  (10 条通路（B=15）)
+  [PASS] 真实数据: p 值落在 (0, 1]  (Synthesis and degradation of ketone bodies=0.438, Caffeine metabolism=0.562, Valine, leucine and isoleucine biosynthesis=0.688, Phenylalanine, tyrosine and tryptophan biosynthesis=0.062, Phosphonate and phosphinate metabolism=0.250)
+  [PASS] 真实数据: q 值不小于 p 值  (min q = 0.1562)
+  [PASS] 真实数据: 置换零分布已记录  (10 条通路)
+
+--- B4. 消融对照（拼接矩阵单组学 GSVA） ---
+  [PASS] 真实数据: 拼接矩阵 GSVA 可运行  (pooled baseline: 336 pathway(s), mean|diff| vs fusion = 5.737E-002)
+  [PASS] 真实数据: 拼接基线不同于分组学融合  (mean|diff| = 5.737E-002)
+  [PASS] 结果导出: 写出全部结果表  (scores.csv, raw_scores.csv, consistency.csv, layer_scores.csv, weights.csv, contributions.csv, coverage.csv, significance.csv, pooled_diagnostics.csv, pooled_scores.csv)
+==========================================================
+ 通过 62 项断言，失败 0 项
+ 全部通过!
+==========================================================
