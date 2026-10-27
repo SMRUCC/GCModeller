@@ -1,7 +1,7 @@
 # =============================================================================
 # Figure 3 -- cross-omics agreement and how it reshapes the activity scores
-#   A  distribution of the per-sample sign agreement a_j
-#   B  effect of the consistency reward on score magnitude
+#   A  distribution of the per-sample sign agreement a
+#   B  agreement composition by number of contributing layers
 #   C  layer-to-layer concordance of per-omics enrichment scores
 #   D  agreement versus pathway-level dispersion
 # =============================================================================
@@ -13,12 +13,10 @@ suppressPackageStartupMessages(library(matrixStats))
 
 d <- load_mogsva()
 S <- d$scores
-R <- d$raw
 C <- d$cons
 
 PAL_AGREE <- c("-1" = "#2F5D8C", "-0.333" = "#7098BC", "0" = "#E8A87C", "1" = "#A6362A")
 LAB_AGREE <- c("-1" = "\u22121", "-0.333" = "\u22121/3", "0" = "0", "1" = "1")
-LAMBDA <- 0.25
 
 ## ---- A: agreement distribution ---------------------------------------------
 ag <- data.table(a = round(as.vector(C), 3))
