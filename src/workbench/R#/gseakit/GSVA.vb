@@ -174,9 +174,140 @@ Module GSVA
         Return MultiOmicsDataset.Create(pull, verbose)
     End Function
 
+    ''' <summary>
+    ''' Build a <see cref="MultiOmicsGsvaOptions"/> configuration object that controls
+    ''' the whole multi-omics GSVA (moGSVA) pipeline: per-omics enrichment scoring,
+    ''' cross-omics weighted fusion with a consistency reward, and a gene-to-pathway
+    ''' permutation test for significance assessment.
+    ''' </summary>
+    ''' <param name="score_method">
+    ''' The enrichment scoring method applied independently inside each omics layer
+    ''' (recommended <see cref="Methods.gsva"/>, the default). Other choices are
+    ''' ssGSEA, z-score and PLAGE.
+    ''' </param>
+    ''' <param name="kcdf">
+    ''' The kernel density estimation type used by the GSVA scoring step:
+    ''' <see cref="KCDFs.Gaussian"/> for continuous data (default),
+    ''' <see cref="KCDFs.Poisson"/> for count data, or
+    ''' <see cref="KCDFs.none"/> for the empirical cumulative distribution function.
+    ''' </param>
+    ''' <param name="fusion_strategy">
+    ''' The cross-omics weighted fusion strategy. Defaults to
+    ''' <see cref="Fusion.FusionMethods.Equal"/> (a plain average, i.e. baseline 1).
+    ''' Alternatives: variance weighting, information-entropy weighting,
+    ''' mutual-information consistency weighting and a balanced scheme that also
+    ''' applies the per-omics feature-count balancing term.
+    ''' </param>
+    ''' <param name="consistency_lambda">
+    ''' The hyper-parameter λ (lambda) of the cross-omics consistency reward term.
+    ''' A value of 0 disables the reward and reduces the fusion to a pure weighted
+    ''' average. Default 0.25.
+    ''' </param>
+    ''' <param name="balance_feature_size">
+    ''' Whether to superimpose the per-omics feature-count balancing term
+    ''' 1/log2(2+|S_k|) so that omics layers with many mapped members cannot
+    ''' dominate the fused score. Off by default so that the equal-weight fusion
+    ''' stays strictly identical to the simple per-omics average.
+    ''' </param>
+    ''' <param name="min_size">
+    ''' Minimum gene-set size (number of mapped features) after the feature
+    ''' mapping step. Gene sets smaller than this are dropped. Default 5.
+    ''' </param>
+    ''' <param name="max_size">
+    ''' Maximum gene-set size (number of mapped features) after the feature
+    ''' mapping step. Gene sets larger than this are dropped. Default 500.
+    ''' </param>
+    ''' <param name="ssgsea_alpha">
+    ''' The α (alpha) parameter of the ssGSEA scoring path. Default 0.25.
+    ''' </param>
+    ''' <param name="ssgsea_normalize">
+    ''' Whether the ssGSEA scoring path normalizes the enrichment scores.
+    ''' Default TRUE.
+    ''' </param>
+    ''' <param name="permutations">
+    ''' Number of permutations for the gene-to-pathway permutation test.
+    ''' 0 (the default) skips the significance assessment entirely.
+    ''' </param>
+    ''' <param name="permutation_method">
+    ''' The scoring method used to build the permutation null distribution.
+    ''' Defaults to ssGSEA (rank based) to avoid repeating the expensive
+    ''' kernel density estimation.
+    ''' </param>
+    ''' <param name="permutation_pathways">
+    ''' A subset of pathway identifiers to evaluate in the permutation test.
+    ''' When nothing is supplied the first <paramref name="max_permutation_pathways"/>
+    ''' pathways from the fused result are used.
+    ''' </param>
+    ''' <param name="permutation_gene_limit">
+    ''' Upper bound on the number of features kept in the permutation view
+    ''' (0 means no trimming). When trimming is applied, the target pathway
+    ''' members are kept first and the remaining budget is filled with background
+    ''' features using a fixed seed.
+    ''' </param>
+    ''' <param name="max_permutation_pathways">
+    ''' Maximum number of pathways evaluated in the permutation test when no
+    ''' explicit pathway subset is supplied. Default 40.
+    ''' </param>
+    ''' <param name="seed">
+    ''' Random seed used for deterministic data derivation and permutation
+    ''' shuffling so that runs are fully reproducible. Default 20261026.
+    ''' </param>
+    ''' <param name="compute_pooled">
+    ''' Whether to also compute the ablation control "concatenate then single-omics
+    ''' GSVA" baseline. Default TRUE.
+    ''' </param>
+    ''' <param name="verbose">
+    ''' Whether to emit progress/diagnostic logging. Default TRUE.
+    ''' </param>
+    ''' <returns>
+    ''' A fully populated <see cref="MultiOmicsGsvaOptions"/> object that can be
+    ''' passed to the <c>mogsva</c> function.
+    ''' </returns>
+    ''' <remarks>
+    ''' All parameters are optional and default to the values defined on the
+    ''' <see cref="MultiOmicsGsvaOptions"/> class, so calling this function with
+    ''' no arguments yields the same default configuration that the moGSVA engine
+    ''' uses.
+    ''' </remarks>
     <ExportAPI("mogsva_opts")>
-    Public Function mogsva_opts() As MultiOmicsGsvaOptions
-        Return New MultiOmicsGsvaOptions
+    <RApiReturn(GetType(MultiOmicsGsvaOptions))>
+    Public Function mogsva_opts(Optional score_method As Methods = Methods.gsva,
+                                Optional kcdf As KCDFs = KCDFs.Gaussian,
+                                Optional fusion_strategy As Fusion.FusionMethods = Fusion.FusionMethods.Equal,
+                                Optional consistency_lambda As Double = 0.25,
+                                Optional balance_feature_size As Boolean = False,
+                                Optional min_size As Integer = 5,
+                                Optional max_size As Integer = 500,
+                                Optional ssgsea_alpha As Double = 0.25,
+                                Optional ssgsea_normalize As Boolean = True,
+                                Optional permutations As Integer = 0,
+                                Optional permutation_method As Methods = Methods.ssgsea,
+                                Optional permutation_pathways As String() = Nothing,
+                                Optional permutation_gene_limit As Integer = 0,
+                                Optional max_permutation_pathways As Integer = 40,
+                                Optional seed As Integer = 20261026,
+                                Optional compute_pooled As Boolean = True,
+                                Optional verbose As Boolean = True,
+                                Optional env As Environment = Nothing) As MultiOmicsGsvaOptions
+        Return New MultiOmicsGsvaOptions With {
+            .ScoreMethod = score_method,
+            .Kcdf = kcdf,
+            .FusionStrategy = fusion_strategy,
+            .ConsistencyLambda = consistency_lambda,
+            .BalanceFeatureSize = balance_feature_size,
+            .MinSize = min_size,
+            .MaxSize = max_size,
+            .SsGseaAlpha = ssgsea_alpha,
+            .SsGseaNormalize = ssgsea_normalize,
+            .Permutations = permutations,
+            .PermutationMethod = permutation_method,
+            .PermutationPathways = permutation_pathways,
+            .PermutationGeneLimit = permutation_gene_limit,
+            .MaxPermutationPathways = max_permutation_pathways,
+            .Seed = seed,
+            .ComputePooled = compute_pooled,
+            .Verbose = verbose
+        }
     End Function
 
     <ExportAPI("mogsva")>
