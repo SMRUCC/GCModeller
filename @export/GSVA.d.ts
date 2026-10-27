@@ -74,6 +74,99 @@ declare namespace GSVA {
    */
    function mogsva(x: object, geneSet: any, opts: object, env?: object): object;
    /**
+    * Build a [MultiOmicsGsvaOptions](cref:T:SMRUCC.genomics.Analysis.HTS.GSVA.MultiOmicsGsvaOptions) configuration object that controls
+    *  the whole multi-omics GSVA (moGSVA) pipeline: per-omics enrichment scoring,
+    *  cross-omics weighted fusion with a consistency reward, and a gene-to-pathway
+    *  permutation test for significance assessment.
+    * 
+    * > All parameters are optional and default to the values defined on the
+    * >  [MultiOmicsGsvaOptions](cref:T:SMRUCC.genomics.Analysis.HTS.GSVA.MultiOmicsGsvaOptions) class, so calling this function with
+    * >  no arguments yields the same default configuration that the moGSVA engine
+    * >  uses.
+    * 
+     * @param score_method The enrichment scoring method applied independently inside each omics layer
+     *  (recommended [Methods.gsva](cref:F:SMRUCC.genomics.Analysis.HTS.GSVA.Methods.gsva), the default). Other choices are
+     *  ssGSEA, z-score and PLAGE.
+     * 
+     * + default value Is ``null``.
+     * @param kcdf The kernel density estimation type used by the GSVA scoring step:
+     *  [KCDFs.Gaussian](cref:F:SMRUCC.genomics.Analysis.HTS.GSVA.KCDFs.Gaussian) for continuous data (default),
+     *  [KCDFs.Poisson](cref:F:SMRUCC.genomics.Analysis.HTS.GSVA.KCDFs.Poisson) for count data, or
+     *  [KCDFs.none](cref:F:SMRUCC.genomics.Analysis.HTS.GSVA.KCDFs.none) for the empirical cumulative distribution function.
+     * 
+     * + default value Is ``null``.
+     * @param fusion_strategy The cross-omics weighted fusion strategy. Defaults to
+     *  [FusionMethods.Equal](cref:F:SMRUCC.genomics.Analysis.HTS.GSVA.Fusion.FusionMethods.Equal) (a plain average, i.e. baseline 1).
+     *  Alternatives: variance weighting, information-entropy weighting,
+     *  mutual-information consistency weighting and a balanced scheme that also
+     *  applies the per-omics feature-count balancing term.
+     * 
+     * + default value Is ``null``.
+     * @param consistency_lambda The hyper-parameter λ (lambda) of the cross-omics consistency reward term.
+     *  A value of 0 disables the reward and reduces the fusion to a pure weighted
+     *  average. Default 0.25.
+     * 
+     * + default value Is ``0.25``.
+     * @param balance_feature_size Whether to superimpose the per-omics feature-count balancing term
+     *  1/log2(2+|S_k|) so that omics layers with many mapped members cannot
+     *  dominate the fused score. Off by default so that the equal-weight fusion
+     *  stays strictly identical to the simple per-omics average.
+     * 
+     * + default value Is ``false``.
+     * @param min_size Minimum gene-set size (number of mapped features) after the feature
+     *  mapping step. Gene sets smaller than this are dropped. Default 5.
+     * 
+     * + default value Is ``5``.
+     * @param max_size Maximum gene-set size (number of mapped features) after the feature
+     *  mapping step. Gene sets larger than this are dropped. Default 500.
+     * 
+     * + default value Is ``500``.
+     * @param ssgsea_alpha The α (alpha) parameter of the ssGSEA scoring path. Default 0.25.
+     * 
+     * + default value Is ``0.25``.
+     * @param ssgsea_normalize Whether the ssGSEA scoring path normalizes the enrichment scores.
+     *  Default TRUE.
+     * 
+     * + default value Is ``true``.
+     * @param permutations Number of permutations for the gene-to-pathway permutation test.
+     *  0 (the default) skips the significance assessment entirely.
+     * 
+     * + default value Is ``0``.
+     * @param permutation_method The scoring method used to build the permutation null distribution.
+     *  Defaults to ssGSEA (rank based) to avoid repeating the expensive
+     *  kernel density estimation.
+     * 
+     * + default value Is ``null``.
+     * @param permutation_pathways A subset of pathway identifiers to evaluate in the permutation test.
+     *  When nothing is supplied the first **max_permutation_pathways**
+     *  pathways from the fused result are used.
+     * 
+     * + default value Is ``null``.
+     * @param permutation_gene_limit Upper bound on the number of features kept in the permutation view
+     *  (0 means no trimming). When trimming is applied, the target pathway
+     *  members are kept first and the remaining budget is filled with background
+     *  features using a fixed seed.
+     * 
+     * + default value Is ``0``.
+     * @param max_permutation_pathways Maximum number of pathways evaluated in the permutation test when no
+     *  explicit pathway subset is supplied. Default 40.
+     * 
+     * + default value Is ``40``.
+     * @param seed Random seed used for deterministic data derivation and permutation
+     *  shuffling so that runs are fully reproducible. Default 20261026.
+     * 
+     * + default value Is ``20261026``.
+     * @param compute_pooled Whether to also compute the ablation control "concatenate then single-omics
+     *  GSVA" baseline. Default TRUE.
+     * 
+     * + default value Is ``true``.
+     * @param verbose Whether to emit progress/diagnostic logging. Default TRUE.
+     * 
+     * + default value Is ``true``.
+     * @param env 
+     * + default value Is ``null``.
+     * @return A fully populated [MultiOmicsGsvaOptions](cref:T:SMRUCC.genomics.Analysis.HTS.GSVA.MultiOmicsGsvaOptions) object that can be
+     *  passed to the `mogsva` function.
    */
-   function mogsva_opts(): object;
+   function mogsva_opts(score_method?: object, kcdf?: object, fusion_strategy?: object, consistency_lambda?: number, balance_feature_size?: boolean, min_size?: object, max_size?: object, ssgsea_alpha?: number, ssgsea_normalize?: boolean, permutations?: object, permutation_method?: object, permutation_pathways?: string, permutation_gene_limit?: object, max_permutation_pathways?: object, seed?: object, compute_pooled?: boolean, verbose?: boolean, env?: object): object;
 }
