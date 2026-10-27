@@ -1,0 +1,57 @@
+.\" man page create by R# package system.
+.TH KOBAS 1 2000-1月 "kobas.term_cluster" "kobas.term_cluster"
+.SH NAME
+kobas.term_cluster \- Cluster the given terms by the pairwise similarity.
+.SH SYNOPSIS
+\fIkobas.term_cluster(\fBterms\fR as list, 
+\fBthreshold\fR as double = 0.35, 
+\fBmethod\fR as string = "kappa", 
+\fBuniverse\fR as integer = -1, 
+\fBpvalue\fR as any = \fB<NULL>\fR, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Cluster the given terms by the pairwise similarity.
+.PP
+.SH OPTIONS
+.PP
+\fBterms\fB \fR\- 
+ a named \fBlist\fR of the character vectors, see the \fBterms\fR parameter of
+ \fBkobas.term_similarity\fR.
+. 
+.PP
+.PP
+\fBthreshold\fB \fR\- the similarity threshold of the term cluster, default \fB0.35\fR.. 
+.PP
+.PP
+\fBmethod\fB \fR\- the similarity method: \fBkappa\fR (default) or \fBjaccard\fR.. 
+.PP
+.PP
+\fBuniverse\fB \fR\- the gene universe size of the kappa method, default \fB-1\fR (auto).. 
+.PP
+.PP
+\fBpvalue\fB \fR\- 
+ an optional numeric vector of the p-values of the terms, it is used for scoring the
+ term cluster (the geometric mean of \fB-log10(p)\fR). Default \fBNULL\fR means \fBNA\fR.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment.. 
+.PP
+.SH VALUE
+.PP
+a \fBdataframe\fR with the cluster index as the row names and the columns:
+ \fBsize\fR (the number of the terms in the cluster), \fBscore\fR, \fBmembers\fR (the term
+ ids joined by \fB;\fR) and \fBindex\fR (the term index in the input term list).
+.PP
+.SH DETAILS
+.PP
+The cluster self test of the KOBAS algorithm requires more than 3 pairwise
+ similarities, that means a cluster should contain at least 4 terms.
+.PP
+.SH SEE ALSO
+KOBAS
+.SH FILES
+.PP
+gseakit.dll
+.PP

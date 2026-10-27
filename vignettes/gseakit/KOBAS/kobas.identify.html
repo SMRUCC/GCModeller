@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Run the KOBAS style over-representation (enrichment) analysis</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>kobas.identify {KOBAS}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>Run the KOBAS style over-representation (enrichment) analysis</h2>
+
+        <h3>Description</h3>
+
+        <p>&lt;br /&gt; Perform the over-representation analysis with the KOBAS statistical tests: the&lt;br /&gt; foreground gene list is mapped onto the given gene set collection, then the&lt;br /&gt; members of each term are compared with the background gene list by the&lt;br /&gt; hypergeometric test, the Fisher exact test, the binomial test or the chi-square&lt;br /&gt; test.</p>
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>kobas.identify</strong>(<i>foreground</i>, <i>background</i>, <i>gmt</i>,
+    <i>method</i> = <span style='color: brown;'><strong>"h"</strong></span>,
+    <i>fdr</i> = <span style='color: brown;'><strong>"BH"</strong></span>,
+    <i>cutoff</i> = <span style='color: green;'>5</span>,
+    <i>database</i> = <span style='color: brown;'><strong>"K"</strong></span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>foreground</dt>
+<dd><p>the foreground gene list: a character vector of the gene ids, or the file path of a KOBAS <code>annotate</code> output file (the <code>query</code> column will be used).</p></dd>
+
+
+<dt>background</dt>
+<dd><p>the background gene list: a character vector of the gene ids, or the file path of a KOBAS <code>annotate</code> output file. It must be a superset of the <strong>foreground</strong> for the Fisher and the chi-square test.</p></dd>
+
+
+<dt>gmt</dt>
+<dd><p>the gene set collection: a <a href="cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.Background">Background</a> model or a GMT file path.</p></dd>
+
+
+<dt>method</dt>
+<dd><p>the statistical test: <code>h</code> for the Fisher exact test (default, also the hypergeometric test), <code>b</code> for the binomial test, <code>c</code> for the chi-square test and <code>x</code> for the frequency list only. [as string]</p></dd>
+
+
+<dt>fdr</dt>
+<dd><p>the multiple testing correction: <code>BH</code> (default), <code>BY</code>, <code>QVALUE</code> or <code>None</code>. [as string]</p></dd>
+
+
+<dt>cutoff</dt>
+<dd><p>the minimum number of the background members of a term, terms with fewer background members are not used in the statistical test. Default <code>5</code>. [as integer]</p></dd>
+
+
+<dt>database</dt>
+<dd><p>the database label that will be written into the <code>database</code> column, default <code>K</code> (KEGG PATHWAY). [as string]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: none;">Details</h3>
+
+        
+
+        <h3 style="display: block">Authors</h3>
+
+        gseakit
+
+        <h3>Value</h3>
+
+        <p>a <code>dataframe</code> with the term id as the row names and the columns: <code>name</code>, <code>database</code>, <code>input_number</code>, <code>background_number</code>, <code>pvalue</code>, <code>p_adjust</code> and <code>input</code> (the enriched gene ids joined by <code>;</code>).</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Internal/Object/dataframe.html">dataframe</a></li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>KOBAS</em> version 1.0.0.0 <a
+                href="../KOBAS.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

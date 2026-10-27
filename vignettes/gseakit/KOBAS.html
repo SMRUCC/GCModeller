@@ -10,7 +10,7 @@
     <meta name="keywords" content="R#; KOBAS; gseakit" />
     <meta name="generator" content="https://github.com/rsharp-lang" />
     <meta name="theme-color" content="#333" />
-    <meta name="description" content="..." />
+    <meta name="description" content="KOBAS toolkit The KOBAS (KEGG Orthology Based Annotation System)..." />
     <meta class="foundation-data-attribute-namespace" />
     <meta class="foundation-mq-xxlarge" />
     <meta class="foundation-mq-xlarge" />
@@ -63,13 +63,25 @@ table caption {font-size:14px;font-weight:bolder;}
     <p style="     font-size: 1.125em;     line-height: .8em;     margin-left: 0.5%;     background-color: #fbfbfb;     padding: 24px; ">
       <code>
         <span style="color: blue;">require</span>(<span style="color: black; font-weight: bold;">GCModeller</span>);
-                               <br /><br /><span style="color: green;">{$desc_comments}</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "KOBAS"</span><span style="color: blue;"> from</span><span style="color: brown"> "gseakit"</span>;
+                               <br /><br /><span style="color: green;">#' KOBAS toolkit</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "KOBAS"</span><span style="color: blue;"> from</span><span style="color: brown"> "gseakit"</span>;
                            </code>
     </p>
-    <p></p>
+    <p><h3>KOBAS toolkit</h3>
+
+<p>The KOBAS (KEGG Orthology Based Annotation System) enrichment analysis toolkit. This package provides the VB.NET port of the KOBAS 3.0 enrichment calculation algorithms:</p>
+
+
+<ul>
+<li><code>kobas.gsea</code>: GSEA analysis of a expression matrix against a gene set collection,</li>
+<li><code>kobas.identify</code>: four statistical enrichment tests (hypergeometric / Fisher / binomial / chi-square) for a foreground gene list against a background gene list,</li>
+<li><code>kobas.plage</code> / <code>kobas.gage</code>: SNBEA style pathway level analysis,</li>
+<li><code>kobas.term_similarity</code> / <code>kobas.term_cluster</code>: term similarity and clustering of the enrichment result terms,</li>
+<li><code>kobas.fdr</code>: multiple testing correction (BH / BY / q-value),</li>
+<li><code>kobas.fisher_test</code> / <code>kobas.hyper_test</code> / <code>kobas.binom_test</code> / <code>kobas.chisq_test</code>: the exact statistical tests used by the enrichment analysis.</li>
+</ul></p>
     <blockquote>
       <p style="font-style: italic; font-size: 0.9em;">
-                           
+                           <p>The translated algorithms follow the standard GSEA / Fisher definitions rather than the original KOBAS implementation where the original code deviates from the standard definition (for example the miss step of the running enrichment score or the construction of the 2x2 contingency table). See the remarks of the individual functions for the detailed notes.</p>
                            </p>
     </blockquote>
     <div id="main-wrapper">
@@ -82,10 +94,114 @@ table caption {font-size:14px;font-weight:bolder;}
       <table class="table-three-line">
         <caption>.NET clr function exports</caption>
         <tbody><tr>
+  <td id="as.data.frame.gsearesult">
+    <a href="./KOBAS/as.data.frame.gsearesult.html">as.data.frame.gsearesult</a>
+  </td>
+  <td><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/KOBAS/GseaResult.html">GseaResult</a>: <p>一个基因集的 GSEA 分析结果。</p></td>
+</tr>
+<tr>
+  <td id="as.data.frame.enrichmentrow">
+    <a href="./KOBAS/as.data.frame.enrichmentrow.html">as.data.frame.enrichmentrow</a>
+  </td>
+  <td><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/KOBAS/EnrichmentRow.html">EnrichmentRow</a>: <p>一行富集计算结果。</p></td>
+</tr>
+<tr>
+  <td id="as.data.frame.snbearesult">
+    <a href="./KOBAS/as.data.frame.snbearesult.html">as.data.frame.snbearesult</a>
+  </td>
+  <td><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/KOBAS/SnbeaResult.html">SnbeaResult</a>: <p>SNBEA（子网络/通路水平富集）分析的一行结果。</p></td>
+</tr>
+<tr>
   <td id="read.KEGGpathway">
     <a href="./KOBAS/read.KEGGpathway.html">read.KEGGpathway</a>
   </td>
   <td><p>Read KOBAS enrichment output result table file</p></td>
+</tr>
+<tr>
+  <td id="kobas.background">
+    <a href="./KOBAS/kobas.background.html">kobas.background</a>
+  </td>
+  <td><p>Load a gene set collection from a GMT file as a GSEA background model.</p></td>
+</tr>
+<tr>
+  <td id="kobas.gsea">
+    <a href="./KOBAS/kobas.gsea.html">kobas.gsea</a>
+  </td>
+  <td><h3>Run the KOBAS style GSEA analysis</h3>
+
+<p>Gene Set Enrichment Analysis with the KOBAS ranking and permutation scheme: the genes are ranked by the signal-to-noise ratio or the t statistics between the two phenotype groups, then a weighted Kolmogorov-Smirnov like running sum is evaluated for each gene set. The significance of the enrichment score is estimated by permuting the phenotype class labels.</p></td>
+</tr>
+<tr>
+  <td id="kobas.identify">
+    <a href="./KOBAS/kobas.identify.html">kobas.identify</a>
+  </td>
+  <td><h3>Run the KOBAS style over-representation (enrichment) analysis</h3>
+
+<p>Perform the over-representation analysis with the KOBAS statistical tests: the foreground gene list is mapped onto the given gene set collection, then the members of each term are compared with the background gene list by the hypergeometric test, the Fisher exact test, the binomial test or the chi-square test.</p></td>
+</tr>
+<tr>
+  <td id="kobas.read_annotate">
+    <a href="./KOBAS/kobas.read_annotate.html">kobas.read_annotate</a>
+  </td>
+  <td><p>Read a KOBAS <code>annotate</code> output file as a <code>dataframe</code>.</p></td>
+</tr>
+<tr>
+  <td id="kobas.fdr">
+    <a href="./KOBAS/kobas.fdr.html">kobas.fdr</a>
+  </td>
+  <td><p>Multiple testing correction of the p-values.</p></td>
+</tr>
+<tr>
+  <td id="kobas.plage">
+    <a href="./KOBAS/kobas.plage.html">kobas.plage</a>
+  </td>
+  <td><h3>PLAGE pathway level analysis (KOBAS SNBEA)</h3>
+
+<p>Score each gene set of the expression matrix with the PLAGE method (the first right singular vector of the row standardized gene set submatrix), then compare the activity scores between the two phenotype groups.</p></td>
+</tr>
+<tr>
+  <td id="kobas.gage">
+    <a href="./KOBAS/kobas.gage.html">kobas.gage</a>
+  </td>
+  <td><h3>GAGE style gene set enrichment analysis (KOBAS SNBEA)</h3>
+
+<p>Aggregate the gene level t statistics of each gene set into a gene set level z-score (<code>sum(t) / sqrt(n)</code>) and estimate the significance from the upper tail of the standard normal distribution.</p></td>
+</tr>
+<tr>
+  <td id="kobas.term_similarity">
+    <a href="./KOBAS/kobas.term_similarity.html">kobas.term_similarity</a>
+  </td>
+  <td><p>Compute the pairwise similarity matrix of the given term list.</p></td>
+</tr>
+<tr>
+  <td id="kobas.term_cluster">
+    <a href="./KOBAS/kobas.term_cluster.html">kobas.term_cluster</a>
+  </td>
+  <td><p>Cluster the given terms by the pairwise similarity.</p></td>
+</tr>
+<tr>
+  <td id="kobas.fisher_test">
+    <a href="./KOBAS/kobas.fisher_test.html">kobas.fisher_test</a>
+  </td>
+  <td><p>The Fisher exact test (greater / enrichment tail) of a 2x2 contingency table.</p></td>
+</tr>
+<tr>
+  <td id="kobas.hyper_test">
+    <a href="./KOBAS/kobas.hyper_test.html">kobas.hyper_test</a>
+  </td>
+  <td><p>The hypergeometric test (upper tail) of a term.</p></td>
+</tr>
+<tr>
+  <td id="kobas.binom_test">
+    <a href="./KOBAS/kobas.binom_test.html">kobas.binom_test</a>
+  </td>
+  <td><p>The exact binomial test (upper tail) of a term.</p></td>
+</tr>
+<tr>
+  <td id="kobas.chisq_test">
+    <a href="./KOBAS/kobas.chisq_test.html">kobas.chisq_test</a>
+  </td>
+  <td><p>The chi-square test (Yates continuity correction) of a 2x2 contingency table.</p></td>
 </tr></tbody>
       </table>
     </div>

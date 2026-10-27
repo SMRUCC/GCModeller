@@ -1,0 +1,25 @@
+.\" man page create by R# package system.
+.TH KOBAS 1 2000-1月 "kobas.read_annotate" "kobas.read_annotate"
+.SH NAME
+kobas.read_annotate \- Read a KOBAS \fBannotate\fR output file as a \fBdataframe\fR.
+.SH SYNOPSIS
+\fIkobas.read_annotate(\fBfile\fR as string);\fR
+.SH DESCRIPTION
+.PP
+Read a KOBAS \fBannotate\fR output file as a \fBdataframe\fR.
+.PP
+.SH OPTIONS
+.PP
+\fBfile\fB \fR\- the \fBannotate\fR output file path.. 
+.PP
+.SH VALUE
+.PP
+a \fBdataframe\fR with the query id as the row names and the columns \fBlinks\fR
+ (the mapped gene ids joined by \fB;\fR) and \fBsize\fR.
+.PP
+.SH SEE ALSO
+KOBAS
+.SH FILES
+.PP
+gseakit.dll
+.PP

@@ -1,0 +1,106 @@
+.\" man page create by R# package system.
+.TH KOBAS 1 2000-1月 "kobas.gsea" "kobas.gsea"
+.SH NAME
+kobas.gsea \- Run the KOBAS style GSEA analysis
+.SH SYNOPSIS
+\fIkobas.gsea(\fBexpr\fR as any, 
+\fBcls\fR as any, 
+\fBgmt\fR as any, 
+\fBmethod\fR as string = "snr", 
+\fBweight\fR as double = 1, 
+\fBpermutations\fR as integer = 1000, 
+\fBmin_size\fR as integer = 15, 
+\fBmax_size\fR as integer = 500, 
+\fBseed\fR as integer = 20261026, 
+\fBkeep_running_sum\fR as boolean = FALSE, 
+\fBverbose\fR as boolean = TRUE, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Run the KOBAS style GSEA analysis
+ 
+ Gene Set Enrichment Analysis with the KOBAS ranking and permutation scheme: the
+ genes are ranked by the signal-to-noise ratio or the t statistics between the
+ two phenotype groups, then a weighted Kolmogorov-Smirnov like running sum is
+ evaluated for each gene set. The significance of the enrichment score is
+ estimated by permuting the phenotype class labels.
+.PP
+.SH OPTIONS
+.PP
+\fBexpr\fB \fR\- 
+ the expression matrix, rows are genes and columns are samples. The value could be
+ a matrix object, a \fBdataframe\fR object (rows are genes and columns are samples),
+ or a file path of the \fBgct\fR / KOBAS plain text expression matrix.
+. 
+.PP
+.PP
+\fBcls\fB \fR\- 
+ the phenotype class labels: could be a \fBphenotype\fR object, a \fBCLS\fR file path,
+ an integer vector (\fB0\fR for the first phenotype group and \fB1\fR for the second
+ group), or a character vector with exactly two distinct class labels.
+. 
+.PP
+.PP
+\fBgmt\fB \fR\- 
+ the gene set collection: a [Background](cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.Background) model or a GMT file path.
+. 
+.PP
+.PP
+\fBmethod\fB \fR\- 
+ the gene ranking method: \fBsnr\fR (signal to noise ratio, default) or \fBttest\fR.
+. 
+.PP
+.PP
+\fBweight\fB \fR\- 
+ the weight of the enrichment score, \fB0\fR for the unweighted Kolmogorov-Smirnov
+ statistic, \fB1\fR (default) for the classic GSEA weighting and \fB2\fR for the
+ over-weighted score. Any other positive value \fBp\fR will use \fB|rank|^p\fR.
+. 
+.PP
+.PP
+\fBpermutations\fB \fR\- 
+ the number of the phenotype label permutations, default \fB1000\fR. Set to \fB0\fR for
+ skipping the significance estimation (then the \fBpvalue\fR and \fBFDR\fR columns of
+ the result table will be \fBNA\fR and \fBNES\fR equals to \fBES\fR).
+. 
+.PP
+.PP
+\fBmin_size\fB \fR\- the minimum number of the mapped members of a gene set, default \fB15\fR.. 
+.PP
+.PP
+\fBmax_size\fB \fR\- the maximum number of the mapped members of a gene set, default \fB500\fR.. 
+.PP
+.PP
+\fBseed\fB \fR\- the random seed of the permutation, default \fB20261026\fR.. 
+.PP
+.PP
+\fBkeep_running_sum\fB \fR\- 
+ keeps the running sum of each gene set in the result objects? Default \fBFALSE\fR
+ because the running sum occupies a lot of memory for large gene set collections.
+. 
+.PP
+.PP
+\fBverbose\fB \fR\- prints the progress message? Default \fBTRUE\fR.. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment.. 
+.PP
+.SH VALUE
+.PP
+a \fBdataframe\fR with the gene set id as the row names and the columns:
+ \fBname\fR, \fBdescription\fR, \fBsize\fR, \fBES\fR, \fBNES\fR, \fBpvalue\fR, \fBFDR\fR,
+ \fBes_index\fR, \fBleading_edge\fR (the hit genes before/after the enrichment score
+ position, joined by \fB;\fR) and \fBhit_genes\fR.
+.PP
+.SH DETAILS
+.PP
+A positive ES means that the gene set is enriched in the first phenotype group
+ (the samples labeled with \fB0\fR) because the KOBAS ranking score is
+ \fBmean(group0) - mean(group1)\fR.
+.PP
+.SH SEE ALSO
+KOBAS
+.SH FILES
+.PP
+gseakit.dll
+.PP

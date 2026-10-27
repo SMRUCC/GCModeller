@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>PLAGE pathway level analysis (KOBAS SNBEA)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>kobas.plage {KOBAS}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>PLAGE pathway level analysis (KOBAS SNBEA)</h2>
+
+        <h3>Description</h3>
+
+        <p>&lt;br /&gt; Score each gene set of the expression matrix with the PLAGE method (the first&lt;br /&gt; right singular vector of the row standardized gene set submatrix), then compare&lt;br /&gt; the activity scores between the two phenotype groups.</p>
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>kobas.plage</strong>(<i>expr</i>, <i>cls</i>, <i>gmt</i>,
+    <i>min.size</i> = <span style='color: green;'>5</span>,
+    <i>max.size</i> = <span style='color: green;'>500</span>,
+    <i>fdr</i> = <span style='color: brown;'><strong>"BH"</strong></span>,
+    <i>data.type</i> = <span style='color: brown;'><strong>"rseq"</strong></span>,
+    <i>normalize</i> = <span style='color: blue !important;'>TRUE</span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>expr</dt>
+<dd><p>the expression matrix (matrix object, <code>dataframe</code> or expression matrix file path).</p></dd>
+
+
+<dt>cls</dt>
+<dd><p>the phenotype class labels, same as the <code>cls</code> parameter of <code>kobas.gsea</code>.</p></dd>
+
+
+<dt>gmt</dt>
+<dd><p>the gene set collection: a <a href="cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.Background">Background</a> model or a GMT file path.</p></dd>
+
+
+<dt>min.size</dt>
+<dd><p>the minimum number of the mapped members of a gene set, default <code>5</code>. [as integer]</p></dd>
+
+
+<dt>max.size</dt>
+<dd><p>the maximum number of the mapped members of a gene set, default <code>500</code>. [as integer]</p></dd>
+
+
+<dt>fdr</dt>
+<dd><p>the multiple testing correction method, default <code>BH</code>. [as string]</p></dd>
+
+
+<dt>data.type</dt>
+<dd><p>the data type of the expression matrix: <code>rseq</code> (RNA-seq read counts, default) or <code>ma</code> (microarray data). [as string]</p></dd>
+
+
+<dt>normalize</dt>
+<dd><p>performs the data normalization before the analysis? Default <code>TRUE</code>: the RNA-seq data will be transformed by the log2 CPM with the prior count and the microarray data will be quantile normalized. [as boolean]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: block;">Details</h3>
+
+        <p>The differential analysis uses the classic Welch two sample t-test instead of the limma moderated t-test because there is no moderated t implementation in the GCModeller core library, so the p-values are slightly more conservative than the limma result.</p>
+
+        <h3 style="display: block">Authors</h3>
+
+        gseakit
+
+        <h3>Value</h3>
+
+        <p>a <code>dataframe</code> with the gene set id as the row names and the columns: <code>name</code>, <code>description</code>, <code>size</code>, <code>statistic</code>, <code>pvalue</code>, <code>p_adjust</code> and <code>genes</code>.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Internal/Object/dataframe.html">dataframe</a></li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>KOBAS</em> version 1.0.0.0 <a
+                href="../KOBAS.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

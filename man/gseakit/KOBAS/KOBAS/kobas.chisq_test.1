@@ -1,0 +1,37 @@
+.\" man page create by R# package system.
+.TH KOBAS 1 2000-1月 "kobas.chisq_test" "kobas.chisq_test"
+.SH NAME
+kobas.chisq_test \- The chi-square test (Yates continuity correction) of a 2x2 contingency table.
+.SH SYNOPSIS
+\fIkobas.chisq_test(\fBa\fR as integer, 
+\fBb\fR as integer, 
+\fBc\fR as integer, 
+\fBd\fR as integer);\fR
+.SH DESCRIPTION
+.PP
+The chi-square test (Yates continuity correction) of a 2x2 contingency table.
+.PP
+.SH OPTIONS
+.PP
+\fBa\fB \fR\- the upper left cell.. 
+.PP
+.PP
+\fBb\fB \fR\- the upper right cell.. 
+.PP
+.PP
+\fBc\fB \fR\- the lower left cell.. 
+.PP
+.PP
+\fBd\fB \fR\- the lower right cell.. 
+.PP
+.SH VALUE
+.PP
+the p-value; the Fisher exact test will be applied automatically when any of the
+ expected frequencies is less than 10.
+.PP
+.SH SEE ALSO
+KOBAS
+.SH FILES
+.PP
+gseakit.dll
+.PP

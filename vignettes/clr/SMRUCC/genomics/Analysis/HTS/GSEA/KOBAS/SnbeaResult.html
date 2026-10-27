@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.HTS.GSEA.KOBAS.SnbeaResult</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>SnbeaResult {SMRUCC.genomics.Analysis.HTS.GSEA.KOBAS}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>SnbeaResult</h2>
+
+        <h3>Description</h3>
+
+        <p>SNBEA（子网络/通路水平富集）分析的一行结果。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.HTS.GSEA.KOBAS
+export class SnbeaResult {
+   # 多重检验校正之后的 p 值。
+   AdjustedPValue: double;
+   # 基因集描述。
+   Description: string;
+   # 该基因集在表达矩阵之中的成员基因。
+   Genes: string;
+   # 基因集编号。
+   ID: string;
+   # 基因集名称。
+   Names: string;
+   # 原始 p 值。
+   PValue: double;
+   # 参与打分并且出现在表达矩阵之中的基因数量。
+   SetSize: integer;
+   # 检验统计量（PLAGE 为两样本 t 值，GAGE 为 <code>Σt / √n</code> 的 z 值）。
+   Statistic: double;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        this clr type has no other .net clr type reference.
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>
