@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Gene Set Variation Analysis for microarray and RNA-seq data</title>
+    <title>Gene Set Variation Analysis (GSVA) for microarray and RNA-seq data.</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,17 +18,29 @@
             </tr>
         </table>
 
-        <h2>Gene Set Variation Analysis for microarray and RNA-seq data</h2>
+        <h2>Gene Set Variation Analysis (GSVA) for microarray and RNA-seq data.</h2>
 
         <h3>Description</h3>
 
-        <p>&lt;br /&gt; Gene Set Variation Analysis (GSVA) is a non-parametric, unsupervised &lt;br /&gt; method for estimating variation of gene set enrichment through the&lt;br /&gt; samples of a expression data set. GSVA performs a change in coordinate&lt;br /&gt; systems, transforming the data from a gene by sample matrix to a gene-set&lt;br /&gt; by sample matrix, thereby allowing the evaluation of pathway enrichment &lt;br /&gt; for each sample. This new matrix of GSVA enrichment scores facilitates&lt;br /&gt; applying standard analytical methods like functional enrichment, &lt;br /&gt; survival analysis, clustering, CNV-pathway analysis or cross-tissue &lt;br /&gt; pathway analysis, in a pathway-centric manner.&lt;br /&gt; &lt;br /&gt; main function of the package which estimates activity&lt;br /&gt; scores For Each given gene-Set</p>
+        
 
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
             <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>gsva</strong>(<i>expr</i>, <i>geneSet</i>,
-    <i>name.suffix</i> = <span style='color: blue !important;'>FALSE</span>);</code></pre>
+    <i>method</i> = gsva,
+    <i>kcdf</i> = none,
+    <i>min.sz</i> = <span style='color: green;'>1</span>,
+    <i>max.sz</i> = <span style='color: green;'>2147483647</span>,
+    <i>mxdiff</i> = <span style='color: blue !important;'>TRUE</span>,
+    <i>tau</i> = <span style='color: green;'>1</span>,
+    <i>kernel</i> = <span style='color: blue !important;'>TRUE</span>,
+    <i>rnaseq</i> = <span style='color: blue !important;'>FALSE</span>,
+    <i>abs.ranking</i> = <span style='color: blue !important;'>FALSE</span>,
+    <i>alpha</i> = <span style='color: green;'>0.25</span>,
+    <i>normalize</i> = <span style='color: blue !important;'>TRUE</span>,
+    <i>name.suffix</i> = <span style='color: blue !important;'>FALSE</span>,
+    <i>verbose</i> = <span style='color: blue !important;'>FALSE</span>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
@@ -36,26 +48,74 @@
         <table>
             
 <dt>expr</dt>
-<dd><p>A raw gene expression data matrix object</p></dd>
+<dd><p>A raw gene expression data matrix. Acceptable inputs are an <a href="cref:T:SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix">Matrix</a> object or an R# <code>dataframe</code> whose rows are features (genes) and whose columns are samples.</p></dd>
 
 
 <dt>geneSet</dt>
-<dd><p>A gsea enrichment <a href="cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.Background">Background</a> model</p></dd>
+<dd><p>A gene-set collection supplied either as a GSEA <a href="cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.Background">Background</a> model or as anything that <code>BackgroundHelper.CastBackground</code> can coerce into one (for example a GMT file path or a list of gene-set objects).</p></dd>
+
+
+<dt>method</dt>
+<dd><p>The enrichment scoring method: <a href="cref:F:SMRUCC.genomics.Analysis.HTS.GSVA.Methods.gsva">Methods.gsva</a> (default, kernel based ES), <a href="cref:F:SMRUCC.genomics.Analysis.HTS.GSVA.Methods.ssgsea">Methods.ssgsea</a>, <a href="cref:F:SMRUCC.genomics.Analysis.HTS.GSVA.Methods.zscore">Methods.zscore</a> or <a href="cref:F:SMRUCC.genomics.Analysis.HTS.GSVA.Methods.plage">Methods.plage</a>. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSVA/Methods.html">Methods</a>]</p></dd>
+
+
+<dt>kcdf</dt>
+<dd><p>The kernel density estimation type used to estimate the cumulative distribution function of each expression profile: <a href="cref:F:SMRUCC.genomics.Analysis.HTS.GSVA.KCDFs.Gaussian">KCDFs.Gaussian</a> for continuous data, <a href="cref:F:SMRUCC.genomics.Analysis.HTS.GSVA.KCDFs.Poisson">KCDFs.Poisson</a> for count data, or <a href="cref:F:SMRUCC.genomics.Analysis.HTS.GSVA.KCDFs.none">KCDFs.none</a> for the empirical cumulative distribution function. Defaults to <a href="cref:F:SMRUCC.genomics.Analysis.HTS.GSVA.KCDFs.none">KCDFs.none</a>, i.e. the same behavior as the underlying function when no kernel is requested. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSVA/KCDFs.html">KCDFs</a>]</p></dd>
+
+
+<dt>min.sz</dt>
+<dd><p>Minimum gene-set size (number of mapped features). Gene sets with fewer mapped features are removed from the analysis. Default 1. [as integer]</p></dd>
+
+
+<dt>max.sz</dt>
+<dd><p>Maximum gene-set size (number of mapped features). Gene sets with more mapped features are removed from the analysis. Default unlimited. [as integer]</p></dd>
+
+
+<dt>mxdiff</dt>
+<dd><p>When TRUE (default) the ES range is transformed to the interval [-1, 1] by using the difference between the largest and the smallest ES values; otherwise the original ES range is kept. [as boolean]</p></dd>
+
+
+<dt>tau</dt>
+<dd><p>Exponent (τ, default 1) applied to the weight of the cumulative distribution function when <strong>method</strong> is <a href="cref:F:SMRUCC.genomics.Analysis.HTS.GSVA.Methods.gsva">Methods.gsva</a>; higher values give more weight to the tails of the distribution. [as double]</p></dd>
+
+
+<dt>kernel</dt>
+<dd><p>Logical flag to use the Gaussian kernel to estimate the cumulative distribution function when <strong>method</strong> is <a href="cref:F:SMRUCC.genomics.Analysis.HTS.GSVA.Methods.gsva">Methods.gsva</a>. Ignored when a non-kernel <strong>kcdf</strong> is requested. [as boolean]</p></dd>
+
+
+<dt>rnaseq</dt>
+<dd><p>Logical flag indicating that <strong>expr</strong> is read count data from an RNA-seq experiment; this switches the kernel to a Poisson density when a kernel is used. [as boolean]</p></dd>
+
+
+<dt>abs.ranking</dt>
+<dd><p>When TRUE (default FALSE) the enrichment scores are computed using the absolute values of the ranking, which is appropriate for single-sample (ssGSEA-style) scoring. [as boolean]</p></dd>
+
+
+<dt>alpha</dt>
+<dd><p>The α (alpha) parameter (default 0.25) of the ssGSEA scoring method, controlling the weight of the random-walk deviation. [as double]</p></dd>
+
+
+<dt>normalize</dt>
+<dd><p>Logical flag (default TRUE) to normalize the enrichment scores so that each gene set has a mean enrichment of zero across samples. [as boolean]</p></dd>
 
 
 <dt>name.suffix</dt>
-<dd><p>append the pathway name to the map id as suffix?. [as boolean]</p></dd>
+<dd><p>Append the gene-set description (<code>names</code>) to the pathway identifier as a suffix in the returned matrix, e.g. <code>"hsa00010 - Glycolysis"</code>. [as boolean]</p></dd>
+
+
+<dt>verbose</dt>
+<dd><p>Logical flag (default FALSE) to emit progress and diagnostic messages during the calculation. [as boolean]</p></dd>
 
 
 <dt>env</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+<dd><p>The R# runtime environment (used for error reporting). [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
 
         </table>
 
 
         <h3 style="display: block;">Details</h3>
 
-        <p>Hänzelmann S., Castelo R. and Guinney J. GSVA: gene set variation analysis for microarray and RNA-Seq data. BMC Bioinformatics, 14:7, 2013.</p>
+        <p>GSVA is a non-parametric, unsupervised method for estimating variation of gene set enrichment through the samples of an expression data set. It performs a change in coordinate systems, transforming the data from a gene-by-sample matrix to a gene-set-by-sample matrix, thereby allowing the evaluation of pathway enrichment for each sample. This new matrix of GSVA enrichment scores facilitates applying standard analytical methods such as functional enrichment, survival analysis, clustering, CNV-pathway analysis or cross-tissue pathway analysis, in a pathway-centric manner. Hänzelmann S., Castelo R. and Guinney J. GSVA: gene set variation analysis for microarray and RNA-Seq data. BMC Bioinformatics, 14:7, 2013.</p>
 
         <h3 style="display: block">Authors</h3>
 
@@ -63,7 +123,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a></li></ul>
+        <p>An <a href="cref:T:SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix">Matrix</a> of GSVA enrichment scores with gene sets in rows and samples in columns, or a <code>Message</code> describing the error when the gene-set collection cannot be parsed.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

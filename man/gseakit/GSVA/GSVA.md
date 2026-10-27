@@ -2,7 +2,7 @@
 
 Gene Set Variation Analysis for microarray and RNA-seq data
 
-+ [gsva](GSVA/gsva.1) Gene Set Variation Analysis for microarray and RNA-seq data
++ [gsva](GSVA/gsva.1) Gene Set Variation Analysis (GSVA) for microarray and RNA-seq data.
 + [mo_layers](GSVA/mo_layers.1) 
 + [mogsva_opts](GSVA/mogsva_opts.1) Build a [MultiOmicsGsvaOptions](cref:T:SMRUCC.genomics.Analysis.HTS.GSVA.MultiOmicsGsvaOptions) configuration object that controls
 + [mogsva](GSVA/mogsva.1) 

@@ -20,34 +20,101 @@ declare namespace GSVA {
    */
    function diff(gsva: object, compares: object): object;
    /**
-    * Gene Set Variation Analysis for microarray and RNA-seq data
-    *  
-    *  Gene Set Variation Analysis (GSVA) is a non-parametric, unsupervised 
-    *  method for estimating variation of gene set enrichment through the
-    *  samples of a expression data set. GSVA performs a change in coordinate
-    *  systems, transforming the data from a gene by sample matrix to a gene-set
-    *  by sample matrix, thereby allowing the evaluation of pathway enrichment 
-    *  for each sample. This new matrix of GSVA enrichment scores facilitates
-    *  applying standard analytical methods like functional enrichment, 
-    *  survival analysis, clustering, CNV-pathway analysis or cross-tissue 
-    *  pathway analysis, in a pathway-centric manner.
-    *  
-    *  main function of the package which estimates activity
-    *  scores For Each given gene-Set
+    * Gene Set Variation Analysis (GSVA) for microarray and RNA-seq data.
     * 
-    * > Hänzelmann S., Castelo R. and Guinney J. GSVA: gene set variation analysis
+    * > GSVA is a non-parametric, unsupervised method for estimating variation
+    * >  of gene set enrichment through the samples of an expression data set.
+    * >  It performs a change in coordinate systems, transforming the data from a
+    * >  gene-by-sample matrix to a gene-set-by-sample matrix, thereby allowing
+    * >  the evaluation of pathway enrichment for each sample. This new matrix of
+    * >  GSVA enrichment scores facilitates applying standard analytical methods
+    * >  such as functional enrichment, survival analysis, clustering,
+    * >  CNV-pathway analysis or cross-tissue pathway analysis, in a
+    * >  pathway-centric manner.
+    * >  Hänzelmann S., Castelo R. and Guinney J. GSVA: gene set variation analysis
     * >  for microarray and RNA-Seq data. BMC Bioinformatics, 14:7, 2013.
     * 
-     * @param expr A raw gene expression data matrix object
-     * @param geneSet A gsea enrichment [Background](cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.Background) model
-     * @param name_suffix append the pathway name to the map id as suffix?
-     * 
-     * + default value Is ``false``.
-     * @param env -
+     * @param expr A raw gene expression data matrix. Acceptable inputs are an
+     *  [Matrix](cref:T:SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix) object or an R# `dataframe` whose rows are
+     *  features (genes) and whose columns are samples.
+     * @param geneSet A gene-set collection supplied either as a GSEA
+     *  [Background](cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.Background) model or as anything that
+     *  `BackgroundHelper.CastBackground` can coerce into one (for example a
+     *  GMT file path or a list of gene-set objects).
+     * @param method The enrichment scoring method:
+     *  [Methods.gsva](cref:F:SMRUCC.genomics.Analysis.HTS.GSVA.Methods.gsva) (default, kernel based ES),
+     *  [Methods.ssgsea](cref:F:SMRUCC.genomics.Analysis.HTS.GSVA.Methods.ssgsea), [Methods.zscore](cref:F:SMRUCC.genomics.Analysis.HTS.GSVA.Methods.zscore) or
+     *  [Methods.plage](cref:F:SMRUCC.genomics.Analysis.HTS.GSVA.Methods.plage).
      * 
      * + default value Is ``null``.
+     * @param kcdf The kernel density estimation type used to estimate the cumulative
+     *  distribution function of each expression profile:
+     *  [KCDFs.Gaussian](cref:F:SMRUCC.genomics.Analysis.HTS.GSVA.KCDFs.Gaussian) for continuous data,
+     *  [KCDFs.Poisson](cref:F:SMRUCC.genomics.Analysis.HTS.GSVA.KCDFs.Poisson) for count data, or
+     *  [KCDFs.none](cref:F:SMRUCC.genomics.Analysis.HTS.GSVA.KCDFs.none) for the empirical cumulative distribution
+     *  function. Defaults to [KCDFs.none](cref:F:SMRUCC.genomics.Analysis.HTS.GSVA.KCDFs.none), i.e. the same behavior as
+     *  the underlying function when no kernel is requested.
+     * 
+     * + default value Is ``null``.
+     * @param min_sz Minimum gene-set size (number of mapped features). Gene sets with fewer
+     *  mapped features are removed from the analysis. Default 1.
+     * 
+     * + default value Is ``1``.
+     * @param max_sz Maximum gene-set size (number of mapped features). Gene sets with more
+     *  mapped features are removed from the analysis. Default unlimited.
+     * 
+     * + default value Is ``2147483647``.
+     * @param mxdiff When TRUE (default) the ES range is transformed to the interval
+     *  [-1, 1] by using the difference between the largest and the smallest ES
+     *  values; otherwise the original ES range is kept.
+     * 
+     * + default value Is ``true``.
+     * @param tau Exponent (τ, default 1) applied to the weight of the cumulative
+     *  distribution function when **method** is
+     *  [Methods.gsva](cref:F:SMRUCC.genomics.Analysis.HTS.GSVA.Methods.gsva); higher values give more weight to the tails
+     *  of the distribution.
+     * 
+     * + default value Is ``1``.
+     * @param kernel Logical flag to use the Gaussian kernel to estimate the cumulative
+     *  distribution function when **method** is
+     *  [Methods.gsva](cref:F:SMRUCC.genomics.Analysis.HTS.GSVA.Methods.gsva). Ignored when a non-kernel
+     *  **kcdf** is requested.
+     * 
+     * + default value Is ``true``.
+     * @param rnaseq Logical flag indicating that **expr** is read count data
+     *  from an RNA-seq experiment; this switches the kernel to a Poisson
+     *  density when a kernel is used.
+     * 
+     * + default value Is ``false``.
+     * @param abs_ranking When TRUE (default FALSE) the enrichment scores are computed using the
+     *  absolute values of the ranking, which is appropriate for single-sample
+     *  (ssGSEA-style) scoring.
+     * 
+     * + default value Is ``false``.
+     * @param alpha The α (alpha) parameter (default 0.25) of the ssGSEA scoring method,
+     *  controlling the weight of the random-walk deviation.
+     * 
+     * + default value Is ``0.25``.
+     * @param normalize Logical flag (default TRUE) to normalize the enrichment scores so that
+     *  each gene set has a mean enrichment of zero across samples.
+     * 
+     * + default value Is ``true``.
+     * @param name_suffix Append the gene-set description (`names`) to the pathway identifier
+     *  as a suffix in the returned matrix, e.g. `"hsa00010 - Glycolysis"`.
+     * 
+     * + default value Is ``false``.
+     * @param verbose Logical flag (default FALSE) to emit progress and diagnostic messages
+     *  during the calculation.
+     * 
+     * + default value Is ``false``.
+     * @param env The R# runtime environment (used for error reporting).
+     * 
+     * + default value Is ``null``.
+     * @return An [Matrix](cref:T:SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix) of GSVA enrichment scores with gene sets in
+     *  rows and samples in columns, or a `Message` describing the error
+     *  when the gene-set collection cannot be parsed.
    */
-   function gsva(expr: any, geneSet: any, name_suffix?: boolean, env?: object): object;
+   function gsva(expr: any, geneSet: any, method?: object, kcdf?: object, min_sz?: object, max_sz?: object, mxdiff?: boolean, tau?: number, kernel?: boolean, rnaseq?: boolean, abs_ranking?: boolean, alpha?: number, normalize?: boolean, name_suffix?: boolean, verbose?: boolean, env?: object): object;
    /**
     * convert to diff data from dataframe
     * 
