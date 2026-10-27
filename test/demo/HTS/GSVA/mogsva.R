@@ -13,8 +13,10 @@ let multiple_layers = list(
     Proteomics =  file.path(dataset,"protein.txt")
 );
 let opts = mogsva_opts(
-    permutations = 100,
-    permutation_gene_limit = 1000
+    permutations = 1000,
+    permutation_gene_limit = 5000,
+    fusion_strategy = "Balanced",
+    max_permutation_pathways = 200
 );
 let background = as.background(read_gmt("K:\brca_tcga_pub2015\multipleOmics\kegg_v3.gmt"));
 
