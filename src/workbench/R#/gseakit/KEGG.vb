@@ -71,11 +71,17 @@ Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 Module KEGG
 
     ''' <summary>
-    ''' gt kegg compound set from a kegg pathway map collection
+    ''' Get the kegg compound set from a kegg pathway map collection.
     ''' </summary>
-    ''' <param name="maps"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="maps">
+    ''' a collection of the KEGG pathway <see cref="Map"/> object.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment.</param>
+    ''' <returns>
+    ''' a ``list`` object, the name of each slot is the KEGG map id and the value is a named
+    ''' list of the compound set (the name is the compound id and the value is the compound name)
+    ''' of that map.
+    ''' </returns>
     <ExportAPI("compound_set")>
     Public Function compoundSet(<RRawVectorArgument> maps As Object, Optional env As Environment = Nothing) As Object
         Dim coll = pipeline.TryCreatePipeline(Of Map)(maps, env)
@@ -93,6 +99,29 @@ Module KEGG
         Return cpd_set
     End Function
 
+    ''' <summary>
+    ''' Append the KEGG BRITE category annotation to a given dataframe by the KEGG id column.
+    ''' </summary>
+    ''' <param name="kegg">
+    ''' the KEGG BRITE background model that is used for query the category information of
+    ''' the KEGG id, for example the model that is created by ``KO.background``.
+    ''' </param>
+    ''' <param name="anno">
+    ''' the target dataframe that contains the KEGG id column, the annotation columns will be
+    ''' appended to this dataframe directly.
+    ''' </param>
+    ''' <param name="kegg_id">the column name of the KEGG id in the <paramref name="anno"/> dataframe. Default ``kegg_id``.</param>
+    ''' <param name="class_field">the column name of the output KEGG class information. Default ``kegg_class``.</param>
+    ''' <param name="category_field">the column name of the output KEGG category information. Default ``kegg_category``.</param>
+    ''' <param name="env">the R# runtime environment.</param>
+    ''' <returns>
+    ''' the given dataframe with two new columns (``kegg_class`` and ``kegg_category``) appended,
+    ''' or an error message when the required KEGG id column is missing.
+    ''' </returns>
+    ''' <remarks>
+    ''' Only the first KEGG id will be used when the value of the ``kegg_id`` column contains
+    ''' multiple ids that are separated by ``;``, ``/`` or other blank characters.
+    ''' </remarks>
     <ExportAPI("kegg_category_annotation")>
     Public Function kegg_category_annotation(kegg As Background, anno As dataframe,
                                              Optional kegg_id As String = "kegg_id",
