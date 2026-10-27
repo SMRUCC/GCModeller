@@ -611,6 +611,7 @@ Public Module BrcaMoGsvaTest
                 .Permutations = permutations,
                 .PermutationPathways = TopPathways(result.Scores, 10),
                 .PermutationMethod = Methods.ssgsea,
+                .PermutationGeneLimit = 4000,
                 .Seed = 20261026,
                 .ComputePooled = False,
                 .Verbose = True
