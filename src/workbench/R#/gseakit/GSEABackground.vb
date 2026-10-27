@@ -76,6 +76,7 @@ Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Analysis.GO
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
+Imports SMRUCC.genomics.Analysis.HTS.GSEA.Formats
 Imports SMRUCC.genomics.Analysis.HTS.GSEA.KnowledgeBase
 Imports SMRUCC.genomics.Analysis.HTS.GSEA.KnowledgeBase.Metabolism
 Imports SMRUCC.genomics.Analysis.HTS.GSEA.KnowledgeBase.Metabolism.Metpa
@@ -294,7 +295,7 @@ Public Module GSEABackground
                                   terms As list,
                                   Optional env As Environment = Nothing) As Object
 
-        Dim termList As Dictionary(Of String, String()) = terms.AsGeneric(Of String())(env)
+        Dim termList As Dictionary(Of String, String()) = terms.asGeneric(Of String())(env)
 
         For Each cluster As Cluster In background.clusters
             For Each gene As BackgroundGene In cluster.members
@@ -350,7 +351,7 @@ Public Module GSEABackground
                                         Optional subset As String() = Nothing,
                                         Optional env As Environment = Nothing) As Object
 
-        Dim maps As Dictionary(Of String, String()) = mapping.AsGeneric(Of String())(env, [default]:={})
+        Dim maps As Dictionary(Of String, String()) = mapping.asGeneric(Of String())(env, [default]:={})
         Dim filterIndex As Index(Of String) = subset.Indexing
         Dim newClusterList = background.clusters _
             .Select(Function(c)
@@ -450,6 +451,21 @@ Public Module GSEABackground
     <ExportAPI("read.background")>
     Public Function ReadBackground(file As String) As Background
         Return file.LoadXml(Of Background)
+    End Function
+
+    <ExportAPI("read_cls")>
+    Public Function readCLS(file As String) As CLS
+        Return CLS.ParseFile(file)
+    End Function
+
+    <ExportAPI("read_gct")>
+    Public Function readGct(file As String) As Gct
+        Return Gct.LoadFile(file)
+    End Function
+
+    <ExportAPI("read_gmt")>
+    Public Function readGmt(file As String) As Gmt
+        Return Gmt.LoadFile(file)
     End Function
 
     ''' <summary>
