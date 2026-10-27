@@ -136,10 +136,13 @@ Module GSEA
     End Function
 
     ''' <summary>
-    ''' read the enrichment result table
+    ''' Read the enrichment analysis result table from a csv file.
     ''' </summary>
-    ''' <param name="file"></param>
-    ''' <returns></returns>
+    ''' <param name="file">
+    ''' the csv file path of the enrichment analysis result, the file should be written
+    ''' by the ``write.enrichment`` function.
+    ''' </param>
+    ''' <returns>an array of the <see cref="EnrichmentResult"/> objects.</returns>
     <ExportAPI("read.enrichment")>
     Public Function ReadEnrichmentTerms(file As String) As EnrichmentResult()
         Return file.LoadCsv(Of EnrichmentResult)(mute:=True)
@@ -166,14 +169,36 @@ Module GSEA
     ''' the expression vector is missing. GSEA method will be applied for the enrichment 
     ''' analysis if this parameter is not missing.
     ''' </param>
+    ''' <param name="cut_size">
+    ''' the minimum number of the member genes that a functional cluster should have,
+    ''' the clusters with fewer members than this cutoff will be removed from the
+    ''' enrichment analysis. Default ``3``.
+    ''' </param>
+    ''' <param name="outputAll">
+    ''' keeps all of the clusters in the result table even if the cluster has no
+    ''' intersection with the input gene set? Default ``TRUE``.
+    ''' </param>
+    ''' <param name="resize">
+    ''' the size of the input gene set that is used as the ``n`` of the hypergeometric
+    ''' test. Value less than or equals to zero means using the length of the
+    ''' ``geneSet`` vector. Default ``-1``.
+    ''' </param>
+    ''' <param name="showProgress">prints the progress message? Default ``FALSE``.</param>
     ''' <param name="args">
     ''' the additional argument list that may be used, 
     ''' 
     ''' for metpa background model, ``topo`` parameter will be used for 
     ''' specific the network topology impact score source, value of the
     ''' ``topo`` parameter could be ``dgr`` or ``rbc``.
+    ''' 
+    ''' ``permutations`` parameter will be used for specific the permutation times of
+    ''' the GSEA method when the ``expression`` parameter is not missing, default ``1000``.
     ''' </param>
-    ''' <returns></returns>
+    ''' <param name="env">the R# runtime environment.</param>
+    ''' <returns>
+    ''' an array of the <see cref="EnrichmentResult"/> objects, which is sorted by
+    ''' the ``FDR`` value in ascending order.
+    ''' </returns>
     ''' <remarks>
     ''' the expression value could be the raw expression mean value, different expression 
     ''' foldchange value for the group comparision, or other related gene set sort scores.
@@ -252,17 +277,19 @@ Module GSEA
     End Function
 
     ''' <summary>
-    ''' fisher enrichment test
+    ''' Fisher exact test for the enrichment of a single gene set term.
     ''' </summary>
-    ''' <param name="list"></param>
-    ''' <param name="geneSet"></param>
+    ''' <param name="list">the gene id list that are observed in the target term.</param>
+    ''' <param name="geneSet">all member gene ids of the target term.</param>
     ''' <param name="background">
     ''' the background size information, it could be an integer value to 
     ''' indicates that the total unique size of the enrichment background 
     ''' or a unique id character vector that contains all member 
     ''' information of the background.
     ''' </param>
-    ''' <returns></returns>
+    ''' <param name="term">the term id (or the term name) that will be written into the result object. Default ``unknown``.</param>
+    ''' <param name="env">the R# runtime environment.</param>
+    ''' <returns>a <see cref="EnrichmentResult"/> object of the given term.</returns>
     <ExportAPI("fisher")>
     Public Function fisher(list As String(),
                            geneSet As String(),
@@ -295,12 +322,17 @@ Module GSEA
     End Function
 
     ''' <summary>
-    ''' do GO GSEA enrichment analysis
+    ''' Do the GO (Gene Ontology) GSEA enrichment analysis.
     ''' </summary>
-    ''' <param name="background"></param>
-    ''' <param name="geneSet"></param>
+    ''' <param name="background">the GSEA background model that contains the GO terms, for example the model created by ``dag.background``.</param>
+    ''' <param name="geneSet">the gene id list for the enrichment analysis.</param>
     ''' <param name="go">the go database object can be the raw go obo data or the DAG graph model.</param>
-    ''' <returns></returns>
+    ''' <param name="showProgress">prints the progress message? Default ``TRUE``.</param>
+    ''' <param name="env">the R# runtime environment.</param>
+    ''' <returns>
+    ''' an array of the <see cref="EnrichmentResult"/> objects, which is sorted by
+    ''' the ``FDR`` value in ascending order.
+    ''' </returns>
     <ExportAPI("enrichment.go")>
     <RApiReturn(GetType(EnrichmentResult))>
     Public Function GOEnrichment(background As Background,
@@ -336,12 +368,20 @@ Module GSEA
     End Function
 
     ''' <summary>
-    ''' save the enrichment analysis result
+    ''' Save the enrichment analysis result as a csv table file.
     ''' </summary>
-    ''' <param name="enrichment">should be a set of the enrichment analysis result.</param>
-    ''' <param name="file"></param>
-    ''' <param name="format"></param>
-    ''' <returns></returns>
+    ''' <param name="enrichment">
+    ''' should be a set of the enrichment analysis result, both of the
+    ''' <see cref="EnrichmentResult"/> and the <see cref="EnrichmentTerm"/> array are
+    ''' accepted.
+    ''' </param>
+    ''' <param name="file">the output csv file path.</param>
+    ''' <param name="format">
+    ''' the output table format of the <see cref="EnrichmentResult"/> data:
+    ''' ``GCModeller`` (default) or ``KOBAS``.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment.</param>
+    ''' <returns>this function returns ``TRUE`` when the file is saved successfully.</returns>
     <ExportAPI("write.enrichment")>
     <RApiReturn(GetType(Boolean))>
     Public Function SaveEnrichment(<RRawVectorArgument>
@@ -374,20 +414,20 @@ Module GSEA
     ''' <summary>
     ''' Convert GSEA enrichment result from GCModeller output format to KOBAS output format
     ''' </summary>
-    ''' <param name="enrichment"></param>
-    ''' <param name="database$"></param>
-    ''' <returns></returns>
+    ''' <param name="enrichment">the GCModeller enrichment analysis result set.</param>
+    ''' <param name="database$">the database label that will be written into the ``Database`` column of the KOBAS table. Default ``n/a``.</param>
+    ''' <returns>an array of the <see cref="EnrichmentTerm"/> objects in the KOBAS table format.</returns>
     <ExportAPI("as.KOBAS_terms")>
     Public Function KOBASFormat(enrichment As EnrichmentResult(), Optional database$ = "n/a") As EnrichmentTerm()
         Return enrichment.Converts(database).ToArray
     End Function
 
     ''' <summary>
-    ''' Create network graph data for Cytoscape
+    ''' Create the network graph data of the GO enrichment result for the Cytoscape.
     ''' </summary>
-    ''' <param name="go_enrichment"></param>
-    ''' <param name="go"></param>
-    ''' <returns></returns>
+    ''' <param name="go_enrichment">the GO enrichment analysis result set.</param>
+    ''' <param name="go">the GO obo database that is used for creating the DAG graph.</param>
+    ''' <returns>the network node and edge tables of the GO enrichment DAG graph.</returns>
     <ExportAPI("enrichment.go_dag")>
     Public Function CreateGOEnrichmentGraph(go_enrichment As EnrichmentResult(), go As GO_OBO) As NetworkTables
         Dim terms As NamedValue(Of Double)() = go_enrichment _
@@ -404,6 +444,12 @@ Module GSEA
         Return tables
     End Function
 
+    ''' <summary>
+    ''' Draw the GO enrichment DAG graph as a raster image.
+    ''' </summary>
+    ''' <param name="go_enrichment">the GO enrichment analysis result set.</param>
+    ''' <param name="go">the GO obo database that is used for creating the DAG graph.</param>
+    ''' <returns>the raster image data of the GO enrichment DAG graph.</returns>
     <ExportAPI("enrichment.draw.go_dag")>
     Public Function DrawGOEnrichmentGraph(go_enrichment As EnrichmentResult(), go As GO_OBO) As GraphicsData
         Dim terms As NamedValue(Of Double)() = go_enrichment _
@@ -421,19 +467,22 @@ Module GSEA
     End Function
 
     ''' <summary>
-    ''' convert dataset to gcmodeller enrichment result set
+    ''' Create the GCModeller enrichment analysis result objects from the raw data vectors.
     ''' </summary>
-    ''' <param name="term"></param>
-    ''' <param name="name"></param>
-    ''' <param name="pvalue"></param>
-    ''' <param name="geneIDs"></param>
-    ''' <param name="desc"></param>
-    ''' <param name="score"></param>
-    ''' <param name="fdr"></param>
-    ''' <param name="cluster"></param>
-    ''' <param name="enriched"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="term">the term id vector.</param>
+    ''' <param name="name">the term name vector, its length should be equals to the ``term`` vector.</param>
+    ''' <param name="pvalue">the p-value vector of each term.</param>
+    ''' <param name="geneIDs">
+    ''' a named list of the member gene id vector of each term, the name of the list slot
+    ''' should be the term id. Default ``NULL`` means no member gene id.
+    ''' </param>
+    ''' <param name="desc">the description vector of each term. Default ``NULL``.</param>
+    ''' <param name="score">the enrichment score vector of each term. Default ``NULL``.</param>
+    ''' <param name="fdr">the adjusted p-value (FDR) vector of each term. Default ``NULL``.</param>
+    ''' <param name="cluster">the cluster size vector of each term. Default ``NULL``.</param>
+    ''' <param name="enriched">the enriched gene id vector joined by ``;`` of each term. Default ``NULL``.</param>
+    ''' <param name="env">the R# runtime environment.</param>
+    ''' <returns>an array of the <see cref="EnrichmentResult"/> objects.</returns>
     <ExportAPI("cast_enrichs")>
     Public Function CreateEnrichmentObjects(term As String(),
                                             name As String(),
@@ -467,11 +516,15 @@ Module GSEA
     End Function
 
     ''' <summary>
-    ''' cast dataframe to CLR enrichmentt terms
+    ''' Cast a ``dataframe`` object into the CLR enrichment result objects.
     ''' </summary>
-    ''' <param name="x"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="x">
+    ''' the dataframe object that contains the enrichment result data, the row names
+    ''' should be the term id and the required columns are ``name``, ``pvalue`` and
+    ''' ``geneIDs`` (the member gene ids joined by ``;``).
+    ''' </param>
+    ''' <param name="env">the R# runtime environment.</param>
+    ''' <returns>an array of the <see cref="EnrichmentResult"/> objects.</returns>
     <ExportAPI("to_enrichment_terms")>
     Public Function toEnrichmentTerms(x As dataframe, Optional env As Environment = Nothing) As EnrichmentResult()
         Dim terms As String() = x.getRowNames

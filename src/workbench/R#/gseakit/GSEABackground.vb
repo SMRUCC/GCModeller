@@ -165,7 +165,7 @@ Public Module GSEABackground
     ''' <summary>
     ''' get all of the cluster id set from the given background model object 
     ''' </summary>
-    ''' <param name="background"></param>
+    ''' <param name="background">the GSEA background model object.</param>
     ''' <returns>A character vector of the cluster id(or pathway id) that defined inside the given background model</returns>
     ''' <example>
     ''' let kb = read.background("hsa.xml");
@@ -178,6 +178,27 @@ Public Module GSEABackground
         Return background.clusters.Select(Function(a) a.ID).ToArray
     End Function
 
+    ''' <summary>
+    ''' Get the cluster name of each gene id from the given background model.
+    ''' </summary>
+    ''' <param name="background">the GSEA background model object.</param>
+    ''' <param name="idset">
+    ''' a character vector of the gene ids, the first cluster that contains the target
+    ''' gene will be used for query the cluster name.
+    ''' </param>
+    ''' <returns>
+    ''' a character vector of the cluster name of each input gene id, a ``NULL`` value will be
+    ''' returned for the gene id that is not annotated in any cluster.
+    ''' </returns>
+    ''' <remarks>
+    ''' This function returns only the first matched cluster name when a gene is annotated
+    ''' in multiple clusters, use ``geneSet.intersects`` with ``get_clusterID=TRUE`` for
+    ''' getting all of the cluster ids of the gene.
+    ''' </remarks>
+    ''' <example>
+    ''' let kb = read.background("hsa.xml");
+    ''' print(cluster_names(kb, c("7157", "1956")));
+    ''' </example>
     <ExportAPI("cluster_names")>
     Public Function clusterNames(background As Background, <RRawVectorArgument(TypeCodes.string)> idset As Object) As String()
         Return CLRVector.asCharacter(idset) _
@@ -195,7 +216,7 @@ Public Module GSEABackground
     ''' <summary>
     ''' get all of the molecule id set from the given background model object
     ''' </summary>
-    ''' <param name="background"></param>
+    ''' <param name="background">the GSEA background model object.</param>
     ''' <returns>A character vector of the gene id that defined inside the given background model</returns>
     ''' <example>
     ''' let kb = read.background("hsa.xml");
@@ -214,6 +235,16 @@ Public Module GSEABackground
             .ToArray
     End Function
 
+    ''' <summary>
+    ''' Create a GSEA background model from the KEGG pathway graph query result of the
+    ''' enrichment analysis result terms.
+    ''' </summary>
+    ''' <param name="enrich">
+    ''' the enrichment analysis result set, the term id of each result object will be used
+    ''' as the pathway id for query the pathway graph from the <paramref name="graphQuery"/>.
+    ''' </param>
+    ''' <param name="graphQuery">the KEGG pathway graph query object.</param>
+    ''' <returns>a <see cref="Background"/> model that is created from the pathway graph data.</returns>
     <ExportAPI("meta_background")>
     <RApiReturn(GetType(Background))>
     Public Function MetaEnrichBackground(enrich As EnrichmentResult(), graphQuery As GraphQuery) As Object
@@ -223,7 +254,7 @@ Public Module GSEABackground
     ''' <summary>
     ''' create gsea background from a given obo ontology file data.
     ''' </summary>
-    ''' <param name="dag"></param>
+    ''' <param name="dag">the GO obo database object that is used for creating the background model.</param>
     ''' <param name="flat">
     ''' Flat the ontology tree into cluster via the ``is_a`` relationship?
     ''' 
@@ -231,7 +262,9 @@ Public Module GSEABackground
     ''' value true, will flat the ontology tree into cluster, then the enrichment analysis could be
     ''' applied via the ``enrichment`` function.
     ''' </param>
-    ''' <returns></returns>
+    ''' <param name="verbose_progress">prints the progress message? Default ``TRUE``.</param>
+    ''' <param name="env">the R# runtime environment.</param>
+    ''' <returns>a <see cref="Background"/> model of the GO terms.</returns>
     <ExportAPI("dag.background")>
     Public Function DAGbackground(dag As GO_OBO,
                                   Optional flat As Boolean = False,
@@ -284,11 +317,14 @@ Public Module GSEABackground
     ''' <summary>
     ''' Append id terms to a given gsea background
     ''' </summary>
-    ''' <param name="background"></param>
-    ''' <param name="term_name"></param>
-    ''' <param name="terms"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="background">the GSEA background model object, this model will be modified in place.</param>
+    ''' <param name="term_name">the term name that will be written into the ``name`` field of the :class:``BackgroundGene.term_id``.</param>
+    ''' <param name="terms">
+    ''' a named list of the term id vector, the name of each slot is the gene id and the
+    ''' value is the term id vector of that gene.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment.</param>
+    ''' <returns>the given background model with the new term id information appended.</returns>
     <ExportAPI("append.id_terms")>
     Public Function appendIdTerms(background As Background,
                                   term_name As String,
@@ -334,7 +370,7 @@ Public Module GSEABackground
     ''' <summary>
     ''' do id mapping of the members in the background cluster
     ''' </summary>
-    ''' <param name="background"></param>
+    ''' <param name="background">the GSEA background model object.</param>
     ''' <param name="mapping">
     ''' do id translation via this id source list
     ''' </param>
@@ -343,8 +379,8 @@ Public Module GSEABackground
     ''' collection then the cluster will be keeps from the result
     ''' background if this parameter is not null or empty.
     ''' </param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="env">the R# runtime environment.</param>
+    ''' <returns>a new <see cref="Background"/> model with the translated member gene ids.</returns>
     <ExportAPI("background.id_mapping")>
     <RApiReturn(GetType(Background))>
     Public Function BackgroundIDmapping(background As Background, mapping As list,
@@ -442,8 +478,8 @@ Public Module GSEABackground
     ''' <summary>
     ''' Load GSEA background model from a xml file.
     ''' </summary>
-    ''' <param name="file"></param>
-    ''' <returns></returns>
+    ''' <param name="file">the xml file path of the GSEA background model.</param>
+    ''' <returns>a <see cref="Background"/> model object.</returns>
     ''' <example>
     ''' let kb = read.background("hsa.xml");
     ''' </example>
