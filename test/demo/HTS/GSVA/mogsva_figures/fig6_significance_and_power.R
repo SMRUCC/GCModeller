@@ -40,8 +40,9 @@ pA <- ggplot(top, aes(statistic, pathway)) +
                    expand = expansion(add = 0.6)) +
   scale_x_continuous(expand = expansion(mult = c(0, 0.28))) +
   labs(x = "Observed statistic  max|ES_multi|", y = NULL,
-       title = "No pathway passes FDR control",
-       subtitle = sprintf("15 of %d tested pathways; %d permutations", nrow(sig), B)) +
+       title = "No pathway reaches FDR < 5%",
+       subtitle = sprintf("15 of %d tested pathways, %d permutations; smallest q = %.3f",
+                          nrow(sig), B, min(sig$q_value))) +
   theme(panel.grid.major.y = element_blank(),
         axis.text.y = element_text(size = 5.2, lineheight = 0.88),
         legend.position = "bottom",
@@ -66,8 +67,8 @@ pB <- ggplot(ec, aes(p, obs)) +
                      expand = expansion(mult = c(0.01, 0.02))) +
   scale_y_continuous(expand = expansion(mult = c(0.01, 0.02))) +
   labs(x = "Empirical P value", y = "Cumulative fraction of pathways",
-       title = "P values are close to uniform",
-       subtitle = "Permutation test on max_j |ES_multi|")
+       title = "The permutation test is conservative",
+       subtitle = sprintf("max_j |ES_multi|, %d pathways, %d permutations", nrow(sig), B))
 
 ## ---- C: statistic vs dispersion --------------------------------------------
 rC <- cor(sig$statistic, sig$sd)
@@ -82,7 +83,7 @@ pC <- ggplot(sig, aes(sd, statistic)) +
   labs(x = "SD of ES_multi across tumours", y = "Observed statistic  max|ES_multi|",
        title = "Power follows pathway dispersion",
        subtitle = sprintf("The %d tested pathways", nrow(sig))) +
-  theme(legend.position = c(0.02, 0.98), legend.justification = c(0, 1),
+  theme(legend.position = c(0.98, 0.02), legend.justification = c(1, 0),
         legend.direction = "horizontal",
         legend.key.width = unit(10, "pt"),
         legend.title = element_text(size = 5.2))

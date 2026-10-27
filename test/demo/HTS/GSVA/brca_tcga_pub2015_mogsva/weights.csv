@@ -1,1340 +1,1340 @@
 ﻿pathway,omics,weight,member_count,skipped
-"Glycolysis / Gluconeogenesis","Copy number alteration",0.33333333333333331,69,FALSE
-"Glycolysis / Gluconeogenesis","Methylation",0.33333333333333331,59,FALSE
-"Glycolysis / Gluconeogenesis","Transcriptomics",0.33333333333333331,68,FALSE
+"Glycolysis / Gluconeogenesis","Copy number alteration",0.32891851650363035,69,FALSE
+"Glycolysis / Gluconeogenesis","Methylation",0.34106479250203442,59,FALSE
+"Glycolysis / Gluconeogenesis","Transcriptomics",0.33001669099433523,68,FALSE
 "Glycolysis / Gluconeogenesis","Proteomics",0,0,TRUE
-"Citrate cycle (TCA cycle)","Copy number alteration",0.33333333333333331,31,FALSE
-"Citrate cycle (TCA cycle)","Methylation",0.33333333333333331,27,FALSE
-"Citrate cycle (TCA cycle)","Transcriptomics",0.33333333333333331,30,FALSE
+"Citrate cycle (TCA cycle)","Copy number alteration",0.32816459061971287,31,FALSE
+"Citrate cycle (TCA cycle)","Methylation",0.34075710315953645,27,FALSE
+"Citrate cycle (TCA cycle)","Transcriptomics",0.3310783062207508,30,FALSE
 "Citrate cycle (TCA cycle)","Proteomics",0,0,TRUE
-"Pentose phosphate pathway","Copy number alteration",0.33333333333333331,30,FALSE
-"Pentose phosphate pathway","Methylation",0.33333333333333331,24,FALSE
-"Pentose phosphate pathway","Transcriptomics",0.33333333333333331,31,FALSE
+"Pentose phosphate pathway","Copy number alteration",0.32733978726120261,30,FALSE
+"Pentose phosphate pathway","Methylation",0.34820123955409149,24,FALSE
+"Pentose phosphate pathway","Transcriptomics",0.32445897318470596,31,FALSE
 "Pentose phosphate pathway","Proteomics",0,0,TRUE
-"Pentose and glucuronate interconversions","Copy number alteration",0.33333333333333331,36,FALSE
-"Pentose and glucuronate interconversions","Methylation",0.33333333333333331,22,FALSE
-"Pentose and glucuronate interconversions","Transcriptomics",0.33333333333333331,35,FALSE
+"Pentose and glucuronate interconversions","Copy number alteration",0.31726079940744806,36,FALSE
+"Pentose and glucuronate interconversions","Methylation",0.36313528799539263,22,FALSE
+"Pentose and glucuronate interconversions","Transcriptomics",0.31960391259715942,35,FALSE
 "Pentose and glucuronate interconversions","Proteomics",0,0,TRUE
-"Fructose and mannose metabolism","Copy number alteration",0.33333333333333331,36,FALSE
-"Fructose and mannose metabolism","Methylation",0.33333333333333331,34,FALSE
-"Fructose and mannose metabolism","Transcriptomics",0.33333333333333331,36,FALSE
+"Fructose and mannose metabolism","Copy number alteration",0.33166530610453038,36,FALSE
+"Fructose and mannose metabolism","Methylation",0.33666938779093919,34,FALSE
+"Fructose and mannose metabolism","Transcriptomics",0.33166530610453038,36,FALSE
 "Fructose and mannose metabolism","Proteomics",0,0,TRUE
-"Galactose metabolism","Copy number alteration",0.33333333333333331,35,FALSE
-"Galactose metabolism","Methylation",0.33333333333333331,27,FALSE
-"Galactose metabolism","Transcriptomics",0.33333333333333331,36,FALSE
+"Galactose metabolism","Copy number alteration",0.32626233980457703,35,FALSE
+"Galactose metabolism","Methylation",0.34986724852930318,27,FALSE
+"Galactose metabolism","Transcriptomics",0.32387041166611974,36,FALSE
 "Galactose metabolism","Proteomics",0,0,TRUE
-"Ascorbate and aldarate metabolism","Copy number alteration",0.33333333333333331,30,FALSE
-"Ascorbate and aldarate metabolism","Methylation",0.33333333333333331,16,FALSE
-"Ascorbate and aldarate metabolism","Transcriptomics",0.33333333333333331,28,FALSE
+"Ascorbate and aldarate metabolism","Copy number alteration",0.31074839207995608,30,FALSE
+"Ascorbate and aldarate metabolism","Methylation",0.3726066919338753,16,FALSE
+"Ascorbate and aldarate metabolism","Transcriptomics",0.31664491598616862,28,FALSE
 "Ascorbate and aldarate metabolism","Proteomics",0,0,TRUE
-"Fatty acid biosynthesis","Copy number alteration",0.33333333333333331,18,FALSE
-"Fatty acid biosynthesis","Methylation",0.33333333333333331,17,FALSE
-"Fatty acid biosynthesis","Transcriptomics",0.33333333333333331,18,FALSE
+"Fatty acid biosynthesis","Copy number alteration",0.33140890847398646,18,FALSE
+"Fatty acid biosynthesis","Methylation",0.33718218305202696,17,FALSE
+"Fatty acid biosynthesis","Transcriptomics",0.33140890847398646,18,FALSE
 "Fatty acid biosynthesis","Proteomics",0,0,TRUE
-"Fatty acid elongation","Copy number alteration",0.33333333333333331,27,FALSE
-"Fatty acid elongation","Methylation",0.33333333333333331,26,FALSE
-"Fatty acid elongation","Transcriptomics",0.33333333333333331,27,FALSE
+"Fatty acid elongation","Copy number alteration",0.33216731950235784,27,FALSE
+"Fatty acid elongation","Methylation",0.33566536099528438,26,FALSE
+"Fatty acid elongation","Transcriptomics",0.33216731950235784,27,FALSE
 "Fatty acid elongation","Proteomics",0,0,TRUE
-"Fatty acid degradation","Copy number alteration",0.33333333333333331,44,FALSE
-"Fatty acid degradation","Methylation",0.33333333333333331,38,FALSE
-"Fatty acid degradation","Transcriptomics",0.33333333333333331,44,FALSE
+"Fatty acid degradation","Copy number alteration",0.32917612737439189,44,FALSE
+"Fatty acid degradation","Methylation",0.34164774525121633,38,FALSE
+"Fatty acid degradation","Transcriptomics",0.32917612737439189,44,FALSE
 "Fatty acid degradation","Proteomics",0,0,TRUE
-"Synthesis and degradation of ketone bodies","Copy number alteration",0.33333333333333331,10,FALSE
-"Synthesis and degradation of ketone bodies","Methylation",0.33333333333333331,10,FALSE
-"Synthesis and degradation of ketone bodies","Transcriptomics",0.33333333333333331,10,FALSE
+"Synthesis and degradation of ketone bodies","Copy number alteration",0.33333333333333337,10,FALSE
+"Synthesis and degradation of ketone bodies","Methylation",0.33333333333333337,10,FALSE
+"Synthesis and degradation of ketone bodies","Transcriptomics",0.33333333333333337,10,FALSE
 "Synthesis and degradation of ketone bodies","Proteomics",0,0,TRUE
-"Steroid biosynthesis","Copy number alteration",0.33333333333333331,24,FALSE
-"Steroid biosynthesis","Methylation",0.33333333333333331,22,FALSE
-"Steroid biosynthesis","Transcriptomics",0.33333333333333331,24,FALSE
+"Steroid biosynthesis","Copy number alteration",0.3305581787800938,24,FALSE
+"Steroid biosynthesis","Methylation",0.33888364243981245,22,FALSE
+"Steroid biosynthesis","Transcriptomics",0.3305581787800938,24,FALSE
 "Steroid biosynthesis","Proteomics",0,0,TRUE
-"Primary bile acid biosynthesis","Copy number alteration",0.33333333333333331,18,FALSE
-"Primary bile acid biosynthesis","Methylation",0.33333333333333331,16,FALSE
-"Primary bile acid biosynthesis","Transcriptomics",0.33333333333333331,18,FALSE
+"Primary bile acid biosynthesis","Copy number alteration",0.32933170754082852,18,FALSE
+"Primary bile acid biosynthesis","Methylation",0.34133658491834296,16,FALSE
+"Primary bile acid biosynthesis","Transcriptomics",0.32933170754082852,18,FALSE
 "Primary bile acid biosynthesis","Proteomics",0,0,TRUE
 "Ubiquinone and other terpenoid-quinone biosynthesis","Copy number alteration",0.33333333333333331,12,FALSE
 "Ubiquinone and other terpenoid-quinone biosynthesis","Methylation",0.33333333333333331,12,FALSE
 "Ubiquinone and other terpenoid-quinone biosynthesis","Transcriptomics",0.33333333333333331,12,FALSE
 "Ubiquinone and other terpenoid-quinone biosynthesis","Proteomics",0,0,TRUE
-"Steroid hormone biosynthesis","Copy number alteration",0.33333333333333331,65,FALSE
-"Steroid hormone biosynthesis","Methylation",0.33333333333333331,44,FALSE
-"Steroid hormone biosynthesis","Transcriptomics",0.33333333333333331,63,FALSE
+"Steroid hormone biosynthesis","Copy number alteration",0.32201137359927345,65,FALSE
+"Steroid hormone biosynthesis","Methylation",0.35363950438774616,44,FALSE
+"Steroid hormone biosynthesis","Transcriptomics",0.32434912201298038,63,FALSE
 "Steroid hormone biosynthesis","Proteomics",0,0,TRUE
-"Oxidative phosphorylation","Copy number alteration",0.33333333333333331,120,FALSE
-"Oxidative phosphorylation","Methylation",0.33333333333333331,107,FALSE
-"Oxidative phosphorylation","Transcriptomics",0.33333333333333331,121,FALSE
+"Oxidative phosphorylation","Copy number alteration",0.33087155604401419,120,FALSE
+"Oxidative phosphorylation","Methylation",0.33881817299462541,107,FALSE
+"Oxidative phosphorylation","Transcriptomics",0.33031027096136056,121,FALSE
 "Oxidative phosphorylation","Proteomics",0,0,TRUE
-"Arginine biosynthesis","Copy number alteration",0.33333333333333331,21,FALSE
-"Arginine biosynthesis","Methylation",0.33333333333333331,17,FALSE
-"Arginine biosynthesis","Transcriptomics",0.33333333333333331,21,FALSE
+"Arginine biosynthesis","Copy number alteration",0.32627632397122658,21,FALSE
+"Arginine biosynthesis","Methylation",0.3474473520575469,17,FALSE
+"Arginine biosynthesis","Transcriptomics",0.32627632397122658,21,FALSE
 "Arginine biosynthesis","Proteomics",0,0,TRUE
-"Purine metabolism","Copy number alteration",0.33333333333333331,134,FALSE
-"Purine metabolism","Methylation",0.33333333333333331,117,FALSE
-"Purine metabolism","Transcriptomics",0.33333333333333331,134,FALSE
+"Purine metabolism","Copy number alteration",0.33025747361138852,134,FALSE
+"Purine metabolism","Methylation",0.33948505277722285,117,FALSE
+"Purine metabolism","Transcriptomics",0.33025747361138852,134,FALSE
 "Purine metabolism","Proteomics",0,0,TRUE
-"Caffeine metabolism","Copy number alteration",0.33333333333333331,7,FALSE
-"Caffeine metabolism","Methylation",0.33333333333333331,6,FALSE
-"Caffeine metabolism","Transcriptomics",0.33333333333333331,7,FALSE
+"Caffeine metabolism","Copy number alteration",0.3271564379782973,7,FALSE
+"Caffeine metabolism","Methylation",0.34568712404340529,6,FALSE
+"Caffeine metabolism","Transcriptomics",0.3271564379782973,7,FALSE
 "Caffeine metabolism","Proteomics",0,0,TRUE
-"Pyrimidine metabolism","Copy number alteration",0.33333333333333331,57,FALSE
-"Pyrimidine metabolism","Methylation",0.33333333333333331,54,FALSE
-"Pyrimidine metabolism","Transcriptomics",0.33333333333333331,57,FALSE
+"Pyrimidine metabolism","Copy number alteration",0.33189905681233445,57,FALSE
+"Pyrimidine metabolism","Methylation",0.33620188637533105,54,FALSE
+"Pyrimidine metabolism","Transcriptomics",0.33189905681233445,57,FALSE
 "Pyrimidine metabolism","Proteomics",0,0,TRUE
-"Alanine, aspartate and glutamate metabolism","Copy number alteration",0.33333333333333331,38,FALSE
-"Alanine, aspartate and glutamate metabolism","Methylation",0.33333333333333331,32,FALSE
-"Alanine, aspartate and glutamate metabolism","Transcriptomics",0.33333333333333331,38,FALSE
+"Alanine, aspartate and glutamate metabolism","Copy number alteration",0.32829004611720741,38,FALSE
+"Alanine, aspartate and glutamate metabolism","Methylation",0.34341990776558523,32,FALSE
+"Alanine, aspartate and glutamate metabolism","Transcriptomics",0.32829004611720741,38,FALSE
 "Alanine, aspartate and glutamate metabolism","Proteomics",0,0,TRUE
-"Glycine, serine and threonine metabolism","Copy number alteration",0.33333333333333331,42,FALSE
-"Glycine, serine and threonine metabolism","Methylation",0.33333333333333331,35,FALSE
-"Glycine, serine and threonine metabolism","Transcriptomics",0.33333333333333331,42,FALSE
+"Glycine, serine and threonine metabolism","Copy number alteration",0.32808554968620723,42,FALSE
+"Glycine, serine and threonine metabolism","Methylation",0.34382890062758559,35,FALSE
+"Glycine, serine and threonine metabolism","Transcriptomics",0.32808554968620723,42,FALSE
 "Glycine, serine and threonine metabolism","Proteomics",0,0,TRUE
-"Cysteine and methionine metabolism","Copy number alteration",0.33333333333333331,52,FALSE
-"Cysteine and methionine metabolism","Methylation",0.33333333333333331,48,FALSE
-"Cysteine and methionine metabolism","Transcriptomics",0.33333333333333331,52,FALSE
+"Cysteine and methionine metabolism","Copy number alteration",0.33116169064267625,52,FALSE
+"Cysteine and methionine metabolism","Methylation",0.33767661871464744,48,FALSE
+"Cysteine and methionine metabolism","Transcriptomics",0.33116169064267625,52,FALSE
 "Cysteine and methionine metabolism","Proteomics",0,0,TRUE
-"Valine, leucine and isoleucine degradation","Copy number alteration",0.33333333333333331,50,FALSE
-"Valine, leucine and isoleucine degradation","Methylation",0.33333333333333331,45,FALSE
-"Valine, leucine and isoleucine degradation","Transcriptomics",0.33333333333333331,50,FALSE
+"Valine, leucine and isoleucine degradation","Copy number alteration",0.33044112262628611,50,FALSE
+"Valine, leucine and isoleucine degradation","Methylation",0.33911775474742761,45,FALSE
+"Valine, leucine and isoleucine degradation","Transcriptomics",0.33044112262628611,50,FALSE
 "Valine, leucine and isoleucine degradation","Proteomics",0,0,TRUE
 "Valine, leucine and isoleucine biosynthesis","Copy number alteration",0.33333333333333331,6,FALSE
 "Valine, leucine and isoleucine biosynthesis","Methylation",0.33333333333333331,6,FALSE
 "Valine, leucine and isoleucine biosynthesis","Transcriptomics",0.33333333333333331,6,FALSE
 "Valine, leucine and isoleucine biosynthesis","Proteomics",0,0,TRUE
-"Lysine degradation","Copy number alteration",0.33333333333333331,65,FALSE
-"Lysine degradation","Methylation",0.33333333333333331,59,FALSE
-"Lysine degradation","Transcriptomics",0.33333333333333331,65,FALSE
+"Lysine degradation","Copy number alteration",0.33081668998811509,65,FALSE
+"Lysine degradation","Methylation",0.33836662002376972,59,FALSE
+"Lysine degradation","Transcriptomics",0.33081668998811509,65,FALSE
 "Lysine degradation","Proteomics",0,0,TRUE
-"Arginine and proline metabolism","Copy number alteration",0.33333333333333331,51,FALSE
-"Arginine and proline metabolism","Methylation",0.33333333333333331,41,FALSE
-"Arginine and proline metabolism","Transcriptomics",0.33333333333333331,52,FALSE
+"Arginine and proline metabolism","Copy number alteration",0.32777150553972301,51,FALSE
+"Arginine and proline metabolism","Methylation",0.34599290596299453,41,FALSE
+"Arginine and proline metabolism","Transcriptomics",0.3262355884972824,52,FALSE
 "Arginine and proline metabolism","Proteomics",0,0,TRUE
-"Histidine metabolism","Copy number alteration",0.33333333333333331,23,FALSE
-"Histidine metabolism","Methylation",0.33333333333333331,19,FALSE
-"Histidine metabolism","Transcriptomics",0.33333333333333331,23,FALSE
+"Histidine metabolism","Copy number alteration",0.32708942585000478,23,FALSE
+"Histidine metabolism","Methylation",0.34582114829999044,19,FALSE
+"Histidine metabolism","Transcriptomics",0.32708942585000478,23,FALSE
 "Histidine metabolism","Proteomics",0,0,TRUE
-"Tyrosine metabolism","Copy number alteration",0.33333333333333331,37,FALSE
-"Tyrosine metabolism","Methylation",0.33333333333333331,30,FALSE
-"Tyrosine metabolism","Transcriptomics",0.33333333333333331,37,FALSE
+"Tyrosine metabolism","Copy number alteration",0.32710948187087802,37,FALSE
+"Tyrosine metabolism","Methylation",0.34578103625824386,30,FALSE
+"Tyrosine metabolism","Transcriptomics",0.32710948187087802,37,FALSE
 "Tyrosine metabolism","Proteomics",0,0,TRUE
-"Phenylalanine metabolism","Copy number alteration",0.33333333333333331,19,FALSE
-"Phenylalanine metabolism","Methylation",0.33333333333333331,15,FALSE
-"Phenylalanine metabolism","Transcriptomics",0.33333333333333331,19,FALSE
+"Phenylalanine metabolism","Copy number alteration",0.32524737581731161,19,FALSE
+"Phenylalanine metabolism","Methylation",0.34950524836537683,15,FALSE
+"Phenylalanine metabolism","Transcriptomics",0.32524737581731161,19,FALSE
 "Phenylalanine metabolism","Proteomics",0,0,TRUE
-"Tryptophan metabolism","Copy number alteration",0.33333333333333331,44,FALSE
-"Tryptophan metabolism","Methylation",0.33333333333333331,39,FALSE
-"Tryptophan metabolism","Transcriptomics",0.33333333333333331,45,FALSE
+"Tryptophan metabolism","Copy number alteration",0.33053476767232759,44,FALSE
+"Tryptophan metabolism","Methylation",0.34077677011726193,39,FALSE
+"Tryptophan metabolism","Transcriptomics",0.32868846221041048,45,FALSE
 "Tryptophan metabolism","Proteomics",0,0,TRUE
-"Phenylalanine, tyrosine and tryptophan biosynthesis","Copy number alteration",0.33333333333333331,6,FALSE
-"Phenylalanine, tyrosine and tryptophan biosynthesis","Methylation",0.33333333333333331,5,FALSE
-"Phenylalanine, tyrosine and tryptophan biosynthesis","Transcriptomics",0.33333333333333331,6,FALSE
+"Phenylalanine, tyrosine and tryptophan biosynthesis","Copy number alteration",0.32587921971339934,6,FALSE
+"Phenylalanine, tyrosine and tryptophan biosynthesis","Methylation",0.34824156057320133,5,FALSE
+"Phenylalanine, tyrosine and tryptophan biosynthesis","Transcriptomics",0.32587921971339934,6,FALSE
 "Phenylalanine, tyrosine and tryptophan biosynthesis","Proteomics",0,0,TRUE
-"beta-Alanine metabolism","Copy number alteration",0.33333333333333331,33,FALSE
-"beta-Alanine metabolism","Methylation",0.33333333333333331,30,FALSE
-"beta-Alanine metabolism","Transcriptomics",0.33333333333333331,33,FALSE
+"beta-Alanine metabolism","Copy number alteration",0.33048492743509023,33,FALSE
+"beta-Alanine metabolism","Methylation",0.3390301451298196,30,FALSE
+"beta-Alanine metabolism","Transcriptomics",0.33048492743509023,33,FALSE
 "beta-Alanine metabolism","Proteomics",0,0,TRUE
-"Taurine and hypotaurine metabolism","Copy number alteration",0.33333333333333331,11,FALSE
-"Taurine and hypotaurine metabolism","Methylation",0.33333333333333331,9,FALSE
-"Taurine and hypotaurine metabolism","Transcriptomics",0.33333333333333331,11,FALSE
+"Taurine and hypotaurine metabolism","Copy number alteration",0.32576823857097315,11,FALSE
+"Taurine and hypotaurine metabolism","Methylation",0.34846352285805376,9,FALSE
+"Taurine and hypotaurine metabolism","Transcriptomics",0.32576823857097315,11,FALSE
 "Taurine and hypotaurine metabolism","Proteomics",0,0,TRUE
 "Phosphonate and phosphinate metabolism","Copy number alteration",0.5,6,FALSE
 "Phosphonate and phosphinate metabolism","Methylation",0,0,TRUE
 "Phosphonate and phosphinate metabolism","Transcriptomics",0.5,6,FALSE
 "Phosphonate and phosphinate metabolism","Proteomics",0,0,TRUE
-"Selenocompound metabolism","Copy number alteration",0.33333333333333331,19,FALSE
-"Selenocompound metabolism","Methylation",0.33333333333333331,18,FALSE
-"Selenocompound metabolism","Transcriptomics",0.33333333333333331,18,FALSE
+"Selenocompound metabolism","Copy number alteration",0.32975297295910755,19,FALSE
+"Selenocompound metabolism","Methylation",0.33512351352044623,18,FALSE
+"Selenocompound metabolism","Transcriptomics",0.33512351352044623,18,FALSE
 "Selenocompound metabolism","Proteomics",0,0,TRUE
 "D-Glutamine and D-glutamate metabolism","Copy number alteration",0.5,5,FALSE
 "D-Glutamine and D-glutamate metabolism","Methylation",0,0,TRUE
 "D-Glutamine and D-glutamate metabolism","Transcriptomics",0.5,5,FALSE
 "D-Glutamine and D-glutamate metabolism","Proteomics",0,0,TRUE
-"Starch and sucrose metabolism","Copy number alteration",0.33333333333333331,38,FALSE
-"Starch and sucrose metabolism","Methylation",0.33333333333333331,29,FALSE
-"Starch and sucrose metabolism","Transcriptomics",0.33333333333333331,37,FALSE
+"Starch and sucrose metabolism","Copy number alteration",0.32455550956273327,38,FALSE
+"Starch and sucrose metabolism","Methylation",0.34864607223396671,29,FALSE
+"Starch and sucrose metabolism","Transcriptomics",0.32679841820329986,37,FALSE
 "Starch and sucrose metabolism","Proteomics",0,0,TRUE
-"N-Glycan biosynthesis","Copy number alteration",0.33333333333333331,51,FALSE
-"N-Glycan biosynthesis","Methylation",0.33333333333333331,46,FALSE
-"N-Glycan biosynthesis","Transcriptomics",0.33333333333333331,51,FALSE
+"N-Glycan biosynthesis","Copy number alteration",0.33051329030449,51,FALSE
+"N-Glycan biosynthesis","Methylation",0.3389734193910201,46,FALSE
+"N-Glycan biosynthesis","Transcriptomics",0.33051329030449,51,FALSE
 "N-Glycan biosynthesis","Proteomics",0,0,TRUE
-"Other glycan degradation","Copy number alteration",0.33333333333333331,19,FALSE
-"Other glycan degradation","Methylation",0.33333333333333331,17,FALSE
-"Other glycan degradation","Transcriptomics",0.33333333333333331,19,FALSE
+"Other glycan degradation","Copy number alteration",0.32959890395893127,19,FALSE
+"Other glycan degradation","Methylation",0.34080219208213747,17,FALSE
+"Other glycan degradation","Transcriptomics",0.32959890395893127,19,FALSE
 "Other glycan degradation","Proteomics",0,0,TRUE
-"Mucin type O-glycan biosynthesis","Copy number alteration",0.33333333333333331,30,FALSE
-"Mucin type O-glycan biosynthesis","Methylation",0.33333333333333331,27,FALSE
-"Mucin type O-glycan biosynthesis","Transcriptomics",0.33333333333333331,31,FALSE
+"Mucin type O-glycan biosynthesis","Copy number alteration",0.3310783062207508,30,FALSE
+"Mucin type O-glycan biosynthesis","Methylation",0.34075710315953645,27,FALSE
+"Mucin type O-glycan biosynthesis","Transcriptomics",0.32816459061971287,31,FALSE
 "Mucin type O-glycan biosynthesis","Proteomics",0,0,TRUE
-"Various types of N-glycan biosynthesis","Copy number alteration",0.33333333333333331,39,FALSE
-"Various types of N-glycan biosynthesis","Methylation",0.33333333333333331,36,FALSE
-"Various types of N-glycan biosynthesis","Transcriptomics",0.33333333333333331,39,FALSE
+"Various types of N-glycan biosynthesis","Copy number alteration",0.33102837156798232,39,FALSE
+"Various types of N-glycan biosynthesis","Methylation",0.33794325686403531,36,FALSE
+"Various types of N-glycan biosynthesis","Transcriptomics",0.33102837156798232,39,FALSE
 "Various types of N-glycan biosynthesis","Proteomics",0,0,TRUE
-"Other types of O-glycan biosynthesis","Copy number alteration",0.33333333333333331,45,FALSE
-"Other types of O-glycan biosynthesis","Methylation",0.33333333333333331,42,FALSE
-"Other types of O-glycan biosynthesis","Transcriptomics",0.33333333333333331,46,FALSE
+"Other types of O-glycan biosynthesis","Copy number alteration",0.33200625900307057,45,FALSE
+"Other types of O-glycan biosynthesis","Methylation",0.33779308795628177,42,FALSE
+"Other types of O-glycan biosynthesis","Transcriptomics",0.33020065304064755,46,FALSE
 "Other types of O-glycan biosynthesis","Proteomics",0,0,TRUE
-"Mannose type O-glycan biosynthesis","Copy number alteration",0.33333333333333331,24,FALSE
-"Mannose type O-glycan biosynthesis","Methylation",0.33333333333333331,23,FALSE
-"Mannose type O-glycan biosynthesis","Transcriptomics",0.33333333333333331,24,FALSE
+"Mannose type O-glycan biosynthesis","Copy number alteration",0.33198496537233319,24,FALSE
+"Mannose type O-glycan biosynthesis","Methylation",0.33603006925533357,23,FALSE
+"Mannose type O-glycan biosynthesis","Transcriptomics",0.33198496537233319,24,FALSE
 "Mannose type O-glycan biosynthesis","Proteomics",0,0,TRUE
-"Amino sugar and nucleotide sugar metabolism","Copy number alteration",0.33333333333333331,50,FALSE
-"Amino sugar and nucleotide sugar metabolism","Methylation",0.33333333333333331,47,FALSE
-"Amino sugar and nucleotide sugar metabolism","Transcriptomics",0.33333333333333331,50,FALSE
+"Amino sugar and nucleotide sugar metabolism","Copy number alteration",0.33164539110124719,50,FALSE
+"Amino sugar and nucleotide sugar metabolism","Methylation",0.33670921779750557,47,FALSE
+"Amino sugar and nucleotide sugar metabolism","Transcriptomics",0.33164539110124719,50,FALSE
 "Amino sugar and nucleotide sugar metabolism","Proteomics",0,0,TRUE
-"Neomycin, kanamycin and gentamicin biosynthesis","Copy number alteration",0.33333333333333331,6,FALSE
-"Neomycin, kanamycin and gentamicin biosynthesis","Methylation",0.33333333333333331,5,FALSE
-"Neomycin, kanamycin and gentamicin biosynthesis","Transcriptomics",0.33333333333333331,6,FALSE
+"Neomycin, kanamycin and gentamicin biosynthesis","Copy number alteration",0.32587921971339934,6,FALSE
+"Neomycin, kanamycin and gentamicin biosynthesis","Methylation",0.34824156057320133,5,FALSE
+"Neomycin, kanamycin and gentamicin biosynthesis","Transcriptomics",0.32587921971339934,6,FALSE
 "Neomycin, kanamycin and gentamicin biosynthesis","Proteomics",0,0,TRUE
-"Glycosaminoglycan degradation","Copy number alteration",0.33333333333333331,21,FALSE
-"Glycosaminoglycan degradation","Methylation",0.33333333333333331,17,FALSE
-"Glycosaminoglycan degradation","Transcriptomics",0.33333333333333331,21,FALSE
+"Glycosaminoglycan degradation","Copy number alteration",0.32627632397122658,21,FALSE
+"Glycosaminoglycan degradation","Methylation",0.3474473520575469,17,FALSE
+"Glycosaminoglycan degradation","Transcriptomics",0.32627632397122658,21,FALSE
 "Glycosaminoglycan degradation","Proteomics",0,0,TRUE
-"Glycosaminoglycan biosynthesis - chondroitin sulfate / dermatan sulfate","Copy number alteration",0.33333333333333331,20,FALSE
-"Glycosaminoglycan biosynthesis - chondroitin sulfate / dermatan sulfate","Methylation",0.33333333333333331,19,FALSE
-"Glycosaminoglycan biosynthesis - chondroitin sulfate / dermatan sulfate","Transcriptomics",0.33333333333333331,20,FALSE
+"Glycosaminoglycan biosynthesis - chondroitin sulfate / dermatan sulfate","Copy number alteration",0.33164416945908121,20,FALSE
+"Glycosaminoglycan biosynthesis - chondroitin sulfate / dermatan sulfate","Methylation",0.33671166108183764,19,FALSE
+"Glycosaminoglycan biosynthesis - chondroitin sulfate / dermatan sulfate","Transcriptomics",0.33164416945908121,20,FALSE
 "Glycosaminoglycan biosynthesis - chondroitin sulfate / dermatan sulfate","Proteomics",0,0,TRUE
 "Glycosaminoglycan biosynthesis - keratan sulfate","Copy number alteration",0.33333333333333331,14,FALSE
 "Glycosaminoglycan biosynthesis - keratan sulfate","Methylation",0.33333333333333331,14,FALSE
 "Glycosaminoglycan biosynthesis - keratan sulfate","Transcriptomics",0.33333333333333331,14,FALSE
 "Glycosaminoglycan biosynthesis - keratan sulfate","Proteomics",0,0,TRUE
-"Glycosaminoglycan biosynthesis - heparan sulfate / heparin","Copy number alteration",0.33333333333333331,24,FALSE
-"Glycosaminoglycan biosynthesis - heparan sulfate / heparin","Methylation",0.33333333333333331,22,FALSE
-"Glycosaminoglycan biosynthesis - heparan sulfate / heparin","Transcriptomics",0.33333333333333331,24,FALSE
+"Glycosaminoglycan biosynthesis - heparan sulfate / heparin","Copy number alteration",0.3305581787800938,24,FALSE
+"Glycosaminoglycan biosynthesis - heparan sulfate / heparin","Methylation",0.33888364243981245,22,FALSE
+"Glycosaminoglycan biosynthesis - heparan sulfate / heparin","Transcriptomics",0.3305581787800938,24,FALSE
 "Glycosaminoglycan biosynthesis - heparan sulfate / heparin","Proteomics",0,0,TRUE
-"Glycerolipid metabolism","Copy number alteration",0.33333333333333331,70,FALSE
-"Glycerolipid metabolism","Methylation",0.33333333333333331,57,FALSE
-"Glycerolipid metabolism","Transcriptomics",0.33333333333333331,70,FALSE
+"Glycerolipid metabolism","Copy number alteration",0.32799407916126488,70,FALSE
+"Glycerolipid metabolism","Methylation",0.34401184167747034,57,FALSE
+"Glycerolipid metabolism","Transcriptomics",0.32799407916126488,70,FALSE
 "Glycerolipid metabolism","Proteomics",0,0,TRUE
-"Inositol phosphate metabolism","Copy number alteration",0.33333333333333331,75,FALSE
-"Inositol phosphate metabolism","Methylation",0.33333333333333331,69,FALSE
-"Inositol phosphate metabolism","Transcriptomics",0.33333333333333331,75,FALSE
+"Inositol phosphate metabolism","Copy number alteration",0.33123204331948264,75,FALSE
+"Inositol phosphate metabolism","Methylation",0.33753591336103461,69,FALSE
+"Inositol phosphate metabolism","Transcriptomics",0.33123204331948264,75,FALSE
 "Inositol phosphate metabolism","Proteomics",0,0,TRUE
-"Glycosylphosphatidylinositol (GPI)-anchor biosynthesis","Copy number alteration",0.33333333333333331,26,FALSE
-"Glycosylphosphatidylinositol (GPI)-anchor biosynthesis","Methylation",0.33333333333333331,24,FALSE
-"Glycosylphosphatidylinositol (GPI)-anchor biosynthesis","Transcriptomics",0.33333333333333331,26,FALSE
+"Glycosylphosphatidylinositol (GPI)-anchor biosynthesis","Copy number alteration",0.33082504128192974,26,FALSE
+"Glycosylphosphatidylinositol (GPI)-anchor biosynthesis","Methylation",0.33834991743614062,24,FALSE
+"Glycosylphosphatidylinositol (GPI)-anchor biosynthesis","Transcriptomics",0.33082504128192974,26,FALSE
 "Glycosylphosphatidylinositol (GPI)-anchor biosynthesis","Proteomics",0,0,TRUE
-"Glycerophospholipid metabolism","Copy number alteration",0.33333333333333331,100,FALSE
-"Glycerophospholipid metabolism","Methylation",0.33333333333333331,88,FALSE
-"Glycerophospholipid metabolism","Transcriptomics",0.33333333333333331,100,FALSE
+"Glycerophospholipid metabolism","Copy number alteration",0.33027114643042071,100,FALSE
+"Glycerophospholipid metabolism","Methylation",0.3394577071391584,88,FALSE
+"Glycerophospholipid metabolism","Transcriptomics",0.33027114643042071,100,FALSE
 "Glycerophospholipid metabolism","Proteomics",0,0,TRUE
-"Ether lipid metabolism","Copy number alteration",0.33333333333333331,48,FALSE
-"Ether lipid metabolism","Methylation",0.33333333333333331,40,FALSE
-"Ether lipid metabolism","Transcriptomics",0.33333333333333331,49,FALSE
+"Ether lipid metabolism","Copy number alteration",0.32877312711331802,48,FALSE
+"Ether lipid metabolism","Methylation",0.34410961058258582,40,FALSE
+"Ether lipid metabolism","Transcriptomics",0.32711726230409616,49,FALSE
 "Ether lipid metabolism","Proteomics",0,0,TRUE
-"Arachidonic acid metabolism","Copy number alteration",0.33333333333333331,61,FALSE
-"Arachidonic acid metabolism","Methylation",0.33333333333333331,49,FALSE
-"Arachidonic acid metabolism","Transcriptomics",0.33333333333333331,62,FALSE
+"Arachidonic acid metabolism","Copy number alteration",0.32787352094355049,61,FALSE
+"Arachidonic acid metabolism","Methylation",0.34549451002593062,49,FALSE
+"Arachidonic acid metabolism","Transcriptomics",0.326631969030519,62,FALSE
 "Arachidonic acid metabolism","Proteomics",0,0,TRUE
-"Linoleic acid metabolism","Copy number alteration",0.33333333333333331,28,FALSE
-"Linoleic acid metabolism","Methylation",0.33333333333333331,20,FALSE
-"Linoleic acid metabolism","Transcriptomics",0.33333333333333331,28,FALSE
+"Linoleic acid metabolism","Copy number alteration",0.32254527836529279,28,FALSE
+"Linoleic acid metabolism","Methylation",0.35490944326941443,20,FALSE
+"Linoleic acid metabolism","Transcriptomics",0.32254527836529279,28,FALSE
 "Linoleic acid metabolism","Proteomics",0,0,TRUE
-"alpha-Linolenic acid metabolism","Copy number alteration",0.33333333333333331,24,FALSE
-"alpha-Linolenic acid metabolism","Methylation",0.33333333333333331,19,FALSE
-"alpha-Linolenic acid metabolism","Transcriptomics",0.33333333333333331,24,FALSE
+"alpha-Linolenic acid metabolism","Copy number alteration",0.32571695484745317,24,FALSE
+"alpha-Linolenic acid metabolism","Methylation",0.34856609030509372,19,FALSE
+"alpha-Linolenic acid metabolism","Transcriptomics",0.32571695484745317,24,FALSE
 "alpha-Linolenic acid metabolism","Proteomics",0,0,TRUE
-"Sphingolipid metabolism","Copy number alteration",0.33333333333333331,52,FALSE
-"Sphingolipid metabolism","Methylation",0.33333333333333331,45,FALSE
-"Sphingolipid metabolism","Transcriptomics",0.33333333333333331,52,FALSE
+"Sphingolipid metabolism","Copy number alteration",0.3293742513436147,52,FALSE
+"Sphingolipid metabolism","Methylation",0.34125149731277071,45,FALSE
+"Sphingolipid metabolism","Transcriptomics",0.3293742513436147,52,FALSE
 "Sphingolipid metabolism","Proteomics",0,0,TRUE
-"Glycosphingolipid biosynthesis - lacto and neolacto series","Copy number alteration",0.33333333333333331,27,FALSE
-"Glycosphingolipid biosynthesis - lacto and neolacto series","Methylation",0.33333333333333331,25,FALSE
-"Glycosphingolipid biosynthesis - lacto and neolacto series","Transcriptomics",0.33333333333333331,27,FALSE
+"Glycosphingolipid biosynthesis - lacto and neolacto series","Copy number alteration",0.33094155429309868,27,FALSE
+"Glycosphingolipid biosynthesis - lacto and neolacto series","Methylation",0.33811689141380269,25,FALSE
+"Glycosphingolipid biosynthesis - lacto and neolacto series","Transcriptomics",0.33094155429309868,27,FALSE
 "Glycosphingolipid biosynthesis - lacto and neolacto series","Proteomics",0,0,TRUE
-"Glycosphingolipid biosynthesis - globo and isoglobo series","Copy number alteration",0.33333333333333331,15,FALSE
-"Glycosphingolipid biosynthesis - globo and isoglobo series","Methylation",0.33333333333333331,13,FALSE
-"Glycosphingolipid biosynthesis - globo and isoglobo series","Transcriptomics",0.33333333333333331,14,FALSE
+"Glycosphingolipid biosynthesis - globo and isoglobo series","Copy number alteration",0.32593625079379074,15,FALSE
+"Glycosphingolipid biosynthesis - globo and isoglobo series","Methylation",0.34100067077219143,13,FALSE
+"Glycosphingolipid biosynthesis - globo and isoglobo series","Transcriptomics",0.33306307843401783,14,FALSE
 "Glycosphingolipid biosynthesis - globo and isoglobo series","Proteomics",0,0,TRUE
-"Glycosphingolipid biosynthesis - ganglio series","Copy number alteration",0.33333333333333331,16,FALSE
-"Glycosphingolipid biosynthesis - ganglio series","Methylation",0.33333333333333331,15,FALSE
-"Glycosphingolipid biosynthesis - ganglio series","Transcriptomics",0.33333333333333331,16,FALSE
+"Glycosphingolipid biosynthesis - ganglio series","Copy number alteration",0.33110670561345251,16,FALSE
+"Glycosphingolipid biosynthesis - ganglio series","Methylation",0.33778658877309503,15,FALSE
+"Glycosphingolipid biosynthesis - ganglio series","Transcriptomics",0.33110670561345251,16,FALSE
 "Glycosphingolipid biosynthesis - ganglio series","Proteomics",0,0,TRUE
-"Pyruvate metabolism","Copy number alteration",0.33333333333333331,39,FALSE
-"Pyruvate metabolism","Methylation",0.33333333333333331,36,FALSE
-"Pyruvate metabolism","Transcriptomics",0.33333333333333331,39,FALSE
+"Pyruvate metabolism","Copy number alteration",0.33102837156798232,39,FALSE
+"Pyruvate metabolism","Methylation",0.33794325686403531,36,FALSE
+"Pyruvate metabolism","Transcriptomics",0.33102837156798232,39,FALSE
 "Pyruvate metabolism","Proteomics",0,0,TRUE
-"Glyoxylate and dicarboxylate metabolism","Copy number alteration",0.33333333333333331,31,FALSE
-"Glyoxylate and dicarboxylate metabolism","Methylation",0.33333333333333331,29,FALSE
-"Glyoxylate and dicarboxylate metabolism","Transcriptomics",0.33333333333333331,31,FALSE
+"Glyoxylate and dicarboxylate metabolism","Copy number alteration",0.33132260872083252,31,FALSE
+"Glyoxylate and dicarboxylate metabolism","Methylation",0.3373547825583349,29,FALSE
+"Glyoxylate and dicarboxylate metabolism","Transcriptomics",0.33132260872083252,31,FALSE
 "Glyoxylate and dicarboxylate metabolism","Proteomics",0,0,TRUE
-"Propanoate metabolism","Copy number alteration",0.33333333333333331,37,FALSE
-"Propanoate metabolism","Methylation",0.33333333333333331,35,FALSE
-"Propanoate metabolism","Transcriptomics",0.33333333333333331,36,FALSE
+"Propanoate metabolism","Copy number alteration",0.33093735759767989,37,FALSE
+"Propanoate metabolism","Methylation",0.3357621081113199,35,FALSE
+"Propanoate metabolism","Transcriptomics",0.33330053429100015,36,FALSE
 "Propanoate metabolism","Proteomics",0,0,TRUE
-"Butanoate metabolism","Copy number alteration",0.33333333333333331,29,FALSE
-"Butanoate metabolism","Methylation",0.33333333333333331,24,FALSE
-"Butanoate metabolism","Transcriptomics",0.33333333333333331,29,FALSE
+"Butanoate metabolism","Copy number alteration",0.32744095545659374,29,FALSE
+"Butanoate metabolism","Methylation",0.34511808908681263,24,FALSE
+"Butanoate metabolism","Transcriptomics",0.32744095545659374,29,FALSE
 "Butanoate metabolism","Proteomics",0,0,TRUE
-"One carbon pool by folate","Copy number alteration",0.33333333333333331,20,FALSE
-"One carbon pool by folate","Methylation",0.33333333333333331,18,FALSE
-"One carbon pool by folate","Transcriptomics",0.33333333333333331,20,FALSE
+"One carbon pool by folate","Copy number alteration",0.32983539384006966,20,FALSE
+"One carbon pool by folate","Methylation",0.34032921231986069,18,FALSE
+"One carbon pool by folate","Transcriptomics",0.32983539384006966,20,FALSE
 "One carbon pool by folate","Proteomics",0,0,TRUE
-"Thiamine metabolism","Copy number alteration",0.33333333333333331,17,FALSE
-"Thiamine metabolism","Methylation",0.33333333333333331,12,FALSE
-"Thiamine metabolism","Transcriptomics",0.33333333333333331,17,FALSE
+"Thiamine metabolism","Copy number alteration",0.32095349518811533,17,FALSE
+"Thiamine metabolism","Methylation",0.35809300962376922,12,FALSE
+"Thiamine metabolism","Transcriptomics",0.32095349518811533,17,FALSE
 "Thiamine metabolism","Proteomics",0,0,TRUE
 "Riboflavin metabolism","Copy number alteration",0.33333333333333331,8,FALSE
 "Riboflavin metabolism","Methylation",0.33333333333333331,8,FALSE
 "Riboflavin metabolism","Transcriptomics",0.33333333333333331,8,FALSE
 "Riboflavin metabolism","Proteomics",0,0,TRUE
-"Vitamin B6 metabolism","Copy number alteration",0.33333333333333331,6,FALSE
-"Vitamin B6 metabolism","Methylation",0.33333333333333331,5,FALSE
-"Vitamin B6 metabolism","Transcriptomics",0.33333333333333331,6,FALSE
+"Vitamin B6 metabolism","Copy number alteration",0.32587921971339934,6,FALSE
+"Vitamin B6 metabolism","Methylation",0.34824156057320133,5,FALSE
+"Vitamin B6 metabolism","Transcriptomics",0.32587921971339934,6,FALSE
 "Vitamin B6 metabolism","Proteomics",0,0,TRUE
-"Nicotinate and nicotinamide metabolism","Copy number alteration",0.33333333333333331,34,FALSE
-"Nicotinate and nicotinamide metabolism","Methylation",0.33333333333333331,29,FALSE
-"Nicotinate and nicotinamide metabolism","Transcriptomics",0.33333333333333331,34,FALSE
+"Nicotinate and nicotinamide metabolism","Copy number alteration",0.32856426257313154,34,FALSE
+"Nicotinate and nicotinamide metabolism","Methylation",0.34287147485373681,29,FALSE
+"Nicotinate and nicotinamide metabolism","Transcriptomics",0.32856426257313154,34,FALSE
 "Nicotinate and nicotinamide metabolism","Proteomics",0,0,TRUE
-"Pantothenate and CoA biosynthesis","Copy number alteration",0.33333333333333331,23,FALSE
-"Pantothenate and CoA biosynthesis","Methylation",0.33333333333333331,22,FALSE
-"Pantothenate and CoA biosynthesis","Transcriptomics",0.33333333333333331,23,FALSE
+"Pantothenate and CoA biosynthesis","Copy number alteration",0.33191219965438057,23,FALSE
+"Pantothenate and CoA biosynthesis","Methylation",0.33617560069123881,22,FALSE
+"Pantothenate and CoA biosynthesis","Transcriptomics",0.33191219965438057,23,FALSE
 "Pantothenate and CoA biosynthesis","Proteomics",0,0,TRUE
-"Retinol metabolism","Copy number alteration",0.33333333333333331,69,FALSE
-"Retinol metabolism","Methylation",0.33333333333333331,47,FALSE
-"Retinol metabolism","Transcriptomics",0.33333333333333331,68,FALSE
+"Retinol metabolism","Copy number alteration",0.3227231842126127,69,FALSE
+"Retinol metabolism","Methylation",0.35347614170820019,47,FALSE
+"Retinol metabolism","Transcriptomics",0.32380067407918706,68,FALSE
 "Retinol metabolism","Proteomics",0,0,TRUE
-"Porphyrin and chlorophyll metabolism","Copy number alteration",0.33333333333333331,44,FALSE
-"Porphyrin and chlorophyll metabolism","Methylation",0.33333333333333331,25,FALSE
-"Porphyrin and chlorophyll metabolism","Transcriptomics",0.33333333333333331,42,FALSE
+"Porphyrin and chlorophyll metabolism","Copy number alteration",0.31511877814840394,44,FALSE
+"Porphyrin and chlorophyll metabolism","Methylation",0.36606083610342682,25,FALSE
+"Porphyrin and chlorophyll metabolism","Transcriptomics",0.31882038574816907,42,FALSE
 "Porphyrin and chlorophyll metabolism","Proteomics",0,0,TRUE
-"Terpenoid backbone biosynthesis","Copy number alteration",0.33333333333333331,23,FALSE
-"Terpenoid backbone biosynthesis","Methylation",0.33333333333333331,23,FALSE
-"Terpenoid backbone biosynthesis","Transcriptomics",0.33333333333333331,23,FALSE
+"Terpenoid backbone biosynthesis","Copy number alteration",0.33333333333333337,23,FALSE
+"Terpenoid backbone biosynthesis","Methylation",0.33333333333333337,23,FALSE
+"Terpenoid backbone biosynthesis","Transcriptomics",0.33333333333333337,23,FALSE
 "Terpenoid backbone biosynthesis","Proteomics",0,0,TRUE
-"Nitrogen metabolism","Copy number alteration",0.33333333333333331,17,FALSE
-"Nitrogen metabolism","Methylation",0.33333333333333331,11,FALSE
-"Nitrogen metabolism","Transcriptomics",0.33333333333333331,17,FALSE
+"Nitrogen metabolism","Copy number alteration",0.31766684211623974,17,FALSE
+"Nitrogen metabolism","Methylation",0.36466631576752057,11,FALSE
+"Nitrogen metabolism","Transcriptomics",0.31766684211623974,17,FALSE
 "Nitrogen metabolism","Proteomics",0,0,TRUE
-"Sulfur metabolism","Copy number alteration",0.33333333333333331,11,FALSE
-"Sulfur metabolism","Methylation",0.33333333333333331,11,FALSE
-"Sulfur metabolism","Transcriptomics",0.33333333333333331,11,FALSE
+"Sulfur metabolism","Copy number alteration",0.33333333333333337,11,FALSE
+"Sulfur metabolism","Methylation",0.33333333333333337,11,FALSE
+"Sulfur metabolism","Transcriptomics",0.33333333333333337,11,FALSE
 "Sulfur metabolism","Proteomics",0,0,TRUE
-"Aminoacyl-tRNA biosynthesis","Copy number alteration",0.33333333333333331,47,FALSE
-"Aminoacyl-tRNA biosynthesis","Methylation",0.33333333333333331,43,FALSE
-"Aminoacyl-tRNA biosynthesis","Transcriptomics",0.33333333333333331,47,FALSE
+"Aminoacyl-tRNA biosynthesis","Copy number alteration",0.33086609494316932,47,FALSE
+"Aminoacyl-tRNA biosynthesis","Methylation",0.33826781011366142,43,FALSE
+"Aminoacyl-tRNA biosynthesis","Transcriptomics",0.33086609494316932,47,FALSE
 "Aminoacyl-tRNA biosynthesis","Proteomics",0,0,TRUE
-"Metabolism of xenobiotics by cytochrome P450","Copy number alteration",0.33333333333333331,79,FALSE
-"Metabolism of xenobiotics by cytochrome P450","Methylation",0.33333333333333331,55,FALSE
-"Metabolism of xenobiotics by cytochrome P450","Transcriptomics",0.33333333333333331,77,FALSE
+"Metabolism of xenobiotics by cytochrome P450","Copy number alteration",0.32334876781198413,79,FALSE
+"Metabolism of xenobiotics by cytochrome P450","Methylation",0.35145231293017976,55,FALSE
+"Metabolism of xenobiotics by cytochrome P450","Transcriptomics",0.32519891925783612,77,FALSE
 "Metabolism of xenobiotics by cytochrome P450","Proteomics",0,0,TRUE
-"Drug metabolism - cytochrome P450","Copy number alteration",0.33333333333333331,71,FALSE
-"Drug metabolism - cytochrome P450","Methylation",0.33333333333333331,48,FALSE
-"Drug metabolism - cytochrome P450","Transcriptomics",0.33333333333333331,69,FALSE
+"Drug metabolism - cytochrome P450","Copy number alteration",0.32224242719277402,71,FALSE
+"Drug metabolism - cytochrome P450","Methylation",0.35341511595648123,48,FALSE
+"Drug metabolism - cytochrome P450","Transcriptomics",0.32434245685074464,69,FALSE
 "Drug metabolism - cytochrome P450","Proteomics",0,0,TRUE
-"Drug metabolism - other enzymes","Copy number alteration",0.33333333333333331,81,FALSE
-"Drug metabolism - other enzymes","Methylation",0.33333333333333331,64,FALSE
-"Drug metabolism - other enzymes","Transcriptomics",0.33333333333333331,78,FALSE
+"Drug metabolism - other enzymes","Copy number alteration",0.32646623210910475,81,FALSE
+"Drug metabolism - other enzymes","Methylation",0.34432485069648316,64,FALSE
+"Drug metabolism - other enzymes","Transcriptomics",0.32920891719441203,78,FALSE
 "Drug metabolism - other enzymes","Proteomics",0,0,TRUE
-"Biosynthesis of unsaturated fatty acids","Copy number alteration",0.33333333333333331,29,FALSE
-"Biosynthesis of unsaturated fatty acids","Methylation",0.33333333333333331,29,FALSE
-"Biosynthesis of unsaturated fatty acids","Transcriptomics",0.33333333333333331,29,FALSE
+"Biosynthesis of unsaturated fatty acids","Copy number alteration",0.33333333333333337,29,FALSE
+"Biosynthesis of unsaturated fatty acids","Methylation",0.33333333333333337,29,FALSE
+"Biosynthesis of unsaturated fatty acids","Transcriptomics",0.33333333333333337,29,FALSE
 "Biosynthesis of unsaturated fatty acids","Proteomics",0,0,TRUE
-"2-Oxocarboxylic acid metabolism","Copy number alteration",0.33333333333333331,19,FALSE
-"2-Oxocarboxylic acid metabolism","Methylation",0.33333333333333331,17,FALSE
-"2-Oxocarboxylic acid metabolism","Transcriptomics",0.33333333333333331,19,FALSE
+"2-Oxocarboxylic acid metabolism","Copy number alteration",0.32959890395893127,19,FALSE
+"2-Oxocarboxylic acid metabolism","Methylation",0.34080219208213747,17,FALSE
+"2-Oxocarboxylic acid metabolism","Transcriptomics",0.32959890395893127,19,FALSE
 "2-Oxocarboxylic acid metabolism","Proteomics",0,0,TRUE
-"Fatty acid metabolism","Copy number alteration",0.33333333333333331,60,FALSE
-"Fatty acid metabolism","Methylation",0.33333333333333331,56,FALSE
-"Fatty acid metabolism","Transcriptomics",0.33333333333333331,60,FALSE
+"Fatty acid metabolism","Copy number alteration",0.33151830874739419,60,FALSE
+"Fatty acid metabolism","Methylation",0.33696338250521146,56,FALSE
+"Fatty acid metabolism","Transcriptomics",0.33151830874739419,60,FALSE
 "Fatty acid metabolism","Proteomics",0,0,TRUE
-"Biosynthesis of amino acids","Copy number alteration",0.33333333333333331,75,FALSE
-"Biosynthesis of amino acids","Methylation",0.33333333333333331,63,FALSE
-"Biosynthesis of amino acids","Transcriptomics",0.33333333333333331,75,FALSE
+"Biosynthesis of amino acids","Copy number alteration",0.32888406316997798,75,FALSE
+"Biosynthesis of amino acids","Methylation",0.34223187366004404,63,FALSE
+"Biosynthesis of amino acids","Transcriptomics",0.32888406316997798,75,FALSE
 "Biosynthesis of amino acids","Proteomics",0,0,TRUE
-"Biosynthesis of cofactors","Copy number alteration",0.33333333333333331,161,FALSE
-"Biosynthesis of cofactors","Methylation",0.33333333333333331,133,FALSE
-"Biosynthesis of cofactors","Transcriptomics",0.33333333333333331,160,FALSE
+"Biosynthesis of cofactors","Copy number alteration",0.32898712908848488,161,FALSE
+"Biosynthesis of cofactors","Methylation",0.34162780487310151,133,FALSE
+"Biosynthesis of cofactors","Transcriptomics",0.32938506603841367,160,FALSE
 "Biosynthesis of cofactors","Proteomics",0,0,TRUE
-"EGFR tyrosine kinase inhibitor resistance","Copy number alteration",0.25,82,FALSE
-"EGFR tyrosine kinase inhibitor resistance","Methylation",0.25,77,FALSE
-"EGFR tyrosine kinase inhibitor resistance","Transcriptomics",0.25,82,FALSE
-"EGFR tyrosine kinase inhibitor resistance","Proteomics",0.25,34,FALSE
-"Endocrine resistance","Copy number alteration",0.25,99,FALSE
-"Endocrine resistance","Methylation",0.25,94,FALSE
-"Endocrine resistance","Transcriptomics",0.25,99,FALSE
-"Endocrine resistance","Proteomics",0.25,30,FALSE
-"Antifolate resistance","Copy number alteration",0.33333333333333331,34,FALSE
-"Antifolate resistance","Methylation",0.33333333333333331,30,FALSE
-"Antifolate resistance","Transcriptomics",0.33333333333333331,34,FALSE
+"EGFR tyrosine kinase inhibitor resistance","Copy number alteration",0.23526710446600149,82,FALSE
+"EGFR tyrosine kinase inhibitor resistance","Methylation",0.23857143370978171,77,FALSE
+"EGFR tyrosine kinase inhibitor resistance","Transcriptomics",0.23526710446600149,82,FALSE
+"EGFR tyrosine kinase inhibitor resistance","Proteomics",0.29089435735821539,34,FALSE
+"Endocrine resistance","Copy number alteration",0.23026799200694426,99,FALSE
+"Endocrine resistance","Methylation",0.23282941828794448,94,FALSE
+"Endocrine resistance","Transcriptomics",0.23026799200694426,99,FALSE
+"Endocrine resistance","Proteomics",0.30663459769816703,30,FALSE
+"Antifolate resistance","Copy number alteration",0.32959952007176141,34,FALSE
+"Antifolate resistance","Methylation",0.34080095985647729,30,FALSE
+"Antifolate resistance","Transcriptomics",0.32959952007176141,34,FALSE
 "Antifolate resistance","Proteomics",0,0,TRUE
-"Platinum drug resistance","Copy number alteration",0.25,74,FALSE
-"Platinum drug resistance","Methylation",0.25,68,FALSE
-"Platinum drug resistance","Transcriptomics",0.25,73,FALSE
-"Platinum drug resistance","Proteomics",0.25,23,FALSE
-"ABC transporters","Copy number alteration",0.33333333333333331,46,FALSE
-"ABC transporters","Methylation",0.33333333333333331,42,FALSE
-"ABC transporters","Transcriptomics",0.33333333333333331,46,FALSE
+"Platinum drug resistance","Copy number alteration",0.22894597051531335,74,FALSE
+"Platinum drug resistance","Methylation",0.23337767636444476,68,FALSE
+"Platinum drug resistance","Transcriptomics",0.2296483329105847,73,FALSE
+"Platinum drug resistance","Proteomics",0.30802802020965714,23,FALSE
+"ABC transporters","Copy number alteration",0.33079794378029459,46,FALSE
+"ABC transporters","Methylation",0.33840411243941088,42,FALSE
+"ABC transporters","Transcriptomics",0.33079794378029459,46,FALSE
 "ABC transporters","Proteomics",0,0,TRUE
-"Ribosome biogenesis in eukaryotes","Copy number alteration",0.33333333333333331,103,FALSE
-"Ribosome biogenesis in eukaryotes","Methylation",0.33333333333333331,69,FALSE
-"Ribosome biogenesis in eukaryotes","Transcriptomics",0.33333333333333331,84,FALSE
+"Ribosome biogenesis in eukaryotes","Copy number alteration",0.31881602247355506,103,FALSE
+"Ribosome biogenesis in eukaryotes","Methylation",0.34808082483001662,69,FALSE
+"Ribosome biogenesis in eukaryotes","Transcriptomics",0.33310315269642837,84,FALSE
 "Ribosome biogenesis in eukaryotes","Proteomics",0,0,TRUE
-"Ribosome","Copy number alteration",0.33333333333333331,151,FALSE
-"Ribosome","Methylation",0.33333333333333331,122,FALSE
-"Ribosome","Transcriptomics",0.33333333333333331,135,FALSE
+"Ribosome","Copy number alteration",0.32615264230925023,151,FALSE
+"Ribosome","Methylation",0.34037236159437029,122,FALSE
+"Ribosome","Transcriptomics",0.33347499609637943,135,FALSE
 "Ribosome","Proteomics",0,0,TRUE
-"RNA transport","Copy number alteration",0.33333333333333331,171,FALSE
-"RNA transport","Methylation",0.33333333333333331,141,FALSE
-"RNA transport","Transcriptomics",0.33333333333333331,168,FALSE
+"RNA transport","Copy number alteration",0.32875480037332278,171,FALSE
+"RNA transport","Methylation",0.34137062020535491,141,FALSE
+"RNA transport","Transcriptomics",0.32987457942132226,168,FALSE
 "RNA transport","Proteomics",0,0,TRUE
-"mRNA surveillance pathway","Copy number alteration",0.33333333333333331,99,FALSE
-"mRNA surveillance pathway","Methylation",0.33333333333333331,84,FALSE
-"mRNA surveillance pathway","Transcriptomics",0.33333333333333331,98,FALSE
+"mRNA surveillance pathway","Copy number alteration",0.32913637932039186,99,FALSE
+"mRNA surveillance pathway","Methylation",0.34101608069896172,84,FALSE
+"mRNA surveillance pathway","Transcriptomics",0.32984753998064642,98,FALSE
 "mRNA surveillance pathway","Proteomics",0,0,TRUE
-"RNA degradation","Copy number alteration",0.33333333333333331,84,FALSE
-"RNA degradation","Methylation",0.33333333333333331,75,FALSE
-"RNA degradation","Transcriptomics",0.33333333333333331,84,FALSE
+"RNA degradation","Copy number alteration",0.33052954328361722,84,FALSE
+"RNA degradation","Methylation",0.3389409134327655,75,FALSE
+"RNA degradation","Transcriptomics",0.33052954328361722,84,FALSE
 "RNA degradation","Proteomics",0,0,TRUE
-"RNA polymerase","Copy number alteration",0.33333333333333331,34,FALSE
-"RNA polymerase","Methylation",0.33333333333333331,32,FALSE
-"RNA polymerase","Transcriptomics",0.33333333333333331,34,FALSE
+"RNA polymerase","Copy number alteration",0.33154202318657383,34,FALSE
+"RNA polymerase","Methylation",0.33691595362685245,32,FALSE
+"RNA polymerase","Transcriptomics",0.33154202318657383,34,FALSE
 "RNA polymerase","Proteomics",0,0,TRUE
-"Basal transcription factors","Copy number alteration",0.33333333333333331,44,FALSE
-"Basal transcription factors","Methylation",0.33333333333333331,39,FALSE
-"Basal transcription factors","Transcriptomics",0.33333333333333331,44,FALSE
+"Basal transcription factors","Copy number alteration",0.32992562419035854,44,FALSE
+"Basal transcription factors","Methylation",0.34014875161928293,39,FALSE
+"Basal transcription factors","Transcriptomics",0.32992562419035854,44,FALSE
 "Basal transcription factors","Proteomics",0,0,TRUE
-"DNA replication","Copy number alteration",0.33333333333333331,39,FALSE
-"DNA replication","Methylation",0.33333333333333331,37,FALSE
-"DNA replication","Transcriptomics",0.33333333333333331,39,FALSE
+"DNA replication","Copy number alteration",0.33182345196720903,39,FALSE
+"DNA replication","Methylation",0.33635309606558184,37,FALSE
+"DNA replication","Transcriptomics",0.33182345196720903,39,FALSE
 "DNA replication","Proteomics",0,0,TRUE
-"Spliceosome","Copy number alteration",0.33333333333333331,141,FALSE
-"Spliceosome","Methylation",0.33333333333333331,127,FALSE
-"Spliceosome","Transcriptomics",0.33333333333333331,142,FALSE
+"Spliceosome","Copy number alteration",0.33114790447878745,141,FALSE
+"Spliceosome","Methylation",0.33816852644134793,127,FALSE
+"Spliceosome","Transcriptomics",0.33068356907986468,142,FALSE
 "Spliceosome","Proteomics",0,0,TRUE
-"Proteasome","Copy number alteration",0.33333333333333331,50,FALSE
-"Proteasome","Methylation",0.33333333333333331,46,FALSE
-"Proteasome","Transcriptomics",0.33333333333333331,49,FALSE
+"Proteasome","Copy number alteration",0.33051130136072066,50,FALSE
+"Proteasome","Methylation",0.33734510291302289,46,FALSE
+"Proteasome","Transcriptomics",0.3321435957262564,49,FALSE
 "Proteasome","Proteomics",0,0,TRUE
-"Protein export","Copy number alteration",0.33333333333333331,23,FALSE
-"Protein export","Methylation",0.33333333333333331,22,FALSE
-"Protein export","Transcriptomics",0.33333333333333331,23,FALSE
+"Protein export","Copy number alteration",0.33191219965438057,23,FALSE
+"Protein export","Methylation",0.33617560069123881,22,FALSE
+"Protein export","Transcriptomics",0.33191219965438057,23,FALSE
 "Protein export","Proteomics",0,0,TRUE
-"PPAR signaling pathway","Copy number alteration",0.33333333333333331,77,FALSE
-"PPAR signaling pathway","Methylation",0.33333333333333331,68,FALSE
-"PPAR signaling pathway","Transcriptomics",0.33333333333333331,77,FALSE
+"PPAR signaling pathway","Copy number alteration",0.3301997904093909,77,FALSE
+"PPAR signaling pathway","Methylation",0.33960041918121819,68,FALSE
+"PPAR signaling pathway","Transcriptomics",0.3301997904093909,77,FALSE
 "PPAR signaling pathway","Proteomics",0,0,TRUE
-"Base excision repair","Copy number alteration",0.33333333333333331,35,FALSE
-"Base excision repair","Methylation",0.33333333333333331,34,FALSE
-"Base excision repair","Transcriptomics",0.33333333333333331,35,FALSE
+"Base excision repair","Copy number alteration",0.33248595637481143,35,FALSE
+"Base excision repair","Methylation",0.33502808725037725,34,FALSE
+"Base excision repair","Transcriptomics",0.33248595637481143,35,FALSE
 "Base excision repair","Proteomics",0,0,TRUE
-"Nucleotide excision repair","Copy number alteration",0.33333333333333331,46,FALSE
-"Nucleotide excision repair","Methylation",0.33333333333333331,42,FALSE
-"Nucleotide excision repair","Transcriptomics",0.33333333333333331,46,FALSE
+"Nucleotide excision repair","Copy number alteration",0.33079794378029459,46,FALSE
+"Nucleotide excision repair","Methylation",0.33840411243941088,42,FALSE
+"Nucleotide excision repair","Transcriptomics",0.33079794378029459,46,FALSE
 "Nucleotide excision repair","Proteomics",0,0,TRUE
-"Mismatch repair","Copy number alteration",0.33333333333333331,24,FALSE
-"Mismatch repair","Methylation",0.33333333333333331,23,FALSE
-"Mismatch repair","Transcriptomics",0.33333333333333331,24,FALSE
+"Mismatch repair","Copy number alteration",0.33198496537233319,24,FALSE
+"Mismatch repair","Methylation",0.33603006925533357,23,FALSE
+"Mismatch repair","Transcriptomics",0.33198496537233319,24,FALSE
 "Mismatch repair","Proteomics",0,0,TRUE
-"Homologous recombination","Copy number alteration",0.25,44,FALSE
-"Homologous recombination","Methylation",0.25,39,FALSE
-"Homologous recombination","Transcriptomics",0.25,43,FALSE
-"Homologous recombination","Proteomics",0.25,5,FALSE
-"Non-homologous end-joining","Copy number alteration",0.33333333333333331,13,FALSE
-"Non-homologous end-joining","Methylation",0.33333333333333331,12,FALSE
-"Non-homologous end-joining","Transcriptomics",0.33333333333333331,13,FALSE
+"Homologous recombination","Copy number alteration",0.19982845028869087,44,FALSE
+"Homologous recombination","Methylation",0.20602036616742567,39,FALSE
+"Homologous recombination","Transcriptomics",0.20098221973382957,43,FALSE
+"Homologous recombination","Proteomics",0.39316896381005395,5,FALSE
+"Non-homologous end-joining","Copy number alteration",0.33045365025250784,13,FALSE
+"Non-homologous end-joining","Methylation",0.33909269949498455,12,FALSE
+"Non-homologous end-joining","Transcriptomics",0.33045365025250784,13,FALSE
 "Non-homologous end-joining","Proteomics",0,0,TRUE
-"Fanconi anemia pathway","Copy number alteration",0.33333333333333331,59,FALSE
-"Fanconi anemia pathway","Methylation",0.33333333333333331,51,FALSE
-"Fanconi anemia pathway","Transcriptomics",0.33333333333333331,58,FALSE
+"Fanconi anemia pathway","Copy number alteration",0.32900737191432017,59,FALSE
+"Fanconi anemia pathway","Methylation",0.34065701862029374,51,FALSE
+"Fanconi anemia pathway","Transcriptomics",0.33033560946538609,58,FALSE
 "Fanconi anemia pathway","Proteomics",0,0,TRUE
-"MAPK signaling pathway","Copy number alteration",0.25,303,FALSE
-"MAPK signaling pathway","Methylation",0.25,269,FALSE
-"MAPK signaling pathway","Transcriptomics",0.25,302,FALSE
-"MAPK signaling pathway","Proteomics",0.25,27,FALSE
-"ErbB signaling pathway","Copy number alteration",0.25,89,FALSE
-"ErbB signaling pathway","Methylation",0.25,82,FALSE
-"ErbB signaling pathway","Transcriptomics",0.25,88,FALSE
-"ErbB signaling pathway","Proteomics",0.25,30,FALSE
-"Ras signaling pathway","Copy number alteration",0.25,234,FALSE
-"Ras signaling pathway","Methylation",0.25,209,FALSE
-"Ras signaling pathway","Transcriptomics",0.25,233,FALSE
-"Ras signaling pathway","Proteomics",0.25,23,FALSE
-"Rap1 signaling pathway","Copy number alteration",0.25,219,FALSE
-"Rap1 signaling pathway","Methylation",0.25,204,FALSE
-"Rap1 signaling pathway","Transcriptomics",0.25,220,FALSE
-"Rap1 signaling pathway","Proteomics",0.25,19,FALSE
-"Calcium signaling pathway","Copy number alteration",0.25,248,FALSE
-"Calcium signaling pathway","Methylation",0.25,215,FALSE
-"Calcium signaling pathway","Transcriptomics",0.25,249,FALSE
-"Calcium signaling pathway","Proteomics",0.25,7,FALSE
-"cGMP-PKG signaling pathway","Copy number alteration",0.25,171,FALSE
-"cGMP-PKG signaling pathway","Methylation",0.25,156,FALSE
-"cGMP-PKG signaling pathway","Transcriptomics",0.25,173,FALSE
-"cGMP-PKG signaling pathway","Proteomics",0.25,6,FALSE
-"cAMP signaling pathway","Copy number alteration",0.25,221,FALSE
-"cAMP signaling pathway","Methylation",0.25,193,FALSE
-"cAMP signaling pathway","Transcriptomics",0.25,221,FALSE
-"cAMP signaling pathway","Proteomics",0.25,12,FALSE
-"Cytokine-cytokine receptor interaction","Copy number alteration",0.33333333333333331,305,FALSE
-"Cytokine-cytokine receptor interaction","Methylation",0.33333333333333331,237,FALSE
-"Cytokine-cytokine receptor interaction","Transcriptomics",0.33333333333333331,308,FALSE
+"MAPK signaling pathway","Copy number alteration",0.21184387863772816,303,FALSE
+"MAPK signaling pathway","Methylation",0.21631334009857656,269,FALSE
+"MAPK signaling pathway","Transcriptomics",0.21196556970950431,302,FALSE
+"MAPK signaling pathway","Proteomics",0.35987721155419095,27,FALSE
+"ErbB signaling pathway","Copy number alteration",0.23137010507849434,89,FALSE
+"ErbB signaling pathway","Methylation",0.23554980614174478,82,FALSE
+"ErbB signaling pathway","Transcriptomics",0.23193826283335389,88,FALSE
+"ErbB signaling pathway","Proteomics",0.30114182594640693,30,FALSE
+"Ras signaling pathway","Copy number alteration",0.21190324307331945,234,FALSE
+"Ras signaling pathway","Methylation",0.21633676570198523,209,FALSE
+"Ras signaling pathway","Transcriptomics",0.21206805463391892,233,FALSE
+"Ras signaling pathway","Proteomics",0.35969193659077636,23,FALSE
+"Rap1 signaling pathway","Copy number alteration",0.20896762415440281,219,FALSE
+"Rap1 signaling pathway","Methylation",0.21172437173804529,204,FALSE
+"Rap1 signaling pathway","Transcriptomics",0.20879300295072564,220,FALSE
+"Rap1 signaling pathway","Proteomics",0.37051500115682628,19,FALSE
+"Calcium signaling pathway","Copy number alteration",0.18055377647462198,248,FALSE
+"Calcium signaling pathway","Methylation",0.18530476603257071,215,FALSE
+"Calcium signaling pathway","Transcriptomics",0.18042333024262577,249,FALSE
+"Calcium signaling pathway","Proteomics",0.45371812725018151,7,FALSE
+"cGMP-PKG signaling pathway","Copy number alteration",0.18202009457857315,171,FALSE
+"cGMP-PKG signaling pathway","Methylation",0.1852809907373951,156,FALSE
+"cGMP-PKG signaling pathway","Transcriptomics",0.18161500363370969,173,FALSE
+"cGMP-PKG signaling pathway","Proteomics",0.45108391105032214,6,FALSE
+"cAMP signaling pathway","Copy number alteration",0.19706965806692539,221,FALSE
+"cAMP signaling pathway","Methylation",0.20208412314015456,193,FALSE
+"cAMP signaling pathway","Transcriptomics",0.19706965806692539,221,FALSE
+"cAMP signaling pathway","Proteomics",0.40377656072599472,12,FALSE
+"Cytokine-cytokine receptor interaction","Copy number alteration",0.32851242804306452,305,FALSE
+"Cytokine-cytokine receptor interaction","Methylation",0.34353203317299341,237,FALSE
+"Cytokine-cytokine receptor interaction","Transcriptomics",0.32795553878394207,308,FALSE
 "Cytokine-cytokine receptor interaction","Proteomics",0,0,TRUE
-"Viral protein interaction with cytokine and cytokine receptor","Copy number alteration",0.33333333333333331,106,FALSE
-"Viral protein interaction with cytokine and cytokine receptor","Methylation",0.33333333333333331,92,FALSE
-"Viral protein interaction with cytokine and cytokine receptor","Transcriptomics",0.33333333333333331,105,FALSE
+"Viral protein interaction with cytokine and cytokine receptor","Copy number alteration",0.32975556472424666,106,FALSE
+"Viral protein interaction with cytokine and cytokine receptor","Methylation",0.33983241257833513,92,FALSE
+"Viral protein interaction with cytokine and cytokine receptor","Transcriptomics",0.33041202269741815,105,FALSE
 "Viral protein interaction with cytokine and cytokine receptor","Proteomics",0,0,TRUE
-"Chemokine signaling pathway","Copy number alteration",0.25,201,FALSE
-"Chemokine signaling pathway","Methylation",0.25,182,FALSE
-"Chemokine signaling pathway","Transcriptomics",0.25,200,FALSE
-"Chemokine signaling pathway","Proteomics",0.25,20,FALSE
-"NF-kappa B signaling pathway","Copy number alteration",0.25,106,FALSE
-"NF-kappa B signaling pathway","Methylation",0.25,94,FALSE
-"NF-kappa B signaling pathway","Transcriptomics",0.25,105,FALSE
-"NF-kappa B signaling pathway","Proteomics",0.25,10,FALSE
-"HIF-1 signaling pathway","Copy number alteration",0.25,111,FALSE
-"HIF-1 signaling pathway","Methylation",0.25,101,FALSE
-"HIF-1 signaling pathway","Transcriptomics",0.25,110,FALSE
-"HIF-1 signaling pathway","Proteomics",0.25,23,FALSE
-"FoxO signaling pathway","Copy number alteration",0.25,134,FALSE
-"FoxO signaling pathway","Methylation",0.25,123,FALSE
-"FoxO signaling pathway","Transcriptomics",0.25,133,FALSE
-"FoxO signaling pathway","Proteomics",0.25,28,FALSE
-"Phosphatidylinositol signaling system","Copy number alteration",0.25,100,FALSE
-"Phosphatidylinositol signaling system","Methylation",0.25,91,FALSE
-"Phosphatidylinositol signaling system","Transcriptomics",0.25,100,FALSE
-"Phosphatidylinositol signaling system","Proteomics",0.25,6,FALSE
-"Sphingolipid signaling pathway","Copy number alteration",0.25,127,FALSE
-"Sphingolipid signaling pathway","Methylation",0.25,122,FALSE
-"Sphingolipid signaling pathway","Transcriptomics",0.25,128,FALSE
-"Sphingolipid signaling pathway","Proteomics",0.25,21,FALSE
-"Phospholipase D signaling pathway","Copy number alteration",0.25,150,FALSE
-"Phospholipase D signaling pathway","Methylation",0.25,140,FALSE
-"Phospholipase D signaling pathway","Transcriptomics",0.25,150,FALSE
-"Phospholipase D signaling pathway","Proteomics",0.25,18,FALSE
-"Neuroactive ligand-receptor interaction","Copy number alteration",0.33333333333333331,347,FALSE
-"Neuroactive ligand-receptor interaction","Methylation",0.33333333333333331,240,FALSE
-"Neuroactive ligand-receptor interaction","Transcriptomics",0.33333333333333331,348,FALSE
+"Chemokine signaling pathway","Copy number alteration",0.21102929702595646,201,FALSE
+"Chemokine signaling pathway","Methylation",0.2150059319667208,182,FALSE
+"Chemokine signaling pathway","Transcriptomics",0.21122561758899785,200,FALSE
+"Chemokine signaling pathway","Proteomics",0.36273915341832474,20,FALSE
+"NF-kappa B signaling pathway","Copy number alteration",0.20358206862894149,106,FALSE
+"NF-kappa B signaling pathway","Methylation",0.20883550527366246,94,FALSE
+"NF-kappa B signaling pathway","Transcriptomics",0.20398734783100123,105,FALSE
+"NF-kappa B signaling pathway","Proteomics",0.38359507826639477,10,FALSE
+"HIF-1 signaling pathway","Copy number alteration",0.2226912725024047,111,FALSE
+"HIF-1 signaling pathway","Methylation",0.22714338025696407,101,FALSE
+"HIF-1 signaling pathway","Transcriptomics",0.22311078961272893,110,FALSE
+"HIF-1 signaling pathway","Proteomics",0.32705455762790231,23,FALSE
+"FoxO signaling pathway","Copy number alteration",0.22404633869413082,134,FALSE
+"FoxO signaling pathway","Methylation",0.22795998775174114,123,FALSE
+"FoxO signaling pathway","Transcriptomics",0.22438342195529085,133,FALSE
+"FoxO signaling pathway","Proteomics",0.32361025159883716,28,FALSE
+"Phosphatidylinositol signaling system","Copy number alteration",0.19067516282919195,100,FALSE
+"Phosphatidylinositol signaling system","Methylation",0.19456107815960225,91,FALSE
+"Phosphatidylinositol signaling system","Transcriptomics",0.19067516282919195,100,FALSE
+"Phosphatidylinositol signaling system","Proteomics",0.42408859618201383,6,FALSE
+"Sphingolipid signaling pathway","Copy number alteration",0.21946430899971323,127,FALSE
+"Sphingolipid signaling pathway","Methylation",0.22126412257778477,122,FALSE
+"Sphingolipid signaling pathway","Transcriptomics",0.21911614227848844,128,FALSE
+"Sphingolipid signaling pathway","Proteomics",0.34015542614401345,21,FALSE
+"Phospholipase D signaling pathway","Copy number alteration",0.21318577346442616,150,FALSE
+"Phospholipase D signaling pathway","Methylation",0.21611324248830363,140,FALSE
+"Phospholipase D signaling pathway","Transcriptomics",0.21318577346442616,150,FALSE
+"Phospholipase D signaling pathway","Proteomics",0.35751521058284408,18,FALSE
+"Neuroactive ligand-receptor interaction","Copy number alteration",0.32613492884812562,347,FALSE
+"Neuroactive ligand-receptor interaction","Methylation",0.34788943872482136,240,FALSE
+"Neuroactive ligand-receptor interaction","Transcriptomics",0.32597563242705296,348,FALSE
 "Neuroactive ligand-receptor interaction","Proteomics",0,0,TRUE
-"Cell cycle","Copy number alteration",0.25,132,FALSE
-"Cell cycle","Methylation",0.25,126,FALSE
-"Cell cycle","Transcriptomics",0.25,132,FALSE
-"Cell cycle","Proteomics",0.25,22,FALSE
-"Oocyte meiosis","Copy number alteration",0.25,124,FALSE
-"Oocyte meiosis","Methylation",0.25,114,FALSE
-"Oocyte meiosis","Transcriptomics",0.25,125,FALSE
-"Oocyte meiosis","Proteomics",0.25,13,FALSE
-"p53 signaling pathway","Copy number alteration",0.25,77,FALSE
-"p53 signaling pathway","Methylation",0.25,76,FALSE
-"p53 signaling pathway","Transcriptomics",0.25,76,FALSE
-"p53 signaling pathway","Proteomics",0.25,21,FALSE
-"Ubiquitin mediated proteolysis","Copy number alteration",0.33333333333333331,148,FALSE
-"Ubiquitin mediated proteolysis","Methylation",0.33333333333333331,136,FALSE
-"Ubiquitin mediated proteolysis","Transcriptomics",0.33333333333333331,148,FALSE
+"Cell cycle","Copy number alteration",0.21975193249457395,132,FALSE
+"Cell cycle","Methylation",0.22182667925458782,126,FALSE
+"Cell cycle","Transcriptomics",0.21975193249457395,132,FALSE
+"Cell cycle","Proteomics",0.33866945575626434,22,FALSE
+"Oocyte meiosis","Copy number alteration",0.20826154678832901,124,FALSE
+"Oocyte meiosis","Methylation",0.2118843884629657,114,FALSE
+"Oocyte meiosis","Transcriptomics",0.20792168689390153,125,FALSE
+"Oocyte meiosis","Proteomics",0.37193237785480371,13,FALSE
+"p53 signaling pathway","Copy number alteration",0.22730415776216967,77,FALSE
+"p53 signaling pathway","Methylation",0.22796879559780153,76,FALSE
+"p53 signaling pathway","Transcriptomics",0.22796879559780153,76,FALSE
+"p53 signaling pathway","Proteomics",0.31675825104222732,21,FALSE
+"Ubiquitin mediated proteolysis","Copy number alteration",0.33146359886298127,148,FALSE
+"Ubiquitin mediated proteolysis","Methylation",0.33707280227403752,136,FALSE
+"Ubiquitin mediated proteolysis","Transcriptomics",0.33146359886298127,148,FALSE
 "Ubiquitin mediated proteolysis","Proteomics",0,0,TRUE
-"Sulfur relay system","Copy number alteration",0.33333333333333331,8,FALSE
-"Sulfur relay system","Methylation",0.33333333333333331,7,FALSE
-"Sulfur relay system","Transcriptomics",0.33333333333333331,8,FALSE
+"Sulfur relay system","Copy number alteration",0.32808919531833369,8,FALSE
+"Sulfur relay system","Methylation",0.34382160936333256,7,FALSE
+"Sulfur relay system","Transcriptomics",0.32808919531833369,8,FALSE
 "Sulfur relay system","Proteomics",0,0,TRUE
-"SNARE interactions in vesicular transport","Copy number alteration",0.33333333333333331,32,FALSE
-"SNARE interactions in vesicular transport","Methylation",0.33333333333333331,32,FALSE
-"SNARE interactions in vesicular transport","Transcriptomics",0.33333333333333331,33,FALSE
+"SNARE interactions in vesicular transport","Copy number alteration",0.33424171547429604,32,FALSE
+"SNARE interactions in vesicular transport","Methylation",0.33424171547429604,32,FALSE
+"SNARE interactions in vesicular transport","Transcriptomics",0.33151656905140792,33,FALSE
 "SNARE interactions in vesicular transport","Proteomics",0,0,TRUE
-"Autophagy - other","Copy number alteration",0.33333333333333331,31,FALSE
-"Autophagy - other","Methylation",0.33333333333333331,29,FALSE
-"Autophagy - other","Transcriptomics",0.33333333333333331,31,FALSE
+"Autophagy - other","Copy number alteration",0.33132260872083252,31,FALSE
+"Autophagy - other","Methylation",0.3373547825583349,29,FALSE
+"Autophagy - other","Transcriptomics",0.33132260872083252,31,FALSE
 "Autophagy - other","Proteomics",0,0,TRUE
-"Mitophagy - animal","Copy number alteration",0.25,67,FALSE
-"Mitophagy - animal","Methylation",0.25,64,FALSE
-"Mitophagy - animal","Transcriptomics",0.25,67,FALSE
-"Mitophagy - animal","Proteomics",0.25,10,FALSE
-"Autophagy - animal","Copy number alteration",0.25,141,FALSE
-"Autophagy - animal","Methylation",0.25,131,FALSE
-"Autophagy - animal","Transcriptomics",0.25,141,FALSE
-"Autophagy - animal","Proteomics",0.25,26,FALSE
-"Protein processing in endoplasmic reticulum","Copy number alteration",0.25,175,FALSE
-"Protein processing in endoplasmic reticulum","Methylation",0.25,164,FALSE
-"Protein processing in endoplasmic reticulum","Transcriptomics",0.25,174,FALSE
-"Protein processing in endoplasmic reticulum","Proteomics",0.25,7,FALSE
-"Lysosome","Copy number alteration",0.33333333333333331,132,FALSE
-"Lysosome","Methylation",0.33333333333333331,123,FALSE
-"Lysosome","Transcriptomics",0.33333333333333331,132,FALSE
+"Mitophagy - animal","Copy number alteration",0.21210978488951482,67,FALSE
+"Mitophagy - animal","Methylation",0.21436024569772427,64,FALSE
+"Mitophagy - animal","Transcriptomics",0.21210978488951482,67,FALSE
+"Mitophagy - animal","Proteomics",0.36142018452324604,10,FALSE
+"Autophagy - animal","Copy number alteration",0.22201589775774788,141,FALSE
+"Autophagy - animal","Methylation",0.22530710530681949,131,FALSE
+"Autophagy - animal","Transcriptomics",0.22201589775774788,141,FALSE
+"Autophagy - animal","Proteomics",0.33066109917768477,26,FALSE
+"Protein processing in endoplasmic reticulum","Copy number alteration",0.18624005157840828,175,FALSE
+"Protein processing in endoplasmic reticulum","Methylation",0.18857760094181153,164,FALSE
+"Protein processing in endoplasmic reticulum","Transcriptomics",0.18644413058762419,174,FALSE
+"Protein processing in endoplasmic reticulum","Proteomics",0.43873821689215603,7,FALSE
+"Lysosome","Copy number alteration",0.33174101437180609,132,FALSE
+"Lysosome","Methylation",0.33651797125638794,123,FALSE
+"Lysosome","Transcriptomics",0.33174101437180609,132,FALSE
 "Lysosome","Proteomics",0,0,TRUE
-"Endocytosis","Copy number alteration",0.25,252,FALSE
-"Endocytosis","Methylation",0.25,246,FALSE
-"Endocytosis","Transcriptomics",0.25,253,FALSE
-"Endocytosis","Proteomics",0.25,7,FALSE
-"Phagosome","Copy number alteration",0.33333333333333331,136,FALSE
-"Phagosome","Methylation",0.33333333333333331,145,FALSE
-"Phagosome","Transcriptomics",0.33333333333333331,153,FALSE
+"Endocytosis","Copy number alteration",0.18103557463861183,252,FALSE
+"Endocytosis","Methylation",0.1818205217022279,246,FALSE
+"Endocytosis","Transcriptomics",0.18090720335286217,253,FALSE
+"Endocytosis","Proteomics",0.45623670030629815,7,FALSE
+"Phagosome","Copy number alteration",0.33734711614254925,136,FALSE
+"Phagosome","Methylation",0.33307629995728655,145,FALSE
+"Phagosome","Transcriptomics",0.32957658390016414,153,FALSE
 "Phagosome","Proteomics",0,0,TRUE
-"Peroxisome","Copy number alteration",0.33333333333333331,90,FALSE
-"Peroxisome","Methylation",0.33333333333333331,79,FALSE
-"Peroxisome","Transcriptomics",0.33333333333333331,90,FALSE
+"Peroxisome","Copy number alteration",0.33014443147666639,90,FALSE
+"Peroxisome","Methylation",0.33971113704666722,79,FALSE
+"Peroxisome","Transcriptomics",0.33014443147666639,90,FALSE
 "Peroxisome","Proteomics",0,0,TRUE
-"mTOR signaling pathway","Copy number alteration",0.25,163,FALSE
-"mTOR signaling pathway","Methylation",0.25,151,FALSE
-"mTOR signaling pathway","Transcriptomics",0.25,162,FALSE
-"mTOR signaling pathway","Proteomics",0.25,27,FALSE
-"PI3K-Akt signaling pathway","Copy number alteration",0.25,361,FALSE
-"PI3K-Akt signaling pathway","Methylation",0.25,311,FALSE
-"PI3K-Akt signaling pathway","Transcriptomics",0.25,362,FALSE
-"PI3K-Akt signaling pathway","Proteomics",0.25,51,FALSE
-"AMPK signaling pathway","Copy number alteration",0.25,121,FALSE
-"AMPK signaling pathway","Methylation",0.25,112,FALSE
-"AMPK signaling pathway","Transcriptomics",0.25,122,FALSE
-"AMPK signaling pathway","Proteomics",0.25,21,FALSE
-"Apoptosis","Copy number alteration",0.25,141,FALSE
-"Apoptosis","Methylation",0.25,137,FALSE
-"Apoptosis","Transcriptomics",0.25,141,FALSE
-"Apoptosis","Proteomics",0.25,30,FALSE
-"Longevity regulating pathway","Copy number alteration",0.25,89,FALSE
-"Longevity regulating pathway","Methylation",0.25,82,FALSE
-"Longevity regulating pathway","Transcriptomics",0.25,90,FALSE
-"Longevity regulating pathway","Proteomics",0.25,19,FALSE
-"Longevity regulating pathway - multiple species","Copy number alteration",0.25,62,FALSE
-"Longevity regulating pathway - multiple species","Methylation",0.25,55,FALSE
-"Longevity regulating pathway - multiple species","Transcriptomics",0.25,62,FALSE
-"Longevity regulating pathway - multiple species","Proteomics",0.25,12,FALSE
-"Apoptosis - multiple species","Copy number alteration",0.25,32,FALSE
-"Apoptosis - multiple species","Methylation",0.25,31,FALSE
-"Apoptosis - multiple species","Transcriptomics",0.25,32,FALSE
-"Apoptosis - multiple species","Proteomics",0.25,15,FALSE
-"Ferroptosis","Copy number alteration",0.33333333333333331,42,FALSE
-"Ferroptosis","Methylation",0.33333333333333331,37,FALSE
-"Ferroptosis","Transcriptomics",0.33333333333333331,42,FALSE
+"mTOR signaling pathway","Copy number alteration",0.22062702846428955,163,FALSE
+"mTOR signaling pathway","Methylation",0.22393866995491191,151,FALSE
+"mTOR signaling pathway","Transcriptomics",0.22089001611126241,162,FALSE
+"mTOR signaling pathway","Proteomics",0.33454428546953607,27,FALSE
+"PI3K-Akt signaling pathway","Copy number alteration",0.22173187719595214,361,FALSE
+"PI3K-Akt signaling pathway","Methylation",0.22745053769458301,311,FALSE
+"PI3K-Akt signaling pathway","Transcriptomics",0.22162843885815914,362,FALSE
+"PI3K-Akt signaling pathway","Proteomics",0.32918914625130574,51,FALSE
+"AMPK signaling pathway","Copy number alteration",0.21982327039547889,121,FALSE
+"AMPK signaling pathway","Methylation",0.22335003785631355,112,FALSE
+"AMPK signaling pathway","Transcriptomics",0.2194540066480839,122,FALSE
+"AMPK signaling pathway","Proteomics",0.33737268510012364,21,FALSE
+"Apoptosis","Copy number alteration",0.22534075016798302,141,FALSE
+"Apoptosis","Methylation",0.22663634403685767,137,FALSE
+"Apoptosis","Transcriptomics",0.22534075016798302,141,FALSE
+"Apoptosis","Proteomics",0.32268215562717628,30,FALSE
+"Longevity regulating pathway","Copy number alteration",0.22235666177035035,89,FALSE
+"Longevity regulating pathway","Methylation",0.22637353497575888,82,FALSE
+"Longevity regulating pathway","Transcriptomics",0.22181923026545311,90,FALSE
+"Longevity regulating pathway","Proteomics",0.32945057298843766,19,FALSE
+"Longevity regulating pathway - multiple species","Copy number alteration",0.217176638758873,62,FALSE
+"Longevity regulating pathway - multiple species","Methylation",0.22339866333650277,55,FALSE
+"Longevity regulating pathway - multiple species","Transcriptomics",0.217176638758873,62,FALSE
+"Longevity regulating pathway - multiple species","Proteomics",0.34224805914575129,12,FALSE
+"Apoptosis - multiple species","Copy number alteration",0.23511772515700616,32,FALSE
+"Apoptosis - multiple species","Methylation",0.23712514560771589,31,FALSE
+"Apoptosis - multiple species","Transcriptomics",0.23511772515700616,32,FALSE
+"Apoptosis - multiple species","Proteomics",0.29263940407827177,15,FALSE
+"Ferroptosis","Copy number alteration",0.32971455942875355,42,FALSE
+"Ferroptosis","Methylation",0.34057088114249295,37,FALSE
+"Ferroptosis","Transcriptomics",0.32971455942875355,42,FALSE
 "Ferroptosis","Proteomics",0,0,TRUE
-"Necroptosis","Copy number alteration",0.25,161,FALSE
-"Necroptosis","Methylation",0.25,128,FALSE
-"Necroptosis","Transcriptomics",0.25,157,FALSE
-"Necroptosis","Proteomics",0.25,12,FALSE
-"Cellular senescence","Copy number alteration",0.25,160,FALSE
-"Cellular senescence","Methylation",0.25,158,FALSE
-"Cellular senescence","Transcriptomics",0.25,167,FALSE
-"Cellular senescence","Proteomics",0.25,35,FALSE
-"Cardiac muscle contraction","Copy number alteration",0.33333333333333331,83,FALSE
-"Cardiac muscle contraction","Methylation",0.33333333333333331,66,FALSE
-"Cardiac muscle contraction","Transcriptomics",0.33333333333333331,84,FALSE
+"Necroptosis","Copy number alteration",0.20074209997576486,161,FALSE
+"Necroptosis","Methylation",0.21007146892739892,128,FALSE
+"Necroptosis","Transcriptomics",0.20172606766054979,157,FALSE
+"Necroptosis","Proteomics",0.38746036343628643,12,FALSE
+"Cellular senescence","Copy number alteration",0.22711015386386352,160,FALSE
+"Cellular senescence","Methylation",0.22766605215049576,158,FALSE
+"Cellular senescence","Transcriptomics",0.22523734886433947,167,FALSE
+"Cellular senescence","Proteomics",0.31998644512130126,35,FALSE
+"Cardiac muscle contraction","Copy number alteration",0.32784111713249076,83,FALSE
+"Cardiac muscle contraction","Methylation",0.34517859729730271,66,FALSE
+"Cardiac muscle contraction","Transcriptomics",0.32698028557020653,84,FALSE
 "Cardiac muscle contraction","Proteomics",0,0,TRUE
-"Adrenergic signaling in cardiomyocytes","Copy number alteration",0.25,151,FALSE
-"Adrenergic signaling in cardiomyocytes","Methylation",0.25,135,FALSE
-"Adrenergic signaling in cardiomyocytes","Transcriptomics",0.25,152,FALSE
-"Adrenergic signaling in cardiomyocytes","Proteomics",0.25,5,FALSE
-"Vascular smooth muscle contraction","Copy number alteration",0.25,134,FALSE
-"Vascular smooth muscle contraction","Methylation",0.25,118,FALSE
-"Vascular smooth muscle contraction","Transcriptomics",0.25,134,FALSE
-"Vascular smooth muscle contraction","Proteomics",0.25,10,FALSE
-"Wnt signaling pathway","Copy number alteration",0.25,163,FALSE
-"Wnt signaling pathway","Methylation",0.25,152,FALSE
-"Wnt signaling pathway","Transcriptomics",0.25,164,FALSE
-"Wnt signaling pathway","Proteomics",0.25,12,FALSE
-"Notch signaling pathway","Copy number alteration",0.33333333333333331,55,FALSE
-"Notch signaling pathway","Methylation",0.33333333333333331,51,FALSE
-"Notch signaling pathway","Transcriptomics",0.33333333333333331,54,FALSE
+"Adrenergic signaling in cardiomyocytes","Copy number alteration",0.17837104693167125,151,FALSE
+"Adrenergic signaling in cardiomyocytes","Methylation",0.18237560106242059,135,FALSE
+"Adrenergic signaling in cardiomyocytes","Transcriptomics",0.17814034583799421,152,FALSE
+"Adrenergic signaling in cardiomyocytes","Proteomics",0.4611130061679139,5,FALSE
+"Vascular smooth muscle contraction","Copy number alteration",0.19987441711867363,134,FALSE
+"Vascular smooth muscle contraction","Methylation",0.2050998904117379,118,FALSE
+"Vascular smooth muscle contraction","Transcriptomics",0.19987441711867363,134,FALSE
+"Vascular smooth muscle contraction","Proteomics",0.39515127535091493,10,FALSE
+"Wnt signaling pathway","Copy number alteration",0.20213141680487115,163,FALSE
+"Wnt signaling pathway","Methylation",0.20490008031312237,152,FALSE
+"Wnt signaling pathway","Transcriptomics",0.20189249964928904,164,FALSE
+"Wnt signaling pathway","Proteomics",0.39107600323271746,12,FALSE
+"Notch signaling pathway","Copy number alteration",0.33082753836650985,55,FALSE
+"Notch signaling pathway","Methylation",0.33689026589247073,51,FALSE
+"Notch signaling pathway","Transcriptomics",0.33228219574101953,54,FALSE
 "Notch signaling pathway","Proteomics",0,0,TRUE
-"Hedgehog signaling pathway","Copy number alteration",0.33333333333333331,56,FALSE
-"Hedgehog signaling pathway","Methylation",0.33333333333333331,51,FALSE
-"Hedgehog signaling pathway","Transcriptomics",0.33333333333333331,55,FALSE
+"Hedgehog signaling pathway","Copy number alteration",0.33035921359232134,56,FALSE
+"Hedgehog signaling pathway","Methylation",0.33786048708958311,51,FALSE
+"Hedgehog signaling pathway","Transcriptomics",0.33178029931809561,55,FALSE
 "Hedgehog signaling pathway","Proteomics",0,0,TRUE
-"TGF-beta signaling pathway","Copy number alteration",0.25,95,FALSE
-"TGF-beta signaling pathway","Methylation",0.25,91,FALSE
-"TGF-beta signaling pathway","Transcriptomics",0.25,95,FALSE
-"TGF-beta signaling pathway","Proteomics",0.25,6,FALSE
-"Axon guidance","Copy number alteration",0.25,188,FALSE
-"Axon guidance","Methylation",0.25,175,FALSE
-"Axon guidance","Transcriptomics",0.25,188,FALSE
-"Axon guidance","Proteomics",0.25,11,FALSE
-"VEGF signaling pathway","Copy number alteration",0.25,60,FALSE
-"VEGF signaling pathway","Methylation",0.25,57,FALSE
-"VEGF signaling pathway","Transcriptomics",0.25,60,FALSE
-"VEGF signaling pathway","Proteomics",0.25,15,FALSE
-"Apelin signaling pathway","Copy number alteration",0.25,138,FALSE
-"Apelin signaling pathway","Methylation",0.25,130,FALSE
-"Apelin signaling pathway","Transcriptomics",0.25,139,FALSE
-"Apelin signaling pathway","Proteomics",0.25,15,FALSE
-"Osteoclast differentiation","Copy number alteration",0.25,131,FALSE
-"Osteoclast differentiation","Methylation",0.25,123,FALSE
-"Osteoclast differentiation","Transcriptomics",0.25,131,FALSE
-"Osteoclast differentiation","Proteomics",0.25,15,FALSE
-"Hippo signaling pathway","Copy number alteration",0.25,163,FALSE
-"Hippo signaling pathway","Methylation",0.25,155,FALSE
-"Hippo signaling pathway","Transcriptomics",0.25,162,FALSE
-"Hippo signaling pathway","Proteomics",0.25,18,FALSE
-"Hippo signaling pathway - multiple species","Copy number alteration",0.33333333333333331,30,FALSE
-"Hippo signaling pathway - multiple species","Methylation",0.33333333333333331,28,FALSE
-"Hippo signaling pathway - multiple species","Transcriptomics",0.33333333333333331,30,FALSE
+"TGF-beta signaling pathway","Copy number alteration",0.19196578096258951,95,FALSE
+"TGF-beta signaling pathway","Methylation",0.19374929706299568,91,FALSE
+"TGF-beta signaling pathway","Transcriptomics",0.19196578096258951,95,FALSE
+"TGF-beta signaling pathway","Proteomics",0.42231914101182522,6,FALSE
+"Axon guidance","Copy number alteration",0.19765360302972054,188,FALSE
+"Axon guidance","Methylation",0.20035997152858717,175,FALSE
+"Axon guidance","Transcriptomics",0.19765360302972054,188,FALSE
+"Axon guidance","Proteomics",0.40433282241197172,11,FALSE
+"VEGF signaling pathway","Copy number alteration",0.22377067502928652,60,FALSE
+"VEGF signaling pathway","Methylation",0.22649249945170419,57,FALSE
+"VEGF signaling pathway","Transcriptomics",0.22377067502928652,60,FALSE
+"VEGF signaling pathway","Proteomics",0.32596615048972277,15,FALSE
+"Apelin signaling pathway","Copy number alteration",0.21031399681724633,138,FALSE
+"Apelin signaling pathway","Methylation",0.21284839836184011,130,FALSE
+"Apelin signaling pathway","Transcriptomics",0.21001151637227702,139,FALSE
+"Apelin signaling pathway","Proteomics",0.3668260884486364,15,FALSE
+"Osteoclast differentiation","Copy number alteration",0.21101823597049102,131,FALSE
+"Osteoclast differentiation","Methylation",0.21372945141169736,123,FALSE
+"Osteoclast differentiation","Transcriptomics",0.21101823597049102,131,FALSE
+"Osteoclast differentiation","Proteomics",0.36423407664732049,15,FALSE
+"Hippo signaling pathway","Copy number alteration",0.212069834417588,163,FALSE
+"Hippo signaling pathway","Methylation",0.2141543455126263,155,FALSE
+"Hippo signaling pathway","Transcriptomics",0.21232262188037357,162,FALSE
+"Hippo signaling pathway","Proteomics",0.36145319818941207,18,FALSE
+"Hippo signaling pathway - multiple species","Copy number alteration",0.33123822555970867,30,FALSE
+"Hippo signaling pathway - multiple species","Methylation",0.33752354888058267,28,FALSE
+"Hippo signaling pathway - multiple species","Transcriptomics",0.33123822555970867,30,FALSE
 "Hippo signaling pathway - multiple species","Proteomics",0,0,TRUE
-"Focal adhesion","Copy number alteration",0.25,206,FALSE
-"Focal adhesion","Methylation",0.25,195,FALSE
-"Focal adhesion","Transcriptomics",0.25,206,FALSE
-"Focal adhesion","Proteomics",0.25,30,FALSE
-"ECM-receptor interaction","Copy number alteration",0.33333333333333331,89,FALSE
-"ECM-receptor interaction","Methylation",0.33333333333333331,83,FALSE
-"ECM-receptor interaction","Transcriptomics",0.33333333333333331,88,FALSE
+"Focal adhesion","Copy number alteration",0.21976223790678875,206,FALSE
+"Focal adhesion","Methylation",0.22202235112142085,195,FALSE
+"Focal adhesion","Transcriptomics",0.21976223790678875,206,FALSE
+"Focal adhesion","Proteomics",0.33845317306500167,30,FALSE
+"ECM-receptor interaction","Copy number alteration",0.33136626874558339,89,FALSE
+"ECM-receptor interaction","Methylation",0.3364537518731277,83,FALSE
+"ECM-receptor interaction","Transcriptomics",0.3321799793812889,88,FALSE
 "ECM-receptor interaction","Proteomics",0,0,TRUE
-"Cell adhesion molecules","Copy number alteration",0.25,128,FALSE
-"Cell adhesion molecules","Methylation",0.25,136,FALSE
-"Cell adhesion molecules","Transcriptomics",0.25,146,FALSE
-"Cell adhesion molecules","Proteomics",0.25,5,FALSE
-"Adherens junction","Copy number alteration",0.25,78,FALSE
-"Adherens junction","Methylation",0.25,77,FALSE
-"Adherens junction","Transcriptomics",0.25,78,FALSE
-"Adherens junction","Proteomics",0.25,11,FALSE
-"Tight junction","Copy number alteration",0.25,173,FALSE
-"Tight junction","Methylation",0.25,161,FALSE
-"Tight junction","Transcriptomics",0.25,171,FALSE
-"Tight junction","Proteomics",0.25,15,FALSE
-"Gap junction","Copy number alteration",0.25,92,FALSE
-"Gap junction","Methylation",0.25,87,FALSE
-"Gap junction","Transcriptomics",0.25,92,FALSE
-"Gap junction","Proteomics",0.25,10,FALSE
-"Signaling pathways regulating pluripotency of stem cells","Copy number alteration",0.25,145,FALSE
-"Signaling pathways regulating pluripotency of stem cells","Methylation",0.25,133,FALSE
-"Signaling pathways regulating pluripotency of stem cells","Transcriptomics",0.25,143,FALSE
-"Signaling pathways regulating pluripotency of stem cells","Proteomics",0.25,16,FALSE
-"Complement and coagulation cascades","Copy number alteration",0.33333333333333331,93,FALSE
-"Complement and coagulation cascades","Methylation",0.33333333333333331,73,FALSE
-"Complement and coagulation cascades","Transcriptomics",0.33333333333333331,92,FALSE
+"Cell adhesion molecules","Copy number alteration",0.18303795789117736,128,FALSE
+"Cell adhesion molecules","Methylation",0.18081950366391944,136,FALSE
+"Cell adhesion molecules","Transcriptomics",0.17828811684744519,146,FALSE
+"Cell adhesion molecules","Proteomics",0.45785442159745809,5,FALSE
+"Adherens junction","Copy number alteration",0.21225541613512552,78,FALSE
+"Adherens junction","Methylation",0.21286645779117427,77,FALSE
+"Adherens junction","Transcriptomics",0.21225541613512552,78,FALSE
+"Adherens junction","Proteomics",0.36262270993857465,11,FALSE
+"Tight junction","Copy number alteration",0.20664918537910407,173,FALSE
+"Tight junction","Methylation",0.20953104728215274,161,FALSE
+"Tight junction","Transcriptomics",0.20711011488429693,171,FALSE
+"Tight junction","Proteomics",0.37670965245444626,15,FALSE
+"Gap junction","Copy number alteration",0.20658880339940341,92,FALSE
+"Gap junction","Methylation",0.20910444848886792,87,FALSE
+"Gap junction","Transcriptomics",0.20658880339940341,92,FALSE
+"Gap junction","Proteomics",0.37771794471232523,10,FALSE
+"Signaling pathways regulating pluripotency of stem cells","Copy number alteration",0.21067337835547961,145,FALSE
+"Signaling pathways regulating pluripotency of stem cells","Methylation",0.21433076433011647,133,FALSE
+"Signaling pathways regulating pluripotency of stem cells","Transcriptomics",0.21125327311575187,143,FALSE
+"Signaling pathways regulating pluripotency of stem cells","Proteomics",0.36374258419865202,16,FALSE
+"Complement and coagulation cascades","Copy number alteration",0.3271094618559941,93,FALSE
+"Complement and coagulation cascades","Methylation",0.34501918249632541,73,FALSE
+"Complement and coagulation cascades","Transcriptomics",0.32787135564768055,92,FALSE
 "Complement and coagulation cascades","Proteomics",0,0,TRUE
-"Platelet activation","Copy number alteration",0.25,126,FALSE
-"Platelet activation","Methylation",0.25,117,FALSE
-"Platelet activation","Transcriptomics",0.25,125,FALSE
-"Platelet activation","Proteomics",0.25,8,FALSE
-"Antigen processing and presentation","Copy number alteration",0.33333333333333331,52,FALSE
-"Antigen processing and presentation","Methylation",0.33333333333333331,65,FALSE
-"Antigen processing and presentation","Transcriptomics",0.33333333333333331,69,FALSE
+"Platelet activation","Copy number alteration",0.19515681974392859,126,FALSE
+"Platelet activation","Methylation",0.19813398774329374,117,FALSE
+"Platelet activation","Transcriptomics",0.19547279630359943,125,FALSE
+"Platelet activation","Proteomics",0.41123639620917823,8,FALSE
+"Antigen processing and presentation","Copy number alteration",0.34668165414496072,52,FALSE
+"Antigen processing and presentation","Methylation",0.32889623875075813,65,FALSE
+"Antigen processing and presentation","Transcriptomics",0.32442210710428115,69,FALSE
 "Antigen processing and presentation","Proteomics",0,0,TRUE
-"Neutrophil extracellular trap formation","Copy number alteration",0.25,187,FALSE
-"Neutrophil extracellular trap formation","Methylation",0.25,147,FALSE
-"Neutrophil extracellular trap formation","Transcriptomics",0.25,182,FALSE
-"Neutrophil extracellular trap formation","Proteomics",0.25,14,FALSE
-"Renin-angiotensin system","Copy number alteration",0.33333333333333331,23,FALSE
-"Renin-angiotensin system","Methylation",0.33333333333333331,18,FALSE
-"Renin-angiotensin system","Transcriptomics",0.33333333333333331,23,FALSE
+"Neutrophil extracellular trap formation","Copy number alteration",0.20229710449207669,187,FALSE
+"Neutrophil extracellular trap formation","Methylation",0.21191079575866842,147,FALSE
+"Neutrophil extracellular trap formation","Transcriptomics",0.20333716327748852,182,FALSE
+"Neutrophil extracellular trap formation","Proteomics",0.38245493647176643,14,FALSE
+"Renin-angiotensin system","Copy number alteration",0.32525749891599526,23,FALSE
+"Renin-angiotensin system","Methylation",0.34948500216800937,18,FALSE
+"Renin-angiotensin system","Transcriptomics",0.32525749891599526,23,FALSE
 "Renin-angiotensin system","Proteomics",0,0,TRUE
-"Toll-like receptor signaling pathway","Copy number alteration",0.25,109,FALSE
-"Toll-like receptor signaling pathway","Methylation",0.25,84,FALSE
-"Toll-like receptor signaling pathway","Transcriptomics",0.25,108,FALSE
-"Toll-like receptor signaling pathway","Proteomics",0.25,11,FALSE
-"NOD-like receptor signaling pathway","Copy number alteration",0.25,192,FALSE
-"NOD-like receptor signaling pathway","Methylation",0.25,151,FALSE
-"NOD-like receptor signaling pathway","Transcriptomics",0.25,187,FALSE
-"NOD-like receptor signaling pathway","Proteomics",0.25,13,FALSE
-"RIG-I-like receptor signaling pathway","Copy number alteration",0.25,73,FALSE
-"RIG-I-like receptor signaling pathway","Methylation",0.25,53,FALSE
-"RIG-I-like receptor signaling pathway","Transcriptomics",0.25,73,FALSE
-"RIG-I-like receptor signaling pathway","Proteomics",0.25,5,FALSE
-"Cytosolic DNA-sensing pathway","Copy number alteration",0.33333333333333331,65,FALSE
-"Cytosolic DNA-sensing pathway","Methylation",0.33333333333333331,47,FALSE
-"Cytosolic DNA-sensing pathway","Transcriptomics",0.33333333333333331,64,FALSE
+"Toll-like receptor signaling pathway","Copy number alteration",0.20427656206131048,109,FALSE
+"Toll-like receptor signaling pathway","Methylation",0.21597926126172512,84,FALSE
+"Toll-like receptor signaling pathway","Transcriptomics",0.2046698557554365,108,FALSE
+"Toll-like receptor signaling pathway","Proteomics",0.37507432092152787,11,FALSE
+"NOD-like receptor signaling pathway","Copy number alteration",0.20010258077864479,192,FALSE
+"NOD-like receptor signaling pathway","Methylation",0.20954676894464733,151,FALSE
+"NOD-like receptor signaling pathway","Transcriptomics",0.20109936816407353,187,FALSE
+"NOD-like receptor signaling pathway","Proteomics",0.38925128211263438,13,FALSE
+"RIG-I-like receptor signaling pathway","Copy number alteration",0.18881651754607093,73,FALSE
+"RIG-I-like receptor signaling pathway","Methylation",0.20343031948245394,53,FALSE
+"RIG-I-like receptor signaling pathway","Transcriptomics",0.18881651754607093,73,FALSE
+"RIG-I-like receptor signaling pathway","Proteomics",0.41893664542540426,5,FALSE
+"Cytosolic DNA-sensing pathway","Copy number alteration",0.3242561528919945,65,FALSE
+"Cytosolic DNA-sensing pathway","Methylation",0.35032384550719631,47,FALSE
+"Cytosolic DNA-sensing pathway","Transcriptomics",0.32542000160080936,64,FALSE
 "Cytosolic DNA-sensing pathway","Proteomics",0,0,TRUE
-"C-type lectin receptor signaling pathway","Copy number alteration",0.25,107,FALSE
-"C-type lectin receptor signaling pathway","Methylation",0.25,102,FALSE
-"C-type lectin receptor signaling pathway","Transcriptomics",0.25,108,FALSE
-"C-type lectin receptor signaling pathway","Proteomics",0.25,17,FALSE
-"JAK-STAT signaling pathway","Copy number alteration",0.25,161,FALSE
-"JAK-STAT signaling pathway","Methylation",0.25,123,FALSE
-"JAK-STAT signaling pathway","Transcriptomics",0.25,165,FALSE
-"JAK-STAT signaling pathway","Proteomics",0.25,15,FALSE
-"Hematopoietic cell lineage","Copy number alteration",0.25,83,FALSE
-"Hematopoietic cell lineage","Methylation",0.25,86,FALSE
-"Hematopoietic cell lineage","Transcriptomics",0.25,97,FALSE
-"Hematopoietic cell lineage","Proteomics",0.25,5,FALSE
-"Natural killer cell mediated cytotoxicity","Copy number alteration",0.25,123,FALSE
-"Natural killer cell mediated cytotoxicity","Methylation",0.25,105,FALSE
-"Natural killer cell mediated cytotoxicity","Transcriptomics",0.25,127,FALSE
-"Natural killer cell mediated cytotoxicity","Proteomics",0.25,16,FALSE
-"IL-17 signaling pathway","Copy number alteration",0.25,100,FALSE
-"IL-17 signaling pathway","Methylation",0.25,88,FALSE
-"IL-17 signaling pathway","Transcriptomics",0.25,98,FALSE
-"IL-17 signaling pathway","Proteomics",0.25,9,FALSE
-"Th1 and Th2 cell differentiation","Copy number alteration",0.25,78,FALSE
-"Th1 and Th2 cell differentiation","Methylation",0.25,83,FALSE
-"Th1 and Th2 cell differentiation","Transcriptomics",0.25,90,FALSE
-"Th1 and Th2 cell differentiation","Proteomics",0.25,11,FALSE
-"Th17 cell differentiation","Copy number alteration",0.25,96,FALSE
-"Th17 cell differentiation","Methylation",0.25,99,FALSE
-"Th17 cell differentiation","Transcriptomics",0.25,108,FALSE
-"Th17 cell differentiation","Proteomics",0.25,14,FALSE
-"T cell receptor signaling pathway","Copy number alteration",0.25,106,FALSE
-"T cell receptor signaling pathway","Methylation",0.25,98,FALSE
-"T cell receptor signaling pathway","Transcriptomics",0.25,105,FALSE
-"T cell receptor signaling pathway","Proteomics",0.25,14,FALSE
-"B cell receptor signaling pathway","Copy number alteration",0.25,82,FALSE
-"B cell receptor signaling pathway","Methylation",0.25,79,FALSE
-"B cell receptor signaling pathway","Transcriptomics",0.25,82,FALSE
-"B cell receptor signaling pathway","Proteomics",0.25,11,FALSE
-"Fc epsilon RI signaling pathway","Copy number alteration",0.25,71,FALSE
-"Fc epsilon RI signaling pathway","Methylation",0.25,64,FALSE
-"Fc epsilon RI signaling pathway","Transcriptomics",0.25,71,FALSE
-"Fc epsilon RI signaling pathway","Proteomics",0.25,15,FALSE
-"Fc gamma R-mediated phagocytosis","Copy number alteration",0.25,97,FALSE
-"Fc gamma R-mediated phagocytosis","Methylation",0.25,94,FALSE
-"Fc gamma R-mediated phagocytosis","Transcriptomics",0.25,97,FALSE
-"Fc gamma R-mediated phagocytosis","Proteomics",0.25,13,FALSE
-"TNF signaling pathway","Copy number alteration",0.25,115,FALSE
-"TNF signaling pathway","Methylation",0.25,108,FALSE
-"TNF signaling pathway","Transcriptomics",0.25,115,FALSE
-"TNF signaling pathway","Proteomics",0.25,15,FALSE
-"Leukocyte transendothelial migration","Copy number alteration",0.25,115,FALSE
-"Leukocyte transendothelial migration","Methylation",0.25,106,FALSE
-"Leukocyte transendothelial migration","Transcriptomics",0.25,115,FALSE
-"Leukocyte transendothelial migration","Proteomics",0.25,11,FALSE
-"Intestinal immune network for IgA production","Copy number alteration",0.33333333333333331,36,FALSE
-"Intestinal immune network for IgA production","Methylation",0.33333333333333331,45,FALSE
-"Intestinal immune network for IgA production","Transcriptomics",0.33333333333333331,48,FALSE
+"C-type lectin receptor signaling pathway","Copy number alteration",0.21732239868615891,107,FALSE
+"C-type lectin receptor signaling pathway","Methylation",0.21951963066367966,102,FALSE
+"C-type lectin receptor signaling pathway","Transcriptomics",0.21690016668443077,108,FALSE
+"C-type lectin receptor signaling pathway","Proteomics",0.34625780396573058,17,FALSE
+"JAK-STAT signaling pathway","Copy number alteration",0.20626601616250501,161,FALSE
+"JAK-STAT signaling pathway","Methylation",0.21760548680384734,123,FALSE
+"JAK-STAT signaling pathway","Transcriptomics",0.20528894714533422,165,FALSE
+"JAK-STAT signaling pathway","Proteomics",0.37083954988831347,15,FALSE
+"Hematopoietic cell lineage","Copy number alteration",0.19076165525059505,83,FALSE
+"Hematopoietic cell lineage","Methylation",0.18928384048498165,86,FALSE
+"Hematopoietic cell lineage","Transcriptomics",0.18443207903802686,97,FALSE
+"Hematopoietic cell lineage","Proteomics",0.4355224252263965,5,FALSE
+"Natural killer cell mediated cytotoxicity","Copy number alteration",0.21288940116315816,123,FALSE
+"Natural killer cell mediated cytotoxicity","Methylation",0.21997313759524925,105,FALSE
+"Natural killer cell mediated cytotoxicity","Transcriptomics",0.21150956757911102,127,FALSE
+"Natural killer cell mediated cytotoxicity","Proteomics",0.35562789366248154,16,FALSE
+"IL-17 signaling pathway","Copy number alteration",0.2015771896527834,100,FALSE
+"IL-17 signaling pathway","Methylation",0.20718410115642619,88,FALSE
+"IL-17 signaling pathway","Transcriptomics",0.20244398887993262,98,FALSE
+"IL-17 signaling pathway","Proteomics",0.38879472031085777,9,FALSE
+"Th1 and Th2 cell differentiation","Copy number alteration",0.21441413692690522,78,FALSE
+"Th1 and Th2 cell differentiation","Methylation",0.21148823182816465,83,FALSE
+"Th1 and Th2 cell differentiation","Transcriptomics",0.20778690618867499,90,FALSE
+"Th1 and Th2 cell differentiation","Proteomics",0.36631072505625512,11,FALSE
+"Th17 cell differentiation","Copy number alteration",0.21632991311247574,96,FALSE
+"Th17 cell differentiation","Methylation",0.21491651467494011,99,FALSE
+"Th17 cell differentiation","Transcriptomics",0.2110136707521639,108,FALSE
+"Th17 cell differentiation","Proteomics",0.35773990146042023,14,FALSE
+"T cell receptor signaling pathway","Copy number alteration",0.21243038548608675,106,FALSE
+"T cell receptor signaling pathway","Methylation",0.21598049611732945,98,FALSE
+"T cell receptor signaling pathway","Transcriptomics",0.21285327939665,105,FALSE
+"T cell receptor signaling pathway","Proteomics",0.35873583899993383,14,FALSE
+"B cell receptor signaling pathway","Copy number alteration",0.21116095996924478,82,FALSE
+"B cell receptor signaling pathway","Methylation",0.2129084888140777,79,FALSE
+"B cell receptor signaling pathway","Transcriptomics",0.21116095996924478,82,FALSE
+"B cell receptor signaling pathway","Proteomics",0.3647695912474328,11,FALSE
+"Fc epsilon RI signaling pathway","Copy number alteration",0.22034176113238205,71,FALSE
+"Fc epsilon RI signaling pathway","Methylation",0.22564326836927925,64,FALSE
+"Fc epsilon RI signaling pathway","Transcriptomics",0.22034176113238205,71,FALSE
+"Fc epsilon RI signaling pathway","Proteomics",0.33367320936595668,15,FALSE
+"Fc gamma R-mediated phagocytosis","Copy number alteration",0.2126040721838853,97,FALSE
+"Fc gamma R-mediated phagocytosis","Methylation",0.21403739402217839,94,FALSE
+"Fc gamma R-mediated phagocytosis","Transcriptomics",0.2126040721838853,97,FALSE
+"Fc gamma R-mediated phagocytosis","Proteomics",0.36075446161005115,13,FALSE
+"TNF signaling pathway","Copy number alteration",0.21303958172194032,115,FALSE
+"TNF signaling pathway","Methylation",0.21583571554508746,108,FALSE
+"TNF signaling pathway","Transcriptomics",0.21303958172194032,115,FALSE
+"TNF signaling pathway","Proteomics",0.35808512101103185,15,FALSE
+"Leukocyte transendothelial migration","Copy number alteration",0.20518165591061352,115,FALSE
+"Leukocyte transendothelial migration","Methylation",0.20868930969205451,106,FALSE
+"Leukocyte transendothelial migration","Transcriptomics",0.20518165591061352,115,FALSE
+"Leukocyte transendothelial migration","Proteomics",0.38094737848671856,11,FALSE
+"Intestinal immune network for IgA production","Copy number alteration",0.34786974345139166,36,FALSE
+"Intestinal immune network for IgA production","Methylation",0.32866432538958129,45,FALSE
+"Intestinal immune network for IgA production","Transcriptomics",0.32346593115902705,48,FALSE
 "Intestinal immune network for IgA production","Proteomics",0,0,TRUE
-"Circadian rhythm","Copy number alteration",0.33333333333333331,33,FALSE
-"Circadian rhythm","Methylation",0.33333333333333331,31,FALSE
-"Circadian rhythm","Transcriptomics",0.33333333333333331,33,FALSE
+"Circadian rhythm","Copy number alteration",0.33147394532547542,33,FALSE
+"Circadian rhythm","Methylation",0.33705210934904906,31,FALSE
+"Circadian rhythm","Transcriptomics",0.33147394532547542,33,FALSE
 "Circadian rhythm","Proteomics",0,0,TRUE
-"Circadian entrainment","Copy number alteration",0.33333333333333331,99,FALSE
-"Circadian entrainment","Methylation",0.33333333333333331,92,FALSE
-"Circadian entrainment","Transcriptomics",0.33333333333333331,100,FALSE
+"Circadian entrainment","Copy number alteration",0.33182035038475688,99,FALSE
+"Circadian entrainment","Methylation",0.33706615580884797,92,FALSE
+"Circadian entrainment","Transcriptomics",0.33111349380639515,100,FALSE
 "Circadian entrainment","Proteomics",0,0,TRUE
-"Thermogenesis","Copy number alteration",0.25,220,FALSE
-"Thermogenesis","Methylation",0.25,200,FALSE
-"Thermogenesis","Transcriptomics",0.25,221,FALSE
-"Thermogenesis","Proteomics",0.25,12,FALSE
-"Long-term potentiation","Copy number alteration",0.25,69,FALSE
-"Long-term potentiation","Methylation",0.25,63,FALSE
-"Long-term potentiation","Transcriptomics",0.25,69,FALSE
-"Long-term potentiation","Proteomics",0.25,9,FALSE
-"Synaptic vesicle cycle","Copy number alteration",0.33333333333333331,83,FALSE
-"Synaptic vesicle cycle","Methylation",0.33333333333333331,74,FALSE
-"Synaptic vesicle cycle","Transcriptomics",0.33333333333333331,83,FALSE
+"Thermogenesis","Copy number alteration",0.19746635202718621,220,FALSE
+"Thermogenesis","Methylation",0.20097837083469053,200,FALSE
+"Thermogenesis","Transcriptomics",0.19730221987936286,221,FALSE
+"Thermogenesis","Proteomics",0.40425305725876037,12,FALSE
+"Long-term potentiation","Copy number alteration",0.20838427386691311,69,FALSE
+"Long-term potentiation","Methylation",0.2127918167320792,63,FALSE
+"Long-term potentiation","Transcriptomics",0.20838427386691311,69,FALSE
+"Long-term potentiation","Proteomics",0.37043963553409459,9,FALSE
+"Synaptic vesicle cycle","Copy number alteration",0.3304864441152135,83,FALSE
+"Synaptic vesicle cycle","Methylation",0.33902711176957301,74,FALSE
+"Synaptic vesicle cycle","Transcriptomics",0.3304864441152135,83,FALSE
 "Synaptic vesicle cycle","Proteomics",0,0,TRUE
-"Neurotrophin signaling pathway","Copy number alteration",0.25,122,FALSE
-"Neurotrophin signaling pathway","Methylation",0.25,116,FALSE
-"Neurotrophin signaling pathway","Transcriptomics",0.25,122,FALSE
-"Neurotrophin signaling pathway","Proteomics",0.25,26,FALSE
-"Retrograde endocannabinoid signaling","Copy number alteration",0.25,145,FALSE
-"Retrograde endocannabinoid signaling","Methylation",0.25,121,FALSE
-"Retrograde endocannabinoid signaling","Transcriptomics",0.25,146,FALSE
-"Retrograde endocannabinoid signaling","Proteomics",0.25,6,FALSE
-"Glutamatergic synapse","Copy number alteration",0.33333333333333331,121,FALSE
-"Glutamatergic synapse","Methylation",0.33333333333333331,109,FALSE
-"Glutamatergic synapse","Transcriptomics",0.33333333333333331,122,FALSE
+"Neurotrophin signaling pathway","Copy number alteration",0.22436764875891813,122,FALSE
+"Neurotrophin signaling pathway","Methylation",0.22670021734079579,116,FALSE
+"Neurotrophin signaling pathway","Transcriptomics",0.22436764875891813,122,FALSE
+"Neurotrophin signaling pathway","Proteomics",0.32456448514136793,26,FALSE
+"Retrograde endocannabinoid signaling","Copy number alteration",0.18397317296065913,145,FALSE
+"Retrograde endocannabinoid signaling","Methylation",0.19078772749239389,121,FALSE
+"Retrograde endocannabinoid signaling","Transcriptomics",0.18372357769472883,146,FALSE
+"Retrograde endocannabinoid signaling","Proteomics",0.44151552185221821,6,FALSE
+"Glutamatergic synapse","Copy number alteration",0.33111296809816809,121,FALSE
+"Glutamatergic synapse","Methylation",0.33833027432310092,109,FALSE
+"Glutamatergic synapse","Transcriptomics",0.3305567575787311,122,FALSE
 "Glutamatergic synapse","Proteomics",0,0,TRUE
-"Cholinergic synapse","Copy number alteration",0.25,116,FALSE
-"Cholinergic synapse","Methylation",0.25,104,FALSE
-"Cholinergic synapse","Transcriptomics",0.25,117,FALSE
-"Cholinergic synapse","Proteomics",0.25,10,FALSE
-"Serotonergic synapse","Copy number alteration",0.25,117,FALSE
-"Serotonergic synapse","Methylation",0.25,94,FALSE
-"Serotonergic synapse","Transcriptomics",0.25,118,FALSE
-"Serotonergic synapse","Proteomics",0.25,9,FALSE
-"GABAergic synapse","Copy number alteration",0.33333333333333331,95,FALSE
-"GABAergic synapse","Methylation",0.33333333333333331,74,FALSE
-"GABAergic synapse","Transcriptomics",0.33333333333333331,96,FALSE
+"Cholinergic synapse","Copy number alteration",0.20238424675730252,116,FALSE
+"Cholinergic synapse","Methylation",0.20703849557253939,104,FALSE
+"Cholinergic synapse","Transcriptomics",0.20202688121175033,117,FALSE
+"Cholinergic synapse","Proteomics",0.38855037645840768,10,FALSE
+"Serotonergic synapse","Copy number alteration",0.19847742660734313,117,FALSE
+"Serotonergic synapse","Methylation",0.20781677745895893,94,FALSE
+"Serotonergic synapse","Transcriptomics",0.19813049991816065,118,FALSE
+"Serotonergic synapse","Proteomics",0.39557529601553726,9,FALSE
+"GABAergic synapse","Copy number alteration",0.32742877215837451,95,FALSE
+"GABAergic synapse","Methylation",0.34587490869889576,74,FALSE
+"GABAergic synapse","Transcriptomics",0.32669631914272984,96,FALSE
 "GABAergic synapse","Proteomics",0,0,TRUE
-"Dopaminergic synapse","Copy number alteration",0.25,135,FALSE
-"Dopaminergic synapse","Methylation",0.25,127,FALSE
-"Dopaminergic synapse","Transcriptomics",0.25,137,FALSE
-"Dopaminergic synapse","Proteomics",0.25,7,FALSE
-"Long-term depression","Copy number alteration",0.25,63,FALSE
-"Long-term depression","Methylation",0.25,57,FALSE
-"Long-term depression","Transcriptomics",0.25,64,FALSE
-"Long-term depression","Proteomics",0.25,8,FALSE
-"Olfactory transduction","Copy number alteration",0.33333333333333331,425,FALSE
-"Olfactory transduction","Methylation",0.33333333333333331,62,FALSE
-"Olfactory transduction","Transcriptomics",0.33333333333333331,407,FALSE
+"Dopaminergic synapse","Copy number alteration",0.19052614258774417,135,FALSE
+"Dopaminergic synapse","Methylation",0.19288501477176562,127,FALSE
+"Dopaminergic synapse","Transcriptomics",0.18996654964769147,137,FALSE
+"Dopaminergic synapse","Proteomics",0.42662229299279869,7,FALSE
+"Long-term depression","Copy number alteration",0.20690990925647093,63,FALSE
+"Long-term depression","Methylation",0.21182444136874606,57,FALSE
+"Long-term depression","Transcriptomics",0.20615591126196572,64,FALSE
+"Long-term depression","Proteomics",0.37510973811281734,8,FALSE
+"Olfactory transduction","Copy number alteration",0.28872440409745059,425,FALSE
+"Olfactory transduction","Methylation",0.42048341343457862,62,FALSE
+"Olfactory transduction","Transcriptomics",0.29079218246797078,407,FALSE
 "Olfactory transduction","Proteomics",0,0,TRUE
-"Taste transduction","Copy number alteration",0.33333333333333331,88,FALSE
-"Taste transduction","Methylation",0.33333333333333331,56,FALSE
-"Taste transduction","Transcriptomics",0.33333333333333331,88,FALSE
+"Taste transduction","Copy number alteration",0.32172893712236916,88,FALSE
+"Taste transduction","Methylation",0.35654212575526167,56,FALSE
+"Taste transduction","Transcriptomics",0.32172893712236916,88,FALSE
 "Taste transduction","Proteomics",0,0,TRUE
-"Phototransduction","Copy number alteration",0.33333333333333331,29,FALSE
-"Phototransduction","Methylation",0.33333333333333331,24,FALSE
-"Phototransduction","Transcriptomics",0.33333333333333331,29,FALSE
+"Phototransduction","Copy number alteration",0.32744095545659374,29,FALSE
+"Phototransduction","Methylation",0.34511808908681263,24,FALSE
+"Phototransduction","Transcriptomics",0.32744095545659374,29,FALSE
 "Phototransduction","Proteomics",0,0,TRUE
-"Inflammatory mediator regulation of TRP channels","Copy number alteration",0.25,99,FALSE
-"Inflammatory mediator regulation of TRP channels","Methylation",0.25,93,FALSE
-"Inflammatory mediator regulation of TRP channels","Transcriptomics",0.25,99,FALSE
-"Inflammatory mediator regulation of TRP channels","Proteomics",0.25,9,FALSE
-"Regulation of actin cytoskeleton","Copy number alteration",0.25,221,FALSE
-"Regulation of actin cytoskeleton","Methylation",0.25,195,FALSE
-"Regulation of actin cytoskeleton","Transcriptomics",0.25,221,FALSE
-"Regulation of actin cytoskeleton","Proteomics",0.25,15,FALSE
-"Insulin signaling pathway","Copy number alteration",0.25,143,FALSE
-"Insulin signaling pathway","Methylation",0.25,127,FALSE
-"Insulin signaling pathway","Transcriptomics",0.25,143,FALSE
-"Insulin signaling pathway","Proteomics",0.25,26,FALSE
-"Insulin secretion","Copy number alteration",0.33333333333333331,88,FALSE
-"Insulin secretion","Methylation",0.33333333333333331,73,FALSE
-"Insulin secretion","Transcriptomics",0.33333333333333331,89,FALSE
+"Inflammatory mediator regulation of TRP channels","Copy number alteration",0.20250689669918173,99,FALSE
+"Inflammatory mediator regulation of TRP channels","Methylation",0.20523034680231941,93,FALSE
+"Inflammatory mediator regulation of TRP channels","Transcriptomics",0.20250689669918173,99,FALSE
+"Inflammatory mediator regulation of TRP channels","Proteomics",0.38975585979931721,9,FALSE
+"Regulation of actin cytoskeleton","Copy number alteration",0.20275918971496884,221,FALSE
+"Regulation of actin cytoskeleton","Methylation",0.2075168445743043,195,FALSE
+"Regulation of actin cytoskeleton","Transcriptomics",0.20275918971496884,221,FALSE
+"Regulation of actin cytoskeleton","Proteomics",0.38696477599575796,15,FALSE
+"Insulin signaling pathway","Copy number alteration",0.22135722127003724,143,FALSE
+"Insulin signaling pathway","Methylation",0.22668281418318442,127,FALSE
+"Insulin signaling pathway","Transcriptomics",0.22135722127003724,143,FALSE
+"Insulin signaling pathway","Proteomics",0.33060274327674111,26,FALSE
+"Insulin secretion","Copy number alteration",0.32897128263988806,88,FALSE
+"Insulin secretion","Methylation",0.34286328530768057,73,FALSE
+"Insulin secretion","Transcriptomics",0.32816543205243137,89,FALSE
 "Insulin secretion","Proteomics",0,0,TRUE
-"GnRH signaling pathway","Copy number alteration",0.25,95,FALSE
-"GnRH signaling pathway","Methylation",0.25,87,FALSE
-"GnRH signaling pathway","Transcriptomics",0.25,95,FALSE
-"GnRH signaling pathway","Proteomics",0.25,13,FALSE
-"Ovarian steroidogenesis","Copy number alteration",0.33333333333333331,52,FALSE
-"Ovarian steroidogenesis","Methylation",0.33333333333333331,43,FALSE
-"Ovarian steroidogenesis","Transcriptomics",0.33333333333333331,52,FALSE
+"GnRH signaling pathway","Copy number alteration",0.21238291039203597,95,FALSE
+"GnRH signaling pathway","Methylation",0.21645558957918595,87,FALSE
+"GnRH signaling pathway","Transcriptomics",0.21238291039203597,95,FALSE
+"GnRH signaling pathway","Proteomics",0.35877858963674225,13,FALSE
+"Ovarian steroidogenesis","Copy number alteration",0.32809525079925228,52,FALSE
+"Ovarian steroidogenesis","Methylation",0.34380949840149555,43,FALSE
+"Ovarian steroidogenesis","Transcriptomics",0.32809525079925228,52,FALSE
 "Ovarian steroidogenesis","Proteomics",0,0,TRUE
-"Progesterone-mediated oocyte maturation","Copy number alteration",0.25,97,FALSE
-"Progesterone-mediated oocyte maturation","Methylation",0.25,88,FALSE
-"Progesterone-mediated oocyte maturation","Transcriptomics",0.25,98,FALSE
-"Progesterone-mediated oocyte maturation","Proteomics",0.25,16,FALSE
-"Estrogen signaling pathway","Copy number alteration",0.25,143,FALSE
-"Estrogen signaling pathway","Methylation",0.25,130,FALSE
-"Estrogen signaling pathway","Transcriptomics",0.25,144,FALSE
-"Estrogen signaling pathway","Proteomics",0.25,16,FALSE
-"Melanogenesis","Copy number alteration",0.25,105,FALSE
-"Melanogenesis","Methylation",0.25,101,FALSE
-"Melanogenesis","Transcriptomics",0.25,106,FALSE
-"Melanogenesis","Proteomics",0.25,9,FALSE
-"Prolactin signaling pathway","Copy number alteration",0.25,72,FALSE
-"Prolactin signaling pathway","Methylation",0.25,65,FALSE
-"Prolactin signaling pathway","Transcriptomics",0.25,72,FALSE
-"Prolactin signaling pathway","Proteomics",0.25,20,FALSE
-"Thyroid hormone synthesis","Copy number alteration",0.33333333333333331,78,FALSE
-"Thyroid hormone synthesis","Methylation",0.33333333333333331,67,FALSE
-"Thyroid hormone synthesis","Transcriptomics",0.33333333333333331,78,FALSE
+"Progesterone-mediated oocyte maturation","Copy number alteration",0.21697617722695975,97,FALSE
+"Progesterone-mediated oocyte maturation","Methylation",0.22157193571005993,88,FALSE
+"Progesterone-mediated oocyte maturation","Transcriptomics",0.21650264783167811,98,FALSE
+"Progesterone-mediated oocyte maturation","Proteomics",0.34494923923130222,16,FALSE
+"Estrogen signaling pathway","Copy number alteration",0.2109842676019954,143,FALSE
+"Estrogen signaling pathway","Methylation",0.21504303069057559,130,FALSE
+"Estrogen signaling pathway","Transcriptomics",0.21069329973215409,144,FALSE
+"Estrogen signaling pathway","Proteomics",0.36327940197527486,16,FALSE
+"Melanogenesis","Copy number alteration",0.20181819180413285,105,FALSE
+"Melanogenesis","Methylation",0.20347724071381881,101,FALSE
+"Melanogenesis","Transcriptomics",0.20141722225084818,106,FALSE
+"Melanogenesis","Proteomics",0.39328734523120007,9,FALSE
+"Prolactin signaling pathway","Copy number alteration",0.22644592810026876,72,FALSE
+"Prolactin signaling pathway","Methylation",0.23179768483903132,65,FALSE
+"Prolactin signaling pathway","Transcriptomics",0.22644592810026876,72,FALSE
+"Prolactin signaling pathway","Proteomics",0.31531045896043131,20,FALSE
+"Thyroid hormone synthesis","Copy number alteration",0.32949630683483783,78,FALSE
+"Thyroid hormone synthesis","Methylation",0.34100738633032429,67,FALSE
+"Thyroid hormone synthesis","Transcriptomics",0.32949630683483783,78,FALSE
 "Thyroid hormone synthesis","Proteomics",0,0,TRUE
-"Thyroid hormone signaling pathway","Copy number alteration",0.25,128,FALSE
-"Thyroid hormone signaling pathway","Methylation",0.25,120,FALSE
-"Thyroid hormone signaling pathway","Transcriptomics",0.25,128,FALSE
-"Thyroid hormone signaling pathway","Proteomics",0.25,22,FALSE
-"Adipocytokine signaling pathway","Copy number alteration",0.25,69,FALSE
-"Adipocytokine signaling pathway","Methylation",0.25,61,FALSE
-"Adipocytokine signaling pathway","Transcriptomics",0.25,69,FALSE
-"Adipocytokine signaling pathway","Proteomics",0.25,11,FALSE
-"Oxytocin signaling pathway","Copy number alteration",0.25,157,FALSE
-"Oxytocin signaling pathway","Methylation",0.25,142,FALSE
-"Oxytocin signaling pathway","Transcriptomics",0.25,158,FALSE
-"Oxytocin signaling pathway","Proteomics",0.25,14,FALSE
-"Glucagon signaling pathway","Copy number alteration",0.33333333333333331,107,FALSE
-"Glucagon signaling pathway","Methylation",0.33333333333333331,91,FALSE
-"Glucagon signaling pathway","Transcriptomics",0.33333333333333331,108,FALSE
+"Thyroid hormone signaling pathway","Copy number alteration",0.22003025906782483,128,FALSE
+"Thyroid hormone signaling pathway","Methylation",0.22293925363409217,120,FALSE
+"Thyroid hormone signaling pathway","Transcriptomics",0.22003025906782483,128,FALSE
+"Thyroid hormone signaling pathway","Proteomics",0.33700022823025821,22,FALSE
+"Adipocytokine signaling pathway","Copy number alteration",0.21318551995354251,69,FALSE
+"Adipocytokine signaling pathway","Methylation",0.21933673075942303,61,FALSE
+"Adipocytokine signaling pathway","Transcriptomics",0.21318551995354251,69,FALSE
+"Adipocytokine signaling pathway","Proteomics",0.35429222933349191,11,FALSE
+"Oxytocin signaling pathway","Copy number alteration",0.20631642072101039,157,FALSE
+"Oxytocin signaling pathway","Methylation",0.21043007230653693,142,FALSE
+"Oxytocin signaling pathway","Transcriptomics",0.20606154785096439,158,FALSE
+"Oxytocin signaling pathway","Proteomics",0.37719195912148823,14,FALSE
+"Glucagon signaling pathway","Copy number alteration",0.3296977764508302,107,FALSE
+"Glucagon signaling pathway","Methylation",0.34124501131517948,91,FALSE
+"Glucagon signaling pathway","Transcriptomics",0.32905721223399031,108,FALSE
 "Glucagon signaling pathway","Proteomics",0,0,TRUE
-"Regulation of lipolysis in adipocytes","Copy number alteration",0.33333333333333331,56,FALSE
-"Regulation of lipolysis in adipocytes","Methylation",0.33333333333333331,49,FALSE
-"Regulation of lipolysis in adipocytes","Transcriptomics",0.33333333333333331,56,FALSE
+"Regulation of lipolysis in adipocytes","Copy number alteration",0.32973788547107186,56,FALSE
+"Regulation of lipolysis in adipocytes","Methylation",0.3405242290578564,49,FALSE
+"Regulation of lipolysis in adipocytes","Transcriptomics",0.32973788547107186,56,FALSE
 "Regulation of lipolysis in adipocytes","Proteomics",0,0,TRUE
-"Renin secretion","Copy number alteration",0.33333333333333331,71,FALSE
-"Renin secretion","Methylation",0.33333333333333331,65,FALSE
-"Renin secretion","Transcriptomics",0.33333333333333331,71,FALSE
+"Renin secretion","Copy number alteration",0.3310822081183149,71,FALSE
+"Renin secretion","Methylation",0.33783558376337014,65,FALSE
+"Renin secretion","Transcriptomics",0.3310822081183149,71,FALSE
 "Renin secretion","Proteomics",0,0,TRUE
-"Aldosterone synthesis and secretion","Copy number alteration",0.33333333333333331,103,FALSE
-"Aldosterone synthesis and secretion","Methylation",0.33333333333333331,94,FALSE
-"Aldosterone synthesis and secretion","Transcriptomics",0.33333333333333331,103,FALSE
+"Aldosterone synthesis and secretion","Copy number alteration",0.33116606470423754,103,FALSE
+"Aldosterone synthesis and secretion","Methylation",0.33766787059152498,94,FALSE
+"Aldosterone synthesis and secretion","Transcriptomics",0.33116606470423754,103,FALSE
 "Aldosterone synthesis and secretion","Proteomics",0,0,TRUE
-"Relaxin signaling pathway","Copy number alteration",0.25,133,FALSE
-"Relaxin signaling pathway","Methylation",0.25,122,FALSE
-"Relaxin signaling pathway","Transcriptomics",0.25,134,FALSE
-"Relaxin signaling pathway","Proteomics",0.25,16,FALSE
-"Cortisol synthesis and secretion","Copy number alteration",0.33333333333333331,72,FALSE
-"Cortisol synthesis and secretion","Methylation",0.33333333333333331,62,FALSE
-"Cortisol synthesis and secretion","Transcriptomics",0.33333333333333331,72,FALSE
+"Relaxin signaling pathway","Copy number alteration",0.21216833090798937,133,FALSE
+"Relaxin signaling pathway","Methylation",0.21590937131401905,122,FALSE
+"Relaxin signaling pathway","Transcriptomics",0.21184959794512548,134,FALSE
+"Relaxin signaling pathway","Proteomics",0.36007269983286605,16,FALSE
+"Cortisol synthesis and secretion","Copy number alteration",0.32949918262374817,72,FALSE
+"Cortisol synthesis and secretion","Methylation",0.34100163475250356,62,FALSE
+"Cortisol synthesis and secretion","Transcriptomics",0.32949918262374817,72,FALSE
 "Cortisol synthesis and secretion","Proteomics",0,0,TRUE
-"Parathyroid hormone synthesis, secretion and action","Copy number alteration",0.25,113,FALSE
-"Parathyroid hormone synthesis, secretion and action","Methylation",0.25,101,FALSE
-"Parathyroid hormone synthesis, secretion and action","Transcriptomics",0.25,113,FALSE
-"Parathyroid hormone synthesis, secretion and action","Proteomics",0.25,11,FALSE
-"GnRH secretion","Copy number alteration",0.25,66,FALSE
-"GnRH secretion","Methylation",0.25,62,FALSE
-"GnRH secretion","Transcriptomics",0.25,67,FALSE
-"GnRH secretion","Proteomics",0.25,9,FALSE
-"Type II diabetes mellitus","Copy number alteration",0.25,49,FALSE
-"Type II diabetes mellitus","Methylation",0.25,42,FALSE
-"Type II diabetes mellitus","Transcriptomics",0.25,49,FALSE
-"Type II diabetes mellitus","Proteomics",0.25,8,FALSE
-"Insulin resistance","Copy number alteration",0.25,111,FALSE
-"Insulin resistance","Methylation",0.25,100,FALSE
-"Insulin resistance","Transcriptomics",0.25,111,FALSE
-"Insulin resistance","Proteomics",0.25,17,FALSE
-"Non-alcoholic fatty liver disease","Copy number alteration",0.25,149,FALSE
-"Non-alcoholic fatty liver disease","Methylation",0.25,139,FALSE
-"Non-alcoholic fatty liver disease","Transcriptomics",0.25,150,FALSE
-"Non-alcoholic fatty liver disease","Proteomics",0.25,17,FALSE
-"AGE-RAGE signaling pathway in diabetic complications","Copy number alteration",0.25,104,FALSE
-"AGE-RAGE signaling pathway in diabetic complications","Methylation",0.25,98,FALSE
-"AGE-RAGE signaling pathway in diabetic complications","Transcriptomics",0.25,104,FALSE
-"AGE-RAGE signaling pathway in diabetic complications","Proteomics",0.25,25,FALSE
-"Cushing syndrome","Copy number alteration",0.25,166,FALSE
-"Cushing syndrome","Methylation",0.25,153,FALSE
-"Cushing syndrome","Transcriptomics",0.25,166,FALSE
-"Cushing syndrome","Proteomics",0.25,13,FALSE
-"Growth hormone synthesis, secretion and action","Copy number alteration",0.25,122,FALSE
-"Growth hormone synthesis, secretion and action","Methylation",0.25,106,FALSE
-"Growth hormone synthesis, secretion and action","Transcriptomics",0.25,122,FALSE
-"Growth hormone synthesis, secretion and action","Proteomics",0.25,18,FALSE
-"Type I diabetes mellitus","Copy number alteration",0.33333333333333331,23,FALSE
-"Type I diabetes mellitus","Methylation",0.33333333333333331,39,FALSE
-"Type I diabetes mellitus","Transcriptomics",0.33333333333333331,41,FALSE
+"Parathyroid hormone synthesis, secretion and action","Copy number alteration",0.20518332955190155,113,FALSE
+"Parathyroid hormone synthesis, secretion and action","Methylation",0.21006211475749065,101,FALSE
+"Parathyroid hormone synthesis, secretion and action","Transcriptomics",0.20518332955190155,113,FALSE
+"Parathyroid hormone synthesis, secretion and action","Proteomics",0.37957122613870631,11,FALSE
+"GnRH secretion","Copy number alteration",0.20960842401638036,66,FALSE
+"GnRH secretion","Methylation",0.21266391540212679,62,FALSE
+"GnRH secretion","Transcriptomics",0.2088857139627063,67,FALSE
+"GnRH secretion","Proteomics",0.36884194661878661,9,FALSE
+"Type II diabetes mellitus","Copy number alteration",0.21067782300056884,49,FALSE
+"Type II diabetes mellitus","Methylation",0.21889718667785121,42,FALSE
+"Type II diabetes mellitus","Transcriptomics",0.21067782300056884,49,FALSE
+"Type II diabetes mellitus","Proteomics",0.35974716732101114,8,FALSE
+"Insulin resistance","Copy number alteration",0.21609124148749354,111,FALSE
+"Insulin resistance","Methylation",0.22087634759802757,100,FALSE
+"Insulin resistance","Transcriptomics",0.21609124148749354,111,FALSE
+"Insulin resistance","Proteomics",0.34694116942698544,17,FALSE
+"Non-alcoholic fatty liver disease","Copy number alteration",0.2120208613431234,149,FALSE
+"Non-alcoholic fatty liver disease","Methylation",0.21495647721144459,139,FALSE
+"Non-alcoholic fatty liver disease","Transcriptomics",0.21174229526099347,150,FALSE
+"Non-alcoholic fatty liver disease","Proteomics",0.36128036618443848,17,FALSE
+"AGE-RAGE signaling pathway in diabetic complications","Copy number alteration",0.22585592633372897,104,FALSE
+"AGE-RAGE signaling pathway in diabetic complications","Methylation",0.22871366615425451,98,FALSE
+"AGE-RAGE signaling pathway in diabetic complications","Transcriptomics",0.22585592633372897,104,FALSE
+"AGE-RAGE signaling pathway in diabetic complications","Proteomics",0.31957448117828752,25,FALSE
+"Cushing syndrome","Copy number alteration",0.20374516012173929,166,FALSE
+"Cushing syndrome","Methylation",0.20699878301737401,153,FALSE
+"Cushing syndrome","Transcriptomics",0.20374516012173929,166,FALSE
+"Cushing syndrome","Proteomics",0.3855108967391474,13,FALSE
+"Growth hormone synthesis, secretion and action","Copy number alteration",0.21558436140207388,122,FALSE
+"Growth hormone synthesis, secretion and action","Methylation",0.22194536476873095,106,FALSE
+"Growth hormone synthesis, secretion and action","Transcriptomics",0.21558436140207388,122,FALSE
+"Growth hormone synthesis, secretion and action","Proteomics",0.3468859124271213,18,FALSE
+"Type I diabetes mellitus","Copy number alteration",0.36729626472189753,23,FALSE
+"Type I diabetes mellitus","Methylation",0.31836761097972943,39,FALSE
+"Type I diabetes mellitus","Transcriptomics",0.31433612429837304,41,FALSE
 "Type I diabetes mellitus","Proteomics",0,0,TRUE
-"Maturity onset diabetes of the young","Copy number alteration",0.33333333333333331,26,FALSE
-"Maturity onset diabetes of the young","Methylation",0.33333333333333331,15,FALSE
-"Maturity onset diabetes of the young","Transcriptomics",0.33333333333333331,28,FALSE
+"Maturity onset diabetes of the young","Copy number alteration",0.3168731353892042,26,FALSE
+"Maturity onset diabetes of the young","Methylation",0.37268146188581319,15,FALSE
+"Maturity onset diabetes of the young","Transcriptomics",0.31044540272498261,28,FALSE
 "Maturity onset diabetes of the young","Proteomics",0,0,TRUE
-"Aldosterone-regulated sodium reabsorption","Copy number alteration",0.25,39,FALSE
-"Aldosterone-regulated sodium reabsorption","Methylation",0.25,36,FALSE
-"Aldosterone-regulated sodium reabsorption","Transcriptomics",0.25,39,FALSE
-"Aldosterone-regulated sodium reabsorption","Proteomics",0.25,7,FALSE
-"Endocrine and other factor-regulated calcium reabsorption","Copy number alteration",0.33333333333333331,54,FALSE
-"Endocrine and other factor-regulated calcium reabsorption","Methylation",0.33333333333333331,50,FALSE
-"Endocrine and other factor-regulated calcium reabsorption","Transcriptomics",0.33333333333333331,54,FALSE
+"Aldosterone-regulated sodium reabsorption","Copy number alteration",0.2122687704837731,39,FALSE
+"Aldosterone-regulated sodium reabsorption","Methylation",0.21670287440325553,36,FALSE
+"Aldosterone-regulated sodium reabsorption","Transcriptomics",0.2122687704837731,39,FALSE
+"Aldosterone-regulated sodium reabsorption","Proteomics",0.35875958462919816,7,FALSE
+"Endocrine and other factor-regulated calcium reabsorption","Copy number alteration",0.33126232473574113,54,FALSE
+"Endocrine and other factor-regulated calcium reabsorption","Methylation",0.33747535052851785,50,FALSE
+"Endocrine and other factor-regulated calcium reabsorption","Transcriptomics",0.33126232473574113,54,FALSE
 "Endocrine and other factor-regulated calcium reabsorption","Proteomics",0,0,TRUE
-"Vasopressin-regulated water reabsorption","Copy number alteration",0.33333333333333331,45,FALSE
-"Vasopressin-regulated water reabsorption","Methylation",0.33333333333333331,41,FALSE
-"Vasopressin-regulated water reabsorption","Transcriptomics",0.33333333333333331,45,FALSE
+"Vasopressin-regulated water reabsorption","Copy number alteration",0.33072625157464319,45,FALSE
+"Vasopressin-regulated water reabsorption","Methylation",0.33854749685071361,41,FALSE
+"Vasopressin-regulated water reabsorption","Transcriptomics",0.33072625157464319,45,FALSE
 "Vasopressin-regulated water reabsorption","Proteomics",0,0,TRUE
-"Proximal tubule bicarbonate reclamation","Copy number alteration",0.33333333333333331,25,FALSE
-"Proximal tubule bicarbonate reclamation","Methylation",0.33333333333333331,23,FALSE
-"Proximal tubule bicarbonate reclamation","Transcriptomics",0.33333333333333331,25,FALSE
+"Proximal tubule bicarbonate reclamation","Copy number alteration",0.3306977503376865,25,FALSE
+"Proximal tubule bicarbonate reclamation","Methylation",0.33860449932462705,23,FALSE
+"Proximal tubule bicarbonate reclamation","Transcriptomics",0.3306977503376865,25,FALSE
 "Proximal tubule bicarbonate reclamation","Proteomics",0,0,TRUE
-"Collecting duct acid secretion","Copy number alteration",0.33333333333333331,27,FALSE
-"Collecting duct acid secretion","Methylation",0.33333333333333331,23,FALSE
-"Collecting duct acid secretion","Transcriptomics",0.33333333333333331,27,FALSE
+"Collecting duct acid secretion","Copy number alteration",0.32828763262237431,27,FALSE
+"Collecting duct acid secretion","Methylation",0.34342473475525137,23,FALSE
+"Collecting duct acid secretion","Transcriptomics",0.32828763262237431,27,FALSE
 "Collecting duct acid secretion","Proteomics",0,0,TRUE
-"Salivary secretion","Copy number alteration",0.33333333333333331,96,FALSE
-"Salivary secretion","Methylation",0.33333333333333331,79,FALSE
-"Salivary secretion","Transcriptomics",0.33333333333333331,94,FALSE
+"Salivary secretion","Copy number alteration",0.32809779169166259,96,FALSE
+"Salivary secretion","Methylation",0.34232224603860195,79,FALSE
+"Salivary secretion","Transcriptomics",0.32957996226973552,94,FALSE
 "Salivary secretion","Proteomics",0,0,TRUE
-"Gastric acid secretion","Copy number alteration",0.33333333333333331,78,FALSE
-"Gastric acid secretion","Methylation",0.33333333333333331,70,FALSE
-"Gastric acid secretion","Transcriptomics",0.33333333333333331,78,FALSE
+"Gastric acid secretion","Copy number alteration",0.33061828134045462,78,FALSE
+"Gastric acid secretion","Methylation",0.33876343731909081,70,FALSE
+"Gastric acid secretion","Transcriptomics",0.33061828134045462,78,FALSE
 "Gastric acid secretion","Proteomics",0,0,TRUE
-"Pancreatic secretion","Copy number alteration",0.33333333333333331,106,FALSE
-"Pancreatic secretion","Methylation",0.33333333333333331,85,FALSE
-"Pancreatic secretion","Transcriptomics",0.33333333333333331,104,FALSE
+"Pancreatic secretion","Copy number alteration",0.32760841878867519,106,FALSE
+"Pancreatic secretion","Methylation",0.34347003277383931,85,FALSE
+"Pancreatic secretion","Transcriptomics",0.32892154843748539,104,FALSE
 "Pancreatic secretion","Proteomics",0,0,TRUE
-"Carbohydrate digestion and absorption","Copy number alteration",0.33333333333333331,47,FALSE
-"Carbohydrate digestion and absorption","Methylation",0.33333333333333331,37,FALSE
-"Carbohydrate digestion and absorption","Transcriptomics",0.33333333333333331,46,FALSE
+"Carbohydrate digestion and absorption","Copy number alteration",0.32598440083928321,47,FALSE
+"Carbohydrate digestion and absorption","Methylation",0.34629489840686506,37,FALSE
+"Carbohydrate digestion and absorption","Transcriptomics",0.32772070075385168,46,FALSE
 "Carbohydrate digestion and absorption","Proteomics",0,0,TRUE
-"Protein digestion and absorption","Copy number alteration",0.33333333333333331,105,FALSE
-"Protein digestion and absorption","Methylation",0.33333333333333331,84,FALSE
-"Protein digestion and absorption","Transcriptomics",0.33333333333333331,105,FALSE
+"Protein digestion and absorption","Copy number alteration",0.32797110870555807,105,FALSE
+"Protein digestion and absorption","Methylation",0.34405778258888386,84,FALSE
+"Protein digestion and absorption","Transcriptomics",0.32797110870555807,105,FALSE
 "Protein digestion and absorption","Proteomics",0,0,TRUE
-"Fat digestion and absorption","Copy number alteration",0.33333333333333331,47,FALSE
-"Fat digestion and absorption","Methylation",0.33333333333333331,33,FALSE
-"Fat digestion and absorption","Transcriptomics",0.33333333333333331,47,FALSE
+"Fat digestion and absorption","Copy number alteration",0.32313953694034736,47,FALSE
+"Fat digestion and absorption","Methylation",0.35372092611930533,33,FALSE
+"Fat digestion and absorption","Transcriptomics",0.32313953694034736,47,FALSE
 "Fat digestion and absorption","Proteomics",0,0,TRUE
-"Bile secretion","Copy number alteration",0.33333333333333331,92,FALSE
-"Bile secretion","Methylation",0.33333333333333331,65,FALSE
-"Bile secretion","Transcriptomics",0.33333333333333331,90,FALSE
+"Bile secretion","Copy number alteration",0.32411909047094223,92,FALSE
+"Bile secretion","Methylation",0.3502202671794894,65,FALSE
+"Bile secretion","Transcriptomics",0.32566064234956832,90,FALSE
 "Bile secretion","Proteomics",0,0,TRUE
-"Vitamin digestion and absorption","Copy number alteration",0.33333333333333331,26,FALSE
-"Vitamin digestion and absorption","Methylation",0.33333333333333331,22,FALSE
-"Vitamin digestion and absorption","Transcriptomics",0.33333333333333331,26,FALSE
+"Vitamin digestion and absorption","Copy number alteration",0.32802966856322929,26,FALSE
+"Vitamin digestion and absorption","Methylation",0.34394066287354141,22,FALSE
+"Vitamin digestion and absorption","Transcriptomics",0.32802966856322929,26,FALSE
 "Vitamin digestion and absorption","Proteomics",0,0,TRUE
-"Mineral absorption","Copy number alteration",0.33333333333333331,61,FALSE
-"Mineral absorption","Methylation",0.33333333333333331,50,FALSE
-"Mineral absorption","Transcriptomics",0.33333333333333331,60,FALSE
+"Mineral absorption","Copy number alteration",0.32760659797844605,61,FALSE
+"Mineral absorption","Methylation",0.34351671760880226,50,FALSE
+"Mineral absorption","Transcriptomics",0.32887668441275159,60,FALSE
 "Mineral absorption","Proteomics",0,0,TRUE
-"Cholesterol metabolism","Copy number alteration",0.33333333333333331,58,FALSE
-"Cholesterol metabolism","Methylation",0.33333333333333331,51,FALSE
-"Cholesterol metabolism","Transcriptomics",0.33333333333333331,58,FALSE
+"Cholesterol metabolism","Copy number alteration",0.32989742731442706,58,FALSE
+"Cholesterol metabolism","Methylation",0.34020514537114599,51,FALSE
+"Cholesterol metabolism","Transcriptomics",0.32989742731442706,58,FALSE
 "Cholesterol metabolism","Proteomics",0,0,TRUE
-"Alzheimer disease","Copy number alteration",0.25,365,FALSE
-"Alzheimer disease","Methylation",0.25,339,FALSE
-"Alzheimer disease","Transcriptomics",0.25,365,FALSE
-"Alzheimer disease","Proteomics",0.25,26,FALSE
-"Parkinson disease","Copy number alteration",0.25,245,FALSE
-"Parkinson disease","Methylation",0.25,228,FALSE
-"Parkinson disease","Transcriptomics",0.25,246,FALSE
-"Parkinson disease","Proteomics",0.25,10,FALSE
-"Amyotrophic lateral sclerosis","Copy number alteration",0.25,359,FALSE
-"Amyotrophic lateral sclerosis","Methylation",0.25,328,FALSE
-"Amyotrophic lateral sclerosis","Transcriptomics",0.25,357,FALSE
-"Amyotrophic lateral sclerosis","Proteomics",0.25,16,FALSE
-"Huntington disease","Copy number alteration",0.25,298,FALSE
-"Huntington disease","Methylation",0.25,279,FALSE
-"Huntington disease","Transcriptomics",0.25,299,FALSE
-"Huntington disease","Proteomics",0.25,11,FALSE
-"Spinocerebellar ataxia","Copy number alteration",0.25,151,FALSE
-"Spinocerebellar ataxia","Methylation",0.25,138,FALSE
-"Spinocerebellar ataxia","Transcriptomics",0.25,151,FALSE
-"Spinocerebellar ataxia","Proteomics",0.25,10,FALSE
-"Prion disease","Copy number alteration",0.25,270,FALSE
-"Prion disease","Methylation",0.25,249,FALSE
-"Prion disease","Transcriptomics",0.25,270,FALSE
-"Prion disease","Proteomics",0.25,15,FALSE
-"Pathways of neurodegeneration - multiple diseases","Copy number alteration",0.25,471,FALSE
-"Pathways of neurodegeneration - multiple diseases","Methylation",0.25,440,FALSE
-"Pathways of neurodegeneration - multiple diseases","Transcriptomics",0.25,471,FALSE
-"Pathways of neurodegeneration - multiple diseases","Proteomics",0.25,30,FALSE
-"Cocaine addiction","Copy number alteration",0.33333333333333331,51,FALSE
-"Cocaine addiction","Methylation",0.33333333333333331,46,FALSE
-"Cocaine addiction","Transcriptomics",0.33333333333333331,51,FALSE
+"Alzheimer disease","Copy number alteration",0.20899478856819817,365,FALSE
+"Alzheimer disease","Methylation",0.21162803874397568,339,FALSE
+"Alzheimer disease","Transcriptomics",0.20899478856819817,365,FALSE
+"Alzheimer disease","Proteomics",0.37038238411962798,26,FALSE
+"Parkinson disease","Copy number alteration",0.19122210072468676,245,FALSE
+"Parkinson disease","Methylation",0.19372957832913593,228,FALSE
+"Parkinson disease","Transcriptomics",0.19108196730952445,246,FALSE
+"Parkinson disease","Proteomics",0.4239663536366528,10,FALSE
+"Amyotrophic lateral sclerosis","Copy number alteration",0.19786938646279717,359,FALSE
+"Amyotrophic lateral sclerosis","Methylation",0.20093292830445642,328,FALSE
+"Amyotrophic lateral sclerosis","Transcriptomics",0.19805623279281531,357,FALSE
+"Amyotrophic lateral sclerosis","Proteomics",0.4031414524399311,16,FALSE
+"Huntington disease","Copy number alteration",0.19103066186716852,298,FALSE
+"Huntington disease","Methylation",0.19324739311028166,279,FALSE
+"Huntington disease","Transcriptomics",0.19091927275525927,299,FALSE
+"Huntington disease","Proteomics",0.42480267226729052,11,FALSE
+"Spinocerebellar ataxia","Copy number alteration",0.19831959972697191,151,FALSE
+"Spinocerebellar ataxia","Methylation",0.20188316954247651,138,FALSE
+"Spinocerebellar ataxia","Transcriptomics",0.19831959972697191,151,FALSE
+"Spinocerebellar ataxia","Proteomics",0.40147763100357975,10,FALSE
+"Prion disease","Copy number alteration",0.20027462438381505,270,FALSE
+"Prion disease","Methylation",0.20318694513645708,249,FALSE
+"Prion disease","Transcriptomics",0.20027462438381505,270,FALSE
+"Prion disease","Proteomics",0.39626380609591283,15,FALSE
+"Pathways of neurodegeneration - multiple diseases","Copy number alteration",0.2088438038841863,471,FALSE
+"Pathways of neurodegeneration - multiple diseases","Methylation",0.21116786607800392,440,FALSE
+"Pathways of neurodegeneration - multiple diseases","Transcriptomics",0.2088438038841863,471,FALSE
+"Pathways of neurodegeneration - multiple diseases","Proteomics",0.37114452615362359,30,FALSE
+"Cocaine addiction","Copy number alteration",0.33051329030449,51,FALSE
+"Cocaine addiction","Methylation",0.3389734193910201,46,FALSE
+"Cocaine addiction","Transcriptomics",0.33051329030449,51,FALSE
 "Cocaine addiction","Proteomics",0,0,TRUE
-"Amphetamine addiction","Copy number alteration",0.33333333333333331,70,FALSE
-"Amphetamine addiction","Methylation",0.33333333333333331,64,FALSE
-"Amphetamine addiction","Transcriptomics",0.33333333333333331,70,FALSE
+"Amphetamine addiction","Copy number alteration",0.33104162598183973,70,FALSE
+"Amphetamine addiction","Methylation",0.33791674803632055,64,FALSE
+"Amphetamine addiction","Transcriptomics",0.33104162598183973,70,FALSE
 "Amphetamine addiction","Proteomics",0,0,TRUE
-"Morphine addiction","Copy number alteration",0.33333333333333331,94,FALSE
-"Morphine addiction","Methylation",0.33333333333333331,77,FALSE
-"Morphine addiction","Transcriptomics",0.33333333333333331,95,FALSE
+"Morphine addiction","Copy number alteration",0.3286943578208773,94,FALSE
+"Morphine addiction","Methylation",0.34335585371921462,77,FALSE
+"Morphine addiction","Transcriptomics",0.32794978845990802,95,FALSE
 "Morphine addiction","Proteomics",0,0,TRUE
-"Nicotine addiction","Copy number alteration",0.33333333333333331,41,FALSE
-"Nicotine addiction","Methylation",0.33333333333333331,26,FALSE
-"Nicotine addiction","Transcriptomics",0.33333333333333331,41,FALSE
+"Nicotine addiction","Copy number alteration",0.3196172489005874,41,FALSE
+"Nicotine addiction","Methylation",0.36076550219882519,26,FALSE
+"Nicotine addiction","Transcriptomics",0.3196172489005874,41,FALSE
 "Nicotine addiction","Proteomics",0,0,TRUE
-"Alcoholism","Copy number alteration",0.25,187,FALSE
-"Alcoholism","Methylation",0.25,146,FALSE
-"Alcoholism","Transcriptomics",0.25,182,FALSE
-"Alcoholism","Proteomics",0.25,7,FALSE
-"Bacterial invasion of epithelial cells","Copy number alteration",0.25,78,FALSE
-"Bacterial invasion of epithelial cells","Methylation",0.25,76,FALSE
-"Bacterial invasion of epithelial cells","Transcriptomics",0.25,78,FALSE
-"Bacterial invasion of epithelial cells","Proteomics",0.25,11,FALSE
-"Vibrio cholerae infection","Copy number alteration",0.33333333333333331,50,FALSE
-"Vibrio cholerae infection","Methylation",0.33333333333333331,46,FALSE
-"Vibrio cholerae infection","Transcriptomics",0.33333333333333331,50,FALSE
+"Alcoholism","Copy number alteration",0.18383375685613482,187,FALSE
+"Alcoholism","Methylation",0.19282952043620358,146,FALSE
+"Alcoholism","Transcriptomics",0.18477889106531464,182,FALSE
+"Alcoholism","Proteomics",0.43855783164234702,7,FALSE
+"Bacterial invasion of epithelial cells","Copy number alteration",0.21212338587929014,78,FALSE
+"Bacterial invasion of epithelial cells","Methylation",0.21335608224856986,76,FALSE
+"Bacterial invasion of epithelial cells","Transcriptomics",0.21212338587929014,78,FALSE
+"Bacterial invasion of epithelial cells","Proteomics",0.36239714599284983,11,FALSE
+"Vibrio cholerae infection","Copy number alteration",0.33105167514476058,50,FALSE
+"Vibrio cholerae infection","Methylation",0.33789664971047867,46,FALSE
+"Vibrio cholerae infection","Transcriptomics",0.33105167514476058,50,FALSE
 "Vibrio cholerae infection","Proteomics",0,0,TRUE
-"Epithelial cell signaling in Helicobacter pylori infection","Copy number alteration",0.25,71,FALSE
-"Epithelial cell signaling in Helicobacter pylori infection","Methylation",0.25,66,FALSE
-"Epithelial cell signaling in Helicobacter pylori infection","Transcriptomics",0.25,71,FALSE
-"Epithelial cell signaling in Helicobacter pylori infection","Proteomics",0.25,10,FALSE
-"Pathogenic Escherichia coli infection","Copy number alteration",0.25,201,FALSE
-"Pathogenic Escherichia coli infection","Methylation",0.25,187,FALSE
-"Pathogenic Escherichia coli infection","Transcriptomics",0.25,199,FALSE
-"Pathogenic Escherichia coli infection","Proteomics",0.25,20,FALSE
-"Shigellosis","Copy number alteration",0.25,250,FALSE
-"Shigellosis","Methylation",0.25,226,FALSE
-"Shigellosis","Transcriptomics",0.25,248,FALSE
-"Shigellosis","Proteomics",0.25,26,FALSE
-"Salmonella infection","Copy number alteration",0.25,260,FALSE
-"Salmonella infection","Methylation",0.25,242,FALSE
-"Salmonella infection","Transcriptomics",0.25,260,FALSE
-"Salmonella infection","Proteomics",0.25,21,FALSE
-"Pertussis","Copy number alteration",0.25,80,FALSE
-"Pertussis","Methylation",0.25,74,FALSE
-"Pertussis","Transcriptomics",0.25,79,FALSE
-"Pertussis","Proteomics",0.25,9,FALSE
-"Legionellosis","Copy number alteration",0.25,58,FALSE
-"Legionellosis","Methylation",0.25,58,FALSE
-"Legionellosis","Transcriptomics",0.25,58,FALSE
-"Legionellosis","Proteomics",0.25,6,FALSE
-"Yersinia infection","Copy number alteration",0.25,142,FALSE
-"Yersinia infection","Methylation",0.25,131,FALSE
-"Yersinia infection","Transcriptomics",0.25,141,FALSE
-"Yersinia infection","Proteomics",0.25,15,FALSE
-"Leishmaniasis","Copy number alteration",0.25,62,FALSE
-"Leishmaniasis","Methylation",0.25,68,FALSE
-"Leishmaniasis","Transcriptomics",0.25,74,FALSE
-"Leishmaniasis","Proteomics",0.25,7,FALSE
-"Chagas disease","Copy number alteration",0.25,105,FALSE
-"Chagas disease","Methylation",0.25,99,FALSE
-"Chagas disease","Transcriptomics",0.25,106,FALSE
-"Chagas disease","Proteomics",0.25,11,FALSE
-"African trypanosomiasis","Copy number alteration",0.33333333333333331,41,FALSE
-"African trypanosomiasis","Methylation",0.33333333333333331,39,FALSE
-"African trypanosomiasis","Transcriptomics",0.33333333333333331,41,FALSE
+"Epithelial cell signaling in Helicobacter pylori infection","Copy number alteration",0.21081821848017288,71,FALSE
+"Epithelial cell signaling in Helicobacter pylori infection","Methylation",0.2143631624928129,66,FALSE
+"Epithelial cell signaling in Helicobacter pylori infection","Transcriptomics",0.21081821848017288,71,FALSE
+"Epithelial cell signaling in Helicobacter pylori infection","Proteomics",0.36400040054684141,10,FALSE
+"Pathogenic Escherichia coli infection","Copy number alteration",0.21121983436463185,201,FALSE
+"Pathogenic Escherichia coli infection","Methylation",0.2140993229192707,187,FALSE
+"Pathogenic Escherichia coli infection","Transcriptomics",0.21161417385844872,199,FALSE
+"Pathogenic Escherichia coli infection","Proteomics",0.36306666885764871,20,FALSE
+"Shigellosis","Copy number alteration",0.21370865823443785,250,FALSE
+"Shigellosis","Methylation",0.21764812039091022,226,FALSE
+"Shigellosis","Transcriptomics",0.21401706698162309,248,FALSE
+"Shigellosis","Proteomics",0.35462615439302875,26,FALSE
+"Salmonella infection","Copy number alteration",0.20881821399398962,260,FALSE
+"Salmonella infection","Methylation",0.21152195212592786,242,FALSE
+"Salmonella infection","Transcriptomics",0.20881821399398962,260,FALSE
+"Salmonella infection","Proteomics",0.37084161988609288,21,FALSE
+"Pertussis","Copy number alteration",0.20584252799123048,80,FALSE
+"Pertussis","Methylation",0.20945418679241817,74,FALSE
+"Pertussis","Transcriptomics",0.20641727736001089,79,FALSE
+"Pertussis","Proteomics",0.37828600785634048,9,FALSE
+"Legionellosis","Copy number alteration",0.20124921295684439,58,FALSE
+"Legionellosis","Methylation",0.20124921295684439,58,FALSE
+"Legionellosis","Transcriptomics",0.20124921295684439,58,FALSE
+"Legionellosis","Proteomics",0.39625236112946671,6,FALSE
+"Yersinia infection","Copy number alteration",0.20956543012017739,142,FALSE
+"Yersinia infection","Methylation",0.21297069686338266,131,FALSE
+"Yersinia infection","Transcriptomics",0.20985969526273057,141,FALSE
+"Yersinia infection","Proteomics",0.36760417775370935,15,FALSE
+"Leishmaniasis","Copy number alteration",0.20695299915326806,62,FALSE
+"Leishmaniasis","Methylation",0.20258780537409754,68,FALSE
+"Leishmaniasis","Transcriptomics",0.19874078120269797,74,FALSE
+"Leishmaniasis","Proteomics",0.39171841426993642,7,FALSE
+"Chagas disease","Copy number alteration",0.20693998079564399,105,FALSE
+"Chagas disease","Methylation",0.20952759645954414,99,FALSE
+"Chagas disease","Transcriptomics",0.20652883534381625,106,FALSE
+"Chagas disease","Proteomics",0.37700358740099571,11,FALSE
+"African trypanosomiasis","Copy number alteration",0.33191435515601947,41,FALSE
+"African trypanosomiasis","Methylation",0.33617128968796123,39,FALSE
+"African trypanosomiasis","Transcriptomics",0.33191435515601947,41,FALSE
 "African trypanosomiasis","Proteomics",0,0,TRUE
-"Malaria","Copy number alteration",0.33333333333333331,48,FALSE
-"Malaria","Methylation",0.33333333333333331,46,FALSE
-"Malaria","Transcriptomics",0.33333333333333331,49,FALSE
+"Malaria","Copy number alteration",0.33272239405854653,48,FALSE
+"Malaria","Methylation",0.33623096716254003,46,FALSE
+"Malaria","Transcriptomics",0.33104663877891355,49,FALSE
 "Malaria","Proteomics",0,0,TRUE
-"Toxoplasmosis","Copy number alteration",0.25,101,FALSE
-"Toxoplasmosis","Methylation",0.25,106,FALSE
-"Toxoplasmosis","Transcriptomics",0.25,113,FALSE
-"Toxoplasmosis","Proteomics",0.25,17,FALSE
-"Amoebiasis","Copy number alteration",0.25,102,FALSE
-"Amoebiasis","Methylation",0.25,89,FALSE
-"Amoebiasis","Transcriptomics",0.25,102,FALSE
-"Amoebiasis","Proteomics",0.25,8,FALSE
-"Staphylococcus aureus infection","Copy number alteration",0.33333333333333331,85,FALSE
-"Staphylococcus aureus infection","Methylation",0.33333333333333331,73,FALSE
-"Staphylococcus aureus infection","Transcriptomics",0.33333333333333331,92,FALSE
+"Toxoplasmosis","Copy number alteration",0.22022976393420521,101,FALSE
+"Toxoplasmosis","Methylation",0.21800014170122928,106,FALSE
+"Toxoplasmosis","Transcriptomics",0.2151148305948308,113,FALSE
+"Toxoplasmosis","Proteomics",0.3466552637697346,17,FALSE
+"Amoebiasis","Copy number alteration",0.19815181639566798,102,FALSE
+"Amoebiasis","Methylation",0.20401754729599111,89,FALSE
+"Amoebiasis","Transcriptomics",0.19815181639566798,102,FALSE
+"Amoebiasis","Proteomics",0.39967881991267296,8,FALSE
+"Staphylococcus aureus infection","Copy number alteration",0.33141737504522056,85,FALSE
+"Staphylococcus aureus infection","Methylation",0.34281033484197782,73,FALSE
+"Staphylococcus aureus infection","Transcriptomics",0.32577229011280162,92,FALSE
 "Staphylococcus aureus infection","Proteomics",0,0,TRUE
-"Tuberculosis","Copy number alteration",0.25,167,FALSE
-"Tuberculosis","Methylation",0.25,158,FALSE
-"Tuberculosis","Transcriptomics",0.25,179,FALSE
-"Tuberculosis","Proteomics",0.25,18,FALSE
-"Hepatitis C","Copy number alteration",0.25,163,FALSE
-"Hepatitis C","Methylation",0.25,140,FALSE
-"Hepatitis C","Transcriptomics",0.25,161,FALSE
-"Hepatitis C","Proteomics",0.25,29,FALSE
-"Hepatitis B","Copy number alteration",0.25,168,FALSE
-"Hepatitis B","Methylation",0.25,142,FALSE
-"Hepatitis B","Transcriptomics",0.25,167,FALSE
-"Hepatitis B","Proteomics",0.25,38,FALSE
-"Measles","Copy number alteration",0.25,144,FALSE
-"Measles","Methylation",0.25,120,FALSE
-"Measles","Transcriptomics",0.25,144,FALSE
-"Measles","Proteomics",0.25,25,FALSE
-"Human cytomegalovirus infection","Copy number alteration",0.25,224,FALSE
-"Human cytomegalovirus infection","Methylation",0.25,204,FALSE
-"Human cytomegalovirus infection","Transcriptomics",0.25,230,FALSE
-"Human cytomegalovirus infection","Proteomics",0.25,33,FALSE
-"Influenza A","Copy number alteration",0.25,164,FALSE
-"Influenza A","Methylation",0.25,147,FALSE
-"Influenza A","Transcriptomics",0.25,176,FALSE
-"Influenza A","Proteomics",0.25,18,FALSE
-"Human papillomavirus infection","Copy number alteration",0.25,336,FALSE
-"Human papillomavirus infection","Methylation",0.25,310,FALSE
-"Human papillomavirus infection","Transcriptomics",0.25,343,FALSE
-"Human papillomavirus infection","Proteomics",0.25,37,FALSE
-"Human T-cell leukemia virus 1 infection","Copy number alteration",0.25,208,FALSE
-"Human T-cell leukemia virus 1 infection","Methylation",0.25,214,FALSE
-"Human T-cell leukemia virus 1 infection","Transcriptomics",0.25,227,FALSE
-"Human T-cell leukemia virus 1 infection","Proteomics",0.25,30,FALSE
-"Kaposi sarcoma-associated herpesvirus infection","Copy number alteration",0.25,196,FALSE
-"Kaposi sarcoma-associated herpesvirus infection","Methylation",0.25,179,FALSE
-"Kaposi sarcoma-associated herpesvirus infection","Transcriptomics",0.25,201,FALSE
-"Kaposi sarcoma-associated herpesvirus infection","Proteomics",0.25,31,FALSE
-"Herpes simplex virus 1 infection","Copy number alteration",0.25,482,FALSE
-"Herpes simplex virus 1 infection","Methylation",0.25,436,FALSE
-"Herpes simplex virus 1 infection","Transcriptomics",0.25,493,FALSE
-"Herpes simplex virus 1 infection","Proteomics",0.25,24,FALSE
-"Epstein-Barr virus infection","Copy number alteration",0.25,193,FALSE
-"Epstein-Barr virus infection","Methylation",0.25,185,FALSE
-"Epstein-Barr virus infection","Transcriptomics",0.25,209,FALSE
-"Epstein-Barr virus infection","Proteomics",0.25,26,FALSE
-"Human immunodeficiency virus 1 infection","Copy number alteration",0.25,209,FALSE
-"Human immunodeficiency virus 1 infection","Methylation",0.25,188,FALSE
-"Human immunodeficiency virus 1 infection","Transcriptomics",0.25,216,FALSE
-"Human immunodeficiency virus 1 infection","Proteomics",0.25,30,FALSE
-"Coronavirus disease - COVID-19","Copy number alteration",0.25,238,FALSE
-"Coronavirus disease - COVID-19","Methylation",0.25,197,FALSE
-"Coronavirus disease - COVID-19","Transcriptomics",0.25,238,FALSE
-"Coronavirus disease - COVID-19","Proteomics",0.25,15,FALSE
-"Transcriptional misregulation in cancer","Copy number alteration",0.25,198,FALSE
-"Transcriptional misregulation in cancer","Methylation",0.25,171,FALSE
-"Transcriptional misregulation in cancer","Transcriptomics",0.25,193,FALSE
-"Transcriptional misregulation in cancer","Proteomics",0.25,14,FALSE
-"Viral carcinogenesis","Copy number alteration",0.25,198,FALSE
-"Viral carcinogenesis","Methylation",0.25,177,FALSE
-"Viral carcinogenesis","Transcriptomics",0.25,203,FALSE
-"Viral carcinogenesis","Proteomics",0.25,30,FALSE
-"Chemical carcinogenesis","Copy number alteration",0.33333333333333331,84,FALSE
-"Chemical carcinogenesis","Methylation",0.33333333333333331,58,FALSE
-"Chemical carcinogenesis","Transcriptomics",0.33333333333333331,80,FALSE
+"Tuberculosis","Copy number alteration",0.21231470629919519,167,FALSE
+"Tuberculosis","Methylation",0.21460406651182468,158,FALSE
+"Tuberculosis","Transcriptomics",0.2095130443381833,179,FALSE
+"Tuberculosis","Proteomics",0.36356818285079695,18,FALSE
+"Hepatitis C","Copy number alteration",0.22125994459247336,163,FALSE
+"Hepatitis C","Methylation",0.22796219470867779,140,FALSE
+"Hepatitis C","Transcriptomics",0.2217896771750803,161,FALSE
+"Hepatitis C","Proteomics",0.32898818352376857,29,FALSE
+"Hepatitis B","Copy number alteration",0.22589748344228677,168,FALSE
+"Hepatitis B","Methylation",0.23344215817834912,142,FALSE
+"Hepatitis B","Transcriptomics",0.22615728045887579,167,FALSE
+"Hepatitis B","Proteomics",0.31450307792048837,38,FALSE
+"Measles","Copy number alteration",0.21980564194985067,144,FALSE
+"Measles","Methylation",0.22802249251407078,120,FALSE
+"Measles","Transcriptomics",0.21980564194985067,144,FALSE
+"Measles","Proteomics",0.33236622358622786,25,FALSE
+"Human cytomegalovirus infection","Copy number alteration",0.22040048425295,224,FALSE
+"Human cytomegalovirus infection","Methylation",0.22423354088972616,204,FALSE
+"Human cytomegalovirus infection","Transcriptomics",0.2193402136413615,230,FALSE
+"Human cytomegalovirus infection","Proteomics",0.33602576121596223,33,FALSE
+"Influenza A","Copy number alteration",0.21210953469723207,164,FALSE
+"Influenza A","Methylation",0.21668924582142735,147,FALSE
+"Influenza A","Transcriptomics",0.20925253643701874,176,FALSE
+"Influenza A","Proteomics",0.36194868304432176,18,FALSE
+"Human papillomavirus infection","Copy number alteration",0.21739702527904151,336,FALSE
+"Human papillomavirus infection","Methylation",0.22042698120531429,310,FALSE
+"Human papillomavirus infection","Transcriptomics",0.21663442003653846,343,FALSE
+"Human papillomavirus infection","Proteomics",0.34554157347910575,37,FALSE
+"Human T-cell leukemia virus 1 infection","Copy number alteration",0.22115731985351939,208,FALSE
+"Human T-cell leukemia virus 1 infection","Methylation",0.21999827372132805,214,FALSE
+"Human T-cell leukemia virus 1 infection","Transcriptomics",0.21763203374933957,227,FALSE
+"Human T-cell leukemia virus 1 infection","Proteomics",0.341212372675813,30,FALSE
+"Kaposi sarcoma-associated herpesvirus infection","Copy number alteration",0.22099363030784608,196,FALSE
+"Kaposi sarcoma-associated herpesvirus infection","Methylation",0.22480984833147227,179,FALSE
+"Kaposi sarcoma-associated herpesvirus infection","Transcriptomics",0.2199563378044011,201,FALSE
+"Kaposi sarcoma-associated herpesvirus infection","Proteomics",0.33424018355628049,31,FALSE
+"Herpes simplex virus 1 infection","Copy number alteration",0.2036556058891926,482,FALSE
+"Herpes simplex virus 1 infection","Methylation",0.20699949572480678,436,FALSE
+"Herpes simplex virus 1 infection","Transcriptomics",0.20291796700343312,493,FALSE
+"Herpes simplex virus 1 infection","Proteomics",0.38642693138256751,24,FALSE
+"Epstein-Barr virus infection","Copy number alteration",0.21854536667578978,193,FALSE
+"Epstein-Barr virus infection","Methylation",0.22029548732645352,185,FALSE
+"Epstein-Barr virus infection","Transcriptomics",0.21532514376630291,209,FALSE
+"Epstein-Barr virus infection","Proteomics",0.34583400223145377,26,FALSE
+"Human immunodeficiency virus 1 infection","Copy number alteration",0.21938781567957291,209,FALSE
+"Human immunodeficiency virus 1 infection","Methylation",0.2237711223700973,188,FALSE
+"Human immunodeficiency virus 1 infection","Transcriptomics",0.21805804481917143,216,FALSE
+"Human immunodeficiency virus 1 infection","Proteomics",0.33878301713115838,30,FALSE
+"Coronavirus disease - COVID-19","Copy number alteration",0.20121469957559218,238,FALSE
+"Coronavirus disease - COVID-19","Methylation",0.20833584139941419,197,FALSE
+"Coronavirus disease - COVID-19","Transcriptomics",0.20121469957559218,238,FALSE
+"Coronavirus disease - COVID-19","Proteomics",0.3892347594494015,15,FALSE
+"Transcriptional misregulation in cancer","Copy number alteration",0.20226914385824496,198,FALSE
+"Transcriptional misregulation in cancer","Methylation",0.20796147432549564,171,FALSE
+"Transcriptional misregulation in cancer","Transcriptomics",0.20324031999593928,193,FALSE
+"Transcriptional misregulation in cancer","Proteomics",0.38652906182032004,14,FALSE
+"Viral carcinogenesis","Copy number alteration",0.21999696456056037,198,FALSE
+"Viral carcinogenesis","Methylation",0.22470157060742293,177,FALSE
+"Viral carcinogenesis","Transcriptomics",0.21897643297443867,203,FALSE
+"Viral carcinogenesis","Proteomics",0.33632503185757806,30,FALSE
+"Chemical carcinogenesis","Copy number alteration",0.32271234505239216,84,FALSE
+"Chemical carcinogenesis","Methylation",0.35108741821953554,58,FALSE
+"Chemical carcinogenesis","Transcriptomics",0.32620023672807225,80,FALSE
 "Chemical carcinogenesis","Proteomics",0,0,TRUE
-"Proteoglycans in cancer","Copy number alteration",0.25,208,FALSE
-"Proteoglycans in cancer","Methylation",0.25,192,FALSE
-"Proteoglycans in cancer","Transcriptomics",0.25,204,FALSE
-"Proteoglycans in cancer","Proteomics",0.25,36,FALSE
-"MicroRNAs in cancer","Copy number alteration",0.25,279,FALSE
-"MicroRNAs in cancer","Methylation",0.25,162,FALSE
-"MicroRNAs in cancer","Transcriptomics",0.25,167,FALSE
-"MicroRNAs in cancer","Proteomics",0.25,36,FALSE
-"Colorectal cancer","Copy number alteration",0.25,92,FALSE
-"Colorectal cancer","Methylation",0.25,87,FALSE
-"Colorectal cancer","Transcriptomics",0.25,91,FALSE
-"Colorectal cancer","Proteomics",0.25,32,FALSE
-"Renal cell carcinoma","Copy number alteration",0.25,69,FALSE
-"Renal cell carcinoma","Methylation",0.25,66,FALSE
-"Renal cell carcinoma","Transcriptomics",0.25,69,FALSE
-"Renal cell carcinoma","Proteomics",0.25,15,FALSE
-"Pancreatic cancer","Copy number alteration",0.25,78,FALSE
-"Pancreatic cancer","Methylation",0.25,72,FALSE
-"Pancreatic cancer","Transcriptomics",0.25,78,FALSE
-"Pancreatic cancer","Proteomics",0.25,30,FALSE
-"Endometrial cancer","Copy number alteration",0.25,64,FALSE
-"Endometrial cancer","Methylation",0.25,61,FALSE
-"Endometrial cancer","Transcriptomics",0.25,64,FALSE
-"Endometrial cancer","Proteomics",0.25,25,FALSE
-"Glioma","Copy number alteration",0.25,80,FALSE
-"Glioma","Methylation",0.25,77,FALSE
-"Glioma","Transcriptomics",0.25,80,FALSE
-"Glioma","Proteomics",0.25,22,FALSE
-"Prostate cancer","Copy number alteration",0.25,103,FALSE
-"Prostate cancer","Methylation",0.25,99,FALSE
-"Prostate cancer","Transcriptomics",0.25,104,FALSE
-"Prostate cancer","Proteomics",0.25,27,FALSE
-"Thyroid cancer","Copy number alteration",0.25,40,FALSE
-"Thyroid cancer","Methylation",0.25,39,FALSE
-"Thyroid cancer","Transcriptomics",0.25,40,FALSE
-"Thyroid cancer","Proteomics",0.25,12,FALSE
-"Basal cell carcinoma","Copy number alteration",0.25,66,FALSE
-"Basal cell carcinoma","Methylation",0.25,62,FALSE
-"Basal cell carcinoma","Transcriptomics",0.25,66,FALSE
-"Basal cell carcinoma","Proteomics",0.25,6,FALSE
-"Melanoma","Copy number alteration",0.25,76,FALSE
-"Melanoma","Methylation",0.25,65,FALSE
-"Melanoma","Transcriptomics",0.25,76,FALSE
-"Melanoma","Proteomics",0.25,21,FALSE
-"Bladder cancer","Copy number alteration",0.25,43,FALSE
-"Bladder cancer","Methylation",0.25,41,FALSE
-"Bladder cancer","Transcriptomics",0.25,43,FALSE
-"Bladder cancer","Proteomics",0.25,16,FALSE
-"Chronic myeloid leukemia","Copy number alteration",0.25,79,FALSE
-"Chronic myeloid leukemia","Methylation",0.25,75,FALSE
-"Chronic myeloid leukemia","Transcriptomics",0.25,79,FALSE
-"Chronic myeloid leukemia","Proteomics",0.25,28,FALSE
-"Acute myeloid leukemia","Copy number alteration",0.25,70,FALSE
-"Acute myeloid leukemia","Methylation",0.25,64,FALSE
-"Acute myeloid leukemia","Transcriptomics",0.25,70,FALSE
-"Acute myeloid leukemia","Proteomics",0.25,21,FALSE
-"Small cell lung cancer","Copy number alteration",0.25,95,FALSE
-"Small cell lung cancer","Methylation",0.25,89,FALSE
-"Small cell lung cancer","Transcriptomics",0.25,96,FALSE
-"Small cell lung cancer","Proteomics",0.25,22,FALSE
-"Non-small cell lung cancer","Copy number alteration",0.25,78,FALSE
-"Non-small cell lung cancer","Methylation",0.25,75,FALSE
-"Non-small cell lung cancer","Transcriptomics",0.25,78,FALSE
-"Non-small cell lung cancer","Proteomics",0.25,27,FALSE
-"Breast cancer","Copy number alteration",0.25,156,FALSE
-"Breast cancer","Methylation",0.25,142,FALSE
-"Breast cancer","Transcriptomics",0.25,156,FALSE
-"Breast cancer","Proteomics",0.25,30,FALSE
-"Hepatocellular carcinoma","Copy number alteration",0.25,177,FALSE
-"Hepatocellular carcinoma","Methylation",0.25,163,FALSE
-"Hepatocellular carcinoma","Transcriptomics",0.25,175,FALSE
-"Hepatocellular carcinoma","Proteomics",0.25,32,FALSE
-"Gastric cancer","Copy number alteration",0.25,155,FALSE
-"Gastric cancer","Methylation",0.25,138,FALSE
-"Gastric cancer","Transcriptomics",0.25,155,FALSE
-"Gastric cancer","Proteomics",0.25,32,FALSE
-"Central carbon metabolism in cancer","Copy number alteration",0.25,74,FALSE
-"Central carbon metabolism in cancer","Methylation",0.25,68,FALSE
-"Central carbon metabolism in cancer","Transcriptomics",0.25,74,FALSE
-"Central carbon metabolism in cancer","Proteomics",0.25,19,FALSE
-"Choline metabolism in cancer","Copy number alteration",0.25,101,FALSE
-"Choline metabolism in cancer","Methylation",0.25,95,FALSE
-"Choline metabolism in cancer","Transcriptomics",0.25,101,FALSE
-"Choline metabolism in cancer","Proteomics",0.25,19,FALSE
-"PD-L1 expression and PD-1 checkpoint pathway in cancer","Copy number alteration",0.25,90,FALSE
-"PD-L1 expression and PD-1 checkpoint pathway in cancer","Methylation",0.25,86,FALSE
-"PD-L1 expression and PD-1 checkpoint pathway in cancer","Transcriptomics",0.25,90,FALSE
-"PD-L1 expression and PD-1 checkpoint pathway in cancer","Proteomics",0.25,18,FALSE
-"Asthma","Copy number alteration",0.33333333333333331,20,FALSE
-"Asthma","Methylation",0.33333333333333331,26,FALSE
-"Asthma","Transcriptomics",0.33333333333333331,32,FALSE
+"Proteoglycans in cancer","Copy number alteration",0.22278592514305209,208,FALSE
+"Proteoglycans in cancer","Methylation",0.22613750448476175,192,FALSE
+"Proteoglycans in cancer","Transcriptomics",0.22359008736888678,204,FALSE
+"Proteoglycans in cancer","Proteomics",0.32748648300329941,36,FALSE
+"MicroRNAs in cancer","Copy number alteration",0.21031682704434213,279,FALSE
+"MicroRNAs in cancer","Methylation",0.23252390637824019,162,FALSE
+"MicroRNAs in cancer","Transcriptomics",0.23116262712073973,167,FALSE
+"MicroRNAs in cancer","Proteomics",0.32599663945667795,36,FALSE
+"Colorectal cancer","Copy number alteration",0.23240046477692941,92,FALSE
+"Colorectal cancer","Methylation",0.2352304201200322,87,FALSE
+"Colorectal cancer","Transcriptomics",0.23294884549431036,91,FALSE
+"Colorectal cancer","Proteomics",0.2994202696087282,32,FALSE
+"Renal cell carcinoma","Copy number alteration",0.22149519953381983,69,FALSE
+"Renal cell carcinoma","Methylation",0.22376144230187126,66,FALSE
+"Renal cell carcinoma","Transcriptomics",0.22149519953381983,69,FALSE
+"Renal cell carcinoma","Proteomics",0.33324815863048912,15,FALSE
+"Pancreatic cancer","Copy number alteration",0.23350851451448315,78,FALSE
+"Pancreatic cancer","Methylation",0.23773816331012876,72,FALSE
+"Pancreatic cancer","Transcriptomics",0.23350851451448315,78,FALSE
+"Pancreatic cancer","Proteomics",0.29524480766090488,30,FALSE
+"Endometrial cancer","Copy number alteration",0.23351259523985565,64,FALSE
+"Endometrial cancer","Methylation",0.23613452532393081,61,FALSE
+"Endometrial cancer","Transcriptomics",0.23351259523985565,64,FALSE
+"Endometrial cancer","Proteomics",0.29684028419635783,25,FALSE
+"Glioma","Copy number alteration",0.22752407002140806,80,FALSE
+"Glioma","Methylation",0.22946485057903687,77,FALSE
+"Glioma","Transcriptomics",0.22752407002140806,80,FALSE
+"Glioma","Proteomics",0.31548700937814705,22,FALSE
+"Prostate cancer","Copy number alteration",0.22786884326147983,103,FALSE
+"Prostate cancer","Methylation",0.22978653703739513,99,FALSE
+"Prostate cancer","Transcriptomics",0.22740568498345692,104,FALSE
+"Prostate cancer","Proteomics",0.3149389347176681,27,FALSE
+"Thyroid cancer","Copy number alteration",0.22610220065096279,40,FALSE
+"Thyroid cancer","Methylation",0.2275693889388048,39,FALSE
+"Thyroid cancer","Transcriptomics",0.22610220065096279,40,FALSE
+"Thyroid cancer","Proteomics",0.32022620975926963,12,FALSE
+"Basal cell carcinoma","Copy number alteration",0.19826591001866831,66,FALSE
+"Basal cell carcinoma","Methylation",0.20115605998755443,62,FALSE
+"Basal cell carcinoma","Transcriptomics",0.19826591001866831,66,FALSE
+"Basal cell carcinoma","Proteomics",0.40231211997510885,6,FALSE
+"Melanoma","Copy number alteration",0.22595629145406299,76,FALSE
+"Melanoma","Methylation",0.23412550179864342,65,FALSE
+"Melanoma","Transcriptomics",0.22595629145406299,76,FALSE
+"Melanoma","Proteomics",0.31396191529323059,21,FALSE
+"Bladder cancer","Copy number alteration",0.23099478637428475,43,FALSE
+"Bladder cancer","Methylation",0.23378686631284229,41,FALSE
+"Bladder cancer","Transcriptomics",0.23099478637428475,43,FALSE
+"Bladder cancer","Proteomics",0.30422356093858816,16,FALSE
+"Chronic myeloid leukemia","Copy number alteration",0.23235880432143136,79,FALSE
+"Chronic myeloid leukemia","Methylation",0.23506783846576423,75,FALSE
+"Chronic myeloid leukemia","Transcriptomics",0.23235880432143136,79,FALSE
+"Chronic myeloid leukemia","Proteomics",0.30021455289137305,28,FALSE
+"Acute myeloid leukemia","Copy number alteration",0.2280646844321006,70,FALSE
+"Acute myeloid leukemia","Methylation",0.2328011659459793,64,FALSE
+"Acute myeloid leukemia","Transcriptomics",0.2280646844321006,70,FALSE
+"Acute myeloid leukemia","Proteomics",0.31106946518981948,21,FALSE
+"Small cell lung cancer","Copy number alteration",0.22464906160352791,95,FALSE
+"Small cell lung cancer","Methylation",0.2278289818034489,89,FALSE
+"Small cell lung cancer","Transcriptomics",0.22414652518454251,96,FALSE
+"Small cell lung cancer","Proteomics",0.3233754314084808,22,FALSE
+"Non-small cell lung cancer","Copy number alteration",0.2320106004938837,78,FALSE
+"Non-small cell lung cancer","Methylation",0.23405206544841523,75,FALSE
+"Non-small cell lung cancer","Transcriptomics",0.2320106004938837,78,FALSE
+"Non-small cell lung cancer","Proteomics",0.30192673356381733,27,FALSE
+"Breast cancer","Copy number alteration",0.22324292819164901,156,FALSE
+"Breast cancer","Methylation",0.22741066339813207,142,FALSE
+"Breast cancer","Transcriptomics",0.22324292819164901,156,FALSE
+"Breast cancer","Proteomics",0.32610348021856994,30,FALSE
+"Hepatocellular carcinoma","Copy number alteration",0.2227592262868329,177,FALSE
+"Hepatocellular carcinoma","Methylation",0.22631225783099421,163,FALSE
+"Hepatocellular carcinoma","Transcriptomics",0.22324277856347813,175,FALSE
+"Hepatocellular carcinoma","Proteomics",0.32768573731869466,32,FALSE
+"Gastric cancer","Copy number alteration",0.22436445827160173,155,FALSE
+"Gastric cancer","Methylation",0.22956777402886622,138,FALSE
+"Gastric cancer","Transcriptomics",0.22436445827160173,155,FALSE
+"Gastric cancer","Proteomics",0.3217033094279303,32,FALSE
+"Central carbon metabolism in cancer","Copy number alteration",0.22513272786507527,74,FALSE
+"Central carbon metabolism in cancer","Methylation",0.22949062079791388,68,FALSE
+"Central carbon metabolism in cancer","Transcriptomics",0.22513272786507527,74,FALSE
+"Central carbon metabolism in cancer","Proteomics",0.3202439234719357,19,FALSE
+"Choline metabolism in cancer","Copy number alteration",0.22048593189361584,101,FALSE
+"Choline metabolism in cancer","Methylation",0.22337860136870963,95,FALSE
+"Choline metabolism in cancer","Transcriptomics",0.22048593189361584,101,FALSE
+"Choline metabolism in cancer","Proteomics",0.33564953484405868,19,FALSE
+"PD-L1 expression and PD-1 checkpoint pathway in cancer","Copy number alteration",0.22127133182502615,90,FALSE
+"PD-L1 expression and PD-1 checkpoint pathway in cancer","Methylation",0.22346815129909658,86,FALSE
+"PD-L1 expression and PD-1 checkpoint pathway in cancer","Transcriptomics",0.22127133182502615,90,FALSE
+"PD-L1 expression and PD-1 checkpoint pathway in cancer","Proteomics",0.33398918505085118,18,FALSE
+"Asthma","Copy number alteration",0.35661048458279426,20,FALSE
+"Asthma","Methylation",0.33080146905513336,26,FALSE
+"Asthma","Transcriptomics",0.31258804636207227,32,FALSE
 "Asthma","Proteomics",0,0,TRUE
-"Autoimmune thyroid disease","Copy number alteration",0.33333333333333331,32,FALSE
-"Autoimmune thyroid disease","Methylation",0.33333333333333331,33,FALSE
-"Autoimmune thyroid disease","Transcriptomics",0.33333333333333331,50,FALSE
+"Autoimmune thyroid disease","Copy number alteration",0.34670273730485157,32,FALSE
+"Autoimmune thyroid disease","Methylation",0.34387599342271485,33,FALSE
+"Autoimmune thyroid disease","Transcriptomics",0.30942126927243357,50,FALSE
 "Autoimmune thyroid disease","Proteomics",0,0,TRUE
-"Inflammatory bowel disease","Copy number alteration",0.25,54,FALSE
-"Inflammatory bowel disease","Methylation",0.25,57,FALSE
-"Inflammatory bowel disease","Transcriptomics",0.25,66,FALSE
-"Inflammatory bowel disease","Proteomics",0.25,5,FALSE
-"Systemic lupus erythematosus","Copy number alteration",0.33333333333333331,118,FALSE
-"Systemic lupus erythematosus","Methylation",0.33333333333333331,93,FALSE
-"Systemic lupus erythematosus","Transcriptomics",0.33333333333333331,123,FALSE
+"Inflammatory bowel disease","Copy number alteration",0.19960839592186397,54,FALSE
+"Inflammatory bowel disease","Methylation",0.19705373771856027,57,FALSE
+"Inflammatory bowel disease","Transcriptomics",0.19042363473429691,66,FALSE
+"Inflammatory bowel disease","Proteomics",0.41291423162527874,5,FALSE
+"Systemic lupus erythematosus","Copy number alteration",0.3286397549255709,118,FALSE
+"Systemic lupus erythematosus","Methylation",0.34549904411296034,93,FALSE
+"Systemic lupus erythematosus","Transcriptomics",0.32586120096146881,123,FALSE
 "Systemic lupus erythematosus","Proteomics",0,0,TRUE
-"Rheumatoid arthritis","Copy number alteration",0.33333333333333331,82,FALSE
-"Rheumatoid arthritis","Methylation",0.33333333333333331,86,FALSE
-"Rheumatoid arthritis","Transcriptomics",0.33333333333333331,94,FALSE
+"Rheumatoid arthritis","Copy number alteration",0.33779737202887483,82,FALSE
+"Rheumatoid arthritis","Methylation",0.33428762065672107,86,FALSE
+"Rheumatoid arthritis","Transcriptomics",0.32791500731440415,94,FALSE
 "Rheumatoid arthritis","Proteomics",0,0,TRUE
-"Allograft rejection","Copy number alteration",0.33333333333333331,17,FALSE
-"Allograft rejection","Methylation",0.33333333333333331,32,FALSE
-"Allograft rejection","Transcriptomics",0.33333333333333331,35,FALSE
+"Allograft rejection","Copy number alteration",0.37730064342788305,17,FALSE
+"Allograft rejection","Methylation",0.3150383273685724,32,FALSE
+"Allograft rejection","Transcriptomics",0.3076610292035446,35,FALSE
 "Allograft rejection","Proteomics",0,0,TRUE
-"Graft-versus-host disease","Copy number alteration",0.33333333333333331,21,FALSE
-"Graft-versus-host disease","Methylation",0.33333333333333331,38,FALSE
-"Graft-versus-host disease","Transcriptomics",0.33333333333333331,39,FALSE
+"Graft-versus-host disease","Copy number alteration",0.37115125994515907,21,FALSE
+"Graft-versus-host disease","Methylation",0.31547320623205127,38,FALSE
+"Graft-versus-host disease","Transcriptomics",0.31337553382278965,39,FALSE
 "Graft-versus-host disease","Proteomics",0,0,TRUE
-"Primary immunodeficiency","Copy number alteration",0.33333333333333331,37,FALSE
-"Primary immunodeficiency","Methylation",0.33333333333333331,28,FALSE
-"Primary immunodeficiency","Transcriptomics",0.33333333333333331,36,FALSE
+"Primary immunodeficiency","Copy number alteration",0.32422481512284257,37,FALSE
+"Primary immunodeficiency","Methylation",0.34923512637394727,28,FALSE
+"Primary immunodeficiency","Transcriptomics",0.32654005850321016,36,FALSE
 "Primary immunodeficiency","Proteomics",0,0,TRUE
-"Hypertrophic cardiomyopathy","Copy number alteration",0.33333333333333331,93,FALSE
-"Hypertrophic cardiomyopathy","Methylation",0.33333333333333331,80,FALSE
-"Hypertrophic cardiomyopathy","Transcriptomics",0.33333333333333331,93,FALSE
+"Hypertrophic cardiomyopathy","Copy number alteration",0.32966374473643401,93,FALSE
+"Hypertrophic cardiomyopathy","Methylation",0.34067251052713193,80,FALSE
+"Hypertrophic cardiomyopathy","Transcriptomics",0.32966374473643401,93,FALSE
 "Hypertrophic cardiomyopathy","Proteomics",0,0,TRUE
-"Arrhythmogenic right ventricular cardiomyopathy","Copy number alteration",0.33333333333333331,81,FALSE
-"Arrhythmogenic right ventricular cardiomyopathy","Methylation",0.33333333333333331,72,FALSE
-"Arrhythmogenic right ventricular cardiomyopathy","Transcriptomics",0.33333333333333331,81,FALSE
+"Arrhythmogenic right ventricular cardiomyopathy","Copy number alteration",0.33039646447344756,81,FALSE
+"Arrhythmogenic right ventricular cardiomyopathy","Methylation",0.33920707105310499,72,FALSE
+"Arrhythmogenic right ventricular cardiomyopathy","Transcriptomics",0.33039646447344756,81,FALSE
 "Arrhythmogenic right ventricular cardiomyopathy","Proteomics",0,0,TRUE
-"Dilated cardiomyopathy","Copy number alteration",0.33333333333333331,97,FALSE
-"Dilated cardiomyopathy","Methylation",0.33333333333333331,83,FALSE
-"Dilated cardiomyopathy","Transcriptomics",0.33333333333333331,97,FALSE
+"Dilated cardiomyopathy","Copy number alteration",0.32956320928387101,97,FALSE
+"Dilated cardiomyopathy","Methylation",0.34087358143225804,83,FALSE
+"Dilated cardiomyopathy","Transcriptomics",0.32956320928387101,97,FALSE
 "Dilated cardiomyopathy","Proteomics",0,0,TRUE
-"Viral myocarditis","Copy number alteration",0.25,42,FALSE
-"Viral myocarditis","Methylation",0.25,56,FALSE
-"Viral myocarditis","Transcriptomics",0.25,60,FALSE
-"Viral myocarditis","Proteomics",0.25,8,FALSE
-"Fluid shear stress and atherosclerosis","Copy number alteration",0.25,141,FALSE
-"Fluid shear stress and atherosclerosis","Methylation",0.25,134,FALSE
-"Fluid shear stress and atherosclerosis","Transcriptomics",0.25,140,FALSE
-"Fluid shear stress and atherosclerosis","Proteomics",0.25,17,FALSE
+"Viral myocarditis","Copy number alteration",0.22260201733702689,42,FALSE
+"Viral myocarditis","Methylation",0.20745722678735773,56,FALSE
+"Viral myocarditis","Transcriptomics",0.20410487469185395,60,FALSE
+"Viral myocarditis","Proteomics",0.36583588118376148,8,FALSE
+"Fluid shear stress and atherosclerosis","Copy number alteration",0.21289596098215055,141,FALSE
+"Fluid shear stress and atherosclerosis","Methylation",0.21507099548800993,134,FALSE
+"Fluid shear stress and atherosclerosis","Transcriptomics",0.21319742688432181,140,FALSE
+"Fluid shear stress and atherosclerosis","Proteomics",0.35883561664551777,17,FALSE
 "Pathways in cancer","Copy number alteration",0,0,TRUE
-"Pathways in cancer","Methylation",0.5,489,FALSE
+"Pathways in cancer","Methylation",0.40251230685568545,489,FALSE
 "Pathways in cancer","Transcriptomics",0,0,TRUE
-"Pathways in cancer","Proteomics",0.5,63,FALSE
+"Pathways in cancer","Proteomics",0.5974876931443146,63,FALSE
 "Metabolic pathways","Copy number alteration",0,0,TRUE
 "Metabolic pathways","Methylation",0,0,TRUE
 "Metabolic pathways","Transcriptomics",0,0,TRUE

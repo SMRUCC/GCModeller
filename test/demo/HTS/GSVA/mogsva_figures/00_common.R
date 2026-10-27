@@ -129,14 +129,27 @@ read_matrix <- function(path) {
   m
 }
 
-#' Cache an expensive object as RDS, keyed by a name and the source file mtimes.
-cache_rds <- function(name, expr) {
-  src <- file.path(CACHE_DIR, paste0(name, ".rds"))
-  if (file.exists(src)) {
-    return(readRDS(src))
+#' Cache an expensive object as RDS, keyed by a name.
+#'
+#' The cache is invalidated automatically when any file in the result or raw
+#' data directory is newer than the cache itself, so re-running the pipeline
+#' after a new `mogsva_export()` always picks the fresh tables up.
+#' Set `MOGSVA_REFRESH=1` to force a rebuild.
+cache_rds <- function(name, expr, sources = c(RESULT_DIR, RAW_DIR)) {
+  dst <- file.path(CACHE_DIR, paste0(name, ".rds"))
+  force_rebuild <- nzchar(Sys.getenv("MOGSVA_REFRESH"))
+
+  if (file.exists(dst) && !force_rebuild) {
+    files <- unlist(lapply(sources, function(d) list.files(d, full.names = TRUE)))
+    newest <- if (length(files) == 0) as.POSIXct(0) else max(file.mtime(files))
+    if (file.mtime(dst) >= newest) {
+      return(readRDS(dst))
+    }
+    message("  cached bundle is older than the result tables -- re-reading")
   }
+
   obj <- force(expr)
-  saveRDS(obj, src)
+  saveRDS(obj, dst)
   obj
 }
 
