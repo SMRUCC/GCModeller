@@ -53,6 +53,7 @@
 
 Imports System.Diagnostics
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Linq
@@ -209,7 +210,7 @@ Public Module GSVA
             Throw New InvalidProgramException("The gene set list is empty! Filter may be too stringent.")
         End If
         If gsetIdxList.Any(Function(d) d.Value.Length = 1) Then
-            Call "Some gene sets have size one. Consider setting 'min.sz > 1'.".Warning
+            Call "Some gene sets have size one. Consider setting 'min.sz > 1'.".warning
         End If
 
         If method = Methods.ssgsea Then
@@ -324,7 +325,7 @@ Public Module GSVA
 
         Dim m As New Matrix With {
             .sampleID = expr.sampleID,
-            .expression = gsetIdxList _
+            .expression = TqdmWrapper.Wrap(gsetIdxList) _
                 .Select(Function(gsetIdx)
                             Dim idx As Integer() = gsetIdx.Value.Select(Function(id) rowIndex.IndexOf(id)).ToArray
                             Dim test = ks_test_m(idx, symrnkstat, decordstat, mxdiff, abs_ranking, tau, verbose)
