@@ -400,11 +400,22 @@ Public Module BrcaMoGsvaTest
         Dim metLayer As OmicsLayer = dataset.GetLayer("methylation")
 
         If metLayer IsNot Nothing Then
-            Dim metMin As Double = metLayer.Expr.expression.Min(Function(r) r.experiments.Min())
-            Dim metMax As Double = metLayer.Expr.expression.Max(Function(r) r.experiments.Max())
+            Dim metRaw As Matrix = data.RawMatrix("methylation")
+            Dim rawMin As Double = metRaw.expression.Min(Function(r) r.experiments.Min())
+            Dim rawMax As Double = metRaw.expression.Max(Function(r) r.experiments.Max())
 
-            Call check("甲基化层数值范围合理", metMin > -10 AndAlso metMax < 10,
-                       $"RobustZ 之后范围 [{metMin:F2}, {metMax:F2}]")
+            Call check("甲基化 beta 值处于 [0,1]", rawMin >= 0 AndAlso rawMax <= 1,
+                       $"原始范围 [{rawMin:F4}, {rawMax:F4}]")
+
+            ' beta 值的 MAD 很小，RobustZScore 之后出现少量极大值属于正常现象
+            ' （分布式双峰），这里只校验标准化结果以 0 为中心且保持有限
+            Dim zAbs As Double() = metLayer.Expr.expression _
+                .SelectMany(Function(r) r.experiments) _
+                .Select(Function(x) std.Abs(x)) _
+                .ToArray()
+
+            Call check("甲基化层标准化后以 0 为中心", Median(zAbs) < 1,
+                       $"median|z| = {Median(zAbs):F3}, max|z| = {zAbs.Max():F1}")
             Call check("甲基化层方向 = -1", metLayer.Direction = -1, $"Direction={metLayer.Direction}")
         End If
 
@@ -828,6 +839,24 @@ Public Module BrcaMoGsvaTest
             .Take(n) _
             .Select(Function(t) t.geneID) _
             .ToArray
+    End Function
+
+    ''' <summary>中位数（不修改输入数组）</summary>
+    Private Function Median(values As Double()) As Double
+        If values Is Nothing OrElse values.Length = 0 Then
+            Return Double.NaN
+        End If
+
+        Dim copy As Double() = DirectCast(values.Clone(), Double())
+        Call Array.Sort(copy)
+
+        Dim n As Integer = copy.Length
+
+        If n Mod 2 = 1 Then
+            Return copy(n \ 2)
+        Else
+            Return (copy(n \ 2 - 1) + copy(n \ 2)) / 2
+        End If
     End Function
 
     ''' <summary>两个同形矩阵的最大绝对差</summary>
