@@ -18,6 +18,10 @@ Namespace Formats
     ''' 
     ''' The member genes are read row by row from the third line, an empty cell in a 
     ''' column means that the current gene set has no more member gene at this row. 
+    ''' 
+    ''' Note that the description line is a **required** part of the file format: if it 
+    ''' is missing then the member genes would be read as the description data, and the 
+    ''' parsed result will contains no gene set at all(``numberOfSets`` is zero).
     ''' </summary>
     ''' <remarks>
     ''' http://software.broadinstitute.org/cancer/software/gsea/wiki/index.php/Data_formats#Gene_Set_Data_Formats
@@ -69,17 +73,19 @@ Namespace Formats
         ''' <returns></returns>
         Public Shared Function Parse(lines As IEnumerable(Of String)) As Gmx
             Dim names As String() = Nothing
-            Dim description As String() = Nothing
+            Dim header As String() = Nothing
+            Dim rows As New List(Of String())
             Dim members As List(Of String)() = Nothing
+            Dim description As String() = Nothing
             Dim comments As New List(Of String)
 
+            ' 第一行是基因集的名称，第二行是基因集的描述信息，余下的行则是成员基因
             For Each line As String In lines.SafeQuery
                 If String.IsNullOrWhiteSpace(line) Then
                     Continue For
                 End If
 
                 Dim text As String = line.TrimEnd
-                Dim cols As String()
 
                 ' 以#开头的行是注释行，例如记录了species或者database的元信息
                 If text.TrimStart.StartsWith("#") Then
@@ -87,40 +93,16 @@ Namespace Formats
                     Continue For
                 End If
 
-                cols = text.Split(ControlChars.Tab)
+                Dim cols As String() = text.Split(ControlChars.Tab)
 
                 If names Is Nothing Then
-                    ' 第一行：基因集的名称
                     names = cols _
                         .Select(Function(s) s.Trim) _
                         .ToArray
-                    members = New List(Of String)(names.Length - 1) {}
-
-                    For i As Integer = 0 To names.Length - 1
-                        members(i) = New List(Of String)
-                    Next
-                ElseIf description Is Nothing Then
-                    ' 第二行：基因集的描述信息
-                    description = New String(names.Length - 1) {}
-
-                    For i As Integer = 0 To names.Length - 1
-                        If i < cols.Length Then
-                            description(i) = cols(i).Trim
-                        Else
-                            description(i) = ""
-                        End If
-                    Next
+                ElseIf header Is Nothing Then
+                    header = cols
                 Else
-                    ' 第三行开始：成员基因，按列归属到对应的基因集之中
-                    Dim n As Integer = If(cols.Length < names.Length, cols.Length, names.Length)
-
-                    For i As Integer = 0 To n - 1
-                        Dim gene As String = cols(i).Trim
-
-                        If Not String.IsNullOrWhiteSpace(gene) Then
-                            Call members(i).Add(gene)
-                        End If
-                    Next
+                    Call rows.Add(cols)
                 End If
             Next
 
@@ -131,6 +113,32 @@ Namespace Formats
                 }
             End If
 
+            members = newColumns(names.Length)
+            description = paddingDescription(header, names.Length)
+
+            For Each row As String() In rows
+                Call appendRow(members, row, names.Length)
+            Next
+
+            Return New Gmx With {
+                .clusters = buildClusters(names, description, members),
+                .comments = comments.ToArray
+            }
+        End Function
+
+        Private Shared Function newColumns(numberOfSets As Integer) As List(Of String)()
+            Dim columns As List(Of String)() = New List(Of String)(numberOfSets - 1) {}
+
+            For i As Integer = 0 To numberOfSets - 1
+                columns(i) = New List(Of String)
+            Next
+
+            Return columns
+        End Function
+
+        Private Shared Function buildClusters(names As String(), description As String(),
+                                             members As List(Of String)()) As Cluster()
+
             Dim sets As New List(Of Cluster)
 
             For i As Integer = 0 To names.Length - 1
@@ -140,7 +148,7 @@ Namespace Formats
                     Continue For
                 End If
 
-                ' 同一个基因集之中重复出现的基因只有计一次，否则会破坏超几何检验的列联表
+                ' 同一个基因集之中重复出现的基因只计一次，否则会破坏超几何检验的列联表
                 Dim genes As String() = members(i) _
                     .Distinct(StringComparer.Ordinal) _
                     .ToArray
@@ -168,10 +176,44 @@ Namespace Formats
                 })
             Next
 
-            Return New Gmx With {
-                .clusters = sets.ToArray,
-                .comments = comments.ToArray
-            }
+            Return sets.ToArray
+        End Function
+
+        ''' <summary>
+        ''' append the member genes in a gmx data row into the gene set column list
+        ''' </summary>
+        Private Shared Sub appendRow(members As List(Of String)(), row As String(), numberOfSets As Integer)
+            Dim n As Integer = If(row Is Nothing, 0, row.Length)
+
+            If n > numberOfSets Then
+                n = numberOfSets
+            End If
+
+            For i As Integer = 0 To n - 1
+                Dim gene As String = row(i).Trim
+
+                If Not String.IsNullOrWhiteSpace(gene) Then
+                    Call members(i).Add(gene)
+                End If
+            Next
+        End Sub
+
+        Private Shared Function paddingDescription(header As String(), numberOfSets As Integer) As String()
+            If header Is Nothing Then
+                Return Nothing
+            End If
+
+            Dim desc As String() = New String(numberOfSets - 1) {}
+
+            For i As Integer = 0 To numberOfSets - 1
+                If i < header.Length Then
+                    desc(i) = header(i).Trim
+                Else
+                    desc(i) = ""
+                End If
+            Next
+
+            Return desc
         End Function
 
         Public Iterator Function GetEnumerator() As IEnumerator(Of Cluster) Implements IEnumerable(Of Cluster).GetEnumerator
