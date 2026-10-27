@@ -34,6 +34,7 @@ the gene expression matrix data toolkit
 + [batch_normalize](geneExpression/batch_normalize.1) remove the technical batch effects from a merged multi-dataset gene expression matrix.
 + [top_variance](geneExpression/top_variance.1) keep only the top-N most variable gene feature rows of the expression matrix
 + [is_empty](geneExpression/is_empty.1) check that the given expression matrix object is empty or not
++ [read_gct](geneExpression/read_gct.1) 
 + [load.expr](geneExpression/load.expr.1) load an expressin matrix data
 + [expression_groups](geneExpression/expression_groups.1) 从表达矩阵之中按照表达值的分布特征拆分出每一个品种的基因组基因集合
 + [load.expr0](geneExpression/load.expr0.1) read the binary matrix data file

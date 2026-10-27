@@ -943,6 +943,10 @@ declare namespace geneExpression {
    */
    function project(x: object, sampleIds: any): object;
    /**
+     * @param as_matrix default value Is ``false``.
+   */
+   function read_gct(file: string, as_matrix?: boolean): object|object;
+   /**
     * read the limma result table from a given csv table file
     * 
     * 

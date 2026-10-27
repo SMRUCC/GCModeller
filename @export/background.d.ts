@@ -28,7 +28,7 @@ declare namespace background {
        * cast the cluster data as the enrichment background
        * 
        * 
-        * @param clusters a data cluster or a collection of kegg pathway model
+        * @param clusters a data cluster or a collection of kegg pathway model, value could be a collection of [Cluster](cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.Cluster) object, parsed [Gmt](cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.Formats.Gmt), parsed [Gmx](cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.Formats.Gmx) file data.
         * @param background_size default value -1 or zero means auto evaluated
         * 
         * + default value Is ``-1``.
@@ -374,13 +374,10 @@ declare namespace background {
    }
    /**
    */
-   function read_cls(file: string): object;
-   /**
-   */
-   function read_gct(file: string): object;
-   /**
-   */
    function read_gmt(file: string): object;
+   /**
+   */
+   function read_gmx(file: string): object;
    module write {
       /**
        * Save GSEA background model as xml file

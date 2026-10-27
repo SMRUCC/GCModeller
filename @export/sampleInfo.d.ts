@@ -196,6 +196,9 @@ declare namespace sampleInfo {
       function sampleinfo(file: string, tsv?: boolean, exclude_groups?: string, id_makenames?: boolean): object;
    }
    /**
+   */
+   function read_cls(file: string): object;
+   /**
     * group the sample information data by the sample group label
     * 
     * 

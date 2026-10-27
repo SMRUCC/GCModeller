@@ -16,6 +16,7 @@ GCModeller DEG experiment analysis designer toolkit
 >  table file via the ``write.sampleinfo`` api, or be converted to a data frame 
 >  via the ``as.data.frame`` api.
 
++ [read_cls](sampleInfo/read_cls.1) 
 + [guess.sample_groups](sampleInfo/guess.sample_groups.1) try to parse the sampleInfo data from the
 + [group.colors](sampleInfo/group.colors.1) get/set the group colors
 + [design](sampleInfo/design.1) Create new analysis design sample info via formula
