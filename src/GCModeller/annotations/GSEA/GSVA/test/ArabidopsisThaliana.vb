@@ -96,9 +96,13 @@ Public Module ArabidopsisThalianaTest
                 Case "--mogsva"
                     Call Environment.Exit(MoGsvaTest.Run(args.Skip(1).ToArray))
                     Return
+                Case "--brca"
+                    Call Environment.Exit(BrcaMoGsvaTest.Run(args.Skip(1).ToArray))
+                    Return
                 Case "--help", "-h"
                     Call Console.WriteLine("usage: test.exe [dataDir]")
                     Call Console.WriteLine("       test.exe --mogsva [--dir=<TCGA_COAD>] [--no-real] [--perm=N] [--install-baselines]")
+                    Call Console.WriteLine("       test.exe --brca [--dir=<brca multipleOmics>] [--layers=mrna,met,protein] [--perm=N] [--r-baseline] [--fusion=Equal|Variance|Entropy] [--lambda=0.25]")
                     Return
                 Case Else
                     Call Console.WriteLine($"unknown option: {args(0)}")
