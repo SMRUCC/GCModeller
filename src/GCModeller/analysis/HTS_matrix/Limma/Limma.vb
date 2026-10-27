@@ -193,6 +193,7 @@ Public Module Limma
 
     <Extension>
     Private Iterator Function LmFitInternal(x As Matrix, design As DataAnalysis) As IEnumerable(Of LimmaTable)
+        ' extract of the sample ordinals
         Dim control As Integer() = x.IndexOf(design.control)  ' 0
         Dim treat As Integer() = x.IndexOf(design.experiment) ' 1
         Dim xi As Double() = Replicate(0.0, control.Length) _

@@ -36,3 +36,28 @@ info, 2.61 min - [moGSVA] protein: 229 pathways x 460 samples (666 ms)
 warning, 2.62 min - 329 genes with constant expression values throuhgout the samples.
 warning, 2.62 min - Since argument method!='ssgsea', genes with constant expression values are discarded.
 warning, 2.62 min - Some gene sets have size one. Consider setting 'min.sz > 1'.
+info, 5.05 min - [moGSVA] pooled baseline: 337 pathway(s), mean|diff| vs fusion = 1.400E-001
+info, 5.05 min - [moGSVA] done in 287530 ms: 337 pathway(s) x 460 sample(s)
+  [PASS] 通路数（KEGG 337 条）  (337 条通路，耗时 287.5 s)
+  [PASS] 融合分数无 NaN / Inf  (155020 个分数)
+  [PASS] λ=0 时融合分数等于加权平均  (max|diff| = 0.000E+000)
+  [PASS] 逐通路融合 = Σ w_k·ES_k  (核对 20 条通路, max|diff| = 0.000E+000)
+  [PASS] 逐通路组学权重之和 = 1  (0 条通路权重异常)
+  [PASS] Equal 策略下三层齐全的通路权重 = 1/N  (229 条三通路, 异常 0 条)
+  [PASS] 蛋白层被跳过的通路数  (108 条通路没有足够的 RPPA 成员)
+  [PASS] mRNA 层通路覆盖  (337 条通路有 mRNA 成员)
+
+--- C. 生物学合理性（ER 状态） ---
+  [PASS] ER+ / ER- 分组可用  (ER+ = 324, ER- = 101)
+  [PASS] mRNA 中存在 ESR1  (found)
+  [PASS] ESR1 在 ER+ 组高表达  (log2 均值差 = 5.80)
+  [PASS] 输出包含雌激素信号通路  (Estrogen signaling pathway)
+  [PASS] 雌激素通路在 ER+ 组活性更高  (融合分数均值差 = 0.0072)
+
+--- D. 拼接矩阵消融对照 ---
+  [PASS] Pooled baseline 可用  (ok)
+  [PASS] 拼接基线通路数  (337 条通路)
+  [PASS] 拼接基线与融合结果不同  (mean|diff| = 1.400E-001)
+
+--- F. R GSVA 逐层对拍 ---
+[baseline] Rscript "G:\GCModeller\src\GCModeller\annotations\GSEA\GSVA\test\reference\mogsva_reference.R" "G:\GCModeller\src\GCModeller\annotations\GSEA\GSVA\test\bin\Debug\net10.0\brca_run"

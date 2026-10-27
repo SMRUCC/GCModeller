@@ -479,9 +479,6 @@ Module GSVA
             Throw New InvalidProgramException
         End If
 
-        ' extract of the sample ordinals
-        Dim i1 As Integer() = gsva.IndexOf(compares.experiment)
-        Dim i2 As Integer() = gsva.IndexOf(compares.control)
         Dim limmaResult As LimmaTable() = Limma.LmFit(gsva, compares).ToArray
         Dim diffResult = limmaResult _
             .Select(Function(term)
