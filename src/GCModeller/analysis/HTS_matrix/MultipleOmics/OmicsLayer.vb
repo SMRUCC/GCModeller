@@ -1,6 +1,4 @@
-Imports SMRUCC.genomics.Analysis.HTS.DataFrame
-
-Namespace Omics
+Namespace MultipleOmics
 
     ''' <summary>
     ''' 单个组学层的「特征 × 样本」矩阵模型。

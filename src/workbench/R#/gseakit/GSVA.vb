@@ -57,6 +57,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
 Imports SMRUCC.genomics.Analysis.HTS.GSVA
+Imports SMRUCC.genomics.Analysis.HTS.GSVA.Omics
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 Imports SMRUCC.genomics.Visualize
 Imports SMRUCC.Rsharp.Runtime
@@ -146,6 +147,18 @@ Module GSVA
         End If
 
         Return gsva_result
+    End Function
+
+    <ExportAPI("mo_layers")>
+    <RApiReturn(GetType(MultiOmicsDataset))>
+    Public Function mo_layers(<RRawVectorArgument(GetType(OmicsLayer))> layers As Object, Optional verbose As Boolean = True, Optional env As Environment = Nothing) As Object
+        Dim pull As PipeIterator(Of OmicsLayer) = pipeline.Stream(Of OmicsLayer)(layers, env)
+
+        If pull.isError Then
+            Return pull.getError
+        End If
+
+        Return MultiOmicsDataset.Create(pull, verbose)
     End Function
 
     ''' <summary>
