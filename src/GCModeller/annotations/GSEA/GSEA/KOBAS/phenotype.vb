@@ -1,63 +1,64 @@
 ﻿#Region "Microsoft.VisualBasic::328a4a724975c4a4792e1a92b9dffdaf, annotations\GSEA\GSEA\KOBAS\phenotype.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 53
-    '    Code Lines: 39 (73.58%)
-    ' Comment Lines: 4 (7.55%)
-    '    - Xml Docs: 100.00%
-    ' 
-    '   Blank Lines: 10 (18.87%)
-    '     File Size: 1.78 KB
+' Summaries:
 
 
-    '     Class phenotype
-    ' 
-    '         Properties: labels, phnameA, phnameB, sample_num, sample0
-    '                     sample1
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: FromClsFile
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 53
+'    Code Lines: 39 (73.58%)
+' Comment Lines: 4 (7.55%)
+'    - Xml Docs: 100.00%
+' 
+'   Blank Lines: 10 (18.87%)
+'     File Size: 1.78 KB
+
+
+'     Class phenotype
+' 
+'         Properties: labels, phnameA, phnameB, sample_num, sample0
+'                     sample1
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: FromClsFile
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
+Imports SMRUCC.genomics.Analysis.HTS.GSEA.Formats
 
 Namespace KOBAS
 
