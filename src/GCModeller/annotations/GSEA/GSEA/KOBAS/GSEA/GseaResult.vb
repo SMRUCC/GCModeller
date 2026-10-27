@@ -81,4 +81,31 @@ Namespace KOBAS
             Return $"{ID} ES={ES.ToString("F4")} NES={NES.ToString("F4")} p={PValue.ToString("G4")}"
         End Function
     End Class
+
+    ''' <summary>
+    ''' GSEA 结果的整理工具。
+    ''' </summary>
+    Public Module GseaResultExtensions
+
+        ''' <summary>
+        ''' 按富集分数的符号把结果拆分为两个表型方向（KOBAS <c>output_set</c> 的等价实现）。
+        ''' </summary>
+        ''' <param name="results">GSEA 分析结果。</param>
+        ''' <returns>
+        ''' 元组：<c>Positive</c> 为表型 A（<c>phnameA</c>）一侧，按 ES 降序；
+        ''' <c>Negative</c> 为表型 B（<c>phnameB</c>）一侧，按 ES 升序（最负者在前）。
+        ''' </returns>
+        Public Function SplitPhenotypes(results As GseaResult()) As (Positive As GseaResult(), Negative As GseaResult())
+            Dim positive As GseaResult() = results _
+                .Where(Function(item) item.ES > 0) _
+                .OrderByDescending(Function(item) item.ES) _
+                .ToArray
+            Dim negative As GseaResult() = results _
+                .Where(Function(item) item.ES < 0) _
+                .OrderBy(Function(item) item.ES) _
+                .ToArray
+
+            Return (positive, negative)
+        End Function
+    End Module
 End Namespace

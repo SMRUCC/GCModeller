@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>KOBAS.test</RootNamespace>
+    <AssemblyName>KOBAS.test</AssemblyName>
+    <TargetFramework>net10.0</TargetFramework>
+    <Platforms>AnyCPU;x64</Platforms>
+    <UseApplicationFramework>False</UseApplicationFramework>
+    <StartupObject>KOBAS.test.Program</StartupObject>
+    <NoWarn>42349</NoWarn>
+    <OptionStrict>Off</OptionStrict>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GSEA\gsea-netcore5.vbproj" />
+    <ProjectReference Include="..\FisherCore\Fisher.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\analysis\HTS_matrix\HTS_matrix-netcore5.vbproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="reference\kobas_reference.R">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
