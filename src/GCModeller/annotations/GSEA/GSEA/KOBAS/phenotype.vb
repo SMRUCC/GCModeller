@@ -58,7 +58,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
-Imports SMRUCC.genomics.Analysis.HTS.GSEA.Formats
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame.Formats
 
 Namespace KOBAS
 
