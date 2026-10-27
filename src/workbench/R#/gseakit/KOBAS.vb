@@ -122,8 +122,7 @@ Module KOBAS
     ''' </param>
     ''' <param name="duplicate">
     ''' the strategy for the duplicated gene set id in the GMT file, could be
-    ''' ``error`` (default, throw an exception), ``keep`` (keep the first one) or
-    ''' ``rename`` (append a numeric suffix).
+    ''' ``error`` (default, throw an exception) or ``keep`` (keep the first one).
     ''' </param>
     ''' <returns>a <see cref="Background"/> model.</returns>
     ''' <remarks>
@@ -144,8 +143,6 @@ Module KOBAS
         Select Case If(duplicate, "").Trim().ToLowerInvariant()
             Case "keep", "first"
                 policy = DuplicateGeneSetPolicy.KeepFirst
-            Case "rename"
-                policy = DuplicateGeneSetPolicy.Rename
             Case "error", "throw", ""
                 policy = DuplicateGeneSetPolicy.ThrowError
         End Select
