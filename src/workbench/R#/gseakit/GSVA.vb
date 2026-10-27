@@ -259,6 +259,25 @@ Module GSVA
         Return gsva_result
     End Function
 
+    ''' <summary>
+    ''' Assemble the multiple omics data layers into a <see cref="MultiOmicsDataset"/> object
+    ''' for the multi-omics GSVA (moGSVA) analysis.
+    ''' </summary>
+    ''' <param name="layers">
+    ''' the omics layer collection, each element could be an <see cref="OmicsLayer"/> object or
+    ''' a tuple that could be cast into the omics layer model. Every layer should define its
+    ''' unique omics name and the expression matrix whose rows are the features of that omics.
+    ''' </param>
+    ''' <param name="verbose">prints the progress and the diagnostic message of the layer alignment? Default ``TRUE``.</param>
+    ''' <param name="env">the R# runtime environment.</param>
+    ''' <returns>
+    ''' a <see cref="MultiOmicsDataset"/> object which contains the sample aligned omics layers,
+    ''' or an error message when the layer collection could not be assembled.
+    ''' </returns>
+    ''' <remarks>
+    ''' The samples of all of the omics layers are aligned by the sample name: the intersection
+    ''' of the sample names is used as the final sample axis of the multi-omics dataset.
+    ''' </remarks>
     <ExportAPI("mo_layers")>
     <RApiReturn(GetType(MultiOmicsDataset))>
     Public Function mo_layers(<RRawVectorArgument(GetType(OmicsLayer))> layers As Object, Optional verbose As Boolean = True, Optional env As Environment = Nothing) As Object
@@ -407,6 +426,26 @@ Module GSVA
         }
     End Function
 
+    ''' <summary>
+    ''' Run the multi-omics GSVA (moGSVA) analysis on the given multi-omics dataset.
+    ''' </summary>
+    ''' <param name="x">the multi-omics dataset object that is created by the ``mo_layers`` function.</param>
+    ''' <param name="geneSet">
+    ''' the gene set collection, it could be a GSEA <see cref="Background"/> model, a GMT file
+    ''' path or other data that could be cast into the background model.
+    ''' </param>
+    ''' <param name="opts">the running configuration object that is created by the ``mogsva_opts`` function.</param>
+    ''' <param name="env">the R# runtime environment.</param>
+    ''' <returns>
+    ''' a <see cref="MultiOmicsGsvaResult"/> object which contains the fused pathway activity
+    ''' matrix, the per-omics scores, the pathway weights, the omics contribution decomposition
+    ''' and the permutation test p-value table (when ``permutations`` is greater than zero).
+    ''' </returns>
+    ''' <remarks>
+    ''' The scoring of each omics layer is performed independently (the kernel density
+    ''' estimation never mixes the features from the different omics), then the omics specific
+    ''' enrichment scores are fused by the configured weight strategy.
+    ''' </remarks>
     <ExportAPI("mogsva")>
     <RApiReturn(GetType(MultiOmicsGsvaResult))>
     Public Function mogsva(x As MultiOmicsDataset, geneSet As Object, opts As MultiOmicsGsvaOptions, Optional env As Environment = Nothing) As Object
