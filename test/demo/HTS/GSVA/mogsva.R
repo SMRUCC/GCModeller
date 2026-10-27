@@ -31,3 +31,4 @@ multiple_layers = as.list(names(multiple_layers), names = names(multiple_layers)
 
 let result = mogsva(multiple_layers ,background , opts );
 
+mogsva_export(result, here("brca_tcga_pub2015_mogsva"))

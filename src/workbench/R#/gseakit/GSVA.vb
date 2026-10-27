@@ -59,6 +59,7 @@ Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame.MultipleOmics
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
 Imports SMRUCC.genomics.Analysis.HTS.GSVA
+Imports SMRUCC.genomics.Analysis.HTS.GSVA.Export
 Imports SMRUCC.genomics.Analysis.HTS.GSVA.Omics
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 Imports SMRUCC.genomics.Visualize
@@ -460,6 +461,12 @@ Module GSVA
         Dim gsva_result As MultiOmicsGsvaResult = MultiOmicsGsva.Compute(x, background, opts)
 
         Return gsva_result
+    End Function
+
+    <ExportAPI("mogsva_export")>
+    <RApiReturn(TypeCodes.string)>
+    Public Function mogsva_export(mogsva As MultiOmicsGsvaResult, dir As String) As Object
+        Return MultiOmicsResultWriter.Save(mogsva, dir)
     End Function
 
     ''' <summary>

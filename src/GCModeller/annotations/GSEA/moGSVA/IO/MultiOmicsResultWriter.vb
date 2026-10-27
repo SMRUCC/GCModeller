@@ -51,20 +51,7 @@ Namespace Export
         ''' 写出「通路 × 样本」矩阵。
         ''' </summary>
         Public Function WriteMatrix(mat As Matrix, path As String, Optional idColumn As String = "geneID") As String
-            Using writer As New StreamWriter(path, False, Text.Encoding.UTF8)
-                Call writer.WriteLine((New String() {idColumn}).Join(mat.sampleID).JoinBy(","))
-
-                For Each row As DataFrameRow In mat.expression
-                    Dim line As New List(Of String) From {Quote(row.geneID)}
-
-                    For Each x As Double In row.experiments
-                        line.Add(Format(x))
-                    Next
-
-                    Call writer.WriteLine(line.JoinBy(","))
-                Next
-            End Using
-
+            Call mat.SaveMatrix(path, idcolName:=idColumn)
             Return path
         End Function
 
