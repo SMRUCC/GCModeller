@@ -73,6 +73,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame.Formats
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 Imports SMRUCC.Rsharp.Interpreter.ExecuteEngine
 Imports SMRUCC.Rsharp.Interpreter.ExecuteEngine.ExpressionSymbols.DataSets
@@ -150,6 +151,11 @@ Module DEGSample
 
     Private Function print(sample As SampleInfo) As String
         Return $" ({sample.sample_info}) {sample.sample_name}"
+    End Function
+
+    <ExportAPI("read_cls")>
+    Public Function readCls(file As String) As CLS
+        Return CLS.ParseFile(file)
     End Function
 
     ''' <summary>

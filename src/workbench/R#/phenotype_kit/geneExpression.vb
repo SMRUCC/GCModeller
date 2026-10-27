@@ -91,9 +91,9 @@ Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics
-Imports SMRUCC.genomics.Analysis.BNLearn.Core
 Imports SMRUCC.genomics.Analysis.BNLearn.IO
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame.Formats
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.Analysis.HTS.WGCNA
 Imports SMRUCC.genomics.ComponentModel
@@ -161,15 +161,15 @@ Module geneExpression
     '''    expression pattern object.
     ''' </remarks>
     Friend Sub Main()
-        REnv.Internal.ConsolePrinter.AttachConsoleFormatter(Of ExpressionPattern)(Function(a) DirectCast(a, ExpressionPattern).ToSummaryText)
-        REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(DEP_iTraq()), AddressOf depDataTable)
-        REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(Matrix), AddressOf expDataTable)
-        REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(DEGModel()), AddressOf degTable)
-        REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(LimmaTable()), AddressOf limma_df)
-        REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(ImpactResult()), AddressOf impact_table)
-        REnv.Internal.ConsolePrinter.AttachConsoleFormatter(Of DEGModel)(Function(a) a.ToString)
+        RInternal.ConsolePrinter.AttachConsoleFormatter(Of ExpressionPattern)(Function(a) DirectCast(a, ExpressionPattern).ToSummaryText)
+        RInternal.Object.Converts.makeDataframe.addHandler(GetType(DEP_iTraq()), AddressOf depDataTable)
+        RInternal.Object.Converts.makeDataframe.addHandler(GetType(Matrix), AddressOf expDataTable)
+        RInternal.Object.Converts.makeDataframe.addHandler(GetType(DEGModel()), AddressOf degTable)
+        RInternal.Object.Converts.makeDataframe.addHandler(GetType(LimmaTable()), AddressOf limma_df)
+        RInternal.Object.Converts.makeDataframe.addHandler(GetType(ImpactResult()), AddressOf impact_table)
+        RInternal.ConsolePrinter.AttachConsoleFormatter(Of DEGModel)(Function(a) a.ToString)
 
-        Call REnv.Internal.generic.add(
+        Call RInternal.generic.add(
             name:="as.list",
             x:=GetType(ExpressionPattern),
             [overloads]:=AddressOf getFuzzyPatternMembers
@@ -887,6 +887,16 @@ Module geneExpression
     <ExportAPI("is_empty")>
     Public Function is_empty(x As Matrix) As Boolean
         Return x.IsNullOrEmpty
+    End Function
+
+    <ExportAPI("read_gct")>
+    <RApiReturn(GetType(Gct), GetType(Matrix))>
+    Public Function readGct(file As String, Optional as_matrix As Boolean = False) As Object
+        If as_matrix Then
+            Return Gct.LoadFile(file).AsMatrix
+        Else
+            Return Gct.LoadFile(file)
+        End If
     End Function
 
     ''' <summary>
