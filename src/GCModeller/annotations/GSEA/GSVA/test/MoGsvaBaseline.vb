@@ -3,6 +3,7 @@ Imports System.IO
 Imports System.Linq
 Imports System.Runtime.CompilerServices
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame.MultipleOmics
 Imports SMRUCC.genomics.Analysis.HTS.GSVA.Omics
 Imports std = System.Math
 

@@ -56,7 +56,7 @@
 
 Imports Microsoft.VisualBasic.Linq
 
-Namespace KOBAS
+Namespace Formats
 
     ''' <summary>
     ''' The CLS file format defines phenotype (class or template) labels and 

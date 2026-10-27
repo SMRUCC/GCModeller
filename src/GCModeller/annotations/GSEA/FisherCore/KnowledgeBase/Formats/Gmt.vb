@@ -58,10 +58,9 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Text
-Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 Imports tsv = Microsoft.VisualBasic.Data.Framework.IO.File
 
-Namespace KOBAS
+Namespace Formats
 
     ''' <summary>
     ''' #### GMT: Gene Matrix Transposed file format (``*.gmt``)

@@ -68,7 +68,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 Imports tsv = Microsoft.VisualBasic.Data.Framework.IO.File
 
-Namespace KOBAS
+Namespace Formats
 
     ''' <summary>
     ''' #### GCT: Gene Cluster Text file format (``*.gct``)

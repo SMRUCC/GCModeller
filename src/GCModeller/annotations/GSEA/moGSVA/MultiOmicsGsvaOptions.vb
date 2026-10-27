@@ -1,3 +1,5 @@
+Imports Microsoft.VisualBasic.Serialization.JSON
+
 ''' <summary>
 ''' moGSVA 的运行配置。
 ''' </summary>
@@ -78,6 +80,10 @@ Public Class MultiOmicsGsvaOptions
 
     ''' <summary>是否输出过程日志</summary>
     Public Property Verbose As Boolean = True
+
+    Public Overrides Function ToString() As String
+        Return Me.GetJson
+    End Function
 
     Public Function Clone() As MultiOmicsGsvaOptions
         Return New MultiOmicsGsvaOptions With {
