@@ -5,11 +5,12 @@ imports "background" from "gseakit";
 imports "geneExpression" from "phenotype_kit";
 imports "mixOmics" from "phenotype_kit";
 
+let dataset = "K:\brca_tcga_pub2015\multipleOmics";
 let multiple_layers = list(
-    "Copy number alteration" = "K:\brca_tcga_pub2015\multipleOmics\cna.txt"
-    Methylation = "K:\brca_tcga_pub2015\multipleOmics\met.txt"
-    Transcriptomics = "K:\brca_tcga_pub2015\multipleOmics\mrna.txt"
-    Proteomics = "K:\brca_tcga_pub2015\multipleOmics\protein.txt"
+    "Copy number alteration" = file.path(dataset,"cna.txt"),
+    Methylation = file.path(dataset,"met.txt"),
+    Transcriptomics = file.path(dataset,"mrna.txt"),
+    Proteomics =  file.path(dataset,"protein.txt")
 );
 let opts = mogsva_opts(
     permutations = 100,
