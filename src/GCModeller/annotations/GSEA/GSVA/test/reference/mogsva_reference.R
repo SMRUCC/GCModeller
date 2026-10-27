@@ -57,7 +57,14 @@ write_ref <- function(es, name) {
   cat(sprintf("  %-26s : %4d x %d\n", name, nrow(es), ncol(es)))
 }
 
-omics  <- c("mRNA", "protein", "methylation")
+omics.arg <- grep("^--omics=", args, value = TRUE)
+omics <- if (length(omics.arg) > 0) {
+  strsplit(sub("^--omics=", "", omics.arg[1]), ",", fixed = TRUE)[[1]]
+} else {
+  c("mRNA", "protein", "methylation")
+}
+cat("omics     :", paste(omics, collapse = ", "), "\n\n")
+
 exprs  <- list()
 scores <- list()
 

@@ -1,0 +1,97 @@
+==========================================================
+ TCGA BRCA 多组学 GSVA（moGSVA）测试
+==========================================================
+data dir     : K:\brca_tcga_pub2015\multipleOmics
+layers       : mrna, met, protein
+fusion       : Equal (lambda=0)
+permutations : 3
+work dir     : G:\GCModeller\src\GCModeller\annotations\GSEA\GSVA\test\bin\Debug\net10.0\brca_run
+[init] mRNA: 20431 features x 460 samples (log2(RSEM+1), direction=1)
+[init] methylation: 16111 features x 460 samples (beta (HM450), direction=-1)
+[init] protein: 181 features x 460 samples (RPPA (centered), direction=1)
+[init] gene sets: 337 pathway(s); dataset: 3 omics layer(s), 36723 features x 460 samples
+
+--- A. 数据装配（样本轴 / 量纲 / 方向） ---
+  [PASS] 样本数 = 460  (460 个样本)
+  [PASS] 组学层数  (3 层: mRNA, methylation, protein)
+  [PASS] 各层样本轴完全一致  (460 个样本)
+  [PASS] 特征数与 manifest 一致  (mRNA=20431, methylation=16111, protein=181)
+  [PASS] mRNA 已完成 log2 变换  (max = 20.978（线性 RSEM 会大于 1e5）)
+  [PASS] 甲基化 beta 值处于 [0,1]  (原始范围 [0.0034, 0.9962])
+  [PASS] 甲基化层标准化后以 0 为中心  (median|z| = 0.674, max|z| = 375.7)
+  [PASS] 甲基化层方向 = -1  (Direction=-1)
+  [PASS] 各层数值无 NaN / Inf  (0 个非法值)
+  [PASS] 样本顺序与 samples.tsv 一致  (first = TCGA-A1-A0SF-01)
+
+--- B. moGSVA 打分与融合 ---
+info, 15.3 seconds - [moGSVA] 3 omics layer(s), 36723 features x 460 samples
+info, 15.3 seconds - [moGSVA] 337 gene set(s), score method=gsva, fusion=Equal, lambda=0
+warning, 15.7 seconds - 329 genes with constant expression values throuhgout the samples.
+warning, 15.7 seconds - Since argument method!='ssgsea', genes with constant expression values are discarded.
+warning, 16.0 seconds - Some gene sets have size one. Consider setting 'min.sz > 1'.
+info, 1.54 min - [moGSVA] mRNA: 337 pathways x 460 samples (77190 ms)
+info, 2.59 min - [moGSVA] methylation: 336 pathways x 460 samples (62886 ms)
+warning, 2.59 min - Some gene sets have size one. Consider setting 'min.sz > 1'.
+info, 2.60 min - [moGSVA] protein: 229 pathways x 460 samples (668 ms)
+warning, 2.61 min - 329 genes with constant expression values throuhgout the samples.
+warning, 2.61 min - Since argument method!='ssgsea', genes with constant expression values are discarded.
+warning, 2.61 min - Some gene sets have size one. Consider setting 'min.sz > 1'.
+info, 4.96 min - [moGSVA] pooled baseline: 337 pathway(s), mean|diff| vs fusion = 1.400E-001
+info, 4.96 min - [moGSVA] done in 282379 ms: 337 pathway(s) x 460 sample(s)
+  [PASS] 通路数（KEGG 337 条）  (337 条通路，耗时 282.4 s)
+  [PASS] 融合分数无 NaN / Inf  (155020 个分数)
+  [PASS] λ=0 时融合分数等于加权平均  (max|diff| = 0.000E+000)
+  [PASS] 逐通路融合 = Σ w_k·ES_k  (核对 20 条通路, max|diff| = 0.000E+000)
+  [PASS] 逐通路组学权重之和 = 1  (0 条通路权重异常)
+  [PASS] Equal 策略下三层齐全的通路权重 = 1/N  (229 条三通路, 异常 0 条)
+  [PASS] 蛋白层被跳过的通路数  (108 条通路没有足够的 RPPA 成员)
+  [PASS] mRNA 层通路覆盖  (337 条通路有 mRNA 成员)
+
+--- C. 生物学合理性（ER 状态） ---
+  [PASS] ER+ / ER- 分组可用  (ER+ = 324, ER- = 101)
+  [PASS] mRNA 中存在 ESR1  (found)
+  [PASS] ESR1 在 ER+ 组高表达  (log2 均值差 = 5.80)
+  [PASS] 输出包含雌激素信号通路  (Estrogen signaling pathway)
+  [PASS] 雌激素通路在 ER+ 组活性更高  (融合分数均值差 = 0.0072)
+
+--- D. 拼接矩阵消融对照 ---
+  [PASS] Pooled baseline 可用  (ok)
+  [PASS] 拼接基线通路数  (337 条通路)
+  [PASS] 拼接基线与融合结果不同  (mean|diff| = 1.400E-001)
+
+--- E. 置换检验（B = 3） ---
+info, 4.96 min - [moGSVA] permutation view keeps 4000 feature(s) from 36723.
+warning, 4.96 min - 51 genes with constant expression values throuhgout the samples.
+warning, 4.96 min - Some gene sets have size one. Consider setting 'min.sz > 1'.
+warning, 4.97 min - Some gene sets have size one. Consider setting 'min.sz > 1'.
+warning, 4.98 min - 51 genes with constant expression values throuhgout the samples.
+warning, 4.98 min - Some gene sets have size one. Consider setting 'min.sz > 1'.
+warning, 5.00 min - Some gene sets have size one. Consider setting 'min.sz > 1'.
+warning, 5.00 min - 51 genes with constant expression values throuhgout the samples.
+warning, 5.00 min - Some gene sets have size one. Consider setting 'min.sz > 1'.
+warning, 5.01 min - Some gene sets have size one. Consider setting 'min.sz > 1'.
+warning, 5.01 min - 51 genes with constant expression values throuhgout the samples.
+warning, 5.01 min - Some gene sets have size one. Consider setting 'min.sz > 1'.
+warning, 5.02 min - Some gene sets have size one. Consider setting 'min.sz > 1'.
+  [PASS] 置换检验产生 p 值表  (10 条通路)
+  [PASS] p 值位于 (0, 1]  (min = 0.2500, max = 0.5000)
+  [PASS] q ≥ p（BH 校正）  (q 值 10 条)
+info, 5.02 min - [moGSVA] permutation view keeps 4000 feature(s) from 36723.
+warning, 5.02 min - 51 genes with constant expression values throuhgout the samples.
+warning, 5.02 min - Some gene sets have size one. Consider setting 'min.sz > 1'.
+warning, 5.03 min - Some gene sets have size one. Consider setting 'min.sz > 1'.
+warning, 5.03 min - 51 genes with constant expression values throuhgout the samples.
+warning, 5.03 min - Some gene sets have size one. Consider setting 'min.sz > 1'.
+warning, 5.04 min - Some gene sets have size one. Consider setting 'min.sz > 1'.
+warning, 5.04 min - 51 genes with constant expression values throuhgout the samples.
+warning, 5.04 min - Some gene sets have size one. Consider setting 'min.sz > 1'.
+warning, 5.05 min - Some gene sets have size one. Consider setting 'min.sz > 1'.
+warning, 5.06 min - 51 genes with constant expression values throuhgout the samples.
+warning, 5.06 min - Some gene sets have size one. Consider setting 'min.sz > 1'.
+warning, 5.07 min - Some gene sets have size one. Consider setting 'min.sz > 1'.
+  [PASS] 相同种子下置换结果可复现  (逐位一致)
+
+==========================================================
+ 通过 30 项断言，失败 0 项
+ 全部通过!
+==========================================================

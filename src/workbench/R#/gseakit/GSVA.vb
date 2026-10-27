@@ -278,7 +278,7 @@ Module GSVA
     ''' The samples of all of the omics layers are aligned by the sample name: the intersection
     ''' of the sample names is used as the final sample axis of the multi-omics dataset.
     ''' </remarks>
-    <ExportAPI("mo_layers")>
+    <ExportAPI("multiple_dataset")>
     <RApiReturn(GetType(MultiOmicsDataset))>
     Public Function mo_layers(<RRawVectorArgument(GetType(OmicsLayer))> layers As Object, Optional verbose As Boolean = True, Optional env As Environment = Nothing) As Object
         Dim pull As PipeIterator(Of OmicsLayer) = pipeline.Stream(Of OmicsLayer)(layers, env)
@@ -406,6 +406,7 @@ Module GSVA
                                 Optional compute_pooled As Boolean = True,
                                 Optional verbose As Boolean = True,
                                 Optional env As Environment = Nothing) As MultiOmicsGsvaOptions
+
         Return New MultiOmicsGsvaOptions With {
             .ScoreMethod = score_method,
             .Kcdf = kcdf,

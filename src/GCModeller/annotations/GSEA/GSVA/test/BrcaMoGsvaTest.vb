@@ -39,6 +39,16 @@ Public Module BrcaMoGsvaTest
     ''' <summary>默认的导出数据目录</summary>
     Public Const DefaultDataDir As String = "K:\brca_tcga_pub2015\multipleOmics"
 
+    ''' <summary>
+    ''' R 对拍默认只处理特征数不超过该值的组学层。
+    ''' </summary>
+    ''' <remarks>
+    ''' 在 2 万级特征 × 460 样本上运行 R 的 GSVA 需要 20 分钟以上，
+    ''' 因此默认只对拍 protein 这类小层（181 个特征）；
+    ''' 需要完整对拍时使用 <c>--r-baseline-all</c>。
+    ''' </remarks>
+    Public Const RLayerFeatureLimit As Integer = 2000
+
     Dim m_pass As Integer = 0
     Dim m_failures As New List(Of String)
 
@@ -80,6 +90,7 @@ Public Module BrcaMoGsvaTest
         Dim layerKeys As String() = {"mrna", "met", "protein"}
         Dim permutations As Integer = 0
         Dim withRBaseline As Boolean = False
+        Dim rAllLayers As Boolean = False
         Dim fusion As String = "Equal"
         Dim lambda As Double = 0
 
@@ -105,6 +116,9 @@ Public Module BrcaMoGsvaTest
                                           Globalization.CultureInfo.InvariantCulture)
                 ElseIf text.TextEquals("--r-baseline") Then
                     withRBaseline = True
+                ElseIf text.TextEquals("--r-baseline-all") Then
+                    withRBaseline = True
+                    rAllLayers = True
                 End If
             Next
         End If
@@ -132,7 +146,7 @@ Public Module BrcaMoGsvaTest
                 Return 0
             End If
 
-            Call Suite(data, workDir, permutations, fusion, lambda, withRBaseline)
+            Call Suite(data, workDir, permutations, fusion, lambda, withRBaseline, rAllLayers)
         Catch ex As Exception
             Call check("BRCA 测试套件执行", False, $"{ex.GetType.Name}: {ex.Message}")
             Call Console.WriteLine(ex.StackTrace)
@@ -361,7 +375,8 @@ Public Module BrcaMoGsvaTest
                       permutations As Integer,
                       fusion As String,
                       lambda As Double,
-                      withRBaseline As Boolean)
+                      withRBaseline As Boolean,
+                      rAllLayers As Boolean)
 
         Dim dataset As MultiOmicsDataset = data.Dataset
 
@@ -649,12 +664,37 @@ Public Module BrcaMoGsvaTest
             Call "".println
             Call "--- F. R GSVA 逐层对拍 ---".println
 
-            Call RBaseline(data, result, workDir)
+            Call RBaseline(data, result, workDir, rAllLayers)
         End If
     End Sub
 
     ''' <summary>与 R 的 GSVA 逐层逐元素比对</summary>
-    Private Sub RBaseline(data As BrcaDataset, result As MultiOmicsGsvaResult, workDir As String)
+    ''' <param name="data">装配完成的数据包</param>
+    ''' <param name="result">moGSVA 的观测结果</param>
+    ''' <param name="workDir">中间产物目录</param>
+    ''' <param name="allLayers">
+    ''' <c>True</c> 时对全部组学层做 R 对拍；默认只对特征数不超过
+    ''' <see cref="RLayerFeatureLimit"/> 的层（本数据集中为 protein）做对拍，
+    ''' 因为在 2 万级特征 × 460 样本上运行 R 的 GSVA 需要 20 分钟以上。
+    ''' </param>
+    Private Sub RBaseline(data As BrcaDataset, result As MultiOmicsGsvaResult, workDir As String, allLayers As Boolean)
+        Dim subset As String()
+
+        If allLayers Then
+            subset = data.Dataset.OmicsNames
+        Else
+            subset = data.Dataset.Layers _
+                .Where(Function(l) l.FeatureCount <= RLayerFeatureLimit) _
+                .Select(Function(l) l.Name) _
+                .ToArray
+        End If
+
+        If subset.Length = 0 Then
+            subset = data.Dataset.OmicsNames
+        End If
+
+        Call $"[baseline] 参与 R 对拍的层: {String.Join(", ", subset)}".println
+
         Dim inputDir As String = Path.Combine(workDir, "mogsva_input")
         Dim shim As New MoGsvaData.RealDataset With {
             .Dataset = data.Dataset,
@@ -666,7 +706,7 @@ Public Module BrcaMoGsvaTest
 
         Call MoGsvaBaseline.PrepareInputs(shim, inputDir)
 
-        Dim baseline As MoGsvaBaseline.BaselineResult = MoGsvaBaseline.Run(workDir, False, True)
+        Dim baseline As MoGsvaBaseline.BaselineResult = MoGsvaBaseline.Run(workDir, False, True, subset)
 
         If Not baseline.Available Then
             Call check("R 基线生成", False, If(baseline.Message, "unknown error"))
@@ -676,7 +716,11 @@ Public Module BrcaMoGsvaTest
         Call check("R 基线生成", True,
                    $"{baseline.LayerScores.Count} 层, status = {String.Join("; ", baseline.Status.Select(Function(p) $"{p.Key}:{p.Value}"))}")
 
-        For Each layer As OmicsLayer In data.Dataset.Layers
+        Dim layers As OmicsLayer() = data.Dataset.Layers _
+            .Where(Function(l) subset.Contains(l.Name, StringComparer.OrdinalIgnoreCase)) _
+            .ToArray
+
+        For Each layer As OmicsLayer In layers
             Dim reference As Dictionary(Of String, Double()) = Nothing
 
             If Not baseline.LayerScores.TryGetValue(layer.Name, reference) Then
@@ -698,7 +742,7 @@ Public Module BrcaMoGsvaTest
                        $"{cmp.Details}, 越界通路 {cmp.BadPathways}, 缺失 {cmp.MissingPathways}")
         Next
 
-        ' Baseline 1：R 逐层分数的（带方向）平均
+        ' Baseline 1：R 逐层分数的（带方向）平均（仅限参与对拍的层）
         Dim meanDiff As Double = 0
         Dim compared As Integer = 0
 
@@ -706,7 +750,7 @@ Public Module BrcaMoGsvaTest
             Dim expect As Double() = Nothing
             Dim ok As Boolean = True
 
-            For Each layer As OmicsLayer In data.Dataset.Layers
+            For Each layer As OmicsLayer In layers
                 Dim reference As Dictionary(Of String, Double()) = Nothing
 
                 If Not baseline.LayerScores.TryGetValue(layer.Name, reference) OrElse
@@ -722,7 +766,7 @@ Public Module BrcaMoGsvaTest
                 End If
 
                 For j As Integer = 0 To expect.Length - 1
-                    expect(j) += layer.Direction * v(j) / data.Dataset.LayerCount
+                    expect(j) += layer.Direction * v(j) / layers.Length
                 Next
             Next
 
@@ -730,13 +774,22 @@ Public Module BrcaMoGsvaTest
                 Continue For
             End If
 
+            If layers.Length = 1 Then
+                ' 单层时 Baseline 1 退化为该层自身，与融合分数不可比，跳过
+                Continue For
+            End If
+
             meanDiff = std.Max(meanDiff, MaxAbsDiff(expect, result.ScoreVector(pathway)))
             compared += 1
         Next
 
-        Call check("Baseline 1: 等权融合 == R 逐层打分后平均",
-                   compared > 10 AndAlso meanDiff < MoGsvaBaseline.TOLERANCE,
-                   $"比对 {compared} 条通路, max|diff| = {meanDiff:E3}")
+        If layers.Length > 1 Then
+            Call check("Baseline 1: 等权融合 == R 逐层打分后平均",
+                       compared > 10 AndAlso meanDiff < MoGsvaBaseline.TOLERANCE,
+                       $"比对 {compared} 条通路, max|diff| = {meanDiff:E3}")
+        Else
+            Call $"[baseline] 单层对拍模式，跳过 Baseline 1 均值校验".println
+        End If
     End Sub
 
     ' ==================================================================

@@ -91,7 +91,8 @@ Public Module MoGsvaBaseline
     ''' </summary>
     Public Function Run(dataDir As String,
                         Optional installBaselines As Boolean = False,
-                        Optional verbose As Boolean = True) As BaselineResult
+                        Optional verbose As Boolean = True,
+                        Optional omics As String() = Nothing) As BaselineResult
 
         Dim result As New BaselineResult With {
             .InputDir = Path.Combine(dataDir, "mogsva_input"),
@@ -116,6 +117,9 @@ Public Module MoGsvaBaseline
 
         If installBaselines Then
             arguments &= " --install-baselines"
+        End If
+        If omics IsNot Nothing AndAlso omics.Length > 0 Then
+            arguments &= $" --omics={String.Join(",", omics)}"
         End If
 
         If verbose Then
@@ -161,11 +165,11 @@ Public Module MoGsvaBaseline
 
         Call LoadStatus(result)
 
-        For Each omics As String In {"mRNA", "protein", "methylation"}
-            Dim scoreFile As String = Path.Combine(result.OutputDir, $"r_{omics}_scores.csv")
+        For Each layerName As String In {"mRNA", "protein", "methylation"}
+            Dim scoreFile As String = Path.Combine(result.OutputDir, $"r_{layerName}_scores.csv")
 
             If File.Exists(scoreFile) Then
-                result.LayerScores(omics) = ReadReferenceMatrix(scoreFile)
+                result.LayerScores(layerName) = ReadReferenceMatrix(scoreFile)
             End If
         Next
 

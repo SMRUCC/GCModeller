@@ -1,0 +1,90 @@
+==========================================================
+ TCGA BRCA 多组学 GSVA（moGSVA）测试
+==========================================================
+data dir     : K:\brca_tcga_pub2015\multipleOmics
+layers       : mrna, met, protein
+fusion       : Equal (lambda=0)
+permutations : 0
+work dir     : G:\GCModeller\src\GCModeller\annotations\GSEA\GSVA\test\bin\Debug\net10.0\brca_run
+[init] mRNA: 20431 features x 460 samples (log2(RSEM+1), direction=1)
+[init] methylation: 16111 features x 460 samples (beta (HM450), direction=-1)
+[init] protein: 181 features x 460 samples (RPPA (centered), direction=1)
+[init] gene sets: 337 pathway(s); dataset: 3 omics layer(s), 36723 features x 460 samples
+
+--- A. 数据装配（样本轴 / 量纲 / 方向） ---
+  [PASS] 样本数 = 460  (460 个样本)
+  [PASS] 组学层数  (3 层: mRNA, methylation, protein)
+  [PASS] 各层样本轴完全一致  (460 个样本)
+  [PASS] 特征数与 manifest 一致  (mRNA=20431, methylation=16111, protein=181)
+  [PASS] mRNA 已完成 log2 变换  (max = 20.978（线性 RSEM 会大于 1e5）)
+  [PASS] 甲基化 beta 值处于 [0,1]  (原始范围 [0.0034, 0.9962])
+  [PASS] 甲基化层标准化后以 0 为中心  (median|z| = 0.674, max|z| = 375.7)
+  [PASS] 甲基化层方向 = -1  (Direction=-1)
+  [PASS] 各层数值无 NaN / Inf  (0 个非法值)
+  [PASS] 样本顺序与 samples.tsv 一致  (first = TCGA-A1-A0SF-01)
+
+--- B. moGSVA 打分与融合 ---
+info, 15.7 seconds - [moGSVA] 3 omics layer(s), 36723 features x 460 samples
+info, 15.7 seconds - [moGSVA] 337 gene set(s), score method=gsva, fusion=Equal, lambda=0
+warning, 16.0 seconds - 329 genes with constant expression values throuhgout the samples.
+warning, 16.0 seconds - Since argument method!='ssgsea', genes with constant expression values are discarded.
+warning, 16.3 seconds - Some gene sets have size one. Consider setting 'min.sz > 1'.
+info, 1.56 min - [moGSVA] mRNA: 337 pathways x 460 samples (77615 ms)
+info, 2.61 min - [moGSVA] methylation: 336 pathways x 460 samples (63445 ms)
+warning, 2.61 min - Some gene sets have size one. Consider setting 'min.sz > 1'.
+info, 2.62 min - [moGSVA] protein: 229 pathways x 460 samples (681 ms)
+warning, 2.63 min - 329 genes with constant expression values throuhgout the samples.
+warning, 2.64 min - Since argument method!='ssgsea', genes with constant expression values are discarded.
+warning, 2.64 min - Some gene sets have size one. Consider setting 'min.sz > 1'.
+info, 5.00 min - [moGSVA] pooled baseline: 337 pathway(s), mean|diff| vs fusion = 1.400E-001
+info, 5.00 min - [moGSVA] done in 284092 ms: 337 pathway(s) x 460 sample(s)
+  [PASS] 通路数（KEGG 337 条）  (337 条通路，耗时 284.1 s)
+  [PASS] 融合分数无 NaN / Inf  (155020 个分数)
+  [PASS] λ=0 时融合分数等于加权平均  (max|diff| = 0.000E+000)
+  [PASS] 逐通路融合 = Σ w_k·ES_k  (核对 20 条通路, max|diff| = 0.000E+000)
+  [PASS] 逐通路组学权重之和 = 1  (0 条通路权重异常)
+  [PASS] Equal 策略下三层齐全的通路权重 = 1/N  (229 条三通路, 异常 0 条)
+  [PASS] 蛋白层被跳过的通路数  (108 条通路没有足够的 RPPA 成员)
+  [PASS] mRNA 层通路覆盖  (337 条通路有 mRNA 成员)
+
+--- C. 生物学合理性（ER 状态） ---
+  [PASS] ER+ / ER- 分组可用  (ER+ = 324, ER- = 101)
+  [PASS] mRNA 中存在 ESR1  (found)
+  [PASS] ESR1 在 ER+ 组高表达  (log2 均值差 = 5.80)
+  [PASS] 输出包含雌激素信号通路  (Estrogen signaling pathway)
+  [PASS] 雌激素通路在 ER+ 组活性更高  (融合分数均值差 = 0.0072)
+
+--- D. 拼接矩阵消融对照 ---
+  [PASS] Pooled baseline 可用  (ok)
+  [PASS] 拼接基线通路数  (337 条通路)
+  [PASS] 拼接基线与融合结果不同  (mean|diff| = 1.400E-001)
+
+--- F. R GSVA 逐层对拍 ---
+[baseline] 参与 R 对拍的层: protein
+[baseline] Rscript "G:\GCModeller\src\GCModeller\annotations\GSEA\GSVA\test\reference\mogsva_reference.R" "G:\GCModeller\src\GCModeller\annotations\GSEA\GSVA\test\bin\Debug\net10.0\brca_run" --omics=protein
+[1] TRUE
+== moGSVA baseline reference ==
+R    : R version 4.5.0 (2025-04-11 ucrt) 
+GSVA : 2.2.1 
+input: G:\GCModeller\src\GCModeller\annotations\GSEA\GSVA\test\bin\Debug\net10.0\brca_run/mogsva_input 
+
+gene sets : 337 
+samples   : 460 
+
+omics     : protein 
+
+  r_protein_scores.csv       :  229 x 460
+  r_baseline_mean.csv        :  229 x 460
+
+~all done!
+
+[R stderr] ! Some gene sets have size one. Consider setting minSize > 1
+
+  [PASS] R 基线生成  (3 层, status = protein:OK(229 pathways x 460 samples); baseline_mean:OK(229 pathways averaged over 1 omics); mogsa:SKIP(MOGSA requires at least two omics layers); multiGSEA:SKIP(multiGSEA requires at least two omics layers))
+  [PASS] protein: 与 R GSVA 逐元素一致  (compared 105340 value(s), max|diff| = 5.551E-016 (Asthma), mean|diff| = 2.008E-016, 越界通路 0, 缺失 0)
+[baseline] 单层对拍模式，跳过 Baseline 1 均值校验
+
+==========================================================
+ 通过 28 项断言，失败 0 项
+ 全部通过!
+==========================================================
