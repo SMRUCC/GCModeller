@@ -68,9 +68,6 @@ Public Module Document
            .ToArray
     End Function
 
-    ''' <summary>
-    ''' 读取 multiGSEA 的 p 值长表（首列 pathway，其余列是各组学的 p 值与 combined_pval）。
-    ''' </summary>
     Public Iterator Function ReadTable(path As String, deli As Char, Optional encoding As Encodings = Encodings.UTF8) As IEnumerable(Of String())
         Dim result As New Dictionary(Of String, Dictionary(Of String, String))(StringComparer.Ordinal)
 

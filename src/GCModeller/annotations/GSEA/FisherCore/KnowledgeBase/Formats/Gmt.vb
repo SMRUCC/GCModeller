@@ -56,9 +56,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Text
-Imports tsv = Microsoft.VisualBasic.Data.Framework.IO.File
 
 Namespace Formats
 
@@ -102,31 +100,36 @@ Namespace Formats
         ''' <param name="path"></param>
         ''' <returns></returns>
         Public Shared Function LoadFile(path As String) As Gmt
-            Dim table = tsv.LoadTsv(path, Encodings.UTF8)
-            Dim attrs As Dictionary(Of String, String) = table _
-                .Comments _
+            Dim table = ReadTable(path).ToArray
+            Dim comments As String() = (From line As String()
+                                        In table
+                                        Where Not line.IsNullOrEmpty
+                                        Where line(0).StartsWith("#"c)
+                                        Select line.JoinBy(ASCII.TAB)).ToArray
+            Dim attrs As Dictionary(Of String, String) = comments _
                 .Select(Function(s) s.GetTagValue(":", trim:=True)) _
                 .ToDictionary(Function(t) t.Name.Trim("#"c, " "c),
-                              Function(t) t.Value)
-            Dim parseClusters As Cluster() =
-                Iterator Function() As IEnumerable(Of Cluster)
-                    ' 假设注释只出现在前面
-                    For Each row As RowObject In table.Skip(attrs.Count)
-                        ' 注意：旧版本的代码在这里创建的是基类Synonym对象，
-                        ' 而Cluster.members的类型是BackgroundGene()，
-                        ' 这是一个从基类到派生类的向下窄化，在运行时很容易
-                        ' 抛出InvalidCastException，这里改为直接构造BackgroundGene
-                        Yield New Cluster With {
-                                .ID = row(0),
-                                .description = row(1),
-                                .names = .ID,
-                                .members = row.Skip(2) _
-                                    .Where(Function(name) Not name.StringEmpty(, True)) _
-                                    .Select(Function(name) New BackgroundGene(name)) _
-                                    .ToArray
-                            }
-                    Next
-                End Function().ToArray
+                              Function(t)
+                                  Return t.Value
+                              End Function)
+            Dim parseClusters As Cluster() = Iterator Function() As IEnumerable(Of Cluster)
+                                                 ' 假设注释只出现在前面
+                                                 For Each row As String() In table.Skip(attrs.Count)
+                                                     ' 注意：旧版本的代码在这里创建的是基类Synonym对象，
+                                                     ' 而Cluster.members的类型是BackgroundGene()，
+                                                     ' 这是一个从基类到派生类的向下窄化，在运行时很容易
+                                                     ' 抛出InvalidCastException，这里改为直接构造BackgroundGene
+                                                     Yield New Cluster With {
+                                                        .ID = row(0),
+                                                        .description = row(1),
+                                                        .names = .ID,
+                                                        .members = row.Skip(2) _
+                                                            .Where(Function(name) Not name.StringEmpty(, True)) _
+                                                            .Select(Function(name) New BackgroundGene(name)) _
+                                                            .ToArray
+                                                     }
+                                                 Next
+                                             End Function().ToArray
 
             Return New Gmt With {
                 .attributes = attrs,

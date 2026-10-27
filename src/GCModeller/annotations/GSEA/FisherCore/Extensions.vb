@@ -1,57 +1,59 @@
 ﻿#Region "Microsoft.VisualBasic::73adb18bfca2ce5db701f6d925eab9f1, annotations\GSEA\FisherCore\Extensions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 30
-    '    Code Lines: 24 (80.00%)
-    ' Comment Lines: 0 (0.00%)
-    '    - Xml Docs: 0.00%
-    ' 
-    '   Blank Lines: 6 (20.00%)
-    '     File Size: 1.19 KB
+' Summaries:
 
 
-    ' Module Extensions
-    ' 
-    '     Function: CreateResultProfiles
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 30
+'    Code Lines: 24 (80.00%)
+' Comment Lines: 0 (0.00%)
+'    - Xml Docs: 0.00%
+' 
+'   Blank Lines: 6 (20.00%)
+'     File Size: 1.19 KB
+
+
+' Module Extensions
+' 
+'     Function: CreateResultProfiles
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.FileIO
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.ComponentModel.Annotation
 
 <HideModuleName>
@@ -79,5 +81,17 @@ Public Module Extensions
         Next
 
         Return result
+    End Function
+
+    Friend Iterator Function ReadTable(path As String) As IEnumerable(Of String())
+        Using parser As New TextFieldParser(path) With {
+            .TextFieldType = FieldType.Delimited,
+            .Delimiters = {ASCII.TAB},
+            .HasFieldsEnclosedInQuotes = True
+        }
+            While Not parser.EndOfData
+                Yield parser.ReadFields()
+            End While
+        End Using
     End Function
 End Module
