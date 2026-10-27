@@ -1,12 +1,44 @@
 .\" man page create by R# package system.
 .TH GSVA 1 2000-1月 "mogsva" "mogsva"
 .SH NAME
-mogsva \- 
+mogsva \- Run the multi-omics GSVA (moGSVA) analysis on the given multi-omics dataset.
 .SH SYNOPSIS
 \fImogsva(\fBx\fR as <generic> MultiOmicsDataset, 
 \fBgeneSet\fR as any, 
 \fBopts\fR as <generic> MultiOmicsGsvaOptions, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Run the multi-omics GSVA (moGSVA) analysis on the given multi-omics dataset.
+.PP
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- the multi-omics dataset object that is created by the \fBmo_layers\fR function.. 
+.PP
+.PP
+\fBgeneSet\fB \fR\- 
+ the gene set collection, it could be a GSEA [Background](cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.Background) model, a GMT file
+ path or other data that could be cast into the background model.
+. 
+.PP
+.PP
+\fBopts\fB \fR\- the running configuration object that is created by the \fBmogsva_opts\fR function.. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment.. 
+.PP
+.SH VALUE
+.PP
+a [MultiOmicsGsvaResult](cref:T:SMRUCC.genomics.Analysis.HTS.GSVA.MultiOmicsGsvaResult) object which contains the fused pathway activity
+ matrix, the per-omics scores, the pathway weights, the omics contribution decomposition
+ and the permutation test p-value table (when \fBpermutations\fR is greater than zero).
+.PP
+.SH DETAILS
+.PP
+The scoring of each omics layer is performed independently (the kernel density
+ estimation never mixes the features from the different omics), then the omics specific
+ enrichment scores are fused by the configured weight strategy.
+.PP
 .SH SEE ALSO
 GSVA
 .SH FILES

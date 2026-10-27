@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>mogsva</title>
+    <title>Run the multi-omics GSVA (moGSVA) analysis on the given multi-omics dataset.</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>mogsva</h2>
+        <h2>Run the multi-omics GSVA (moGSVA) analysis on the given multi-omics dataset.</h2>
 
         <h3>Description</h3>
 
-        mogsva
+        
 
         <h3>Usage</h3>
 
@@ -34,12 +34,27 @@
 
         <table>
             
+<dt>x</dt>
+<dd><p>the multi-omics dataset object that is created by the <code>mo_layers</code> function. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSVA/Omics/MultiOmicsDataset.html">MultiOmicsDataset</a>]</p></dd>
+
+
+<dt>geneSet</dt>
+<dd><p>the gene set collection, it could be a GSEA <a href="cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.Background">Background</a> model, a GMT file path or other data that could be cast into the background model.</p></dd>
+
+
+<dt>opts</dt>
+<dd><p>the running configuration object that is created by the <code>mogsva_opts</code> function. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSVA/MultiOmicsGsvaOptions.html">MultiOmicsGsvaOptions</a>]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
         </table>
 
 
-        <h3 style="display: none;">Details</h3>
+        <h3 style="display: block;">Details</h3>
 
-        
+        <p>The scoring of each omics layer is performed independently (the kernel density estimation never mixes the features from the different omics), then the omics specific enrichment scores are fused by the configured weight strategy.</p>
 
         <h3 style="display: block">Authors</h3>
 
@@ -47,7 +62,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSVA/MultiOmicsGsvaResult.html">MultiOmicsGsvaResult</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSVA/MultiOmicsGsvaResult.html">MultiOmicsGsvaResult</a></li></ul>
+        <p>a <a href="cref:T:SMRUCC.genomics.Analysis.HTS.GSVA.MultiOmicsGsvaResult">MultiOmicsGsvaResult</a> object which contains the fused pathway activity matrix, the per-omics scores, the pathway weights, the omics contribution decomposition and the permutation test p-value table (when <code>permutations</code> is greater than zero).</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSVA/MultiOmicsGsvaResult.html">MultiOmicsGsvaResult</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

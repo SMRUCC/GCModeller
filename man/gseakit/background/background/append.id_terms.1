@@ -13,16 +13,23 @@ Append id terms to a given gsea background
 .PP
 .SH OPTIONS
 .PP
-\fBbackground\fB \fR\- -. 
+\fBbackground\fB \fR\- the GSEA background model object, this model will be modified in place.. 
 .PP
 .PP
-\fBterm_name\fB \fR\- -. 
+\fBterm_name\fB \fR\- the term name that will be written into the \fBname\fR field of the :class:\fBBackgroundGene.term_id\fR.. 
 .PP
 .PP
-\fBterms\fB \fR\- -. 
+\fBterms\fB \fR\- 
+ a named list of the term id vector, the name of each slot is the gene id and the
+ value is the term id vector of that gene.
+. 
 .PP
 .PP
-\fBenv\fB \fR\- -. 
+\fBenv\fB \fR\- the R# runtime environment.. 
+.PP
+.SH VALUE
+.PP
+the given background model with the new term id information appended.
 .PP
 .SH SEE ALSO
 background

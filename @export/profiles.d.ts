@@ -32,16 +32,19 @@ declare namespace profiles {
    */
    function assemble_background(kegg: object, ko: object, multiple_omics?: boolean, tcode?: string, map_set?: any, env?: object): object;
    /**
-    * get category labels for a given id set
+    * Get the category labels for a given id set.
     * 
     * 
-     * @param category -
+     * @param category the KEGG category class model that is created by the ``kegg_category`` function.
      * @param idSet a character vector of the target id set
-     * @param level level1 or level2
+     * @param level the category level that will be returns: ``1`` (default) for the level 1 class, ``2`` for the level 2 category.
      * 
      * + default value Is ``1``.
-     * @param env 
+     * @param env the R# runtime environment.
+     * 
      * + default value Is ``null``.
+     * @return a character vector of the category label of each input id, a ``NULL`` value will be
+     *  returned for the id that is not found in the category model.
    */
    function category_labels(category: object, idSet: string, level?: object, env?: object): any;
    module compounds {
@@ -61,26 +64,37 @@ declare namespace profiles {
       }
    }
    /**
+    * Cut the catalog profiles by the profile value (usually the ``-log10(p)`` score).
+    * 
+    * 
+     * @param profile the catalog profiles object, for example the result of the ``KEGG.enrichment.profile`` function.
+     * @param valueCut the minimum profile value that a term should have, the terms with a smaller value
+     *  will be removed from the catalog profiles.
+     * @return a new [CatalogProfiles](cref:T:SMRUCC.genomics.ComponentModel.Annotation.CatalogProfiles) object that only contains the terms with a value greater than or equals to the cutoff.
    */
    function cut_profiles(profile: object, valueCut: number): object;
    /**
+    * Create the catalog profiles data of the GO enrichment result by the GO DAG term
+    *  hierarchy, the terms are grouped by the child node of the given root term.
     * 
     * 
-     * @param enrichments -
-     * @param obo -
+     * @param enrichments the kobas [EnrichmentTerm](cref:T:SMRUCC.genomics.Analysis.Microarray.KOBAS.EnrichmentTerm) or gcmodeller [EnrichmentResult](cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.EnrichmentResult).
+     * @param obo the GO obo database that is used for creating the DAG graph.
      * @param root the root term id
-     * @param top -
+     * @param top display the top n enriched GO terms of each catalog.
      * 
      * + default value Is ``10``.
-     * @param pvalue_cut -
+     * @param pvalue_cut the p-value cutoff of the enrichment terms. Default ``1`` means no filtering.
      * 
      * + default value Is ``1``.
-     * @param sort -
+     * @param sort sorts the terms of each catalog by the ``-log10(p)`` score? Default ``TRUE``.
      * 
      * + default value Is ``true``.
-     * @param env -
+     * @param env the R# runtime environment.
      * 
      * + default value Is ``null``.
+     * @return a [CatalogProfiles](cref:T:SMRUCC.genomics.ComponentModel.Annotation.CatalogProfiles) object, the name of each catalog is the child term of
+     *  the given **root** and the value is the enriched GO terms of that branch.
    */
    function dag_enrichment_profile(enrichments: any, obo: object, root: string, top?: object, pvalue_cut?: number, sort?: boolean, env?: object): any;
    module flux {
@@ -102,17 +116,22 @@ declare namespace profiles {
           * 
           * 
            * @param enrichments the kobas [EnrichmentTerm](cref:T:SMRUCC.genomics.Analysis.Microarray.KOBAS.EnrichmentTerm) or gcmodeller [EnrichmentResult](cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.EnrichmentResult).
-           * @param goDb -
+           * @param goDb the GO obo database that is used for query the namespace of the GO terms.
            * @param top display the top n enriched GO terms.
            * 
            * + default value Is ``10``.
-           * @param pvalue_cut 
+           * @param pvalue_cut the p-value cutoff of the enrichment terms. Default ``1`` means no filtering.
+           * 
            * + default value Is ``1``.
            * @param sort sort of the namespace
            * 
            * + default value Is ``true``.
-           * @param env 
+           * @param env the R# runtime environment.
+           * 
            * + default value Is ``null``.
+           * @return a [CatalogProfiles](cref:T:SMRUCC.genomics.ComponentModel.Annotation.CatalogProfiles) object, the name of each catalog is the GO namespace
+           *  and the value is the top enriched GO terms of that namespace (the profile value is
+           *  the ``-log10(p)`` score of the term).
          */
          function profile(enrichments: any, goDb: object, top?: object, pvalue_cut?: number, sort?: boolean, env?: object): object;
       }
@@ -133,22 +152,26 @@ declare namespace profiles {
           *  category profiles for run data visualization
           * 
           * 
-           * @param enrichments -
-           * @param top -
+           * @param enrichments the kobas [EnrichmentTerm](cref:T:SMRUCC.genomics.Analysis.Microarray.KOBAS.EnrichmentTerm) or gcmodeller [EnrichmentResult](cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.EnrichmentResult).
+           * @param top display the top n enriched pathway terms of each KEGG category.
            * 
            * + default value Is ``10``.
-           * @param env -
+           * @param env the R# runtime environment.
            * 
            * + default value Is ``null``.
+           * @return a [CatalogProfiles](cref:T:SMRUCC.genomics.ComponentModel.Annotation.CatalogProfiles) object, the name of each catalog is the KEGG category
+           *  and the value is the top enriched pathway terms of that category.
          */
          function profile(enrichments: any, top?: object, env?: object): object;
       }
    }
    /**
-    * create kegg category class model from a gsea background model
+    * Create the KEGG category class model from a GSEA background model.
     * 
     * 
-     * @param background -
+     * @param background the GSEA background model that contains the KEGG class and category annotation.
+     * @return a [ClassProfiles](cref:T:SMRUCC.genomics.ComponentModel.Annotation.ClassProfiles) object which contains the relationship between the KEGG
+     *  class (or category) and the pathway ids.
    */
    function kegg_category(background: object): object;
    module KO {
@@ -169,12 +192,33 @@ declare namespace profiles {
    */
    function map_category(): object;
    /**
-     * @param top default value Is ``30``.
-     * @param env default value Is ``null``.
+    * Create a catalog profiles object that does not contains the category information,
+    *  that means all of the enrichment terms are placed into a single catalog.
+    * 
+    * 
+     * @param enrichments the enrichment analysis result set, both of the [EnrichmentTerm](cref:T:SMRUCC.genomics.Analysis.Microarray.KOBAS.EnrichmentTerm) and the
+     *  [EnrichmentResult](cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.EnrichmentResult) array are accepted.
+     * @param name the catalog name that will be used for the result object.
+     * @param top the number of the most significant terms that will be kept. Default ``30``.
+     * 
+     * + default value Is ``30``.
+     * @param env the R# runtime environment.
+     * 
+     * + default value Is ``null``.
+     * @return a [CatalogProfiles](cref:T:SMRUCC.genomics.ComponentModel.Annotation.CatalogProfiles) object that contains only one catalog which is named by
+     *  the **name** parameter, or an error message when the input data type is
+     *  not supported.
    */
    function no_catagory_profile(enrichments: object, name: string, top?: object, env?: object): object;
    /**
-     * @param top default value Is ``10``.
+    * Keep only the top n terms of each catalog of the given catalog profiles.
+    * 
+    * 
+     * @param profile the catalog profiles object, for example the result of the ``KEGG.enrichment.profile`` function.
+     * @param top the number of the terms that will be kept in each catalog. Default ``10``.
+     * 
+     * + default value Is ``10``.
+     * @return a new [CatalogProfiles](cref:T:SMRUCC.genomics.ComponentModel.Annotation.CatalogProfiles) object that only contains the top n terms of each catalog.
    */
    function sort_profiles(profile: object, top?: object): object;
 }

@@ -46,15 +46,19 @@
 
 
 <dt>org.name</dt>
-<dd><p>[as string]</p></dd>
+<dd><p>the KEGG organism code (or the organism name) of the target model, default <code>NULL</code>. [as string]</p></dd>
 
 
 <dt>is.ko.ref</dt>
-<dd><p>[as boolean]</p></dd>
+<dd><p>treats the given KEGG pathway model as the KO reference model? Default <code>FALSE</code> means the pathway model of a specific organism. [as boolean]</p></dd>
+
+
+<dt>multipleOmics</dt>
+<dd><p>creates the background model for the multiple omics data analysis? Default <code>FALSE</code>. [as boolean]</p></dd>
 
 
 <dt>env</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+<dd><p>the R# runtime environment. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
 
         </table>
 
@@ -69,7 +73,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/KnowledgeBase/Metabolism/Metpa/metpa.html">metpa</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/KnowledgeBase/Metabolism/Metpa/metpa.html">metpa</a></li></ul>
+        <p>a <a href="cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.KnowledgeBase.Metabolism.Metpa.metpa">metpa</a> background model for the metabolism enrichment analysis.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/KnowledgeBase/Metabolism/Metpa/metpa.html">metpa</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

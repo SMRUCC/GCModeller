@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>read_gmx</title>
+    <title>Read the gene set matrix (``gmx``) file.</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>read_gmx</h2>
+        <h2>Read the gene set matrix (``gmx``) file.</h2>
 
         <h3>Description</h3>
 
-        read_gmx
+        
 
         <h3>Usage</h3>
 
@@ -34,12 +34,15 @@
 
         <table>
             
+<dt>file</dt>
+<dd><p>the <code>gmx</code> file path. [as string]</p></dd>
+
         </table>
 
 
-        <h3 style="display: none;">Details</h3>
+        <h3 style="display: block;">Details</h3>
 
-        
+        <p>The <code>gmx</code> format is the transposed version of the <code>gmt</code> format: the first column of each row is the gene id and the rest columns are the member gene set ids.</p>
 
         <h3 style="display: block">Authors</h3>
 
@@ -47,7 +50,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/Formats/Gmx.html">Gmx</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/Formats/Gmx.html">Gmx</a></li></ul>
+        <p>the parsed <a href="cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.Formats.Gmx">Gmx</a> gene set matrix object.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/Formats/Gmx.html">Gmx</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

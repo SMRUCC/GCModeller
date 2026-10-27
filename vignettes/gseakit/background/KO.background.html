@@ -55,6 +55,26 @@
 <dt>genomeName</dt>
 <dd><p>the genome name that tagged with this background model. [as string]</p></dd>
 
+
+<dt>id.map</dt>
+<dd><p>an optional id mapping data for the gene id, the ko id and the gene name, it could be a <code>list</code> object or a <code>dataframe</code> object. Default <code>NULL</code> means no extra id mapping.</p></dd>
+
+
+<dt>multiple.omics</dt>
+<dd><p>creates the background model for the multiple omics data analysis? Default <code>FALSE</code>. [as boolean]</p></dd>
+
+
+<dt>term.db</dt>
+<dd><p>the database label of the term that will be written into the result model. Default <code>unknown</code>. [as string]</p></dd>
+
+
+<dt>instance.map</dt>
+<dd><p>the compound instance map that is used for the metabolism enrichment analysis. Default <code>NULL</code>. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Internal/Object/dataframe.html">dataframe</a>]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
         </table>
 
 
@@ -68,7 +88,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/Background.html">Background</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/Background.html">Background</a></li></ul>
+        <p>a <a href="cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.Background">Background</a> model that is created from the given KO id mapping.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/Background.html">Background</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

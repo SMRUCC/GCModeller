@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>no_catagory_profile</title>
+    <title>Create a catalog profiles object that does not contains the category information,</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>no_catagory_profile</h2>
+        <h2>Create a catalog profiles object that does not contains the category information,</h2>
 
         <h3>Description</h3>
 
-        no_catagory_profile
+        <p>that means all of the enrichment terms are placed into a single catalog.</p>
 
         <h3>Usage</h3>
 
@@ -35,6 +35,21 @@
 
         <table>
             
+<dt>enrichments</dt>
+<dd><p>the enrichment analysis result set, both of the <a href="cref:T:SMRUCC.genomics.Analysis.Microarray.KOBAS.EnrichmentTerm">EnrichmentTerm</a> and the <a href="cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.EnrichmentResult">EnrichmentResult</a> array are accepted. [as <a href="/vignettes/clr/System/Array.html">Array</a>]</p></dd>
+
+
+<dt>name</dt>
+<dd><p>the catalog name that will be used for the result object. [as string]</p></dd>
+
+
+<dt>top</dt>
+<dd><p>the number of the most significant terms that will be kept. Default <code>30</code>. [as integer]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
         </table>
 
 
@@ -48,7 +63,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Annotation/CatalogProfiles.html">CatalogProfiles</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Annotation/CatalogProfiles.html">CatalogProfiles</a></li></ul>
+        <p>a <a href="cref:T:SMRUCC.genomics.ComponentModel.Annotation.CatalogProfiles">CatalogProfiles</a> object that contains only one catalog which is named by the <strong>name</strong> parameter, or an error message when the input data type is not supported.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Annotation/CatalogProfiles.html">CatalogProfiles</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

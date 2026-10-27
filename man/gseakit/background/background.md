@@ -3,24 +3,24 @@
 tools for handling GSEA background model.
 
 + [clusterIDs](background/clusterIDs.1) get all of the cluster id set from the given background model object
-+ [cluster_names](background/cluster_names.1) 
++ [cluster_names](background/cluster_names.1) Get the cluster name of each gene id from the given background model.
 + [moleculeIDs](background/moleculeIDs.1) get all of the molecule id set from the given background model object
-+ [meta_background](background/meta_background.1) 
++ [meta_background](background/meta_background.1) Create a GSEA background model from the KEGG pathway graph query result of the
 + [dag.background](background/dag.background.1) create gsea background from a given obo ontology file data.
 + [append.id_terms](background/append.id_terms.1) Append id terms to a given gsea background
 + [background.id_mapping](background/background.id_mapping.1) do id mapping of the members in the background cluster
 + [read.background](background/read.background.1) Load GSEA background model from a xml file.
-+ [read_gmx](background/read_gmx.1) 
-+ [read_gmt](background/read_gmt.1) 
++ [read_gmx](background/read_gmx.1) Read the gene set matrix (``gmx``) file.
++ [read_gmt](background/read_gmt.1) Read the gene set matrix (``gmt``) file.
 + [write.background](background/write.background.1) Save GSEA background model as xml file
 + [cut_background](background/cut_background.1) make gsea background dynamic cut
 + [background_summary](background/background_summary.1) summary of the background model as dataframe
-+ [clusterInfo](background/clusterInfo.1) get cluster info data table
-+ [geneSet.annotations](background/geneSet.annotations.1) make gene set annotation via a given gsea background model
++ [clusterInfo](background/clusterInfo.1) Get the cluster information data table of a specific cluster.
++ [geneSet.annotations](background/geneSet.annotations.1) Make the gene set annotation via a given GSEA background model.
 + [geneSet.intersects](background/geneSet.intersects.1) get an intersection id list between the background
-+ [cluster_filter](background/cluster_filter.1) make filter of the background model
-+ [geneSet.filter](background/geneSet.filter.1) make filter of the background model
-+ [KO.table](background/KO.table.1) convert the background model to a data table
++ [cluster_filter](background/cluster_filter.1) Remove the clusters from the given background model by the cluster id.
++ [geneSet.filter](background/geneSet.filter.1) Remove the clusters from the given background model by the cluster id.
++ [KO.table](background/KO.table.1) Convert the KO annotation of the background model into a node table.
 + [gsea_cluster](background/gsea_cluster.1) Create a cluster for gsea background
 + [metpa](background/metpa.1) Create the gsea background model for metabolism analysis
 + [fromList](background/fromList.1) cast the cluster data as the enrichment background

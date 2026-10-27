@@ -116,28 +116,59 @@ declare namespace GSVA {
    */
    function gsva(expr: any, geneSet: any, method?: object, kcdf?: object, min_sz?: object, max_sz?: object, mxdiff?: boolean, tau?: number, kernel?: boolean, rnaseq?: boolean, abs_ranking?: boolean, alpha?: number, normalize?: boolean, name_suffix?: boolean, verbose?: boolean, env?: object): object;
    /**
-    * convert to diff data from dataframe
+    * Convert the limma differential analysis result table into the GSVA difference objects.
     * 
     * 
-     * @param diff -
-     * @param pathId -
+     * @param diff the dataframe object of the limma differential analysis result.
+     * @param pathId the column name of the pathway id in the given dataframe. Default ``pathNames``.
      * 
      * + default value Is ``'pathNames'``.
-     * @param t -
+     * @param t the column name of the t statistics. Default ``t``.
      * 
      * + default value Is ``'t'``.
-     * @param pvalue -
+     * @param pvalue the column name of the p-value. Default ``pvalue``.
      * 
      * + default value Is ``'pvalue'``.
+     * @return an array of the [GSVADiff](cref:T:SMRUCC.genomics.Visualize.GSVADiff) objects.
    */
    function matrix_to_diff(diff: object, pathId?: string, t?: string, pvalue?: string): object;
    /**
-     * @param verbose default value Is ``true``.
-     * @param env default value Is ``null``.
+    * Assemble the multiple omics data layers into a [MultiOmicsDataset](cref:T:SMRUCC.genomics.Analysis.HTS.GSVA.Omics.MultiOmicsDataset) object
+    *  for the multi-omics GSVA (moGSVA) analysis.
+    * 
+    * > The samples of all of the omics layers are aligned by the sample name: the intersection
+    * >  of the sample names is used as the final sample axis of the multi-omics dataset.
+    * 
+     * @param layers the omics layer collection, each element could be an [OmicsLayer](cref:T:SMRUCC.genomics.Analysis.HTS.DataFrame.MultipleOmics.OmicsLayer) object or
+     *  a tuple that could be cast into the omics layer model. Every layer should define its
+     *  unique omics name and the expression matrix whose rows are the features of that omics.
+     * @param verbose prints the progress and the diagnostic message of the layer alignment? Default ``TRUE``.
+     * 
+     * + default value Is ``true``.
+     * @param env the R# runtime environment.
+     * 
+     * + default value Is ``null``.
+     * @return a [MultiOmicsDataset](cref:T:SMRUCC.genomics.Analysis.HTS.GSVA.Omics.MultiOmicsDataset) object which contains the sample aligned omics layers,
+     *  or an error message when the layer collection could not be assembled.
    */
    function mo_layers(layers: any, verbose?: boolean, env?: object): object;
    /**
-     * @param env default value Is ``null``.
+    * Run the multi-omics GSVA (moGSVA) analysis on the given multi-omics dataset.
+    * 
+    * > The scoring of each omics layer is performed independently (the kernel density
+    * >  estimation never mixes the features from the different omics), then the omics specific
+    * >  enrichment scores are fused by the configured weight strategy.
+    * 
+     * @param x the multi-omics dataset object that is created by the ``mo_layers`` function.
+     * @param geneSet the gene set collection, it could be a GSEA [Background](cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.Background) model, a GMT file
+     *  path or other data that could be cast into the background model.
+     * @param opts the running configuration object that is created by the ``mogsva_opts`` function.
+     * @param env the R# runtime environment.
+     * 
+     * + default value Is ``null``.
+     * @return a [MultiOmicsGsvaResult](cref:T:SMRUCC.genomics.Analysis.HTS.GSVA.MultiOmicsGsvaResult) object which contains the fused pathway activity
+     *  matrix, the per-omics scores, the pathway weights, the omics contribution decomposition
+     *  and the permutation test p-value table (when ``permutations`` is greater than zero).
    */
    function mogsva(x: object, geneSet: any, opts: object, env?: object): object;
    /**
@@ -230,7 +261,8 @@ declare namespace GSVA {
      * @param verbose Whether to emit progress/diagnostic logging. Default TRUE.
      * 
      * + default value Is ``true``.
-     * @param env 
+     * @param env The R# runtime environment (used for error reporting).
+     * 
      * + default value Is ``null``.
      * @return A fully populated [MultiOmicsGsvaOptions](cref:T:SMRUCC.genomics.Analysis.HTS.GSVA.MultiOmicsGsvaOptions) object that can be
      *  passed to the `mogsva` function.

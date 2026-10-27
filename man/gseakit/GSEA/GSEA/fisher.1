@@ -1,7 +1,7 @@
 .\" man page create by R# package system.
 .TH GSEA 2 2000-1月 "fisher" "fisher"
 .SH NAME
-fisher \- fisher enrichment test
+fisher \- Fisher exact test for the enrichment of a single gene set term.
 .SH SYNOPSIS
 \fIfisher(\fBlist\fR as string, 
 \fBgeneSet\fR as string, 
@@ -10,14 +10,14 @@ fisher \- fisher enrichment test
 [\fB<Environment>\fR]);\fR
 .SH DESCRIPTION
 .PP
-fisher enrichment test
+Fisher exact test for the enrichment of a single gene set term.
 .PP
 .SH OPTIONS
 .PP
-\fBlist\fB \fR\- -. 
+\fBlist\fB \fR\- the gene id list that are observed in the target term.. 
 .PP
 .PP
-\fBgeneSet\fB \fR\- -. 
+\fBgeneSet\fB \fR\- all member gene ids of the target term.. 
 .PP
 .PP
 \fBbackground\fB \fR\- 
@@ -26,6 +26,16 @@ fisher enrichment test
  or a unique id character vector that contains all member 
  information of the background.
 . 
+.PP
+.PP
+\fBterm\fB \fR\- the term id (or the term name) that will be written into the result object. Default \fBunknown\fR.. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment.. 
+.PP
+.SH VALUE
+.PP
+a [EnrichmentResult](cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.EnrichmentResult) object of the given term.
 .PP
 .SH SEE ALSO
 GSEA

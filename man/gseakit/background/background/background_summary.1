@@ -11,11 +11,19 @@ summary of the background model as dataframe
 .PP
 .SH OPTIONS
 .PP
-\fBbackground\fB \fR\- -. 
+\fBbackground\fB \fR\- the GSEA background model object.. 
+.PP
+.PP
+\fBgene_names\fB \fR\- 
+ writes the gene names in the \fBfactors\fR column when \fBTRUE\fR (default), otherwise
+ writes the gene accession ids.
+. 
 .PP
 .SH VALUE
 .PP
-row item is the cluster object
+a \fBdataframe\fR of the cluster information, the row names are the cluster ids and
+ the columns are \fBclass\fR, \fBcategory\fR, \fBname\fR, \fBdescription\fR,
+ \fBcluster_size\fR and \fBfactors\fR (the member gene ids joined by \fB;\fR).
 .PP
 .SH SEE ALSO
 background

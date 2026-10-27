@@ -1,20 +1,27 @@
 .\" man page create by R# package system.
 .TH BACKGROUND 2 2000-1月 "clusterInfo" "clusterInfo"
 .SH NAME
-clusterInfo \- get cluster info data table
+clusterInfo \- Get the cluster information data table of a specific cluster.
 .SH SYNOPSIS
 \fIclusterInfo(\fBbackground\fR as <generic> Background, 
 \fBclusterId\fR as string);\fR
 .SH DESCRIPTION
 .PP
-get cluster info data table
+Get the cluster information data table of a specific cluster.
 .PP
 .SH OPTIONS
 .PP
-\fBbackground\fB \fR\- -. 
+\fBbackground\fB \fR\- the GSEA background model object.. 
 .PP
 .PP
-\fBclusterId\fB \fR\- -. 
+\fBclusterId\fB \fR\- the cluster id (or the pathway id) that will be query from the background model.. 
+.PP
+.SH VALUE
+.PP
+a \fBdataframe\fR of the cluster member genes, the row names are the gene ids and
+ the columns are \fBclusterId\fR, \fBclusterName\fR, \fBname\fR, \fBlocus_tag\fR,
+ \fBdescription\fR and \fBterms\fR. An empty \fBdataframe\fR will be returned when the
+ cluster id is not found.
 .PP
 .SH SEE ALSO
 background

@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>make filter of the background model</title>
+    <title>Remove the clusters from the given background model by the cluster id.</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,7 +18,7 @@
             </tr>
         </table>
 
-        <h2>make filter of the background model</h2>
+        <h2>Remove the clusters from the given background model by the cluster id.</h2>
 
         <h3>Description</h3>
 
@@ -39,19 +39,15 @@
         <table>
             
 <dt>background</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/Background.html">Background</a>]</p></dd>
+<dd><p>the GSEA background model object. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/Background.html">Background</a>]</p></dd>
 
 
-<dt>geneSet</dt>
-<dd><p>usually be a character of the gene id set.</p></dd>
+<dt>id.removes</dt>
+<dd><p>a character vector of the cluster ids that will be removed from the background model.</p></dd>
 
 
-<dt>min.size</dt>
-<dd><p>the min feature size is required for each cluster. all of the cluster that have the feature number less than this cutoff will be removed from the background. [as integer]</p></dd>
-
-
-<dt>max.intersects</dt>
-<dd><p>the max intersect number that each cluster intersect with the input geneSet. all of the clusters that greater than this value will be removed from the background. [as integer]</p></dd>
+<dt>env</dt>
+<dd><p>the R# runtime environment. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
 
         </table>
 
@@ -66,15 +62,11 @@
 
         <h3>Value</h3>
 
-        <p>a new background model that has cluster filtered by the given rule.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/Background.html">Background</a></li></ul>
+        <p>a new <a href="cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.Background">Background</a> model that does not contains the removed clusters, the <code>size</code> of the result model is re-evaluated from the remaining clusters.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/Background.html">Background</a></li></ul>
 
-        <h3 style="display: block;">Examples</h3>
+        <h3 style="display: none;">Examples</h3>
 
-        <pre><code id="example_r"> let kb = read.background("hsa.xml");
- let idset = c("id1","id2","id3");
- let filter_kb = kb |> geneSet.filter(idset, min.size=5, max.intersects=500);
- 
- print(background_summary(filter_kb));</code></pre>
+        
 
         <hr />
         <div style="text-align: center;">[Package <em>background</em> version 1.0.0.0 <a

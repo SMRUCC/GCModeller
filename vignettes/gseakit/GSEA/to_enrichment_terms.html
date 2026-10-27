@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>cast dataframe to CLR enrichmentt terms</title>
+    <title>Cast a ``dataframe`` object into the CLR enrichment result objects.</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,7 +18,7 @@
             </tr>
         </table>
 
-        <h2>cast dataframe to CLR enrichmentt terms</h2>
+        <h2>Cast a ``dataframe`` object into the CLR enrichment result objects.</h2>
 
         <h3>Description</h3>
 
@@ -35,11 +35,11 @@
         <table>
             
 <dt>x</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Internal/Object/dataframe.html">dataframe</a>]</p></dd>
+<dd><p>the dataframe object that contains the enrichment result data, the row names should be the term id and the required columns are <code>name</code>, <code>pvalue</code> and <code>geneIDs</code> (the member gene ids joined by <code>;</code>). [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Internal/Object/dataframe.html">dataframe</a>]</p></dd>
 
 
 <dt>env</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+<dd><p>the R# runtime environment. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
 
         </table>
 
@@ -54,7 +54,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/EnrichmentResult.html">EnrichmentResult[]</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/EnrichmentResult.html">EnrichmentResult[]</a></li></ul>
+        <p>an array of the <a href="cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.EnrichmentResult">EnrichmentResult</a> objects.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/EnrichmentResult.html">EnrichmentResult[]</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

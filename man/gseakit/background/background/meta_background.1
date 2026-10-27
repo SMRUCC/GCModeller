@@ -1,10 +1,29 @@
 .\" man page create by R# package system.
 .TH BACKGROUND 2 2000-1月 "meta_background" "meta_background"
 .SH NAME
-meta_background \- 
+meta_background \- Create a GSEA background model from the KEGG pathway graph query result of the
 .SH SYNOPSIS
 \fImeta_background(\fBenrich\fR as <generic> EnrichmentResult[], 
 \fBgraphQuery\fR as <generic> GraphQuery);\fR
+.SH DESCRIPTION
+.PP
+Create a GSEA background model from the KEGG pathway graph query result of the
+ enrichment analysis result terms.
+.PP
+.SH OPTIONS
+.PP
+\fBenrich\fB \fR\- 
+ the enrichment analysis result set, the term id of each result object will be used
+ as the pathway id for query the pathway graph from the **graphQuery**.
+. 
+.PP
+.PP
+\fBgraphQuery\fB \fR\- the KEGG pathway graph query object.. 
+.PP
+.SH VALUE
+.PP
+a [Background](cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.Background) model that is created from the pathway graph data.
+.PP
 .SH SEE ALSO
 background
 .SH FILES

@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>get category labels for a given id set</title>
+    <title>Get the category labels for a given id set.</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,7 +18,7 @@
             </tr>
         </table>
 
-        <h2>get category labels for a given id set</h2>
+        <h2>Get the category labels for a given id set.</h2>
 
         <h3>Description</h3>
 
@@ -36,7 +36,7 @@
         <table>
             
 <dt>category</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Annotation/ClassProfiles.html">ClassProfiles</a>]</p></dd>
+<dd><p>the KEGG category class model that is created by the <code>kegg_category</code> function. [as <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Annotation/ClassProfiles.html">ClassProfiles</a>]</p></dd>
 
 
 <dt>idSet</dt>
@@ -44,7 +44,11 @@
 
 
 <dt>level</dt>
-<dd><p>level1 or level2. [as integer]</p></dd>
+<dd><p>the category level that will be returns: <code>1</code> (default) for the level 1 class, <code>2</code> for the level 2 category. [as integer]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
 
         </table>
 
@@ -59,7 +63,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <i>any</i> kind.<h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
+        <p>a character vector of the category label of each input id, a <code>NULL</code> value will be returned for the id that is not found in the category model.</p><h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

@@ -1,16 +1,21 @@
 .\" man page create by R# package system.
 .TH PROFILES 1 2000-1月 "kegg_category" "kegg_category"
 .SH NAME
-kegg_category \- create kegg category class model from a gsea background model
+kegg_category \- Create the KEGG category class model from a GSEA background model.
 .SH SYNOPSIS
 \fIkegg_category(\fBbackground\fR as <generic> Background);\fR
 .SH DESCRIPTION
 .PP
-create kegg category class model from a gsea background model
+Create the KEGG category class model from a GSEA background model.
 .PP
 .SH OPTIONS
 .PP
-\fBbackground\fB \fR\- -. 
+\fBbackground\fB \fR\- the GSEA background model that contains the KEGG class and category annotation.. 
+.PP
+.SH VALUE
+.PP
+a [ClassProfiles](cref:T:SMRUCC.genomics.ComponentModel.Annotation.ClassProfiles) object which contains the relationship between the KEGG
+ class (or category) and the pathway ids.
 .PP
 .SH SEE ALSO
 profiles

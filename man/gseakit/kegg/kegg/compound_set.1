@@ -1,20 +1,28 @@
 .\" man page create by R# package system.
 .TH KEGG 1 2000-1月 "compound_set" "compound_set"
 .SH NAME
-compound_set \- gt kegg compound set from a kegg pathway map collection
+compound_set \- Get the kegg compound set from a kegg pathway map collection.
 .SH SYNOPSIS
 \fIcompound_set(\fBmaps\fR as any, 
 [\fB<Environment>\fR]);\fR
 .SH DESCRIPTION
 .PP
-gt kegg compound set from a kegg pathway map collection
+Get the kegg compound set from a kegg pathway map collection.
 .PP
 .SH OPTIONS
 .PP
-\fBmaps\fB \fR\- -. 
+\fBmaps\fB \fR\- 
+ a collection of the KEGG pathway [Map](cref:T:SMRUCC.genomics.Assembly.KEGG.WebServices.XML.Map) object.
+. 
 .PP
 .PP
-\fBenv\fB \fR\- -. 
+\fBenv\fB \fR\- the R# runtime environment.. 
+.PP
+.SH VALUE
+.PP
+a \fBlist\fR object, the name of each slot is the KEGG map id and the value is a named
+ list of the compound set (the name is the compound id and the value is the compound name)
+ of that map.
 .PP
 .SH SEE ALSO
 kegg

@@ -22,10 +22,12 @@ get an intersection id list between the background
 . 
 .PP
 .PP
-\fBgeneSet\fB \fR\- -. 
+\fBgeneSet\fB \fR\- a character vector of the gene ids for the intersection query.. 
 .PP
 .PP
-\fBisLocusTag\fB \fR\- -. 
+\fBisLocusTag\fB \fR\- 
+ matches the gene id with the locus tag instead of the accession id? Default \fBFALSE\fR.
+. 
 .PP
 .PP
 \fBget_clusterID\fB \fR\- 
@@ -36,6 +38,21 @@ get an intersection id list between the background
  this parameter only works when the cluster object is a 
  gsea background model object.
 . 
+.PP
+.PP
+\fBterm_map\fB \fR\- 
+ returns a \fBdataframe\fR of the gene id and the annotation term of each gene instead of
+ the intersected id set when this parameter is set to \fBTRUE\fR. Default \fBFALSE\fR.
+. 
+.PP
+.PP
+\fBid_map\fB \fR\- 
+ keeps the original gene id in the \fBterm\fR column of the result dataframe when the gene
+ has no annotation term? Default \fBFALSE\fR means the empty value will be used.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment.. 
 .PP
 .SH VALUE
 .PP

@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>fisher enrichment test</title>
+    <title>Fisher exact test for the enrichment of a single gene set term.</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,7 +18,7 @@
             </tr>
         </table>
 
-        <h2>fisher enrichment test</h2>
+        <h2>Fisher exact test for the enrichment of a single gene set term.</h2>
 
         <h3>Description</h3>
 
@@ -36,15 +36,23 @@
         <table>
             
 <dt>list</dt>
-<dd><p>[as string]</p></dd>
+<dd><p>the gene id list that are observed in the target term. [as string]</p></dd>
 
 
 <dt>geneSet</dt>
-<dd><p>[as string]</p></dd>
+<dd><p>all member gene ids of the target term. [as string]</p></dd>
 
 
 <dt>background</dt>
 <dd><p>the background size information, it could be an integer value to indicates that the total unique size of the enrichment background or a unique id character vector that contains all member information of the background.</p></dd>
+
+
+<dt>term</dt>
+<dd><p>the term id (or the term name) that will be written into the result object. Default <code>unknown</code>. [as string]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
 
         </table>
 
@@ -59,7 +67,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/EnrichmentResult.html">EnrichmentResult</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/EnrichmentResult.html">EnrichmentResult</a></li></ul>
+        <p>a <a href="cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.EnrichmentResult">EnrichmentResult</a> object of the given term.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/EnrichmentResult.html">EnrichmentResult</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

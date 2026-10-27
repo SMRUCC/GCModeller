@@ -1,20 +1,28 @@
 .\" man page create by R# package system.
 .TH GSEA 2 2000-1月 "to_enrichment_terms" "to_enrichment_terms"
 .SH NAME
-to_enrichment_terms \- cast dataframe to CLR enrichmentt terms
+to_enrichment_terms \- Cast a \fBdataframe\fR object into the CLR enrichment result objects.
 .SH SYNOPSIS
 \fIto_enrichment_terms(\fBx\fR as <generic> dataframe, 
 [\fB<Environment>\fR]);\fR
 .SH DESCRIPTION
 .PP
-cast dataframe to CLR enrichmentt terms
+Cast a \fBdataframe\fR object into the CLR enrichment result objects.
 .PP
 .SH OPTIONS
 .PP
-\fBx\fB \fR\- -. 
+\fBx\fB \fR\- 
+ the dataframe object that contains the enrichment result data, the row names
+ should be the term id and the required columns are \fBname\fR, \fBpvalue\fR and
+ \fBgeneIDs\fR (the member gene ids joined by \fB;\fR).
+. 
 .PP
 .PP
-\fBenv\fB \fR\- -. 
+\fBenv\fB \fR\- the R# runtime environment.. 
+.PP
+.SH VALUE
+.PP
+an array of the [EnrichmentResult](cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.EnrichmentResult) objects.
 .PP
 .SH SEE ALSO
 GSEA

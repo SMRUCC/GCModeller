@@ -1,16 +1,23 @@
 .\" man page create by R# package system.
 .TH GSEA 2 2000-1月 "read.enrichment" "read.enrichment"
 .SH NAME
-read.enrichment \- read the enrichment result table
+read.enrichment \- Read the enrichment analysis result table from a csv file.
 .SH SYNOPSIS
 \fIread.enrichment(\fBfile\fR as string);\fR
 .SH DESCRIPTION
 .PP
-read the enrichment result table
+Read the enrichment analysis result table from a csv file.
 .PP
 .SH OPTIONS
 .PP
-\fBfile\fB \fR\- -. 
+\fBfile\fB \fR\- 
+ the csv file path of the enrichment analysis result, the file should be written
+ by the \fBwrite.enrichment\fR function.
+. 
+.PP
+.SH VALUE
+.PP
+an array of the [EnrichmentResult](cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.EnrichmentResult) objects.
 .PP
 .SH SEE ALSO
 GSEA

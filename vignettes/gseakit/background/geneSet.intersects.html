@@ -43,17 +43,29 @@
 
 
 <dt>geneSet</dt>
-<dd><p>[as string]</p></dd>
+<dd><p>a character vector of the gene ids for the intersection query. [as string]</p></dd>
 
 
 <dt>isLocusTag</dt>
-<dd><p>[as boolean]</p></dd>
+<dd><p>matches the gene id with the locus tag instead of the accession id? Default <code>FALSE</code>. [as boolean]</p></dd>
 
 
 <dt>get.clusterID</dt>
 <dd><p>this function will returns a set of mapping cluster id if this parameter value is set to value TRUE, otherwise this function returns a set of intersected geneID list by default.</p>
 
 <p>this parameter only works when the cluster object is a gsea background model object. [as boolean]</p></dd>
+
+
+<dt>term.map</dt>
+<dd><p>returns a <code>dataframe</code> of the gene id and the annotation term of each gene instead of the intersected id set when this parameter is set to <code>TRUE</code>. Default <code>FALSE</code>. [as boolean]</p></dd>
+
+
+<dt>id.map</dt>
+<dd><p>keeps the original gene id in the <code>term</code> column of the result dataframe when the gene has no annotation term? Default <code>FALSE</code> means the empty value will be used. [as boolean]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
 
         </table>
 

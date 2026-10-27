@@ -13,10 +13,24 @@ Create a gsea background model for uniprot keywords based
 .PP
 .SH OPTIONS
 .PP
-\fBuniprot\fB \fR\- -. 
+\fBuniprot\fB \fR\- 
+ a collection of the UniProt protein [entry](cref:T:SMRUCC.genomics.Assembly.Uniprot.XML.entry) data, or a file path of the
+ UniProt database xml file.
+. 
 .PP
 .PP
-\fBenv\fB \fR\- -. 
+\fBdb_xref\fB \fR\- 
+ the database cross reference name that will be used as the gene id of the background
+ members, for example \fBGeneID\fR. Default \fBNULL\fR means using the UniProt accession id.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment.. 
+.PP
+.SH VALUE
+.PP
+a [Background](cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.Background) model whose clusters are the UniProt keyword terms, or an
+ error message when the input data could not be cast into the UniProt entry collection.
 .PP
 .SH SEE ALSO
 UniProt

@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>save the enrichment analysis result</title>
+    <title>Save the enrichment analysis result as a csv table file.</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,7 +18,7 @@
             </tr>
         </table>
 
-        <h2>save the enrichment analysis result</h2>
+        <h2>Save the enrichment analysis result as a csv table file.</h2>
 
         <h3>Description</h3>
 
@@ -36,15 +36,19 @@
         <table>
             
 <dt>enrichment</dt>
-<dd><p>should be a set of the enrichment analysis result.</p></dd>
+<dd><p>should be a set of the enrichment analysis result, both of the <a href="cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.EnrichmentResult">EnrichmentResult</a> and the <a href="cref:T:SMRUCC.genomics.Analysis.Microarray.KOBAS.EnrichmentTerm">EnrichmentTerm</a> array are accepted.</p></dd>
 
 
 <dt>file</dt>
-<dd><p>[as string]</p></dd>
+<dd><p>the output csv file path. [as string]</p></dd>
 
 
 <dt>format</dt>
-<dd><p>[as <a href="/vignettes/clr/gseakit/EnrichmentTableFormat.html">EnrichmentTableFormat</a>]</p></dd>
+<dd><p>the output table format of the <a href="cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.EnrichmentResult">EnrichmentResult</a> data: <code>GCModeller</code> (default) or <code>KOBAS</code>. [as <a href="/vignettes/clr/gseakit/EnrichmentTableFormat.html">EnrichmentTableFormat</a>]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
 
         </table>
 
@@ -59,7 +63,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type boolean.<h4>clr value class</h4><ul><li>boolean</li></ul>
+        <p>this function returns <code>TRUE</code> when the file is saved successfully.</p><h4>clr value class</h4><ul><li>boolean</li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

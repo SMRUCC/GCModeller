@@ -13,13 +13,18 @@ A method for cast the kegg enrichment result to the
 .PP
 .SH OPTIONS
 .PP
-\fBenrichments\fB \fR\- -. 
+\fBenrichments\fB \fR\- the kobas [EnrichmentTerm](cref:T:SMRUCC.genomics.Analysis.Microarray.KOBAS.EnrichmentTerm) or gcmodeller [EnrichmentResult](cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.EnrichmentResult).. 
 .PP
 .PP
-\fBtop\fB \fR\- -. 
+\fBtop\fB \fR\- display the top n enriched pathway terms of each KEGG category.. 
 .PP
 .PP
-\fBenv\fB \fR\- -. 
+\fBenv\fB \fR\- the R# runtime environment.. 
+.PP
+.SH VALUE
+.PP
+a [CatalogProfiles](cref:T:SMRUCC.genomics.ComponentModel.Annotation.CatalogProfiles) object, the name of each catalog is the KEGG category
+ and the value is the top enriched pathway terms of that category.
 .PP
 .SH SEE ALSO
 profiles

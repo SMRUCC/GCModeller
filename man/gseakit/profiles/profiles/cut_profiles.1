@@ -1,10 +1,28 @@
 .\" man page create by R# package system.
 .TH PROFILES 1 2000-1月 "cut_profiles" "cut_profiles"
 .SH NAME
-cut_profiles \- 
+cut_profiles \- Cut the catalog profiles by the profile value (usually the \fB-log10(p)\fR score).
 .SH SYNOPSIS
 \fIcut_profiles(\fBprofile\fR as <generic> CatalogProfiles, 
 \fBvalueCut\fR as double);\fR
+.SH DESCRIPTION
+.PP
+Cut the catalog profiles by the profile value (usually the \fB-log10(p)\fR score).
+.PP
+.SH OPTIONS
+.PP
+\fBprofile\fB \fR\- the catalog profiles object, for example the result of the \fBKEGG.enrichment.profile\fR function.. 
+.PP
+.PP
+\fBvalueCut\fB \fR\- 
+ the minimum profile value that a term should have, the terms with a smaller value
+ will be removed from the catalog profiles.
+. 
+.PP
+.SH VALUE
+.PP
+a new [CatalogProfiles](cref:T:SMRUCC.genomics.ComponentModel.Annotation.CatalogProfiles) object that only contains the terms with a value greater than or equals to the cutoff.
+.PP
 .SH SEE ALSO
 profiles
 .SH FILES

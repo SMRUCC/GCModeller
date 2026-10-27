@@ -1,9 +1,26 @@
 .\" man page create by R# package system.
 .TH BACKGROUND 2 2000-1月 "read_gmt" "read_gmt"
 .SH NAME
-read_gmt \- 
+read_gmt \- Read the gene set matrix (\fBgmt\fR) file.
 .SH SYNOPSIS
 \fIread_gmt(\fBfile\fR as string);\fR
+.SH DESCRIPTION
+.PP
+Read the gene set matrix (\fBgmt\fR) file.
+.PP
+.SH OPTIONS
+.PP
+\fBfile\fB \fR\- the \fBgmt\fR file path.. 
+.PP
+.SH VALUE
+.PP
+the parsed [Gmt](cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.Formats.Gmt) gene set matrix object.
+.PP
+.SH DETAILS
+.PP
+Each line of the \fBgmt\fR file is a gene set in the format of
+ \fBset_id \t description \t gene1 \t gene2 ...\fR.
+.PP
 .SH SEE ALSO
 background
 .SH FILES

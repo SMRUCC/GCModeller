@@ -29,6 +29,30 @@ create kegg background model
 .PP
 \fBgenomeName\fB \fR\- the genome name that tagged with this background model.. 
 .PP
+.PP
+\fBid_map\fB \fR\- 
+ an optional id mapping data for the gene id, the ko id and the gene name, it could be
+ a \fBlist\fR object or a \fBdataframe\fR object. Default \fBNULL\fR means no extra id mapping.
+. 
+.PP
+.PP
+\fBmultiple_omics\fB \fR\- 
+ creates the background model for the multiple omics data analysis? Default \fBFALSE\fR.
+. 
+.PP
+.PP
+\fBterm_db\fB \fR\- the database label of the term that will be written into the result model. Default \fBunknown\fR.. 
+.PP
+.PP
+\fBinstance_map\fB \fR\- the compound instance map that is used for the metabolism enrichment analysis. Default \fBNULL\fR.. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment.. 
+.PP
+.SH VALUE
+.PP
+a [Background](cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.Background) model that is created from the given KO id mapping.
+.PP
 .SH SEE ALSO
 background
 .SH FILES

@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>meta_background</title>
+    <title>Create a GSEA background model from the KEGG pathway graph query result of the</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>meta_background</h2>
+        <h2>Create a GSEA background model from the KEGG pathway graph query result of the</h2>
 
         <h3>Description</h3>
 
-        meta_background
+        <p>enrichment analysis result terms.</p>
 
         <h3>Usage</h3>
 
@@ -34,6 +34,13 @@
 
         <table>
             
+<dt>enrich</dt>
+<dd><p>the enrichment analysis result set, the term id of each result object will be used as the pathway id for query the pathway graph from the <strong>graphQuery</strong>. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/EnrichmentResult.html">EnrichmentResult</a>]</p></dd>
+
+
+<dt>graphQuery</dt>
+<dd><p>the KEGG pathway graph query object. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/GraphQuery.html">GraphQuery</a>]</p></dd>
+
         </table>
 
 
@@ -47,7 +54,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/Background.html">Background</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/Background.html">Background</a></li></ul>
+        <p>a <a href="cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.Background">Background</a> model that is created from the pathway graph data.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/Background.html">Background</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

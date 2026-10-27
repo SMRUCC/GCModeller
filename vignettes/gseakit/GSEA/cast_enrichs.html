@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>convert dataset to gcmodeller enrichment result set</title>
+    <title>Create the GCModeller enrichment analysis result objects from the raw data vectors.</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,7 +18,7 @@
             </tr>
         </table>
 
-        <h2>convert dataset to gcmodeller enrichment result set</h2>
+        <h2>Create the GCModeller enrichment analysis result objects from the raw data vectors.</h2>
 
         <h3>Description</h3>
 
@@ -41,43 +41,43 @@
         <table>
             
 <dt>term</dt>
-<dd><p>[as string]</p></dd>
+<dd><p>the term id vector. [as string]</p></dd>
 
 
 <dt>name</dt>
-<dd><p>[as string]</p></dd>
+<dd><p>the term name vector, its length should be equals to the <code>term</code> vector. [as string]</p></dd>
 
 
 <dt>pvalue</dt>
-<dd><p>[as double]</p></dd>
+<dd><p>the p-value vector of each term. [as double]</p></dd>
 
 
 <dt>geneIDs</dt>
-<dd><p>[as list]</p></dd>
+<dd><p>a named list of the member gene id vector of each term, the name of the list slot should be the term id. Default <code>NULL</code> means no member gene id. [as list]</p></dd>
 
 
 <dt>desc</dt>
-<dd><p>[as string]</p></dd>
+<dd><p>the description vector of each term. Default <code>NULL</code>. [as string]</p></dd>
 
 
 <dt>score</dt>
-<dd><p>[as double]</p></dd>
+<dd><p>the enrichment score vector of each term. Default <code>NULL</code>. [as double]</p></dd>
 
 
 <dt>fdr</dt>
-<dd><p>[as double]</p></dd>
+<dd><p>the adjusted p-value (FDR) vector of each term. Default <code>NULL</code>. [as double]</p></dd>
 
 
 <dt>cluster</dt>
-<dd><p>[as integer]</p></dd>
+<dd><p>the cluster size vector of each term. Default <code>NULL</code>. [as integer]</p></dd>
 
 
 <dt>enriched</dt>
-<dd><p>[as string]</p></dd>
+<dd><p>the enriched gene id vector joined by <code>;</code> of each term. Default <code>NULL</code>. [as string]</p></dd>
 
 
 <dt>env</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+<dd><p>the R# runtime environment. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
 
         </table>
 
@@ -92,7 +92,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/EnrichmentResult.html">EnrichmentResult[]</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/EnrichmentResult.html">EnrichmentResult[]</a></li></ul>
+        <p>an array of the <a href="cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.EnrichmentResult">EnrichmentResult</a> objects.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/EnrichmentResult.html">EnrichmentResult[]</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

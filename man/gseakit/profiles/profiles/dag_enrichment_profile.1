@@ -1,7 +1,7 @@
 .\" man page create by R# package system.
 .TH PROFILES 1 2000-1月 "dag_enrichment_profile" "dag_enrichment_profile"
 .SH NAME
-dag_enrichment_profile \- 
+dag_enrichment_profile \- Create the catalog profiles data of the GO enrichment result by the GO DAG term
 .SH SYNOPSIS
 \fIdag_enrichment_profile(\fBenrichments\fR as any, 
 \fBobo\fR as <generic> GO_OBO, 
@@ -10,12 +10,17 @@ dag_enrichment_profile \-
 \fBpvalue_cut\fR as double = 1, 
 \fBsort\fR as boolean = TRUE, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Create the catalog profiles data of the GO enrichment result by the GO DAG term
+ hierarchy, the terms are grouped by the child node of the given root term.
+.PP
 .SH OPTIONS
 .PP
-\fBenrichments\fB \fR\- -. 
+\fBenrichments\fB \fR\- the kobas [EnrichmentTerm](cref:T:SMRUCC.genomics.Analysis.Microarray.KOBAS.EnrichmentTerm) or gcmodeller [EnrichmentResult](cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.EnrichmentResult).. 
 .PP
 .PP
-\fBobo\fB \fR\- -. 
+\fBobo\fB \fR\- the GO obo database that is used for creating the DAG graph.. 
 .PP
 .PP
 \fBroot\fB \fR\- 
@@ -23,16 +28,21 @@ dag_enrichment_profile \-
 . 
 .PP
 .PP
-\fBtop\fB \fR\- -. 
+\fBtop\fB \fR\- display the top n enriched GO terms of each catalog.. 
 .PP
 .PP
-\fBpvalue_cut\fB \fR\- -. 
+\fBpvalue_cut\fB \fR\- the p-value cutoff of the enrichment terms. Default \fB1\fR means no filtering.. 
 .PP
 .PP
-\fBsort\fB \fR\- -. 
+\fBsort\fB \fR\- sorts the terms of each catalog by the \fB-log10(p)\fR score? Default \fBTRUE\fR.. 
 .PP
 .PP
-\fBenv\fB \fR\- -. 
+\fBenv\fB \fR\- the R# runtime environment.. 
+.PP
+.SH VALUE
+.PP
+a [CatalogProfiles](cref:T:SMRUCC.genomics.ComponentModel.Annotation.CatalogProfiles) object, the name of each catalog is the child term of
+ the given **root** and the value is the enriched GO terms of that branch.
 .PP
 .SH SEE ALSO
 profiles

@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>sort_profiles</title>
+    <title>Keep only the top n terms of each catalog of the given catalog profiles.</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>sort_profiles</h2>
+        <h2>Keep only the top n terms of each catalog of the given catalog profiles.</h2>
 
         <h3>Description</h3>
 
-        sort_profiles
+        
 
         <h3>Usage</h3>
 
@@ -35,6 +35,13 @@
 
         <table>
             
+<dt>profile</dt>
+<dd><p>the catalog profiles object, for example the result of the <code>KEGG.enrichment.profile</code> function. [as <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Annotation/CatalogProfiles.html">CatalogProfiles</a>]</p></dd>
+
+
+<dt>top</dt>
+<dd><p>the number of the terms that will be kept in each catalog. Default <code>10</code>. [as integer]</p></dd>
+
         </table>
 
 
@@ -48,7 +55,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Annotation/CatalogProfiles.html">CatalogProfiles</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Annotation/CatalogProfiles.html">CatalogProfiles</a></li></ul>
+        <p>a new <a href="cref:T:SMRUCC.genomics.ComponentModel.Annotation.CatalogProfiles">CatalogProfiles</a> object that only contains the top n terms of each catalog.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Annotation/CatalogProfiles.html">CatalogProfiles</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

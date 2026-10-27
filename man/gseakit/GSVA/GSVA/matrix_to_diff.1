@@ -1,7 +1,7 @@
 .\" man page create by R# package system.
 .TH GSVA 1 2000-1月 "matrix_to_diff" "matrix_to_diff"
 .SH NAME
-matrix_to_diff \- convert to diff data from dataframe
+matrix_to_diff \- Convert the limma differential analysis result table into the GSVA difference objects.
 .SH SYNOPSIS
 \fImatrix_to_diff(\fBdiff\fR as <generic> dataframe, 
 \fBpathId\fR as string = "pathNames", 
@@ -9,20 +9,24 @@ matrix_to_diff \- convert to diff data from dataframe
 \fBpvalue\fR as string = "pvalue");\fR
 .SH DESCRIPTION
 .PP
-convert to diff data from dataframe
+Convert the limma differential analysis result table into the GSVA difference objects.
 .PP
 .SH OPTIONS
 .PP
-\fBdiff\fB \fR\- -. 
+\fBdiff\fB \fR\- the dataframe object of the limma differential analysis result.. 
 .PP
 .PP
-\fBpathId\fB \fR\- -. 
+\fBpathId\fB \fR\- the column name of the pathway id in the given dataframe. Default \fBpathNames\fR.. 
 .PP
 .PP
-\fBt\fB \fR\- -. 
+\fBt\fB \fR\- the column name of the t statistics. Default \fBt\fR.. 
 .PP
 .PP
-\fBpvalue\fB \fR\- -. 
+\fBpvalue\fB \fR\- the column name of the p-value. Default \fBpvalue\fR.. 
+.PP
+.SH VALUE
+.PP
+an array of the [GSVADiff](cref:T:SMRUCC.genomics.Visualize.GSVADiff) objects.
 .PP
 .SH SEE ALSO
 GSVA

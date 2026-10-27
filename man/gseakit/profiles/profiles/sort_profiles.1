@@ -1,10 +1,25 @@
 .\" man page create by R# package system.
 .TH PROFILES 1 2000-1月 "sort_profiles" "sort_profiles"
 .SH NAME
-sort_profiles \- 
+sort_profiles \- Keep only the top n terms of each catalog of the given catalog profiles.
 .SH SYNOPSIS
 \fIsort_profiles(\fBprofile\fR as <generic> CatalogProfiles, 
 \fBtop\fR as integer = 10);\fR
+.SH DESCRIPTION
+.PP
+Keep only the top n terms of each catalog of the given catalog profiles.
+.PP
+.SH OPTIONS
+.PP
+\fBprofile\fB \fR\- the catalog profiles object, for example the result of the \fBKEGG.enrichment.profile\fR function.. 
+.PP
+.PP
+\fBtop\fB \fR\- the number of the terms that will be kept in each catalog. Default \fB10\fR.. 
+.PP
+.SH VALUE
+.PP
+a new [CatalogProfiles](cref:T:SMRUCC.genomics.ComponentModel.Annotation.CatalogProfiles) object that only contains the top n terms of each catalog.
+.PP
 .SH SEE ALSO
 profiles
 .SH FILES

@@ -1,12 +1,39 @@
 .\" man page create by R# package system.
 .TH PROFILES 1 2000-1月 "no_catagory_profile" "no_catagory_profile"
 .SH NAME
-no_catagory_profile \- 
+no_catagory_profile \- Create a catalog profiles object that does not contains the category information,
 .SH SYNOPSIS
 \fIno_catagory_profile(\fBenrichments\fR as <generic> Array, 
 \fBname\fR as string, 
 \fBtop\fR as integer = 30, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Create a catalog profiles object that does not contains the category information,
+ that means all of the enrichment terms are placed into a single catalog.
+.PP
+.SH OPTIONS
+.PP
+\fBenrichments\fB \fR\- 
+ the enrichment analysis result set, both of the [EnrichmentTerm](cref:T:SMRUCC.genomics.Analysis.Microarray.KOBAS.EnrichmentTerm) and the
+ [EnrichmentResult](cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.EnrichmentResult) array are accepted.
+. 
+.PP
+.PP
+\fBname\fB \fR\- the catalog name that will be used for the result object.. 
+.PP
+.PP
+\fBtop\fB \fR\- the number of the most significant terms that will be kept. Default \fB30\fR.. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment.. 
+.PP
+.SH VALUE
+.PP
+a [CatalogProfiles](cref:T:SMRUCC.genomics.ComponentModel.Annotation.CatalogProfiles) object that contains only one catalog which is named by
+ the **name** parameter, or an error message when the input data type is
+ not supported.
+.PP
 .SH SEE ALSO
 profiles
 .SH FILES

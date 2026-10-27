@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>read_gmt</title>
+    <title>Read the gene set matrix (``gmt``) file.</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>read_gmt</h2>
+        <h2>Read the gene set matrix (``gmt``) file.</h2>
 
         <h3>Description</h3>
 
-        read_gmt
+        
 
         <h3>Usage</h3>
 
@@ -34,12 +34,15 @@
 
         <table>
             
+<dt>file</dt>
+<dd><p>the <code>gmt</code> file path. [as string]</p></dd>
+
         </table>
 
 
-        <h3 style="display: none;">Details</h3>
+        <h3 style="display: block;">Details</h3>
 
-        
+        <p>Each line of the <code>gmt</code> file is a gene set in the format of <code>set_id \t description \t gene1 \t gene2 ...</code>.</p>
 
         <h3 style="display: block">Authors</h3>
 
@@ -47,7 +50,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/Formats/Gmt.html">Gmt</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/Formats/Gmt.html">Gmt</a></li></ul>
+        <p>the parsed <a href="cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.Formats.Gmt">Gmt</a> gene set matrix object.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/Formats/Gmt.html">Gmt</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

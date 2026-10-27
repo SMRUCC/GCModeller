@@ -18,15 +18,27 @@ Create catalog profiles data for GO enrichment result its data visualization.
 \fBenrichments\fB \fR\- the kobas [EnrichmentTerm](cref:T:SMRUCC.genomics.Analysis.Microarray.KOBAS.EnrichmentTerm) or gcmodeller [EnrichmentResult](cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.EnrichmentResult).. 
 .PP
 .PP
-\fBgoDb\fB \fR\- -. 
+\fBgoDb\fB \fR\- the GO obo database that is used for query the namespace of the GO terms.. 
 .PP
 .PP
 \fBtop\fB \fR\- display the top n enriched GO terms.. 
 .PP
 .PP
+\fBpvalue_cut\fB \fR\- the p-value cutoff of the enrichment terms. Default \fB1\fR means no filtering.. 
+.PP
+.PP
 \fBsort\fB \fR\- 
  sort of the namespace
 . 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment.. 
+.PP
+.SH VALUE
+.PP
+a [CatalogProfiles](cref:T:SMRUCC.genomics.ComponentModel.Annotation.CatalogProfiles) object, the name of each catalog is the GO namespace
+ and the value is the top enriched GO terms of that namespace (the profile value is
+ the \fB-log10(p)\fR score of the term).
 .PP
 .SH SEE ALSO
 profiles

@@ -351,7 +351,9 @@ declare namespace KOBAS {
        * Read KOBAS enrichment output result table file
        * 
        * 
-        * @param file -
+        * @param file the KOBAS enrichment result file path, the file may contains more than one database section.
+        * @return the enrichment terms that are read from the ``KEGG PATHWAY`` section of the given file,
+        *  an empty array will be returned when that section is missing.
       */
       function KEGGpathway(file: string): object;
    }

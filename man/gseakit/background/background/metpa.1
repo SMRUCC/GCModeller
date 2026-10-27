@@ -25,13 +25,25 @@ Create the gsea background model for metabolism analysis
  data for build the metabolism network. 
 .PP
 .PP
-\fBorg_name\fB \fR\- -. 
+\fBorg_name\fB \fR\- the KEGG organism code (or the organism name) of the target model, default \fBNULL\fR.. 
 .PP
 .PP
-\fBis_ko_ref\fB \fR\- -. 
+\fBis_ko_ref\fB \fR\- 
+ treats the given KEGG pathway model as the KO reference model? Default \fBFALSE\fR means
+ the pathway model of a specific organism.
+. 
 .PP
 .PP
-\fBenv\fB \fR\- -. 
+\fBmultipleOmics\fB \fR\- 
+ creates the background model for the multiple omics data analysis? Default \fBFALSE\fR.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment.. 
+.PP
+.SH VALUE
+.PP
+a [metpa](cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.KnowledgeBase.Metabolism.Metpa.metpa) background model for the metabolism enrichment analysis.
 .PP
 .SH SEE ALSO
 background

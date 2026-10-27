@@ -417,9 +417,12 @@ Public Module GSEABackground
     ''' <summary>
     ''' Do translation of the <see cref="BackgroundGene.accessionID"/>
     ''' </summary>
-    ''' <param name="g"></param>
-    ''' <param name="maps"></param>
-    ''' <returns></returns>
+    ''' <param name="g">the source gene object.</param>
+    ''' <param name="maps">the id translation table (``source id -> target id vector``).</param>
+    ''' <returns>
+    ''' the translated gene objects, or ``Nothing`` when the gene id is not found in the
+    ''' translation table.
+    ''' </returns>
     <Extension>
     Private Function id_translation(g As BackgroundGene, maps As Dictionary(Of String, String())) As IEnumerable(Of BackgroundGene)
         Dim multipleID As String() = maps.TryGetValue(g.accessionID)
@@ -451,9 +454,9 @@ Public Module GSEABackground
     ''' Create the id translation of the <see cref="BackgroundGene"/> inside 
     ''' the given <see cref="Cluster"/> model <paramref name="c"/>.
     ''' </summary>
-    ''' <param name="c"></param>
-    ''' <param name="maps"></param>
-    ''' <returns></returns>
+    ''' <param name="c">the source cluster object.</param>
+    ''' <param name="maps">the id translation table (``source id -> target id vector``).</param>
+    ''' <returns>a new cluster object whose members are the translated gene ids.</returns>
     <Extension>
     Private Function id_translation(c As Cluster, maps As Dictionary(Of String, String())) As Cluster
         Dim geneList As BackgroundGene() = c.members _
@@ -1055,13 +1058,14 @@ Public Module GSEABackground
     End Function
 
     ''' <summary>
-    ''' 
+    ''' Create a background gene member from the given dataframe columns.
     ''' </summary>
-    ''' <param name="fields"></param>
-    ''' <param name="idStr"></param>
+    ''' <param name="fields">the dataframe columns that are not used as the gene id or the gene name, they will be used as the annotation terms.</param>
+    ''' <param name="idStr">the gene accession id.</param>
     ''' <param name="i">the row index of current gene</param>
-    ''' <param name="name"></param>
-    ''' <returns></returns>
+    ''' <param name="name">the gene name.</param>
+    ''' <param name="alias_id">the gene alias id collection.</param>
+    ''' <returns>a <see cref="BackgroundGene"/> object of the given gene.</returns>
     <Extension>
     Private Function getMemberItem(fields As Dictionary(Of String, String()), idStr As String, i As Integer, name As String, alias_id As String()) As BackgroundGene
         ' scan for other database reference id
@@ -1182,7 +1186,7 @@ Public Module GSEABackground
     ''' parse the tuple list as the pathway object
     ''' </summary>
     ''' <param name="idset">An id collection</param>
-    ''' <returns></returns>
+    ''' <returns>the pathway objects that are created from the given id collection.</returns>
     Private Iterator Function ParsePathwayObject(idset As list) As IEnumerable(Of Pathway)
         For Each name As String In idset.getNames
             Dim id As String() = CLRVector.asCharacter(idset.slots(name))

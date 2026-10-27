@@ -1,7 +1,7 @@
 .\" man page create by R# package system.
 .TH GSEA 2 2000-1月 "cast_enrichs" "cast_enrichs"
 .SH NAME
-cast_enrichs \- convert dataset to gcmodeller enrichment result set
+cast_enrichs \- Create the GCModeller enrichment analysis result objects from the raw data vectors.
 .SH SYNOPSIS
 \fIcast_enrichs(\fBterm\fR as string, 
 \fBname\fR as string, 
@@ -15,38 +15,45 @@ cast_enrichs \- convert dataset to gcmodeller enrichment result set
 [\fB<Environment>\fR]);\fR
 .SH DESCRIPTION
 .PP
-convert dataset to gcmodeller enrichment result set
+Create the GCModeller enrichment analysis result objects from the raw data vectors.
 .PP
 .SH OPTIONS
 .PP
-\fBterm\fB \fR\- -. 
+\fBterm\fB \fR\- the term id vector.. 
 .PP
 .PP
-\fBname\fB \fR\- -. 
+\fBname\fB \fR\- the term name vector, its length should be equals to the \fBterm\fR vector.. 
 .PP
 .PP
-\fBpvalue\fB \fR\- -. 
+\fBpvalue\fB \fR\- the p-value vector of each term.. 
 .PP
 .PP
-\fBgeneIDs\fB \fR\- -. 
+\fBgeneIDs\fB \fR\- 
+ a named list of the member gene id vector of each term, the name of the list slot
+ should be the term id. Default \fBNULL\fR means no member gene id.
+. 
 .PP
 .PP
-\fBdesc\fB \fR\- -. 
+\fBdesc\fB \fR\- the description vector of each term. Default \fBNULL\fR.. 
 .PP
 .PP
-\fBscore\fB \fR\- -. 
+\fBscore\fB \fR\- the enrichment score vector of each term. Default \fBNULL\fR.. 
 .PP
 .PP
-\fBfdr\fB \fR\- -. 
+\fBfdr\fB \fR\- the adjusted p-value (FDR) vector of each term. Default \fBNULL\fR.. 
 .PP
 .PP
-\fBcluster\fB \fR\- -. 
+\fBcluster\fB \fR\- the cluster size vector of each term. Default \fBNULL\fR.. 
 .PP
 .PP
-\fBenriched\fB \fR\- -. 
+\fBenriched\fB \fR\- the enriched gene id vector joined by \fB;\fR of each term. Default \fBNULL\fR.. 
 .PP
 .PP
-\fBenv\fB \fR\- -. 
+\fBenv\fB \fR\- the R# runtime environment.. 
+.PP
+.SH VALUE
+.PP
+an array of the [EnrichmentResult](cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.EnrichmentResult) objects.
 .PP
 .SH SEE ALSO
 GSEA

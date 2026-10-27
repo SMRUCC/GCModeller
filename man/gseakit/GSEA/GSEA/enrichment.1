@@ -42,13 +42,47 @@ do GSEA enrichment analysis
 . 
 .PP
 .PP
+\fBcut_size\fB \fR\- 
+ the minimum number of the member genes that a functional cluster should have,
+ the clusters with fewer members than this cutoff will be removed from the
+ enrichment analysis. Default \fB3\fR.
+. 
+.PP
+.PP
+\fBoutputAll\fB \fR\- 
+ keeps all of the clusters in the result table even if the cluster has no
+ intersection with the input gene set? Default \fBTRUE\fR.
+. 
+.PP
+.PP
+\fBresize\fB \fR\- 
+ the size of the input gene set that is used as the \fBn\fR of the hypergeometric
+ test. Value less than or equals to zero means using the length of the
+ \fBgeneSet\fR vector. Default \fB-1\fR.
+. 
+.PP
+.PP
+\fBshowProgress\fB \fR\- prints the progress message? Default \fBFALSE\fR.. 
+.PP
+.PP
 \fBargs\fB \fR\- 
  the additional argument list that may be used, 
  
  for metpa background model, \fBtopo\fR parameter will be used for 
  specific the network topology impact score source, value of the
  \fBtopo\fR parameter could be \fBdgr\fR or \fBrbc\fR.
+ 
+ \fBpermutations\fR parameter will be used for specific the permutation times of
+ the GSEA method when the \fBexpression\fR parameter is not missing, default \fB1000\fR.
 . 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment.. 
+.PP
+.SH VALUE
+.PP
+an array of the [EnrichmentResult](cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.EnrichmentResult) objects, which is sorted by
+ the \fBFDR\fR value in ascending order.
 .PP
 .SH DETAILS
 .PP

@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>create uniprot keyword ontology result</title>
+    <title>Create the catalog profiles of the UniProt keyword enrichment result, the terms are</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>create uniprot keyword ontology result</h2>
+        <h2>Create the catalog profiles of the UniProt keyword enrichment result, the terms are</h2>
 
         <h3>Description</h3>
 
-        
+        <p>grouped by the keyword category.</p>
 
         <h3>Usage</h3>
 
@@ -36,15 +36,15 @@
         <table>
             
 <dt>enrichment</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/EnrichmentResult.html">EnrichmentResult</a>]</p></dd>
+<dd><p>the UniProt keyword enrichment analysis result set. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/EnrichmentResult.html">EnrichmentResult</a>]</p></dd>
 
 
 <dt>keywords</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Internal/Object/dataframe.html">dataframe</a>]</p></dd>
+<dd><p>the UniProt keyword table data, the required columns are <code>Keyword ID</code> and <code>Category</code>. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Internal/Object/dataframe.html">dataframe</a>]</p></dd>
 
 
 <dt>top</dt>
-<dd><p>[as integer]</p></dd>
+<dd><p>the number of the most significant keywords that will be kept in each category. Default <code>4</code>. [as integer]</p></dd>
 
         </table>
 
@@ -59,7 +59,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Annotation/CatalogProfiles.html">CatalogProfiles</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Annotation/CatalogProfiles.html">CatalogProfiles</a></li></ul>
+        <p>a <a href="cref:T:SMRUCC.genomics.ComponentModel.Annotation.CatalogProfiles">CatalogProfiles</a> object, the name of each catalog is the keyword category and the value is the top enriched keywords of that category.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Annotation/CatalogProfiles.html">CatalogProfiles</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

@@ -1,7 +1,7 @@
 .\" man page create by R# package system.
 .TH KEGG 1 2000-1月 "kegg_category_annotation" "kegg_category_annotation"
 .SH NAME
-kegg_category_annotation \- 
+kegg_category_annotation \- Append the KEGG BRITE category annotation to a given dataframe by the KEGG id column.
 .SH SYNOPSIS
 \fIkegg_category_annotation(\fBkegg\fR as <generic> Background, 
 \fBanno\fR as <generic> dataframe, 
@@ -9,6 +9,45 @@ kegg_category_annotation \-
 \fBclass_field\fR as string = "kegg_class", 
 \fBcategory_field\fR as string = "kegg_category", 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Append the KEGG BRITE category annotation to a given dataframe by the KEGG id column.
+.PP
+.SH OPTIONS
+.PP
+\fBkegg\fB \fR\- 
+ the KEGG BRITE background model that is used for query the category information of
+ the KEGG id, for example the model that is created by \fBKO.background\fR.
+. 
+.PP
+.PP
+\fBanno\fB \fR\- 
+ the target dataframe that contains the KEGG id column, the annotation columns will be
+ appended to this dataframe directly.
+. 
+.PP
+.PP
+\fBkegg_id\fB \fR\- the column name of the KEGG id in the **anno** dataframe. Default \fBkegg_id\fR.. 
+.PP
+.PP
+\fBclass_field\fB \fR\- the column name of the output KEGG class information. Default \fBkegg_class\fR.. 
+.PP
+.PP
+\fBcategory_field\fB \fR\- the column name of the output KEGG category information. Default \fBkegg_category\fR.. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment.. 
+.PP
+.SH VALUE
+.PP
+the given dataframe with two new columns (\fBkegg_class\fR and \fBkegg_category\fR) appended,
+ or an error message when the required KEGG id column is missing.
+.PP
+.SH DETAILS
+.PP
+Only the first KEGG id will be used when the value of the \fBkegg_id\fR column contains
+ multiple ids that are separated by \fB;\fR, \fB/\fR or other blank characters.
+.PP
 .SH SEE ALSO
 kegg
 .SH FILES

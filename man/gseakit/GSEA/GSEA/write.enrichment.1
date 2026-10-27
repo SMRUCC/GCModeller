@@ -1,7 +1,7 @@
 .\" man page create by R# package system.
 .TH GSEA 2 2000-1月 "write.enrichment" "write.enrichment"
 .SH NAME
-write.enrichment \- save the enrichment analysis result
+write.enrichment \- Save the enrichment analysis result as a csv table file.
 .SH SYNOPSIS
 \fIwrite.enrichment(\fBenrichment\fR as any, 
 \fBfile\fR as string, 
@@ -9,17 +9,31 @@ write.enrichment \- save the enrichment analysis result
 [\fB<Environment>\fR]);\fR
 .SH DESCRIPTION
 .PP
-save the enrichment analysis result
+Save the enrichment analysis result as a csv table file.
 .PP
 .SH OPTIONS
 .PP
-\fBenrichment\fB \fR\- should be a set of the enrichment analysis result.. 
+\fBenrichment\fB \fR\- 
+ should be a set of the enrichment analysis result, both of the
+ [EnrichmentResult](cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.EnrichmentResult) and the [EnrichmentTerm](cref:T:SMRUCC.genomics.Analysis.Microarray.KOBAS.EnrichmentTerm) array are
+ accepted.
+. 
 .PP
 .PP
-\fBfile\fB \fR\- -. 
+\fBfile\fB \fR\- the output csv file path.. 
 .PP
 .PP
-\fBformat\fB \fR\- -. 
+\fBformat\fB \fR\- 
+ the output table format of the [EnrichmentResult](cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.EnrichmentResult) data:
+ \fBGCModeller\fR (default) or \fBKOBAS\fR.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment.. 
+.PP
+.SH VALUE
+.PP
+this function returns \fBTRUE\fR when the file is saved successfully.
 .PP
 .SH SEE ALSO
 GSEA

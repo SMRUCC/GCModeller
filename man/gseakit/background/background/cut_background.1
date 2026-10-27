@@ -11,10 +11,18 @@ make gsea background dynamic cut
 .PP
 .SH OPTIONS
 .PP
-\fBbackground\fB \fR\- -. 
+\fBbackground\fB \fR\- the GSEA background model object.. 
 .PP
 .PP
-\fBannotated\fB \fR\- -. 
+\fBannotated\fB \fR\- 
+ a character vector of the annotated gene ids, only the cluster members that are
+ annotated in this gene id set will be kept.
+. 
+.PP
+.SH VALUE
+.PP
+a new [Background](cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.Background) model that only contains the annotated gene ids;
+ returns \fBNothing\fR when the given gene id set is empty.
 .PP
 .SH SEE ALSO
 background

@@ -1,10 +1,25 @@
 .\" man page create by R# package system.
 .TH GSEA 2 2000-1月 "enrichment.draw.go_dag" "enrichment.draw.go_dag"
 .SH NAME
-enrichment.draw.go_dag \- 
+enrichment.draw.go_dag \- Draw the GO enrichment DAG graph as a raster image.
 .SH SYNOPSIS
 \fIenrichment.draw.go_dag(\fBgo_enrichment\fR as <generic> EnrichmentResult[], 
 \fBgo\fR as <generic> GO_OBO);\fR
+.SH DESCRIPTION
+.PP
+Draw the GO enrichment DAG graph as a raster image.
+.PP
+.SH OPTIONS
+.PP
+\fBgo_enrichment\fB \fR\- the GO enrichment analysis result set.. 
+.PP
+.PP
+\fBgo\fB \fR\- the GO obo database that is used for creating the DAG graph.. 
+.PP
+.SH VALUE
+.PP
+the raster image data of the GO enrichment DAG graph.
+.PP
 .SH SEE ALSO
 GSEA
 .SH FILES
