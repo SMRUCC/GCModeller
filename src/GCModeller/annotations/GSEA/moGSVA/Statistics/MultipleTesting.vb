@@ -1,5 +1,3 @@
-Imports System.Linq
-
 Namespace StatTests
 
     ''' <summary>

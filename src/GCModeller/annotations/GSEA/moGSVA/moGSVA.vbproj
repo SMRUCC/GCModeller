@@ -6,6 +6,8 @@
     <AssemblyName>SMRUCC.genomics.Analysis.HTS.moGSVA</AssemblyName>
     <AssemblyTitle>Multiple Omics GSVA Analysis</AssemblyTitle>
     <Platforms>AnyCPU;x64</Platforms>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
 

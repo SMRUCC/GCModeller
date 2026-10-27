@@ -1,8 +1,6 @@
-Imports System.Diagnostics
-Imports System.Linq
-Imports GSVAEngine = SMRUCC.genomics.Analysis.HTS.GSVA.GSVA
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
+Imports GSVAEngine = SMRUCC.genomics.Analysis.HTS.GSVA.GSVA
 
 Namespace PerOmics
 

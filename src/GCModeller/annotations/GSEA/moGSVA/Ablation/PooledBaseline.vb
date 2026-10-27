@@ -1,7 +1,7 @@
-Imports System.Linq
-Imports GSVAEngine = SMRUCC.genomics.Analysis.HTS.GSVA.GSVA
+Imports Microsoft.VisualBasic.Math.Correlations
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
+Imports GSVAEngine = SMRUCC.genomics.Analysis.HTS.GSVA.GSVA
 Imports std = System.Math
 
 Namespace Ablation
@@ -147,7 +147,7 @@ Namespace Ablation
                     count += 1
                 Next
 
-                Dim r As Double = Pearson(theirs, ours)
+                Dim r As Double = Correlations.GetPearson(theirs, ours)
 
                 If Not Double.IsNaN(r) Then
                     pooled.Correlation(row.geneID) = r
@@ -210,45 +210,6 @@ Namespace Ablation
                 .clusters = clusters.ToArray
             }
         End Function
-
-        Private Function Pearson(x As Double(), y As Double()) As Double
-            Dim n As Integer = std.Min(x.Length, y.Length)
-
-            If n < 2 Then
-                Return Double.NaN
-            End If
-
-            Dim mx As Double = 0
-            Dim my As Double = 0
-
-            For i As Integer = 0 To n - 1
-                mx += x(i)
-                my += y(i)
-            Next
-
-            mx /= n
-            my /= n
-
-            Dim sxy As Double = 0
-            Dim sxx As Double = 0
-            Dim syy As Double = 0
-
-            For i As Integer = 0 To n - 1
-                Dim dx As Double = x(i) - mx
-                Dim dy As Double = y(i) - my
-
-                sxy += dx * dy
-                sxx += dx * dx
-                syy += dy * dy
-            Next
-
-            If sxx <= 0 OrElse syy <= 0 Then
-                Return Double.NaN
-            End If
-
-            Return sxy / std.Sqrt(sxx * syy)
-        End Function
-
     End Module
 
 End Namespace
