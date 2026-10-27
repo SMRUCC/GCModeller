@@ -1,60 +1,60 @@
 ﻿#Region "Microsoft.VisualBasic::c534f22d69f44f52f9ac1aa5e560611f, analysis\HTS_matrix\File\Document.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 86
-    '    Code Lines: 52 (60.47%)
-    ' Comment Lines: 22 (25.58%)
-    '    - Xml Docs: 95.45%
-    ' 
-    '   Blank Lines: 12 (13.95%)
-    '     File Size: 2.96 KB
+' Summaries:
 
 
-    ' Module Document
-    ' 
-    '     Function: LoadMatrixDocument, ParseHeaders, SaveMatrix
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 86
+'    Code Lines: 52 (60.47%)
+' Comment Lines: 22 (25.58%)
+'    - Xml Docs: 95.45%
+' 
+'   Blank Lines: 12 (13.95%)
+'     File Size: 2.96 KB
+
+
+' Module Document
+' 
+'     Function: LoadMatrixDocument, ParseHeaders, SaveMatrix
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.FileIO.Path
+Imports Microsoft.VisualBasic.FileIO
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 
@@ -66,6 +66,23 @@ Public Module Document
            .Skip(1) _
            .Select(Function(s) s.Trim(""""c, " "c)) _
            .ToArray
+    End Function
+
+    ''' <summary>
+    ''' 读取 multiGSEA 的 p 值长表（首列 pathway，其余列是各组学的 p 值与 combined_pval）。
+    ''' </summary>
+    Public Iterator Function ReadTable(path As String, deli As Char, Optional encoding As Encodings = Encodings.UTF8) As IEnumerable(Of String())
+        Dim result As New Dictionary(Of String, Dictionary(Of String, String))(StringComparer.Ordinal)
+
+        Using parser As New TextFieldParser(path, encoding.CodePage) With {
+            .TextFieldType = FieldType.Delimited,
+            .Delimiters = {deli},
+            .HasFieldsEnclosedInQuotes = True
+        }
+            While Not parser.EndOfData
+                Yield parser.ReadFields()
+            End While
+        End Using
     End Function
 
     ''' <summary>
