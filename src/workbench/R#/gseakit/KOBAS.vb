@@ -329,9 +329,11 @@ Module KOBAS
         End If
 
         Dim testMethod As EnrichmentTestMethod
+        Dim fdrMethod As FdrMethod
 
         Try
             testMethod = TwoSampleTest.Parse(method)
+            fdrMethod = FdrAdjust.Parse(fdr)
         Catch ex As Exception
             Return RInternal.debug.stop(ex, env)
         End Try
@@ -357,7 +359,11 @@ Module KOBAS
                 Return RInternal.debug.stop("no term is shared between the foreground and the background gene list!", env)
             End If
             If testMethod <> EnrichmentTestMethod.Frequency Then
-                rows = rows.FDR(fdr)
+                Dim adjusted As Double() = FdrAdjust.Adjust(rows.Select(Function(row) row.PValue), fdrMethod)
+
+                For i As Integer = 0 To rows.Length - 1
+                    rows(i).CorrectedPValue = adjusted(i)
+                Next
             End If
 
             Return EnrichmentRowsTable(rows, has_adjust:=testMethod <> EnrichmentTestMethod.Frequency)
@@ -514,7 +520,7 @@ Module KOBAS
     ''' <returns>
     ''' a ``dataframe`` of the similarity matrix, both the row names and the column names
     ''' are the term ids and the diagonal values are ``1``.
-    ''' </param>
+    ''' </returns>
     <ExportAPI("kobas.term_similarity")>
     <RApiReturn(GetType(dataframe))>
     Public Function KobasTermSimilarity(terms As list,
@@ -543,8 +549,9 @@ Module KOBAS
         }
 
         For i As Integer = 0 To names.Length - 1
+            Dim columnIndex As Integer = i
             Dim column As Double() = Enumerable.Range(0, names.Length) _
-                .Select(Function(row) similarities(row)(i)) _
+                .Select(Function(row) similarities(row)(columnIndex)) _
                 .ToArray
 
             table.columns(names(i)) = column
@@ -999,10 +1006,10 @@ Module KOBAS
             Return DirectCast(gmt, Background)
         End If
         If TypeOf gmt Is String Then
-            Dim gmtFile As String = DirectCast(gmt, String)
+            Dim gmtPath As String = DirectCast(gmt, String)
 
-            If File.Exists(gmtFile) Then
-                Return GmtFile.Load(gmtFile)
+            If File.Exists(gmtPath) Then
+                Return GmtFile.Load(gmtPath)
             End If
         End If
 
@@ -1019,10 +1026,10 @@ Module KOBAS
             Return New String() {}
         End If
         If TypeOf genes Is String Then
-            Dim file As String = DirectCast(genes, String)
+            Dim annotatePath As String = DirectCast(genes, String)
 
-            If File.Exists(file) Then
-                Return AnnotateFile.Load(file) _
+            If File.Exists(annotatePath) Then
+                Return AnnotateFile.Load(annotatePath) _
                     .Entries _
                     .Select(Function(entry) entry.Query) _
                     .ToArray
