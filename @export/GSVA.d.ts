@@ -133,26 +133,6 @@ declare namespace GSVA {
    */
    function matrix_to_diff(diff: object, pathId?: string, t?: string, pvalue?: string): object;
    /**
-    * Assemble the multiple omics data layers into a [MultiOmicsDataset](cref:T:SMRUCC.genomics.Analysis.HTS.GSVA.Omics.MultiOmicsDataset) object
-    *  for the multi-omics GSVA (moGSVA) analysis.
-    * 
-    * > The samples of all of the omics layers are aligned by the sample name: the intersection
-    * >  of the sample names is used as the final sample axis of the multi-omics dataset.
-    * 
-     * @param layers the omics layer collection, each element could be an [OmicsLayer](cref:T:SMRUCC.genomics.Analysis.HTS.DataFrame.MultipleOmics.OmicsLayer) object or
-     *  a tuple that could be cast into the omics layer model. Every layer should define its
-     *  unique omics name and the expression matrix whose rows are the features of that omics.
-     * @param verbose prints the progress and the diagnostic message of the layer alignment? Default ``TRUE``.
-     * 
-     * + default value Is ``true``.
-     * @param env the R# runtime environment.
-     * 
-     * + default value Is ``null``.
-     * @return a [MultiOmicsDataset](cref:T:SMRUCC.genomics.Analysis.HTS.GSVA.Omics.MultiOmicsDataset) object which contains the sample aligned omics layers,
-     *  or an error message when the layer collection could not be assembled.
-   */
-   function mo_layers(layers: any, verbose?: boolean, env?: object): object;
-   /**
     * Run the multi-omics GSVA (moGSVA) analysis on the given multi-omics dataset.
     * 
     * > The scoring of each omics layer is performed independently (the kernel density
@@ -171,6 +151,9 @@ declare namespace GSVA {
      *  and the permutation test p-value table (when ``permutations`` is greater than zero).
    */
    function mogsva(x: object, geneSet: any, opts: object, env?: object): object;
+   /**
+   */
+   function mogsva_export(mogsva: object, dir: string): string;
    /**
     * Build a [MultiOmicsGsvaOptions](cref:T:SMRUCC.genomics.Analysis.HTS.GSVA.MultiOmicsGsvaOptions) configuration object that controls
     *  the whole multi-omics GSVA (moGSVA) pipeline: per-omics enrichment scoring,
@@ -268,4 +251,24 @@ declare namespace GSVA {
      *  passed to the `mogsva` function.
    */
    function mogsva_opts(score_method?: object, kcdf?: object, fusion_strategy?: object, consistency_lambda?: number, balance_feature_size?: boolean, min_size?: object, max_size?: object, ssgsea_alpha?: number, ssgsea_normalize?: boolean, permutations?: object, permutation_method?: object, permutation_pathways?: string, permutation_gene_limit?: object, max_permutation_pathways?: object, seed?: object, compute_pooled?: boolean, verbose?: boolean, env?: object): object;
+   /**
+    * Assemble the multiple omics data layers into a [MultiOmicsDataset](cref:T:SMRUCC.genomics.Analysis.HTS.GSVA.Omics.MultiOmicsDataset) object
+    *  for the multi-omics GSVA (moGSVA) analysis.
+    * 
+    * > The samples of all of the omics layers are aligned by the sample name: the intersection
+    * >  of the sample names is used as the final sample axis of the multi-omics dataset.
+    * 
+     * @param layers the omics layer collection, each element could be an [OmicsLayer](cref:T:SMRUCC.genomics.Analysis.HTS.DataFrame.MultipleOmics.OmicsLayer) object or
+     *  a tuple that could be cast into the omics layer model. Every layer should define its
+     *  unique omics name and the expression matrix whose rows are the features of that omics.
+     * @param verbose prints the progress and the diagnostic message of the layer alignment? Default ``TRUE``.
+     * 
+     * + default value Is ``true``.
+     * @param env the R# runtime environment.
+     * 
+     * + default value Is ``null``.
+     * @return a [MultiOmicsDataset](cref:T:SMRUCC.genomics.Analysis.HTS.GSVA.Omics.MultiOmicsDataset) object which contains the sample aligned omics layers,
+     *  or an error message when the layer collection could not be assembled.
+   */
+   function multiple_dataset(layers: any, verbose?: boolean, env?: object): object;
 }
