@@ -21,8 +21,9 @@ multiple_layers = as.list(names(multiple_layers), names = names(multiple_layers)
 |> lapply(function(name) {
     let filepath = multiple_layers[[name]];
     let mat = geneExpression::load.expr(filepath);
+    let direction = ifelse(name == "Methylation", -1, 1);
 
-    mixOmics::omics_layer(mat, name);
+    mixOmics::omics_layer(mat, name, direction );
 })
 |> GSVA::multiple_dataset()
 ;
