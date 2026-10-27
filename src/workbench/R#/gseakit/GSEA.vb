@@ -415,7 +415,7 @@ Module GSEA
     ''' Convert GSEA enrichment result from GCModeller output format to KOBAS output format
     ''' </summary>
     ''' <param name="enrichment">the GCModeller enrichment analysis result set.</param>
-    ''' <param name="database$">the database label that will be written into the ``Database`` column of the KOBAS table. Default ``n/a``.</param>
+    ''' <param name="database">the database label that will be written into the ``Database`` column of the KOBAS table. Default ``n/a``.</param>
     ''' <returns>an array of the <see cref="EnrichmentTerm"/> objects in the KOBAS table format.</returns>
     <ExportAPI("as.KOBAS_terms")>
     Public Function KOBASFormat(enrichment As EnrichmentResult(), Optional database$ = "n/a") As EnrichmentTerm()

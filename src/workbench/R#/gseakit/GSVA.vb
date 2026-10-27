@@ -375,6 +375,7 @@ Module GSVA
     ''' <param name="verbose">
     ''' Whether to emit progress/diagnostic logging. Default TRUE.
     ''' </param>
+    ''' <param name="env">The R# runtime environment (used for error reporting).</param>
     ''' <returns>
     ''' A fully populated <see cref="MultiOmicsGsvaOptions"/> object that can be
     ''' passed to the <c>mogsva</c> function.

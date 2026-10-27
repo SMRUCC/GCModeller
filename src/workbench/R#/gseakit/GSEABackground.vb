@@ -741,6 +741,15 @@ Public Module GSEABackground
     ''' this parameter only works when the cluster object is a 
     ''' gsea background model object.
     ''' </param>
+    ''' <param name="term_map">
+    ''' returns a ``dataframe`` of the gene id and the annotation term of each gene instead of
+    ''' the intersected id set when this parameter is set to ``TRUE``. Default ``FALSE``.
+    ''' </param>
+    ''' <param name="id_map">
+    ''' keeps the original gene id in the ``term`` column of the result dataframe when the gene
+    ''' has no annotation term? Default ``FALSE`` means the empty value will be used.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment.</param>
     ''' <returns>
     ''' a character vector of the intersected gene id set or the cluster id set based on the option of parameter <paramref name="get_clusterID"/>.
     ''' </returns>
