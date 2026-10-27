@@ -1,3 +1,5 @@
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame.MultipleOmics
+
 ''' <summary>
 ''' 多组学基因集变异分析（multiple-omics GSVA, moGSVA）
 ''' </summary>
@@ -13,7 +15,7 @@
 ''' <description>
 ''' 见 <see cref="Omics.MultiOmicsDataset"/>：K 个组学层的样本轴严格对齐，
 ''' 特征表保留 (feature_id, omics_source, gene) 三元索引；
-''' <see cref="Omics.OmicsNormalizer"/> 提供仅在组学内部生效的稳健标准化。
+''' <see cref="OmicsNormalizer"/> 提供仅在组学内部生效的稳健标准化。
 ''' </description>
 ''' </item>
 ''' <item>
@@ -40,8 +42,8 @@
 ''' <item>
 ''' <term>步骤5 显著性评估</term>
 ''' <description>
-''' 见 <see cref="Statistics.PermutationTest"/>（保持组学标签不变，仅打乱 feature→pathway 映射）
-''' 与 <see cref="Statistics.MultipleTesting"/>（BH-FDR）。
+''' 见 <see cref="StatTests.PermutationTest"/>（保持组学标签不变，仅打乱 feature→pathway 映射）
+''' 与 <see cref="StatTests.MultipleTesting"/>（BH-FDR）。
 ''' </description>
 ''' </item>
 ''' </list>

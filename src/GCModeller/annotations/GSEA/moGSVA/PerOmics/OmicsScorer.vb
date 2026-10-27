@@ -1,4 +1,5 @@
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame.MultipleOmics
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
 Imports GSVAEngine = SMRUCC.genomics.Analysis.HTS.GSVA.GSVA
 
@@ -37,7 +38,7 @@ Namespace PerOmics
             Dim coverage As Dictionary(Of String, Dictionary(Of String, Integer)) = dataset.Coverage(geneSets)
             Dim tables As New List(Of OmicsScoreTable)
 
-            For Each layer As Omics.OmicsLayer In dataset.Layers
+            For Each layer As OmicsLayer In dataset.Layers
                 Dim table As New OmicsScoreTable With {.Omics = layer.Name}
 
                 For Each pair As KeyValuePair(Of String, Dictionary(Of String, Integer)) In coverage

@@ -1,4 +1,5 @@
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame.MultipleOmics
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
 Imports std = System.Math
 
@@ -272,7 +273,7 @@ Namespace StatTests
         ''' 对每一层独立置换特征标签（数据不动，只打乱 feature → pathway 的对应关系）。
         ''' </summary>
         Private Function PermuteDataset(dataset As Omics.MultiOmicsDataset, rng As Random) As Omics.MultiOmicsDataset
-            Dim layers As Omics.OmicsLayer() = dataset.Layers _
+            Dim layers As OmicsLayer() = dataset.Layers _
                 .Select(Function(l) PermuteLayer(l, rng)) _
                 .ToArray
 
@@ -283,7 +284,7 @@ Namespace StatTests
             }
         End Function
 
-        Private Function PermuteLayer(layer As Omics.OmicsLayer, rng As Random) As Omics.OmicsLayer
+        Private Function PermuteLayer(layer As OmicsLayer, rng As Random) As OmicsLayer
             Dim labels As String() = DirectCast(layer.Genes.Clone(), String())
 
             For i As Integer = labels.Length - 1 To 1 Step -1
@@ -301,7 +302,7 @@ Namespace StatTests
                 }) _
                 .ToArray
 
-            Return New Omics.OmicsLayer With {
+            Return New OmicsLayer With {
                 .Name = layer.Name,
                 .Expr = New Matrix With {
                     .sampleID = layer.Expr.sampleID,

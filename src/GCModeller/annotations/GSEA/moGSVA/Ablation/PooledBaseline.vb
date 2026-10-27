@@ -1,5 +1,6 @@
 Imports Microsoft.VisualBasic.Math.Correlations
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame.MultipleOmics
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
 Imports GSVAEngine = SMRUCC.genomics.Analysis.HTS.GSVA.GSVA
 Imports std = System.Math
@@ -180,7 +181,7 @@ Namespace Ablation
 
                 Dim members As New List(Of BackgroundGene)
 
-                For Each layer As Omics.OmicsLayer In dataset.Layers
+                For Each layer As OmicsLayer In dataset.Layers
                     Dim features As HashSet(Of String) = featureSets(layer.Name)
 
                     For Each gene As BackgroundGene In If(cluster.members, New BackgroundGene() {})
