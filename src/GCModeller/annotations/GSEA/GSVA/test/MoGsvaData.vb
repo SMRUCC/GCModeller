@@ -6,6 +6,7 @@ Imports Microsoft.VisualBasic.Data.IO.Numpy
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame.MultipleOmics
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
+Imports SMRUCC.genomics.Analysis.HTS.GSEA.Formats
 Imports SMRUCC.genomics.Analysis.HTS.GSVA.Omics
 Imports std = System.Math
 
@@ -334,7 +335,7 @@ Public Module MoGsvaData
         Dim gmtFile As String = Path.Combine(dataDir, "kegg_v3.gmt")
         Dim npyFile As String = Path.Combine(dataDir, "r160_subtype.npy")
         Dim sampleFile As String = Path.Combine(dataDir, "sampleid_list.txt")
-        Dim geneSets As Background = GeneSetTable.LoadGmt(gmtFile, verbose)
+        Dim geneSets As New Background(Gmt.LoadFile(gmtFile))
 
         If verbose Then
             Call $"[moGSVA] GMT: {geneSets.clusters.Length} pathway(s), {geneSets.size} unique gene symbol(s)".println

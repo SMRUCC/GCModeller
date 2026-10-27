@@ -59,6 +59,7 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
+Imports Microsoft.VisualBasic.Linq
 
 ''' <summary>
 ''' a collection of the functional related gene consist of this background model.
@@ -104,6 +105,14 @@ Public Class Background : Inherits XmlDataModel
                 .FirstOrDefault
         End Get
     End Property
+
+    Public Sub New()
+    End Sub
+
+    Sub New(clusters As IEnumerable(Of Cluster))
+        Me.clusters = clusters.ToNullArray
+        Me.size = Me.clusters.BackgroundSize
+    End Sub
 
     ''' <summary>
     ''' take subset of the clusters
