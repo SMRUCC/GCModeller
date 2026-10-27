@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.HTS.GSVA.StatTests.PermutationResult</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>PermutationResult {SMRUCC.genomics.Analysis.HTS.GSVA.StatTests}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>PermutationResult</h2>
+
+        <h3>Description</h3>
+
+        <p>置换检验结果。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.HTS.GSVA.StatTests
+export class PermutationResult {
+   # 实际执行的置换次数
+   Iterations: integer;
+   # 未能在零分布中出现的通路（例如置换后成员被完全过滤）
+   MissingPathways: string;
+   # 逐通路的零分布
+   NullStatistics: list;
+   # 逐通路的观测统计量（max_j |ES_multi|）
+   ObservedStatistics: list;
+   # 参与检验的通路
+   Pathways: string;
+   # 逐通路的经验 p 值
+   PValues: list;
+   # 使用的置换打分方法
+   ScoreMethod: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSVA/Methods.html">Methods</a>;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>NullStatistics</code>: list</li>
+<li>use by <i>property</i> member <code>ObservedStatistics</code>: list</li>
+<li>use by <i>property</i> member <code>PValues</code>: list</li>
+<li>use by <i>property</i> member <code>ScoreMethod</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSVA/Methods.html">Methods</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

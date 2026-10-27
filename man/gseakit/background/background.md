@@ -10,6 +10,9 @@ tools for handling GSEA background model.
 + [append.id_terms](background/append.id_terms.1) Append id terms to a given gsea background
 + [background.id_mapping](background/background.id_mapping.1) do id mapping of the members in the background cluster
 + [read.background](background/read.background.1) Load GSEA background model from a xml file.
++ [read_cls](background/read_cls.1) 
++ [read_gct](background/read_gct.1) 
++ [read_gmt](background/read_gmt.1) 
 + [write.background](background/write.background.1) Save GSEA background model as xml file
 + [cut_background](background/cut_background.1) make gsea background dynamic cut
 + [background_summary](background/background_summary.1) summary of the background model as dataframe

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.HTS.GSVA.Fusion.FusionMethods</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>FusionMethods {SMRUCC.genomics.Analysis.HTS.GSVA.Fusion}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>FusionMethods</h2>
+
+        <h3>Description</h3>
+
+        <p>组学加权融合策略（method.md 步骤4）。</p>
+
+<p>所有权重都是逐通路计算的：每条通路只使用在该通路中有分数的组学层， 因此不同通路可以有不同的组学权重组合。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.HTS.GSVA.Fusion
+export class FusionMethods extends <a href="/vignettes/clr/System/Enum.html">Enum</a> {
+   # 等权融合 w_k = 1/K（Baseline 1）
+   Equal: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSVA/Fusion/FusionMethods.html">FusionMethods</a> = 0;
+
+   # 方差倒数加权 w_k ∝ 1/Var(ES_k)（抑制噪声大的组学）
+   Variance: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSVA/Fusion/FusionMethods.html">FusionMethods</a> = 1;
+
+   # 信息熵加权 w_k ∝ H(ES_k)（偏好区分度高的组学）
+   Entropy: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSVA/Fusion/FusionMethods.html">FusionMethods</a> = 2;
+
+   # 互信息一致性加权 w_k ∝ mean_k' I(k, k')（偏好与其他组学一致的组学）
+   MutualInformation: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSVA/Fusion/FusionMethods.html">FusionMethods</a> = 3;
+
+   # 组学特征数平衡 w_k ∝ 1/log2(2+|S_k|)（抑制成员多的组学）
+   Balanced: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSVA/Fusion/FusionMethods.html">FusionMethods</a> = 4;
+
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>this class extends from <a href="/vignettes/clr/System/Enum.html">Enum</a> class: <a href="/vignettes/clr/System/Enum.html">Enum</a></li>
+<li>use by <i>field</i> member <code>Equal</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSVA/Fusion/FusionMethods.html">FusionMethods</a></li>
+<li>use by <i>field</i> member <code>Variance</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSVA/Fusion/FusionMethods.html">FusionMethods</a></li>
+<li>use by <i>field</i> member <code>Entropy</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSVA/Fusion/FusionMethods.html">FusionMethods</a></li>
+<li>use by <i>field</i> member <code>MutualInformation</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSVA/Fusion/FusionMethods.html">FusionMethods</a></li>
+<li>use by <i>field</i> member <code>Balanced</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSVA/Fusion/FusionMethods.html">FusionMethods</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

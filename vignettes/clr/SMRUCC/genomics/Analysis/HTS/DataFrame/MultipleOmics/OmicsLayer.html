@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.HTS.DataFrame.MultipleOmics.OmicsLayer</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>OmicsLayer {SMRUCC.genomics.Analysis.HTS.DataFrame.MultipleOmics}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>OmicsLayer</h2>
+
+        <h3>Description</h3>
+
+        <p>单个组学层的「特征 × 样本」矩阵模型。</p>
+
+<p>每个组学层独立持有自己的特征集合与样本向量，组学之间只在样本轴上对齐， 特征轴保持独立（这正是"保留组学来源"的实现基础）。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.HTS.DataFrame.MultipleOmics
+export class OmicsLayer {
+   # 方向约定：<code>+1</code> 表示数值升高代表通路活性升高（mRNA / protein）， <code>-1</code> 表示数值升高代表通路活性下降（例如甲基化 beta 值）， 打分完成后会对该层的 ES 取负以统一到"活性方向"。
+   Direction: integer;
+   # 原始（或经过层内标准化之后的）表达/丰度矩阵，行是特征、列是样本。
+   Expr: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>;
+   # 特征（行）数量。
+   FeatureCount: integer;
+   # 与 <a href="cref:P:SMRUCC.genomics.Analysis.HTS.DataFrame.MultipleOmics.OmicsLayer.Expr">OmicsLayer.Expr</a> 行一一对应的特征 id 向量（基因符号）。
+   Genes: string;
+   # 组学层名称，例如 <code>mRNA</code> / <code>methylation</code> / <code>protein</code>。
+   Name: string;
+   # 当前矩阵已经施加过的层内标准化方法名，仅用于溯源与日志。
+   Normalization: string;
+   # 样本（列）数量。
+   SampleCount: integer;
+   # 与 <a href="cref:P:SMRUCC.genomics.Analysis.HTS.DataFrame.MultipleOmics.OmicsLayer.Expr">OmicsLayer.Expr</a> 列一一对应的样本 id 向量。
+   SampleID: string;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>Expr</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

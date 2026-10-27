@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.HTS.GSVA.MultiOmicsGsvaResult</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>MultiOmicsGsvaResult {SMRUCC.genomics.Analysis.HTS.GSVA}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>MultiOmicsGsvaResult</h2>
+
+        <h3>Description</h3>
+
+        <p>多组学 GSVA 的完整结果。</p>
+
+<p>三个标准输出对齐 method.md 的建议： (1) 样本 × 通路评分矩阵 <a href="cref:P:SMRUCC.genomics.Analysis.HTS.GSVA.MultiOmicsGsvaResult.Scores">MultiOmicsGsvaResult.Scores</a>； (2) 通路 × 组学贡献分解 <a href="cref:P:SMRUCC.genomics.Analysis.HTS.GSVA.MultiOmicsGsvaResult.Contributions">MultiOmicsGsvaResult.Contributions</a> / <a href="cref:P:SMRUCC.genomics.Analysis.HTS.GSVA.MultiOmicsGsvaResult.ContributionShare">MultiOmicsGsvaResult.ContributionShare</a>； (3) 通路显著性 p 值表 <a href="cref:P:SMRUCC.genomics.Analysis.HTS.GSVA.MultiOmicsGsvaResult.PValues">MultiOmicsGsvaResult.PValues</a> / <a href="cref:P:SMRUCC.genomics.Analysis.HTS.GSVA.MultiOmicsGsvaResult.QValues">MultiOmicsGsvaResult.QValues</a>。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.HTS.GSVA
+export class MultiOmicsGsvaResult {
+   # 跨组学符号一致度（通路 × 样本）
+   Consistency: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>;
+   # 逐通路的组学贡献 c_k = w_k · ES_k
+   Contributions: list;
+   # 逐通路的组学贡献占比
+   ContributionShare: list;
+   # 逐通路的组学成员数 |S_k|
+   Coverage: list;
+   # 每个样本上主导的组学层
+   DominantOmics: list;
+   # 总耗时（毫秒）
+   ElapsedMilliseconds: integer;
+   # 逐组学分项 ES_k（omics → 通路 × 样本）
+   LayerScores: list;
+   # 参与计算的组学层
+   OmicsNames: string;
+   # 本次运行使用的配置
+   Options: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSVA/MultiOmicsGsvaOptions.html">MultiOmicsGsvaOptions</a>;
+   # 通路顺序
+   Pathways: string;
+   # 拼接矩阵消融对照（未计算时为 Nothing）
+   Pooled: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSVA/Ablation/PooledBaselineResult.html">PooledBaselineResult</a>;
+   # 逐通路 p 值（未启用置换时为 Nothing）
+   PValues: list;
+   # 逐通路 BH 校正后的 q 值
+   QValues: list;
+   # 加权平均分数 ES_raw（未施加一致性奖励）
+   RawScores: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>;
+   # 样本轴
+   SampleID: string;
+   # 融合后的通路活性矩阵 ES_multi（通路 × 样本）
+   Scores: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>;
+   # 置换检验的完整结果（未启用时为 Nothing）
+   Significance: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSVA/StatTests/PermutationResult.html">PermutationResult</a>;
+   # 逐通路被跳过的组学层
+   SkippedLayers: list;
+   # 逐通路的组学权重
+   Weights: list;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>Consistency</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a></li>
+<li>use by <i>property</i> member <code>Contributions</code>: list</li>
+<li>use by <i>property</i> member <code>ContributionShare</code>: list</li>
+<li>use by <i>property</i> member <code>Coverage</code>: list</li>
+<li>use by <i>property</i> member <code>DominantOmics</code>: list</li>
+<li>use by <i>property</i> member <code>LayerScores</code>: list</li>
+<li>use by <i>property</i> member <code>Options</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSVA/MultiOmicsGsvaOptions.html">MultiOmicsGsvaOptions</a></li>
+<li>use by <i>property</i> member <code>Pooled</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSVA/Ablation/PooledBaselineResult.html">PooledBaselineResult</a></li>
+<li>use by <i>property</i> member <code>PValues</code>: list</li>
+<li>use by <i>property</i> member <code>QValues</code>: list</li>
+<li>use by <i>property</i> member <code>RawScores</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a></li>
+<li>use by <i>property</i> member <code>Scores</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a></li>
+<li>use by <i>property</i> member <code>Significance</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSVA/StatTests/PermutationResult.html">PermutationResult</a></li>
+<li>use by <i>property</i> member <code>SkippedLayers</code>: list</li>
+<li>use by <i>property</i> member <code>Weights</code>: list</li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

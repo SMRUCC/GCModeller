@@ -187,7 +187,7 @@ declare namespace background {
      * 
      * + default value Is ``null``.
    */
-   function fromList(geneSet: object, env?: object): any;
+   function fromList(geneSet: object, env?: object): object;
    module geneSet {
       /**
        * make gene set annotation via a given gsea background model
@@ -372,6 +372,15 @@ declare namespace background {
       */
       function background(file: string): object;
    }
+   /**
+   */
+   function read_cls(file: string): object;
+   /**
+   */
+   function read_gct(file: string): object;
+   /**
+   */
+   function read_gmt(file: string): object;
    module write {
       /**
        * Save GSEA background model as xml file

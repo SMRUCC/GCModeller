@@ -15,6 +15,8 @@ declare namespace GSVA {
     * 
      * @param gsva the gsva analysis result
      * @param compares the [DataAnalysis](cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.DataAnalysis) comparision collection
+     * @return this function returns a array of the [GSVADiff](cref:T:SMRUCC.genomics.Visualize.GSVADiff) object which is compares the different of the gsva score via the limma function. 
+     *  for get the different score of gsva score in raw [LimmaTable](cref:T:SMRUCC.genomics.Analysis.HTS.DataFrame.LimmaTable) array type, please use the ``geneExpression::limma`` function for analysis the gsva difference result across two condition groups.
    */
    function diff(gsva: object, compares: object): object;
    /**
@@ -62,4 +64,16 @@ declare namespace GSVA {
      * + default value Is ``'pvalue'``.
    */
    function matrix_to_diff(diff: object, pathId?: string, t?: string, pvalue?: string): object;
+   /**
+     * @param verbose default value Is ``true``.
+     * @param env default value Is ``null``.
+   */
+   function mo_layers(layers: any, verbose?: boolean, env?: object): object;
+   /**
+     * @param env default value Is ``null``.
+   */
+   function mogsva(x: object, geneSet: any, opts: object, env?: object): object;
+   /**
+   */
+   function mogsva_opts(): object;
 }

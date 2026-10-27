@@ -65,6 +65,21 @@ declare namespace mixOmics {
       function 2D_scatter(x: any, y: any, xlab?: string, ylab?: string, size?: any, padding?: any, ptSize?: number, env?: object): any;
    }
    /**
+    * 
+    * 
+     * @param x -
+     * @param name -
+     * @param dir 方向约定：`+1` 表示数值升高代表通路活性升高（mRNA / protein），
+     *  `-1` 表示数值升高代表通路活性下降（例如甲基化 beta 值），
+     *  打分完成后会对该层的 ES 取负以统一到"活性方向"。
+     * 
+     * + default value Is ``1``.
+     * @param verbose -
+     * 
+     * + default value Is ``false``.
+   */
+   function omics_layer(x: object, name: string, dir?: object, verbose?: boolean): object;
+   /**
     * SparCC correlation analysis
     * 
     * 
