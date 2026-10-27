@@ -70,10 +70,11 @@ Module MapBackground
     ''' <summary>
     ''' try to map any terms to KO
     ''' </summary>
-    ''' <param name="genes"></param>
+    ''' <param name="genes">the input data that contains the gene id and the KO id information.</param>
     ''' <param name="geneId">the field name or regexp pattern for read gene id</param>
-    ''' <param name="KO$"></param>
-    ''' <param name="env"></param>
+    ''' <param name="KO$">the field name or regexp pattern for read the KO id; when it is empty the gene id will be used as the KO id.</param>
+    ''' <param name="name$">the field name or regexp pattern for read the gene name.</param>
+    ''' <param name="env">the R# runtime environment.</param>
     ''' <returns>
     ''' [geneId -> KO]
     ''' </returns>

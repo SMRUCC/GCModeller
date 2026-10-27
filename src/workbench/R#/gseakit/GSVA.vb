@@ -497,13 +497,13 @@ Module GSVA
     End Function
 
     ''' <summary>
-    ''' convert to diff data from dataframe
+    ''' Convert the limma differential analysis result table into the GSVA difference objects.
     ''' </summary>
-    ''' <param name="diff"></param>
-    ''' <param name="pathId"></param>
-    ''' <param name="t"></param>
-    ''' <param name="pvalue"></param>
-    ''' <returns></returns>
+    ''' <param name="diff">the dataframe object of the limma differential analysis result.</param>
+    ''' <param name="pathId">the column name of the pathway id in the given dataframe. Default ``pathNames``.</param>
+    ''' <param name="t">the column name of the t statistics. Default ``t``.</param>
+    ''' <param name="pvalue">the column name of the p-value. Default ``pvalue``.</param>
+    ''' <returns>an array of the <see cref="GSVADiff"/> objects.</returns>
     <ExportAPI("matrix_to_diff")>
     Public Function matrixToDiff(diff As dataframe,
                                  Optional pathId As String = "pathNames",
