@@ -39,17 +39,18 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.IO.ManagedSqlite.Core
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.IO.ManagedSqlite
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.HTS
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
+Imports SMRUCC.genomics.Analysis.HTS.GSEA.GO
 Imports SMRUCC.genomics.Analysis.HTS.GSEA.KnowledgeBase
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices.XML
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
-Imports SMRUCC.genomics.Data.GeneOntology.OBO
 
 Module Module1
 
@@ -62,7 +63,7 @@ Module Module1
 
     Sub buildFromKOBAS()
 
-        Dim db = Sqlite3Database.OpenFile("D:\kobas-3.0\sqlite3\hsa.db")
+        Dim db = Sqlite3Database.OpenFile("D:\kobas-3.0\sqlite3\hsa.db", blobAsBase64:=True)
         Dim background = KOBASDatabase.ImportsKOBASSqlite3(db)
 
         Pause()
@@ -107,7 +108,7 @@ Module Module1
     Sub KEGGmodelBuildTest()
         Dim folder$ = "D:\GCModeller\src\GCModeller\annotations\GSEA\data\"
 
-        Dim kegg = (ls - l - r - "*.Xml" <= "D:\GCModeller-CAD-blueprint\KGML\maps").Select(AddressOf LoadXml(Of Map))
+        Dim kegg = (ls - l - r - "*.Xml" <= "D:\GCModeller-CAD-blueprint\KGML\maps").Select(AddressOf LoadXml(Of Map)).Select(Function(m) MapRepository.CreateIndex(m))
         Dim uniprot = UniProtXML.EnumerateEntries($"{folder}\uniprot-taxonomy_314565.xml")
         Dim model As Background = GSEA.Imports.ImportsUniProt(uniprot, GSEA.UniProtGetKOTerms, define:=GSEA.KEGGClusters(kegg))
 
