@@ -70,11 +70,22 @@ Imports std = System.Math
 Module UniProt
 
     ''' <summary>
-    ''' extract the sub-cellular location information as background model
+    ''' Extract the sub-cellular location information as a GSEA background model.
     ''' </summary>
-    ''' <param name="uniprot"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="uniprot">
+    ''' a collection of the UniProt protein <see cref="entry"/> data, or a file path of the
+    ''' UniProt database xml file.
+    ''' </param>
+    ''' <param name="db_xref">
+    ''' the database cross reference name that will be used as the gene id of the background
+    ''' members, for example ``GeneID``. Default ``NULL`` means using the UniProt accession id.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment.</param>
+    ''' <returns>
+    ''' a <see cref="Background"/> model whose clusters are the sub-cellular locations and the
+    ''' members are the proteins that are annotated in each location, or an error message when
+    ''' the input data could not be cast into the UniProt entry collection.
+    ''' </returns>
     <ExportAPI("subcellular_location")>
     <RApiReturn(GetType(Background))>
     Public Function SubcellularLocation(<RRawVectorArgument> uniprot As Object,
@@ -94,9 +105,19 @@ Module UniProt
     ''' Create a gsea background model for uniprot keywords based
     ''' on the given uniprot database assembly data
     ''' </summary>
-    ''' <param name="uniprot"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="uniprot">
+    ''' a collection of the UniProt protein <see cref="entry"/> data, or a file path of the
+    ''' UniProt database xml file.
+    ''' </param>
+    ''' <param name="db_xref">
+    ''' the database cross reference name that will be used as the gene id of the background
+    ''' members, for example ``GeneID``. Default ``NULL`` means using the UniProt accession id.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment.</param>
+    ''' <returns>
+    ''' a <see cref="Background"/> model whose clusters are the UniProt keyword terms, or an
+    ''' error message when the input data could not be cast into the UniProt entry collection.
+    ''' </returns>
     <ExportAPI("uniprot_keywords")>
     <RApiReturn(GetType(Background))>
     Public Function uniprotKeywords(<RRawVectorArgument> uniprot As Object,
@@ -113,12 +134,18 @@ Module UniProt
     End Function
 
     ''' <summary>
-    ''' create uniprot keyword ontology result
+    ''' Create the catalog profiles of the UniProt keyword enrichment result, the terms are
+    ''' grouped by the keyword category.
     ''' </summary>
-    ''' <param name="enrichment"></param>
-    ''' <param name="keywords"></param>
-    ''' <param name="top"></param>
-    ''' <returns></returns>
+    ''' <param name="enrichment">the UniProt keyword enrichment analysis result set.</param>
+    ''' <param name="keywords">
+    ''' the UniProt keyword table data, the required columns are ``Keyword ID`` and ``Category``.
+    ''' </param>
+    ''' <param name="top">the number of the most significant keywords that will be kept in each category. Default ``4``.</param>
+    ''' <returns>
+    ''' a <see cref="CatalogProfiles"/> object, the name of each catalog is the keyword category
+    ''' and the value is the top enriched keywords of that category.
+    ''' </returns>
     <ExportAPI("keyword_profiles")>
     Public Function keywordsProfiles(enrichment As EnrichmentResult(),
                                      keywords As dataframe,

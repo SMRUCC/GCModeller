@@ -97,8 +97,11 @@ Module KOBAS
     ''' <summary>
     ''' Read KOBAS enrichment output result table file
     ''' </summary>
-    ''' <param name="file"></param>
-    ''' <returns></returns>
+    ''' <param name="file">the KOBAS enrichment result file path, the file may contains more than one database section.</param>
+    ''' <returns>
+    ''' the enrichment terms that are read from the ``KEGG PATHWAY`` section of the given file,
+    ''' an empty array will be returned when that section is missing.
+    ''' </returns>
     <ExportAPI("read.KEGGpathway")>
     Public Function KEGGPathway(file As String) As EnrichmentTerm()
         Return file.SplitTable _
@@ -691,7 +694,7 @@ Module KOBAS
     ''' <param name="result">the GSEA result set.</param>
     ''' <param name="args">the additional argument list.</param>
     ''' <param name="env">the R# runtime environment.</param>
-    ''' <returns></returns>
+    ''' <returns>a ``dataframe`` of the GSEA result set.</returns>
     <RGenericOverloads("as.data.frame")>
     Private Function gseaResultTable(result As GseaResult(), args As list, env As Environment) As dataframe
         Return GseaTable(result)
@@ -703,7 +706,7 @@ Module KOBAS
     ''' <param name="result">the over-representation analysis result set.</param>
     ''' <param name="args">the additional argument list.</param>
     ''' <param name="env">the R# runtime environment.</param>
-    ''' <returns></returns>
+    ''' <returns>a ``dataframe`` of the over-representation analysis result set.</returns>
     <RGenericOverloads("as.data.frame")>
     Private Function enrichmentRowTable(result As EnrichmentRow(), args As list, env As Environment) As dataframe
         Return EnrichmentRowsTable(result, has_adjust:=True)
@@ -715,7 +718,7 @@ Module KOBAS
     ''' <param name="result">the SNBEA result set.</param>
     ''' <param name="args">the additional argument list.</param>
     ''' <param name="env">the R# runtime environment.</param>
-    ''' <returns></returns>
+    ''' <returns>a ``dataframe`` of the SNBEA result set.</returns>
     <RGenericOverloads("as.data.frame")>
     Private Function snbeaResultTable(result As SnbeaResult(), args As list, env As Environment) As dataframe
         Return SnbeaTable(result)
@@ -725,7 +728,11 @@ Module KOBAS
     ''' Convert the GSEA result set into a R# ``dataframe``.
     ''' </summary>
     ''' <param name="result">the GSEA result set.</param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' a ``dataframe`` with the gene set id as the row names and the columns: ``name``,
+    ''' ``description``, ``size``, ``ES``, ``NES``, ``pvalue``, ``FDR``, ``es_index``,
+    ''' ``leading_edge`` and ``hit_genes``.
+    ''' </returns>
     <Extension>
     Private Function GseaTable(result As GseaResult()) As dataframe
         Dim table As New dataframe With {
@@ -752,7 +759,11 @@ Module KOBAS
     ''' </summary>
     ''' <param name="result">the over-representation analysis result set.</param>
     ''' <param name="has_adjust">does the result set contains the adjusted p-value?</param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' a ``dataframe`` with the term id as the row names and the columns: ``name``,
+    ''' ``database``, ``input_number``, ``background_number``, ``pvalue``,
+    ''' ``p_adjust`` (only when <paramref name="has_adjust"/> is ``TRUE``) and ``input``.
+    ''' </returns>
     <Extension>
     Private Function EnrichmentRowsTable(result As EnrichmentRow(), Optional has_adjust As Boolean = True) As dataframe
         Dim table As New dataframe With {
@@ -779,7 +790,10 @@ Module KOBAS
     ''' Convert the SNBEA result set into a R# ``dataframe``.
     ''' </summary>
     ''' <param name="result">the SNBEA result set.</param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' a ``dataframe`` with the gene set id as the row names and the columns: ``name``,
+    ''' ``description``, ``size``, ``statistic``, ``pvalue``, ``p_adjust`` and ``genes``.
+    ''' </returns>
     <Extension>
     Private Function SnbeaTable(result As SnbeaResult()) As dataframe
         Dim table As New dataframe With {
@@ -931,7 +945,7 @@ Module KOBAS
     ''' Creates a two group phenotype object from the integer class label vector.
     ''' </summary>
     ''' <param name="labels">the class label vector, ``0`` for the first group and ``1`` for the second group.</param>
-    ''' <returns></returns>
+    ''' <returns>a <see cref="phenotype"/> object of the two phenotype groups.</returns>
     Private Function PhenotypeFromLabels(labels As Integer()) As phenotype
         Dim names As New Dictionary(Of String, String) From {
             {"C0", "C0"},
@@ -1118,7 +1132,10 @@ Module KOBAS
     ''' Parse the term similarity method name.
     ''' </summary>
     ''' <param name="method">the method name: ``kappa`` or ``jaccard``.</param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' <see cref="SimilarityMethod.Jaccard"/> when the given method name is ``jaccard``,
+    ''' otherwise <see cref="SimilarityMethod.Kappa"/> (the default method).
+    ''' </returns>
     Private Function AsSimilarity(method As String) As SimilarityMethod
         If String.Equals(If(method, "").Trim(), "jaccard", StringComparison.OrdinalIgnoreCase) Then
             Return SimilarityMethod.Jaccard
