@@ -52,6 +52,8 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports System.Threading
+Imports System.Threading.Tasks
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
@@ -181,23 +183,32 @@ Module utils
         Dim nGenes As Integer = m.RowDimension
         Dim nSamples As Integer = m.ColumnDimension
         Dim ranks As Integer()() = New Integer(nSamples - 1)() {}
+        Dim scratch As New ThreadLocal(Of Double())(Function() New Double(nGenes - 1) {})
+        Dim options As New ParallelOptions With {
+            .MaxDegreeOfParallelism = Environment.ProcessorCount
+        }
 
-        For j As Integer = 0 To nSamples - 1
-            Dim v As Double() = New Double(nGenes - 1) {}
+        Try
+            Call Parallel.For(0, nSamples, options,
+                Sub(j)
+                    Dim v As Double() = scratch.Value
 
-            For i As Integer = 0 To nGenes - 1
-                v(i) = rows(i)(j)
-            Next
+                    For i As Integer = 0 To nGenes - 1
+                        v(i) = rows(i)(j)
+                    Next
 
-            Dim order As Integer() = ascendingOrder(v)
-            Dim rank As Integer() = New Integer(nGenes - 1) {}
+                    Dim order As Integer() = ascendingOrder(v)
+                    Dim rank As Integer() = New Integer(nGenes - 1) {}
 
-            For k As Integer = 0 To nGenes - 1
-                rank(order(k)) = k + 1
-            Next
+                    For k As Integer = 0 To nGenes - 1
+                        rank(order(k)) = k + 1
+                    Next
 
-            ranks(j) = rank
-        Next
+                    ranks(j) = rank
+                End Sub)
+        Finally
+            scratch.Dispose()
+        End Try
 
         Return ranks
     End Function
@@ -214,41 +225,50 @@ Module utils
         Dim nGenes As Integer = m.RowDimension
         Dim nSamples As Integer = m.ColumnDimension
         Dim ranks As Double()() = New Double(nSamples - 1)() {}
+        Dim scratch As New ThreadLocal(Of Double())(Function() New Double(nGenes - 1) {})
+        Dim options As New ParallelOptions With {
+            .MaxDegreeOfParallelism = Environment.ProcessorCount
+        }
 
-        For j As Integer = 0 To nSamples - 1
-            Dim v As Double() = New Double(nGenes - 1) {}
+        Try
+            Call Parallel.For(0, nSamples, options,
+                Sub(j)
+                    Dim v As Double() = scratch.Value
 
-            For g As Integer = 0 To nGenes - 1
-                v(g) = rows(g)(j)
-            Next
-
-            Dim order As Integer() = ascendingOrder(v)
-            Dim rank As Double() = New Double(nGenes - 1) {}
-            Dim cursor As Integer = 0
-
-            ' 排序后取值相同的元素必然相邻，逐个并列组计算平均秩即可
-            While cursor < nGenes
-                Dim k As Integer = cursor + 1
-
-                While k < nGenes AndAlso v(order(k)) = v(order(cursor))
-                    k += 1
-                End While
-
-                If k - cursor > 1 Then
-                    Dim avgRank As Double = (cursor + 1 + k) / 2.0
-
-                    For t As Integer = cursor To k - 1
-                        rank(order(t)) = avgRank
+                    For g As Integer = 0 To nGenes - 1
+                        v(g) = rows(g)(j)
                     Next
-                Else
-                    rank(order(cursor)) = cursor + 1
-                End If
 
-                cursor = k
-            End While
+                    Dim order As Integer() = ascendingOrder(v)
+                    Dim rank As Double() = New Double(nGenes - 1) {}
+                    Dim cursor As Integer = 0
 
-            ranks(j) = rank
-        Next
+                    ' 排序后取值相同的元素必然相邻，逐个并列组计算平均秩即可
+                    While cursor < nGenes
+                        Dim k As Integer = cursor + 1
+
+                        While k < nGenes AndAlso v(order(k)) = v(order(cursor))
+                            k += 1
+                        End While
+
+                        If k - cursor > 1 Then
+                            Dim avgRank As Double = (cursor + 1 + k) / 2.0
+
+                            For t As Integer = cursor To k - 1
+                                rank(order(t)) = avgRank
+                            Next
+                        Else
+                            rank(order(cursor)) = cursor + 1
+                        End If
+
+                        cursor = k
+                    End While
+
+                    ranks(j) = rank
+                End Sub)
+        Finally
+            scratch.Dispose()
+        End Try
 
         Return ranks
     End Function

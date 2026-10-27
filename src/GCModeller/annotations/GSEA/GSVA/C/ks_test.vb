@@ -52,6 +52,8 @@
 
 #End Region
 
+Imports System.Threading
+Imports System.Threading.Tasks
 Imports std = System.Math
 
 Namespace C
@@ -102,29 +104,63 @@ Namespace C
                                     abs_rnk As Boolean) As Double()
 
             Dim R As Double() = New Double(n_samples - 1) {}
-            ' 两个游走缓冲在同一次调用内复用，避免在 基因数 x 样本数 量级上反复分配
-            Dim stepIn As Double() = New Double(n_genes - 1) {}
-            Dim stepOut As Double() = New Double(n_genes - 1) {}
             Dim noTau As Boolean = (tau = 1.0)
+            ' 每个线程各自持有一对游走缓冲：既避免在 基因数 x 样本数 量级上反复分配，
+            ' 又保证并行写入不同样本时互不干扰
+            Dim buffers As New ThreadLocal(Of WalkBuffers)(Function() New WalkBuffers(n_genes))
+            Dim options As New ParallelOptions With {
+                .MaxDegreeOfParallelism = Environment.ProcessorCount
+            }
 
-            For j As Integer = 0 To n_samples - 1
-                R(j) = ks_sample(
-                    symrnkstat:=symrnkstat(j),
-                    decordstat:=decordstat(j),
-                    n_genes:=n_genes,
-                    geneset_idxs:=geneset_idxs,
-                    n_geneset:=n_geneset,
-                    tau:=tau,
-                    noTau:=noTau,
-                    mx_diff:=mx_diff,
-                    abs_rnk:=abs_rnk,
-                    stepIn:=stepIn,
-                    stepOut:=stepOut
-                )
-            Next
+            Try
+                Call Parallel.For(0, n_samples, options,
+                    Sub(j)
+                        Dim buffer As WalkBuffers = buffers.Value
+
+                        R(j) = ks_sample(
+                            symrnkstat:=symrnkstat(j),
+                            decordstat:=decordstat(j),
+                            n_genes:=n_genes,
+                            geneset_idxs:=geneset_idxs,
+                            n_geneset:=n_geneset,
+                            tau:=tau,
+                            noTau:=noTau,
+                            mx_diff:=mx_diff,
+                            abs_rnk:=abs_rnk,
+                            stepIn:=buffer.StepIn,
+                            stepOut:=buffer.StepOut
+                        )
+                    End Sub)
+            Finally
+                buffers.Dispose()
+            End Try
 
             Return R
         End Function
+
+        ''' <summary>
+        ''' 单个线程独占的一对随机游走缓冲。
+        ''' </summary>
+        ''' <remarks>
+        ''' <c>ks_sample</c> 会在每次调用中先整体清零 <c>StepIn</c> 并把 <c>StepOut</c> 置 1，
+        ''' 因此缓冲在样本之间不需要额外的复位动作。
+        ''' </remarks>
+        Private Class WalkBuffers
+
+            ''' <summary>集内基因的加权步长累积缓冲。</summary>
+            Public ReadOnly StepIn As Double()
+
+            ''' <summary>集外基因的步长累积缓冲。</summary>
+            Public ReadOnly StepOut As Double()
+
+            ''' <summary>按基因数分配一对缓冲。</summary>
+            ''' <param name="n">基因（特征）总数。</param>
+            Public Sub New(n As Integer)
+                Me.StepIn = New Double(n - 1) {}
+                Me.StepOut = New Double(n - 1) {}
+            End Sub
+
+        End Class
 
         ''' <summary>
         ''' 单个样本上的 KS 随机游走

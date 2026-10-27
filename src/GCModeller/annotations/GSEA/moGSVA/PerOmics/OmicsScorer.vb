@@ -61,7 +61,7 @@ Namespace PerOmics
                         max_sz:=options.MaxSize,
                         alpha:=options.SsGseaAlpha,
                         normalize:=options.SsGseaNormalize,
-                        verbose:=False)
+                        verbose:=options.Verbose)
 
                     If scores Is Nothing OrElse scores.size = 0 Then
                         table.Available = False

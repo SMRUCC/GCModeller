@@ -1,59 +1,60 @@
 ﻿#Region "Microsoft.VisualBasic::9a43f7d2646994f8514927f159c70c53, annotations\GSEA\GSVA\C\kernel_estimation.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 148
-    '    Code Lines: 97 (65.54%)
-    ' Comment Lines: 19 (12.84%)
-    '    - Xml Docs: 84.21%
-    ' 
-    '   Blank Lines: 32 (21.62%)
-    '     File Size: 5.08 KB
+' Summaries:
 
 
-    '     Module kernel_estimation
-    ' 
-    '         Function: _precomputed_cdf, matrix_density_R, ppois, row_d, sd1
-    ' 
-    '         Sub: initCdfs
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 148
+'    Code Lines: 97 (65.54%)
+' Comment Lines: 19 (12.84%)
+'    - Xml Docs: 84.21%
+' 
+'   Blank Lines: 32 (21.62%)
+'     File Size: 5.08 KB
+
+
+'     Module kernel_estimation
+' 
+'         Function: _precomputed_cdf, matrix_density_R, ppois, row_d, sd1
+' 
+'         Sub: initCdfs
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Threading.Tasks
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Math.Distributions
 Imports std = System.Math
@@ -62,6 +63,21 @@ Namespace C
 
     Module kernel_estimation
 
+        ''' <summary>
+        ''' 逐基因估计核密度（每个基因独立，按基因并行）。
+        ''' </summary>
+        ''' <param name="X">表达矩阵，行是基因、列是样本。</param>
+        ''' <param name="Y">用于估计密度取值的矩阵，通常与 <paramref name="X"/> 相同。</param>
+        ''' <param name="dims">矩阵维度 <c>(m, n)</c>。</param>
+        ''' <param name="n_density_samples">用于估计核密度的样本数。</param>
+        ''' <param name="n_test_samples">需要求值的目标样本数。</param>
+        ''' <param name="n_genes">基因（特征）总数。</param>
+        ''' <param name="rnaseq">是否使用泊松核（RNA-seq 计数数据）。</param>
+        ''' <returns>密度矩阵，行是基因、列是样本。</returns>
+        ''' <remarks>
+        ''' 并行只在<b>基因</b>维度上进行：每个基因的核密度只写入自己的输出行，
+        ''' 因此并行不会改变任何求和顺序，结果与串行实现逐位一致。
+        ''' </remarks>
         Public Function matrix_density_R(X As Double()(),
                                          Y As Double()(),
                                          dims As (m%, n%),
@@ -72,13 +88,20 @@ Namespace C
 
             Dim R As Double()() = RectangularArray.Matrix(Of Double)(dims.n, dims.m)
 
-            For j As Integer = 0 To n_genes - 1
-                'Dim offset_density = j * n_density_samples
-                'Dim offset_test = j * n_test_samples
+            ' 高斯核路径会在 row_d 内部惰性初始化查表，必须先于并行完成，
+            ' 否则多线程会竞争 is_precomputed 标志并可能读到半初始化的表
+            If Not rnaseq Then
+                Call EnsureCdfs()
+            End If
 
-                ' row_d(X(offset_density), Y(offset_test), R(offset_test), n_density_samples, n_test_samples, rnaseq)
-                row_d(X(j), Y(j), R(j), n_density_samples, n_test_samples, rnaseq)
-            Next
+            Dim options As New ParallelOptions With {
+                .MaxDegreeOfParallelism = Environment.ProcessorCount
+            }
+
+            Call Parallel.For(0, n_genes, options,
+                Sub(j)
+                    Call row_d(X(j), Y(j), R(j), n_density_samples, n_test_samples, rnaseq)
+                End Sub)
 
             Return R
         End Function
@@ -121,21 +144,33 @@ Namespace C
                 bw = 0.001
             End If
 
-            If Not rnaseq AndAlso is_precomputed = 0 Then
-                initCdfs()
-                is_precomputed = 1
-            End If
+            ' 高斯核与泊松核的内层循环拆成两份：避免在每个格点上做一次分支判断，
+            ' 两条路径的算术表达式与拆分前完全一致，因此结果逐位不变
+            If rnaseq Then
+                For j As Integer = 0 To size_test_n - 1
+                    left_tail = 0
 
-            For j As Integer = 0 To size_test_n - 1
-                left_tail = 0
+                    For i As Integer = 0 To size_density_n - 1
+                        left_tail += ppois(y(j), x(i) + bw, True, False)
+                    Next
 
-                For i As Integer = 0 To size_density_n - 1
-                    left_tail += If(rnaseq, ppois(y(j), x(i) + bw, True, False), _precomputed_cdf(y(j) - x(i), bw))
+                    left_tail = left_tail / size_density_n
+                    r(j) = -1 * std.Log((1 - left_tail) / left_tail)
                 Next
+            Else
+                Call EnsureCdfs()
 
-                left_tail = left_tail / size_density_n
-                r(j) = -1 * std.Log((1 - left_tail) / left_tail)
-            Next
+                For j As Integer = 0 To size_test_n - 1
+                    left_tail = 0
+
+                    For i As Integer = 0 To size_density_n - 1
+                        left_tail += _precomputed_cdf(y(j) - x(i), bw)
+                    Next
+
+                    left_tail = left_tail / size_density_n
+                    r(j) = -1 * std.Log((1 - left_tail) / left_tail)
+                Next
+            End If
 
             Return r
         End Function
@@ -199,6 +234,25 @@ Namespace C
 
             Return p
         End Function
+
+        ''' <summary>
+        ''' 高斯核查表的初始化锁，保证并行调用时只初始化一次。
+        ''' </summary>
+        Private ReadOnly cdf_lock As New Object
+
+        ''' <summary>
+        ''' 保证查表已经初始化（可在并行上下文中调用）。
+        ''' </summary>
+        Private Sub EnsureCdfs()
+            If is_precomputed = 0 Then
+                SyncLock cdf_lock
+                    If is_precomputed = 0 Then
+                        Call initCdfs()
+                        is_precomputed = 1
+                    End If
+                End SyncLock
+            End If
+        End Sub
 
         Private Sub initCdfs()
             Dim divisor = PRECOMPUTE_RESOLUTION * 1.0

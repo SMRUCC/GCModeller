@@ -51,6 +51,7 @@
 
 #End Region
 
+Imports System.Diagnostics
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
@@ -282,10 +283,23 @@ Public Module GSVA
             End If
         End If
 
+        Dim clock As Stopwatch = Stopwatch.StartNew()
+
         Dim gene_density As NumericMatrix = compute_gene_density(expr, sample_idxs, rnaseq, kernel)
         Dim n_samples As Integer = gene_density.ColumnDimension
+
+        If verbose Then
+            Call $"[GSVA] kernel density: {clock.ElapsedMilliseconds} ms".debug
+            Call clock.Restart()
+        End If
+
         ' 逐列排名：1 表示取值最小；并列时下标靠后者秩更大（R 的 ties.method = "last"）
         Dim ranks As Integer()() = colRanksLast(gene_density)
+
+        If verbose Then
+            Call $"[GSVA] column ranks: {clock.ElapsedMilliseconds} ms".debug
+            Call clock.Restart()
+        End If
         Dim half As Double = num_genes / 2.0
         Dim decordstat As Integer()() = New Integer(n_samples - 1)() {}
         Dim symrnkstat As Double()() = New Double(n_samples - 1)() {}
@@ -322,6 +336,10 @@ Public Module GSVA
                         End Function) _
                 .ToArray
         }
+
+        If verbose Then
+            Call $"[GSVA] {gsetIdxList.Count} gene set(s) random walk: {clock.ElapsedMilliseconds} ms".debug
+        End If
 
         Return m
     End Function
