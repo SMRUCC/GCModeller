@@ -52,7 +52,8 @@
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis
+Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame.MultipleOmics
@@ -67,13 +68,32 @@ Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports HTSMatrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
+Imports rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' Gene Set Variation Analysis for microarray and RNA-seq data
 ''' </summary>
 <Package("GSVA")>
+<RTypeExport("mogsva_opts", GetType(MultiOmicsGsvaOptions))>
 Module GSVA
+
+    Sub Main()
+        Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(GSVADiff()), AddressOf gsva_diff_df)
+    End Sub
+
+    Private Function gsva_diff_df(diffs As GSVADiff(), args As list, env As Environment) As rdataframe
+        Dim df As New rdataframe With {
+            .columns = New Dictionary(Of String, Array),
+            .rownames = diffs.Keys
+        }
+
+        Call df.add(NameOf(GSVADiff.t), From p As GSVADiff In diffs Select p.t)
+        Call df.add(NameOf(GSVADiff.pvalue), From p As GSVADiff In diffs Select p.pvalue)
+        Call df.add(NameOf(GSVADiff.adjPVal), From p As GSVADiff In diffs Select p.adjPVal)
+
+        Return df
+    End Function
 
     ''' <summary>
     ''' Gene Set Variation Analysis for microarray and RNA-seq data
@@ -108,10 +128,10 @@ Module GSVA
     <RApiReturn(GetType(HTSMatrix))>
     Public Function gsva(expr As Object, geneSet As Object, Optional name_suffix As Boolean = False, Optional env As Environment = Nothing) As Object
         Dim mat As HTSMatrix
-        Dim background As Background
+        Dim background As [Variant](Of Background, Message) = BackgroundHelper.CastBackground(geneSet, env)
 
-        If geneSet Is Nothing Then
-            Return RInternal.debug.stop("the required enrichment background model should not be nothing!", env)
+        If background Like GetType(Message) Then
+            Return background.TryCast(Of Message)
         End If
 
         If TypeOf expr Is dataframe Then
@@ -129,14 +149,6 @@ Module GSVA
             }
         Else
             mat = expr
-        End If
-
-        If TypeOf geneSet Is list Then
-            background = backgroundFromList(DirectCast(geneSet, list), env)
-        ElseIf TypeOf geneSet Is Background Then
-            background = geneSet
-        Else
-            Return Message.InCompatibleType(GetType(Background), geneSet.GetType, env)
         End If
 
         Dim gsva_result As HTSMatrix = mat.gsva(background)
@@ -162,6 +174,25 @@ Module GSVA
         Return MultiOmicsDataset.Create(pull, verbose)
     End Function
 
+    <ExportAPI("mogsva_opts")>
+    Public Function mogsva_opts() As MultiOmicsGsvaOptions
+        Return New MultiOmicsGsvaOptions
+    End Function
+
+    <ExportAPI("mogsva")>
+    <RApiReturn(GetType(MultiOmicsGsvaResult))>
+    Public Function mogsva(x As MultiOmicsDataset, geneSet As Object, opts As MultiOmicsGsvaOptions, Optional env As Environment = Nothing) As Object
+        Dim background As [Variant](Of Background, Message) = BackgroundHelper.CastBackground(geneSet, env)
+
+        If background Like GetType(Message) Then
+            Return background.TryCast(Of Message)
+        End If
+
+        Dim gsva_result As MultiOmicsGsvaResult = MultiOmicsGsva.Compute(x, background, opts)
+
+        Return gsva_result
+    End Function
+
     ''' <summary>
     ''' different analysis of the gsva result
     ''' </summary>
@@ -169,7 +200,10 @@ Module GSVA
     ''' <param name="compares">
     ''' the <see cref="DataAnalysis"/> comparision collection
     ''' </param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' this function returns a array of the <see cref="GSVADiff"/> object which is compares the different of the gsva score via the limma function. 
+    ''' for get the different score of gsva score in raw <see cref="LimmaTable"/> array type, please use the ``geneExpression::limma`` function for analysis the gsva difference result across two condition groups.
+    ''' </returns>
     <ExportAPI("diff")>
     <RApiReturn(GetType(GSVADiff))>
     Public Function diff(gsva As HTSMatrix, compares As DataAnalysis) As Object
@@ -177,20 +211,22 @@ Module GSVA
             Throw New InvalidProgramException
         End If
 
+        ' extract of the sample ordinals
         Dim i1 As Integer() = gsva.IndexOf(compares.experiment)
         Dim i2 As Integer() = gsva.IndexOf(compares.control)
-
-        Return gsva.expression _
-            .Select(Function(expr)
-                        Dim test As TwoSampleResult = t.Test(expr(i1), expr(i2))
-
+        Dim limmaResult As LimmaTable() = Limma.LmFit(gsva, compares).ToArray
+        Dim diffResult = limmaResult _
+            .Select(Function(term)
                         Return New GSVADiff With {
-                            .pathName = expr.geneID,
-                            .t = test.TestValue,
-                            .pvalue = test.Pvalue
+                            .pathName = term.id,
+                            .pvalue = term.P_Value,
+                            .t = term.t,
+                            .adjPVal = term.adj_P_Val
                         }
                     End Function) _
             .ToArray
+
+        Return diffResult
     End Function
 
     ''' <summary>

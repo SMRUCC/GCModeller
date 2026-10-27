@@ -1083,7 +1083,7 @@ Public Module GSEABackground
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("fromList")>
-    Public Function backgroundFromList(geneSet As list, Optional env As Environment = Nothing) As Object
+    Public Function backgroundFromList(geneSet As list, Optional env As Environment = Nothing) As Background
         If geneSet Is Nothing OrElse geneSet.is_empty Then
             Call env.AddMessage("the input gene feature set should not be nothing!", MSG_TYPES.WRN)
             Return Nothing
