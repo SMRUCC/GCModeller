@@ -988,9 +988,84 @@ Module KOBAS
                             End Function) _
                     .ToArray
             }
+        ElseIf expr.GetType() Is GetType(SMRUCC.Rsharp.Runtime.Internal.Object.matrix) Then
+            Return RMatrixToHTSMatrix(DirectCast(expr, SMRUCC.Rsharp.Runtime.Internal.Object.matrix), env)
         Else
             Return expr
         End If
+    End Function
+
+    ''' <summary>
+    ''' Convert a R# ``matrix`` object into the GCModeller expression matrix object.
+    ''' </summary>
+    ''' <param name="rm">the R# matrix object.</param>
+    ''' <param name="env">the R# runtime environment.</param>
+    ''' <returns>a <see cref="Matrix"/> object or an error message.</returns>
+    ''' <remarks>
+    ''' The ``mat`` field of the R# matrix object is a jagged array. The rows and the
+    ''' columns are distinguished by the ``rownames`` and ``colnames``: when the length
+    ''' of ``rownames`` equals the length of ``mat`` the array is treated as the row
+    ''' major layout, otherwise when the length of ``colnames`` equals the length of
+    ''' ``mat`` the array is treated as the column major layout and transposed.
+    ''' </remarks>
+    Private Function RMatrixToHTSMatrix(rm As SMRUCC.Rsharp.Runtime.Internal.Object.matrix, env As Environment) As Object
+        Dim data As Array() = rm.mat
+
+        If data Is Nothing OrElse data.Length = 0 Then
+            Return RInternal.debug.stop("the given matrix object is empty!", env)
+        End If
+
+        Dim rowNames As String() = rm.rownames
+        Dim colNames As String() = rm.colnames
+        Dim rows As Double()()
+
+        If rowNames IsNot Nothing AndAlso rowNames.Length = data.Length Then
+            rows = data _
+                .Select(Function(line) CLRVector.asNumeric(line)) _
+                .ToArray
+        ElseIf colNames IsNot Nothing AndAlso colNames.Length = data.Length Then
+            Dim columns As Double()() = data _
+                .Select(Function(line) CLRVector.asNumeric(line)) _
+                .ToArray
+            Dim geneCount As Integer = columns(0).Length
+
+            rows = Enumerable.Range(0, geneCount) _
+                .Select(Function(gene)
+                            Return Enumerable.Range(0, columns.Length) _
+                                .Select(Function(column) columns(column)(gene)) _
+                                .ToArray
+                        End Function) _
+                .ToArray
+        Else
+            Return RInternal.debug.stop(
+                "the given matrix object should has the row names (gene id) or the column names (sample id) for determine the data layout!",
+                env)
+        End If
+
+        Dim sampleIDs As String()
+
+        If colNames IsNot Nothing AndAlso colNames.Length = rows(0).Length Then
+            sampleIDs = colNames
+        Else
+            sampleIDs = Enumerable.Range(1, rows(0).Length).Select(Function(i) $"S{i}").ToArray()
+        End If
+
+        Dim genes As String() = If(rowNames IsNot Nothing AndAlso rowNames.Length = rows.Length,
+                                   rowNames,
+                                   Enumerable.Range(1, rows.Length).Select(Function(i) $"G{i}").ToArray)
+
+        Return New HTSMatrix With {
+            .tag = "R#",
+            .sampleID = sampleIDs,
+            .expression = genes _
+                .Select(Function(gene, i)
+                            Return New DataFrameRow With {
+                                .geneID = gene,
+                                .experiments = rows(i)
+                            }
+                        End Function) _
+                .ToArray
+        }
     End Function
 
     ''' <summary>
