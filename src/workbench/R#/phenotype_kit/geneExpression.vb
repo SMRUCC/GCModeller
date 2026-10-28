@@ -3001,6 +3001,16 @@ Module geneExpression
         Return MatrixBuilder.BuildAndNormalizeAbundanceMatrix(sampleList.ToArray, normalized)
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <param name="sampleinfo">
+    ''' time points is all set to zero if the given sampleinfo metadata is missing
+    ''' </param>
+    ''' <param name="time_label"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("as.time_serials")>
     <RApiReturn(GetType(GeneExpressionData))>
     Public Function as_timeMatrix(x As Matrix, <RRawVectorArgument(GetType(SampleInfo))> Optional sampleinfo As Object = Nothing, Optional time_label As String = "time", Optional env As Environment = Nothing) As Object
