@@ -170,6 +170,11 @@ Namespace GRNDemo
         ''' <returns></returns>
         Public Property BenchPoints As Integer = 121
         ''' <summary>
+        ''' zip-bench 命令所合成的每一行候选调控因子数量
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property BenchCandidates As Integer = 8
+        ''' <summary>
         ''' 必须被包含进子网的基因清单（例如敲降实验的目标基因列表，每行一个基因符号）
         ''' </summary>
         ''' <returns></returns>
@@ -381,6 +386,7 @@ Namespace GRNDemo
             options.Threads = integerOf(values, "threads", options.Threads)
             options.BenchGenes = integerOf(values, "bench-genes", options.BenchGenes)
             options.BenchPoints = integerOf(values, "bench-points", options.BenchPoints)
+            options.BenchCandidates = integerOf(values, "bench-candidates", options.BenchCandidates)
             options.MustIncludeFile = textOf(values, "must-include", options.MustIncludeFile)
             options.ContextFile = textOf(values, "context", options.ContextFile)
             options.PertFile = textOf(values, "pert", options.PertFile)
@@ -434,6 +440,7 @@ Namespace GRNDemo
                 Call sb.AppendLine("  --threads <n>            max degree of parallelism (0 = all logical cores)")
                 Call sb.AppendLine("  --bench-genes <n>        gene count of the slope-bench command (default 18179)")
                 Call sb.AppendLine("  --bench-points <n>       time point count of the slope-bench command (default 121)")
+                Call sb.AppendLine("  --bench-candidates <n>   candidate count per gene of the zip-bench command (default 8)")
                 Call sb.AppendLine("  --l1 <x>                 L1 penalty weight of the kinetic orders (default 0)")
                 Call sb.AppendLine("  --stability <x>          penalty weight of a positive self loop (default 0.05)")
                 Call sb.AppendLine("  --de-pop <n>             differential evolution population size (default 40)")

@@ -5,11 +5,14 @@ Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Calculus.Dynamics
+Imports Microsoft.VisualBasic.Serialization.BinaryDumping
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.SGrid.GRN
 Imports std = System.Math
 Imports EffectorRole = SMRUCC.genomics.Analysis.BNLearn.Effector
 Imports PriorEdge = SMRUCC.genomics.Analysis.BNLearn.Core.RegulatoryEdge
 Imports PriorNet = SMRUCC.genomics.Analysis.BNLearn.Core.PriorNetwork
+Imports matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 
 Namespace IO
 
@@ -18,21 +21,17 @@ Namespace IO
     ''' (拟合得到的 S-system 调控网络模型的压缩包持久化)
     ''' </summary>
     ''' <remarks>
-    ''' 压缩包由若干纯文本条目构成，全部 double 数值均使用 <c>G17</c> 格式以不变文化写出，
-    ''' 从而保证 <see cref="Load(Stream)"/> 重新加载之后的数值与保存之前逐位相等。
+    ''' 压缩包由**二进制矩阵条目** + 少量纯文本条目构成：
     ''' 
-    ''' 条目清单：
-    ''' 1. manifest.txt      版本与规模信息
-    ''' 2. parameters.csv    每一个基因的速率常数与拟合误差
-    ''' 3. matrix_G.csv      合成项的动力学阶矩阵
-    ''' 4. matrix_H.csv      降解项的动力学阶矩阵
-    ''' 5. series.csv        规整化之后的表达量矩阵（自然对数矩阵在加载时重新计算）
-    ''' 6. timepoints.csv    时间轴
-    ''' 7. edges.csv         有向调控边（含先验知识的标注）
-    ''' 8. options.txt       拟合配置
-    ''' 9. prior.csv         本次拟合所使用的先验知识网络
-    ''' 10. warnings.txt     拟合过程的告警信息
-    ''' 11. report.txt       可读的拟合报告（仅供人工查看，加载时不使用）
+    ''' + 三个大矩阵（<c>matrix_G</c> / <c>matrix_H</c> / <c>series</c>）直接用
+    '''   <see cref="SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix"/> 对象承载，
+    '''   通过 <c>HTS_matrix::BinaryMatrix</c> 的二进制格式写出（double 以网络字节序存储，
+    '''   不再经过 <c>G17</c> 文本的「格式化 → 解析」往返，也没有整张矩阵的字符串缓冲）；
+    ''' + 其余条目（参数、候选、时间轴、边、配置、先验、告警、报告）仍然是逐行文本，
+    '''   它们都只有 O(基因数) 或者 O(边数)，不会随 n² 膨胀。
+    ''' 
+    ''' 2. 版本 3 起矩阵条目改为二进制（<c>*.bin</c>）；读取端会自动回退到版本 1/2 的
+    '''    CSV 条目（稠密或者稀疏三列格式），因此旧归档仍然可以加载。
     ''' </remarks>
     Public Module ZipPersists
 
@@ -43,7 +42,25 @@ Namespace IO
         ''' <summary>
         ''' 压缩包格式的版本号
         ''' </summary>
-        Public Const FormatVersion As Integer = 1
+        ''' <remarks>
+        ''' 版本历史：
+        ''' 
+        ''' + 1：全部条目为文本，矩阵为稠密 CSV；
+        ''' + 2：矩阵改为流式写出，G/H 可用稀疏三列 CSV（<c>gene,index,value</c>）；
+        ''' + 3：G/H 与表达矩阵改为 <c>HTS_matrix::BinaryMatrix</c> 二进制条目。
+        ''' 
+        ''' 读取端支持 1~3；旧版本程序读取更高版本的归档时会被 <c>checkManifest</c> 明确拒绝。
+        ''' </remarks>
+        Public Const FormatVersion As Integer = 3
+
+        ''' <summary>
+        ''' 二进制矩阵条目的 magic 头（与 <c>HTS_matrix::BinaryMatrix</c> 保持一致）
+        ''' </summary>
+        Private ReadOnly binaryMagic As Byte() = Encoding.ASCII.GetBytes(BinaryMatrix.MagicHeader)
+        ''' <summary>
+        ''' 网络字节序的 double 编解码器
+        ''' </summary>
+        Private ReadOnly networkByteOrder As New NetworkByteOrderBuffer()
 
         ''' <summary>
         ''' persists save the fitted model as zip archive file stream
@@ -67,9 +84,14 @@ Namespace IO
                 Call writeEntry(archive, "manifest.txt", manifestOf(model))
                 Call writeEntry(archive, "parameters.csv", parametersOf(model.Parameters))
                 Call writeEntry(archive, "candidates.txt", candidatesOf(model.Parameters))
-                Call writeEntry(archive, "matrix_G.csv", matrixOf(model.Parameters.G, model.Parameters.GeneNames))
-                Call writeEntry(archive, "matrix_H.csv", matrixOf(model.Parameters.H, model.Parameters.GeneNames))
-                Call writeEntry(archive, "series.csv", matrixOf(model.Series.X, model.Series.GeneNames))
+
+                ' 三个大矩阵以 HTS_matrix 的二进制格式写出：
+                ' 直接写 double 的原始字节（网络字节序），既没有 G17 格式化/解析的往返，
+                ' 也没有整张矩阵的字符串缓冲（n≈18000 时一张就是 3E8 个元素）
+                Call writeBinaryMatrix(archive, "matrix_G.bin", model.Parameters.G, model.Parameters.GeneNames, model.Parameters.GeneNames, "matrix_G")
+                Call writeBinaryMatrix(archive, "matrix_H.bin", model.Parameters.H, model.Parameters.GeneNames, model.Parameters.GeneNames, "matrix_H")
+                Call writeBinaryMatrix(archive, "series.bin", model.Series.X, model.Series.GeneNames, timeLabelsOf(model.Series.TimePoints), "series")
+
                 Call writeEntry(archive, "offsets.csv", offsetsOf(model.Series))
                 Call writeEntry(archive, "timepoints.csv", timePointsOf(model.Series.TimePoints))
                 Call writeEntry(archive, "edges.csv", edgesOf(model.Edges))
@@ -136,11 +158,11 @@ Namespace IO
                     .GeneNames = names,
                     .OriginalNames = parameters.OriginalNames,
                     .TimePoints = axis,
-                    .X = parseMatrix(readRequired(archive, "series.csv"), names, axis.Length)
+                    .X = readMatrixEntry(archive, "series", names, axis.Length)
                 }
 
-                parameters.G = parseMatrix(readRequired(archive, "matrix_G.csv"), names, names.Length)
-                parameters.H = parseMatrix(readRequired(archive, "matrix_H.csv"), names, names.Length)
+                parameters.G = readMatrixEntry(archive, "matrix_G", names, names.Length)
+                parameters.H = readMatrixEntry(archive, "matrix_H", names, names.Length)
                 parameters.Candidates = parseCandidates(readEntry(archive, "candidates.txt"), names)
 
                 Call parseOffsets(readEntry(archive, "offsets.csv"), series)
@@ -345,30 +367,85 @@ Namespace IO
             Return sb.ToString()
         End Function
 
-        Private Function matrixOf(matrix As Double()(), names As String()) As String
-            Dim sb As New StringBuilder()
+        ''' <summary>
+        ''' 把矩阵写成一个二进制条目（<c>HTS_matrix::BinaryMatrix</c> 格式）。
+        ''' </summary>
+        ''' <param name="archive"></param>
+        ''' <param name="name">条目名称（<c>*.bin</c>）</param>
+        ''' <param name="data">矩阵数据</param>
+        ''' <param name="names">基因编号：同时作为行标签与列标签</param>
+        ''' <param name="tag">矩阵标签，写进二进制头</param>
+        ''' <remarks>
+        ''' 这里不再把 double 转成 <c>G17</c> 文本：矩阵对象由
+        ''' <see cref="SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix"/> 承载，
+        ''' 逐行写出网络字节序的 8 字节 double。相比 CSV 少了两趟字符串处理
+        ''' （格式化与解析），也不会产生整张矩阵的字符串缓冲——
+        ''' 那正是 <c>writeBin</c> 之中 <see cref="OutOfMemoryException"/> 的根源。
+        ''' 
+        ''' 二进制数据用 <see cref="CompressionLevel.Fastest"/> 压缩：
+        ''' G/H 是稀疏矩阵，压缩之后体积很小，而 <c>Optimal</c> 会在 GB 级的原始字节上
+        ''' 多花几倍的 CPU 却几乎没有额外收益。
+        ''' </remarks>
+        Private Sub writeBinaryMatrix(archive As ZipArchive,
+                                      name As String,
+                                      data As Double()(),
+                                      names As String(),
+                                      columns As String(),
+                                      tag As String)
 
-            Call sb.Append("gene")
+            Dim entry As ZipArchiveEntry = archive.CreateEntry(name, CompressionLevel.Fastest)
 
-            For Each name As String In names.SafeQuery()
-                Call sb.Append(","c)
-                Call sb.Append(name)
+            Using stream As Stream = entry.Open()
+                ' BinaryMatrix 的扩展方法：写入 magic 头 + 标签 + 维度 + 行数据，
+                ' 并在结束时关闭这条条目流
+                Call toMatrix(data, names, columns, tag).Save(stream)
+            End Using
+        End Sub
+
+        ''' <summary>
+        ''' 把 <c>Double()()</c> 视图包装成 <see cref="SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix"/> 对象
+        ''' </summary>
+        ''' <param name="data"></param>
+        ''' <param name="names"></param>
+        ''' <param name="tag"></param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' 只是把每一行包装成 <see cref="DataFrameRow"/>（复用同一个数组引用），
+        ''' 不会复制矩阵数据，因此额外内存只有 n 个小对象。
+        ''' </remarks>
+        Private Function toMatrix(data As Double()(),
+                                  names As String(),
+                                  columns As String(),
+                                  tag As String) As matrix
+            Dim rows As DataFrameRow() = New DataFrameRow(data.Length - 1) {}
+
+            For i As Integer = 0 To data.Length - 1
+                rows(i) = New DataFrameRow With {
+                    .geneID = names(i),
+                    .experiments = data(i)
+                }
             Next
 
-            Call sb.AppendLine()
+            ' 注意：sampleID 是**列**标签（G/H 是基因名，表达矩阵是时间点），
+            ' BinaryWriter 会用它的长度作为每一行的元素个数
+            Return New matrix With {
+                .tag = tag,
+                .sampleID = columns,
+                .expression = rows
+            }
+        End Function
 
-            For i As Integer = 0 To matrix.Length - 1
-                Call sb.Append(names(i))
+        ''' <summary>
+        ''' 表达矩阵的列标签：时间点
+        ''' </summary>
+        Private Function timeLabelsOf(timePoints As Double()) As String()
+            Dim labels As String() = New String(timePoints.Length - 1) {}
 
-                For j As Integer = 0 To matrix(i).Length - 1
-                    Call sb.Append(","c)
-                    Call sb.Append(num(matrix(i)(j)))
-                Next
-
-                Call sb.AppendLine()
+            For i As Integer = 0 To timePoints.Length - 1
+                labels(i) = timePoints(i).ToString("G17", CultureInfo.InvariantCulture)
             Next
 
-            Return sb.ToString()
+            Return labels
         End Function
 
         Private Function timePointsOf(timePoints As Double()) As String
@@ -645,24 +722,201 @@ Namespace IO
         End Function
 
         ''' <summary>
-        ''' 解析矩阵条目：首行为表头，首列为行标签
+        ''' 读取一个矩阵条目：优先读二进制条目（<c>{baseName}.bin</c>），
+        ''' 回退到旧版本归档的文本条目（<c>{baseName}.csv</c>，稠密或稀疏三列格式皆可）。
         ''' </summary>
-        ''' <param name="text">条目的文本内容</param>
+        ''' <param name="archive"></param>
+        ''' <param name="baseName">不带扩展名的条目名，例如 <c>matrix_G</c></param>
         ''' <param name="names">行标签（基因编号）</param>
         ''' <param name="columns">每一行的数据列数</param>
         ''' <returns></returns>
-        Private Function parseMatrix(text As String, names As String(), columns As Integer) As Double()()
-            Dim lines As String() = textLines(text)
-            Dim rows As New List(Of Double())
-            Dim header As Boolean = True
+        Private Function readMatrixEntry(archive As ZipArchive,
+                                         baseName As String,
+                                         names As String(),
+                                         columns As Integer) As Double()()
 
-            For Each line As String In lines
-                If String.IsNullOrWhiteSpace(line) Then
-                    Continue For
+            Dim binName As String = baseName & ".bin"
+            Dim entry As ZipArchiveEntry = archive.GetEntry(binName)
+
+            If Not entry Is Nothing Then
+                Return readBinaryMatrix(entry, binName, names, columns)
+            End If
+
+            Dim csvName As String = baseName & ".csv"
+
+            entry = archive.GetEntry(csvName)
+
+            If entry Is Nothing Then
+                Throw New InvalidDataException(
+                    $"The network model archive is incomplete: neither '{binName}' nor '{csvName}' is present!")
+            End If
+
+            Return readCsvMatrix(entry, csvName, names, columns)
+        End Function
+
+        ''' <summary>
+        ''' 读取 <c>HTS_matrix::BinaryMatrix</c> 格式的二进制矩阵条目。
+        ''' </summary>
+        ''' <param name="entry"></param>
+        ''' <param name="name"></param>
+        ''' <param name="names"></param>
+        ''' <param name="columns"></param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' 不能直接调用 <c>BinaryMatrix.LoadStream</c>：它用
+        ''' <c>buffer.Length &gt; buffer.Position</c> 判断行数，
+        ''' 而 zip 的 deflate 流并不支持 <see cref="Stream.Length"/>。
+        ''' 这里按二进制头之中记录的维度精确读取，适用于任意只进流。
+        ''' </remarks>
+        Private Function readBinaryMatrix(entry As ZipArchiveEntry,
+                                          name As String,
+                                          names As String(),
+                                          columns As Integer) As Double()()
+
+            Using stream As Stream = entry.Open()
+                Using reader As New BinaryReader(stream, Encoding.UTF8, leaveOpen:=False)
+                    Dim magicBytes As Byte() = reader.ReadBytes(binaryMagic.Length)
+
+                    If Not sameBytes(magicBytes, binaryMagic) Then
+                        Throw New InvalidDataException($"The binary matrix entry '{name}' has an invalid magic header!")
+                    End If
+
+                    Dim tag As String = reader.ReadString()
+                    Dim samples As Integer = reader.ReadInt32()
+                    Dim features As Integer = reader.ReadInt32()
+
+                    ' 采样编号与基因编号（当前只需要读取并跳过，行/列标签由外部参数给出）
+                    Dim sampleIds As String = reader.ReadString()
+                    Dim featureIds As String = reader.ReadString()
+
+                    If samples <> columns Then
+                        Throw New InvalidDataException(
+                            $"The binary matrix entry '{name}' is inconsistent: {samples} column(s) but {columns} was expected!")
+                    End If
+                    If features <> names.Length Then
+                        Throw New InvalidDataException(
+                            $"The binary matrix entry '{name}' is inconsistent: {features} row(s) but {names.Length} gene(s) were expected!")
+                    End If
+
+                    Dim data As Double()() = New Double(features - 1)() {}
+                    Dim buffer As Byte() = New Byte(samples * 8 - 1) {}
+
+                    For i As Integer = 0 To features - 1
+                        If readFully(reader, buffer) <> buffer.Length Then
+                            Throw New InvalidDataException($"The binary matrix entry '{name}' is truncated at row {i + 1}!")
+                        End If
+
+                        data(i) = networkByteOrder.decode(buffer)
+                    Next
+
+                    Return data
+                End Using
+            End Using
+        End Function
+
+        ''' <summary>
+        ''' 把 <paramref name="buffer"/> 填满；deflate 流可能分多次返回数据
+        ''' </summary>
+        Private Function readFully(reader As BinaryReader, buffer As Byte()) As Integer
+            Dim total As Integer = 0
+
+            Do While total < buffer.Length
+                Dim n As Integer = reader.Read(buffer, total, buffer.Length - total)
+
+                If n <= 0 Then
+                    Exit Do
                 End If
-                If header Then
-                    header = False
-                    Continue For
+
+                total += n
+            Loop
+
+            Return total
+        End Function
+
+        ''' <summary>
+        ''' 逐字节比较两个数组
+        ''' </summary>
+        Private Function sameBytes(a As Byte(), b As Byte()) As Boolean
+            If a Is Nothing OrElse b Is Nothing Then
+                Return False
+            End If
+            If a.Length <> b.Length Then
+                Return False
+            End If
+
+            For i As Integer = 0 To a.Length - 1
+                If a(i) <> b(i) Then
+                    Return False
+                End If
+            Next
+
+            Return True
+        End Function
+
+        ''' <summary>
+        ''' 解析旧版本归档的文本矩阵条目（稠密或者稀疏三列格式）
+        ''' </summary>
+        ''' <param name="entry"></param>
+        ''' <param name="name"></param>
+        ''' <param name="names"></param>
+        ''' <param name="columns"></param>
+        ''' <returns></returns>
+        Private Function readCsvMatrix(entry As ZipArchiveEntry,
+                                       name As String,
+                                       names As String(),
+                                       columns As Integer) As Double()()
+
+            Using stream As Stream = entry.Open()
+                Using reader As New StreamReader(stream, Encoding.UTF8, detectEncodingFromByteOrderMarks:=True, bufferSize:=1 << 16)
+                    Dim header As String = reader.ReadLine()
+
+                    If header Is Nothing Then
+                        Throw New InvalidDataException($"The matrix entry '{name}' of the network model archive is empty!")
+                    End If
+
+                    Dim fields As String() = PriorKnowledge.SplitCsvLine(header)
+
+                    If isSparseHeader(fields) Then
+                        Return readSparseMatrix(reader, name, names, columns)
+                    Else
+                        Return readDenseMatrix(reader, name, names, columns)
+                    End If
+                End Using
+            End Using
+        End Function
+
+        ''' <summary>
+        ''' 判断矩阵条目的表头是否属于稀疏三列格式
+        ''' </summary>
+        Private Function isSparseHeader(fields As String()) As Boolean
+            If fields.Length < 3 Then
+                Return False
+            End If
+
+            Return String.Equals(fields(1).Trim(), "index", StringComparison.OrdinalIgnoreCase) AndAlso
+                   String.Equals(fields(2).Trim(), "value", StringComparison.OrdinalIgnoreCase)
+        End Function
+
+        ''' <summary>
+        ''' 稠密矩阵解析（表头已经被消费）
+        ''' </summary>
+        Private Function readDenseMatrix(reader As StreamReader, name As String, names As String(), columns As Integer) As Double()()
+            Dim n As Integer = names.Length
+            Dim matrix As Double()() = New Double(n - 1)() {}
+            Dim row As Integer = 0
+            Dim line As String
+
+            Do
+                line = reader.ReadLine()
+
+                If line Is Nothing Then
+                    Exit Do
+                End If
+                If line.Length = 0 Then
+                    Continue Do
+                End If
+                If row >= n Then
+                    Throw New InvalidDataException($"The matrix entry '{name}' contains more than {n} rows!")
                 End If
 
                 Dim fields As String() = PriorKnowledge.SplitCsvLine(line)
@@ -672,14 +926,73 @@ Namespace IO
                     values(i) = parseDouble(fields, i + 1)
                 Next
 
-                Call rows.Add(values)
-            Next
+                matrix(row) = values
+                row += 1
+            Loop
 
-            If rows.Count <> names.Length Then
-                Throw New InvalidDataException($"The matrix entry of the network model archive is inconsistent: {rows.Count} row(s) for {names.Length} gene(s)!")
+            If row <> n Then
+                Throw New InvalidDataException($"The matrix entry '{name}' of the network model archive is inconsistent: {row} row(s) for {n} gene(s)!")
             End If
 
-            Return rows.ToArray()
+            Return matrix
+        End Function
+
+        ''' <summary>
+        ''' 稀疏矩阵解析（表头已经被消费）
+        ''' </summary>
+        Private Function readSparseMatrix(reader As StreamReader, name As String, names As String(), columns As Integer) As Double()()
+            Dim n As Integer = names.Length
+            Dim matrix As Double()() = New Double(n - 1)() {}
+
+            For i As Integer = 0 To n - 1
+                matrix(i) = New Double(columns - 1) {}
+            Next
+
+            Dim map As New Dictionary(Of String, Integer)(StringComparer.OrdinalIgnoreCase)
+
+            For i As Integer = 0 To n - 1
+                If Not String.IsNullOrEmpty(names(i)) AndAlso Not map.ContainsKey(names(i)) Then
+                    map(names(i)) = i
+                End If
+            Next
+
+            Dim line As String
+
+            Do
+                line = reader.ReadLine()
+
+                If line Is Nothing Then
+                    Exit Do
+                End If
+                If line.Length = 0 Then
+                    Continue Do
+                End If
+
+                Dim fields As String() = PriorKnowledge.SplitCsvLine(line)
+
+                If fields.Length < 3 Then
+                    Continue Do
+                End If
+
+                Dim rowIndex As Integer
+
+                If Not map.TryGetValue(fields(0).Trim(), rowIndex) Then
+                    Continue Do
+                End If
+
+                Dim column As Integer
+
+                If Not Integer.TryParse(fields(1).Trim(), column) Then
+                    Continue Do
+                End If
+                If column < 0 OrElse column >= columns Then
+                    Continue Do
+                End If
+
+                matrix(rowIndex)(column) = parseDouble(fields, 2)
+            Loop
+
+            Return matrix
         End Function
 
         Private Function parseTimePoints(text As String) As Double()
