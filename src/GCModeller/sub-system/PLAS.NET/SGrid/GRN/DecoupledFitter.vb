@@ -2,6 +2,7 @@ Imports System.Text
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MachineLearning.Darwinism
 Imports Microsoft.VisualBasic.Math.Framework.Optimization.LBFGSB
+Imports Microsoft.VisualBasic.Math.SIMD
 Imports PriorEdge = SMRUCC.genomics.Analysis.BNLearn.Core.RegulatoryEdge
 Imports PriorNet = SMRUCC.genomics.Analysis.BNLearn.Core.PriorNetwork
 Imports std = System.Math
@@ -73,6 +74,37 @@ Namespace GRN
         Public Property PriorSignPenalty As Double = 0
 
         ''' <summary>
+        ''' 目标函数被调用的次数（性能剖析用）
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Evaluations As Long = 0
+
+        ''' <summary>
+        ''' 复用的工作区：<c>etaG/etaH</c>（合成/降解项的对数和）、<c>residual</c>（残差）
+        ''' 以及解析梯度用的 <c>u/v</c>。这五个数组在一次拟合的生命周期之内只分配一次，
+        ''' 从而让热循环保持零分配。
+        ''' </summary>
+        Private etaG As Double()
+        Private etaH As Double()
+        Private residual As Double()
+        Private gradU As Double()
+        Private gradV As Double()
+
+        ''' <summary>
+        ''' 按照时间点数量准备（或者复用）工作区
+        ''' </summary>
+        ''' <param name="m"></param>
+        Private Sub ensureWorkspace(m As Integer)
+            If etaG Is Nothing OrElse etaG.Length <> m Then
+                etaG = New Double(m - 1) {}
+                etaH = New Double(m - 1) {}
+                residual = New Double(m - 1) {}
+                gradU = New Double(m - 1) {}
+                gradV = New Double(m - 1) {}
+            End If
+        End Sub
+
+        ''' <summary>
         ''' 计算归一化的目标函数值（越小越好）
         ''' </summary>
         ''' <param name="p">参数向量 [ln(alpha), ln(beta), g(0..k-1), h(0..k-1)]</param>
@@ -83,50 +115,77 @@ Namespace GRN
         ''' 而乘性的惩罚因子（稀疏 + 稳定性）则保证了惩罚项不会压过残差项。
         ''' </remarks>
         Public Function Objective(p As Double()) As Double
+            Return evaluate(p, Nothing)
+        End Function
+
+        ''' <summary>
+        ''' 计算目标函数值；当 <paramref name="grad"/> 非空的时候同时写入**解析梯度**
+        ''' </summary>
+        ''' <param name="p">参数向量</param>
+        ''' <param name="grad">梯度输出（长度与 <paramref name="p"/> 一致）；Nothing 表示不需要梯度</param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' 与旧实现的差别只在于**计算方式**（SIMD 向量化 + 一次遍历），
+        ''' 公式本身没有改变：仍然是对数域求和之后取指数。
+        ''' </remarks>
+        Public Function evaluate(p As Double(), grad As Double()) As Double
+            Dim err As Double = 0
+
+            Return evaluateCore(p, grad, err)
+        End Function
+
+        ''' <summary>
+        ''' 目标函数的 SIMD 内核：<c>eta = ln α + Σ g_c·lnX_c</c>（AXPY），
+        ''' 向量化 exp，残差平方和归约，最后乘上惩罚因子。
+        ''' </summary>
+        Private Function evaluateCore(p As Double(), grad As Double(), ByRef err As Double) As Double
             Dim m As Integer = Observed.Length
             Dim k As Integer = (p.Length - 2) \ 2
-            Dim err As Double = 0
-            Dim penalty As Double = 1.0R
 
-            For t As Integer = 0 To m - 1
-                Dim la As Double = p(0)
-                Dim lb As Double = p(1)
+            If m <= 0 Then
+                err = 0
+                Return 1.0E+12
+            End If
 
-                For c As Integer = 0 To k - 1
-                    Dim lx As Double = LnX(c)(t)
+            Call ensureWorkspace(m)
 
-                    la += p(2 + c) * lx
-                    lb += p(2 + k + c) * lx
-                Next
+            Evaluations += 1
 
-                Dim a As Double = std.Exp(clampExp(la))
-                Dim b As Double = std.Exp(clampExp(lb))
-                Dim d As Double = (a - b) - Observed(t)
+            Array.Clear(etaG, 0, m)
+            Array.Clear(etaH, 0, m)
 
-                err += d * d
+            For c As Integer = 0 To k - 1
+                Dim row As Double() = LnX(c)
+
+                Call SimdEngine.AddScaledInPlace(p(2 + c), row, etaG)
+                Call SimdEngine.AddScaledInPlace(p(2 + k + c), row, etaH)
             Next
+
+            Call SimdEngine.AddScalarInPlace(Of Double)(etaG, p(0))
+            Call SimdEngine.AddScalarInPlace(Of Double)(etaH, p(1))
+
+            ' 幂律项：指数内部自动夹在 [-700, 700]（与旧的 clampExp 语义一致）
+            Call SimdMath.ExpInPlace(etaG, m)
+            Call SimdMath.ExpInPlace(etaH, m)
+
+            ' residual = A - B - y
+            Array.Copy(etaG, residual, m)
+            Call SimdEngine.SubtractInPlace(Of Double)(residual, etaH)
+            Call SimdEngine.SubtractInPlace(Of Double)(residual, Observed)
+
+            err = SimdReduce.SumSquares(residual)
 
             Dim relative As Double = std.Sqrt(err / m) / Scale
 
-            If L1 > 0 Then
-                Dim l1 As Double = 0
+            Dim mass As Double = 0
+            Dim unsupported As Double = 0
+            Dim violations As Double = 0
+            Dim nSign As Integer = 0
+            Dim penalty As Double = penaltyOf(p, k, mass, unsupported, violations, nSign)
 
-                For c As Integer = 0 To k - 1
-                    l1 += std.Abs(p(2 + c)) + std.Abs(p(2 + k + c))
-                Next
-
-                penalty += L1 * l1
+            If Not grad Is Nothing AndAlso grad.Length >= p.Length Then
+                Call fillGradient(p, k, m, err, relative, penalty, grad, mass, unsupported, violations, nSign)
             End If
-
-            If SelfIndex >= 0 AndAlso StabilityWeight > 0 Then
-                Dim netSelf As Double = p(2 + SelfIndex) - p(2 + k + SelfIndex)
-
-                If netSelf > 0 Then
-                    penalty += StabilityWeight * netSelf
-                End If
-            End If
-
-            penalty += priorPenaltyFactor(p, k)
 
             Dim f As Double = relative * penalty
 
@@ -136,6 +195,157 @@ Namespace GRN
 
             Return f
         End Function
+
+        ''' <summary>
+        ''' 计算乘性惩罚因子，同时回传先验惩罚所需要的中间统计量（供解析梯度复用）
+        ''' </summary>
+        Private Function penaltyOf(p As Double(), k As Integer,
+                                   ByRef mass As Double, ByRef unsupported As Double,
+                                   ByRef violations As Double, ByRef nSign As Integer) As Double
+
+            mass = 0
+            unsupported = 0
+            violations = 0
+            nSign = 0
+
+            For c As Integer = 0 To k - 1
+                Dim g As Double = p(2 + c)
+                Dim h As Double = p(2 + k + c)
+                Dim w As Double = std.Abs(g) + std.Abs(h)
+
+                mass += w
+
+                If Not PriorMask Is Nothing AndAlso Not PriorMask(c) Then
+                    unsupported += w
+                End If
+
+                If Not PriorSign Is Nothing AndAlso PriorSign(c) <> 0 Then
+                    Dim violation As Double = -PriorSign(c) * (g - h)
+
+                    nSign += 1
+
+                    If violation > 0 Then
+                        violations += violation
+                    End If
+                End If
+            Next
+
+            Dim penalty As Double = 1.0R
+
+            If L1 > 0 Then
+                penalty += L1 * mass
+            End If
+            If SelfIndex >= 0 AndAlso StabilityWeight > 0 Then
+                Dim netSelf As Double = p(2 + SelfIndex) - p(2 + k + SelfIndex)
+
+                If netSelf > 0 Then
+                    penalty += StabilityWeight * netSelf
+                End If
+            End If
+            If mass > 1.0E-12 AndAlso PriorPenalty > 0 Then
+                penalty += PriorPenalty * (unsupported / mass)
+            End If
+            If nSign > 0 AndAlso PriorSignPenalty > 0 Then
+                penalty += PriorSignPenalty * (violations / nSign)
+            End If
+
+            Return penalty
+        End Function
+
+        ''' <summary>
+        ''' 解析梯度：<c>u = 2rA</c>、<c>v = −2rB</c>，残差项对 g/h 的导数
+        ''' 就是 <c>u/v</c> 与对应 <c>lnX_c</c> 的内积（全部由 SIMD 点积完成）。
+        ''' </summary>
+        Private Sub fillGradient(p As Double(), k As Integer, m As Integer,
+                                 err As Double, relative As Double, penalty As Double,
+                                 grad As Double(),
+                                 mass As Double, unsupported As Double,
+                                 violations As Double, nSign As Integer)
+
+            Array.Copy(residual, gradU, m)
+            Call SimdEngine.MultiplyInPlace(Of Double)(gradU, etaG)
+            Call SimdEngine.MultiplyScalarInPlace(Of Double)(gradU, 2.0R)
+
+            Array.Copy(residual, gradV, m)
+            Call SimdEngine.MultiplyInPlace(Of Double)(gradV, etaH)
+            Call SimdEngine.MultiplyScalarInPlace(Of Double)(gradV, -2.0R)
+
+            Dim relFactor As Double = 0
+
+            If err > 1.0E-300 AndAlso Scale > 0 Then
+                relFactor = 1.0R / (2.0R * Scale * std.Sqrt(err * m))
+            End If
+
+            Dim w As Double = penalty * relFactor
+
+            grad(0) = w * SimdReduce.Sum(gradU)
+            grad(1) = w * SimdReduce.Sum(gradV)
+
+            For c As Integer = 0 To k - 1
+                Dim row As Double() = LnX(c)
+
+                grad(2 + c) = w * SimdReduce.Dot(gradU, row)
+                grad(2 + k + c) = w * SimdReduce.Dot(gradV, row)
+            Next
+
+            Call addPenaltyGradient(p, k, relative, grad, mass, unsupported, violations, nSign)
+        End Sub
+
+        ''' <summary>
+        ''' 惩罚项对参数的导数（L1 / 自环稳定性 / 先验）
+        ''' </summary>
+        Private Sub addPenaltyGradient(p As Double(), k As Integer, relative As Double, grad As Double(),
+                                       mass As Double, unsupported As Double,
+                                       violations As Double, nSign As Integer)
+
+            If L1 > 0 Then
+                For c As Integer = 0 To k - 1
+                    grad(2 + c) += relative * L1 * std.Sign(p(2 + c))
+                    grad(2 + k + c) += relative * L1 * std.Sign(p(2 + k + c))
+                Next
+            End If
+
+            If SelfIndex >= 0 AndAlso StabilityWeight > 0 Then
+                Dim netSelf As Double = p(2 + SelfIndex) - p(2 + k + SelfIndex)
+
+                If netSelf > 0 Then
+                    grad(2 + SelfIndex) += relative * StabilityWeight
+                    grad(2 + k + SelfIndex) -= relative * StabilityWeight
+                End If
+            End If
+
+            If Not PriorMask Is Nothing AndAlso PriorPenalty > 0 AndAlso mass > 1.0E-12 Then
+                Dim scale As Double = relative * PriorPenalty / (mass * mass)
+
+                For c As Integer = 0 To k - 1
+                    Dim signG As Double = std.Sign(p(2 + c))
+                    Dim signH As Double = std.Sign(p(2 + k + c))
+                    Dim dUg As Double = If(PriorMask(c), 0, signG)
+                    Dim dUh As Double = If(PriorMask(c), 0, signH)
+
+                    grad(2 + c) += scale * (dUg * mass - unsupported * signG)
+                    grad(2 + k + c) += scale * (dUh * mass - unsupported * signH)
+                Next
+            End If
+
+            If Not PriorSign Is Nothing AndAlso PriorSignPenalty > 0 AndAlso nSign > 0 Then
+                Dim scale As Double = relative * PriorSignPenalty / nSign
+
+                For c As Integer = 0 To k - 1
+                    Dim sign As Integer = PriorSign(c)
+
+                    If sign = 0 Then
+                        Continue For
+                    End If
+                    If (-sign * (p(2 + c) - p(2 + k + c))) <= 0 Then
+                        Continue For
+                    End If
+
+                    grad(2 + c) += scale * (-sign)
+                    grad(2 + k + c) += scale * sign
+                Next
+            End If
+        End Sub
 
         ''' <summary>
         ''' 计算先验知识的乘性惩罚因子：非先验交互的质量占比 + 方向违背量
@@ -206,25 +416,9 @@ Namespace GRN
         ''' <param name="p"></param>
         ''' <returns></returns>
         Public Function RawSSE(p As Double()) As Double
-            Dim m As Integer = Observed.Length
-            Dim k As Integer = (p.Length - 2) \ 2
             Dim err As Double = 0
 
-            For t As Integer = 0 To m - 1
-                Dim la As Double = p(0)
-                Dim lb As Double = p(1)
-
-                For c As Integer = 0 To k - 1
-                    Dim lx As Double = LnX(c)(t)
-
-                    la += p(2 + c) * lx
-                    lb += p(2 + k + c) * lx
-                Next
-
-                Dim d As Double = (std.Exp(clampExp(la)) - std.Exp(clampExp(lb))) - Observed(t)
-
-                err += d * d
-            Next
+            Call evaluateCore(p, Nothing, err)
 
             Return err
         End Function
@@ -417,6 +611,25 @@ Namespace GRN
 
         Public Overrides Function evaluate(x As Double()) As Double
             Return Problem.Objective(x)
+        End Function
+
+        ''' <summary>
+        ''' 声明当前目标函数可以在一次求值之中同时给出梯度，
+        ''' 从而让 L-BFGS-B 跳过有限差分（每次梯度约 <c>2·dims</c> 次目标函数调用）
+        ''' </summary>
+        ''' <returns></returns>
+        Public Overrides Function in_place_gradient() As Boolean
+            Return True
+        End Function
+
+        ''' <summary>
+        ''' 目标函数值与解析梯度（一次 SIMD 遍历）
+        ''' </summary>
+        ''' <param name="x"></param>
+        ''' <param name="grad"></param>
+        ''' <returns></returns>
+        Public Overrides Function evaluate(x As Double(), grad As Double()) As Double
+            Return Problem.evaluate(x, grad)
         End Function
     End Class
 
