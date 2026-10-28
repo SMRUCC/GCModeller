@@ -1,5 +1,6 @@
 Imports System
 Imports System.IO
+Imports SMRUCC.genomics.Analysis.BNLearn
 Imports SMRUCC.genomics.Analysis.BNLearn.Core
 Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
 Imports SMRUCC.genomics.Analysis.FuzzyGene
@@ -7,6 +8,7 @@ Imports SMRUCC.genomics.Analysis.FuzzyGene.Config
 Imports SMRUCC.genomics.Analysis.FuzzyGene.Data
 Imports SMRUCC.genomics.Analysis.FuzzyGene.Fitting
 Imports SMRUCC.genomics.Analysis.FuzzyGene.IO
+Imports SMRUCC.genomics.Analysis.FuzzyGene.Perturbation
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports std = System.Math
 
@@ -23,7 +25,7 @@ Module Program
     Private passes As Integer = 0
     Private failures As Integer = 0
 
-    Private ReadOnly geneNames As String() = {"A", "B", "C", "D", "E", "F"}
+    Private geneNames As String() = {"A", "B", "C", "D", "E", "F"}
 
     Function Main(args As String()) As Integer
         Console.WriteLine("=== FuzzyGene self test ===")
@@ -150,7 +152,7 @@ Module Program
               "fold changes and z-scores are aligned with the gene list")
         Check(koA.Spec IsNot Nothing AndAlso koA.Spec.GeneName = "A", "intervention spec is attached")
 
-        Dim combo As CombinationPerturbationResult = model.PredictCombination({"A", "D"}, InterventionMode.Knockout)
+        Dim combo As CombinationPerturbationResult = model.PredictCombination(New String() {"A", "D"}, InterventionMode.Knockout)
 
         Check(combo.Joint IsNot Nothing, "combination perturbation returns a joint result")
         Check(combo.NonAdditive.Length = net.NGene, "combination result exposes non-additive effects")
