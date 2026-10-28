@@ -68,6 +68,11 @@ Namespace Fitting
             Dim usedPicks(n - 1)() As RegulatorPick
             Dim weights(n - 1)() As Double
 
+            ' 候选池只构建一次（全基因组规模下每一对基因的相关性扫描都是 O(行数)）
+            Dim pool As Integer() = RegulatorSelector.BuildCandidatePool(view, prior, cfg)
+            ' [0] = 候选筛选耗时（Stopwatch tick），[1] = 训练耗时
+            Dim phaseTicks As Long() = New Long(1) {}
+
             Dim completed As Integer = 0
             Dim reportStep As Integer = std.Max(1, n \ 10)
             Dim clock As New System.Diagnostics.Stopwatch()
@@ -78,7 +83,7 @@ Namespace Fitting
             ' 否则调用方在整段训练期间完全看不到进展
             Dim work As Action(Of Integer) =
                 Sub(g)
-                    Call FitOneGene(g, view, prior, cfg, models, metrics, usedPicks, weights)
+                    Call FitOneGene(g, view, prior, cfg, pool, models, metrics, usedPicks, weights, phaseTicks)
 
                     Dim done As Integer = System.Threading.Interlocked.Increment(completed)
 
@@ -131,8 +136,12 @@ Namespace Fitting
                 .Mode = view.Mode,
                 .NGene = n,
                 .NSample = view.NRows,
+                .NSampleRaw = view.NSample,
+                .NCandidatePool = If(pool Is Nothing, n, pool.Length),
                 .GeneMetrics = metrics,
                 .EdgeCount = edges.Count,
+                .SelectionElapsed = TicksToTimeSpan(phaseTicks(0)),
+                .TrainingElapsed = TicksToTimeSpan(phaseTicks(1)),
                 .Elapsed = DateTime.Now - started
             }
 
@@ -151,6 +160,12 @@ Namespace Fitting
             End If
             If view.IsLagged Then
                 Call warnings.Add($"lagged route: {view.UniqueTimePoints.Length} time points -> {view.NRows} training pairs")
+            End If
+            If view.NRows < view.NSample Then
+                Call warnings.Add($"row sampling: {view.NSample} samples -> {view.NRows} training rows")
+            End If
+            If pool IsNot Nothing AndAlso pool.Length < n Then
+                Call warnings.Add($"candidate pool: {pool.Length}/{n} genes used for the correlation screening")
             End If
             For Each item As GeneFitMetric In metrics
                 If item IsNot Nothing AndAlso item.Status <> "ok" Then
