@@ -4,6 +4,7 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Calculus.Dynamics.Data
+Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.SGrid.GRN
 Imports SMRUCC.genomics.Analysis.SGrid.Perturbation
@@ -236,16 +237,16 @@ Public Module GRN
         End Select
     End Function
 
-    Private Function parsePerturbation(value As String) As SMRUCC.genomics.Analysis.SGrid.Perturbation.PerturbationTypes
+    Private Function parsePerturbation(value As String) As InterventionMode
         Select Case value.ToLower.Replace("-", "")
             Case "knockout", "ko"
-                Return PerturbationTypes.KnockOut
+                Return InterventionMode.Knockout
             Case "overexpress", "oe"
-                Return PerturbationTypes.OverExpress
+                Return InterventionMode.Overexpression
             Case "custom"
-                Return PerturbationTypes.Custom
+                Return InterventionMode.Custom
             Case Else
-                Return PerturbationTypes.KnockDown
+                Return InterventionMode.Knockdown
         End Select
     End Function
 

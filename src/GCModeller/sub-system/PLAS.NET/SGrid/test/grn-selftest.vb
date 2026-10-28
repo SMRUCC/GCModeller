@@ -11,6 +11,7 @@ Imports SSOdes = SMRUCC.genomics.Analysis.SSystem.Kernel.ODEs
 Imports SSModel = SMRUCC.genomics.Analysis.SSystem.Script.Model
 Imports SSVar = SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels.var
 Imports std = System.Math
+Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
 
 Namespace SelfTest
 
@@ -181,8 +182,8 @@ Namespace SelfTest
             Call report.AppendLine("rate constant recovery:")
 
             For i As Integer = 0 To GeneNames.Length - 1
-                Dim ra As Double = std.Abs(network.Parameters.alpha(i) - Alpha(i)) / std.Max(Alpha(i), 1.0E-6)
-                Dim rb As Double = std.Abs(network.Parameters.beta(i) - Beta(i)) / std.Max(Beta(i), 1.0E-6)
+                Dim ra As Double = std.Abs(network.Parameters.alpha(i) - Alpha(i)) / std.Max(Alpha(i), 0.000001)
+                Dim rb As Double = std.Abs(network.Parameters.beta(i) - Beta(i)) / std.Max(Beta(i), 0.000001)
 
                 Call report.AppendLine($"  {GeneNames(i)}: alpha {network.Parameters.alpha(i).ToString("G5")} (truth {Alpha(i)}), beta {network.Parameters.beta(i).ToString("G5")} (truth {Beta(i)}), relerr=({ra.ToString("F2")}, {rb.ToString("F2")})")
 
@@ -223,7 +224,7 @@ Namespace SelfTest
                 network,
                 {New Perturbation.PerturbationDesign With {
                     .TargetGene = GeneNames(0),
-                    .Type = Perturbation.PerturbationTypes.KnockDown,
+                    .Type = InterventionMode.Knockdown,
                     .Magnitude = 0.8R
                 }})
 
@@ -237,7 +238,7 @@ Namespace SelfTest
             Dim responded As Integer = screening _
                 .Records _
                 .SafeQuery() _
-                .Where(Function(r) r.MaxDeviation > 1.0E-9) _
+                .Where(Function(r) r.MaxDeviation > 0.000000001) _
                 .Count()
 
             If screening.Records.IsNullOrEmpty Then
@@ -313,7 +314,7 @@ Namespace SelfTest
                     Continue For
                 End If
 
-                Dim sim As Double() = output.y(name).Value
+                Dim sim As Double() = output.y(name).value
                 Dim mean As Double = obs.Average
 
                 For k As Integer = 0 To std.Min(obs.Length, sim.Length) - 1
@@ -322,8 +323,8 @@ Namespace SelfTest
                 Next
             Next
 
-            If ssTot < 1.0E-12 Then
-                Return If(ssRes < 1.0E-12, 1, 0)
+            If ssTot < 0.000000000001 Then
+                Return If(ssRes < 0.000000000001, 1, 0)
             End If
 
             Return 1 - ssRes / ssTot
@@ -367,7 +368,7 @@ Namespace SelfTest
                     scale += truth ^ 2
                 Next
 
-                Call report.AppendLine($"  {GeneNames(i)}: X in [{x.Min.ToString("G4")}, {x.Max.ToString("G4")}], slope relerr={std.Sqrt(diff / std.Max(scale, 1.0E-12)).ToString("P1")}")
+                Call report.AppendLine($"  {GeneNames(i)}: X in [{x.Min.ToString("G4")}, {x.Max.ToString("G4")}], slope relerr={std.Sqrt(diff / std.Max(scale, 0.000000000001)).ToString("P1")}")
             Next
 
             Call report.AppendLine()
@@ -391,7 +392,7 @@ Namespace SelfTest
                 Dim problem As New GRN.SlopeProblem With {
                     .LnX = candidates.Select(Function(j) series.LnX(j)).ToArray,
                     .Observed = slopes(i),
-                    .Scale = std.Max(std.Sqrt(variance), 1.0E-9),
+                    .Scale = std.Max(std.Sqrt(variance), 0.000000001),
                     .L1 = options.L1Penalty,
                     .SelfIndex = i,
                     .StabilityWeight = options.StabilityPenalty
@@ -478,7 +479,7 @@ Namespace SelfTest
                 .Select(Function(name, i)
                             Dim values As Double() = output _
                                 .y(name) _
-                                .Value _
+                                .value _
                                 .Take(times.Length) _
                                 .ToArray
 

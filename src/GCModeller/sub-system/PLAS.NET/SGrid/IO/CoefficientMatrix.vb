@@ -1,8 +1,6 @@
 Imports System.Globalization
-Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
-Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.SGrid.GRN
 
 Namespace IO
@@ -71,7 +69,7 @@ Namespace IO
                 Call sb.AppendLine()
             Next
 
-            Call writeText(file, sb.ToString())
+            Call sb.SaveTo(file)
 
             Return True
         End Function
@@ -147,7 +145,7 @@ Namespace IO
                 Call sb.AppendLine(valid.ToString())
             Next
 
-            Call writeText(file, sb.ToString())
+            Call sb.SaveTo(file)
 
             Return True
         End Function
@@ -178,15 +176,5 @@ Namespace IO
                 Return x.ToString("G10", CultureInfo.InvariantCulture)
             End If
         End Function
-
-        Private Sub writeText(filePath As String, text As String)
-            Dim dir As String = Path.GetDirectoryName(Path.GetFullPath(filePath))
-
-            If Not String.IsNullOrEmpty(dir) AndAlso Not Directory.Exists(dir) Then
-                Call Directory.CreateDirectory(dir)
-            End If
-
-            Call File.WriteAllText(filePath, text, New UTF8Encoding(False))
-        End Sub
     End Module
 End Namespace

@@ -8,6 +8,7 @@ Imports SMRUCC.genomics.Analysis.SGrid.GRN
 Imports SMRUCC.genomics.Analysis.SGrid.Perturbation
 Imports std = System.Math
 Imports PriorNet = SMRUCC.genomics.Analysis.BNLearn.Core.PriorNetwork
+Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
 
 Namespace GRNDemo
 
@@ -274,7 +275,7 @@ Namespace GRNDemo
                 For Each gene As String In modeled
                     Call designs.Add(New PerturbationDesign With {
                         .TargetGene = gene,
-                        .Type = PerturbationTypes.KnockDown,
+                        .Type = InterventionMode.Knockdown,
                         .Magnitude = options.Knockdown,
                         .Start = tEnd * options.ContextStart,
                         .Interval = 1,
@@ -311,7 +312,7 @@ Namespace GRNDemo
                     .ToArray()
                 Dim diverged As Integer = screening.Records.SafeQuery().Count() - usable.Length
                 Dim responders As Integer = usable _
-                    .Where(Function(r) Not r.IsTarget AndAlso r.MaxDeviation > 1.0E-9) _
+                    .Where(Function(r) Not r.IsTarget AndAlso r.MaxDeviation > 0.000000001) _
                     .Count()
                 Dim drift As String = controlDrift(Path.Combine(dir, "control.csv"), options.ContextMaxLevel)
 
@@ -900,14 +901,14 @@ Namespace GRNDemo
             For Each hub As String In hubs
                 Call designs.Add(New PerturbationDesign With {
                     .TargetGene = hub,
-                    .Type = PerturbationTypes.KnockOut,
+                    .Type = InterventionMode.Knockout,
                     .Start = start,
                     .Interval = interval,
                     .Kicks = kicks
                 })
                 Call designs.Add(New PerturbationDesign With {
                     .TargetGene = hub,
-                    .Type = PerturbationTypes.OverExpress,
+                    .Type = InterventionMode.Overexpression,
                     .Magnitude = 1.0R,
                     .Start = start,
                     .Interval = interval,
@@ -1031,9 +1032,9 @@ Namespace GRNDemo
                 .ToArray()
         End Function
 
-        #End Region
+#End Region
 
-        #Region "helpers"
+#Region "helpers"
 
         Private Function sameList(a As String(), b As String()) As Boolean
             If a Is Nothing OrElse b Is Nothing Then
@@ -1083,6 +1084,6 @@ Namespace GRNDemo
             Call File.WriteAllText(filePath, If(text, ""), New UTF8Encoding(False))
         End Sub
 
-        #End Region
+#End Region
     End Module
 End Namespace
