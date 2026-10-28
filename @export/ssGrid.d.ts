@@ -102,7 +102,7 @@ declare namespace ssGrid {
     * 
      * @param x the gene expression matrix(rows are genes and columns are the time points), 
      *  this matrix object could be loaded from a csv file via ``geneExpression::load.expr``.
-     * @param opts the fitting configuration object, see also: [ssGrid.sfitOptions()](cref:M:biosystem.ssGrid.sfitOptions(System.String,System.Double,System.Double,System.Int32,System.Int32,System.Double,System.Double,System.Int32,System.Double,System.Double,System.Double,SMRUCC.genomics.Analysis.BNLearn.Core.PriorNetwork,System.Int32,System.Int32,System.Int32,System.Boolean,System.Boolean,System.Boolean,System.Double,System.Double,System.Int32)).
+     * @param opts the fitting configuration object, see also: [ssGrid.sfitOptions()](cref:M:biosystem.ssGrid.sfitOptions(System.String,System.Double,System.Double,System.Int32,System.Int32,System.Double,System.Double,System.Int32,System.Double,System.Double,System.Double,SMRUCC.genomics.Analysis.BNLearn.Core.PriorNetwork,System.Int32,System.Int32,System.Int32,System.Boolean,System.Boolean,System.Boolean,System.Double,System.Double,System.Int32,System.Int32)).
      * 
      * + default value Is ``null``.
      * @param prior the prior knowledge regulatory network, which could be a 
@@ -193,12 +193,14 @@ declare namespace ssGrid {
      * @param precise the integration step of the simulation.
      * 
      * + default value Is ``0.1``.
+     * @param thread_tasks 
+     * + default value Is ``-1``.
      * @param steps the number of the simulation sample points, zero means auto.
      * 
      * + default value Is ``0``.
      * @return a [FittingOptions](cref:T:SMRUCC.genomics.Analysis.SGrid.GRN.FittingOptions) object
    */
-   function sfit_options(normalize?: string, pseudo?: number, sparsity?: number, max_edges?: object, max_regulators?: object, l1?: number, stability?: number, smooth?: object, prior_penalty?: number, prior_sign_penalty?: number, prior_rank_boost?: number, prior?: object, de_pop?: object, de_iters?: object, seed?: object, parallel?: boolean, verbose?: boolean, refine?: boolean, final_time?: number, precise?: number, steps?: object): object;
+   function sfit_options(normalize?: string, pseudo?: number, sparsity?: number, max_edges?: object, max_regulators?: object, l1?: number, stability?: number, smooth?: object, prior_penalty?: number, prior_sign_penalty?: number, prior_rank_boost?: number, prior?: object, de_pop?: object, de_iters?: object, seed?: object, parallel?: boolean, verbose?: boolean, refine?: boolean, final_time?: number, precise?: number, thread_tasks?: object, steps?: object): object;
    /**
     * get the coefficient matrix of the fitted S-system model
     * 
