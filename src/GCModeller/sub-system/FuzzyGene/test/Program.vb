@@ -81,10 +81,11 @@ Module Program
             Console.WriteLine("  " & edge.ToString())
         Next
 
-        ' ---- 边符号：真实拓扑 A→B(+), A→C(-), B→D(+), C→D(-), D→E(+) ----
+        ' ---- 边符号：真实拓扑 A→B(+), A→C(-), F→C(+), B→D(+), C→D(-), D→E(+) ----
         Dim expected As (source As String, target As String, sign As Integer)() = {
             ("A", "B", 1),
             ("A", "C", -1),
+            ("F", "C", 1),
             ("B", "D", 1),
             ("C", "D", -1),
             ("D", "E", 1)
@@ -112,8 +113,8 @@ Module Program
             End If
         Next
 
-        Check(recovered >= 4, $"at least 4 of 5 true edges recovered (actual {recovered})")
-        Check(correctSign >= 4, $"at least 4 of 5 recovered edges have the correct sign (actual {correctSign})")
+        Check(recovered = 6, $"all 6 true edges recovered (actual {recovered})")
+        Check(correctSign = 6, $"all 6 recovered edges have the correct sign (actual {correctSign})")
 
         ' ---- 虚拟敲除 A：B 下降、C 上升 ----
         Dim koA As InterventionResult = model.KnockoutGene("A")
@@ -145,6 +146,11 @@ Module Program
         Dim koD As InterventionResult = model.KnockoutGene("D")
 
         Check(Delta(koD, "E") < -0.05, $"knockout D down-regulates E (actual {Delta(koD, "E"):F4})")
+
+        ' ---- 敲除根节点 F：C 下降 ----
+        Dim koF As InterventionResult = model.KnockoutGene("F")
+
+        Check(Delta(koF, "C") < -0.2, $"knockout F down-regulates C (actual {Delta(koF, "C"):F4})")
 
         ' ---- 接口结构与组合扰动 ----
         Check(koA.GeneNames.Length = net.NGene, "intervention result carries all gene names")
@@ -341,9 +347,14 @@ Module Program
 #Region "合成数据"
 
     ''' <summary>
-    ''' 静态路线数据：A 是根调控因子，B/C 分别受 A 激活与抑制，
-    ''' D 受 B 激活且受 C 抑制，E 只受 D 激活，F 是纯噪声（无调控关系）。
+    ''' 静态路线数据：A 与 F 是两个独立的根调控因子；B 只受 A 激活，
+    ''' C 受 A 抑制且受 F 激活，D 受 B 激活且受 C 抑制，E 只受 D 激活。
     ''' </summary>
+    ''' <remarks>
+    ''' B 与 C 并不完全共线（C 还带一个来自 F 的独立成分），否则
+    ''' <c>∂D/∂B</c> 与 <c>∂D/∂C</c> 在数学上不可辨识——这也正是方法文档里
+    ''' 「相关不等于因果」那条限制的具体体现。
+    ''' </remarks>
     Private Function BuildStaticExpression() As GeneExpressionData
         Dim rng As New Random(20261028)
         Dim samples As Integer = 400
@@ -354,11 +365,11 @@ Module Program
             sampleNames(s) = "s" & s
 
             Dim a As Double = 1.0 + 0.8 * Normal(rng)
-            Dim b As Double = 2.0 + 1.8 * std.Tanh((a - 1.0) / 0.8) + 0.10 * Normal(rng)
-            Dim c As Double = 2.0 - 1.8 * std.Tanh((a - 1.0) / 0.8) + 0.10 * Normal(rng)
+            Dim f As Double = 0.8 * Normal(rng)
+            Dim b As Double = 2.0 + 1.8 * std.Tanh((a - 1.0) / 0.8) + 0.12 * Normal(rng)
+            Dim c As Double = 2.0 - 1.8 * std.Tanh((a - 1.0) / 0.8) + 1.0 * std.Tanh(f / 0.8) + 0.12 * Normal(rng)
             Dim d As Double = 1.0 + 2.0 * std.Tanh((b - 2.0) / 1.0) - 1.2 * std.Tanh((c - 2.0) / 1.0) + 0.10 * Normal(rng)
             Dim e As Double = 1.5 * std.Tanh((d - 1.0) / 1.2) + 0.10 * Normal(rng)
-            Dim f As Double = 4.0 + 0.5 * Normal(rng)
 
             matrix(0, s) = a
             matrix(1, s) = b
@@ -434,12 +445,13 @@ Module Program
         }
     End Function
 
-    ''' <summary>先验网络：只包含真实调控边（A→B+、A→C−、B→D+、C→D−、D→E+）。</summary>
+    ''' <summary>先验网络：只包含真实调控边（A→B+、A→C−、F→C+、B→D+、C→D−、D→E+）。</summary>
     Private Function BuildPrior() As PriorNetwork
         Dim net As New PriorNetwork()
 
         Call net.AddEdge("A", "B", Effector.Activator, 0.95, "synthetic")
         Call net.AddEdge("A", "C", Effector.Inhibitor, 0.9, "synthetic")
+        Call net.AddEdge("F", "C", Effector.Activator, 0.75, "synthetic")
         Call net.AddEdge("B", "D", Effector.Activator, 0.85, "synthetic")
         Call net.AddEdge("C", "D", Effector.Inhibitor, 0.85, "synthetic")
         Call net.AddEdge("D", "E", Effector.Activator, 0.8, "synthetic")
