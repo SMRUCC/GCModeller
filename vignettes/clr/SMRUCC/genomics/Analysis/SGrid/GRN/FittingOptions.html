@@ -46,6 +46,8 @@ export class FittingOptions {
    Denoise: boolean;
    # 差分进化算法的种群大小
    DEPopulationSize: integer;
+   # 差分进化的停滞代数上限：连续这么多代最优个体没有实质改进就提前结束； 零或者负数表示跑满 <a href="cref:P:SMRUCC.genomics.Analysis.SGrid.GRN.FittingOptions.DEMaxIterations">FittingOptions.DEMaxIterations</a>
+   DEStagnation: integer;
    # 差分进化算法的收敛阈值
    DEThreshold: double;
    # 仿真（轨迹精修与虚拟扰动）所使用的终止时间；零表示使用表达矩阵的时间轴终点
@@ -80,6 +82,8 @@ export class FittingOptions {
    PriorRankBoost: double;
    # 与先验方向相冲突的交互的惩罚强度：惩罚量取「符号违背量的平均值」， 零表示关闭该约束
    PriorSignPenalty: double;
+   # 是否输出性能剖析信息（目标函数调用次数，以及差分进化 / L-BFGS-B 两个阶段的累计耗时）
+   Profile: boolean;
    # 对数变换的伪计数，避免出现 log(0)
    PseudoCount: double;
    # 轨迹精修阶段的最大迭代次数
