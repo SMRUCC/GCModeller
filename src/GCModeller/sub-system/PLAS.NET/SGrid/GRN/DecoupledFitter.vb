@@ -695,6 +695,19 @@ Namespace GRN
         ReadOnly prior As PriorNet
 
         ''' <summary>
+        ''' 全部基因累计的目标函数调用次数（性能剖析用）
+        ''' </summary>
+        Public Property totalEvaluations As Long = 0
+        ''' <summary>
+        ''' 全部基因累计的差分进化耗时（毫秒，性能剖析用）
+        ''' </summary>
+        Public Property totalEvolutionMs As Long = 0
+        ''' <summary>
+        ''' 全部基因累计的 L-BFGS-B 精修耗时（毫秒，性能剖析用）
+        ''' </summary>
+        Public Property totalRefineMs As Long = 0
+
+        ''' <summary>
         ''' 创建一个逐基因解耦的拟合器
         ''' </summary>
         ''' <param name="series"></param>
@@ -926,6 +939,8 @@ Namespace GRN
             Dim bestScore As Double = problem.Objective(best)
 
             ' 阶段一：差分进化全局粗搜
+            Dim phaseWatch As Stopwatch = Stopwatch.StartNew()
+
             Try
                 Dim de As DifferentialEvolutionResult = DifferentialEvolutionLite.Minimize(
                     target:=Function(p) problem.Objective(p),
@@ -950,7 +965,13 @@ Namespace GRN
                 Call Console.WriteLine($"[WARN] differential evolution failed on gene '{series.GeneNames(i)}': {ex.Message}")
             End Try
 
+            phaseWatch.Stop()
+
+            Dim evolutionMs As Double = phaseWatch.Elapsed.TotalMilliseconds
+
             ' 阶段二：L-BFGS-B 盒约束局部精修（分别从历史最优与启发式初值出发）
+            phaseWatch.Restart()
+
             For Each start As Double() In New Double()() {best, heuristic}
                 Dim refined As Double() = refine(start, problem, lower, upper)
 
@@ -965,6 +986,14 @@ Namespace GRN
                     bestScore = score
                 End If
             Next
+
+            phaseWatch.Stop()
+
+            Dim refineMs As Double = phaseWatch.Elapsed.TotalMilliseconds
+
+            Call System.Threading.Interlocked.Add(Me.totalEvaluations, problem.Evaluations)
+            Call System.Threading.Interlocked.Add(Me.totalEvolutionMs, CLng(evolutionMs))
+            Call System.Threading.Interlocked.Add(Me.totalRefineMs, CLng(refineMs))
 
             ' 回写参数
             result.alpha(i) = std.Exp(best(0))
