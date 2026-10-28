@@ -62,6 +62,8 @@ export class FittingOptions {
    L1Penalty: double;
    # L-BFGS-B 局部精修的最大迭代次数
    LBFGSIterations: integer;
+   # 并行计算所使用的线程上限；零或者负数表示使用运行时的默认值（逻辑核数）。 该上限同时作用于数值微分（<a href="cref:M:SMRUCC.genomics.Analysis.SGrid.GRN.SlopeEstimator.Estimate(SMRUCC.genomics.Analysis.SGrid.GRN.ExpressionTimeSeries,System.Boolean,System.Int32,System.Boolean,System.Int32)">SlopeEstimator.Estimate()</a>） 与逐基因参数拟合
+   MaxDegreeOfParallelism: integer;
    # 每一个靶基因最多保留的调控边的数量（与 SPEM 包的 n 参数同义，默认 3）
    MaxEdgesPerGene: integer;
    # 预先使用相关性筛选出的候选调控因子的最大数量；零表示不筛选（使用全部基因作为候选）
