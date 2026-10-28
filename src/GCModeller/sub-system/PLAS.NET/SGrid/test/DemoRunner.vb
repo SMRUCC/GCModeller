@@ -781,6 +781,7 @@ Namespace GRNDemo
                 .PriorCandidateRestriction = False,
                 .DEPopulationSize = options.DEPopulation,
                 .DEMaxIterations = options.DEIterations,
+                .DEStagnation = options.DEStagnation,
                 .DEThreshold = 0.0001R,
                 .LBFGSIterations = 400,
                 .RefineTrajectory = False,

@@ -99,6 +99,11 @@ Namespace GRNDemo
         ''' <returns></returns>
         Public Property DEIterations As Integer = 1200
         ''' <summary>
+        ''' 差分进化的停滞代数上限（连续多少代没有实质改进就提前结束；零表示跑满迭代数）
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property DEStagnation As Integer = 100
+        ''' <summary>
         ''' 先验知识对非先验交互的软惩罚强度
         ''' </summary>
         ''' <returns></returns>
@@ -338,6 +343,7 @@ Namespace GRNDemo
             options.StabilityPenalty = doubleOf(values, "stability", options.StabilityPenalty)
             options.DEPopulation = integerOf(values, "de-pop", options.DEPopulation)
             options.DEIterations = integerOf(values, "de-iters", options.DEIterations)
+            options.DEStagnation = integerOf(values, "de-stagnation", options.DEStagnation)
             options.PriorPenalty = doubleOf(values, "prior-penalty", options.PriorPenalty)
             options.PriorSignPenalty = doubleOf(values, "prior-sign-penalty", options.PriorSignPenalty)
             options.PriorRankBoost = doubleOf(values, "prior-rank-boost", options.PriorRankBoost)
@@ -399,6 +405,7 @@ Namespace GRNDemo
                 Call sb.AppendLine("  --stability <x>          penalty weight of a positive self loop (default 0.05)")
                 Call sb.AppendLine("  --de-pop <n>             differential evolution population size (default 40)")
                 Call sb.AppendLine("  --de-iters <n>           differential evolution iterations (default 1200)")
+                Call sb.AppendLine("  --de-stagnation <n>      stop the differential evolution after n stagnant generations (0 = off, default 100)")
                 Call sb.AppendLine("  --prior-penalty <x>      soft penalty for the interactions which are not supported by the prior (default 0.2)")
                 Call sb.AppendLine("  --prior-sign-penalty <x> penalty for the direction conflict against the prior (default 0.2)")
                 Call sb.AppendLine("  --prior-rank-boost <x>   ranking boost of the prior supported edges (default 1.0)")

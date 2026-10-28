@@ -141,6 +141,12 @@ Namespace GRN
         ''' <returns></returns>
         Public Property Profile As Boolean = False
         ''' <summary>
+        ''' 差分进化的停滞代数上限：连续这么多代最优个体没有实质改进就提前结束；
+        ''' 零或者负数表示跑满 <see cref="DEMaxIterations"/>
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property DEStagnation As Integer = 100
+        ''' <summary>
         ''' 是否启用先验的硬约束：候选调控因子只允许来自先验（加上自环）。
         ''' 默认关闭，即保留发现新边的能力（软约束）
         ''' </summary>

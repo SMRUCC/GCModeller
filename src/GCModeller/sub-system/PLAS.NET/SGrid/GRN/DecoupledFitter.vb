@@ -959,7 +959,8 @@ Namespace GRN
                     F:=options.DEF,
                     CR:=options.DECR,
                     threshold:=options.DEThreshold,
-                    seed:=geneRnd.Next())
+                    seed:=geneRnd.Next(),
+                    stagnation:=options.DEStagnation)
 
                 If Not de Is Nothing AndAlso Not de.Best Is Nothing Then
                     Dim score As Double = problem.Objective(de.Best)
