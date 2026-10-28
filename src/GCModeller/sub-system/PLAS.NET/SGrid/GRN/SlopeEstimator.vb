@@ -142,7 +142,7 @@ Namespace GRN
                 End If
             Next
 
-            If den <= 1.0E-12 Then
+            If den <= 0.000000000001 Then
                 Return 1
             End If
 
@@ -260,7 +260,7 @@ Namespace GRN
                     Dim pb As PointF = spline.GetPoint(CSng(b))
                     Dim dx As Double = pb.X - pa.X
 
-                    If std.Abs(dx) < 1.0E-9 Then
+                    If std.Abs(dx) < 0.000000001 Then
                         ' 兜底的中心差分只计算一次：
                         ' 原实现在循环体内重复计算整条差分（O(m²) 且 O(m) 次分配）
                         If fallback Is Nothing Then
