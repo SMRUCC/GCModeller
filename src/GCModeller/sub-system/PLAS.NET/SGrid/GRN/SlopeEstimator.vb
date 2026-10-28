@@ -66,6 +66,7 @@ Namespace GRN
                 parallel = parallel AndAlso n >= MinParallelGenes
             End If
 
+            Dim d As Integer = n / 30
             Dim offset As i32 = 1
             ' 每个基因独立：只读 series.X(i)，只写 slopes(i)
             Dim body As Action(Of Integer) =
@@ -84,7 +85,9 @@ Namespace GRN
 
                     If parallel Then
                         SyncLock offset
-                            Call $"[slope_estimate #{++offset}] {series.OriginalNames(i)}: {slopes(i).Average}".debug
+                            If ++offset Mod d = 0 Then
+                                Call $"[slope_estimate #{offset}/{n}] {series.OriginalNames(i)}: {slopes(i).Average}".debug
+                            End If
                         End SyncLock
                     End If
                 End Sub
