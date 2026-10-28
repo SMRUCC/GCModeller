@@ -49,11 +49,73 @@ Namespace Data
     ''' <para>
     ''' 选择顺序遵循「先验提供因果方向、数据提供相关性证据」：
     ''' 先按先验置信度降序取 TF，再用与靶基因 |Pearson| 最强的基因补齐；
-    ''' 相关性来自 <see cref="GeneExpressionView.StateRows"/>（滞后路线下是时间点序列），
-    ''' 因此不会因为重复样本数不同而改变排序依据。
+    ''' 相关性在 <see cref="GeneExpressionView.Columns"/>（基因优先的连续列）上顺序计算，
+    ''' 因此每个候选对的成本是一次长度为行数的顺序扫描，而不是把整张矩阵拖过缓存。
+    ''' </para>
+    ''' <para>
+    ''' 全基因组规模下，逐靶基因扫描全部基因是 <c>O(n²·m)</c>，
+    ''' 所以可以由 <see cref="FuzzyGeneConfig.MaxCandidateGenes"/> 指定候选池
+    ''' （先验 TF ∪ 方差最高的若干基因），见 <see cref="BuildCandidatePool"/>。
     ''' </para>
     ''' </remarks>
     Public Module RegulatorSelector
+
+        ''' <summary>
+        ''' 构建相关性候选池：先验调控网络的 TF 无条件入池，其余按原始表达的标准差降序补齐。
+        ''' </summary>
+        ''' <param name="view">预处理视图</param>
+        ''' <param name="prior">先验调控网络（可为 Nothing）</param>
+        ''' <param name="config">建模配置</param>
+        ''' <returns>候选基因下标；<c>Nothing</c> 表示不限制（使用全部基因）</returns>
+        ''' <remarks>
+        ''' 之所以用**原始标准差**排序而不是 z 空间的方差：标准化的目的就是让 z 空间的方差
+        ''' 全部等于 1，那个数字无法区分基因；<see cref="GeneExpressionView.SDs"/> 保留的是原始尺度的离散度。
+        ''' </remarks>
+        Public Function BuildCandidatePool(view As GeneExpressionView,
+                                           prior As PriorNetwork,
+                                           config As FuzzyGeneConfig) As Integer()
+
+            If view Is Nothing Then
+                Throw New ArgumentNullException(NameOf(view))
+            End If
+
+            Dim cfg As FuzzyGeneConfig = If(config, New FuzzyGeneConfig())
+            Dim limit As Integer = cfg.MaxCandidateGenes
+
+            If limit <= 0 OrElse view.NGene <= limit Then
+                Return Nothing
+            End If
+
+            Dim keep As New HashSet(Of Integer)
+
+            ' 先验 TF 无条件入池：它们承载因果方向，被方差过滤掉就失去先验的意义
+            If prior IsNot Nothing AndAlso prior.TFNames IsNot Nothing Then
+                For i As Integer = 0 To view.NGene - 1
+                    If prior.TFNames.Contains(view.GeneNames(i)) Then
+                        Call keep.Add(i)
+                    End If
+                Next
+            End If
+
+            If keep.Count >= limit Then
+                Return keep.Take(limit).ToArray()
+            End If
+
+            Dim order As Integer() = Enumerable _
+                .Range(0, view.NGene) _
+                .OrderByDescending(Function(i) view.SDs(i)) _
+                .ToArray()
+
+            For Each idx As Integer In order
+                If keep.Count >= limit Then
+                    Exit For
+                End If
+
+                Call keep.Add(idx)
+            Next
+
+            Return keep.ToArray()
+        End Function
 
         ''' <summary>
         ''' 为指定靶基因挑选候选调控因子。
@@ -62,11 +124,15 @@ Namespace Data
         ''' <param name="prior">先验调控网络（可为 Nothing）</param>
         ''' <param name="config">建模配置</param>
         ''' <param name="targetIndex">靶基因在 <paramref name="view"/> 中的下标</param>
+        ''' <param name="pool">
+        ''' 相关性候选池（见 <see cref="BuildCandidatePool"/>）；<c>Nothing</c> 表示扫描全部基因
+        ''' </param>
         ''' <returns>按输入顺序排列的候选因子；空数组表示该基因无法建模</returns>
         Public Function SelectRegulators(view As GeneExpressionView,
                                          prior As PriorNetwork,
                                          config As FuzzyGeneConfig,
-                                         targetIndex As Integer) As RegulatorPick()
+                                         targetIndex As Integer,
+                                         Optional pool As Integer() = Nothing) As RegulatorPick()
 
             If view Is Nothing Then
                 Throw New ArgumentNullException(NameOf(view))
@@ -82,68 +148,78 @@ Namespace Data
             If cfg.Selection <> RegulatorSelection.CorrelationOnly AndAlso prior IsNot Nothing Then
                 Dim edges As List(Of RegulatoryEdge) = prior.GetRegulators(targetGene)
 
-                For Each edge As RegulatoryEdge In edges.OrderByDescending(Function(e) e.Confidence)
-                    Dim idx As Integer = view.IndexOf(edge.TF)
+                If edges IsNot Nothing Then
+                    For Each edge As RegulatoryEdge In edges.OrderByDescending(Function(e) e.Confidence)
+                        Dim idx As Integer = view.IndexOf(edge.TF)
 
-                    If idx < 0 OrElse idx = targetIndex Then
-                        Continue For
-                    End If
-                    If view.Constant(idx) Then
-                        Continue For
-                    End If
-                    If Not taken.Add(idx) Then
-                        Continue For
-                    End If
+                        If idx < 0 OrElse idx = targetIndex Then
+                            Continue For
+                        End If
+                        If view.Constant(idx) Then
+                            Continue For
+                        End If
+                        If Not taken.Add(idx) Then
+                            Continue For
+                        End If
 
-                    Call picks.Add(New RegulatorPick With {
-                        .Gene = view.GeneNames(idx),
-                        .IsPrior = True,
-                        .PriorConfidence = edge.Confidence,
-                        .Correlation = Pearson(view, targetIndex, idx)
-                    })
+                        Call picks.Add(New RegulatorPick With {
+                            .Gene = view.GeneNames(idx),
+                            .IsPrior = True,
+                            .PriorConfidence = edge.Confidence,
+                            .Correlation = Pearson(view, targetIndex, idx)
+                        })
 
-                    If picks.Count >= limit Then
-                        Exit For
-                    End If
-                Next
+                        If picks.Count >= limit Then
+                            Exit For
+                        End If
+                    Next
+                End If
             End If
 
             ' ---- 2. 相关性补齐 ----
             If picks.Count < limit AndAlso cfg.Selection <> RegulatorSelection.PriorOnly Then
                 Dim scored As New List(Of (index As Integer, correlation As Double))
                 Dim strong As New List(Of (index As Integer, correlation As Double))
+                Dim bestAbs As Double = 0.0
 
-                For j As Integer = 0 To view.NGene - 1
+                For Each j As Integer In CandidateIndices(view, pool)
                     If j = targetIndex OrElse view.Constant(j) OrElse taken.Contains(j) Then
                         Continue For
                     End If
 
                     Dim r As Double = Pearson(view, targetIndex, j)
+                    Dim strength As Double = std.Abs(r)
 
                     Call scored.Add((j, r))
 
-                    If std.Abs(r) >= cfg.MinCorrelation Then
+                    If strength > bestAbs Then
+                        bestAbs = strength
+                    End If
+                    If strength >= cfg.MinCorrelation Then
                         Call strong.Add((j, r))
                     End If
                 Next
 
-                ' MinCorrelation 是“偏好”而不是硬门槛：单细胞/元细胞表达矩阵里大量低丰度基因
-                ' 的 |r| 普遍偏低，若把它当硬门槛，这些基因会整条被丢掉（实测 300 基因面板里
-                ' 有 92 个基因因此无法建模）。因此当没有任何候选达到阈值时，退化为
-                ' “取相关性最强的 K 个”，只在相关性数值上确实为 0 时才放弃该基因。
-                Dim pool As List(Of (index As Integer, correlation As Double))
-
-                If strong.Count > 0 Then
-                    pool = strong
-                Else
-                    pool = scored _
-                        .Where(Function(x) std.Abs(x.correlation) > 0.000001) _
-                        .ToList()
+                ' 有效性门槛：既没有先验入边、最佳相关性又低于门槛 → 该靶基因没有可解释信号，
+                ' 拟合出来的 R² 也会接近 0，直接跳过以节省算力
+                If picks.Count = 0 AndAlso cfg.MinBestCorrelation > 0.0 AndAlso bestAbs < cfg.MinBestCorrelation Then
+                    Return New RegulatorPick() {}
                 End If
 
-                pool.Sort(Function(a, b) std.Abs(b.correlation).CompareTo(std.Abs(a.correlation)))
+                ' MinCorrelation 是“偏好”而不是硬门槛：单细胞/元细胞表达矩阵里大量低丰度基因
+                ' 的 |r| 普遍偏低，若把它当硬门槛，这些基因会整条被丢掉。因此当没有任何候选达到
+                ' 阈值时，退化为「取相关性最强的 K 个」，只在相关性数值上确实为 0 时才放弃。
+                Dim candidates As List(Of (index As Integer, correlation As Double))
 
-                For Each item In pool
+                If strong.Count > 0 Then
+                    candidates = strong
+                Else
+                    candidates = scored.Where(Function(x) std.Abs(x.correlation) > 0.000001).ToList()
+                End If
+
+                candidates.Sort(Function(a, b) std.Abs(b.correlation).CompareTo(std.Abs(a.correlation)))
+
+                For Each item In candidates
                     If picks.Count >= limit Then
                         Exit For
                     End If
@@ -161,17 +237,37 @@ Namespace Data
             Return picks.ToArray()
         End Function
 
-        ''' <summary>两个基因在训练状态行上的 Pearson 相关系数。</summary>
+        Private Iterator Function CandidateIndices(view As GeneExpressionView, pool As Integer()) As IEnumerable(Of Integer)
+            If pool Is Nothing Then
+                For i As Integer = 0 To view.NGene - 1
+                    Yield i
+                Next
+            Else
+                For Each i As Integer In pool
+                    Yield i
+                Next
+            End If
+        End Function
+
+        ''' <summary>
+        ''' 两个基因在训练列上的 Pearson 相关系数。
+        ''' </summary>
+        ''' <remarks>
+        ''' 用 <c>cov = Σ(a·b) − n·m_a·m_b</c> 而不是逐点减均值：
+        ''' 每次迭代少两次减法、少一次额外的数组读取，且两列都是连续内存，
+        ''' JIT 能把内层循环向量化。
+        ''' </remarks>
         Public Function Pearson(view As GeneExpressionView, i As Integer, j As Integer) As Double
             Dim rows As Integer = view.NRows
-            Dim mi As Double = view.RowMeans(i)
-            Dim mj As Double = view.RowMeans(j)
-            Dim covariance As Double = 0.0
+            Dim a As Double() = view.Columns(i)
+            Dim b As Double() = view.Columns(j)
+            Dim dot As Double = 0.0
 
             For r As Integer = 0 To rows - 1
-                covariance += (view.StateRows(r)(i) - mi) * (view.StateRows(r)(j) - mj)
+                dot += a(r) * b(r)
             Next
 
+            Dim covariance As Double = dot - rows * view.RowMeans(i) * view.RowMeans(j)
             Dim denominator As Double = std.Sqrt(view.RowSs(i) * view.RowSs(j))
 
             If denominator < 0.000000000001 Then
