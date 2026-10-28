@@ -85,7 +85,7 @@ Namespace GRN
 
                     If parallel Then
                         SyncLock offset
-                            If ++offset Mod d = 0 Then
+                            If (++offset) Mod d = 0 Then
                                 Call $"[slope_estimate #{offset}/{n}] {series.OriginalNames(i)}: {slopes(i).Average}".debug
                             End If
                         End SyncLock

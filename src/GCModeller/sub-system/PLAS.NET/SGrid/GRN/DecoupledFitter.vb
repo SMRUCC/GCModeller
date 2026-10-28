@@ -1,8 +1,10 @@
 Imports System.Text
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MachineLearning.Darwinism
+Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.Framework.Optimization.LBFGSB
-Imports Microsoft.VisualBasic.Math.SIMD
 Imports PriorEdge = SMRUCC.genomics.Analysis.BNLearn.Core.RegulatoryEdge
 Imports PriorNet = SMRUCC.genomics.Analysis.BNLearn.Core.PriorNetwork
 Imports std = System.Math
@@ -174,7 +176,7 @@ Namespace GRN
 
             If m <= 0 Then
                 err = 0
-                Return 1.0E+12
+                Return 1000000000000.0
             End If
 
             Call ensureWorkspace(m)
@@ -259,7 +261,7 @@ Namespace GRN
             Dim f As Double = relative * penalty
 
             If Double.IsNaN(f) OrElse Double.IsInfinity(f) Then
-                Return 1.0E+12
+                Return 1000000000000.0
             End If
 
             Return f
@@ -322,7 +324,7 @@ Namespace GRN
                     penalty += StabilityWeight * netSelf
                 End If
             End If
-            If mass > 1.0E-12 AndAlso PriorPenalty > 0 Then
+            If mass > 0.000000000001 AndAlso PriorPenalty > 0 Then
                 penalty += PriorPenalty * (unsupported / mass)
             End If
             If nSign > 0 AndAlso PriorSignPenalty > 0 Then
@@ -355,7 +357,7 @@ Namespace GRN
                 End If
             End If
 
-            If Not PriorMask Is Nothing AndAlso PriorPenalty > 0 AndAlso mass > 1.0E-12 Then
+            If Not PriorMask Is Nothing AndAlso PriorPenalty > 0 AndAlso mass > 0.000000000001 Then
                 Dim scale As Double = relative * PriorPenalty / (mass * mass)
 
                 For c As Integer = 0 To k - 1
@@ -441,7 +443,7 @@ Namespace GRN
 
             Dim factor As Double = 0
 
-            If mass > 1.0E-12 AndAlso PriorPenalty > 0 Then
+            If mass > 0.000000000001 AndAlso PriorPenalty > 0 Then
                 factor += PriorPenalty * (unsupported / mass)
             End If
             If nSign > 0 AndAlso PriorSignPenalty > 0 Then
@@ -572,7 +574,7 @@ Namespace GRN
             For i As Integer = 0 To g.Length - 1
                 If rnd.NextDouble < MutationRate Then
                     Dim span As Double = Upper(i) - Lower(i)
-                    Dim u1 As Double = std.Max(rnd.NextDouble, 1.0E-12)
+                    Dim u1 As Double = std.Max(rnd.NextDouble, 0.000000000001)
                     Dim u2 As Double = rnd.NextDouble
                     Dim gauss As Double = std.Sqrt(-2 * std.Log(u1)) * std.Cos(2 * std.PI * u2)
 
@@ -766,17 +768,33 @@ Namespace GRN
                 geneSeeds(i) = seeds.Next()
             Next
 
+            Call "start to make s-system network fit!".info
+
             If options.Parallel AndAlso n > 1 Then
-                Dim parallelOptions As New System.Threading.Tasks.ParallelOptions()
+                Dim parallelOptions As New ParallelOptions()
+                Dim offset As i32 = 1
 
                 If options.MaxDegreeOfParallelism > 0 Then
                     parallelOptions.MaxDegreeOfParallelism = options.MaxDegreeOfParallelism
                 End If
 
-                Call System.Threading.Tasks.Parallel.ForEach(indices, parallelOptions, Sub(i) fitGene(i, result, geneSeeds(i)))
+                Call System.Threading.Tasks.Parallel.ForEach(indices, parallelOptions,
+                     Sub(i)
+                         Dim msg As String = fitGene(i, result, geneSeeds(i))
+
+                         If msg = "" Then
+                             SyncLock offset
+                                 Call $"[fit-s-system #{++offset}] {series.OriginalNames(i)}".debug
+                             End SyncLock
+                         Else
+                             Call msg.debug
+                         End If
+                     End Sub)
             Else
-                For Each i As Integer In indices
-                    Call fitGene(i, result, geneSeeds(i))
+                Dim bar As ProgressBar = Nothing
+
+                For Each i As Integer In TqdmWrapper.Wrap(indices, bar:=bar)
+                    Call bar.SetLabel(fitGene(i, result, geneSeeds(i)))
                 Next
             End If
 
@@ -911,7 +929,7 @@ Namespace GRN
         ''' <param name="i">基因的行号</param>
         ''' <param name="result">参数结果的容器</param>
         ''' <param name="geneSeed">该基因专用的随机数种子（在并行之前统一生成）</param>
-        Private Sub fitGene(i As Integer, result As SSystemParameters, geneSeed As Integer)
+        Private Function fitGene(i As Integer, result As SSystemParameters, geneSeed As Integer) As String
             Dim candidates As Integer() = selectCandidates(i)
             Dim k As Integer = candidates.Length
             Dim observed As Double() = slopes(i)
@@ -929,7 +947,7 @@ Namespace GRN
                     .Select(Function(j) series.LnX(j)) _
                     .ToArray,
                 .Observed = observed,
-                .Scale = std.Max(std.Sqrt(variance), 1.0E-9),
+                .Scale = std.Max(std.Sqrt(variance), 0.000000001),
                 .L1 = options.L1Penalty,
                 .SelfIndex = Array.IndexOf(candidates, i),
                 .StabilityWeight = options.StabilityPenalty,
@@ -1023,10 +1041,10 @@ Namespace GRN
             result.SlopeRMSE(i) = std.Sqrt(result.SlopeSSE(i) / m)
             result.SlopeSST(i) = variance * m
             result.Candidates(i) = candidates
-            result.Converged(i) = bestScore < 1.0E+11
+            result.Converged(i) = bestScore < 100000000000.0
 
             If options.Verbose Then
-                Dim supported As Integer = If(priorMask Is Nothing, 0, priorMask.Where(Function(x) x).Count())
+                Dim supported As Integer = If(priorMask Is Nothing, 0, priorMask.Sum)
 
                 Dim relative As Double = If(variance > 0, result.SlopeRMSE(i) / std.Sqrt(variance), 0)
                 Dim mass As Double = 0
@@ -1035,9 +1053,11 @@ Namespace GRN
                     mass += std.Abs(best(2 + c)) + std.Abs(best(2 + k + c))
                 Next
 
-                Call Console.WriteLine($"  [{i + 1}/{n}] {series.GeneNames(i)}: alpha={result.alpha(i).ToString("G4")}, beta={result.beta(i).ToString("G4")}, rmse={result.SlopeRMSE(i).ToString("G4")}, relerr={relative.ToString("G3")}, r2={result.RSquared(i).ToString("G3")}, f={bestScore.ToString("G4")}, mass={mass.ToString("G4")}, candidates={k}, prior-supported={supported}")
+                Return $"  [{i + 1}/{n}] {series.GeneNames(i)}: alpha={result.alpha(i).ToString("G4")}, beta={result.beta(i).ToString("G4")}, rmse={result.SlopeRMSE(i).ToString("G4")}, relerr={relative.ToString("G3")}, r2={result.RSquared(i).ToString("G3")}, f={bestScore.ToString("G4")}, mass={mass.ToString("G4")}, candidates={k}, prior-supported={supported}"
+            Else
+                Return ""
             End If
-        End Sub
+        End Function
 
         ''' <summary>
         ''' 依据先验知识为目标基因的候选调控因子构造软约束掩码与方向约束

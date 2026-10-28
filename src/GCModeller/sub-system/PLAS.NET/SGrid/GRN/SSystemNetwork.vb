@@ -106,7 +106,7 @@ Namespace GRN
 
             ' 数值微分是拟合流程之中的第一个重计算阶段，且与后续的逐基因拟合完全独立，
             ' 故单独计时并从配置透传并行开关与线程上限
-            Dim slopeWatch As New System.Diagnostics.Stopwatch()
+            Dim slopeWatch As New Stopwatch()
 
             Call slopeWatch.Start()
 
