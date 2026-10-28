@@ -1,4 +1,5 @@
 Imports System.Drawing
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.Math.Interpolation
 Imports std = System.Math
 
@@ -48,7 +49,7 @@ Namespace GRN
                 Throw New ArgumentException("At least 2 time points are required by the slope estimation!")
             End If
 
-            For i As Integer = 0 To n - 1
+            For Each i As Integer In TqdmWrapper.Range(0, n)
                 Dim y As Double() = series.X(i)
 
                 If denoise AndAlso m >= 4 Then
