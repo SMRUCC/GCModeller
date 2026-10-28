@@ -205,10 +205,10 @@ Namespace Perturbation
             Dim additive As Double() = CType(control.Clone(), Double())
 
             For Each spec As InterventionSpec In specs
-                Dim single As InterventionResult = Predict(New InterventionSpec() {spec})
+                Dim one As InterventionResult = Predict(New InterventionSpec() {spec})
 
                 For i As Integer = 0 To additive.Length - 1
-                    additive(i) += single.FoldChanges(i)
+                    additive(i) += one.FoldChanges(i)
                 Next
             Next
 

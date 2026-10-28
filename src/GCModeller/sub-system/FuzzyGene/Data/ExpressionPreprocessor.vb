@@ -11,7 +11,7 @@ Namespace Data
     ''' </summary>
     ''' <remarks>
     ''' <para>
-    ''' 训练统一在 z 空间进行（<see cref="Standardize"/> 为 True 时）：
+    ''' 训练统一在 z 空间进行（<c>Standardize</c> 为 True 时）：
     ''' LSE 的条件数更稳，且不同基因的量纲不会让岭项失衡；
     ''' 但对外报告（表达量、扰动结果）必须回到原始尺度，因此同时保存每基因的
     ''' <see cref="Means"/> / <see cref="SDs"/> 与原始取值范围。
@@ -251,13 +251,13 @@ Namespace Data
 
             If mode = FuzzyTargetMode.Auto Then
                 If uniqueTimes IsNot Nothing AndAlso uniqueTimes.Length >= cfg.MinTimePoints Then
-                    mode = FuzzyTargetMode.Lagged
+                    mode = FuzzyTargetMode.LaggedRoute
                 Else
-                    mode = FuzzyTargetMode.Static
+                    mode = FuzzyTargetMode.StaticRoute
                 End If
             End If
 
-            If mode = FuzzyTargetMode.Lagged AndAlso (uniqueTimes Is Nothing OrElse uniqueTimes.Length < 2) Then
+            If mode = FuzzyTargetMode.LaggedRoute AndAlso (uniqueTimes Is Nothing OrElse uniqueTimes.Length < 2) Then
                 Throw New ArgumentException(
                     "the lagged (dynamic) route requires at least 2 distinct time points in TimePoints", NameOf(expression))
             End If
@@ -273,10 +273,10 @@ Namespace Data
                 .TimePoints = times,
                 .UniqueTimePoints = uniqueTimes,
                 .Mode = mode,
-                .IsLagged = mode = FuzzyTargetMode.Lagged
+                .IsLagged = mode = FuzzyTargetMode.LaggedRoute
             }
 
-            If mode = FuzzyTargetMode.Lagged Then
+            If mode = FuzzyTargetMode.LaggedRoute Then
                 BuildLaggedRows(view, z, raw, keep, uniqueTimes, times)
             Else
                 BuildStaticRows(view, z)
@@ -429,11 +429,11 @@ Namespace Data
 
         Private Function DistinctSorted(values As Double()) As Double()
             Dim set_ As New HashSet(Of Double)(values.Where(Function(v) Not v.IsNaNImaginary))
-            Dim array As Double() = set_.ToArray()
+            Dim sorted As Double() = set_.ToArray()
 
-            Array.Sort(array)
+            Call System.Array.Sort(sorted)
 
-            Return array
+            Return sorted
         End Function
 
         ''' <summary>

@@ -1,4 +1,5 @@
 Imports Microsoft.VisualBasic.DeepLearning.ANFIS
+Imports Microsoft.VisualBasic.DataMining.FuzzyLogic.TSK
 
 Namespace Config
 
@@ -20,13 +21,16 @@ Namespace Config
     ''' <summary>
     ''' 拟合路线。
     ''' </summary>
+    ''' <remarks>
+    ''' 成员名不能是 <c>Static</c>：那是 VB 的保留关键字。
+    ''' </remarks>
     Public Enum FuzzyTargetMode
         ''' <summary>按输入数据自动判定：唯一时间点数达到 <see cref="FuzzyGeneConfig.MinTimePoints"/> 时用滞后，否则静态。</summary>
         Auto = 0
         ''' <summary>静态路线：学习 <c>x_g = F(regulators)</c>。</summary>
-        Static = 1
+        StaticRoute = 1
         ''' <summary>动态滞后路线：学习 <c>x_g(t+1) = F(regulators(t))</c>，需要带 <c>TimePoints</c> 的时序矩阵。</summary>
-        Lagged = 2
+        LaggedRoute = 2
     End Enum
 
     ''' <summary>

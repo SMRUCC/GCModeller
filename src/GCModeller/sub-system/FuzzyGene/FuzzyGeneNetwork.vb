@@ -81,7 +81,7 @@ Imports std = System.Math
         ''' <summary>是否为滞后（时序）路线。</summary>
         Public ReadOnly Property IsLagged As Boolean
             Get
-                Return Mode = FuzzyTargetMode.Lagged
+                Return Mode = FuzzyTargetMode.LaggedRoute
             End Get
         End Property
 

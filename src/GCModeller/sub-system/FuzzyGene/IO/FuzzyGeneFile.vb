@@ -1,5 +1,6 @@
 Imports System.IO
 Imports System.IO.Compression
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Text.Json
 Imports SMRUCC.genomics.Analysis.FuzzyGene.Fitting

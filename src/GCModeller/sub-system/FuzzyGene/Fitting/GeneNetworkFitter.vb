@@ -18,7 +18,7 @@ Namespace Fitting
     ''' 单靶基因 ANFIS 训练（可剪枝）→ 解析灵敏度汇总成带符号边。
     ''' </para>
     ''' <para>
-    ''' 为什么要**先**做预算降级：<see cref="TSK.TskNetworkBuilder.CreateGrid"/> 在
+    ''' 为什么要**先**做预算降级：<c>TskNetworkBuilder.CreateGrid</c> 在
     ''' <c>m^n &gt; MaxRules</c> 或 <c>m^n·(n+1) &gt; MaxConsequentParams</c> 时直接抛异常，
     ''' 而异常重试的代价远高于按公式预先算出可行的结构。
     ''' </para>
@@ -65,8 +65,8 @@ Namespace Fitting
             Dim n As Integer = view.NGene
             Dim models(n - 1) As GeneRegulationModel
             Dim metrics(n - 1) As GeneFitMetric
-            Dim usedPicks(n - 1) As RegulatorPick()
-            Dim weights(n - 1) As Double()
+            Dim usedPicks(n - 1)() As RegulatorPick
+            Dim weights(n - 1)() As Double
 
             Dim work As Action(Of Integer) =
                 Sub(g)
@@ -242,7 +242,7 @@ Namespace Fitting
 
             Dim x(rows - 1)() As Double
             Dim y(rows - 1) As Double
-            Dim yMatrix(rows - 1, 0) As Double
+            Dim yJagged(rows - 1)() As Double
             Dim zMin As Double = Double.MaxValue
             Dim zMax As Double = Double.MinValue
 
@@ -259,7 +259,7 @@ Namespace Fitting
                 Dim target As Double = view.TargetRows(r)(g)
 
                 y(r) = target
-                yMatrix(r, 0) = target
+                yJagged(r) = New Double() {target}
 
                 If target < zMin Then zMin = target
                 If target > zMax Then zMax = target
@@ -292,7 +292,7 @@ Namespace Fitting
                 If cfg.PruneRuleThreshold > 0.0 AndAlso model.Rules.RuleCount > 2 Then
                     Try
                         Dim prunedFit As AnfisFitResult = AnfisFitting.PruneRules(
-                            model, x, yMatrix, cfg.PruneRuleThreshold, options)
+                            model, x, yJagged, cfg.PruneRuleThreshold, options)
 
                         If prunedFit.Model IsNot Nothing AndAlso prunedFit.Model.Rules.RuleCount > 0 Then
                             model = prunedFit.Model
@@ -354,7 +354,7 @@ Namespace Fitting
             Dim rmse As Double = Double.NaN
 
             Try
-                Dim evaluation As AnfisFitResult = AnfisFitting.Evaluate(model, x, yMatrix)
+                Dim evaluation As AnfisFitResult = AnfisFitting.Evaluate(model, x, yJagged)
 
                 r2 = evaluation.R2
                 rmse = evaluation.RMSE
