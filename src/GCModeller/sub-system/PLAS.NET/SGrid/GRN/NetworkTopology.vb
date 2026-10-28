@@ -454,20 +454,23 @@ Namespace GRN
         ''' <param name="parameters"></param>
         ''' <returns></returns>
         Public Function StabilityDiagnosis(parameters As SSystemParameters) As Double
-            Dim net As Double()() = parameters.NetElasticity()
-            Dim n As Integer = net.Length
+            Dim n As Integer = parameters.nGenes
             Dim bound As Double = Double.NegativeInfinity
 
+            ' 直接按行累加 Gershgorin 半径，不再构造 n×n 的净弹性矩阵
+            ' （18k 基因时那一份矩阵就是 2.6 GB）
             For i As Integer = 0 To n - 1
                 Dim radius As Double = 0
 
-                For j As Integer = 0 To n - 1
+                For Each j As Integer In candidateList(parameters, i, keepSelfLoop:=True)
                     If j <> i Then
-                        radius += std.Abs(net(i)(j))
+                        radius += std.Abs(parameters.G(i)(j) - parameters.H(i)(j))
                     End If
                 Next
 
-                bound = std.Max(bound, net(i)(i) + radius)
+                Dim diagonal As Double = parameters.G(i)(i) - parameters.H(i)(i)
+
+                bound = std.Max(bound, diagonal + radius)
             Next
 
             Return bound

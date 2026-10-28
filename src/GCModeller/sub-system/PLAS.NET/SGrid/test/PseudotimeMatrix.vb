@@ -277,6 +277,231 @@ Namespace GRNDemo
         End Function
 
         ''' <summary>
+        ''' 直接从 pseudotime 排序之后的 CSV 分箱，**不把整个表达矩阵载入内存**。
+        ''' </summary>
+        ''' <param name="matrixFile">行是基因、列是细胞的表达矩阵 CSV</param>
+        ''' <param name="pseudotime">细胞到 pseudotime 的映射</param>
+        ''' <param name="bins">分箱数量</param>
+        ''' <param name="genes">需要保留的基因（<c>Nothing</c> 表示全部基因）</param>
+        ''' <param name="quiet"></param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' 与 <see cref="Bin"/> 的区别只在于数据来源：这里逐行流式扫描 CSV，
+        ''' 常驻内存只有 <c>基因数 × 箱数</c>（18k × 80 ≈ 11.5 MB），
+        ''' 而不是 18179 × 30409 的双精度矩阵（约 4.4 GB）。
+        ''' 分箱、空箱插值与时间轴的构造逻辑与 <see cref="Bin"/> 完全一致。
+        ''' </remarks>
+        Public Function BinFromCsv(matrixFile As String,
+                                   pseudotime As Dictionary(Of String, Double),
+                                   bins As Integer,
+                                   Optional genes As IEnumerable(Of String) = Nothing,
+                                   Optional quiet As Boolean = False) As BinnedExpression
+            If String.IsNullOrEmpty(matrixFile) OrElse Not File.Exists(matrixFile) Then
+                Throw New FileNotFoundException($"the expression matrix '{matrixFile}' does not exist!", matrixFile)
+            End If
+            If pseudotime Is Nothing OrElse pseudotime.Count = 0 Then
+                Throw New ArgumentException("The cell to pseudotime mapping is empty!", NameOf(pseudotime))
+            End If
+            If bins < 4 Then
+                bins = 4
+            End If
+
+            Dim index As HashSet(Of String) = Nothing
+
+            If Not genes Is Nothing Then
+                index = New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)
+
+                For Each gene As String In genes.SafeQuery()
+                    If Not String.IsNullOrEmpty(gene) Then
+                        Call index.Add(gene.Trim())
+                    End If
+                Next
+            End If
+
+            Dim watch As Stopwatch = Stopwatch.StartNew()
+            Dim cells As String() = Nothing
+            Dim times As Double() = Nothing
+            Dim slots As Integer() = Nothing
+            Dim counts As Double() = Nothing
+            Dim timeSums As Double() = Nothing
+            Dim tMin As Double = Double.MaxValue
+            Dim tMax As Double = Double.MinValue
+            Dim dropped As Integer = 0
+            Dim rows As New List(Of String())
+            Dim sums As New List(Of Double())
+            Dim line As String
+            Dim m As Integer = 0
+
+            Using reader As New StreamReader(matrixFile, Encoding.UTF8, detectEncodingFromByteOrderMarks:=True, bufferSize:=1 << 20)
+                Dim header As String = reader.ReadLine()
+
+                If String.IsNullOrEmpty(header) Then
+                    Throw New InvalidDataException($"The expression matrix '{matrixFile}' is empty!")
+                End If
+
+                cells = header.Split(","c)
+                m = cells.Length - 1
+
+                If m < 4 Then
+                    Throw New InvalidDataException("The expression matrix does not contain enough cell columns!")
+                End If
+
+                times = New Double(m - 1) {}
+                slots = New Integer(m - 1) {}
+                counts = New Double(bins - 1) {}
+                timeSums = New Double(bins - 1) {}
+
+                Dim available As Boolean() = New Boolean(m - 1) {}
+
+                For j As Integer = 1 To m
+                    Dim time As Double
+
+                    If pseudotime.TryGetValue(cells(j).Trim(), time) Then
+                        times(j - 1) = time
+                        available(j - 1) = True
+
+                        tMin = std.Min(tMin, time)
+                        tMax = std.Max(tMax, time)
+                    Else
+                        dropped += 1
+                    End If
+                Next
+
+                If tMax <= tMin Then
+                    Throw New InvalidDataException("All of the pseudotime values are identical, the time axis can not be constructed!")
+                End If
+
+                For j As Integer = 0 To m - 1
+                    If Not available(j) Then
+                        slots(j) = -1
+                        Continue For
+                    End If
+
+                    Dim slot As Integer = CInt(std.Floor((times(j) - tMin) / (tMax - tMin) * bins))
+
+                    If slot < 0 Then
+                        slot = 0
+                    ElseIf slot >= bins Then
+                        slot = bins - 1
+                    End If
+
+                    slots(j) = slot
+                    counts(slot) += 1
+                    timeSums(slot) += times(j)
+                Next
+
+                Do
+                    line = reader.ReadLine()
+
+                    If line Is Nothing Then
+                        Exit Do
+                    End If
+                    If line.Length = 0 Then
+                        Continue Do
+                    End If
+
+                    Dim comma As Integer = line.IndexOf(","c)
+
+                    If comma <= 0 Then
+                        Continue Do
+                    End If
+
+                    Dim gene As String = line.Substring(0, comma).Trim()
+
+                    If Not index Is Nothing AndAlso Not index.Contains(gene) Then
+                        Continue Do
+                    End If
+
+                    Dim values As Double() = New Double(bins - 1) {}
+                    Dim fields As String() = line.Split(","c)
+                    Dim value As Double
+
+                    ' fields(0) 是基因编号，其后依次是每一个细胞
+                    For j As Integer = 1 To std.Min(fields.Length, m + 1) - 1
+                        Dim slot As Integer = slots(j - 1)
+
+                        If slot < 0 Then
+                            Continue For
+                        End If
+                        If Double.TryParse(fields(j), NumberStyles.Float, CultureInfo.InvariantCulture, value) Then
+                            values(slot) += value
+                        End If
+                    Next
+
+                    Call rows.Add({gene})
+                    Call sums.Add(values)
+                Loop
+            End Using
+
+            watch.Stop()
+
+            If Not quiet Then
+                Call Console.WriteLine($"[INFO] streamed {rows.Count} gene(s) from '{Path.GetFileName(matrixFile)}' in {watch.Elapsed.TotalSeconds.ToString("F1")}s")
+            End If
+
+            Dim n As Integer = rows.Count
+
+            If n = 0 Then
+                Return New BinnedExpression With {
+                    .Matrix = New Matrix With {
+                        .tag = "pseudotime",
+                        .sampleID = New String() {},
+                        .expression = New DataFrameRow() {}
+                    },
+                    .TimePoints = New Double() {},
+                    .DroppedCells = dropped,
+                    .EmptyBins = bins
+                }
+            End If
+
+            Dim values2 As Double()() = New Double(n - 1)() {}
+            Dim axis As Double() = New Double(bins - 1) {}
+            Dim empty As New List(Of Integer)
+
+            For k As Integer = 0 To bins - 1
+                If counts(k) > 0 Then
+                    axis(k) = timeSums(k) / counts(k)
+                Else
+                    Call empty.Add(k)
+                End If
+            Next
+
+            For i As Integer = 0 To n - 1
+                values2(i) = New Double(bins - 1) {}
+
+                For k As Integer = 0 To bins - 1
+                    If counts(k) > 0 Then
+                        values2(i)(k) = sums(i)(k) / counts(k)
+                    End If
+                Next
+            Next
+
+            Call fillEmptyBins(values2, counts, axis, n, bins)
+
+            Dim expression As DataFrameRow() = New DataFrameRow(n - 1) {}
+
+            For i As Integer = 0 To n - 1
+                expression(i) = New DataFrameRow With {
+                    .geneID = rows(i)(0),
+                    .experiments = values2(i)
+                }
+            Next
+
+            Return New BinnedExpression With {
+                .Matrix = New Matrix With {
+                    .tag = If("pseudotime", "pseudotime"),
+                    .sampleID = axis _
+                        .Select(Function(t) t.ToString("G6", CultureInfo.InvariantCulture)) _
+                        .ToArray,
+                    .expression = expression
+                },
+                .TimePoints = axis,
+                .DroppedCells = dropped,
+                .EmptyBins = empty.Count
+            }
+        End Function
+
+        ''' <summary>
         ''' 依据表达量的动态范围挑选出最活跃的若干个基因
         ''' </summary>
         ''' <param name="binned"></param>

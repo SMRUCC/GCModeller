@@ -684,6 +684,17 @@ Namespace GRNDemo
             Call Console.WriteLine($"[INFO] {mandatory.Length} mandatory gene(s) is declared by --must-include.")
 
             Dim selected As String() = GeneSelector.SelectGenes(prior, matrixGenes, options.FitGenes, options.ExtractGenes, options.Quiet, mandatory)
+            Dim mapping As Dictionary(Of String, Double) = PseudotimeMatrix.LoadMapping(options.MappingFile)
+            Dim binned As BinnedExpression = Nothing
+
+            If options.Stream Then
+                ' 单遍流式分箱：既不落盘子集 CSV，也不把整个矩阵载入内存
+                Call Console.WriteLine($"[INFO] streaming binning {selected.Length} gene(s) from '{Path.GetFileName(options.MatrixFile)}'...")
+
+                binned = PseudotimeMatrix.BinFromCsv(options.MatrixFile, mapping, options.Bins, selected, options.Quiet)
+            End If
+
+            If binned Is Nothing Then
             Dim cached As String() = GeneSelector.ReadGeneList(options.SubsetGeneFile)
             Dim cacheHit As Boolean = Not options.Force AndAlso File.Exists(options.SubsetFile) AndAlso sameList(cached, selected)
 
@@ -717,11 +728,10 @@ Namespace GRNDemo
             End If
 
             ' 4. 沿着 pseudotime 轴分箱
-            Dim mapping As Dictionary(Of String, Double) = PseudotimeMatrix.LoadMapping(options.MappingFile)
-
             Call Console.WriteLine($"[INFO] pseudotime mapping: {mapping.Count} cell(s)")
 
-            Dim binned As BinnedExpression = PseudotimeMatrix.Bin(subsetMatrix, mapping, options.Bins)
+            binned = PseudotimeMatrix.Bin(subsetMatrix, mapping, options.Bins)
+            End If
 
             Call Console.WriteLine($"[INFO] binned time series: {binned.ToString}, dropped {binned.DroppedCells} cell(s), {binned.EmptyBins} empty bin(s)")
             Call report.AppendLine($"binned   : {binned.ToString}")
