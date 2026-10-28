@@ -89,6 +89,10 @@ Namespace GRN
         Private residual As Double()
         Private gradU As Double()
         Private gradV As Double()
+        ''' <summary>
+        ''' <see cref="LnX"/> 的转置（按时间点一行），用于让目标函数的内层循环连续访问
+        ''' </summary>
+        Private lnXT As Double()()
 
         ''' <summary>
         ''' 按照时间点数量准备（或者复用）工作区
@@ -101,6 +105,32 @@ Namespace GRN
                 residual = New Double(m - 1) {}
                 gradU = New Double(m - 1) {}
                 gradV = New Double(m - 1) {}
+            End If
+        End Sub
+
+        ''' <summary>
+        ''' 把 <see cref="LnX"/> 转置成「按时间点一行、候选因子连续」的布局。
+        ''' </summary>
+        ''' <param name="m">时间点数量</param>
+        ''' <param name="k">候选因子数量</param>
+        ''' <remarks>
+        ''' 目标函数的内层循环是「固定 t、求和 c」，转置之后这段内层访问完全连续，
+        ''' 避免了 <c>LnX(c)(t)</c> 的两次间接寻址与跨行跳跃（实测这一步的收益远大于
+        ''' 把内层循环向量化：k 只有 20 余个元素，而 m 可以到几百）。
+        ''' </remarks>
+        Private Sub ensureTransposed(m As Integer, k As Integer)
+            If lnXT Is Nothing OrElse lnXT.Length <> m OrElse (m > 0 AndAlso lnXT(0).Length <> k) Then
+                lnXT = New Double(m - 1)() {}
+
+                For t As Integer = 0 To m - 1
+                    Dim col As Double() = New Double(k - 1) {}
+
+                    For c As Integer = 0 To k - 1
+                        col(c) = LnX(c)(t)
+                    Next
+
+                    lnXT(t) = col
+                Next
             End If
         End Sub
 
@@ -148,32 +178,59 @@ Namespace GRN
             End If
 
             Call ensureWorkspace(m)
+            Call ensureTransposed(m, k)
 
             Evaluations += 1
 
-            Array.Clear(etaG, 0, m)
-            Array.Clear(etaH, 0, m)
+            Dim wantGrad As Boolean = Not grad Is Nothing AndAlso grad.Length >= p.Length
+            Dim p0 As Double = p(0)
+            Dim p1 As Double = p(1)
+            Dim sumU As Double = 0
+            Dim sumV As Double = 0
 
-            For c As Integer = 0 To k - 1
-                Dim row As Double() = LnX(c)
+            If wantGrad Then
+                Array.Clear(grad, 0, 2 + 2 * k)
+            End If
 
-                Call SimdEngine.AddScaledInPlace(p(2 + c), row, etaG)
-                Call SimdEngine.AddScaledInPlace(p(2 + k + c), row, etaH)
+            ' 融合的单遍内核：内层循环沿「时间点」展开、候选因子连续存放，
+            ' 一次遍历同时得到 etaG/etaH、残差平方和以及（可选的）梯度累加
+            For t As Integer = 0 To m - 1
+                Dim col As Double() = lnXT(t)
+                Dim la As Double = p0
+                Dim lb As Double = p1
+
+                For c As Integer = 0 To k - 1
+                    Dim lx As Double = col(c)
+
+                    la += p(2 + c) * lx
+                    lb += p(2 + k + c) * lx
+                Next
+
+                Dim a As Double = std.Exp(clampExp(la))
+                Dim b As Double = std.Exp(clampExp(lb))
+                Dim r As Double = (a - b) - Observed(t)
+
+                etaG(t) = a
+                etaH(t) = b
+                residual(t) = r
+
+                err += r * r
+
+                If wantGrad Then
+                    Dim u As Double = 2.0R * r * a
+                    Dim v As Double = -2.0R * r * b
+
+                    sumU += u
+                    sumV += v
+
+                    For c As Integer = 0 To k - 1
+                        Dim lx As Double = col(c)
+
+                        grad(2 + c) += u * lx
+                        grad(2 + k + c) += v * lx
+                    Next
+                End If
             Next
-
-            Call SimdEngine.AddScalarInPlace(Of Double)(etaG, p(0))
-            Call SimdEngine.AddScalarInPlace(Of Double)(etaH, p(1))
-
-            ' 幂律项：指数内部自动夹在 [-700, 700]（与旧的 clampExp 语义一致）
-            Call SimdMath.ExpInPlace(etaG, m)
-            Call SimdMath.ExpInPlace(etaH, m)
-
-            ' residual = A - B - y
-            Array.Copy(etaG, residual, m)
-            Call SimdEngine.SubtractInPlace(Of Double)(residual, etaH)
-            Call SimdEngine.SubtractInPlace(Of Double)(residual, Observed)
-
-            err = SimdReduce.SumSquares(residual)
 
             Dim relative As Double = std.Sqrt(err / m) / Scale
 
@@ -183,8 +240,23 @@ Namespace GRN
             Dim nSign As Integer = 0
             Dim penalty As Double = penaltyOf(p, k, mass, unsupported, violations, nSign)
 
-            If Not grad Is Nothing AndAlso grad.Length >= p.Length Then
-                Call fillGradient(p, k, m, err, relative, penalty, grad, mass, unsupported, violations, nSign)
+            If wantGrad Then
+                Dim relFactor As Double = 0
+
+                If err > 1.0E-300 AndAlso Scale > 0 Then
+                    relFactor = 1.0R / (2.0R * Scale * std.Sqrt(err * m))
+                End If
+
+                Dim w As Double = penalty * relFactor
+
+                For i As Integer = 2 To 2 + 2 * k - 1
+                    grad(i) *= w
+                Next
+
+                grad(0) = w * sumU
+                grad(1) = w * sumV
+
+                Call addPenaltyGradient(p, k, relative, grad, mass, unsupported, violations, nSign)
             End If
 
             Dim f As Double = relative * penalty
@@ -195,6 +267,17 @@ Namespace GRN
 
             Return f
         End Function
+
+        ''' <summary>
+        ''' 标量指数（带溢出保护）；本机实测比多项式 SIMD 版本更快
+        ''' </summary>
+        ''' <param name="v"></param>
+        ''' <param name="count"></param>
+        Private Shared Sub expScalar(v As Double(), count As Integer)
+            For i As Integer = 0 To count - 1
+                v(i) = std.Exp(clampExp(v(i)))
+            Next
+        End Sub
 
         ''' <summary>
         ''' 计算乘性惩罚因子，同时回传先验惩罚所需要的中间统计量（供解析梯度复用）
@@ -251,45 +334,6 @@ Namespace GRN
 
             Return penalty
         End Function
-
-        ''' <summary>
-        ''' 解析梯度：<c>u = 2rA</c>、<c>v = −2rB</c>，残差项对 g/h 的导数
-        ''' 就是 <c>u/v</c> 与对应 <c>lnX_c</c> 的内积（全部由 SIMD 点积完成）。
-        ''' </summary>
-        Private Sub fillGradient(p As Double(), k As Integer, m As Integer,
-                                 err As Double, relative As Double, penalty As Double,
-                                 grad As Double(),
-                                 mass As Double, unsupported As Double,
-                                 violations As Double, nSign As Integer)
-
-            Array.Copy(residual, gradU, m)
-            Call SimdEngine.MultiplyInPlace(Of Double)(gradU, etaG)
-            Call SimdEngine.MultiplyScalarInPlace(Of Double)(gradU, 2.0R)
-
-            Array.Copy(residual, gradV, m)
-            Call SimdEngine.MultiplyInPlace(Of Double)(gradV, etaH)
-            Call SimdEngine.MultiplyScalarInPlace(Of Double)(gradV, -2.0R)
-
-            Dim relFactor As Double = 0
-
-            If err > 1.0E-300 AndAlso Scale > 0 Then
-                relFactor = 1.0R / (2.0R * Scale * std.Sqrt(err * m))
-            End If
-
-            Dim w As Double = penalty * relFactor
-
-            grad(0) = w * SimdReduce.Sum(gradU)
-            grad(1) = w * SimdReduce.Sum(gradV)
-
-            For c As Integer = 0 To k - 1
-                Dim row As Double() = LnX(c)
-
-                grad(2 + c) = w * SimdReduce.Dot(gradU, row)
-                grad(2 + k + c) = w * SimdReduce.Dot(gradV, row)
-            Next
-
-            Call addPenaltyGradient(p, k, relative, grad, mass, unsupported, violations, nSign)
-        End Sub
 
         ''' <summary>
         ''' 惩罚项对参数的导数（L1 / 自环稳定性 / 先验）

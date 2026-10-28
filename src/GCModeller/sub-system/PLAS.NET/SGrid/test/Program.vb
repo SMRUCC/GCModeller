@@ -18,6 +18,8 @@ Module Program
                 Return 0
             Case "selftest"
                 Return SelfTest.GrnSelfTest.Run(verbose:=Not options.Quiet)
+            Case "simd-check", "simdcheck"
+                Return SelfTest.SimdCheck.Run(verbose:=Not options.Quiet)
             Case Else
                 Return GRNDemo.DemoRunner.Run(options)
         End Select
