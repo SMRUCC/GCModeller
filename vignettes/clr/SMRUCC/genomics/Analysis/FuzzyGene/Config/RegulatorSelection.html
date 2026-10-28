@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.FuzzyGene.Config.RegulatorSelection</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>RegulatorSelection {SMRUCC.genomics.Analysis.FuzzyGene.Config}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>RegulatorSelection</h2>
+
+        <h3>Description</h3>
+
+        <p>候选调控因子的筛选策略。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.FuzzyGene.Config
+export class RegulatorSelection extends <a href="/vignettes/clr/System/Enum.html">Enum</a> {
+   # 先验调控网络优先：先取先验边（按置信度降序），不足 <a href="cref:P:SMRUCC.genomics.Analysis.FuzzyGene.Config.FuzzyGeneConfig.MaxRegulators">FuzzyGeneConfig.MaxRegulators</a> 个时 用与靶基因相关性最强的基因补齐；没有先验时自动退化为 <a href="cref:F:SMRUCC.genomics.Analysis.FuzzyGene.Config.RegulatorSelection.CorrelationOnly">RegulatorSelection.CorrelationOnly</a>。
+   PriorFirst: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/RegulatorSelection.html">RegulatorSelection</a> = 0;
+
+   # 只使用表达数据的 |Pearson| 相关性排序，完全忽略先验网络。
+   CorrelationOnly: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/RegulatorSelection.html">RegulatorSelection</a> = 1;
+
+   # 只使用先验调控网络的边，缺少先验时该靶基因会被跳过。
+   PriorOnly: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/RegulatorSelection.html">RegulatorSelection</a> = 2;
+
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>this class extends from <a href="/vignettes/clr/System/Enum.html">Enum</a> class: <a href="/vignettes/clr/System/Enum.html">Enum</a></li>
+<li>use by <i>field</i> member <code>PriorFirst</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/RegulatorSelection.html">RegulatorSelection</a></li>
+<li>use by <i>field</i> member <code>CorrelationOnly</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/RegulatorSelection.html">RegulatorSelection</a></li>
+<li>use by <i>field</i> member <code>PriorOnly</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/RegulatorSelection.html">RegulatorSelection</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

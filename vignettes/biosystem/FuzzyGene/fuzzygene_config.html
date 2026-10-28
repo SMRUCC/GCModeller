@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Create a FuzzyGene modelling configuration object.</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>fuzzygene_config {FuzzyGene}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>Create a FuzzyGene modelling configuration object.</h2>
+
+        <h3>Description</h3>
+
+        
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>fuzzygene_config</strong>(
+    <i>maxRegulators</i> = <span style='color: green;'>4</span>,
+    <i>selection</i> = <span style='color: brown;'><strong>"prior-first"</strong></span>,
+    <i>minCorrelation</i> = <span style='color: green;'>0.3</span>,
+    <i>mode</i> = <span style='color: brown;'><strong>"auto"</strong></span>,
+    <i>mfCount</i> = <span style='color: green;'>3</span>,
+    <i>mfKind</i> = <span style='color: brown;'><strong>"gaussian"</strong></span>,
+    <i>maxEpoch</i> = <span style='color: green;'>100</span>,
+    <i>learningRate</i> = <span style='color: green;'>0.02</span>,
+    <i>pruneThreshold</i> = <span style='color: green;'>0.01</span>,
+    <i>maxGenes</i> = <span style='color: green;'>2000</span>,
+    <i>maxRules</i> = <span style='color: green;'>128</span>,
+    <i>maxConsequentParams</i> = <span style='color: green;'>512</span>,
+    <i>standardize</i> = <span style='color: blue !important;'>TRUE</span>,
+    <i>propagationSteps</i> = <span style='color: green;'>50</span>,
+    <i>relaxation</i> = <span style='color: green;'>0.5</span>,
+    <i>knockdownResidual</i> = <span style='color: green;'>0.2</span>,
+    <i>overexpressionSigmas</i> = <span style='color: green;'>3</span>,
+    <i>significanceZScore</i> = <span style='color: green;'>2</span>,
+    <i>degreeOfParallelism</i> = <span style='color: green;'>0</span>,
+    <i>minTimePoints</i> = <span style='color: green;'>3</span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>maxRegulators</dt>
+<dd><p>how many candidate regulators (ANFIS inputs) are kept per target gene. The rule count of a grid partition is <code>m^n</code>, so this is the primary guard against the rule explosion; 3-6 is the practically useful range. Default 4. [as integer]</p></dd>
+
+
+<dt>selection</dt>
+<dd><p>regulator selection strategy: <code>prior-first</code> (default, prior edges by confidence then correlation), <code>correlation</code> (data driven only) or <code>prior</code> (prior edges only). [as string]</p></dd>
+
+
+<dt>minCorrelation</dt>
+<dd><p>minimum |Pearson| for a gene to be taken as a correlation based regulator. Default 0.3. [as double]</p></dd>
+
+
+<dt>mode</dt>
+<dd><p>fit route: <code>auto</code> (default, lagged when the matrix has at least <code>minTimePoints</code> distinct time points), <code>static</code> or <code>lagged</code>. [as string]</p></dd>
+
+
+<dt>mfCount</dt>
+<dd><p>number of membership functions per input. Default 3. [as integer]</p></dd>
+
+
+<dt>mfKind</dt>
+<dd><p>membership function shape: <code>gaussian</code>, <code>bell</code>, <code>sigmoid</code>, <code>triangular</code> or <code>trapezoidal</code>. Default <code>gaussian</code>. [as string]</p></dd>
+
+
+<dt>maxEpoch</dt>
+<dd><p>maximum training epochs per target gene. Default 100. [as integer]</p></dd>
+
+
+<dt>learningRate</dt>
+<dd><p>learning rate of the premise parameter optimizer. Default 0.02. [as double]</p></dd>
+
+
+<dt>pruneThreshold</dt>
+<dd><p>rules whose average normalized firing strength falls below this value are pruned after training; 0 disables pruning. Default 0.01. [as double]</p></dd>
+
+
+<dt>maxGenes</dt>
+<dd><p>upper bound on the number of modelled genes (highest variance first, prior TFs always kept); 0 keeps everything. Default 2000. [as integer]</p></dd>
+
+
+<dt>maxRules</dt>
+<dd><p>rule budget per target gene. Default 128. [as integer]</p></dd>
+
+
+<dt>maxConsequentParams</dt>
+<dd><p>consequent parameter budget per target gene. Default 512. [as integer]</p></dd>
+
+
+<dt>standardize</dt>
+<dd><p>z-score the expression matrix before fitting. Default TRUE. [as boolean]</p></dd>
+
+
+<dt>propagationSteps</dt>
+<dd><p>maximum fixed point iterations of a perturbation. Default 50. [as integer]</p></dd>
+
+
+<dt>relaxation</dt>
+<dd><p>damping factor of the fixed point iteration. Default 0.5. [as double]</p></dd>
+
+
+<dt>knockdownResidual</dt>
+<dd><p>fraction of the baseline expression retained after a virtual knockdown. Default 0.2. [as double]</p></dd>
+
+
+<dt>overexpressionSigmas</dt>
+<dd><p>overexpression level in training standard deviations above the baseline. Default 3. [as double]</p></dd>
+
+
+<dt>significanceZScore</dt>
+<dd><p>|z| threshold used to flag a gene as significantly changed. Default 2. [as double]</p></dd>
+
+
+<dt>degreeOfParallelism</dt>
+<dd><p>per-gene training parallelism; 0 = all cores, 1 = serial. [as integer]</p></dd>
+
+
+<dt>minTimePoints</dt>
+<dd><p>distinct time points required to switch to the lagged route. Default 3. [as integer]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment (unused, kept for error reporting symmetry). [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: block;">Details</h3>
+
+        <p>The returned object (registered as the <code>fuzzygene_config</code> R# type) is accepted by the <code>config</code> argument of <code>fuzzygene::build_fuzzygene</code>. Structure and training options are inherited from the shared ANFIS configuration; this api exposes the subset that matters for gene regulatory network inference.</p>
+
+        <h3 style="display: block">Authors</h3>
+
+        biosystem
+
+        <h3>Value</h3>
+
+        <p>a validated configuration object</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/FuzzyGeneConfig.html">FuzzyGeneConfig</a></li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>FuzzyGene</em> version 1.0.0.0 <a
+                href="../FuzzyGene.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

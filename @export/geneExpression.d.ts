@@ -167,9 +167,18 @@ declare namespace geneExpression {
       */
       function generic(matrix: object): object;
       /**
-        * @param sampleinfo default value Is ``null``.
-        * @param time_label default value Is ``'time'``.
-        * @param env default value Is ``null``.
+       * 
+       * 
+        * @param x -
+        * @param sampleinfo time points is all set to zero if the given sampleinfo metadata is missing
+        * 
+        * + default value Is ``null``.
+        * @param time_label -
+        * 
+        * + default value Is ``'time'``.
+        * @param env -
+        * 
+        * + default value Is ``null``.
       */
       function time_serials(x: object, sampleinfo?: any, time_label?: string, env?: object): object;
    }

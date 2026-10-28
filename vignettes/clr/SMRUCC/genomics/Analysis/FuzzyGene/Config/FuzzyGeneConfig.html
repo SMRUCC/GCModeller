@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.FuzzyGene.Config.FuzzyGeneConfig</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>FuzzyGeneConfig {SMRUCC.genomics.Analysis.FuzzyGene.Config}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>FuzzyGeneConfig</h2>
+
+        <h3>Description</h3>
+
+        <p>神经模糊基因调控网络（ANFIS/TSK）的建模配置。</p>
+
+<p>网络的<strong>结构</strong>参数（隶属函数类型与个数、规则启用掩膜、规模上限、分块行数）与 <strong>训练</strong>参数（学习率、优化器、早停、岭项……）全部继承自 <a href="cref:T:Microsoft.VisualBasic.DeepLearning.ANFIS.AnfisOptions">AnfisOptions</a>， 这里只补充调控网络建模专属的选项：候选调控因子规模、筛选策略、拟合路线、 稳态传播参数与虚拟扰动的默认行为。</p>
+
+<p>构造函数把 <a href="cref:P:Microsoft.VisualBasic.DataMining.FuzzyLogic.TSK.TskStructureOptions.MaxRules">TskStructureOptions.MaxRules</a> 与 <a href="cref:P:Microsoft.VisualBasic.DataMining.FuzzyLogic.TSK.TskStructureOptions.MaxConsequentParams">TskStructureOptions.MaxConsequentParams</a> 从 ANFIS 的通用默认值（1024/4096） 下调到 128/512：GRN 是「逐靶基因一个小网络」的批量场景，512 个结论参数对应的 <code>A'A</code> 约 2 MB，上千个基因并行训练时内存才可控。确实需要更大子网时可显式调高。</p>
+
+<p>VB 不支持协变返回类型，因此链式校验方法命名为 <a href="cref:M:SMRUCC.genomics.Analysis.FuzzyGene.Config.FuzzyGeneConfig.ValidateGene">FuzzyGeneConfig.ValidateGene()</a>， 克隆方法用 <code>Shadows</code> 隐藏基类的 <a href="cref:M:Microsoft.VisualBasic.DeepLearning.ANFIS.AnfisOptions.Clone">AnfisOptions.Clone()</a> 并返回本类型。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.FuzzyGene.Config
+export class FuzzyGeneConfig extends <a href="/vignettes/clr/Microsoft/VisualBasic/DeepLearning/ANFIS/AnfisOptions.html">AnfisOptions</a> {
+   Beta1: double;
+   Beta2: double;
+   ChunkRows: integer;
+   # 是否把传播过程中的取值限制在训练支持域内（<code>[min−1, max+1]</code>，z 空间）。
+   ClampToSupport: boolean;
+   # 稳态判据：单步最大变化量小于该值即认为收敛。
+   ConvergenceTolerance: double;
+   # 逐基因训练的并行度；0 表示自动（使用全部逻辑核心），1 表示串行。
+   DegreeOfParallelism: integer;
+   Epsilon: double;
+   FeatureNames: string;
+   FreezeConsequent: boolean;
+   FreezePremise: boolean;
+   GradientClip: double;
+   # 虚拟敲低的残余比例：敲低后目标基因保留 <code>KnockdownResidual × 基线表达</code>。
+   KnockdownResidual: double;
+   LearningMode: <a href="/vignettes/clr/Microsoft/VisualBasic/DeepLearning/ANFIS/AnfisLearningMode.html">AnfisLearningMode</a>;
+   LearningRate: double;
+   LearningRateDecay: double;
+   MaxConsequentParams: integer;
+   MaxEpoch: integer;
+   # 建模的最大基因数（按方差从高到低保留）；0 表示全部基因。
+   MaxGenes: integer;
+   # 每个靶基因保留的候选调控因子个数上限（建议 3–6）。
+   MaxRegulators: integer;
+   MaxRules: integer;
+   MfCount: integer;
+   MfCounts: integer;
+   MfKind: <a href="/vignettes/clr/Microsoft/VisualBasic/DataMining/FuzzyLogic/TSK/MembershipKind.html">MembershipKind</a>;
+   # 相关性补齐时采用的最小 |Pearson|；低于该值的基因不会被选为调控因子。
+   MinCorrelation: double;
+   # 导出调控边时的最小 |权重|，低于该值的边被视为噪声丢弃。
+   MinEdgeWeight: double;
+   MinImprovement: double;
+   # 训练一个靶基因模型所需的最少样本（状态）行数。
+   MinSamples: integer;
+   # 判定为时序数据所需的最少唯一时间点数（滞后模式）。
+   MinTimePoints: integer;
+   Momentum: double;
+   Optimizer: <a href="/vignettes/clr/Microsoft/VisualBasic/DeepLearning/ANFIS/AnfisOptimizerKind.html">AnfisOptimizerKind</a>;
+   OutputNames: string;
+   # 虚拟过表达的提升幅度（以训练期标准差为单位）：<code>mean + nσ</code>。
+   OverexpressionSigmas: double;
+   Patience: integer;
+   # 稳态求解的最大迭代步数。
+   PropagationSteps: integer;
+   # 规则剪枝阈值：训练集上平均归一化触发强度低于该值的规则被移除；0 表示不剪枝。
+   PruneRuleThreshold: double;
+   RandomSeed: integer;
+   # 稳态迭代的阻尼系数（0, 1]：<code>z ← z + ω(F(z) − z)</code>。
+   Relaxation: double;
+   Ridge: double;
+   RlsForgetting: double;
+   RlsInitialCovariance: double;
+   RuleEnableMask: boolean;
+   # 候选调控因子的筛选策略。
+   Selection: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/RegulatorSelection.html">RegulatorSelection</a>;
+   # 扰动效应的显著性阈值（Z 分数）：<code>|Δ / SD|</code> 超过该值的基因标记为显著变化。
+   SignificanceZScore: double;
+   # 训练前是否对表达量做逐基因 z-score 标准化。
+   Standardize: boolean;
+   # 拟合路线（默认按数据自动判定）。
+   TargetMode: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/FuzzyTargetMode.html">FuzzyTargetMode</a>;
+   ValidationRatio: double;
+   WeightDecay: double;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>this class extends from <a href="/vignettes/clr/Microsoft/VisualBasic/DeepLearning/ANFIS/AnfisOptions.html">AnfisOptions</a> class: <a href="/vignettes/clr/Microsoft/VisualBasic/DeepLearning/ANFIS/AnfisOptions.html">AnfisOptions</a></li>
+<li>use by <i>property</i> member <code>LearningMode</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/DeepLearning/ANFIS/AnfisLearningMode.html">AnfisLearningMode</a></li>
+<li>use by <i>property</i> member <code>MfKind</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/DataMining/FuzzyLogic/TSK/MembershipKind.html">MembershipKind</a></li>
+<li>use by <i>property</i> member <code>Optimizer</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/DeepLearning/ANFIS/AnfisOptimizerKind.html">AnfisOptimizerKind</a></li>
+<li>use by <i>property</i> member <code>Selection</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/RegulatorSelection.html">RegulatorSelection</a></li>
+<li>use by <i>property</i> member <code>TargetMode</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/FuzzyTargetMode.html">FuzzyTargetMode</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

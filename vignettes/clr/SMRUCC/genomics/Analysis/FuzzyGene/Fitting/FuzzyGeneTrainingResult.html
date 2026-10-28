@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.FuzzyGene.Fitting.FuzzyGeneTrainingResult</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>FuzzyGeneTrainingResult {SMRUCC.genomics.Analysis.FuzzyGene.Fitting}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>FuzzyGeneTrainingResult</h2>
+
+        <h3>Description</h3>
+
+        <p>整次拟合的汇总结果（诊断信息，不参与推理）。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.FuzzyGene.Fitting
+export class FuzzyGeneTrainingResult {
+   # 导出的带符号调控边数量。
+   EdgeCount: integer;
+   # 耗时。
+   Elapsed: <a href="/vignettes/clr/System/TimeSpan.html">TimeSpan</a>;
+   # 逐基因诊断记录。
+   GeneMetrics: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Fitting/GeneFitMetric.html">GeneFitMetric[]</a>;
+   # 成功基因的平均决定系数。
+   MeanR2: double;
+   # 成功基因的平均训练 RMSE。
+   MeanRmse: double;
+   # 实际采用的拟合路线。
+   Mode: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/FuzzyTargetMode.html">FuzzyTargetMode</a>;
+   # 训练失败的基因数。
+   NFailed: integer;
+   # 参与建模的基因总数。
+   NGene: integer;
+   # 训练样本（状态行）数量。
+   NSample: integer;
+   # 被跳过的基因数（常表达、缺少候选因子等）。
+   NSkipped: integer;
+   # 成功训练出模型的基因数。
+   NTrained: integer;
+   # 降级、异常与数据质量告警。
+   Warnings: string;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>Elapsed</code>: <a href="/vignettes/clr/System/TimeSpan.html">TimeSpan</a></li>
+<li>use by <i>property</i> member <code>GeneMetrics</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Fitting/GeneFitMetric.html">GeneFitMetric</a></li>
+<li>use by <i>property</i> member <code>Mode</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/FuzzyTargetMode.html">FuzzyTargetMode</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

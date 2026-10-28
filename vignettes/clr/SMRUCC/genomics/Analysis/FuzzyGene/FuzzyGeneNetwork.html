@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.FuzzyGene.FuzzyGeneNetwork</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>FuzzyGeneNetwork {SMRUCC.genomics.Analysis.FuzzyGene}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>FuzzyGeneNetwork</h2>
+
+        <h3>Description</h3>
+
+        <p>由逐靶基因神经模糊模型拼成的基因调控网络（纯推理对象）。</p>
+
+<p>每一行是一个基因，<a href="cref:P:SMRUCC.genomics.Analysis.FuzzyGene.FuzzyGeneNetwork.Models">FuzzyGeneNetwork.Models</a> 的第 <code>g</code> 项是该基因作为靶基因时训练出的 TSK 模型 （没有可用调控因子的基因为 <code>Nothing</code>，其状态在传播中保持不变）。</p>
+
+<p>静态与滞后两条路线的对外语义完全一致：都是「下一状态 = F(当前状态)」。 静态路线下 <code>F</code> 学的是 <code>x_g = f(regulators)</code>，迭代就是求不动点； 滞后路线下 <code>F</code> 学的是 <code>x_g(t+1) = f(regulators(t))</code>，迭代就是时间推进。 因此稳态求解、钳制扰动与多步级联共用同一套阻尼迭代器。</p>
+
+<p>内部一律在 z 空间迭代（与训练一致），对外接口收发原始表达量。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.FuzzyGene
+export class FuzzyGeneNetwork {
+   # 稳态迭代的起始状态（原始尺度）。
+   BaselineRaw: double;
+   # 建模配置（决定传播步数、阻尼、限幅等默认行为）。
+   Config: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/FuzzyGeneConfig.html">FuzzyGeneConfig</a>;
+   # 带符号调控边（由各靶基因模型的解析灵敏度汇总）。
+   Edges: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Data/RegulationEdgeModel.html">RegulationEdgeModel[]</a>;
+   # 参与建模的基因（顺序即 <a href="cref:P:SMRUCC.genomics.Analysis.FuzzyGene.FuzzyGeneNetwork.Models">FuzzyGeneNetwork.Models</a> 的索引顺序）。
+   GeneNames: string;
+   # 是否为滞后（时序）路线。
+   IsLagged: boolean;
+   # 逐基因原始表达均值。
+   Means: double;
+   # 实际采用的拟合路线。
+   Mode: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/FuzzyTargetMode.html">FuzzyTargetMode</a>;
+   # 逐基因模型，未建模的位置为 <code>Nothing</code>。
+   Models: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Fitting/GeneRegulationModel.html">GeneRegulationModel[]</a>;
+   # 基因数量。
+   NGene: integer;
+   # 参与建模（有模型）的基因数量。
+   NModelled: integer;
+   # 逐基因原始表达标准差。
+   SDs: double;
+   # 模型是否在 z 空间训练。
+   Standardized: boolean;
+   # 逐基因训练支持域上界（z 空间）。
+   SupportMax: double;
+   # 逐基因训练支持域下界（z 空间）。
+   SupportMin: double;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>Config</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/FuzzyGeneConfig.html">FuzzyGeneConfig</a></li>
+<li>use by <i>property</i> member <code>Edges</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Data/RegulationEdgeModel.html">RegulationEdgeModel</a></li>
+<li>use by <i>property</i> member <code>Mode</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/FuzzyTargetMode.html">FuzzyTargetMode</a></li>
+<li>use by <i>property</i> member <code>Models</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Fitting/GeneRegulationModel.html">GeneRegulationModel</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

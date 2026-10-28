@@ -1,0 +1,136 @@
+.\" man page create by R# package system.
+.TH FUZZYGENE 1 2000-1月 "fuzzygene_config" "fuzzygene_config"
+.SH NAME
+fuzzygene_config \- Create a FuzzyGene modelling configuration object.
+.SH SYNOPSIS
+\fIfuzzygene_config(\fBmaxRegulators\fR as integer = 4, 
+\fBselection\fR as string = "prior-first", 
+\fBminCorrelation\fR as double = 0.3, 
+\fBmode\fR as string = "auto", 
+\fBmfCount\fR as integer = 3, 
+\fBmfKind\fR as string = "gaussian", 
+\fBmaxEpoch\fR as integer = 100, 
+\fBlearningRate\fR as double = 0.02, 
+\fBpruneThreshold\fR as double = 0.01, 
+\fBmaxGenes\fR as integer = 2000, 
+\fBmaxRules\fR as integer = 128, 
+\fBmaxConsequentParams\fR as integer = 512, 
+\fBstandardize\fR as boolean = TRUE, 
+\fBpropagationSteps\fR as integer = 50, 
+\fBrelaxation\fR as double = 0.5, 
+\fBknockdownResidual\fR as double = 0.2, 
+\fBoverexpressionSigmas\fR as double = 3, 
+\fBsignificanceZScore\fR as double = 2, 
+\fBdegreeOfParallelism\fR as integer = 0, 
+\fBminTimePoints\fR as integer = 3, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Create a FuzzyGene modelling configuration object.
+.PP
+.SH OPTIONS
+.PP
+\fBmaxRegulators\fB \fR\- 
+ how many candidate regulators (ANFIS inputs) are kept per target gene. The rule count of a
+ grid partition is `m^n`, so this is the primary guard against the rule explosion;
+ 3-6 is the practically useful range. Default 4.
+. 
+.PP
+.PP
+\fBselection\fB \fR\- 
+ regulator selection strategy: \fBprior-first\fR (default, prior edges by confidence then
+ correlation), \fBcorrelation\fR (data driven only) or \fBprior\fR (prior edges only).
+. 
+.PP
+.PP
+\fBminCorrelation\fB \fR\- 
+ minimum |Pearson| for a gene to be taken as a correlation based regulator. Default 0.3.
+. 
+.PP
+.PP
+\fBmode\fB \fR\- 
+ fit route: \fBauto\fR (default, lagged when the matrix has at least \fBminTimePoints\fR distinct
+ time points), \fBstatic\fR or \fBlagged\fR.
+. 
+.PP
+.PP
+\fBmfCount\fB \fR\- number of membership functions per input. Default 3.. 
+.PP
+.PP
+\fBmfKind\fB \fR\- 
+ membership function shape: \fBgaussian\fR, \fBbell\fR, \fBsigmoid\fR, \fBtriangular\fR or
+ \fBtrapezoidal\fR. Default \fBgaussian\fR.
+. 
+.PP
+.PP
+\fBmaxEpoch\fB \fR\- maximum training epochs per target gene. Default 100.. 
+.PP
+.PP
+\fBlearningRate\fB \fR\- learning rate of the premise parameter optimizer. Default 0.02.. 
+.PP
+.PP
+\fBpruneThreshold\fB \fR\- 
+ rules whose average normalized firing strength falls below this value are pruned after
+ training; 0 disables pruning. Default 0.01.
+. 
+.PP
+.PP
+\fBmaxGenes\fB \fR\- 
+ upper bound on the number of modelled genes (highest variance first, prior TFs always kept);
+ 0 keeps everything. Default 2000.
+. 
+.PP
+.PP
+\fBmaxRules\fB \fR\- rule budget per target gene. Default 128.. 
+.PP
+.PP
+\fBmaxConsequentParams\fB \fR\- consequent parameter budget per target gene. Default 512.. 
+.PP
+.PP
+\fBstandardize\fB \fR\- z-score the expression matrix before fitting. Default TRUE.. 
+.PP
+.PP
+\fBpropagationSteps\fB \fR\- maximum fixed point iterations of a perturbation. Default 50.. 
+.PP
+.PP
+\fBrelaxation\fB \fR\- damping factor of the fixed point iteration. Default 0.5.. 
+.PP
+.PP
+\fBknockdownResidual\fB \fR\- 
+ fraction of the baseline expression retained after a virtual knockdown. Default 0.2.
+. 
+.PP
+.PP
+\fBoverexpressionSigmas\fB \fR\- 
+ overexpression level in training standard deviations above the baseline. Default 3.
+. 
+.PP
+.PP
+\fBsignificanceZScore\fB \fR\- |z| threshold used to flag a gene as significantly changed. Default 2.. 
+.PP
+.PP
+\fBdegreeOfParallelism\fB \fR\- per-gene training parallelism; 0 = all cores, 1 = serial.. 
+.PP
+.PP
+\fBminTimePoints\fB \fR\- distinct time points required to switch to the lagged route. Default 3.. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment (unused, kept for error reporting symmetry). 
+.PP
+.SH VALUE
+.PP
+a validated configuration object
+.PP
+.SH DETAILS
+.PP
+The returned object (registered as the \fBfuzzygene_config\fR R# type) is accepted by the
+ \fBconfig\fR argument of \fBfuzzygene::build_fuzzygene\fR. Structure and training options are
+ inherited from the shared ANFIS configuration; this api exposes the subset that matters for
+ gene regulatory network inference.
+.PP
+.SH SEE ALSO
+FuzzyGene
+.SH FILES
+.PP
+biosystem.dll
+.PP

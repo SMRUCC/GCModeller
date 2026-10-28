@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.FuzzyGene.FuzzyGeneModel</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>FuzzyGeneModel {SMRUCC.genomics.Analysis.FuzzyGene}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>FuzzyGeneModel</h2>
+
+        <h3>Description</h3>
+
+        <p>神经模糊（ANFIS/TSK）基因调控网络模型的门面。</p>
+
+<p>一个实例封装「表达矩阵 + 可选先验网络 → 逐靶基因模糊模型 → 虚拟扰动」的全流程， 并实现 <a href="cref:T:SMRUCC.genomics.Analysis.BNLearn.InsilicoPerturbationExperiment">InsilicoPerturbationExperiment</a>，因此可以与 BNLearn 的贝叶斯网络实现、 GEARS / GPS 的实现互换使用——<code>bnlearn</code> 包里的 <code>knockouts</code> / <code>knockdown</code> / <code>overexpress</code> 可以直接作用在本对象上。</p>
+
+<p>典型用法：</p>
+
+
+<pre><code> Dim model As New FuzzyGeneModel(expression, prior, config)
+ Dim report = model.Train()
+ Dim ko As InterventionResult = model.KnockoutGene("geneA")
+ </code></pre>
+
+
+<p>规模提示：这是<strong>模块/子网尺度</strong>的建模方法。逐靶基因的规则数随输入维数指数增长， 请通过 <a href="cref:P:SMRUCC.genomics.Analysis.FuzzyGene.Config.FuzzyGeneConfig.MaxRegulators">FuzzyGeneConfig.MaxRegulators</a>（默认 4）与 <a href="cref:P:SMRUCC.genomics.Analysis.FuzzyGene.Config.FuzzyGeneConfig.MaxGenes">FuzzyGeneConfig.MaxGenes</a>（默认 2000）控制规模； 全基因组两两建模既不必要、也不可辨识。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.FuzzyGene
+export class FuzzyGeneModel {
+   # 建模配置（恢复的模型同样携带原始配置）。
+   Config: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/FuzzyGeneConfig.html">FuzzyGeneConfig</a>;
+   # 带符号调控边（未训练时为空数组）。
+   Edges: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Data/RegulationEdgeModel.html">RegulationEdgeModel[]</a>;
+   # 训练用的表达矩阵；从包文件恢复时为 Nothing。
+   Expression: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/GeneExpressionData.html">GeneExpressionData</a>;
+   # 是否已完成训练（或已从包恢复）。
+   IsTrained: boolean;
+   # 最近一次训练的汇总诊断。
+   LastTrainingResult: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Fitting/FuzzyGeneTrainingResult.html">FuzzyGeneTrainingResult</a>;
+   # 拟合出的调控网络；未训练时为 Nothing。
+   Network: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/FuzzyGeneNetwork.html">FuzzyGeneNetwork</a>;
+   # 先验调控网络（可能为 Nothing）。
+   Prior: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/PriorNetwork.html">PriorNetwork</a>;
+   # 严格模式：目标基因不在模型里时抛 <a href="cref:T:System.MissingMemberException">MissingMemberException</a>； 为 False 时返回 <a href="cref:P:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult.Undefined">InterventionResult.Undefined</a> = True 的野生型降级结果。
+   Strict: boolean;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>Config</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/FuzzyGeneConfig.html">FuzzyGeneConfig</a></li>
+<li>use by <i>property</i> member <code>Edges</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Data/RegulationEdgeModel.html">RegulationEdgeModel</a></li>
+<li>use by <i>property</i> member <code>Expression</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/GeneExpressionData.html">GeneExpressionData</a></li>
+<li>use by <i>property</i> member <code>LastTrainingResult</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Fitting/FuzzyGeneTrainingResult.html">FuzzyGeneTrainingResult</a></li>
+<li>use by <i>property</i> member <code>Network</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/FuzzyGeneNetwork.html">FuzzyGeneNetwork</a></li>
+<li>use by <i>property</i> member <code>Prior</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/PriorNetwork.html">PriorNetwork</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html><html lang="zh-CN">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>FuzzyGene</title>
+    <meta name="author" content="xie.guigang@gcmodeller.org" />
+    <meta name="copyright" content="SMRUCC genomics Copyright (c) 2022" />
+    <meta name="keywords" content="R#; FuzzyGene; biosystem" />
+    <meta name="generator" content="https://github.com/rsharp-lang" />
+    <meta name="theme-color" content="#333" />
+    <meta name="description" content="FuzzyGene: the neuro-fuzzy (Wilson/Takagi-Sugeno ANFIS) gene reg..." />
+    <meta class="foundation-data-attribute-namespace" />
+    <meta class="foundation-mq-xxlarge" />
+    <meta class="foundation-mq-xlarge" />
+    <meta class="foundation-mq-large" />
+    <meta class="foundation-mq-medium" />
+    <meta class="foundation-mq-small" />
+    <meta class="foundation-mq-topbar" />
+    <style>
+
+.table-three-line {
+border-collapse:collapse; /* 关键属性：合并表格内外边框(其实表格边框有2px，外面1px，里面还有1px哦) */
+border:solid #000000; /* 设置边框属性；样式(solid=实线)、颜色(#999=灰) */
+border-width:2px 0 2px 0px; /* 设置边框状粗细：上 右 下 左 = 对应：1px 0 0 1px */
+}
+.left-1{
+    border:solid #000000;border-width:1px 1px 2px 0px;padding:2px;
+    font-weight:bolder;
+}
+.right-1{
+    border:solid #000000;border-width:1px 0px 2px 1px;padding:2px;
+    font-weight:bolder;
+}
+.mid-1{
+    border:solid #000000;border-width:1px 1px 2px 1px;padding:2px;
+    font-weight:bolder;
+}
+.left{
+    border:solid #000000;border-width:1px 1px 1px 0px;padding:2px;
+}
+.right{
+    border:solid #000000;border-width:1px 0px 1px 1px;padding:2px;
+}
+.mid{
+    border:solid #000000;border-width:1px 1px 1px 1px;padding:2px;
+}
+table caption {font-size:14px;font-weight:bolder;}
+</style>
+  </head>
+  <body>
+    <table width="100%" summary="page for {FuzzyGene}">
+      <tbody>
+        <tr>
+          <td>{FuzzyGene}</td>
+          <td style="text-align: right;">R# Documentation</td>
+        </tr>
+      </tbody>
+    </table>
+    <h1>FuzzyGene</h1>
+    <hr />
+    <p style="     font-size: 1.125em;     line-height: .8em;     margin-left: 0.5%;     background-color: #fbfbfb;     padding: 24px; ">
+      <code>
+        <span style="color: blue;">require</span>(<span style="color: black; font-weight: bold;">GCModeller</span>);
+                               <br /><br /><span style="color: green;">#' FuzzyGene: the neuro-fuzzy (Wilson/Takagi-Sugeno ANFIS) gene regulatory network toolkit.</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "FuzzyGene"</span><span style="color: blue;"> from</span><span style="color: brown"> "biosystem"</span>;
+                           </code>
+    </p>
+    <p><p>FuzzyGene: the neuro-fuzzy (Wilson/Takagi-Sugeno ANFIS) gene regulatory network toolkit.</p></p>
+    <blockquote>
+      <p style="font-style: italic; font-size: 0.9em;">
+                           <p>This R# package module wraps the <code>FuzzyGene</code> sub-system. Every target gene is described by its own first-order Takagi-Sugeno fuzzy model whose inputs are 3-6 candidate regulators; the rules of that model can be read as biological statements ("IF TF-A is High AND TF-B is Low THEN gene-G is activated"), and the analytic partial derivatives of the model give a signed, weighted regulatory edge table.</p>
+
+<p>The workflow exposed by this module is:</p>
+
+
+<ul>
+<li><code>fuzzygene_config</code>: create the hyper-parameter configuration object</li>
+</ul>
+
+
+<p>(<a href="cref:T:SMRUCC.genomics.Analysis.FuzzyGene.Config.FuzzyGeneConfig">FuzzyGeneConfig</a>, registered as the <code>fuzzygene_config</code> R# type);</p>
+
+
+<ul>
+<li><code>build_fuzzygene</code>: build an untrained model from a gene expression matrix and an optional</li>
+</ul>
+
+
+<p>prior regulatory network;</p>
+
+
+<ul>
+<li><code>train</code>: fit every target gene (static route, or the lagged <code>x(t+1) = F(x(t))</code> route</li>
+</ul>
+
+
+<p>when the matrix carries multiple time points);</p>
+
+
+<ul>
+<li><code>fuzzygene_rules</code> / <code>fuzzygene_edges</code>: export the interpretable IF-THEN rules and the</li>
+</ul>
+
+
+<p>signed regulatory edge table;</p>
+
+<p>A trained <a href="cref:T:SMRUCC.genomics.Analysis.FuzzyGene.FuzzyGeneModel">FuzzyGeneModel</a> implements the <code>InsilicoPerturbationExperiment</code> interface, so the <code>knockouts</code>, <code>knockdown</code> and <code>overexpress</code> api of the <code>bnlearn</code> package can be applied to it directly for in silico perturbation experiments (partial knockdown is natively supported because the fuzzy membership functions describe graded regulation). The generic <code>writeBin</code> handler of this module persists a model into a zip based binary stream, and <code>readBin.fuzzygene</code> restores it back to a fully usable model object.</p>
+                           </p>
+    </blockquote>
+    <div id="main-wrapper">
+      <table class="table-three-line" style="display: block">
+        <caption>.NET clr type export</caption>
+        <tbody><tr>
+  <td id="fuzzygene">
+    <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/FuzzyGeneModel.html">fuzzygene: FuzzyGeneModel</a>
+  </td>
+  <td><p>神经模糊（ANFIS/TSK）基因调控网络模型的门面。</p></td>
+</tr>
+<tr>
+  <td id="fuzzygene_config">
+    <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/FuzzyGeneConfig.html">fuzzygene_config: FuzzyGeneConfig</a>
+  </td>
+  <td><p>神经模糊基因调控网络（ANFIS/TSK）的建模配置。</p></td>
+</tr></tbody>
+      </table>
+      <br />
+      <br />
+      <table class="table-three-line">
+        <caption>.NET clr function exports</caption>
+        <tbody><tr>
+  <td id="fuzzygene_config">
+    <a href="./FuzzyGene/fuzzygene_config.html">fuzzygene_config</a>
+  </td>
+  <td><p>Create a FuzzyGene modelling configuration object.</p></td>
+</tr>
+<tr>
+  <td id="build_fuzzygene">
+    <a href="./FuzzyGene/build_fuzzygene.html">build_fuzzygene</a>
+  </td>
+  <td><p>Build an untrained neuro-fuzzy gene regulatory network model.</p></td>
+</tr>
+<tr>
+  <td id="train">
+    <a href="./FuzzyGene/train.html">train</a>
+  </td>
+  <td><p>Train the neuro-fuzzy model: one Takagi-Sugeno network per target gene.</p></td>
+</tr>
+<tr>
+  <td id="fuzzygene_rules">
+    <a href="./FuzzyGene/fuzzygene_rules.html">fuzzygene_rules</a>
+  </td>
+  <td><p>Export the IF-THEN rules of every fitted target gene.</p></td>
+</tr>
+<tr>
+  <td id="fuzzygene_edges">
+    <a href="./FuzzyGene/fuzzygene_edges.html">fuzzygene_edges</a>
+  </td>
+  <td><p>Export the signed regulatory edge table of a trained model.</p></td>
+</tr>
+<tr>
+  <td id="fuzzygene_report">
+    <a href="./FuzzyGene/fuzzygene_report.html">fuzzygene_report</a>
+  </td>
+  <td><p>Human readable training report of a fitted model.</p></td>
+</tr>
+<tr>
+  <td id="save_fuzzygene">
+    <a href="./FuzzyGene/save_fuzzygene.html">save_fuzzygene</a>
+  </td>
+  <td><p>Save a trained model into a <code>*.fuzzygene.zip</code> package.</p></td>
+</tr>
+<tr>
+  <td id="load_fuzzygene">
+    <a href="./FuzzyGene/load_fuzzygene.html">load_fuzzygene</a>
+  </td>
+  <td><p>Load a model from a <code>*.fuzzygene.zip</code> package.</p></td>
+</tr></tbody>
+      </table>
+    </div>
+    <hr />
+    <div style="text-align: center;">[<a href="../index.html">Document Index</a>]</div>
+  </body>
+</html>

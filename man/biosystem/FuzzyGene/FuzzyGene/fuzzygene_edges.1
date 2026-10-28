@@ -1,0 +1,35 @@
+.\" man page create by R# package system.
+.TH FUZZYGENE 1 2000-1月 "fuzzygene_edges" "fuzzygene_edges"
+.SH NAME
+fuzzygene_edges \- Export the signed regulatory edge table of a trained model.
+.SH SYNOPSIS
+\fIfuzzygene_edges(\fBfuzzygene\fR as <generic> FuzzyGeneModel, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Export the signed regulatory edge table of a trained model.
+.PP
+.SH OPTIONS
+.PP
+\fBfuzzygene\fB \fR\- a trained model. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment used to report errors. 
+.PP
+.SH VALUE
+.PP
+a data.frame with columns source, target, weight, regulation, confidence and prior
+.PP
+.SH DETAILS
+.PP
+The edge weight is the average analytic partial derivative
+ `∂x_target/∂x_regulator` over the training support: positive means activation,
+ negative means repression. \fBconfidence\fR is the prior confidence when the edge is
+ supported by the prior network, otherwise the absolute expression correlation.
+.PP
+.SH SEE ALSO
+FuzzyGene
+.SH FILES
+.PP
+biosystem.dll
+.PP

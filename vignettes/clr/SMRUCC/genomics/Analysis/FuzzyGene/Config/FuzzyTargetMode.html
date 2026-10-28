@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.FuzzyGene.Config.FuzzyTargetMode</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>FuzzyTargetMode {SMRUCC.genomics.Analysis.FuzzyGene.Config}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>FuzzyTargetMode</h2>
+
+        <h3>Description</h3>
+
+        <p>拟合路线。</p>
+
+<p>成员名不能是 <code>Static</code>：那是 VB 的保留关键字。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.FuzzyGene.Config
+export class FuzzyTargetMode extends <a href="/vignettes/clr/System/Enum.html">Enum</a> {
+   # 按输入数据自动判定：唯一时间点数达到 <a href="cref:P:SMRUCC.genomics.Analysis.FuzzyGene.Config.FuzzyGeneConfig.MinTimePoints">FuzzyGeneConfig.MinTimePoints</a> 时用滞后，否则静态。
+   Auto: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/FuzzyTargetMode.html">FuzzyTargetMode</a> = 0;
+
+   # 静态路线：学习 <code>x_g = F(regulators)</code>。
+   StaticRoute: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/FuzzyTargetMode.html">FuzzyTargetMode</a> = 1;
+
+   # 动态滞后路线：学习 <code>x_g(t+1) = F(regulators(t))</code>，需要带 <code>TimePoints</code> 的时序矩阵。
+   LaggedRoute: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/FuzzyTargetMode.html">FuzzyTargetMode</a> = 2;
+
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>this class extends from <a href="/vignettes/clr/System/Enum.html">Enum</a> class: <a href="/vignettes/clr/System/Enum.html">Enum</a></li>
+<li>use by <i>field</i> member <code>Auto</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/FuzzyTargetMode.html">FuzzyTargetMode</a></li>
+<li>use by <i>field</i> member <code>StaticRoute</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/FuzzyTargetMode.html">FuzzyTargetMode</a></li>
+<li>use by <i>field</i> member <code>LaggedRoute</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/FuzzyTargetMode.html">FuzzyTargetMode</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

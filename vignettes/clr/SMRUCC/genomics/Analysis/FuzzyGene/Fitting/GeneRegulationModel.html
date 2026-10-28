@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.FuzzyGene.Fitting.GeneRegulationModel</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>GeneRegulationModel {SMRUCC.genomics.Analysis.FuzzyGene.Fitting}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>GeneRegulationModel</h2>
+
+        <h3>Description</h3>
+
+        <p>单个靶基因的神经模糊（Takagi–Sugeno）调控模型。</p>
+
+<p>一个实例就是一句话：「当这些调控因子处于某种模糊状态时，靶基因的表达近似为 一个局部线性函数」。模型的输入顺序与 <a href="cref:P:SMRUCC.genomics.Analysis.FuzzyGene.Fitting.GeneRegulationModel.Regulators">GeneRegulationModel.Regulators</a> 一一对应， 输出维数恒为 1（靶基因自身）。</p>
+
+<p>可解释性来自两方面：<a href="cref:M:SMRUCC.genomics.Analysis.FuzzyGene.Fitting.GeneRegulationModel.RulesText">GeneRegulationModel.RulesText()</a> 给出带触发强度的 IF-THEN 规则， <a href="cref:M:SMRUCC.genomics.Analysis.FuzzyGene.Fitting.GeneRegulationModel.LocalSensitivity(System.Double[])">GeneRegulationModel.LocalSensitivity()</a> 给出给定状态下每个调控因子的解析偏导 <code>∂x̂/∂x_j = Σ_r w̄_r · θ[r·(n+1)+j]</code>，其符号即调控方向。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.FuzzyGene.Fitting
+export class GeneRegulationModel {
+   # 是否因早停提前结束。
+   Converged: boolean;
+   # 该模型是否来自滞后（时序）路线。
+   IsLagged: boolean;
+   # 实际训练轮数。
+   Iterations: integer;
+   # 靶基因原始表达的均值（反标准化用）。
+   Mean: double;
+   # 推理内核（TSK 五层网络）。
+   Network: <a href="/vignettes/clr/Microsoft/VisualBasic/DataMining/FuzzyLogic/TSK/TskNetwork.html">TskNetwork</a>;
+   # 被剪掉的规则数量。
+   PrunedRuleCount: integer;
+   # 训练集决定系数。
+   R2: double;
+   # 输入变量（调控因子）名称，顺序即 <a href="cref:P:SMRUCC.genomics.Analysis.FuzzyGene.Fitting.GeneRegulationModel.Network">GeneRegulationModel.Network</a> 的输入顺序。
+   Regulators: string;
+   # 训练集均方根误差（z 空间）。
+   RMSE: double;
+   # 每条规则在训练集上的平均归一化触发强度。
+   RuleActivations: double;
+   # 规则数量。
+   RuleCount: integer;
+   # 训练行数（诊断用）。
+   SampleCount: integer;
+   # 靶基因原始表达的标准差（反标准化与 Z 分数用）。
+   Sd: double;
+   # 训练目标在 z 空间上的最大值（支持域上界）。
+   SupportMax: double;
+   # 训练目标在 z 空间上的最小值（支持域下界）。
+   SupportMin: double;
+   # 靶基因名称。
+   TargetGene: string;
+   # 训练过程中的降级/告警信息。
+   Warnings: string;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>Network</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/DataMining/FuzzyLogic/TSK/TskNetwork.html">TskNetwork</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>
