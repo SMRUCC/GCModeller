@@ -308,13 +308,13 @@ Namespace Fitting
                 Return
             End Try
 
-            ' ---- 触发强度与解析灵敏度（一次批量前向，避免逐样本重复前向） ----
+            ' ---- 训练集上的平均触发强度（可解释性/剪枝依据） ----
             Dim ruleCount As Integer = model.Rules.RuleCount
             Dim nInput As Integer = model.InputCount
             Dim meanActivation(ruleCount - 1) As Double
+            Dim layers As New TskLayers(model)
 
             Try
-                Dim layers As New TskLayers(model)
                 Dim forward As TskInferenceTrace = layers.Forward(x, 0, rows)
 
                 For t As Integer = 0 To rows - 1
@@ -332,11 +332,46 @@ Namespace Fitting
                 Return
             End Try
 
+            ' ---- 边权重：在输入支撑域的结构化网格上平均解析灵敏度 ----
+            ' 训练样本上的输入通常高度共线（例如 B 与 C 互为镜像），沿数据流形求平均偏导
+            ' 会让相互抵消的结论系数把符号算错。改用「逐输入取分位点、全组合」的网格做平均，
+            ' 语义上等于“保持其它调控因子不变”的偏效应，也正是虚拟扰动的口径。
             Dim sensitivity(nInput - 1) As Double
+            Dim weightActivation As Double() = meanActivation
+
+            Try
+                Dim grid As Double()() = BuildSensitivityGrid(x, nInput)
+                Dim gridForward As TskInferenceTrace = layers.Forward(grid, 0, grid.Length)
+                Dim activation(ruleCount - 1) As Double
+                Dim valid As Integer = 0
+
+                For t As Integer = 0 To grid.Length - 1
+                    If Not gridForward.Valid(t) Then
+                        Continue For
+                    End If
+
+                    valid += 1
+
+                    For r As Integer = 0 To ruleCount - 1
+                        activation(r) += gridForward.Wbar(t, r)
+                    Next
+                Next
+
+                If valid > 0 Then
+                    For r As Integer = 0 To ruleCount - 1
+                        activation(r) /= valid
+                    Next
+
+                    weightActivation = activation
+                End If
+            Catch ex As Exception
+                ' 网格前向失败时退回训练集平均（精度退化但不中断）
+            End Try
+
             Dim theta As Double(,) = model.Theta
 
             For r As Integer = 0 To ruleCount - 1
-                Dim w As Double = meanActivation(r)
+                Dim w As Double = weightActivation(r)
 
                 If w = 0.0 Then
                     Continue For
@@ -396,6 +431,95 @@ Namespace Fitting
             metric.Message = If(selected.Count < picks.Length,
                 $"degraded to {selected.Count} inputs / mf={mfCount}", "")
         End Sub
+
+        ''' <summary>
+        ''' 构造用于估计边权重的输入网格：每个输入取若干分位点，做全组合。
+        ''' </summary>
+        ''' <remarks>
+        ''' 网格点数按输入维数自适应（1→7、2→7²、3→5³、4→4⁴、5→3⁵、≥6→2^n），
+        ''' 上限约 1000 点；全部点一次性前向，因此成本与训练集大小无关。
+        ''' </remarks>
+        Private Function BuildSensitivityGrid(x As Double()(), inputCount As Integer) As Double()()
+            Dim levels As Integer = LevelsForInputs(inputCount)
+            Dim columns(inputCount - 1) As Double()
+
+            For j As Integer = 0 To inputCount - 1
+                columns(j) = QuantileLevels(x, j, levels)
+            Next
+
+            Dim total As Integer = 1
+
+            For j As Integer = 0 To inputCount - 1
+                total *= columns(j).Length
+            Next
+
+            Dim grid(total - 1)() As Double
+            Dim cursor(inputCount - 1) As Integer
+
+            For k As Integer = 0 To total - 1
+                Dim row(inputCount - 1) As Double
+
+                For j As Integer = 0 To inputCount - 1
+                    row(j) = columns(j)(cursor(j))
+                Next
+
+                grid(k) = row
+
+                ' 里程表式进位
+                For j As Integer = inputCount - 1 To 0 Step -1
+                    cursor(j) += 1
+
+                    If cursor(j) < columns(j).Length Then
+                        Exit For
+                    End If
+
+                    cursor(j) = 0
+                Next
+            Next
+
+            Return grid
+        End Function
+
+        Private Function LevelsForInputs(inputCount As Integer) As Integer
+            Select Case inputCount
+                Case 1
+                    Return 7
+                Case 2
+                    Return 7
+                Case 3
+                    Return 5
+                Case 4
+                    Return 4
+                Case 5
+                    Return 3
+                Case Else
+                    Return 2
+            End Select
+        End Function
+
+        ''' <summary>某一列输入值的等分位点（含最小与最大值）。</summary>
+        Private Function QuantileLevels(x As Double()(), column As Integer, levels As Integer) As Double()
+            Dim values(x.Length - 1) As Double
+
+            For i As Integer = 0 To x.Length - 1
+                values(i) = x(i)(column)
+            Next
+
+            Call System.Array.Sort(values)
+
+            Dim result(levels - 1) As Double
+
+            For k As Integer = 0 To levels - 1
+                Dim pos As Integer = CInt(std.Round(k * (values.Length - 1) / CDbl(levels - 1)))
+
+                If pos < 0 Then pos = 0
+                If pos >= values.Length Then pos = values.Length - 1
+
+                result(k) = values(pos)
+            Next
+
+            Return result
+        End Function
 
         ''' <summary>
         ''' 判断给定的结构是否超出规则/参数预算。
