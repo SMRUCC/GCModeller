@@ -8,7 +8,7 @@ Imports std = System.Math
 ''' ANFIS 训练/评估共用的数据整形工具。
 ''' </summary>
 ''' <remarks>
-''' 输入统一用"行 = 样本"的锯齿数组（与 <see cref="AnfisNetwork.Predict"/> 一致），
+''' 输入统一用"行 = 样本"的锯齿数组（与 <see cref="TskNetwork.Predict"/> 一致），
 ''' 目标统一转成二维矩阵（分块时可以直接切行，不必反复构造锯齿数组）。
 ''' </remarks>
 Friend NotInheritable Class AnfisData
@@ -50,23 +50,18 @@ Friend NotInheritable Class AnfisData
             End If
 
             For j As Integer = 0 To n - 1
-                If IsNotFinite(x(i)(j)) Then
+                If x(i)(j).IsNaNImaginary Then
                     Throw New ArgumentException($"the feature [{i}, {j}] is not a finite number", NameOf(x))
                 End If
             Next
 
             For j As Integer = 0 To o - 1
-                If IsNotFinite(y(i)(j)) Then
+                If y(i)(j).IsNaNImaginary Then
                     Throw New ArgumentException($"the target [{i}, {j}] is not a finite number", NameOf(y))
                 End If
             Next
         Next
     End Sub
-
-    ''' <summary>是否为 NaN / 无穷。</summary>
-    Public Shared Function IsNotFinite(value As Double) As Boolean
-        Return Double.IsNaN(value) OrElse Double.IsInfinity(value)
-    End Function
 
     ''' <summary>锯齿数组的目标转二维矩阵。</summary>
     Public Shared Function ToMatrix(y As Double()()) As Double(,)

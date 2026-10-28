@@ -14,4 +14,11 @@
     <ProjectReference Include="..\DataMining\DataMining.NET5.vbproj" />
   </ItemGroup>
 
+  <!-- 自检程序是独立工程，不能被编进库 -->
+  <ItemGroup>
+    <Compile Remove="_smoketest\**" />
+    <EmbeddedResource Remove="_smoketest\**" />
+    <None Remove="_smoketest\**" />
+  </ItemGroup>
+
 </Project>
