@@ -1,5 +1,6 @@
 Imports System.Drawing
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Math.Interpolation
 Imports std = System.Math
 
@@ -61,8 +62,11 @@ Namespace GRN
 
             If m < 2 Then
                 Throw New ArgumentException("At least 2 time points are required by the slope estimation!")
+            Else
+                parallel = parallel AndAlso n >= MinParallelGenes
             End If
 
+            Dim offset As i32 = 1
             ' 每个基因独立：只读 series.X(i)，只写 slopes(i)
             Dim body As Action(Of Integer) =
                 Sub(i)
@@ -77,12 +81,18 @@ Namespace GRN
                     Else
                         slopes(i) = centralDifference(t, y)
                     End If
+
+                    If parallel Then
+                        SyncLock offset
+                            Call $"[slope_estimate #{++offset}] {series.OriginalNames(i)}: {slopes(i).Average}".debug
+                        End SyncLock
+                    End If
                 End Sub
 
             ' 基因数很少的时候（例如金标准自测只有 3 个基因）串行更快，
             ' 因为此时线程调度与分块的开销会超过计算本身
-            If parallel AndAlso n >= MinParallelGenes Then
-                Dim opts As New System.Threading.Tasks.ParallelOptions()
+            If parallel Then
+                Dim opts As New ParallelOptions()
 
                 If threads > 0 Then
                     opts.MaxDegreeOfParallelism = threads

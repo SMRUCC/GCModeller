@@ -60,7 +60,7 @@ Namespace GRN
         ''' 在预处理过程之中所产生的提示信息
         ''' </summary>
         ''' <returns></returns>
-        Public Property Warnings As New System.Collections.Generic.List(Of String)
+        Public Property Warnings As New List(Of String)
 
         ''' <summary>
         ''' 基因的数量
