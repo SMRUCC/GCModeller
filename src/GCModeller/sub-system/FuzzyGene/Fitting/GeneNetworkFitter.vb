@@ -441,7 +441,7 @@ Namespace Fitting
         ''' </remarks>
         Private Function BuildSensitivityGrid(x As Double()(), inputCount As Integer) As Double()()
             Dim levels As Integer = LevelsForInputs(inputCount)
-            Dim columns(inputCount - 1) As Double()
+            Dim columns(inputCount - 1)() As Double
 
             For j As Integer = 0 To inputCount - 1
                 columns(j) = QuantileLevels(x, j, levels)
