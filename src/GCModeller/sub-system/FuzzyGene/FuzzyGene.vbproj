@@ -5,6 +5,7 @@
     <TargetFramework>net10.0</TargetFramework>
     <Platforms>AnyCPU;x64</Platforms>
     <AssemblyName>SMRUCC.genomics.Analysis.FuzzyGene</AssemblyName>
+    <Configurations>Debug;Release;Rsharp_app_release</Configurations>
   </PropertyGroup>
 
   <ItemGroup>

@@ -2673,7 +2673,9 @@
       <BuildType Solution="nuget_release|*" Project="Release" />
       <BuildType Solution="PlantMAT|*" Project="Release" />
       <BuildType Solution="Publish|*" Project="Release" />
-      <BuildType Solution="Rsharp_app_release|*" Project="Release" />
+      <BuildType Solution="Rsharp_app_release|Any CPU" Project="Release" />
+      <BuildType Solution="Rsharp_app_release|ARM32" Project="Release" />
+      <BuildType Solution="Rsharp_app_release|x86" Project="Release" />
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Release" />
       <BuildType Solution="vcellkit|*" Project="Release" />
       <BuildType Solution="Voyager1|*" Project="Release" />
@@ -4055,6 +4057,9 @@
       <BuildType Solution="Voyager1|*" Project="Debug" />
       <Platform Solution="*|x64" Project="x64" />
     </Project>
+    <Project Path="GCModeller/models/Networks/Network.Regulons.Cuda/Network.Regulons.Cuda.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
     <Project Path="GCModeller/models/Networks/Network.Regulons/Network.Regulons.vbproj">
       <BuildType Solution="BioDeep_database|*" Project="Debug" />
       <BuildType Solution="Biodeep_UNIX_x64|*" Project="Debug" />
@@ -4089,9 +4094,6 @@
       <BuildType Solution="Voyager1|*" Project="Debug" />
       <Platform Solution="*|x64" Project="x64" />
       <Platform Solution="*|x86" Project="x86" />
-    </Project>
-    <Project Path="GCModeller/models/Networks/Network.Regulons.Cuda/Network.Regulons.Cuda.vbproj">
-      <Platform Solution="*|x64" Project="x64" />
     </Project>
     <Project Path="GCModeller/models/RouterAdapter/RouterAdapter.vbproj">
       <BuildType Solution="BioDeep_database|*" Project="Release" />
