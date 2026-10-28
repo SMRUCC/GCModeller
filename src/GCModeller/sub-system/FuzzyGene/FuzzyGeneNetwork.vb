@@ -6,8 +6,6 @@ Imports SMRUCC.genomics.Analysis.FuzzyGene.Data
 Imports SMRUCC.genomics.Analysis.FuzzyGene.Fitting
 Imports std = System.Math
 
-Namespace Global.SMRUCC.genomics.Analysis.FuzzyGene
-
     ''' <summary>
     ''' 由逐靶基因神经模糊模型拼成的基因调控网络（纯推理对象）。
     ''' </summary>
@@ -153,7 +151,12 @@ Namespace Global.SMRUCC.genomics.Analysis.FuzzyGene
                     End If
                 Next
 
-                result(g) = rows.ToArray()
+                ' 输入个数必须与训练时一致，否则模型无法推理（例如包文件被手工改写）
+                If model.Network IsNot Nothing AndAlso rows.Count <> model.Network.InputCount Then
+                    result(g) = New Integer() {}
+                Else
+                    result(g) = rows.ToArray()
+                End If
             Next
 
             Return result
@@ -217,7 +220,7 @@ Namespace Global.SMRUCC.genomics.Analysis.FuzzyGene
             Dim clampIndex As New List(Of Integer)
             Dim clampValue As New List(Of Double)
 
-            Dim stuck As Integer() = ResolveClamps(clamps, z, clampIndex, clampValue)
+            Call ResolveClamps(clamps, z, clampIndex, clampValue)
 
             Dim dirty As Boolean() = Repeat(True, NGene)
 
@@ -310,17 +313,15 @@ Namespace Global.SMRUCC.genomics.Analysis.FuzzyGene
         End Sub
 
         ''' <summary>
-        ''' 把钳制条件写进 z 状态，并返回被固定的基因下标。
+        ''' 把钳制条件写进 z 状态，并登记被固定的基因下标与取值。
         ''' </summary>
-        Private Function ResolveClamps(clamps As Dictionary(Of String, Double),
-                                       z As Double(),
-                                       ByRef clampIndex As List(Of Integer),
-                                       ByRef clampValue As List(Of Double)) As Integer()
+        Private Sub ResolveClamps(clamps As Dictionary(Of String, Double),
+                                  z As Double(),
+                                  ByRef clampIndex As List(Of Integer),
+                                  ByRef clampValue As List(Of Double))
             If clamps Is Nothing Then
-                Return New Integer() {}
+                Return
             End If
-
-            Dim fixed As New List(Of Integer)
 
             For Each item As KeyValuePair(Of String, Double) In clamps
                 Dim idx As Integer = IndexOfGene(item.Key)
@@ -340,11 +341,8 @@ Namespace Global.SMRUCC.genomics.Analysis.FuzzyGene
                 z(idx) = zv
                 Call clampIndex.Add(idx)
                 Call clampValue.Add(zv)
-                Call fixed.Add(idx)
             Next
-
-            Return fixed.ToArray()
-        End Function
+        End Sub
 
         ''' <summary>
         ''' 一步状态更新：只重算「有调控因子发生变化」的基因（脏集传播）。
@@ -646,4 +644,3 @@ Namespace Global.SMRUCC.genomics.Analysis.FuzzyGene
 
     End Class
 
-End Namespace
