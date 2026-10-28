@@ -176,6 +176,7 @@ Module ssGrid
             Call model.Save(con)
             Call con.Flush()
         Catch ex As Exception
+            Call App.LogException(ex)
             Call Console.WriteLine($"[ERROR] {ex.Message}")
 
             Return RInternal.debug.stop(ex, env)
@@ -268,6 +269,7 @@ Module ssGrid
                                 Optional refine As Boolean = False,
                                 Optional final_time As Double = 0,
                                 Optional precise As Double = 0.1,
+                                Optional thread_tasks As Integer = -1,
                                 Optional steps As Integer = 0) As FittingOptions
 
         Dim opts As New FittingOptions With {
@@ -292,7 +294,8 @@ Module ssGrid
             .RefineTrajectory = refine,
             .FinalTime = final_time,
             .Precise = precise,
-            .Steps = steps
+            .Steps = steps,
+            .MaxDegreeOfParallelism = thread_tasks
         }
 
         Call opts.Validate()
