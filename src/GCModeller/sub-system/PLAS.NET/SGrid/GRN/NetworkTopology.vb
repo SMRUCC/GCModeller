@@ -213,73 +213,76 @@ Namespace GRN
             End If
 
             Dim n As Integer = parameters.nGenes
-            Dim net As Double()() = parameters.NetElasticity()
-            Dim keep As Boolean()() = New Boolean(n - 1)() {}
             Dim edges As New System.Collections.Generic.List(Of RegulatoryEdge)
             Dim boost As Double = options.PriorRankBoost
+            Dim index As Dictionary(Of Long, RegulationEdge) = priorIndex(parameters, prior)
+            Dim threshold As Double = options.Sparsity
+            Dim limit As Integer = options.MaxEdgesPerGene
 
             For i As Integer = 0 To n - 1
-                keep(i) = New Boolean(n - 1) {}
-            Next
+                Dim candidates As Integer() = candidateList(parameters, i, options.KeepSelfLoop)
+                Dim rankScore As Double() = New Double(candidates.Length - 1) {}
+                Dim kept As New System.Collections.Generic.List(Of Integer)
 
-            For i As Integer = 0 To n - 1
-                Dim candidates As New System.Collections.Generic.List(Of Integer)
-                Dim rankScore As New System.Collections.Generic.Dictionary(Of Integer, Double)
+                ' 只遍历本行的候选调控因子（每行 ≤ MaxRegulators），
+                ' 而不是整行 n 个基因：18k 基因时这一步从 3.3E8 次迭代降到 ~4E5 次
+                For c As Integer = 0 To candidates.Length - 1
+                    Dim j As Integer = candidates(c)
 
-                For j As Integer = 0 To n - 1
                     If j = i AndAlso Not options.KeepSelfLoop Then
+                        rankScore(c) = -1
                         Continue For
                     End If
-                    If std.Abs(net(i)(j)) < options.Sparsity Then
+
+                    Dim net As Double = parameters.G(i)(j) - parameters.H(i)(j)
+
+                    If std.Abs(net) < threshold Then
+                        rankScore(c) = -1
                         Continue For
                     End If
 
-                    Call candidates.Add(j)
+                    Dim record As RegulationEdge = lookup(index, prior, parameters, j, i)
 
-                    Dim weight As Double = priorWeightOf(prior, parameters.GeneNames(j), parameters.GeneNames(i))
-
-                    rankScore(j) = std.Abs(net(i)(j)) * (1 + boost * weight)
+                    rankScore(c) = std.Abs(net) * (1 + boost * record.EdgeWeight())
+                    Call kept.Add(c)
                 Next
 
                 ' 每基因限边数：按照「净调控弹性 + 先验加权」之后的分数保留最强的若干条边
-                If options.MaxEdgesPerGene > 0 AndAlso candidates.Count > options.MaxEdgesPerGene Then
-                    Dim drop As Integer() = candidates _
-                        .OrderBy(Function(j) rankScore(j)) _
-                        .Take(candidates.Count - options.MaxEdgesPerGene) _
+                If limit > 0 AndAlso kept.Count > limit Then
+                    Dim drop As Integer() = kept _
+                        .OrderBy(Function(c) rankScore(c)) _
+                        .Take(kept.Count - limit) _
                         .ToArray
 
-                    For Each j As Integer In drop
-                        Call candidates.Remove(j)
+                    For Each c As Integer In drop
+                        Call kept.Remove(c)
                     Next
                 End If
 
-                For Each j As Integer In candidates
-                    Dim record As RegulationEdge = Nothing
+                Dim keep As New HashSet(Of Integer)
 
-                    If Not prior Is Nothing Then
-                        record = prior.FindEdge(parameters.GeneNames(j), parameters.GeneNames(i))
-                    End If
+                For Each c As Integer In kept
+                    Dim j As Integer = candidates(c)
+                    Dim record As RegulationEdge = lookup(index, prior, parameters, j, i)
+                    Dim net As Double = parameters.G(i)(j) - parameters.H(i)(j)
 
-                    keep(i)(j) = True
-
+                    Call keep.Add(j)
                     Call edges.Add(New RegulatoryEdge With {
                         .source = parameters.GeneNames(j),
                         .target = parameters.GeneNames(i),
                         .g = parameters.G(i)(j),
                         .h = parameters.H(i)(j),
-                        .weight = net(i)(j),
+                        .weight = net,
                         .PriorSupported = Not record Is Nothing,
                         .PriorType = record.RegulationName(),
                         .PriorConfidence = If(record Is Nothing, 0, record.Confidence),
                         .PriorWeight = record.EdgeWeight()
                     })
                 Next
-            Next
 
-            ' 把没有保留的交互置零，使得后续的模型生成只包含稀疏化之后的边
-            For i As Integer = 0 To n - 1
-                For j As Integer = 0 To n - 1
-                    If Not keep(i)(j) Then
+                ' 把没有保留的候选交互置零，使得后续的模型生成只包含稀疏化之后的边
+                For Each j As Integer In candidates
+                    If Not keep.Contains(j) Then
                         parameters.G(i)(j) = 0
                         parameters.H(i)(j) = 0
                     End If
@@ -287,6 +290,90 @@ Namespace GRN
             Next
 
             Return edges.ToArray
+        End Function
+
+        ''' <summary>
+        ''' 取出一行的候选调控因子；没有候选信息（例如手工构造的参数对象）时回退为整行
+        ''' </summary>
+        ''' <param name="parameters"></param>
+        ''' <param name="i"></param>
+        ''' <param name="keepSelfLoop"></param>
+        ''' <returns></returns>
+        Private Function candidateList(parameters As SSystemParameters, i As Integer, keepSelfLoop As Boolean) As Integer()
+            Dim candidates As Integer() = parameters.CandidateOf(i)
+
+            If Not candidates.IsNullOrEmpty Then
+                Return candidates
+            End If
+
+            Dim n As Integer = parameters.nGenes
+            Dim all As Integer() = New Integer(n - 1) {}
+
+            For j As Integer = 0 To n - 1
+                all(j) = j
+            Next
+
+            Return all
+        End Function
+
+        ''' <summary>
+        ''' 构建「(调控因子, 靶基因) → 先验边」的常数时间索引；
+        ''' 避免了每个基因行都做一次 <see cref="PriorKnowledge.FindEdge"/>（线性扫描 + 数组分配）
+        ''' </summary>
+        ''' <param name="parameters"></param>
+        ''' <param name="prior"></param>
+        ''' <returns></returns>
+        Private Function priorIndex(parameters As SSystemParameters, prior As PriorNet) As Dictionary(Of Long, RegulationEdge)
+            If prior Is Nothing Then
+                Return Nothing
+            End If
+
+            Dim map As New Dictionary(Of String, Integer)(StringComparer.OrdinalIgnoreCase)
+
+            For i As Integer = 0 To parameters.nGenes - 1
+                Dim name As String = parameters.GeneNames(i)
+
+                If Not String.IsNullOrEmpty(name) AndAlso Not map.ContainsKey(name) Then
+                    map(name) = i
+                End If
+            Next
+
+            Dim index As New Dictionary(Of Long, RegulationEdge)
+
+            For Each edge As RegulationEdge In prior.Edges.SafeQuery()
+                Dim tf As Integer
+                Dim target As Integer
+
+                If map.TryGetValue(edge.TF, tf) AndAlso map.TryGetValue(edge.TargetGene, target) Then
+                    Dim key As Long = (CLng(tf) << 32) Or CLng(target And &HFFFFFFFFL)
+
+                    If Not index.ContainsKey(key) Then
+                        index(key) = edge
+                    End If
+                End If
+            Next
+
+            Return index
+        End Function
+
+        ''' <summary>
+        ''' 查询先验边：优先使用索引，索引不可用时回退到逐行查找
+        ''' </summary>
+        Private Function lookup(index As Dictionary(Of Long, RegulationEdge), prior As PriorNet,
+                                parameters As SSystemParameters, j As Integer, i As Integer) As RegulationEdge
+
+            If index Is Nothing Then
+                Return Nothing
+            End If
+
+            Dim edge As RegulationEdge = Nothing
+            Dim key As Long = (CLng(j) << 32) Or CLng(i And &HFFFFFFFFL)
+
+            If index.TryGetValue(key, edge) Then
+                Return edge
+            Else
+                Return Nothing
+            End If
         End Function
 
         ''' <summary>
