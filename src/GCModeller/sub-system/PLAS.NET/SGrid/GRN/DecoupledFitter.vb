@@ -767,7 +767,13 @@ Namespace GRN
             Next
 
             If options.Parallel AndAlso n > 1 Then
-                Call System.Threading.Tasks.Parallel.ForEach(indices, Sub(i) fitGene(i, result, geneSeeds(i)))
+                Dim parallelOptions As New System.Threading.Tasks.ParallelOptions()
+
+                If options.MaxDegreeOfParallelism > 0 Then
+                    parallelOptions.MaxDegreeOfParallelism = options.MaxDegreeOfParallelism
+                End If
+
+                Call System.Threading.Tasks.Parallel.ForEach(indices, parallelOptions, Sub(i) fitGene(i, result, geneSeeds(i)))
             Else
                 For Each i As Integer In indices
                     Call fitGene(i, result, geneSeeds(i))

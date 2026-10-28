@@ -20,6 +20,8 @@ Module Program
                 Return SelfTest.GrnSelfTest.Run(verbose:=Not options.Quiet)
             Case "simd-check", "simdcheck"
                 Return SelfTest.SimdCheck.Run(verbose:=Not options.Quiet)
+            Case "slope-bench", "slopebench"
+                Return SelfTest.SlopeBench.Run(options.BenchGenes, options.BenchPoints, options.Threads)
             Case Else
                 Return GRNDemo.DemoRunner.Run(options)
         End Select

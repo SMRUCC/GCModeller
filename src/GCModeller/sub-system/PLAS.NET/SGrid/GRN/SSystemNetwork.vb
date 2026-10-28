@@ -104,7 +104,27 @@ Namespace GRN
                 Next
             End If
 
-            Dim slopes As Double()() = SlopeEstimator.Estimate(series, options.Denoise, fitOptions.SmoothWindow)
+            ' 数值微分是拟合流程之中的第一个重计算阶段，且与后续的逐基因拟合完全独立，
+            ' 故单独计时并从配置透传并行开关与线程上限
+            Dim slopeWatch As New System.Diagnostics.Stopwatch()
+
+            Call slopeWatch.Start()
+
+            Dim slopes As Double()() = SlopeEstimator.Estimate(
+                series,
+                denoise:=options.Denoise,
+                smoothWindow:=fitOptions.SmoothWindow,
+                parallel:=options.Parallel,
+                threads:=fitOptions.MaxDegreeOfParallelism)
+
+            Call slopeWatch.Stop()
+
+            If options.Verbose Then
+                Call Console.WriteLine(
+                    $"[INFO] slope estimation: {series.nGenes} gene(s) x {series.nTimePoints} point(s) in {slopeWatch.Elapsed.TotalSeconds.ToString("F2")}s " &
+                    $"({If(options.Parallel, If(fitOptions.MaxDegreeOfParallelism > 0, $"{fitOptions.MaxDegreeOfParallelism} thread(s)", "auto"), "serial")})")
+            End If
+
             Dim fitter As New DecoupledFitter(series, slopes, fitOptions)
             Dim parameters As SSystemParameters = fitter.Fit()
             Dim edges As RegulatoryEdge() = NetworkTopology.Sparsify(parameters, fitOptions, prior)

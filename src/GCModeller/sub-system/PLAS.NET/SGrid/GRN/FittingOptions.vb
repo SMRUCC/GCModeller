@@ -238,6 +238,13 @@ Namespace GRN
         ''' <returns></returns>
         Public Property Parallel As Boolean = True
         ''' <summary>
+        ''' 并行计算所使用的线程上限；零或者负数表示使用运行时的默认值（逻辑核数）。
+        ''' 该上限同时作用于数值微分（<see cref="SlopeEstimator.Estimate"/>）
+        ''' 与逐基因参数拟合
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property MaxDegreeOfParallelism As Integer = 0
+        ''' <summary>
         ''' 是否输出拟合过程的详细信息
         ''' </summary>
         ''' <returns></returns>

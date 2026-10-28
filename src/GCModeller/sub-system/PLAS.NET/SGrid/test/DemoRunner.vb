@@ -797,6 +797,7 @@ Namespace GRNDemo
                 .RefineTrajectory = False,
                 .Seed = options.Seed,
                 .Parallel = options.Parallel,
+                .MaxDegreeOfParallelism = options.Threads,
                 .Verbose = Not options.Quiet,
                 .FinalTime = binned.TimePoints(binned.TimePoints.Length - 1),
                 .Precise = options.Precise,

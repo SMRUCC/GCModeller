@@ -154,6 +154,22 @@ Namespace GRNDemo
         ''' <returns></returns>
         Public Property Hubs As Integer = 5
         ''' <summary>
+        ''' 并行计算的线程上限；零表示使用运行时的默认值（逻辑核数）。
+        ''' 同时作用于数值微分与逐基因参数拟合
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Threads As Integer = 0
+        ''' <summary>
+        ''' slope-bench 命令所使用的合成基因数量（默认与完整的表达矩阵一致）
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property BenchGenes As Integer = 18179
+        ''' <summary>
+        ''' slope-bench 命令所使用的合成时间点数量
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property BenchPoints As Integer = 121
+        ''' <summary>
         ''' 必须被包含进子网的基因清单（例如敲降实验的目标基因列表，每行一个基因符号）
         ''' </summary>
         ''' <returns></returns>
@@ -362,6 +378,9 @@ Namespace GRNDemo
             options.Seed = integerOf(values, "seed", options.Seed)
             options.Precise = doubleOf(values, "precise", options.Precise)
             options.Hubs = integerOf(values, "hubs", options.Hubs)
+            options.Threads = integerOf(values, "threads", options.Threads)
+            options.BenchGenes = integerOf(values, "bench-genes", options.BenchGenes)
+            options.BenchPoints = integerOf(values, "bench-points", options.BenchPoints)
             options.MustIncludeFile = textOf(values, "must-include", options.MustIncludeFile)
             options.ContextFile = textOf(values, "context", options.ContextFile)
             options.PertFile = textOf(values, "pert", options.PertFile)
@@ -412,6 +431,9 @@ Namespace GRNDemo
                 Call sb.AppendLine("  --max-edges <n>          max edges per target gene (default 4)")
                 Call sb.AppendLine("  --max-regulators <n>     candidate regulators per target, by correlation (0 = all genes)")
                 Call sb.AppendLine("  --smooth <n>             moving average window before differentiation (default 9)")
+                Call sb.AppendLine("  --threads <n>            max degree of parallelism (0 = all logical cores)")
+                Call sb.AppendLine("  --bench-genes <n>        gene count of the slope-bench command (default 18179)")
+                Call sb.AppendLine("  --bench-points <n>       time point count of the slope-bench command (default 121)")
                 Call sb.AppendLine("  --l1 <x>                 L1 penalty weight of the kinetic orders (default 0)")
                 Call sb.AppendLine("  --stability <x>          penalty weight of a positive self loop (default 0.05)")
                 Call sb.AppendLine("  --de-pop <n>             differential evolution population size (default 40)")
