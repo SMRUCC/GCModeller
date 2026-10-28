@@ -2,10 +2,12 @@
 
   <PropertyGroup>
     <RootNamespace>SMRUCC.genomics.Analysis.FuzzyGene</RootNamespace>
+    <AssemblyName>SMRUCC.genomics.Analysis.FuzzyGene</AssemblyName>
+    <AssemblyTitle>Neuro-fuzzy gene regulatory network modelling based on ANFIS</AssemblyTitle>
+    <Description>Neuro-fuzzy (Takagi-Sugeno / ANFIS) gene regulatory network inference: per target gene fuzzy models, interpretable IF-THEN rules, signed regulatory edges, and in silico perturbation analysis.</Description>
     <TargetFramework>net10.0</TargetFramework>
     <Platforms>AnyCPU;x64</Platforms>
-    <AssemblyName>SMRUCC.genomics.Analysis.FuzzyGene</AssemblyName>
-    <Configurations>Debug;Release;Rsharp_app_release</Configurations>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
