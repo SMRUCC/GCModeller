@@ -141,6 +141,42 @@ Namespace Config
         ''' <summary>导出调控边时的最小 |权重|，低于该值的边被视为噪声丢弃。</summary>
         Public Property MinEdgeWeight As Double = 0.0001
 
+        ''' <summary>
+        ''' 参与训练的最大行数；0 表示使用全部行。
+        ''' </summary>
+        ''' <remarks>
+        ''' <para>
+        ''' 训练成本里压倒性的一项是「每个 epoch 重解一次结论参数的正规方程」，量级为
+        ''' <c>行数 × P²</c>（P = 规则数 ×(输入数+1)）。几万行样本对几百个结论参数是严重过定的，
+        ''' 把行数压到 3000–5000 几乎不影响 R²，却能把训练时间同比例砍下来。
+        ''' </para>
+        ''' <para>
+        ''' 抽样是**等间隔确定性**的（不是随机抽样）：结果可复现，时序数据下也仍覆盖整段轨迹。
+        ''' 同时它直接作用在预处理阶段——只把采样到的行写进列里，常驻内存也同比例下降。
+        ''' </para>
+        ''' </remarks>
+        Public Property MaxTrainRows As Integer = 0
+
+        ''' <summary>
+        ''' 相关性候选池的规模上限；0 表示不限制（对全部基因计算相关性）。
+        ''' </summary>
+        ''' <remarks>
+        ''' 相关性补齐的复杂度是 <c>O(基因数² × 行数)</c>，全基因组规模下这一项会与训练本身同量级。
+        ''' 给定时候选池为「先验调控网络的 TF ∪ 方差最高的若干个基因」，低方差基因本来也主要是噪声。
+        ''' 建议全基因组规模取 2000–4000。
+        ''' </remarks>
+        Public Property MaxCandidateGenes As Integer = 0
+
+        ''' <summary>
+        ''' 靶基因有效性门槛：先验无入边且与全部候选的最大 |Pearson| 低于该值时跳过该靶基因；
+        ''' 0 表示不跳过（默认）。
+        ''' </summary>
+        ''' <remarks>
+        ''' 这类靶基因的模型 R² 基本为 0，纯属浪费算力；全基因组规模下通常占 30–50%。
+        ''' 只有在确认要「只为可解释的靶基因建模」时才建议打开（例如 0.05–0.1）。
+        ''' </remarks>
+        Public Property MinBestCorrelation As Double = 0.0
+
         ''' <summary>默认配置（同时把规则预算下调到 GRN 场景的合理量级）。</summary>
         Public Sub New()
             MyBase.MaxRules = 128
@@ -197,6 +233,15 @@ Namespace Config
             If MinEdgeWeight < 0.0 Then
                 Throw New ArgumentOutOfRangeException(NameOf(MinEdgeWeight), MinEdgeWeight, "the edge weight threshold must not be negative")
             End If
+            If MaxTrainRows < 0 Then
+                Throw New ArgumentOutOfRangeException(NameOf(MaxTrainRows), MaxTrainRows, "the training row limit must not be negative")
+            End If
+            If MaxCandidateGenes < 0 Then
+                Throw New ArgumentOutOfRangeException(NameOf(MaxCandidateGenes), MaxCandidateGenes, "the candidate gene limit must not be negative")
+            End If
+            If MinBestCorrelation < 0.0 OrElse MinBestCorrelation > 1.0 Then
+                Throw New ArgumentOutOfRangeException(NameOf(MinBestCorrelation), MinBestCorrelation, "the best correlation threshold must be in [0, 1]")
+            End If
 
             Return Me
         End Function
@@ -213,6 +258,8 @@ Namespace Config
         ''' <summary>单行摘要（用于日志与训练汇总）。</summary>
         Public Overrides Function ToString() As String
             Return $"{Selection}/{TargetMode}, K={MaxRegulators}, mf={MfKind}x{MfCount}, " &
+                   $"rows<={If(MaxTrainRows <= 0, "all", MaxTrainRows.ToString)}, " &
+                   $"pool<={If(MaxCandidateGenes <= 0, "all", MaxCandidateGenes.ToString)}, " &
                    $"{MyBase.ToString()}, steps={PropagationSteps}, omega={Relaxation:G3}"
         End Function
 

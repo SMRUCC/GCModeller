@@ -68,9 +68,23 @@ Namespace Fitting
             Dim usedPicks(n - 1)() As RegulatorPick
             Dim weights(n - 1)() As Double
 
+            Dim completed As Integer = 0
+            Dim reportStep As Integer = std.Max(1, n \ 10)
+            Dim clock As New System.Diagnostics.Stopwatch()
+
+            clock.Start()
+
+            ' 逐基因训练在真实数据上可能要跑几十分钟，这里每 10% 打一行进度，
+            ' 否则调用方在整段训练期间完全看不到进展
             Dim work As Action(Of Integer) =
                 Sub(g)
                     Call FitOneGene(g, view, prior, cfg, models, metrics, usedPicks, weights)
+
+                    Dim done As Integer = System.Threading.Interlocked.Increment(completed)
+
+                    If done Mod reportStep = 0 OrElse done = n Then
+                        Console.WriteLine($"[FuzzyGene] {done}/{n} target genes processed, {clock.Elapsed.TotalSeconds:F0}s elapsed")
+                    End If
                 End Sub
 
             If cfg.DegreeOfParallelism = 1 OrElse n = 1 Then

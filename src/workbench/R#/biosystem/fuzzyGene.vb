@@ -81,7 +81,8 @@ Module fuzzyGene
     ''' </description></item>
     ''' </list>
     ''' </remarks>
-    Sub Main()
+    <RInitialize>
+    Public Sub Main()
         Call RInternal.generic.add("writeBin", GetType(fz.FuzzyGeneModel), AddressOf saveModel)
         Call RInternal.generic.add("readBin.fuzzygene", GetType(Stream), AddressOf loadModel)
     End Sub

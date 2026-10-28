@@ -111,6 +111,7 @@ Namespace Data
             ' ---- 2. 相关性补齐 ----
             If picks.Count < limit AndAlso cfg.Selection <> RegulatorSelection.PriorOnly Then
                 Dim scored As New List(Of (index As Integer, correlation As Double))
+                Dim strong As New List(Of (index As Integer, correlation As Double))
 
                 For j As Integer = 0 To view.NGene - 1
                     If j = targetIndex OrElse view.Constant(j) OrElse taken.Contains(j) Then
@@ -119,14 +120,30 @@ Namespace Data
 
                     Dim r As Double = Pearson(view, targetIndex, j)
 
+                    Call scored.Add((j, r))
+
                     If std.Abs(r) >= cfg.MinCorrelation Then
-                        Call scored.Add((j, r))
+                        Call strong.Add((j, r))
                     End If
                 Next
 
-                scored.Sort(Function(a, b) std.Abs(b.correlation).CompareTo(std.Abs(a.correlation)))
+                ' MinCorrelation 是“偏好”而不是硬门槛：单细胞/元细胞表达矩阵里大量低丰度基因
+                ' 的 |r| 普遍偏低，若把它当硬门槛，这些基因会整条被丢掉（实测 300 基因面板里
+                ' 有 92 个基因因此无法建模）。因此当没有任何候选达到阈值时，退化为
+                ' “取相关性最强的 K 个”，只在相关性数值上确实为 0 时才放弃该基因。
+                Dim pool As List(Of (index As Integer, correlation As Double))
 
-                For Each item In scored
+                If strong.Count > 0 Then
+                    pool = strong
+                Else
+                    pool = scored _
+                        .Where(Function(x) std.Abs(x.correlation) > 0.000001) _
+                        .ToList()
+                End If
+
+                pool.Sort(Function(a, b) std.Abs(b.correlation).CompareTo(std.Abs(a.correlation)))
+
+                For Each item In pool
                     If picks.Count >= limit Then
                         Exit For
                     End If

@@ -136,6 +136,11 @@ Namespace Perturbation
             Dim values As New List(Of Double)
             Dim missing As New List(Of String)
 
+            ' 干预值以「对照稳态」为参考（而不是训练均值）：这样报告出来的
+            ' WildtypeMeans 与 knockdown/overexpression 的施加值完全自洽
+            ' （敲低后的表达恰好是野生型的 residual 倍）
+            Dim control As Double() = ControlSteadyState()
+
             For Each spec As InterventionSpec In list
                 Dim idx As Integer = ResolveIndex(spec)
 
@@ -150,7 +155,7 @@ Namespace Perturbation
                 Call indices.Add(idx)
                 Call names.Add(_network.GeneNames(idx))
                 Call resolved.Add(spec)
-                Call values.Add(InterventionValueOf(spec, idx))
+                Call values.Add(InterventionValueOf(spec, idx, control))
             Next
 
             If missing.Count > 0 Then
@@ -161,8 +166,6 @@ Namespace Perturbation
                 Call ($"[AnfisPerturbationEngine] warning: target gene(s) not found in the fitted network: {String.Join(", ", missing)}. " &
                       "The virtual perturbation was skipped and the wildtype state is returned.").debug
             End If
-
-            Dim control As Double() = ControlSteadyState()
 
             If indices.Count = 0 Then
                 Return CreateUndefinedResult(list(0), control)
@@ -245,7 +248,7 @@ Namespace Perturbation
             End If
 
             Dim clamps As New Dictionary(Of String, Double)(StringComparer.OrdinalIgnoreCase) From {
-                {_network.GeneNames(idx), InterventionValueOf(spec, idx)}
+                {_network.GeneNames(idx), InterventionValueOf(spec, idx, ControlSteadyState())}
             }
 
             Dim result As InterventionResult = Predict(New InterventionSpec() {spec})
@@ -270,8 +273,11 @@ Namespace Perturbation
         End Function
 
         ''' <summary>按扰动模式计算钳制值（原始表达量）。</summary>
-        Private Function InterventionValueOf(spec As InterventionSpec, idx As Integer) As Double
-            Dim baseline As Double = _baseline(idx)
+        ''' <param name="spec">干预定义</param>
+        ''' <param name="idx">目标基因下标</param>
+        ''' <param name="reference">参考基线（通常是对照稳态，见 <see cref="ControlSteadyState"/>）</param>
+        Private Function InterventionValueOf(spec As InterventionSpec, idx As Integer, reference As Double()) As Double
+            Dim baseline As Double = reference(idx)
 
             Select Case spec.Mode
                 Case InterventionMode.Knockout
