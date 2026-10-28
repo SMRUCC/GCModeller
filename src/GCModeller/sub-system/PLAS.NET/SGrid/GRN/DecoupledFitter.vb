@@ -778,6 +778,7 @@ Namespace GRN
                     parallelOptions.MaxDegreeOfParallelism = options.MaxDegreeOfParallelism
                 End If
 
+                Call $"fit with {  parallelOptions.MaxDegreeOfParallelism} task threads!".info
                 Call System.Threading.Tasks.Parallel.ForEach(indices, parallelOptions,
                      Sub(i)
                          Dim msg As String = fitGene(i, result, geneSeeds(i))
