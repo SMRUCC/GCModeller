@@ -24,6 +24,7 @@
     <ProjectReference Include="..\..\..\GCModeller\sub-system\BNLearn\BNLearn.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\sub-system\CellPhenotype\CellPhenotype.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\sub-system\FBA\FBA.Core\FBA.Core.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\sub-system\FuzzyGene\FuzzyGene.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\sub-system\GEARS\GEARS.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\sub-system\GPS\GPS.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\sub-system\Metaboliq\Metaboliq.vbproj" />

@@ -365,9 +365,9 @@ Module Program
             sampleNames(s) = "s" & s
 
             Dim a As Double = 1.0 + 0.8 * Normal(rng)
-            Dim f As Double = 0.8 * Normal(rng)
+            Dim f As Double = 1.0 + 0.8 * Normal(rng)
             Dim b As Double = 2.0 + 1.8 * std.Tanh((a - 1.0) / 0.8) + 0.12 * Normal(rng)
-            Dim c As Double = 2.0 - 1.8 * std.Tanh((a - 1.0) / 0.8) + 1.0 * std.Tanh(f / 0.8) + 0.12 * Normal(rng)
+            Dim c As Double = 2.0 - 1.8 * std.Tanh((a - 1.0) / 0.8) + 1.0 * std.Tanh((f - 1.0) / 0.8) + 0.12 * Normal(rng)
             Dim d As Double = 1.0 + 2.0 * std.Tanh((b - 2.0) / 1.0) - 1.2 * std.Tanh((c - 2.0) / 1.0) + 0.10 * Normal(rng)
             Dim e As Double = 1.5 * std.Tanh((d - 1.0) / 1.2) + 0.10 * Normal(rng)
 
