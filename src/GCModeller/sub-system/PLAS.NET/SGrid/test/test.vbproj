@@ -5,6 +5,13 @@
     <RootNamespace>test</RootNamespace>
     <TargetFramework>net10.0</TargetFramework>
     <Platforms>AnyCPU;x64</Platforms>
+    <!--
+      拟合与数值微分都是「大量短生命周期的小数组」的负载（每个基因都会构造
+      一条三次样条），工作站 GC 在并行场景下会成为瓶颈：
+      实测 18179 基因 × 1000 点的求导，Server GC 把并行加速比由 5.3x 提升到 7.8x
+    -->
+    <ServerGarbageCollection>true</ServerGarbageCollection>
+    <ConcurrentGarbageCollection>false</ConcurrentGarbageCollection>
   </PropertyGroup>
 
   <ItemGroup>

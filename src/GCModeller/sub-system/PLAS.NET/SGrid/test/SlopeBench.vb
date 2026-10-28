@@ -37,13 +37,26 @@ Namespace SelfTest
             Call report.AppendLine("=========== slope estimator benchmark ===========")
             Call report.AppendLine($"series : {series.ToString}, window=9")
 
-            ' 预热（JIT 与线程池初始化不应该被计入对比）
-            Call SlopeEstimator.Estimate(series, denoise:=True, smoothWindow:=9, parallel:=False)
-
             Dim serialSeconds As Double = 0
             Dim parallelSeconds As Double = 0
-            Dim serial As Double()() = timed(series, parallel:=False, threads:=0, seconds:=serialSeconds)
-            Dim concurrent As Double()() = timed(series, parallel:=True, threads:=threads, seconds:=parallelSeconds)
+            Dim serial As Double()() = Nothing
+            Dim concurrent As Double()() = Nothing
+
+            ' 串行路径带有 Tqdm 进度条输出，计时期间把它静音，
+            ' 否则控制台刷新会成为测量噪声（并行路径本来就没有进度条）
+            Dim original As System.IO.TextWriter = Console.Out
+
+            Try
+                Call Console.SetOut(System.IO.TextWriter.Null)
+
+                ' 预热（JIT 与线程池初始化不应该被计入对比）
+                Call SlopeEstimator.Estimate(series, denoise:=True, smoothWindow:=9, parallel:=False)
+
+                serial = timed(series, parallel:=False, threads:=0, seconds:=serialSeconds)
+                concurrent = timed(series, parallel:=True, threads:=threads, seconds:=parallelSeconds)
+            Finally
+                Call Console.SetOut(original)
+            End Try
 
             Dim diff As Double = 0
 

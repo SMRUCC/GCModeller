@@ -94,7 +94,7 @@ Namespace GRN
             Else
                 For Each i As Integer In TqdmWrapper.Range(0, n)
                     Call body(i)
-                End For
+                Next
             End If
 
             Return slopes
