@@ -1,9 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <RootNamespace>FuzzyGene</RootNamespace>
+    <RootNamespace>SMRUCC.genomics.Analysis.FuzzyGene</RootNamespace>
     <TargetFramework>net10.0</TargetFramework>
     <Platforms>AnyCPU;x64</Platforms>
+    <AssemblyName>SMRUCC.genomics.Analysis.FuzzyGene</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
