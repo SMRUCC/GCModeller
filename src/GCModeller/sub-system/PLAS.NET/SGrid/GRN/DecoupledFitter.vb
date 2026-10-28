@@ -774,6 +774,14 @@ Namespace GRN
                 Next
             End If
 
+            If options.Profile Then
+                Call Console.WriteLine(
+                    $"[PROFILE] genes={n}, objective evaluations={totalEvaluations} " &
+                    $"({(totalEvaluations / std.Max(n, 1))} per gene), " &
+                    $"differential evolution={(totalEvolutionMs / 1000.0R).ToString("F1")}s, " &
+                    $"L-BFGS-B={(totalRefineMs / 1000.0R).ToString("F1")}s")
+            End If
+
             Return result
         End Function
 

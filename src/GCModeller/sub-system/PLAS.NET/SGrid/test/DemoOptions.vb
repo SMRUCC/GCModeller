@@ -119,6 +119,11 @@ Namespace GRNDemo
         ''' <returns></returns>
         Public Property PriorRankBoost As Double = 1.0R
         ''' <summary>
+        ''' 是否输出拟合过程的性能剖析信息
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Profile As Boolean = False
+        ''' <summary>
         ''' 随机数种子
         ''' </summary>
         ''' <returns></returns>
@@ -336,6 +341,7 @@ Namespace GRNDemo
             options.PriorPenalty = doubleOf(values, "prior-penalty", options.PriorPenalty)
             options.PriorSignPenalty = doubleOf(values, "prior-sign-penalty", options.PriorSignPenalty)
             options.PriorRankBoost = doubleOf(values, "prior-rank-boost", options.PriorRankBoost)
+            options.Profile = flags.Contains("profile")
             options.Seed = integerOf(values, "seed", options.Seed)
             options.Precise = doubleOf(values, "precise", options.Precise)
             options.Hubs = integerOf(values, "hubs", options.Hubs)
@@ -396,6 +402,7 @@ Namespace GRNDemo
                 Call sb.AppendLine("  --prior-penalty <x>      soft penalty for the interactions which are not supported by the prior (default 0.2)")
                 Call sb.AppendLine("  --prior-sign-penalty <x> penalty for the direction conflict against the prior (default 0.2)")
                 Call sb.AppendLine("  --prior-rank-boost <x>   ranking boost of the prior supported edges (default 1.0)")
+                Call sb.AppendLine("  --profile                print the objective evaluation count and the phase timings")
                 Call sb.AppendLine("  --seed <n>               random seed (default 1234567)")
                 Call sb.AppendLine("  --precise <x>            integration step of the simulation (default 0.1)")
                 Call sb.AppendLine("  --hubs <n>               number of hub genes used by the perturbation (default 5)")

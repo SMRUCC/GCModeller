@@ -136,6 +136,11 @@ Namespace GRN
         ''' <returns></returns>
         Public Property PriorRankBoost As Double = 0.5R
         ''' <summary>
+        ''' 是否输出性能剖析信息（目标函数调用次数，以及差分进化 / L-BFGS-B 两个阶段的累计耗时）
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Profile As Boolean = False
+        ''' <summary>
         ''' 是否启用先验的硬约束：候选调控因子只允许来自先验（加上自环）。
         ''' 默认关闭，即保留发现新边的能力（软约束）
         ''' </summary>

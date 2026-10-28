@@ -777,6 +777,7 @@ Namespace GRNDemo
                 .PriorSignPenalty = options.PriorSignPenalty,
                 .UsePriorSign = True,
                 .PriorRankBoost = options.PriorRankBoost,
+                .Profile = options.Profile,
                 .PriorCandidateRestriction = False,
                 .DEPopulationSize = options.DEPopulation,
                 .DEMaxIterations = options.DEIterations,
