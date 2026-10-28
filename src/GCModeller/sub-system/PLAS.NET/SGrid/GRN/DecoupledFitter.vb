@@ -206,13 +206,10 @@ Namespace GRN
                     lb += p(2 + k + c) * lx
                 Next
 
-                Dim a As Double = std.Exp(clampExp(la))
-                Dim b As Double = std.Exp(clampExp(lb))
+                ' 内联的溢出保护（避免每步两次方法调用的开销）
+                Dim a As Double = std.Exp(std.Max(std.Min(la, 700.0R), -700.0R))
+                Dim b As Double = std.Exp(std.Max(std.Min(lb, 700.0R), -700.0R))
                 Dim r As Double = (a - b) - Observed(t)
-
-                etaG(t) = a
-                etaH(t) = b
-                residual(t) = r
 
                 err += r * r
 
