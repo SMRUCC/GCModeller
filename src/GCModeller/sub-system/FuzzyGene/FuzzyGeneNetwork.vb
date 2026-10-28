@@ -531,6 +531,14 @@ Imports std = System.Math
 
         ''' <summary>序列化为 JSON（含全部模型）。</summary>
         Public Function ToJson(Optional indented As Boolean = True) As String
+            Return JsonSerializer.Serialize(ToDto(), JsonOptions(indented))
+        End Function
+
+        ''' <summary>
+        ''' 构造传输对象。
+        ''' </summary>
+        ''' <param name="includeModels">为 False 时只导出 manifest 部分（zip 写入时模型按基因分文件）</param>
+        Friend Function ToDto(Optional includeModels As Boolean = True) As FuzzyGeneNetworkDto
             Dim dto As New FuzzyGeneNetworkDto With {
                 .formatVersion = "1.0",
                 .createdAt = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
@@ -542,11 +550,14 @@ Imports std = System.Math
                 .supportMin = SupportMin,
                 .supportMax = SupportMax,
                 .config = _config,
-                .edges = Edges,
-                .models = Models.Select(Function(m) If(m Is Nothing, Nothing, m.ToDto())).ToArray()
+                .edges = Edges
             }
 
-            Return JsonSerializer.Serialize(dto, JsonOptions(indented))
+            If includeModels Then
+                dto.models = Models.Select(Function(m) If(m Is Nothing, Nothing, m.ToDto())).ToArray()
+            End If
+
+            Return dto
         End Function
 
         ''' <summary>从 JSON 还原。</summary>
