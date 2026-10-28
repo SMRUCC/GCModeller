@@ -85,6 +85,22 @@ Imports std = System.Math
             End Get
         End Property
 
+        ''' <summary>
+        ''' 模型是否在 z 空间训练。
+        ''' </summary>
+        ''' <remarks>
+        ''' 为 <c>False</c>（配置里 <c>Standardize = False</c>）时内部坐标就是原始表达量，
+        ''' 此时 <see cref="ToZ"/> / <see cref="ToRaw"/> 不做任何换算——
+        ''' 否则「训练用原始值、推理用 z 值」会造成整体平移的隐性错误。
+        ''' </remarks>
+        Public ReadOnly Property Standardized As Boolean
+            Get
+                Return _standardized
+            End Get
+        End Property
+
+        Private ReadOnly _standardized As Boolean
+
         ''' <summary>按结构创建网络（一般由 <see cref="Fitting.GeneNetworkFitter"/> 调用）。</summary>
         Public Sub New(geneNames As String(),
                        models As GeneRegulationModel(),
@@ -95,7 +111,8 @@ Imports std = System.Math
                        baseline As Double(),
                        supportMin As Double(),
                        supportMax As Double(),
-                       mode As FuzzyTargetMode)
+                       mode As FuzzyTargetMode,
+                       Optional standardized As Boolean = True)
 
             If geneNames Is Nothing OrElse geneNames.Length = 0 Then
                 Throw New ArgumentException("the gene list is empty", NameOf(geneNames))
@@ -114,6 +131,7 @@ Imports std = System.Math
             Me.SupportMin = supportMin
             Me.SupportMax = supportMax
             _config = If(config, New FuzzyGeneConfig())
+            _standardized = standardized
 
             _geneIndex = BuildIndex(geneNames)
             _regulatorIndices = BuildRegulatorIndices(Me.Models, _geneIndex)
@@ -447,6 +465,10 @@ Imports std = System.Math
 
         ''' <summary>z 向量 → 原始表达量向量。</summary>
         Public Function ToRaw(z As Double()) As Double()
+            If Not _standardized Then
+                Return CType(z.Clone(), Double())
+            End If
+
             Dim raw(NGene - 1) As Double
 
             For i As Integer = 0 To NGene - 1
@@ -458,6 +480,10 @@ Imports std = System.Math
 
         ''' <summary>单基因原始值 → z 值。</summary>
         Public Function ToZValue(gene As Integer, value As Double) As Double
+            If Not _standardized Then
+                Return value
+            End If
+
             Dim sd As Double = SDs(gene)
 
             If std.Abs(sd) < 0.000000000001 Then
@@ -550,6 +576,7 @@ Imports std = System.Math
                 .supportMin = SupportMin,
                 .supportMax = SupportMax,
                 .config = _config,
+                .standardized = _standardized,
                 .edges = Edges
             }
 
@@ -597,7 +624,8 @@ Imports std = System.Math
                 If(dto.baseline, New Double(dto.geneNames.Length - 1) {}),
                 If(dto.supportMin, New Double(dto.geneNames.Length - 1) {}),
                 If(dto.supportMax, New Double(dto.geneNames.Length - 1) {}),
-                dto.mode)
+                dto.mode,
+                dto.standardized)
         End Function
 
         Private Shared Function Repeat(value As Double, count As Integer) As Double()
@@ -648,6 +676,8 @@ Imports std = System.Math
         Public Property supportMax As Double()
         ''' <summary>建模配置。</summary>
         Public Property config As FuzzyGeneConfig
+        ''' <summary>模型是否在 z 空间训练（缺省视为 True，对齐历史包）。</summary>
+        Public Property standardized As Boolean = True
         ''' <summary>带符号调控边。</summary>
         Public Property edges As RegulationEdgeModel()
         ''' <summary>逐基因模型（未建模的位置为 <c>Nothing</c>）。</summary>

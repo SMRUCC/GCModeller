@@ -450,7 +450,7 @@ Module fuzzyGene
         If String.IsNullOrWhiteSpace(file) Then
             Return RInternal.debug.stop("the package path is empty", env)
         End If
-        If Not File.Exists(file) Then
+        If Not file.FileExists Then
             Return RInternal.debug.stop($"the model package does not exist: {file}", env)
         End If
 

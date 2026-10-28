@@ -170,7 +170,8 @@ Namespace Fitting
                 view.BaselineRaw,
                 supportMin,
                 supportMax,
-                view.Mode)
+                view.Mode,
+                view.Standardized)
 
             Return New FuzzyGeneFitOutput With {
                 .Network = network,

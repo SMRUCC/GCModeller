@@ -73,6 +73,9 @@ Namespace Data
         ''' <summary>是否为滞后（时序）路线。</summary>
         Public Property IsLagged As Boolean
 
+        ''' <summary>训练坐标是否为 z 空间（<see cref="GeneExpressionView.Z"/> 已标准化）。</summary>
+        Public Property Standardized As Boolean
+
         ''' <summary>基因数量。</summary>
         Public ReadOnly Property NGene As Integer
             Get
@@ -273,7 +276,8 @@ Namespace Data
                 .TimePoints = times,
                 .UniqueTimePoints = uniqueTimes,
                 .Mode = mode,
-                .IsLagged = mode = FuzzyTargetMode.LaggedRoute
+                .IsLagged = mode = FuzzyTargetMode.LaggedRoute,
+                .Standardized = cfg.Standardize
             }
 
             If mode = FuzzyTargetMode.LaggedRoute Then

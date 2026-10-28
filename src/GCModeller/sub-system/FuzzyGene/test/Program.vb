@@ -38,6 +38,7 @@ Module Program
 
         TestPriorOnlyModel(staticData, prior)
         TestHybridModel(staticData, prior)
+        TestRawScaleModel(staticData, prior)
         TestLaggedModel()
 
         Console.WriteLine()
@@ -298,11 +299,51 @@ Module Program
 
 #End Region
 
-#Region "场景 3：时序数据自动切换到滞后路线"
+#Region "场景 3：关闭标准化时仍然工作在原始表达量尺度"
+
+    Private Sub TestRawScaleModel(data As GeneExpressionData, prior As PriorNetwork)
+        Console.WriteLine()
+        Console.WriteLine("--- scenario 3: non standardized (raw scale) training ---")
+
+        Dim config As New FuzzyGeneConfig With {
+            .Selection = RegulatorSelection.PriorOnly,
+            .MaxRegulators = 3,
+            .MfCount = 2,
+            .MaxEpoch = 30,
+            .Standardize = False,
+            .TargetMode = FuzzyTargetMode.StaticRoute,
+            .DegreeOfParallelism = 1
+        }
+
+        Dim model As New FuzzyGeneModel(data, prior, config)
+        Dim report As FuzzyGeneTrainingResult = model.Train()
+
+        Console.WriteLine(report.ToString())
+
+        Check(report.NTrained >= 3, $"at least 3 targets fitted on the raw scale (actual {report.NTrained})")
+        Check(Not model.Network.Standardized, "the network is flagged as non standardized")
+
+        Dim net As FuzzyGeneNetwork = model.Network
+        Dim control As Double() = net.SteadyState(net.BaselineRaw)
+        Dim bIndex As Integer = net.IndexOfGene("B")
+
+        Check(IsFinite(control(bIndex)), "raw scale steady state is finite")
+        Check(control(bIndex) > -1.0 AndAlso control(bIndex) < 6.0,
+              $"raw scale steady state stays in the expression range (actual {control(bIndex):F3})")
+
+        Dim ko As InterventionResult = model.KnockoutGene("A")
+
+        Check(std.Abs(ko.MutantMeans(net.IndexOfGene("A"))) < 1.0E-09, "knockout forces the target to exactly zero")
+        Check(Delta(ko, "B") < 0.0, $"raw scale knockout still down-regulates B (actual {Delta(ko, "B"):F4})")
+    End Sub
+
+#End Region
+
+#Region "场景 4：时序数据自动切换到滞后路线"
 
     Private Sub TestLaggedModel()
         Console.WriteLine()
-        Console.WriteLine("--- scenario 3: lagged route on time series ---")
+        Console.WriteLine("--- scenario 4: lagged route on time series ---")
 
         Dim data As GeneExpressionData = BuildTimeSeries()
         Dim config As New FuzzyGeneConfig With {
