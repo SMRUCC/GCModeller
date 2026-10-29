@@ -505,7 +505,7 @@ Namespace Data
 
                 ' Parallel 必须全限定：Microsoft.VisualBasic.Parallel 会遮蔽同名类型
                 options.MaxDegreeOfParallelism = If(degreeOfParallelism > 0, degreeOfParallelism, -1)
-                Call System.Threading.Tasks.Parallel.For(0, count, options, body)
+                Call Parallel.For(0, count, options, body)
             End If
         End Sub
 

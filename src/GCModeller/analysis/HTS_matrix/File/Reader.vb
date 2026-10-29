@@ -196,7 +196,7 @@ Module Reader
 
         Dim rows As New List(Of DataFrameRow)()
         Dim enumerator As IEnumerator(Of String) = text.GetEnumerator()
-        Dim options As New System.Threading.Tasks.ParallelOptions()
+        Dim options As New ParallelOptions()
         Dim columns As Integer() = takeIndex
         Dim width As Integer = -1
         Dim wanted As Integer = -1
@@ -220,7 +220,7 @@ Module Reader
 
                 Dim current As List(Of String) = batch
                 Dim parsed(current.Count - 1) As DataFrameRow
-                Dim reading = System.Threading.Tasks.Task.Run(Function() ReadBatch(enumerator))
+                Dim reading = Task.Run(Function() ReadBatch(enumerator))
 
                 Call ParseBatch(current, parsed, columns, wanted, options)
 
@@ -259,7 +259,7 @@ Module Reader
                            parsed As DataFrameRow(),
                            columns As Integer(),
                            width As Integer,
-                           options As System.Threading.Tasks.ParallelOptions)
+                           options As ParallelOptions)
 
         If lines.Count = 1 Then
             parsed(0) = ParseRow(lines(0), columns, width)
@@ -271,7 +271,7 @@ Module Reader
                 parsed(i) = ParseRow(lines(i), columns, width)
             End Sub
 
-        Call System.Threading.Tasks.Parallel.For(0, lines.Count, options, body)
+        Call Parallel.For(0, lines.Count, options, body)
     End Sub
 
     Private Function ParseRow(line As String, columns As Integer(), width As Integer) As DataFrameRow
