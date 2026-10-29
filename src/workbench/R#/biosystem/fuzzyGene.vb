@@ -319,6 +319,8 @@ Module fuzzyGene
                                     Optional config As fzcfg.FuzzyGeneConfig = Nothing,
                                     Optional env As Environment = Nothing) As fz.FuzzyGeneModel
 
+        Call "start to build fuzzy gene network!".debug
+
         Return New fz.FuzzyGeneModel(x, prior, config)
     End Function
 

@@ -140,6 +140,7 @@ Namespace Fitting
                 .NCandidatePool = If(pool Is Nothing, n, pool.Length),
                 .GeneMetrics = metrics,
                 .EdgeCount = edges.Count,
+                .PreprocessElapsed = view.PreprocessElapsed,
                 .SelectionElapsed = TicksToTimeSpan(phaseTicks(0)),
                 .TrainingElapsed = TicksToTimeSpan(phaseTicks(1)),
                 .Elapsed = DateTime.Now - started

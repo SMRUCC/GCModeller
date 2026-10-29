@@ -1,3 +1,4 @@
+Imports System.Diagnostics
 Imports SMRUCC.genomics.Analysis.BNLearn.Core
 Imports SMRUCC.genomics.Analysis.FuzzyGene.Config
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
@@ -85,6 +86,9 @@ Namespace Data
         ''' <summary>原始样本数量（可能大于 <see cref="NRows"/>：后者是行采样之后的训练行数）。</summary>
         Public Property NSample As Integer
 
+        ''' <summary>本次预处理的耗时（统计量 + 列构建 + 列统计），用于训练汇总报告。</summary>
+        Public Property PreprocessElapsed As TimeSpan
+
         ''' <summary>基因数量。</summary>
         Public ReadOnly Property NGene As Integer
             Get
@@ -139,6 +143,18 @@ Namespace Data
     ''' <summary>
     ''' 表达矩阵预处理：基因过滤、标准化、行采样、时间聚合与拟合路线判定。
     ''' </summary>
+    ''' <remarks>
+    ''' <para>
+    ''' 预处理是「逐基因顺序扫描整行」的典型负载，因此所有 per-gene 的循环都走
+    ''' <see cref="RunGenes"/>：每个基因只写自己的槽位（统计量数组、列数组），
+    ''' 没有共享状态也没有跨迭代归约，按基因并行天然无竞争、结果与线程调度无关。
+    ''' </para>
+    ''' <para>
+    ''' 静态路线的统计量与训练列在**同一遍扫描**里完成（边累加和、平方和与极值，
+    ''' 边把采样到的样本写进列），全量 3 万样本 × 1.85 万基因时比"统计两遍 + 再扫一遍建列"
+    ''' 少读两遍 4.5 GB。
+    ''' </para>
+    ''' </remarks>
     Public Module ExpressionPreprocessor
 
         ''' <summary>
@@ -157,10 +173,16 @@ Namespace Data
                 Throw New ArgumentNullException(NameOf(expression))
             End If
 
+            Dim clock As New Stopwatch()
+
+            clock.Start()
+
             Dim cfg As FuzzyGeneConfig = If(config, New FuzzyGeneConfig()).ValidateGene()
             Dim genes As String() = expression.GeneNames
             Dim raw As Double(,) = expression.Matrix
             Dim nSample As Integer = expression.NSample
+
+            Call "make gene expression matrix data pre-processing.".debug
 
             If genes Is Nothing OrElse raw Is Nothing Then
                 Throw New ArgumentException("the expression matrix is incomplete", NameOf(expression))
@@ -177,49 +199,9 @@ Namespace Data
             ' ---- 1. 基因过滤：高变异优先，但保留先验网络里的 TF ----
             Dim keep As Integer() = SelectGenes(raw, genes, prior, cfg)
 
-            ' ---- 2. 逐基因统计量（全样本、采样之前，保证反标准化与报告尺度不变）----
-            Dim n As Integer = keep.Length
-            Dim names(n - 1) As String
-            Dim means(n - 1) As Double
-            Dim sds(n - 1) As Double
-            Dim mins(n - 1) As Double
-            Dim maxs(n - 1) As Double
+            Call $"select {keep.TryCount} HVG for build the network!".debug
 
-            For a As Integer = 0 To n - 1
-                Dim gi As Integer = keep(a)
-                Dim sum As Double = 0.0
-                Dim minValue As Double = Double.MaxValue
-                Dim maxValue As Double = Double.MinValue
-
-                For s As Integer = 0 To nSample - 1
-                    Dim v As Double = CleanValue(raw(gi, s))
-
-                    sum += v
-
-                    If v < minValue Then minValue = v
-                    If v > maxValue Then maxValue = v
-                Next
-
-                Dim mean As Double = sum / nSample
-                Dim ss As Double = 0.0
-
-                For s As Integer = 0 To nSample - 1
-                    Dim d As Double = CleanValue(raw(gi, s)) - mean
-                    ss += d * d
-                Next
-
-                ' 总体标准差（ddof = 0）：z 空间的行内积 / 行数就等于协方差
-                Dim sd As Double = std.Sqrt(ss / nSample)
-
-                names(a) = genes(gi)
-                means(a) = mean
-                mins(a) = minValue
-                maxs(a) = maxValue
-                ' 常数列：标准化后全为 0，不能作为有效的建模变量
-                sds(a) = If(sd < 0.000000000001, 1.0, sd)
-            Next
-
-            ' ---- 3. 时间点与拟合路线 ----
+            ' ---- 2. 时间点与拟合路线 ----
             Dim times As Double() = expression.TimePoints
             Dim uniqueTimes As Double() = Nothing
 
@@ -243,11 +225,6 @@ Namespace Data
             End If
 
             Dim view As New GeneExpressionView With {
-                .GeneNames = names,
-                .Means = means,
-                .SDs = sds,
-                .Minimum = mins,
-                .Maximum = maxs,
                 .TimePoints = times,
                 .UniqueTimePoints = uniqueTimes,
                 .Mode = mode,
@@ -256,50 +233,19 @@ Namespace Data
                 .NSample = nSample
             }
 
-            ' ---- 4. 训练列与目标列 ----
+            ' ---- 3. 逐基因统计量 + 训练列（一遍扫描、按基因并行）----
             If view.IsLagged Then
-                Call BuildLaggedColumns(view, raw, keep, uniqueTimes, times)
+                Call BuildLaggedColumns(view, raw, genes, keep, uniqueTimes, times, cfg)
             Else
-                Call BuildStaticColumns(view, raw, keep, cfg)
+                Call BuildStaticColumns(view, raw, genes, keep, cfg)
             End If
 
-            ' ---- 5. 常数列判定、列均值与离差平方和（全部顺序扫描连续列）----
-            Dim constant(n - 1) As Boolean
-            Dim columnMeans(n - 1) As Double
-            Dim columnSs(n - 1) As Double
-            Dim rows As Integer = view.NRows
+            ' ---- 4. 常数列判定、列均值与离差平方和（按基因并行）----
+            Call FillColumnStatistics(view, cfg.DegreeOfParallelism)
 
-            For g As Integer = 0 To n - 1
-                Dim column As Double() = view.Columns(g)
-                Dim sum As Double = 0.0
-                Dim minZ As Double = Double.MaxValue
-                Dim maxZ As Double = Double.MinValue
+            clock.Stop()
 
-                For r As Integer = 0 To rows - 1
-                    Dim v As Double = column(r)
-
-                    sum += v
-
-                    If v < minZ Then minZ = v
-                    If v > maxZ Then maxZ = v
-                Next
-
-                Dim mean As Double = If(rows > 0, sum / rows, 0.0)
-                Dim ss As Double = 0.0
-
-                For r As Integer = 0 To rows - 1
-                    Dim d As Double = column(r) - mean
-                    ss += d * d
-                Next
-
-                constant(g) = (maxZ - minZ) < 0.000000000001
-                columnMeans(g) = mean
-                columnSs(g) = ss
-            Next
-
-            view.Constant = constant
-            view.RowMeans = columnMeans
-            view.RowSs = columnSs
+            view.PreprocessElapsed = clock.Elapsed
 
             Return view
         End Function
@@ -308,51 +254,99 @@ Namespace Data
         ''' 静态路线：每个（采样后的）样本就是一行，目标是该样本自身的表达值。
         ''' </summary>
         ''' <remarks>
-        ''' <see cref="FuzzyGeneConfig.MaxTrainRows"/> 在这里直接作用于列的构造：只把采样到的行
-        ''' 写进列里，于是训练时间与常驻内存同时下降（3 万样本 × 1.85 万基因时从 4.5 GB 降到几百 MB）。
+        ''' <para>
+        ''' 统计量（均值/标准差/极值）与训练列在**同一遍扫描**里完成：累加
+        ''' <c>Σx</c>、<c>Σx²</c>、极值的同时，把被 <see cref="FuzzyGeneConfig.MaxTrainRows"/>
+        ''' 采样到的样本直接写进列（<c>rowIndex</c> 单调递增，用一个前移的游标即可）。
+        ''' 扫描结束后再做一次只有采样行长度的原地标准化。
+        ''' </para>
+        ''' <para>
+        ''' 方差用 <c>Σx²/n − mean²</c> 而不是再扫一遍求离差平方和：表达量数据（log 尺度、
+        ''' 均值与方差同量级）不会出现灾难性抵消，而这一遍扫描在 1.85 万 × 3 万规模下是 4.5 GB 的读取。
+        ''' 结果仍做了 <c>variance &lt; 0</c> 的截断，防止浮点误差产生负方差。
+        ''' </para>
         ''' </remarks>
-        Private Sub BuildStaticColumns(view As GeneExpressionView, raw As Double(,), keep As Integer(), cfg As FuzzyGeneConfig)
+        Private Sub BuildStaticColumns(view As GeneExpressionView,
+                                       raw As Double(,),
+                                       genes As String(),
+                                       keep As Integer(),
+                                       cfg As FuzzyGeneConfig)
+
             Dim n As Integer = keep.Length
             Dim nSample As Integer = raw.GetLength(1)
             Dim rowIndex As Integer() = SampleRows(nSample, cfg.MaxTrainRows)
             Dim rows As Integer = If(rowIndex Is Nothing, nSample, rowIndex.Length)
+
+            Dim names(n - 1) As String
+            Dim means(n - 1) As Double
+            Dim sds(n - 1) As Double
+            Dim mins(n - 1) As Double
+            Dim maxs(n - 1) As Double
             Dim columns(n - 1)() As Double
 
-            For a As Integer = 0 To n - 1
-                Dim gi As Integer = keep(a)
-                Dim mean As Double = view.Means(a)
-                Dim sd As Double = view.SDs(a)
-                Dim column(rows - 1) As Double
+            Dim body As Action(Of Integer) =
+                Sub(a)
+                    Dim gi As Integer = keep(a)
+                    Dim column(rows - 1) As Double
+                    Dim sum As Double = 0.0
+                    Dim sumSq As Double = 0.0
+                    Dim minValue As Double = Double.MaxValue
+                    Dim maxValue As Double = Double.MinValue
+                    Dim cursor As Integer = 0
 
-                If cfg.Standardize Then
-                    If rowIndex Is Nothing Then
-                        For s As Integer = 0 To rows - 1
-                            column(s) = (CleanValue(raw(gi, s)) - mean) / sd
-                        Next
-                    Else
+                    For s As Integer = 0 To nSample - 1
+                        Dim v As Double = CleanValue(raw(gi, s))
+
+                        sum += v
+                        sumSq += v * v
+
+                        If v < minValue Then minValue = v
+                        If v > maxValue Then maxValue = v
+
+                        ' 顺手留下采样行（不采样时就是整行）
+                        If rowIndex Is Nothing Then
+                            column(s) = v
+                        ElseIf cursor < rows AndAlso rowIndex(cursor) = s Then
+                            column(cursor) = v
+                            cursor += 1
+                        End If
+                    Next
+
+                    Dim mean As Double = sum / nSample
+                    Dim variance As Double = sumSq / nSample - mean * mean
+
+                    If variance < 0.0 Then variance = 0.0
+
+                    Dim sd As Double = std.Sqrt(variance)
+
+                    ' 常数列：标准化后全为 0，不能作为有效的建模变量
+                    If sd < 0.000000000001 Then sd = 1.0
+
+                    If cfg.Standardize Then
                         For r As Integer = 0 To rows - 1
-                            column(r) = (CleanValue(raw(gi, rowIndex(r))) - mean) / sd
+                            column(r) = (column(r) - mean) / sd
                         Next
                     End If
-                Else
-                    If rowIndex Is Nothing Then
-                        For s As Integer = 0 To rows - 1
-                            column(s) = CleanValue(raw(gi, s))
-                        Next
-                    Else
-                        For r As Integer = 0 To rows - 1
-                            column(r) = CleanValue(raw(gi, rowIndex(r)))
-                        Next
-                    End If
-                End If
 
-                columns(a) = column
-            Next
+                    names(a) = genes(gi)
+                    means(a) = mean
+                    mins(a) = minValue
+                    maxs(a) = maxValue
+                    sds(a) = sd
+                    columns(a) = column
+                End Sub
 
+            Call RunGenes(body, n, cfg.DegreeOfParallelism, nSample)
+
+            view.GeneNames = names
+            view.Means = means
+            view.SDs = sds
+            view.Minimum = mins
+            view.Maximum = maxs
             view.Columns = columns
             ' 静态路线下目标就是状态本身：直接共享同一组数组，不复制第二份
             view.Targets = columns
-            view.BaselineRaw = CType(view.Means.Clone(), Double())
+            view.BaselineRaw = CType(means.Clone(), Double())
         End Sub
 
         ''' <summary>
@@ -360,38 +354,51 @@ Namespace Data
         ''' </summary>
         Private Sub BuildLaggedColumns(view As GeneExpressionView,
                                        raw As Double(,),
+                                       genes As String(),
                                        keep As Integer(),
                                        uniqueTimes As Double(),
-                                       times As Double())
+                                       times As Double(),
+                                       cfg As FuzzyGeneConfig)
 
             Dim n As Integer = keep.Length
             Dim pairs As Integer = uniqueTimes.Length - 1
+            Dim nSample As Integer = raw.GetLength(1)
             Dim groups As Integer()() = New Integer(uniqueTimes.Length - 1)() {}
 
             For k As Integer = 0 To uniqueTimes.Length - 1
                 groups(k) = SampleIndicesAt(times, uniqueTimes(k))
             Next
 
-            Dim means As Double() = view.Means
-            Dim sds As Double() = view.SDs
+            Dim names(n - 1) As String
+            Dim means(n - 1) As Double
+            Dim sds(n - 1) As Double
+            Dim mins(n - 1) As Double
+            Dim maxs(n - 1) As Double
             Dim columns(n - 1)() As Double
             Dim targets(n - 1)() As Double
 
-            For a As Integer = 0 To n - 1
-                Dim gi As Integer = keep(a)
-                Dim mean As Double = means(a)
-                Dim sd As Double = sds(a)
-                Dim state(pairs - 1) As Double
-                Dim target(pairs - 1) As Double
+            Dim body As Action(Of Integer) =
+                Sub(a)
+                    Dim gi As Integer = keep(a)
+                    Dim stats = ComputeStats(raw, gi, nSample)
+                    Dim state(pairs - 1) As Double
+                    Dim target(pairs - 1) As Double
 
-                For k As Integer = 0 To pairs - 1
-                    state(k) = MeanAt(raw, gi, groups(k), mean, sd)
-                    target(k) = MeanAt(raw, gi, groups(k + 1), mean, sd)
-                Next
+                    For k As Integer = 0 To pairs - 1
+                        state(k) = MeanAt(raw, gi, groups(k), stats.mean, stats.sd)
+                        target(k) = MeanAt(raw, gi, groups(k + 1), stats.mean, stats.sd)
+                    Next
 
-                columns(a) = state
-                targets(a) = target
-            Next
+                    names(a) = genes(gi)
+                    means(a) = stats.mean
+                    sds(a) = stats.sd
+                    mins(a) = stats.minValue
+                    maxs(a) = stats.maxValue
+                    columns(a) = state
+                    targets(a) = target
+                End Sub
+
+            Call RunGenes(body, n, cfg.DegreeOfParallelism, nSample)
 
             ' 基线取最后一个时间点的原始表达均值（扰动前的稳态背景）
             Dim lastSamples As Integer() = groups(groups.Length - 1)
@@ -407,10 +414,134 @@ Namespace Data
                 last(a) = If(lastSamples.Length > 0, sum / lastSamples.Length, means(a))
             Next
 
+            view.GeneNames = names
+            view.Means = means
+            view.SDs = sds
+            view.Minimum = mins
+            view.Maximum = maxs
             view.Columns = columns
             view.Targets = targets
             view.BaselineRaw = last
         End Sub
+
+        ''' <summary>
+        ''' 逐列的常量判定、均值与离差平方和（相关性筛选的缓存量）。
+        ''' </summary>
+        ''' <remarks>
+        ''' 与训练列同样是「一个基因一遍扫描」，所以一样按基因并行；
+        ''' 离差平方和由 <c>Σx² − n·mean²</c> 得到，负值截断为 0
+        ''' （<see cref="GeneExpressionView.RowSs"/> 会进入 Pearson 的分母开方）。
+        ''' </remarks>
+        Private Sub FillColumnStatistics(view As GeneExpressionView, degreeOfParallelism As Integer)
+            Dim n As Integer = view.NGene
+            Dim rows As Integer = view.NRows
+            Dim constant(n - 1) As Boolean
+            Dim columnMeans(n - 1) As Double
+            Dim columnSs(n - 1) As Double
+
+            Dim body As Action(Of Integer) =
+                Sub(g)
+                    Dim column As Double() = view.Columns(g)
+                    Dim sum As Double = 0.0
+                    Dim sumSq As Double = 0.0
+                    Dim minZ As Double = Double.MaxValue
+                    Dim maxZ As Double = Double.MinValue
+
+                    For r As Integer = 0 To rows - 1
+                        Dim v As Double = column(r)
+
+                        sum += v
+                        sumSq += v * v
+
+                        If v < minZ Then minZ = v
+                        If v > maxZ Then maxZ = v
+                    Next
+
+                    Dim mean As Double = If(rows > 0, sum / rows, 0.0)
+                    Dim ss As Double = sumSq - rows * mean * mean
+
+                    If ss < 0.0 Then ss = 0.0
+
+                    constant(g) = (maxZ - minZ) < 0.000000000001
+                    columnMeans(g) = mean
+                    columnSs(g) = ss
+                End Sub
+
+            Call RunGenes(body, n, degreeOfParallelism, rows)
+
+            view.Constant = constant
+            view.RowMeans = columnMeans
+            view.RowSs = columnSs
+        End Sub
+
+        ''' <summary>
+        ''' 按基因并行执行一个 per-gene 的动作。
+        ''' </summary>
+        ''' <param name="body">动作，参数是基因下标</param>
+        ''' <param name="count">基因数量</param>
+        ''' <param name="degreeOfParallelism">并行度：0 = 全部逻辑核心，1 = 串行</param>
+        ''' <param name="workPerItem">每个基因的样本数，用于判断值不值得并行</param>
+        ''' <remarks>
+        ''' 每个基因只写自己的槽位（统计量、列），因此没有锁、没有归约、也没有
+        ''' 「并行改变累加顺序」的问题——无论多少线程，写进数组的都是同样的值。
+        ''' 小于 200 万个元素时直接串行：线程分区与调度的开销会盖过收益。
+        ''' </remarks>
+        Private Sub RunGenes(body As Action(Of Integer),
+                             count As Integer,
+                             degreeOfParallelism As Integer,
+                             Optional workPerItem As Integer = 0)
+            If count <= 0 Then
+                Return
+            End If
+
+            Dim work As Long = CLng(count) * If(workPerItem > 0, workPerItem, 1)
+
+            If degreeOfParallelism = 1 OrElse count < 2 OrElse work < 2000000L Then
+                For i As Integer = 0 To count - 1
+                    Call body(i)
+                Next
+            Else
+                Dim options As New System.Threading.Tasks.ParallelOptions()
+
+                ' Parallel 必须全限定：Microsoft.VisualBasic.Parallel 会遮蔽同名类型
+                options.MaxDegreeOfParallelism = If(degreeOfParallelism > 0, degreeOfParallelism, -1)
+                Call System.Threading.Tasks.Parallel.For(0, count, options, body)
+            End If
+        End Sub
+
+        ''' <summary>
+        ''' 单基因的原始表达统计量（均值、总体标准差、极值），一遍扫描完成。
+        ''' </summary>
+        Private Function ComputeStats(raw As Double(,),
+                                      gene As Integer,
+                                      nSample As Integer) As (mean As Double, sd As Double, minValue As Double, maxValue As Double)
+
+            Dim sum As Double = 0.0
+            Dim sumSq As Double = 0.0
+            Dim minValue As Double = Double.MaxValue
+            Dim maxValue As Double = Double.MinValue
+
+            For s As Integer = 0 To nSample - 1
+                Dim v As Double = CleanValue(raw(gene, s))
+
+                sum += v
+                sumSq += v * v
+
+                If v < minValue Then minValue = v
+                If v > maxValue Then maxValue = v
+            Next
+
+            Dim mean As Double = sum / nSample
+            Dim variance As Double = sumSq / nSample - mean * mean
+
+            If variance < 0.0 Then variance = 0.0
+
+            Dim sd As Double = std.Sqrt(variance)
+
+            If sd < 0.000000000001 Then sd = 1.0
+
+            Return (mean, sd, minValue, maxValue)
+        End Function
 
         ''' <summary>某时间点上所有重复样本的（标准化的）均值。</summary>
         Private Function MeanAt(raw As Double(,), gene As Integer, samples As Integer(), mean As Double, sd As Double) As Double
@@ -497,7 +628,8 @@ Namespace Data
                 Return Enumerable.Range(0, nGene).ToArray()
             End If
 
-            Dim variances As Double() = GeneVariances(raw, nGene)
+            ' 方差计算按基因并行（与逐基因训练共用同一个并行度设置）
+            Dim variances As Double() = GeneVariances(raw, nGene, cfg.DegreeOfParallelism)
             Dim order As Integer() = Enumerable.Range(0, nGene) _
                 .OrderByDescending(Function(i) variances(i)) _
                 .ToArray()
@@ -519,37 +651,53 @@ Namespace Data
             Return keep.ToArray()
         End Function
 
-        ''' <summary>逐基因的原始表达方差（基因过滤用）。</summary>
-        Private Function GeneVariances(raw As Double(,), nGene As Integer) As Double()
+        ''' <summary>
+        ''' 逐基因的原始表达方差（基因过滤用）。
+        ''' </summary>
+        ''' <param name="raw">原始表达矩阵 <c>[基因, 样本]</c></param>
+        ''' <param name="nGene">基因数量</param>
+        ''' <param name="degreeOfParallelism">并行度：0 = 使用全部逻辑核心，1 = 串行</param>
+        ''' <remarks>
+        ''' 每个基因只写自己的 <c>variances(i)</c> 槽位：没有共享运行状态、也没有跨迭代的归约，
+        ''' 因此按基因并行天然无竞争，且结果与线程调度无关（逐位可复现）。
+        ''' 单遍扫描里同时累加 <c>Σx</c> 与 <c>Σx²</c>，方差取
+        ''' <c>(Σx² − Σx²/n)/(count−1)</c>——这里只做基因排序，精度余量充足。
+        ''' </remarks>
+        Private Function GeneVariances(raw As Double(,),
+                                       nGene As Integer,
+                                       Optional degreeOfParallelism As Integer = 0) As Double()
+
             Dim nSample As Integer = raw.GetLength(1)
             Dim variances(nGene - 1) As Double
 
-            For i As Integer = 0 To nGene - 1
-                Dim sum As Double = 0.0
-                Dim count As Integer = 0
+            Dim body As Action(Of Integer) =
+                Sub(i)
+                    Dim sum As Double = 0.0
+                    Dim sumSq As Double = 0.0
+                    Dim count As Integer = 0
 
-                For s As Integer = 0 To nSample - 1
-                    Dim v As Double = raw(i, s)
+                    For s As Integer = 0 To nSample - 1
+                        Dim v As Double = raw(i, s)
 
-                    If Not v.IsNaNImaginary Then
-                        sum += v
-                        count += 1
+                        If Not v.IsNaNImaginary Then
+                            sum += v
+                            sumSq += v * v
+                            count += 1
+                        End If
+                    Next
+
+                    If count > 1 Then
+                        Dim variance As Double = (sumSq - sum * sum / count) / (count - 1)
+
+                        If variance < 0.0 Then variance = 0.0
+
+                        variances(i) = variance
+                    Else
+                        variances(i) = 0.0
                     End If
-                Next
+                End Sub
 
-                Dim mean As Double = If(count > 0, sum / count, 0.0)
-                Dim ss As Double = 0.0
-
-                For s As Integer = 0 To nSample - 1
-                    Dim v As Double = raw(i, s)
-
-                    If Not v.IsNaNImaginary Then
-                        ss += (v - mean) * (v - mean)
-                    End If
-                Next
-
-                variances(i) = If(count > 1, ss / (count - 1), 0.0)
-            Next
+            Call RunGenes(body, nGene, degreeOfParallelism, nSample)
 
             Return variances
         End Function
