@@ -523,6 +523,38 @@ Module Program
         Check(compact.size <= weights.size AndAlso compact.sample_count <= weights.sample_count AndAlso
               compactEdges = net.Edges.Length,
               $"compact layout keeps every edge without growing ({compact.size} x {compact.sample_count}, {compactEdges} edges)")
+
+        ' ---- 置信度矩阵：形状一致、逐元素对应边表的 Confidence ----
+        Dim confidence As Matrix = model.ConfidenceMatrix()
+
+        Check(confidence.size = weights.size AndAlso confidence.sample_count = weights.sample_count,
+              $"confidence matrix matches the weight matrix ({confidence.size} x {confidence.sample_count})")
+
+        Dim confidenceRows As New Dictionary(Of String, Double())(StringComparer.OrdinalIgnoreCase)
+
+        For Each line As DataFrameRow In confidence.expression
+            confidenceRows(line.geneID) = line.experiments
+        Next
+
+        Dim confidenceOk As Boolean = True
+        Dim nonNegative As Boolean = True
+
+        For Each edge As RegulationEdgeModel In net.Edges
+            Dim line As Double() = Nothing
+            Dim col As Integer = 0
+
+            If confidenceRows.TryGetValue(edge.Target, line) AndAlso columnIndex.TryGetValue(edge.Source, col) Then
+                If std.Abs(line(col) - edge.Confidence) > 1.0E-12 Then
+                    confidenceOk = False
+                End If
+                If line(col) < 0.0 Then
+                    nonNegative = False
+                End If
+            End If
+        Next
+
+        Check(confidenceOk, "every confidence is placed at [target, regulator]")
+        Check(nonNegative, "confidence values are non negative")
     End Sub
 
 #End Region

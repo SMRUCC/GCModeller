@@ -230,6 +230,28 @@ Imports SMRUCC.genomics.Analysis.HTS.DataFrame
             Return RegulationMatrixExporter.ToMatrix(_network, layout, minWeight, genes)
         End Function
 
+        ''' <summary>
+        ''' 导出与 <see cref="RegulationMatrix"/> 同形状的**置信度**矩阵。
+        ''' </summary>
+        ''' <param name="layout">行列布局；默认严格 <c>N×N</c></param>
+        ''' <param name="minConfidence">低于该置信度的边按 0 处理；0 保留全部</param>
+        ''' <param name="genes">只导出这些靶基因（行），<c>Nothing</c> 表示全部</param>
+        ''' <returns>
+        ''' 标准 <see cref="Matrix"/>：行 = 靶基因、列 = 调控因子、元素 = 该调控关系的置信度（非负）
+        ''' </returns>
+        ''' <remarks>
+        ''' 置信度在边被先验网络支持时取先验置信度，否则取 <c>|Pearson|</c>。
+        ''' 它与权重矩阵逐元素对应（同样的行列顺序），可以一起导出：
+        ''' 权重决定网络里边的方向与粗细，置信度决定边的可信度（阈值/透明度）。
+        ''' </remarks>
+        Public Function ConfidenceMatrix(Optional layout As RegulationMatrixLayout = RegulationMatrixLayout.Square,
+                                         Optional minConfidence As Double = 0.0,
+                                         Optional genes As String() = Nothing) As Matrix
+            Call EnsureTrained()
+
+            Return RegulationMatrixExporter.ToConfidenceMatrix(_network, layout, minConfidence, genes)
+        End Function
+
         ''' <summary>把外部样本背景注入为扰动分析的对照基线（未给出的基因保持训练基线）。</summary>
         ''' <param name="genes">基因名（大小写不敏感，可只给出部分基因）</param>
         ''' <param name="values">与 <paramref name="genes"/> 一一对应的原始表达量</param>

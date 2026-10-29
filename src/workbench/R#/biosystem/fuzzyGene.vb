@@ -453,34 +453,94 @@ Module fuzzyGene
             Return RInternal.debug.stop("the model has not been trained yet", env)
         End If
 
-        Dim mode As RegulationMatrixLayout
-
-        Select Case If(layout, "square").Trim().ToLowerInvariant()
-            Case "square", "nxn"
-                mode = RegulationMatrixLayout.Square
-            Case "regulators", "regulator", "tf", "tfonly"
-                mode = RegulationMatrixLayout.RegulatorsOnly
-            Case "compact", "sparse"
-                mode = RegulationMatrixLayout.Compact
-            Case Else
-                Return RInternal.debug.stop($"unknown layout '{layout}': expected square, regulators or compact", env)
-        End Select
-
-        If mode = RegulationMatrixLayout.Square AndAlso fuzzygene.Network.NGene > 5000 Then
-            Dim n As Integer = fuzzygene.Network.NGene
-            Dim gigabytes As Double = CDbl(n) * n * 8.0 / 1024 / 1024 / 1024
-            Dim message As String = $"warning: the square layout materialises {n} x {n} doubles (~{gigabytes:F2} GB in memory); " &
-                                    "consider layout = 'compact' or 'regulators', optionally combined with the genes filter"
-
-            Call message.debug
-        End If
-
         Try
+            Dim mode As RegulationMatrixLayout = ParseRegulationMatrixLayout(layout)
+
+            Call WarnSquareLayout(fuzzygene, mode)
+
             Return fuzzygene.RegulationMatrix(mode, minWeight, genes)
         Catch ex As Exception
             Return RInternal.debug.stop(ex.Message, env)
         End Try
     End Function
+
+    ''' <summary>
+    ''' Export the confidence matrix of a trained model (same shape as the weight matrix).
+    ''' </summary>
+    ''' <remarks>
+    ''' <para>
+    ''' Rows and columns are exactly the same as in ``fuzzygene_regulation_matrix`` (same layout,
+    ''' same order), only the element value changes: <c>W[i, j]</c> becomes the confidence of the
+    ''' edge <c>j -&gt; i</c>, that is the prior confidence when the edge is supported by the prior
+    ''' network and the absolute expression correlation <c>|Pearson|</c> otherwise.
+    ''' </para>
+    ''' <para>
+    ''' Weight and confidence answer two different questions ("how strong / which direction" vs
+    ''' "how trustworthy"), so exporting both matrices and using weight for the edge width and
+    ''' confidence for the edge opacity or a cutoff is the usual combination:
+    ''' <code>
+    ''' let w = fuzzygene::fuzzygene_regulation_matrix(model, layout = "compact");
+    ''' let c = fuzzygene::fuzzygene_confidence_matrix(model, layout = "compact");
+    ''' geneExpression::write.expr_matrix(w, file = "/path/weight.csv", id = "geneID");
+    ''' geneExpression::write.expr_matrix(c, file = "/path/confidence.csv", id = "geneID");
+    ''' </code>
+    ''' </para>
+    ''' </remarks>
+    ''' <param name="fuzzygene">a trained model</param>
+    ''' <param name="layout">``square`` (default), ``regulators`` or ``compact``</param>
+    ''' <param name="minConfidence">edges with a smaller confidence are exported as zero; 0 keeps all</param>
+    ''' <param name="genes">restrict the exported rows to these target genes; empty means all</param>
+    ''' <param name="env">the R# runtime environment used to report errors</param>
+    ''' <returns>a Matrix object (rows = targets, columns = regulators, non negative values)</returns>
+    <ExportAPI("fuzzygene_confidence_matrix")>
+    <RApiReturn(GetType(SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix))>
+    Public Function fuzzygene_confidence_matrix(fuzzygene As fz.FuzzyGeneModel,
+                                                Optional layout As String = "square",
+                                                Optional minConfidence As Double = 0,
+                                                Optional genes As String() = Nothing,
+                                                Optional env As Environment = Nothing) As Object
+        If fuzzygene Is Nothing OrElse Not fuzzygene.IsTrained Then
+            Return RInternal.debug.stop("the model has not been trained yet", env)
+        End If
+
+        Try
+            Dim mode As RegulationMatrixLayout = ParseRegulationMatrixLayout(layout)
+
+            Call WarnSquareLayout(fuzzygene, mode)
+
+            Return fuzzygene.ConfidenceMatrix(mode, minConfidence, genes)
+        Catch ex As Exception
+            Return RInternal.debug.stop(ex.Message, env)
+        End Try
+    End Function
+
+    ''' <summary>把 R# 侧的布局字符串解析成枚举（大小写与别名都容忍）。</summary>
+    Private Function ParseRegulationMatrixLayout(layout As String) As RegulationMatrixLayout
+        Select Case If(layout, "square").Trim().ToLowerInvariant()
+            Case "square", "nxn"
+                Return RegulationMatrixLayout.Square
+            Case "regulators", "regulator", "tf", "tfonly"
+                Return RegulationMatrixLayout.RegulatorsOnly
+            Case "compact", "sparse"
+                Return RegulationMatrixLayout.Compact
+            Case Else
+                Throw New ArgumentException($"unknown layout '{layout}': expected square, regulators or compact")
+        End Select
+    End Function
+
+    ''' <summary>建模基因数很大时，方阵会占用 GB 级内存，这里给出显式告警。</summary>
+    Private Sub WarnSquareLayout(fuzzygene As fz.FuzzyGeneModel, mode As RegulationMatrixLayout)
+        If mode <> RegulationMatrixLayout.Square OrElse fuzzygene.Network.NGene <= 5000 Then
+            Return
+        End If
+
+        Dim n As Integer = fuzzygene.Network.NGene
+        Dim gigabytes As Double = CDbl(n) * n * 8.0 / 1024 / 1024 / 1024
+        Dim message As String = $"warning: the square layout materialises {n} x {n} doubles (~{gigabytes:F2} GB in memory); " &
+                                "consider layout = 'compact' or 'regulators', optionally combined with the genes filter"
+
+        Call message.debug
+    End Sub
 
     ''' <summary>
     ''' Inject a transcriptome context as the initial condition of the virtual perturbation.

@@ -66,6 +66,50 @@ Namespace IO
                                  Optional minWeight As Double = 0.0,
                                  Optional genes As String() = Nothing) As Matrix
 
+            Return BuildMatrix(network, layout, minWeight, genes, Function(edge) edge.Weight, "regulation weights")
+        End Function
+
+        ''' <summary>
+        ''' 构建调控**置信度**矩阵：形状、行列布局与 <see cref="ToMatrix"/> 完全一致，
+        ''' 元素换成 <see cref="RegulationEdgeModel.Confidence"/>。
+        ''' </summary>
+        ''' <param name="network">已训练的调控网络</param>
+        ''' <param name="layout">行列布局，默认严格 <c>N×N</c></param>
+        ''' <param name="minConfidence">
+        ''' 低于该置信度的边按 0 处理；0 表示保留全部边
+        ''' </param>
+        ''' <param name="genes">只导出这些靶基因（行）；<c>Nothing</c> 表示全部</param>
+        ''' <returns>行 = 靶基因、列 = 调控因子的置信度矩阵（非负）</returns>
+        ''' <remarks>
+        ''' <para>
+        ''' 置信度的来源与边表一致：边被先验网络支持时取先验置信度，
+        ''' 否则取表达相关性 <c>|Pearson|</c>。它回答的是"这条调控关系有多可信"，
+        ''' 与 <see cref="ToMatrix"/> 给出的"调控有多强、朝哪个方向"是两个正交维度，
+        ''' 因此常常需要把两张矩阵一起导出（例如权重用于网络布局、置信度用于边的透明度/阈值）。
+        ''' </para>
+        ''' <para>
+        ''' 同一对基因若同时有权重与置信度，二者在两张矩阵中的位置完全相同
+        ''' （列顺序由 <paramref name="layout"/> 决定，与调用顺序无关），可以直接逐元素对应。
+        ''' </para>
+        ''' </remarks>
+        Public Function ToConfidenceMatrix(network As FuzzyGeneNetwork,
+                                           Optional layout As RegulationMatrixLayout = RegulationMatrixLayout.Square,
+                                           Optional minConfidence As Double = 0.0,
+                                           Optional genes As String() = Nothing) As Matrix
+
+            Return BuildMatrix(network, layout, minConfidence, genes, Function(edge) edge.Confidence, "regulation confidence")
+        End Function
+
+        ''' <summary>
+        ''' 权重 / 置信度矩阵的共用实现：<paramref name="valueOf"/> 决定取边的哪个属性。
+        ''' </summary>
+        Private Function BuildMatrix(network As FuzzyGeneNetwork,
+                                     layout As RegulationMatrixLayout,
+                                     threshold As Double,
+                                     genes As String(),
+                                     valueOf As Func(Of RegulationEdgeModel, Double),
+                                     label As String) As Matrix
+
             If network Is Nothing Then
                 Throw New ArgumentNullException(NameOf(network))
             End If
@@ -161,18 +205,18 @@ Namespace IO
                 }
             Next
 
-            ' ---- 4. 填权重 ----
+            ' ---- 4. 填值 ----
             For Each edge As RegulationEdgeModel In edges
                 If edge Is Nothing Then
                     Continue For
                 End If
 
-                Dim value As Double = edge.Weight
+                Dim value As Double = valueOf(edge)
 
                 If Double.IsNaN(value) OrElse Double.IsInfinity(value) Then
                     Continue For
                 End If
-                If std.Abs(value) < minWeight Then
+                If std.Abs(value) < threshold Then
                     Continue For
                 End If
 
@@ -190,7 +234,7 @@ Namespace IO
             Next
 
             Return New Matrix With {
-                .tag = $"fuzzygene regulation weights ({layout})",
+                .tag = $"fuzzygene {label} ({layout})",
                 .sampleID = columnGenes,
                 .expression = rows
             }
