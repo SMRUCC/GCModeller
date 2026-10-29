@@ -192,7 +192,7 @@ Namespace Fitting
                 .supportMax = SupportMax,
                 .isLagged = IsLagged,
                 .sampleCount = SampleCount,
-                .modelJson = If(Network Is Nothing, Nothing, Network.ToJson(indented:=False))
+                .model = If(Network Is Nothing, Nothing, Network.ToJsonDto)
             }
 
             Return JsonSerializer.Serialize(dto, JsonOptions(indented))
@@ -233,8 +233,8 @@ Namespace Fitting
                 .SampleCount = dto.sampleCount
             }
 
-            If Not String.IsNullOrEmpty(dto.modelJson) Then
-                model.Network = TskNetwork.FromJson(dto.modelJson)
+            If Not dto.model Is Nothing Then
+                model.Network = TskNetwork.FromModelDto(dto.model)
             End If
 
             Return model
@@ -309,7 +309,7 @@ Namespace Fitting
         ''' <summary>训练行数。</summary>
         Public Property sampleCount As Integer
         ''' <summary>TSK 网络的 JSON 文本。</summary>
-        Public Property modelJson As String
+        Public Property model As TskModelDto
 
     End Class
 
