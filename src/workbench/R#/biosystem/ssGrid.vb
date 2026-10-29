@@ -191,7 +191,7 @@ Module ssGrid
     ''' <param name="s"></param>
     ''' <param name="args"></param>
     ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <returns><see cref="SSystemNetwork"/></returns>
     ''' <example>
     ''' return(readBin(file("/sgrid.zip"), what = "ssgrid_network"));
     ''' </example>
@@ -819,7 +819,7 @@ Module ssGrid
             })
         Next
 
-        Console.WriteLine($"[INFO] virtual perturbation on {designs.Count} target gene(s) under the {If(x0 Is Nothing, "default", "given")} context...")
+        Call $"virtual perturbation on {designs.Count} target gene(s) under the {If(x0 Is Nothing, "default", "given")} context...".info
 
         Dim watch As Stopwatch = Stopwatch.StartNew()
         Dim onSimulated As Action(Of PerturbationDesign, ODEsOut) = Nothing
@@ -840,17 +840,18 @@ Module ssGrid
         Try
             screening = VirtualScreening.Run(network, designs, finalTime:=t, context:=x0, onSimulated:=onSimulated)
         Catch ex As Exception
-            Call Console.WriteLine($"[ERROR] {ex.Message}")
+            Call ex.PrintException
+            Call App.LogException(ex)
 
             Return RInternal.debug.stop(ex, env)
         End Try
 
         If Not String.IsNullOrEmpty(dir) Then
             Call VirtualScreening.SaveScreening(screening, dir)
-            Call Console.WriteLine($"[INFO] the screening result was saved into: {dir}")
+            Call $"the screening result was saved into: {dir}".info
         End If
 
-        Console.WriteLine($"[INFO] the screening was finished in {watch.Elapsed.TotalSeconds.ToString("F1")}s: {screening.Records.SafeQuery().Count()} record(s)")
+        Call $"the screening was finished in {watch.Elapsed.TotalSeconds.ToString("F1")}s: {screening.Records.SafeQuery().Count()} record(s)".info
 
         Return screening
     End Function

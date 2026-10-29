@@ -2,10 +2,12 @@ Imports System.Globalization
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Calculus.Dynamics.Data
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
+Imports SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels
 Imports SMRUCC.genomics.Analysis.SSystem.Runner
 Imports SSOdes = SMRUCC.genomics.Analysis.SSystem.Kernel.ODEs
 Imports std = System.Math
@@ -198,7 +200,7 @@ Namespace Perturbation
         Public Function Run(network As GRN.SSystemNetwork,
                             designs As IEnumerable(Of PerturbationDesign),
                             Optional finalTime As Double = 0,
-                            Optional context As System.Collections.Generic.IDictionary(Of String, Double) = Nothing,
+                            Optional context As IDictionary(Of String, Double) = Nothing,
                             Optional onSimulated As Action(Of PerturbationDesign, ODEsOut) = Nothing) As ScreeningResult
 
             If network Is Nothing Then
@@ -209,18 +211,21 @@ Namespace Perturbation
             Dim runOptions = network.CreateRunOptions(t)
             Dim controlModel = network.CreateModel(finalTime:=t, initial:=context)
             Dim control As ODEsOut = SSOdes.RunSystem(controlModel, Nothing, runOptions)
-            Dim records As New System.Collections.Generic.List(Of ScreeningRecord)
+            Dim records As New List(Of ScreeningRecord)
             Dim result As New ScreeningResult With {
                 .Designs = designs.SafeQuery().ToArray,
                 .Control = control,
                 .TimePoints = control.x
             }
+            Dim bar As ProgressBar = Nothing
 
-            For Each design As PerturbationDesign In result.Designs
+            For Each design As PerturbationDesign In TqdmWrapper.Wrap(result.Designs, bar:=bar)
                 Dim baseline As Double = baselineOf(network, design.TargetGene, context)
                 Dim experiment = design.ToExperiment(baseline)
-                Dim model = network.CreateModel(New SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels.Experiment() {experiment}, finalTime:=t, initial:=context)
+                Dim model = network.CreateModel(New Experiment() {experiment}, finalTime:=t, initial:=context)
                 Dim perturbed As ODEsOut = SSOdes.RunSystem(model, Nothing, runOptions)
+
+                Call bar.SetLabel(design.ToString)
 
                 If perturbed Is Nothing Then
                     Continue For
