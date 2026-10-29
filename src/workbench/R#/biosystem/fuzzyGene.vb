@@ -4,6 +4,8 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DataMining.FuzzyLogic.TSK
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.BNLearn.Core
+Imports SMRUCC.genomics.Analysis.FuzzyGene
+Imports SMRUCC.genomics.Analysis.FuzzyGene.Config
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
@@ -31,7 +33,7 @@ Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 ''' <list type="bullet">
 ''' <item><description>
 ''' ``fuzzygene_config``: create the hyper-parameter configuration object
-''' (<see cref="SMRUCC.genomics.Analysis.FuzzyGene.Config.FuzzyGeneConfig"/>, registered as the
+''' (<see cref="FuzzyGeneConfig"/>, registered as the
 ''' ``fuzzygene_config`` R# type);
 ''' </description></item>
 ''' <item><description>
@@ -48,7 +50,7 @@ Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 ''' </description></item>
 ''' </list>
 ''' <para>
-''' A trained <see cref="SMRUCC.genomics.Analysis.FuzzyGene.FuzzyGeneModel"/> implements the
+''' A trained <see cref="FuzzyGeneModel"/> implements the
 ''' <c>InsilicoPerturbationExperiment</c> interface, so the ``knockouts``, ``knockdown`` and
 ''' ``overexpress`` api of the ``bnlearn`` package can be applied to it directly for in silico
 ''' perturbation experiments (partial knockdown is natively supported because the fuzzy
@@ -58,8 +60,8 @@ Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 ''' </para>
 ''' </remarks>
 <Package("FuzzyGene")>
-<RTypeExport("fuzzygene", GetType(SMRUCC.genomics.Analysis.FuzzyGene.FuzzyGeneModel))>
-<RTypeExport("fuzzygene_config", GetType(SMRUCC.genomics.Analysis.FuzzyGene.Config.FuzzyGeneConfig))>
+<RTypeExport("fuzzygene", GetType(FuzzyGeneModel))>
+<RTypeExport("fuzzygene_config", GetType(FuzzyGeneConfig))>
 Module fuzzyGene
 
     ''' <summary>
@@ -68,7 +70,7 @@ Module fuzzyGene
     ''' <remarks>
     ''' <list type="bullet">
     ''' <item><description>
-    ''' ``writeBin`` for <see cref="SMRUCC.genomics.Analysis.FuzzyGene.FuzzyGeneModel"/>: the
+    ''' ``writeBin`` for <see cref="FuzzyGeneModel"/>: the
     ''' model is written into the connection supplied by the ``con`` argument as a
     ''' ``*.fuzzygene.zip`` archive (manifest, one entry per target gene model, rule text and
     ''' the signed edge table).
@@ -199,7 +201,7 @@ Module fuzzyGene
     ''' <param name="env">the R# runtime environment (unused, kept for error reporting symmetry)</param>
     ''' <returns>a validated configuration object</returns>
     <ExportAPI("fuzzygene_config")>
-    <RApiReturn(GetType(SMRUCC.genomics.Analysis.FuzzyGene.Config.FuzzyGeneConfig))>
+    <RApiReturn(GetType(FuzzyGeneConfig))>
     Public Function fuzzygene_config(Optional maxRegulators As Integer = 4,
                                      Optional selection As String = "prior-first",
                                      Optional minCorrelation As Double = 0.3,
@@ -311,7 +313,7 @@ Module fuzzyGene
     ''' <param name="env">the R# runtime environment (unused)</param>
     ''' <returns>an untrained model object</returns>
     <ExportAPI("build_fuzzygene")>
-    <RApiReturn(GetType(SMRUCC.genomics.Analysis.FuzzyGene.FuzzyGeneModel))>
+    <RApiReturn(GetType(FuzzyGeneModel))>
     Public Function build_fuzzygene(x As GeneExpressionData,
                                     Optional prior As PriorNetwork = Nothing,
                                     Optional config As fzcfg.FuzzyGeneConfig = Nothing,
@@ -333,7 +335,7 @@ Module fuzzyGene
     ''' <param name="env">the R# runtime environment used to report errors</param>
     ''' <returns>the trained model object, or an R# error object when training fails</returns>
     <ExportAPI("train")>
-    <RApiReturn(GetType(SMRUCC.genomics.Analysis.FuzzyGene.FuzzyGeneModel))>
+    <RApiReturn(GetType(FuzzyGeneModel))>
     Public Function train(fuzzygene As fz.FuzzyGeneModel, Optional env As Environment = Nothing) As Object
         If fuzzygene Is Nothing Then
             Return RInternal.debug.stop("a fuzzy gene model object is required", env)
@@ -468,7 +470,7 @@ Module fuzzyGene
     ''' <param name="env">the R# runtime environment used to report errors</param>
     ''' <returns>a trained model object ready for inference and virtual perturbation</returns>
     <ExportAPI("load_fuzzygene")>
-    <RApiReturn(GetType(SMRUCC.genomics.Analysis.FuzzyGene.FuzzyGeneModel))>
+    <RApiReturn(GetType(FuzzyGeneModel))>
     Public Function load_fuzzygene(file As String, Optional env As Environment = Nothing) As Object
         If String.IsNullOrWhiteSpace(file) Then
             Return RInternal.debug.stop("the package path is empty", env)
