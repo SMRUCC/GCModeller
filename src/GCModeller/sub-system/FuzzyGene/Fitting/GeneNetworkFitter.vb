@@ -1,5 +1,4 @@
 Imports System.Threading
-Imports System.Threading.Tasks
 Imports Microsoft.VisualBasic.DataMining.FuzzyLogic.TSK
 Imports Microsoft.VisualBasic.DeepLearning.ANFIS
 Imports SMRUCC.genomics.Analysis.BNLearn.Core
@@ -47,10 +46,7 @@ Namespace Fitting
         End Function
 
         ''' <summary>从预处理视图拟合调控网络（复用视图做交叉验证/重复拟合时使用）。</summary>
-        Public Function Fit(view As GeneExpressionView,
-                            prior As PriorNetwork,
-                            config As FuzzyGeneConfig) As FuzzyGeneFitOutput
-
+        Public Function Fit(view As GeneExpressionView, prior As PriorNetwork, config As FuzzyGeneConfig) As FuzzyGeneFitOutput
             If view Is Nothing Then
                 Throw New ArgumentNullException(NameOf(view))
             End If
@@ -239,14 +235,14 @@ Namespace Fitting
                 Return
             End If
 
-            Dim clock As New System.Diagnostics.Stopwatch()
+            Dim clock As New Stopwatch()
 
             clock.Start()
 
             Dim picks As RegulatorPick() = RegulatorSelector.SelectRegulators(view, prior, cfg, g, pool)
 
-            Call System.Threading.Interlocked.Add(phaseTicks(0), clock.ElapsedTicks)
-            clock.Restart()
+            Call Interlocked.Add(phaseTicks(0), clock.ElapsedTicks)
+            Call clock.Restart()
 
             If picks.Length = 0 Then
                 metric.Message = $"no candidate regulator (selection={cfg.Selection}, min|r|={cfg.MinCorrelation:G3})"
@@ -357,7 +353,7 @@ Namespace Fitting
             Catch ex As Exception
                 metric.Status = "failed"
                 metric.Message = ex.Message
-                Call System.Threading.Interlocked.Add(phaseTicks(1), clock.ElapsedTicks)
+                Call Interlocked.Add(phaseTicks(1), clock.ElapsedTicks)
                 Return
             End Try
 
@@ -382,7 +378,7 @@ Namespace Fitting
             Catch ex As Exception
                 metric.Status = "failed"
                 metric.Message = "inference failed: " & ex.Message
-                Call System.Threading.Interlocked.Add(phaseTicks(1), clock.ElapsedTicks)
+                Call Interlocked.Add(phaseTicks(1), clock.ElapsedTicks)
                 Return
             End Try
 
@@ -485,7 +481,7 @@ Namespace Fitting
             metric.Message = If(selected.Count < picks.Length,
                 $"degraded to {selected.Count} inputs / mf={mfCount}", "")
 
-            Call System.Threading.Interlocked.Add(phaseTicks(1), clock.ElapsedTicks)
+            Call Interlocked.Add(phaseTicks(1), clock.ElapsedTicks)
         End Sub
 
         ''' <summary>Stopwatch tick → TimeSpan（Stopwatch 频率与 TimeSpan tick 不一定相等）。</summary>
@@ -494,7 +490,7 @@ Namespace Fitting
                 Return TimeSpan.Zero
             End If
 
-            Return TimeSpan.FromSeconds(ticks / CDbl(System.Diagnostics.Stopwatch.Frequency))
+            Return TimeSpan.FromSeconds(ticks / CDbl(Stopwatch.Frequency))
         End Function
 
         ''' <summary>
@@ -570,7 +566,7 @@ Namespace Fitting
                 values(i) = x(i)(column)
             Next
 
-            Call System.Array.Sort(values)
+            Call Array.Sort(values)
 
             Dim result(levels - 1) As Double
 
