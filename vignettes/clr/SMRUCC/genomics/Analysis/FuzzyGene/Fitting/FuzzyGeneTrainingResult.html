@@ -42,16 +42,24 @@ export class FuzzyGeneTrainingResult {
    MeanRmse: double;
    # 实际采用的拟合路线。
    Mode: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/FuzzyTargetMode.html">FuzzyTargetMode</a>;
+   # 相关性筛选实际使用的候选基因数量。
+   NCandidatePool: integer;
    # 训练失败的基因数。
    NFailed: integer;
    # 参与建模的基因总数。
    NGene: integer;
-   # 训练样本（状态行）数量。
+   # 训练样本（状态行）数量（行采样之后）。
    NSample: integer;
+   # 原始样本数量（行采样之前）。
+   NSampleRaw: integer;
    # 被跳过的基因数（常表达、缺少候选因子等）。
    NSkipped: integer;
    # 成功训练出模型的基因数。
    NTrained: integer;
+   # 候选筛选累计耗时（CPU 时间，跨所有并行线程求和）。
+   SelectionElapsed: <a href="/vignettes/clr/System/TimeSpan.html">TimeSpan</a>;
+   # 单基因训练累计耗时（CPU 时间，跨所有并行线程求和）。
+   TrainingElapsed: <a href="/vignettes/clr/System/TimeSpan.html">TimeSpan</a>;
    # 降级、异常与数据质量告警。
    Warnings: string;
 }
@@ -64,6 +72,8 @@ export class FuzzyGeneTrainingResult {
 <li>use by <i>property</i> member <code>Elapsed</code>: <a href="/vignettes/clr/System/TimeSpan.html">TimeSpan</a></li>
 <li>use by <i>property</i> member <code>GeneMetrics</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Fitting/GeneFitMetric.html">GeneFitMetric</a></li>
 <li>use by <i>property</i> member <code>Mode</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/FuzzyTargetMode.html">FuzzyTargetMode</a></li>
+<li>use by <i>property</i> member <code>SelectionElapsed</code>: <a href="/vignettes/clr/System/TimeSpan.html">TimeSpan</a></li>
+<li>use by <i>property</i> member <code>TrainingElapsed</code>: <a href="/vignettes/clr/System/TimeSpan.html">TimeSpan</a></li>
 </ol>
 
 

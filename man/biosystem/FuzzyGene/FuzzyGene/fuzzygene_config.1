@@ -13,6 +13,9 @@ fuzzygene_config \- Create a FuzzyGene modelling configuration object.
 \fBlearningRate\fR as double = 0.02, 
 \fBpruneThreshold\fR as double = 0.01, 
 \fBmaxGenes\fR as integer = 2000, 
+\fBmaxTrainRows\fR as integer = 0, 
+\fBmaxCandidateGenes\fR as integer = 0, 
+\fBminBestCorrelation\fR as double = 0, 
 \fBmaxRules\fR as integer = 128, 
 \fBmaxConsequentParams\fR as integer = 512, 
 \fBstandardize\fR as boolean = TRUE, 
@@ -78,6 +81,29 @@ Create a FuzzyGene modelling configuration object.
 \fBmaxGenes\fB \fR\- 
  upper bound on the number of modelled genes (highest variance first, prior TFs always kept);
  0 keeps everything. Default 2000.
+. 
+.PP
+.PP
+\fBmaxTrainRows\fB \fR\- 
+ maximum number of training rows per target gene; 0 uses every row. The dominant cost of the
+ hybrid learning is the least squares normal equations, which scale as
+ `rows x P^2`, so capping the rows is the cheapest large speedup: a few thousand rows
+ are already far more than the few hundred consequent parameters need.
+ Default 0 (all rows); 3000-5000 is the recommended setting for genome scale data.
+. 
+.PP
+.PP
+\fBmaxCandidateGenes\fB \fR\- 
+ size limit of the candidate pool used by the correlation screening
+ (prior TFs plus the highest variance genes); 0 screens every gene. The screening cost is
+ `O(genes^2 x rows)`, which at genome scale becomes comparable with the training itself.
+ Default 0; 2000-4000 is the recommended setting for genome scale data.
+. 
+.PP
+.PP
+\fBminBestCorrelation\fB \fR\- 
+ skip a target gene when it has no prior regulator and its best |Pearson| against the
+ candidates is below this value (such models have R2 close to 0). 0 disables the filter.
 . 
 .PP
 .PP

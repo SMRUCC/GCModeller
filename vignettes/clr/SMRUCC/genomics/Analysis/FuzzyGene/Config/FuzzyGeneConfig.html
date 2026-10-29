@@ -55,6 +55,8 @@ export class FuzzyGeneConfig extends <a href="/vignettes/clr/Microsoft/VisualBas
    LearningMode: <a href="/vignettes/clr/Microsoft/VisualBasic/DeepLearning/ANFIS/AnfisLearningMode.html">AnfisLearningMode</a>;
    LearningRate: double;
    LearningRateDecay: double;
+   # 相关性候选池的规模上限；0 表示不限制（对全部基因计算相关性）。
+   MaxCandidateGenes: integer;
    MaxConsequentParams: integer;
    MaxEpoch: integer;
    # 建模的最大基因数（按方差从高到低保留）；0 表示全部基因。
@@ -62,9 +64,13 @@ export class FuzzyGeneConfig extends <a href="/vignettes/clr/Microsoft/VisualBas
    # 每个靶基因保留的候选调控因子个数上限（建议 3–6）。
    MaxRegulators: integer;
    MaxRules: integer;
+   # 参与训练的最大行数；0 表示使用全部行。
+   MaxTrainRows: integer;
    MfCount: integer;
    MfCounts: integer;
    MfKind: <a href="/vignettes/clr/Microsoft/VisualBasic/DataMining/FuzzyLogic/TSK/MembershipKind.html">MembershipKind</a>;
+   # 靶基因有效性门槛：先验无入边且与全部候选的最大 |Pearson| 低于该值时跳过该靶基因； 0 表示不跳过（默认）。
+   MinBestCorrelation: double;
    # 相关性补齐时采用的最小 |Pearson|；低于该值的基因不会被选为调控因子。
    MinCorrelation: double;
    # 导出调控边时的最小 |权重|，低于该值的边被视为噪声丢弃。

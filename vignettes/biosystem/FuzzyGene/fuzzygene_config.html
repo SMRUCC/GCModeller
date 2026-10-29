@@ -38,6 +38,9 @@
     <i>learningRate</i> = <span style='color: green;'>0.02</span>,
     <i>pruneThreshold</i> = <span style='color: green;'>0.01</span>,
     <i>maxGenes</i> = <span style='color: green;'>2000</span>,
+    <i>maxTrainRows</i> = <span style='color: green;'>0</span>,
+    <i>maxCandidateGenes</i> = <span style='color: green;'>0</span>,
+    <i>minBestCorrelation</i> = <span style='color: green;'>0</span>,
     <i>maxRules</i> = <span style='color: green;'>128</span>,
     <i>maxConsequentParams</i> = <span style='color: green;'>512</span>,
     <i>standardize</i> = <span style='color: blue !important;'>TRUE</span>,
@@ -92,6 +95,18 @@
 
 <dt>maxGenes</dt>
 <dd><p>upper bound on the number of modelled genes (highest variance first, prior TFs always kept); 0 keeps everything. Default 2000. [as integer]</p></dd>
+
+
+<dt>maxTrainRows</dt>
+<dd><p>maximum number of training rows per target gene; 0 uses every row. The dominant cost of the hybrid learning is the least squares normal equations, which scale as <code>rows x P^2</code>, so capping the rows is the cheapest large speedup: a few thousand rows are already far more than the few hundred consequent parameters need. Default 0 (all rows); 3000-5000 is the recommended setting for genome scale data. [as integer]</p></dd>
+
+
+<dt>maxCandidateGenes</dt>
+<dd><p>size limit of the candidate pool used by the correlation screening (prior TFs plus the highest variance genes); 0 screens every gene. The screening cost is <code>O(genes^2 x rows)</code>, which at genome scale becomes comparable with the training itself. Default 0; 2000-4000 is the recommended setting for genome scale data. [as integer]</p></dd>
+
+
+<dt>minBestCorrelation</dt>
+<dd><p>skip a target gene when it has no prior regulator and its best |Pearson| against the candidates is below this value (such models have R2 close to 0). 0 disables the filter. [as double]</p></dd>
 
 
 <dt>maxRules</dt>

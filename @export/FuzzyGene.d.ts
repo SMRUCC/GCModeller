@@ -113,6 +113,23 @@ declare namespace FuzzyGene {
      *  0 keeps everything. Default 2000.
      * 
      * + default value Is ``2000``.
+     * @param maxTrainRows maximum number of training rows per target gene; 0 uses every row. The dominant cost of the
+     *  hybrid learning is the least squares normal equations, which scale as
+     *  `rows x P^2`, so capping the rows is the cheapest large speedup: a few thousand rows
+     *  are already far more than the few hundred consequent parameters need.
+     *  Default 0 (all rows); 3000-5000 is the recommended setting for genome scale data.
+     * 
+     * + default value Is ``0``.
+     * @param maxCandidateGenes size limit of the candidate pool used by the correlation screening
+     *  (prior TFs plus the highest variance genes); 0 screens every gene. The screening cost is
+     *  `O(genes^2 x rows)`, which at genome scale becomes comparable with the training itself.
+     *  Default 0; 2000-4000 is the recommended setting for genome scale data.
+     * 
+     * + default value Is ``0``.
+     * @param minBestCorrelation skip a target gene when it has no prior regulator and its best |Pearson| against the
+     *  candidates is below this value (such models have R2 close to 0). 0 disables the filter.
+     * 
+     * + default value Is ``0``.
      * @param maxRules rule budget per target gene. Default 128.
      * 
      * + default value Is ``128``.
@@ -148,7 +165,7 @@ declare namespace FuzzyGene {
      * + default value Is ``null``.
      * @return a validated configuration object
    */
-   function fuzzygene_config(maxRegulators?: object, selection?: string, minCorrelation?: number, mode?: string, mfCount?: object, mfKind?: string, maxEpoch?: object, learningRate?: number, pruneThreshold?: number, maxGenes?: object, maxRules?: object, maxConsequentParams?: object, standardize?: boolean, propagationSteps?: object, relaxation?: number, knockdownResidual?: number, overexpressionSigmas?: number, significanceZScore?: number, degreeOfParallelism?: object, minTimePoints?: object, env?: object): object;
+   function fuzzygene_config(maxRegulators?: object, selection?: string, minCorrelation?: number, mode?: string, mfCount?: object, mfKind?: string, maxEpoch?: object, learningRate?: number, pruneThreshold?: number, maxGenes?: object, maxTrainRows?: object, maxCandidateGenes?: object, minBestCorrelation?: number, maxRules?: object, maxConsequentParams?: object, standardize?: boolean, propagationSteps?: object, relaxation?: number, knockdownResidual?: number, overexpressionSigmas?: number, significanceZScore?: number, degreeOfParallelism?: object, minTimePoints?: object, env?: object): object;
    /**
     * Export the signed regulatory edge table of a trained model.
     * 
