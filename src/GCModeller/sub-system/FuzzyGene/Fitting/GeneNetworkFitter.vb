@@ -75,10 +75,11 @@ Namespace Fitting
             Dim phaseTicks As Long() = New Long(1) {}
 
             Dim completed As Integer = 0
-            Dim reportStep As Integer = std.Max(1, n \ 30)
+            Dim reportStep As Integer = std.Max(1, n \ 35)
             Dim clock As New Stopwatch()
 
-            clock.Start()
+            Call clock.Start()
+            Call "Start to make fuzzy gene network fitting.".info
 
             ' 逐基因训练在真实数据上可能要跑几十分钟，这里每 10% 打一行进度，
             ' 否则调用方在整段训练期间完全看不到进展
