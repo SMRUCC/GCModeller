@@ -167,6 +167,50 @@ declare namespace FuzzyGene {
    */
    function fuzzygene_config(maxRegulators?: object, selection?: string, minCorrelation?: number, mode?: string, mfCount?: object, mfKind?: string, maxEpoch?: object, learningRate?: number, pruneThreshold?: number, maxGenes?: object, maxTrainRows?: object, maxCandidateGenes?: object, minBestCorrelation?: number, maxRules?: object, maxConsequentParams?: object, standardize?: boolean, propagationSteps?: object, relaxation?: number, knockdownResidual?: number, overexpressionSigmas?: number, significanceZScore?: number, degreeOfParallelism?: object, minTimePoints?: object, env?: object): object;
    /**
+    * Inject a transcriptome context as the initial condition of the virtual perturbation.
+    * 
+    * > The context replaces the control baseline: both the wildtype and the mutant state are
+    * >  propagated **from the given condition**, so ``foldchange`` is read as
+    * >  "mutant vs wildtype inside this context" instead of "mutant vs the training mean".
+    * >  
+    * > 
+    * > 
+    * >  
+    * > 
+    * > 
+    * >  The table (csv or tsv) must carry at least one gene column and one expression column.
+    * >  All non-numeric columns are treated as candidate gene keys and the one that matches the
+    * >  most model genes is used, so a ``gene_name,gene_id,mean_counts`` pseudobulk table works
+    * >  out of the box. Rows whose expression value is not a finite number are skipped (never
+    * >  silently turned into zero), and model genes that are absent from the table keep the
+    * >  training baseline.
+    * >  
+    * > 
+    * > 
+    * >  
+    * > 
+    * > 
+    * >  Note that a fitted static map is usually contractive: after it converges, the state no
+    * >  longer depends on where the propagation started. The context therefore matters most for
+    * >  (i) the reference state used by fold changes, (ii) non-converged / transient responses
+    * >  and (iii) lagged (time series) models.
+    * 
+     * @param fuzzygene a trained model
+     * @param context the context table path (csv/tsv) with a gene column and an expression column
+     * @param valueColumn the name of the expression column; empty uses the last column of the table
+     * 
+     * + default value Is ``null``.
+     * @param minCoverage the minimum fraction (0-1) of model genes that must be covered by the table,
+     *  0 disables the check
+     * 
+     * + default value Is ``0``.
+     * @param env the R# runtime environment used to report errors
+     * 
+     * + default value Is ``null``.
+     * @return a multi line coverage summary, or an R# error object when the context is rejected
+   */
+   function fuzzygene_context(fuzzygene: object, context: string, valueColumn?: string, minCoverage?: number, env?: object): string;
+   /**
     * Export the signed regulatory edge table of a trained model.
     * 
     * > The edge weight is the average analytic partial derivative
@@ -192,6 +236,17 @@ declare namespace FuzzyGene {
      * @return a multi line summary, or an R# error object when no training result is attached
    */
    function fuzzygene_report(fuzzygene: object, env?: object): string;
+   /**
+    * Drop the injected context and restore the training baseline.
+    * 
+    * 
+     * @param fuzzygene a trained model
+     * @param env the R# runtime environment used to report errors
+     * 
+     * + default value Is ``null``.
+     * @return `True` on success
+   */
+   function fuzzygene_reset_context(fuzzygene: object, env?: object): boolean;
    /**
     * Export the IF-THEN rules of every fitted target gene.
     * 

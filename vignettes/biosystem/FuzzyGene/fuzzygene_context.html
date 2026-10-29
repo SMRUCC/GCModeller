@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Inject a transcriptome context as the initial condition of the virtual perturbation.</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>fuzzygene_context {FuzzyGene}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>Inject a transcriptome context as the initial condition of the virtual perturbation.</h2>
+
+        <h3>Description</h3>
+
+        
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>fuzzygene_context</strong>(<i>fuzzygene</i>, <i>context</i>,
+    <i>valueColumn</i> = <span style='color: blue !important;'>NULL</span>,
+    <i>minCoverage</i> = <span style='color: green;'>0</span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>fuzzygene</dt>
+<dd><p>a trained model. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/FuzzyGeneModel.html">FuzzyGeneModel</a>]</p></dd>
+
+
+<dt>context</dt>
+<dd><p>the context table path (csv/tsv) with a gene column and an expression column. [as string]</p></dd>
+
+
+<dt>valueColumn</dt>
+<dd><p>the name of the expression column; empty uses the last column of the table. [as string]</p></dd>
+
+
+<dt>minCoverage</dt>
+<dd><p>the minimum fraction (0-1) of model genes that must be covered by the table, 0 disables the check. [as double]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment used to report errors. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: block;">Details</h3>
+
+        <p>The context replaces the control baseline: both the wildtype and the mutant state are propagated <strong>from the given condition</strong>, so <code>foldchange</code> is read as "mutant vs wildtype inside this context" instead of "mutant vs the training mean".</p>
+
+<p>The table (csv or tsv) must carry at least one gene column and one expression column. All non-numeric columns are treated as candidate gene keys and the one that matches the most model genes is used, so a <code>gene_name,gene_id,mean_counts</code> pseudobulk table works out of the box. Rows whose expression value is not a finite number are skipped (never silently turned into zero), and model genes that are absent from the table keep the training baseline.</p>
+
+<p>Note that a fitted static map is usually contractive: after it converges, the state no longer depends on where the propagation started. The context therefore matters most for (i) the reference state used by fold changes, (ii) non-converged / transient responses and (iii) lagged (time series) models.</p>
+
+        <h3 style="display: block">Authors</h3>
+
+        biosystem
+
+        <h3>Value</h3>
+
+        <p>a multi line coverage summary, or an R# error object when the context is rejected</p><h4>clr value class</h4><ul><li>string</li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>FuzzyGene</em> version 1.0.0.0 <a
+                href="../FuzzyGene.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

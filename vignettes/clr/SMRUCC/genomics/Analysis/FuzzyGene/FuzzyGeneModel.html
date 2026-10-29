@@ -45,12 +45,18 @@
 export class FuzzyGeneModel {
    # 建模配置（恢复的模型同样携带原始配置）。
    Config: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/FuzzyGeneConfig.html">FuzzyGeneConfig</a>;
+   # 当前注入的上下文（原始表达量，长度 = 基因数）；未注入时为 Nothing。
+   Context: double;
    # 带符号调控边（未训练时为空数组）。
    Edges: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Data/RegulationEdgeModel.html">RegulationEdgeModel[]</a>;
    # 训练用的表达矩阵；从包文件恢复时为 Nothing。
    Expression: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/GeneExpressionData.html">GeneExpressionData</a>;
+   # 是否已注入上下文（注入后对照基线被整体替换）。
+   IsContextSet: boolean;
    # 是否已完成训练（或已从包恢复）。
    IsTrained: boolean;
+   # 最近一次上下文注入的覆盖率诊断；未注入时为 Nothing。
+   LastContextCoverage: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Perturbation/ContextCoverage.html">ContextCoverage</a>;
    # 最近一次训练的汇总诊断。
    LastTrainingResult: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Fitting/FuzzyGeneTrainingResult.html">FuzzyGeneTrainingResult</a>;
    # 拟合出的调控网络；未训练时为 Nothing。
@@ -69,6 +75,7 @@ export class FuzzyGeneModel {
 <li>use by <i>property</i> member <code>Config</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/FuzzyGeneConfig.html">FuzzyGeneConfig</a></li>
 <li>use by <i>property</i> member <code>Edges</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Data/RegulationEdgeModel.html">RegulationEdgeModel</a></li>
 <li>use by <i>property</i> member <code>Expression</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/GeneExpressionData.html">GeneExpressionData</a></li>
+<li>use by <i>property</i> member <code>LastContextCoverage</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Perturbation/ContextCoverage.html">ContextCoverage</a></li>
 <li>use by <i>property</i> member <code>LastTrainingResult</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Fitting/FuzzyGeneTrainingResult.html">FuzzyGeneTrainingResult</a></li>
 <li>use by <i>property</i> member <code>Network</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/FuzzyGeneNetwork.html">FuzzyGeneNetwork</a></li>
 <li>use by <i>property</i> member <code>Prior</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/PriorNetwork.html">PriorNetwork</a></li>

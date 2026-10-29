@@ -56,6 +56,8 @@ export class FuzzyGeneTrainingResult {
    NSkipped: integer;
    # 成功训练出模型的基因数。
    NTrained: integer;
+   # 预处理（统计量 + 列构建 + 列统计）耗时。
+   PreprocessElapsed: <a href="/vignettes/clr/System/TimeSpan.html">TimeSpan</a>;
    # 候选筛选累计耗时（CPU 时间，跨所有并行线程求和）。
    SelectionElapsed: <a href="/vignettes/clr/System/TimeSpan.html">TimeSpan</a>;
    # 单基因训练累计耗时（CPU 时间，跨所有并行线程求和）。
@@ -72,6 +74,7 @@ export class FuzzyGeneTrainingResult {
 <li>use by <i>property</i> member <code>Elapsed</code>: <a href="/vignettes/clr/System/TimeSpan.html">TimeSpan</a></li>
 <li>use by <i>property</i> member <code>GeneMetrics</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Fitting/GeneFitMetric.html">GeneFitMetric</a></li>
 <li>use by <i>property</i> member <code>Mode</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/FuzzyTargetMode.html">FuzzyTargetMode</a></li>
+<li>use by <i>property</i> member <code>PreprocessElapsed</code>: <a href="/vignettes/clr/System/TimeSpan.html">TimeSpan</a></li>
 <li>use by <i>property</i> member <code>SelectionElapsed</code>: <a href="/vignettes/clr/System/TimeSpan.html">TimeSpan</a></li>
 <li>use by <i>property</i> member <code>TrainingElapsed</code>: <a href="/vignettes/clr/System/TimeSpan.html">TimeSpan</a></li>
 </ol>

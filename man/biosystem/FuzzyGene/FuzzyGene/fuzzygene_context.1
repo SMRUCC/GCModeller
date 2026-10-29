@@ -1,0 +1,73 @@
+.\" man page create by R# package system.
+.TH FUZZYGENE 1 2000-1月 "fuzzygene_context" "fuzzygene_context"
+.SH NAME
+fuzzygene_context \- Inject a transcriptome context as the initial condition of the virtual perturbation.
+.SH SYNOPSIS
+\fIfuzzygene_context(\fBfuzzygene\fR as <generic> FuzzyGeneModel, 
+\fBcontext\fR as string, 
+\fBvalueColumn\fR as string = \fB<NULL>\fR, 
+\fBminCoverage\fR as double = 0, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Inject a transcriptome context as the initial condition of the virtual perturbation.
+.PP
+.SH OPTIONS
+.PP
+\fBfuzzygene\fB \fR\- a trained model. 
+.PP
+.PP
+\fBcontext\fB \fR\- the context table path (csv/tsv) with a gene column and an expression column. 
+.PP
+.PP
+\fBvalueColumn\fB \fR\- 
+ the name of the expression column; empty uses the last column of the table
+. 
+.PP
+.PP
+\fBminCoverage\fB \fR\- 
+ the minimum fraction (0-1) of model genes that must be covered by the table,
+ 0 disables the check
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment used to report errors. 
+.PP
+.SH VALUE
+.PP
+a multi line coverage summary, or an R# error object when the context is rejected
+.PP
+.SH DETAILS
+.PP
+The context replaces the control baseline: both the wildtype and the mutant state are
+ propagated **from the given condition**, so \fBfoldchange\fR is read as
+ "mutant vs wildtype inside this context" instead of "mutant vs the training mean".
+ 
+
+
+ 
+
+
+ The table (csv or tsv) must carry at least one gene column and one expression column.
+ All non-numeric columns are treated as candidate gene keys and the one that matches the
+ most model genes is used, so a \fBgene_name,gene_id,mean_counts\fR pseudobulk table works
+ out of the box. Rows whose expression value is not a finite number are skipped (never
+ silently turned into zero), and model genes that are absent from the table keep the
+ training baseline.
+ 
+
+
+ 
+
+
+ Note that a fitted static map is usually contractive: after it converges, the state no
+ longer depends on where the propagation started. The context therefore matters most for
+ (i) the reference state used by fold changes, (ii) non-converged / transient responses
+ and (iii) lagged (time series) models.
+.PP
+.SH SEE ALSO
+FuzzyGene
+.SH FILES
+.PP
+biosystem.dll
+.PP

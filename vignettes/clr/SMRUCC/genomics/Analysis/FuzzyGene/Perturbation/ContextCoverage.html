@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.FuzzyGene.Perturbation.ContextCoverage</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>ContextCoverage {SMRUCC.genomics.Analysis.FuzzyGene.Perturbation}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>ContextCoverage</h2>
+
+        <h3>Description</h3>
+
+        <p>上下文注入（<code>SetContext</code> / <code>LoadContext</code>）的诊断结果。</p>
+
+<p>上下文替换的是「扰动分析的对照基线」，语义上相当于把实验体系放进另一个转录组背景： 对照（野生型）态与突变体态都从该初始条件出发各自迭代到稳态， 因此 <a href="cref:P:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult.FoldChanges">InterventionResult.FoldChanges</a> 变成「同一 context 下的突变体 vs 野生型」。</p>
+
+<p>报告里必须能看出三件事，否则结果无法解释： 模型里的哪些基因真的被上下文覆盖了（<a href="cref:P:SMRUCC.genomics.Analysis.FuzzyGene.Perturbation.ContextCoverage.Matched">ContextCoverage.Matched</a>）、 哪些还在沿用训练数据的均值（<a href="cref:P:SMRUCC.genomics.Analysis.FuzzyGene.Perturbation.ContextCoverage.MissingGenes">ContextCoverage.MissingGenes</a>）、 以及哪些取值落在训练支持域之外（<a href="cref:P:SMRUCC.genomics.Analysis.FuzzyGene.Perturbation.ContextCoverage.OutsideSupport">ContextCoverage.OutsideSupport</a>，迭代时会被限幅， 等于这部分输入被“剪平”了）。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.FuzzyGene.Perturbation
+export class ContextCoverage {
+   # 覆盖率 = <a href="cref:P:SMRUCC.genomics.Analysis.FuzzyGene.Perturbation.ContextCoverage.Matched">ContextCoverage.Matched</a> / <a href="cref:P:SMRUCC.genomics.Analysis.FuzzyGene.Perturbation.ContextCoverage.NGene">ContextCoverage.NGene</a>。
+   Coverage: double;
+   # 上下文实际使用的基因名列（<code>LoadContext</code> 在多列中自动挑选）。
+   GeneColumn: string;
+   # 因为取值不是有限数（NaN / ±Inf / 空）而被跳过的条目数。
+   InvalidValues: integer;
+   # 上下文是否至少覆盖了一个基因（否则不会被应用）。
+   IsApplied: boolean;
+   # 命中模型基因的条目数。
+   Matched: integer;
+   # 模型中未被上下文覆盖、继续沿用训练基线的基因名。
+   MissingGenes: string;
+   # 模型基因总数。
+   NGene: integer;
+   # 命中模型、但取值落在训练支持域之外的基因数（迭代时会被限幅到边界）。
+   OutsideSupport: integer;
+   # 上下文中提供的有效条目数（同名基因以最后一次出现的为准）。
+   Provided: integer;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        this clr type has no other .net clr type reference.
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>
