@@ -111,12 +111,11 @@ Public Module Document
                 .ToArray
         End If
 
-        ' parse matrix data in stream model
+        ' parse matrix data in stream model, the rows are parsed in parallel
         Dim matrix As DataFrameRow() = file _
             .LineIterators(strictFile:=True, tqdm:=tqdm) _
             .Skip(1) _
-            .loadGeneMatrix(excludes, takeIndex) _
-            .ToArray
+            .loadGeneMatrixParallel(takeIndex)
 
         Return New Matrix With {
             .expression = matrix,
@@ -145,12 +144,12 @@ Public Module Document
             .Select(Function(a) a.i) _
             .ToArray
         Dim excludes As String() = sampleIds.Where(Function(id) Not id Like subset).ToArray
-        ' parse matrix data in stream model
+
+        ' parse matrix data in stream model, the rows are parsed in parallel
         Dim matrix As DataFrameRow() = file _
             .LineIterators(strictFile:=True, tqdm:=tqdm) _
             .Skip(1) _
-            .loadGeneMatrix(excludes, takeIndex) _
-            .ToArray
+            .loadGeneMatrixParallel(takeIndex)
 
         Return New Matrix With {
             .expression = matrix,
