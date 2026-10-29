@@ -78,8 +78,20 @@ Namespace Fitting
         ''' <summary>导出的带符号调控边数量。</summary>
         Public Property EdgeCount As Integer
 
-        ''' <summary>训练样本（状态行）数量。</summary>
+        ''' <summary>训练样本（状态行）数量（行采样之后）。</summary>
         Public Property NSample As Integer
+
+        ''' <summary>原始样本数量（行采样之前）。</summary>
+        Public Property NSampleRaw As Integer
+
+        ''' <summary>相关性筛选实际使用的候选基因数量。</summary>
+        Public Property NCandidatePool As Integer
+
+        ''' <summary>候选筛选累计耗时（CPU 时间，跨所有并行线程求和）。</summary>
+        Public Property SelectionElapsed As TimeSpan
+
+        ''' <summary>单基因训练累计耗时（CPU 时间，跨所有并行线程求和）。</summary>
+        Public Property TrainingElapsed As TimeSpan
 
         ''' <summary>逐基因诊断记录。</summary>
         Public Property GeneMetrics As GeneFitMetric()
@@ -103,9 +115,13 @@ Namespace Fitting
         Public Overrides Function ToString() As String
             Dim sb As New StringBuilder()
 
-            Call sb.AppendLine($"FuzzyGene fitting: mode={Mode}, samples={NSample}, genes={NGene}")
+            Dim sampleText As String = If(NSampleRaw > 0 AndAlso NSampleRaw <> NSample,
+                $"{NSample} (sampled from {NSampleRaw})", NSample.ToString)
+
+            Call sb.AppendLine($"FuzzyGene fitting: mode={Mode}, samples={sampleText}, genes={NGene}, candidate pool={NCandidatePool}")
             Call sb.AppendLine($"  trained={NTrained}, skipped={NSkipped}, failed={NFailed}, edges={EdgeCount}")
             Call sb.AppendLine($"  mean R2={MeanR2:G4}, mean RMSE={MeanRmse:G4}, elapsed={Elapsed.TotalSeconds:F2}s")
+            Call sb.AppendLine($"  cpu time: selection={SelectionElapsed.TotalSeconds:F1}s, per-gene training={TrainingElapsed.TotalSeconds:F1}s")
 
             If Warnings IsNot Nothing AndAlso Warnings.Length > 0 Then
                 Call sb.AppendLine($"  warnings: {Warnings.Length}")

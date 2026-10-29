@@ -167,6 +167,9 @@ Namespace Fitting
             If pool IsNot Nothing AndAlso pool.Length < n Then
                 Call warnings.Add($"candidate pool: {pool.Length}/{n} genes used for the correlation screening")
             End If
+            If cfg.MaxGenes > 0 AndAlso view.NGene >= cfg.MaxGenes Then
+                Call warnings.Add($"{NameOf(FuzzyGeneConfig.MaxGenes)} = {cfg.MaxGenes} is active: only the highest variance genes were modelled, set it to 0 to fit every gene")
+            End If
             For Each item As GeneFitMetric In metrics
                 If item IsNot Nothing AndAlso item.Status <> "ok" Then
                     Call warnings.Add(item.ToString())
@@ -215,10 +218,12 @@ Namespace Fitting
                                view As GeneExpressionView,
                                prior As PriorNetwork,
                                cfg As FuzzyGeneConfig,
+                               pool As Integer(),
                                models As GeneRegulationModel(),
                                metrics As GeneFitMetric(),
                                usedPicks As RegulatorPick()(),
-                               weights As Double()())
+                               weights As Double()(),
+                               phaseTicks As Long())
 
             Dim geneName As String = view.GeneNames(g)
             Dim metric As New GeneFitMetric With {.Gene = geneName, .Status = "skipped"}
@@ -230,7 +235,14 @@ Namespace Fitting
                 Return
             End If
 
-            Dim picks As RegulatorPick() = RegulatorSelector.SelectRegulators(view, prior, cfg, g)
+            Dim clock As New System.Diagnostics.Stopwatch()
+
+            clock.Start()
+
+            Dim picks As RegulatorPick() = RegulatorSelector.SelectRegulators(view, prior, cfg, g, pool)
+
+            Call System.Threading.Interlocked.Add(phaseTicks(0), clock.ElapsedTicks)
+            clock.Restart()
 
             If picks.Length = 0 Then
                 metric.Message = $"no candidate regulator (selection={cfg.Selection}, min|r|={cfg.MinCorrelation:G3})"
@@ -277,16 +289,22 @@ Namespace Fitting
             Dim zMax As Double = Double.MinValue
 
             For r As Integer = 0 To rows - 1
-                Dim row(regulatorIndex.Length - 1) As Double
-                Dim state As Double() = view.StateRows(r)
+                x(r) = New Double(regulatorIndex.Length - 1) {}
+            Next
 
-                For j As Integer = 0 To regulatorIndex.Length - 1
-                    row(j) = state(regulatorIndex(j))
+            ' 逐列填充：每一列都是连续内存，按列写 x 的对应分量比逐行取样本行更省缓存
+            For j As Integer = 0 To regulatorIndex.Length - 1
+                Dim column As Double() = view.Columns(regulatorIndex(j))
+
+                For r As Integer = 0 To rows - 1
+                    x(r)(j) = column(r)
                 Next
+            Next
 
-                x(r) = row
+            Dim targets As Double() = view.Targets(g)
 
-                Dim target As Double = view.TargetRows(r)(g)
+            For r As Integer = 0 To rows - 1
+                Dim target As Double = targets(r)
 
                 y(r) = target
                 yJagged(r) = New Double() {target}
@@ -335,6 +353,7 @@ Namespace Fitting
             Catch ex As Exception
                 metric.Status = "failed"
                 metric.Message = ex.Message
+                Call System.Threading.Interlocked.Add(phaseTicks(1), clock.ElapsedTicks)
                 Return
             End Try
 
@@ -359,6 +378,7 @@ Namespace Fitting
             Catch ex As Exception
                 metric.Status = "failed"
                 metric.Message = "inference failed: " & ex.Message
+                Call System.Threading.Interlocked.Add(phaseTicks(1), clock.ElapsedTicks)
                 Return
             End Try
 
@@ -460,7 +480,18 @@ Namespace Fitting
             metric.Iterations = iterations
             metric.Message = If(selected.Count < picks.Length,
                 $"degraded to {selected.Count} inputs / mf={mfCount}", "")
+
+            Call System.Threading.Interlocked.Add(phaseTicks(1), clock.ElapsedTicks)
         End Sub
+
+        ''' <summary>Stopwatch tick → TimeSpan（Stopwatch 频率与 TimeSpan tick 不一定相等）。</summary>
+        Private Function TicksToTimeSpan(ticks As Long) As TimeSpan
+            If ticks <= 0 Then
+                Return TimeSpan.Zero
+            End If
+
+            Return TimeSpan.FromSeconds(ticks / CDbl(System.Diagnostics.Stopwatch.Frequency))
+        End Function
 
         ''' <summary>
         ''' 构造用于估计边权重的输入网格：每个输入取若干分位点，做全组合。

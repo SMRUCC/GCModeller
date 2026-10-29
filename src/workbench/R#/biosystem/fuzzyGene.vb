@@ -166,6 +166,23 @@ Module fuzzyGene
     ''' upper bound on the number of modelled genes (highest variance first, prior TFs always kept);
     ''' 0 keeps everything. Default 2000.
     ''' </param>
+    ''' <param name="maxTrainRows">
+    ''' maximum number of training rows per target gene; 0 uses every row. The dominant cost of the
+    ''' hybrid learning is the least squares normal equations, which scale as
+    ''' <c>rows x P^2</c>, so capping the rows is the cheapest large speedup: a few thousand rows
+    ''' are already far more than the few hundred consequent parameters need.
+    ''' Default 0 (all rows); 3000-5000 is the recommended setting for genome scale data.
+    ''' </param>
+    ''' <param name="maxCandidateGenes">
+    ''' size limit of the candidate pool used by the correlation screening
+    ''' (prior TFs plus the highest variance genes); 0 screens every gene. The screening cost is
+    ''' <c>O(genes^2 x rows)</c>, which at genome scale becomes comparable with the training itself.
+    ''' Default 0; 2000-4000 is the recommended setting for genome scale data.
+    ''' </param>
+    ''' <param name="minBestCorrelation">
+    ''' skip a target gene when it has no prior regulator and its best |Pearson| against the
+    ''' candidates is below this value (such models have R2 close to 0). 0 disables the filter.
+    ''' </param>
     ''' <param name="maxRules">rule budget per target gene. Default 128.</param>
     ''' <param name="maxConsequentParams">consequent parameter budget per target gene. Default 512.</param>
     ''' <param name="standardize">z-score the expression matrix before fitting. Default TRUE.</param>
@@ -194,6 +211,9 @@ Module fuzzyGene
                                      Optional learningRate As Double = 0.02,
                                      Optional pruneThreshold As Double = 0.01,
                                      Optional maxGenes As Integer = 2000,
+                                     Optional maxTrainRows As Integer = 0,
+                                     Optional maxCandidateGenes As Integer = 0,
+                                     Optional minBestCorrelation As Double = 0,
                                      Optional maxRules As Integer = 128,
                                      Optional maxConsequentParams As Integer = 512,
                                      Optional standardize As Boolean = True,
@@ -217,6 +237,9 @@ Module fuzzyGene
             .LearningRate = learningRate,
             .PruneRuleThreshold = pruneThreshold,
             .MaxGenes = maxGenes,
+            .MaxTrainRows = maxTrainRows,
+            .MaxCandidateGenes = maxCandidateGenes,
+            .MinBestCorrelation = minBestCorrelation,
             .MaxRules = maxRules,
             .MaxConsequentParams = maxConsequentParams,
             .Standardize = standardize,

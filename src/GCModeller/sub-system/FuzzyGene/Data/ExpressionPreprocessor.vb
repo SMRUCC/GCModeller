@@ -440,10 +440,10 @@ Namespace Data
             End If
 
             Dim index(maxRows - 1) As Integer
-            Dim step As Double = rows / CDbl(maxRows)
+            Dim stride As Double = rows / CDbl(maxRows)
 
             For k As Integer = 0 To maxRows - 1
-                Dim value As Integer = CInt(std.Floor(k * step))
+                Dim value As Integer = CInt(std.Floor(k * stride))
 
                 If value >= rows Then value = rows - 1
 
