@@ -442,14 +442,14 @@ foreach ($item in $selected) {
         $conditionUsed = $group.GetAttribute('Condition')
     }
 
-    switch ($groupOp) {
-        'created' { $stats.added++ }
-        default {
-            if ($valueOp -eq 'added')   { $stats.added++ }
-            if ($valueOp -eq 'updated') { $stats.updated++ }
-        }
+    # Mutually exclusive buckets, so the summary adds up to the scanned count.
+    # A freshly created group is already counted above, it is not counted again
+    # as "Optimize added".
+    if ($groupOp -ne 'created') {
+        if ($valueOp -eq 'added')       { $stats.added++ }
+        elseif ($valueOp -eq 'updated') { $stats.updated++ }
+        else                            { $stats.unchanged++ }
     }
-    if ($groupOp -eq 'present' -and $valueOp -eq 'unchanged') { $stats.unchanged++ }
 
     $changed = ($groupOp -ne 'present') -or ($valueOp -ne 'unchanged')
     $written = $false
