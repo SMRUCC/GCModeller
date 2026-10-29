@@ -1,3 +1,4 @@
+Imports System.Threading
 Imports System.Threading.Tasks
 Imports Microsoft.VisualBasic.DataMining.FuzzyLogic.TSK
 Imports Microsoft.VisualBasic.DeepLearning.ANFIS
@@ -74,8 +75,8 @@ Namespace Fitting
             Dim phaseTicks As Long() = New Long(1) {}
 
             Dim completed As Integer = 0
-            Dim reportStep As Integer = std.Max(1, n \ 10)
-            Dim clock As New System.Diagnostics.Stopwatch()
+            Dim reportStep As Integer = std.Max(1, n \ 30)
+            Dim clock As New Stopwatch()
 
             clock.Start()
 
@@ -85,10 +86,10 @@ Namespace Fitting
                 Sub(g)
                     Call FitOneGene(g, view, prior, cfg, pool, models, metrics, usedPicks, weights, phaseTicks)
 
-                    Dim done As Integer = System.Threading.Interlocked.Increment(completed)
+                    Dim done As Integer = Interlocked.Increment(completed)
 
                     If done Mod reportStep = 0 OrElse done = n Then
-                        Console.WriteLine($"[FuzzyGene] {done}/{n} target genes processed, {clock.Elapsed.TotalSeconds:F0}s elapsed")
+                        Call $"[FuzzyGene] {done}/{n} target genes processed, {StringFormats.ReadableElapsedTime(clock.Elapsed.TotalMilliseconds)} elapsed".debug
                     End If
                 End Sub
 
@@ -97,10 +98,11 @@ Namespace Fitting
                     Call work(g)
                 Next
             Else
-                Dim options As New ParallelOptions()
+                Dim options As New ParallelOptions() With {
+                    .MaxDegreeOfParallelism = If(cfg.DegreeOfParallelism > 0, cfg.DegreeOfParallelism, -1)
+                }
 
-                options.MaxDegreeOfParallelism = If(cfg.DegreeOfParallelism > 0, cfg.DegreeOfParallelism, -1)
-                Call System.Threading.Tasks.Parallel.For(0, n, options, work)
+                Call Parallel.For(0, n, options, work)
             End If
 
             ' ---- 汇总边表（顺序遍历，保证输出可复现） ----
