@@ -829,9 +829,7 @@ Module ssGrid
             Call Directory.CreateDirectory(dir)
 
             onSimulated = Sub(design, output)
-                              Call VirtualScreening.SaveTrajectory(
-                                  output,
-                                  Path.Combine(dir, VirtualScreening.TrajectoryFileOf(design)))
+                              ' Call VirtualScreening.SaveTrajectory(output, Path.Combine(dir, VirtualScreening.TrajectoryFileOf(design)))
                           End Sub
         End If
 

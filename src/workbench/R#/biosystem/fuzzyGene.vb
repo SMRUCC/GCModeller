@@ -9,11 +9,10 @@ Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
-Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 Imports fz = SMRUCC.genomics.Analysis.FuzzyGene
 Imports fzcfg = SMRUCC.genomics.Analysis.FuzzyGene.Config
 Imports fzdata = SMRUCC.genomics.Analysis.FuzzyGene.Data
-Imports fzio = SMRUCC.genomics.Analysis.FuzzyGene.IO
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' FuzzyGene: the neuro-fuzzy (Wilson/Takagi-Sugeno ANFIS) gene regulatory network toolkit.
