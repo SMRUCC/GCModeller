@@ -455,7 +455,10 @@ Module fuzzyGene
         End If
 
         Try
-            Return fuzzygene.LoadContext(context, valueColumn, minCoverage).ToString()
+            Dim report = fuzzygene.LoadContext(context, valueColumn, minCoverage)
+
+            ' 拆成字符串数组返回，print() 在 R# 里才会一行一行显示
+            Return report.ToString().LineTokens
         Catch ex As Exception
             Return RInternal.debug.stop(ex.Message, env)
         End Try

@@ -1,4 +1,5 @@
 Imports System
+Imports System.Globalization
 Imports System.IO
 Imports SMRUCC.genomics.Analysis.BNLearn
 Imports SMRUCC.genomics.Analysis.BNLearn.Core
@@ -40,6 +41,7 @@ Module Program
         TestHybridModel(staticData, prior)
         TestRawScaleModel(staticData, prior)
         TestLaggedModel()
+        TestContext(staticData, prior)
 
         Console.WriteLine()
         Console.WriteLine($"PASS: {passes} assertion(s), {failures} failure(s)")
@@ -284,17 +286,6 @@ Module Program
             End If
         End Try
 
-        ' ---- 上下文注入 ----
-        Dim contextGenes As String() = {"B", "C"}
-        Dim contextValues As Double() = {6.0, -3.0}
-
-        Call model.SetContext(contextGenes, contextValues)
-
-        Dim contextual As InterventionResult = model.KnockoutGene("A")
-
-        Check(contextual.FoldChanges.Length = net.NGene, "context conditioned run returns a full result")
-
-        Call model.ResetContext()
     End Sub
 
 #End Region
@@ -381,6 +372,116 @@ Module Program
         Next
 
         Check(finite, "every trajectory cell is a finite single-sample value")
+    End Sub
+
+#End Region
+
+#Region "场景 5：转录组上下文（pseudobulk 背景）注入"
+
+    Private Sub TestContext(data As GeneExpressionData, prior As PriorNetwork)
+        Console.WriteLine()
+        Console.WriteLine("--- scenario 5: transcriptome context injection ---")
+
+        Dim config As New FuzzyGeneConfig With {
+            .Selection = RegulatorSelection.PriorOnly,
+            .MaxRegulators = 3,
+            .MfCount = 2,
+            .MaxEpoch = 30,
+            .TargetMode = FuzzyTargetMode.StaticRoute,
+            .PropagationSteps = 40,
+            .DegreeOfParallelism = 1
+        }
+
+        Dim model As New FuzzyGeneModel(data, prior, config)
+
+        Call model.Train()
+
+        Dim net As FuzzyGeneNetwork = model.Network
+        Dim indexA As Integer = net.IndexOfGene("A")
+        Dim contextA As Double = net.Means(indexA) + 0.6 * net.SDs(indexA)
+        Dim baselineRun As InterventionResult = model.KnockoutGene("A")
+        Dim contextFile As String = Path.Combine(Path.GetTempPath(), "fuzzygene_context_" & Guid.NewGuid().ToString("N") & ".csv")
+
+        Try
+            ' 模拟 pseudobulk 表：gene_name,gene_id,mean_counts
+            Dim lines As New List(Of String) From {
+                "gene_name,gene_id,mean_counts",
+                $"A,ENSG_A,{contextA.ToString("R", CultureInfo.InvariantCulture)}"
+            }
+
+            For Each gene As String In New String() {"B", "C", "D", "E", "F"}
+                Dim idx As Integer = net.IndexOfGene(gene)
+
+                Call lines.Add($"{gene},ENSG_{gene},{net.Means(idx).ToString("R", CultureInfo.InvariantCulture)}")
+            Next
+
+            ' 模型之外的基因、以及一行非法值
+            Call lines.Add("NOT_IN_MODEL,ENSG_XXX,1.5")
+            Call lines.Add("C,ENSG_C,NA")
+
+            Call File.WriteAllLines(contextFile, lines)
+
+            Dim coverage As ContextCoverage = model.LoadContext(contextFile)
+
+            Console.WriteLine(coverage.ToString())
+
+            Check(coverage.Matched = net.NGene, $"every model gene is covered (actual {coverage.Matched})")
+            Check(std.Abs(coverage.Coverage - 1.0) < 1.0E-09, "coverage reaches 100%")
+            Check(String.Equals(coverage.GeneColumn, "gene_name"), $"the gene column is detected (actual {coverage.GeneColumn})")
+            Check(coverage.InvalidValues = 1, $"the NA row is skipped instead of becoming zero (actual {coverage.InvalidValues})")
+            Check(model.IsContextSet, "the model reports the context as applied")
+            Check(std.Abs(model.Context(indexA) - contextA) < 1.0E-09,
+                  $"the context value reaches the state vector (actual {model.Context(indexA):F6})")
+
+            ' ---- 部分覆盖：未给出的基因继续沿用训练基线 ----
+            Dim partialContext As ContextCoverage = model.SetContext(New String() {"A"}, New Double() {contextA})
+
+            Check(partialContext.Matched = 1 AndAlso partialContext.MissingGenes.Length = net.NGene - 1,
+                  $"a partial context keeps the remaining genes on the training baseline ({partialContext.Matched}/{net.NGene})")
+            Check(std.Abs(partialContext.Coverage - 1.0 / net.NGene) < 1.0E-09, "partial coverage is reported correctly")
+
+            ' ---- 覆盖率门槛 ----
+            Dim rejected As Boolean = False
+
+            Try
+                Call model.SetContext(New String() {"A"}, New Double() {contextA}, minCoverage:=0.9)
+            Catch ex As ArgumentException
+                rejected = True
+            End Try
+
+            Check(rejected, "a context below minCoverage is rejected")
+
+            ' ---- 初始条件确实影响（尚未收敛的）传播 ----
+            Dim fromContext As Double() = net.SteadyState(model.Context, steps:=2)
+            Dim fromBaseline As Double() = net.SteadyState(net.BaselineRaw, steps:=2)
+            Dim maxDiff As Double = 0.0
+
+            For i As Integer = 0 To net.NGene - 1
+                maxDiff = std.Max(maxDiff, std.Abs(fromContext(i) - fromBaseline(i)))
+            Next
+
+            Check(maxDiff > 1.0E-06, $"the initial condition drives the transient propagation (max diff {maxDiff:G3})")
+
+            ' ---- 撤销上下文后必须回到与之前完全一致的基线结果 ----
+            Call model.ResetContext()
+
+            Check(Not model.IsContextSet, "reset removes the context")
+
+            Dim again As InterventionResult = model.KnockoutGene("A")
+            Dim identical As Boolean = True
+
+            For i As Integer = 0 To net.NGene - 1
+                If std.Abs(again.FoldChanges(i) - baselineRun.FoldChanges(i)) > 1.0E-12 Then
+                    identical = False
+                End If
+            Next
+
+            Check(identical, "resetting the context reproduces the baseline perturbation exactly")
+        Finally
+            If File.Exists(contextFile) Then
+                Call File.Delete(contextFile)
+            End If
+        End Try
     End Sub
 
 #End Region
