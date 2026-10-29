@@ -215,6 +215,19 @@ Namespace Fitting
             If cfg.MaxGenes > 0 AndAlso view.NGene >= cfg.MaxGenes Then
                 Call warnings.Add($"{NameOf(FuzzyGeneConfig.MaxGenes)} = {cfg.MaxGenes} is active: only the highest variance genes were modelled, set it to 0 to fit every gene")
             End If
+
+            ' 规则预算降级：这是"配了 K 个调控因子、实际却更少"的直接原因，必须显式提示
+            Dim degraded As Integer = metrics.Count(
+                Function(m) m IsNot Nothing AndAlso m.Message IsNot Nothing AndAlso
+                            m.Message.StartsWith("degraded to", StringComparison.OrdinalIgnoreCase))
+
+            If degraded > 0 Then
+                Call warnings.Add(
+                    $"{degraded} gene(s) could not keep the configured structure: the rule budget " &
+                    $"(MaxRules={cfg.MaxRules}, MaxConsequentParams={cfg.MaxConsequentParams}) reduced " &
+                    $"mf={cfg.MfCount} / K={cfg.MaxRegulators} to the structure shown on the 'structure:' line. " &
+                    "Raise those two limits (or lower MfCount) to keep more regulators")
+            End If
             For Each item As GeneFitMetric In metrics
                 If item IsNot Nothing AndAlso item.Status <> "ok" Then
                     Call warnings.Add(item.ToString())
@@ -284,7 +297,18 @@ Namespace Fitting
 
             clock.Start()
 
-            Dim picks As RegulatorPick() = RegulatorSelector.SelectRegulators(view, prior, cfg, g, pool)
+            ' ---- 规则预算：先算出真正可行的 (mf, K) ----
+            ' 必须在挑选候选**之前**算出来：否则 novelty 配额会按配置里的 K（可能远大于可用槽位）
+            ' 去分配预留槽位，随后又被尾部截断吃掉，等于白配。
+            Dim budget As (mfCount As Integer, inputs As Integer) = ResolveStructure(cfg, cfg.MaxRegulators)
+
+            If ExceedsBudget(cfg, budget.mfCount, 1) Then
+                metric.Status = "failed"
+                metric.Message = $"rule budget exceeded even for a single input (MaxRules={cfg.MaxRules}, MaxConsequentParams={cfg.MaxConsequentParams})"
+                Return
+            End If
+
+            Dim picks As RegulatorPick() = RegulatorSelector.SelectRegulators(view, prior, cfg, g, pool, budget.inputs)
 
             Call Interlocked.Add(phaseTicks(0), clock.ElapsedTicks)
             Call clock.Restart()
@@ -294,10 +318,10 @@ Namespace Fitting
                 Return
             End If
 
-            ' ---- 规则预算降级：先降模糊划分数，再逐个裁掉最弱的输入 ----
-            Dim mfCount As Integer = cfg.MfCount
+            Dim mfCount As Integer = budget.mfCount
             Dim selected As New List(Of RegulatorPick)(picks)
 
+            ' 兜底：正常情况下不会触发（selection 已按 feasible K 取候选）
             Do While selected.Count > 1 AndAlso ExceedsBudget(cfg, mfCount, selected.Count)
                 If mfCount > 2 Then
                     mfCount -= 1
@@ -632,6 +656,33 @@ Namespace Fitting
         ''' <summary>
         ''' 判断给定的结构是否超出规则/参数预算。
         ''' </summary>
+        ''' <summary>
+        ''' 按规则预算求出实际可行的 <c>(模糊划分数, 输入个数)</c>。
+        ''' </summary>
+        ''' <param name="cfg">建模配置</param>
+        ''' <param name="requested">期望的输入个数（通常为 <see cref="FuzzyGeneConfig.MaxRegulators"/>）</param>
+        ''' <returns>降级之后的 <c>(mfCount, inputs)</c>，<c>inputs</c> 至少为 1</returns>
+        ''' <remarks>
+        ''' 降级顺序与训练时一致：先降模糊划分数（不低于 2），再逐个削减输入。
+        ''' 之所以把这段逻辑单独暴露出来：候选筛选需要知道**真实的** K，
+        ''' 否则按配置的 K 去分配 novelty 配额（见 <see cref="FuzzyGeneConfig.NoveltyQuota"/>）
+        ''' 会被后续截断吃掉。
+        ''' </remarks>
+        Public Function ResolveStructure(cfg As FuzzyGeneConfig, requested As Integer) As (mfCount As Integer, inputs As Integer)
+            Dim mfCount As Integer = If(cfg Is Nothing, 3, cfg.MfCount)
+            Dim n As Integer = std.Max(1, requested)
+
+            Do While n > 1 AndAlso ExceedsBudget(cfg, mfCount, n)
+                If mfCount > 2 Then
+                    mfCount -= 1
+                Else
+                    n -= 1
+                End If
+            Loop
+
+            Return (mfCount, n)
+        End Function
+
         Public Function ExceedsBudget(cfg As FuzzyGeneConfig, mfCount As Integer, inputCount As Integer) As Boolean
             ' Double 幂运算：n 上限只有 MaxRegulators（通常 ≤ 6），不会真正溢出
             Dim rules As Double = std.Pow(mfCount, inputCount)

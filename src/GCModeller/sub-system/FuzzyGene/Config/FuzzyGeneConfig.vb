@@ -177,6 +177,29 @@ Namespace Config
         ''' </remarks>
         Public Property MinBestCorrelation As Double = 0.0
 
+        ''' <summary>
+        ''' 为「数据发现」的调控因子保留的槽位比例（0–1）；0 表示沿用「先验优先」的旧行为。
+        ''' </summary>
+        ''' <remarks>
+        ''' <para>
+        ''' 默认的 <see cref="RegulatorSelection.PriorFirst"/> 是**先验占满**策略：
+        ''' 先按置信度把先验 TF 排到前 <see cref="MaxRegulators"/> 个位置，相关性只用来补齐空位；
+        ''' 而规则预算降级又是从列表尾部开始截断，于是数据侧候选几乎永远进不了最终模型——
+        ''' 模型就只能复述先验，学不到新连接。
+        ''' </para>
+        ''' <para>
+        ''' 本参数按比例预留槽位：<c>reserved = round(K × NoveltyQuota)</c>，
+        ''' 这些槽位给「不在该靶基因先验边里」的相关性候选，其余槽位仍按先验置信度分配，
+        ''' 最后用相关性补齐。例如 K=6、<c>NoveltyQuota=0.34</c> 时固定留 2 个槽位给数据发现的调控因子。
+        ''' </para>
+        ''' <para>
+        ''' 取 0.2–0.4 是常见选择：既能引入新边，又不会把先验的因果约束丢光。
+        ''' 只有在 <see cref="RegulatorSelection.PriorFirst"/> / <see cref="RegulatorSelection.CorrelationOnly"/>
+        ''' 下生效，<see cref="RegulatorSelection.PriorOnly"/> 时被忽略。
+        ''' </para>
+        ''' </remarks>
+        Public Property NoveltyQuota As Double = 0.0
+
         ''' <summary>默认配置（同时把规则预算下调到 GRN 场景的合理量级）。</summary>
         Public Sub New()
             MyBase.MaxRules = 128
@@ -242,6 +265,9 @@ Namespace Config
             If MinBestCorrelation < 0.0 OrElse MinBestCorrelation > 1.0 Then
                 Throw New ArgumentOutOfRangeException(NameOf(MinBestCorrelation), MinBestCorrelation, "the best correlation threshold must be in [0, 1]")
             End If
+            If NoveltyQuota < 0.0 OrElse NoveltyQuota > 1.0 Then
+                Throw New ArgumentOutOfRangeException(NameOf(NoveltyQuota), NoveltyQuota, "the novelty quota must be in [0, 1]")
+            End If
 
             Return Me
         End Function
@@ -260,6 +286,7 @@ Namespace Config
             Return $"{Selection}/{TargetMode}, K={MaxRegulators}, mf={MfKind}x{MfCount}, " &
                    $"rows<={If(MaxTrainRows <= 0, "all", MaxTrainRows.ToString)}, " &
                    $"pool<={If(MaxCandidateGenes <= 0, "all", MaxCandidateGenes.ToString)}, " &
+                   $"novelty={NoveltyQuota:P0}, " &
                    $"{MyBase.ToString()}, steps={PropagationSteps}, omega={Relaxation:G3}"
         End Function
 

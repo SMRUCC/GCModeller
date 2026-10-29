@@ -3,6 +3,7 @@ Imports System.IO.Compression
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Text.Json
+Imports SMRUCC.genomics.Analysis.FuzzyGene.Config
 Imports SMRUCC.genomics.Analysis.FuzzyGene.Fitting
 
 Namespace IO
@@ -17,6 +18,8 @@ Namespace IO
     ''' <list type="bullet">
     ''' <item><description><c>manifest.json</c>：格式版本、拟合路线、基因名、均值/标准差、
     ''' 稳态基线、支持域、配置与带符号边；</description></item>
+    ''' <item><description><c>config.json</c>：本次拟合的完整配置（单独一份，方便直接肉眼检查
+    ''' <c>maxRegulators</c> / <c>noveltyQuota</c> 等参数，不必在几十 MB 的 manifest 里翻）；</description></item>
     ''' <item><description><c>models/0000.json</c> …：逐靶基因模型（TSK 网络的 JSON + 指标）；</description></item>
     ''' <item><description><c>rules.txt</c> / <c>edges.sif</c> / <c>edges.csv</c>：给人看的可解释性导出。</description></item>
     ''' </list>
@@ -38,6 +41,9 @@ Namespace IO
 
         ''' <summary>清单条目名。</summary>
         Public Const EntryManifest As String = "manifest.json"
+
+        ''' <summary>配置条目名（单独存一份，便于直接查看参数）。</summary>
+        Public Const EntryConfig As String = "config.json"
 
         ''' <summary>逐基因模型的条目名前缀。</summary>
         Public Const EntryModels As String = "models/"
@@ -83,6 +89,11 @@ Namespace IO
 
                 dto.formatVersion = FormatVersion
                 Call WriteText(archive, EntryManifest, JsonSerializer.Serialize(dto, FuzzyGeneNetwork.JsonOptions(True)))
+
+                ' 配置单独一份：manifest 里虽然也有，但全量模型时 manifest 有几十 MB，
+                ' 想确认 noveltyQuota / maxRegulators 之类的参数不该去翻那个文件
+                Call WriteText(archive, EntryConfig,
+                               JsonSerializer.Serialize(network.Config, FuzzyGeneNetwork.JsonOptions(True)))
 
                 For i As Integer = 0 To network.Models.Length - 1
                     Dim model As GeneRegulationModel = network.Models(i)
@@ -134,6 +145,22 @@ Namespace IO
 
                 If dto Is Nothing OrElse dto.geneNames Is Nothing Then
                     Throw New InvalidDataException("the manifest of the fuzzy gene model package is incomplete")
+                End If
+
+                ' config.json 优先：它是一份独立、可直接查看的配置；老包里没有该条目时回退到 manifest
+                Dim configJson As String = ReadText(archive, EntryConfig)
+
+                If Not String.IsNullOrEmpty(configJson) Then
+                    Try
+                        Dim cfg As FuzzyGeneConfig = JsonSerializer.Deserialize(Of FuzzyGeneConfig)(
+                            configJson, FuzzyGeneNetwork.JsonOptions(False))
+
+                        If cfg IsNot Nothing Then
+                            dto.config = cfg
+                        End If
+                    Catch ex As Exception
+                        ' 配置反序列化失败不应让整个模型不可用（manifest 里还有一份）
+                    End Try
                 End If
 
                 Dim models(dto.geneNames.Length - 1) As GeneModelDto

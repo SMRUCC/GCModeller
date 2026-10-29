@@ -138,6 +138,13 @@ Namespace Fitting
                                $"per-gene training={TrainingElapsed.TotalSeconds:F1}s (cpu)")
             Call sb.AppendLine($"  runtime: workers={ParallelWorkers}, allocated={AllocatedMB:F0} MB, gen2={Gen2Collections}")
 
+            ' 注意：局部变量不能叫 structure —— Structure 是 VB 关键字
+            Dim effectiveStructure As String = DescribeStructure()
+
+            If Not String.IsNullOrEmpty(effectiveStructure) Then
+                Call sb.AppendLine($"  structure: {effectiveStructure}")
+            End If
+
             If Warnings IsNot Nothing AndAlso Warnings.Length > 0 Then
                 Call sb.AppendLine($"  warnings: {Warnings.Length}")
 
@@ -147,6 +154,34 @@ Namespace Fitting
             End If
 
             Return sb.ToString().TrimEnd()
+        End Function
+
+        ''' <summary>
+        ''' 汇总**规则预算降级之后**实际使用的 <c>(模糊划分数, 输入个数)</c> 分布。
+        ''' </summary>
+        ''' <remarks>
+        ''' 配置里的 <c>MfCount</c> / <c>MaxRegulators</c> 只是"上限"，真正训练时会被
+        ''' <c>m^n ≤ MaxRules</c> 与 <c>m^n·(n+1) ≤ MaxConsequentParams</c> 的预算裁掉。
+        ''' 把实际结构打印出来，避免"我配了 18 个调控因子却只有 6 个"这类困惑。
+        ''' </remarks>
+        Private Function DescribeStructure() As String
+            If GeneMetrics Is Nothing Then
+                Return ""
+            End If
+
+            Dim groups As String() = GeneMetrics _
+                .Where(Function(m) m IsNot Nothing AndAlso String.Equals(m.Status, "ok", StringComparison.OrdinalIgnoreCase)) _
+                .GroupBy(Function(m) $"mf={m.MfCount}, inputs={If(m.Regulators, New String() {}).Length}") _
+                .OrderByDescending(Function(g) g.Count()) _
+                .Take(3) _
+                .Select(Function(g) $"{g.Key} x{g.Count()}") _
+                .ToArray()
+
+            If groups.Length = 0 Then
+                Return ""
+            End If
+
+            Return String.Join(", ", groups)
         End Function
 
     End Class

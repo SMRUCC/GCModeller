@@ -2,6 +2,7 @@ Imports System
 Imports System.Diagnostics
 Imports System.Globalization
 Imports System.IO
+Imports System.IO.Compression
 Imports SMRUCC.genomics.Analysis.BNLearn
 Imports SMRUCC.genomics.Analysis.BNLearn.Core
 Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
@@ -47,6 +48,7 @@ Module Program
         TestRawScaleModel(staticData, prior)
         TestLaggedModel()
         TestContext(staticData, prior)
+        TestNovelty(staticData, prior)
 
         Console.WriteLine()
         Console.WriteLine($"PASS: {passes} assertion(s), {failures} failure(s)")
@@ -386,6 +388,11 @@ Module Program
 
             Check(File.Exists(package), "model package is written")
             Check(FuzzyGeneFile.IsModelPackage(package), "the written file is recognised as a model package")
+
+            Using archive As ZipArchive = ZipFile.OpenRead(package)
+                Check(archive.GetEntry(FuzzyGeneFile.EntryConfig) IsNot Nothing,
+                      "the package carries a standalone config.json")
+            End Using
 
             Dim restored As FuzzyGeneModel = FuzzyGeneModel.Load(package)
 
@@ -751,6 +758,45 @@ Module Program
                 Call File.Delete(contextFile)
             End If
         End Try
+    End Sub
+
+#End Region
+
+#Region "场景 6：数据驱动的调控连接发现（novelty 配额）"
+
+    Private Sub TestNovelty(data As GeneExpressionData, prior As PriorNetwork)
+        Console.WriteLine()
+        Console.WriteLine("--- scenario 6: novelty quota (data driven links) ---")
+
+        Dim build As Func(Of Double, FuzzyGeneConfig) =
+            Function(quota) New FuzzyGeneConfig With {
+                .Selection = RegulatorSelection.PriorFirst,
+                .MaxRegulators = 3,
+                .NoveltyQuota = quota,
+                .MfCount = 2,
+                .MaxEpoch = 20,
+                .TargetMode = FuzzyTargetMode.StaticRoute,
+                .DegreeOfParallelism = 1
+            }
+
+        Dim priorOnly As New FuzzyGeneModel(data, prior, build(0.0))
+
+        Call priorOnly.Train()
+
+        Dim novelty As New FuzzyGeneModel(data, prior, build(0.5))
+
+        Call novelty.Train()
+
+        Dim baseline As Integer = priorOnly.Network.Edges.Count(Function(e) Not e.IsPrior)
+        Dim discovered As Integer = novelty.Network.Edges.Count(Function(e) Not e.IsPrior)
+
+        Console.WriteLine($"  non-prior edges: quota=0 -> {baseline}, quota=0.5 -> {discovered}")
+
+        Check(novelty.Network.Edges.Length > 0, "the novelty model still produces edges")
+        Check(discovered > baseline,
+              $"novelty quota introduces data driven regulators ({baseline} -> {discovered} non-prior edges)")
+        Check(novelty.Network.Edges.Any(Function(e) e.IsPrior),
+              "prior edges are still kept (the quota only reserves part of the slots)")
     End Sub
 
 #End Region

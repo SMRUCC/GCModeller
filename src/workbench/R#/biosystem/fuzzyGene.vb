@@ -185,6 +185,14 @@ Module fuzzyGene
     ''' skip a target gene when it has no prior regulator and its best |Pearson| against the
     ''' candidates is below this value (such models have R2 close to 0). 0 disables the filter.
     ''' </param>
+    ''' <param name="noveltyQuota">
+    ''' fraction (0-1) of the regulator slots reserved for genes that are **not** in the prior
+    ''' network of that target, i.e. for links discovered from the expression data.
+    ''' ``0`` (default) keeps the old "prior first" behaviour, where prior TFs can occupy every
+    ''' slot and the model can only repeat the prior. ``0.2``-``0.4`` is a sensible range:
+    ''' with K = 6 and ``0.34`` two slots are always given to data driven regulators.
+    ''' Ignored when ``selection = "prior-only"``.
+    ''' </param>
     ''' <param name="maxRules">rule budget per target gene. Default 128.</param>
     ''' <param name="maxConsequentParams">consequent parameter budget per target gene. Default 512.</param>
     ''' <param name="standardize">z-score the expression matrix before fitting. Default TRUE.</param>
@@ -216,6 +224,7 @@ Module fuzzyGene
                                      Optional maxTrainRows As Integer = 0,
                                      Optional maxCandidateGenes As Integer = 0,
                                      Optional minBestCorrelation As Double = 0,
+                                     Optional noveltyQuota As Double = 0,
                                      Optional maxRules As Integer = 128,
                                      Optional maxConsequentParams As Integer = 512,
                                      Optional standardize As Boolean = True,
@@ -242,6 +251,7 @@ Module fuzzyGene
             .MaxTrainRows = maxTrainRows,
             .MaxCandidateGenes = maxCandidateGenes,
             .MinBestCorrelation = minBestCorrelation,
+            .NoveltyQuota = noveltyQuota,
             .MaxRules = maxRules,
             .MaxConsequentParams = maxConsequentParams,
             .Standardize = standardize,
@@ -618,6 +628,28 @@ Module fuzzyGene
         End Try
 
         Return True
+    End Function
+
+    ''' <summary>
+    ''' The configuration attached to a model (identical to ``config.json`` inside the package).
+    ''' </summary>
+    ''' <remarks>
+    ''' Useful to confirm what the model was actually fitted with, especially the rule budget
+    ''' (``maxRules`` / ``maxConsequentParams``) and ``noveltyQuota``. Remember that
+    ''' ``maxRegulators`` / ``mfCount`` are only upper bounds: the real structure is reduced by the
+    ''' rule budget, which is reported on the ``structure:`` line of ``fuzzygene_report``.
+    ''' </remarks>
+    ''' <param name="fuzzygene">a trained (or restored) model</param>
+    ''' <param name="env">the R# runtime environment used to report errors</param>
+    ''' <returns>the configuration object</returns>
+    <ExportAPI("fuzzygene_model_config")>
+    <RApiReturn(GetType(FuzzyGeneConfig))>
+    Public Function fuzzygene_model_config(fuzzygene As fz.FuzzyGeneModel, Optional env As Environment = Nothing) As Object
+        If fuzzygene Is Nothing Then
+            Return RInternal.debug.stop("a fuzzy gene model object is required", env)
+        End If
+
+        Return fuzzygene.Config
     End Function
 
     ''' <summary>

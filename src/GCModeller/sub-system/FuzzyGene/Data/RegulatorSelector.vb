@@ -127,12 +127,24 @@ Namespace Data
         ''' <param name="pool">
         ''' 相关性候选池（见 <see cref="BuildCandidatePool"/>）；<c>Nothing</c> 表示扫描全部基因
         ''' </param>
+        ''' <param name="limit">
+        ''' 实际可用的输入槽位数（通常由 <c>GeneNetworkFitter.ResolveStructure</c> 按规则预算算出的 K）；
+        ''' <c>0</c> 表示使用 <see cref="FuzzyGeneConfig.MaxRegulators"/>
+        ''' </param>
         ''' <returns>按输入顺序排列的候选因子；空数组表示该基因无法建模</returns>
+        ''' <remarks>
+        ''' <para>
+        ''' 当 <see cref="FuzzyGeneConfig.NoveltyQuota"/> &gt; 0 时，会先为「不在该靶基因先验边里」的
+        ''' 相关性候选预留 <c>round(limit × quota)</c> 个槽位，再让先验 TF 与其余相关性候选去填剩下的位置。
+        ''' 这是让模型**从数据里发现新调控关系**的关键：默认的「先验优先 + 尾部截断」会让数据侧候选永远进不来。
+        ''' </para>
+        ''' </remarks>
         Public Function SelectRegulators(view As GeneExpressionView,
                                          prior As PriorNetwork,
                                          config As FuzzyGeneConfig,
                                          targetIndex As Integer,
-                                         Optional pool As Integer() = Nothing) As RegulatorPick()
+                                         Optional pool As Integer() = Nothing,
+                                         Optional limit As Integer = 0) As RegulatorPick()
 
             If view Is Nothing Then
                 Throw New ArgumentNullException(NameOf(view))
@@ -140,11 +152,11 @@ Namespace Data
 
             Dim cfg As FuzzyGeneConfig = If(config, New FuzzyGeneConfig())
             Dim targetGene As String = view.GeneNames(targetIndex)
-            Dim limit As Integer = cfg.MaxRegulators
-            Dim picks As New List(Of RegulatorPick)
+            Dim slots As Integer = If(limit > 0, std.Min(limit, cfg.MaxRegulators), cfg.MaxRegulators)
+            Dim priorPicks As New List(Of RegulatorPick)
             Dim taken As New HashSet(Of Integer)
 
-            ' ---- 1. 先验优先（按置信度降序） ----
+            ' ---- 1. 先验候选（按置信度降序） ----
             If cfg.Selection <> RegulatorSelection.CorrelationOnly AndAlso prior IsNot Nothing Then
                 Dim edges As List(Of RegulatoryEdge) = prior.GetRegulators(targetGene)
 
@@ -162,22 +174,29 @@ Namespace Data
                             Continue For
                         End If
 
-                        Call picks.Add(New RegulatorPick With {
+                        Call priorPicks.Add(New RegulatorPick With {
                             .Gene = view.GeneNames(idx),
                             .IsPrior = True,
                             .PriorConfidence = edge.Confidence,
                             .Correlation = Pearson(view, targetIndex, idx)
                         })
 
-                        If picks.Count >= limit Then
+                        If priorPicks.Count >= slots Then
                             Exit For
                         End If
                     Next
                 End If
             End If
 
-            ' ---- 2. 相关性补齐 ----
-            If picks.Count < limit AndAlso cfg.Selection <> RegulatorSelection.PriorOnly Then
+            ' ---- 2. 相关性排名 ----
+            ' 只有"还缺槽位"或"留了 novelty 配额"时才扫描候选：
+            ' 否则（先验已经填满且 quota=0）这一步纯属浪费——全量数据下每个基因要扫 1.8 万列。
+            Dim needData As Boolean = cfg.Selection <> RegulatorSelection.PriorOnly AndAlso
+                                      (priorPicks.Count < slots OrElse cfg.NoveltyQuota > 0.0)
+
+            Dim dataPicks As New List(Of RegulatorPick)
+
+            If needData Then
                 Dim scored As New List(Of (index As Integer, correlation As Double))
                 Dim strong As New List(Of (index As Integer, correlation As Double))
                 Dim bestAbs As Double = 0.0
@@ -202,7 +221,7 @@ Namespace Data
 
                 ' 有效性门槛：既没有先验入边、最佳相关性又低于门槛 → 该靶基因没有可解释信号，
                 ' 拟合出来的 R² 也会接近 0，直接跳过以节省算力
-                If picks.Count = 0 AndAlso cfg.MinBestCorrelation > 0.0 AndAlso bestAbs < cfg.MinBestCorrelation Then
+                If priorPicks.Count = 0 AndAlso cfg.MinBestCorrelation > 0.0 AndAlso bestAbs < cfg.MinBestCorrelation Then
                     Return New RegulatorPick() {}
                 End If
 
@@ -220,12 +239,11 @@ Namespace Data
                 candidates.Sort(Function(a, b) std.Abs(b.correlation).CompareTo(std.Abs(a.correlation)))
 
                 For Each item In candidates
-                    If picks.Count >= limit Then
+                    If dataPicks.Count >= slots Then
                         Exit For
                     End If
 
-                    Call taken.Add(item.index)
-                    Call picks.Add(New RegulatorPick With {
+                    Call dataPicks.Add(New RegulatorPick With {
                         .Gene = view.GeneNames(item.index),
                         .IsPrior = False,
                         .PriorConfidence = 0.0,
@@ -233,6 +251,40 @@ Namespace Data
                     })
                 Next
             End If
+
+            ' ---- 3. 组装：novelty 配额 > 0 时先给数据候选留固定槽位 ----
+            Dim reserved As Integer = 0
+
+            If cfg.NoveltyQuota > 0.0 AndAlso slots > 1 AndAlso dataPicks.Count > 0 AndAlso
+               cfg.Selection <> RegulatorSelection.PriorOnly Then
+
+                reserved = CInt(std.Round(slots * cfg.NoveltyQuota))
+                reserved = std.Max(0, std.Min(reserved, slots - 1))
+                reserved = std.Min(reserved, dataPicks.Count)
+            End If
+
+            Dim picks As New List(Of RegulatorPick)
+
+            ' 先放预留的数据发现槽位
+            For i As Integer = 0 To reserved - 1
+                Call picks.Add(dataPicks(i))
+            Next
+            ' 再用先验填（保持"先验提供因果方向"的原有优先级）
+            For Each item As RegulatorPick In priorPicks
+                If picks.Count >= slots Then
+                    Exit For
+                End If
+
+                Call picks.Add(item)
+            Next
+            ' 剩下的位置继续用相关性候选补齐
+            For i As Integer = reserved To dataPicks.Count - 1
+                If picks.Count >= slots Then
+                    Exit For
+                End If
+
+                Call picks.Add(dataPicks(i))
+            Next
 
             Return picks.ToArray()
         End Function
