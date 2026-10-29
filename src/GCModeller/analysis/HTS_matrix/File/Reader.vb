@@ -54,6 +54,7 @@
 Imports System.Globalization
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Text
 Imports std = System.Math
 
@@ -376,27 +377,30 @@ Module Reader
     }
 
     ''' <summary>
-    ''' 就地解析一个十进制数值字段（不产生子串）。
+    ''' 就地解析一个数值字段（纯数字不产生子串）。
     ''' </summary>
     ''' <param name="line">行文本</param>
     ''' <param name="start">字段起始下标</param>
     ''' <param name="count">字段长度</param>
-    ''' <returns>
-    ''' 解析结果；空字段、非法内容一律返回 0（与 <c>ParseDouble</c> 的容错语义一致）
-    ''' </returns>
+    ''' <returns>解析结果</returns>
     ''' <remarks>
     ''' <para>
-    ''' 支持 <c>[+/-]digits[.digits][(e|E)[+/-]digits]</c> 与首尾空白，这正是矩阵文档里会出现的格式。
-    ''' 之所以自己扫描而不是 <see cref="Double.Parse(String)"/>：后者需要先
+    ''' **快路径**（零分配）：<c>[+/-]digits[.digits][(e|E)[+/-]digits]</c> 与首尾空白，
+    ''' 这正是矩阵文档里会出现的格式。之所以自己扫描而不是 <see cref="Double.Parse(String)"/>：后者需要先
     ''' <see cref="String.Substring(Integer, Integer)"/> 切出子串，3 万列 × 1.85 万行就是 5.6 亿次字符串分配。
     ''' </para>
     ''' <para>
     ''' 为了与 <see cref="Double.Parse(String)"/> **逐位一致**（而不是差最后几个 ULP 导致下游结果不可复现），
-    ''' 采用标准的"快路径 + 回退"策略：先把有效数字累积成整数尾数（≤ 19 位，仍在 2^53 内可精确表示），
+    ''' 快路径先把有效数字累积成整数尾数（≤ 19 位，仍在 2^53 内可精确表示），
     ''' 再乘/除一个精确的 10 的幂（|指数| ≤ 22）。由于两个操作数都是精确值，IEEE 的乘法/除法只舍入一次，
     ''' 结果就是正确舍入的十进制值。超出这个窗口（超长数字或极端指数）时回退到
-    ''' <see cref="Double.TryParse(String, Globalization.NumberStyles, IFormatProvider, ByRef Double)"/>，
-    ''' 那条路径每行最多触发一次，不影响整体吞吐。
+    ''' <see cref="Double.TryParse(String, Globalization.NumberStyles, IFormatProvider, ByRef Double)"/>。
+    ''' </para>
+    ''' <para>
+    ''' **变体路径**：字段里出现纯数字之外的字符时（<c>89.45%</c>、<c>1/3</c>、<c>NA</c>/<c>NaN</c>、
+    ''' 千分位、<c>12abc</c> 这类脏值）转交 <see cref="LegacyParse"/>，即旧版
+    ''' <c>ParseDouble</c>/<c>ParseNumeric</c> 的语义——<c>89.45%</c> → 0.8945、<c>1/3</c> → 0.3333、
+    ''' <c>NA</c> → <see cref="Double.NaN"/>，保证与改动前的读取器行为一致。
     ''' </para>
     ''' </remarks>
     Private Function ParseNumber(line As String, start As Integer, count As Integer) As Double
@@ -536,10 +540,11 @@ Module Reader
     ''' 从而保证这些"非纯数字"字段的语义与改动前的读取器**完全一致**，不需要重新发明一套规则。
     ''' </para>
     ''' <para>
-    ''' 支持的变体（与 <c>ParseNumeric</c> 相同）：
+    ''' 已实测的变体行为（全部来自 <c>ParseNumeric</c>，不是这里重新定义的规则）：
     ''' <c>89.45%</c> → 0.8945；<c>1/3</c> → 0.3333…；<c>1,234.5</c> → 1234.5（千分位）；
-    ''' <c>NaN</c>/<c>NA</c> → <see cref="Double.NaN"/>；<c>NULL</c> → 0；
-    ''' <c>1.5e3</c> → 1500；非法文本按 <c>Val</c> 语义取前导数字（<c>12abc</c> → 12、<c>abc</c> → 0）。
+    ''' <c>NaN</c> → <see cref="Double.NaN"/>；<c>NULL</c> → 0；
+    ''' <c>12abc</c> → 12、<c>abc</c> → 0（<c>Val</c> 风格取前导数字）。
+    ''' 其余未列出的写法（例如 <c>NA</c>）一律以 <c>ParseNumeric</c> 的当前实现为准。
     ''' </para>
     ''' <para>
     ''' 代价是每个这样的字段一次 <see cref="String.Substring(Integer, Integer)"/>：矩阵文档里这类字段应当是少数，
