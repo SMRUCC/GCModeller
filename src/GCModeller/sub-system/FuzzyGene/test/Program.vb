@@ -443,6 +443,86 @@ Module Program
             Check(scalarValue = repeated, "repeated scalar inference is stable")
         End If
 
+        ' ---- 调控权重矩阵导出 ----
+        Dim weights As Matrix = model.RegulationMatrix()
+        Dim columnIndex As New Dictionary(Of String, Integer)(StringComparer.OrdinalIgnoreCase)
+
+        For j As Integer = 0 To weights.sampleID.Length - 1
+            columnIndex(weights.sampleID(j)) = j
+        Next
+
+        Dim rowLookup As New Dictionary(Of String, Double())(StringComparer.OrdinalIgnoreCase)
+
+        For Each line As DataFrameRow In weights.expression
+            rowLookup(line.geneID) = line.experiments
+        Next
+
+        Check(weights.size = net.NGene AndAlso weights.sample_count = net.NGene,
+              $"regulation matrix is N x N ({weights.size} x {weights.sample_count})")
+
+        Dim consistent As Boolean = True
+        Dim nonzero As Integer = 0
+
+        For Each edge As RegulationEdgeModel In net.Edges
+            Dim line As Double() = Nothing
+            Dim col As Integer = 0
+
+            If rowLookup.TryGetValue(edge.Target, line) AndAlso columnIndex.TryGetValue(edge.Source, col) Then
+                If std.Abs(line(col) - edge.Weight) > 1.0E-12 Then
+                    consistent = False
+                End If
+                If line(col) <> 0.0 Then
+                    nonzero += 1
+                End If
+            End If
+        Next
+
+        Check(consistent, "every edge weight is placed at [target, regulator]")
+        Check(nonzero = net.Edges.Length, $"the matrix carries all {net.Edges.Length} edges")
+
+        ' 基因不会把自己当调控因子：对角必须为 0
+        Dim diagonalZero As Boolean = True
+
+        For i As Integer = 0 To weights.size - 1
+            Dim name As String = weights.expression(i).geneID
+            Dim col As Integer
+
+            If columnIndex.TryGetValue(name, col) AndAlso weights.expression(i).experiments(col) <> 0.0 Then
+                diagonalZero = False
+            End If
+        Next
+
+        Check(diagonalZero, "the diagonal of the regulation matrix is zero")
+
+        ' 这个合成场景里 6 个基因全都参与调控，因此 compact 与 square 尺寸相同；
+        ' 这里验证的是「compact 不放大、且边一条不少」
+        Dim compact As Matrix = model.RegulationMatrix(RegulationMatrixLayout.Compact)
+        Dim compactRows As New Dictionary(Of String, Double())(StringComparer.OrdinalIgnoreCase)
+        Dim compactColumns As New Dictionary(Of String, Integer)(StringComparer.OrdinalIgnoreCase)
+
+        For j As Integer = 0 To compact.sampleID.Length - 1
+            compactColumns(compact.sampleID(j)) = j
+        Next
+        For Each line As DataFrameRow In compact.expression
+            compactRows(line.geneID) = line.experiments
+        Next
+
+        Dim compactEdges As Integer = 0
+
+        For Each edge As RegulationEdgeModel In net.Edges
+            Dim line As Double() = Nothing
+            Dim col As Integer = 0
+
+            If compactRows.TryGetValue(edge.Target, line) AndAlso compactColumns.TryGetValue(edge.Source, col) Then
+                If std.Abs(line(col) - edge.Weight) < 1.0E-12 Then
+                    compactEdges += 1
+                End If
+            End If
+        Next
+
+        Check(compact.size <= weights.size AndAlso compact.sample_count <= weights.sample_count AndAlso
+              compactEdges = net.Edges.Length,
+              $"compact layout keeps every edge without growing ({compact.size} x {compact.sample_count}, {compactEdges} edges)")
     End Sub
 
 #End Region

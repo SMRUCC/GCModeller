@@ -6,6 +6,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.BNLearn.Core
 Imports SMRUCC.genomics.Analysis.FuzzyGene
 Imports SMRUCC.genomics.Analysis.FuzzyGene.Config
+Imports SMRUCC.genomics.Analysis.FuzzyGene.IO
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
@@ -406,6 +407,79 @@ Module fuzzyGene
         Call table.add("prior", edges.Select(Function(e) e.IsPrior))
 
         Return table
+    End Function
+
+    ''' <summary>
+    ''' Export the signed regulation weight matrix of a trained model.
+    ''' </summary>
+    ''' <remarks>
+    ''' <para>
+    ''' Rows are target genes, columns are regulators, and the element
+    ''' <c>W[i, j]</c> is the signed influence of regulator <c>j</c> on target <c>i</c>
+    ''' (the average analytic partial derivative <c>dx_target/dx_regulator</c>):
+    ''' positive means activation, negative means repression, zero means no modelled edge.
+    ''' </para>
+    ''' <para>
+    ''' The result is a standard ``Matrix`` object, so it can be written directly with
+    ''' ``geneExpression::write.expr_matrix()`` or fed into downstream network analysis:
+    ''' <code>
+    ''' let w = fuzzygene::fuzzygene_regulation_matrix(model, layout = "compact");
+    ''' geneExpression::write.expr_matrix(w, file = "/path/to/network_weight.csv", id = "geneID");
+    ''' </code>
+    ''' </para>
+    ''' <para>
+    ''' Layouts: ``square`` (strict N x N, rows and columns are all model genes),
+    ''' ``regulators`` (columns limited to genes that really appear as regulators) and
+    ''' ``compact`` (rows = targets with at least one edge, columns = regulators).
+    ''' For a genome scale model the square layout is <c>N^2</c> doubles
+    ''' (about 2.7 GB for 18,533 genes), so prefer ``compact``/``regulators``
+    ''' together with the ``genes`` row filter.
+    ''' </para>
+    ''' </remarks>
+    ''' <param name="fuzzygene">a trained model</param>
+    ''' <param name="layout">``square`` (default), ``regulators`` or ``compact``</param>
+    ''' <param name="minWeight">edges with a smaller absolute weight are exported as zero; 0 keeps all</param>
+    ''' <param name="genes">restrict the exported rows to these target genes; empty means all</param>
+    ''' <param name="env">the R# runtime environment used to report errors</param>
+    ''' <returns>a Matrix object (rows = targets, columns = regulators)</returns>
+    <ExportAPI("fuzzygene_regulation_matrix")>
+    <RApiReturn(GetType(SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix))>
+    Public Function fuzzygene_regulation_matrix(fuzzygene As fz.FuzzyGeneModel,
+                                                Optional layout As String = "square",
+                                                Optional minWeight As Double = 0,
+                                                Optional genes As String() = Nothing,
+                                                Optional env As Environment = Nothing) As Object
+        If fuzzygene Is Nothing OrElse Not fuzzygene.IsTrained Then
+            Return RInternal.debug.stop("the model has not been trained yet", env)
+        End If
+
+        Dim mode As RegulationMatrixLayout
+
+        Select Case If(layout, "square").Trim().ToLowerInvariant()
+            Case "square", "nxn"
+                mode = RegulationMatrixLayout.Square
+            Case "regulators", "regulator", "tf", "tfonly"
+                mode = RegulationMatrixLayout.RegulatorsOnly
+            Case "compact", "sparse"
+                mode = RegulationMatrixLayout.Compact
+            Case Else
+                Return RInternal.debug.stop($"unknown layout '{layout}': expected square, regulators or compact", env)
+        End Select
+
+        If mode = RegulationMatrixLayout.Square AndAlso fuzzygene.Network.NGene > 5000 Then
+            Dim n As Integer = fuzzygene.Network.NGene
+            Dim gigabytes As Double = CDbl(n) * n * 8.0 / 1024 / 1024 / 1024
+            Dim message As String = $"warning: the square layout materialises {n} x {n} doubles (~{gigabytes:F2} GB in memory); " &
+                                    "consider layout = 'compact' or 'regulators', optionally combined with the genes filter"
+
+            Call message.debug
+        End If
+
+        Try
+            Return fuzzygene.RegulationMatrix(mode, minWeight, genes)
+        Catch ex As Exception
+            Return RInternal.debug.stop(ex.Message, env)
+        End Try
     End Function
 
     ''' <summary>

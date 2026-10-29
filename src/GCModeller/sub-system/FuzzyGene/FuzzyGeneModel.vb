@@ -200,6 +200,36 @@ Imports SMRUCC.genomics.Analysis.HTS.DataFrame
             Return _network.RulesText()
         End Function
 
+        ''' <summary>
+        ''' 导出 <c>基因 × 调控因子</c> 的带符号调控权重矩阵。
+        ''' </summary>
+        ''' <param name="layout">行列布局；默认严格 <c>N×N</c></param>
+        ''' <param name="minWeight">绝对值低于该值的边按 0 处理；0 保留全部</param>
+        ''' <param name="genes">只导出这些靶基因（行），<c>Nothing</c> 表示全部</param>
+        ''' <returns>
+        ''' 标准 <see cref="Matrix"/>：行 = 靶基因（<c>geneID</c>），列 = 调控因子（<c>sampleID</c>），
+        ''' 元素 = 调控因子对靶基因的带符号影响力（正激活、负抑制）
+        ''' </returns>
+        ''' <remarks>
+        ''' <para>
+        ''' 矩阵可以直接用 <c>geneExpression::write.expr_matrix()</c> 写成 csv，
+        ''' 也可以作为后续网络可视化（如 WGCNA / igraph）的输入。
+        ''' </para>
+        ''' <para>
+        ''' 规模提醒：全基因组模型用 <see cref="RegulationMatrixLayout.Square"/> 会得到
+        ''' <c>N²</c> 的稠密矩阵（1.85 万基因约 2.7 GB），这时应改用
+        ''' <see cref="RegulationMatrixLayout.RegulatorsOnly"/>（只保留真正的调控因子列）
+        ''' 或 <see cref="RegulationMatrixLayout.Compact"/>，并用 <paramref name="genes"/> 限定行范围。
+        ''' </para>
+        ''' </remarks>
+        Public Function RegulationMatrix(Optional layout As RegulationMatrixLayout = RegulationMatrixLayout.Square,
+                                         Optional minWeight As Double = 0.0,
+                                         Optional genes As String() = Nothing) As Matrix
+            Call EnsureTrained()
+
+            Return RegulationMatrixExporter.ToMatrix(_network, layout, minWeight, genes)
+        End Function
+
         ''' <summary>把外部样本背景注入为扰动分析的对照基线（未给出的基因保持训练基线）。</summary>
         ''' <param name="genes">基因名（大小写不敏感，可只给出部分基因）</param>
         ''' <param name="values">与 <paramref name="genes"/> 一一对应的原始表达量</param>
