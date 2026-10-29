@@ -176,26 +176,7 @@ Namespace Fitting
 
         ''' <summary>序列化为 JSON（模型本体以 TSK 自己的 JSON 形式内嵌）。</summary>
         Public Function ToJson(Optional indented As Boolean = True) As String
-            Dim dto As New GeneModelDto With {
-                .targetGene = TargetGene,
-                .regulators = Regulators,
-                .r2 = R2,
-                .rmse = RMSE,
-                .iterations = Iterations,
-                .converged = Converged,
-                .prunedRuleCount = PrunedRuleCount,
-                .ruleActivations = RuleActivations,
-                .warnings = Warnings,
-                .mean = Mean,
-                .sd = Sd,
-                .supportMin = SupportMin,
-                .supportMax = SupportMax,
-                .isLagged = IsLagged,
-                .sampleCount = SampleCount,
-                .model = If(Network Is Nothing, Nothing, Network.ToJsonDto)
-            }
-
-            Return JsonSerializer.Serialize(dto, JsonOptions(indented))
+            Return JsonSerializer.Serialize(ToDto, JsonOptions(indented))
         End Function
 
         ''' <summary>从 JSON 还原（不含训练现场，但可直接推理）。</summary>
@@ -214,7 +195,7 @@ Namespace Fitting
         End Function
 
         ''' <summary>由传输对象还原。</summary>
-        Friend Shared Function FromDto(dto As GeneModelDto) As GeneRegulationModel
+        Public Shared Function FromDto(dto As GeneModelDto) As GeneRegulationModel
             Dim model As New GeneRegulationModel With {
                 .TargetGene = dto.targetGene,
                 .Regulators = dto.regulators,
@@ -241,7 +222,7 @@ Namespace Fitting
         End Function
 
         ''' <summary>构造传输对象（zip 包按基因逐条写入时复用）。</summary>
-        Friend Function ToDto() As GeneModelDto
+        Public Function ToDto() As GeneModelDto
             Return New GeneModelDto With {
                 .targetGene = TargetGene,
                 .regulators = Regulators,
@@ -258,7 +239,7 @@ Namespace Fitting
                 .supportMax = SupportMax,
                 .isLagged = IsLagged,
                 .sampleCount = SampleCount,
-                .modelJson = If(Network Is Nothing, Nothing, Network.ToJson(indented:=False))
+                .model = If(Network Is Nothing, Nothing, Network.ToJsonDto)
             }
         End Function
 
