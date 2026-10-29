@@ -46,6 +46,11 @@ Imports SMRUCC.genomics.Analysis.HTS.DataFrame
         Private _lastResult As FuzzyGeneTrainingResult
         Private _strict As Boolean = True
 
+        ''' <summary>当前注入的上下文（原始表达量，长度 = 基因数）；未注入时为 Nothing。</summary>
+        Private _contextState As Double()
+        ''' <summary>最近一次上下文注入的诊断。</summary>
+        Private _contextCoverage As ContextCoverage
+
         ''' <summary>
         ''' 由表达矩阵与（可选的）先验调控网络构建模型（此时尚未训练）。
         ''' </summary>
@@ -114,6 +119,27 @@ Imports SMRUCC.genomics.Analysis.HTS.DataFrame
             End Get
         End Property
 
+        ''' <summary>当前注入的上下文（原始表达量，长度 = 基因数）；未注入时为 Nothing。</summary>
+        Public ReadOnly Property Context As Double()
+            Get
+                Return _contextState
+            End Get
+        End Property
+
+        ''' <summary>是否已注入上下文（注入后对照基线被整体替换）。</summary>
+        Public ReadOnly Property IsContextSet As Boolean
+            Get
+                Return _contextState IsNot Nothing
+            End Get
+        End Property
+
+        ''' <summary>最近一次上下文注入的覆盖率诊断；未注入时为 Nothing。</summary>
+        Public ReadOnly Property LastContextCoverage As ContextCoverage
+            Get
+                Return _contextCoverage
+            End Get
+        End Property
+
         ''' <summary>带符号调控边（未训练时为空数组）。</summary>
         Public ReadOnly Property Edges As RegulationEdgeModel()
             Get
@@ -151,6 +177,9 @@ Imports SMRUCC.genomics.Analysis.HTS.DataFrame
             _network = output.Network
             _lastResult = output.Report
             _engine = New AnfisPerturbationEngine(_network) With {.Strict = _strict}
+            ' 重新训练后扰动引擎换了实例，之前注入的上下文不再适用
+            _contextState = Nothing
+            _contextCoverage = Nothing
 
             Return _lastResult
         End Function
@@ -174,7 +203,17 @@ Imports SMRUCC.genomics.Analysis.HTS.DataFrame
         ''' <summary>把外部样本背景注入为扰动分析的对照基线（未给出的基因保持训练基线）。</summary>
         ''' <param name="genes">基因名（大小写不敏感，可只给出部分基因）</param>
         ''' <param name="values">与 <paramref name="genes"/> 一一对应的原始表达量</param>
-        Public Sub SetContext(genes As String(), values As Double())
+        ''' <param name="minCoverage">
+        ''' 要求的覆盖率下限（0–1，0 表示不检查）：低于该值时直接抛异常，
+        ''' 避免在"其实没设上"的上下文里继续做分析
+        ''' </param>
+        ''' <returns>覆盖率诊断（命中数、缺失基因、越界取值等）</returns>
+        ''' <remarks>
+        ''' 注入之后，对照（野生型）态与突变体态都**从该初始条件出发**各自迭代到稳态，
+        ''' 因此 <see cref="SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult.FoldChanges"/>
+        ''' 的含义变成「同一 context 下的突变体 vs 野生型」。
+        ''' </remarks>
+        Public Function SetContext(genes As String(), values As Double(), Optional minCoverage As Double = 0.0) As ContextCoverage
             Call EnsureTrained()
 
             If genes Is Nothing Then
@@ -187,7 +226,10 @@ Imports SMRUCC.genomics.Analysis.HTS.DataFrame
                 Throw New ArgumentException($"got {genes.Length} gene names but {values.Length} values", NameOf(values))
             End If
 
+            Dim n As Integer = _network.NGene
             Dim state As Double() = CType(_network.BaselineRaw.Clone(), Double())
+            Dim covered(n - 1) As Boolean
+            Dim coverage As New ContextCoverage With {.NGene = n}
             Dim hit As Integer = 0
 
             For k As Integer = 0 To genes.Length - 1
@@ -197,22 +239,124 @@ Imports SMRUCC.genomics.Analysis.HTS.DataFrame
                     Continue For
                 End If
 
-                state(idx) = values(k)
-                hit += 1
+                Dim value As Double = values(k)
+
+                ' 非有限数不能进入状态向量：算一次迭代就会把整条传播链污染成 NaN
+                If value.IsNaNImaginary Then
+                    coverage.InvalidValues += 1
+                    Continue For
+                End If
+
+                state(idx) = value
+
+                If Not covered(idx) Then
+                    covered(idx) = True
+                    hit += 1
+                End If
             Next
+
+            coverage.Matched = hit
+            coverage.Provided = genes.Length - coverage.InvalidValues
 
             If hit = 0 Then
                 Throw New ArgumentException("none of the given genes is present in the model", NameOf(genes))
             End If
+            If minCoverage > 0.0 AndAlso coverage.Coverage < minCoverage Then
+                Throw New ArgumentException(
+                    $"the context covers only {coverage.Coverage:P1} of the model genes " &
+                    $"({hit}/{n}), below the required minimum of {minCoverage:P1}", NameOf(genes))
+            End If
+
+            ' 越界诊断：迭代时限幅会把超出 [支持域 ± 1] 的输入剪平，这部分解释力要打折
+            For i As Integer = 0 To n - 1
+                If Not covered(i) Then
+                    Continue For
+                End If
+
+                Dim z As Double = _network.ToZValue(i, state(i))
+
+                If z < _network.SupportMin(i) - 1.0 OrElse z > _network.SupportMax(i) + 1.0 Then
+                    coverage.OutsideSupport += 1
+                End If
+            Next
+
+            Dim missing As New List(Of String)
+
+            For i As Integer = 0 To n - 1
+                If Not covered(i) Then
+                    Call missing.Add(_network.GeneNames(i))
+                End If
+            Next
+
+            coverage.MissingGenes = missing.ToArray()
 
             _engine.SetBaseline(state)
-        End Sub
+
+            _contextState = state
+            _contextCoverage = coverage
+
+            Return coverage
+        End Function
+
+        ''' <summary>
+        ''' 从表格文件（csv / tsv）读取转录组背景并注入为对照基线。
+        ''' </summary>
+        ''' <param name="path">
+        ''' 表格路径，例如 pseudobulk 的 <c>gene_name,gene_id,mean_counts</c>
+        ''' </param>
+        ''' <param name="valueColumn">数值列的列名；为空时取最后一列</param>
+        ''' <param name="minCoverage">要求的覆盖率下限（0–1，0 表示不检查）</param>
+        ''' <returns>覆盖率诊断</returns>
+        ''' <remarks>
+        ''' 表里通常同时有基因符号与数据库 ID 两列，这里会逐个候选列去比对模型基因，
+        ''' 选命中数最多的那一列使用（例如模型是按 Ensembl ID 建的，就会自动改用 <c>gene_id</c> 列）。
+        ''' </remarks>
+        Public Function LoadContext(path As String,
+                                    Optional valueColumn As String = Nothing,
+                                    Optional minCoverage As Double = 0.0) As ContextCoverage
+            Call EnsureTrained()
+
+            Dim table As ContextTable = GeneContextReader.ReadTable(path, valueColumn)
+            Dim best As Integer = 0
+            Dim bestHits As Integer = -1
+
+            For c As Integer = 0 To table.Columns.Length - 1
+                Dim hits As Integer = CountContextMatches(table.Columns(c))
+
+                If hits > bestHits Then
+                    bestHits = hits
+                    best = c
+                End If
+            Next
+
+            Dim coverage As ContextCoverage = SetContext(table.Columns(best), table.Values, minCoverage)
+
+            coverage.GeneColumn = table.Headers(best)
+            coverage.InvalidValues += table.Invalid
+
+            Return coverage
+        End Function
+
+        Private Function CountContextMatches(names As String()) As Integer
+            Dim hits As Integer = 0
+
+            For k As Integer = 0 To names.Length - 1
+                If _network.IndexOfGene(names(k)) >= 0 Then
+                    hits += 1
+                End If
+            Next
+
+            Return hits
+        End Function
 
         ''' <summary>撤销 <see cref="SetContext"/>，恢复训练数据推导出的对照基线。</summary>
         Public Sub ResetContext()
             Call EnsureTrained()
 
             _engine.ResetBaseline()
+
+            _contextState = Nothing
+            _contextCoverage = Nothing
         End Sub
 
         ' ==================== InsilicoPerturbationExperiment ====================

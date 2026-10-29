@@ -409,6 +409,81 @@ Module fuzzyGene
     End Function
 
     ''' <summary>
+    ''' Inject a transcriptome context as the initial condition of the virtual perturbation.
+    ''' </summary>
+    ''' <remarks>
+    ''' <para>
+    ''' The context replaces the control baseline: both the wildtype and the mutant state are
+    ''' propagated **from the given condition**, so ``foldchange`` is read as
+    ''' "mutant vs wildtype inside this context" instead of "mutant vs the training mean".
+    ''' </para>
+    ''' <para>
+    ''' The table (csv or tsv) must carry at least one gene column and one expression column.
+    ''' All non-numeric columns are treated as candidate gene keys and the one that matches the
+    ''' most model genes is used, so a ``gene_name,gene_id,mean_counts`` pseudobulk table works
+    ''' out of the box. Rows whose expression value is not a finite number are skipped (never
+    ''' silently turned into zero), and model genes that are absent from the table keep the
+    ''' training baseline.
+    ''' </para>
+    ''' <para>
+    ''' Note that a fitted static map is usually contractive: after it converges, the state no
+    ''' longer depends on where the propagation started. The context therefore matters most for
+    ''' (i) the reference state used by fold changes, (ii) non-converged / transient responses
+    ''' and (iii) lagged (time series) models.
+    ''' </para>
+    ''' </remarks>
+    ''' <param name="fuzzygene">a trained model</param>
+    ''' <param name="context">the context table path (csv/tsv) with a gene column and an expression column</param>
+    ''' <param name="valueColumn">
+    ''' the name of the expression column; empty uses the last column of the table
+    ''' </param>
+    ''' <param name="minCoverage">
+    ''' the minimum fraction (0-1) of model genes that must be covered by the table,
+    ''' 0 disables the check
+    ''' </param>
+    ''' <param name="env">the R# runtime environment used to report errors</param>
+    ''' <returns>a multi line coverage summary, or an R# error object when the context is rejected</returns>
+    <ExportAPI("fuzzygene_context")>
+    <RApiReturn(TypeCodes.string)>
+    Public Function fuzzygene_context(fuzzygene As fz.FuzzyGeneModel,
+                                      context As String,
+                                      Optional valueColumn As String = Nothing,
+                                      Optional minCoverage As Double = 0,
+                                      Optional env As Environment = Nothing) As Object
+        If fuzzygene Is Nothing OrElse Not fuzzygene.IsTrained Then
+            Return RInternal.debug.stop("the model has not been trained yet", env)
+        End If
+
+        Try
+            Return fuzzygene.LoadContext(context, valueColumn, minCoverage).ToString()
+        Catch ex As Exception
+            Return RInternal.debug.stop(ex.Message, env)
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Drop the injected context and restore the training baseline.
+    ''' </summary>
+    ''' <param name="fuzzygene">a trained model</param>
+    ''' <param name="env">the R# runtime environment used to report errors</param>
+    ''' <returns><c>True</c> on success</returns>
+    <ExportAPI("fuzzygene_reset_context")>
+    <RApiReturn(TypeCodes.boolean)>
+    Public Function fuzzygene_reset_context(fuzzygene As fz.FuzzyGeneModel, Optional env As Environment = Nothing) As Object
+        If fuzzygene Is Nothing OrElse Not fuzzygene.IsTrained Then
+            Return RInternal.debug.stop("the model has not been trained yet", env)
+        End If
+
+        Try
+            Call fuzzygene.ResetContext()
+        Catch ex As Exception
+            Return RInternal.debug.stop(ex.Message, env)
+        End Try
+
+        Return True
+    End Function
+
+    ''' <summary>
     ''' Human readable training report of a fitted model.
     ''' </summary>
     ''' <param name="fuzzygene">a trained model</param>
