@@ -385,7 +385,7 @@ Namespace Perturbation
                 Call Directory.CreateDirectory(dir)
             End If
 
-            Call SSOdes.ToDataFrame(output).Save(file, Encodings.UTF8)
+            Call SSOdes.ToDataFrame(output).Save(file, Encodings.UTF8, silent:=True)
 
             Return file
         End Function
@@ -469,9 +469,7 @@ Namespace Perturbation
         ''' <param name="gene"></param>
         ''' <param name="context"></param>
         ''' <returns></returns>
-        Private Function baselineOf(network As GRN.SSystemNetwork,
-                                    gene As String,
-                                    Optional context As System.Collections.Generic.IDictionary(Of String, Double) = Nothing) As Double
+        Private Function baselineOf(network As GRN.SSystemNetwork, gene As String, Optional context As IDictionary(Of String, Double) = Nothing) As Double
             Dim value As Double
 
             If Not context Is Nothing Then
