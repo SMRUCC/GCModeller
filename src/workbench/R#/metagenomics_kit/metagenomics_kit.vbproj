@@ -35,6 +35,10 @@
     <DocumentationFile>metagenomics_kit.xml</DocumentationFile>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+
 
 
   <ItemGroup>

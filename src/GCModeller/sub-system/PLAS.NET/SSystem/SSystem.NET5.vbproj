@@ -52,6 +52,7 @@
     <DocumentationFile>SMRUCC.genomics.Analysis.SSystem.xml</DocumentationFile>
     <DefineConstants>netcore5=1</DefineConstants>
     <OutputPath>../../../../../.nuget/</OutputPath>
+    <Optimize>true</Optimize>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='nuget_release|x64'">

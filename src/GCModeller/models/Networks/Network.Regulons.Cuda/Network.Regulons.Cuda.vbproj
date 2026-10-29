@@ -20,6 +20,10 @@
     <AssemblyVersion>1.0.9775.36927</AssemblyVersion>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\Network.Regulons\Network.Regulons.vbproj" />
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\cuda\ILCuda\ILCuda.vbproj" />

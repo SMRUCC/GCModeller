@@ -283,6 +283,10 @@
     <OutputPath>../../../../.nuget/</OutputPath>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Remove="Service References.obsolete\**" />
     <EmbeddedResource Remove="Service References.obsolete\**" />

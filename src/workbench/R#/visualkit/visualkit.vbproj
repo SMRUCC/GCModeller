@@ -38,6 +38,7 @@
     <DocumentationFile>visualkit.xml</DocumentationFile>
     <DefineConstants>MATH_DATASET=1</DefineConstants>
     <OutputPath>../../../../assembly/</OutputPath>
+    <Optimize>true</Optimize>
   </PropertyGroup>
 
   

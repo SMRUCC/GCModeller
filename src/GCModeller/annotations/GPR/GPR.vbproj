@@ -62,7 +62,7 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
     <RemoveIntegerChecks>True</RemoveIntegerChecks>
-    <Optimize>False</Optimize>
+    <Optimize>true</Optimize>
     <OutputPath>../../../../.nuget/</OutputPath>
   </PropertyGroup>
 

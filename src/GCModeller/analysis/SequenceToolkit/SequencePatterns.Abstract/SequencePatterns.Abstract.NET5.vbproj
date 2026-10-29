@@ -65,6 +65,7 @@
     <DocumentationFile>SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract.xml</DocumentationFile>
     <DefineConstants>netcore5=1</DefineConstants>
     <OutputPath>../../../../../.nuget/</OutputPath>
+    <Optimize>true</Optimize>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0|AnyCPU'">
