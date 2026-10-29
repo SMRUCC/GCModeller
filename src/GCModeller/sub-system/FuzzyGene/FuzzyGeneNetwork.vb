@@ -28,6 +28,16 @@ Imports std = System.Math
 
         Private ReadOnly _geneIndex As Dictionary(Of String, Integer)
         Private ReadOnly _regulatorIndices As Integer()()
+
+        ''' <summary>
+        ''' 逐步迭代时复用的输入行缓冲（线程局部，只增不减）。
+        ''' </summary>
+        ''' <remarks>
+        ''' <see cref="StepZ"/> 每步要为每个基因凑一行调控因子取值；原来每次都新建一个数组，
+        ''' 几万基因 × 上百步迭代下来是 GB 级的小对象垃圾。缓冲按"最大调控因子个数"增长，
+        ''' 逐基因多出来的尾部不被读取。
+        ''' </remarks>
+        Private ReadOnly _inputScratch As New System.Threading.ThreadLocal(Of Double())(Function() New Double(-1) {})
         Private ReadOnly _config As FuzzyGeneConfig
 
         ''' <summary>参与建模的基因（顺序即 <see cref="Models"/> 的索引顺序）。</summary>
@@ -387,7 +397,12 @@ Imports std = System.Math
                     Continue For
                 End If
 
-                Dim row(inputs.Length - 1) As Double
+                Dim row As Double() = _inputScratch.Value
+
+                If row.Length < inputs.Length Then
+                    ReDim row(inputs.Length - 1)
+                    _inputScratch.Value = row
+                End If
 
                 For j As Integer = 0 To inputs.Length - 1
                     row(j) = z(inputs(j))

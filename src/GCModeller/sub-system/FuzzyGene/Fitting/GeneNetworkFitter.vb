@@ -1,4 +1,6 @@
+Imports System.Collections.Concurrent
 Imports System.Threading
+Imports System.Threading.Tasks
 Imports Microsoft.VisualBasic.DataMining.FuzzyLogic.TSK
 Imports Microsoft.VisualBasic.DeepLearning.ANFIS
 Imports SMRUCC.genomics.Analysis.BNLearn.Core
@@ -77,7 +79,7 @@ Namespace Fitting
             Call clock.Start()
             Call "Start to make fuzzy gene network fitting.".info
 
-            ' 逐基因训练在真实数据上可能要跑几十分钟，这里每 10% 打一行进度，
+            ' 逐基因训练在真实数据上可能要跑几十分钟，这里按固定步长打一行进度，
             ' 否则调用方在整段训练期间完全看不到进展
             Dim work As Action(Of Integer) =
                 Sub(g)
@@ -90,17 +92,57 @@ Namespace Fitting
                     End If
                 End Sub
 
-            If cfg.DegreeOfParallelism = 1 OrElse n = 1 Then
+            ' 专用长任务而不是 Parallel.For：每个基因的训练是"粗粒度、长耗时"的，
+            ' ThreadPool 的 hill-climbing 在 GC/带宽受限时会把 worker 数稳定在远低于
+            ' MaxDegreeOfParallelism 的水平（128 核机器上可能只跑几十条线程）。
+            ' 这里直接开 N 条 LongRunning 线程、共用一个取号游标，既保证启动即满员，
+            ' 又保留动态负载均衡（不像静态均分会卡在最慢的那一块）。
+            Dim workers As Integer = If(cfg.DegreeOfParallelism > 0, cfg.DegreeOfParallelism, Environment.ProcessorCount)
+
+            workers = std.Max(1, std.Min(workers, n))
+
+            Dim allocatedBefore As Long = GC.GetTotalAllocatedBytes(precise:=True)
+            Dim gen2Before As Integer = GC.CollectionCount(2)
+
+            If workers = 1 Then
                 For g As Integer = 0 To n - 1
                     Call work(g)
                 Next
             Else
-                Dim options As New ParallelOptions() With {
-                    .MaxDegreeOfParallelism = If(cfg.DegreeOfParallelism > 0, cfg.DegreeOfParallelism, -1)
-                }
+                Call $"[FuzzyGene] fitting {n} target genes on {workers} worker thread(s)".debug
 
-                Call Parallel.For(0, n, options, work)
+                Dim cursor As Integer = -1
+                Dim errors As New ConcurrentBag(Of Exception)
+                Dim runs(workers - 1) As Task
+
+                For w As Integer = 0 To workers - 1
+                    runs(w) = Task.Factory.StartNew(
+                        Sub()
+                            Try
+                                Do
+                                    Dim g As Integer = Interlocked.Increment(cursor)
+
+                                    If g >= n Then
+                                        Exit Do
+                                    End If
+
+                                    Call work(g)
+                                Loop
+                            Catch ex As Exception
+                                Call errors.Add(ex)
+                            End Try
+                        End Sub,
+                        TaskCreationOptions.LongRunning)
+                Next
+
+                Call Task.WaitAll(runs)
+
+                If Not errors.IsEmpty Then
+                    Throw New AggregateException("one or more worker threads failed while fitting the network", errors)
+                End If
             End If
+
+            Dim workersUsed As Integer = workers
 
             ' ---- 汇总边表（顺序遍历，保证输出可复现） ----
             Dim edges As New List(Of RegulationEdgeModel)
@@ -142,6 +184,9 @@ Namespace Fitting
                 .PreprocessElapsed = view.PreprocessElapsed,
                 .SelectionElapsed = TicksToTimeSpan(phaseTicks(0)),
                 .TrainingElapsed = TicksToTimeSpan(phaseTicks(1)),
+                .ParallelWorkers = workersUsed,
+                .AllocatedMB = (GC.GetTotalAllocatedBytes(precise:=True) - allocatedBefore) / 1024.0 / 1024,
+                .Gen2Collections = GC.CollectionCount(2) - gen2Before,
                 .Elapsed = DateTime.Now - started
             }
 
@@ -362,9 +407,11 @@ Namespace Fitting
             Dim nInput As Integer = model.InputCount
             Dim meanActivation(ruleCount - 1) As Double
             Dim layers As New TskLayers(model)
+            ' 一次分配同时覆盖"全量行前向"与"灵敏度网格前向"（网格点数上限约 1024）
+            Dim traceWorkspace As New TskForwardWorkspace(std.Max(rows, 1024), model)
 
             Try
-                Dim forward As TskInferenceTrace = layers.Forward(x, 0, rows)
+                Dim forward As TskInferenceTrace = layers.Forward(x, 0, rows, traceWorkspace)
 
                 For t As Integer = 0 To rows - 1
                     For r As Integer = 0 To ruleCount - 1
@@ -391,7 +438,7 @@ Namespace Fitting
 
             Try
                 Dim grid As Double()() = BuildSensitivityGrid(x, nInput)
-                Dim gridForward As TskInferenceTrace = layers.Forward(grid, 0, grid.Length)
+                Dim gridForward As TskInferenceTrace = layers.Forward(grid, 0, grid.Length, traceWorkspace)
                 Dim activation(ruleCount - 1) As Double
                 Dim valid As Integer = 0
 

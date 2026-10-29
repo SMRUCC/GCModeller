@@ -96,6 +96,15 @@ Namespace Fitting
         ''' <summary>单基因训练累计耗时（CPU 时间，跨所有并行线程求和）。</summary>
         Public Property TrainingElapsed As TimeSpan
 
+        ''' <summary>实际使用的并行 worker 线程数（诊断 128 核机器是否真的跑满）。</summary>
+        Public Property ParallelWorkers As Integer
+
+        ''' <summary>拟合阶段的总分配字节数（MB）；用于衡量缓冲复用的效果。</summary>
+        Public Property AllocatedMB As Double
+
+        ''' <summary>拟合阶段的 Gen2 GC 次数；大对象分配是否被消除，看这个最直接。</summary>
+        Public Property Gen2Collections As Integer
+
         ''' <summary>逐基因诊断记录。</summary>
         Public Property GeneMetrics As GeneFitMetric()
 
@@ -127,6 +136,7 @@ Namespace Fitting
             Call sb.AppendLine($"  time: preprocessing={PreprocessElapsed.TotalSeconds:F2}s, " &
                                $"selection={SelectionElapsed.TotalSeconds:F1}s (cpu), " &
                                $"per-gene training={TrainingElapsed.TotalSeconds:F1}s (cpu)")
+            Call sb.AppendLine($"  runtime: workers={ParallelWorkers}, allocated={AllocatedMB:F0} MB, gen2={Gen2Collections}")
 
             If Warnings IsNot Nothing AndAlso Warnings.Length > 0 Then
                 Call sb.AppendLine($"  warnings: {Warnings.Length}")

@@ -30,10 +30,14 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Analysis.FuzzyGene.Fitting
 export class FuzzyGeneTrainingResult {
+   # 拟合阶段的总分配字节数（MB）；用于衡量缓冲复用的效果。
+   AllocatedMB: double;
    # 导出的带符号调控边数量。
    EdgeCount: integer;
    # 耗时。
    Elapsed: <a href="/vignettes/clr/System/TimeSpan.html">TimeSpan</a>;
+   # 拟合阶段的 Gen2 GC 次数；大对象分配是否被消除，看这个最直接。
+   Gen2Collections: integer;
    # 逐基因诊断记录。
    GeneMetrics: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Fitting/GeneFitMetric.html">GeneFitMetric[]</a>;
    # 成功基因的平均决定系数。
@@ -56,6 +60,8 @@ export class FuzzyGeneTrainingResult {
    NSkipped: integer;
    # 成功训练出模型的基因数。
    NTrained: integer;
+   # 实际使用的并行 worker 线程数（诊断 128 核机器是否真的跑满）。
+   ParallelWorkers: integer;
    # 预处理（统计量 + 列构建 + 列统计）耗时。
    PreprocessElapsed: <a href="/vignettes/clr/System/TimeSpan.html">TimeSpan</a>;
    # 候选筛选累计耗时（CPU 时间，跨所有并行线程求和）。

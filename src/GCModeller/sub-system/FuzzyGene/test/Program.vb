@@ -1,4 +1,5 @@
 Imports System
+Imports System.Diagnostics
 Imports System.Globalization
 Imports System.IO
 Imports SMRUCC.genomics.Analysis.BNLearn
@@ -29,6 +30,10 @@ Module Program
     Private geneNames As String() = {"A", "B", "C", "D", "E", "F"}
 
     Function Main(args As String()) As Integer
+        If args.Length > 0 AndAlso String.Equals(args(0), "--bench", StringComparison.OrdinalIgnoreCase) Then
+            Return RunBenchmark(args)
+        End If
+
         Console.WriteLine("=== FuzzyGene self test ===")
         Console.WriteLine()
 
@@ -48,6 +53,128 @@ Module Program
 
         Return If(failures = 0, 0, 1)
     End Function
+
+#Region "性能基准：--bench [genes] [rows] [dop,...]"
+
+    ''' <summary>
+    ''' 训练性能基准：在合成矩阵上跑完整拟合，输出 wall time / 分配字节 / Gen2 次数。
+    ''' </summary>
+    ''' <remarks>
+    ''' 用法：<c>dotnet run -c Debug -p:Platform=x64 -- --bench 300 4000 8,24</c>
+    ''' （参数依次为基因数、行数、并行度列表；均可省略）
+    ''' </remarks>
+    Private Function RunBenchmark(args As String()) As Integer
+        Dim genes As Integer = If(args.Length > 1, CInt(args(1)), 300)
+        Dim rows As Integer = If(args.Length > 2, CInt(args(2)), 4000)
+        Dim degrees As Integer() = {8, 24}
+
+        If args.Length > 3 Then
+            degrees = args(3).Split(","c).Select(Function(s) CInt(s.Trim())).ToArray()
+        End If
+
+        Console.WriteLine("=== FuzzyGene training benchmark ===")
+        Console.WriteLine($"synthetic matrix: {genes} genes x {rows} samples, mf=2, maxEpoch=40, K=4, pool=all")
+
+        Dim data As GeneExpressionData = BuildBenchmarkMatrix(genes, rows)
+
+        Console.WriteLine()
+        Console.WriteLine("DOP |  wall(s) | trained |  R2   | allocated(GB) | Gen0/1/2      | alloc/row")
+        Console.WriteLine("----+----------+---------+-------+---------------+---------------+----------")
+
+        For Each degree As Integer In degrees
+            Dim config As New FuzzyGeneConfig With {
+                .Selection = RegulatorSelection.CorrelationOnly,
+                .MaxRegulators = 4,
+                .MaxCandidateGenes = 0,
+                .MfCount = 2,
+                .MaxEpoch = 40,
+                .MaxTrainRows = rows,
+                .TargetMode = FuzzyTargetMode.StaticRoute,
+                .DegreeOfParallelism = degree
+            }
+
+            Dim model As New FuzzyGeneModel(data, Nothing, config)
+
+            ' 先做一次完整 GC，把基线拉平，避免把数据生成阶段的垃圾算进来
+            GC.Collect()
+            GC.WaitForPendingFinalizers()
+            GC.Collect()
+
+            Dim g0 As Integer = GC.CollectionCount(0)
+            Dim g1 As Integer = GC.CollectionCount(1)
+            Dim g2 As Integer = GC.CollectionCount(2)
+            Dim before As Long = GC.GetTotalAllocatedBytes(precise:=True)
+            Dim clock As Stopwatch = Stopwatch.StartNew()
+
+            Dim report As FuzzyGeneTrainingResult = model.Train()
+
+            clock.Stop()
+
+            Dim allocated As Long = GC.GetTotalAllocatedBytes(precise:=True) - before
+
+            Console.WriteLine($"{degree,3} | {clock.Elapsed.TotalSeconds,8:F1} | {report.NTrained,7} | {report.MeanR2,6:F3} | " &
+                              $"{allocated / 1024.0 / 1024 / 1024,13:F2} | " &
+                              $"{GC.CollectionCount(0) - g0}/" &
+                              $"{GC.CollectionCount(1) - g1}/" &
+                              $"{GC.CollectionCount(2) - g2,-4} | " &
+                              $"{allocated / CDbl(rows) / 1024,8:F1} KB")
+        Next
+
+        Console.WriteLine()
+        Console.WriteLine("done")
+
+        Return 0
+    End Function
+
+    ''' <summary>
+    ''' 合成基准矩阵：每个基因由两条上游基因的双曲正切组合 + 噪声驱动，
+    ''' 保证既没有常数列、也有足够强的相关性供候选筛选使用。
+    ''' </summary>
+    Private Function BuildBenchmarkMatrix(genes As Integer, rows As Integer) As GeneExpressionData
+        Dim rng As New Random(20261029)
+        Dim matrix(genes - 1, rows - 1) As Double
+        Dim names(genes - 1) As String
+        Dim samples(rows - 1) As String
+
+        For i As Integer = 0 To rows - 1
+            samples(i) = "s" & i
+        Next
+        For g As Integer = 0 To genes - 1
+            names(g) = "G" & g
+        Next
+
+        For s As Integer = 0 To rows - 1
+            Dim a As Double = Normal(rng)
+            Dim b As Double = Normal(rng)
+            Dim c As Double = Normal(rng)
+
+            For g As Integer = 0 To genes - 1
+                Dim value As Double
+
+                Select Case g
+                    Case 0
+                        value = 1.0 + 0.8 * a
+                    Case 1
+                        value = 1.5 + 1.0 * std.Tanh(a) + 0.2 * b
+                    Case 2
+                        value = 0.8 - 0.9 * std.Tanh(a) + 0.5 * c
+                    Case Else
+                        value = 1.2 + 1.1 * std.Tanh(matrix(g \ 2, s)) - 0.7 * std.Tanh(matrix(g - 1, s)) + 0.3 * Normal(rng)
+                End Select
+
+                matrix(g, s) = value
+            Next
+        Next
+
+        Return New GeneExpressionData With {
+            .GeneNames = names,
+            .SampleNames = samples,
+            .Matrix = matrix,
+            .TimePoints = Nothing
+        }
+    End Function
+
+#End Region
 
 #Region "场景 1：仅先验（结构已知，验证扰动方向与边符号）"
 
@@ -285,6 +412,36 @@ Module Program
                 Call File.Delete(package)
             End If
         End Try
+
+        ' ---- 单样本（复用工作区）与批量推理必须给出同一个值 ----
+        Dim probe As GeneRegulationModel = Nothing
+
+        For Each item As GeneRegulationModel In net.Models
+            If item IsNot Nothing AndAlso item.Network IsNot Nothing Then
+                probe = item
+                Exit For
+            End If
+        Next
+
+        If probe IsNot Nothing Then
+            Dim nInput As Integer = probe.Network.InputCount
+            Dim row(nInput - 1) As Double
+
+            For j As Integer = 0 To nInput - 1
+                row(j) = 0.25 * (j - 1)
+            Next
+
+            Dim scalarValue As Double = probe.Network.PredictScalar(row)
+            Dim batch As Double()() = probe.Network.Predict(New Double()() {row})
+
+            Check(std.Abs(scalarValue - batch(0)(0)) < 1.0E-12,
+                  $"scalar and batch inference agree ({scalarValue:G6} vs {batch(0)(0):G6})")
+
+            ' 工作区复用不能留下脏状态：同一行反复推理必须稳定
+            Dim repeated As Double = probe.Network.PredictScalar(row)
+
+            Check(scalarValue = repeated, "repeated scalar inference is stable")
+        End If
 
     End Sub
 

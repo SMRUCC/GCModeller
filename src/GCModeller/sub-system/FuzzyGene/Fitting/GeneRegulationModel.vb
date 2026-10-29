@@ -79,14 +79,16 @@ Namespace Fitting
         End Property
 
         ''' <summary>在给定的调控因子取值（z 空间）上预测靶基因表达（z 空间）。</summary>
+        ''' <remarks>
+        ''' 走 <see cref="TskNetwork.PredictScalar"/>：稳态迭代是逐基因逐步调用的，
+        ''' 标量入口不分配结果数组，也不会每次新建前向中间量。
+        ''' </remarks>
         Public Function Predict(regulatorValues As Double()) As Double
             If Network Is Nothing Then
                 Throw New InvalidOperationException($"the target gene '{TargetGene}' has no trained model")
             End If
 
-            Dim value As Double() = Network.PredictRow(regulatorValues)
-
-            Return value(0)
+            Return Network.PredictScalar(regulatorValues)
         End Function
 
         ''' <summary>
