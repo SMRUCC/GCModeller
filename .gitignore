@@ -12,7 +12,8 @@ obj
 bin
 App
 
-src/GCModeller/engine/Cella
+src/GCModeller/engine/CellaLoader/
+src/GCModeller/engine/Cella/
 assembly/
 test/ncbi/GCF_000009985.1/
 
