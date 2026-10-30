@@ -3,6 +3,7 @@ Imports System.Diagnostics
 Imports System.Globalization
 Imports System.IO
 Imports System.IO.Compression
+Imports Microsoft.VisualBasic.DataMining.FuzzyLogic.TSK
 Imports SMRUCC.genomics.Analysis.BNLearn
 Imports SMRUCC.genomics.Analysis.BNLearn.Core
 Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
@@ -49,6 +50,7 @@ Module Program
         TestLaggedModel()
         TestContext(staticData, prior)
         TestNovelty(staticData, prior)
+        TestScatter(staticData, prior)
 
         Console.WriteLine()
         Console.WriteLine($"PASS: {passes} assertion(s), {failures} failure(s)")
@@ -756,6 +758,123 @@ Module Program
         Finally
             If File.Exists(contextFile) Then
                 Call File.Delete(contextFile)
+            End If
+        End Try
+    End Sub
+
+#End Region
+
+#Region "场景 7：散射划分（scatter partitioning）"
+
+    Private Sub TestScatter(data As GeneExpressionData, prior As PriorNetwork)
+        Console.WriteLine()
+        Console.WriteLine("--- scenario 7: scatter partitioning ---")
+
+        Dim config As New FuzzyGeneConfig With {
+            .Selection = RegulatorSelection.CorrelationOnly,
+            .MaxRegulators = 5,
+            .MfCount = 2,
+            .MaxEpoch = 15,
+            .TargetMode = FuzzyTargetMode.StaticRoute,
+            .RulePartition = RulePartitionKind.Scatter,
+            .ScatterRuleCount = 8,
+            .ScatterInputs = 4,
+            .ScatterMinInputs = 2,
+            .DegreeOfParallelism = 1
+        }
+
+        Dim model As New FuzzyGeneModel(data, Nothing, config)
+        Dim report As FuzzyGeneTrainingResult = model.Train()
+
+        Console.WriteLine(report.ToString())
+
+        Dim fitted As GeneFitMetric() = report.GeneMetrics _
+            .Where(Function(m) m IsNot Nothing AndAlso String.Equals(m.Status, "ok", StringComparison.OrdinalIgnoreCase)) _
+            .ToArray()
+
+        Check(fitted.Length > 0, $"the scatter route fits at least one gene (actual {fitted.Length})")
+        Check(fitted.All(Function(m) String.Equals(m.Partition, "scatter", StringComparison.OrdinalIgnoreCase)),
+              "every fitted gene reports the scatter partition")
+
+        Dim probe As GeneRegulationModel = model.Network.Models _
+            .First(Function(m) m IsNot Nothing AndAlso m.Network IsNot Nothing)
+        Dim net As TskNetwork = probe.Network
+
+        Check(net.Rules.IsScatter, "the rule base is a scatter rule base")
+        Check(net.Rules.RuleCount <= config.ScatterRuleCount,
+              $"the rule count never exceeds the cluster count ({net.Rules.RuleCount} <= {config.ScatterRuleCount})")
+        Check(net.PremiseParameterCount = net.Rules.RuleCount * net.InputCount * 2,
+              $"the premise vector holds (center, sigma) per rule and input ({net.PremiseParameterCount})")
+
+        Dim activeInputs As Integer() = net.Rules.ActiveInputs(0)
+
+        Check(activeInputs.Length >= config.ScatterMinInputs AndAlso activeInputs.Length <= config.ScatterInputs,
+              $"the antecedent count is adaptive within [{config.ScatterMinInputs}, {config.ScatterInputs}] (actual {activeInputs.Length})")
+
+        ' ---- 前向：标量与批量共用同一个散射分支 ----
+        Dim row(net.InputCount - 1) As Double
+
+        For j As Integer = 0 To row.Length - 1
+            row(j) = 0.1 * (j + 1)
+        Next
+
+        Dim scalar As Double = net.PredictScalar(row)
+        Dim batch As Double()() = net.Predict(New Double()() {row})
+
+        Check(Not Double.IsNaN(scalar) AndAlso Not Double.IsInfinity(scalar), "the scatter forward produces a finite output")
+        Check(std.Abs(scalar - batch(0)(0)) < 1.0E-12,
+              $"scalar and batch inference agree on the scatter model ({scalar:G6})")
+
+        ' ---- 规则文本：散射前件必须渲染成 N(center, sigma)，不能出现越界的 mf 标签 ----
+        Dim text As String() = probe.RulesText()
+
+        Check(text.Length = net.Rules.RuleCount, $"every rule is rendered ({text.Length})")
+        Check(text(0).Contains("N("), $"scatter rules describe gaussian antecedents ({text(0)})")
+
+        ' ---- 前提参数往返：写入再读出必须逐位一致（含 don't care 输入） ----
+        Dim premise As Double() = net.GetPremiseParameters()
+        Dim probeValues As Double() = CType(premise.Clone(), Double())
+
+        For k As Integer = 0 To probeValues.Length - 1
+            probeValues(k) += 0.01 * (k Mod 3 - 1)
+        Next
+
+        Call net.SetPremiseParameters(probeValues)
+
+        Dim roundTrip As Double() = net.GetPremiseParameters()
+        Dim identical As Boolean = True
+
+        For k As Integer = 0 To premise.Length - 1
+            If std.Abs(roundTrip(k) - probeValues(k)) > 1.0E-12 Then
+                identical = False
+            End If
+        Next
+
+        Check(identical, "the premise vector round-trips through the scatter layout")
+
+        Call net.SetPremiseParameters(premise)
+
+        ' ---- DTO 往返 ----
+        Dim restored As TskNetwork = TskNetwork.FromModelDto(net.ToJsonDto())
+
+        Check(restored.Rules.IsScatter, "the restored model keeps the scatter partition")
+        Check(std.Abs(restored.PredictScalar(row) - scalar) < 1.0E-12, "the restored scatter model predicts identically")
+
+        ' ---- 包往返 ----
+        Dim package As String = Path.Combine(Path.GetTempPath(), "fuzzygene-scatter-" & Guid.NewGuid().ToString("N") & FuzzyGeneFile.PackageExtension)
+
+        Try
+            Call model.Network.Save(package)
+
+            Dim loaded As FuzzyGeneNetwork = FuzzyGeneFile.Load(package)
+            Dim geneIndex As Integer = Array.IndexOf(model.Network.Models, probe)
+
+            Check(loaded.NGene = model.Network.NGene, "the scatter package reloads the full gene list")
+            Check(std.Abs(loaded.Models(geneIndex).Network.PredictScalar(row) - scalar) < 1.0E-12,
+                  "the reloaded scatter package predicts identically")
+        Finally
+            If File.Exists(package) Then
+                Call File.Delete(package)
             End If
         End Try
     End Sub

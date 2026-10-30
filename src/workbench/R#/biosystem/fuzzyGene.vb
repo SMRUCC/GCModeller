@@ -193,6 +193,23 @@ Module fuzzyGene
     ''' with K = 6 and ``0.34`` two slots are always given to data driven regulators.
     ''' Ignored when ``selection = "prior-only"``.
     ''' </param>
+    ''' <param name="rulePartition">
+    ''' rule generation strategy: ``auto`` (default), ``grid`` or ``scatter``.
+    ''' ``grid`` places m membership functions per input and enumerates <c>m^K</c> rules, so the rule
+    ''' count explodes with the input count. ``scatter`` clusters the training samples (kmeans) and
+    ''' creates one rule per cluster, each with its own gaussian center/width per input - the number of
+    ''' rules no longer depends on K, which is what makes ``maxRegulators = 18`` feasible.
+    ''' ``auto`` keeps ``grid`` while <c>m^K &lt;= maxRules</c> and <c>m^K*(K+1) &lt;= maxConsequentParams</c>,
+    ''' otherwise it switches to ``scatter``.
+    ''' </param>
+    ''' <param name="scatterRules">number of clusters (= rules) of the scatter partition. Default 48.</param>
+    ''' <param name="scatterInputs">maximum number of antecedents per scatter rule. Default 8.</param>
+    ''' <param name="scatterMinInputs">minimum number of antecedents per scatter rule. Default 2.</param>
+    ''' <param name="scatterZThreshold">
+    ''' an input joins a cluster rule when the cluster center deviates from the global mean by at
+    ''' least this many standard deviations. Default 1.
+    ''' </param>
+    ''' <param name="scatterSeed">random seed of the clustering, keeps the structure reproducible. Default 0.</param>
     ''' <param name="maxRules">rule budget per target gene. Default 128.</param>
     ''' <param name="maxConsequentParams">consequent parameter budget per target gene. Default 512.</param>
     ''' <param name="standardize">z-score the expression matrix before fitting. Default TRUE.</param>
@@ -225,6 +242,12 @@ Module fuzzyGene
                                      Optional maxCandidateGenes As Integer = 0,
                                      Optional minBestCorrelation As Double = 0,
                                      Optional noveltyQuota As Double = 0,
+                                     Optional rulePartition As String = "auto",
+                                     Optional scatterRules As Integer = 48,
+                                     Optional scatterInputs As Integer = 8,
+                                     Optional scatterMinInputs As Integer = 2,
+                                     Optional scatterZThreshold As Double = 1,
+                                     Optional scatterSeed As Integer = 0,
                                      Optional maxRules As Integer = 128,
                                      Optional maxConsequentParams As Integer = 512,
                                      Optional standardize As Boolean = True,
@@ -252,6 +275,12 @@ Module fuzzyGene
             .MaxCandidateGenes = maxCandidateGenes,
             .MinBestCorrelation = minBestCorrelation,
             .NoveltyQuota = noveltyQuota,
+            .RulePartition = parseRulePartition(rulePartition),
+            .ScatterRuleCount = scatterRules,
+            .ScatterInputs = scatterInputs,
+            .ScatterMinInputs = scatterMinInputs,
+            .ScatterZThreshold = scatterZThreshold,
+            .ScatterSeed = scatterSeed,
             .MaxRules = maxRules,
             .MaxConsequentParams = maxConsequentParams,
             .Standardize = standardize,
@@ -275,6 +304,23 @@ Module fuzzyGene
                 Return fzcfg.RegulatorSelection.PriorOnly
             Case Else
                 Return fzcfg.RegulatorSelection.PriorFirst
+        End Select
+    End Function
+
+    ''' <summary>
+    ''' 解析规则划分方式：<c>auto</c> / <c>grid</c> / <c>scatter</c>。
+    ''' </summary>
+    ''' <remarks>
+    ''' <c>auto</c>（默认）在网格装得下时用网格划分，装不下（例如 18 个调控因子）自动切散射划分。
+    ''' </remarks>
+    Private Function parseRulePartition(text As String) As RulePartitionKind
+        Select Case If(text, "").Trim().ToLowerInvariant()
+            Case "grid", "网格"
+                Return RulePartitionKind.Grid
+            Case "scatter", "sc", "cluster", "clustering", "散射"
+                Return RulePartitionKind.Scatter
+            Case Else
+                Return RulePartitionKind.Auto
         End Select
     End Function
 
