@@ -6,7 +6,7 @@ Imports Microsoft.VisualBasic.Linq
 Namespace Intervention
 
     <HideModuleName>
-    Public Module Module1
+    Public Module Extensions
 
         ''' <summary>
         ''' 将干预分析结果写入 TSV 文件

@@ -694,7 +694,7 @@ Namespace RegulationNetwork
                     End If
                 End If
 
-                net.AddEdge(tf, target, GeneRegulatoryNetwork.InferEffector(c.cor),
+                net.AddEdge(tf, target, c.cor.InferEffector,
                             CorrelationSignificance.Clamp01(confidence), evidence)
 
                 If isUndirected Then
@@ -1271,7 +1271,7 @@ Namespace RegulationNetwork
 
                 If byModule.TryGetValue(c.tfModule, owner) Then
                     owner.crossModule.AddEdge(c.tf, c.target,
-                                              GeneRegulatoryNetwork.InferEffector(c.r),
+                                              c.r.InferEffector,
                                               CorrelationSignificance.Clamp01(confidence), evidence)
                     added += 1
                 End If

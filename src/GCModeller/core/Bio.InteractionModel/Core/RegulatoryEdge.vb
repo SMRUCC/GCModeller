@@ -1,4 +1,6 @@
-﻿Namespace Core
+﻿Imports System.Runtime.CompilerServices
+
+Namespace Core
 
     ''' <summary>
     ''' 转录调控关系
@@ -38,19 +40,9 @@
             Return String.Format("{0} → {1} ({2}, conf={3:F2})", TF, TargetGene, RegulationType.Description, Confidence)
         End Function
 
-        Public Shared Function ParseEffector(type As String) As Effector
-            If type.StringEmpty(, True) Then
-                Return Effector.Activator
-            End If
-
-            Select Case type
-                Case NameOf(Effector.Activator), "activation", "+", "↑" : Return Effector.Activator
-                Case NameOf(Effector.Inhibitor), "repression", "inhibit", "suppress", "-", "↓" : Return Effector.Inhibitor
-                Case "1" : Return Effector.Activator
-                Case "2" : Return Effector.Inhibitor
-                Case Else
-                    Return Effector.Unknown
-            End Select
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function ParseEffector(str As String) As Effector
+            Return Extensions.ParseRegulationType(str)
         End Function
 
         Public Shared Function ParseConfidenceEnum(type As String) As Double

@@ -35,13 +35,30 @@ Namespace Core
             If String.IsNullOrWhiteSpace(text) Then Return Effector.Unknown
 
             Select Case text.Trim().ToLower()
-                Case "activation", "activate", "activator", "activating", "up", "positive", "1"
+                Case "activation", "activate", "activator", "activating", "up", "positive", "1", "+", "↑"
                     Return Effector.Activator
-                Case "repression", "repress", "repressor", "inhibition", "inhibit", "inhibitor", "down", "negative", "-1"
+                Case "repression", "repress", "repressor", "inhibition", "inhibit", "inhibitor", "suppress", "down", "negative", "-1", "-", "↓"
                     Return Effector.Inhibitor
+                Case "1" : Return Effector.Activator
+                Case "2" : Return Effector.Inhibitor
                 Case Else
                     Return Effector.Unknown
             End Select
+        End Function
+
+        ''' <summary>
+        ''' 根据相关系数符号推断调控类型：正相关为激活因子，负相关为抑制因子。
+        ''' </summary>
+        ''' <param name="weight">WGCNA 网络边的相关系数（通常为 Pearson / Spearman 相关系数）。</param>
+        ''' <returns>激活或抑制 effector 类型。</returns>
+        ''' 
+        <Extension>
+        Public Function InferEffector(weight As Double) As Effector
+            If weight >= 0 Then
+                Return Effector.Activator
+            Else
+                Return Effector.Inhibitor
+            End If
         End Function
     End Module
 End Namespace

@@ -130,29 +130,6 @@ Namespace IO
         End Function
 
         ''' <summary>
-        ''' 把文本形式的调控类型映射为 <see cref="Effector"/> 枚举
-        ''' </summary>
-        ''' <param name="text">
-        ''' 原始文本，支持 activation / activate / activator / up / positive
-        ''' 与 repression / repress / inhibitor / inhibition / down / negative
-        ''' </param>
-        ''' <returns>效应器枚举；无法识别时返回 <see cref="Effector.Unknown"/></returns>
-        Public Function ParseRegulationType(text As String) As Effector
-            If String.IsNullOrWhiteSpace(text) Then
-                Return Effector.Unknown
-            End If
-
-            Select Case text.Trim().ToLower()
-                Case "activation", "activate", "activator", "activating", "up", "positive", "1"
-                    Return Effector.Activator
-                Case "repression", "repress", "repressor", "inhibition", "inhibit", "inhibitor", "down", "negative", "-1"
-                    Return Effector.Inhibitor
-                Case Else
-                    Return Effector.Unknown
-            End Select
-        End Function
-
-        ''' <summary>
         ''' 按分隔符切分一行 CSV 文本
         ''' </summary>
         ''' <param name="line">原始文本行</param>

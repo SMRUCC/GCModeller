@@ -84,19 +84,6 @@ Public Module GeneRegulatoryNetwork
     Private Const EVIDENCE As String = "WGCNA co-expression network"
 
     ''' <summary>
-    ''' 根据相关系数符号推断调控类型：正相关为激活因子，负相关为抑制因子。
-    ''' </summary>
-    ''' <param name="weight">WGCNA 网络边的相关系数（通常为 Pearson / Spearman 相关系数）。</param>
-    ''' <returns>激活或抑制 effector 类型。</returns>
-    Public Function InferEffector(weight As Double) As Effector
-        If weight >= 0 Then
-            Return Effector.Activator
-        Else
-            Return Effector.Inhibitor
-        End If
-    End Function
-
-    ''' <summary>
     ''' 根据 WGCNA 共表达网络与 TF 注释结果，构建 BNLearn 工作流的拓扑先验网络。
     '''
     ''' 调控方向严格依据 TF 注释确定：仅当一条边的其中一端是 TF、另一端不是 TF
