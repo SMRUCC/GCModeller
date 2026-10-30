@@ -12,3 +12,4 @@ virtual cell network kinetics modeller
 + [kinetics](modeller/kinetics.1) create dynamics kinetics
 + [kinetics_lambda](modeller/kinetics_lambda.1) 
 + [eval_lambda](modeller/eval_lambda.1) 
++ [check_model](modeller/check_model.1) 校验模型对象在科学上是否完整：区室、基因组、调控网络、代谢网络、证据以及分类

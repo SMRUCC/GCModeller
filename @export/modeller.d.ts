@@ -33,6 +33,13 @@ declare namespace modeller {
       function enzyme_kinetics(export?: string, ko01000?: string): ;
    }
    /**
+    * 校验模型对象在科学上是否完整：区室、基因组、调控网络、代谢网络、证据以及分类
+    * 
+    * 
+     * @param model -
+   */
+   function check_model(model: object): ;
+   /**
      * @param args default value Is ``null``.
      * @param env default value Is ``null``.
    */
