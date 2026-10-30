@@ -1,4 +1,4 @@
-﻿Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
+﻿Imports SMRUCC.genomics.BioSystem.Intervention
 
 Public Interface InsilicoPerturbationExperiment
     Function KnockoutGene(geneName As String, Optional nSamples As Integer = 0) As InterventionResult

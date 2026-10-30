@@ -107,7 +107,10 @@ Namespace Intervention
         End Property
 
         ''' <summary>动态级联结果（多时间步）</summary>
-        Public Property DynamicTrajectory As Double(,)()  ' [timeStep, geneIdx] = samples
+        ''' <remarks>
+        ''' [timeStep, geneIdx] = samples
+        ''' </remarks>
+        Public Property DynamicTrajectory As Double(,)()
 
         ''' <summary>获取变化最大的前N个基因</summary>
         Public Function GetTopChangedGenes(n As Integer) As List(Of (GeneName As String, FoldChange As Double, PercentChange As Double))
