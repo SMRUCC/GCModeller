@@ -1,55 +1,55 @@
 ﻿#Region "Microsoft.VisualBasic::3a2fb77124a20bb776ab2c3449550ba7, analysis\SequenceToolkit\SequenceAlignment\Diamond\DiamondBlastp.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 243
-    '    Code Lines: 143 (58.85%)
-    ' Comment Lines: 58 (23.87%)
-    '    - Xml Docs: 44.83%
-    ' 
-    '   Blank Lines: 42 (17.28%)
-    '     File Size: 12.19 KB
+' Summaries:
 
 
-    '     Class DiamondBlastp
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: (+2 Overloads) Search, SearchSingleCore
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 243
+'    Code Lines: 143 (58.85%)
+' Comment Lines: 58 (23.87%)
+'    - Xml Docs: 44.83%
+' 
+'   Blank Lines: 42 (17.28%)
+'     File Size: 12.19 KB
+
+
+'     Class DiamondBlastp
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: (+2 Overloads) Search, SearchSingleCore
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -69,7 +69,6 @@
 ' 本阶段为"单查询 vs 单库"原型,算法正确性优先;SIMD 向量化作为后续可选
 ' 优化层(各过滤/扩展边界均已封装接口,替换不影响编排)。
 
-Imports System.Linq
 Imports System.Runtime.CompilerServices
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
@@ -255,7 +254,7 @@ Namespace DIAMOND
             ' 聚合:多种子/多位置命中同一 (query, subject) 比对会产生重复 HSP。
             ' 按 subject 去重,每组仅保留得分最高的 HSP(原型阶段取每库序列最优比对)。
             Dim result = collected _
-                .GroupBy(Function(h) h.SubjectTitle) _
+                .GroupBy(Function(h) h.SseqId) _
                 .Select(Function(g) g.OrderByDescending(Function(h) h.RawScore).First()) _
                 .OrderByDescending(Function(h) h.RawScore) _
                 .ToArray

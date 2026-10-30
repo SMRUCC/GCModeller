@@ -136,9 +136,20 @@ Public Class DiamondAnnotation : Implements IBlastHit, IMap, IQueryHits
     ''' </summary>
     ''' <returns></returns>
     Public Property BitScore As Double
+    ''' <summary>原始 SW 比对得分 (bits 之前的原始分)。</summary>
+    Public Property RawScore As Double
+
+    ''' <summary>查询序列比对片段。</summary>
+    Public Property QueryFragment As String
+    ''' <summary>主题序列比对片段。</summary>
+    Public Property SubjectFragment As String
 
     Public Overrides Function ToString() As String
         Return $"{QseqId} vs {SseqId} | Identity: {Pident}% | E-value: {EValue}"
+    End Function
+
+    Public Function ToTsv() As String
+        Return $"{QseqId}{vbTab}{SseqId}{vbTab}{Pident:F1}{vbTab}{Length}{vbTab}{Mismatch}{vbTab}{GapOpen}{vbTab}{QStart}{vbTab}{QEnd}{vbTab}{SStart}{vbTab}{SEnd}{vbTab}{RawScore:F0}{vbTab}{EValue}"
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>

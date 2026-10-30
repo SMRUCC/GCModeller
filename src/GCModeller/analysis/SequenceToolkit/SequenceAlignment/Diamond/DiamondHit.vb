@@ -1,59 +1,59 @@
 ﻿#Region "Microsoft.VisualBasic::81cc02bcf88962732227c53b21008c08, analysis\SequenceToolkit\SequenceAlignment\Diamond\DiamondHit.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 115
-    '    Code Lines: 70 (60.87%)
-    ' Comment Lines: 28 (24.35%)
-    '    - Xml Docs: 78.57%
-    ' 
-    '   Blank Lines: 17 (14.78%)
-    '     File Size: 5.18 KB
+' Summaries:
 
 
-    '     Class DiamondHit
-    ' 
-    '         Properties: AlignmentLength, BitScore, Evalue, GapOpens, Matches
-    '                     Mismatches, PercentIdentity, QueryEnd, QueryFragment, QueryStart
-    '                     QueryTitle, RawScore, SubjectEnd, SubjectFragment, SubjectStart
-    '                     SubjectTitle
-    ' 
-    '         Function: FromBandHit, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 115
+'    Code Lines: 70 (60.87%)
+' Comment Lines: 28 (24.35%)
+'    - Xml Docs: 78.57%
+' 
+'   Blank Lines: 17 (14.78%)
+'     File Size: 5.18 KB
+
+
+'     Class DiamondHit
+' 
+'         Properties: AlignmentLength, BitScore, Evalue, GapOpens, Matches
+'                     Mismatches, PercentIdentity, QueryEnd, QueryFragment, QueryStart
+'                     QueryTitle, RawScore, SubjectEnd, SubjectFragment, SubjectStart
+'                     SubjectTitle
+' 
+'         Function: FromBandHit, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -62,49 +62,15 @@
 ' 对应 BLAST m8 / tabular 输出的一行,供 GCModeller 内部 API 返回。
 ' 字段命名与 m8 格式对齐,便于后续对接外部分析流程。
 
-Imports SMRUCC.genomics.Analysis.SequenceAlignment
+Imports SMRUCC.genomics.Interops.NCBI.Extensions
+Imports eval = SMRUCC.genomics.Analysis.SequenceAlignment.EValue
 
 Namespace DIAMOND
 
     ''' <summary>
     ''' 单条 DIAMOND 比对命中(m8 风格)。
     ''' </summary>
-    Public Class DiamondHit
-
-        ''' <summary>查询序列标识。</summary>
-        Public Property QueryTitle As String
-        ''' <summary>参考(主题)序列标识。</summary>
-        Public Property SubjectTitle As String
-
-        ''' <summary>百分比一致性 (0-100)。</summary>
-        Public Property PercentIdentity As Double
-        ''' <summary>比对长度(对齐列数)。</summary>
-        Public Property AlignmentLength As Integer
-        ''' <summary>错配数。</summary>
-        Public Property Mismatches As Integer
-        ''' <summary>缺口数。</summary>
-        Public Property GapOpens As Integer
-
-        ''' <summary>查询起始 (1-based)。</summary>
-        Public Property QueryStart As Integer
-        ''' <summary>查询结束 (1-based, 含)。</summary>
-        Public Property QueryEnd As Integer
-        ''' <summary>主题起始 (1-based)。</summary>
-        Public Property SubjectStart As Integer
-        ''' <summary>主题结束 (1-based, 含)。</summary>
-        Public Property SubjectEnd As Integer
-
-        ''' <summary>原始 SW 比对得分 (bits 之前的原始分)。</summary>
-        Public Property RawScore As Double
-        ''' <summary>bit-score(本阶段用简易换算,后续可接入统计模型)。</summary>
-        Public Property BitScore As Double
-        ''' <summary>e-value(本阶段为占位估算,后续接入 Karlin-Altschul 模型)。</summary>
-        Public Property Evalue As Double
-
-        ''' <summary>查询序列比对片段。</summary>
-        Public Property QueryFragment As String
-        ''' <summary>主题序列比对片段。</summary>
-        Public Property SubjectFragment As String
+    Public Class DiamondHit : Inherits DiamondAnnotation
 
         ''' <summary>
         ''' 将 BandHit(0-based 全局坐标)转换为 1-based 的 DiamondHit。
@@ -140,23 +106,22 @@ Namespace DIAMOND
             Dim subjectLen = globalSubject.Length
             ' λ=0.267, K=0.041 (BLOSUM62 经验标定,源自 EValue 模块常量)
             Dim bitScore = (0.267 * band.Score - Math.Log(0.041)) / Math.Log(2)
-            Dim eValCalc = SMRUCC.genomics.Analysis.SequenceAlignment.EValue.Compute(band.Score, queryLen, subjectLen)
-
+            Dim eValCalc = eval.Compute(band.Score, queryLen, subjectLen)
             Dim hit As New DiamondHit With {
-                .QueryTitle = queryTitle,
-                .SubjectTitle = subjectTitle,
+                .QseqId = queryTitle,
+                .SseqId = subjectTitle,
                 .RawScore = band.Score,
                 .BitScore = bitScore,
-                .Evalue = eValCalc,
-                .AlignmentLength = alnLen,
+                .EValue = eValCalc,
+                .Length = alnLen,
                 .Matches = matches,
-                .Mismatches = mismatches,
-                .GapOpens = gaps,
-                .PercentIdentity = If(alnLen > 0, 100.0 * matches / alnLen, 0),
-                .QueryStart = band.QueryStart + 1,
-                .QueryEnd = band.QueryEnd + 1,
-                .SubjectStart = band.SubjectStart + 1,
-                .SubjectEnd = band.SubjectEnd + 1,
+                .Mismatch = mismatches,
+                .GapOpen = gaps,
+                .Pident = If(alnLen > 0, 100.0 * matches / alnLen, 0),
+                .QStart = band.QueryStart + 1,
+                .QEnd = band.QueryEnd + 1,
+                .SStart = band.SubjectStart + 1,
+                .SEnd = band.SubjectEnd + 1,
                 .QueryFragment = band.QueryFragment,
                 .SubjectFragment = band.SubjectFragment
             }
@@ -168,7 +133,7 @@ Namespace DIAMOND
         Friend Property Matches As Integer
 
         Public Overrides Function ToString() As String
-            Return $"{QueryTitle}{vbTab}{SubjectTitle}{vbTab}{PercentIdentity:F1}{vbTab}{AlignmentLength}{vbTab}{Mismatches}{vbTab}{GapOpens}{vbTab}{QueryStart}{vbTab}{QueryEnd}{vbTab}{SubjectStart}{vbTab}{SubjectEnd}{vbTab}{RawScore:F0}{vbTab}{Evalue}"
+            Return ToTsv()
         End Function
     End Class
 End Namespace
