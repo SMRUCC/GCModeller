@@ -26,6 +26,9 @@ Namespace Fitting
         ''' <summary>实际使用的模糊划分数（降级后可能小于配置值）。</summary>
         Public Property MfCount As Integer
 
+        ''' <summary>实际使用的规则划分方式：<c>grid</c> 或 <c>scatter</c>。</summary>
+        Public Property Partition As String
+
         ''' <summary>训练行数。</summary>
         Public Property SampleCount As Integer
 
@@ -171,7 +174,8 @@ Namespace Fitting
 
             Dim groups As String() = GeneMetrics _
                 .Where(Function(m) m IsNot Nothing AndAlso String.Equals(m.Status, "ok", StringComparison.OrdinalIgnoreCase)) _
-                .GroupBy(Function(m) $"mf={m.MfCount}, inputs={If(m.Regulators, New String() {}).Length}") _
+                .GroupBy(Function(m) $"{If(String.IsNullOrEmpty(m.Partition), "grid", m.Partition)}, " &
+                                          $"mf={m.MfCount}, inputs={If(m.Regulators, New String() {}).Length}") _
                 .OrderByDescending(Function(g) g.Count()) _
                 .Take(3) _
                 .Select(Function(g) $"{g.Key} x{g.Count()}") _

@@ -297,18 +297,18 @@ Namespace Fitting
 
             clock.Start()
 
-            ' ---- 规则预算：先算出真正可行的 (mf, K) ----
+            ' ---- 规则预算：先算出真正可行的 (mf, K) 与划分方式 ----
             ' 必须在挑选候选**之前**算出来：否则 novelty 配额会按配置里的 K（可能远大于可用槽位）
             ' 去分配预留槽位，随后又被尾部截断吃掉，等于白配。
-            Dim budget As (mfCount As Integer, inputs As Integer) = ResolveStructure(cfg, cfg.MaxRegulators)
+            Dim plan As (mfCount As Integer, inputs As Integer, scatter As Boolean) = ResolvePlan(cfg, cfg.MaxRegulators)
 
-            If ExceedsBudget(cfg, budget.mfCount, 1) Then
+            If Not plan.scatter AndAlso ExceedsBudget(cfg, plan.mfCount, 1) Then
                 metric.Status = "failed"
                 metric.Message = $"rule budget exceeded even for a single input (MaxRules={cfg.MaxRules}, MaxConsequentParams={cfg.MaxConsequentParams})"
                 Return
             End If
 
-            Dim picks As RegulatorPick() = RegulatorSelector.SelectRegulators(view, prior, cfg, g, pool, budget.inputs)
+            Dim picks As RegulatorPick() = RegulatorSelector.SelectRegulators(view, prior, cfg, g, pool, plan.inputs)
 
             Call Interlocked.Add(phaseTicks(0), clock.ElapsedTicks)
             Call clock.Restart()
@@ -318,22 +318,25 @@ Namespace Fitting
                 Return
             End If
 
-            Dim mfCount As Integer = budget.mfCount
+            Dim mfCount As Integer = plan.mfCount
             Dim selected As New List(Of RegulatorPick)(picks)
 
-            ' 兜底：正常情况下不会触发（selection 已按 feasible K 取候选）
-            Do While selected.Count > 1 AndAlso ExceedsBudget(cfg, mfCount, selected.Count)
-                If mfCount > 2 Then
-                    mfCount -= 1
-                Else
-                    Call selected.RemoveAt(selected.Count - 1)
-                End If
-            Loop
+            ' 散射划分的规则数由簇数决定，与输入维数无关 —— 这里不能再按 m^K 削输入
+            If Not plan.scatter Then
+                ' 兜底：正常情况下不会触发（selection 已按 feasible K 取候选）
+                Do While selected.Count > 1 AndAlso ExceedsBudget(cfg, mfCount, selected.Count)
+                    If mfCount > 2 Then
+                        mfCount -= 1
+                    Else
+                        Call selected.RemoveAt(selected.Count - 1)
+                    End If
+                Loop
 
-            If ExceedsBudget(cfg, mfCount, selected.Count) Then
-                metric.Status = "failed"
-                metric.Message = $"rule budget exceeded even at mf={mfCount}, inputs={selected.Count}"
-                Return
+                If ExceedsBudget(cfg, mfCount, selected.Count) Then
+                    metric.Status = "failed"
+                    metric.Message = $"rule budget exceeded even at mf={mfCount}, inputs={selected.Count}"
+                    Return
+                End If
             End If
 
             Dim rows As Integer = view.NRows
@@ -388,6 +391,21 @@ Namespace Fitting
             options.MfCounts = Nothing
             options.FeatureNames = regulators
             options.OutputNames = New String() {geneName}
+
+            If plan.scatter Then
+                ' 结论参数 P = 簇数 × (输入数 + 1)，受 MaxConsequentParams 约束；
+                ' 顺便保证簇数不超过 MaxRules（CreateScatter 也会再校验一次）
+                Dim maxClusters As Integer = std.Max(2, cfg.MaxConsequentParams \ (selected.Count + 1))
+
+                options.RulePartition = RulePartitionKind.Scatter
+                options.ScatterRuleCount = std.Max(2, std.Min(cfg.ScatterRuleCount, std.Min(maxClusters, cfg.MaxRules)))
+                options.ScatterInputs = std.Max(1, std.Min(cfg.ScatterInputs, selected.Count))
+                options.ScatterMinInputs = std.Max(1, std.Min(cfg.ScatterMinInputs, options.ScatterInputs))
+            Else
+                options.RulePartition = RulePartitionKind.Grid
+            End If
+
+            metric.Partition = If(plan.scatter, "scatter", "grid")
 
             If rows < 10 Then
                 ' 样本太少时再切验证集会耗尽训练集，直接用训练误差做早停
@@ -654,9 +672,6 @@ Namespace Fitting
         End Function
 
         ''' <summary>
-        ''' 判断给定的结构是否超出规则/参数预算。
-        ''' </summary>
-        ''' <summary>
         ''' 按规则预算求出实际可行的 <c>(模糊划分数, 输入个数)</c>。
         ''' </summary>
         ''' <param name="cfg">建模配置</param>
@@ -669,8 +684,43 @@ Namespace Fitting
         ''' 会被后续截断吃掉。
         ''' </remarks>
         Public Function ResolveStructure(cfg As FuzzyGeneConfig, requested As Integer) As (mfCount As Integer, inputs As Integer)
+            Dim plan As (mfCount As Integer, inputs As Integer, scatter As Boolean) = ResolvePlan(cfg, requested)
+
+            Return (plan.mfCount, plan.inputs)
+        End Function
+
+        ''' <summary>
+        ''' 按规则划分方式与预算求出实际可行的结构。
+        ''' </summary>
+        ''' <param name="cfg">建模配置</param>
+        ''' <param name="requested">期望的输入个数（通常为 <see cref="FuzzyGeneConfig.MaxRegulators"/>）</param>
+        ''' <returns>
+        ''' <c>(mfCount, inputs, scatter)</c>；<c>scatter = True</c> 表示走散射划分，
+        ''' 此时 <c>inputs</c> 不会被 m^K 预算削减
+        ''' </returns>
+        ''' <remarks>
+        ''' <para>
+        ''' 网格划分（<see cref="RulePartitionKind.Grid"/>）保持原有降级顺序：先降模糊划分数、再削减输入。
+        ''' </para>
+        ''' <para>
+        ''' <see cref="RulePartitionKind.Auto"/>：当配置的 K 装不进网格预算时**不再静默降 K**，
+        ''' 而是返回 <c>scatter = True</c> 并保留原始输入个数——这正是 <c>maxRegulators = 18</c>
+        ''' 能真正生效的前提（散射划分的规则数只由簇数决定，与输入维数无关）。
+        ''' </para>
+        ''' </remarks>
+        Public Function ResolvePlan(cfg As FuzzyGeneConfig,
+                                    requested As Integer) As (mfCount As Integer, inputs As Integer, scatter As Boolean)
+
             Dim mfCount As Integer = If(cfg Is Nothing, 3, cfg.MfCount)
             Dim n As Integer = std.Max(1, requested)
+
+            If cfg IsNot Nothing AndAlso cfg.RulePartition = RulePartitionKind.Scatter Then
+                Return (mfCount, n, True)
+            End If
+
+            If cfg IsNot Nothing AndAlso cfg.RulePartition = RulePartitionKind.Auto AndAlso ExceedsBudget(cfg, mfCount, n) Then
+                Return (mfCount, n, True)
+            End If
 
             Do While n > 1 AndAlso ExceedsBudget(cfg, mfCount, n)
                 If mfCount > 2 Then
@@ -680,7 +730,7 @@ Namespace Fitting
                 End If
             Loop
 
-            Return (mfCount, n)
+            Return (mfCount, n, False)
         End Function
 
         Public Function ExceedsBudget(cfg As FuzzyGeneConfig, mfCount As Integer, inputCount As Integer) As Boolean

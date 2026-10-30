@@ -143,11 +143,10 @@ Namespace Fitting
             Dim theta As Double(,) = Network.Theta
 
             For r As Integer = 0 To count - 1
-                Dim parts(n - 1) As String
-
-                For i As Integer = 0 To n - 1
-                    parts(i) = $"{Network.Inputs(i).Name} IS {Network.Inputs(i).FunctionLabel(Network.Rules.Antecedent(r, i))}"
-                Next
+                ' 散射划分下每条规则有自己的高斯前件、且可能只用到部分输入，
+                ' 这里统一交给 FuzzyRuleBase.Describe 渲染（网格划分输出 IS mfK）
+                Dim antecedentText As String = Network.Rules.Describe(r, Network.Inputs)
+                Dim parts As String() = {antecedentText.Substring(antecedentText.IndexOf("IF ") + 3)}
 
                 Dim activation As Double = If(RuleActivations IsNot Nothing AndAlso r < RuleActivations.Length,
                                               RuleActivations(r), 0.0)
