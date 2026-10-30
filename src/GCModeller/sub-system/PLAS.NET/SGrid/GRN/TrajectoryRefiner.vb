@@ -147,7 +147,7 @@ Namespace GRN
             }
             Dim model = net.CreateModel(finalTime:=series.TimeEnd)
             Dim runOptions = options.CreateRunOptions(series.TimeEnd)
-            Dim output As ODEsOut = SSOdes.RunSystem(model, Nothing, runOptions)
+            Dim output As ODESolution = SSOdes.RunSystem(model, Nothing, runOptions)
 
             Return interpolate(output, parameters, series, parameters.GeneNames.Length - 1)
         End Function
@@ -155,7 +155,7 @@ Namespace GRN
         ''' <summary>
         ''' 把等间距的仿真结果线性插值到观测时间点之上
         ''' </summary>
-        Private Shared Function interpolate(output As ODEsOut,
+        Private Shared Function interpolate(output As ODESolution,
                                             parameters As SSystemParameters,
                                             series As ExpressionTimeSeries,
                                             gene As Integer) As Double()
@@ -167,7 +167,7 @@ Namespace GRN
             End If
 
             Dim x As Double() = output.x
-            Dim y As Double() = output.y(name).Value
+            Dim y As Double() = output.y(name).value
             Dim t As Double() = series.TimePoints
             Dim out As Double() = New Double(t.Length - 1) {}
 

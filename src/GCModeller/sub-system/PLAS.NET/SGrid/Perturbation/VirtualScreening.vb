@@ -99,7 +99,7 @@ Namespace Perturbation
         ''' 对照组的求解结果
         ''' </summary>
         ''' <returns></returns>
-        Public Property Control As ODEsOut
+        Public Property Control As ODESolution
 
         ''' <summary>
         ''' 按照影响强度降序排列的响应记录（只包含被扰动的目标基因自身的响应）
@@ -201,7 +201,7 @@ Namespace Perturbation
                             designs As IEnumerable(Of PerturbationDesign),
                             Optional finalTime As Double = 0,
                             Optional context As IDictionary(Of String, Double) = Nothing,
-                            Optional onSimulated As Action(Of PerturbationDesign, ODEsOut) = Nothing) As ScreeningResult
+                            Optional onSimulated As Action(Of PerturbationDesign, ODESolution) = Nothing) As ScreeningResult
 
             If network Is Nothing Then
                 Throw New ArgumentNullException(NameOf(network))
@@ -210,7 +210,7 @@ Namespace Perturbation
             Dim t As Double = If(finalTime > 0, finalTime, network.Series.TimeEnd)
             Dim runOptions = network.CreateRunOptions(t)
             Dim controlModel = network.CreateModel(finalTime:=t, initial:=context)
-            Dim control As ODEsOut = SSOdes.RunSystem(controlModel, Nothing, runOptions)
+            Dim control As ODESolution = SSOdes.RunSystem(controlModel, Nothing, runOptions)
             Dim records As New List(Of ScreeningRecord)
             Dim result As New ScreeningResult With {
                 .Designs = designs.SafeQuery().ToArray,
@@ -223,7 +223,7 @@ Namespace Perturbation
                 Dim baseline As Double = baselineOf(network, design.TargetGene, context)
                 Dim experiment = design.ToExperiment(baseline)
                 Dim model = network.CreateModel(New Experiment() {experiment}, finalTime:=t, initial:=context)
-                Dim perturbed As ODEsOut = SSOdes.RunSystem(model, Nothing, runOptions)
+                Dim perturbed As ODESolution = SSOdes.RunSystem(model, Nothing, runOptions)
 
                 Call bar.SetLabel(design.ToString)
 
@@ -265,7 +265,7 @@ Namespace Perturbation
                                  designs As IEnumerable(Of PerturbationDesign),
                                  Optional finalTime As Double = 0,
                                  Optional runOptions As RunOptions = Nothing,
-                                 Optional onSimulated As Action(Of PerturbationDesign, ODEsOut) = Nothing) As ScreeningResult
+                                 Optional onSimulated As Action(Of PerturbationDesign, ODESolution) = Nothing) As ScreeningResult
 
             If model Is Nothing Then
                 Throw New ArgumentNullException(NameOf(model))
@@ -289,7 +289,7 @@ Namespace Perturbation
 
             model.Experiments = Nothing
 
-            Dim control As ODEsOut = SSOdes.RunSystem(model, Nothing, runOptions)
+            Dim control As ODESolution = SSOdes.RunSystem(model, Nothing, runOptions)
 
             If control Is Nothing Then
                 Throw New InvalidOperationException("The control group simulation of the S-system model is failed!")
@@ -304,7 +304,7 @@ Namespace Perturbation
 
                 model.Experiments = New SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels.Experiment() {experiment}
 
-                Dim perturbed As ODEsOut = SSOdes.RunSystem(model, Nothing, runOptions)
+                Dim perturbed As ODESolution = SSOdes.RunSystem(model, Nothing, runOptions)
 
                 If perturbed Is Nothing Then
                     Continue For
@@ -352,7 +352,7 @@ Namespace Perturbation
                                      Optional type As InterventionMode = InterventionMode.Knockdown,
                                      Optional magnitude As Double = 0.8R,
                                      Optional context As IDictionary(Of String, Double) = Nothing,
-                                     Optional onSimulated As Action(Of PerturbationDesign, ODEsOut) = Nothing) As ScreeningResult
+                                     Optional onSimulated As Action(Of PerturbationDesign, ODESolution) = Nothing) As ScreeningResult
 
             Dim designs As PerturbationDesign() = PerturbationDesign.Batch(network.Parameters.GeneNames, type, magnitude)
 
@@ -371,7 +371,7 @@ Namespace Perturbation
         ''' 该函数只负责 IO，计算流程（<see cref="Run"/> / <see cref="RunModel"/>）不会调用它
         ''' </remarks>
         <Extension>
-        Public Function SaveTrajectory(output As ODEsOut, file As String) As String
+        Public Function SaveTrajectory(output As ODESolution, file As String) As String
             If output Is Nothing Then
                 Throw New ArgumentNullException(NameOf(output))
             End If
@@ -489,8 +489,8 @@ Namespace Perturbation
 
         Private Function compare(design As PerturbationDesign,
                                  gene As String,
-                                 control As ODEsOut,
-                                 perturbed As ODEsOut) As ScreeningRecord
+                                 control As ODESolution,
+                                 perturbed As ODESolution) As ScreeningRecord
 
             Dim c As Double() = seriesOf(control, gene)
             Dim p As Double() = seriesOf(perturbed, gene)
@@ -534,7 +534,7 @@ Namespace Perturbation
             }
         End Function
 
-        Private Function seriesOf(output As ODEsOut, gene As String) As Double()
+        Private Function seriesOf(output As ODESolution, gene As String) As Double()
             If output Is Nothing OrElse output.y Is Nothing Then
                 Return Nothing
             End If

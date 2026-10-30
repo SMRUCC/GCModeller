@@ -53,17 +53,16 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Data.Framework.IO
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Calculus.Dynamics
 Imports Microsoft.VisualBasic.Math.Calculus.Dynamics.Data
 Imports Microsoft.VisualBasic.Math.Scripting
 Imports Microsoft.VisualBasic.Math.Scripting.MathExpression
-Imports SMRUCC.genomics.Analysis.SSystem.Runner
 Imports Microsoft.VisualBasic.Text.Xml.Models
+Imports SMRUCC.genomics.Analysis.SSystem.Runner
 
 Namespace Kernel
 
@@ -94,7 +93,7 @@ Namespace Kernel
         ''' 底层库的 DataFrame 扩展方法会把 y0 与 params 追加到前几行数据之中从而破坏数据表的结构，
         ''' 故这里自行完成数据表的生成
         ''' </remarks>
-        Public Function ToDataFrame(output As ODEsOut) As File
+        Public Function ToDataFrame(output As ODESolution) As File
             Dim names As String() = output.y _
                 .Values _
                 .Select(Function(v) v.name) _
@@ -139,7 +138,7 @@ Namespace Kernel
         <Extension>
         Public Function RunSystem(model As Script.Model,
                                   Optional bounds As Dictionary(Of String, DoubleRange) = Nothing,
-                                  Optional options As RunOptions = Nothing) As ODEsOut
+                                  Optional options As RunOptions = Nothing) As ODESolution
 
             If options Is Nothing Then
                 options = New RunOptions()

@@ -2,6 +2,7 @@
 Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.Calculus.Dynamics.Data
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.SGrid.GRN
@@ -15,7 +16,6 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 Imports ODEs = SMRUCC.genomics.Analysis.SSystem.Kernel.ODEs
-Imports ODEsOut = Microsoft.VisualBasic.Math.Calculus.Dynamics.Data.ODEsOut
 Imports PriorEdge = SMRUCC.genomics.BioSystem.Core.RegulatoryEdge
 Imports PriorNet = SMRUCC.genomics.BioSystem.Core.PriorNetwork
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
@@ -671,7 +671,7 @@ Module ssGrid
         Dim t As Double = If(final_time > 0, final_time, network.Series.TimeEnd)
         Dim x0 As Dictionary(Of String, Double) = contextValues(context)
         Dim model = network.CreateModel(finalTime:=t, initial:=x0)
-        Dim output As ODEsOut = ODEs.RunSystem(model, Nothing, network.CreateRunOptions(t))
+        Dim output As ODESolution = ODEs.RunSystem(model, Nothing, network.CreateRunOptions(t))
 
         If output Is Nothing Then
             Return RInternal.debug.stop("the ODE integration of the S-system model is failed!", env)
@@ -822,7 +822,7 @@ Module ssGrid
         Call $"virtual perturbation on {designs.Count} target gene(s) under the {If(x0 Is Nothing, "default", "given")} context...".info
 
         Dim watch As Stopwatch = Stopwatch.StartNew()
-        Dim onSimulated As Action(Of PerturbationDesign, ODEsOut) = Nothing
+        Dim onSimulated As Action(Of PerturbationDesign, ODESolution) = Nothing
         Dim dir As String = export
 
         If Not String.IsNullOrEmpty(dir) Then
@@ -959,7 +959,7 @@ Module ssGrid
         }
     End Function
 
-    Private Function newTrajectoryTable(output As ODEsOut, names As String()) As dataframe
+    Private Function newTrajectoryTable(output As ODEsolution, names As String()) As dataframe
         Dim columns As New Dictionary(Of String, Array)
         Dim time As String() = output _
             .x _
