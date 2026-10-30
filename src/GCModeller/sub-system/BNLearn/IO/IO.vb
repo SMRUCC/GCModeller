@@ -58,8 +58,9 @@ Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.Linq
-Imports SMRUCC.genomics.Analysis.BNLearn.Core
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports SMRUCC.genomics.BioSystem.Core
+Imports SMRUCC.genomics.BioSystem.Intervention
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 
 Namespace IO
@@ -183,8 +184,8 @@ Namespace IO
         ''' 从 CSV/TSV 读取先验调控网络
         ''' 格式：TF, TargetGene, RegulationType, Confidence, Evidence
         ''' </summary>
-        Public Function ReadPriorNetwork(TRN As IEnumerable(Of RegulatoryEdge)) As Core.PriorNetwork
-            Dim prior As New Core.PriorNetwork()
+        Public Function ReadPriorNetwork(TRN As IEnumerable(Of RegulatoryEdge)) As PriorNetwork
+            Dim prior As New PriorNetwork()
 
             If Not TRN Is Nothing Then
                 For Each edge As RegulatoryEdge In TRN
@@ -200,7 +201,7 @@ Namespace IO
         ''' <summary>
         ''' 将干预分析结果写入 TSV 文件
         ''' </summary>
-        Public Sub WriteInterventionResult(result As Intervention.InterventionResult, filePath As String)
+        Public Sub WriteInterventionResult(result As InterventionResult, filePath As String)
             Dim sb As New StringBuilder()
             sb.AppendLine(String.Format("# 干预分析: {0} ({1})", result.Spec.GeneName, result.Spec.Mode.ToString()))
             sb.AppendLine("Gene" & vbTab & "Wildtype" & vbTab & "Mutant" & vbTab &
@@ -222,12 +223,12 @@ Namespace IO
         ''' <summary>
         ''' 将批量干预结果写入汇总 TSV
         ''' </summary>
-        Public Sub WriteBatchInterventionResults(results As List(Of Intervention.InterventionResult), filePath As String)
+        Public Sub WriteBatchInterventionResults(results As List(Of InterventionResult), filePath As String)
             Dim sb As New StringBuilder()
             sb.AppendLine("InterventionGene" & vbTab & "Mode" & vbTab & "TargetGene" & vbTab &
                           "FoldChange" & vbTab & "PercentChange" & vbTab & "Significant")
 
-            For Each result In results
+            For Each result As InterventionResult In results
                 For i = 0 To result.GeneNames.Length - 1
                     sb.AppendLine(String.Format("{0}{1}{2}{3}{4}{5}{6:F4}{7}{8:F1}%{9}{10}",
                         result.Spec.GeneName, vbTab,
