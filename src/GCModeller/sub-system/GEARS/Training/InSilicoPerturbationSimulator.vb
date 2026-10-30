@@ -1,6 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.Linq
-Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
 Imports SMRUCC.genomics.Analysis.GEARS.Graph
+Imports SMRUCC.genomics.BioSystem.Intervention
 Imports std = System.Math
 
 Namespace Training

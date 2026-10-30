@@ -1,6 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
-Imports SMRUCC.genomics.Analysis.BNLearn.Core
+Imports SMRUCC.genomics.BioSystem.Core
 Imports GNN = Microsoft.VisualBasic.DeepLearning.GNN
 Imports std = System.Math
 

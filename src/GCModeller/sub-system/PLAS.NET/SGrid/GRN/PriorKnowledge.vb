@@ -3,9 +3,9 @@ Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.Linq
-Imports EffectorRole = SMRUCC.genomics.Analysis.BNLearn.Effector
-Imports PriorEdge = SMRUCC.genomics.Analysis.BNLearn.Core.RegulatoryEdge
-Imports PriorNet = SMRUCC.genomics.Analysis.BNLearn.Core.PriorNetwork
+Imports EffectorRole = SMRUCC.genomics.BioSystem.Core.Effector
+Imports PriorEdge = SMRUCC.genomics.BioSystem.Core.RegulatoryEdge
+Imports PriorNet = SMRUCC.genomics.BioSystem.Core.PriorNetwork
 Imports std = System.Math
 
 Namespace GRN

@@ -1,13 +1,12 @@
 Imports System.Globalization
 Imports System.Text
-Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.SSystem.Runner
-Imports PriorNet = SMRUCC.genomics.Analysis.BNLearn.Core.PriorNetwork
-Imports std = System.Math
+Imports PriorNet = SMRUCC.genomics.BioSystem.Core.PriorNetwork
 Imports SSExperiment = SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels.Experiment
 Imports SSModel = SMRUCC.genomics.Analysis.SSystem.Script.Model
 Imports SSVar = SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels.var
+Imports std = System.Math
 
 Namespace GRN
 

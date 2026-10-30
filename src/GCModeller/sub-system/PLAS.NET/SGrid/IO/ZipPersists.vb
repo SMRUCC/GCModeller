@@ -8,11 +8,11 @@ Imports Microsoft.VisualBasic.Math.Calculus.Dynamics
 Imports Microsoft.VisualBasic.Serialization.BinaryDumping
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.SGrid.GRN
-Imports std = System.Math
-Imports EffectorRole = SMRUCC.genomics.Analysis.BNLearn.Effector
-Imports PriorEdge = SMRUCC.genomics.Analysis.BNLearn.Core.RegulatoryEdge
-Imports PriorNet = SMRUCC.genomics.Analysis.BNLearn.Core.PriorNetwork
+Imports EffectorRole = SMRUCC.genomics.BioSystem.Core.Effector
 Imports matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
+Imports PriorEdge = SMRUCC.genomics.BioSystem.Core.RegulatoryEdge
+Imports PriorNet = SMRUCC.genomics.BioSystem.Core.PriorNetwork
+Imports std = System.Math
 
 Namespace IO
 

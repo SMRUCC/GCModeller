@@ -3,11 +3,11 @@ Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.SGrid.GRN
 Imports SMRUCC.genomics.Analysis.SGrid.IO
 Imports SMRUCC.genomics.Analysis.SGrid.Perturbation
+Imports SMRUCC.genomics.BioSystem.Intervention
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
@@ -16,8 +16,8 @@ Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 Imports ODEs = SMRUCC.genomics.Analysis.SSystem.Kernel.ODEs
 Imports ODEsOut = Microsoft.VisualBasic.Math.Calculus.Dynamics.Data.ODEsOut
-Imports PriorEdge = SMRUCC.genomics.Analysis.BNLearn.Core.RegulatoryEdge
-Imports PriorNet = SMRUCC.genomics.Analysis.BNLearn.Core.PriorNetwork
+Imports PriorEdge = SMRUCC.genomics.BioSystem.Core.RegulatoryEdge
+Imports PriorNet = SMRUCC.genomics.BioSystem.Core.PriorNetwork
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 Imports std = System.Math
 
@@ -477,11 +477,11 @@ Module ssGrid
             End If
 
             Call edges.Add(New PriorEdge With {
-                .TF = If(tf(i), "").Trim,
+                .tf = If(tf(i), "").Trim,
                 .TargetGene = If(target(i), "").Trim,
                 .RegulationType = PriorEdge.ParseEffector(If(type.IsNullOrEmpty OrElse i >= type.Length, "", type(i))),
-                .Confidence = confidence,
-                .Evidence = If(evidence.IsNullOrEmpty OrElse i >= evidence.Length, "", evidence(i))
+                .confidence = confidence,
+                .evidence = If(evidence.IsNullOrEmpty OrElse i >= evidence.Length, "", evidence(i))
             })
         Next
 

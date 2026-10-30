@@ -1,5 +1,5 @@
-Imports SMRUCC.genomics.Analysis.BNLearn.Core
 Imports SMRUCC.genomics.Analysis.FuzzyGene.Config
+Imports SMRUCC.genomics.BioSystem.Core
 Imports std = System.Math
 
 Namespace Data

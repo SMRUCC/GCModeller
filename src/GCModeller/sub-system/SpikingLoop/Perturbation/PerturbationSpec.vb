@@ -15,7 +15,7 @@
 '     Custom → I[g] = CustomValue
 ' ============================================================================
 
-Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
+Imports SMRUCC.genomics.BioSystem.Intervention
 
 Namespace Perturbation
 

@@ -35,7 +35,6 @@
 
 Imports System.Text
 Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
-Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
 Imports SMRUCC.genomics.Analysis.SpikingLoop.Model
 Imports SMRUCC.genomics.BioSystem.Intervention
 Imports std = System.Math

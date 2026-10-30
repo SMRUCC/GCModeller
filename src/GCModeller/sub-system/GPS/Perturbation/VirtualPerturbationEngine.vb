@@ -1,8 +1,7 @@
 Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
-Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
-Imports SMRUCC.genomics.Analysis.GPS.Config
 Imports SMRUCC.genomics.Analysis.GPS.Data
 Imports SMRUCC.genomics.Analysis.GPS.Model
+Imports SMRUCC.genomics.BioSystem.Intervention
 Imports GEARSGraph = SMRUCC.genomics.Analysis.GEARS.Graph
 Imports std = System.Math
 

@@ -63,6 +63,8 @@ Imports SMRUCC.genomics.Analysis.BNLearn.Inference
 Imports SMRUCC.genomics.Analysis.BNLearn.ModularNetwork
 Imports SMRUCC.genomics.Analysis.BNLearn.ModularNetwork.WGCNA
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports SMRUCC.genomics.BioSystem.Core
+Imports SMRUCC.genomics.BioSystem.Intervention
 Imports std = System.Math
 
 ''' <summary>
@@ -105,7 +107,7 @@ Public Module GeneRegulatoryNetwork
     ''' <param name="wgcna">WGCNA "CorrelationNetwork.ExportGraph" 生成的共表达网络。</param>
     ''' <param name="TF">转录因子（上游调控因子）基因名称注释集合。</param>
     ''' <returns>定向后的 BNLearn 先验调控网络。</returns>
-    Public Function BuildPriorNetwork(wgcna As NetworkGraph, TF As HashSet(Of String)) As Core.PriorNetwork
+    Public Function BuildPriorNetwork(wgcna As NetworkGraph, TF As HashSet(Of String)) As PriorNetwork
         Return wgcna.graphEdges.BuildPriorNetwork(TF)
     End Function
 
@@ -122,8 +124,8 @@ Public Module GeneRegulatoryNetwork
     ''' <returns>定向后的 BNLearn 先验调控网络。</returns>
     ''' 
     <Extension>
-    Public Function BuildPriorNetwork(Of IE As INetworkEdge)(wgcna As IEnumerable(Of IE), TF As HashSet(Of String)) As Core.PriorNetwork
-        Dim prior As New Core.PriorNetwork
+    Public Function BuildPriorNetwork(Of IE As INetworkEdge)(wgcna As IEnumerable(Of IE), TF As HashSet(Of String)) As PriorNetwork
+        Dim prior As New PriorNetwork
         Dim skipped As Integer = 0
         Dim directed As Integer = 0
 
@@ -209,7 +211,7 @@ Public Module GeneRegulatoryNetwork
     ''' <returns>已注入拓扑先验网络的 BNLearn 工作流实例。</returns>
     Public Function BuildBNNetwork(wgcna As NetworkGraph, TF As String()) As BNLearnWorkflow
         Dim tfSet As New HashSet(Of String)(TF, StringComparer.OrdinalIgnoreCase)
-        Dim prior As Core.PriorNetwork = BuildPriorNetwork(wgcna, tfSet)
+        Dim prior As PriorNetwork = BuildPriorNetwork(wgcna, tfSet)
         Dim workflow As New BNLearnWorkflow With {
             .PriorNetwork = prior
         }
@@ -359,7 +361,7 @@ Public Module GeneRegulatoryNetwork
 
     ''' <summary>
     ''' 将 SingleGRN 流程产出的 DBN 时间序列（已是 <see cref="GeneExpressionData"/>）装配为
-    ''' BNLearn 工作流，并可选地融合由伪速率趋势构造的方向先验（<see cref="Core.PriorNetwork"/>）。
+    ''' BNLearn 工作流，并可选地融合由伪速率趋势构造的方向先验（<see cref="PriorNetwork"/>）。
     '''
     ''' 与 <see cref="BuildBNNetwork"/>（基于 WGCNA 共表达网络）不同，本函数直接消费已经完成
     ''' 伪时间分箱的连续时间序列表达矩阵，无需 WGCNA 与 TF 注释，适用于 Monocle3 + PseudoVelo
@@ -368,8 +370,8 @@ Public Module GeneRegulatoryNetwork
     ''' <param name="expr">DBN 时间序列表达矩阵（基因 × 伪时间 bin）。</param>
     ''' <param name="prior">可选的因果方向先验（如由 PseudoVelo 趋势符号构造）。为 Nothing 时退化为纯数据驱动 MMHC 结构学习。</param>
     ''' <returns>已注入表达数据与先验网络的 BNLearn 工作流实例。</returns>
-    Public Function BuildExpressionGRN(expr As GeneExpressionData, Optional prior As Core.PriorNetwork = Nothing) As Core.BNLearnWorkflow
-        Dim usePrior As Core.PriorNetwork = If(prior, New Core.PriorNetwork())
+    Public Function BuildExpressionGRN(expr As GeneExpressionData, Optional prior As PriorNetwork = Nothing) As Core.BNLearnWorkflow
+        Dim usePrior As PriorNetwork = If(prior, New PriorNetwork())
         Dim workflow As New Core.BNLearnWorkflow With {
             .ExpressionData = expr,
             .PriorNetwork = usePrior
@@ -395,15 +397,15 @@ Public Module GeneRegulatoryNetwork
     ''' <param name="outputDir">结果导出目录；为空则不导出。</param>
     ''' <returns>训练好的工作流 + 各类扰动结果（供调用方进一步分析或二次导出）。</returns>
     Public Function TrainAndIntervene(expr As GeneExpressionData,
-                                       prior As Core.PriorNetwork,
+                                       prior As PriorNetwork,
                                        knockGenes As String(),
                                        Optional overExpr As (Gene As String, Fold As Double)() = Nothing,
                                        Optional dynamicSteps As Integer = 10,
                                        Optional outputDir As String = Nothing) As (workflow As Core.BNLearnWorkflow,
-                                                                                  knockout As Intervention.InterventionResult(),
-                                                                                  overExprResults As Intervention.InterventionResult(),
-                                                                                  dynamic As Intervention.InterventionResult(),
-                                                                                  batch As IEnumerable(Of Intervention.InterventionResult))
+                                                                                  knockout As InterventionResult(),
+                                                                                  overExprResults As InterventionResult(),
+                                                                                  dynamic As InterventionResult(),
+                                                                                  batch As IEnumerable(Of InterventionResult))
         Dim workflow As Core.BNLearnWorkflow = BuildExpressionGRN(expr, prior)
 
         ' ① 结构学习（MMHC + 白名单先验）
@@ -414,13 +416,13 @@ Public Module GeneRegulatoryNetwork
         Call $"GRN.TrainAndIntervene: 网络训练完成（基因 {expr.NGene}, 伪时间点 {expr.TimePoints.Length}）".info
 
         ' ③ 虚拟敲除
-        Dim koResults As New List(Of Intervention.InterventionResult)
+        Dim koResults As New List(Of InterventionResult)
         For Each g As String In knockGenes
             koResults.Add(workflow.KnockoutGene(g))
         Next
 
         ' ④ 虚拟过表达
-        Dim oeResults As New List(Of Intervention.InterventionResult)
+        Dim oeResults As New List(Of InterventionResult)
         If overExpr IsNot Nothing Then
             For Each o In overExpr
                 oeResults.Add(workflow.OverexpressGene(o.Gene))
@@ -428,18 +430,18 @@ Public Module GeneRegulatoryNetwork
         End If
 
         ' ⑤ 动态级联敲除
-        Dim dynResults As New List(Of Intervention.InterventionResult)
+        Dim dynResults As New List(Of InterventionResult)
         For Each g As String In knockGenes
             dynResults.Add(workflow.DynamicKnockout(g, dynamicSteps))
         Next
 
         ' ⑥ 批量敲除
-        Dim batchResults As IEnumerable(Of Intervention.InterventionResult) = workflow.BatchKnockout(knockGenes)
+        Dim batchResults As IEnumerable(Of InterventionResult) = workflow.BatchKnockout(knockGenes)
 
         ' ⑦ 导出结果（与 BNLearn\test\Program.vb 一致）
         If Not String.IsNullOrEmpty(outputDir) Then
             Call workflow.SaveResults(outputDir)
-            Dim merged As New List(Of Intervention.InterventionResult)
+            Dim merged As New List(Of InterventionResult)
             Call merged.AddRange(koResults)
             Call merged.AddRange(oeResults)
             Call merged.AddRange(dynResults)
@@ -471,7 +473,7 @@ Public Module GeneRegulatoryNetwork
     ''' <returns>每个扰动基因的全局最终响应向量（按全部模块基因顺序排列）与训练好的模块子网络字典。</returns>
     Public Function TrainModularDBNIntervene(timeSeries As GeneExpressionData,
                                              modules As GeneModuleColor(),
-                                             prior As Core.PriorNetwork,
+                                             prior As PriorNetwork,
                                              TF As String(),
                                              knockGenes As String(),
                                              Optional dynamicSteps As Integer = 10,
@@ -479,7 +481,7 @@ Public Module GeneRegulatoryNetwork
 
         If timeSeries Is Nothing Then Throw New ArgumentNullException(NameOf(timeSeries), "时间序列表达矩阵不能为空")
         If modules Is Nothing OrElse modules.Length = 0 Then Throw New ArgumentNullException(NameOf(modules), "WGCNA 模块划分不能为空")
-        If prior Is Nothing Then prior = New Core.PriorNetwork()
+        If prior Is Nothing Then prior = New PriorNetwork()
         If TF Is Nothing Then TF = {}
         If knockGenes Is Nothing Then knockGenes = {}
 

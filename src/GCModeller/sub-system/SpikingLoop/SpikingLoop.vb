@@ -24,8 +24,6 @@
 
 Imports Microsoft.VisualBasic.DeepLearning.SpikingNeuralNetwork
 Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
-Imports SMRUCC.genomics.Analysis.BNLearn.Core
-Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.SpikingLoop.Data
 Imports SMRUCC.genomics.Analysis.SpikingLoop.Evaluation
@@ -33,6 +31,8 @@ Imports SMRUCC.genomics.Analysis.SpikingLoop.Graph
 Imports SMRUCC.genomics.Analysis.SpikingLoop.Model
 Imports SMRUCC.genomics.Analysis.SpikingLoop.Perturbation
 Imports SMRUCC.genomics.Analysis.SpikingLoop.Training
+Imports SMRUCC.genomics.BioSystem.Core
+Imports SMRUCC.genomics.BioSystem.Intervention
 
 ' 说明：本文件不使用 Namespace 语句——编译后自动落在工程 RootNamespace
 ' SMRUCC.genomics.Analysis.SpikingLoop 之下（与 BNLearn 的既有文件风格一致）。

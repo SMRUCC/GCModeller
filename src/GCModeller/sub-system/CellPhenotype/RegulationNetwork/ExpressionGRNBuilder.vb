@@ -1,12 +1,10 @@
-Imports System.Diagnostics
 Imports Microsoft.VisualBasic.Math.Correlations
 Imports Microsoft.VisualBasic.Math.Matrix
-Imports SMRUCC.genomics.Analysis.BNLearn
-Imports SMRUCC.genomics.Analysis.BNLearn.Core
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.HTS.WGCNA
+Imports SMRUCC.genomics.BioSystem
+Imports SMRUCC.genomics.BioSystem.Core
 Imports SMRUCC.genomics.Data.STRING.Tabular.Tsv
-Imports SMRUCC.genomics.InteractionModel
 
 Namespace RegulationNetwork
 

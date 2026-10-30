@@ -5,8 +5,8 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MachineLearning.Darwinism
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.Framework.Optimization.LBFGSB
-Imports PriorEdge = SMRUCC.genomics.Analysis.BNLearn.Core.RegulatoryEdge
-Imports PriorNet = SMRUCC.genomics.Analysis.BNLearn.Core.PriorNetwork
+Imports PriorEdge = SMRUCC.genomics.BioSystem.Core.RegulatoryEdge
+Imports PriorNet = SMRUCC.genomics.BioSystem.Core.PriorNetwork
 Imports std = System.Math
 
 Namespace GRN

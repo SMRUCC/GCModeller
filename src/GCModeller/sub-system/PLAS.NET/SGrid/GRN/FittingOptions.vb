@@ -1,7 +1,7 @@
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Math.Calculus.Dynamics
 Imports SMRUCC.genomics.Analysis.SSystem.Runner
-Imports PriorNet = SMRUCC.genomics.Analysis.BNLearn.Core.PriorNetwork
+Imports PriorNet = SMRUCC.genomics.BioSystem.Core.PriorNetwork
 
 Namespace GRN
 

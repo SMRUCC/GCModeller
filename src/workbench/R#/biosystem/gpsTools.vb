@@ -3,12 +3,13 @@ Imports System.IO
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports SMRUCC.genomics.Analysis.BNLearn.Core
-Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
 Imports SMRUCC.genomics.Analysis.GPS
 Imports SMRUCC.genomics.Analysis.GPS.Config
 Imports SMRUCC.genomics.Analysis.GPS.Training
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports SMRUCC.genomics.BioSystem
+Imports SMRUCC.genomics.BioSystem.Core
+Imports SMRUCC.genomics.BioSystem.Intervention
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
@@ -46,7 +47,7 @@ Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 ''' </list>
 ''' <para>
 ''' A trained <see cref="GPSModel"/> implements the
-''' <see cref="SMRUCC.genomics.Analysis.BNLearn.InsilicoPerturbationExperiment"/> interface,
+''' <see cref="InsilicoPerturbationExperiment"/> interface,
 ''' so the ``knockouts``, ``knockdown`` and ``overexpress`` api of the ``bnlearn`` package
 ''' can be applied to it directly for in silico perturbation experiments. The generic
 ''' ``writeBin`` handler of this module persists a model into a zip based binary stream,

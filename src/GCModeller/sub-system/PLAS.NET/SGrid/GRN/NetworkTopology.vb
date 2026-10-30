@@ -1,9 +1,6 @@
 Imports System.Text
 Imports Microsoft.VisualBasic.Linq
 Imports std = System.Math
-Imports RegulationEdge = SMRUCC.genomics.Analysis.BNLearn.Core.RegulatoryEdge
-Imports PriorNet = SMRUCC.genomics.Analysis.BNLearn.Core.PriorNetwork
-Imports EffectorRole = SMRUCC.genomics.Analysis.BNLearn.Effector
 
 Namespace GRN
 

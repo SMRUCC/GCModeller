@@ -1,5 +1,5 @@
 Imports System.Runtime.CompilerServices
-Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
+Imports SMRUCC.genomics.BioSystem.Intervention
 
 Namespace Training
 
