@@ -44,8 +44,11 @@ FuzzyGene: the neuro-fuzzy (Wilson/Takagi-Sugeno ANFIS) gene regulatory network 
 + [train](FuzzyGene/train.1) Train the neuro-fuzzy model: one Takagi-Sugeno network per target gene.
 + [fuzzygene_rules](FuzzyGene/fuzzygene_rules.1) Export the IF-THEN rules of every fitted target gene.
 + [fuzzygene_edges](FuzzyGene/fuzzygene_edges.1) Export the signed regulatory edge table of a trained model.
++ [fuzzygene_regulation_matrix](FuzzyGene/fuzzygene_regulation_matrix.1) Export the signed regulation weight matrix of a trained model.
++ [fuzzygene_confidence_matrix](FuzzyGene/fuzzygene_confidence_matrix.1) Export the confidence matrix of a trained model (same shape as the weight matrix).
 + [fuzzygene_context](FuzzyGene/fuzzygene_context.1) Inject a transcriptome context as the initial condition of the virtual perturbation.
 + [fuzzygene_reset_context](FuzzyGene/fuzzygene_reset_context.1) Drop the injected context and restore the training baseline.
++ [fuzzygene_model_config](FuzzyGene/fuzzygene_model_config.1) The configuration attached to a model (identical to ``config.json`` inside the package).
 + [fuzzygene_report](FuzzyGene/fuzzygene_report.1) Human readable training report of a fitted model.
 + [save_fuzzygene](FuzzyGene/save_fuzzygene.1) Save a trained model into a ``*.fuzzygene.zip`` package.
 + [load_fuzzygene](FuzzyGene/load_fuzzygene.1) Load a model from a ``*.fuzzygene.zip`` package.

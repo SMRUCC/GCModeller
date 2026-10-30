@@ -41,6 +41,13 @@
     <i>maxTrainRows</i> = <span style='color: green;'>0</span>,
     <i>maxCandidateGenes</i> = <span style='color: green;'>0</span>,
     <i>minBestCorrelation</i> = <span style='color: green;'>0</span>,
+    <i>noveltyQuota</i> = <span style='color: green;'>0</span>,
+    <i>rulePartition</i> = <span style='color: brown;'><strong>"auto"</strong></span>,
+    <i>scatterRules</i> = <span style='color: green;'>48</span>,
+    <i>scatterInputs</i> = <span style='color: green;'>8</span>,
+    <i>scatterMinInputs</i> = <span style='color: green;'>2</span>,
+    <i>scatterZThreshold</i> = <span style='color: green;'>1</span>,
+    <i>scatterSeed</i> = <span style='color: green;'>0</span>,
     <i>maxRules</i> = <span style='color: green;'>128</span>,
     <i>maxConsequentParams</i> = <span style='color: green;'>512</span>,
     <i>standardize</i> = <span style='color: blue !important;'>TRUE</span>,
@@ -107,6 +114,34 @@
 
 <dt>minBestCorrelation</dt>
 <dd><p>skip a target gene when it has no prior regulator and its best |Pearson| against the candidates is below this value (such models have R2 close to 0). 0 disables the filter. [as double]</p></dd>
+
+
+<dt>noveltyQuota</dt>
+<dd><p>fraction (0-1) of the regulator slots reserved for genes that are <strong>not</strong> in the prior network of that target, i.e. for links discovered from the expression data. <code>0</code> (default) keeps the old "prior first" behaviour, where prior TFs can occupy every slot and the model can only repeat the prior. <code>0.2</code>-<code>0.4</code> is a sensible range: with K = 6 and <code>0.34</code> two slots are always given to data driven regulators. Ignored when <code>selection = "prior-only"</code>. [as double]</p></dd>
+
+
+<dt>rulePartition</dt>
+<dd><p>rule generation strategy: <code>auto</code> (default), <code>grid</code> or <code>scatter</code>. <code>grid</code> places m membership functions per input and enumerates <code>m^K</code> rules, so the rule count explodes with the input count. <code>scatter</code> clusters the training samples (kmeans) and creates one rule per cluster, each with its own gaussian center/width per input - the number of rules no longer depends on K, which is what makes <code>maxRegulators = 18</code> feasible. <code>auto</code> keeps <code>grid</code> while <code>m^K &lt;= maxRules</code> and <code>m^K*(K+1) &lt;= maxConsequentParams</code>, otherwise it switches to <code>scatter</code>. [as string]</p></dd>
+
+
+<dt>scatterRules</dt>
+<dd><p>number of clusters (= rules) of the scatter partition. Default 48. [as integer]</p></dd>
+
+
+<dt>scatterInputs</dt>
+<dd><p>maximum number of antecedents per scatter rule. Default 8. [as integer]</p></dd>
+
+
+<dt>scatterMinInputs</dt>
+<dd><p>minimum number of antecedents per scatter rule. Default 2. [as integer]</p></dd>
+
+
+<dt>scatterZThreshold</dt>
+<dd><p>an input joins a cluster rule when the cluster center deviates from the global mean by at least this many standard deviations. Default 1. [as double]</p></dd>
+
+
+<dt>scatterSeed</dt>
+<dd><p>random seed of the clustering, keeps the structure reproducible. Default 0. [as integer]</p></dd>
 
 
 <dt>maxRules</dt>

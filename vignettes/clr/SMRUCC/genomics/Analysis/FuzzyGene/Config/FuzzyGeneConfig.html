@@ -81,6 +81,8 @@ export class FuzzyGeneConfig extends <a href="/vignettes/clr/Microsoft/VisualBas
    # 判定为时序数据所需的最少唯一时间点数（滞后模式）。
    MinTimePoints: integer;
    Momentum: double;
+   # 为「数据发现」的调控因子保留的槽位比例（0–1）；0 表示沿用「先验优先」的旧行为。
+   NoveltyQuota: double;
    Optimizer: <a href="/vignettes/clr/Microsoft/VisualBasic/DeepLearning/ANFIS/AnfisOptimizerKind.html">AnfisOptimizerKind</a>;
    OutputNames: string;
    # 虚拟过表达的提升幅度（以训练期标准差为单位）：<code>mean + nσ</code>。
@@ -97,6 +99,12 @@ export class FuzzyGeneConfig extends <a href="/vignettes/clr/Microsoft/VisualBas
    RlsForgetting: double;
    RlsInitialCovariance: double;
    RuleEnableMask: boolean;
+   RulePartition: <a href="/vignettes/clr/Microsoft/VisualBasic/DataMining/FuzzyLogic/TSK/RulePartitionKind.html">RulePartitionKind</a>;
+   ScatterInputs: integer;
+   ScatterMinInputs: integer;
+   ScatterRuleCount: integer;
+   ScatterSeed: integer;
+   ScatterZThreshold: double;
    # 候选调控因子的筛选策略。
    Selection: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/RegulatorSelection.html">RegulatorSelection</a>;
    # 扰动效应的显著性阈值（Z 分数）：<code>|Δ / SD|</code> 超过该值的基因标记为显著变化。
@@ -118,6 +126,7 @@ export class FuzzyGeneConfig extends <a href="/vignettes/clr/Microsoft/VisualBas
 <li>use by <i>property</i> member <code>LearningMode</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/DeepLearning/ANFIS/AnfisLearningMode.html">AnfisLearningMode</a></li>
 <li>use by <i>property</i> member <code>MfKind</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/DataMining/FuzzyLogic/TSK/MembershipKind.html">MembershipKind</a></li>
 <li>use by <i>property</i> member <code>Optimizer</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/DeepLearning/ANFIS/AnfisOptimizerKind.html">AnfisOptimizerKind</a></li>
+<li>use by <i>property</i> member <code>RulePartition</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/DataMining/FuzzyLogic/TSK/RulePartitionKind.html">RulePartitionKind</a></li>
 <li>use by <i>property</i> member <code>Selection</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/RegulatorSelection.html">RegulatorSelection</a></li>
 <li>use by <i>property</i> member <code>TargetMode</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/FuzzyTargetMode.html">FuzzyTargetMode</a></li>
 </ol>

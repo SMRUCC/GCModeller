@@ -16,6 +16,13 @@ fuzzygene_config \- Create a FuzzyGene modelling configuration object.
 \fBmaxTrainRows\fR as integer = 0, 
 \fBmaxCandidateGenes\fR as integer = 0, 
 \fBminBestCorrelation\fR as double = 0, 
+\fBnoveltyQuota\fR as double = 0, 
+\fBrulePartition\fR as string = "auto", 
+\fBscatterRules\fR as integer = 48, 
+\fBscatterInputs\fR as integer = 8, 
+\fBscatterMinInputs\fR as integer = 2, 
+\fBscatterZThreshold\fR as double = 1, 
+\fBscatterSeed\fR as integer = 0, 
 \fBmaxRules\fR as integer = 128, 
 \fBmaxConsequentParams\fR as integer = 512, 
 \fBstandardize\fR as boolean = TRUE, 
@@ -105,6 +112,45 @@ Create a FuzzyGene modelling configuration object.
  skip a target gene when it has no prior regulator and its best |Pearson| against the
  candidates is below this value (such models have R2 close to 0). 0 disables the filter.
 . 
+.PP
+.PP
+\fBnoveltyQuota\fB \fR\- 
+ fraction (0-1) of the regulator slots reserved for genes that are **not** in the prior
+ network of that target, i.e. for links discovered from the expression data.
+ \fB0\fR (default) keeps the old "prior first" behaviour, where prior TFs can occupy every
+ slot and the model can only repeat the prior. \fB0.2\fR-\fB0.4\fR is a sensible range:
+ with K = 6 and \fB0.34\fR two slots are always given to data driven regulators.
+ Ignored when \fBselection = "prior-only"\fR.
+. 
+.PP
+.PP
+\fBrulePartition\fB \fR\- 
+ rule generation strategy: \fBauto\fR (default), \fBgrid\fR or \fBscatter\fR.
+ \fBgrid\fR places m membership functions per input and enumerates `m^K` rules, so the rule
+ count explodes with the input count. \fBscatter\fR clusters the training samples (kmeans) and
+ creates one rule per cluster, each with its own gaussian center/width per input - the number of
+ rules no longer depends on K, which is what makes \fBmaxRegulators = 18\fR feasible.
+ \fBauto\fR keeps \fBgrid\fR while `m^K <= maxRules` and `m^K*(K+1) <= maxConsequentParams`,
+ otherwise it switches to \fBscatter\fR.
+. 
+.PP
+.PP
+\fBscatterRules\fB \fR\- number of clusters (= rules) of the scatter partition. Default 48.. 
+.PP
+.PP
+\fBscatterInputs\fB \fR\- maximum number of antecedents per scatter rule. Default 8.. 
+.PP
+.PP
+\fBscatterMinInputs\fB \fR\- minimum number of antecedents per scatter rule. Default 2.. 
+.PP
+.PP
+\fBscatterZThreshold\fB \fR\- 
+ an input joins a cluster rule when the cluster center deviates from the global mean by at
+ least this many standard deviations. Default 1.
+. 
+.PP
+.PP
+\fBscatterSeed\fB \fR\- random seed of the clustering, keeps the structure reproducible. Default 0.. 
 .PP
 .PP
 \fBmaxRules\fB \fR\- rule budget per target gene. Default 128.. 

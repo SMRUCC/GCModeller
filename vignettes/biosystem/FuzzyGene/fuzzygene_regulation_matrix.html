@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Export the signed regulation weight matrix of a trained model.</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>fuzzygene_regulation_matrix {FuzzyGene}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>Export the signed regulation weight matrix of a trained model.</h2>
+
+        <h3>Description</h3>
+
+        
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>fuzzygene_regulation_matrix</strong>(<i>fuzzygene</i>,
+    <i>layout</i> = <span style='color: brown;'><strong>"square"</strong></span>,
+    <i>minWeight</i> = <span style='color: green;'>0</span>,
+    <i>genes</i> = <span style='color: blue !important;'>NULL</span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>fuzzygene</dt>
+<dd><p>a trained model. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/FuzzyGeneModel.html">FuzzyGeneModel</a>]</p></dd>
+
+
+<dt>layout</dt>
+<dd><p><code>square</code> (default), <code>regulators</code> or <code>compact</code>. [as string]</p></dd>
+
+
+<dt>minWeight</dt>
+<dd><p>edges with a smaller absolute weight are exported as zero; 0 keeps all. [as double]</p></dd>
+
+
+<dt>genes</dt>
+<dd><p>restrict the exported rows to these target genes; empty means all. [as string]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment used to report errors. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: block;">Details</h3>
+
+        <p>Rows are target genes, columns are regulators, and the element <code>W[i, j]</code> is the signed influence of regulator <code>j</code> on target <code>i</code> (the average analytic partial derivative <code>dx_target/dx_regulator</code>): positive means activation, negative means repression, zero means no modelled edge.</p>
+
+<p>The result is a standard <code>Matrix</code> object, so it can be written directly with <code>geneExpression::write.expr_matrix()</code> or fed into downstream network analysis:</p>
+
+
+<pre><code> let w = fuzzygene::fuzzygene_regulation_matrix(model, layout = "compact");
+ geneExpression::write.expr_matrix(w, file = "/path/to/network_weight.csv", id = "geneID");
+ </code></pre>
+
+
+<p>Layouts: <code>square</code> (strict N x N, rows and columns are all model genes), <code>regulators</code> (columns limited to genes that really appear as regulators) and <code>compact</code> (rows = targets with at least one edge, columns = regulators). For a genome scale model the square layout is <code>N^2</code> doubles (about 2.7 GB for 18,533 genes), so prefer <code>compact</code>/<code>regulators</code> together with the <code>genes</code> row filter.</p>
+
+        <h3 style="display: block">Authors</h3>
+
+        biosystem
+
+        <h3>Value</h3>
+
+        <p>a Matrix object (rows = targets, columns = regulators)</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a></li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>FuzzyGene</em> version 1.0.0.0 <a
+                href="../FuzzyGene.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

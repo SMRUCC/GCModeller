@@ -38,6 +38,8 @@ export class GeneFitMetric {
    Message: string;
    # 实际使用的模糊划分数（降级后可能小于配置值）。
    MfCount: integer;
+   # 实际使用的规则划分方式：<code>grid</code> 或 <code>scatter</code>。
+   Partition: string;
    # 训练集决定系数。
    R2: double;
    # 实际使用的调控因子（规则预算降级之后）。

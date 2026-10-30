@@ -1,0 +1,74 @@
+.\" man page create by R# package system.
+.TH FUZZYGENE 1 2000-1月 "fuzzygene_regulation_matrix" "fuzzygene_regulation_matrix"
+.SH NAME
+fuzzygene_regulation_matrix \- Export the signed regulation weight matrix of a trained model.
+.SH SYNOPSIS
+\fIfuzzygene_regulation_matrix(\fBfuzzygene\fR as <generic> FuzzyGeneModel, 
+\fBlayout\fR as string = "square", 
+\fBminWeight\fR as double = 0, 
+\fBgenes\fR as string = \fB<NULL>\fR, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Export the signed regulation weight matrix of a trained model.
+.PP
+.SH OPTIONS
+.PP
+\fBfuzzygene\fB \fR\- a trained model. 
+.PP
+.PP
+\fBlayout\fB \fR\- \fBsquare\fR (default), \fBregulators\fR or \fBcompact\fR. 
+.PP
+.PP
+\fBminWeight\fB \fR\- edges with a smaller absolute weight are exported as zero; 0 keeps all. 
+.PP
+.PP
+\fBgenes\fB \fR\- restrict the exported rows to these target genes; empty means all. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment used to report errors. 
+.PP
+.SH VALUE
+.PP
+a Matrix object (rows = targets, columns = regulators)
+.PP
+.SH DETAILS
+.PP
+Rows are target genes, columns are regulators, and the element
+ `W[i, j]` is the signed influence of regulator `j` on target `i`
+ (the average analytic partial derivative `dx_target/dx_regulator`):
+ positive means activation, negative means repression, zero means no modelled edge.
+ 
+
+
+ 
+
+
+ The result is a standard \fBMatrix\fR object, so it can be written directly with
+ \fBgeneExpression::write.expr_matrix()\fR or fed into downstream network analysis:
+ 
+\fB
+ let w = fuzzygene::fuzzygene_regulation_matrix(model, layout = "compact");
+ geneExpression::write.expr_matrix(w, file = "/path/to/network_weight.csv", id = "geneID");
+ 
+\fR`
+
+ 
+
+
+ 
+
+
+ Layouts: \fBsquare\fR (strict N x N, rows and columns are all model genes),
+ \fBregulators\fR (columns limited to genes that really appear as regulators) and
+ \fBcompact\fR (rows = targets with at least one edge, columns = regulators).
+ For a genome scale model the square layout is `N^2` doubles
+ (about 2.7 GB for 18,533 genes), so prefer \fBcompact\fR/\fBregulators\fR
+ together with the \fBgenes\fR row filter.
+.PP
+.SH SEE ALSO
+FuzzyGene
+.SH FILES
+.PP
+biosystem.dll
+.PP

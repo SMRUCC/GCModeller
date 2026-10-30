@@ -1,0 +1,35 @@
+.\" man page create by R# package system.
+.TH FUZZYGENE 1 2000-1月 "fuzzygene_model_config" "fuzzygene_model_config"
+.SH NAME
+fuzzygene_model_config \- The configuration attached to a model (identical to \fBconfig.json\fR inside the package).
+.SH SYNOPSIS
+\fIfuzzygene_model_config(\fBfuzzygene\fR as <generic> FuzzyGeneModel, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+The configuration attached to a model (identical to \fBconfig.json\fR inside the package).
+.PP
+.SH OPTIONS
+.PP
+\fBfuzzygene\fB \fR\- a trained (or restored) model. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment used to report errors. 
+.PP
+.SH VALUE
+.PP
+the configuration object
+.PP
+.SH DETAILS
+.PP
+Useful to confirm what the model was actually fitted with, especially the rule budget
+ (\fBmaxRules\fR / \fBmaxConsequentParams\fR) and \fBnoveltyQuota\fR. Remember that
+ \fBmaxRegulators\fR / \fBmfCount\fR are only upper bounds: the real structure is reduced by the
+ rule budget, which is reported on the \fBstructure:\fR line of \fBfuzzygene_report\fR.
+.PP
+.SH SEE ALSO
+FuzzyGene
+.SH FILES
+.PP
+biosystem.dll
+.PP

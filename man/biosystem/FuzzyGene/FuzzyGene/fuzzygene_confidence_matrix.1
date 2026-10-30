@@ -1,0 +1,64 @@
+.\" man page create by R# package system.
+.TH FUZZYGENE 1 2000-1月 "fuzzygene_confidence_matrix" "fuzzygene_confidence_matrix"
+.SH NAME
+fuzzygene_confidence_matrix \- Export the confidence matrix of a trained model (same shape as the weight matrix).
+.SH SYNOPSIS
+\fIfuzzygene_confidence_matrix(\fBfuzzygene\fR as <generic> FuzzyGeneModel, 
+\fBlayout\fR as string = "square", 
+\fBminConfidence\fR as double = 0, 
+\fBgenes\fR as string = \fB<NULL>\fR, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Export the confidence matrix of a trained model (same shape as the weight matrix).
+.PP
+.SH OPTIONS
+.PP
+\fBfuzzygene\fB \fR\- a trained model. 
+.PP
+.PP
+\fBlayout\fB \fR\- \fBsquare\fR (default), \fBregulators\fR or \fBcompact\fR. 
+.PP
+.PP
+\fBminConfidence\fB \fR\- edges with a smaller confidence are exported as zero; 0 keeps all. 
+.PP
+.PP
+\fBgenes\fB \fR\- restrict the exported rows to these target genes; empty means all. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment used to report errors. 
+.PP
+.SH VALUE
+.PP
+a Matrix object (rows = targets, columns = regulators, non negative values)
+.PP
+.SH DETAILS
+.PP
+Rows and columns are exactly the same as in \fBfuzzygene_regulation_matrix\fR (same layout,
+ same order), only the element value changes: `W[i, j]` becomes the confidence of the
+ edge `j -> i`, that is the prior confidence when the edge is supported by the prior
+ network and the absolute expression correlation `|Pearson|` otherwise.
+ 
+
+
+ 
+
+
+ Weight and confidence answer two different questions ("how strong / which direction" vs
+ "how trustworthy"), so exporting both matrices and using weight for the edge width and
+ confidence for the edge opacity or a cutoff is the usual combination:
+ 
+\fB
+ let w = fuzzygene::fuzzygene_regulation_matrix(model, layout = "compact");
+ let c = fuzzygene::fuzzygene_confidence_matrix(model, layout = "compact");
+ geneExpression::write.expr_matrix(w, file = "/path/weight.csv", id = "geneID");
+ geneExpression::write.expr_matrix(c, file = "/path/confidence.csv", id = "geneID");
+ 
+\fR`
+.PP
+.SH SEE ALSO
+FuzzyGene
+.SH FILES
+.PP
+biosystem.dll
+.PP
