@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>test</RootNamespace>
+    <TargetFramework>net10.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <Platforms>AnyCPU;x64</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\runtime\sciBASIC#\Data\DataFrame\dataframework-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\..\..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\models\BioCyc\BioCyc.vbproj" />
+    <ProjectReference Include="..\..\..\CompilerServices\CompilerServices.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\Dynamics\Dynamics.NET5.vbproj" />
+    <ProjectReference Include="..\..\GCMarkupLanguage\GCMarkupXML.NET5.vbproj" />
+    <ProjectReference Include="..\BioCycCompiler.vbproj" />
+  </ItemGroup>
+
+</Project>
