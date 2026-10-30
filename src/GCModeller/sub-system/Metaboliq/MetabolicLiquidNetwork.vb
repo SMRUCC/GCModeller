@@ -508,6 +508,28 @@ Public Class MetabolicLiquidNetwork
             End Get
         End Property
 
+        ''' <summary>
+        ''' 从模板共享只读的常量矩阵：通量读出头的权重、偏置以及可逆掩码。
+        ''' </summary>
+        ''' <remarks>
+        ''' 这些矩阵只依赖网络拓扑与随机初始化，推理期间不会被就地修改。
+        ''' 它们的大小为 <c>(m+n)×r</c>：m≈8130、n≈3401、r≈3270 时单个细胞就要约 300 MB，
+        ''' 因此多细胞仿真必须共享，否则内存占用会随细胞数量线性膨胀。
+        ''' 训练场景请改用 <c>CopyWeights</c> 取得独立副本。
+        ''' </remarks>
+        Public Sub ShareConstantsFrom(template As MetabolicLiquidNetwork)
+            If template Is Nothing OrElse ReferenceEquals(template, Me) Then
+                Return
+            End If
+            If template.ReactionCount <> ReactionCount OrElse template.MetaboliteCount <> MetaboliteCount Then
+                Return
+            End If
+
+            Me._FluxWeight = template._FluxWeight
+            Me._FluxBias = template._FluxBias
+            Me._reversibleMask = template._reversibleMask
+        End Sub
+
         ''' <summary>创建批量状态矩阵 <c>[B, m]</c>（零初值）。</summary>
         Public Function NewBatchState(batchSize As Integer) As Tensor
             Return Tensor.Zeros({batchSize, MetaboliteCount})
