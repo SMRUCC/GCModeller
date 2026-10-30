@@ -60,29 +60,28 @@
     <Project Path="../core/Bio.InteractionModel/InteractionModel.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
+    <Project Path="Model/Model.Core.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+  </Folder>
+  <Folder Name="/kernels/">
     <Project Path="../sub-system/GEARS/GEARS.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
     <Project Path="../sub-system/Metaboliq/Metaboliq.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
-    <Project Path="BootstrapLoader/BootstrapLoader.NET5.vbproj">
-      <Platform Solution="*|x64" Project="x64" />
-    </Project>
-    <Project Path="CompilerServices/CompilerServices.NET5.vbproj">
-      <Platform Solution="*|x64" Project="x64" />
-    </Project>
     <Project Path="Dynamics/Dynamics.NET5.vbproj">
-      <Platform Solution="*|x64" Project="x64" />
-    </Project>
-    <Project Path="IO/GCMarkupLanguage/GCMarkupXML.NET5.vbproj">
-      <Platform Solution="*|x64" Project="x64" />
-    </Project>
-    <Project Path="Model/Model.Core.NET5.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
   </Folder>
   <Project Path="Cella/Cella.vbproj">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
+  <Project Path="CompilerServices/CompilerServices.NET5.vbproj">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
+  <Project Path="IO/GCMarkupLanguage/GCMarkupXML.NET5.vbproj">
     <Platform Solution="*|x64" Project="x64" />
   </Project>
 </Solution>
