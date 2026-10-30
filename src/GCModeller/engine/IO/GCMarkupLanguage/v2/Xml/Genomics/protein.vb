@@ -74,6 +74,54 @@ Namespace v2
 
         Public Property note As String
 
+        ''' <summary>
+        ''' 蛋白质的相对分子质量(Dalton)
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property molecularWeight As Double
+
+        ''' <summary>
+        ''' 蛋白质的等电点
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property pi As Double
+
+        ''' <summary>
+        ''' 蛋白质在细胞之中的定位列表(因为有些蛋白质会在多个区室之中出现)
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlElement("location")> Public Property locations As String()
+
+        ''' <summary>
+        ''' 蛋白质的GO功能注释编号
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlElement("go")> Public Property goTerms As String()
+
+        ''' <summary>
+        ''' 蛋白质所属的复合物的编号，非复合物成员的时候为空
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property complexId As String
+
+        ''' <summary>
+        ''' 蛋白质序列上面的结构域以及功能位点
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlElement("domain")> Public Property domains As ProteinFeature()
+
+        ''' <summary>
+        ''' 蛋白质所催化的反应编号列表
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlElement("catalyzes")> Public Property catalyzes As String()
+
+        ''' <summary>
+        ''' 该蛋白质所关联的文献证据编号
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlElement("evidence")> Public Property evidence As String()
+
         Public Shared Iterator Function ProteinRoutine(list As protein(), protein_id As String, visited As Index(Of String)) As IEnumerable(Of protein)
             If Not protein_id Like visited Then
                 Dim direct As protein() = list _

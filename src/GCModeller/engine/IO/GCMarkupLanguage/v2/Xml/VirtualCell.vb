@@ -107,7 +107,50 @@ Namespace v2
 
         Public Property traits As Traits
 
-        Public Const GCMarkupLanguage$ = "https://bioCAD.gcmodeller.org/XML/schema_revision/GCMarkup_2.0"
+        ''' <summary>
+        ''' 细胞模型之中的区室定义表，模型之中的所有区室编号都必须在本表之中存在
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlArray("compartments")>
+        <XmlArrayItem("compartment")>
+        Public Property compartments As Compartment()
+
+        ''' <summary>
+        ''' 细胞的生理状态参数
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlElement("physiology")>
+        Public Property physiology As Physiology
+
+        ''' <summary>
+        ''' 模型所引用的文献证据索引表
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlArray("evidence")>
+        <XmlArrayItem("publication")>
+        Public Property evidence As Evidence()
+
+        ''' <summary>
+        ''' BioCyc/GO的类层次定义表，用于描述化合物、蛋白质以及代谢通路的分类归属
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlArray("classTerms")>
+        <XmlArrayItem("classTerm")>
+        Public Property classTerms As ClassTerm()
+
+        ''' <summary>
+        ''' 模型数据的来源描述，通常为 ``BioCyc EcoCyc 29.0``
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property dataSource As String
+
+        ''' <summary>
+        ''' 当前的模型文件所遵循的XML schema的版本号
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property schemaVersion As String = "3.0"
+
+        Public Const GCMarkupLanguage$ = "https://bioCAD.gcmodeller.org/XML/schema_revision/GCMarkup_3.0"
 
         Sub New()
             Call MyBase.New()
@@ -122,6 +165,13 @@ Namespace v2
             cellular_id = copy.cellular_id
             genome = New Genome(copy.genome)
             metabolismStructure = New MetabolismStructure(copy.metabolismStructure)
+            compartments = copy.compartments.SafeQuery.ToArray
+            evidence = copy.evidence.SafeQuery.ToArray
+            classTerms = copy.classTerms.SafeQuery.ToArray
+            physiology = copy.physiology
+            traits = copy.traits
+            dataSource = copy.dataSource
+            schemaVersion = copy.schemaVersion
         End Sub
 
         Public Overrides Function ToString() As String
@@ -161,9 +211,10 @@ Namespace v2
             Next
 
             Call sb.AppendLine()
-            Call sb.AppendLine($"transcript regulations: {model.genome.regulations.Length}")
+            Call sb.AppendLine($"transcript regulations: {model.genome.regulations.TryCount}")
             For Each family As NamedValue(Of Integer) In model.genome.regulations _
-                .GroupBy(Function(r) r.motif.family) _
+                .SafeQuery _
+                .GroupBy(Function(r) If(r.motif Is Nothing, "unknown", r.motif.family)) _
                 .Select(Function(g)
                             Return New NamedValue(Of Integer)(g.Key, g.Count)
                         End Function) _
@@ -174,11 +225,22 @@ Namespace v2
 
             Call sb.AppendLine()
             Call sb.AppendLine("metabolism structure:")
-            Call sb.AppendLine($"  enzymes: {model.metabolismStructure.enzymes.Length}")
+            Call sb.AppendLine($"  enzymes: {model.metabolismStructure.enzymes.TryCount}")
             Call sb.AppendLine($"  reactions:")
             Call sb.AppendLine()
             Call sb.AppendLine($"    {model.metabolismStructure.reactions.AsEnumerable.Count(Function(r) r.is_enzymatic)} is enzymatic.")
             Call sb.AppendLine($"    {model.metabolismStructure.reactions.AsEnumerable.Count(Function(r) Not r.is_enzymatic)} is non-enzymatic.")
+            Call sb.AppendLine($"  compounds: {model.metabolismStructure.compounds.TryCount}")
+            Call sb.AppendLine($"  pathways: {model.metabolismStructure.maps.SafeQuery.Select(Function(m) m.pathways.TryCount).Sum}")
+
+            If Not model.compartments.IsNullOrEmpty Then
+                Call sb.AppendLine()
+                Call sb.AppendLine("compartments:")
+
+                For Each compartment As Compartment In model.compartments
+                    Call sb.AppendLine($"  {compartment}")
+                Next
+            End If
 
             Return sb.ToString
         End Function

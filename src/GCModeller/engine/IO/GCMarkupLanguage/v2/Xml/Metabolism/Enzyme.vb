@@ -95,6 +95,54 @@ Namespace v2
         <XmlElement>
         Public Property catalysis As Catalysis()
 
+        ''' <summary>
+        ''' 复合物类型的酶所具有的亚基编号列表
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlElement("subunit")> Public Property subunits As String()
+
+        ''' <summary>
+        ''' 酶的辅因子编号列表
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlElement("cofactor")> Public Property cofactors As String()
+
+        ''' <summary>
+        ''' 酶的细胞定位
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property localization As String
+
+        ''' <summary>
+        ''' 酶的催化常数kcat
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property kcat As Double
+
+        ''' <summary>
+        ''' 酶的米氏常数Km
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property km As Double
+
+        ''' <summary>
+        ''' 酶的最大反应速率Vmax
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property vmax As Double
+
+        ''' <summary>
+        ''' 酶的催化效率kcat/Km
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property kcatKm As Double
+
+        ''' <summary>
+        ''' 酶的动力学反应方向
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property direction As ReactionDirection
+
         Public Overrides Function ToString() As String
             Return proteinID
         End Function

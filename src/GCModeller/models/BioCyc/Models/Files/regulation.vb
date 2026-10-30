@@ -63,4 +63,16 @@ Public Class regulation : Inherits Model
     <AttributeField("REGULATOR")>
     Public Property regulator As String
 
+    ''' <summary>
+    ''' the DNA binding site of current regulation relationship
+    ''' </summary>
+    ''' <returns></returns>
+    <AttributeField("ASSOCIATED-BINDING-SITE")> Public Property associatedBindingSite As String()
+    <AttributeField("ACCESSORY-PROTEINS")> Public Property accessoryProteins As String()
+    <AttributeField("MECHANISM")> Public Property mechanism As String
+    <AttributeField("KI")> Public Property Ki As Double
+    <AttributeField("GROWTH-CONDITIONS")> Public Property growthConditions As String
+    <AttributeField("REGULON")> Public Property regulon As String
+    <AttributeField("REQUIRED-BINDING-SITE")> Public Property requiredBindingSite As String()
+
 End Class

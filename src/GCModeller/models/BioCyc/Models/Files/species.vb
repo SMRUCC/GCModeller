@@ -97,6 +97,15 @@ Public Class species : Inherits Model
     <AttributeField("NCBI-TAXONOMY-ID")> <XmlAttribute> Public Property NCBITaxonomyId As String
     <AttributeField("PGDB-HOME-PAGE")> Public Property PGDBHomePage As String
 
+    <AttributeField("BIOMASS-TEMPLATES")> Public Property biomassTemplates As String()
+    <AttributeField("CONTACT-EMAIL")> Public Property contactEmail As String()
+    <AttributeField("DATA-SOURCE")> Public Property dataSource As String()
+    <AttributeField("DBLINKS")> Public Property dbLinks As String()
+    <AttributeField("DOCUMENTATION")> Public Property documentation As String()
+    <AttributeField("SEQUENCE-SOURCE")> Public Property sequenceSource As String()
+    <AttributeField("UPDATE-STATS")> Public Property updateStats As String
+    <AttributeField("COMMENT-INTERNAL")> Public Property commentInternal As String
+
     Public Function GetFullName() As String
         Return commonName & " " & StrainName
     End Function

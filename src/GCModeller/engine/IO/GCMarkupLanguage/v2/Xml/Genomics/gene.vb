@@ -108,6 +108,60 @@ Namespace v2
         <XmlAttribute> Public Property type As RNATypes
 
         ''' <summary>
+        ''' 基因的名称(通常为基因的symbol，例如 ``lacZ``)
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property name As String
+
+        ''' <summary>
+        ''' 基因的同义名称列表
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlElement("synonym")> Public Property synonyms As String()
+
+        ''' <summary>
+        ''' 基因在公共数据库(例如NCBI GeneBank)之中的登录号
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property accession As String
+
+        ''' <summary>
+        ''' 基因的交叉引用编号列表
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlElement("db_xref")> Public Property dbLinks As String()
+
+        ''' <summary>
+        ''' 基因的GO功能注释编号
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlElement("go")> Public Property goTerms As String()
+
+        ''' <summary>
+        ''' 基因在染色体上面的着丝粒相对位置，取值范围为[0,1]
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property centisomePosition As Double
+
+        ''' <summary>
+        ''' 基因所属的复制子或者基因簇的编号
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property componentOf As String
+
+        ''' <summary>
+        ''' 基因的功能描述文本
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlElement> Public Property characterization As String
+
+        ''' <summary>
+        ''' 该基因所关联的文献证据编号
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlElement("evidence")> Public Property evidence As String()
+
+        ''' <summary>
         ''' 对于rRNA和tRNA不存在
         ''' </summary>
         ''' <returns>composition vector of 22 kinds of AA residues, integer value in range from [1,n]</returns>

@@ -96,6 +96,13 @@ Public Class ObjectWriter
         Return model.FullName
     End Function
 
+    ''' <summary>
+    ''' 记录了发生过“多值属性被绑定到标量字段”的数据丢失情况的字段名称，
+    ''' 用于开发期间诊断 dat 模型定义是否需要改为数组类型
+    ''' </summary>
+    Shared ReadOnly truncations As New HashSet(Of String)
+    Shared ReadOnly truncationLock As New Object()
+
     Public Function Deserize(data As FeatureElement) As Model
         Dim obj As Object = Activator.CreateInstance(model)
         Dim val As Object
@@ -103,12 +110,31 @@ Public Class ObjectWriter
 
         For Each field As NamedValue(Of PropertyInfo) In schema
             castTo = field.Value
-            val = castVal(data(field.Name), castTo.PropertyType)
+
+            Dim source As ValueString() = data(field.Name)
+
+            If source IsNot Nothing AndAlso source.Length > 1 AndAlso Not castTo.PropertyType.IsArray Then
+                ' 多值属性绑定到了标量字段上面：仅保留第一个值，并记录一次诊断信息
+                Call warnTruncation(castTo)
+                source = {source(Scan0)}
+            End If
+
+            val = castVal(source, castTo.PropertyType)
             castTo.SetValue(obj, val)
         Next
 
         Return obj
     End Function
+
+    Private Sub warnTruncation(field As PropertyInfo)
+        Dim key As String = $"{model.FullName}.{field.Name}"
+
+        SyncLock truncationLock
+            If truncations.Add(key) Then
+                Call $"[biocyc] slot '{AttributeField.getMappingKey(field)}' contains multiple values but is mapped to a scalar property '{key}'.".Warning
+            End If
+        End SyncLock
+    End Sub
 
     Private Shared Function castVal(val As ValueString(), target As Type) As Object
         If val Is Nothing Then

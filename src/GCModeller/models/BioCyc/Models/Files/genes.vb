@@ -103,6 +103,14 @@ Public Class genes : Inherits Model
     <AttributeField("TRANSCRIPTION-DIRECTION")>
     Public Property direction As Strands
 
+    <AttributeField("CENTISOME-POSITION")> Public Property centisomePosition As Double
+    <AttributeField("CHARACTERIZATION")> Public Property characterization As String
+    <AttributeField("COMPONENT-OF")> Public Property componentOf As String()
+    <AttributeField("IN-GROUP")> Public Property inGroup As String()
+    <AttributeField("LAST-UPDATE")> Public Property lastUpdate As String
+    <AttributeField("GO-TERMS")> Public Property goTerms As String()
+    <AttributeField("MOTIF")> Public Property motif As String()
+
     Public Shared Function OpenFile(fullName As String) As AttrDataCollection(Of genes)
         Using file As Stream = fullName.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
             Return AttrDataCollection(Of genes).LoadFile(file)

@@ -1,63 +1,12 @@
-﻿#Region "Microsoft.VisualBasic::48183f97baaa8d70c0d349fd95ab326f, engine\Compiler\MarkupCompiler\BioCyc\ProteinCompiler.vb"
-
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
-
-
-' Code Statistics:
-
-'   Total Lines: 94
-'    Code Lines: 79 (84.04%)
-' Comment Lines: 2 (2.13%)
-'    - Xml Docs: 0.00%
-' 
-'   Blank Lines: 13 (13.83%)
-'     File Size: 3.86 KB
-
-
-'     Class ProteinCompiler
-' 
-'         Constructor: (+1 Overloads) Sub New
-'         Function: CreateProteins, proteinFeatures
-' 
-' 
-' /********************************************************************************/
-
-#End Region
-
-Imports Microsoft.VisualBasic.ComponentModel.Collection
+﻿Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Data.BioCyc
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 
+''' <summary>
+''' 由BioCyc数据库的 ``proteins.dat``/``protligandcplxes.dat`` 构建虚拟细胞模型之中的
+''' 蛋白质以及蛋白质复合物对象
+''' </summary>
 Public Class ProteinCompiler
 
     ReadOnly biocyc As Workspace
@@ -91,13 +40,15 @@ Public Class ProteinCompiler
         Dim translates As Index(Of String) = proteinFeatures.Distinct.Indexing
 
         For Each cplx As protligandcplxes In biocyc.protligandcplxes.features
-            Yield New protein With {
+            Dim model As New protein With {
                 .ligand = cplx.components.Where(Function(id) Not id Like peptides).ToArray,
                 .peptide_chains = cplx.components.Where(Function(id) id Like peptides).ToArray,
                 .name = cplx.commonName,
                 .note = cplx.comment,
                 .protein_id = cplx.uniqueId
             }
+
+            Yield model
 
             pid += cplx.uniqueId
         Next
@@ -107,23 +58,26 @@ Public Class ProteinCompiler
                 Continue For
             End If
 
+            Dim model As protein
+
             If Not prot.components.IsNullOrEmpty Then
-                Yield New protein With {
+                model = New protein With {
                     .name = prot.commonName,
                     .note = prot.comment,
                     .protein_id = prot.uniqueId,
+                    .complexId = prot.uniqueId,
                     .ligand = prot.components.Where(Function(c) Not c Like translates).ToArray,
                     .peptide_chains = prot.components.Where(Function(c) c Like translates).ToArray
                 }
             ElseIf Not prot.unmodified_form.StringEmpty(, True) Then
-                Yield New protein With {
+                model = New protein With {
                     .name = prot.commonName,
                     .note = prot.comment,
                     .protein_id = prot.uniqueId,
                     .peptide_chains = {prot.unmodified_form}
                 }
             ElseIf Not prot.gene.StringEmpty(, True) Then
-                Yield New protein With {
+                model = New protein With {
                     .protein_id = prot.uniqueId,
                     .name = prot.commonName,
                     .note = prot.comment,
@@ -134,14 +88,52 @@ Public Class ProteinCompiler
                 ' unsure its source 
                 Call VBDebugger.warning($"Unsure how to processing the protein data: {prot.ToString}")
 
-                Yield New protein With {
+                model = New protein With {
                     .protein_id = prot.uniqueId,
                     .name = prot.commonName,
                     .note = prot.comment,
                     .peptide_chains = {prot.uniqueId}
                 }
             End If
+
+            Call applyMetadata(model, prot)
+
+            Yield model
         Next
     End Function
-End Class
 
+    ''' <summary>
+    ''' 将蛋白质的物理化学属性以及功能注释写入模型对象
+    ''' </summary>
+    ''' <param name="model"></param>
+    ''' <param name="prot"></param>
+    Private Shared Sub applyMetadata(model As protein, prot As proteins)
+        model.cellular_location = prot.locations.SafeQuery.FirstOrDefault
+        model.locations = prot.locations
+        model.molecularWeight = getMolecularWeight(prot)
+        model.pi = prot.pi
+        model.goTerms = prot.goTerms
+        model.catalyzes = prot.catalyzes
+        model.evidence = prot.citations
+    End Sub
+
+    ''' <summary>
+    ''' 依次尝试使用平均分子量、道尔顿分子量以及由序列计算得到的分子量
+    ''' </summary>
+    ''' <param name="prot"></param>
+    ''' <returns></returns>
+    Private Shared Function getMolecularWeight(prot As proteins) As Double
+        If prot.molecularWeight > 0 Then
+            Return prot.molecularWeight
+        ElseIf prot.molecularWeightKD > 0 Then
+            Return prot.molecularWeightKD * 1000
+        ElseIf prot.molecularWeightSeq > 0 Then
+            Return prot.molecularWeightSeq
+        ElseIf prot.molecularWeightExp > 0 Then
+            Return prot.molecularWeightExp
+        Else
+            Return 0
+        End If
+    End Function
+
+End Class

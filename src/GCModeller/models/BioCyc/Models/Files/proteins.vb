@@ -101,6 +101,24 @@ Public Class proteins : Inherits Model
     <AttributeField("UNMODIFIED-FORM")>
     Public Property unmodified_form As String
 
+    <AttributeField("MOLECULAR-WEIGHT")> Public Property molecularWeight As Double
+    <AttributeField("MOLECULAR-WEIGHT-KD")> Public Property molecularWeightKD As Double
+    <AttributeField("MOLECULAR-WEIGHT-EXP")> Public Property molecularWeightExp As Double
+    <AttributeField("MOLECULAR-WEIGHT-SEQ")> Public Property molecularWeightSeq As Double
+    <AttributeField("PI")> Public Property pi As Double
+    <AttributeField("GO-TERMS")> Public Property goTerms As String()
+    <AttributeField("REGULATES")> Public Property regulates As String()
+    <AttributeField("REGULATED-BY")> Public Property regulatedBy As String()
+    <AttributeField("FEATURES")> Public Property features As String()
+    <AttributeField("CATALYZES")> Public Property catalyzes As String()
+    <AttributeField("ACTIVE-SITES")> Public Property activeSites As String()
+    <AttributeField("CODING-SEGMENTS")> Public Property codingSegments As String()
+    <AttributeField("RECOGNIZED-PROMOTERS")> Public Property recognizedPromoters As String()
+    <AttributeField("DNA-FOOTPRINT-SIZE")> Public Property dnaFootprintSize As Integer
+    <AttributeField("SYMMETRY")> Public Property symmetry As String
+    <AttributeField("COFACTORS-OF")> Public Property cofactorsOf As String()
+    <AttributeField("COMPONENT-COEFFICIENTS")> Public Property componentCoefficients As String()
+
     Public Shared Function OpenFile(fullName As String) As AttrDataCollection(Of proteins)
         Using file As Stream = fullName.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
             Return AttrDataCollection(Of proteins).LoadFile(file)

@@ -91,6 +91,63 @@ Namespace v2
         ''' <returns></returns>
         <XmlAttribute> Public Property db_xrefs As String()
 
+        ''' <summary>
+        ''' 化合物的净电荷
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property charge As Double
+
+        ''' <summary>
+        ''' 化合物的平均分子质量(Dalton)
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property mass As Double
+
+        ''' <summary>
+        ''' 化合物的单同位素质量(Dalton)
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property monoisotopicMass As Double
+
+        <XmlAttribute> Public Property inchi As String
+        <XmlAttribute> Public Property inchiKey As String
+
+        ''' <summary>
+        ''' 化合物的同义名称列表
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlElement("synonym")> Public Property synonyms As String()
+
+        ''' <summary>
+        ''' 化合物的标准生成自由能(kJ/mol)
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property gibbs0 As Double
+
+        ''' <summary>
+        ''' 化合物所属的BioCyc类的编号
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property classId As String
+
+        ''' <summary>
+        ''' 对于聚合物类型的化合物，其所包含的单体编号列表
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlElement("componentOf")> Public Property componentOf As String()
+
+        ''' <summary>
+        ''' 化合物所出现的细胞区室编号列表
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlElement("location")> Public Property locations As String()
+
+        ''' <summary>
+        ''' 该化合物所关联的文献证据编号
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlElement("evidence")> Public Property evidence As String()
+
         Sub New()
         End Sub
 
@@ -107,7 +164,7 @@ Namespace v2
             Return New MetabolicCompound With {
                 .formula = formula,
                 .id = ID,
-                .moleculeWeight = 0,
+                .moleculeWeight = mass,
                 .name = name,
                 .smiles = smiles,
                 .synonym = referenceIds

@@ -77,6 +77,36 @@ Namespace v2
         <XmlAttribute> Public Property genomeName As String Implements INamedValue.Key
 
         ''' <summary>
+        ''' 复制子的拓扑结构：circular / linear
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property topology As String
+
+        ''' <summary>
+        ''' 复制子的GC百分含量，取值范围为[0,1]
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property gcContent As Double
+
+        ''' <summary>
+        ''' 复制子的长度(bp)
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property length As Long
+
+        ''' <summary>
+        ''' 复制子在公共数据库(例如NCBI)之中的登录号
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property accession As String
+
+        ''' <summary>
+        ''' 质粒的拷贝数
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property copyNumber As Integer
+
+        ''' <summary>
         ''' the operon is the transcript unit inside the cellular system
         ''' </summary>
         ''' <returns></returns>

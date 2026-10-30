@@ -61,4 +61,7 @@ Public Class protligandcplxes : Inherits Model
     <AttributeField("COMPONENTS")>
     Public Property components As String()
 
+    <AttributeField("COMPONENT-COEFFICIENTS")> Public Property componentCoefficients As String()
+    <AttributeField("DBLINKS")> Public Property dbLinks As String()
+
 End Class
