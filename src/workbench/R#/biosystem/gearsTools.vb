@@ -93,7 +93,7 @@ Public Module gearsTools
     <ExportAPI("new")>
     <RApiReturn(GetType(GEARS))>
     Public Function create_GEARS(x As Matrix, prior As PriorNetwork, config As GEARSConfig) As GEARS
-        Dim exprData As GeneExpressionData = BnIO.ReadGeneExpressionMatrix(x)
+        Dim exprData As GeneExpressionData = HTSDataFrame.ReadGeneExpressionMatrix(x)
         Dim gears As New GEARS(exprData, prior, config)
         Return gears
     End Function

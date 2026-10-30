@@ -44,7 +44,7 @@ Namespace IO
                 Throw New FileNotFoundException($"先验调控网络文件不存在: {path}", path)
             End If
 
-            Dim prior = BnIO.ReadPriorNetwork(ParseRegulatoryEdges(File.ReadAllLines(path)))
+            Dim prior = ParseRegulatoryEdges(File.ReadAllLines(path)).AssemblePriorNetwork
 
             If prior.Edges.Count = 0 Then
                 Throw New InvalidOperationException(
@@ -104,27 +104,6 @@ Namespace IO
                     .Evidence = evidence
                 }
             Next
-        End Function
-
-        ''' <summary>
-        ''' 把文本形式的调控类型映射为 <see cref="Effector"/> 枚举。
-        ''' </summary>
-        ''' <param name="text">
-        ''' 原始文本，支持 activation/activate/activator/up/positive 与
-        ''' repression/repress/repressor/inhibit/inhibitor/down/negative
-        ''' 及 1 / -1 数值写法。
-        ''' </param>
-        Public Function ParseRegulationType(text As String) As Effector
-            If String.IsNullOrWhiteSpace(text) Then Return Effector.Unknown
-
-            Select Case text.Trim().ToLower()
-                Case "activation", "activate", "activator", "activating", "up", "positive", "1"
-                    Return Effector.Activator
-                Case "repression", "repress", "repressor", "inhibition", "inhibit", "inhibitor", "down", "negative", "-1"
-                    Return Effector.Inhibitor
-                Case Else
-                    Return Effector.Unknown
-            End Select
         End Function
 
         ''' <summary>把先验调控网络写回 CSV（首行表头，便于人工检查与结果留档）</summary>

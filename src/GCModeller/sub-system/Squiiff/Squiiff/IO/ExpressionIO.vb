@@ -26,7 +26,7 @@ Namespace IO
             If Not File.Exists(csvPath) Then Throw New FileNotFoundException($"表达矩阵文件不存在: {csvPath}", csvPath)
 
             Dim matrix As Matrix = Matrix.LoadData(csvPath)
-            Dim expr = BnIO.ReadGeneExpressionMatrix(matrix)
+            Dim expr = HTSDataFrame.ReadGeneExpressionMatrix(matrix)
 
             Return Transpose(expr.GeneNames, expr.SampleNames, expr.Matrix)
         End Function

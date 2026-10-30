@@ -22,5 +22,26 @@ Namespace Core
 
             Return prior
         End Function
+
+        ''' <summary>
+        ''' 把文本形式的调控类型映射为 <see cref="Effector"/> 枚举。
+        ''' </summary>
+        ''' <param name="text">
+        ''' 原始文本，支持 activation/activate/activator/up/positive 与
+        ''' repression/repress/repressor/inhibit/inhibitor/down/negative
+        ''' 及 1 / -1 数值写法。
+        ''' </param>
+        Public Function ParseRegulationType(text As String) As Effector
+            If String.IsNullOrWhiteSpace(text) Then Return Effector.Unknown
+
+            Select Case text.Trim().ToLower()
+                Case "activation", "activate", "activator", "activating", "up", "positive", "1"
+                    Return Effector.Activator
+                Case "repression", "repress", "repressor", "inhibition", "inhibit", "inhibitor", "down", "negative", "-1"
+                    Return Effector.Inhibitor
+                Case Else
+                    Return Effector.Unknown
+            End Select
+        End Function
     End Module
 End Namespace

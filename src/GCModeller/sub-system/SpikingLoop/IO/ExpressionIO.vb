@@ -43,7 +43,7 @@ Namespace IO
             End If
 
             Dim matrix As Matrix = Matrix.LoadData(path)
-            Dim expr = BnIO.ReadGeneExpressionMatrix(matrix, sampleinfo, time_label)
+            Dim expr = HTSDataFrame.ReadGeneExpressionMatrix(matrix, sampleinfo, time_label)
 
             If expr.GeneNames Is Nothing OrElse expr.GeneNames.Length = 0 Then
                 Throw New InvalidOperationException(
