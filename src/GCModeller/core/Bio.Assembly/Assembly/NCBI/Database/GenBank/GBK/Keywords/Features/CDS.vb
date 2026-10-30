@@ -62,6 +62,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 Imports SMRUCC.genomics.ComponentModel.Loci
 
 Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
@@ -78,7 +79,7 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
         Public Property db_xref_UniprotKBSwissProt As String
         Public Property db_xref_UniprotKBTrEMBL As String
 
-        Public Property DBLinks As MetaCyc.Schema.DBLinkManager
+        Public Property DBLinks As DBLinks
 
         ''' <summary>
         ''' The cds feature

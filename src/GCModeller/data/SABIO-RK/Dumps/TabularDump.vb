@@ -63,7 +63,7 @@
 Imports System.Runtime.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
-Imports SMRUCC.genomics.Assembly.MetaCyc.Schema
+Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 Imports SMRUCC.genomics.Data.SABIORK.SBML
 
 Namespace TabularDump
@@ -126,7 +126,7 @@ Namespace TabularDump
             'Return (From strValue As String In List Where Not String.IsNullOrEmpty(strValue) Select strValue Distinct).ToArray
         End Function
 
-        Public Function GetDBLinkManager() As DBLinkManager
+        Public Function GetDBLinkManager() As DBLinks
             Return _DBLinks
         End Function
 
@@ -134,7 +134,7 @@ Namespace TabularDump
 
         Public Property CommonNames As String()
 
-        Protected Friend _DBLinks As DBLinkManager
+        Protected Friend _DBLinks As DBLinks
 
         ''' <summary>
         ''' MetaCyc.Schema.DBLinkManager.DBLink
@@ -147,7 +147,7 @@ Namespace TabularDump
                 Return _DBLinks.DBLinks
             End Get
             Set(value As String())
-                _DBLinks = New DBLinkManager(value)
+                _DBLinks = New DBLinks(value)
             End Set
         End Property
 #End Region
