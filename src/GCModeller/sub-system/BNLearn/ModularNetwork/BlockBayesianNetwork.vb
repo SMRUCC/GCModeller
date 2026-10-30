@@ -5,6 +5,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.BNLearn.Core
 Imports SMRUCC.genomics.Analysis.BNLearn.DBN
 Imports SMRUCC.genomics.Analysis.BNLearn.Inference
+Imports SMRUCC.genomics.BioSystem.Core
 
 Namespace ModularNetwork
 
