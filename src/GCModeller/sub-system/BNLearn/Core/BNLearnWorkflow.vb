@@ -318,11 +318,11 @@ Namespace Core
 
         ''' <summary>
         ''' 从外部转录组向量文件导入新的基因表达水平数据。
-        ''' 文件为两列（gene, expression）CSV/TSV，可由 <see cref="IO.BnIO.ReadExpressionVector"/> 解析。
+        ''' 文件为两列（gene, expression）CSV/TSV，可由 <see cref="Document.ReadExpressionVector"/> 解析。
         ''' 导入后按基因名对齐，仅保留与训练网络重叠的基因，并自动派生观测证据与动态初始状态。
         ''' </summary>
         Public Sub ImportExternalExpression(path As String)
-            Dim vector As Dictionary(Of String, Double) = IO.BnIO.ReadExpressionVector(path)
+            Dim vector As Dictionary(Of String, Double) = Document.ReadExpressionVector(path)
             SetExternalExpression(vector)
         End Sub
 

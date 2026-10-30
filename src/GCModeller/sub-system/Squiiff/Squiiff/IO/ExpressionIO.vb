@@ -1,6 +1,5 @@
 Imports System.IO
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
-Imports SMRUCC.genomics.Analysis.BNLearn.IO
 Imports std = System.Math
 
 Namespace IO
