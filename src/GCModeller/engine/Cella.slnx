@@ -85,7 +85,4 @@
   <Project Path="Cella/Cella.vbproj">
     <Platform Solution="*|x64" Project="x64" />
   </Project>
-  <Project Path="Cella/demo/CellaDemo.vbproj">
-    <Platform Solution="*|x64" Project="x64" />
-  </Project>
 </Solution>
