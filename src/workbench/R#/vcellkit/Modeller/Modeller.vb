@@ -55,6 +55,7 @@
 #End Region
 
 Imports System.IO
+Imports Microsoft.VisualBasic.ApplicationServices.Debugging
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Scripting
@@ -237,4 +238,78 @@ Public Module vcellModeller
 
         Return kinetics(fetch)
     End Function
+
+    Public Function operonsWithPromoter(model As Genome) As Integer
+        Return model.GetAllOperon.Values.Where(Function(o) Not o.promoter Is Nothing).Count
+    End Function
+
+    ''' <summary>
+    ''' 校验模型对象在科学上是否完整：区室、基因组、调控网络、代谢网络、证据以及分类
+    ''' </summary>
+    ''' <param name="model"></param>
+    <ExportAPI("check_model")>
+    Public Sub checkModel(model As VirtualCell)
+        Dim genome = model.genome
+        Dim metabolism = model.metabolismStructure
+
+        ' ---- 物种信息 ----
+        Call DebugAudit.Check(Not model.taxonomy Is Nothing, "taxonomy exists")
+        Call DebugAudit.Check(Not model.taxonomy.scientificName.StringEmpty(, True), "the scientific name of the species exists")
+        Call DebugAudit.Check(Not model.taxonomy.ncbi_taxid.ToString.StringEmpty(, True), "the ncbi taxonomy id exists")
+        Call DebugAudit.Check(Equals(model.schemaVersion, "3.0"), "the model file uses the GCMarkup 3.0 schema")
+
+        ' ---- 区室 ----
+        Call DebugAudit.Check(Not model.compartments.IsNullOrEmpty, "the compartment table exists")
+        Call DebugAudit.Check(model.compartments.TryCount >= 3, "the model defines at least three compartments")
+        Call DebugAudit.Check(model.compartments.Any(Function(c) c.kind = CompartmentKind.intracellular), "the cytosol compartment exists")
+        Call DebugAudit.Check(model.compartments.Any(Function(c) c.kind = CompartmentKind.periplasm), "the periplasm compartment exists")
+
+        ' ---- 基因组结构 ----
+        Call DebugAudit.Check(Not genome Is Nothing, "the genome structure exists")
+        Call DebugAudit.Check(Not genome.replicons.IsNullOrEmpty, "the genome contains at least one replicon")
+        Call DebugAudit.Check(genome.genomeSize > 0, "the genome size has been calculated")
+        Call DebugAudit.Check(genome.gcContent > 0.4 AndAlso genome.gcContent < 0.6, $"the gc content ({genome.gcContent}) is inside the normal range of E. coli")
+        Call DebugAudit.Check(genome.GetAllGenes().TryCount > 1000, "the genome contains more than one thousand genes")
+        Call DebugAudit.Check(genome.GetAllOperon.TryCount > 1000, "the genome contains more than one thousand transcription units")
+        Call DebugAudit.Check(Not genome.proteins.IsNullOrEmpty, "the protein list is not empty")
+        Call DebugAudit.Check(genome.proteins.SafeQuery.Count(Function(p) p.molecularWeight > 0) > 0, "the molecular weight of the proteins has been mapped")
+
+        ' ---- 基因与蛋白质的注释 ----
+        Dim genes = genome.GetAllGenes().ToArray
+        Call DebugAudit.Check(genes.Count(Function(g) Not g.name.StringEmpty(, True)) > 0, "the gene symbol has been mapped")
+        Call DebugAudit.Check(genes.Count(Function(g) Not g.dbLinks.IsNullOrEmpty) > 0, "the gene database cross references have been mapped")
+        Call DebugAudit.Check(genome.proteins.SafeQuery.Count(Function(p) Not p.goTerms.IsNullOrEmpty) > 0, "the protein GO annotations have been mapped")
+        Call DebugAudit.Check(Not genome.proteinFeatures.IsNullOrEmpty, "the protein features have been mapped")
+
+        ' ---- 调控网络 ----
+        Call DebugAudit.Check(Not genome.regulations.IsNullOrEmpty, "the transcription regulation network is not empty")
+        Call DebugAudit.Check(genome.regulations.SafeQuery.Count(Function(r) Not r.operonId.StringEmpty(, True)) > 0, "the regulation relationship has been linked to the operon")
+        Call DebugAudit.Check(Not genome.bindingSites.IsNullOrEmpty, "the dna binding sites have been mapped")
+        Call DebugAudit.Check(Not genome.promoters.IsNullOrEmpty, "the promoters have been mapped")
+        Call DebugAudit.Check(operonsWithPromoter(genome) > 0, "the promoter/terminator have been attached to the operons")
+
+        ' ---- 代谢网络 ----
+        Call DebugAudit.Check(Not metabolism Is Nothing, "the metabolism structure exists")
+        Call DebugAudit.Check(Not metabolism.compounds.IsNullOrEmpty, "the compound list is not empty")
+        Call DebugAudit.Check(Not metabolism.enzymes.IsNullOrEmpty, "the enzyme list is not empty")
+        Call DebugAudit.Check(metabolism.reactions.size > 0, "the reaction list is not empty")
+        Call DebugAudit.Check(metabolism.compounds.SafeQuery.Count(Function(c) Not c.formula.StringEmpty(, True)) > 0, "the chemical formula of the compounds has been mapped")
+        Call DebugAudit.Check(metabolism.compounds.SafeQuery.Count(Function(c) c.mass > 0) > 0, "the molecular weight of the compounds has been mapped")
+        Call DebugAudit.Check(metabolism.compounds.SafeQuery.Count(Function(c) Not c.smiles.StringEmpty(, True)) > 0, "the SMILES structure of the compounds has been mapped")
+        Call DebugAudit.Check(metabolism.reactions.AsEnumerable.Count(Function(r) Not r.ec_number.IsNullOrEmpty) > 0, "the EC number of the reactions has been mapped")
+        Call DebugAudit.Check(metabolism.reactions.AsEnumerable.Count(Function(r) Not r.gibbs = 0) > 0, "the gibbs free energy of the reactions has been mapped")
+        Call DebugAudit.Check(metabolism.reactions.AsEnumerable.Count(Function(r) Not r.pathways.IsNullOrEmpty) > 0, "the reactions have been linked to the pathways")
+        Call DebugAudit.Check(metabolism.reactions.AsEnumerable.Count(Function(r) Not r.enzymes.IsNullOrEmpty) > 0, "the reactions have been linked to the enzymes")
+        Call DebugAudit.Check(metabolism.reactions.AsEnumerable.Count(Function(r) r.direction <> ReactionDirection.unknown) > 0, "the reaction direction has been mapped")
+        Call DebugAudit.Check(Not metabolism.reactions.transportation.IsNullOrEmpty, "the transportation processes have been mapped")
+        Call DebugAudit.Check(Not metabolism.maps.IsNullOrEmpty, "the pathway functional categories have been mapped")
+
+        ' ---- 酶动力学 ----
+        Call DebugAudit.Check(metabolism.enzymes.SafeQuery.Count(Function(e) Not e.catalysis.IsNullOrEmpty) > 0, "the enzyme kinetics functions have been mapped")
+        Call DebugAudit.Check(metabolism.enzymes.SafeQuery.Count(Function(e) Not e.ECNumber.StringEmpty(, True)) > 0, "the EC number of the enzymes has been mapped")
+
+        ' ---- 证据与分类 ----
+        Call DebugAudit.Check(Not model.evidence.IsNullOrEmpty, "the publication evidence table is not empty")
+        Call DebugAudit.Check(Not model.physiology Is Nothing, "the physiology parameters exist")
+    End Sub
 End Module
