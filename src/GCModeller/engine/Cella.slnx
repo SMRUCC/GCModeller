@@ -81,6 +81,9 @@
   <Project Path="CellaLoader/CellaLoader.vbproj" Id="3b83bda6-e851-4901-9be9-53b4084c3028">
     <Platform Solution="Debug|x64" Project="x64" />
   </Project>
+  <Project Path="CellaLoader/test/test.vbproj" Id="c6cca491-68ff-4351-83bf-64b2d5976e98">
+    <Platform Solution="Debug|x64" Project="x64" />
+  </Project>
   <Project Path="CompilerServices/CompilerServices.NET5.vbproj">
     <Platform Solution="*|x64" Project="x64" />
   </Project>
