@@ -41,8 +41,17 @@
       <BuildType Solution="NPSearch|*" Project="LipidSearch" />
       <Platform Solution="*|x64" Project="x64" />
     </Project>
+    <Project Path="../../runtime/sciBASIC#/mime/text%html/html_netcore5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
   </Folder>
   <Folder Name="/gcmodeller/">
+    <Project Path="../../interops/localblast/LocalBLAST/localblast.NET5.vbproj">
+      <BuildType Solution="LipidSearch|*" Project="CellaLAB-Desktop" />
+      <BuildType Solution="mzkit|*" Project="Debug" />
+      <BuildType Solution="NPSearch|*" Project="Rsharp_app_release" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
     <Project Path="../../repository/Bio.Repository/repository.NET5.vbproj">
       <BuildType Solution="LipidSearch|*" Project="nuget_release" />
       <BuildType Solution="mzkit|*" Project="Debug" />
@@ -88,5 +97,13 @@
   </Folder>
   <Project Path="Compiler/Compiler.NET5.vbproj">
     <Platform Solution="*|x64" Project="x64" />
+  </Project>
+  <Project Path="IO/BioCycCompiler/BioCycCompiler.vbproj">
+    <BuildType Solution="LipidSearch|*" Project="Debug" />
+    <BuildType Solution="mzkit|*" Project="Debug" />
+    <BuildType Solution="NPSearch|*" Project="Debug" />
+    <BuildType Solution="nuget_release|*" Project="Release" />
+    <BuildType Solution="Rsharp_app_release|*" Project="Release" />
+    <Platform Solution="Debug|x64" Project="x64" />
   </Project>
 </Solution>
