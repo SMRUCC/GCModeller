@@ -1,56 +1,56 @@
 ﻿#Region "Microsoft.VisualBasic::7d8a927cd5e82cb87c6c4fad089be4fd, engine\vcellkit\Debugger\Debugger.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 255
-    '    Code Lines: 195 (76.47%)
-    ' Comment Lines: 28 (10.98%)
-    '    - Xml Docs: 100.00%
-    ' 
-    '   Blank Lines: 32 (12.55%)
-    '     File Size: 10.75 KB
+' Summaries:
 
 
-    ' Module Debugger
-    ' 
-    '     Function: createFluxDynamicsEngine, CreateNetwork, dump_core, GetFactor, GetFactors
-    '               loadDataDriver, ModelPathwayMap
-    ' 
-    '     Sub: createDynamicsSummary, set_symbols
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 255
+'    Code Lines: 195 (76.47%)
+' Comment Lines: 28 (10.98%)
+'    - Xml Docs: 100.00%
+' 
+'   Blank Lines: 32 (12.55%)
+'     File Size: 10.75 KB
+
+
+' Module Debugger
+' 
+'     Function: createFluxDynamicsEngine, CreateNetwork, dump_core, GetFactor, GetFactors
+'               loadDataDriver, ModelPathwayMap
+' 
+'     Sub: createDynamicsSummary, set_symbols
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -66,10 +66,10 @@ Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices.XML
 Imports SMRUCC.genomics.ComponentModel.EquaionModel
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Definitions
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Engine
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Definitions
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.IO
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.IO.Raw
@@ -199,7 +199,7 @@ Module Debugger
         Dim flux As New List(Of Channel)
         Dim dynamicsSystem As pipeline = pipeline.TryCreatePipeline(Of Expression)(network, env)
         Dim vars As New Dictionary(Of String, MassFactor)
-        Dim massInit As Dictionary(Of String, Double) = init0.AsGeneric(Of Double)(env, 100)
+        Dim massInit As Dictionary(Of String, Double) = init0.asGeneric(Of Double)(env, 100)
 
         If dynamicsSystem.isError Then
             Return dynamicsSystem.getError

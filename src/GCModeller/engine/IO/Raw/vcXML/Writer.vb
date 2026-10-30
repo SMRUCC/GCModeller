@@ -1,59 +1,59 @@
 ﻿#Region "Microsoft.VisualBasic::c9d4af56b4a605d2c4e86529c4f56650, engine\IO\Raw\vcXML\Writer.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 246
-    '    Code Lines: 173 (70.33%)
-    ' Comment Lines: 29 (11.79%)
-    '    - Xml Docs: 41.38%
-    ' 
-    '   Blank Lines: 44 (17.89%)
-    '     File Size: 9.22 KB
+' Summaries:
 
 
-    '     Class Writer
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: encode
-    ' 
-    '         Sub: addFrame, (+2 Overloads) Dispose, writeArguments, writeHeader, writeIndex
-    '              writeInit
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 246
+'    Code Lines: 173 (70.33%)
+' Comment Lines: 29 (11.79%)
+'    - Xml Docs: 41.38%
+' 
+'   Blank Lines: 44 (17.89%)
+'     File Size: 9.22 KB
+
+
+'     Class Writer
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: encode
+' 
+'         Sub: addFrame, (+2 Overloads) Dispose, writeArguments, writeHeader, writeIndex
+'              writeInit
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -67,7 +67,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Xml.Models
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Definitions
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Definitions
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.IO.vcXML.XML
 Imports XmlOffset = SMRUCC.genomics.GCModeller.ModellingEngine.IO.vcXML.XML.offset
 

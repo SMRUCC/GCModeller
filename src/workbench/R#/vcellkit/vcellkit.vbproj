@@ -38,6 +38,7 @@
     <ProjectReference Include="..\..\..\GCModeller\engine\CompilerServices\CompilerServices.NET5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\engine\Compiler\Compiler.NET5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\engine\Dynamics.Debugger\vcellDebugger.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\engine\IO\BioCycCompiler\BioCycCompiler.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\engine\IO\GCMarkupLanguage\GCMarkupXML.NET5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\engine\IO\Raw\vcXML.NET5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\models\BioCyc\BioCyc.vbproj" />

@@ -6,6 +6,7 @@
     <AssemblyName>SMRUCC.genomics.GCModeller.MarkupCompiler.BioCyc</AssemblyName>
     <AssemblyTitle>Build GCModeller Virtual Cell Model From BioCyc</AssemblyTitle>
     <Platforms>AnyCPU;x64</Platforms>
+    <Configurations>Debug;Release;Rsharp_app_release</Configurations>
   </PropertyGroup>
 
   <ItemGroup>

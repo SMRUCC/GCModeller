@@ -61,6 +61,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Data.BioCyc
 Imports SMRUCC.genomics.Data.Regprecise
+Imports SMRUCC.genomics.GCModeller
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 Imports SMRUCC.genomics.GCModeller.Compiler
 Imports SMRUCC.genomics.GCModeller.Compiler.MarkupCompiler
@@ -234,7 +235,7 @@ Module Compiler
     ''' <returns></returns>
     <ExportAPI("compile_biocyc")>
     Public Function compileBiocyc(biocyc As Workspace, Optional logfile As String = "./gcc.log") As VirtualCell
-        Using compiler As New BioCyc.v2Compiler(biocyc)
+        Using compiler As New MarkupCompiler.BioCyc.v2Compiler(biocyc)
             Return compiler.Compile($"compile --log {logfile.CLIPath}")
         End Using
     End Function
