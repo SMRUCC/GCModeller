@@ -95,7 +95,7 @@
     <ProjectReference Include="..\..\analysis\RNA-Seq\WGCNA\WGCNA.vbproj" />
     <ProjectReference Include="..\..\annotations\WGCNA\WGCNA\WGCNA.vbproj" />
     <ProjectReference Include="..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
-    <ProjectReference Include="..\..\core\Bio.InteractionModel\InteractionModel.NET5.vbproj" />
+    <ProjectReference Include="..\..\core\Bio.InteractionModel\InteractionModel.vbproj" />
     <ProjectReference Include="..\..\data\STRING\STRING-db.vbproj" />
     <ProjectReference Include="..\..\models\Networks\Network.Regulons\Network.Regulons.vbproj" />
     <ProjectReference Include="..\BNLearn\BNLearn.vbproj" />
