@@ -1,62 +1,62 @@
 ﻿#Region "Microsoft.VisualBasic::42e70baca35dc9defb322eb65a8646df, engine\BootstrapLoader\Engine\VCell\Engine.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 308
-    '    Code Lines: 214 (69.48%)
-    ' Comment Lines: 39 (12.66%)
-    '    - Xml Docs: 89.74%
-    ' 
-    '   Blank Lines: 55 (17.86%)
-    '     File Size: 12.17 KB
+' Summaries:
 
 
-    '     Class Engine
-    ' 
-    '         Properties: dataStorageDriver, debugView, dynamics, fluxIndex, initials
-    '                     models
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: AttachBiologicalStorage, getMassPool, LoadModel, MakeKnockout, MakeNetworkSnapshot
-    '                   Run, SetCellCopyNumber, (+2 Overloads) SetCopyNumbers, SetCultureMedium, SetModel
-    ' 
-    '         Sub: DumpDynamicsCore, Reset
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 308
+'    Code Lines: 214 (69.48%)
+' Comment Lines: 39 (12.66%)
+'    - Xml Docs: 89.74%
+' 
+'   Blank Lines: 55 (17.86%)
+'     File Size: 12.17 KB
+
+
+'     Class Engine
+' 
+'         Properties: dataStorageDriver, debugView, dynamics, fluxIndex, initials
+'                     models
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: AttachBiologicalStorage, getMassPool, LoadModel, MakeKnockout, MakeNetworkSnapshot
+'                   Run, SetCellCopyNumber, (+2 Overloads) SetCopyNumbers, SetCultureMedium, SetModel
+' 
+'         Sub: DumpDynamicsCore, Reset
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -65,9 +65,9 @@ Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Linq
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Definitions
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.ModelLoader
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Definitions
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
