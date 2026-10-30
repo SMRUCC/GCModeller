@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <RootNamespace>SMRUCC.genomics.InteractionModel</RootNamespace>
+    <RootNamespace>SMRUCC.genomics.BioSystem</RootNamespace>
     <TargetFrameworks>net10.0</TargetFrameworks>
-    <AssemblyName>SMRUCC.genomics.InteractionModel</AssemblyName>
+    <AssemblyName>SMRUCC.genomics.BioSystem</AssemblyName>
     <Platforms>AnyCPU;x64</Platforms>
     <Configurations>Debug;Release;Rsharp_app_release;mzkit_win32;nuget_release;CellaLAB-Desktop</Configurations>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -27,68 +27,24 @@
     <PackageReleaseNotes>Adds models for biological interactions, protein interaction networks and regulon regulation relationships.</PackageReleaseNotes>
     <Version>10.5.9775.36927</Version>
     <AssemblyVersion>1.0.9775.36927</AssemblyVersion>
+    <AssemblyTitle>Base System Framework for the Bio Network Simulation</AssemblyTitle>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+  
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>SMRUCC.genomics.InteractionModel.xml</DocumentationFile>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <DocumentationFile>SMRUCC.genomics.InteractionModel.xml</DocumentationFile>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>SMRUCC.genomics.InteractionModel.xml</DocumentationFile>
-    <DefineConstants>netcore5=1</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|AnyCPU'">
-    <DocumentationFile>SMRUCC.genomics.InteractionModel.xml</DocumentationFile>
-    <DefineConstants>netcore5=1</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='nuget_release|AnyCPU'">
-    <DocumentationFile>SMRUCC.genomics.InteractionModel.xml</DocumentationFile>
-    <DefineConstants>netcore5=1</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='mzkit_win32|AnyCPU'">
-    <DocumentationFile>SMRUCC.genomics.InteractionModel.xml</DocumentationFile>
-    <DefineConstants>netcore5=1</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='CellaLAB-Desktop|AnyCPU'">
-    <DocumentationFile>SMRUCC.genomics.InteractionModel.xml</DocumentationFile>
-    <DefineConstants>netcore5=1</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <DocumentationFile>SMRUCC.genomics.InteractionModel.xml</DocumentationFile>
-    <DefineConstants>netcore5=1</DefineConstants>
-  </PropertyGroup>
+ 
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
-    <DocumentationFile>SMRUCC.genomics.InteractionModel.xml</DocumentationFile>
-    <DefineConstants>netcore5=1</DefineConstants>
+  
     <OutputPath>../../../../.nuget/</OutputPath>
     <Optimize>true</Optimize>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='nuget_release|x64'">
-    <DocumentationFile>SMRUCC.genomics.InteractionModel.xml</DocumentationFile>
-    <DefineConstants>netcore5=1</DefineConstants>
+
     <OutputPath>../../../../.nuget/</OutputPath>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='mzkit_win32|x64'">
-    <DocumentationFile>SMRUCC.genomics.InteractionModel.xml</DocumentationFile>
-    <DefineConstants>netcore5=1</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='CellaLAB-Desktop|x64'">
-    <DocumentationFile>SMRUCC.genomics.InteractionModel.xml</DocumentationFile>
-    <DefineConstants>netcore5=1</DefineConstants>
-  </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0|x64'">
     <RemoveIntegerChecks>true</RemoveIntegerChecks>

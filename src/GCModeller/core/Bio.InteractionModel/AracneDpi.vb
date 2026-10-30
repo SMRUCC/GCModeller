@@ -1,8 +1,3 @@
-Option Strict On
-Option Explicit On
-
-Imports System.Linq
-
 ''' <summary>
 ''' ARACNe-style network inference step (Margolin et al., BMC Bioinformatics
 ''' 2006): build a mutual-information adjacency, then apply the Data
