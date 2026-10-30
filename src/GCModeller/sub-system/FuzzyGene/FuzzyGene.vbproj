@@ -25,7 +25,6 @@
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\DataMining\FuzzyLogic\FuzzyLogic.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Graph\graph-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\MachineLearning\ANFIS\ANFIS.vbproj" />
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\MachineLearning\TensorFlow\TensorFlow.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\DataFittings\linear-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math.Statistics\stats-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj" />

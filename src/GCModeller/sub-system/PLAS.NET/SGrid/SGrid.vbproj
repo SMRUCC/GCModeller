@@ -42,7 +42,6 @@
     <ProjectReference Include="..\..\..\core\Bio.InteractionModel\InteractionModel.vbproj" />
     <ProjectReference Include="..\..\..\engine\CompilerServices\CompilerServices.NET5.vbproj" />
     <ProjectReference Include="..\..\..\models\SBML\SBML\sbml-netcore5.vbproj" />
-    <ProjectReference Include="..\..\BNLearn\BNLearn.vbproj" />
     <ProjectReference Include="..\SSystem\SSystem.NET5.vbproj" />
   </ItemGroup>
 

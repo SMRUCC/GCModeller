@@ -23,7 +23,6 @@
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
     <!-- 通用表达矩阵加载链：Matrix.LoadData + BnIO.ReadGeneExpressionMatrix -> GeneExpressionData -->
     <ProjectReference Include="..\..\..\analysis\HTS_matrix\HTS_matrix-netcore5.vbproj" />
-    <ProjectReference Include="..\..\BNLearn\BNLearn.vbproj" />
   </ItemGroup>
 
 </Project>
