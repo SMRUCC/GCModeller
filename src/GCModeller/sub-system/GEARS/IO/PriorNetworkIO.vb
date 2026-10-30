@@ -1,6 +1,5 @@
 Imports System.IO
 Imports Microsoft.VisualBasic.Linq
-Imports SMRUCC.genomics.Analysis.BNLearn.IO
 Imports SMRUCC.genomics.BioSystem.Core
 
 Namespace IO
@@ -9,11 +8,11 @@ Namespace IO
     ''' 先验调控网络的 CSV 读取工具
     ''' </summary>
     ''' <remarks>
-    ''' <see cref="BnIO.ReadPriorNetwork"/> 接收的是 <see cref="RegulatoryEdge"/> 序列，
+    ''' <see cref="AssemblePriorNetwork"/> 接收的是 <see cref="RegulatoryEdge"/> 序列，
     ''' 而 <see cref="RegulatoryEdge.RegulationType"/> 是 <see cref="Effector"/> 枚举（Activator / Inhibitor / Unknown），
     ''' 测试数据文件里写的却是 <c>activation</c> / <c>repression</c> 这样的字符串，
     ''' 直接套用通用 CSV 反序列化无法完成映射。这里提供一个面向该格式的显式解析器，
-    ''' 解析出 <see cref="RegulatoryEdge"/> 之后再交给 <see cref="BnIO.ReadPriorNetwork"/> 组装网络。
+    ''' 解析出 <see cref="RegulatoryEdge"/> 之后再交给 <see cref="AssemblePriorNetwork"/> 组装网络。
     '''
     ''' 期望的 CSV 表头：<c>TF,TargetGene,RegulationType,Confidence,Evidence</c>
     ''' </remarks>
@@ -32,7 +31,7 @@ Namespace IO
                 Throw New FileNotFoundException("先验调控网络文件不存在", path)
             End If
 
-            Return BnIO.ReadPriorNetwork(ParseRegulatoryEdges(path))
+            Return ParseRegulatoryEdges(path).AssemblePriorNetwork
         End Function
 
         ''' <summary>

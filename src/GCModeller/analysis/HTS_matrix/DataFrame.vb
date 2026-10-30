@@ -57,6 +57,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data
 Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 
 Public Module HTSDataFrame
 
@@ -218,6 +219,52 @@ Public Module HTSDataFrame
             .tag = omics.Select(Function(a) a.tag).JoinBy("+"),
             .sampleID = samples.Select(Function(s) s.name).ToArray,
             .expression = genes
+        }
+    End Function
+
+    ''' <summary>
+    ''' 从 CSV/TSV 文件读取基因表达矩阵
+    ''' 格式：第一列为基因名，第一行为样本名，其余为表达值
+    ''' </summary>
+    ''' 
+    <Extension>
+    Public Function ReadGeneExpressionMatrix(expr As Matrix,
+                                             Optional sampleinfo As SampleInfo() = Nothing,
+                                             Optional time_label As String = "time") As GeneExpressionData
+
+        Dim matrixRows As New List(Of Double())()
+        Dim geneNames As String() = expr.rownames
+        Dim sampleNames As String() = expr.sampleID
+        Dim nSamples As Integer = sampleNames.Length
+
+        For Each gene As DataFrameRow In expr.expression
+            Call matrixRows.Add(gene.experiments)
+        Next
+
+        ' 转置为 [gene, sample]
+        Dim matrix As Double(,) = New Double(geneNames.Count - 1, nSamples - 1) {}
+        For i = 0 To geneNames.Count - 1
+            For j = 0 To nSamples - 1
+                matrix(i, j) = matrixRows(i)(j)
+            Next
+        Next
+
+        Dim t As Double() = Enumerable.Repeat(0.0, nSamples).ToArray()
+
+        If Not sampleinfo.IsNullOrEmpty Then
+            Dim sampleSet = sampleinfo.ToDictionary(Function(a) a.ID)
+            Dim sort = sampleNames.Select(Function(id) sampleSet(id)).ToArray
+
+            t = sort _
+                .Select(Function(sample) Val(sample(time_label))) _
+                .ToArray
+        End If
+
+        Return New GeneExpressionData() With {
+            .GeneNames = geneNames.ToArray(),
+            .SampleNames = sampleNames,
+            .Matrix = matrix,
+            .TimePoints = t
         }
     End Function
 End Module

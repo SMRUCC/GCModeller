@@ -1,4 +1,5 @@
 Imports System.Text
+Imports SMRUCC.genomics.BioSystem.Intervention
 
 Namespace Perturbation
 
@@ -9,7 +10,7 @@ Namespace Perturbation
     ''' <para>
     ''' 上下文替换的是「扰动分析的对照基线」，语义上相当于把实验体系放进另一个转录组背景：
     ''' 对照（野生型）态与突变体态都从该初始条件出发各自迭代到稳态，
-    ''' 因此 <see cref="SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult.FoldChanges"/>
+    ''' 因此 <see cref="InterventionResult.FoldChanges"/>
     ''' 变成「同一 context 下的突变体 vs 野生型」。
     ''' </para>
     ''' <para>

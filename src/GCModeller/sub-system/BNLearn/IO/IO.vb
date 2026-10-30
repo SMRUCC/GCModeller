@@ -57,11 +57,7 @@
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
-Imports Microsoft.VisualBasic.Linq
-Imports SMRUCC.genomics.Analysis.HTS.DataFrame
-Imports SMRUCC.genomics.BioSystem.Core
 Imports SMRUCC.genomics.BioSystem.Intervention
-Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 
 Namespace IO
 
@@ -69,54 +65,6 @@ Namespace IO
     ''' 数据读写工具
     ''' </summary>
     Public Module BnIO
-
-        ' ==================== 读取基因表达矩阵 ====================
-
-        ''' <summary>
-        ''' 从 CSV/TSV 文件读取基因表达矩阵
-        ''' 格式：第一列为基因名，第一行为样本名，其余为表达值
-        ''' </summary>
-        ''' 
-        <Extension>
-        Public Function ReadGeneExpressionMatrix(expr As Matrix,
-                                                 Optional sampleinfo As SampleInfo() = Nothing,
-                                                 Optional time_label As String = "time") As GeneExpressionData
-
-            Dim matrixRows As New List(Of Double())()
-            Dim geneNames As String() = expr.rownames
-            Dim sampleNames As String() = expr.sampleID
-            Dim nSamples As Integer = sampleNames.Length
-
-            For Each gene As DataFrameRow In expr.expression
-                Call matrixRows.Add(gene.experiments)
-            Next
-
-            ' 转置为 [gene, sample]
-            Dim matrix As Double(,) = New Double(geneNames.Count - 1, nSamples - 1) {}
-            For i = 0 To geneNames.Count - 1
-                For j = 0 To nSamples - 1
-                    matrix(i, j) = matrixRows(i)(j)
-                Next
-            Next
-
-            Dim t As Double() = Enumerable.Repeat(0.0, nSamples).ToArray()
-
-            If Not sampleinfo.IsNullOrEmpty Then
-                Dim sampleSet = sampleinfo.ToDictionary(Function(a) a.ID)
-                Dim sort = sampleNames.Select(Function(id) sampleSet(id)).ToArray
-
-                t = sort _
-                    .Select(Function(sample) Val(sample(time_label))) _
-                    .ToArray
-            End If
-
-            Return New GeneExpressionData() With {
-                .GeneNames = geneNames.ToArray(),
-                .SampleNames = sampleNames,
-                .Matrix = matrix,
-                .TimePoints = t
-            }
-        End Function
 
         ' ==================== 读取单样本外部转录组向量 ====================
 
@@ -177,71 +125,6 @@ Namespace IO
 
             Return result
         End Function
-
-        ' ==================== 读取先验调控网络 ====================
-
-        ''' <summary>
-        ''' 从 CSV/TSV 读取先验调控网络
-        ''' 格式：TF, TargetGene, RegulationType, Confidence, Evidence
-        ''' </summary>
-        Public Function ReadPriorNetwork(TRN As IEnumerable(Of RegulatoryEdge)) As PriorNetwork
-            Dim prior As New PriorNetwork()
-
-            If Not TRN Is Nothing Then
-                For Each edge As RegulatoryEdge In TRN
-                    Call prior.AddEdge(edge.TF, edge.TargetGene, edge.RegulationType, edge.Confidence, edge.Evidence)
-                Next
-            End If
-
-            Return prior
-        End Function
-
-        ' ==================== 写入干预分析结果 ====================
-
-        ''' <summary>
-        ''' 将干预分析结果写入 TSV 文件
-        ''' </summary>
-        Public Sub WriteInterventionResult(result As InterventionResult, filePath As String)
-            Dim sb As New StringBuilder()
-            sb.AppendLine(String.Format("# 干预分析: {0} ({1})", result.Spec.GeneName, result.Spec.Mode.ToString()))
-            sb.AppendLine("Gene" & vbTab & "Wildtype" & vbTab & "Mutant" & vbTab &
-                          "FoldChange" & vbTab & "PercentChange" & vbTab & "Significant")
-
-            For i = 0 To result.GeneNames.Length - 1
-                sb.AppendLine(String.Format("{0}{1}{2:F4}{3}{4:F4}{5}{6:F4}{7}{8:F1}%{9}{10}",
-                    result.GeneNames(i), vbTab,
-                    result.WildtypeMeans(i), vbTab,
-                    result.MutantMeans(i), vbTab,
-                    result.FoldChanges(i), vbTab,
-                    result.PercentChanges(i), vbTab,
-                    If(result.IsSignificant(i), "Yes", "No")))
-            Next
-
-            File.WriteAllText(filePath, sb.ToString(), Encoding.UTF8)
-        End Sub
-
-        ''' <summary>
-        ''' 将批量干预结果写入汇总 TSV
-        ''' </summary>
-        Public Sub WriteBatchInterventionResults(results As List(Of InterventionResult), filePath As String)
-            Dim sb As New StringBuilder()
-            sb.AppendLine("InterventionGene" & vbTab & "Mode" & vbTab & "TargetGene" & vbTab &
-                          "FoldChange" & vbTab & "PercentChange" & vbTab & "Significant")
-
-            For Each result As InterventionResult In results
-                For i = 0 To result.GeneNames.Length - 1
-                    sb.AppendLine(String.Format("{0}{1}{2}{3}{4}{5}{6:F4}{7}{8:F1}%{9}{10}",
-                        result.Spec.GeneName, vbTab,
-                        result.Spec.Mode.ToString(), vbTab,
-                        result.GeneNames(i), vbTab,
-                        result.FoldChanges(i), vbTab,
-                        result.PercentChanges(i), vbTab,
-                        If(result.IsSignificant(i), "Yes", "No")))
-                Next
-            Next
-
-            File.WriteAllText(filePath, sb.ToString(), Encoding.UTF8)
-        End Sub
 
     End Module
 

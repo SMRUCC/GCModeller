@@ -167,7 +167,7 @@ Namespace Core
         Public Property StructureResult As StructureLearning.StructureLearningResult
 
         ''' <summary>参数学习结果</summary>
-        Public Property ParameterResult As ParameterLearning.ParameterLearningResult
+        Public Property ParameterResult As ParameterLearningResult
 
         ' ==================== 工作流步骤 ====================
 
@@ -175,9 +175,9 @@ Namespace Core
         ''' 步骤1：加载数据
         ''' </summary>
         Public Sub LoadData(expressionMatrixPath As String, priorNetworkPath As String)
-            ExpressionData = IO.BnIO.ReadGeneExpressionMatrix(Matrix.LoadData(expressionMatrixPath))
+            ExpressionData = HTSDataFrame.ReadGeneExpressionMatrix(Matrix.LoadData(expressionMatrixPath))
             If Not String.IsNullOrEmpty(priorNetworkPath) AndAlso System.IO.File.Exists(priorNetworkPath) Then
-                PriorNetwork = IO.BnIO.ReadPriorNetwork(priorNetworkPath.LoadCsv(Of RegulatoryEdge)(mute:=True))
+                PriorNetwork = priorNetworkPath.LoadCsv(Of RegulatoryEdge)(mute:=True).AssemblePriorNetwork
             Else
                 PriorNetwork = New PriorNetwork()
             End If

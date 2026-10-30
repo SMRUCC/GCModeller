@@ -256,7 +256,7 @@ Public Class FuzzyGeneModel : Implements InsilicoPerturbationExperiment
     ''' <returns>覆盖率诊断（命中数、缺失基因、越界取值等）</returns>
     ''' <remarks>
     ''' 注入之后，对照（野生型）态与突变体态都**从该初始条件出发**各自迭代到稳态，
-    ''' 因此 <see cref="SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult.FoldChanges"/>
+    ''' 因此 <see cref="InterventionResult.FoldChanges"/>
     ''' 的含义变成「同一 context 下的突变体 vs 野生型」。
     ''' </remarks>
     Public Function SetContext(genes As String(), values As Double(), Optional minCoverage As Double = 0.0) As ContextCoverage

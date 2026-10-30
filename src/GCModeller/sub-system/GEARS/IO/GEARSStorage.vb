@@ -368,7 +368,7 @@ Namespace IO
         Friend Function ReadPrior(zip As ZipArchive) As PriorNetwork
             Dim lines As String() = ReadTextLines(zip, EntryPrior)
 
-            Return BnIO.ReadPriorNetwork(PriorNetworkIO.ParseRegulatoryEdges(lines))
+            Return PriorNetworkIO.ParseRegulatoryEdges(lines).AssemblePriorNetwork
         End Function
 
         ' ==================== expression.bin ====================

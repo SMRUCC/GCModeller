@@ -61,7 +61,6 @@ Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Analysis.BNLearn.Core
 Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
-Imports SMRUCC.genomics.Analysis.BNLearn.IO
 Imports SMRUCC.genomics.Analysis.BNLearn.ModularNetwork
 Imports SMRUCC.genomics.Analysis.BNLearn.ModularNetwork.WGCNA
 Imports SMRUCC.genomics.Analysis.BNLearn.StructureLearning
@@ -242,7 +241,7 @@ Module bnlearn
                 If pull IsNot Nothing AndAlso pull.isError Then
                     Return pull.getError
                 Else
-                    kbNet = BnIO.ReadPriorNetwork(pull)
+                    kbNet = pull.AssemblePriorNetwork
                 End If
             End If
         Else
@@ -252,7 +251,7 @@ Module bnlearn
         Dim timeSeries As GeneExpressionData
 
         If TypeOf exprData Is matrix Then
-            timeSeries = BnIO.ReadGeneExpressionMatrix(DirectCast(exprData, matrix))
+            timeSeries = HTSDataFrame.ReadGeneExpressionMatrix(DirectCast(exprData, matrix))
         Else
             timeSeries = DirectCast(exprData, GeneExpressionData)
         End If
@@ -425,7 +424,7 @@ Module bnlearn
             If pull IsNot Nothing AndAlso pull.isError Then
                 Return pull.getError
             Else
-                Return BnIO.ReadPriorNetwork(pull)
+                Return pull.AssemblePriorNetwork
             End If
         End If
     End Function
