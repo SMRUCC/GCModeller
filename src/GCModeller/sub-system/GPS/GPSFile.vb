@@ -5,11 +5,11 @@ Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Text.Json
-Imports SMRUCC.genomics.Analysis.BNLearn.Core
 Imports SMRUCC.genomics.Analysis.GPS.Config
 Imports SMRUCC.genomics.Analysis.GPS.Model
 Imports SMRUCC.genomics.Analysis.GPS.Training
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports SMRUCC.genomics.BioSystem.Core
 
 ''' <summary>
 ''' GPS 模型持久化包的清单信息（<c>manifest.json</c>）。
