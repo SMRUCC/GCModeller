@@ -91,6 +91,12 @@ export class ODESolverMethod extends <a href="/vignettes/clr/System/Enum.html">E
    # The 4th order Yoshida composition of the Stormer-Verlet method.(四阶吉田分解)
    Yoshida4: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/Calculus/Dynamics/ODESolverMethod.html">ODESolverMethod</a> = 12;
 
+   # The Adams (non-stiff) integrator of the managed <code>Sundials.CVODE</code> package, it is an external solver which should be registered by <code>SolverExtensions.Register()</code> first. (托管版 CVODE 的 Adams 方法，需要先调用 SolverExtensions.Register() 注册)
+   CVODE_Adams: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/Calculus/Dynamics/ODESolverMethod.html">ODESolverMethod</a> = 13;
+
+   # The BDF (stiff) integrator of the managed <code>Sundials.CVODE</code> package, it is an external solver which should be registered by <code>SolverExtensions.Register()</code> first. (托管版 CVODE 的 BDF 方法，需要先调用 SolverExtensions.Register() 注册)
+   CVODE_BDF: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/Calculus/Dynamics/ODESolverMethod.html">ODESolverMethod</a> = 14;
+
 }
 </code>
         </pre>
@@ -112,6 +118,8 @@ export class ODESolverMethod extends <a href="/vignettes/clr/System/Enum.html">E
 <li>use by <i>field</i> member <code>RK45</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/Calculus/Dynamics/ODESolverMethod.html">ODESolverMethod</a></li>
 <li>use by <i>field</i> member <code>Verlet</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/Calculus/Dynamics/ODESolverMethod.html">ODESolverMethod</a></li>
 <li>use by <i>field</i> member <code>Yoshida4</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/Calculus/Dynamics/ODESolverMethod.html">ODESolverMethod</a></li>
+<li>use by <i>field</i> member <code>CVODE_Adams</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/Calculus/Dynamics/ODESolverMethod.html">ODESolverMethod</a></li>
+<li>use by <i>field</i> member <code>CVODE_BDF</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/Calculus/Dynamics/ODESolverMethod.html">ODESolverMethod</a></li>
 </ol>
 
 

@@ -36,10 +36,16 @@ export class reactions extends <a href="/vignettes/clr/SMRUCC/genomics/Data/BioC
    comment: string;
    commonName: string;
    credits: string;
+   dataSource: string;
+   dbLinks: string;
+   documentation: string;
    # This slot holds the EC (Enzyme Commission) number associated with the current reaction, if such a number has been assigned by the IUBMB. This slot is single valued.
    ec_number: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Annotation/ECNumber.html">ECNumber[]</a>;
    enzymaticReaction: string;
+   enzymesNotUsed: string;
    equation: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/EquaionModel/DefaultTypes/Equation.html">Equation</a>;
+   # the equilibrium constant of current reaction
+   equilibriumConstant: double;
    gibbs0: double;
    inPathway: string;
    instanceNameTemplate: string;
@@ -47,6 +53,8 @@ export class reactions extends <a href="/vignettes/clr/SMRUCC/genomics/Data/BioC
    left: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/EquaionModel/DefaultTypes/CompoundSpecieReference.html">CompoundSpecieReference[]</a>;
    orphan: string;
    physiologicallyRelevant: boolean;
+   predecessors: string;
+   primaries: string;
    reactionBalanceStatus: string;
    reactionDirection: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/Assembly/MetaCyc/Schema/Metabolism/ReactionDirections.html">ReactionDirections</a>;
    reactionList: string;
@@ -64,12 +72,16 @@ export class reactions extends <a href="/vignettes/clr/SMRUCC/genomics/Data/BioC
    # 
    # If the reaction is catalyzed by more than one enzyme (i.e. it has more than one enzymaticreaction attached), then each value in the RXN-LOCATIONS slot has to have an annotation called ENZRXNS, which has as its values the frame IDs of the corresponding enzymatic-reactions. This allows determining the precise compartment(s) in which the catalyzed reaction is occurring. Whenever a reaction is transferred between PGDBs (by import or schema upgrade operations), all values in the RXN-LOCATIONS are filtered away (i.e. not copied). This prevents inapplicable compartments from being introduced into other PGDBs.
    reactionLocations: string;
+   regulatedBy: string;
+   requirements: string;
    # These slots hold the compounds from the left and right sides, respectively, of the reaction equation. Each value is either the key of a compound frame, or a string that names a compound (when the compound is not yet described within the DB as a frame). The terms reactant and product are not used because these terms may falsely imply the physiological direction of the reaction. The coefficient of each substrate, when that coefficient is not equal to 1, is stored as an annotation on the substrate value. The annotation label is COEFFICIENT. The substrates of transport reactions are also described using the Left and Right slots. However, the values of these slots are annotated to indicate their compartments. For example, a transporter that moves succinate from the periplasm to the cytosol, accompanied by hydrolysis of ATP in the cytosol, would be described with succinate and ATP as the values of the Left slot, and with succinate, ADP, and Pi as the values of the Right slot. The succinate in the Left slot would be annotated with CCO-OUT under the label Compartment. The other substrates need to be annotated with CCO-IN. Additionally, a location has to be stored in the Rxn-Locations slot. Please see the detailed comments of that slot.
    right: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/EquaionModel/DefaultTypes/CompoundSpecieReference.html">CompoundSpecieReference[]</a>;
    signal: string;
    # This slot is used to indicate that a reaction is known to occur in an organism in the case where the enzyme that catalyzes the reaction is unknown. In such cases, the value for this slot in a given reaction would be the symbolic identifier of the species for the organism for the current PGDB.
    species: string;
    spontaneous: boolean;
+   # the standard reduction potential of current reaction
+   stdReductionPotential: double;
    synonyms: string;
    systematicName: string;
    types: string;

@@ -24,7 +24,7 @@
 
         <p>神经模糊（ANFIS/TSK）基因调控网络模型的门面。</p>
 
-<p>一个实例封装「表达矩阵 + 可选先验网络 → 逐靶基因模糊模型 → 虚拟扰动」的全流程， 并实现 <a href="cref:T:SMRUCC.genomics.Analysis.BNLearn.InsilicoPerturbationExperiment">InsilicoPerturbationExperiment</a>，因此可以与 BNLearn 的贝叶斯网络实现、 GEARS / GPS 的实现互换使用——<code>bnlearn</code> 包里的 <code>knockouts</code> / <code>knockdown</code> / <code>overexpress</code> 可以直接作用在本对象上。</p>
+<p>一个实例封装「表达矩阵 + 可选先验网络 → 逐靶基因模糊模型 → 虚拟扰动」的全流程， 并实现 <a href="cref:T:SMRUCC.genomics.BioSystem.InsilicoPerturbationExperiment">InsilicoPerturbationExperiment</a>，因此可以与 BNLearn 的贝叶斯网络实现、 GEARS / GPS 的实现互换使用——<code>bnlearn</code> 包里的 <code>knockouts</code> / <code>knockdown</code> / <code>overexpress</code> 可以直接作用在本对象上。</p>
 
 <p>典型用法：</p>
 
@@ -62,8 +62,8 @@ export class FuzzyGeneModel {
    # 拟合出的调控网络；未训练时为 Nothing。
    Network: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/FuzzyGeneNetwork.html">FuzzyGeneNetwork</a>;
    # 先验调控网络（可能为 Nothing）。
-   Prior: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/PriorNetwork.html">PriorNetwork</a>;
-   # 严格模式：目标基因不在模型里时抛 <a href="cref:T:System.MissingMemberException">MissingMemberException</a>； 为 False 时返回 <a href="cref:P:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult.Undefined">InterventionResult.Undefined</a> = True 的野生型降级结果。
+   Prior: <a href="/vignettes/clr/SMRUCC/genomics/BioSystem/Core/PriorNetwork.html">PriorNetwork</a>;
+   # 严格模式：目标基因不在模型里时抛 <a href="cref:T:System.MissingMemberException">MissingMemberException</a>； 为 False 时返回 <a href="cref:P:SMRUCC.genomics.BioSystem.Intervention.InterventionResult.Undefined">InterventionResult.Undefined</a> = True 的野生型降级结果。
    Strict: boolean;
 }
 </code>
@@ -78,7 +78,7 @@ export class FuzzyGeneModel {
 <li>use by <i>property</i> member <code>LastContextCoverage</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Perturbation/ContextCoverage.html">ContextCoverage</a></li>
 <li>use by <i>property</i> member <code>LastTrainingResult</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Fitting/FuzzyGeneTrainingResult.html">FuzzyGeneTrainingResult</a></li>
 <li>use by <i>property</i> member <code>Network</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/FuzzyGeneNetwork.html">FuzzyGeneNetwork</a></li>
-<li>use by <i>property</i> member <code>Prior</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/PriorNetwork.html">PriorNetwork</a></li>
+<li>use by <i>property</i> member <code>Prior</code>: <a href="/vignettes/clr/SMRUCC/genomics/BioSystem/Core/PriorNetwork.html">PriorNetwork</a></li>
 </ol>
 
 

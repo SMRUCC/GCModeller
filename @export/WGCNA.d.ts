@@ -98,7 +98,7 @@ declare namespace WGCNA {
      * + default value Is ``null``.
      * @return the assembled [GRNBuildResult](cref:T:SMRUCC.genomics.Analysis.CellPhenotype.RegulationNetwork.GRNBuildResult): the prior regulatory network
      *  split by the WGCNA modules (each module holds a
-     *  [PriorNetwork](cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.PriorNetwork) of [RegulatoryEdge](cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.RegulatoryEdge) edges
+     *  [PriorNetwork](cref:T:SMRUCC.genomics.BioSystem.Core.PriorNetwork) of [RegulatoryEdge](cref:T:SMRUCC.genomics.BioSystem.Core.RegulatoryEdge) edges
      *  carrying TF, target gene, regulation type, confidence and evidence tags),
      *  together with the build summary statistics. Use
      *  `result.ToPriorNetwork()` / `result.ToPriorNetwork(minConfidence)`

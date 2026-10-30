@@ -34,29 +34,54 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Data.BioCyc
 export class compounds extends <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/Model.html">Model</a> {
+   abbrevName: string;
+   accession1: string;
    atomCharges: string;
+   # the net electric charge of current metabolite at the physiological pH
+   charge: double;
    chemicalFormula: string;
    citations: string;
    comment: string;
    commonName: string;
+   componentCoefficients: string;
    componentOf: string;
+   # 当前化合物作为聚合物的时候的组成单体列表
+   components: string;
    credits: string;
    # cross reference to the external database of current metabolite model
    dbLinks: string;
    exactMass: double;
    Gibbs0: double;
+   goTerms: string;
    InChI: string;
    InChIKey: string;
+   inMixture: string;
    instanceNameTemplate: string;
+   locations: string;
+   logP: double;
+   modifiedForm: string;
    molecularWeight: double;
+   molecularWeightExp: double;
+   molecularWeightKD: double;
+   molecularWeightSeq: double;
    nonStandardInChI: string;
+   # the isoelectric point of current metabolite
+   pi: double;
+   pKa1: double;
+   pKa2: double;
+   pKa3: double;
+   regulatedBy: string;
    regulates: string;
    SMILES: string;
    # atom group class
    superAtoms: string;
+   symmetry: string;
    synonyms: string;
+   tautomers: string;
    types: string;
    uniqueId: string;
+   # the unmodified form of current compound, for the modified compound
+   unmodifiedForm: string;
 }
 </code>
         </pre>

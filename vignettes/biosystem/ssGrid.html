@@ -74,7 +74,7 @@ table caption {font-size:14px;font-weight:bolder;}
 
 <ul>
 <li><code>sfit_options</code>: create the fitting configuration object(<a href="cref:T:SMRUCC.genomics.Analysis.SGrid.GRN.FittingOptions">FittingOptions</a>);</li>
-<li><code>sfit</code>: infer the S-system gene regulatory network from a gene expression matrix(rows are genes and the columns are the time points), the optional <code>prior</code> knowledge network(<a href="cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.PriorNetwork">PriorNetwork</a>) is used as a soft constraint of the network structure;</li>
+<li><code>sfit</code>: infer the S-system gene regulatory network from a gene expression matrix(rows are genes and the columns are the time points), the optional <code>prior</code> knowledge network(<a href="cref:T:SMRUCC.genomics.BioSystem.Core.PriorNetwork">PriorNetwork</a>) is used as a soft constraint of the network structure;</li>
 <li><code>network_edges</code>, <code>sgrid_parameters</code>, <code>sgrid_coefficients</code> and <code>sgrid_r2</code>: query the fitted model, these functions return <code>data.frame</code> objects;</li>
 <li><code>sgrid_simulate</code>: integrate the fitted S-system model and return the trajectory as a <code>data.frame</code>;</li>
 <li><code>sgrid_context</code>: map a pseudobulk context(the raw counts) onto the model state space, so that it can be used as the ODE initial state;</li>
@@ -105,7 +105,7 @@ table caption {font-size:14px;font-weight:bolder;}
 </tr>
 <tr>
   <td id="sgrid_prior">
-    <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/PriorNetwork.html">sgrid_prior: PriorNetwork</a>
+    <a href="/vignettes/clr/SMRUCC/genomics/BioSystem/Core/PriorNetwork.html">sgrid_prior: PriorNetwork</a>
   </td>
   <td><p>先验调控网络</p></td>
 </tr>

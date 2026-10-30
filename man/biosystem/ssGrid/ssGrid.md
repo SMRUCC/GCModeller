@@ -7,7 +7,7 @@ The S-system based gene regulatory network inference toolkit
 >  + ``sfit_options``: create the fitting configuration object([FittingOptions](cref:T:SMRUCC.genomics.Analysis.SGrid.GRN.FittingOptions));
 >  + ``sfit``: infer the S-system gene regulatory network from a gene expression 
 >    matrix(rows are genes and the columns are the time points), the optional 
->    ``prior`` knowledge network([PriorNetwork](cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.PriorNetwork)) is used as a soft 
+>    ``prior`` knowledge network([PriorNetwork](cref:T:SMRUCC.genomics.BioSystem.Core.PriorNetwork)) is used as a soft 
 >    constraint of the network structure;
 >  + ``network_edges``, ``sgrid_parameters``, ``sgrid_coefficients`` and ``sgrid_r2``:
 >    query the fitted model, these functions return ``data.frame`` objects;

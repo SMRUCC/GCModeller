@@ -22,9 +22,9 @@
 
         <h3>Description</h3>
 
-        <p>基因表达调控先验网络的构建结果：按 WGCNA 模块拆分的 <a href="cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.PriorNetwork">PriorNetwork</a> 集合</p>
+        <p>基因表达调控先验网络的构建结果：按 WGCNA 模块拆分的 <a href="cref:T:SMRUCC.genomics.BioSystem.Core.PriorNetwork">PriorNetwork</a> 集合</p>
 
-<p>每个 <a href="cref:T:SMRUCC.genomics.Analysis.CellPhenotype.RegulationNetwork.ModulePriorNetwork">ModulePriorNetwork</a> 持有一个 <a href="cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.PriorNetwork">PriorNetwork</a>， 其 <a href="cref:P:SMRUCC.genomics.Analysis.BNLearn.Core.PriorNetwork.Edges">PriorNetwork.Edges</a> 元素类型为 <a href="cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.RegulatoryEdge">RegulatoryEdge</a>。 需要单一网络的下游算法（DBN / GNN）可直接调用 <a href="cref:M:SMRUCC.genomics.Analysis.CellPhenotype.RegulationNetwork.GRNBuildResult.ToPriorNetwork">GRNBuildResult.ToPriorNetwork()</a> 合并。</p>
+<p>每个 <a href="cref:T:SMRUCC.genomics.Analysis.CellPhenotype.RegulationNetwork.ModulePriorNetwork">ModulePriorNetwork</a> 持有一个 <a href="cref:T:SMRUCC.genomics.BioSystem.Core.PriorNetwork">PriorNetwork</a>， 其 <a href="cref:P:SMRUCC.genomics.BioSystem.Core.PriorNetwork.Edges">PriorNetwork.Edges</a> 元素类型为 <a href="cref:T:SMRUCC.genomics.BioSystem.Core.RegulatoryEdge">RegulatoryEdge</a>。 需要单一网络的下游算法（DBN / GNN）可直接调用 <a href="cref:M:SMRUCC.genomics.Analysis.CellPhenotype.RegulationNetwork.GRNBuildResult.ToPriorNetwork">GRNBuildResult.ToPriorNetwork()</a> 合并。</p>
 
         <h3>Declare</h3>        
 
@@ -33,7 +33,7 @@
 # namespace SMRUCC.genomics.Analysis.CellPhenotype.RegulationNetwork
 export class GRNBuildResult {
    # 全部调控边（模块内 + 跨模块）
-   allEdges: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/RegulatoryEdge.html">iterates(RegulatoryEdge)</a>;
+   allEdges: <a href="/vignettes/clr/SMRUCC/genomics/BioSystem/Core/RegulatoryEdge.html">iterates(RegulatoryEdge)</a>;
    # 按 WGCNA 模块拆分的先验网络集合
    modules: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/CellPhenotype/RegulationNetwork/ModulePriorNetwork.html">ModulePriorNetwork[]</a>;
    # 汇总统计
@@ -47,7 +47,7 @@ export class GRNBuildResult {
         <h3>.NET clr type reference tree</h3>
 
         <ol>
-<li>use by <i>property</i> member <code>allEdges</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/RegulatoryEdge.html">iterates(RegulatoryEdge)</a></li>
+<li>use by <i>property</i> member <code>allEdges</code>: <a href="/vignettes/clr/SMRUCC/genomics/BioSystem/Core/RegulatoryEdge.html">iterates(RegulatoryEdge)</a></li>
 <li>use by <i>property</i> member <code>modules</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/CellPhenotype/RegulationNetwork/ModulePriorNetwork.html">ModulePriorNetwork</a></li>
 <li>use by <i>property</i> member <code>summary</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/CellPhenotype/RegulationNetwork/BuildSummary.html">BuildSummary</a></li>
 <li>use by <i>property</i> member <code>wgcna</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/WGCNA/Result.html">Result</a></li>

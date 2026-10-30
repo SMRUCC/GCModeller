@@ -42,11 +42,11 @@
 
 
 <dt>opts</dt>
-<dd><p>the fitting configuration object, see also: <a href="cref:M:biosystem.ssGrid.sfitOptions(System.String,System.Double,System.Double,System.Int32,System.Int32,System.Double,System.Double,System.Int32,System.Double,System.Double,System.Double,SMRUCC.genomics.Analysis.BNLearn.Core.PriorNetwork,System.Int32,System.Int32,System.Int32,System.Boolean,System.Boolean,System.Boolean,System.Double,System.Double,System.Int32,System.Int32)">ssGrid.sfitOptions()</a>. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SGrid/GRN/FittingOptions.html">FittingOptions</a>]</p></dd>
+<dd><p>the fitting configuration object, see also: <a href="cref:M:biosystem.ssGrid.sfitOptions(System.String,System.Double,System.Double,System.Int32,System.Int32,System.Double,System.Double,System.Int32,System.Double,System.Double,System.Double,SMRUCC.genomics.BioSystem.Core.PriorNetwork,System.Int32,System.Int32,System.Int32,System.Boolean,System.Boolean,System.Boolean,System.Double,System.Double,System.Int32,System.Int32)">ssGrid.sfitOptions()</a>. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SGrid/GRN/FittingOptions.html">FittingOptions</a>]</p></dd>
 
 
 <dt>prior</dt>
-<dd><p>the prior knowledge regulatory network, which could be a <a href="cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.PriorNetwork">PriorNetwork</a> object(from <code>bnlearn::as.prior_net</code> or <code>sgrid_prior</code>) or a csv file path. This prior is used as a <strong>soft</strong> constraint: an interaction that is not supported by the prior will be shrunk, but a new regulation relation could still be discovered from the expression data.</p></dd>
+<dd><p>the prior knowledge regulatory network, which could be a <a href="cref:T:SMRUCC.genomics.BioSystem.Core.PriorNetwork">PriorNetwork</a> object(from <code>bnlearn::as.prior_net</code> or <code>sgrid_prior</code>) or a csv file path. This prior is used as a <strong>soft</strong> constraint: an interaction that is not supported by the prior will be shrunk, but a new regulation relation could still be discovered from the expression data.</p></dd>
 
 
 <dt>time</dt>

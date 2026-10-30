@@ -13,7 +13,7 @@
  * >  + ``sfit_options``: create the fitting configuration object([FittingOptions](cref:T:SMRUCC.genomics.Analysis.SGrid.GRN.FittingOptions));
  * >  + ``sfit``: infer the S-system gene regulatory network from a gene expression 
  * >    matrix(rows are genes and the columns are the time points), the optional 
- * >    ``prior`` knowledge network([PriorNetwork](cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.PriorNetwork)) is used as a soft 
+ * >    ``prior`` knowledge network([PriorNetwork](cref:T:SMRUCC.genomics.BioSystem.Core.PriorNetwork)) is used as a soft 
  * >    constraint of the network structure;
  * >  + ``network_edges``, ``sgrid_parameters``, ``sgrid_coefficients`` and ``sgrid_r2``:
  * >    query the fitted model, these functions return ``data.frame`` objects;
@@ -102,11 +102,11 @@ declare namespace ssGrid {
     * 
      * @param x the gene expression matrix(rows are genes and columns are the time points), 
      *  this matrix object could be loaded from a csv file via ``geneExpression::load.expr``.
-     * @param opts the fitting configuration object, see also: [ssGrid.sfitOptions()](cref:M:biosystem.ssGrid.sfitOptions(System.String,System.Double,System.Double,System.Int32,System.Int32,System.Double,System.Double,System.Int32,System.Double,System.Double,System.Double,SMRUCC.genomics.Analysis.BNLearn.Core.PriorNetwork,System.Int32,System.Int32,System.Int32,System.Boolean,System.Boolean,System.Boolean,System.Double,System.Double,System.Int32,System.Int32)).
+     * @param opts the fitting configuration object, see also: [ssGrid.sfitOptions()](cref:M:biosystem.ssGrid.sfitOptions(System.String,System.Double,System.Double,System.Int32,System.Int32,System.Double,System.Double,System.Int32,System.Double,System.Double,System.Double,SMRUCC.genomics.BioSystem.Core.PriorNetwork,System.Int32,System.Int32,System.Int32,System.Boolean,System.Boolean,System.Boolean,System.Double,System.Double,System.Int32,System.Int32)).
      * 
      * + default value Is ``null``.
      * @param prior the prior knowledge regulatory network, which could be a 
-     *  [PriorNetwork](cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.PriorNetwork) object(from ``bnlearn::as.prior_net`` or ``sgrid_prior``) 
+     *  [PriorNetwork](cref:T:SMRUCC.genomics.BioSystem.Core.PriorNetwork) object(from ``bnlearn::as.prior_net`` or ``sgrid_prior``) 
      *  or a csv file path. This prior is used as a **soft** constraint: an interaction 
      *  that is not supported by the prior will be shrunk, but a new regulation 
      *  relation could still be discovered from the expression data.
@@ -263,7 +263,7 @@ declare namespace ssGrid {
      * @param env -
      * 
      * + default value Is ``null``.
-     * @return a [PriorNetwork](cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.PriorNetwork) object, or a R# error message object.
+     * @return a [PriorNetwork](cref:T:SMRUCC.genomics.BioSystem.Core.PriorNetwork) object, or a R# error message object.
    */
    function sgrid_prior(data: any, env?: object): object;
    /**

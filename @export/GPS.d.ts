@@ -35,7 +35,7 @@
  * > 
  * > 
  * >  A trained [GPSModel](cref:T:SMRUCC.genomics.Analysis.GPS.GPSModel) implements the
- * >  [InsilicoPerturbationExperiment](cref:T:SMRUCC.genomics.Analysis.BNLearn.InsilicoPerturbationExperiment) interface,
+ * >  [InsilicoPerturbationExperiment](cref:T:SMRUCC.genomics.BioSystem.InsilicoPerturbationExperiment) interface,
  * >  so the ``knockouts``, ``knockdown`` and ``overexpress`` api of the ``bnlearn`` package
  * >  can be applied to it directly for in silico perturbation experiments. The generic
  * >  ``writeBin`` handler of this module persists a model into a zip based binary stream,
@@ -96,7 +96,7 @@ declare namespace GPS {
     * >  ``make_exports`` writes about eight tables per run which is several gigabytes for a few
     * >  hundred conditions.
     * 
-     * @param results a collection of the [InterventionResult](cref:T:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult) object, for example the value returned
+     * @param results a collection of the [InterventionResult](cref:T:SMRUCC.genomics.BioSystem.Intervention.InterventionResult) object, for example the value returned
      *  by the ``knockouts`` / ``knockdown`` / ``overexpress`` api of the ``bnlearn`` package.
      * @param file the output file path of the mutant matrix (``mutant_means_matrix.csv``), rows are genes and
      *  columns are the intervention conditions.
@@ -108,7 +108,7 @@ declare namespace GPS {
      * 
      * + default value Is ``null``.
      * @return TRUE when both matrix files have been written; an R# error message object is returned when
-     *  the input can not be treated as a collection of [InterventionResult](cref:T:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult).
+     *  the input can not be treated as a collection of [InterventionResult](cref:T:SMRUCC.genomics.BioSystem.Intervention.InterventionResult).
    */
    function export_profiles(results: any, file: string, controlFile?: string, env?: object): any;
    /**

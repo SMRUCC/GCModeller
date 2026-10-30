@@ -86,7 +86,7 @@ declare namespace linear {
      * 
      * + default value Is ``null``.
      * @return an [ElasticNet](cref:T:SMRUCC.genomics.Analysis.CellPhenotype.ElasticNet) engine which implements the
-     *  [InsilicoPerturbationExperiment](cref:T:SMRUCC.genomics.Analysis.BNLearn.InsilicoPerturbationExperiment) interface.
+     *  [InsilicoPerturbationExperiment](cref:T:SMRUCC.genomics.BioSystem.InsilicoPerturbationExperiment) interface.
    */
    function elastic_model(grn: object, opts?: object, strict?: boolean, scale?: string, propagation?: string, steps?: object, damping?: number, knockdown_residual?: number, log_offset?: number, clamp?: boolean, env?: object): object;
    /**
@@ -198,7 +198,7 @@ declare namespace linear {
      * @param env the R# runtime environment object
      * 
      * + default value Is ``null``.
-     * @return an [InterventionResult](cref:T:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult) object; use ``as.list`` to access the fields
+     * @return an [InterventionResult](cref:T:SMRUCC.genomics.BioSystem.Intervention.InterventionResult) object; use ``as.list`` to access the fields
      *  (the ``$`` indexing is not supported on this object).
    */
    function intervene(model: object, gene: string, mode?: string, value?: number, env?: object): object;

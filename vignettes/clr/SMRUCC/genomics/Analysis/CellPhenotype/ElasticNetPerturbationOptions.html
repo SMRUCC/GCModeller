@@ -35,7 +35,7 @@
 
 <p>当 <a href="cref:P:SMRUCC.genomics.Analysis.CellPhenotype.ElasticNetPerturbationOptions.Scale">ElasticNetPerturbationOptions.Scale</a> 为 <a href="cref:F:SMRUCC.genomics.Analysis.CellPhenotype.PerturbationScale.Log2Plus1">PerturbationScale.Log2Plus1</a> 的时候， 上面的比例会先反变换到线性空间、按比例施加、再变换回 log 空间(见该枚举的说明)。</p>
 
-<p>这个约定与 <a href="cref:M:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionSpec.GetInterventionValue(System.Double,System.Double)">InterventionSpec.GetInterventionValue()</a> 的 <code>mean +/- k * SD</code> 公式不同，因此同一个基因在本引擎与贝叶斯网络引擎 上面的敲降/过表达效应量不能直接横向比较。</p>
+<p>这个约定与 <a href="cref:M:SMRUCC.genomics.BioSystem.Intervention.InterventionSpec.GetInterventionValue(System.Double,System.Double)">InterventionSpec.GetInterventionValue()</a> 的 <code>mean +/- k * SD</code> 公式不同，因此同一个基因在本引擎与贝叶斯网络引擎 上面的敲降/过表达效应量不能直接横向比较。</p>
 
         <h3>Declare</h3>        
 
@@ -80,9 +80,9 @@ export class ElasticNetPerturbationOptions {
    RandomSeed: integer;
    # 是否记录级联过程之中每一步的表达量轨迹(仅在确定性模式下有效)，默认关闭。
    # 
-   # <a href="cref:P:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult.DynamicTrajectory">InterventionResult.DynamicTrajectory</a> 之中第 0 行是干预之前的基线， 之后每一行是一次迭代的结果。轨迹的每个元素都是一个长度为 1 的数组， 因此内存占用约为 <code>(步数 + 1) * 基因数量 * 40</code> 字节：在大网络之上 逐基因地做批量扰动的时候建议保持关闭。
+   # <a href="cref:P:SMRUCC.genomics.BioSystem.Intervention.InterventionResult.DynamicTrajectory">InterventionResult.DynamicTrajectory</a> 之中第 0 行是干预之前的基线， 之后每一行是一次迭代的结果。轨迹的每个元素都是一个长度为 1 的数组， 因此内存占用约为 <code>(步数 + 1) * 基因数量 * 40</code> 字节：在大网络之上 逐基因地做批量扰动的时候建议保持关闭。
    # 
-   # <a href="cref:M:SMRUCC.genomics.Analysis.CellPhenotype.ElasticNet.SimulateCascade(SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionSpec,System.Int32)">ElasticNet.SimulateCascade()</a> 会自动开启轨迹记录。
+   # <a href="cref:M:SMRUCC.genomics.Analysis.CellPhenotype.ElasticNet.SimulateCascade(SMRUCC.genomics.BioSystem.Intervention.InterventionSpec,System.Int32)">ElasticNet.SimulateCascade()</a> 会自动开启轨迹记录。
    RecordTrajectory: boolean;
    # 模型输入表达量的数值空间，默认为 <a href="cref:F:SMRUCC.genomics.Analysis.CellPhenotype.PerturbationScale.Linear">PerturbationScale.Linear</a>。
    # 

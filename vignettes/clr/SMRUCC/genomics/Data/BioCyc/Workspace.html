@@ -30,18 +30,36 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Data.BioCyc
 export class Workspace {
+   # the class hierarchy definition of current database (<code>classes.dat</code>)
+   classes: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/AttrDataCollection`1.html">AttrDataCollection`1</a>;
+   compoundLinks: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/ColumnRow.html">ColumnRow[]</a>;
    compounds: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/AttrDataCollection`1.html">AttrDataCollection`1</a>;
+   dnabindsites: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/AttrDataCollection`1.html">AttrDataCollection`1</a>;
    enzrxns: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/AttrDataCollection`1.html">AttrDataCollection`1</a>;
    fastaSeq: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/Assembly/MetaCyc/File/FileSystem/FastaObjects/FastaCollection.html">FastaCollection</a>;
+   geneLinks: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/ColumnRow.html">ColumnRow[]</a>;
    genes: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/AttrDataCollection`1.html">AttrDataCollection`1</a>;
+   # 记录了当前工作目录之中缺失的数据文件名称，用于诊断与测试报告
+   MissingFiles: string;
+   pathwayLinks: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/ColumnRow.html">ColumnRow[]</a>;
    pathways: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/AttrDataCollection`1.html">AttrDataCollection`1</a>;
+   promoters: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/AttrDataCollection`1.html">AttrDataCollection`1</a>;
+   proteinFeatures: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/AttrDataCollection`1.html">AttrDataCollection`1</a>;
+   proteinLinks: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/ColumnRow.html">ColumnRow[]</a>;
    proteins: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/AttrDataCollection`1.html">AttrDataCollection`1</a>;
    protligandcplxes: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/AttrDataCollection`1.html">AttrDataCollection`1</a>;
+   # the publication index of current database (<code>pubs.dat</code>)
+   pubs: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/AttrDataCollection`1.html">AttrDataCollection`1</a>;
+   reactionLinks: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/ColumnRow.html">ColumnRow[]</a>;
    reactions: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/AttrDataCollection`1.html">AttrDataCollection`1</a>;
    regulation: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/AttrDataCollection`1.html">AttrDataCollection`1</a>;
+   regulons: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/AttrDataCollection`1.html">AttrDataCollection`1</a>;
    rnas: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/AttrDataCollection`1.html">AttrDataCollection`1</a>;
    # the organism taxonomy species information
    species: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/species.html">species</a>;
+   terminators: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/AttrDataCollection`1.html">AttrDataCollection`1</a>;
+   # the transporters table (<code>transporters.col</code>)
+   transporters: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/ColumnRow.html">ColumnRow[]</a>;
    transunits: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/AttrDataCollection`1.html">AttrDataCollection`1</a>;
 }
 </code>
@@ -50,17 +68,30 @@ export class Workspace {
         <h3>.NET clr type reference tree</h3>
 
         <ol>
+<li>use by <i>property</i> member <code>classes</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/AttrDataCollection`1.html">AttrDataCollection`1</a></li>
+<li>use by <i>property</i> member <code>compoundLinks</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/ColumnRow.html">ColumnRow</a></li>
 <li>use by <i>property</i> member <code>compounds</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/AttrDataCollection`1.html">AttrDataCollection`1</a></li>
+<li>use by <i>property</i> member <code>dnabindsites</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/AttrDataCollection`1.html">AttrDataCollection`1</a></li>
 <li>use by <i>property</i> member <code>enzrxns</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/AttrDataCollection`1.html">AttrDataCollection`1</a></li>
 <li>use by <i>property</i> member <code>fastaSeq</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/Assembly/MetaCyc/File/FileSystem/FastaObjects/FastaCollection.html">FastaCollection</a></li>
+<li>use by <i>property</i> member <code>geneLinks</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/ColumnRow.html">ColumnRow</a></li>
 <li>use by <i>property</i> member <code>genes</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/AttrDataCollection`1.html">AttrDataCollection`1</a></li>
+<li>use by <i>property</i> member <code>pathwayLinks</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/ColumnRow.html">ColumnRow</a></li>
 <li>use by <i>property</i> member <code>pathways</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/AttrDataCollection`1.html">AttrDataCollection`1</a></li>
+<li>use by <i>property</i> member <code>promoters</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/AttrDataCollection`1.html">AttrDataCollection`1</a></li>
+<li>use by <i>property</i> member <code>proteinFeatures</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/AttrDataCollection`1.html">AttrDataCollection`1</a></li>
+<li>use by <i>property</i> member <code>proteinLinks</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/ColumnRow.html">ColumnRow</a></li>
 <li>use by <i>property</i> member <code>proteins</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/AttrDataCollection`1.html">AttrDataCollection`1</a></li>
 <li>use by <i>property</i> member <code>protligandcplxes</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/AttrDataCollection`1.html">AttrDataCollection`1</a></li>
+<li>use by <i>property</i> member <code>pubs</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/AttrDataCollection`1.html">AttrDataCollection`1</a></li>
+<li>use by <i>property</i> member <code>reactionLinks</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/ColumnRow.html">ColumnRow</a></li>
 <li>use by <i>property</i> member <code>reactions</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/AttrDataCollection`1.html">AttrDataCollection`1</a></li>
 <li>use by <i>property</i> member <code>regulation</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/AttrDataCollection`1.html">AttrDataCollection`1</a></li>
+<li>use by <i>property</i> member <code>regulons</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/AttrDataCollection`1.html">AttrDataCollection`1</a></li>
 <li>use by <i>property</i> member <code>rnas</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/AttrDataCollection`1.html">AttrDataCollection`1</a></li>
 <li>use by <i>property</i> member <code>species</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/species.html">species</a></li>
+<li>use by <i>property</i> member <code>terminators</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/AttrDataCollection`1.html">AttrDataCollection`1</a></li>
+<li>use by <i>property</i> member <code>transporters</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/ColumnRow.html">ColumnRow</a></li>
 <li>use by <i>property</i> member <code>transunits</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/AttrDataCollection`1.html">AttrDataCollection`1</a></li>
 </ol>
 

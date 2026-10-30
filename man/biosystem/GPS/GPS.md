@@ -29,7 +29,7 @@ GPS: the GNN + Transformer based gene regulatory network modelling toolkit.
 > 
 > 
 >  A trained [GPSModel](cref:T:SMRUCC.genomics.Analysis.GPS.GPSModel) implements the
->  [InsilicoPerturbationExperiment](cref:T:SMRUCC.genomics.Analysis.BNLearn.InsilicoPerturbationExperiment) interface,
+>  [InsilicoPerturbationExperiment](cref:T:SMRUCC.genomics.BioSystem.InsilicoPerturbationExperiment) interface,
 >  so the ``knockouts``, ``knockdown`` and ``overexpress`` api of the ``bnlearn`` package
 >  can be applied to it directly for in silico perturbation experiments. The generic
 >  ``writeBin`` handler of this module persists a model into a zip based binary stream,

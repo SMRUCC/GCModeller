@@ -24,7 +24,7 @@
 
         <p>上下文注入（<code>SetContext</code> / <code>LoadContext</code>）的诊断结果。</p>
 
-<p>上下文替换的是「扰动分析的对照基线」，语义上相当于把实验体系放进另一个转录组背景： 对照（野生型）态与突变体态都从该初始条件出发各自迭代到稳态， 因此 <a href="cref:P:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult.FoldChanges">InterventionResult.FoldChanges</a> 变成「同一 context 下的突变体 vs 野生型」。</p>
+<p>上下文替换的是「扰动分析的对照基线」，语义上相当于把实验体系放进另一个转录组背景： 对照（野生型）态与突变体态都从该初始条件出发各自迭代到稳态， 因此 <a href="cref:P:SMRUCC.genomics.BioSystem.Intervention.InterventionResult.FoldChanges">InterventionResult.FoldChanges</a> 变成「同一 context 下的突变体 vs 野生型」。</p>
 
 <p>报告里必须能看出三件事，否则结果无法解释： 模型里的哪些基因真的被上下文覆盖了（<a href="cref:P:SMRUCC.genomics.Analysis.FuzzyGene.Perturbation.ContextCoverage.Matched">ContextCoverage.Matched</a>）、 哪些还在沿用训练数据的均值（<a href="cref:P:SMRUCC.genomics.Analysis.FuzzyGene.Perturbation.ContextCoverage.MissingGenes">ContextCoverage.MissingGenes</a>）、 以及哪些取值落在训练支持域之外（<a href="cref:P:SMRUCC.genomics.Analysis.FuzzyGene.Perturbation.ContextCoverage.OutsideSupport">ContextCoverage.OutsideSupport</a>，迭代时会被限幅， 等于这部分输入被“剪平”了）。</p>
 

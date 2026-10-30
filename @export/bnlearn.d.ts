@@ -30,9 +30,9 @@ declare namespace bnlearn {
        * 
        * 
         * @param priorNet a collection of the regulatory edge data, which can be a vector of the 
-        *  [RegulatoryEdge](cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.RegulatoryEdge) object, the output of the ``prior_network`` 
+        *  [RegulatoryEdge](cref:T:SMRUCC.genomics.BioSystem.Core.RegulatoryEdge) object, the output of the ``prior_network`` 
         *  api, or a pipeline object that produces a set of the 
-        *  [RegulatoryEdge](cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.RegulatoryEdge) data. or this parameter value also could be the
+        *  [RegulatoryEdge](cref:T:SMRUCC.genomics.BioSystem.Core.RegulatoryEdge) data. or this parameter value also could be the
         *  [GRNBuildResult](cref:T:SMRUCC.genomics.Analysis.CellPhenotype.RegulationNetwork.GRNBuildResult) object which is created via the WGCNA module detection and the TF enrichment analysis, the regulatory edges of the prior network will be extracted from the given GRNBuildResult object.
         * @param cutoff the cutoff value for filtering the regulatory edges.
         * 
@@ -40,11 +40,11 @@ declare namespace bnlearn {
         * @param env the R# runtime environment object.
         * 
         * + default value Is ``null``.
-        * @return a [PriorNetwork](cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.PriorNetwork) object that contains all of the given 
+        * @return a [PriorNetwork](cref:T:SMRUCC.genomics.BioSystem.Core.PriorNetwork) object that contains all of the given 
         *  regulatory edges, the TF name set and the target gene name set;
         *  
         *  this function returns a R# error message object if the given data can not 
-        *  be cast to a collection of the [RegulatoryEdge](cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.RegulatoryEdge) data.
+        *  be cast to a collection of the [RegulatoryEdge](cref:T:SMRUCC.genomics.BioSystem.Core.RegulatoryEdge) data.
       */
       function prior_net(priorNet: any, cutoff?: object, env?: object): object;
    }
@@ -60,7 +60,7 @@ declare namespace bnlearn {
     * 
      * @param exprData the gene expression matrix object, could be load from csv file via ``geneExpression::load.expr`` api, or the [GeneExpressionData](cref:T:SMRUCC.genomics.Analysis.HTS.DataFrame.GeneExpressionData) matrix
      * @param priorNet a collection of the prior knowledge regulatory edge data 
-     *  ([RegulatoryEdge](cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.RegulatoryEdge)), which is used as the whitelist of the 
+     *  ([RegulatoryEdge](cref:T:SMRUCC.genomics.BioSystem.Core.RegulatoryEdge)), which is used as the whitelist of the 
      *  network structure learning: only the regulation relation that is described 
      *  in this prior network will be considered in the structure learning.
      *  
@@ -96,13 +96,13 @@ declare namespace bnlearn {
      * + default value Is ``null``.
      * @return a [BNLearnWorkflow](cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.BNLearnWorkflow) object that contains the learned bayesian 
      *  network model, which implements the 
-     *  [InsilicoPerturbationExperiment](cref:T:SMRUCC.genomics.Analysis.BNLearn.InsilicoPerturbationExperiment) interface, so that it can be 
+     *  [InsilicoPerturbationExperiment](cref:T:SMRUCC.genomics.BioSystem.InsilicoPerturbationExperiment) interface, so that it can be 
      *  used by the ``knockouts``, ``overexpress`` and ``knockdown`` api for run 
      *  the in silico gene perturbation experiment;
      *  
      *  this function returns a R# error message object if the given prior network 
      *  data can not be cast to a collection of the 
-     *  [RegulatoryEdge](cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.RegulatoryEdge) data.
+     *  [RegulatoryEdge](cref:T:SMRUCC.genomics.BioSystem.Core.RegulatoryEdge) data.
    */
    function bnlearn(exprData: any, priorNet?: any, modules?: any, TF?: any, max_itrs?: object, cross_thres?: number, opt?: object, strict?: object, env?: object): object|object;
    /**
@@ -123,10 +123,10 @@ declare namespace bnlearn {
      * @param bnlearn the trained network model object, which could be created by the ``bnlearn`` 
      *  api or the ``GEARS::new`` api.
      * @param geneNames a character vector of the gene id for run the knockdown experiment, one 
-     *  [InterventionResult](cref:T:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult) object will be generated for each gene.
+     *  [InterventionResult](cref:T:SMRUCC.genomics.BioSystem.Intervention.InterventionResult) object will be generated for each gene.
      * @param verbose 
      * + default value Is ``false``.
-     * @return a vector of the [InterventionResult](cref:T:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult) perturbation result: the 
+     * @return a vector of the [InterventionResult](cref:T:SMRUCC.genomics.BioSystem.Intervention.InterventionResult) perturbation result: the 
      *  ``WildtypeMeans`` is the wildtype expression value of each gene, the 
      *  ``MutantMeans`` is the expression value of each gene after the gene has been 
      *  knocked down, and the ``FoldChanges``, ``PercentChanges``, ``ZScores`` and 
@@ -146,10 +146,10 @@ declare namespace bnlearn {
      * @param bnlearn the trained network model object, which could be created by the ``bnlearn`` 
      *  api or the ``GEARS::new`` api.
      * @param geneNames a character vector of the gene id for run the knockout experiment, one 
-     *  [InterventionResult](cref:T:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult) object will be generated for each gene.
+     *  [InterventionResult](cref:T:SMRUCC.genomics.BioSystem.Intervention.InterventionResult) object will be generated for each gene.
      * @param verbose 
      * + default value Is ``false``.
-     * @return a vector of the [InterventionResult](cref:T:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult) perturbation result: the 
+     * @return a vector of the [InterventionResult](cref:T:SMRUCC.genomics.BioSystem.Intervention.InterventionResult) perturbation result: the 
      *  ``WildtypeMeans`` is the wildtype expression value of each gene, the 
      *  ``MutantMeans`` is the expression value of each gene after the gene has been 
      *  knocked out, and the ``FoldChanges``, ``PercentChanges``, ``ZScores`` and 
@@ -176,8 +176,8 @@ declare namespace bnlearn {
     * >    provided.
     * 
      * @param results a collection of the in silico perturbation result, which can be a vector of 
-     *  the [InterventionResult](cref:T:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult) object, or a pipeline object that 
-     *  produces a set of the [InterventionResult](cref:T:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult) data.
+     *  the [InterventionResult](cref:T:SMRUCC.genomics.BioSystem.Intervention.InterventionResult) object, or a pipeline object that 
+     *  produces a set of the [InterventionResult](cref:T:SMRUCC.genomics.BioSystem.Intervention.InterventionResult) data.
      * @param dir the output directory for save the generated csv table files, this directory 
      *  will be created if it is not exists.
      * @param pathway_info an optional tuple list of the [MetabolicPathway](cref:T:SMRUCC.genomics.MetabolicModel.MetabolicPathway) knowledge data: 
@@ -197,7 +197,7 @@ declare namespace bnlearn {
      *  into the given directory successfully;
      *  
      *  this function returns a R# error message object if the given data can not be 
-     *  cast to a collection of the [InterventionResult](cref:T:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult) data.
+     *  cast to a collection of the [InterventionResult](cref:T:SMRUCC.genomics.BioSystem.Intervention.InterventionResult) data.
    */
    function make_exports(results: any, dir: string, pathway_info?: object, top_n?: object, env?: object): any;
    /**
@@ -211,10 +211,10 @@ declare namespace bnlearn {
      * @param bnlearn the trained network model object, which could be created by the ``bnlearn`` 
      *  api or the ``GEARS::new`` api.
      * @param geneNames a character vector of the gene id for run the overexpression experiment, 
-     *  one [InterventionResult](cref:T:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult) object will be generated for each gene.
+     *  one [InterventionResult](cref:T:SMRUCC.genomics.BioSystem.Intervention.InterventionResult) object will be generated for each gene.
      * @param verbose 
      * + default value Is ``false``.
-     * @return a vector of the [InterventionResult](cref:T:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult) perturbation result: the 
+     * @return a vector of the [InterventionResult](cref:T:SMRUCC.genomics.BioSystem.Intervention.InterventionResult) perturbation result: the 
      *  ``WildtypeMeans`` is the wildtype expression value of each gene, the 
      *  ``MutantMeans`` is the expression value of each gene after the gene has been 
      *  overexpressed, and the ``FoldChanges``, ``PercentChanges``, ``ZScores`` and 
@@ -235,11 +235,11 @@ declare namespace bnlearn {
      *  should be a value in the range ``[0,1]``.
      * @param evidence a character vector of the evidence source description of each regulatory 
      *  edge.
-     * @return a vector of the [RegulatoryEdge](cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.RegulatoryEdge) regulatory edge data, all of 
+     * @return a vector of the [RegulatoryEdge](cref:T:SMRUCC.genomics.BioSystem.Core.RegulatoryEdge) regulatory edge data, all of 
      *  the input vectors should be in the same size as the input TF vector, this 
      *  generated edge collection can be used as the whitelist of the network 
      *  structure learning via the ``bnlearn`` api, or be converted to a 
-     *  [PriorNetwork](cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.PriorNetwork) object via the ``as.prior_net`` api.
+     *  [PriorNetwork](cref:T:SMRUCC.genomics.BioSystem.Core.PriorNetwork) object via the ``as.prior_net`` api.
    */
    function prior_network(TF: any, target_gene: any, regulation_type: any, confidence: any, evidence: any): object;
    module read {

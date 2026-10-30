@@ -19,7 +19,7 @@
  * >  + ``train``: train the GEARS model with the given training sample set.
  * >  
  * >  the trained [GEARS](cref:T:SMRUCC.genomics.Analysis.GEARS.GEARS) model object implements the 
- * >  [InsilicoPerturbationExperiment](cref:T:SMRUCC.genomics.Analysis.BNLearn.InsilicoPerturbationExperiment) interface, so that it can be used 
+ * >  [InsilicoPerturbationExperiment](cref:T:SMRUCC.genomics.BioSystem.InsilicoPerturbationExperiment) interface, so that it can be used 
  * >  by the ``knockouts``, ``overexpress`` and ``knockdown`` api of the ``bnlearn`` 
  * >  package module, and the perturbation result can be exported via the 
  * >  ``make_exports`` api.
@@ -28,7 +28,7 @@ declare namespace GEARS {
    /**
     * create a new GEARS model
     * 
-    * > [GEARS](cref:T:SMRUCC.genomics.Analysis.GEARS.GEARS) implements of the interface [InsilicoPerturbationExperiment](cref:T:SMRUCC.genomics.Analysis.BNLearn.InsilicoPerturbationExperiment), which could be used as the virtual perturbation experiment container for run knockouts/overexpress/knockdown experiments
+    * > [GEARS](cref:T:SMRUCC.genomics.Analysis.GEARS.GEARS) implements of the interface [InsilicoPerturbationExperiment](cref:T:SMRUCC.genomics.BioSystem.InsilicoPerturbationExperiment), which could be used as the virtual perturbation experiment container for run knockouts/overexpress/knockdown experiments
     * 
      * @param x the gene expression matrix object of the Perturb-seq experiment data, which 
      *  could be loaded from a csv table file via the 

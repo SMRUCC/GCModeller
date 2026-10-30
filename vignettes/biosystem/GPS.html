@@ -97,7 +97,7 @@ table caption {font-size:14px;font-weight:bolder;}
 
 <p>prediction fine-tuning, and attach the training diagnostics to the returned object.</p>
 
-<p>A trained <a href="cref:T:SMRUCC.genomics.Analysis.GPS.GPSModel">GPSModel</a> implements the <a href="cref:T:SMRUCC.genomics.Analysis.BNLearn.InsilicoPerturbationExperiment">InsilicoPerturbationExperiment</a> interface, so the <code>knockouts</code>, <code>knockdown</code> and <code>overexpress</code> api of the <code>bnlearn</code> package can be applied to it directly for in silico perturbation experiments. The generic <code>writeBin</code> handler of this module persists a model into a zip based binary stream, and <code>readBin.modular_bayesian</code> restores it back to a fully usable model object.</p>
+<p>A trained <a href="cref:T:SMRUCC.genomics.Analysis.GPS.GPSModel">GPSModel</a> implements the <a href="cref:T:SMRUCC.genomics.BioSystem.InsilicoPerturbationExperiment">InsilicoPerturbationExperiment</a> interface, so the <code>knockouts</code>, <code>knockdown</code> and <code>overexpress</code> api of the <code>bnlearn</code> package can be applied to it directly for in silico perturbation experiments. The generic <code>writeBin</code> handler of this module persists a model into a zip based binary stream, and <code>readBin.modular_bayesian</code> restores it back to a fully usable model object.</p>
                            </p>
     </blockquote>
     <div id="main-wrapper">

@@ -47,7 +47,7 @@ export class BNLearnWorkflow {
    # 参数学习结果
    ParameterResult: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/ParameterLearning/ParameterLearningResult.html">ParameterLearningResult</a>;
    # 先验调控网络（TF→靶基因 白名单）
-   PriorNetwork: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/PriorNetwork.html">PriorNetwork</a>;
+   PriorNetwork: <a href="/vignettes/clr/SMRUCC/genomics/BioSystem/Core/PriorNetwork.html">PriorNetwork</a>;
    # 随机种子
    RandomSeed: integer;
    # 虚拟扰动 Strict 模式开关（透传给内部创建的 <a href="cref:T:SMRUCC.genomics.Analysis.BNLearn.Intervention.BnInterventionAnalyzer">BnInterventionAnalyzer</a>，默认 True）。 True: <a href="cref:M:SMRUCC.genomics.Analysis.BNLearn.Core.BNLearnWorkflow.KnockoutGene(System.String,System.Int32)">BNLearnWorkflow.KnockoutGene()</a> / <a href="cref:M:SMRUCC.genomics.Analysis.BNLearn.Core.BNLearnWorkflow.OverexpressGene(System.String,System.Int32)">BNLearnWorkflow.OverexpressGene()</a> / <a href="cref:M:SMRUCC.genomics.Analysis.BNLearn.Core.BNLearnWorkflow.KnockDownGene(System.String,System.Int32)">BNLearnWorkflow.KnockDownGene()</a> / <a href="cref:M:SMRUCC.genomics.Analysis.BNLearn.Core.BNLearnWorkflow.DynamicKnockout(System.String,System.Int32,System.Int32)">BNLearnWorkflow.DynamicKnockout()</a> 等扰动函数在找不到目标基因时抛出错误； False: 在终端打印一条警告消息，不执行虚拟扰动，直接以野生型数据作为扰动结果返回 并将结果的 Undefined 标记为 True。
@@ -70,7 +70,7 @@ export class BNLearnWorkflow {
 <li>use by <i>property</i> member <code>ExternalExpression</code>: list</li>
 <li>use by <i>property</i> member <code>FittedNetwork</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/BayesianNetwork.html">BayesianNetwork</a></li>
 <li>use by <i>property</i> member <code>ParameterResult</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/ParameterLearning/ParameterLearningResult.html">ParameterLearningResult</a></li>
-<li>use by <i>property</i> member <code>PriorNetwork</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/PriorNetwork.html">PriorNetwork</a></li>
+<li>use by <i>property</i> member <code>PriorNetwork</code>: <a href="/vignettes/clr/SMRUCC/genomics/BioSystem/Core/PriorNetwork.html">PriorNetwork</a></li>
 <li>use by <i>property</i> member <code>StructureParams</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/StructureLearning/StructureLearningParams.html">StructureLearningParams</a></li>
 <li>use by <i>property</i> member <code>StructureResult</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/StructureLearning/StructureLearningResult.html">StructureLearningResult</a></li>
 </ol>
