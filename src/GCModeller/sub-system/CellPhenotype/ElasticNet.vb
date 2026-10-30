@@ -1,7 +1,8 @@
 ﻿Imports System.Runtime.CompilerServices
-Imports SMRUCC.genomics.Analysis.BNLearn
 Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports SMRUCC.genomics.BioSystem
+Imports SMRUCC.genomics.BioSystem.Intervention
 Imports LinearGrn = SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GeneRegulatoryNetwork
 Imports LinearGrnModel = SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GeneRegressionModel
 Imports LinearGrnOptions = SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GrnFittingOptions

@@ -13,8 +13,8 @@
 ' ============================================================================
 
 Imports Microsoft.VisualBasic.Linq
-Imports SMRUCC.genomics.Analysis.BNLearn.Core
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports SMRUCC.genomics.BioSystem.Core
 
 Namespace Graph
 

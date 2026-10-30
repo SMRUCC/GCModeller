@@ -3,6 +3,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.BNLearn
 Imports SMRUCC.genomics.Analysis.BNLearn.Core
 Imports SMRUCC.genomics.Analysis.BNLearn.IO
+Imports SMRUCC.genomics.BioSystem.Core
 
 Namespace IO
 

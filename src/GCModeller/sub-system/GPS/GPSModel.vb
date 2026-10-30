@@ -1,7 +1,4 @@
 Imports Microsoft.VisualBasic.Linq
-Imports SMRUCC.genomics.Analysis.BNLearn
-Imports SMRUCC.genomics.Analysis.BNLearn.Core
-Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
 Imports SMRUCC.genomics.Analysis.GPS.Config
 Imports SMRUCC.genomics.Analysis.GPS.Data
 Imports SMRUCC.genomics.Analysis.GPS.Graph
@@ -9,6 +6,9 @@ Imports SMRUCC.genomics.Analysis.GPS.Model
 Imports SMRUCC.genomics.Analysis.GPS.Perturbation
 Imports SMRUCC.genomics.Analysis.GPS.Training
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports SMRUCC.genomics.BioSystem
+Imports SMRUCC.genomics.BioSystem.Core
+Imports SMRUCC.genomics.BioSystem.Intervention
 Imports GEARSGraph = SMRUCC.genomics.Analysis.GEARS.Graph
 
 ''' <summary>
@@ -33,8 +33,7 @@ Imports GEARSGraph = SMRUCC.genomics.Analysis.GEARS.Graph
 ''' 不超过 2000。超过 <see cref="GraphEncoding.LapPeMaxNodes"/> 时位置编码会自动置零。
 ''' </para>
 ''' </remarks>
-Public Class GPSModel
-    Implements InsilicoPerturbationExperiment
+Public Class GPSModel : Implements InsilicoPerturbationExperiment
 
     Private ReadOnly rawExpression As GeneExpressionData
     Private ReadOnly priorNetwork As PriorNetwork

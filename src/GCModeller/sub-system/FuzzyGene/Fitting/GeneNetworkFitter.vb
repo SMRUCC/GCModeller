@@ -1,12 +1,11 @@
 Imports System.Collections.Concurrent
 Imports System.Threading
-Imports System.Threading.Tasks
 Imports Microsoft.VisualBasic.DataMining.FuzzyLogic.TSK
 Imports Microsoft.VisualBasic.DeepLearning.ANFIS
-Imports SMRUCC.genomics.Analysis.BNLearn.Core
 Imports SMRUCC.genomics.Analysis.FuzzyGene.Config
 Imports SMRUCC.genomics.Analysis.FuzzyGene.Data
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports SMRUCC.genomics.BioSystem.Core
 Imports std = System.Math
 
 Namespace Fitting

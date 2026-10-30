@@ -1,5 +1,4 @@
-Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
-Imports SMRUCC.genomics.Analysis.FuzzyGene.Config
+Imports SMRUCC.genomics.BioSystem.Intervention
 Imports std = System.Math
 
 Namespace Perturbation

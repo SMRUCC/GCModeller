@@ -1,6 +1,5 @@
-Imports System.Runtime.CompilerServices
-Imports SMRUCC.genomics.Analysis.BNLearn.Core
 Imports SMRUCC.genomics.Analysis.HTS.WGCNA
+Imports SMRUCC.genomics.BioSystem.Core
 
 Namespace RegulationNetwork
 

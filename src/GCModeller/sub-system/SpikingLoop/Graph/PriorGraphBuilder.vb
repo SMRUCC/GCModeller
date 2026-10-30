@@ -29,8 +29,7 @@
 
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
-Imports SMRUCC.genomics.Analysis.BNLearn
-Imports SMRUCC.genomics.Analysis.BNLearn.Core
+Imports SMRUCC.genomics.BioSystem.Core
 Imports std = System.Math
 
 Namespace Graph

@@ -6,9 +6,9 @@ Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Calculus.Dynamics.Data
 Imports Microsoft.VisualBasic.Text
-Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
 Imports SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels
 Imports SMRUCC.genomics.Analysis.SSystem.Runner
+Imports SMRUCC.genomics.BioSystem.Intervention
 Imports SSOdes = SMRUCC.genomics.Analysis.SSystem.Kernel.ODEs
 Imports std = System.Math
 
@@ -314,7 +314,7 @@ Namespace Perturbation
                     Call onSimulated(design, perturbed)
                 End If
 
-                For Each target As SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels.var In model.Vars.SafeQuery
+                For Each target As var In model.Vars.SafeQuery
                     Dim record As ScreeningRecord = compare(design, target.Id, control, perturbed)
 
                     If Not record Is Nothing Then
@@ -329,8 +329,8 @@ Namespace Perturbation
             Return result
         End Function
 
-        Private Function baselineOfModel(model As SMRUCC.genomics.Analysis.SSystem.Script.Model, gene As String) As Double
-            For Each v As SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels.var In model.Vars.SafeQuery
+        Private Function baselineOfModel(model As SSystem.Script.Model, gene As String) As Double
+            For Each v As var In model.Vars.SafeQuery
                 If String.Equals(v.Id, gene, StringComparison.OrdinalIgnoreCase) Then
                     Return v.Value
                 End If
