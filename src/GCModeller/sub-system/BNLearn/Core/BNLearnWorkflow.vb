@@ -79,6 +79,9 @@ Imports Microsoft.VisualBasic.Data.Framework
 Imports SMRUCC.genomics.Analysis.BNLearn.IO
 Imports SMRUCC.genomics.Analysis.BNLearn.ParameterLearning
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports SMRUCC.genomics.BioSystem
+Imports SMRUCC.genomics.BioSystem.Core
+Imports SMRUCC.genomics.BioSystem.Intervention
 
 Namespace Core
 
@@ -221,7 +224,7 @@ Namespace Core
         ''' <summary>
         ''' 步骤4：虚拟基因敲除
         ''' </summary>
-        Public Function KnockoutGene(geneName As String, Optional nSamples As Integer = 0) As Intervention.InterventionResult Implements InsilicoPerturbationExperiment.KnockoutGene
+        Public Function KnockoutGene(geneName As String, Optional nSamples As Integer = 0) As InterventionResult Implements InsilicoPerturbationExperiment.KnockoutGene
             If FittedNetwork Is Nothing OrElse ParameterResult Is Nothing Then
                 Throw New Exception("请先执行结构学习和参数学习")
             End If
@@ -234,9 +237,9 @@ Namespace Core
             End If
 
             Dim analyzer As New Intervention.BnInterventionAnalyzer(FittedNetwork, workData) With {.Strict = Me.Strict}
-            Dim spec As New Intervention.InterventionSpec() With {
+            Dim spec As New InterventionSpec() With {
                 .GeneName = geneName,
-                .Mode = Intervention.InterventionMode.Knockout
+                .Mode = InterventionMode.Knockout
             }
 
             Return analyzer.AnalyzeIntervention(spec, nSamples, RandomSeed)
@@ -245,7 +248,7 @@ Namespace Core
         ''' <summary>
         ''' 步骤4：虚拟基因过表达
         ''' </summary>
-        Public Function OverexpressGene(geneName As String, Optional nSamples As Integer = 0) As Intervention.InterventionResult Implements InsilicoPerturbationExperiment.OverexpressGene
+        Public Function OverexpressGene(geneName As String, Optional nSamples As Integer = 0) As InterventionResult Implements InsilicoPerturbationExperiment.OverexpressGene
             If FittedNetwork Is Nothing OrElse ParameterResult Is Nothing Then
                 Throw New Exception("请先执行结构学习和参数学习")
             End If
@@ -258,15 +261,15 @@ Namespace Core
             End If
 
             Dim analyzer As New Intervention.BnInterventionAnalyzer(FittedNetwork, workData) With {.Strict = Me.Strict}
-            Dim spec As New Intervention.InterventionSpec() With {
+            Dim spec As New InterventionSpec() With {
                 .GeneName = geneName,
-                .Mode = Intervention.InterventionMode.Overexpression
+                .Mode = InterventionMode.Overexpression
             }
 
             Return analyzer.AnalyzeIntervention(spec, nSamples, RandomSeed)
         End Function
 
-        Public Function KnockDownGene(geneName As String, Optional nSamples As Integer = 0) As Intervention.InterventionResult Implements InsilicoPerturbationExperiment.KnockDownGene
+        Public Function KnockDownGene(geneName As String, Optional nSamples As Integer = 0) As InterventionResult Implements InsilicoPerturbationExperiment.KnockDownGene
             If FittedNetwork Is Nothing OrElse ParameterResult Is Nothing Then
                 Throw New Exception("请先执行结构学习和参数学习")
             End If
@@ -279,9 +282,9 @@ Namespace Core
             End If
 
             Dim analyzer As New Intervention.BnInterventionAnalyzer(FittedNetwork, workData) With {.Strict = Me.Strict}
-            Dim spec As New Intervention.InterventionSpec() With {
+            Dim spec As New InterventionSpec() With {
                 .GeneName = geneName,
-                .Mode = Intervention.InterventionMode.Knockdown
+                .Mode = InterventionMode.Knockdown
             }
 
             Return analyzer.AnalyzeIntervention(spec, nSamples, RandomSeed)
@@ -290,7 +293,7 @@ Namespace Core
         ''' <summary>
         ''' 步骤4：动态级联敲除模拟
         ''' </summary>
-        Public Function DynamicKnockout(geneName As String, nTimeSteps As Integer, Optional nSamples As Integer = 0) As Intervention.InterventionResult
+        Public Function DynamicKnockout(geneName As String, nTimeSteps As Integer, Optional nSamples As Integer = 0) As InterventionResult
             If FittedNetwork Is Nothing OrElse ParameterResult Is Nothing Then
                 Throw New Exception("请先执行结构学习和参数学习")
             End If
@@ -303,9 +306,9 @@ Namespace Core
             End If
 
             Dim analyzer As New Intervention.BnInterventionAnalyzer(FittedNetwork, workData) With {.Strict = Me.Strict}
-            Dim spec As New Intervention.InterventionSpec() With {
+            Dim spec As New InterventionSpec() With {
                 .GeneName = geneName,
-                .Mode = Intervention.InterventionMode.Knockout
+                .Mode = InterventionMode.Knockout
             }
 
             Return analyzer.DynamicIntervention(spec, nTimeSteps, nSamples, RandomSeed)
@@ -390,20 +393,20 @@ Namespace Core
         ''' 结果反映用户真实样本背景下的因果效应。
         ''' 必须先调用 <see cref="SetExternalExpression"/> / <see cref="ImportExternalExpression"/>。
         ''' </summary>
-        Public Function KnockoutGeneWithEvidence(geneName As String, Optional nSamples As Integer = 0) As Intervention.InterventionResult
-            Return RunInterventionWithEvidence(geneName, Intervention.InterventionMode.Knockout, nSamples)
+        Public Function KnockoutGeneWithEvidence(geneName As String, Optional nSamples As Integer = 0) As InterventionResult
+            Return RunInterventionWithEvidence(geneName, InterventionMode.Knockout, nSamples)
         End Function
 
         ''' <summary>
         ''' 观测证据模式：基于已导入的外部转录组数据，在给定表达水平条件下执行过表达虚拟扰动。
         ''' </summary>
-        Public Function OverexpressGeneWithEvidence(geneName As String, Optional nSamples As Integer = 0) As Intervention.InterventionResult
-            Return RunInterventionWithEvidence(geneName, Intervention.InterventionMode.Overexpression, nSamples)
+        Public Function OverexpressGeneWithEvidence(geneName As String, Optional nSamples As Integer = 0) As InterventionResult
+            Return RunInterventionWithEvidence(geneName, InterventionMode.Overexpression, nSamples)
         End Function
 
         Private Function RunInterventionWithEvidence(geneName As String,
-                                                     mode As Intervention.InterventionMode,
-                                                     nSamples As Integer) As Intervention.InterventionResult
+                                                     mode As InterventionMode,
+                                                     nSamples As Integer) As InterventionResult
             If FittedNetwork Is Nothing OrElse ParameterResult Is Nothing Then
                 Throw New Exception("请先执行结构学习和参数学习")
             End If
@@ -416,7 +419,7 @@ Namespace Core
             If NormalizeData Then workData = ExpressionData.Standardize
 
             Dim analyzer As New Intervention.BnInterventionAnalyzer(FittedNetwork, workData) With {.Strict = Me.Strict}
-            Dim spec As New Intervention.InterventionSpec() With {
+            Dim spec As New InterventionSpec() With {
                 .GeneName = geneName,
                 .Mode = mode
             }
@@ -429,7 +432,7 @@ Namespace Core
         ''' 以其作为级联模拟起点执行动态敲除虚拟扰动，模拟在用户样本背景下的级联传播。
         ''' 必须先调用 <see cref="SetExternalExpression"/> / <see cref="ImportExternalExpression"/>。
         ''' </summary>
-        Public Function DynamicKnockoutWithState(geneName As String, nTimeSteps As Integer, Optional nSamples As Integer = 0) As Intervention.InterventionResult
+        Public Function DynamicKnockoutWithState(geneName As String, nTimeSteps As Integer, Optional nSamples As Integer = 0) As InterventionResult
             If FittedNetwork Is Nothing OrElse ParameterResult Is Nothing Then
                 Throw New Exception("请先执行结构学习和参数学习")
             End If
@@ -442,9 +445,9 @@ Namespace Core
             If NormalizeData Then workData = ExpressionData.Standardize
 
             Dim analyzer As New Intervention.BnInterventionAnalyzer(FittedNetwork, workData) With {.Strict = Me.Strict}
-            Dim spec As New Intervention.InterventionSpec() With {
+            Dim spec As New InterventionSpec() With {
                 .GeneName = geneName,
-                .Mode = Intervention.InterventionMode.Knockout
+                .Mode = InterventionMode.Knockout
             }
 
             Return analyzer.DynamicIntervention(spec, nTimeSteps, nSamples, RandomSeed, ExternalInitialState)
@@ -453,7 +456,7 @@ Namespace Core
         ''' <summary>
         ''' 批量敲除所有基因
         ''' </summary>
-        Public Function BatchKnockout(geneNames As IEnumerable(Of String), Optional nSamples As Integer = 0) As IEnumerable(Of Intervention.InterventionResult)
+        Public Function BatchKnockout(geneNames As IEnumerable(Of String), Optional nSamples As Integer = 0) As IEnumerable(Of InterventionResult)
             If FittedNetwork Is Nothing OrElse ParameterResult Is Nothing Then
                 Throw New Exception("请先执行结构学习和参数学习")
             End If
@@ -468,13 +471,13 @@ Namespace Core
             Dim analyzer As New Intervention.BnInterventionAnalyzer(FittedNetwork, workData) With {.Strict = Me.Strict}
             Dim allIndices As Integer() = geneNames.Select(Function(geneName) FittedNetwork.GetNodeIndex(geneName)).ToArray()
 
-            Return analyzer.BatchIntervention(allIndices, Intervention.InterventionMode.Knockout, nSamples, RandomSeed)
+            Return analyzer.BatchIntervention(allIndices, InterventionMode.Knockout, nSamples, RandomSeed)
         End Function
 
         ''' <summary>
         ''' 批量敲除所有基因
         ''' </summary>
-        Public Function BatchKnockout(Optional nSamples As Integer = 0) As IEnumerable(Of Intervention.InterventionResult)
+        Public Function BatchKnockout(Optional nSamples As Integer = 0) As IEnumerable(Of InterventionResult)
             If FittedNetwork Is Nothing OrElse ParameterResult Is Nothing Then
                 Throw New Exception("请先执行结构学习和参数学习")
             End If
@@ -489,7 +492,7 @@ Namespace Core
             Dim analyzer As New Intervention.BnInterventionAnalyzer(FittedNetwork, workData) With {.Strict = Me.Strict}
             Dim allIndices As Integer() = Enumerable.Range(0, FittedNetwork.Nodes.Count).ToArray()
 
-            Return analyzer.BatchIntervention(allIndices, Intervention.InterventionMode.Knockout, nSamples, RandomSeed)
+            Return analyzer.BatchIntervention(allIndices, InterventionMode.Knockout, nSamples, RandomSeed)
         End Function
 
         ''' <summary>

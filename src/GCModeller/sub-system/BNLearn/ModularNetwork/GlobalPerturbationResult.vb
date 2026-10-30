@@ -6,6 +6,7 @@
 ' ============================================================
 
 Imports System.Text
+Imports SMRUCC.genomics.BioSystem.Intervention
 
 Namespace ModularNetwork
 
@@ -21,7 +22,7 @@ Namespace ModularNetwork
         Public Property Method As PropagationMethod
 
         ''' <summary>扰动模式（敲低/过表达/自定义）</summary>
-        Public Property Mode As Intervention.InterventionMode
+        Public Property Mode As InterventionMode
 
         ''' <summary>全局基因名列表（与 Effects 各分量对齐）</summary>
         Public Property GeneNames As String()

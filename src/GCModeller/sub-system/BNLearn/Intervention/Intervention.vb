@@ -55,6 +55,7 @@
 
 Imports SMRUCC.genomics.Analysis.BNLearn.Core
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports SMRUCC.genomics.BioSystem.Intervention
 Imports std = System.Math
 
 ' ============================================================

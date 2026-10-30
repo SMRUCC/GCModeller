@@ -3,6 +3,7 @@ Imports SMRUCC.genomics.Analysis.BNLearn.Core
 Imports SMRUCC.genomics.Analysis.BNLearn.DBN
 Imports SMRUCC.genomics.Analysis.BNLearn.ModularNetwork.WGCNA
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports SMRUCC.genomics.BioSystem.Core
 Imports std = System.Math
 
 Namespace ModularNetwork
@@ -73,7 +74,7 @@ Namespace ModularNetwork
         ''' <see cref="RegulatoryLink"/> 集合。调控方向沿用 prior 的 RegulationType；
         ''' 若某模块无任何模块内先验边，返回空集合（DBN 退化为无父节点拓扑，仅学习自身时序分布）。
         ''' </summary>
-        Public Function BuildModuleRegulatoryLinks(prior As Core.PriorNetwork, moduleGenes As String()) As RegulatoryLink()
+        Public Function BuildModuleRegulatoryLinks(prior As PriorNetwork, moduleGenes As String()) As RegulatoryLink()
             Dim inModule As New HashSet(Of String)(moduleGenes, StringComparer.OrdinalIgnoreCase)
             Dim links As New List(Of RegulatoryLink)
 

@@ -76,6 +76,7 @@ Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.Data.Bootstrapping.Multivariate
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports SMRUCC.genomics.BioSystem.Core
 Imports _rng = Microsoft.VisualBasic.Math.RandomExtensions
 Imports std = System.Math
 
@@ -112,7 +113,7 @@ Namespace StructureLearning
         ''' <summary>
         ''' 从基因表达数据学习网络结构
         ''' </summary>
-        Public Function Learn(data As GeneExpressionData, params As StructureLearningParams, Optional prior As Core.PriorNetwork = Nothing) As StructureLearningResult
+        Public Function Learn(data As GeneExpressionData, params As StructureLearningParams, Optional prior As PriorNetwork = Nothing) As StructureLearningResult
             Dim t0 As Date = Now
 
             _data = data
