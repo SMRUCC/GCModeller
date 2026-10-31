@@ -42,7 +42,6 @@ Namespace DIAMOND
         Private ReadOnly hamming As IHammingFilter
         Private ReadOnly ungapped As UngappedExtension
         Private ReadOnly hitSched As HitScheduler
-        Private ReadOnly bandSW As BandSW
 
         ''' <summary>
         ''' 最近一次多查询搜索的阶段耗时画像(便于定位瓶颈与基准对比)。
@@ -75,7 +74,6 @@ Namespace DIAMOND
             End If
 
             Me.hitSched = New HitScheduler()
-            Me.bandSW = New BandSW()
         End Sub
 
         ''' <summary>
@@ -143,12 +141,13 @@ Namespace DIAMOND
             ' 阶段 B:按查询并行做局部比对(由调度器决定并行策略)
             Dim lookup As New SequenceIndexLookup(queries)
             Dim maxSw As Integer = options.ResolveMaxSwPerQuery(maxHitsPerQuery)
+            Dim aligner As New BandSW(30, 0.0, Nothing, options.EnableBandSw)
             Dim clock As Stopwatch = Stopwatch.StartNew()
 
             Dim perQuery As Func(Of FastaSeq, IEnumerable(Of DiamondHit)) =
                 Function(q As FastaSeq)
                     Dim qi As Integer = lookup.IndexOf(q)
-                    Return AlignQuery(qi, scanner, candidates, maxSw, maxHitsPerQuery)
+                    Return AlignQuery(qi, scanner, candidates, aligner, maxSw, maxHitsPerQuery)
                 End Function
 
             Dim hits As IEnumerable(Of DiamondHit) = scheduler.Run(queries, subjects, perQuery)
@@ -166,7 +165,7 @@ Namespace DIAMOND
         ''' 阶段 B:对指定查询的候选集合执行带状 SW,并聚合为 m8 风格的命中。
         ''' </summary>
         Private Function AlignQuery(qi As Integer, scanner As DiamondScanner, candidates As DiamondCandidate()(),
-                                    maxSw As Integer, maxHits As Integer) As DiamondHit()
+                                    aligner As BandSW, maxSw As Integer, maxHits As Integer) As DiamondHit()
 
             If qi < 0 OrElse qi >= candidates.Length Then
                 Return New DiamondHit() {}
@@ -201,7 +200,7 @@ Namespace DIAMOND
                         Continue For
                     End If
 
-                    Dim bh As BandHit? = bandSW.Align(qSeq, queries.Packed, qBase, sSeq, subjects.Packed, subjects.Offsets(sid), cand.Hit)
+                    Dim bh As BandHit? = aligner.Align(qSeq, queries.Packed, qBase, sSeq, subjects.Packed, subjects.Offsets(sid), cand.Hit)
 
                     If bh.HasValue Then
                         Call found.Add(DiamondHit.FromBandHit(qSeq, sSeq, qTitle, subjects.Titles(sid), bh.Value))
