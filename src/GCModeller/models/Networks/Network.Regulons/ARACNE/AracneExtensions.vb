@@ -1,7 +1,6 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
-Imports std = System.Math
 
 Namespace ARACNE
 

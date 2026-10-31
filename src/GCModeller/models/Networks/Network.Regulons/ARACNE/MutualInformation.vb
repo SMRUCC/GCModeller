@@ -1,4 +1,5 @@
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Math.Correlations
 Imports Microsoft.VisualBasic.Math.SIMD
 Imports std = System.Math
 
@@ -95,52 +96,13 @@ Namespace ARACNE
         End Function
 
         ''' <summary>
-        ''' pearson 相关系数
-        ''' </summary>
-        ''' <param name="x"></param>
-        ''' <param name="y"></param>
-        ''' <returns>任何一个变量为零方差的时候返回零</returns>
-        Public Function Pearson(x As Double(), y As Double()) As Double
-            Dim n As Integer = x.Length
-
-            If n = 0 Then
-                Return 0.0R
-            ElseIf y.Length <> n Then
-                Throw New ArgumentException($"the length of the two vectors not agree: {n} vs {y.Length}!", NameOf(y))
-            End If
-
-            Dim mx As Double = SimdReduce.Mean(x)
-            Dim my As Double = SimdReduce.Mean(y)
-            Dim sxy As Double = 0.0R
-            Dim sxx As Double = 0.0R
-            Dim syy As Double = 0.0R
-            Dim dx As Double
-            Dim dy As Double
-
-            For i As Integer = 0 To n - 1
-                dx = x(i) - mx
-                dy = y(i) - my
-
-                sxy += dx * dy
-                sxx += dx * dx
-                syy += dy * dy
-            Next
-
-            If sxx <= 0.0R OrElse syy <= 0.0R Then
-                Return 0.0R
-            Else
-                Return sxy / std.Sqrt(sxx * syy)
-            End If
-        End Function
-
-        ''' <summary>
         ''' 高斯 copula 估计器(带标准差与均值的标准化)
         ''' </summary>
         ''' <param name="x"></param>
         ''' <param name="y"></param>
         ''' <returns></returns>
         Public Function GaussianCopula(x As Double(), y As Double()) As Double
-            Return GaussianCopulaMi(Pearson(x, y))
+            Return GaussianCopulaMi(Correlations.GetPearson(x, y))
         End Function
 
         ''' <summary>

@@ -646,10 +646,10 @@ Module Linear
         End If
 
         ' 先验只保留高置信度的边，并投影成拟合器自己的轻量结构（避免把 BNLearn 依赖带进 Network.Regulons）
-        Dim priorEdges As PriorEdge() = Nothing
+        Dim priorEdges As RegulatoryEdge() = Nothing
 
         If priorNet IsNot Nothing AndAlso prior IsNot Nothing Then
-            Dim accepted As New List(Of PriorEdge)
+            Dim accepted As New List(Of RegulatoryEdge)
 
             ' 注意：这里要用 For Each 消费 pipe，PipeIterator.getData 对类数组不返回元素
             For Each item As RegulatoryEdge In priorNet
@@ -675,7 +675,7 @@ Module Linear
                         dir = -1
                 End Select
 
-                Call accepted.Add(New PriorEdge(item.TF.Trim, item.TargetGene.Trim, item.Confidence, dir))
+                Call accepted.Add(New RegulatoryEdge(item.TF.Trim, item.TargetGene.Trim, item.Confidence, dir))
             Next
 
             If accepted.Count = 0 Then

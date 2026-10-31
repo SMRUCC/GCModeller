@@ -1,9 +1,9 @@
-Imports System.Diagnostics
 Imports System.IO
 Imports System.Text
-Imports System.Threading.Tasks
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.Correlations
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports SMRUCC.genomics.BioSystem.Core
 Imports std = System.Math
 
 Namespace ARACNE
@@ -323,7 +323,7 @@ Namespace ARACNE
         ''' 只有置信度达到 <see cref="AracneOptions.priorMinConfidence"/> 并且
         ''' 两个端点都存在于本次计算空间之中的先验关系才会被收录。
         ''' </summary>
-        ReadOnly m_prior As Dictionary(Of Long, LinearRegression.PriorEdge)
+        ReadOnly m_prior As Dictionary(Of Long, RegulatoryEdge)
 
         Private m_network As ARACNE.MiMatrix
         Private m_stage1 As ARACNE.MiMatrix
@@ -440,7 +440,7 @@ Namespace ARACNE
                     tfSet = New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)
                 End If
 
-                For Each prior As LinearRegression.PriorEdge In m_opt.priorNetwork
+                For Each prior As RegulatoryEdge In m_opt.priorNetwork
                     If Not String.IsNullOrWhiteSpace(prior.TF) Then
                         Call tfSet.Add(prior.TF.Trim())
                     End If
@@ -514,10 +514,10 @@ Namespace ARACNE
             End If
 
             ' ---- curated 先验网络：映射到本次计算空间的节点下标上 ----
-            m_prior = New Dictionary(Of Long, LinearRegression.PriorEdge)
+            m_prior = New Dictionary(Of Long, RegulatoryEdge)
 
             If m_opt.priorNetwork IsNot Nothing Then
-                For Each prior As LinearRegression.PriorEdge In m_opt.priorNetwork
+                For Each prior As RegulatoryEdge In m_opt.priorNetwork
                     Dim u As Integer
                     Dim v As Integer
 
@@ -673,7 +673,7 @@ Namespace ARACNE
                 ' 概率保护模式需要一个可复现的随机数发生器(与置换抽样的随机流相互独立)
                 Dim protectRng As New Random(m_opt.randomSeed Xor &H5A5A)
 
-                For Each item As KeyValuePair(Of Long, LinearRegression.PriorEdge) In m_prior
+                For Each item As KeyValuePair(Of Long, RegulatoryEdge) In m_prior
                     Dim confidence As Double = std.Max(0.0R, std.Min(1.0R, item.Value.Confidence))
 
                     ' 阈值放宽同样按置信度分级：
@@ -736,7 +736,7 @@ Namespace ARACNE
             }
 
             For Each edge As MiEdge In dpi.ProtectedEdges
-                Dim evidence As LinearRegression.PriorEdge
+                Dim evidence As RegulatoryEdge = Nothing
                 Dim confidence As Double = 0.0R
 
                 If m_prior.TryGetValue(ARACNE.MiMatrix.EdgeKey(edge.u, edge.v), evidence) Then
@@ -753,7 +753,7 @@ Namespace ARACNE
                 {"low", 0}
             }
 
-            For Each evidence As LinearRegression.PriorEdge In m_prior.Values
+            For Each evidence As RegulatoryEdge In m_prior.Values
                 Dim grade As String = ConfidenceGrade(evidence.Confidence)
 
                 pairsByGrade(grade) = pairsByGrade(grade) + 1
@@ -803,8 +803,8 @@ Namespace ARACNE
                 Dim v As Integer = e.v
                 Dim tfU As Boolean = m_tfFlags(u)
                 Dim tfV As Boolean = m_tfFlags(v)
-                Dim cor As Double = MutualInformation.Pearson(m_vectors(u), m_vectors(v))
-                Dim evidence As LinearRegression.PriorEdge
+                Dim cor As Double = Correlations.GetPearson(m_vectors(u), m_vectors(v))
+                Dim evidence As RegulatoryEdge = Nothing
                 Dim hasPrior As Boolean = m_prior.TryGetValue(ARACNE.MiMatrix.EdgeKey(u, v), evidence)
 
                 If hasPrior Then

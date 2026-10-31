@@ -22,7 +22,6 @@
 '   - 不再为每条查询重复生成参考库字符串数组(O(查询数 × 库规模) 的重复分配);
 '   - 不再对参考库构建十亿级键值索引(内存从数十 GB 降到数百 MB 量级)。
 
-Imports System.Diagnostics
 Imports System.Runtime.CompilerServices
 Imports System.Runtime.Intrinsics.X86
 Imports SMRUCC.genomics.SequenceModel.FASTA

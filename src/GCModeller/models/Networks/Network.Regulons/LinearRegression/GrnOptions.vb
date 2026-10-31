@@ -1,3 +1,4 @@
+Imports SMRUCC.genomics.BioSystem.Core
 Imports std = System.Math
 
 Namespace LinearRegression
@@ -144,7 +145,7 @@ Namespace LinearRegression
         ''' 先验为空时，拟合行为与不提供先验时<b>逐位一致</b>。
         ''' </summary>
         ''' <returns></returns>
-        Public Property priorNetwork As PriorEdge() = Nothing
+        Public Property priorNetwork As RegulatoryEdge() = Nothing
 
         ''' <summary>
         ''' 采纳先验的最低置信度，默认 0.9(即只使用 High 置信度的边)。

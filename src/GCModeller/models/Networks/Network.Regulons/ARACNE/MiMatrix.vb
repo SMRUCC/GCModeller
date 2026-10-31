@@ -13,19 +13,16 @@ Namespace ARACNE
         ''' <summary>
         ''' 边的一个端点(较小的节点下标)
         ''' </summary>
-        ''' <returns></returns>
         Public ReadOnly u As Integer
 
         ''' <summary>
         ''' 边的另一个端点(较大的节点下标)
         ''' </summary>
-        ''' <returns></returns>
         Public ReadOnly v As Integer
 
         ''' <summary>
         ''' 边上的互信息(比特)
         ''' </summary>
-        ''' <returns></returns>
         Public ReadOnly mi As Double
 
         ''' <summary>
@@ -72,7 +69,7 @@ Namespace ARACNE
     ''' + 首次读取的时候自动 <see cref="Freeze"/> 成压缩稀疏行(CSR)的对称邻接表，
     '''   邻居按照节点下标升序排列，因此 <see cref="Neighbors(Integer)"/> 的结果可以直接
     '''   用于两个集合求交(DPI 的共同邻居枚举)；
-    ''' + <see cref="Prune(Double)"/> / <see cref="PruneTopK(Integer)"/> 返回一个新的矩阵，
+    ''' + <see cref="Prune"/> / <see cref="PruneTopK"/> 返回一个新的矩阵，
     '''   原始数据不被修改。
     ''' </summary>
     Public Class MiMatrix

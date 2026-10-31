@@ -10,6 +10,7 @@ Imports Microsoft.VisualBasic.Data.Bootstrapping.Multivariate
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports SMRUCC.genomics.BioSystem.Core
 Imports std = System.Math
 
 Namespace LinearRegression
@@ -221,7 +222,7 @@ Namespace LinearRegression
             Dim accepted As Integer = 0
             Dim signed As Integer = 0
 
-            For Each edge As PriorEdge In Me.opt.priorNetwork
+            For Each edge As RegulatoryEdge In Me.opt.priorNetwork
                 If edge.Confidence < Me.opt.priorMinConfidence Then
                     Continue For
                 End If

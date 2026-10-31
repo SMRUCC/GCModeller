@@ -1,4 +1,5 @@
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports SMRUCC.genomics.BioSystem.Core
 
 Namespace ARACNE
 
@@ -390,7 +391,7 @@ Namespace ARACNE
         ''' 数据证据明显不足的时候仍然会被 DPI 剔除。
         ''' </summary>
         ''' <returns></returns>
-        Public Property priorNetwork As LinearRegression.PriorEdge() = Nothing
+        Public Property priorNetwork As RegulatoryEdge() = Nothing
 
         ''' <summary>
         ''' 参与推断的最低先验置信度(资格门槛)，默认 0.45(即 Low 及以上)。
