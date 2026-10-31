@@ -1,8 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <RootNamespace>GeneTree</RootNamespace>
+    <RootNamespace>SMRUCC.genomics.Analysis.GeneTree</RootNamespace>
     <TargetFramework>net10.0</TargetFramework>
+    <AssemblyName>SMRUCC.genomics.Analysis.GeneTree</AssemblyName>
+    <AssemblyTitle>Xgboost based GRN simulator</AssemblyTitle>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
