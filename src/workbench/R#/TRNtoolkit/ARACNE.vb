@@ -11,7 +11,6 @@ Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
-Imports PriorEdge = SMRUCC.genomics.BioSystem.Core.RegulatoryEdge
 Imports std = System.Math
 
 ''' <summary>
@@ -290,7 +289,7 @@ Module ARACNETools
                 Return parsed
             End If
 
-            Dim evidence As PriorEdge() = DirectCast(parsed, PriorEdge())
+            Dim evidence As RegulatoryEdge() = DirectCast(parsed, RegulatoryEdge())
 
             If evidence.Length = 0 Then
                 Console.WriteLine($"     >> [warn] no prior edge reaches the confidence {options.priorMinConfidence:G3}, the prior is ignored")
@@ -647,52 +646,67 @@ Module ARACNETools
     End Function
 
     ''' <summary>
-    ''' Convert the prior network that is created by the ``bnlearn::prior_network`` api
-    ''' into the lightweight <see cref="PriorEdge"/> structure of the ARACNE inference.
+    ''' Collect the curated ``TF -> target`` evidence from the R# side.
+    ''' 
+    ''' The value of the ``bnlearn::prior_network`` api is a <see cref="RegulatoryEdge"/>
+    ''' collection (or a pipeline), so the accepted edges are projected into a clean
+    ''' <see cref="RegulatoryEdge"/> vector: the gene ids are trimmed, the duplicated
+    ''' ``TF -> target`` pairs are merged (the highest confidence wins) and the edges
+    ''' that are below the eligibility confidence are dropped.
     ''' </summary>
-    ''' <param name="prior">
-    ''' a <see cref="RegulatoryEdge"/> vector (or pipeline), or a <see cref="PriorEdge"/> vector
-    ''' </param>
+    ''' <param name="prior">a <see cref="RegulatoryEdge"/> vector or pipeline</param>
     ''' <param name="minConfidence">the eligibility threshold of the prior confidence</param>
     ''' <param name="env">the R# runtime environment object</param>
     ''' <returns>
-    ''' a <see cref="PriorEdge"/> vector, or a R# error message object when the given
+    ''' a <see cref="RegulatoryEdge"/> vector, or a R# error message object when the given
     ''' prior object can not be cast to a prior network.
     ''' </returns>
     Private Function ToPriorEdges(prior As Object, minConfidence As Double, env As Environment) As Object
-        If TypeOf prior Is PriorEdge() Then
-            Return DirectCast(prior, PriorEdge()) _
-                .Where(Function(e) e.Confidence >= minConfidence) _
-                .ToArray
+        Dim accepted As New List(Of RegulatoryEdge)
+
+        If TypeOf prior Is RegulatoryEdge() Then
+            Call accepted.AddRange(DirectCast(prior, RegulatoryEdge()))
+        Else
+            Dim net As PipeIterator(Of RegulatoryEdge) = pipeline.Stream(Of RegulatoryEdge)(prior, env, nullPipe:=True)
+
+            If net IsNot Nothing AndAlso net.isError Then
+                Return net.getError
+            End If
+
+            If net IsNot Nothing Then
+                ' 注意：这里要用 For Each 消费 pipe，PipeIterator.getData 对类数组不返回元素
+                For Each item As RegulatoryEdge In net
+                    Call accepted.Add(item)
+                Next
+            End If
         End If
 
-        Dim net As PipeIterator(Of RegulatoryEdge) = pipeline.Stream(Of RegulatoryEdge)(prior, env, nullPipe:=True)
+        ' 同一对 TF->target 可能被多个数据库重复注释：保留置信度最高的那一条
+        Dim table As New Dictionary(Of String, RegulatoryEdge)(StringComparer.OrdinalIgnoreCase)
 
-        If net IsNot Nothing AndAlso net.isError Then
-            Return net.getError
-        End If
+        For Each item As RegulatoryEdge In accepted
+            If item Is Nothing Then
+                Continue For
+            End If
+            If String.IsNullOrWhiteSpace(item.TF) OrElse String.IsNullOrWhiteSpace(item.TargetGene) Then
+                Continue For
+            End If
+            If item.Confidence < minConfidence Then
+                Continue For
+            End If
 
-        Dim accepted As New List(Of PriorEdge)
+            Dim tf As String = item.TF.Trim
+            Dim target As String = item.TargetGene.Trim
+            Dim key As String = $"{tf}->{target}"
+            Dim exists As RegulatoryEdge = Nothing
 
-        If net IsNot Nothing Then
-            ' 注意：这里要用 For Each 消费 pipe，PipeIterator.getData 对类数组不返回元素
-            For Each item As RegulatoryEdge In net
-                If item Is Nothing Then
-                    Continue For
-                End If
-                If String.IsNullOrWhiteSpace(item.TF) OrElse String.IsNullOrWhiteSpace(item.TargetGene) Then
-                    Continue For
-                End If
-                If item.Confidence < minConfidence Then
-                    Continue For
-                End If
+            If Not table.TryGetValue(key, exists) OrElse exists.Confidence < item.Confidence Then
+                ' 因果符号(激活/抑制)会被写进输出边的 regulation 字段
+                table(key) = New RegulatoryEdge(tf, target, item.Confidence, item.Sign)
+            End If
+        Next
 
-                ' 因果符号：激活 +1、抑制 -1、未知 0，它会被写进输出边的 regulation 字段
-                Call accepted.Add(New PriorEdge(item.TF.Trim, item.TargetGene.Trim, item.Confidence, item.Sign))
-            Next
-        End If
-
-        Return accepted.ToArray
+        Return table.Values.ToArray
     End Function
 
     ''' <summary>
