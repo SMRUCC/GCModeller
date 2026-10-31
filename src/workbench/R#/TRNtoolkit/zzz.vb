@@ -61,5 +61,6 @@ Public Class zzz
         Call MotifsTool.Main()
         Call miRNA.Main()
         Call Linear.Main()
+        Call ARACNETools.Main()
     End Sub
 End Class

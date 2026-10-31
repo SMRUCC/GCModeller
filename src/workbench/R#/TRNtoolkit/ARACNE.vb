@@ -1,17 +1,20 @@
-﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
+﻿Imports System.IO
+Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.BioSystem.Core
+Imports SMRUCC.genomics.Model.Network.Regulons
 Imports SMRUCC.genomics.Model.Network.Regulons.ARACNE
+Imports SMRUCC.genomics.Model.Network.Regulons.LinearRegression
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
-Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 Imports std = System.Math
 
 ''' <summary>
@@ -52,6 +55,28 @@ Imports std = System.Math
 <RTypeExport("aracne.options", GetType(AracneOptions))>
 <RTypeExport("aracne_network", GetType(AracneNetwork))>
 Module ARACNETools
+
+    Sub Main()
+        Call RInternal.generic.add("writeBin", GetType(AracneNetwork), AddressOf saveModel)
+        Call RInternal.generic.add("readBin.aracne_network", GetType(Stream), AddressOf loadModel)
+    End Sub
+
+    Private Function saveModel(model As AracneNetwork, args As list, env As Environment) As Object
+        Dim con As Stream = args!con
+
+        Try
+            Call model.Save(con)
+            Call con.Flush()
+        Catch ex As Exception
+            Return RInternal.debug.stop(ex.Message, env)
+        End Try
+
+        Return True
+    End Function
+
+    Private Function loadModel(s As Stream, args As list, env As Environment) As Object
+        Return StorageFile.Load(s)
+    End Function
 
     ''' <summary>
     ''' Create an <see cref="AracneOptions"/> object from the scalar arguments.
