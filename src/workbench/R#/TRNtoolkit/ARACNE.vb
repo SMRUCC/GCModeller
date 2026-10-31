@@ -79,7 +79,16 @@ Module ARACNETools
     ''' ``auto`` (TF guided when a TF list is given, otherwise standard),
     ''' ``standard``, ``tf`` (TF guided) or ``off``.
     ''' </param>
-    ''' <param name="epsilon">the DPI tolerance, default 0.1</param>
+    ''' <param name="epsilon">
+    ''' the DPI tolerance, default 0.1. <b>This is the main switch of the network density</b>:
+    ''' a larger value keeps more near-tie edges (an edge is only removed when it is weaker
+    ''' than both competitors by more than ``epsilon``), while a smaller value removes the
+    ''' indirect edges more aggressively.
+    ''' </param>
+    ''' <param name="dpi_passes">
+    ''' the max number of the DPI iteration passes, default 5. Every pass removes the edges
+    ''' that are condemned by the current adjacency, so a smaller value keeps more edges.
+    ''' </param>
     ''' <param name="direction">``tf`` (default) or ``undirected``</param>
     ''' <param name="bins">the bin number of the ``histogram`` estimator, default 4</param>
     ''' <param name="max_neighbors">
@@ -124,6 +133,7 @@ Module ARACNETools
                                   Optional permutations As Integer = 0,
                                   Optional dpi As String = "auto",
                                   Optional epsilon As Double = 0.1,
+                                  Optional dpi_passes As Integer = 5,
                                   Optional direction As String = "tf",
                                   Optional bins As Integer = 4,
                                   Optional max_neighbors As Integer = 0,
@@ -147,6 +157,7 @@ Module ARACNETools
             .permutationPairs = permutations,
             .permutationQuantile = std.Max(0.5R, std.Min(quantile, 0.999R)),
             .tolerance = std.Max(0.0R, std.Min(epsilon, 0.999R)),
+            .dpiMaxPasses = std.Max(1, dpi_passes),
             .dpiMode = ParseDpiMode(dpi),
             .directionMode = ParseDirection(direction),
             .histogramBins = std.Max(2, bins),
@@ -188,7 +199,11 @@ Module ARACNETools
     ''' <param name="quantile">the quantile of the permutation null distribution, default 0.95</param>
     ''' <param name="permutations">the number of the gene pairs that are sampled for the null distribution</param>
     ''' <param name="dpi">``auto`` (default), ``standard``, ``tf`` or ``off``</param>
-    ''' <param name="epsilon">the DPI tolerance, default 0.1</param>
+    ''' <param name="epsilon">
+    ''' the DPI tolerance, default 0.1; raise it (for example 0.2 ~ 0.35) to keep more
+    ''' near-tie edges
+    ''' </param>
+    ''' <param name="dpi_passes">the max number of the DPI passes, default 5; fewer passes keep more edges</param>
     ''' <param name="direction">``tf`` (default) or ``undirected``</param>
     ''' <param name="bins">the bin number of the ``histogram`` estimator, default 4</param>
     ''' <param name="max_neighbors">the top-K pruning of each regulator, 0 = no pruning</param>
@@ -233,6 +248,7 @@ Module ARACNETools
                                   Optional permutations As Integer = 0,
                                   Optional dpi As String = "auto",
                                   Optional epsilon As Double = 0.1,
+                                  Optional dpi_passes As Integer = 5,
                                   Optional direction As String = "tf",
                                   Optional bins As Integer = 4,
                                   Optional max_neighbors As Integer = 0,
@@ -260,6 +276,7 @@ Module ARACNETools
             permutations:=permutations,
             dpi:=dpi,
             epsilon:=epsilon,
+            dpi_passes:=dpi_passes,
             direction:=direction,
             bins:=bins,
             max_neighbors:=max_neighbors,
