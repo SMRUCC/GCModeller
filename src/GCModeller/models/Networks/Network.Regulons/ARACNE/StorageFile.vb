@@ -3,6 +3,9 @@ Imports System.Runtime.CompilerServices
 
 Namespace ARACNE
 
+    ''' <summary>
+    ''' Zip file storage of the fitted <see cref="AracneNetwork"/> object.
+    ''' </summary>
     Public Module StorageFile
 
         ''' <summary>
