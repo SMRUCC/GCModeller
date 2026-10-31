@@ -161,11 +161,15 @@ Module Program
             .OrderBy(Function(s) s, StringComparer.Ordinal) _
             .ToArray
 
+        ' 使用"异或 + 循环移位"的滚动哈希:只涉及移位与异或,
+        ' 不触发 VB.NET 默认开启的整数溢出检查(避免基准程序本身抛异常)
         Dim hash As ULong = 1469598103934665603UL
 
         For Each line As String In lines
             For Each ch As Char In line
-                hash = (hash Xor CUInt(AscW(ch))) * 1099511628211UL
+                hash = hash Xor CULng(AscW(ch))
+                hash = (hash << 7) Or (hash >> 57)
+                hash = hash Xor (hash >> 23)
             Next
         Next
 
