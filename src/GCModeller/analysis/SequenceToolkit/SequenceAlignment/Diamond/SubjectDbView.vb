@@ -127,11 +127,11 @@ Namespace DIAMOND
         ''' 这些区间即为并行扫描调度的工作单元。
         ''' </summary>
         Public Function Blocks(blockResidues As Integer) As List(Of SequenceRange)
-            Dim blocks As New List(Of SequenceRange)
+            Dim ranges As New List(Of SequenceRange)
             Dim n As Integer = Count
 
             If n = 0 Then
-                Return blocks
+                Return ranges
             End If
 
             If blockResidues < 1 Then
@@ -145,7 +145,7 @@ Namespace DIAMOND
                 Dim len As Integer = Offsets(i + 1) - Offsets(i)
 
                 If i > start AndAlso acc + len > blockResidues Then
-                    blocks.Add(New SequenceRange(start, i))
+                    Call ranges.Add(New SequenceRange(start, i))
                     start = i
                     acc = 0
                 End If
@@ -153,8 +153,8 @@ Namespace DIAMOND
                 acc += len
             Next
 
-            blocks.Add(New SequenceRange(start, n))
-            Return blocks
+            Call ranges.Add(New SequenceRange(start, n))
+            Return ranges
         End Function
 
         ''' <summary>

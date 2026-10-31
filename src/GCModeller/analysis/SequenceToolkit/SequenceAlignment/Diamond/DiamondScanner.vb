@@ -19,6 +19,7 @@
 '
 ' 结果一经合并即可交给下游调度器按查询并行做局部比对(阶段 B)。
 
+Imports System.Diagnostics
 Imports System.Runtime.CompilerServices
 Imports System.Threading.Tasks
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -55,13 +56,13 @@ Namespace DIAMOND
         Private ReadOnly ungapped As UngappedExtension
         Private ReadOnly options As DiamondSearchOptions
 
-        Friend Sub New(queries As IList(Of FastaSeq), subjects As IList(Of FastaSeq),
+        Friend Sub New(querySet As IList(Of FastaSeq), subjectDb As IList(Of FastaSeq),
                        seeds As SpacedSeed(), scorer As AminoAcidScorer,
                        hamming As IHammingFilter, ungapped As UngappedExtension,
                        options As DiamondSearchOptions)
 
-            Me.Queries = SequenceDbView.Build(queries, scorer)
-            Me.Subjects = SequenceDbView.Build(subjects, scorer)
+            Me.Queries = SequenceDbView.Build(querySet, scorer)
+            Me.Subjects = SequenceDbView.Build(subjectDb, scorer)
             Me.Scorer = scorer
             Me.reducedOfCode = scorer.ReducedOfCode
             Me.hamming = hamming
@@ -92,7 +93,10 @@ Namespace DIAMOND
         ''' <summary>
         ''' 执行阶段 A:并行扫描参考库,返回每条查询的候选目标(按无空位得分降序)。
         ''' </summary>
-        Friend Function Scan(Optional progress As Action(Of String) = Nothing) As DiamondCandidate()()
+        ''' <param name="progress">进度回调(每若干任务一次;可为 Nothing)。</param>
+        ''' <param name="profile">阶段耗时/规模画像输出(可为 Nothing)。</param>
+        Friend Function Scan(Optional progress As Action(Of String) = Nothing,
+                             Optional profile As DiamondSearchProfile = Nothing) As DiamondCandidate()()
             Dim nq As Integer = Queries.Count
             Dim result As DiamondCandidate()() = New DiamondCandidate(nq - 1)() {}
 
@@ -100,7 +104,17 @@ Namespace DIAMOND
                 Return result
             End If
 
+            Dim clock As Stopwatch = Stopwatch.StartNew()
+
             BuildQueryIndexes()
+
+            If profile IsNot Nothing Then
+                profile.IndexMilliseconds = clock.Elapsed.TotalMilliseconds
+                profile.Queries = nq
+                profile.Subjects = Subjects.Count
+                profile.Residues = Subjects.Residues
+                clock.Restart()
+            End If
 
             Dim blocks As List(Of SequenceRange) = Subjects.Blocks(options.BlockResidues)
             Dim shapes As Integer = plans.Length
@@ -133,9 +147,17 @@ Namespace DIAMOND
                     Call shards.Merge(local)
                 End Sub)
 
+            Dim candidates As Long = 0
+
             For qi As Integer = 0 To nq - 1
                 result(qi) = shards.Export(qi)
+                candidates += result(qi).Length
             Next
+
+            If profile IsNot Nothing Then
+                profile.ScanMilliseconds = clock.Elapsed.TotalMilliseconds
+                profile.Candidates = candidates
+            End If
 
             Return result
         End Function

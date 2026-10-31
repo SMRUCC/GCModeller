@@ -4,6 +4,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>test</RootNamespace>
     <TargetFramework>net10.0</TargetFramework>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,7 +17,7 @@
     <ProjectReference Include="..\..\..\..\..\workbench\modules\ExperimentDesigner\designer-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\..\analysis\HTS_matrix\HTS_matrix-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
-    <ProjectReference Include="..\..\..\..\core\Bio.InteractionModel\InteractionModel.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\..\core\Bio.InteractionModel\InteractionModel.vbproj" />
     <ProjectReference Include="..\Network.Regulons.vbproj" />
   </ItemGroup>
 

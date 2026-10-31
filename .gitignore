@@ -689,3 +689,5 @@ src/runtime/sciBASIC\#/Data_science/MachineVision/GaussianSplatting3D/output/ren
 src/runtime/sciBASIC\#/Data_science/MachineVision/GaussianSplatting3D/output/renders/render_10.png
 src/runtime/sciBASIC\#/Data_science/MachineVision/GaussianSplatting3D/output/renders/render_11.png
 src/GCModeller/engine/Rscript/ecoli.xml
+test/demo/sequencekit/tmp_ko_small.fasta
+test/demo/sequencekit/tmp_ecoli_small.fsa

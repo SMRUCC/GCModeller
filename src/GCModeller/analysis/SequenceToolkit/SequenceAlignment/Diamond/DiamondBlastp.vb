@@ -22,8 +22,8 @@
 '   - 不再为每条查询重复生成参考库字符串数组(O(查询数 × 库规模) 的重复分配);
 '   - 不再对参考库构建十亿级键值索引(内存从数十 GB 降到数百 MB 量级)。
 
+Imports System.Diagnostics
 Imports System.Runtime.CompilerServices
-Imports System.Runtime.InteropServices
 Imports System.Runtime.Intrinsics.X86
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
@@ -43,6 +43,11 @@ Namespace DIAMOND
         Private ReadOnly ungapped As UngappedExtension
         Private ReadOnly hitSched As HitScheduler
         Private ReadOnly bandSW As BandSW
+
+        ''' <summary>
+        ''' 最近一次多查询搜索的阶段耗时画像(便于定位瓶颈与基准对比)。
+        ''' </summary>
+        Public Property LastSearchProfile As DiamondSearchProfile
 
         ''' <summary>
         ''' 构造 DIAMOND blastp 比对器。
@@ -131,12 +136,14 @@ Namespace DIAMOND
             End If
 
             ' 阶段 A:候选生成(参考库流式扫描,x 种子形状并行)
+            Dim profile As New DiamondSearchProfile
             Dim scanner As New DiamondScanner(queries, subjects, seeds, scorer, hamming, ungapped, options)
-            Dim candidates As DiamondCandidate()() = scanner.Scan(log)
+            Dim candidates As DiamondCandidate()() = scanner.Scan(log, profile)
 
             ' 阶段 B:按查询并行做局部比对(由调度器决定并行策略)
             Dim lookup As New SequenceIndexLookup(queries)
             Dim maxSw As Integer = options.ResolveMaxSwPerQuery(maxHitsPerQuery)
+            Dim clock As Stopwatch = Stopwatch.StartNew()
 
             Dim perQuery As Func(Of FastaSeq, IEnumerable(Of DiamondHit)) =
                 Function(q As FastaSeq)
@@ -144,7 +151,15 @@ Namespace DIAMOND
                     Return AlignQuery(qi, scanner, candidates, maxSw, maxHitsPerQuery)
                 End Function
 
-            Return scheduler.Run(queries, subjects, perQuery)
+            Dim hits As IEnumerable(Of DiamondHit) = scheduler.Run(queries, subjects, perQuery)
+
+            profile.AlignMilliseconds = clock.Elapsed.TotalMilliseconds
+            profile.Hits = If(TypeOf hits Is ICollection(Of DiamondHit),
+                              DirectCast(hits, ICollection(Of DiamondHit)).Count,
+                              0)
+            Me.LastSearchProfile = profile
+
+            Return hits
         End Function
 
         ''' <summary>
@@ -248,11 +263,11 @@ Namespace DIAMOND
 
             Friend Shared ReadOnly Instance As New ReferenceComparer
 
-            Public Function Equals(a As FastaSeq, b As FastaSeq) As Boolean Implements IEqualityComparer(Of FastaSeq).Equals
+            Public Overloads Function Equals(a As FastaSeq, b As FastaSeq) As Boolean Implements IEqualityComparer(Of FastaSeq).Equals
                 Return Object.ReferenceEquals(a, b)
             End Function
 
-            Public Function GetHashCode(obj As FastaSeq) As Integer Implements IEqualityComparer(Of FastaSeq).GetHashCode
+            Public Overloads Function GetHashCode(obj As FastaSeq) As Integer Implements IEqualityComparer(Of FastaSeq).GetHashCode
                 Return RuntimeHelpers.GetHashCode(obj)
             End Function
         End Class

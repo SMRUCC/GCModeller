@@ -25,6 +25,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\cuda\ILCudaTensor\ILCudaTensor.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\vs_solutions\dev\VisualStudio\VisualStudio.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
     <ProjectReference Include="..\Network.Regulons\Network.Regulons.vbproj" />
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\cuda\ILCuda\ILCuda.vbproj" />
   </ItemGroup>

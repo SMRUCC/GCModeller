@@ -108,16 +108,16 @@ Namespace DIAMOND
                 classTable(i) = CByte(WildcardClass)
             Next
 
-            Call SetClass("A"c, "G"c)
-            Call SetClass("S"c, "T"c)
-            Call SetClass("C"c)
-            Call SetClass("D"c, "E"c)
-            Call SetClass("N"c, "Q"c)
-            Call SetClass("K"c, "R"c)
-            Call SetClass("H"c)
-            Call SetClass("I"c, "L"c, "M"c, "V"c)
-            Call SetClass("F"c, "Y"c, "W"c)
-            Call SetClass("P"c)
+            Call SetClass(0, "A"c, "G"c)
+            Call SetClass(1, "S"c, "T"c)
+            Call SetClass(2, "C"c)
+            Call SetClass(3, "D"c, "E"c)
+            Call SetClass(4, "N"c, "Q"c)
+            Call SetClass(5, "K"c, "R"c)
+            Call SetClass(6, "H"c)
+            Call SetClass(7, "I"c, "L"c, "M"c, "V"c)
+            Call SetClass(8, "F"c, "Y"c, "W"c)
+            Call SetClass(9, "P"c)
         End Sub
 
         Private Sub SetClass([class] As Integer, ParamArray residues As Char())
