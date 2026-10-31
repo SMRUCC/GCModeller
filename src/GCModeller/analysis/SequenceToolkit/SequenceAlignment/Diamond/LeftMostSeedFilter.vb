@@ -72,7 +72,10 @@ Namespace DIAMOND
     ''' </summary>
     Public Class LeftMostSeedFilter
 
-        ' key: subjectId; value: 每条参考序列上已记录的最左查询位置集合
+        ''' <summary>
+        ''' key: subjectId; 
+        ''' value: 每条参考序列上已记录的最左查询位置集合
+        ''' </summary>
         Private ReadOnly seen As New Dictionary(Of Integer, HashSet(Of Integer))
 
         ''' <summary>

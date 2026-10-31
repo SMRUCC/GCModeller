@@ -165,7 +165,7 @@ Namespace DIAMOND
                 Dim passed As New List(Of SeedPair)
                 leftMost.Reset()
 
-                For Each pair In qIdx.HashJoin(refIdx)
+                For Each pair As SeedPair In qIdx.HashJoin(refIdx)
                     ' 阶段 3a:Hamming 48aa 窗口初筛
                     If Not hamming.Pass(querySeq, pair.QueryPos, subjectSeqs(pair.SubjectId), pair.SubjectPos) Then
                         Continue For
