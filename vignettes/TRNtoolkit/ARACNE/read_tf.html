@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Load the transcription factor gene symbols from a TF annotation table</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>read_tf {ARACNE}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>Load the transcription factor gene symbols from a TF annotation table</h2>
+
+        <h3>Description</h3>
+
+        <p>(for example the <code>Homo_sapiens_TF.txt</code> of the AnimalTFDB style).</p>
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>read_tf</strong>(<i>file</i>,
+    <i>column</i> = <span style='color: brown;'><strong>"Symbol"</strong></span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>file</dt>
+<dd><p>the file path of the TF annotation table: a tab/csv separated table whose header contains the <strong>column</strong> name, or a plain text file with one gene symbol per line. The empty/<code>NA</code> symbols are skipped and the result is unique in case insensitive. [as string]</p></dd>
+
+
+<dt>column</dt>
+<dd><p>the column name of the gene symbol, default <code>Symbol</code>. [as string]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: none;">Details</h3>
+
+        
+
+        <h3 style="display: block">Authors</h3>
+
+        TRNtoolkit
+
+        <h3>Value</h3>
+
+        <p>a character vector of the TF symbols</p><h4>clr value class</h4><ul><li>string</li></ul>
+
+        <h3 style="display: block;">Examples</h3>
+
+        <pre><code id="example_r"> let TF = ARACNE::read_tf("G:/vcc2026/data/Homo_sapiens_TF.txt");</code></pre>
+
+        <hr />
+        <div style="text-align: center;">[Package <em>ARACNE</em> version 1.0.0.0 <a
+                href="../ARACNE.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

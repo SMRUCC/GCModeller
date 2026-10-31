@@ -1,0 +1,33 @@
+.\" man page create by R# package system.
+.TH ARACNE 1 2000-1月 "infer" "infer"
+.SH NAME
+infer \- Run the inference with a pre-built [AracneOptions](cref:T:SMRUCC.genomics.Model.Network.Regulons.ARACNE.AracneOptions) object.
+.SH SYNOPSIS
+\fIinfer(\fBx\fR as <generic> Matrix, 
+\fBopts\fR as <generic> AracneOptions = \fB<NULL>\fR);\fR
+.SH DESCRIPTION
+.PP
+Run the inference with a pre-built [AracneOptions](cref:T:SMRUCC.genomics.Model.Network.Regulons.ARACNE.AracneOptions) object.
+.PP
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- the gene expression matrix, rows are the genes and columns are the samples. 
+.PP
+.PP
+\fBopts\fB \fR\- the options object that is created via the \fBaracne_options\fR api. 
+.PP
+.SH VALUE
+.PP
+the fitted [ARACNETools.aracneNetwork()](cref:M:TRNtoolkit.ARACNETools.aracneNetwork(SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix,System.Object,System.String,System.String,System.Double,System.Double,System.Int32,System.String,System.Double,System.String,System.Int32,System.Int32,System.Int32,System.Double,System.Boolean,System.Boolean,System.Boolean,System.Object,System.Double,System.Double,System.String,System.Double,System.Boolean,System.Int32,System.Int32,System.Boolean,SMRUCC.Rsharp.Runtime.Environment)) object
+.PP
+.SH EXAMPLES
+.PP
+let opts = ARACNE::aracne_options(estimator = "adaptive", max_neighbors = 200);
+ let net = ARACNE::infer(hsa, opts);
+.PP
+.SH SEE ALSO
+ARACNE
+.SH FILES
+.PP
+TRNtoolkit.dll
+.PP

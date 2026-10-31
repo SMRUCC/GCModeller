@@ -1,0 +1,26 @@
+.\" man page create by R# package system.
+.TH ARACNE 1 2000-1月 "regulons" "regulons"
+.SH NAME
+regulons \- Get the regulons (the target gene count of each regulator) of the network.
+.SH SYNOPSIS
+\fIregulons(\fBnet\fR as <generic> AracneNetwork);\fR
+.SH DESCRIPTION
+.PP
+Get the regulons (the target gene count of each regulator) of the network.
+.PP
+.SH OPTIONS
+.PP
+\fBnet\fB \fR\- the network that is created via the \fBaracne\fR api. 
+.PP
+.SH VALUE
+.PP
+a data frame with the columns \fBregulator\fR, \fBsize\fR (the number of the targets)
+ and \fBmean_mi\fR (the mean mutual information of the regulon), sorted by the size
+ in the descending order.
+.PP
+.SH SEE ALSO
+ARACNE
+.SH FILES
+.PP
+TRNtoolkit.dll
+.PP

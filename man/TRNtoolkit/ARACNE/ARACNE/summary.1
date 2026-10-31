@@ -1,0 +1,26 @@
+.\" man page create by R# package system.
+.TH ARACNE 1 2000-1月 "summary" "summary"
+.SH NAME
+summary \- Get the inference statistics of the network.
+.SH SYNOPSIS
+\fIsummary(\fBnet\fR as <generic> AracneNetwork);\fR
+.SH DESCRIPTION
+.PP
+Get the inference statistics of the network.
+.PP
+.SH OPTIONS
+.PP
+\fBnet\fB \fR\- the network that is created via the \fBaracne\fR api. 
+.PP
+.SH VALUE
+.PP
+a single row data frame with the columns: \fBgenes_scanned\fR, \fBgenes\fR, \fBsamples\fR,
+ \fBtf\fR, \fBpairs\fR, \fBthreshold\fR, \fBedges_threshold\fR, \fBedges_dpi\fR, \fBedges\fR,
+ \fBprior_edges\fR, \fBprior_supported\fR, \fBprior_rescued\fR, \fBseconds\fR.
+.PP
+.SH SEE ALSO
+ARACNE
+.SH FILES
+.PP
+TRNtoolkit.dll
+.PP

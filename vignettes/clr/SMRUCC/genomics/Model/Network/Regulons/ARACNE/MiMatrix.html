@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Model.Network.Regulons.ARACNE.MiMatrix</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>MiMatrix {SMRUCC.genomics.Model.Network.Regulons.ARACNE}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>MiMatrix</h2>
+
+        <h3>Description</h3>
+
+        <p>稀疏的互信息矩阵。</p>
+
+<p>ARACNE 的第一步需要计算所有候选基因对的互信息，但是对于 <code>N = 20000</code> 的基因 表达矩阵而言，稠密的 <code>N x N</code> 矩阵需要 3.2 GB 内存，而且其中的绝大部分元素 在阈值过滤之后都会变成零。因此这里采用“边列表 + CSR 邻接表”的稀疏结构：</p>
+
+
+<ul>
+<li>构建阶段：<a href="cref:M:SMRUCC.genomics.Model.Network.Regulons.ARACNE.MiMatrix.SetValue(System.Int32,System.Int32,System.Double)">MiMatrix.SetValue()</a> 把边追加到边列表之中；</li>
+<li>首次读取的时候自动 <a href="cref:M:SMRUCC.genomics.Model.Network.Regulons.ARACNE.MiMatrix.Freeze">MiMatrix.Freeze()</a> 成压缩稀疏行(CSR)的对称邻接表， 邻居按照节点下标升序排列，因此 <a href="cref:M:SMRUCC.genomics.Model.Network.Regulons.ARACNE.MiMatrix.Neighbors(System.Int32)">MiMatrix.Neighbors()</a> 的结果可以直接 用于两个集合求交(DPI 的共同邻居枚举)；</li>
+<li><a href="cref:M:SMRUCC.genomics.Model.Network.Regulons.ARACNE.MiMatrix.Prune(System.Double,System.Collections.Generic.IDictionary{System.Int64,System.Double})">MiMatrix.Prune()</a> / <a href="cref:M:SMRUCC.genomics.Model.Network.Regulons.ARACNE.MiMatrix.PruneTopK(System.Int32,System.Collections.Generic.HashSet{System.Int64})">MiMatrix.PruneTopK()</a> 返回一个新的矩阵， 原始数据不被修改。</li>
+</ul>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Model.Network.Regulons.ARACNE
+export class MiMatrix {
+   # 当前矩阵之中边的数量
+   Count: integer;
+   # 是否已经建立好 CSR 邻接表的索引
+   IsFrozen: boolean;
+   # 全部边之中的最大互信息，没有边的时候返回零
+   MaxMi: double;
+   # 全部边的平均互信息
+   MeanMi: double;
+   # 节点(基因)的编号，下标与邻接表的节点下标一一对应
+   names: string;
+   # 至少拥有一条边的节点数量
+   NodeCount: integer;
+   # 节点(基因)的数量
+   Size: integer;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        this clr type has no other .net clr type reference.
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

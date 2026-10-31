@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Infer the ARACNE gene regulatory network from the expression matrix.</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>aracne {ARACNE}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>Infer the ARACNE gene regulatory network from the expression matrix.</h2>
+
+        <h3>Description</h3>
+
+        
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>aracne</strong>(<i>x</i>,
+    <i>TF</i> = <span style='color: blue !important;'>NULL</span>,
+    <i>estimator</i> = <span style='color: brown;'><strong>"copula"</strong></span>,
+    <i>threshold</i> = <span style='color: brown;'><strong>"permutation"</strong></span>,
+    <i>mi.cutoff</i> = <span style='color: green;'>0</span>,
+    <i>quantile</i> = <span style='color: green;'>0.95</span>,
+    <i>permutations</i> = <span style='color: green;'>0</span>,
+    <i>dpi</i> = <span style='color: brown;'><strong>"auto"</strong></span>,
+    <i>epsilon</i> = <span style='color: green;'>0.1</span>,
+    <i>direction</i> = <span style='color: brown;'><strong>"tf"</strong></span>,
+    <i>bins</i> = <span style='color: green;'>4</span>,
+    <i>max.neighbors</i> = <span style='color: green;'>0</span>,
+    <i>max.genes</i> = <span style='color: green;'>0</span>,
+    <i>min.nonzero</i> = <span style='color: green;'>0</span>,
+    <i>log2</i> = <span style='color: blue !important;'>FALSE</span>,
+    <i>rank</i> = <span style='color: blue !important;'>FALSE</span>,
+    <i>standardize</i> = <span style='color: blue !important;'>FALSE</span>,
+    <i>prior</i> = <span style='color: blue !important;'>NULL</span>,
+    <i>prior.min.confidence</i> = <span style='color: green;'>0.45</span>,
+    <i>prior.factor</i> = <span style='color: green;'>0.5</span>,
+    <i>prior.protection</i> = <span style='color: brown;'><strong>"graded"</strong></span>,
+    <i>prior.strength</i> = <span style='color: green;'>0.5</span>,
+    <i>prior.tf.augment</i> = <span style='color: blue !important;'>TRUE</span>,
+    <i>threads</i> = <span style='color: green;'>-1</span>,
+    <i>seed</i> = <span style='color: green;'>1234567</span>,
+    <i>verbose</i> = <span style='color: blue !important;'>TRUE</span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>x</dt>
+<dd><p>the gene expression matrix, rows are the genes and columns are the samples. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>]</p></dd>
+
+
+<dt>TF</dt>
+<dd><p>an optional gene id vector of the transcription factors. When it is given the computation space is reduced from <code>N x N</code> to <code>TF x N</code>, and the edges are oriented from the TF to the targets; the prior network (the <code>prior</code> argument) is additionally used for the threshold relaxation and the DPI protection.</p></dd>
+
+
+<dt>estimator</dt>
+<dd><p>see the <code>aracne_options</code> api; default <code>copula</code>. [as string]</p></dd>
+
+
+<dt>threshold</dt>
+<dd><p>see the <code>aracne_options</code> api; default <code>permutation</code>. [as string]</p></dd>
+
+
+<dt>mi.cutoff</dt>
+<dd><p>the fixed MI threshold, a positive value forces the <code>fixed</code> mode. [as double]</p></dd>
+
+
+<dt>quantile</dt>
+<dd><p>the quantile of the permutation null distribution, default 0.95. [as double]</p></dd>
+
+
+<dt>permutations</dt>
+<dd><p>the number of the gene pairs that are sampled for the null distribution. [as integer]</p></dd>
+
+
+<dt>dpi</dt>
+<dd><p><code>auto</code> (default), <code>standard</code>, <code>tf</code> or <code>off</code>. [as string]</p></dd>
+
+
+<dt>epsilon</dt>
+<dd><p>the DPI tolerance, default 0.1. [as double]</p></dd>
+
+
+<dt>direction</dt>
+<dd><p><code>tf</code> (default) or <code>undirected</code>. [as string]</p></dd>
+
+
+<dt>bins</dt>
+<dd><p>the bin number of the <code>histogram</code> estimator, default 4. [as integer]</p></dd>
+
+
+<dt>max.neighbors</dt>
+<dd><p>the top-K pruning of each regulator, 0 = no pruning. [as integer]</p></dd>
+
+
+<dt>max.genes</dt>
+<dd><p>keep only the top variant genes (the TF genes are always kept). [as integer]</p></dd>
+
+
+<dt>min.nonzero</dt>
+<dd><p>the minimal non-zero ratio of the retained genes. [as double]</p></dd>
+
+
+<dt>log2</dt>
+<dd><p>apply <code>log2(x + 1)</code> before the inference. [as boolean]</p></dd>
+
+
+<dt>rank</dt>
+<dd><p>spearman (rank) based copula instead of the pearson one. [as boolean]</p></dd>
+
+
+<dt>standardize</dt>
+<dd><p>z-score the expression vectors before the inference. [as boolean]</p></dd>
+
+
+<dt>prior</dt>
+<dd><p>the curated <code>TF -&gt; target</code> evidence: the value of the <code>bnlearn::prior_network</code> api (a <a href="cref:T:SMRUCC.genomics.BioSystem.Core.RegulatoryEdge">RegulatoryEdge</a> vector or pipeline) can be passed directly. Only the edges whose confidence reaches <strong>prior_min_confidence</strong> are used, and the <code>RegulationType</code> (activator/inhibitor) is exported as the <code>regulation</code> column of the edge table.</p></dd>
+
+
+<dt>prior.min.confidence</dt>
+<dd><p>the eligibility threshold of the prior edges, default 0.45. [as double]</p></dd>
+
+
+<dt>prior.factor</dt>
+<dd><p>the threshold relaxation factor at the full confidence, default 0.5. [as double]</p></dd>
+
+
+<dt>prior.protection</dt>
+<dd><p><code>graded</code> (default), <code>sampled</code> or <code>off</code>. [as string]</p></dd>
+
+
+<dt>prior.strength</dt>
+<dd><p>the strength of the graded protection, default 0.5. [as double]</p></dd>
+
+
+<dt>prior.tf.augment</dt>
+<dd><p>append the prior regulators into the TF set. [as boolean]</p></dd>
+
+
+<dt>threads</dt>
+<dd><p>the max degree of parallelism, a value that is less than or equals to 0 means "auto". [as integer]</p></dd>
+
+
+<dt>seed</dt>
+<dd><p>the random seed, the result is reproducible for a fixed seed. [as integer]</p></dd>
+
+
+<dt>verbose</dt>
+<dd><p>print the statistics, the top regulons and the top edges. [as boolean]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: none;">Details</h3>
+
+        
+
+        <h3 style="display: block">Authors</h3>
+
+        TRNtoolkit
+
+        <h3>Value</h3>
+
+        <p>the fitted <a href="cref:M:TRNtoolkit.ARACNETools.aracneNetwork(SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix,System.Object,System.String,System.String,System.Double,System.Double,System.Int32,System.String,System.Double,System.String,System.Int32,System.Int32,System.Int32,System.Double,System.Boolean,System.Boolean,System.Boolean,System.Object,System.Double,System.Double,System.String,System.Double,System.Boolean,System.Int32,System.Int32,System.Boolean,SMRUCC.Rsharp.Runtime.Environment)">ARACNETools.aracneNetwork()</a> object. Use the <code>edges</code>/<code>regulons</code>/ <code>summary</code>/<code>as_graph</code> api to inspect it, and the <code>write_edges</code> api to export it.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/ARACNE/AracneNetwork.html">AracneNetwork</a></li></ul>
+
+        <h3 style="display: block;">Examples</h3>
+
+        <pre><code id="example_r"> let net = ARACNE::aracne(hsa, TF = TF$Symbol, prior = prior, prior_protection = "graded");
+ let tab = ARACNE::edges(net);
+ write.csv(ARACNE::edges(net), file = "./aracne-edges.csv");</code></pre>
+
+        <hr />
+        <div style="text-align: center;">[Package <em>ARACNE</em> version 1.0.0.0 <a
+                href="../ARACNE.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

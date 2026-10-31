@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Create an [AracneOptions](cref:T:SMRUCC.genomics.Model.Network.Regulons.ARACNE.AracneOptions) object from the scalar arguments.</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>aracne_options {ARACNE}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>Create an [AracneOptions](cref:T:SMRUCC.genomics.Model.Network.Regulons.ARACNE.AracneOptions) object from the scalar arguments.</h2>
+
+        <h3>Description</h3>
+
+        
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>aracne_options</strong>(
+    <i>estimator</i> = <span style='color: brown;'><strong>"copula"</strong></span>,
+    <i>threshold</i> = <span style='color: brown;'><strong>"permutation"</strong></span>,
+    <i>mi.cutoff</i> = <span style='color: green;'>0</span>,
+    <i>quantile</i> = <span style='color: green;'>0.95</span>,
+    <i>permutations</i> = <span style='color: green;'>0</span>,
+    <i>dpi</i> = <span style='color: brown;'><strong>"auto"</strong></span>,
+    <i>epsilon</i> = <span style='color: green;'>0.1</span>,
+    <i>direction</i> = <span style='color: brown;'><strong>"tf"</strong></span>,
+    <i>bins</i> = <span style='color: green;'>4</span>,
+    <i>max.neighbors</i> = <span style='color: green;'>0</span>,
+    <i>max.genes</i> = <span style='color: green;'>0</span>,
+    <i>min.nonzero</i> = <span style='color: green;'>0</span>,
+    <i>log2</i> = <span style='color: blue !important;'>FALSE</span>,
+    <i>rank</i> = <span style='color: blue !important;'>FALSE</span>,
+    <i>standardize</i> = <span style='color: blue !important;'>FALSE</span>,
+    <i>prior.min.confidence</i> = <span style='color: green;'>0.45</span>,
+    <i>prior.factor</i> = <span style='color: green;'>0.5</span>,
+    <i>prior.protection</i> = <span style='color: brown;'><strong>"graded"</strong></span>,
+    <i>prior.strength</i> = <span style='color: green;'>0.5</span>,
+    <i>prior.tf.augment</i> = <span style='color: blue !important;'>TRUE</span>,
+    <i>threads</i> = <span style='color: green;'>-1</span>,
+    <i>seed</i> = <span style='color: green;'>1234567</span>,
+    <i>silent</i> = <span style='color: blue !important;'>TRUE</span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>estimator</dt>
+<dd><p>the mutual information estimator: <code>copula</code> (default, <code>O(n)</code> per gene pair), <code>adaptive</code> (the adaptive partitioning of the ARACNE paper), <code>histogram</code> (equal frequency bins with the Miller-Madow correction) or <code>kernel</code> (gaussian kernel density, <code>O(n^2)</code>). [as string]</p></dd>
+
+
+<dt>threshold</dt>
+<dd><p><code>permutation</code> (default, the quantile of the null distribution that is created by shuffling the samples of each gene) or <code>fixed</code> (use <strong>mi_cutoff</strong>). [as string]</p></dd>
+
+
+<dt>mi.cutoff</dt>
+<dd><p>the fixed mutual information threshold; a positive value forces the <code>fixed</code> mode even when <strong>threshold</strong> is <code>permutation</code>. [as double]</p></dd>
+
+
+<dt>quantile</dt>
+<dd><p>the quantile of the permutation null distribution, default 0.95. [as double]</p></dd>
+
+
+<dt>permutations</dt>
+<dd><p>the number of the gene pairs that are sampled for the null distribution, a value that is less than or equals to 0 means "auto". [as integer]</p></dd>
+
+
+<dt>dpi</dt>
+<dd><p><code>auto</code> (TF guided when a TF list is given, otherwise standard), <code>standard</code>, <code>tf</code> (TF guided) or <code>off</code>. [as string]</p></dd>
+
+
+<dt>epsilon</dt>
+<dd><p>the DPI tolerance, default 0.1. [as double]</p></dd>
+
+
+<dt>direction</dt>
+<dd><p><code>tf</code> (default) or <code>undirected</code>. [as string]</p></dd>
+
+
+<dt>bins</dt>
+<dd><p>the bin number of the <code>histogram</code> estimator, default 4. [as integer]</p></dd>
+
+
+<dt>max.neighbors</dt>
+<dd><p>the max number of the edges that each regulator can keep (top-K pruning), a value that is less than or equals to 0 means "no pruning". [as integer]</p></dd>
+
+
+<dt>max.genes</dt>
+<dd><p>keep only the top variant genes; the genes of the TF list and of the prior network are always kept. [as integer]</p></dd>
+
+
+<dt>min.nonzero</dt>
+<dd><p>the minimal ratio of the non-zero samples for a gene to be kept. [as double]</p></dd>
+
+
+<dt>log2</dt>
+<dd><p>apply a <code>log2(x + 1)</code> transformation before the inference. [as boolean]</p></dd>
+
+
+<dt>rank</dt>
+<dd><p>use the ranks (spearman) instead of the values (pearson). [as boolean]</p></dd>
+
+
+<dt>standardize</dt>
+<dd><p>z-score the expression vectors before the inference. [as boolean]</p></dd>
+
+
+<dt>prior.min.confidence</dt>
+<dd><p>the eligibility threshold of the curated prior edges, default 0.45 (i.e. Low and above). [as double]</p></dd>
+
+
+<dt>prior.factor</dt>
+<dd><p>the threshold relaxation factor at the full confidence, default 0.5; the prior edge of the confidence <code>c</code> uses <code>tau * (1 - (1 - factor) * c)</code>. [as double]</p></dd>
+
+
+<dt>prior.protection</dt>
+<dd><p><code>graded</code> (default: the DPI protection window is scaled by the confidence), <code>sampled</code> (a prior edge is fully protected with the probability <code>p = c</code>) or <code>off</code>. [as string]</p></dd>
+
+
+<dt>prior.strength</dt>
+<dd><p>the strength of the graded protection, default 0.5. [as double]</p></dd>
+
+
+<dt>prior.tf.augment</dt>
+<dd><p>append the regulators of the prior network into the TF set, so that a incomplete TF annotation does not lose the regulation edges. [as boolean]</p></dd>
+
+
+<dt>threads</dt>
+<dd><p>the max degree of parallelism, a value that is less than or equals to 0 means "auto". [as integer]</p></dd>
+
+
+<dt>seed</dt>
+<dd><p>the random seed of the permutation sampling and of the sampled protection. [as integer]</p></dd>
+
+
+<dt>silent</dt>
+<dd><p>do not print the progress messages. [as boolean]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: none;">Details</h3>
+
+        
+
+        <h3 style="display: block">Authors</h3>
+
+        TRNtoolkit
+
+        <h3>Value</h3>
+
+        <p>the options object that can be used by the <code>infer</code> api</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/ARACNE/AracneOptions.html">AracneOptions</a></li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>ARACNE</em> version 1.0.0.0 <a
+                href="../ARACNE.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

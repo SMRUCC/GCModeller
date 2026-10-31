@@ -1,0 +1,42 @@
+.\" man page create by R# package system.
+.TH ARACNE 1 2000-1月 "read_tf" "read_tf"
+.SH NAME
+read_tf \- Load the transcription factor gene symbols from a TF annotation table
+.SH SYNOPSIS
+\fIread_tf(\fBfile\fR as string, 
+\fBcolumn\fR as string = "Symbol", 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Load the transcription factor gene symbols from a TF annotation table
+ (for example the \fBHomo_sapiens_TF.txt\fR of the AnimalTFDB style).
+.PP
+.SH OPTIONS
+.PP
+\fBfile\fB \fR\- 
+ the file path of the TF annotation table: a tab/csv separated table whose header
+ contains the **column** name, or a plain text file with one gene
+ symbol per line. The empty/\fBNA\fR symbols are skipped and the result is unique
+ in case insensitive.
+. 
+.PP
+.PP
+\fBcolumn\fB \fR\- the column name of the gene symbol, default \fBSymbol\fR. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object. 
+.PP
+.SH VALUE
+.PP
+a character vector of the TF symbols
+.PP
+.SH EXAMPLES
+.PP
+let TF = ARACNE::read_tf("G:/vcc2026/data/Homo_sapiens_TF.txt");
+.PP
+.SH SEE ALSO
+ARACNE
+.SH FILES
+.PP
+TRNtoolkit.dll
+.PP

@@ -1,0 +1,25 @@
+.\" man page create by R# package system.
+.TH ARACNE 1 2000-1月 "mi_matrix" "mi_matrix"
+.SH NAME
+mi_matrix \- Get the mutual information matrix of the inferred network.
+.SH SYNOPSIS
+\fImi_matrix(\fBnet\fR as <generic> AracneNetwork);\fR
+.SH DESCRIPTION
+.PP
+Get the mutual information matrix of the inferred network.
+.PP
+.SH OPTIONS
+.PP
+\fBnet\fB \fR\- the network that is created via the \fBaracne\fR api. 
+.PP
+.SH VALUE
+.PP
+a matrix whose rows are the regulators and columns are the targets, an element is
+ the mutual information (bits) of the corresponding gene pair.
+.PP
+.SH SEE ALSO
+ARACNE
+.SH FILES
+.PP
+TRNtoolkit.dll
+.PP

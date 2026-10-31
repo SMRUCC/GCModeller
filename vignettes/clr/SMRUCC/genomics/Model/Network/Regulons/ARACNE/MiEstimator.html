@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Model.Network.Regulons.ARACNE.MiEstimator</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>MiEstimator {SMRUCC.genomics.Model.Network.Regulons.ARACNE}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>MiEstimator</h2>
+
+        <h3>Description</h3>
+
+        <p>互信息(Mutual Information)的估计方法。</p>
+
+<p>不同的估计方法在“估计精度 / 计算开销”这条轴上面处于不同的位置， 依据表达矩阵的规模选择合适的方法即可。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Model.Network.Regulons.ARACNE
+export class MiEstimator extends <a href="/vignettes/clr/System/Enum.html">Enum</a> {
+   # 高斯 copula 估计器(默认)：假设 <code>(X, Y)</code> 服从二元正态分布， 先对表达量做中心化与标准化(或者秩转换)，再计算 pearson 相关系数 <code>r</code>， 则
+   # 
+   # 
+   # <pre><code> MI(X, Y) = -0.5 * log2(1 - r^2)</code></pre>
+   # 
+   # 
+   # 这是 readme 之中推荐的快速估计方法：任意一个基因对的互信息都退化为一次 长度为样本数的向量内积 <code>O(n)</code>，配合 SIMD 与多核可以轻松处理 <code>10^6 ~ 10^7</code> 数量级的基因对，因此它是大样本单细胞数据的默认路径。
+   GaussianCopula: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/ARACNE/MiEstimator.html">MiEstimator</a> = 0;
+
+   # 自适应分区估计器(ARACNE 原论文 Algorithm 1)。
+   # 
+   # 从整个散点图开始，反复把“点数最多的 bin”沿着极差更大的那个轴 在中位数处分半，直到 bin 的数量达到上限或者每个 bin 内部的点数 低于下限；最后用联合/边缘计数计算
+   # 
+   # 
+   # <pre><code> MI(X, Y) = sum_ij p_ij * log2(p_ij / (p_i * p_j))</code></pre>
+   # 
+   # 
+   # 由于分区的过程与表达量的具体尺度无关，这个估计器可以捕捉到 线性的 copula 估计器所无法捕捉的非线性依赖关系， 是真正意义上的 ARACNE 互信息估计器，代价是每个基因对需要 <code>O(n log n)</code> 级别的计算量。
+   AdaptivePartitioning: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/ARACNE/MiEstimator.html">MiEstimator</a> = 1;
+
+   # 分位数等频直方图估计器：把两个变量分别按照分位数切成相同数量的 等频 bin，再用联合/边缘计数计算互信息，并且做 Miller-Madow 偏差校正。
+   # 
+   # 这是 readme 伪代码第二步之中“按分位数离散化”的最直接实现， 计算量介于 <a href="cref:F:SMRUCC.genomics.Model.Network.Regulons.ARACNE.MiEstimator.AdaptivePartitioning">MiEstimator.AdaptivePartitioning</a> 与 <a href="cref:F:SMRUCC.genomics.Model.Network.Regulons.ARACNE.MiEstimator.GaussianCopula">MiEstimator.GaussianCopula</a> 之间。
+   EqualFrequencyHistogram: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/ARACNE/MiEstimator.html">MiEstimator</a> = 2;
+
+   # 高斯核密度估计器：使用高斯核分别估计联合密度与两个边缘密度， 再用 <code>MI = (1/n) * sum log2(f(x,y) / (f(x)f(y)))</code> 计算互信息 (带宽使用 Silverman 经验公式，并且采用留一法避免样本自身的偏置)。
+   # 
+   # 它的精度最高，但是每个基因对的计算量是 <code>O(n^2)</code>， 因此只有当样本数量不超过 <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.ARACNE.AracneOptions.kernelMaxSamples">AracneOptions.kernelMaxSamples</a> 的时候才会被真正使用，否则会退回 <a href="cref:F:SMRUCC.genomics.Model.Network.Regulons.ARACNE.MiEstimator.GaussianCopula">MiEstimator.GaussianCopula</a> 并且给出警告信息。
+   KernelDensity: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/ARACNE/MiEstimator.html">MiEstimator</a> = 3;
+
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>this class extends from <a href="/vignettes/clr/System/Enum.html">Enum</a> class: <a href="/vignettes/clr/System/Enum.html">Enum</a></li>
+<li>use by <i>field</i> member <code>GaussianCopula</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/ARACNE/MiEstimator.html">MiEstimator</a></li>
+<li>use by <i>field</i> member <code>AdaptivePartitioning</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/ARACNE/MiEstimator.html">MiEstimator</a></li>
+<li>use by <i>field</i> member <code>EqualFrequencyHistogram</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/ARACNE/MiEstimator.html">MiEstimator</a></li>
+<li>use by <i>field</i> member <code>KernelDensity</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/ARACNE/MiEstimator.html">MiEstimator</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

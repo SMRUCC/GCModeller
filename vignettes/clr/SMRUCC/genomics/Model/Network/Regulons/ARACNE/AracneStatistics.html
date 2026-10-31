@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Model.Network.Regulons.ARACNE.AracneStatistics</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>AracneStatistics {SMRUCC.genomics.Model.Network.Regulons.ARACNE}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>AracneStatistics</h2>
+
+        <h3>Description</h3>
+
+        <p>一次 ARACNE 推断过程的统计信息</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Model.Network.Regulons.ARACNE
+export class AracneStatistics {
+   # 计算了互信息的基因对数量
+   candidatePairs: integer;
+   # DPI 的详细统计
+   dpi: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/ARACNE/DpiResult.html">DpiResult</a>;
+   # 赋予方向之后的调控边数量
+   edges: integer;
+   # DPI 过滤之后的边数量(无向)
+   edgesAfterDpi: integer;
+   # 阈值过滤以及 top-K 剪枝之后的边数量
+   edgesAfterThreshold: integer;
+   # 阈值、DPI 与定向阶段的耗时(秒)
+   filterSeconds: double;
+   # 预处理之后实际参与计算的基因数量
+   genes: integer;
+   # 表达矩阵之中被扫描的基因数量
+   genesScanned: integer;
+   # 平均每个基因对的互信息计算耗时(微秒)
+   microSecondsPerPair: double;
+   # 互信息计算阶段的耗时(秒)
+   miSeconds: double;
+   # 预处理阶段的耗时(秒)
+   preprocessSeconds: double;
+   # curated 先验网络之中落在本次计算空间(基因集合)之内的调控关系数量
+   priorEdges: integer;
+   # 落在本次计算空间之内的先验边，按照置信度分级的数量。
+   # 
+   # 与 <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.ARACNE.AracneStatistics.priorRescuedByConfidence">AracneStatistics.priorRescuedByConfidence</a> 相除即可得到每一档置信度 对应的“保护成功率”，也就是分级保护是否真的按置信度倾斜的量化证据。
+   priorPairsByConfidence: list;
+   # 被先验保护的边数量：这些边满足 DPI 的剔除条件， 但是因为 curated 先验支持而保留了下来
+   priorProtectedEdges: integer;
+   # 本次推断所实际使用的先验保护方式
+   priorProtection: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/ARACNE/PriorProtectionMode.html">PriorProtectionMode</a>;
+   # 被保护(从 DPI 之中救回来)的边按照先验置信度分级的统计： 键名为 <code>high</code> / <code>medium</code> / <code>low</code>。
+   # 
+   # 这是验证“分级保护是否生效”的直接证据：Graded 模式下 high 组应当明显多于 low 组。
+   priorRescuedByConfidence: list;
+   # 最终输出之中受先验支持的调控边数量(有向边的口径，TF-TF 的 mutual 边会被计算两次)
+   priorSupportedEdges: integer;
+   # 最终输出之中受先验支持的无向基因对数量。
+   # 
+   # 与 <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.ARACNE.AracneStatistics.priorEdges">AracneStatistics.priorEdges</a> 相除就得到先验网络在本次推断结果之中的召回率。
+   priorSupportedPairs: integer;
+   # 样本(细胞)数量
+   samples: integer;
+   # 互信息的显著性阈值
+   threshold: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/ARACNE/MiThreshold.html">MiThreshold</a>;
+   # 整个推断过程的耗时(秒)
+   totalSeconds: double;
+   # 匹配到的转录因子数量
+   transcriptionFactors: integer;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>dpi</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/ARACNE/DpiResult.html">DpiResult</a></li>
+<li>use by <i>property</i> member <code>priorPairsByConfidence</code>: list</li>
+<li>use by <i>property</i> member <code>priorProtection</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/ARACNE/PriorProtectionMode.html">PriorProtectionMode</a></li>
+<li>use by <i>property</i> member <code>priorRescuedByConfidence</code>: list</li>
+<li>use by <i>property</i> member <code>threshold</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/ARACNE/MiThreshold.html">MiThreshold</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

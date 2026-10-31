@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Model.Network.Regulons.ARACNE.AracneNetwork</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>AracneNetwork {SMRUCC.genomics.Model.Network.Regulons.ARACNE}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>AracneNetwork</h2>
+
+        <h3>Description</h3>
+
+        <p>ARACNE(Algorithm for the Reconstruction of Accurate Cellular Networks) 基因表达调控网络的推断。</p>
+
+<p>整体的执行流程与 readme 之中的伪代码一一对应：</p>
+
+
+<pre><code> 1. 预处理      : log2 变换 / 标准化 / 秩转换 / 零表达与零方差基因过滤
+ 2. 互信息矩阵  : 高斯 copula(默认) / 自适应分区 / 等频分箱 / 核密度
+ 3. 显著性阈值  : 置换零分布的分位数(默认 95%) 或者固定阈值
+ 4. DPI 过滤    : 剔除三元组之中明显最弱的间接边
+ 5. 方向赋予    : TF 指向靶基因 / TF 与 TF 的双向关系 / 非 TF 的无向候选边</code></pre>
+
+
+<p>提供转录因子列表的时候，计算空间会由 <code>N x N</code> 缩减为 <code>T x N</code> (只计算 TF-TF 与 TF-Target 的互信息)，这正是 readme 第四章所推荐的 “结合 TF 先验知识”的工程化流程，可以把计算量降低几个数量级。</p>
+
+<p>这个类型只负责编排，具体的数值计算分别在 <a href="cref:T:SMRUCC.genomics.Model.Network.Regulons.ARACNE.MutualInformation">MutualInformation</a>、<a href="cref:T:SMRUCC.genomics.Model.Network.Regulons.ARACNE.PermutationThreshold">PermutationThreshold</a>、 <a href="cref:T:SMRUCC.genomics.Model.Network.Regulons.ARACNE.DpiFilter">DpiFilter</a> 之中实现。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Model.Network.Regulons.ARACNE
+export class AracneNetwork {
+   # 赋予方向之后的调控边
+   Edges: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/ARACNE/AracneEdge.html">AracneEdge[]</a>;
+   # 输入的基因表达矩阵(行=基因、列=样本)，构造与推断的过程都不会修改它
+   Expression: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>;
+   # 预处理之后保留下来的基因编号(顺序与内部的表达向量一一对应)
+   Genes: string;
+   # DPI 过滤之后的互信息矩阵(无向)
+   MiMatrix: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/ARACNE/MiMatrix.html">MiMatrix</a>;
+   # 阈值过滤以及 top-K 剪枝之后、DPI 之前的互信息矩阵
+   MiMatrixBeforeDpi: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/ARACNE/MiMatrix.html">MiMatrix</a>;
+   # 本次推断所使用的参数配置
+   Options: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/ARACNE/AracneOptions.html">AracneOptions</a>;
+   # 基因(节点)的数量
+   Size: integer;
+   # 推断过程的统计信息(尚未执行 <a href="cref:M:SMRUCC.genomics.Model.Network.Regulons.ARACNE.AracneNetwork.Fit">AracneNetwork.Fit()</a> 的时候为<code>Nothing</code>)
+   Statistics: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/ARACNE/AracneStatistics.html">AracneStatistics</a>;
+   # 每一个基因是否为转录因子(下标与 <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.ARACNE.AracneNetwork.Genes">AracneNetwork.Genes</a> 一致)
+   TfFlags: boolean;
+   # 匹配到的转录因子编号
+   TFs: string;
+   # 互信息的显著性阈值
+   Threshold: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/ARACNE/MiThreshold.html">MiThreshold</a>;
+   # 预处理之后的基因表达向量(下标与 <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.ARACNE.AracneNetwork.Genes">AracneNetwork.Genes</a> 一致)
+   Vectors: <a href="/vignettes/clr/System/Double[].html">Double[][]</a>;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>Edges</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/ARACNE/AracneEdge.html">AracneEdge</a></li>
+<li>use by <i>property</i> member <code>Expression</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a></li>
+<li>use by <i>property</i> member <code>MiMatrix</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/ARACNE/MiMatrix.html">MiMatrix</a></li>
+<li>use by <i>property</i> member <code>MiMatrixBeforeDpi</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/ARACNE/MiMatrix.html">MiMatrix</a></li>
+<li>use by <i>property</i> member <code>Options</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/ARACNE/AracneOptions.html">AracneOptions</a></li>
+<li>use by <i>property</i> member <code>Statistics</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/ARACNE/AracneStatistics.html">AracneStatistics</a></li>
+<li>use by <i>property</i> member <code>Threshold</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/ARACNE/MiThreshold.html">MiThreshold</a></li>
+<li>use by <i>property</i> member <code>Vectors</code>: <a href="/vignettes/clr/System/Double[].html">Double[]</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

@@ -1,0 +1,147 @@
+.\" man page create by R# package system.
+.TH ARACNE 1 2000-1月 "aracne_options" "aracne_options"
+.SH NAME
+aracne_options \- Create an [AracneOptions](cref:T:SMRUCC.genomics.Model.Network.Regulons.ARACNE.AracneOptions) object from the scalar arguments.
+.SH SYNOPSIS
+\fIaracne_options(\fBestimator\fR as string = "copula", 
+\fBthreshold\fR as string = "permutation", 
+\fBmi_cutoff\fR as double = 0, 
+\fBquantile\fR as double = 0.95, 
+\fBpermutations\fR as integer = 0, 
+\fBdpi\fR as string = "auto", 
+\fBepsilon\fR as double = 0.1, 
+\fBdirection\fR as string = "tf", 
+\fBbins\fR as integer = 4, 
+\fBmax_neighbors\fR as integer = 0, 
+\fBmax_genes\fR as integer = 0, 
+\fBmin_nonzero\fR as double = 0, 
+\fBlog2\fR as boolean = FALSE, 
+\fBrank\fR as boolean = FALSE, 
+\fBstandardize\fR as boolean = FALSE, 
+\fBprior_min_confidence\fR as double = 0.45, 
+\fBprior_factor\fR as double = 0.5, 
+\fBprior_protection\fR as string = "graded", 
+\fBprior_strength\fR as double = 0.5, 
+\fBprior_tf_augment\fR as boolean = TRUE, 
+\fBthreads\fR as integer = -1, 
+\fBseed\fR as integer = 1234567, 
+\fBsilent\fR as boolean = TRUE);\fR
+.SH DESCRIPTION
+.PP
+Create an [AracneOptions](cref:T:SMRUCC.genomics.Model.Network.Regulons.ARACNE.AracneOptions) object from the scalar arguments.
+.PP
+.SH OPTIONS
+.PP
+\fBestimator\fB \fR\- 
+ the mutual information estimator: \fBcopula\fR (default, \fBO(n)\fR per gene pair),
+ \fBadaptive\fR (the adaptive partitioning of the ARACNE paper), \fBhistogram\fR
+ (equal frequency bins with the Miller-Madow correction) or \fBkernel\fR
+ (gaussian kernel density, \fBO(n^2)\fR).
+. 
+.PP
+.PP
+\fBthreshold\fB \fR\- 
+ \fBpermutation\fR (default, the quantile of the null distribution that is created
+ by shuffling the samples of each gene) or \fBfixed\fR (use **mi_cutoff**).
+. 
+.PP
+.PP
+\fBmi_cutoff\fB \fR\- 
+ the fixed mutual information threshold; a positive value forces the \fBfixed\fR
+ mode even when **threshold** is \fBpermutation\fR.
+. 
+.PP
+.PP
+\fBquantile\fB \fR\- the quantile of the permutation null distribution, default 0.95. 
+.PP
+.PP
+\fBpermutations\fB \fR\- 
+ the number of the gene pairs that are sampled for the null distribution,
+ a value that is less than or equals to 0 means "auto".
+. 
+.PP
+.PP
+\fBdpi\fB \fR\- 
+ \fBauto\fR (TF guided when a TF list is given, otherwise standard),
+ \fBstandard\fR, \fBtf\fR (TF guided) or \fBoff\fR.
+. 
+.PP
+.PP
+\fBepsilon\fB \fR\- the DPI tolerance, default 0.1. 
+.PP
+.PP
+\fBdirection\fB \fR\- \fBtf\fR (default) or \fBundirected\fR. 
+.PP
+.PP
+\fBbins\fB \fR\- the bin number of the \fBhistogram\fR estimator, default 4. 
+.PP
+.PP
+\fBmax_neighbors\fB \fR\- 
+ the max number of the edges that each regulator can keep (top-K pruning),
+ a value that is less than or equals to 0 means "no pruning".
+. 
+.PP
+.PP
+\fBmax_genes\fB \fR\- 
+ keep only the top variant genes; the genes of the TF list and of the prior
+ network are always kept.
+. 
+.PP
+.PP
+\fBmin_nonzero\fB \fR\- the minimal ratio of the non-zero samples for a gene to be kept. 
+.PP
+.PP
+\fBlog2\fB \fR\- apply a \fBlog2(x + 1)\fR transformation before the inference. 
+.PP
+.PP
+\fBrank\fB \fR\- use the ranks (spearman) instead of the values (pearson). 
+.PP
+.PP
+\fBstandardize\fB \fR\- z-score the expression vectors before the inference. 
+.PP
+.PP
+\fBprior_min_confidence\fB \fR\- 
+ the eligibility threshold of the curated prior edges, default 0.45 (i.e. Low and above)
+. 
+.PP
+.PP
+\fBprior_factor\fB \fR\- 
+ the threshold relaxation factor at the full confidence, default 0.5;
+ the prior edge of the confidence \fBc\fR uses \fBtau * (1 - (1 - factor) * c)\fR.
+. 
+.PP
+.PP
+\fBprior_protection\fB \fR\- 
+ \fBgraded\fR (default: the DPI protection window is scaled by the confidence),
+ \fBsampled\fR (a prior edge is fully protected with the probability \fBp = c\fR)
+ or \fBoff\fR.
+. 
+.PP
+.PP
+\fBprior_strength\fB \fR\- the strength of the graded protection, default 0.5. 
+.PP
+.PP
+\fBprior_tf_augment\fB \fR\- 
+ append the regulators of the prior network into the TF set, so that a incomplete
+ TF annotation does not lose the regulation edges.
+. 
+.PP
+.PP
+\fBthreads\fB \fR\- the max degree of parallelism, a value that is less than or equals to 0 means "auto". 
+.PP
+.PP
+\fBseed\fB \fR\- the random seed of the permutation sampling and of the sampled protection. 
+.PP
+.PP
+\fBsilent\fB \fR\- do not print the progress messages. 
+.PP
+.SH VALUE
+.PP
+the options object that can be used by the \fBinfer\fR api
+.PP
+.SH SEE ALSO
+ARACNE
+.SH FILES
+.PP
+TRNtoolkit.dll
+.PP

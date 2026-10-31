@@ -1,0 +1,146 @@
+.\" man page create by R# package system.
+.TH ARACNE 1 2000-1月 "aracne" "aracne"
+.SH NAME
+aracne \- Infer the ARACNE gene regulatory network from the expression matrix.
+.SH SYNOPSIS
+\fIaracne(\fBx\fR as <generic> Matrix, 
+\fBTF\fR as any = \fB<NULL>\fR, 
+\fBestimator\fR as string = "copula", 
+\fBthreshold\fR as string = "permutation", 
+\fBmi_cutoff\fR as double = 0, 
+\fBquantile\fR as double = 0.95, 
+\fBpermutations\fR as integer = 0, 
+\fBdpi\fR as string = "auto", 
+\fBepsilon\fR as double = 0.1, 
+\fBdirection\fR as string = "tf", 
+\fBbins\fR as integer = 4, 
+\fBmax_neighbors\fR as integer = 0, 
+\fBmax_genes\fR as integer = 0, 
+\fBmin_nonzero\fR as double = 0, 
+\fBlog2\fR as boolean = FALSE, 
+\fBrank\fR as boolean = FALSE, 
+\fBstandardize\fR as boolean = FALSE, 
+\fBprior\fR as any = \fB<NULL>\fR, 
+\fBprior_min_confidence\fR as double = 0.45, 
+\fBprior_factor\fR as double = 0.5, 
+\fBprior_protection\fR as string = "graded", 
+\fBprior_strength\fR as double = 0.5, 
+\fBprior_tf_augment\fR as boolean = TRUE, 
+\fBthreads\fR as integer = -1, 
+\fBseed\fR as integer = 1234567, 
+\fBverbose\fR as boolean = TRUE, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Infer the ARACNE gene regulatory network from the expression matrix.
+.PP
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- the gene expression matrix, rows are the genes and columns are the samples. 
+.PP
+.PP
+\fBTF\fB \fR\- 
+ an optional gene id vector of the transcription factors. When it is given the
+ computation space is reduced from \fBN x N\fR to \fBTF x N\fR, and the edges are
+ oriented from the TF to the targets; the prior network (the \fBprior\fR argument)
+ is additionally used for the threshold relaxation and the DPI protection.
+. 
+.PP
+.PP
+\fBestimator\fB \fR\- see the \fBaracne_options\fR api; default \fBcopula\fR. 
+.PP
+.PP
+\fBthreshold\fB \fR\- see the \fBaracne_options\fR api; default \fBpermutation\fR. 
+.PP
+.PP
+\fBmi_cutoff\fB \fR\- the fixed MI threshold, a positive value forces the \fBfixed\fR mode. 
+.PP
+.PP
+\fBquantile\fB \fR\- the quantile of the permutation null distribution, default 0.95. 
+.PP
+.PP
+\fBpermutations\fB \fR\- the number of the gene pairs that are sampled for the null distribution. 
+.PP
+.PP
+\fBdpi\fB \fR\- \fBauto\fR (default), \fBstandard\fR, \fBtf\fR or \fBoff\fR. 
+.PP
+.PP
+\fBepsilon\fB \fR\- the DPI tolerance, default 0.1. 
+.PP
+.PP
+\fBdirection\fB \fR\- \fBtf\fR (default) or \fBundirected\fR. 
+.PP
+.PP
+\fBbins\fB \fR\- the bin number of the \fBhistogram\fR estimator, default 4. 
+.PP
+.PP
+\fBmax_neighbors\fB \fR\- the top-K pruning of each regulator, 0 = no pruning. 
+.PP
+.PP
+\fBmax_genes\fB \fR\- keep only the top variant genes (the TF genes are always kept). 
+.PP
+.PP
+\fBmin_nonzero\fB \fR\- the minimal non-zero ratio of the retained genes. 
+.PP
+.PP
+\fBlog2\fB \fR\- apply \fBlog2(x + 1)\fR before the inference. 
+.PP
+.PP
+\fBrank\fB \fR\- spearman (rank) based copula instead of the pearson one. 
+.PP
+.PP
+\fBstandardize\fB \fR\- z-score the expression vectors before the inference. 
+.PP
+.PP
+\fBprior\fB \fR\- 
+ the curated \fBTF -> target\fR evidence: the value of the \fBbnlearn::prior_network\fR
+ api (a [RegulatoryEdge](cref:T:SMRUCC.genomics.BioSystem.Core.RegulatoryEdge) vector or pipeline) can be passed directly.
+ Only the edges whose confidence reaches **prior_min_confidence**
+ are used, and the \fBRegulationType\fR (activator/inhibitor) is exported as the
+ \fBregulation\fR column of the edge table.
+. 
+.PP
+.PP
+\fBprior_min_confidence\fB \fR\- the eligibility threshold of the prior edges, default 0.45. 
+.PP
+.PP
+\fBprior_factor\fB \fR\- the threshold relaxation factor at the full confidence, default 0.5. 
+.PP
+.PP
+\fBprior_protection\fB \fR\- \fBgraded\fR (default), \fBsampled\fR or \fBoff\fR. 
+.PP
+.PP
+\fBprior_strength\fB \fR\- the strength of the graded protection, default 0.5. 
+.PP
+.PP
+\fBprior_tf_augment\fB \fR\- append the prior regulators into the TF set. 
+.PP
+.PP
+\fBthreads\fB \fR\- the max degree of parallelism, a value that is less than or equals to 0 means "auto". 
+.PP
+.PP
+\fBseed\fB \fR\- the random seed, the result is reproducible for a fixed seed. 
+.PP
+.PP
+\fBverbose\fB \fR\- print the statistics, the top regulons and the top edges. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object. 
+.PP
+.SH VALUE
+.PP
+the fitted [ARACNETools.aracneNetwork()](cref:M:TRNtoolkit.ARACNETools.aracneNetwork(SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix,System.Object,System.String,System.String,System.Double,System.Double,System.Int32,System.String,System.Double,System.String,System.Int32,System.Int32,System.Int32,System.Double,System.Boolean,System.Boolean,System.Boolean,System.Object,System.Double,System.Double,System.String,System.Double,System.Boolean,System.Int32,System.Int32,System.Boolean,SMRUCC.Rsharp.Runtime.Environment)) object. Use the \fBedges\fR/\fBregulons\fR/
+ \fBsummary\fR/\fBas_graph\fR api to inspect it, and the \fBwrite_edges\fR api to export it.
+.PP
+.SH EXAMPLES
+.PP
+let net = ARACNE::aracne(hsa, TF = TF$Symbol, prior = prior, prior_protection = "graded");
+ let tab = ARACNE::edges(net);
+ write.csv(ARACNE::edges(net), file = "./aracne-edges.csv");
+.PP
+.SH SEE ALSO
+ARACNE
+.SH FILES
+.PP
+TRNtoolkit.dll
+.PP

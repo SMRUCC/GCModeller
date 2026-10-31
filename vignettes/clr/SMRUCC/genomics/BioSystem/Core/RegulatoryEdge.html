@@ -24,6 +24,8 @@
 
         <p>转录调控关系</p>
 
+<p>方向性(激活/抑制)在这里被刻意丢弃：本轮只把先验用于「哪些 TF 调控这个基因」 以及「这条边的惩罚要不要放松」，不使用先验的符号去约束回归系数。</p>
+
         <h3>Declare</h3>        
 
         <pre>
@@ -36,6 +38,12 @@ export class RegulatoryEdge {
    Evidence: string;
    # 调控类型（激活/抑制）
    RegulationType: <a href="/vignettes/clr/SMRUCC/genomics/BioSystem/Core/Effector.html">Effector</a>;
+   # 先验的因果符号：<code>+1</code> 激活、<code>-1</code> 抑制、<code>0</code> 未知。
+   # 
+   # 这个符号会被用作回归系数的可行域约束(signed lasso)： 激活边只允许 β ≥ 0、抑制边只允许 β ≤ 0。
+   # 
+   # 之所以必须这样做，是因为共表达数据本身无法区分激活与抑制 (抽样验证过：Inhibitor 边的共表达相关系数中位数同样是正的)， 而任何偶次惩罚(拉普拉斯、L1、L2)对 β → -β 都是对称的， 只有把可行域限制到半空间才能固定绝对符号。
+   Sign: integer;
    # 靶基因名称
    TargetGene: string;
    # transcript factor protein/rna id.

@@ -104,7 +104,7 @@ export class GrnFittingOptions {
    # 
    # 
    # 先验为空时，拟合行为与不提供先验时逐位一致。
-   priorNetwork: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/PriorEdge.html">PriorEdge[]</a>;
+   priorNetwork: <a href="/vignettes/clr/SMRUCC/genomics/BioSystem/Core/RegulatoryEdge.html">RegulatoryEdge[]</a>;
    # 先验支持的边所享有的 L1 惩罚乘子，默认 1.0(不放松)。
    # 
    # 取值越小，先验边越容易被保留；0.3 是一个稳健的默认选择 (先验提供倾斜，但仍然由数据决定去留)。设为 1.0 等价于关闭方案 B。
@@ -137,7 +137,7 @@ export class GrnFittingOptions {
 <li>use by <i>property</i> member <code>correlationBackend</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/ICorrelationScreener.html">ICorrelationScreener</a></li>
 <li>use by <i>property</i> member <code>elasticNet</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/ElasticNetOptions.html">ElasticNetOptions</a></li>
 <li>use by <i>property</i> member <code>method</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/FittingMethod.html">FittingMethod</a></li>
-<li>use by <i>property</i> member <code>priorNetwork</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/PriorEdge.html">PriorEdge</a></li>
+<li>use by <i>property</i> member <code>priorNetwork</code>: <a href="/vignettes/clr/SMRUCC/genomics/BioSystem/Core/RegulatoryEdge.html">RegulatoryEdge</a></li>
 <li>use by <i>property</i> member <code>priorSignMode</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/PriorSignMode.html">PriorSignMode</a></li>
 </ol>
 
