@@ -119,19 +119,23 @@ Module Program
         Call DebugAudit.Test(stable, "repeated runs must produce identical result sets")
 
         If compareGsw Then
+            ' 抽样校验:历史 GSW 实现是 O(m·n) 的全窗口动态规划,在百万级参考库上
+            ' 全量对照会耗时数十分钟;这里固定抽取前 200 条查询做一致性抽样。
+            Dim sampleQueries As FastaSeq() = queries.Take(Math.Min(200, queries.Length)).ToArray
             Dim gswOptions As DiamondSearchOptions = DiamondSearchOptions.CreateDefault()
             Dim reference As New DiamondBlastp(SensitivityMode.Fast)
-            Dim hitsBanded As DiamondHit() = diamond.Search(queries, subjects, options, Nothing, maxHits).ToArray
+            Dim hitsBanded As DiamondHit() = diamond.Search(sampleQueries, subjects, options, Nothing, maxHits).ToArray
 
             clock.Restart()
             ' 对照:EnableBandSw = False 等价于回退到历史 GSW 全窗口实现
             gswOptions.EnableBandSw = False
-            Dim hitsGsw As DiamondHit() = reference.Search(queries, subjects, gswOptions, Nothing, maxHits).ToArray
+            Dim hitsGsw As DiamondHit() = reference.Search(sampleQueries, subjects, gswOptions, Nothing, maxHits).ToArray
             clock.Stop()
 
             Dim diff As Integer = CompareScores(hitsBanded, hitsGsw)
             Dim ratio As Double = If(hitsBanded.Length = 0, 0, 100.0 * diff / hitsBanded.Length)
 
+            Call DebugAudit.Mark("gsw_sample_queries", sampleQueries.Length)
             Call DebugAudit.Mark("gsw_hits", hitsGsw.Length)
             Call DebugAudit.Mark("gsw_ms", Math.Round(clock.Elapsed.TotalMilliseconds, 1))
             Call DebugAudit.Mark("score_mismatch", diff)

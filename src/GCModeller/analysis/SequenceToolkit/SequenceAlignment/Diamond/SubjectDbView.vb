@@ -101,14 +101,17 @@ Namespace DIAMOND
             Dim packed As Byte() = New Byte(total - 1) {}
             Dim codes As Byte() = scorer.Codes
 
-            ' 按序列分片并行编码:各分片写入互不重叠的区间,无竞争
-            Dim chunk As Integer = Math.Max(1, n \ Math.Max(1, Environment.ProcessorCount * 4))
+            ' 分片并行编码:每个工作单元写互不重叠的序列区间,无竞争
+            Dim chunkSize As Integer = Math.Max(1024, n \ Math.Max(1, Environment.ProcessorCount * 8))
+            Dim chunks As Integer = (n + chunkSize - 1) \ chunkSize
 
-            For start As Integer = 0 To n - 1 Step chunk
-                Dim last As Integer = Math.Min(n, start + chunk) - 1
+            Call System.Threading.Tasks.Parallel.For(0, chunks,
+                New System.Threading.Tasks.ParallelOptions With {.MaxDegreeOfParallelism = Environment.ProcessorCount},
+                Sub(chunk As Integer)
+                    Dim first As Integer = chunk * chunkSize
+                    Dim last As Integer = Math.Min(n, first + chunkSize) - 1
 
-                Call System.Threading.Tasks.Parallel.For(start, last + 1,
-                    Sub(i As Integer)
+                    For i As Integer = first To last
                         Dim seq As String = seqs(i)
                         Dim off As Integer = offsets(i)
 
@@ -116,8 +119,8 @@ Namespace DIAMOND
                             Dim c As Integer = AscW(seq(k))
                             packed(off + k) = If(c < 0 OrElse c > 255, codes(0), codes(c))
                         Next
-                    End Sub)
-            Next
+                    Next
+                End Sub)
 
             Return New SequenceDbView(seqs, titles, packed, offsets)
         End Function

@@ -216,8 +216,11 @@ Namespace DIAMOND
                 i = last + 1
             End While
 
+            ' 第二/第三排序键保证并列得分时的输出顺序稳定(结果可复现)
             Dim result As DiamondHit() = found _
                 .OrderByDescending(Function(h) h.RawScore) _
+                .ThenBy(Function(h) h.SseqId, StringComparer.Ordinal) _
+                .ThenBy(Function(h) h.QStart) _
                 .ToArray
 
             If maxHits > 0 AndAlso result.Length > maxHits Then

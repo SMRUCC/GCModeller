@@ -70,6 +70,20 @@ Namespace DIAMOND
     ''' <summary>
     ''' 最左种子去冗余过滤器。跨形状累积已见过的种子命中,丢弃左侧已覆盖的冗余命中。
     ''' </summary>
+    ''' <remarks>
+    ''' <para>
+    ''' 重要(线程安全):本类型持有可变的累积状态(<see cref="seen"/>),
+    ''' <b>绝不可</b>在多条查询之间共享或作为比对器的实例字段复用。
+    ''' 历史上 <see cref="DiamondBlastp"/> 曾把它的单实例挂在字段上并让所有并行查询
+    ''' 同时调用 <see cref="Reset"/> / <see cref="Keep"/>,造成数据竞争与跨查询状态污染,
+    ''' 使同一输入的多次运行结果不一致。
+    ''' </para>
+    ''' <para>
+    ''' 当前多查询流水线(<see cref="DiamondScanner"/>)已经不再使用本过滤器:
+    ''' 候选按 (查询, 参考) 唯一化并按无空位得分取优,等价且无需累积状态。
+    ''' 保留该类型仅为兼容旧的单查询调用路径,使用时请为每条查询单独 new 一个实例。
+    ''' </para>
+    ''' </remarks>
     Public Class LeftMostSeedFilter
 
         ''' <summary>

@@ -12,8 +12,8 @@
 '      计算量从 O(m·n) 降到 O(band · n);
 '   2) 使用按线程复用的扁平缓冲(按需扩容,不重复分配);
 '   3) 打分走 <see cref="AminoAcidScorer.Scores"/> 扁平查表;
-'   4) gap 模型与 <see cref="DynamicProgramming.SmithWaterman.GSW"/> 一致
-'      (线性 gap,INDEL_SCORE = -9),保证得分与历史实现可比。
+'   4) gap 模型与历史实现(GSW 的线性 gap,INDEL_SCORE = -9)一致,
+'      保证得分与历史实现可比。
 
 Imports System.Runtime.CompilerServices
 
@@ -45,7 +45,7 @@ Namespace DIAMOND
     ''' </summary>
     Public Class BandedSmithWaterman
 
-        ''' <summary>与 <see cref="DynamicProgramming.SmithWaterman.GSW"/> 一致的线性 gap 罚分。</summary>
+        ''' <summary>与历史 GSW 实现一致的线性 gap 罚分(INDEL_SCORE)。</summary>
         Public Const GAP_SCORE As Integer = -9
 
         ''' <summary>带半宽(氨基酸数)。</summary>

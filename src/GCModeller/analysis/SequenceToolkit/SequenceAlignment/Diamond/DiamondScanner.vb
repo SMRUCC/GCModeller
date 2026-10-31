@@ -163,6 +163,24 @@ Namespace DIAMOND
         End Function
 
         ''' <summary>
+        ''' 判断一个新的无空位命中是否优于已记录的同 (查询, 参考) 命中。
+        ''' 采用全序比较(得分 -> 查询起点 -> 参考起点),确保并发/乱序到达时
+        ''' 选出的候选完全一致 —— 这是结果可复现的前提。
+        ''' </summary>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Friend Shared Function IsBetter(candidate As UngappedHit, current As UngappedHit) As Boolean
+            If candidate.Score <> current.Score Then
+                Return candidate.Score > current.Score
+            End If
+
+            If candidate.QueryStart <> current.QueryStart Then
+                Return candidate.QueryStart < current.QueryStart
+            End If
+
+            Return candidate.SubjectStart < current.SubjectStart
+        End Function
+
+        ''' <summary>
         ''' 为每个种子形状构建查询侧索引(小索引,常驻内存)。
         ''' </summary>
         Private Sub BuildQueryIndexes()
@@ -202,7 +220,6 @@ Namespace DIAMOND
                     Dim code As Long = plan.Encode(packed, reducedOfCode, sOff + p)
                     Dim e As Integer = table.HeadOf(code)
                     Dim walked As Integer = 0
-                    Dim sPos As Integer = sOff + p
 
                     While e >= 0 AndAlso walked < cap
                         If codes(e) = code Then
@@ -219,7 +236,7 @@ Namespace DIAMOND
                                     Dim key As Long = (CLng(qi) << 32) Or sid
                                     Dim old As UngappedHit
 
-                                    If Not sink.TryGetValue(key, old) OrElse ug.Score > old.Score Then
+                                    If Not sink.TryGetValue(key, old) OrElse IsBetter(ug, old) Then
                                         sink(key) = ug
                                     End If
                                 End If
@@ -306,7 +323,7 @@ Namespace DIAMOND
 
                         Dim old As UngappedHit
 
-                        If Not inner.TryGetValue(sid, old) OrElse kvp.Value.Score > old.Score Then
+                        If Not inner.TryGetValue(sid, old) OrElse DiamondScanner.IsBetter(kvp.Value, old) Then
                             inner(sid) = kvp.Value
                         End If
 
@@ -324,6 +341,8 @@ Namespace DIAMOND
         Private Sub Prune(inner As Dictionary(Of Integer, UngappedHit))
             Dim keep = inner _
                 .OrderByDescending(Function(kv) kv.Value.Score) _
+                .ThenBy(Function(kv) kv.Value.QueryStart) _
+                .ThenBy(Function(kv) kv.Key) _
                 .Take(maxPerQuery) _
                 .ToArray
 
@@ -355,6 +374,8 @@ Namespace DIAMOND
 
             Dim list = inner _
                 .OrderByDescending(Function(kv) kv.Value.Score) _
+                .ThenBy(Function(kv) kv.Value.QueryStart) _
+                .ThenBy(Function(kv) kv.Key) _
                 .Select(Function(kv) New DiamondCandidate(kv.Key, kv.Value)) _
                 .ToArray
 
