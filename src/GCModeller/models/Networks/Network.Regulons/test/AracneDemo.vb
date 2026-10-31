@@ -1,4 +1,6 @@
 ﻿Imports System.IO
+Imports System.IO.Compression
+Imports System.Text
 Imports DebugAudit = Microsoft.VisualBasic.ApplicationServices.Debugging.DebugAudit
 Imports DebugAuditScope = Microsoft.VisualBasic.ApplicationServices.Debugging.DebugAuditScope
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
@@ -87,6 +89,7 @@ Module AracneDemo
         RunCase("case A6: input validation", AddressOf CaseValidation)
         RunCase("case A8: curated prior knowledge (TF list + TF-target evidence)", AddressOf CasePriorKnowledge)
         RunCase("case A9: confidence-graded prior protection", AddressOf CaseGradedProtection)
+        RunCase("case A10: zip archive storage (save / load)", AddressOf CaseStorage)
 
         Dim matrixFile As String = ArgValue(args, "--matrix")
 
@@ -1068,6 +1071,182 @@ Module AracneDemo
             .maxNeighbors = 10,
             .randomSeed = 1234567
         })
+    End Function
+
+#End Region
+
+#Region "storage"
+
+    ''' <summary>
+    ''' 用例 A10：模型的 zip 存档读写。
+    ''' 
+    ''' 覆盖三条路径：
+    ''' 
+    ''' 1. ``includeExpression = True`` 的完整存档：重建之后的基因、边、互信息矩阵、
+    '''    阈值、统计量、先验标记与表达向量都要和原对象一致，并且可以重新 Fit；
+    ''' 2. ``includeExpression = False`` 的精简存档：边与统计量一致，但表达向量为空、
+    '''    重新 Fit 会抛出 <see cref="InvalidOperationException"/>；
+    ''' 3. 非法文件应当抛出 <see cref="InvalidDataException"/>。
+    ''' </summary>
+    Private Sub CaseStorage()
+        Dim synth As SyntheticNetwork = BuildSyntheticNetwork(nSample:=300, seed:=7)
+        Dim prior As RegulatoryEdge() = {
+            New RegulatoryEdge(CHAIN_TF, CHAIN_Y, 0.95R, 0),
+            New RegulatoryEdge(CHAIN_TF, "G_1", 0.95R, 1)
+        }
+        Dim net As AracneNetwork = synth.matrix.InferAracneNetwork(New AracneOptions With {
+            .silent = True,
+            .transcriptionFactors = synth.tfs,
+            .permutationPairs = 500,
+            .maxNeighbors = 10,
+            .randomSeed = 1234567,
+            .priorNetwork = prior,
+            .priorMinConfidence = 0.9R
+        })
+        Dim folder As String = Path.Combine(Path.GetTempPath(), "aracne-storage")
+        Dim modelFile As String = Path.Combine(folder, "aracne-model.zip")
+
+        If Not Directory.Exists(folder) Then
+            Call Directory.CreateDirectory(folder)
+        End If
+
+        ' ---- 1. 完整存档 ----
+        Using stream As Stream = File.Create(modelFile)
+            Call net.Save(stream)
+        End Using
+
+        Console.WriteLine($"     >> {net.Edges.Length} edges saved into {modelFile} ({New FileInfo(modelFile).Length / 1024} KB)")
+
+        Call DebugAudit.Test(File.Exists(modelFile) AndAlso New FileInfo(modelFile).Length > 0, "the model archive is created")
+
+        Using stream As Stream = File.OpenRead(modelFile)
+            Using zip As New ZipArchive(stream, ZipArchiveMode.Read)
+                Dim names As String() = zip.Entries.Select(Function(e) e.FullName).ToArray
+
+                For Each required As String In {"manifest.tsv", "genes.tsv", "tfs.txt", "prior.tsv", "edges.csv", "mi_network.bin", "mi_stage1.bin", "expression.bin"}
+                    Call DebugAudit.Test(names.Contains(required), $"the archive contains the '{required}' entry")
+                Next
+            End Using
+        End Using
+
+        Dim loaded As AracneNetwork
+
+        Using stream As Stream = File.OpenRead(modelFile)
+            loaded = StorageFile.Load(stream)
+        End Using
+
+        Console.WriteLine($"     >> loaded: {loaded.Statistics.ToString}")
+
+        Call DebugAudit.Test(loaded.Genes.SequenceEqual(net.Genes), "the gene order is preserved")
+        Call DebugAudit.Test(loaded.TFs.SequenceEqual(net.TFs), "the transcription factors are preserved")
+        Call DebugAudit.Test(loaded.TfFlags.SequenceEqual(net.TfFlags), "the TF flags are preserved")
+        Call DebugAudit.Test(loaded.Edges.Length = net.Edges.Length, "the edge count is preserved")
+        Call DebugAudit.Test(edgeKeys(loaded).SequenceEqual(edgeKeys(net)),
+            "each edge (regulator, target, MI, interaction, prior, regulation) is preserved")
+        Call DebugAudit.AreEqual(net.MiMatrix.Count, loaded.MiMatrix.Count, "the DPI filtered MI matrix is preserved")
+        Call DebugAudit.AreEqual(net.MiMatrixBeforeDpi.Count, loaded.MiMatrixBeforeDpi.Count, "the pre-DPI MI matrix is preserved")
+
+        ' ---- 统计量与阈值 ----
+        Call DebugAudit.AreEqual(net.Statistics.genes, loaded.Statistics.genes, "the gene count of the statistics is preserved")
+        Call DebugAudit.AreEqual(net.Statistics.samples, loaded.Statistics.samples, "the sample count of the statistics is preserved")
+        Call DebugAudit.AreEqual(net.Statistics.candidatePairs, loaded.Statistics.candidatePairs, "the candidate pair count is preserved")
+        Call DebugAudit.AreEqual(net.Statistics.edgesAfterThreshold, loaded.Statistics.edgesAfterThreshold, "the threshold stage edge count is preserved")
+        Call DebugAudit.AreEqual(net.Statistics.edgesAfterDpi, loaded.Statistics.edgesAfterDpi, "the DPI stage edge count is preserved")
+        Call DebugAudit.AreEqual(net.Statistics.priorEdges, loaded.Statistics.priorEdges, "the prior edge count is preserved")
+        Call DebugAudit.AreEqual(net.Statistics.priorSupportedPairs, loaded.Statistics.priorSupportedPairs, "the prior supported pair count is preserved")
+        Call DebugAudit.AreEqual(net.Statistics.priorProtectedEdges, loaded.Statistics.priorProtectedEdges, "the rescued edge count is preserved")
+        Call DebugAudit.AreEqual(net.Statistics.dpi.RemovedEdges.Count, loaded.Statistics.dpi.RemovedEdges.Count,
+            "the DPI removed edge list is preserved")
+        Call DebugAudit.AreEqual(net.Statistics.dpi.ProtectedEdges.Count, loaded.Statistics.dpi.ProtectedEdges.Count,
+            "the DPI protected edge list is preserved")
+
+        For Each grade As String In {"high", "medium", "low"}
+            Call DebugAudit.AreEqual(net.Statistics.priorRescuedByConfidence(grade), loaded.Statistics.priorRescuedByConfidence(grade),
+                $"the rescued '{grade}' edge count is preserved")
+        Next
+
+        Call DebugAudit.AreEqual(net.Threshold.value, loaded.Threshold.value, "the threshold value is preserved")
+        Call DebugAudit.AreEqual(net.Threshold.mode, loaded.Threshold.mode, "the threshold mode is preserved")
+        Call DebugAudit.AreEqual(net.Threshold.nullMean, loaded.Threshold.nullMean, "the null distribution mean is preserved")
+
+        ' ---- 参数与表达向量 ----
+        Call DebugAudit.AreEqual(net.Options.miEstimator, loaded.Options.miEstimator, "the MI estimator option is preserved")
+        Call DebugAudit.AreEqual(net.Options.tolerance, loaded.Options.tolerance, "the DPI tolerance option is preserved")
+        Call DebugAudit.AreEqual(net.Options.maxNeighbors, loaded.Options.maxNeighbors, "the top-K option is preserved")
+        Call DebugAudit.AreEqual(net.Options.priorProtectionMode, loaded.Options.priorProtectionMode,
+            "the prior protection mode is preserved")
+        Call DebugAudit.AreEqual(net.Options.priorNetwork.Length, loaded.Options.priorNetwork.Length, "the prior network is preserved")
+
+        Dim vectorMismatch As Integer = 0
+
+        For i As Integer = 0 To loaded.Size - 1
+            If Not loaded.Vectors(i).SequenceEqual(net.Vectors(i)) Then
+                vectorMismatch += 1
+            End If
+        Next
+
+        Call DebugAudit.AreEqual(0, vectorMismatch, "all of the preprocessed expression vectors are preserved")
+
+        Call DebugAudit.Test(loaded.Expression IsNot Nothing, "the expression matrix is restored")
+        Call DebugAudit.AreEqual(net.Expression.sample_count, loaded.Expression.sample_count, "the sample dimension of the expression matrix is restored")
+        Call DebugAudit.AreEqual(net.CoefMatrix.size, loaded.CoefMatrix.size, "the coefficient matrix is restored")
+
+        ' 完整存档可以继续重新推断
+        Dim refitted As AracneNetwork = loaded.Fit()
+
+        Call DebugAudit.AreEqual(net.Edges.Length, refitted.Edges.Length, "the loaded model can be re-fitted")
+
+        ' ---- 2. 精简存档(不保存表达矩阵) ----
+        Dim lightFile As String = Path.Combine(folder, "aracne-model-light.zip")
+
+        Using stream As Stream = File.Create(lightFile)
+            Call net.Save(stream, includeExpression:=False)
+        End Using
+
+        Dim light As AracneNetwork
+
+        Using stream As Stream = File.OpenRead(lightFile)
+            light = StorageFile.Load(stream)
+        End Using
+
+        Console.WriteLine($"     >> light archive: {New FileInfo(lightFile).Length / 1024} KB, " &
+                          $"{light.Edges.Length} edges, expression = {If(light.Expression Is Nothing, "(none)", "loaded")}")
+
+        Call DebugAudit.Test(light.Edges.Length = net.Edges.Length, "the light archive keeps all of the edges")
+        Call DebugAudit.Test(light.Expression Is Nothing, "the light archive does not store the expression matrix")
+        Call DebugAudit.AreEqual(0, light.Vectors(0).Length, "the expression vectors of the light archive are empty")
+        Call DebugAudit.AreEqual(net.Statistics.samples, light.Statistics.samples, "the sample count is still available in the statistics")
+
+        Call DebugAudit.CheckThrows(Of InvalidOperationException)(
+            Sub()
+                Dim probe As AracneNetwork = light.Fit()
+            End Sub,
+            "a model without the expression vectors can not be re-fitted")
+
+        ' ---- 3. 非法文件 ----
+        Dim broken As String = Path.Combine(folder, "not-a-model.bin")
+
+        Call File.WriteAllBytes(broken, Encoding.UTF8.GetBytes("this file is not a zip archive at all"))
+
+        Call DebugAudit.CheckThrows(Of InvalidDataException)(
+            Sub()
+                Using stream As Stream = File.OpenRead(broken)
+                    Dim probe As AracneNetwork = StorageFile.Load(stream)
+                End Using
+            End Sub,
+            "a file which is not a zip archive can not be loaded as an ARACNE model")
+    End Sub
+
+    ''' <summary>
+    ''' 把网络之中的全部边转换成可比较的字符串键值(用于存档的一致性检查)
+    ''' </summary>
+    ''' <param name="net"></param>
+    ''' <returns></returns>
+    Private Function edgeKeys(net As AracneNetwork) As String()
+        Return net.Edges _
+            .Select(Function(e) $"{e.regulator}->{e.target}|{e.mi.ToString("G17")}|{e.correlation.ToString("G17")}|{e.interaction}|{e.prior}|{e.regulation}") _
+            .OrderBy(Function(s) s) _
+            .ToArray
     End Function
 
 #End Region

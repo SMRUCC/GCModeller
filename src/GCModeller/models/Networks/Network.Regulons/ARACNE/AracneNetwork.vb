@@ -305,6 +305,21 @@ Namespace ARACNE
             End Get
         End Property
 
+        ''' <summary>
+        ''' curated 先验网络映射到本次计算空间之后的邻接表
+        ''' (键值见 <see cref="MiMatrix.EdgeKey(Integer, Integer)"/>)。
+        ''' 
+        ''' 只有置信度达到 <see cref="AracneOptions.priorMinConfidence"/> 并且两个端点
+        ''' 都存在于本次计算空间之中的先验关系才会出现在这里，
+        ''' 它主要用于模型存档以及结果追溯。
+        ''' </summary>
+        ''' <returns></returns>
+        Friend ReadOnly Property Prior As Dictionary(Of Long, RegulatoryEdge)
+            Get
+                Return m_prior
+            End Get
+        End Property
+
         ReadOnly m_genes As String()
         ReadOnly m_geneIndex As Dictionary(Of String, Integer)
         ReadOnly m_vectors As Double()()
@@ -553,12 +568,91 @@ Namespace ARACNE
         End Sub
 
         ''' <summary>
+        ''' 由 zip 存档重建对象，仅供 <see cref="StorageFile.Load"/> 使用。
+        ''' 
+        ''' 重建之后 <see cref="Genes"/>、<see cref="TfFlags"/>、<see cref="Edges"/>、
+        ''' <see cref="MiMatrix"/>、<see cref="Threshold"/>、<see cref="Statistics"/>
+        ''' 与原对象完全一致；<see cref="Vectors"/> 与 <see cref="Expression"/> 是否可用
+        ''' 取决于存档是否保留了表达矩阵(见 <see cref="StorageFile.Save"/> 的
+        ''' ``includeExpression`` 参数)。
+        ''' </summary>
+        ''' <param name="genes">基因编号</param>
+        ''' <param name="vectors">预处理之后的表达向量，未保存表达矩阵的时候为空的数组</param>
+        ''' <param name="tfFlags">转录因子标记</param>
+        ''' <param name="expression">由表达向量重建的表达矩阵，未保存的时候为<c>Nothing</c></param>
+        ''' <param name="options">推断参数</param>
+        ''' <param name="scanned">预处理阶段扫描的基因数量</param>
+        ''' <param name="preprocessSeconds">预处理耗时</param>
+        ''' <param name="prior">先验网络邻接表</param>
+        ''' <param name="network">DPI 之后的互信息矩阵</param>
+        ''' <param name="stage1">DPI 之前的互信息矩阵</param>
+        ''' <param name="edges">赋予方向之后的调控边</param>
+        ''' <param name="threshold">显著性阈值</param>
+        ''' <param name="stats">统计信息</param>
+        Friend Sub New(genes As String(),
+                       vectors As Double()(),
+                       tfFlags As Boolean(),
+                       expression As Matrix,
+                       options As AracneOptions,
+                       scanned As Integer,
+                       preprocessSeconds As Double,
+                       prior As Dictionary(Of Long, RegulatoryEdge),
+                       network As ARACNE.MiMatrix,
+                       stage1 As ARACNE.MiMatrix,
+                       edges As AracneEdge(),
+                       threshold As MiThreshold,
+                       stats As AracneStatistics)
+
+            m_genes = genes
+            m_vectors = vectors
+            m_tfFlags = tfFlags
+            m_raw = expression
+            m_opt = options
+            m_scanned = scanned
+            m_preprocessSeconds = preprocessSeconds
+            m_prior = If(prior, New Dictionary(Of Long, RegulatoryEdge))
+            m_network = network
+            m_stage1 = stage1
+            m_edges = If(edges, New AracneEdge() {})
+            m_threshold = threshold
+            m_stats = stats
+
+            m_geneIndex = New Dictionary(Of String, Integer)(StringComparer.OrdinalIgnoreCase)
+            m_unitVectors = New Double(genes.Length - 1)() {}
+
+            For i As Integer = 0 To genes.Length - 1
+                m_geneIndex(genes(i)) = i
+
+                Dim v As Double() = If(vectors Is Nothing, Nothing, vectors(i))
+
+                m_unitVectors(i) = If(v Is Nothing OrElse v.Length = 0,
+                    New Double() {},
+                    MutualInformation.UnitVector(v))
+            Next
+
+            m_tfs = Enumerable _
+                .Range(0, genes.Length) _
+                .Where(Function(i) tfFlags(i)) _
+                .Select(Function(i) genes(i)) _
+                .ToArray
+        End Sub
+
+        ''' <summary>
         ''' 执行 ARACNE 推断。
         ''' 
         ''' 重复调用会重新计算一次(便于在同一个表达矩阵之上比较不同的参数)。
         ''' </summary>
         ''' <returns>当前对象(便于链式调用)</returns>
         Public Function Fit() As AracneNetwork
+
+            If m_vectors Is Nothing OrElse m_vectors.Length = 0 OrElse
+               m_vectors(0) Is Nothing OrElse m_vectors(0).Length = 0 Then
+
+                Throw New InvalidOperationException(
+                    "the expression vectors are not stored in this model archive, so the loaded network can not be re-fitted; " &
+                    "please save the model with includeExpression = True if the re-fitting is required.")
+            End If
+
             Dim watch As Stopwatch = Stopwatch.StartNew()
             Dim nGenes As Integer = m_genes.Length
             Dim rows As Integer() = If(m_tfs.Length > 0,
