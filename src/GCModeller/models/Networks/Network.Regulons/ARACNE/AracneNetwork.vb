@@ -579,8 +579,8 @@ Namespace ARACNE
             End If
 
             If Not m_opt.silent Then
-                Console.WriteLine($"[ARACNE] computing mutual information: {rows.Length} regulators x {nGenes} genes, " &
-                                  $"{m_vectors(0).Length} samples, estimator = {m_opt.miEstimator}")
+                Call ($"[ARACNE] computing mutual information: {rows.Length} regulators x {nGenes} genes, " &
+                      $"{m_vectors(0).Length} samples, estimator = {m_opt.miEstimator}").debug
             End If
 
             Dim miWatch As Stopwatch = Stopwatch.StartNew()
@@ -644,8 +644,8 @@ Namespace ARACNE
             Next
 
             If Not m_opt.silent Then
-                Console.WriteLine($"[ARACNE] {pairCount} gene pairs, {miWatch.Elapsed.TotalSeconds:F2}s " &
-                                  $"({If(pairCount = 0, 0, miWatch.Elapsed.TotalMilliseconds * 1000.0R / pairCount):F3} us/pair)")
+                Call ($"[ARACNE] {pairCount} gene pairs, {miWatch.Elapsed.TotalSeconds:F2}s " &
+                      $"({If(pairCount = 0, 0, miWatch.Elapsed.TotalMilliseconds * 1000.0R / pairCount):F3} us/pair)").debug
             End If
 
             ' ---- 显著性阈值 tau ----
