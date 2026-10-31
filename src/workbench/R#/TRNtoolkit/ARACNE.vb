@@ -10,6 +10,7 @@ Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 Imports std = System.Math
 
@@ -591,6 +592,278 @@ Module ARACNETools
     Public Sub write_edges(net As AracneNetwork, file As String)
         Call net.WriteEdges(file)
     End Sub
+
+    ''' <summary>
+    ''' Load the transcription factor gene symbols from a TF annotation table
+    ''' (for example the ``Homo_sapiens_TF.txt`` of the AnimalTFDB style).
+    ''' </summary>
+    ''' <param name="file">
+    ''' the file path of the TF annotation table: a tab/csv separated table whose header
+    ''' contains the <paramref name="column"/> name, or a plain text file with one gene
+    ''' symbol per line. The empty/``NA`` symbols are skipped and the result is unique
+    ''' in case insensitive.
+    ''' </param>
+    ''' <param name="column">the column name of the gene symbol, default ``Symbol``</param>
+    ''' <param name="env">the R# runtime environment object</param>
+    ''' <returns>a character vector of the TF symbols</returns>
+    ''' <example>
+    ''' let TF = ARACNE::read_tf("G:/vcc2026/data/Homo_sapiens_TF.txt");
+    ''' </example>
+    <ExportAPI("read_tf")>
+    <RApiReturn(GetType(String))>
+    Public Function read_tf(file As String, Optional column As String = "Symbol", Optional env As Environment = Nothing) As Object
+        If String.IsNullOrWhiteSpace(file) OrElse Not System.IO.File.Exists(file) Then
+            Return RInternal.debug.stop($"the transcription factor list is not found: {file}", env)
+        End If
+
+        Dim lines As String() = System.IO.File.ReadAllLines(file, Text.Encoding.UTF8)
+        Dim columnIndex As Integer = -1
+        Dim headerIndex As Integer = -1
+
+        ' 定位表头：允许文件开头存在空行或者 UTF-8 BOM
+        For i As Integer = 0 To std.Min(lines.Length - 1, 10)
+            Dim probe As String = trimCell(lines(i))
+
+            If probe.Length = 0 Then
+                Continue For
+            End If
+
+            Dim header As String() = probe.Split(ControlChars.Tab, ","c, ";"c)
+            Dim index As Integer = Array.FindIndex(header, Function(h) String.Equals(trimCell(h), column, StringComparison.OrdinalIgnoreCase))
+
+            If index >= 0 Then
+                headerIndex = i
+                columnIndex = index
+            End If
+
+            Exit For
+        Next
+
+        Dim result As New List(Of String)
+        Dim seen As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)
+
+        For i As Integer = If(headerIndex >= 0, headerIndex + 1, 0) To lines.Length - 1
+            Dim line As String = trimCell(lines(i))
+
+            If line.Length = 0 Then
+                Continue For
+            End If
+
+            Dim fields As String() = line.Split(ControlChars.Tab, ","c, ";"c)
+            Dim symbol As String = If(columnIndex >= 0 AndAlso columnIndex < fields.Length,
+                trimCell(fields(columnIndex)),
+                trimCell(fields(0)))
+
+            If isPlaceholder(symbol) Then
+                Continue For
+            End If
+            If seen.Add(symbol) Then
+                Call result.Add(symbol)
+            End If
+        Next
+
+        Return result.ToArray
+    End Function
+
+    ''' <summary>
+    ''' Load the curated ``TF -&gt; target`` prior network from a csv table.
+    ''' </summary>
+    ''' <param name="file">
+    ''' the file path of the curated prior table, the header must contain the ``TF`` and
+    ''' the ``TargetGene`` columns; the optional ``Confidence`` column (``High``/
+    ''' ``Medium``/``Low`` or a numeric value) and the optional ``RegulationType`` column
+    ''' (``Activator``/``Inhibitor``) are recognized as well.
+    ''' </param>
+    ''' <param name="min_confidence">the eligibility threshold of the prior confidence, default 0.45</param>
+    ''' <param name="env">the R# runtime environment object</param>
+    ''' <returns>a <see cref="RegulatoryEdge"/> vector that can be passed to the ``prior`` argument of ``aracne``</returns>
+    ''' <example>
+    ''' let prior = ARACNE::read_prior("G:/vcc2026/data/TF_target_prior_curated.csv", min_confidence = 0.9);
+    ''' </example>
+    <ExportAPI("read_prior")>
+    <RApiReturn(GetType(RegulatoryEdge))>
+    Public Function read_prior(file As String, Optional min_confidence As Double = 0.45, Optional env As Environment = Nothing) As Object
+        If String.IsNullOrWhiteSpace(file) OrElse Not System.IO.File.Exists(file) Then
+            Return RInternal.debug.stop($"the curated prior network is not found: {file}", env)
+        End If
+
+        Dim lines As String() = System.IO.File.ReadAllLines(file, Text.Encoding.UTF8)
+        Dim columns As New Dictionary(Of String, Integer)(StringComparer.OrdinalIgnoreCase)
+        Dim headerIndex As Integer = -1
+
+        For i As Integer = 0 To std.Min(lines.Length - 1, 10)
+            Dim probe As String = trimCell(lines(i))
+
+            If probe.Length = 0 Then
+                Continue For
+            End If
+
+            Dim header As String() = probe.Split(","c)
+
+            If header.Length >= 2 AndAlso
+               Array.FindIndex(header, Function(h) String.Equals(trimCell(h), "TF", StringComparison.OrdinalIgnoreCase)) >= 0 AndAlso
+               Array.FindIndex(header, Function(h) String.Equals(trimCell(h), "TargetGene", StringComparison.OrdinalIgnoreCase)) >= 0 Then
+
+                headerIndex = i
+
+                For k As Integer = 0 To header.Length - 1
+                    columns(trimCell(header(k))) = k
+                Next
+            End If
+
+            Exit For
+        Next
+
+        If headerIndex < 0 Then
+            Return RInternal.debug.stop($"the prior network table has no 'TF'/'TargetGene' header: {file}", env)
+        End If
+
+        Dim tfColumn As Integer = columns("TF")
+        Dim targetColumn As Integer = columns("TargetGene")
+        Dim confidenceColumn As Integer = If(columns.ContainsKey("Confidence"), columns("Confidence"), -1)
+        Dim typeColumn As Integer = If(columns.ContainsKey("RegulationType"), columns("RegulationType"), -1)
+        Dim table As New Dictionary(Of String, RegulatoryEdge)(StringComparer.OrdinalIgnoreCase)
+
+        For i As Integer = headerIndex + 1 To lines.Length - 1
+            Dim line As String = trimCell(lines(i))
+
+            If line.Length = 0 Then
+                Continue For
+            End If
+
+            Dim fields As String() = splitCsv(line)
+
+            If fields.Length <= std.Max(tfColumn, targetColumn) Then
+                Continue For
+            End If
+
+            Dim tf As String = trimCell(fields(tfColumn))
+            Dim target As String = trimCell(fields(targetColumn))
+
+            If isPlaceholder(tf) OrElse isPlaceholder(target) Then
+                Continue For
+            End If
+
+            Dim confidence As Double = If(confidenceColumn >= 0 AndAlso confidenceColumn < fields.Length,
+                confidenceValue(trimCell(fields(confidenceColumn))),
+                0.5R)
+
+            If confidence < min_confidence Then
+                Continue For
+            End If
+
+            Dim sign As Integer = If(typeColumn >= 0 AndAlso typeColumn < fields.Length,
+                regulationSign(trimCell(fields(typeColumn))),
+                0)
+
+            Dim key As String = $"{tf}->{target}"
+
+            If Not table.ContainsKey(key) OrElse table(key).Confidence < confidence Then
+                table(key) = New RegulatoryEdge(tf, target, confidence, sign)
+            End If
+        Next
+
+        Return table.Values.ToArray
+    End Function
+
+    ''' <summary>
+    ''' Split one csv line, the quoted fields and the commas inside the quotes are handled.
+    ''' </summary>
+    ''' <param name="line"></param>
+    ''' <returns></returns>
+    Private Function splitCsv(line As String) As String()
+        Dim fields As New List(Of String)
+        Dim buffer As New Text.StringBuilder()
+        Dim quoted As Boolean = False
+
+        For i As Integer = 0 To line.Length - 1
+            Dim c As Char = line(i)
+
+            If c = """"c Then
+                quoted = Not quoted
+            ElseIf c = ","c AndAlso Not quoted Then
+                Call fields.Add(buffer.ToString())
+                Call buffer.Clear()
+            Else
+                Call buffer.Append(c)
+            End If
+        Next
+
+        Call fields.Add(buffer.ToString())
+
+        Return fields.ToArray
+    End Function
+
+    ''' <summary>
+    ''' Trim the white space/BOM/quotes of a table cell.
+    ''' </summary>
+    ''' <param name="text"></param>
+    ''' <returns></returns>
+    Private Function trimCell(text As String) As String
+        If text Is Nothing Then
+            Return ""
+        End If
+
+        Return text.Trim(ChrW(&HFEFF), " "c, ControlChars.Tab, """"c, ControlChars.CR, ControlChars.LF)
+    End Function
+
+    ''' <summary>
+    ''' Check whether a gene symbol is a placeholder value.
+    ''' </summary>
+    ''' <param name="symbol"></param>
+    ''' <returns></returns>
+    Private Function isPlaceholder(symbol As String) As Boolean
+        If String.IsNullOrWhiteSpace(symbol) Then
+            Return True
+        End If
+
+        Select Case symbol.Trim().ToUpperInvariant()
+            Case "NA", "N/A", "-", "NULL", "NONE", "UNKNOWN"
+                Return True
+            Case Else
+                Return False
+        End Select
+    End Function
+
+    ''' <summary>
+    ''' Map the confidence label (or a numeric text) into a 0~1 value.
+    ''' </summary>
+    ''' <param name="text"></param>
+    ''' <returns></returns>
+    Private Function confidenceValue(text As String) As Double
+        Dim value As Double
+
+        If Double.TryParse(text, Globalization.NumberStyles.Float, Globalization.CultureInfo.InvariantCulture, value) Then
+            Return value
+        End If
+
+        Select Case If(text, "").Trim().ToLowerInvariant()
+            Case "high"
+                Return 0.95R
+            Case "medium"
+                Return 0.7R
+            Case "low"
+                Return 0.45R
+            Case Else
+                Return 0.5R
+        End Select
+    End Function
+
+    ''' <summary>
+    ''' Map the regulation type into the causal sign: +1 activator, -1 inhibitor, 0 unknown.
+    ''' </summary>
+    ''' <param name="text"></param>
+    ''' <returns></returns>
+    Private Function regulationSign(text As String) As Integer
+        Select Case If(text, "").Trim().ToLowerInvariant()
+            Case "activator", "activation", "up"
+                Return 1
+            Case "inhibitor", "repressor", "inhibition", "down"
+                Return -1
+            Case Else
+                Return 0
+        End Select
+    End Function
 
     ''' <summary>
     ''' Print the statistics, the top regulons and the top edges of the network.

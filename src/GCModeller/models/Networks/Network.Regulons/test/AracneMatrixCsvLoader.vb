@@ -1,8 +1,8 @@
-Imports System.Globalization
+﻿Imports System.Globalization
 Imports System.IO
 Imports System.Text
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
-Imports SMRUCC.genomics.Model.Network.Regulons.LinearRegression
+Imports SMRUCC.genomics.BioSystem.Core
 Imports std = System.Math
 
 ''' <summary>
@@ -404,18 +404,18 @@ Module AracneMatrixCsvLoader
     ''' 
     ''' 文件之中置信度是 ``High`` / ``Medium`` / ``Low`` 这样的文本，
     ''' 调控类型是 ``Activator`` / ``Inhibitor``，这里把它们映射成
-    ''' <see cref="PriorEdge.Confidence"/> 的数值与 <see cref="PriorEdge.Sign"/> 的符号。
+    ''' <see cref="RegulatoryEdge.Confidence"/> 的数值与 <see cref="RegulatoryEdge.Sign"/> 的符号。
     ''' </summary>
     ''' <param name="path">先验网络 CSV 的路径</param>
     ''' <param name="minConfidence">需要保留的最低置信度，默认 0.9(只保留 High)</param>
     ''' <returns>先验调控关系(自动去重)</returns>
-    Public Function LoadPriorNetwork(path As String, Optional minConfidence As Double = 0.9R) As PriorEdge()
+    Public Function LoadPriorNetwork(path As String, Optional minConfidence As Double = 0.9R) As RegulatoryEdge()
         If String.IsNullOrEmpty(path) OrElse Not System.IO.File.Exists(path) Then
             Throw New FileNotFoundException($"the curated prior network is not found: {path}", path)
         End If
 
         Dim lines As String() = System.IO.File.ReadAllLines(path, Encoding.UTF8)
-        Dim result As New List(Of PriorEdge)
+        Dim result As New List(Of RegulatoryEdge)
         Dim seen As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)
         Dim headerIndex As Integer = -1
         Dim columns As New Dictionary(Of String, Integer)(StringComparer.OrdinalIgnoreCase)
@@ -489,7 +489,7 @@ Module AracneMatrixCsvLoader
             Dim key As String = $"{tf}->{target}"
 
             If seen.Add(key) Then
-                Call result.Add(New PriorEdge(tf, target, confidence, sign))
+                Call result.Add(New RegulatoryEdge(tf, target, confidence, sign))
             End If
         Next
 

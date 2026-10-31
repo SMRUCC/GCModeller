@@ -1,9 +1,9 @@
-Imports System.IO
+﻿Imports System.IO
 Imports DebugAudit = Microsoft.VisualBasic.ApplicationServices.Debugging.DebugAudit
 Imports DebugAuditScope = Microsoft.VisualBasic.ApplicationServices.Debugging.DebugAuditScope
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Model.Network.Regulons.ARACNE
-Imports SMRUCC.genomics.Model.Network.Regulons.LinearRegression
+Imports SMRUCC.genomics.BioSystem.Core
 Imports std = System.Math
 
 ''' <summary>
@@ -438,7 +438,7 @@ Module AracneDemo
         Dim priorFile As String = ArgValue(args, "--prior", PRIOR_FILE)
         Dim priorConfidence As Double = ArgDouble(args, "--prior-confidence", 0.45R)
         Dim tfs As String() = Nothing
-        Dim priorEdges As PriorEdge() = Nothing
+        Dim priorEdges As RegulatoryEdge() = Nothing
 
         If Not String.IsNullOrEmpty(tfFile) AndAlso System.IO.File.Exists(tfFile) Then
             tfs = AracneMatrixCsvLoader.LoadTfList(tfFile)
@@ -607,11 +607,11 @@ Module AracneDemo
 
         ' curated 先验：包含一条“会被 DPI 误删”的真实边 TF_A -> CHAIN_Y，
         ' 以及两条带有因果符号的边；最后一条的置信度不足，必须被忽略
-        Dim prior As PriorEdge() = {
-            New PriorEdge(CHAIN_TF, CHAIN_Y, 0.95R, 0),
-            New PriorEdge(CHAIN_TF, "G_1", 0.95R, 1),
-            New PriorEdge(CHAIN_TF2, "G_6", 0.95R, -1),
-            New PriorEdge(CHAIN_TF, "G_2", 0.5R, 0)
+        Dim prior As RegulatoryEdge() = {
+            New RegulatoryEdge(CHAIN_TF, CHAIN_Y, 0.95R, 0),
+            New RegulatoryEdge(CHAIN_TF, "G_1", 0.95R, 1),
+            New RegulatoryEdge(CHAIN_TF2, "G_6", 0.95R, -1),
+            New RegulatoryEdge(CHAIN_TF, "G_2", 0.5R, 0)
         }
         Dim informed As AracneNetwork = synth.matrix.InferAracneNetwork(New AracneOptions With {
             .silent = True,
@@ -665,7 +665,7 @@ Module AracneDemo
             .transcriptionFactors = synth.tfs,
             .thresholdMode = MiThresholdMode.Fixed,
             .miThreshold = 0.95R,
-            .priorNetwork = {New PriorEdge(CHAIN_TF, "G_3", 0.95R, 0)},
+            .priorNetwork = {New RegulatoryEdge(CHAIN_TF, "G_3", 0.95R, 0)},
             .priorThresholdFactor = 0.5R,
             .maxNeighbors = 10
         }
@@ -692,13 +692,13 @@ Module AracneDemo
         Dim augment As AracneNetwork = synth.matrix.InferAracneNetwork(New AracneOptions With {
             .silent = True,
             .transcriptionFactors = {CHAIN_TF, CHAIN_TF2},
-            .priorNetwork = {New PriorEdge("G_1", "G_2", 0.95R, 0)},
+            .priorNetwork = {New RegulatoryEdge("G_1", "G_2", 0.95R, 0)},
             .maxNeighbors = 10
         })
         Dim noAugment As AracneNetwork = synth.matrix.InferAracneNetwork(New AracneOptions With {
             .silent = True,
             .transcriptionFactors = {CHAIN_TF, CHAIN_TF2},
-            .priorNetwork = {New PriorEdge("G_1", "G_2", 0.95R, 0)},
+            .priorNetwork = {New RegulatoryEdge("G_1", "G_2", 0.95R, 0)},
             .priorTfAugment = False,
             .maxNeighbors = 10
         })
@@ -718,7 +718,7 @@ Module AracneDemo
     ''' 验证三点：
     ''' 
     ''' 1. 保护强度确实是按置信度缩放的：同样的数据，High 能被保护而 Medium/Low 不能；
-    ''' 2. 端到端(从 PriorEdge 的置信度到 DPI 的判定)结果符合分级预期；
+    ''' 2. 端到端(从 RegulatoryEdge 的置信度到 DPI 的判定)结果符合分级预期；
     ''' 3. 概率保护模式(<see cref="PriorProtectionMode.Sampled"/>)在固定随机种子之下可复现。
     ''' </summary>
     Private Sub CaseGradedProtection()
@@ -771,7 +771,7 @@ Module AracneDemo
                 .permutationPairs = 500,
                 .maxNeighbors = 10,
                 .randomSeed = 1234567,
-                .priorNetwork = {New PriorEdge(CHAIN_TF, CHAIN_Y, item.Key, 0)},
+                .priorNetwork = {New RegulatoryEdge(CHAIN_TF, CHAIN_Y, item.Key, 0)},
                 .priorMinConfidence = 0.4R
             })
             Dim kept As Boolean = net.Edges.Any(Function(e) e.regulator = CHAIN_TF AndAlso e.target = CHAIN_Y)
@@ -785,8 +785,8 @@ Module AracneDemo
         Next
 
         ' ---- 3. 阈值放宽同样是分级的：High 的 relax 更强 ----
-        Dim relaxHigh As AracneNetwork = InferWithFixedThreshold(synth, New PriorEdge(CHAIN_TF, "G_3", 0.95R, 0))
-        Dim relaxLow As AracneNetwork = InferWithFixedThreshold(synth, New PriorEdge(CHAIN_TF, "G_3", 0.45R, 0))
+        Dim relaxHigh As AracneNetwork = InferWithFixedThreshold(synth, New RegulatoryEdge(CHAIN_TF, "G_3", 0.95R, 0))
+        Dim relaxLow As AracneNetwork = InferWithFixedThreshold(synth, New RegulatoryEdge(CHAIN_TF, "G_3", 0.45R, 0))
         Dim highKeeps As Boolean = relaxHigh.Edges.Any(Function(e) e.regulator = CHAIN_TF AndAlso e.target = "G_3")
         Dim lowKeeps As Boolean = relaxLow.Edges.Any(Function(e) e.regulator = CHAIN_TF AndAlso e.target = "G_3")
 
@@ -824,7 +824,7 @@ Module AracneDemo
     ''' <summary>
     ''' 用固定阈值推断，用于检查“阈值放宽”是否按置信度分级
     ''' </summary>
-    Private Function InferWithFixedThreshold(synth As SyntheticNetwork, prior As PriorEdge) As AracneNetwork
+    Private Function InferWithFixedThreshold(synth As SyntheticNetwork, prior As RegulatoryEdge) As AracneNetwork
         Return synth.matrix.InferAracneNetwork(New AracneOptions With {
             .silent = True,
             .transcriptionFactors = synth.tfs,
@@ -847,7 +847,7 @@ Module AracneDemo
             .maxNeighbors = 10,
             .randomSeed = seed,
             .priorProtectionMode = PriorProtectionMode.Sampled,
-            .priorNetwork = {New PriorEdge(CHAIN_TF, CHAIN_Y, confidence, 0)},
+            .priorNetwork = {New RegulatoryEdge(CHAIN_TF, CHAIN_Y, confidence, 0)},
             .priorMinConfidence = 0.4R
         })
     End Function
