@@ -87,16 +87,38 @@ Namespace BestLocalAlignment
     ''' </summary>
     Public Class Blosum
 
+        Private _matrix As Integer()()
+
         ''' <summary>
         ''' The Blosum substitution matrix
         ''' </summary>
         ''' <returns></returns>
         Public Property matrix As Integer()()
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
+            Get
+                Return _matrix
+            End Get
+            Set(value As Integer()())
+                _matrix = value
+                ' 矩阵被替换后,已编译的快速查表失效
+                _fastTable = Nothing
+            End Set
+        End Property
 
         ''' <summary>
         ''' matrix row/col char index, example as ATGC for nucleotide sequence
         ''' </summary>
         ReadOnly index As Index(Of String)
+
+        ''' <summary>
+        ''' 字符对 -> 得分 的扁平快速查表(256 × 256),惰性构建。
+        ''' 该表把 "字符 -> 矩阵下标 -> 得分" 的两级查找压缩为一次内存访问,
+        ''' 是无空位延伸与 SW 矩阵构建的最内层热路径。
+        ''' </summary>
+        Private _fastTable As Integer()
+
+        ''' <summary>快速查表中"该字符对无有效映射"的哨兵值。</summary>
+        Private Const INVALID As Integer = Integer.MinValue
 
         Public ReadOnly Property keys As String()
             Get
@@ -162,8 +184,62 @@ Namespace BestLocalAlignment
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetDistance(a1 As Char, a2 As Char) As Integer
-            ' toUpper
+            Dim table As Integer() = _fastTable
+
+            If table Is Nothing Then
+                table = BuildFastTable()
+            End If
+
+            Dim i1 As Integer = AscW(a1)
+            Dim i2 As Integer = AscW(a2)
+
+            If i1 >= 0 AndAlso i1 < 256 AndAlso i2 >= 0 AndAlso i2 < 256 Then
+                Dim score As Integer = table((i1 << 8) Or i2)
+
+                If score <> INVALID Then
+                    Return score
+                End If
+            End If
+
+            ' 未映射字符:回退到原逻辑(保留原有的异常语义)
             Return distanceByIndex(getIndex(a1), getIndex(a2))
+        End Function
+
+        ''' <summary>
+        ''' 构建 256 × 256 的字符对得分查表。
+        ''' 对无法映射的字符写入 <see cref="INVALID"/> 哨兵,由 <see cref="GetDistance"/> 回退处理。
+        ''' </summary>
+        <MethodImpl(MethodImplOptions.NoInlining)>
+        Private Function BuildFastTable() As Integer()
+            Dim table(65535) As Integer
+            Dim mapped(255) As Integer
+
+            For c As Integer = 0 To 255
+                Try
+                    mapped(c) = getIndex(ChrW(c))
+                Catch ex As Exception
+                    mapped(c) = -1
+                End Try
+            Next
+
+            For a As Integer = 0 To 255
+                Dim ia As Integer = mapped(a)
+
+                For b As Integer = 0 To 255
+                    Dim ib As Integer = mapped(b)
+
+                    If ia < 0 OrElse ib < 0 OrElse _matrix Is Nothing Then
+                        table((a << 8) Or b) = INVALID
+                    ElseIf ia >= _matrix.Length OrElse ib >= _matrix(ia).Length Then
+                        table((a << 8) Or b) = INVALID
+                    Else
+                        table((a << 8) Or b) = _matrix(ia)(ib)
+                    End If
+                Next
+            Next
+
+            _fastTable = table
+            Return table
         End Function
 
         '''<summary>

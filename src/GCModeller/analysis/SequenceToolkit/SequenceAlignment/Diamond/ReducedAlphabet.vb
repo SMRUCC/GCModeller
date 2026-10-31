@@ -95,22 +95,36 @@ Namespace DIAMOND
 
         ''' <summary>
         ''' 原始氨基酸 -> 缩减类编号 的查找表。
+        ''' 直接用 256 项字节表替代原先的 Dictionary 两次哈希查找:
+        ''' 该映射位于 Hamming 初筛与种子编码的最内层循环,是逐残基调用的热路径。
         ''' </summary>
-        Private ReadOnly classMap As Dictionary(Of Char, Integer)
+        Private ReadOnly classTable As Byte()
 
         Sub New()
-            classMap = New Dictionary(Of Char, Integer) From {
-                {"A"c, 0}, {"G"c, 0},
-                {"S"c, 1}, {"T"c, 1},
-                {"C"c, 2},
-                {"D"c, 3}, {"E"c, 3},
-                {"N"c, 4}, {"Q"c, 4},
-                {"K"c, 5}, {"R"c, 5},
-                {"H"c, 6},
-                {"I"c, 7}, {"L"c, 7}, {"M"c, 7}, {"V"c, 7},
-                {"F"c, 8}, {"Y"c, 8}, {"W"c, 8},
-                {"P"c, 9}
-            }
+            classTable = New Byte(255) {}
+
+            ' 默认全部落入通配类
+            For i As Integer = 0 To 255
+                classTable(i) = CByte(WildcardClass)
+            Next
+
+            Call SetClass("A"c, "G"c)
+            Call SetClass("S"c, "T"c)
+            Call SetClass("C"c)
+            Call SetClass("D"c, "E"c)
+            Call SetClass("N"c, "Q"c)
+            Call SetClass("K"c, "R"c)
+            Call SetClass("H"c)
+            Call SetClass("I"c, "L"c, "M"c, "V"c)
+            Call SetClass("F"c, "Y"c, "W"c)
+            Call SetClass("P"c)
+        End Sub
+
+        Private Sub SetClass([class] As Integer, ParamArray residues As Char())
+            For Each aa As Char In residues
+                classTable(AscW(Char.ToUpper(aa))) = CByte([class])
+                classTable(AscW(Char.ToLower(aa))) = CByte([class])
+            Next
         End Sub
 
         ''' <summary>
@@ -120,13 +134,13 @@ Namespace DIAMOND
         ''' </summary>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Map(aa As Char) As Integer
-            Dim key = Char.ToUpper(aa)
+            Dim code As Integer = AscW(aa)
 
-            If classMap.ContainsKey(key) Then
-                Return classMap(key)
-            Else
+            If code < 0 OrElse code > 255 Then
                 Return WildcardClass
             End If
+
+            Return classTable(code)
         End Function
 
         ''' <summary>
@@ -142,6 +156,16 @@ Namespace DIAMOND
 
             Return codes
         End Function
+
+        ''' <summary>
+        ''' 将整条蛋白序列写入指定的字节缓冲区(填充式编码,无额外分配)。
+        ''' </summary>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Sub EncodeTo(seq As String, buffer As Byte(), offset As Integer)
+            For i As Integer = 0 To seq.Length - 1
+                buffer(offset + i) = classTable(AscW(seq(i)))
+            Next
+        End Sub
     End Module
 End Namespace
 

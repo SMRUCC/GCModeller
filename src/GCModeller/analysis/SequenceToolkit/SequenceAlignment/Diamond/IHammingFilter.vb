@@ -84,6 +84,23 @@ Namespace DIAMOND
         ''' 计算并返回该命中窗口的实际 Hamming 距离(供排序/诊断使用)。
         ''' </summary>
         Function Distance(query As String, qPos As Integer, subject As String, sPos As Integer) As Integer
+
+        ''' <summary>
+        ''' 预编码缓冲区版本(热路径):直接在氨基酸编码扁平缓冲区上判定,
+        ''' 避免逐残基的字符映射与字符串边界检查。
+        ''' </summary>
+        ''' <param name="query">查询集的氨基酸编码扁平缓冲区。</param>
+        ''' <param name="qBase">查询序列首残基在该缓冲区中的下标。</param>
+        ''' <param name="queryLen">查询序列长度(用于窗口截断)。</param>
+        ''' <param name="qPos">窗口起点(序列内相对坐标)。</param>
+        Function PassPacked(query As Byte(), qBase As Integer, queryLen As Integer, qPos As Integer,
+                            subject As Byte(), sBase As Integer, subjectLen As Integer, sPos As Integer) As Boolean
+
+        ''' <summary>
+        ''' 预编码缓冲区版本的 Hamming 距离计算。
+        ''' </summary>
+        Function DistancePacked(query As Byte(), qBase As Integer, queryLen As Integer, qPos As Integer,
+                                subject As Byte(), sBase As Integer, subjectLen As Integer, sPos As Integer) As Integer
     End Interface
 End Namespace
 
