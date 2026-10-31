@@ -14,10 +14,10 @@ Namespace ARACNE
     ''' 压缩包内的结构：
     ''' 
     ''' ```
-    ''' manifest.tsv        参数 / 统计量 / 阈值等标量信息(key<TAB>value)
-    ''' genes.tsv           基因编号与转录因子标记(gene<TAB>is_tf)
+    ''' manifest.tsv        参数 / 统计量 / 阈值等标量信息(key&lt;TAB>value)
+    ''' genes.tsv           基因编号与转录因子标记(gene&lt;TAB>is_tf)
     ''' tfs.txt             转录因子列表
-    ''' prior.tsv           curated 先验网络(TF<TAB>Target<TAB>Confidence<TAB>Sign)
+    ''' prior.tsv           curated 先验网络(TF&lt;TAB>Target&lt;TAB>Confidence&lt;TAB>Sign)
     ''' expression.bin      预处理之后的表达向量(可选)
     ''' samples.txt         样本编号(可选)
     ''' mi_network.bin      DPI 之后的互信息矩阵

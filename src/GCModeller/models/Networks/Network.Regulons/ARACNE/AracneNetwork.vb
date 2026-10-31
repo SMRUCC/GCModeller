@@ -644,13 +644,14 @@ Namespace ARACNE
         ''' </summary>
         ''' <returns>当前对象(便于链式调用)</returns>
         Public Function Fit() As AracneNetwork
-
             If m_vectors Is Nothing OrElse m_vectors.Length = 0 OrElse
                m_vectors(0) Is Nothing OrElse m_vectors(0).Length = 0 Then
 
                 Throw New InvalidOperationException(
                     "the expression vectors are not stored in this model archive, so the loaded network can not be re-fitted; " &
                     "please save the model with includeExpression = True if the re-fitting is required.")
+            Else
+                Call "start to make network fitting.".debug
             End If
 
             Dim watch As Stopwatch = Stopwatch.StartNew()
