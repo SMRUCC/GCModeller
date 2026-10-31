@@ -31,12 +31,23 @@ Imports std = System.Math
 ''' 
 ''' The api groups:
 ''' 
+''' + ``read_tf`` / ``read_prior``: load the prior knowledge (the TF annotation table and
+'''   the curated ``TF -> target`` table) directly from the data files;
 ''' + ``aracne``: run the whole inference from an expression matrix;
 ''' + ``aracne_options`` / ``infer``: build the options object, then run the inference
 '''   in two steps (useful when the same options are reused for several matrices);
 ''' + ``edges`` / ``regulons`` / ``summary`` / ``threshold`` / ``dpi_stats`` /
 '''   ``mi_matrix`` / ``as_graph`` / ``write_edges``: inspect and export the network.
 ''' </remarks>
+''' <example>
+''' let TF = ARACNE::read_tf("G:/vcc2026/data/Homo_sapiens_TF.txt");
+''' let prior = ARACNE::read_prior("G:/vcc2026/data/TF_target_prior_curated.csv", min_confidence = 0.45);
+''' let net = ARACNE::aracne(hsa, TF = TF, prior = prior, rank = TRUE, max_neighbors = 200);
+''' 
+''' print(ARACNE::summary(net));
+''' print(ARACNE::dpi_stats(net));
+''' write.csv(ARACNE::edges(net), file = "./aracne-edges.csv");
+''' </example>
 <Package("ARACNE")>
 <RTypeExport("aracne.options", GetType(AracneOptions))>
 <RTypeExport("aracne_network", GetType(AracneNetwork))>
