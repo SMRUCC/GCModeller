@@ -61,13 +61,15 @@ Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.NeedlemanWunsch
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.SequenceAlignment.BestLocalAlignment
+Imports SMRUCC.genomics.Analysis.SequenceAlignment.DIAMOND
 Imports SMRUCC.genomics.Analysis.SequenceAlignment.GlobalAlignment
-Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative
 Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.gwANI
 Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports Rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' Blast search tools
@@ -131,6 +133,40 @@ Module Blast
     <ExportAPI("align.smith_waterman")>
     Public Function doAlign(query As FastaSeq, ref As FastaSeq, Optional blosum As Blosum = Nothing) As SmithWaterman
         Return SmithWaterman.Align(query, ref, blosum)
+    End Function
+
+    <ExportAPI("diamond")>
+    Public Function diamond(Optional mode As SensitivityMode = SensitivityMode.Fast, Optional use_simd As Boolean = True) As DiamondBlastp
+        Return New DiamondBlastp(mode, use_simd)
+    End Function
+
+    ''' <summary>
+    ''' do diamond blastp search
+    ''' </summary>
+    ''' <param name="diamond"></param>
+    ''' <param name="query"></param>
+    ''' <param name="subject"></param>
+    ''' <param name="max_hits"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("diamond_search")>
+    <RApiReturn(GetType(DiamondHit))>
+    Public Function diamond_align(diamond As DiamondBlastp,
+                                  <RRawVectorArgument(GetType(FastaSeq))> query As Object,
+                                  <RRawVectorArgument(GetType(FastaSeq))> subject As Object,
+                                  Optional max_hits As Integer = 0,
+                                  Optional env As Environment = Nothing) As Object
+
+        Dim q As IEnumerable(Of FastaSeq) = GetFastaSeq(query, env)
+        Dim s As IEnumerable(Of FastaSeq) = GetFastaSeq(subject, env)
+
+        If q Is Nothing Then
+            Return RInternal.debug.stop("The query input is not a valid fasta sequence collection.", env)
+        ElseIf s Is Nothing Then
+            Return RInternal.debug.stop("The subject input is not a valid fasta sequence collection.", env)
+        End If
+
+        Return diamond.Search(New FastaFile(q), s, maxHitsPerQuery:=max_hits).ToArray
     End Function
 
     ''' <summary>
