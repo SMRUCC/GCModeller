@@ -187,9 +187,11 @@ Module ARACNETools
     ''' <param name="rank">spearman (rank) based copula instead of the pearson one</param>
     ''' <param name="standardize">z-score the expression vectors before the inference</param>
     ''' <param name="prior">
-    ''' the curated ``TF -> target`` evidence, which can be the value of the
-    ''' ``bnlearn::prior_network`` api (a <see cref="RegulatoryEdge"/> vector or pipeline),
-    ''' or a <see cref="PriorEdge"/> vector directly.
+    ''' the curated ``TF -> target`` evidence: the value of the ``bnlearn::prior_network``
+    ''' api (a <see cref="RegulatoryEdge"/> vector or pipeline) can be passed directly.
+    ''' Only the edges whose confidence reaches <paramref name="prior_min_confidence"/>
+    ''' are used, and the ``RegulationType`` (activator/inhibitor) is exported as the
+    ''' ``regulation`` column of the edge table.
     ''' </param>
     ''' <param name="prior_min_confidence">the eligibility threshold of the prior edges, default 0.45</param>
     ''' <param name="prior_factor">the threshold relaxation factor at the full confidence, default 0.5</param>
