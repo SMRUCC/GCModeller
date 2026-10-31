@@ -21,14 +21,6 @@
       <BuildType Solution="NPSearch|*" Project="Rsharp_app_release" />
       <Platform Solution="*|x64" Project="x64" />
     </Project>
-    <Project Path="../../../runtime/sciBASIC#/cuda/ILCudaTensor/ILCudaTensor.vbproj">
-      <BuildType Solution="gcmodeller_desktop|*" Project="nuget_release" />
-      <BuildType Solution="LipidSearch|*" Project="nuget_release" />
-      <BuildType Solution="mzkit_win32|*" Project="Rsharp_app_release" />
-      <BuildType Solution="mzkit|*" Project="Debug" />
-      <BuildType Solution="NPSearch|*" Project="Rsharp_app_release" />
-      <Platform Solution="*|x64" Project="x64" />
-    </Project>
     <Project Path="../../../runtime/sciBASIC#/Data_science/Graph/graph-netcore5.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>

@@ -1,6 +1,7 @@
 Imports System.IO
 Imports System.IO.Compression
 Imports System.Text
+Imports DebugAudit = Microsoft.VisualBasic.ApplicationServices.Debugging.DebugAudit
 Imports Microsoft.VisualBasic.Data.Bootstrapping.ElasticNet
 Imports Microsoft.VisualBasic.Data.Bootstrapping.LASSO
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
@@ -20,6 +21,15 @@ Module Program
     Private failures As Integer = 0
 
     Sub Main(args As String())
+        ' ARACNE 模块的自检与 demo 有一套独立的入口，通过 --aracne 开关触发
+        If args IsNot Nothing AndAlso args.Any(Function(a) String.Equals(a, "--aracne", StringComparison.OrdinalIgnoreCase)) Then
+            Call AracneDemo.RunAracneDemo(args)
+
+            Environment.ExitCode = If(DebugAudit.FailureCount = 0, 0, 1)
+
+            Return
+        End If
+
         Console.WriteLine("== GeneRegulatoryNetwork linear model fitting demo ==")
         Console.WriteLine()
 
