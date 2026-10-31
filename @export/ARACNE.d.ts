@@ -58,9 +58,13 @@ declare namespace ARACNE {
      * @param dpi ``auto`` (default), ``standard``, ``tf`` or ``off``
      * 
      * + default value Is ``'auto'``.
-     * @param epsilon the DPI tolerance, default 0.1
+     * @param epsilon the DPI tolerance, default 0.1; raise it (for example 0.2 ~ 0.35) to keep more
+     *  near-tie edges
      * 
      * + default value Is ``0.1``.
+     * @param dpi_passes the max number of the DPI passes, default 5; fewer passes keep more edges
+     * 
+     * + default value Is ``5``.
      * @param direction ``tf`` (default) or ``undirected``
      * 
      * + default value Is ``'tf'``.
@@ -119,10 +123,10 @@ declare namespace ARACNE {
      * @param env the R# runtime environment object
      * 
      * + default value Is ``null``.
-     * @return the fitted [ARACNETools.aracneNetwork()](cref:M:TRNtoolkit.ARACNETools.aracneNetwork(SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix,System.Object,System.String,System.String,System.Double,System.Double,System.Int32,System.String,System.Double,System.String,System.Int32,System.Int32,System.Int32,System.Double,System.Boolean,System.Boolean,System.Boolean,System.Object,System.Double,System.Double,System.String,System.Double,System.Boolean,System.Int32,System.Int32,System.Boolean,SMRUCC.Rsharp.Runtime.Environment)) object. Use the ``edges``/``regulons``/
+     * @return the fitted [ARACNETools.aracneNetwork()](cref:M:TRNtoolkit.ARACNETools.aracneNetwork(SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix,System.Object,System.String,System.String,System.Double,System.Double,System.Int32,System.String,System.Double,System.Int32,System.String,System.Int32,System.Int32,System.Int32,System.Double,System.Boolean,System.Boolean,System.Boolean,System.Object,System.Double,System.Double,System.String,System.Double,System.Boolean,System.Int32,System.Int32,System.Boolean,SMRUCC.Rsharp.Runtime.Environment)) object. Use the ``edges``/``regulons``/
      *  ``summary``/``as_graph`` api to inspect it, and the ``write_edges`` api to export it.
    */
-   function aracne(x: object, TF?: any, estimator?: string, threshold?: string, mi_cutoff?: number, quantile?: number, permutations?: object, dpi?: string, epsilon?: number, direction?: string, bins?: object, max_neighbors?: object, max_genes?: object, min_nonzero?: number, log2?: boolean, rank?: boolean, standardize?: boolean, prior?: any, prior_min_confidence?: number, prior_factor?: number, prior_protection?: string, prior_strength?: number, prior_tf_augment?: boolean, threads?: object, seed?: object, verbose?: boolean, env?: object): object;
+   function aracne(x: object, TF?: any, estimator?: string, threshold?: string, mi_cutoff?: number, quantile?: number, permutations?: object, dpi?: string, epsilon?: number, dpi_passes?: object, direction?: string, bins?: object, max_neighbors?: object, max_genes?: object, min_nonzero?: number, log2?: boolean, rank?: boolean, standardize?: boolean, prior?: any, prior_min_confidence?: number, prior_factor?: number, prior_protection?: string, prior_strength?: number, prior_tf_augment?: boolean, threads?: object, seed?: object, verbose?: boolean, env?: object): object;
    /**
     * Create an [AracneOptions](cref:T:SMRUCC.genomics.Model.Network.Regulons.ARACNE.AracneOptions) object from the scalar arguments.
     * 
@@ -152,9 +156,16 @@ declare namespace ARACNE {
      *  ``standard``, ``tf`` (TF guided) or ``off``.
      * 
      * + default value Is ``'auto'``.
-     * @param epsilon the DPI tolerance, default 0.1
+     * @param epsilon the DPI tolerance, default 0.1. This is the main switch of the network density:
+     *  a larger value keeps more near-tie edges (an edge is only removed when it is weaker
+     *  than both competitors by more than ``epsilon``), while a smaller value removes the
+     *  indirect edges more aggressively.
      * 
      * + default value Is ``0.1``.
+     * @param dpi_passes the max number of the DPI iteration passes, default 5. Every pass removes the edges
+     *  that are condemned by the current adjacency, so a smaller value keeps more edges.
+     * 
+     * + default value Is ``5``.
      * @param direction ``tf`` (default) or ``undirected``
      * 
      * + default value Is ``'tf'``.
@@ -211,7 +222,7 @@ declare namespace ARACNE {
      * + default value Is ``true``.
      * @return the options object that can be used by the ``infer`` api
    */
-   function aracne_options(estimator?: string, threshold?: string, mi_cutoff?: number, quantile?: number, permutations?: object, dpi?: string, epsilon?: number, direction?: string, bins?: object, max_neighbors?: object, max_genes?: object, min_nonzero?: number, log2?: boolean, rank?: boolean, standardize?: boolean, prior_min_confidence?: number, prior_factor?: number, prior_protection?: string, prior_strength?: number, prior_tf_augment?: boolean, threads?: object, seed?: object, silent?: boolean): object;
+   function aracne_options(estimator?: string, threshold?: string, mi_cutoff?: number, quantile?: number, permutations?: object, dpi?: string, epsilon?: number, dpi_passes?: object, direction?: string, bins?: object, max_neighbors?: object, max_genes?: object, min_nonzero?: number, log2?: boolean, rank?: boolean, standardize?: boolean, prior_min_confidence?: number, prior_factor?: number, prior_protection?: string, prior_strength?: number, prior_tf_augment?: boolean, threads?: object, seed?: object, silent?: boolean): object;
    /**
     * Convert the inferred network into a graph model, so that it can be exported as a
     *  network file or be visualized by the ``igraph`` package.
@@ -267,7 +278,7 @@ declare namespace ARACNE {
      * @param opts the options object that is created via the ``aracne_options`` api
      * 
      * + default value Is ``null``.
-     * @return the fitted [ARACNETools.aracneNetwork()](cref:M:TRNtoolkit.ARACNETools.aracneNetwork(SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix,System.Object,System.String,System.String,System.Double,System.Double,System.Int32,System.String,System.Double,System.String,System.Int32,System.Int32,System.Int32,System.Double,System.Boolean,System.Boolean,System.Boolean,System.Object,System.Double,System.Double,System.String,System.Double,System.Boolean,System.Int32,System.Int32,System.Boolean,SMRUCC.Rsharp.Runtime.Environment)) object
+     * @return the fitted [ARACNETools.aracneNetwork()](cref:M:TRNtoolkit.ARACNETools.aracneNetwork(SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix,System.Object,System.String,System.String,System.Double,System.Double,System.Int32,System.String,System.Double,System.Int32,System.String,System.Int32,System.Int32,System.Int32,System.Double,System.Boolean,System.Boolean,System.Boolean,System.Object,System.Double,System.Double,System.String,System.Double,System.Boolean,System.Int32,System.Int32,System.Boolean,SMRUCC.Rsharp.Runtime.Environment)) object
    */
    function infer(x: object, opts?: object): object;
    /**

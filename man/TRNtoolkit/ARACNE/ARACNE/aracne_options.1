@@ -10,6 +10,7 @@ aracne_options \- Create an [AracneOptions](cref:T:SMRUCC.genomics.Model.Network
 \fBpermutations\fR as integer = 0, 
 \fBdpi\fR as string = "auto", 
 \fBepsilon\fR as double = 0.1, 
+\fBdpi_passes\fR as integer = 5, 
 \fBdirection\fR as string = "tf", 
 \fBbins\fR as integer = 4, 
 \fBmax_neighbors\fR as integer = 0, 
@@ -67,7 +68,18 @@ Create an [AracneOptions](cref:T:SMRUCC.genomics.Model.Network.Regulons.ARACNE.A
 . 
 .PP
 .PP
-\fBepsilon\fB \fR\- the DPI tolerance, default 0.1. 
+\fBepsilon\fB \fR\- 
+ the DPI tolerance, default 0.1. This is the main switch of the network density:
+ a larger value keeps more near-tie edges (an edge is only removed when it is weaker
+ than both competitors by more than \fBepsilon\fR), while a smaller value removes the
+ indirect edges more aggressively.
+. 
+.PP
+.PP
+\fBdpi_passes\fB \fR\- 
+ the max number of the DPI iteration passes, default 5. Every pass removes the edges
+ that are condemned by the current adjacency, so a smaller value keeps more edges.
+. 
 .PP
 .PP
 \fBdirection\fB \fR\- \fBtf\fR (default) or \fBundirected\fR. 

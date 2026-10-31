@@ -36,6 +36,7 @@
     <i>permutations</i> = <span style='color: green;'>0</span>,
     <i>dpi</i> = <span style='color: brown;'><strong>"auto"</strong></span>,
     <i>epsilon</i> = <span style='color: green;'>0.1</span>,
+    <i>dpi.passes</i> = <span style='color: green;'>5</span>,
     <i>direction</i> = <span style='color: brown;'><strong>"tf"</strong></span>,
     <i>bins</i> = <span style='color: green;'>4</span>,
     <i>max.neighbors</i> = <span style='color: green;'>0</span>,
@@ -92,7 +93,11 @@
 
 
 <dt>epsilon</dt>
-<dd><p>the DPI tolerance, default 0.1. [as double]</p></dd>
+<dd><p>the DPI tolerance, default 0.1; raise it (for example 0.2 ~ 0.35) to keep more near-tie edges. [as double]</p></dd>
+
+
+<dt>dpi.passes</dt>
+<dd><p>the max number of the DPI passes, default 5; fewer passes keep more edges. [as integer]</p></dd>
 
 
 <dt>direction</dt>
@@ -179,7 +184,7 @@
 
         <h3>Value</h3>
 
-        <p>the fitted <a href="cref:M:TRNtoolkit.ARACNETools.aracneNetwork(SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix,System.Object,System.String,System.String,System.Double,System.Double,System.Int32,System.String,System.Double,System.String,System.Int32,System.Int32,System.Int32,System.Double,System.Boolean,System.Boolean,System.Boolean,System.Object,System.Double,System.Double,System.String,System.Double,System.Boolean,System.Int32,System.Int32,System.Boolean,SMRUCC.Rsharp.Runtime.Environment)">ARACNETools.aracneNetwork()</a> object. Use the <code>edges</code>/<code>regulons</code>/ <code>summary</code>/<code>as_graph</code> api to inspect it, and the <code>write_edges</code> api to export it.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/ARACNE/AracneNetwork.html">AracneNetwork</a></li></ul>
+        <p>the fitted <a href="cref:M:TRNtoolkit.ARACNETools.aracneNetwork(SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix,System.Object,System.String,System.String,System.Double,System.Double,System.Int32,System.String,System.Double,System.Int32,System.String,System.Int32,System.Int32,System.Int32,System.Double,System.Boolean,System.Boolean,System.Boolean,System.Object,System.Double,System.Double,System.String,System.Double,System.Boolean,System.Int32,System.Int32,System.Boolean,SMRUCC.Rsharp.Runtime.Environment)">ARACNETools.aracneNetwork()</a> object. Use the <code>edges</code>/<code>regulons</code>/ <code>summary</code>/<code>as_graph</code> api to inspect it, and the <code>write_edges</code> api to export it.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/ARACNE/AracneNetwork.html">AracneNetwork</a></li></ul>
 
         <h3 style="display: block;">Examples</h3>
 

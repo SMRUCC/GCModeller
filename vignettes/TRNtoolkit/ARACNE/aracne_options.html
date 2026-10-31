@@ -35,6 +35,7 @@
     <i>permutations</i> = <span style='color: green;'>0</span>,
     <i>dpi</i> = <span style='color: brown;'><strong>"auto"</strong></span>,
     <i>epsilon</i> = <span style='color: green;'>0.1</span>,
+    <i>dpi.passes</i> = <span style='color: green;'>5</span>,
     <i>direction</i> = <span style='color: brown;'><strong>"tf"</strong></span>,
     <i>bins</i> = <span style='color: green;'>4</span>,
     <i>max.neighbors</i> = <span style='color: green;'>0</span>,
@@ -82,7 +83,11 @@
 
 
 <dt>epsilon</dt>
-<dd><p>the DPI tolerance, default 0.1. [as double]</p></dd>
+<dd><p>the DPI tolerance, default 0.1. This is the main switch of the network density: a larger value keeps more near-tie edges (an edge is only removed when it is weaker than both competitors by more than <code>epsilon</code>), while a smaller value removes the indirect edges more aggressively. [as double]</p></dd>
+
+
+<dt>dpi.passes</dt>
+<dd><p>the max number of the DPI iteration passes, default 5. Every pass removes the edges that are condemned by the current adjacency, so a smaller value keeps more edges. [as integer]</p></dd>
 
 
 <dt>direction</dt>

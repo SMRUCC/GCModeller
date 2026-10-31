@@ -12,6 +12,7 @@ aracne \- Infer the ARACNE gene regulatory network from the expression matrix.
 \fBpermutations\fR as integer = 0, 
 \fBdpi\fR as string = "auto", 
 \fBepsilon\fR as double = 0.1, 
+\fBdpi_passes\fR as integer = 5, 
 \fBdirection\fR as string = "tf", 
 \fBbins\fR as integer = 4, 
 \fBmax_neighbors\fR as integer = 0, 
@@ -65,7 +66,13 @@ Infer the ARACNE gene regulatory network from the expression matrix.
 \fBdpi\fB \fR\- \fBauto\fR (default), \fBstandard\fR, \fBtf\fR or \fBoff\fR. 
 .PP
 .PP
-\fBepsilon\fB \fR\- the DPI tolerance, default 0.1. 
+\fBepsilon\fB \fR\- 
+ the DPI tolerance, default 0.1; raise it (for example 0.2 ~ 0.35) to keep more
+ near-tie edges
+. 
+.PP
+.PP
+\fBdpi_passes\fB \fR\- the max number of the DPI passes, default 5; fewer passes keep more edges. 
 .PP
 .PP
 \fBdirection\fB \fR\- \fBtf\fR (default) or \fBundirected\fR. 
@@ -129,7 +136,7 @@ Infer the ARACNE gene regulatory network from the expression matrix.
 .PP
 .SH VALUE
 .PP
-the fitted [ARACNETools.aracneNetwork()](cref:M:TRNtoolkit.ARACNETools.aracneNetwork(SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix,System.Object,System.String,System.String,System.Double,System.Double,System.Int32,System.String,System.Double,System.String,System.Int32,System.Int32,System.Int32,System.Double,System.Boolean,System.Boolean,System.Boolean,System.Object,System.Double,System.Double,System.String,System.Double,System.Boolean,System.Int32,System.Int32,System.Boolean,SMRUCC.Rsharp.Runtime.Environment)) object. Use the \fBedges\fR/\fBregulons\fR/
+the fitted [ARACNETools.aracneNetwork()](cref:M:TRNtoolkit.ARACNETools.aracneNetwork(SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix,System.Object,System.String,System.String,System.Double,System.Double,System.Int32,System.String,System.Double,System.Int32,System.String,System.Int32,System.Int32,System.Int32,System.Double,System.Boolean,System.Boolean,System.Boolean,System.Object,System.Double,System.Double,System.String,System.Double,System.Boolean,System.Int32,System.Int32,System.Boolean,SMRUCC.Rsharp.Runtime.Environment)) object. Use the \fBedges\fR/\fBregulons\fR/
  \fBsummary\fR/\fBas_graph\fR api to inspect it, and the \fBwrite_edges\fR api to export it.
 .PP
 .SH EXAMPLES
