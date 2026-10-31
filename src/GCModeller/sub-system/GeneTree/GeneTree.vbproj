@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <!-- 命名空间由源文件中的 Namespace 声明提供，这里保持为空以避免 RootNamespace 与声明叠加 -->
-    <RootNamespace></RootNamespace>
+    <RootNamespace>SMRUCC.genomics.Analysis.GeneTree</RootNamespace>
     <TargetFramework>net10.0</TargetFramework>
     <AssemblyName>SMRUCC.genomics.Analysis.GeneTree</AssemblyName>
     <AssemblyTitle>Xgboost based GRN simulator</AssemblyTitle>
