@@ -288,6 +288,7 @@ Namespace DIAMOND
 
             Dim perQuery As Func(Of FastaSeq, IEnumerable(Of DiamondHit)) =
                 Function(q)
+                    Call $"diamond_blastp: {q.Title}".debug
                     Return SearchSingleCore(q, subjects, sharedCache, maxHitsPerQuery)
                 End Function
 
