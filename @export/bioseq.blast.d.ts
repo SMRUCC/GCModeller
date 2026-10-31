@@ -71,6 +71,26 @@ declare namespace bioseq.blast {
    */
    function blosum(file?: string): object;
    /**
+     * @param mode default value Is ``null``.
+     * @param use_simd default value Is ``true``.
+   */
+   function diamond(mode?: object, use_simd?: boolean): object;
+   /**
+    * do diamond blastp search
+    * 
+    * 
+     * @param diamond -
+     * @param query -
+     * @param subject -
+     * @param max_hits -
+     * 
+     * + default value Is ``0``.
+     * @param env -
+     * 
+     * + default value Is ``null``.
+   */
+   function diamond_search(diamond: object, query: any, subject: any, max_hits?: object, env?: object): object;
+   /**
     * get the high score region(HSP) from the given alignment result
     * 
     * 

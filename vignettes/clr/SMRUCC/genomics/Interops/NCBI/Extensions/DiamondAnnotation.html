@@ -66,6 +66,10 @@ export class DiamondAnnotation {
    # <li>查询序列起始位置</li>
    # </ol>
    QStart: integer;
+   # 查询序列比对片段。
+   QueryFragment: string;
+   # 原始 SW 比对得分 (bits 之前的原始分)。
+   RawScore: double;
    # <ol start="10">
    # <li>目标序列结束位置</li>
    # </ol>
@@ -78,6 +82,8 @@ export class DiamondAnnotation {
    # <li>目标序列起始位置</li>
    # </ol>
    SStart: integer;
+   # 主题序列比对片段。
+   SubjectFragment: string;
 }
 </code>
         </pre>
