@@ -161,7 +161,7 @@ Public Class GeneTreeTrainer
             targets = targets.Take(opt.MaxGenes).ToList()
 
             If opt.Verbose Then
-                Console.WriteLine($"[GeneTree] MaxGenes={opt.MaxGenes}，仅训练前 {targets.Count} 个靶基因")
+                Call $"[GeneTree] MaxGenes={opt.MaxGenes}，仅训练前 {targets.Count} 个靶基因".info
             End If
         End If
 
@@ -201,7 +201,7 @@ Public Class GeneTreeTrainer
                     If progress IsNot Nothing Then
                         Call progress(done, total)
                     ElseIf opt.Verbose AndAlso (done Mod std.Max(1, opt.ProgressInterval) = 0 OrElse done = total) Then
-                        Console.WriteLine($"  [GeneTree] 已完成 {done}/{total} 个基因模型的拟合")
+                        Call $"  [GeneTree] 已完成 {done}/{total} 个基因模型的拟合".debug
                     End If
                 End Sub)
         Finally
@@ -211,7 +211,7 @@ Public Class GeneTreeTrainer
         Dim report As TrainingReport = TrainingReport.FromModels(models, opt, cells.Length)
 
         If opt.Verbose Then
-            Console.WriteLine($"[GeneTree] {report.ToString}")
+            Call $"[GeneTree] {report.ToString}".info
         End If
 
         Return New GeneTreeTrainer(opt, graph, expr, cells, models, report)
