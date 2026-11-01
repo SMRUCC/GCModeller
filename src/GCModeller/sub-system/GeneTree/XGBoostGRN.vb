@@ -692,7 +692,26 @@ Public Class XGBoostGRN : Implements InsilicoPerturbationExperiment
                 Continue For
             End If
 
-            Dim value As Double = spec.GetInterventionValue(means(idx), sds(idx))
+            Dim value As Double
+
+            If m_contextFix Then
+                Select Case spec.Mode
+                    Case InterventionMode.Knockdown
+                        value = means(idx) * 0.2
+                    Case InterventionMode.Knockout
+                        value = 0
+                    Case InterventionMode.Overexpression
+                        value = means(idx) * 2
+                    Case Else
+                        value = spec.Value
+                End Select
+            Else
+                ' 20261101
+                ' sd always zero if m_contextFix is true
+                ' so value always equals means(idx) in that case, which is not what we want
+                ' manually set the value for each mode when m_contextFix is true, otherwise use the spec value
+                value = spec.GetInterventionValue(means(idx), sds(idx))
+            End If
 
             pinned(idx) = value
 
