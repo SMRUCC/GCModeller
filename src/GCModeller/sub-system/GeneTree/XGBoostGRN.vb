@@ -176,7 +176,11 @@ Public Class XGBoostGRN : Implements InsilicoPerturbationExperiment
         Get
             If m_control Is Nothing Then
                 Dim solver As PerturbationSolver = getSolver()
-                Dim result As SolveResult = solver.Solve(clonePopulation())
+                Dim means As Double() = CType(m_means.Clone(), Double())
+                Dim sds As Double() = CType(m_sds.Clone(), Double())
+                Dim initial As Double()() = clonePopulation()
+                Dim contextPins As Dictionary(Of Integer, Double) = applyContext(means, sds, initial)
+                Dim result As SolveResult = solver.Solve(initial, contextPins)
 
                 m_control = result.GetMeans()
             End If
@@ -507,6 +511,8 @@ Public Class XGBoostGRN : Implements InsilicoPerturbationExperiment
         m_context = values
         m_contextFix = fix
         m_unknownContext = unknown.ToArray
+        ' 控制稳态与上下文相关，必须失效重算
+        m_control = Nothing
 
         Return Me
     End Function
@@ -549,6 +555,7 @@ Public Class XGBoostGRN : Implements InsilicoPerturbationExperiment
         m_context = Nothing
         m_contextFix = False
         m_unknownContext = New String() {}
+        m_control = Nothing
 
         Return Me
     End Function

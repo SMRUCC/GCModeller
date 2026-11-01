@@ -198,6 +198,25 @@ Public Module GeneTreeDemo
         Call oe.WriteInterventionResult(Path.Combine(opt.OutputDir, $"overexpress-{gene}.tsv"))
         Call kd.WriteInterventionResult(Path.Combine(opt.OutputDir, $"knockdown-{gene}.tsv"))
 
+        ' ---- 6.5 表达状态上下文：把目标基因的表达压低到 50% 之后再做扰动 ----
+        Using DebugAudit.Watch("context")
+            Dim idx As Integer = Array.IndexOf(grn.GeneNames, gene)
+            Dim context As New Dictionary(Of String, Double)(StringComparer.OrdinalIgnoreCase) From {
+                {gene, grn.WildtypeMeans(idx) * 0.5R}
+            }
+
+            Call grn.SetContext(context, fix:=True)
+            Call DebugAudit.Mark("context", $"{grn.Context.Count} gene(s), fix={grn.ContextFix}")
+
+            Dim ctxResult As InterventionResult = grn.KnockoutGene(gene)
+
+            Call DebugAudit.Test(ctxResult IsNot Nothing AndAlso Not ctxResult.Undefined,
+                                 "设置表达状态上下文之后仍然应当能够执行虚拟扰动")
+            Call ctxResult.WriteInterventionResult(Path.Combine(opt.OutputDir, $"knockout-{gene}-context.tsv"))
+
+            Call grn.ClearContext()
+        End Using
+
         ' ---- 7. 控制稳态（诊断树模型自身的漂移） ----
         Using DebugAudit.Watch("control-steady-state")
             Dim control As Double() = grn.ControlSteadyState
