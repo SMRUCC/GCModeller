@@ -22,7 +22,9 @@
 
         <h3>Description</h3>
 
-        
+        <p>目标函数（损失）抽象。</p>
+
+<p>梯度约定：<code>grad = ∂L/∂pred</code>，<code>hess = ∂²L/∂pred²</code>， 叶值 <code>w* = -G / (H + lambda)</code>。</p>
 
         <h3>Declare</h3>        
 
@@ -30,6 +32,8 @@
             <code id="clr_ts">
 # namespace Microsoft.VisualBasic.MachineLearning.XGBoost.train
 export class Loss {
+   # 损失名称（用于序列化与参数校验）
+   Name: string;
 }
 </code>
         </pre>

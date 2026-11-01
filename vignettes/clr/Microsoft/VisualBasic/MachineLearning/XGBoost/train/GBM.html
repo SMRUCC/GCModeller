@@ -56,9 +56,15 @@
             <code id="clr_ts">
 # namespace Microsoft.VisualBasic.MachineLearning.XGBoost.train
 export class GBM extends <a href="/vignettes/clr/Microsoft/VisualBasic/MachineLearning/Model.html">Model</a> {
+   # 早停选出的最优轮次（从 0 开始）；<code>-1</code> 表示未启用早停或未产生最优轮次。
+   bestIteration: integer;
+   # 早停最优轮次对应的验证集指标
+   bestScore: double;
    eta: double;
    first_round_pred: double;
    loss: <a href="/vignettes/clr/Microsoft/VisualBasic/MachineLearning/XGBoost/train/Loss.html">Loss</a>;
+   # 本模型使用的分裂查找算法
+   treeMethod: <a href="/vignettes/clr/Microsoft/VisualBasic/MachineLearning/XGBoost/train/TreeMethod.html">TreeMethod</a>;
    trees: <a href="/vignettes/clr/Microsoft/VisualBasic/MachineLearning/XGBoost/train/Tree.html">iterates(Tree)</a>;
 }
 </code>
@@ -69,6 +75,7 @@ export class GBM extends <a href="/vignettes/clr/Microsoft/VisualBasic/MachineLe
         <ol>
 <li>this class extends from <a href="/vignettes/clr/Microsoft/VisualBasic/MachineLearning/Model.html">Model</a> class: <a href="/vignettes/clr/Microsoft/VisualBasic/MachineLearning/Model.html">Model</a></li>
 <li>use by <i>property</i> member <code>loss</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/MachineLearning/XGBoost/train/Loss.html">Loss</a></li>
+<li>use by <i>property</i> member <code>treeMethod</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/MachineLearning/XGBoost/train/TreeMethod.html">TreeMethod</a></li>
 <li>use by <i>property</i> member <code>trees</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/MachineLearning/XGBoost/train/Tree.html">iterates(Tree)</a></li>
 </ol>
 

@@ -22,7 +22,9 @@
 
         <h3>Description</h3>
 
-        
+        <p>单棵梯度提升树。</p>
+
+<p>建树逻辑已迁移到 <a href="cref:T:Microsoft.VisualBasic.MachineLearning.XGBoost.train.kernels.TreeBuilder">TreeBuilder</a>（exact / hist 双路径 + 行分区）， 本类保留公共契约：<a href="cref:P:Microsoft.VisualBasic.MachineLearning.XGBoost.train.Tree.root">Tree.root</a>、<a href="cref:M:Microsoft.VisualBasic.MachineLearning.XGBoost.train.Tree.predict(System.Single[][])">Tree.predict()</a>、 <a href="cref:F:Microsoft.VisualBasic.MachineLearning.XGBoost.train.Tree.nodes_cnt">Tree.nodes_cnt</a> / <a href="cref:F:Microsoft.VisualBasic.MachineLearning.XGBoost.train.Tree.nan_nodes_cnt">Tree.nan_nodes_cnt</a>，以及 <a href="cref:M:Microsoft.VisualBasic.MachineLearning.XGBoost.train.Tree.fit(Microsoft.VisualBasic.MachineLearning.XGBoost.train.AttributeList,Microsoft.VisualBasic.MachineLearning.XGBoost.train.ClassList,Microsoft.VisualBasic.MachineLearning.XGBoost.train.RowSampler,Microsoft.VisualBasic.MachineLearning.XGBoost.train.ColumnSampler)">Tree.fit()</a>。</p>
 
         <h3>Declare</h3>        
 
@@ -30,6 +32,10 @@
             <code id="clr_ts">
 # namespace Microsoft.VisualBasic.MachineLearning.XGBoost.train
 export class Tree {
+   # 用于预测的低阶表示；首次访问时从 <a href="cref:P:Microsoft.VisualBasic.MachineLearning.XGBoost.train.Tree.root">Tree.root</a> 编译
+   Flat: <a href="/vignettes/clr/Microsoft/VisualBasic/MachineLearning/XGBoost/train/kernels/FlatTree.html">FlatTree</a>;
+   # 本树建树时使用的分裂查找算法
+   method: <a href="/vignettes/clr/Microsoft/VisualBasic/MachineLearning/XGBoost/train/TreeMethod.html">TreeMethod</a>;
    root: <a href="/vignettes/clr/Microsoft/VisualBasic/MachineLearning/XGBoost/train/TreeNode.html">TreeNode</a>;
 }
 </code>
@@ -38,6 +44,8 @@ export class Tree {
         <h3>.NET clr type reference tree</h3>
 
         <ol>
+<li>use by <i>property</i> member <code>Flat</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/MachineLearning/XGBoost/train/kernels/FlatTree.html">FlatTree</a></li>
+<li>use by <i>property</i> member <code>method</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/MachineLearning/XGBoost/train/TreeMethod.html">TreeMethod</a></li>
 <li>use by <i>property</i> member <code>root</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/MachineLearning/XGBoost/train/TreeNode.html">TreeNode</a></li>
 </ol>
 

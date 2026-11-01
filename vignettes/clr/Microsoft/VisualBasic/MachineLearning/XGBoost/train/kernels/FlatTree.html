@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Microsoft.VisualBasic.MachineLearning.XGBoost.train.kernels.FlatTree</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>FlatTree {Microsoft.VisualBasic.MachineLearning.XGBoost.train.kernels}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>FlatTree</h2>
+
+        <h3>Description</h3>
+
+        <p>扁平化（编译后）的树，用于批量预测。</p>
+
+<p>旧实现的预测路径是「每棵树一次 PLINQ + 每样本一个 <code>PredictCallable</code> 对象 + <code>OrderBy</code> 排序」， 复杂度 <code>O(T · N log N)</code> 且产生 <code>T × N</code> 次堆分配。编译后每个节点只占用几条平行数组， 预测变成纯粹的整数索引跳转与一次浮点比较，整体降为 <code>O(T · N)</code> 且零分配。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace Microsoft.VisualBasic.MachineLearning.XGBoost.train.kernels
+export class FlatTree {
+   # 节点数
+   NodeCount: integer;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        this clr type has no other .net clr type reference.
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>
