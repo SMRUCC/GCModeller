@@ -467,7 +467,8 @@ Public Class XGBoostGRN : Implements InsilicoPerturbationExperiment
     '''   因此 <see cref="InterventionResult.FoldChanges"/> 是相对“上下文状态”的变化量，
     '''   这样可以模拟在某个特定细胞状态（例如疾病态、处理态）之上再施加基因扰动；
     ''' + <paramref name="fix"/> 为<c>True</c> 时，上下文之中的基因在整个迭代过程中被钳制（固定为给定值），
-    '''   相当于“基因敲入/外源表达固定”的实验；为<c>False</c> 时它们只作为起点，会随网络一起演化。
+    '''   相当于“基因敲入/外源表达固定”的实验，此时它们的标准差被置零（不做 z 检验）；
+    '''   为<c>False</c> 时它们只作为起点，会随网络一起演化，标准差仍然是细胞种群上的统计量。
     ''' </summary>
     ''' <param name="context">基因名 → 表达值。名字大小写不敏感，无法映射的名字会记录在 <see cref="UnknownContextGenes"/> 之中</param>
     ''' <param name="fix">是否在迭代过程中钳制上下文基因的取值</param>
@@ -585,8 +586,6 @@ Public Class XGBoostGRN : Implements InsilicoPerturbationExperiment
             End If
 
             means(idx) = item.Value
-            ' 上下文给定了确切的取值，其抽样标准差不再有意义
-            sds(idx) = 0.0R
 
             Dim values As Double() = initial(idx)
 
@@ -595,6 +594,8 @@ Public Class XGBoostGRN : Implements InsilicoPerturbationExperiment
             Next
 
             If m_contextFix Then
+                ' 上下文给出了确切的取值并且在迭代之中被钳制，其抽样标准差不再有意义
+                sds(idx) = 0.0R
                 pinned(idx) = item.Value
             End If
         Next
