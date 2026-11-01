@@ -178,9 +178,9 @@ Public Class GeneTreeTrainer
 
         ' TGBoost 内部会把每一次建树都写入日志通道（18404 个模型 × 40 轮 ≈ 74 万行），
         ' 训练期间屏蔽控制台回显，避免把时间浪费在终端输出上
-        Dim mute As Boolean = Microsoft.VisualBasic.VBDebugger.Mute
+        Dim mute As Boolean = VBDebugger.Mute
 
-        Microsoft.VisualBasic.VBDebugger.Mute = True
+        VBDebugger.Mute = True
 
         Try
             Parallel.For(0, total, popts,
@@ -205,7 +205,7 @@ Public Class GeneTreeTrainer
                     End If
                 End Sub)
         Finally
-            Microsoft.VisualBasic.VBDebugger.Mute = mute
+            VBDebugger.Mute = mute
         End Try
 
         Dim report As TrainingReport = TrainingReport.FromModels(models, opt, cells.Length)
