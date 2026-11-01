@@ -62,5 +62,6 @@ Public Class zzz
         Call FBA.Main()
         Call ssGrid.Main()
         Call gpsTools.Main()
+        Call geneTreeTools.Main()
     End Sub
 End Class
