@@ -13,6 +13,7 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <UseApplicationFramework>True</UseApplicationFramework>
     <Title>KEGG database toolkit</Title>
+	 <OutputPath>../../../../assembly/</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

@@ -13,6 +13,7 @@
 	  <DocumentationFile>cytoscape.xml</DocumentationFile>
 	  <AssemblyTitle>Cytoscape Toolkit</AssemblyTitle>
 	  <UseApplicationFramework>True</UseApplicationFramework>
+	  <OutputPath>../../../../assembly/</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
