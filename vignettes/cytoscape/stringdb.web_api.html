@@ -10,7 +10,7 @@
     <meta name="keywords" content="R#; stringdb.web_api; cytoscape" />
     <meta name="generator" content="https://github.com/rsharp-lang" />
     <meta name="theme-color" content="#333" />
-    <meta name="description" content="..." />
+    <meta name="description" content="STRING has an application programming interface (API) which enab..." />
     <meta class="foundation-data-attribute-namespace" />
     <meta class="foundation-mq-xxlarge" />
     <meta class="foundation-mq-xlarge" />
@@ -63,10 +63,14 @@ table caption {font-size:14px;font-weight:bolder;}
     <p style="     font-size: 1.125em;     line-height: .8em;     margin-left: 0.5%;     background-color: #fbfbfb;     padding: 24px; ">
       <code>
         <span style="color: blue;">require</span>(<span style="color: black; font-weight: bold;">GCModeller</span>);
-                               <br /><br /><span style="color: green;">{$desc_comments}</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "stringdb.web_api"</span><span style="color: blue;"> from</span><span style="color: brown"> "cytoscape"</span>;
+                               <br /><br /><span style="color: green;">#' STRING has an application programming interface (API) which enables you to get the data without using the graphical user interface of the web page. The API is convenient if you need to programmatically access some information but still do not want to download the entire dataset. There are several scenarios when it is practical to use it. For example, you might need to access some interaction from your own scripts or want to incorporate some information in STRING to a web page.</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "stringdb.web_api"</span><span style="color: blue;"> from</span><span style="color: brown"> "cytoscape"</span>;
                            </code>
     </p>
-    <p></p>
+    <p><p>STRING has an application programming interface (API) which enables you to get the data without using the graphical user interface of the web page. The API is convenient if you need to programmatically access some information but still do not want to download the entire dataset. There are several scenarios when it is practical to use it. For example, you might need to access some interaction from your own scripts or want to incorporate some information in STRING to a web page.</p>
+
+<p>We currently provide an implementation using HTTP, where the database information is accessed by HTTP requests. Due to implementation and licensing reasons, The API provide methods to query individual items only, similar to the web site. If you need access to bulk data, you can download the entire dataset by signing the academic license agreement.</p>
+
+<p><a href="http://[database]/[access]/[format]/[request]?[parameter]=[value]" title="http://[database]/[access]/[format]/[request]?[parameter]=[value]">http://[database]/[access]/[format]/[request]?[parameter]=[value]</a></p></p>
     <blockquote>
       <p style="font-style: italic; font-size: 0.9em;">
                            
