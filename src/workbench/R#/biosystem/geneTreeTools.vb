@@ -1,4 +1,5 @@
 ﻿Imports System.IO
+Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -505,13 +506,25 @@ Module geneTreeTools
     ''' </param>
     ''' <param name="expression">
     ''' a numeric vector of the expression value of the context, in the same order as
-    ''' <paramref name="genes"/>; the values are on the same scale as the expression
-    ''' matrix(the model does not apply any transform).
+    ''' <paramref name="genes"/>; the values may come from a different normalisation
+    ''' pipeline, they are mapped onto the model scale by the quantile alignment below.
     ''' </param>
     ''' <param name="fix">
     ''' when TRUE the context genes are clamped to the given values during the whole
     ''' iteration(a gene knock-in like experiment); otherwise they are only used as
     ''' the starting point and will be updated by the network like the other genes.
+    ''' 
+    ''' clamping only makes sense for a small gene set: when the clamped gene number
+    ''' exceeds ``MaxClampRatio``(5% by default) of the network, the whole network would
+    ''' lose its degrees of freedom and the perturbation effect would vanish, so the
+    ''' library degrades the context to "starting state only" automatically and reports
+    ''' a warning here.
+    ''' </param>
+    ''' <param name="align">
+    ''' whether to run the quantile alignment of the context onto the model expression
+    ''' scale, default is TRUE: the context values are mapped onto the per gene
+    ''' distribution of the model population, so that the relative order of the genes is
+    ''' kept and no feature falls outside of the training range of its tree model.
     ''' </param>
     ''' <param name="env">the R# runtime environment object.</param>
     ''' <returns>
@@ -530,6 +543,7 @@ Module geneTreeTools
                                 <RRawVectorArgument(TypeCodes.string)> genes As Object,
                                 <RRawVectorArgument(TypeCodes.double)> expression As Object,
                                 Optional fix As Boolean = False,
+                                Optional align As Boolean = True,
                                 Optional env As Environment = Nothing) As Object
 
         If tree Is Nothing Then
@@ -544,11 +558,90 @@ Module geneTreeTools
                 $"the size of the genes vector ({geneIds.Length}) does not match the size of the expression vector ({values.Length})", env)
         End If
 
+        Dim keep As Boolean = tree.Config.ContextQuantileAlignment
+
+        If Not align Then
+            tree.Config.ContextQuantileAlignment = False
+        End If
+
         Try
-            Return tree.SetContext(geneIds, values, fix)
+            Dim state As XGBoostGRN = tree.SetContext(geneIds, values, fix)
+            Dim note As String = state.ContextNote
+
+            If Not String.IsNullOrEmpty(note) AndAlso env IsNot Nothing Then
+                Call env.AddMessage($"[geneTree] {note}", MSG_TYPES.WRN)
+            End If
+
+            Return state
+        Catch ex As Exception
+            Return RInternal.debug.stop(ex.Message, env)
+        Finally
+            tree.Config.ContextQuantileAlignment = keep
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Override the fixed point solving options of a trained model at runtime, so that
+    ''' the solver can be tuned without re-training the whole network.
+    ''' </summary>
+    ''' <param name="tree">the trained <see cref="XGBoostGRN"/> model object.</param>
+    ''' <param name="iterations">
+    ''' the soft iteration limit; a negative value keeps the current value.
+    ''' </param>
+    ''' <param name="damping">
+    ''' the damping coefficient ``alpha`` in the range (0, 1]; a negative value keeps the
+    ''' current value. A larger alpha moves faster but is easier to oscillate.
+    ''' </param>
+    ''' <param name="tolerance">
+    ''' the relative convergence tolerance; a negative value keeps the current value.
+    ''' </param>
+    ''' <param name="hard_cap">
+    ''' the hard iteration limit which is used when the soft limit is not enough for
+    ''' convergence; a negative value keeps the current value, ``0`` restores the default
+    ''' (``max(iterations * 5, 300)``).
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>the input model object that the solver options have been applied.</returns>
+    ''' <remarks>
+    ''' the control steady state and the last perturbation result are invalidated, so the
+    ''' next perturbation experiment re-solves the control steady state with the new
+    ''' options.
+    ''' </remarks>
+    <ExportAPI("solver_opts")>
+    <RApiReturn(GetType(XGBoostGRN))>
+    Public Function solver_opts(tree As XGBoostGRN,
+                                Optional iterations As Integer = -1,
+                                Optional damping As Double = -1,
+                                Optional tolerance As Double = -1,
+                                Optional hard_cap As Integer = -1,
+                                Optional env As Environment = Nothing) As Object
+
+        If tree Is Nothing Then
+            Return RInternal.debug.stop("the given GeneTree model is nothing!", env)
+        End If
+
+        Dim opt As GeneTreeConfig = tree.Config
+
+        If iterations > 0 Then
+            opt.MaxIterations = iterations
+        End If
+        If damping > 0 Then
+            opt.DampingAlpha = damping
+        End If
+        If tolerance > 0 Then
+            opt.ConvergenceTolerance = tolerance
+        End If
+        If hard_cap >= 0 Then
+            opt.MaxIterationsHardCap = hard_cap
+        End If
+
+        Try
+            Call opt.ValidateOrThrow()
         Catch ex As Exception
             Return RInternal.debug.stop(ex.Message, env)
         End Try
+
+        Return tree.ResetSolver()
     End Function
 
     ''' <summary>
@@ -572,9 +665,10 @@ Module geneTreeTools
     ''' </summary>
     ''' <param name="tree">the trained <see cref="XGBoostGRN"/> model object.</param>
     ''' <returns>
-    ''' a list with the slots ``genes``, ``expression``, ``fix`` and ``unknown``(the
-    ''' gene ids that could not be mapped onto the model), the ``genes`` slot is an
-    ''' empty character vector when no context has been applied.
+    ''' a list with the slots ``genes``, ``expression``, ``fix``, ``aligned``,
+    ''' ``clamp_genes``, ``note`` and ``unknown``(the gene ids that could not be mapped
+    ''' onto the model), the ``genes`` slot is an empty character vector when no context
+    ''' has been applied.
     ''' </returns>
     <ExportAPI("get_context")>
     <RApiReturn(GetType(Double))>
@@ -596,6 +690,9 @@ Module geneTreeTools
             {"genes", genes},
             {"expression", values},
             {"fix", tree.ContextFix},
+            {"aligned", tree.ContextAligned},
+            {"clamp_genes", tree.ContextClampGenes},
+            {"note", If(tree.ContextNote, "")},
             {"unknown", CType(tree.UnknownContextGenes.Clone(), String())}
         }
 
@@ -672,6 +769,8 @@ Module geneTreeTools
             {"converged_cells", solved.ConvergedCells},
             {"max_change", solved.MaxChange},
             {"population", solved.PopulationSize},
+            {"collapsed", solved.Collapsed},
+            {"exceeded_soft_limit", solved.ExceededSoftLimit},
             {"history", If(solved.History, New Double() {})}
         }
 
