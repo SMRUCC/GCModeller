@@ -180,8 +180,21 @@ Public Class PerturbationSolver
     ''' <param name="pinned">
     ''' 被扰动/被钳制的基因：<c>基因下标 → 强制取值</c>。这些基因在每一轮结束时都会被强制写回干预值。
     ''' </param>
+    ''' <param name="hardCap">
+    ''' 迭代硬上限的覆盖值，&lt;=0 表示使用 <c>GeneTreeConfig.EffectiveMaxIterationsHardCap</c>。
+    ''' 控制稳态（所有扰动共享的基线）通常需要比单次扰动更多的轮数才能收敛，因此调用方可以放宽这个上限。
+    ''' </param>
     ''' <returns></returns>
-    Public Function Solve(initial As Double()(), Optional pinned As IReadOnlyDictionary(Of Integer, Double) = Nothing) As SolveResult
+    ''' <param name="warmStart">
+    ''' 初始状态是否已经是“未扰动”的定点（控制稳态）。为<c>True</c> 时只把被钳制的基因标记为脏，
+    ''' 于是第一轮只需要重算它们的下游靶基因，后续迭代也只在扰动传播的波前上计算，
+    ''' 单次扰动可以从“全网重算”降到“受影响子网重算”。
+    ''' </param>
+    ''' <returns></returns>
+    Public Function Solve(initial As Double()(),
+                          Optional pinned As IReadOnlyDictionary(Of Integer, Double) = Nothing,
+                          Optional hardCap As Integer = 0,
+                          Optional warmStart As Boolean = False) As SolveResult
         If initial Is Nothing OrElse initial.Length = 0 Then
             Throw New ArgumentNullException(NameOf(initial))
         End If
@@ -211,24 +224,34 @@ Public Class PerturbationSolver
             End If
         End If
 
-        Dim cur As Double()() = clone(initial, population)
+        Dim cur As Double()() = If(collapsed, cloneFirstCell(initial, nGenes), clone(initial, population))
         Dim [next] As Double()() = allocate(nGenes, population)
+        Dim delta As Boolean() = New Boolean(nGenes - 1) {}
+        Dim newDelta As Boolean() = New Boolean(nGenes - 1) {}
         Dim history As New List(Of Double)
-        Dim cellConverged As Boolean() = Nothing
         Dim converged As Boolean = False
         Dim maxChange As Double = Double.MaxValue
         Dim iteration As Integer = 0
         Dim softLimit As Integer = m_config.MaxIterations
-        Dim hardLimit As Integer = m_config.EffectiveMaxIterationsHardCap
+        Dim hardLimit As Integer = If(hardCap > 0, hardCap, m_config.EffectiveMaxIterationsHardCap)
         Dim exceeded As Boolean = False
+        Dim moving As Integer = nGenes
+        Dim allowed As Integer = CInt(Math.Truncate(m_config.MovingGeneTolerance * nGenes))
+
+        ' 冷启动时所有基因都需要重新预测；热启动（从控制稳态出发）时只有被扰动的基因需要传播
+        For g As Integer = 0 To nGenes - 1
+            delta(g) = If(warmStart, isPinned(g, pinned), True)
+        Next
+
+        Dim alpha As Double = m_config.DampingAlpha
+        Dim lastMoving As Integer = nGenes
 
         For iteration = 1 To hardLimit
-            Call iterate(cur, [next], pinned)
+            Call iterate(cur, [next], pinned, delta, newDelta, alpha)
 
-            ' ---- 收敛判定 ----
-            cellConverged = New Boolean(population - 1) {}
-
+            ' ---- 收敛判定：统计“仍在移动的基因比例”，而不是全网的最大变化量 ----
             maxChange = 0.0R
+            moving = 0
 
             For g As Integer = 0 To nGenes - 1
                 If isPinned(g, pinned) Then
@@ -237,6 +260,7 @@ Public Class PerturbationSolver
 
                 Dim before As Double() = cur(g)
                 Dim after As Double() = [next](g)
+                Dim geneMoving As Boolean = False
 
                 For c As Integer = 0 To population - 1
                     Dim scale As Double = Math.Max(1.0R, Math.Abs(before(c)))
@@ -246,13 +270,14 @@ Public Class PerturbationSolver
                         maxChange = change
                     End If
                     If change >= m_config.ConvergenceTolerance Then
-                        cellConverged(c) = True
+                        geneMoving = True
                     End If
                 Next
-            Next
 
-            ' cellConverged 复用为“本轮有变化”的标记，取反即得收敛的细胞
-            Dim stillMoving As Integer = cellConverged.Count(Function(x) x)
+                If geneMoving Then
+                    moving += 1
+                End If
+            Next
 
             Call history.Add(maxChange)
 
@@ -260,8 +285,28 @@ Public Class PerturbationSolver
             cur = [next]
             [next] = tmp
 
-            If maxChange < m_config.ConvergenceTolerance Then
-                converged = True
+            Dim tmpDelta As Boolean() = delta
+            delta = newDelta
+            newDelta = tmpDelta
+
+            Call Array.Clear(newDelta, 0, newDelta.Length)
+
+            ' ---- 自适应阻尼：收敛变快时加大步长，出现反弹时回退 ----
+            If iteration > 1 Then
+                If moving < lastMoving Then
+                    alpha = Math.Min(0.35R, alpha * 1.15R)
+                ElseIf moving > lastMoving * 1.05R Then
+                    alpha = Math.Max(0.05R, alpha * 0.7R)
+                End If
+            End If
+
+            lastMoving = moving
+
+            ' 热启动（从控制稳态出发）时必须等到波前彻底停止：只要有基因还在变化，
+            ' 就说明扰动的传播尚未完成，此时提前判收敛会把级联效应截断掉。
+            converged = If(warmStart, moving = 0, moving <= allowed)
+
+            If converged Then
                 Exit For
             End If
 
@@ -269,34 +314,50 @@ Public Class PerturbationSolver
                 exceeded = True
 
                 If m_config.Verbose Then
-                    Console.WriteLine($"  [GeneTree] 软上限 {softLimit} 轮后仍未收敛（最大相对变化 {maxChange.ToString("G4")}），" &
+                    Console.WriteLine($"  [GeneTree] 软上限 {softLimit} 轮后仍有 {moving} 个基因在移动（最大相对变化 {maxChange.ToString("G4")}），" &
                                       $"继续迭代到硬上限 {hardLimit} 轮")
                 End If
             End If
 
             If m_config.Verbose AndAlso iteration Mod 10 = 0 Then
                 Console.WriteLine($"  [GeneTree] 迭代 {iteration}/{hardLimit}，最大相对变化 {maxChange.ToString("G4")}，" &
-                                  $"{population - stillMoving}/{population} 个细胞已收敛")
+                                  $"仍在移动的基因 {moving}/{nGenes}")
             End If
         Next
-
-        Dim convergedCells As Integer = 0
-
-        If cellConverged IsNot Nothing Then
-            convergedCells = cellConverged.Count(Function(x) Not x)
-        End If
 
         Return New SolveResult With {
             .SteadyState = cur,
             .Iterations = Math.Min(iteration, hardLimit),
             .Converged = converged,
-            .ConvergedCells = convergedCells,
+            .ConvergedCells = If(converged, population, 0),
             .MaxChange = maxChange,
             .History = history.ToArray,
             .PopulationSize = population,
             .Collapsed = collapsed,
             .ExceededSoftLimit = exceeded
         }
+    End Function
+
+    ''' <summary>
+    ''' 取每个基因在第一个细胞上的取值（折叠为单细胞轨迹时使用；此时所有细胞完全一致）
+    ''' </summary>
+    ''' <param name="initial"><c>initial(gene)(cell)</c></param>
+    ''' <param name="nGenes">基因数量</param>
+    ''' <returns></returns>
+    Private Shared Function cloneFirstCell(initial As Double()(), nGenes As Integer) As Double()()
+        Dim result As Double()() = New Double(nGenes - 1)() {}
+
+        For g As Integer = 0 To nGenes - 1
+            Dim row As Double() = initial(g)
+
+            If row Is Nothing OrElse row.Length = 0 Then
+                result(g) = New Double() {0.0R}
+            Else
+                result(g) = New Double() {row(0)}
+            End If
+        Next
+
+        Return result
     End Function
 
     ''' <summary>
@@ -330,67 +391,123 @@ Public Class PerturbationSolver
     ''' <summary>
     ''' 执行一轮 Jacobi 更新
     ''' </summary>
-    Private Sub iterate(cur As Double()(), [next] As Double()(), pinned As IReadOnlyDictionary(Of Integer, Double))
+    ''' <param name="cur">上一轮的状态 <c>cur(gene)(cell)</c></param>
+    ''' <param name="next">本轮写出的状态</param>
+    ''' <param name="pinned">被钳制的基因</param>
+    ''' <param name="delta">上一轮中发生过可见变化的基因标记（用于脏传播剪枝）</param>
+    ''' <param name="newDelta">本轮中发生过可见变化的基因标记（输出）</param>
+    Private Sub iterate(cur As Double()(),
+                        [next] As Double()(),
+                        pinned As IReadOnlyDictionary(Of Integer, Double),
+                        delta As Boolean(),
+                        newDelta As Boolean(),
+                        alpha As Double)
+
         Dim population As Integer = cur(0).Length
         Dim clip As Double = m_config.ClippingFactor
-        Dim alpha As Double = m_config.DampingAlpha
+        Dim eps As Double = m_config.ConvergenceTolerance * 0.05R
 
-        Call Parallel.For(0, m_models.Length, m_popts,
+        ' 按块切分基因：单基因的计算量很小，逐基因派发任务的调度开销会占主导
+        Const CHUNK_SIZE As Integer = 64
+
+        Dim nGenes As Integer = m_models.Length
+        Dim nChunks As Integer = (nGenes + CHUNK_SIZE - 1) \ CHUNK_SIZE
+
+        Call Parallel.For(0, nChunks, m_popts,
             Function() New SolverBuffer(population, m_maxRegulators),
-            Function(g As Integer, state As ParallelLoopState, buffer As SolverBuffer) As SolverBuffer
-                Dim model As GeneModel = m_models(g)
+            Function(chunkIndex As Integer, state As ParallelLoopState, buffer As SolverBuffer) As SolverBuffer
+                Dim first As Integer = chunkIndex * CHUNK_SIZE
+                Dim last As Integer = Math.Min(first + CHUNK_SIZE, nGenes) - 1
 
-                If model Is Nothing OrElse isPinned(g, pinned) Then
-                    ' 源节点与被钳制的基因：保持上一轮的状态（钳制值会在循环之后统一写入）
-                    Call copy(cur(g), [next](g), population)
-                    Return buffer
-                End If
+                For g As Integer = first To last
+                    Dim model As GeneModel = m_models(g)
 
-                Dim regulators As Integer() = model.RegulatorIndex
-                Dim k As Integer = If(regulators Is Nothing, 0, regulators.Length)
-
-                If k = 0 Then
-                    Call copy(cur(g), [next](g), population)
-                    Return buffer
-                End If
-
-                Dim rows As Single()() = buffer.Rows
-
-                For c As Integer = 0 To population - 1
-                    Dim row As Single() = rows(c)
-
-                    For j As Integer = 0 To k - 1
-                        row(j) = CSng(cur(regulators(j))(c))
-                    Next
-                Next
-
-                Dim prediction As Double() = model.PredictBatch(rows)
-                Dim range As (lower As Double, upper As Double) = model.GetClippingRange(clip, m_config.ClipNegative)
-                Dim before As Double() = cur(g)
-                Dim after As Double() = [next](g)
-
-                For c As Integer = 0 To population - 1
-                    Dim predicted As Double = prediction(c)
-
-                    If Double.IsNaN(predicted) OrElse Double.IsInfinity(predicted) Then
-                        ' 预测失败时保持原值，避免污染整轮迭代
-                        after(c) = before(c)
+                    If model Is Nothing Then
+                        ' 源节点：保持上一轮的状态
+                        Call copy(cur(g), [next](g), population)
+                        newDelta(g) = False
+                        Continue For
+                    ElseIf isPinned(g, pinned) Then
+                        ' 被钳制的基因：保持上一轮的状态（钳制值会在循环之后统一写入）
+                        Call copy(cur(g), [next](g), population)
+                        newDelta(g) = False
                         Continue For
                     End If
 
-                    If predicted < range.lower Then
-                        predicted = range.lower
-                    ElseIf predicted > range.upper Then
-                        predicted = range.upper
+                    Dim regulators As Integer() = model.RegulatorIndex
+                    Dim k As Integer = If(regulators Is Nothing, 0, regulators.Length)
+
+                    If k = 0 Then
+                        Call copy(cur(g), [next](g), population)
+                        newDelta(g) = False
+                        Continue For
                     End If
 
-                    Dim value As Double = (1.0R - alpha) * before(c) + alpha * predicted
+                    ' ---- 脏传播剪枝：所有调控者本轮都没有变化时，该基因的预测不会改变 ----
+                    Dim dirty As Boolean = False
 
-                    If m_config.ClipNegative AndAlso value < 0.0R Then
-                        value = 0.0R
+                    For j As Integer = 0 To k - 1
+                        If delta(regulators(j)) Then
+                            dirty = True
+                            Exit For
+                        End If
+                    Next
+
+                    If Not dirty Then
+                        Call copy(cur(g), [next](g), population)
+                        newDelta(g) = False
+                        Continue For
                     End If
 
-                    after(c) = value
+                    Dim rows As Single()() = buffer.Rows
+
+                    For c As Integer = 0 To population - 1
+                        Dim row As Single() = rows(c)
+
+                        For j As Integer = 0 To k - 1
+                            row(j) = CSng(cur(regulators(j))(c))
+                        Next
+                    Next
+
+                    Dim prediction As Double() = model.PredictBatch(rows)
+                    Dim range As (lower As Double, upper As Double) = model.GetClippingRange(clip, m_config.ClipNegative)
+                    Dim before As Double() = cur(g)
+                    Dim after As Double() = [next](g)
+                    Dim moved As Boolean = False
+
+                    For c As Integer = 0 To population - 1
+                        Dim predicted As Double = prediction(c)
+
+                        If Double.IsNaN(predicted) OrElse Double.IsInfinity(predicted) Then
+                            ' 预测失败时保持原值，避免污染整轮迭代
+                            after(c) = before(c)
+                            Continue For
+                        End If
+
+                        If predicted < range.lower Then
+                            predicted = range.lower
+                        ElseIf predicted > range.upper Then
+                            predicted = range.upper
+                        End If
+
+                        Dim value As Double = (1.0R - alpha) * before(c) + alpha * predicted
+
+                        If m_config.ClipNegative AndAlso value < 0.0R Then
+                            value = 0.0R
+                        End If
+
+                        after(c) = value
+
+                        If Not moved Then
+                            Dim scale As Double = Math.Max(1.0R, Math.Abs(before(c)))
+
+                            If Math.Abs(value - before(c)) / scale >= eps Then
+                                moved = True
+                            End If
+                        End If
+                    Next
+
+                    newDelta(g) = moved
                 Next
 
                 Return buffer
@@ -403,10 +520,21 @@ Public Class PerturbationSolver
         If pinned IsNot Nothing Then
             For Each item As KeyValuePair(Of Integer, Double) In pinned
                 Dim values As Double() = [next](item.Key)
+                Dim before As Double() = cur(item.Key)
+                Dim changed As Boolean = False
 
                 For c As Integer = 0 To population - 1
                     values(c) = item.Value
+
+                    If Not changed AndAlso values(c) <> before(c) Then
+                        changed = True
+                    End If
                 Next
+
+                If changed Then
+                    ' 钳制值在本轮发生了变化，下游基因需要重新预测
+                    newDelta(item.Key) = True
+                End If
             Next
         End If
     End Sub

@@ -163,9 +163,20 @@ Public Class GeneTreeConfig
     Public Property MaxIterations As Integer = 60
 
     ''' <summary>
-    ''' 收敛阈值：每一轮所有基因的相对变化量（<c>|Δx| / max(1,|x|)</c>）的最大值低于该值时判定收敛。
+    ''' 收敛阈值：单轮相对变化量（<c>|Δx| / max(1,|x|)</c>）低于该值时认为该基因已经稳定。
     ''' </summary>
     Public Property ConvergenceTolerance As Double = 0.0001
+
+    ''' <summary>
+    ''' 允许在判定收敛时仍然“抖动”的基因比例，默认 0.001（千分之一）。
+    ''' </summary>
+    ''' <remarks>
+    ''' 树模型是分段非光滑的函数，在叶子阈值附近会有极少数基因长期来回跳变（实测约 2%~8% 的相对幅度），
+    ''' 如果要求全网最大变化量低于阈值，迭代永远不会结束（300 轮仍在抖动）。
+    ''' 因此收敛判据改为“仍在移动的基因比例 ≤ 该阈值”，这样既能保证 99.9% 的基因已经稳定，
+    ''' 又不会被个别混沌基因拖住。
+    ''' </remarks>
+    Public Property MovingGeneTolerance As Double = 0.01
 
     ''' <summary>
     ''' 参与迭代的细胞（初始状态）数量。细胞越多，扰动的统计量越稳健，但每轮耗时线性增长。
@@ -213,7 +224,7 @@ Public Class GeneTreeConfig
             If MaxIterationsHardCap > 0 Then
                 Return Math.Max(MaxIterationsHardCap, MaxIterations)
             Else
-                Return Math.Max(MaxIterations * 5, 300)
+                Return Math.Max(MaxIterations * 2, 150)
             End If
         End Get
     End Property

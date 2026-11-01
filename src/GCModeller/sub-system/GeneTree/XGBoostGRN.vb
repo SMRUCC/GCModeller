@@ -208,11 +208,16 @@ Public Class XGBoostGRN : Implements InsilicoPerturbationExperiment
             Dim sds As Double() = CType(m_sds.Clone(), Double())
             Dim initial As Double()() = clonePopulation()
             Dim contextPins As Dictionary(Of Integer, Double) = applyContext(means, sds, initial)
+            Dim watch As Stopwatch = Stopwatch.StartNew()
 
-            m_controlSolve = solver.Solve(initial, contextPins)
+            ' 控制稳态是所有扰动共享的基线，值得多花一些轮数把它真正迭代到位：
+            ' 只有基线收敛了，单次扰动才能靠“脏传播剪枝”把计算限制在受影响的下游锥之内。
+            m_controlSolve = solver.Solve(initial, contextPins, hardCap:=m_config.EffectiveMaxIterationsHardCap * 4)
+
+            watch.Stop()
 
             If m_config.Verbose Then
-                Console.WriteLine($"[GeneTree] 控制稳态求解完成: {m_controlSolve.ToString}")
+                Console.WriteLine($"[GeneTree] 控制稳态求解完成（{watch.Elapsed.TotalSeconds.ToString("F1")}s）: {m_controlSolve.ToString}")
             End If
         End If
 
@@ -776,6 +781,7 @@ Public Class XGBoostGRN : Implements InsilicoPerturbationExperiment
         Dim sds As Double() = CType(m_sds.Clone(), Double())
         Dim initial As Double()()
         Dim contextPins As Dictionary(Of Integer, Double)
+        Dim warmStart As Boolean
 
         If HasContext AndAlso m_config.BaselineFromControlSteadyState Then
             Dim control As SolveResult = GetControlSolve()
@@ -783,13 +789,15 @@ Public Class XGBoostGRN : Implements InsilicoPerturbationExperiment
             means = control.GetMeans()
             initial = cloneState(control.SteadyState)
             contextPins = getContextPins()
+            warmStart = True
         Else
             means = CType(m_means.Clone(), Double())
             initial = clonePopulation()
             contextPins = applyContext(means, sds, initial)
+            warmStart = False
         End If
 
-        Return predictInternal(list, means, sds, initial, contextPins)
+        Return predictInternal(list, means, sds, initial, contextPins, warmStart)
     End Function
 
     ''' <summary>
@@ -869,7 +877,8 @@ Public Class XGBoostGRN : Implements InsilicoPerturbationExperiment
                                      means As Double(),
                                      sds As Double(),
                                      initial As Double()(),
-                                     Optional contextPins As Dictionary(Of Integer, Double) = Nothing) As InterventionResult
+                                     Optional contextPins As Dictionary(Of Integer, Double) = Nothing,
+                                     Optional warmStart As Boolean = False) As InterventionResult
 
         Dim n As Integer = m_genes.Length
         Dim pinned As New Dictionary(Of Integer, Double)
@@ -930,9 +939,15 @@ Public Class XGBoostGRN : Implements InsilicoPerturbationExperiment
         Next
 
         Dim solver As PerturbationSolver = getSolver()
-        Dim solved As SolveResult = solver.Solve(initial, pinned)
+        Dim watch As Stopwatch = Stopwatch.StartNew()
+        Dim solved As SolveResult = solver.Solve(initial, pinned, warmStart:=warmStart)
 
+        watch.Stop()
         m_lastSolve = solved
+
+        If m_config.Verbose Then
+            Console.WriteLine($"[GeneTree] 扰动稳态求解完成（{watch.Elapsed.TotalSeconds.ToString("F2")}s）: {solved.ToString}")
+        End If
 
         Dim mutant As Double() = solved.GetMeans()
         Dim fold As Double() = New Double(n - 1) {}

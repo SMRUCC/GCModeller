@@ -206,13 +206,21 @@ Public Module GeneTreeDemo
             }
 
             Call grn.SetContext(context, fix:=True)
-            Call DebugAudit.Mark("context", $"{grn.Context.Count} gene(s), fix={grn.ContextFix}")
+            Call DebugAudit.Mark("context", $"{grn.Context.Count} gene(s), fix={grn.ContextFix}, " &
+                                            $"aligned={grn.ContextAligned}, clamp={grn.ContextClampGenes}")
+            Call DebugAudit.Mark("context-note", If(grn.ContextNote, "<none>"))
 
             Dim ctxResult As InterventionResult = grn.KnockoutGene(gene)
 
             Call DebugAudit.Test(ctxResult IsNot Nothing AndAlso Not ctxResult.Undefined,
                                  "设置表达状态上下文之后仍然应当能够执行虚拟扰动")
             Call ctxResult.WriteInterventionResult(Path.Combine(opt.OutputDir, $"knockout-{gene}-context.tsv"))
+
+            ' 控制稳态（同一 context 下不做任何扰动的稳态）同时也是差异分析的基线
+            Dim control As Double() = grn.ControlSteadyState
+
+            Call DebugAudit.Test(control IsNot Nothing AndAlso control.Length = grn.GeneNames.Length,
+                                 "控制稳态的维度应当与基因数量一致")
 
             Call grn.ClearContext()
         End Using

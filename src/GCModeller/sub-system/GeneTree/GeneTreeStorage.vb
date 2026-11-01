@@ -105,6 +105,7 @@ Public Module GeneTreeStorage
         values("opt.dampingAlpha") = number(opt.DampingAlpha)
         values("opt.maxIterations") = opt.MaxIterations.ToString
         values("opt.convergenceTolerance") = number(opt.ConvergenceTolerance)
+        values("opt.movingGeneTolerance") = number(opt.MovingGeneTolerance)
         values("opt.populationSize") = opt.PopulationSize.ToString
         values("opt.clippingFactor") = number(opt.ClippingFactor)
         values("opt.clipNegative") = bool(opt.ClipNegative)
@@ -441,6 +442,7 @@ Public Module GeneTreeStorage
             .DampingAlpha = getDouble(values, "opt.dampingAlpha", 0.1R),
             .MaxIterations = getInt(values, "opt.maxIterations", 60),
             .ConvergenceTolerance = getDouble(values, "opt.convergenceTolerance", 0.0001R),
+            .MovingGeneTolerance = getDouble(values, "opt.movingGeneTolerance", 0.001R),
             .PopulationSize = getInt(values, "opt.populationSize", 100),
             .ClippingFactor = getDouble(values, "opt.clippingFactor", 1.2R),
             .ClipNegative = getBool(values, "opt.clipNegative", True),
