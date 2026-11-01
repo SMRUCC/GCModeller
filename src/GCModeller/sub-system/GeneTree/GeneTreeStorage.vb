@@ -113,6 +113,13 @@ Public Module GeneTreeStorage
         values("opt.maxDegreeOfParallelism") = opt.MaxDegreeOfParallelism.ToString
         values("opt.verbose") = bool(opt.Verbose)
         values("opt.progressInterval") = opt.ProgressInterval.ToString
+        values("opt.knockdownResidual") = number(opt.KnockdownResidual)
+        values("opt.overexpressionFactor") = number(opt.OverexpressionFactor)
+        values("opt.maxClampRatio") = number(opt.MaxClampRatio)
+        values("opt.maxIterationsHardCap") = opt.MaxIterationsHardCap.ToString
+        values("opt.contextQuantileAlignment") = bool(opt.ContextQuantileAlignment)
+        values("opt.baselineFromControlSteadyState") = bool(opt.BaselineFromControlSteadyState)
+        values("opt.collapseUniformPopulation") = bool(opt.CollapseUniformPopulation)
 
         Dim report As TrainingReport = grn.ReportData
 
@@ -441,8 +448,15 @@ Public Module GeneTreeStorage
             .Seed = getInt(values, "opt.seed", 1234567),
             .MaxDegreeOfParallelism = getInt(values, "opt.maxDegreeOfParallelism", -1),
             .Verbose = getBool(values, "opt.verbose", True),
-            .ProgressInterval = getInt(values, "opt.progressInterval", 200)
-        }
+            .ProgressInterval = getInt(values, "opt.progressInterval", 200),
+            .KnockdownResidual = getDouble(values, "opt.knockdownResidual", 0.2R),
+            .OverexpressionFactor = getDouble(values, "opt.overexpressionFactor", 2.0R),
+            .MaxClampRatio = getDouble(values, "opt.maxClampRatio", 0.05R),
+            .MaxIterationsHardCap = getInt(values, "opt.maxIterationsHardCap", 0),
+            .ContextQuantileAlignment = getBool(values, "opt.contextQuantileAlignment", True),
+            .BaselineFromControlSteadyState = getBool(values, "opt.baselineFromControlSteadyState", True),
+            .CollapseUniformPopulation = getBool(values, "opt.collapseUniformPopulation", True)
+            }
     End Function
 
     Private Sub readGenes(zip As ZipArchive, ByRef genes As String(), ByRef tfFlags As Boolean())

@@ -191,6 +191,97 @@ Public Class GeneTreeConfig
     ''' </summary>
     Public Property SignificanceZScore As Double = 2.0
 
+    ''' <summary>
+    ''' 迭代硬上限：软上限 <see cref="MaxIterations"/> 用完之后，只要还没有收敛就继续迭代到该上限。
+    ''' </summary>
+    ''' <remarks>
+    ''' 定点迭代每一轮只让信号前进“一跳”，多级级联（转录因子 → 靶基因 → 次级靶基因 → …）
+    ''' 需要 <c>跳数 / α</c> 量级的轮数才能稳定下来。实测中位 R²≈0.39 的模型上，
+    ''' 60 轮 × α=0.1 只能走完 6 跳，深层的效应会被截断，因此需要一个硬上限兜底。
+    ''' 
+    ''' 取值为 0 表示使用 <see cref="EffectiveMaxIterationsHardCap"/> 给出的默认值
+    ''' （<c>Max(MaxIterations × 5, 300)</c>）。
+    ''' </remarks>
+    Public Property MaxIterationsHardCap As Integer = 0
+
+    ''' <summary>
+    ''' 实际生效的迭代硬上限
+    ''' </summary>
+    ''' <returns></returns>
+    Public ReadOnly Property EffectiveMaxIterationsHardCap As Integer
+        Get
+            If MaxIterationsHardCap > 0 Then
+                Return Math.Max(MaxIterationsHardCap, MaxIterations)
+            Else
+                Return Math.Max(MaxIterations * 5, 300)
+            End If
+        End Get
+    End Property
+
+#End Region
+
+#Region "expression context"
+
+    ''' <summary>
+    ''' 敲低（Knockdown）之后保留的野生型表达比例，默认 0.2。
+    ''' </summary>
+    ''' <remarks>
+    ''' 虚拟敲低不再使用“均值 − k×标准差”的高斯假设（在 context 基线下标准差与均值不同源，
+    ''' 会产生负值或者荒谬的幅度），而是直接按保留比例折算：
+    ''' <c>KD = baseline × KnockdownResidual</c>，负值会被夹取为 0。
+    ''' 
+    ''' 该语义与 CRISPRi/Perturb-seq 中常见的“保留 10%~30% 残余表达”一致，
+    ''' 也与 ``GPS`` 包的 ``knockdown_residual`` 参数保持同一口径。
+    ''' </remarks>
+    Public Property KnockdownResidual As Double = 0.2
+
+    ''' <summary>
+    ''' 过表达（Overexpression）的倍数，默认 2.0：<c>OE = baseline × OverexpressionFactor</c>。
+    ''' </summary>
+    Public Property OverexpressionFactor As Double = 2.0
+
+    ''' <summary>
+    ''' 允许在迭代过程中被“钳制”的基因比例上限，默认 0.05（5%）。
+    ''' </summary>
+    ''' <remarks>
+    ''' 钳制（<c>fix = True</c>）会让给定基因在整个迭代过程中保持固定值，只适合少量基因的
+    ''' “敲入/外源表达”实验。当被钳制的基因占网络的比例超过该阈值时，网络几乎没有自由度，
+    ''' 扰动结果必然趋近于零（实测中传入了覆盖全部 18533 个基因的 pseudobulk context，
+    ''' 导致 fold-change 矩阵 99.995% 为 0）。此时库会自动降级为“仅作为迭代初始状态”，
+    ''' 并把原因写入 <c>XGBoostGRN.ContextNote</c>。
+    ''' </remarks>
+    Public Property MaxClampRatio As Double = 0.05
+
+    ''' <summary>
+    ''' 是否在注入表达状态上下文（context）时执行分位对齐，默认开启。
+    ''' </summary>
+    ''' <remarks>
+    ''' 外部管线给出的 context（例如 pseudobulk 的 mean counts）与模型训练矩阵往往不是同一套归一化，
+    ''' 直接注入会让大部分特征落到决策树的极值叶子上，局部灵敏度接近零。
+    ''' 分位对齐会把 context 映射回每个基因自身的训练分布，同时保留基因之间的相对高低。
+    ''' </remarks>
+    Public Property ContextQuantileAlignment As Boolean = True
+
+    ''' <summary>
+    ''' 有上下文时，是否把“同一上下文下不做任何扰动”的控制稳态作为差异分析的野生型基线。
+    ''' </summary>
+    ''' <remarks>
+    ''' 树模型的稳态并不严格等于观测谱，若用 context 的观测值作为基线，
+    ''' 模型自身的漂移会混入 fold-change；用控制稳态作基线可以让差异量只反映扰动响应，
+    ''' 并且该稳态还可以作为后续扰动的热启动点（收敛更快）。
+    ''' </remarks>
+    Public Property BaselineFromControlSteadyState As Boolean = True
+
+    ''' <summary>
+    ''' 当迭代的初始状态在所有细胞上完全一致时，是否折叠为单细胞轨迹，默认开启。
+    ''' </summary>
+    ''' <remarks>
+    ''' 全基因组 context 会把所有细胞设置成同一个状态，此时 1000 个细胞的迭代完全是重复计算；
+    ''' 折叠后单次扰动的耗时可以从分钟级降到秒级，而均值/差异统计不受影响
+    ''' （z-score 使用基线标准差，而不是求解结果本身的标准差）。
+    ''' </remarks>
+    Public Property CollapseUniformPopulation As Boolean = True
+
 #End Region
 
 #Region "runtime"
@@ -302,6 +393,18 @@ Public Class GeneTreeConfig
         If SignificanceZScore <= 0 Then
             Call errors.Add($"{NameOf(SignificanceZScore)} 必须大于 0")
         End If
+        If KnockdownResidual < 0 OrElse KnockdownResidual >= 1 Then
+            Call errors.Add($"{NameOf(KnockdownResidual)} 必须落在 [0, 1) 区间内，实际为 {KnockdownResidual}")
+        End If
+        If OverexpressionFactor < 1 Then
+            Call errors.Add($"{NameOf(OverexpressionFactor)} 不能小于 1，实际为 {OverexpressionFactor}")
+        End If
+        If MaxClampRatio <= 0 OrElse MaxClampRatio > 1 Then
+            Call errors.Add($"{NameOf(MaxClampRatio)} 必须落在 (0, 1] 区间内，实际为 {MaxClampRatio}")
+        End If
+        If MaxIterationsHardCap > 0 AndAlso MaxIterationsHardCap < MaxIterations Then
+            Call errors.Add($"{NameOf(MaxIterationsHardCap)} 不能小于 {NameOf(MaxIterations)}（{MaxIterations}），实际为 {MaxIterationsHardCap}")
+        End If
 
         Return errors
     End Function
@@ -405,8 +508,8 @@ Public Class GeneTreeConfig
         Call sb.Append($"regulators<={If(MaxRegulators = 0, "all", CStr(MaxRegulators))}, ")
         Call sb.Append($"cells<={If(MaxSamplesPerModel = 0, "all", CStr(MaxSamplesPerModel))}, ")
         Call sb.Append($"rounds={NumBoostRound}, depth={MaxDepth}, eta={LearningRate}, lambda={Lambda}, ")
-        Call sb.Append($"alpha={DampingAlpha}, iterations={MaxIterations}, population={PopulationSize}, ")
-        Call sb.Append($"tol={ConvergenceTolerance}")
+        Call sb.Append($"alpha={DampingAlpha}, iterations={MaxIterations}/{EffectiveMaxIterationsHardCap}, population={PopulationSize}, ")
+        Call sb.Append($"tol={ConvergenceTolerance}, kd={KnockdownResidual}, oe={OverexpressionFactor}")
 
         Return sb.ToString()
     End Function

@@ -26,6 +26,24 @@ Public Class SolveResult
     ''' <summary>参与迭代的细胞（初始状态）数量</summary>
     Public Property PopulationSize As Integer
 
+    ''' <summary>
+    ''' 是否把“所有细胞完全一致”的初始状态折叠成了单细胞轨迹
+    ''' </summary>
+    ''' <remarks>
+    ''' 全基因组上下文会把种群的所有细胞设置成同一个状态，此时 1000 个细胞的迭代是完全重复的计算；
+    ''' 折叠之后单次扰动的耗时可以从分钟级降到秒级，而均值/差异统计不受影响。
+    ''' </remarks>
+    Public Property Collapsed As Boolean
+
+    ''' <summary>
+    ''' 是否超过了软上限（<c>GeneTreeConfig.MaxIterations</c>）之后继续迭代
+    ''' </summary>
+    ''' <remarks>
+    ''' 超过软上限说明软上限不足以让网络收敛，求解器会在硬上限
+    ''' （<c>GeneTreeConfig.EffectiveMaxIterationsHardCap</c>）之内继续迭代。
+    ''' </remarks>
+    Public Property ExceededSoftLimit As Boolean
+
     ''' <summary>基因数量</summary>
     Public ReadOnly Property GeneCount As Integer
         Get
@@ -84,7 +102,9 @@ Public Class SolveResult
 
     Public Overrides Function ToString() As String
         Return $"{GeneCount} genes x {PopulationSize} cells, {Iterations} iterations, " &
-               $"converged={Converged} ({ConvergedCells}/{PopulationSize} cells), max change={MaxChange.ToString("G4")}"
+               $"converged={Converged} ({ConvergedCells}/{PopulationSize} cells), " &
+               $"collapsed={Collapsed}, exceeded_soft_limit={ExceededSoftLimit}, " &
+               $"max change={MaxChange.ToString("G4")}"
     End Function
 End Class
 
@@ -179,6 +199,18 @@ Public Class PerturbationSolver
             Throw New ArgumentException("初始状态的细胞维度为空，无法求解稳态")
         End If
 
+        ' ---- 均匀初始态折叠：全基因组上下文会把所有细胞设置成同一个状态 ----
+        Dim collapsed As Boolean = False
+
+        If m_config.CollapseUniformPopulation AndAlso population > 1 AndAlso isUniform(initial, population) Then
+            collapsed = True
+            population = 1
+
+            If m_config.Verbose Then
+                Console.WriteLine($"  [GeneTree] 初始状态在所有细胞上完全一致，已折叠为单细胞轨迹（{nGenes} 个基因）")
+            End If
+        End If
+
         Dim cur As Double()() = clone(initial, population)
         Dim [next] As Double()() = allocate(nGenes, population)
         Dim history As New List(Of Double)
@@ -186,8 +218,11 @@ Public Class PerturbationSolver
         Dim converged As Boolean = False
         Dim maxChange As Double = Double.MaxValue
         Dim iteration As Integer = 0
+        Dim softLimit As Integer = m_config.MaxIterations
+        Dim hardLimit As Integer = m_config.EffectiveMaxIterationsHardCap
+        Dim exceeded As Boolean = False
 
-        For iteration = 1 To m_config.MaxIterations
+        For iteration = 1 To hardLimit
             Call iterate(cur, [next], pinned)
 
             ' ---- 收敛判定 ----
@@ -230,8 +265,17 @@ Public Class PerturbationSolver
                 Exit For
             End If
 
+            If iteration = softLimit + 1 Then
+                exceeded = True
+
+                If m_config.Verbose Then
+                    Console.WriteLine($"  [GeneTree] 软上限 {softLimit} 轮后仍未收敛（最大相对变化 {maxChange.ToString("G4")}），" &
+                                      $"继续迭代到硬上限 {hardLimit} 轮")
+                End If
+            End If
+
             If m_config.Verbose AndAlso iteration Mod 10 = 0 Then
-                Console.WriteLine($"  [GeneTree] 迭代 {iteration}/{m_config.MaxIterations}，最大相对变化 {maxChange.ToString("G4")}，" &
+                Console.WriteLine($"  [GeneTree] 迭代 {iteration}/{hardLimit}，最大相对变化 {maxChange.ToString("G4")}，" &
                                   $"{population - stillMoving}/{population} 个细胞已收敛")
             End If
         Next
@@ -244,13 +288,43 @@ Public Class PerturbationSolver
 
         Return New SolveResult With {
             .SteadyState = cur,
-            .Iterations = Math.Min(iteration, m_config.MaxIterations),
+            .Iterations = Math.Min(iteration, hardLimit),
             .Converged = converged,
             .ConvergedCells = convergedCells,
             .MaxChange = maxChange,
             .History = history.ToArray,
-            .PopulationSize = population
+            .PopulationSize = population,
+            .Collapsed = collapsed,
+            .ExceededSoftLimit = exceeded
         }
+    End Function
+
+    ''' <summary>
+    ''' 判断初始状态是否在所有细胞上完全一致
+    ''' </summary>
+    ''' <param name="initial"><c>initial(gene)(cell)</c></param>
+    ''' <param name="population">细胞数量</param>
+    ''' <returns></returns>
+    Private Shared Function isUniform(initial As Double()(), population As Integer) As Boolean
+        For g As Integer = 0 To initial.Length - 1
+            Dim row As Double() = initial(g)
+
+            If row Is Nothing Then
+                Continue For
+            ElseIf row.Length <> population Then
+                Return False
+            End If
+
+            Dim head As Double = row(0)
+
+            For c As Integer = 1 To population - 1
+                If row(c) <> head Then
+                    Return False
+                End If
+            Next
+        Next
+
+        Return True
     End Function
 
     ''' <summary>
