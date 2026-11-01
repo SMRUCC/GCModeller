@@ -483,7 +483,11 @@ Module geneTreeTools
     ''' <returns>a character vector of the gene id, the order is the row order of the expression matrix.</returns>
     <ExportAPI("gene_names")>
     <RApiReturn(GetType(String))>
-    Public Function gene_names(tree As XGBoostGRN) As Object
+    Public Function gene_names(tree As XGBoostGRN, Optional env As Environment = Nothing) As Object
+        If tree Is Nothing Then
+            Return RInternal.debug.stop("the given GeneTree model is nothing!", env)
+        End If
+
         Return CType(tree.GeneNames.Clone(), String())
     End Function
 
@@ -555,7 +559,11 @@ Module geneTreeTools
     ''' <returns>the input model object, so that it can be chained with the perturbation api.</returns>
     <ExportAPI("reset_context")>
     <RApiReturn(GetType(XGBoostGRN))>
-    Public Function reset_context(tree As XGBoostGRN) As Object
+    Public Function reset_context(tree As XGBoostGRN, Optional env As Environment = Nothing) As Object
+        If tree Is Nothing Then
+            Return RInternal.debug.stop("the given GeneTree model is nothing!", env)
+        End If
+
         Return tree.ClearContext()
     End Function
 
@@ -570,7 +578,11 @@ Module geneTreeTools
     ''' </returns>
     <ExportAPI("get_context")>
     <RApiReturn(GetType(Double))>
-    Public Function get_context(tree As XGBoostGRN) As Object
+    Public Function get_context(tree As XGBoostGRN, Optional env As Environment = Nothing) As Object
+        If tree Is Nothing Then
+            Return RInternal.debug.stop("the given GeneTree model is nothing!", env)
+        End If
+
         Dim genes As String() = New String() {}
         Dim values As Double() = New Double() {}
         Dim context As IReadOnlyDictionary(Of String, Double) = tree.Context
