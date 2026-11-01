@@ -46,6 +46,12 @@ Imports std = System.Math
 ''' **控制漂移**：树模型的稳态并不严格等于观测到的表达谱，因此即使不做任何扰动，迭代也会让部分基因发生位移。
 ''' <see cref="ControlSteadyState"/> 给出了“不施加任何干预”时的稳态均值，可用于对扰动结果做基线校正与诊断。
 ''' </para>
+''' <para>
+''' **表达状态上下文**：<see cref="SetContext(IDictionary(Of String, Double), Boolean)"/> 可以把模型从
+''' “训练时的野生型基线”切换到任意给定的表达状态（例如某个疾病态、处理态或者外部扰动实验的对照态），
+''' 之后的 <see cref="Predict"/> / <see cref="KnockoutGene"/> / <see cref="OverexpressGene"/> /
+''' <see cref="KnockDownGene"/> 都会以这个状态作为迭代起点与差异分析的基线。
+''' </para>
 ''' </remarks>
 Public Class XGBoostGRN : Implements InsilicoPerturbationExperiment
 
@@ -65,6 +71,9 @@ Public Class XGBoostGRN : Implements InsilicoPerturbationExperiment
     Private m_solver As PerturbationSolver
     Private m_control As Double()
     Private m_lastSolve As SolveResult
+    Private m_context As Dictionary(Of String, Double)
+    Private m_contextFix As Boolean = False
+    Private m_unknownContext As String() = New String() {}
 
     ''' <summary>调控网络拓扑</summary>
     Public ReadOnly Property Graph As GeneRegulationGraph
@@ -173,6 +182,52 @@ Public Class XGBoostGRN : Implements InsilicoPerturbationExperiment
             End If
 
             Return m_control
+        End Get
+    End Property
+
+    ''' <summary>
+    ''' 当前生效的表达状态上下文（基因名 → 表达值）。
+    ''' 
+    ''' 没有被 <see cref="SetContext(IDictionary(Of String, Double), Boolean)"/> 设置过的时候为<c>Nothing</c>。
+    ''' </summary>
+    ''' <returns></returns>
+    Public ReadOnly Property Context As IReadOnlyDictionary(Of String, Double)
+        Get
+            If m_context Is Nothing Then
+                Return Nothing
+            Else
+                Return m_context
+            End If
+        End Get
+    End Property
+
+    ''' <summary>
+    ''' 上下文之中的基因是否在迭代过程中被钳制（固定不变）
+    ''' </summary>
+    ''' <returns></returns>
+    Public ReadOnly Property ContextFix As Boolean
+        Get
+            Return m_contextFix
+        End Get
+    End Property
+
+    ''' <summary>
+    ''' 是否已经设置了表达状态上下文
+    ''' </summary>
+    ''' <returns></returns>
+    Public ReadOnly Property HasContext As Boolean
+        Get
+            Return m_context IsNot Nothing AndAlso m_context.Count > 0
+        End Get
+    End Property
+
+    ''' <summary>
+    ''' 上下文之中无法映射到模型基因集的名字（用于提示 ID 空间不匹配）
+    ''' </summary>
+    ''' <returns></returns>
+    Public ReadOnly Property UnknownContextGenes As String()
+        Get
+            Return m_unknownContext
         End Get
     End Property
 
@@ -395,6 +450,153 @@ Public Class XGBoostGRN : Implements InsilicoPerturbationExperiment
 
 #End Region
 
+#Region "expression context"
+
+    ''' <summary>
+    ''' 设置虚拟扰动的**表达状态上下文**：一个“基因名 → 表达值”的字典。
+    ''' 
+    ''' 上下文给出的是迭代求解的**初始状态**（背景表达谱）以及扰动分析的**基线**：
+    ''' 
+    ''' + 上下文之中的基因在种群的所有细胞上都被设置为给定的表达值；
+    ''' + 上下文之外的其他基因沿用种群的野生型细胞值（保留单细胞异质性）；
+    ''' + <see cref="InterventionResult.WildtypeMeans"/> 会用上下文的取值替换对应基因的基线均值，
+    '''   因此 <see cref="InterventionResult.FoldChanges"/> 是相对“上下文状态”的变化量，
+    '''   这样可以模拟在某个特定细胞状态（例如疾病态、处理态）之上再施加基因扰动；
+    ''' + <paramref name="fix"/> 为<c>True</c> 时，上下文之中的基因在整个迭代过程中被钳制（固定为给定值），
+    '''   相当于“基因敲入/外源表达固定”的实验；为<c>False</c> 时它们只作为起点，会随网络一起演化。
+    ''' </summary>
+    ''' <param name="context">基因名 → 表达值。名字大小写不敏感，无法映射的名字会记录在 <see cref="UnknownContextGenes"/> 之中</param>
+    ''' <param name="fix">是否在迭代过程中钳制上下文基因的取值</param>
+    ''' <returns>当前对象（便于链式调用）</returns>
+    ''' <exception cref="InvalidDataException">表达值不是有效数值</exception>
+    ''' <exception cref="InvalidOperationException">上下文之中没有任何基因能够映射到模型上</exception>
+    Public Function SetContext(context As IDictionary(Of String, Double), Optional fix As Boolean = False) As XGBoostGRN
+        If context Is Nothing OrElse context.Count = 0 Then
+            Return ClearContext()
+        End If
+
+        Dim values As New Dictionary(Of String, Double)(StringComparer.OrdinalIgnoreCase)
+        Dim unknown As New List(Of String)
+
+        For Each item As KeyValuePair(Of String, Double) In context
+            Dim name As String = If(item.Key, "").Trim()
+
+            If name.Length = 0 Then
+                Continue For
+            End If
+            If Double.IsNaN(item.Value) OrElse Double.IsInfinity(item.Value) Then
+                Throw New InvalidDataException($"上下文基因 '{name}' 的表达值 {item.Value} 不是有效数值")
+            End If
+
+            If m_geneIndex.ContainsKey(name) Then
+                values(name) = item.Value
+            Else
+                Call unknown.Add(name)
+            End If
+        Next
+
+        If values.Count = 0 Then
+            Dim detail As String = If(unknown.Count = 0,
+                "",
+                $"（无法匹配的基因示例: {String.Join(", ", unknown.Take(10))}）")
+
+            Throw New InvalidOperationException(
+                $"表达状态上下文之中没有任何基因能够映射到模型的 {m_genes.Length} 个基因上{detail}")
+        End If
+
+        m_context = values
+        m_contextFix = fix
+        m_unknownContext = unknown.ToArray
+
+        Return Me
+    End Function
+
+    ''' <summary>
+    ''' 设置表达状态上下文（平行数组形式）
+    ''' </summary>
+    ''' <param name="genes">基因名数组</param>
+    ''' <param name="values">与 <paramref name="genes"/> 一一对应的表达值</param>
+    ''' <param name="fix">是否在迭代过程中钳制上下文基因的取值</param>
+    ''' <returns>当前对象（便于链式调用）</returns>
+    Public Function SetContext(genes As String(), values As Double(), Optional fix As Boolean = False) As XGBoostGRN
+        If genes Is Nothing OrElse genes.Length = 0 Then
+            Return ClearContext()
+        End If
+        If values Is Nothing OrElse values.Length <> genes.Length Then
+            Throw New ArgumentException(
+                $"基因名数组的长度 {If(genes Is Nothing, 0, genes.Length)} 与表达值数组的长度 " &
+                $"{If(values Is Nothing, 0, values.Length)} 不一致")
+        End If
+
+        Dim context As New Dictionary(Of String, Double)(StringComparer.OrdinalIgnoreCase)
+
+        For i As Integer = 0 To genes.Length - 1
+            Dim name As String = If(genes(i), "").Trim()
+
+            If name.Length > 0 Then
+                context(name) = values(i)
+            End If
+        Next
+
+        Return SetContext(context, fix)
+    End Function
+
+    ''' <summary>
+    ''' 清除表达状态上下文，回到训练时的野生型基线
+    ''' </summary>
+    ''' <returns>当前对象（便于链式调用）</returns>
+    Public Function ClearContext() As XGBoostGRN
+        m_context = Nothing
+        m_contextFix = False
+        m_unknownContext = New String() {}
+
+        Return Me
+    End Function
+
+    ''' <summary>
+    ''' 把当前的表达状态上下文叠加到基线与初始状态上
+    ''' </summary>
+    ''' <param name="means">基线均值（原地修改）</param>
+    ''' <param name="sds">基线标准差（原地修改，上下文基因会被置零）</param>
+    ''' <param name="initial">迭代的初始状态（原地修改）</param>
+    ''' <returns>需要在迭代过程之中钳制的基因以及它们的取值</returns>
+    Private Function applyContext(means As Double(),
+                                  sds As Double(),
+                                  initial As Double()()) As Dictionary(Of Integer, Double)
+
+        Dim pinned As New Dictionary(Of Integer, Double)
+
+        If Not HasContext Then
+            Return pinned
+        End If
+
+        For Each item As KeyValuePair(Of String, Double) In m_context
+            Dim idx As Integer = -1
+
+            If Not m_geneIndex.TryGetValue(item.Key, idx) Then
+                Continue For
+            End If
+
+            means(idx) = item.Value
+            ' 上下文给定了确切的取值，其抽样标准差不再有意义
+            sds(idx) = 0.0R
+
+            Dim values As Double() = initial(idx)
+
+            For c As Integer = 0 To values.Length - 1
+                values(c) = item.Value
+            Next
+
+            If m_contextFix Then
+                pinned(idx) = item.Value
+            End If
+        Next
+
+        Return pinned
+    End Function
+
+#End Region
+
 #Region "perturbation"
 
     ''' <summary>
@@ -402,6 +604,10 @@ Public Class XGBoostGRN : Implements InsilicoPerturbationExperiment
     ''' </summary>
     ''' <param name="specs">干预定义集合；多个元素表示组合扰动</param>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' 如果已经通过 <see cref="SetContext(IDictionary(Of String, Double), Boolean)"/> 设置了表达状态上下文，
+    ''' 那么迭代会从上下文状态出发，并且变化量是相对上下文基线的。
+    ''' </remarks>
     Public Function Predict(specs As IEnumerable(Of InterventionSpec)) As InterventionResult
         Dim list As List(Of InterventionSpec) = specs.SafeQuery.ToList()
 
@@ -411,7 +617,12 @@ Public Class XGBoostGRN : Implements InsilicoPerturbationExperiment
 
         ensureFitted()
 
-        Return predictInternal(list, m_means, m_sds, clonePopulation())
+        Dim means As Double() = CType(m_means.Clone(), Double())
+        Dim sds As Double() = CType(m_sds.Clone(), Double())
+        Dim initial As Double()() = clonePopulation()
+        Dim contextPins As Dictionary(Of Integer, Double) = applyContext(means, sds, initial)
+
+        Return predictInternal(list, means, sds, initial, contextPins)
     End Function
 
     ''' <summary>
@@ -453,11 +664,18 @@ Public Class XGBoostGRN : Implements InsilicoPerturbationExperiment
     Private Function predictInternal(specList As List(Of InterventionSpec),
                                      means As Double(),
                                      sds As Double(),
-                                     initial As Double()()) As InterventionResult
+                                     initial As Double()(),
+                                     Optional contextPins As Dictionary(Of Integer, Double) = Nothing) As InterventionResult
 
         Dim n As Integer = m_genes.Length
         Dim pinned As New Dictionary(Of Integer, Double)
         Dim names As New List(Of String)
+
+        If contextPins IsNot Nothing Then
+            For Each item As KeyValuePair(Of Integer, Double) In contextPins
+                pinned(item.Key) = item.Value
+            Next
+        End If
 
         For Each spec As InterventionSpec In specList
             Dim idx As Integer = resolveIndex(spec)
@@ -506,9 +724,15 @@ Public Class XGBoostGRN : Implements InsilicoPerturbationExperiment
                 percent(i) = fold(i) / std.Abs(means(i)) * 100.0R
             End If
 
-            Dim sd As Double = std.Max(sds(i), 0.000001R)
+            Dim sd As Double = sds(i)
 
-            zscore(i) = fold(i) / sd
+            If sd <= 0.000001R Then
+                ' 没有可用的对照标准差（例如上下文基因被固定），不做 z 检验
+                zscore(i) = 0.0R
+            Else
+                zscore(i) = fold(i) / sd
+            End If
+
             significant(i) = pinned.ContainsKey(i) OrElse std.Abs(zscore(i)) > m_config.SignificanceZScore
         Next
 
@@ -690,7 +914,9 @@ Public Class XGBoostGRN : Implements InsilicoPerturbationExperiment
             End If
         Next
 
-        Return predictInternal(New List(Of InterventionSpec) From {spec}, means, sds, population)
+        Dim contextPins As Dictionary(Of Integer, Double) = applyContext(means, sds, population)
+
+        Return predictInternal(New List(Of InterventionSpec) From {spec}, means, sds, population, contextPins)
     End Function
 
 #End Region
