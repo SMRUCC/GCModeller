@@ -5,7 +5,6 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.BioSystem.Core
-Imports SMRUCC.genomics.Model.Network.Regulons
 Imports SMRUCC.genomics.Model.Network.Regulons.ARACNE
 Imports SMRUCC.genomics.Model.Network.Regulons.LinearRegression
 Imports SMRUCC.Rsharp.Runtime
