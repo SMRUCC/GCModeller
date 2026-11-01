@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Create the training/solving configuration profile of the GeneTree model.</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>make_profile {geneTree}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>Create the training/solving configuration profile of the GeneTree model.</h2>
+
+        <h3>Description</h3>
+
+        
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>make_profile</strong>(
+    <i>profile</i> = Fast,
+    <i>population</i> = <span style='color: green;'>100</span>,
+    <i>iterations</i> = <span style='color: green;'>60</span>,
+    <i>cells</i> = <span style='color: green;'>0</span>,
+    <i>max.genes</i> = <span style='color: green;'>0</span>,
+    <i>max.regulators</i> = <span style='color: green;'>-1</span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>profile</dt>
+<dd><p>the performance profile: <code>fast</code> (at most 1000 cells per model, top 10 regulators, 40 boosting rounds), <code>balanced</code> (3000 cells, top 20 regulators, 100 rounds) or <code>full</code> (all of the cells and all of the regulators). [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GeneTree/GeneTreeProfile.html">GeneTreeProfile</a>]</p></dd>
+
+
+<dt>population</dt>
+<dd><p>the number of cells that are used as the independent initial states of the damped fixed point iteration, more cells give a more reliable population level statistic but cost more time. [as integer]</p></dd>
+
+
+<dt>iterations</dt>
+<dd><p>the maximum iteration rounds of the fixed point solving. [as integer]</p></dd>
+
+
+<dt>cells</dt>
+<dd><p>the maximum number of cells that is used by each gene model, <code>0</code> keeps the value of the selected profile. [as integer]</p></dd>
+
+
+<dt>max.genes</dt>
+<dd><p>only the first n target genes(ordered by the regulator count in descending order) are trained, <code>0</code> means all of the target genes. [as integer]</p></dd>
+
+
+<dt>max.regulators</dt>
+<dd><p>the number of the regulators that is kept for each target gene(the top n regulator ordered by the mutual information in descending order), a negative value keeps the value of the selected profile, <code>0</code> keeps all of them. [as integer]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: none;">Details</h3>
+
+        
+
+        <h3 style="display: block">Authors</h3>
+
+        biosystem
+
+        <h3>Value</h3>
+
+        <p>the <a href="cref:T:SMRUCC.genomics.Analysis.GeneTree.GeneTreeConfig">GeneTreeConfig</a> configuration object.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/GeneTree/GeneTreeConfig.html">GeneTreeConfig</a></li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>geneTree</em> version 1.0.0.0 <a
+                href="../geneTree.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

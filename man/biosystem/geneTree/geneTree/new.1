@@ -1,0 +1,43 @@
+.\" man page create by R# package system.
+.TH GENETREE 1 2000-1月 "new" "new"
+.SH NAME
+new \- Create the GeneTree model from the ARACNE network and the gene expression matrix.
+.SH SYNOPSIS
+\fInew(\fBaracne\fR as <generic> AracneNetwork, 
+\fBexpr\fR as <generic> Matrix, 
+\fBconfig\fR as <generic> GeneTreeConfig = \fB<NULL>\fR, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Create the GeneTree model from the ARACNE network and the gene expression matrix.
+.PP
+.SH OPTIONS
+.PP
+\fBaracne\fB \fR\- the ARACNE inferred network object.. 
+.PP
+.PP
+\fBexpr\fB \fR\- the gene expression matrix object(rows are genes, columns are samples).. 
+.PP
+.PP
+\fBconfig\fB \fR\- the configuration object created by the \fBmake_profile\fR api.. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+the untrained [XGBoostGRN](cref:T:SMRUCC.genomics.Analysis.GeneTree.XGBoostGRN) model object; an R# error message object
+ is returned when the network or the expression matrix is invalid.
+.PP
+.SH DETAILS
+.PP
+this function is the combination of the \fBload_topology\fR and the
+ \fBload_expression\fR api, the model should be trained by the \fBfit_tree\fR api
+ before any virtual perturbation experiment.
+.PP
+.SH SEE ALSO
+geneTree
+.SH FILES
+.PP
+biosystem.dll
+.PP

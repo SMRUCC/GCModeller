@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.GeneTree.GeneTreeConfig</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>GeneTreeConfig {SMRUCC.genomics.Analysis.GeneTree}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>GeneTreeConfig</h2>
+
+        <h3>Description</h3>
+
+        <p>GeneTree（XGBoost 非线性基因调控网络）的全量超参数配置。</p>
+
+<p>配置分成四组：</p>
+
+
+<ul>
+<li><strong>网络拓扑</strong>：<a href="cref:P:SMRUCC.genomics.Analysis.GeneTree.GeneTreeConfig.MaxRegulators">GeneTreeConfig.MaxRegulators</a>、<a href="cref:P:SMRUCC.genomics.Analysis.GeneTree.GeneTreeConfig.IncludeUndirectedEdges">GeneTreeConfig.IncludeUndirectedEdges</a>、<a href="cref:P:SMRUCC.genomics.Analysis.GeneTree.GeneTreeConfig.MaxGenes">GeneTreeConfig.MaxGenes</a></li>
+<li><strong>训练抽样</strong>：<a href="cref:P:SMRUCC.genomics.Analysis.GeneTree.GeneTreeConfig.MaxSamplesPerModel">GeneTreeConfig.MaxSamplesPerModel</a>、<a href="cref:P:SMRUCC.genomics.Analysis.GeneTree.GeneTreeConfig.ValidationRatio">GeneTreeConfig.ValidationRatio</a>、<a href="cref:P:SMRUCC.genomics.Analysis.GeneTree.GeneTreeConfig.MinSamples">GeneTreeConfig.MinSamples</a></li>
+<li><strong>梯度提升树</strong>：<a href="cref:P:SMRUCC.genomics.Analysis.GeneTree.GeneTreeConfig.NumBoostRound">GeneTreeConfig.NumBoostRound</a>、<a href="cref:P:SMRUCC.genomics.Analysis.GeneTree.GeneTreeConfig.MaxDepth">GeneTreeConfig.MaxDepth</a>、<a href="cref:P:SMRUCC.genomics.Analysis.GeneTree.GeneTreeConfig.LearningRate">GeneTreeConfig.LearningRate</a> 等</li>
+<li><strong>虚拟扰动求解</strong>：<a href="cref:P:SMRUCC.genomics.Analysis.GeneTree.GeneTreeConfig.DampingAlpha">GeneTreeConfig.DampingAlpha</a>、<a href="cref:P:SMRUCC.genomics.Analysis.GeneTree.GeneTreeConfig.MaxIterations">GeneTreeConfig.MaxIterations</a>、<a href="cref:P:SMRUCC.genomics.Analysis.GeneTree.GeneTreeConfig.PopulationSize">GeneTreeConfig.PopulationSize</a> 等</li>
+</ul>
+
+
+<p>所有以“0”表示“不限制/使用全部”的字段都会在 <a href="cref:M:SMRUCC.genomics.Analysis.GeneTree.GeneTreeConfig.Validate">GeneTreeConfig.Validate()</a> 之后由使用方自行解释， 例如 <a href="cref:P:SMRUCC.genomics.Analysis.GeneTree.GeneTreeConfig.MaxRegulators">GeneTreeConfig.MaxRegulators</a>=0 表示保留 ARACNE 给出的全部调控者， <a href="cref:P:SMRUCC.genomics.Analysis.GeneTree.GeneTreeConfig.MaxSamplesPerModel">GeneTreeConfig.MaxSamplesPerModel</a>=0 表示使用表达矩阵中的全部细胞。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.GeneTree
+export class GeneTreeConfig {
+   # 是否把表达量裁剪为非负（生物学上表达量不能为负）。
+   ClipNegative: boolean;
+   # 外推裁剪系数：预测值被裁剪到 <code>[min / k, max × k]</code>（min ≥ 0）或 <code>[min × k, max × k]</code>。
+   ClippingFactor: double;
+   # 列抽样比例 (0, 1]。
+   ColSample: double;
+   # 收敛阈值：每一轮所有基因的相对变化量（<code>|Δx| / max(1,|x|)</code>）的最大值低于该值时判定收敛。
+   ConvergenceTolerance: double;
+   # 阻尼系数 α：<code>x_new = (1-α)·x_old + α·f(x)</code>。默认 0.1，越大越激进、越容易震荡。
+   DampingAlpha: double;
+   # 早停轮数。验证集不可用（样本过少）时不会生效。
+   EarlyStoppingRounds: integer;
+   # 分裂所需的最小损失下降（gamma），默认 0。
+   Gamma: double;
+   # 是否把 <code>"undirected"</code> 类型的候选边也纳入调控关系。默认关闭。
+   IncludeUndirectedEdges: boolean;
+   # L2 正则化系数（reg_lambda），默认 5，用于抑制小样本过拟合。
+   Lambda: double;
+   # 学习率 eta，范围 (0, 1]。默认 0.05。
+   LearningRate: double;
+   # 训练阶段的最大并行度，-1 表示使用全部可用核心。
+   MaxDegreeOfParallelism: integer;
+   # 单棵树的最大深度。建议 3~4：树越浅，预测函数越平滑，定点迭代越容易收敛。
+   MaxDepth: integer;
+   # 最多参与训练的靶基因数量（按调控者数量降序保留）。0 表示不限制。
+   MaxGenes: integer;
+   # 定点迭代的最大轮数。
+   MaxIterations: integer;
+   # 每个靶基因保留的调控因子数量（按照互信息降序裁剪）。0 表示不裁剪（全量档很慢）。
+   MaxRegulators: integer;
+   # 每个基因模型最多使用的细胞（样本）数量。0 表示使用全部细胞。
+   MaxSamplesPerModel: integer;
+   # 叶节点最小 Hessian 和的固定下限，默认 2。
+   MinChildWeight: double;
+   # 叶节点最小 Hessian 和相对于训练样本数的比例，默认 0.05。
+   MinChildWeightRatio: double;
+   # 训练一个基因模型所需的最小细胞数量，低于该数量时退化为常数模型。
+   MinSamples: integer;
+   # 节点继续分裂所需的最小样本数。
+   MinSampleSplit: integer;
+   # 提升轮数（树的数量）。浅树 + 适度轮数是 readme 针对定点迭代收敛性给出的建议。
+   NumBoostRound: integer;
+   # 参与迭代的细胞（初始状态）数量。细胞越多，扰动的统计量越稳健，但每轮耗时线性增长。
+   PopulationSize: integer;
+   # 训练进度的输出间隔（每多少个基因输出一次）。
+   ProgressInterval: integer;
+   # 行抽样比例 (0, 1]。
+   RowSample: double;
+   # 随机种子，用于细胞抽样与训练/验证集划分。固定种子保证同一份数据得到相同的抽样与折分。
+   Seed: integer;
+   # 显著性判定所用的 Z-score 阈值，默认 2。
+   SignificanceZScore: double;
+   # 单模型训练时 TGBoost 内部使用的线程数，-1 表示由库自行决定。
+   ThreadsPerModel: integer;
+   # 留出验证集的比例，用于早停与 R²/RMSE 评估。取值 [0.05, 0.5]。
+   ValidationRatio: double;
+   # 是否输出进度与统计信息到控制台。
+   Verbose: boolean;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        this clr type has no other .net clr type reference.
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

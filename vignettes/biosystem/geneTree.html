@@ -1,0 +1,285 @@
+<!DOCTYPE html><html lang="zh-CN">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>geneTree</title>
+    <meta name="author" content="xie.guigang@gcmodeller.org" />
+    <meta name="copyright" content="SMRUCC genomics Copyright (c) 2022" />
+    <meta name="keywords" content="R#; geneTree; biosystem" />
+    <meta name="generator" content="https://github.com/rsharp-lang" />
+    <meta name="theme-color" content="#333" />
+    <meta name="description" content="XGBoost based gene regulatory network simulator and the in silic..." />
+    <meta class="foundation-data-attribute-namespace" />
+    <meta class="foundation-mq-xxlarge" />
+    <meta class="foundation-mq-xlarge" />
+    <meta class="foundation-mq-large" />
+    <meta class="foundation-mq-medium" />
+    <meta class="foundation-mq-small" />
+    <meta class="foundation-mq-topbar" />
+    <style>
+
+.table-three-line {
+border-collapse:collapse; /* 关键属性：合并表格内外边框(其实表格边框有2px，外面1px，里面还有1px哦) */
+border:solid #000000; /* 设置边框属性；样式(solid=实线)、颜色(#999=灰) */
+border-width:2px 0 2px 0px; /* 设置边框状粗细：上 右 下 左 = 对应：1px 0 0 1px */
+}
+.left-1{
+    border:solid #000000;border-width:1px 1px 2px 0px;padding:2px;
+    font-weight:bolder;
+}
+.right-1{
+    border:solid #000000;border-width:1px 0px 2px 1px;padding:2px;
+    font-weight:bolder;
+}
+.mid-1{
+    border:solid #000000;border-width:1px 1px 2px 1px;padding:2px;
+    font-weight:bolder;
+}
+.left{
+    border:solid #000000;border-width:1px 1px 1px 0px;padding:2px;
+}
+.right{
+    border:solid #000000;border-width:1px 0px 1px 1px;padding:2px;
+}
+.mid{
+    border:solid #000000;border-width:1px 1px 1px 1px;padding:2px;
+}
+table caption {font-size:14px;font-weight:bolder;}
+</style>
+  </head>
+  <body>
+    <table width="100%" summary="page for {geneTree}">
+      <tbody>
+        <tr>
+          <td>{geneTree}</td>
+          <td style="text-align: right;">R# Documentation</td>
+        </tr>
+      </tbody>
+    </table>
+    <h1>geneTree</h1>
+    <hr />
+    <p style="     font-size: 1.125em;     line-height: .8em;     margin-left: 0.5%;     background-color: #fbfbfb;     padding: 24px; ">
+      <code>
+        <span style="color: blue;">require</span>(<span style="color: black; font-weight: bold;">GCModeller</span>);
+                               <br /><br /><span style="color: green;">#' XGBoost based gene regulatory network simulator and the in silico perturbation toolkit</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "geneTree"</span><span style="color: blue;"> from</span><span style="color: brown"> "biosystem"</span>;
+                           </code>
+    </p>
+    <p><p>XGBoost based gene regulatory network simulator and the in silico perturbation toolkit</p></p>
+    <blockquote>
+      <p style="font-style: italic; font-size: 0.9em;">
+                           <p>This package module is the R# front end of the <code>GeneTree</code> model: the ARACNE inferred mutual information network is turned into a non linear dynamical system by fitting one gradient boosting tree regressor per target gene (<code>x_i = f_i(X_Reg(i))</code>), and the virtual perturbation experiment is then performed by solving the fixed point of the fitted system with the damped iteration <code>x_i^new = (1 - alpha) * x_i^old + alpha * f_i(X_Reg(i)^old)</code>.</p>
+
+<p>The typical workflow:</p>
+
+
+<pre><code> imports ["geneTree", "bnlearn"] from "biosystem";
+ 
+ let opts = geneTree::make_profile("fast", population = 100);
+ let grn = geneTree::new(aracne, expr, opts) |&gt; fit_tree();
+ 
+ # 相对训练时的野生型基线做虚拟敲除
+ let ko = grn |&gt; knockouts(c("TP53", "MYC"));
+ 
+ # 切换到指定的表达状态上下文之后再扰动（fix = TRUE 时上下文基因被钳制）
+ let state = grn |&gt; geneTree::steady_state();
+ let perturbed = grn
+     |&gt; geneTree::set_context(c("TP53"), c(0.0), fix = TRUE)
+     |&gt; knockouts(c("EGFR"))
+ ;
+ </code></pre>
+
+
+<p>The fitted <a href="cref:T:SMRUCC.genomics.Analysis.GeneTree.XGBoostGRN">XGBoostGRN</a> object implements the <a href="cref:T:SMRUCC.genomics.BioSystem.InsilicoPerturbationExperiment">InsilicoPerturbationExperiment</a> interface, so the generic <code>knockouts</code> / <code>overexpress</code> / <code>knockdown</code> / <code>make_exports</code> api of the <code>bnlearn</code> package module can be used directly on it.</p>
+                           </p>
+    </blockquote>
+    <div id="main-wrapper">
+      <table class="table-three-line" style="display: block">
+        <caption>.NET clr type export</caption>
+        <tbody><tr>
+  <td id="xgboost_grn">
+    <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GeneTree/XGBoostGRN.html">xgboost_grn: XGBoostGRN</a>
+  </td>
+  <td><p>基于 XGBoost 的非线性基因调控网络虚拟扰动实验（门面类）。</p>
+
+<p>把 readme 中的三段流程串起来：</p>
+
+
+<ol>
+<li>拓扑：由 <code>aracne.zip</code> 得到 <a href="cref:T:SMRUCC.genomics.Analysis.GeneTree.GeneRegulationGraph">GeneRegulationGraph</a>（靶基因 → 调控因子）；</li>
+<li>拟合：用原始表达矩阵训练 <code>N</code> 个梯度提升树模型 <code>f_i(X_Reg(i))</code>；</li>
+<li>扰动：阻尼定点迭代求解扰动之后的新稳态，返回 <a href="cref:T:SMRUCC.genomics.BioSystem.Intervention.InterventionResult">InterventionResult</a>。</li>
+</ol>
+
+
+<p>典型用法：</p>
+
+
+<pre><code> Dim grn = XGBoostGRN.Open("./aracne.zip", "./GRN_expression_matrix.csv")
+ 
+ Call grn.Fit()
+ 
+ Dim ko = grn.KnockoutGene("TP53")
+ Dim oe = grn.OverexpressGene("MYC")
+ </code></pre>
+
+
+<p>本类实现了 <a href="cref:T:SMRUCC.genomics.BioSystem.InsilicoPerturbationExperiment">InsilicoPerturbationExperiment</a> 接口， 因此可以与 <code>GEARS</code>、<code>BNLearn</code> 之中已有的虚拟扰动实现互换使用。</p></td>
+</tr>
+<tr>
+  <td id="geneTree_opts">
+    <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GeneTree/GeneTreeConfig.html">geneTree_opts: GeneTreeConfig</a>
+  </td>
+  <td><p>GeneTree（XGBoost 非线性基因调控网络）的全量超参数配置。</p>
+
+<p>配置分成四组：</p>
+
+
+<ul>
+<li><strong>网络拓扑</strong>：<a href="cref:P:SMRUCC.genomics.Analysis.GeneTree.GeneTreeConfig.MaxRegulators">GeneTreeConfig.MaxRegulators</a>、<a href="cref:P:SMRUCC.genomics.Analysis.GeneTree.GeneTreeConfig.IncludeUndirectedEdges">GeneTreeConfig.IncludeUndirectedEdges</a>、<a href="cref:P:SMRUCC.genomics.Analysis.GeneTree.GeneTreeConfig.MaxGenes">GeneTreeConfig.MaxGenes</a></li>
+<li><strong>训练抽样</strong>：<a href="cref:P:SMRUCC.genomics.Analysis.GeneTree.GeneTreeConfig.MaxSamplesPerModel">GeneTreeConfig.MaxSamplesPerModel</a>、<a href="cref:P:SMRUCC.genomics.Analysis.GeneTree.GeneTreeConfig.ValidationRatio">GeneTreeConfig.ValidationRatio</a>、<a href="cref:P:SMRUCC.genomics.Analysis.GeneTree.GeneTreeConfig.MinSamples">GeneTreeConfig.MinSamples</a></li>
+<li><strong>梯度提升树</strong>：<a href="cref:P:SMRUCC.genomics.Analysis.GeneTree.GeneTreeConfig.NumBoostRound">GeneTreeConfig.NumBoostRound</a>、<a href="cref:P:SMRUCC.genomics.Analysis.GeneTree.GeneTreeConfig.MaxDepth">GeneTreeConfig.MaxDepth</a>、<a href="cref:P:SMRUCC.genomics.Analysis.GeneTree.GeneTreeConfig.LearningRate">GeneTreeConfig.LearningRate</a> 等</li>
+<li><strong>虚拟扰动求解</strong>：<a href="cref:P:SMRUCC.genomics.Analysis.GeneTree.GeneTreeConfig.DampingAlpha">GeneTreeConfig.DampingAlpha</a>、<a href="cref:P:SMRUCC.genomics.Analysis.GeneTree.GeneTreeConfig.MaxIterations">GeneTreeConfig.MaxIterations</a>、<a href="cref:P:SMRUCC.genomics.Analysis.GeneTree.GeneTreeConfig.PopulationSize">GeneTreeConfig.PopulationSize</a> 等</li>
+</ul></td>
+</tr>
+<tr>
+  <td id="geneTree_report">
+    <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GeneTree/TrainingReport.html">geneTree_report: TrainingReport</a>
+  </td>
+  <td><p>逐基因拟合的训练报告：既可以在控制台打印摘要，也可以写成两张可读的表格文件 （<code>report.tsv</code> 与 <code>importance.tsv</code>），用于人工核查调控网络是否合理。</p></td>
+</tr>
+<tr>
+  <td id="geneTree_graph">
+    <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GeneTree/GeneRegulationGraph.html">geneTree_graph: GeneRegulationGraph</a>
+  </td>
+  <td><p>ARACNE 网络拓扑在 GeneTree 中的表示：<code>靶基因 → 调控因子集合</code>。</p>
+
+<p>与 <a href="cref:T:SMRUCC.genomics.Model.Network.Regulons.ARACNE.AracneNetwork">AracneNetwork</a> 的区别在于：</p>
+
+
+<ul>
+<li>不保存互信息矩阵与表达向量，内存占用只与边数有关；</li>
+<li>可以直接从 <code>aracne.zip</code> 的 <code>genes.tsv</code> / <code>tfs.txt</code> / <code>edges.csv</code> 三个条目重建， 因此<strong>不需要</strong>读取 4.5GB 的 <code>expression.bin</code>；</li>
+<li>每个靶基因的调控因子已经按照互信息降序裁剪到 top-K，可以直接作为回归特征。</li>
+</ul></td>
+</tr></tbody>
+      </table>
+      <br />
+      <br />
+      <table class="table-three-line">
+        <caption>.NET clr function exports</caption>
+        <tbody><tr>
+  <td id="make_profile">
+    <a href="./geneTree/make_profile.html">make_profile</a>
+  </td>
+  <td><p>Create the training/solving configuration profile of the GeneTree model.</p></td>
+</tr>
+<tr>
+  <td id="load_topology">
+    <a href="./geneTree/load_topology.html">load_topology</a>
+  </td>
+  <td><p>Build the regulation graph model from the ARACNE inferred network.</p></td>
+</tr>
+<tr>
+  <td id="load_expression">
+    <a href="./geneTree/load_expression.html">load_expression</a>
+  </td>
+  <td><p>Attach the gene expression matrix to the regulation graph, the created model is not trained yet.</p></td>
+</tr>
+<tr>
+  <td id="new">
+    <a href="./geneTree/new.html">new</a>
+  </td>
+  <td><p>Create the GeneTree model from the ARACNE network and the gene expression matrix.</p></td>
+</tr>
+<tr>
+  <td id="fit_tree">
+    <a href="./geneTree/fit_tree.html">fit_tree</a>
+  </td>
+  <td><p>Train the gradient boosting tree models of each target gene.</p></td>
+</tr>
+<tr>
+  <td id="write_report">
+    <a href="./geneTree/write_report.html">write_report</a>
+  </td>
+  <td><p>Export the training report as two readable table files.</p></td>
+</tr>
+<tr>
+  <td id="training_stats">
+    <a href="./geneTree/training_stats.html">training_stats</a>
+  </td>
+  <td><p>Get the summary statistics of the model training.</p></td>
+</tr>
+<tr>
+  <td id="report_table">
+    <a href="./geneTree/report_table.html">report_table</a>
+  </td>
+  <td><p>Get the per gene fitting quality table of the trained model.</p></td>
+</tr>
+<tr>
+  <td id="feature_importance">
+    <a href="./geneTree/feature_importance.html">feature_importance</a>
+  </td>
+  <td><p>Get the split importance of the regulators, this table is the data driven "sign and weight" of the ARACNE network edges.</p></td>
+</tr>
+<tr>
+  <td id="gene_stats">
+    <a href="./geneTree/gene_stats.html">gene_stats</a>
+  </td>
+  <td><p>Get the gene alignment and the wildtype baseline of the model.</p></td>
+</tr>
+<tr>
+  <td id="gene_names">
+    <a href="./geneTree/gene_names.html">gene_names</a>
+  </td>
+  <td><p>Get the gene ids of the model.</p></td>
+</tr>
+<tr>
+  <td id="set_context">
+    <a href="./geneTree/set_context.html">set_context</a>
+  </td>
+  <td><p>Inject an expression state context into the model, the context becomes the starting state as well as the differential analysis baseline of the following in silico perturbation experiments.</p></td>
+</tr>
+<tr>
+  <td id="reset_context">
+    <a href="./geneTree/reset_context.html">reset_context</a>
+  </td>
+  <td><p>Remove the expression state context, the model is restored back to the wildtype baseline that was estimated during the model training.</p></td>
+</tr>
+<tr>
+  <td id="get_context">
+    <a href="./geneTree/get_context.html">get_context</a>
+  </td>
+  <td><p>Get the expression state context that is currently applied on the model.</p></td>
+</tr>
+<tr>
+  <td id="steady_state">
+    <a href="./geneTree/steady_state.html">steady_state</a>
+  </td>
+  <td><p>Solve the control steady state of the network, i.e. the "attractor" of the fitted dynamical system when no intervention is applied.</p></td>
+</tr>
+<tr>
+  <td id="solver_history">
+    <a href="./geneTree/solver_history.html">solver_history</a>
+  </td>
+  <td><p>Get the diagnostics of the last fixed point solving.</p></td>
+</tr>
+<tr>
+  <td id="perturb">
+    <a href="./geneTree/perturb.html">perturb</a>
+  </td>
+  <td><p>Set the expression value of a set of genes to the given values, i.e. run a <code>Custom</code> mode in silico intervention.</p></td>
+</tr>
+<tr>
+  <td id="perturb_combined">
+    <a href="./geneTree/perturb_combined.html">perturb_combined</a>
+  </td>
+  <td><p>Run a combined in silico intervention on a set of genes at the same time.</p></td>
+</tr></tbody>
+      </table>
+    </div>
+    <hr />
+    <div style="text-align: center;">[<a href="../index.html">Document Index</a>]</div>
+  </body>
+</html>

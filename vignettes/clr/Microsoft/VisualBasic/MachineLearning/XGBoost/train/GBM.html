@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Microsoft.VisualBasic.MachineLearning.XGBoost.train.GBM</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>GBM {Microsoft.VisualBasic.MachineLearning.XGBoost.train}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>GBM</h2>
+
+        <h3>Description</h3>
+
+        <p>Tiny implement of Gradient Boosting tree</p>
+
+<p>It is a Tiny implement of Gradient Boosting tree, based on XGBoost's scoring function and SLIQ's efficient tree building algorithm. TGBoost build the tree in a level-wise way as in SLIQ (by constructing Attribute list and Class list). Currently, TGBoost support parallel learning on single machine, the speed and memory consumption are comparable to XGBoost.</p>
+
+<p>TGBoost supports most features As other library:</p>
+
+
+<ul>
+<li>Built-in loss , Square error loss for regression task, Logistic loss for classification task</li>
+<li>Early stopping, evaluate On validation Set And conduct early stopping</li>
+<li>Feature importance, output the feature importance after training</li>
+<li>Regularization , lambda, gamma</li>
+<li>Randomness, subsample，colsample</li>
+<li>Weighted loss Function , assign weight To Each sample</li>
+</ul>
+
+
+<p>Another two features are novel:</p>
+
+
+<ul>
+<li>Handle missing value, XGBoost learn a direction For those With missing value, the direction Is left Or right. TGBoost take a different approach: it enumerate missing value go To left child, right child And missing value child, Then choose the best one. So TGBoost use Ternary Tree.</li>
+<li>Handle categorical feature, TGBoost order the categorical feature by their statistic (Gradient_sum / Hessian_sum) On Each tree node, Then conduct split finding As numeric feature.</li>
+</ul>
+
+
+<p><a href="https://github.com/wepe/tgboost" title="https://github.com/wepe/tgboost">https://github.com/wepe/tgboost</a></p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace Microsoft.VisualBasic.MachineLearning.XGBoost.train
+export class GBM extends <a href="/vignettes/clr/Microsoft/VisualBasic/MachineLearning/Model.html">Model</a> {
+   eta: double;
+   first_round_pred: double;
+   loss: <a href="/vignettes/clr/Microsoft/VisualBasic/MachineLearning/XGBoost/train/Loss.html">Loss</a>;
+   trees: <a href="/vignettes/clr/Microsoft/VisualBasic/MachineLearning/XGBoost/train/Tree.html">iterates(Tree)</a>;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>this class extends from <a href="/vignettes/clr/Microsoft/VisualBasic/MachineLearning/Model.html">Model</a> class: <a href="/vignettes/clr/Microsoft/VisualBasic/MachineLearning/Model.html">Model</a></li>
+<li>use by <i>property</i> member <code>loss</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/MachineLearning/XGBoost/train/Loss.html">Loss</a></li>
+<li>use by <i>property</i> member <code>trees</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/MachineLearning/XGBoost/train/Tree.html">iterates(Tree)</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

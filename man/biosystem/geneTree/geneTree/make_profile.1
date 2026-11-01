@@ -1,0 +1,62 @@
+.\" man page create by R# package system.
+.TH GENETREE 1 2000-1月 "make_profile" "make_profile"
+.SH NAME
+make_profile \- Create the training/solving configuration profile of the GeneTree model.
+.SH SYNOPSIS
+\fImake_profile(\fBprofile\fR as <integer> GeneTreeProfile = [Fast], 
+\fBpopulation\fR as integer = 100, 
+\fBiterations\fR as integer = 60, 
+\fBcells\fR as integer = 0, 
+\fBmax_genes\fR as integer = 0, 
+\fBmax_regulators\fR as integer = -1);\fR
+.SH DESCRIPTION
+.PP
+Create the training/solving configuration profile of the GeneTree model.
+.PP
+.SH OPTIONS
+.PP
+\fBprofile\fB \fR\- 
+ the performance profile: \fBfast\fR (at most 1000 cells per model, top 10
+ regulators, 40 boosting rounds), \fBbalanced\fR (3000 cells, top 20 regulators,
+ 100 rounds) or \fBfull\fR (all of the cells and all of the regulators).
+. 
+.PP
+.PP
+\fBpopulation\fB \fR\- 
+ the number of cells that are used as the independent initial states of the
+ damped fixed point iteration, more cells give a more reliable population
+ level statistic but cost more time.
+. 
+.PP
+.PP
+\fBiterations\fB \fR\- the maximum iteration rounds of the fixed point solving.. 
+.PP
+.PP
+\fBcells\fB \fR\- 
+ the maximum number of cells that is used by each gene model, \fB0\fR keeps the
+ value of the selected profile.
+. 
+.PP
+.PP
+\fBmax_genes\fB \fR\- 
+ only the first n target genes(ordered by the regulator count in descending
+ order) are trained, \fB0\fR means all of the target genes.
+. 
+.PP
+.PP
+\fBmax_regulators\fB \fR\- 
+ the number of the regulators that is kept for each target gene(the top n
+ regulator ordered by the mutual information in descending order), a negative
+ value keeps the value of the selected profile, \fB0\fR keeps all of them.
+. 
+.PP
+.SH VALUE
+.PP
+the [GeneTreeConfig](cref:T:SMRUCC.genomics.Analysis.GeneTree.GeneTreeConfig) configuration object.
+.PP
+.SH SEE ALSO
+geneTree
+.SH FILES
+.PP
+biosystem.dll
+.PP

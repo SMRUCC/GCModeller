@@ -1,0 +1,37 @@
+.\" man page create by R# package system.
+.TH GENETREE 1 2000-1月 "steady_state" "steady_state"
+.SH NAME
+steady_state \- Solve the control steady state of the network, i.e. the "attractor" of the fitted
+.SH SYNOPSIS
+\fIsteady_state(\fBtree\fR as <generic> XGBoostGRN, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Solve the control steady state of the network, i.e. the "attractor" of the fitted
+ dynamical system when no intervention is applied.
+.PP
+.SH OPTIONS
+.PP
+\fBtree\fB \fR\- the trained [XGBoostGRN](cref:T:SMRUCC.genomics.Analysis.GeneTree.XGBoostGRN) model object.. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a list with the slots \fBgene_names\fR and \fBmeans\fR: the difference between the
+ mean and the wildtype baseline is the systematic drift of the tree model itself,
+ which could be subtracted from the perturbation result.
+.PP
+.SH DETAILS
+.PP
+the result is cached in the model object, the first call runs the fixed point
+ iteration and the later calls are cheap. When an expression context is applied,
+ the control steady state starts from the context state.
+.PP
+.SH SEE ALSO
+geneTree
+.SH FILES
+.PP
+biosystem.dll
+.PP

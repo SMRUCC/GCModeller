@@ -1,0 +1,30 @@
+.\" man page create by R# package system.
+.TH GENETREE 1 2000-1月 "training_stats" "training_stats"
+.SH NAME
+training_stats \- Get the summary statistics of the model training.
+.SH SYNOPSIS
+\fItraining_stats(\fBtree\fR as <generic> XGBoostGRN, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Get the summary statistics of the model training.
+.PP
+.SH OPTIONS
+.PP
+\fBtree\fB \fR\- the trained [XGBoostGRN](cref:T:SMRUCC.genomics.Analysis.GeneTree.XGBoostGRN) model object.. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a list with the slots: \fBgenes\fR, \fBmodels\fR, \fBboosted_models\fR,
+ \fBconstant_models\fR, \fBsource_nodes\fR, \fBmedian_r2\fR, \fBmean_r2\fR,
+ \fBinformative_models\fR, \fBcells\fR, \fBpopulation\fR and \fBfitted\fR.
+.PP
+.SH SEE ALSO
+geneTree
+.SH FILES
+.PP
+biosystem.dll
+.PP

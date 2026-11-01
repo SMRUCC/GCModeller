@@ -1,0 +1,27 @@
+.\" man page create by R# package system.
+.TH GENETREE 1 2000-1月 "get_context" "get_context"
+.SH NAME
+get_context \- Get the expression state context that is currently applied on the model.
+.SH SYNOPSIS
+\fIget_context(\fBtree\fR as <generic> XGBoostGRN, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Get the expression state context that is currently applied on the model.
+.PP
+.SH OPTIONS
+.PP
+\fBtree\fB \fR\- the trained [XGBoostGRN](cref:T:SMRUCC.genomics.Analysis.GeneTree.XGBoostGRN) model object.. 
+.PP
+.SH VALUE
+.PP
+a list with the slots \fBgenes\fR, \fBexpression\fR, \fBfix\fR and \fBunknown\fR(the
+ gene ids that could not be mapped onto the model), the \fBgenes\fR slot is an
+ empty character vector when no context has been applied.
+.PP
+.SH SEE ALSO
+geneTree
+.SH FILES
+.PP
+biosystem.dll
+.PP

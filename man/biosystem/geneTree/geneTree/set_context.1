@@ -1,0 +1,61 @@
+.\" man page create by R# package system.
+.TH GENETREE 1 2000-1月 "set_context" "set_context"
+.SH NAME
+set_context \- Inject an expression state context into the model, the context becomes the
+.SH SYNOPSIS
+\fIset_context(\fBtree\fR as <generic> XGBoostGRN, 
+\fBgenes\fR as any, 
+\fBexpression\fR as any, 
+\fBfix\fR as boolean = FALSE, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Inject an expression state context into the model, the context becomes the
+ starting state as well as the differential analysis baseline of the following
+ in silico perturbation experiments.
+.PP
+.SH OPTIONS
+.PP
+\fBtree\fB \fR\- the trained [XGBoostGRN](cref:T:SMRUCC.genomics.Analysis.GeneTree.XGBoostGRN) model object.. 
+.PP
+.PP
+\fBgenes\fB \fR\- 
+ a character vector of the gene id of the context; the ids must live in the same
+ identifier space as the expression matrix that the model was trained on.
+. 
+.PP
+.PP
+\fBexpression\fB \fR\- 
+ a numeric vector of the expression value of the context, in the same order as
+ **genes**; the values are on the same scale as the expression
+ matrix(the model does not apply any transform).
+. 
+.PP
+.PP
+\fBfix\fB \fR\- 
+ when TRUE the context genes are clamped to the given values during the whole
+ iteration(a gene knock-in like experiment); otherwise they are only used as
+ the starting point and will be updated by the network like the other genes.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+the input model object that the context has been applied, so that it can be
+ chained with \fBknockouts\fR / \fBoverexpress\fR / \fBknockdown\fR;
+ an R# error message object is returned when the sizes of the two vectors do not
+ match or no gene of the context could be mapped onto the model.
+.PP
+.SH DETAILS
+.PP
+genes that are not described in the context keep their own wildtype value, so a
+ context is allowed to cover only a subset of the network.
+.PP
+.SH SEE ALSO
+geneTree
+.SH FILES
+.PP
+biosystem.dll
+.PP

@@ -1,0 +1,35 @@
+.\" man page create by R# package system.
+.TH GENETREE 1 2000-1月 "fit_tree" "fit_tree"
+.SH NAME
+fit_tree \- Train the gradient boosting tree models of each target gene.
+.SH SYNOPSIS
+\fIfit_tree(\fBtree\fR as <generic> XGBoostGRN, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Train the gradient boosting tree models of each target gene.
+.PP
+.SH OPTIONS
+.PP
+\fBtree\fB \fR\- the untrained [XGBoostGRN](cref:T:SMRUCC.genomics.Analysis.GeneTree.XGBoostGRN) model object.. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+the [TrainingReport](cref:T:SMRUCC.genomics.Analysis.GeneTree.TrainingReport) object: the R²/RMSE of each gene model, the
+ comparison against the mean baseline and the split importance of each
+ regulator; an R# error message object is returned when the training fails.
+.PP
+.SH DETAILS
+.PP
+the training is parallel over the target genes, the training progress is
+ written to the console when the \fBverbose\fR option of the configuration is on.
+.PP
+.SH SEE ALSO
+geneTree
+.SH FILES
+.PP
+biosystem.dll
+.PP

@@ -1,0 +1,46 @@
+.\" man page create by R# package system.
+.TH GENETREE 1 2000-1月 "perturb_combined" "perturb_combined"
+.SH NAME
+perturb_combined \- Run a combined in silico intervention on a set of genes at the same time.
+.SH SYNOPSIS
+\fIperturb_combined(\fBtree\fR as <generic> XGBoostGRN, 
+\fBgenes\fR as any, 
+\fBmode\fR as <integer> InterventionMode = [Knockout], 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Run a combined in silico intervention on a set of genes at the same time.
+.PP
+.SH OPTIONS
+.PP
+\fBtree\fB \fR\- the trained [XGBoostGRN](cref:T:SMRUCC.genomics.Analysis.GeneTree.XGBoostGRN) model object.. 
+.PP
+.PP
+\fBgenes\fB \fR\- a character vector of the gene id that are perturbed together.. 
+.PP
+.PP
+\fBmode\fB \fR\- 
+ the intervention mode of all of the target genes: \fBKnockout\fR, \fBKnockdown\fR,
+ \fBOverexpression\fR or \fBCustom\fR.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+one [InterventionResult](cref:T:SMRUCC.genomics.BioSystem.Intervention.InterventionResult) object of the combined intervention, the
+ non additive synergy/antagonism effect of the gene combination is kept;
+ an R# error message object is returned when the prediction fails.
+.PP
+.SH DETAILS
+.PP
+the \fBSpec\fR property of the result object is a synthetic intervention
+ specification whose gene name is the \fB+\fR joined id list.
+.PP
+.SH SEE ALSO
+geneTree
+.SH FILES
+.PP
+biosystem.dll
+.PP

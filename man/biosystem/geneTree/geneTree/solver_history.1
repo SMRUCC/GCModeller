@@ -1,0 +1,31 @@
+.\" man page create by R# package system.
+.TH GENETREE 1 2000-1月 "solver_history" "solver_history"
+.SH NAME
+solver_history \- Get the diagnostics of the last fixed point solving.
+.SH SYNOPSIS
+\fIsolver_history(\fBtree\fR as <generic> XGBoostGRN, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Get the diagnostics of the last fixed point solving.
+.PP
+.SH OPTIONS
+.PP
+\fBtree\fB \fR\- the trained [XGBoostGRN](cref:T:SMRUCC.genomics.Analysis.GeneTree.XGBoostGRN) model object.. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a list with the slots \fBiterations\fR, \fBconverged\fR, \fBconverged_cells\fR,
+ \fBmax_change\fR, \fBpopulation\fR and \fBhistory\fR(the maximum relative change of
+ each iteration); an R# error message object is returned when no perturbation
+ experiment has been run yet.
+.PP
+.SH SEE ALSO
+geneTree
+.SH FILES
+.PP
+biosystem.dll
+.PP

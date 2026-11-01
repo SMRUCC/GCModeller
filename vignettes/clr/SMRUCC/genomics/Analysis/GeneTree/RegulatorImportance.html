@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.GeneTree.RegulatorImportance</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>RegulatorImportance {SMRUCC.genomics.Analysis.GeneTree}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>RegulatorImportance</h2>
+
+        <h3>Description</h3>
+
+        <p>单个调控因子在一个基因模型之中的重要性统计</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.GeneTree
+export class RegulatorImportance {
+   # 与靶基因之间的 pearson 相关系数
+   correlation: double;
+   # 与靶基因之间的互信息
+   mi: double;
+   # 在特征向量之中的位置（0 起）
+   rank: integer;
+   # 调控因子编号
+   regulator: string;
+   # 灵敏度：其余特征取训练集的中位数时，把该特征从最小值扫描到最大值所引起的预测变化幅度。
+   # 
+   # 这是一个廉价的“偏依赖”近似，用于大致判断该调控边对靶基因的贡献大小与强度。
+   sensitivity: double;
+   # 所有树之中，以该特征作为分裂特征的节点数量
+   splits: integer;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        this clr type has no other .net clr type reference.
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>
