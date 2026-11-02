@@ -561,7 +561,7 @@ Public Class GeneTreeTrainer
                 opt.Gamma,
                 opt.ThreadsPerModel)
         Catch ex As Exception
-            Call logLimited($"  [GeneTree] 基因 '{gene}' 的 TGBoost 拟合异常: {ex.Message}")
+            Call logLimited($"  [GeneTree] 基因 '{gene}' 的 TGBoost 拟合异常: {ex.ToString}")
 
             Return New FitResult With {.gbm = Nothing}
         End Try

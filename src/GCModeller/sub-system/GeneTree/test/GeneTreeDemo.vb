@@ -405,6 +405,26 @@ Public Module GeneTreeDemo
         Call DebugAudit.Test(accepted.Length = 0 OrElse accepted.All(Function(e) e.deltaR2 > 0),
                              "被接受的边都应当带来正的 R² 增益")
 
+        ' ---- 存档往返：发现边必须随模型一起持久化 ----
+        Using DebugAudit.Watch("synthetic-save-load")
+            Dim zipPath As String = Path.Combine(opt.OutputDir, "synthetic-discovery.zip")
+
+            Using stream As New FileStream(zipPath, FileMode.Create, FileAccess.Write)
+                Call grn.Save(stream)
+            End Using
+
+            Using stream As New FileStream(zipPath, FileMode.Open, FileAccess.Read)
+                Dim loaded As XGBoostGRN = XGBoostGRN.Load(stream)
+
+                Call DebugAudit.Test(loaded.Config.EdgeDiscovery = EdgeDiscoveryMode.ResidualTwoStage,
+                                     "重新加载之后应当保留结构发现模式")
+                Call DebugAudit.Test(loaded.DiscoveredEdgesCount = grn.DiscoveredEdgesCount,
+                                     $"重新加载之后应当保留 {grn.DiscoveredEdgesCount} 条发现边，实际 {loaded.DiscoveredEdgesCount}")
+                Call DebugAudit.Test(loaded.Config.DiscoveryCandidates.Length = config.DiscoveryCandidates.Length,
+                                     "重新加载之后应当保留候选基因清单")
+            End Using
+        End Using
+
         Call Console.WriteLine()
         Call Console.WriteLine($"合成数据自检: 接受 {accepted.Length}/{nTarget} 条新边，其中 {hits} 条命中隐藏调控者")
         Call Console.WriteLine($"报告: {Path.Combine(opt.OutputDir, "discovery.tsv")}")
@@ -626,6 +646,7 @@ Public Module GeneTreeDemo
             Call sb.AppendLine("  --iterations <n>       定点迭代的最大轮数（默认 60）")
             Call sb.AppendLine("  --baseline-cells <n>   接口方法的 nSamples 参数（0 表示使用整个种群）")
             Call sb.AppendLine("  --gene <name>          指定扰动目标基因（默认自动挑选转录因子）")
+            Call sb.AppendLine("  --synthetic            用合成数据自检结构发现（不需要 --aracne / --expr）")
             Call sb.AppendLine("  --discovery-candidates <file>  候选调控者清单（每行一个基因），指定后开启残差二阶段结构发现")
             Call sb.AppendLine("  --discovery-max <n>    每个靶基因最多接受几条新边（默认 2）")
             Call sb.AppendLine("  --discovery-try <n>    每个靶基因最多尝试几个候选（默认 5）")
