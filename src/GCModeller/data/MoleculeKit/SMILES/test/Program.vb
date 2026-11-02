@@ -42,6 +42,10 @@ Module Program
             Call runCase(item, folder)
         Next
 
+        Call Report.Section($"smiles / inchi -> pdb conversion ({cases.Count} cases)")
+
+        Dim structures As Integer = PdbDemo.Run(cases, folder)
+
         Call Report.Section("audit report")
 
         Dim outputs = Report.Save(folder)
@@ -50,6 +54,7 @@ Module Program
         Console.WriteLine($"full log    : {outputs.text}")
         Console.WriteLine($"json report : {outputs.json}")
         Console.WriteLine($"images      : {folder}")
+        Console.WriteLine($"pdb         : {Path.Combine(folder, "pdb")} ({structures} structures)")
         Console.WriteLine($"failures    : {DebugAudit.FailureCount}")
 
         Return If(DebugAudit.FailureCount = 0, 0, 1)

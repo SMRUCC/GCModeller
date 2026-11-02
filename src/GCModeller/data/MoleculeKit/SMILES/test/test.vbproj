@@ -15,6 +15,7 @@
     <ProjectReference Include="..\..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
     <ProjectReference Include="..\..\..\..\..\runtime\sciBASIC#\mime\text%html\html_netcore5.vbproj" />
     <ProjectReference Include="..\..\..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
+    <ProjectReference Include="..\..\RCSB-pdb\RCSB-PDB.vbproj" />
     <ProjectReference Include="..\SMILESView\SMILESView.vbproj" />
     <ProjectReference Include="..\SMILES\SMILES.vbproj" />
   </ItemGroup>

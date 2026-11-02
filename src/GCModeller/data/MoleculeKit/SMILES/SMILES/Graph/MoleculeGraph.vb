@@ -483,7 +483,7 @@ Namespace Graph
             Next
 
             Atoms = survivors
-            Bonds = bonds
+            Bonds = survivingBonds
 
             For i = 0 To Atoms.Count - 1
                 Atoms(i).Index = i
