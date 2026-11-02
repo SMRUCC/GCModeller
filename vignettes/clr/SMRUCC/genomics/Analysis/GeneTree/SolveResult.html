@@ -30,10 +30,14 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Analysis.GeneTree
 export class SolveResult {
+   # 是否把“所有细胞完全一致”的初始状态折叠成了单细胞轨迹
+   Collapsed: boolean;
    # 是否所有细胞都达到了收敛阈值
    Converged: boolean;
    # 达到收敛阈值的细胞数量
    ConvergedCells: integer;
+   # 是否超过了软上限（<code>GeneTreeConfig.MaxIterations</code>）之后继续迭代
+   ExceededSoftLimit: boolean;
    # 基因数量
    GeneCount: integer;
    # 每一轮的最大相对变化量（用于诊断震荡）

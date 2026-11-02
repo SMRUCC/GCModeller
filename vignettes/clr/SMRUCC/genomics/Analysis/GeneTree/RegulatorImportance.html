@@ -32,6 +32,10 @@
 export class RegulatorImportance {
    # 与靶基因之间的 pearson 相关系数
    correlation: double;
+   # 该边被接受时带来的验证集 R² 增益；ARACNE 原有的边为 0
+   deltaR2: double;
+   # 是否为结构发现阶段新增的调控边
+   isDiscovered: boolean;
    # 与靶基因之间的互信息
    mi: double;
    # 在特征向量之中的位置（0 起）
@@ -42,6 +46,8 @@ export class RegulatorImportance {
    # 
    # 这是一个廉价的“偏依赖”近似，用于大致判断该调控边对靶基因的贡献大小与强度。
    sensitivity: double;
+   # 这条调控边的来源：<code>aracne</code>（ARACNE 拓扑给出的边）或 <code>discovered</code>（残差发现阶段新增的边）
+   source: string;
    # 所有树之中，以该特征作为分裂特征的节点数量
    splits: integer;
 }

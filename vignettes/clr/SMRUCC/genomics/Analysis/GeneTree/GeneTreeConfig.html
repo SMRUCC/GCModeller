@@ -43,26 +43,56 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Analysis.GeneTree
 export class GeneTreeConfig {
+   # 有上下文时，是否把“同一上下文下不做任何扰动”的控制稳态作为差异分析的野生型基线。
+   BaselineFromControlSteadyState: boolean;
    # 是否把表达量裁剪为非负（生物学上表达量不能为负）。
    ClipNegative: boolean;
    # 外推裁剪系数：预测值被裁剪到 <code>[min / k, max × k]</code>（min ≥ 0）或 <code>[min × k, max × k]</code>。
    ClippingFactor: double;
+   # 当迭代的初始状态在所有细胞上完全一致时，是否折叠为单细胞轨迹，默认开启。
+   CollapseUniformPopulation: boolean;
    # 列抽样比例 (0, 1]。
    ColSample: double;
-   # 收敛阈值：每一轮所有基因的相对变化量（<code>|Δx| / max(1,|x|)</code>）的最大值低于该值时判定收敛。
+   # 是否在注入表达状态上下文（context）时执行分位对齐，默认开启。
+   ContextQuantileAlignment: boolean;
+   # 收敛阈值：单轮相对变化量（<code>|Δx| / max(1,|x|)</code>）低于该值时认为该基因已经稳定。
    ConvergenceTolerance: double;
    # 阻尼系数 α：<code>x_new = (1-α)·x_old + α·f(x)</code>。默认 0.1，越大越激进、越容易震荡。
    DampingAlpha: double;
+   # 参与结构发现的候选调控者基因编号集合（由调用方显式给出，不自动推断）。
+   DiscoveryCandidates: string;
+   # 每个靶基因最多尝试几个候选（控制重拟合次数），默认 5。
+   DiscoveryMaxCandidates: integer;
+   # 最多对多少个靶基因执行结构发现，0 表示不限制（用于试跑限流）。
+   DiscoveryMaxGenes: integer;
+   # 每个靶基因最多接受几条新发现的调控边，默认 2。
+   DiscoveryMaxPerGene: integer;
+   # 残差与候选基因表达之间的 pearson 相关绝对值下限，默认 0.10。
+   DiscoveryMinCorrelation: double;
+   # 接受一条新调控边所需要的最小验证集 R² 增益，默认 0.002。
+   DiscoveryMinDeltaR2: double;
+   # 计算残差相关时采样的细胞数量，默认 1000；0 表示使用全部训练细胞。
+   DiscoverySampleSize: integer;
    # 早停轮数。验证集不可用（样本过少）时不会生效。
    EarlyStoppingRounds: integer;
+   # 调控边的结构发现模式，默认 <a href="cref:F:SMRUCC.genomics.Analysis.GeneTree.EdgeDiscoveryMode.AracneOnly">EdgeDiscoveryMode.AracneOnly</a>（不发现新边）。
+   EdgeDiscovery: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GeneTree/EdgeDiscoveryMode.html">EdgeDiscoveryMode</a>;
+   # 实际生效的迭代硬上限
+   EffectiveMaxIterationsHardCap: integer;
    # 分裂所需的最小损失下降（gamma），默认 0。
    Gamma: double;
    # 是否把 <code>"undirected"</code> 类型的候选边也纳入调控关系。默认关闭。
    IncludeUndirectedEdges: boolean;
+   # 是否启用结构发现
+   IsDiscoveryEnabled: boolean;
+   # 敲低（Knockdown）之后保留的野生型表达比例，默认 0.2。
+   KnockdownResidual: double;
    # L2 正则化系数（reg_lambda），默认 5，用于抑制小样本过拟合。
    Lambda: double;
    # 学习率 eta，范围 (0, 1]。默认 0.05。
    LearningRate: double;
+   # 允许在迭代过程中被“钳制”的基因比例上限，默认 0.05（5%）。
+   MaxClampRatio: double;
    # 训练阶段的最大并行度，-1 表示使用全部可用核心。
    MaxDegreeOfParallelism: integer;
    # 单棵树的最大深度。建议 3~4：树越浅，预测函数越平滑，定点迭代越容易收敛。
@@ -71,6 +101,8 @@ export class GeneTreeConfig {
    MaxGenes: integer;
    # 定点迭代的最大轮数。
    MaxIterations: integer;
+   # 迭代硬上限：软上限 <a href="cref:P:SMRUCC.genomics.Analysis.GeneTree.GeneTreeConfig.MaxIterations">GeneTreeConfig.MaxIterations</a> 用完之后，只要还没有收敛就继续迭代到该上限。
+   MaxIterationsHardCap: integer;
    # 每个靶基因保留的调控因子数量（按照互信息降序裁剪）。0 表示不裁剪（全量档很慢）。
    MaxRegulators: integer;
    # 每个基因模型最多使用的细胞（样本）数量。0 表示使用全部细胞。
@@ -83,8 +115,12 @@ export class GeneTreeConfig {
    MinSamples: integer;
    # 节点继续分裂所需的最小样本数。
    MinSampleSplit: integer;
+   # 允许在判定收敛时仍然“抖动”的基因比例，默认 0.001（千分之一）。
+   MovingGeneTolerance: double;
    # 提升轮数（树的数量）。浅树 + 适度轮数是 readme 针对定点迭代收敛性给出的建议。
    NumBoostRound: integer;
+   # 过表达（Overexpression）的倍数，默认 2.0：<code>OE = baseline × OverexpressionFactor</code>。
+   OverexpressionFactor: double;
    # 参与迭代的细胞（初始状态）数量。细胞越多，扰动的统计量越稳健，但每轮耗时线性增长。
    PopulationSize: integer;
    # 训练进度的输出间隔（每多少个基因输出一次）。
@@ -107,7 +143,9 @@ export class GeneTreeConfig {
 
         <h3>.NET clr type reference tree</h3>
 
-        this clr type has no other .net clr type reference.
+        <ol>
+<li>use by <i>property</i> member <code>EdgeDiscovery</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GeneTree/EdgeDiscoveryMode.html">EdgeDiscoveryMode</a></li>
+</ol>
 
 
         <hr />

@@ -1,0 +1,62 @@
+.\" man page create by R# package system.
+.TH GENETREE 1 2000-1月 "solver_opts" "solver_opts"
+.SH NAME
+solver_opts \- Override the fixed point solving options of a trained model at runtime, so that
+.SH SYNOPSIS
+\fIsolver_opts(\fBtree\fR as <generic> XGBoostGRN, 
+\fBiterations\fR as integer = -1, 
+\fBdamping\fR as double = -1, 
+\fBtolerance\fR as double = -1, 
+\fBhard_cap\fR as integer = -1, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Override the fixed point solving options of a trained model at runtime, so that
+ the solver can be tuned without re-training the whole network.
+.PP
+.SH OPTIONS
+.PP
+\fBtree\fB \fR\- the trained [XGBoostGRN](cref:T:SMRUCC.genomics.Analysis.GeneTree.XGBoostGRN) model object.. 
+.PP
+.PP
+\fBiterations\fB \fR\- 
+ the soft iteration limit; a negative value keeps the current value.
+. 
+.PP
+.PP
+\fBdamping\fB \fR\- 
+ the damping coefficient \fBalpha\fR in the range (0, 1]; a negative value keeps the
+ current value. A larger alpha moves faster but is easier to oscillate.
+. 
+.PP
+.PP
+\fBtolerance\fB \fR\- 
+ the relative convergence tolerance; a negative value keeps the current value.
+. 
+.PP
+.PP
+\fBhard_cap\fB \fR\- 
+ the hard iteration limit which is used when the soft limit is not enough for
+ convergence; a negative value keeps the current value, \fB0\fR restores the default
+ (\fBmax(iterations * 5, 300)\fR).
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+the input model object that the solver options have been applied.
+.PP
+.SH DETAILS
+.PP
+the control steady state and the last perturbation result are invalidated, so the
+ next perturbation experiment re-solves the control steady state with the new
+ options.
+.PP
+.SH SEE ALSO
+geneTree
+.SH FILES
+.PP
+biosystem.dll
+.PP

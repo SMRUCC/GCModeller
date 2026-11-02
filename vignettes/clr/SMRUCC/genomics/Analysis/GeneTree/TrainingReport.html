@@ -38,6 +38,10 @@ export class TrainingReport {
    Config: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GeneTree/GeneTreeConfig.html">GeneTreeConfig</a>;
    # 退化为常数模型的基因数量
    ConstantModels: integer;
+   # 被接受的新调控边数量
+   DiscoveredEdges: integer;
+   # 结构发现的汇总结果；未开启发现时为 <code>Nothing</code>
+   Discovery: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GeneTree/DiscoveryReport.html">DiscoveryReport</a>;
    # R² 大于 0.05（说明该靶基因确实受到其调控者的非线性影响）的模型数量
    InformativeModels: integer;
    # 所有梯度提升树模型在验证集上的 R² 均值
@@ -56,6 +60,7 @@ export class TrainingReport {
 
         <ol>
 <li>use by <i>property</i> member <code>Config</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GeneTree/GeneTreeConfig.html">GeneTreeConfig</a></li>
+<li>use by <i>property</i> member <code>Discovery</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GeneTree/DiscoveryReport.html">DiscoveryReport</a></li>
 <li>use by <i>property</i> member <code>Models</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GeneTree/GeneModel.html">GeneModel</a></li>
 </ol>
 

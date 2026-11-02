@@ -28,7 +28,8 @@
 
         <div style="width: 100%; padding-left: 3%; color: black;">
             <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>set_context</strong>(<i>tree</i>, <i>genes</i>, <i>expression</i>,
-    <i>fix</i> = <span style='color: blue !important;'>FALSE</span>);</code></pre>
+    <i>fix</i> = <span style='color: blue !important;'>FALSE</span>,
+    <i>align</i> = <span style='color: blue !important;'>TRUE</span>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
@@ -44,11 +45,17 @@
 
 
 <dt>expression</dt>
-<dd><p>a numeric vector of the expression value of the context, in the same order as <strong>genes</strong>; the values are on the same scale as the expression matrix(the model does not apply any transform).</p></dd>
+<dd><p>a numeric vector of the expression value of the context, in the same order as <strong>genes</strong>; the values may come from a different normalisation pipeline, they are mapped onto the model scale by the quantile alignment below.</p></dd>
 
 
 <dt>fix</dt>
-<dd><p>when TRUE the context genes are clamped to the given values during the whole iteration(a gene knock-in like experiment); otherwise they are only used as the starting point and will be updated by the network like the other genes. [as boolean]</p></dd>
+<dd><p>when TRUE the context genes are clamped to the given values during the whole iteration(a gene knock-in like experiment); otherwise they are only used as the starting point and will be updated by the network like the other genes.</p>
+
+<p>clamping only makes sense for a small gene set: when the clamped gene number exceeds <code>MaxClampRatio</code>(5% by default) of the network, the whole network would lose its degrees of freedom and the perturbation effect would vanish, so the library degrades the context to "starting state only" automatically and reports a warning here. [as boolean]</p></dd>
+
+
+<dt>align</dt>
+<dd><p>whether to run the quantile alignment of the context onto the model expression scale, default is TRUE: the context values are mapped onto the per gene distribution of the model population, so that the relative order of the genes is kept and no feature falls outside of the training range of its tree model. [as boolean]</p></dd>
 
 
 <dt>env</dt>

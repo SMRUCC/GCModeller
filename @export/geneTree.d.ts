@@ -55,6 +55,91 @@
 */
 declare namespace geneTree {
    /**
+    * Get the candidate edges that were examined by the residual two-stage structure discovery.
+    * 
+    * > the ``delta_r2`` of an accepted edge is the validation R² gain that the edge brought
+    * >  to its target gene model, the ``correlation`` column is the pearson correlation between
+    * >  the target gene residual and the candidate gene expression.
+    * 
+     * @param tree the trained [XGBoostGRN](cref:T:SMRUCC.genomics.Analysis.GeneTree.XGBoostGRN) model object.
+     * @param top_n the number of the records that are ordered by the R² gain in descending order, ``0``
+     *  returns all of them.
+     * 
+     * + default value Is ``50``.
+     * @param accepted_only when TRUE only the accepted new edges are returned.
+     * 
+     * + default value Is ``true``.
+     * @param env the R# runtime environment object.
+     * 
+     * + default value Is ``null``.
+     * @return a dataframe whose columns are ``gene``, ``regulator``, ``status``, ``correlation``,
+     *  ``delta_r2``, ``r2_before``, ``r2_after``, ``splits``, ``sensitivity`` and ``reason``;
+     *  an R# error message object is returned when the model does not contain any discovery
+     *  result.
+   */
+   function discovered_edges(tree: object, top_n?: object, accepted_only?: boolean, env?: object): object;
+   /**
+    * Enable the residual two-stage structure discovery on a GeneTree configuration.
+    * 
+    * > The discovery runs in two stages:
+    * >  
+    * > 
+    * > 
+    * >  
+    * > 1. only the ARACNE edges are used to fit the target gene model, and the residual
+    * >  (label - prediction) is computed;
+    * > 2. the candidates are ranked by the correlation with the residual, then they are added
+    * >  into the feature set one by one; a candidate is accepted as a new regulation edge
+    * >  only when the validation R² gain is above ``min_delta_r2`` and the feature is
+    * >  actually used by the trees.
+    * > 
+    * > 
+    * >  
+    * > 
+    * > 
+    * >  the ARACNE edges are always kept, the accepted edges are appended after them, so the
+    * >  topology of a discovery model is still comparable with the previous models.
+    * 
+     * @param config the configuration object created by the ``make_profile`` api (it is modified in
+     *  place and returned, so it can be chained).
+     * @param candidates a character vector of the candidate regulator gene id; the discovery only searches
+     *  inside this set, it never guesses the candidate space by itself.
+     *  
+     *  to make a non-transcription-factor perturbation target able to propagate to its
+     *  downstream genes, the target gene itself must be included in this candidate set.
+     * @param max_per_gene the maximum number of the new edges that could be accepted for each target gene,
+     *  default is 2.
+     * 
+     * + default value Is ``2``.
+     * @param max_candidates the maximum number of the candidates that are tried for each target gene (each try
+     *  costs one more model fitting), default is 5.
+     * 
+     * + default value Is ``5``.
+     * @param min_correlation the minimal |pearson r| between the target gene residual and the candidate gene
+     *  expression, default is 0.1.
+     * 
+     * + default value Is ``0.1``.
+     * @param min_delta_r2 the minimal validation R² gain that is required for accepting one new edge,
+     *  default is 0.002.
+     * 
+     * + default value Is ``0.002``.
+     * @param sample_size the number of the cells that are used by the residual correlation screening,
+     *  default is 1000, ``0`` uses all of the training cells.
+     * 
+     * + default value Is ``1000``.
+     * @param max_genes only the first n target genes run the discovery, ``0`` means all of them (useful for
+     *  a quick trial).
+     * 
+     * + default value Is ``0``.
+     * @param env the R# runtime environment object.
+     * 
+     * + default value Is ``null``.
+     * @return the input configuration object with ``EdgeDiscovery = ResidualTwoStage``; an R#
+     *  error message object is returned when the candidate set is empty or the resulting
+     *  configuration is invalid.
+   */
+   function discovery(config: object, candidates: any, max_per_gene?: object, max_candidates?: object, min_correlation?: number, min_delta_r2?: number, sample_size?: object, max_genes?: object, env?: object): object;
+   /**
     * Get the split importance of the regulators, this table is the data driven
     *  "sign and weight" of the ARACNE network edges.
     * 
@@ -118,9 +203,10 @@ declare namespace geneTree {
      * @param tree the trained [XGBoostGRN](cref:T:SMRUCC.genomics.Analysis.GeneTree.XGBoostGRN) model object.
      * @param env 
      * + default value Is ``null``.
-     * @return a list with the slots ``genes``, ``expression``, ``fix`` and ``unknown``(the
-     *  gene ids that could not be mapped onto the model), the ``genes`` slot is an
-     *  empty character vector when no context has been applied.
+     * @return a list with the slots ``genes``, ``expression``, ``fix``, ``aligned``,
+     *  ``clamp_genes``, ``note`` and ``unknown``(the gene ids that could not be mapped
+     *  onto the model), the ``genes`` slot is an empty character vector when no context
+     *  has been applied.
    */
    function get_context(tree: object, env?: object): number;
    /**
@@ -188,9 +274,11 @@ declare namespace geneTree {
      *  value keeps the value of the selected profile, ``0`` keeps all of them.
      * 
      * + default value Is ``-1``.
+     * @param include_undirected 
+     * + default value Is ``true``.
      * @return the [GeneTreeConfig](cref:T:SMRUCC.genomics.Analysis.GeneTree.GeneTreeConfig) configuration object.
    */
-   function make_profile(profile?: object, population?: object, iterations?: object, cells?: object, max_genes?: object, max_regulators?: object): object;
+   function make_profile(profile?: object, population?: object, iterations?: object, cells?: object, max_genes?: object, max_regulators?: object, include_undirected?: boolean): object;
    /**
     * Create the GeneTree model from the ARACNE network and the gene expression matrix.
     * 
@@ -285,13 +373,25 @@ declare namespace geneTree {
      * @param genes a character vector of the gene id of the context; the ids must live in the same
      *  identifier space as the expression matrix that the model was trained on.
      * @param expression a numeric vector of the expression value of the context, in the same order as
-     *  **genes**; the values are on the same scale as the expression
-     *  matrix(the model does not apply any transform).
+     *  **genes**; the values may come from a different normalisation
+     *  pipeline, they are mapped onto the model scale by the quantile alignment below.
      * @param fix when TRUE the context genes are clamped to the given values during the whole
      *  iteration(a gene knock-in like experiment); otherwise they are only used as
      *  the starting point and will be updated by the network like the other genes.
+     *  
+     *  clamping only makes sense for a small gene set: when the clamped gene number
+     *  exceeds ``MaxClampRatio``(5% by default) of the network, the whole network would
+     *  lose its degrees of freedom and the perturbation effect would vanish, so the
+     *  library degrades the context to "starting state only" automatically and reports
+     *  a warning here.
      * 
      * + default value Is ``false``.
+     * @param align whether to run the quantile alignment of the context onto the model expression
+     *  scale, default is TRUE: the context values are mapped onto the per gene
+     *  distribution of the model population, so that the relative order of the genes is
+     *  kept and no feature falls outside of the training range of its tree model.
+     * 
+     * + default value Is ``true``.
      * @param env the R# runtime environment object.
      * 
      * + default value Is ``null``.
@@ -300,7 +400,7 @@ declare namespace geneTree {
      *  an R# error message object is returned when the sizes of the two vectors do not
      *  match or no gene of the context could be mapped onto the model.
    */
-   function set_context(tree: object, genes: any, expression: any, fix?: boolean, env?: object): object;
+   function set_context(tree: object, genes: any, expression: any, fix?: boolean, align?: boolean, env?: object): object;
    /**
     * Get the diagnostics of the last fixed point solving.
     * 
@@ -315,6 +415,36 @@ declare namespace geneTree {
      *  experiment has been run yet.
    */
    function solver_history(tree: object, env?: object): number;
+   /**
+    * Override the fixed point solving options of a trained model at runtime, so that
+    *  the solver can be tuned without re-training the whole network.
+    * 
+    * > the control steady state and the last perturbation result are invalidated, so the
+    * >  next perturbation experiment re-solves the control steady state with the new
+    * >  options.
+    * 
+     * @param tree the trained [XGBoostGRN](cref:T:SMRUCC.genomics.Analysis.GeneTree.XGBoostGRN) model object.
+     * @param iterations the soft iteration limit; a negative value keeps the current value.
+     * 
+     * + default value Is ``-1``.
+     * @param damping the damping coefficient ``alpha`` in the range (0, 1]; a negative value keeps the
+     *  current value. A larger alpha moves faster but is easier to oscillate.
+     * 
+     * + default value Is ``-1``.
+     * @param tolerance the relative convergence tolerance; a negative value keeps the current value.
+     * 
+     * + default value Is ``-1``.
+     * @param hard_cap the hard iteration limit which is used when the soft limit is not enough for
+     *  convergence; a negative value keeps the current value, ``0`` restores the default
+     *  (``max(iterations * 5, 300)``).
+     * 
+     * + default value Is ``-1``.
+     * @param env the R# runtime environment object.
+     * 
+     * + default value Is ``null``.
+     * @return the input model object that the solver options have been applied.
+   */
+   function solver_opts(tree: object, iterations?: object, damping?: number, tolerance?: number, hard_cap?: object, env?: object): object;
    /**
     * Solve the control steady state of the network, i.e. the "attractor" of the fitted
     *  dynamical system when no intervention is applied.

@@ -68,10 +68,20 @@ export class XGBoostGRN {
    # 
    # 没有被 <a href="cref:M:SMRUCC.genomics.Analysis.GeneTree.XGBoostGRN.SetContext(System.Collections.Generic.IDictionary{System.String,System.Double},System.Boolean)">XGBoostGRN.SetContext()</a> 设置过的时候为<code>Nothing</code>。
    Context: <a href="/vignettes/clr/System/Collections/Generic/IReadOnlyDictionary`2.html">IReadOnlyDictionary`2</a>;
+   # 应用状态上下文时是否执行过分位对齐
+   ContextAligned: boolean;
+   # 上下文之中真正被钳制的基因数量（钳制被自动降级时为 0）
+   ContextClampGenes: integer;
    # 上下文之中的基因是否在迭代过程中被钳制（固定不变）
    ContextFix: boolean;
+   # 上下文注入过程的诊断信息（对齐、钳制降级等），没有需要提示的信息时为<code>Nothing</code>
+   ContextNote: string;
    # 不施加任何干预时的网络稳态均值（模拟表达谱自身的“吸引子”）
    ControlSteadyState: double;
+   # 模型之中由结构发现阶段新增的调控边数量
+   DiscoveredEdgesCount: integer;
+   # 结构发现的汇总结果（未开启发现或者模型尚未训练时为 <code>Nothing</code>）
+   Discovery: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GeneTree/DiscoveryReport.html">DiscoveryReport</a>;
    # 用于训练的表达矩阵（从存档加载的模型为 <code>Nothing</code>）
    Expression: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>;
    # 基因名称（顺序与 <a href="cref:P:SMRUCC.genomics.BioSystem.Intervention.InterventionResult.GeneNames">InterventionResult.GeneNames</a> 一致）
@@ -107,6 +117,7 @@ export class XGBoostGRN {
         <ol>
 <li>use by <i>property</i> member <code>Config</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GeneTree/GeneTreeConfig.html">GeneTreeConfig</a></li>
 <li>use by <i>property</i> member <code>Context</code>: <a href="/vignettes/clr/System/Collections/Generic/IReadOnlyDictionary`2.html">IReadOnlyDictionary`2</a></li>
+<li>use by <i>property</i> member <code>Discovery</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GeneTree/DiscoveryReport.html">DiscoveryReport</a></li>
 <li>use by <i>property</i> member <code>Expression</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a></li>
 <li>use by <i>property</i> member <code>Graph</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GeneTree/GeneRegulationGraph.html">GeneRegulationGraph</a></li>
 <li>use by <i>property</i> member <code>LastSolve</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GeneTree/SolveResult.html">SolveResult</a></li>

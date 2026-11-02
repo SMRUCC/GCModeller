@@ -1,0 +1,48 @@
+.\" man page create by R# package system.
+.TH GENETREE 1 2000-1月 "discovered_edges" "discovered_edges"
+.SH NAME
+discovered_edges \- Get the candidate edges that were examined by the residual two-stage structure discovery.
+.SH SYNOPSIS
+\fIdiscovered_edges(\fBtree\fR as <generic> XGBoostGRN, 
+\fBtop_n\fR as integer = 50, 
+\fBaccepted_only\fR as boolean = TRUE, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Get the candidate edges that were examined by the residual two-stage structure discovery.
+.PP
+.SH OPTIONS
+.PP
+\fBtree\fB \fR\- the trained [XGBoostGRN](cref:T:SMRUCC.genomics.Analysis.GeneTree.XGBoostGRN) model object.. 
+.PP
+.PP
+\fBtop_n\fB \fR\- 
+ the number of the records that are ordered by the R² gain in descending order, \fB0\fR
+ returns all of them.
+. 
+.PP
+.PP
+\fBaccepted_only\fB \fR\- when TRUE only the accepted new edges are returned.. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a dataframe whose columns are \fBgene\fR, \fBregulator\fR, \fBstatus\fR, \fBcorrelation\fR,
+ \fBdelta_r2\fR, \fBr2_before\fR, \fBr2_after\fR, \fBsplits\fR, \fBsensitivity\fR and \fBreason\fR;
+ an R# error message object is returned when the model does not contain any discovery
+ result.
+.PP
+.SH DETAILS
+.PP
+the \fBdelta_r2\fR of an accepted edge is the validation R² gain that the edge brought
+ to its target gene model, the \fBcorrelation\fR column is the pearson correlation between
+ the target gene residual and the candidate gene expression.
+.PP
+.SH SEE ALSO
+geneTree
+.SH FILES
+.PP
+biosystem.dll
+.PP

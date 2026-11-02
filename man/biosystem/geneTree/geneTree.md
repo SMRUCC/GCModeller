@@ -48,17 +48,20 @@ XGBoost based gene regulatory network simulator and the in silico perturbation t
 >  api of the ``bnlearn`` package module can be used directly on it.
 
 + [make_profile](geneTree/make_profile.1) Create the training/solving configuration profile of the GeneTree model.
++ [discovery](geneTree/discovery.1) Enable the residual two-stage structure discovery on a GeneTree configuration.
 + [load_topology](geneTree/load_topology.1) Build the regulation graph model from the ARACNE inferred network.
 + [load_expression](geneTree/load_expression.1) Attach the gene expression matrix to the regulation graph, the created model is
 + [new](geneTree/new.1) Create the GeneTree model from the ARACNE network and the gene expression matrix.
 + [fit_tree](geneTree/fit_tree.1) Train the gradient boosting tree models of each target gene.
 + [write_report](geneTree/write_report.1) Export the training report as two readable table files.
 + [training_stats](geneTree/training_stats.1) Get the summary statistics of the model training.
++ [discovered_edges](geneTree/discovered_edges.1) Get the candidate edges that were examined by the residual two-stage structure discovery.
 + [report_table](geneTree/report_table.1) Get the per gene fitting quality table of the trained model.
 + [feature_importance](geneTree/feature_importance.1) Get the split importance of the regulators, this table is the data driven
 + [gene_stats](geneTree/gene_stats.1) Get the gene alignment and the wildtype baseline of the model.
 + [gene_names](geneTree/gene_names.1) Get the gene ids of the model.
 + [set_context](geneTree/set_context.1) Inject an expression state context into the model, the context becomes the
++ [solver_opts](geneTree/solver_opts.1) Override the fixed point solving options of a trained model at runtime, so that
 + [reset_context](geneTree/reset_context.1) Remove the expression state context, the model is restored back to the wildtype
 + [get_context](geneTree/get_context.1) Get the expression state context that is currently applied on the model.
 + [steady_state](geneTree/steady_state.1) Solve the control steady state of the network, i.e. the "attractor" of the fitted

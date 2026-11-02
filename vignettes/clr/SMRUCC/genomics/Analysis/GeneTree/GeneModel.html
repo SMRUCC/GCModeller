@@ -43,8 +43,12 @@ export class GeneModel {
    Booster: <a href="/vignettes/clr/Microsoft/VisualBasic/MachineLearning/XGBoost/train/GBM.html">GBM</a>;
    # 常数模型的输出值（训练标签均值）；只有 <a href="cref:P:SMRUCC.genomics.Analysis.GeneTree.GeneModel.Booster">GeneModel.Booster</a> 为空时才会被使用
    Constant: double;
+   # 结构发现阶段对该基因检验过的候选边（含接受与拒绝）；未开启发现时为空数组
+   DiscoveryEdges: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GeneTree/DiscoveryEdge.html">DiscoveryEdge[]</a>;
    # 靶基因编号
    Gene: string;
+   # 该基因的模型之中是否包含结构发现阶段新增的调控边
+   HasDiscoveredEdges: boolean;
    # 该基因是否拥有一个（可能退化了的）模型对象。<code>False</code> 表示它是没有调控者的源节点。
    IsFittedModel: boolean;
    # 模型种类：<code>xgboost</code> 或 <code>constant</code>
@@ -69,6 +73,7 @@ export class GeneModel {
 
         <ol>
 <li>use by <i>property</i> member <code>Booster</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/MachineLearning/XGBoost/train/GBM.html">GBM</a></li>
+<li>use by <i>property</i> member <code>DiscoveryEdges</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GeneTree/DiscoveryEdge.html">DiscoveryEdge</a></li>
 <li>use by <i>property</i> member <code>Performance</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GeneTree/ModelPerformance.html">ModelPerformance</a></li>
 </ol>
 
