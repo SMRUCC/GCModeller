@@ -164,12 +164,14 @@ Namespace Kernel.BayesianBeliefNetwork
         ''' 一个确定性的分布，与变量消除引擎的行为保持一致。
         ''' </remarks>
         Private Function ExpandToTargets(factor As Factor, evidence As Integer(), targets As Integer()) As Double()
+            ' 先把团潜势边缘化到目标变量集合之上，之后它的定义域一定是目标的子集
+            Dim marginalFactor As Factor = factor.MarginalizeTo(targets)
             Dim cards As Integer() = targets.Select(Function(v) _nodes(v).Range).ToArray()
             Dim strides As Integer() = Factor.ComputeStrides(cards)
             Dim size As Integer = If(targets.Length = 0, 1, strides(targets.Length - 1) * cards(targets.Length - 1))
             Dim raw As Double() = New Double(size - 1) {}
             Dim codes As Integer() = New Integer(targets.Length - 1) {}
-            Dim subset As Integer() = factor.Variables
+            Dim subset As Integer() = marginalFactor.Variables
             Dim buffer As Integer() = New Integer(subset.Length - 1) {}
 
             For i As Integer = 0 To size - 1
@@ -194,7 +196,7 @@ Namespace Kernel.BayesianBeliefNetwork
                     buffer(k) = If(position >= 0, codes(position), 0)
                 Next
 
-                raw(i) = If(subset.Length = 0, 0.0, factor.LogValue(buffer))
+                raw(i) = If(subset.Length = 0, 0.0, marginalFactor.LogValue(buffer))
             Next
 
             Return NumericLogSpace.NormalizeLog(raw)
