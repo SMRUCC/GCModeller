@@ -173,7 +173,7 @@ Namespace Graph
         ''' 枚举与指定原子相连的全部键。
         ''' </summary>
         ''' <param name="index">原子下标。</param>
-        Public Function BondsOf(index As Integer) As IEnumerable(Of Bond)
+        Public Iterator Function BondsOf(index As Integer) As IEnumerable(Of Bond)
             For Each id As Integer In Adjacency()(index)
                 Yield Bonds(id)
             Next

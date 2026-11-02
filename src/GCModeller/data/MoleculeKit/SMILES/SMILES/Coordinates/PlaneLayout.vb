@@ -1,4 +1,4 @@
-Namespace Coordinates
+﻿Namespace Coordinates
 
     ''' <summary>
     ''' 2D 平面坐标重建：环模板布局 + 取代基生长 + 力导向精修。
@@ -67,12 +67,12 @@ Namespace Coordinates
 
             For Each system As List(Of Graph.Ring) In systems
                 For Each ring As Graph.Ring In system.OrderByDescending(Function(r) r.Size)
-                    Dim shared As Integer = ring.Atoms.Count(Function(a) placed(a))
+                    Dim sharedCount As Integer = ring.Atoms.Count(Function(a) placed(a))
 
-                    If shared = 0 Then
+                    If sharedCount = 0 Then
                         Dim center As (x As Double, y As Double) = findFreeCenter(px, py, placed, ringRadius(ring.Size))
                         Call placePolygon(ring, center.x, center.y, 0, 1, px, py, placed)
-                    ElseIf shared >= 2 Then
+                    ElseIf sharedCount >= 2 Then
                         Dim edge As Integer = findPlacedEdge(ring, placed)
 
                         If edge >= 0 AndAlso placeFromEdge(ring, edge, px, py, placed) Then
@@ -155,8 +155,8 @@ Namespace Coordinates
             Dim best As (x As Double, y As Double) = (cx + spread + radius + 1.5, cy)
             Dim bestScore As Double = Double.MinValue
 
-            For step = 0 To 23
-                Dim angle As Double = step * Math.PI / 12
+            For slot = 0 To 23
+                Dim angle As Double = slot * Math.PI / 12
                 Dim x As Double = cx + (spread + radius + 1.5) * Math.Cos(angle)
                 Dim y As Double = cy + (spread + radius + 1.5) * Math.Sin(angle)
                 Dim score As Double = clearScore(px, py, placed, x, y, radius)
@@ -253,10 +253,10 @@ Namespace Coordinates
             Dim currentX As Double = ax
             Dim currentY As Double = ay
             Dim dir As Double = baseAngle
-            Dim step As Double = bestOrientation * 2 * Math.PI / n
+            Dim slot As Double = bestOrientation * 2 * Math.PI / n
 
             For k = 1 To n - 1
-                If k > 1 Then dir += step
+                If k > 1 Then dir += slot
 
                 Dim x As Double = currentX + length * Math.Cos(dir)
                 Dim y As Double = currentY + length * Math.Sin(dir)
@@ -304,9 +304,9 @@ Namespace Coordinates
             Dim bestScore As Double = Double.MinValue
             Dim startAngle As Double = 0
 
-            For step = 0 To 23
+            For slot = 0 To 23
                 For Each turn As Integer In New Integer() {1, -1}
-                    Dim angle As Double = step * Math.PI / 12
+                    Dim angle As Double = slot * Math.PI / 12
                     Dim score As Double = 0
                     Dim cx As Double = px(anchor)
                     Dim cy As Double = py(anchor)
@@ -442,8 +442,8 @@ Namespace Coordinates
             Dim bestX As Double = px(a) + BOND_LENGTH * Math.Cos(preferred)
             Dim bestY As Double = py(a) + BOND_LENGTH * Math.Sin(preferred)
 
-            For step = 0 To 23
-                Dim offset As Double = (If(step Mod 2 = 0, 1, -1)) * ((step + 1) \ 2) * Math.PI / 12
+            For slot = 0 To 23
+                Dim offset As Double = (If(slot Mod 2 = 0, 1, -1)) * ((slot + 1) \ 2) * Math.PI / 12
                 Dim angle As Double = preferred + offset
                 Dim x As Double = px(a) + BOND_LENGTH * Math.Cos(angle)
                 Dim y As Double = py(a) + BOND_LENGTH * Math.Sin(angle)

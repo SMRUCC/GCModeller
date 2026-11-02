@@ -181,6 +181,70 @@ Namespace Graph
             End If
         End Function
 
+        ''' <summary>
+        ''' 依据 Kekulé 键级感知芳香性（InChI 没有芳香性信息，需要事后推断）。
+        ''' </summary>
+        ''' <param name="graph">已还原键级的分子图。</param>
+        ''' <returns>被标记为芳香环的环个数。</returns>
+        Public Function PerceiveAromaticity(graph As MoleculeGraph) As Integer
+            Dim marked As Integer = 0
+
+            For Each ring As Ring In graph.Rings()
+                If ring.Size < 5 OrElse ring.Size > 7 Then Continue For
+
+                Dim ringBonds As New HashSet(Of Integer)(ring.BondIndices)
+                Dim doubles As Integer = 0
+                Dim viable As Boolean = True
+
+                For Each id As Integer In ring.BondIndices
+                    Dim bond As Bond = graph.Bonds(id)
+
+                    If bond.order >= 3 Then
+                        viable = False
+                        Exit For
+                    End If
+
+                    If bond.order = 2 Then doubles += 1
+                Next
+
+                If Not viable OrElse doubles <> ring.Size \ 2 Then Continue For
+
+                For Each atom As Integer In ring.Atoms
+                    Select Case graph.Atoms(atom).Element
+                        Case "C", "N", "O", "S", "P", "B", "Se", "Te"
+                            ' 可参与共轭
+                        Case Else
+                            viable = False
+                            Exit For
+                    End Select
+
+                    For Each id As Integer In graph.Adjacency()(atom)
+                        If ringBonds.Contains(id) Then Continue For
+                        If graph.Bonds(id).order >= 2 Then
+                            viable = False
+                            Exit For
+                        End If
+                    Next
+
+                    If Not viable Then Exit For
+                Next
+
+                If Not viable Then Continue For
+
+                For Each atom As Integer In ring.Atoms
+                    graph.Atoms(atom).IsAromatic = True
+                Next
+
+                For Each id As Integer In ring.BondIndices
+                    graph.Bonds(id).IsAromatic = True
+                Next
+
+                marked += 1
+            Next
+
+            Return marked
+        End Function
+
         Private Function matchAromatic(graph As MoleculeGraph,
                                        aromaticBonds As List(Of Bond),
                                        need As Integer(),

@@ -1,4 +1,4 @@
-Namespace Graph
+﻿Namespace Graph
 
     ''' <summary>
     ''' 分子图中的一个环：按环上顺序排列的原子下标序列。
@@ -38,14 +38,14 @@ Namespace Graph
         ''' </summary>
         ''' <param name="other">另一个环。</param>
         Public Function SharesAtomsWith(other As Ring) As Integer
-            Dim shared As Integer = 0
-            Dim set As HashSet(Of Integer) = other.AtomSet
+            Dim sharedCount As Integer = 0
+            Dim otherSet As HashSet(Of Integer) = other.AtomSet
 
             For Each a As Integer In Atoms
-                If set.Contains(a) Then shared += 1
+                If otherSet.Contains(a) Then sharedCount += 1
             Next
 
-            Return shared
+            Return sharedCount
         End Function
 
         ''' <summary>
@@ -181,9 +181,9 @@ Namespace Graph
                 Return x.SharesAtomsWith(y) >= 2
             End If
 
-            Dim set As New HashSet(Of Integer)(y.BondIndices)
+            Dim otherSet As New HashSet(Of Integer)(y.BondIndices)
 
-            Return x.BondIndices.Any(Function(id) set.Contains(id))
+            Return x.BondIndices.Any(Function(id) otherSet.Contains(id))
         End Function
 
         ''' <summary>

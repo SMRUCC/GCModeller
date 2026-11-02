@@ -189,19 +189,19 @@
                 symbol = letter.Substring(0, 1).ToUpper & letter.Substring(1)
                 aromatic = True
             Else
-                Dim single As String = c.ToString
+                Dim symbolText As String = c.ToString
                 cursor += 1
 
                 If cursor < text.Length AndAlso Char.IsLower(text(cursor)) Then
-                    Dim pair As String = single & text(cursor)
+                    Dim pair As String = symbolText & text(cursor)
 
                     If twoLetter.Contains(pair) Then
-                        single = pair
+                        symbolText = pair
                         cursor += 1
                     End If
                 End If
 
-                symbol = single
+                symbol = symbolText
             End If
 
             If symbol Is Nothing Then Throw fail("missing element symbol at " & start)
@@ -238,20 +238,20 @@
                 symbol = "*"
                 cursor += 1
             ElseIf Char.IsUpper(c) Then
-                Dim single As String = c.ToString
+                Dim symbolText As String = c.ToString
 
                 cursor += 1
 
                 If cursor < text.Length AndAlso Char.IsLower(text(cursor)) Then
-                    Dim pair As String = single & text(cursor)
+                    Dim pair As String = symbolText & text(cursor)
 
                     If twoLetter.Contains(pair) Then
-                        single = pair
+                        symbolText = pair
                         cursor += 1
                     End If
                 End If
 
-                symbol = single
+                symbol = symbolText
             ElseIf Char.IsLower(c) Then
                 Dim letter As String = c.ToString
 

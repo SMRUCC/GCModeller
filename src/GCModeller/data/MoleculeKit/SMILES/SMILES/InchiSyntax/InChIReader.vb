@@ -1,4 +1,4 @@
-Imports System.Text.RegularExpressions
+﻿Imports System.Text.RegularExpressions
 
 Namespace InchiSyntax
 
@@ -327,6 +327,6 @@ Namespace InchiSyntax
             data.StereoLayer = String.Join("/", stereo)
         End Sub
 
-    End Class
+    End Module
 
 End Namespace

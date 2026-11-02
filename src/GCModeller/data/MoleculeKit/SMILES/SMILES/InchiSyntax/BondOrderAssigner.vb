@@ -95,10 +95,6 @@ Namespace InchiSyntax
         ''' <param name="graph">分子图。</param>
         ''' <param name="index">原子下标。</param>
         Public Function DeficitOf(graph As Graph.MoleculeGraph, index As Integer) As Integer
-            Return deficitOf(graph, index)
-        End Function
-
-        Private Function deficitOf(graph As Graph.MoleculeGraph, index As Integer) As Integer
             Dim atom As Graph.Atom = graph.Atoms(index)
             Dim used As Integer = atom.ExplicitH
 
