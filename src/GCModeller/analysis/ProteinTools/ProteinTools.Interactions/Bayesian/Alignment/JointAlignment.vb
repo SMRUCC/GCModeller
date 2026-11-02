@@ -260,7 +260,7 @@ Namespace Bayesian.Alignment
         End Function
 
         ''' <summary>
-        ''' 按照给定的 B 段顺序重排联合比对：行 <c>i</c> 的 B 段取自原来的行 <paramref name="sourceRow(i)"/>。
+        ''' 按照给定的 B 段顺序重排联合比对：行 <c>i</c> 的 B 段取自原来的行 <paramref name="sourceRow"/>。
         ''' </summary>
         ''' <param name="sourceRow">新的行到下标的映射，长度必须等于行数</param>
         Public Function WithPartnerOrder(sourceRow As Integer()) As JointAlignment

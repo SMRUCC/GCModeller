@@ -152,7 +152,7 @@ Namespace Bayesian.Inference
                                  "no genome contains more than one candidate pair; the sampler has nothing to permute")
             End If
 
-            For run As Integer = 0 To _options.Runs - 1
+            For trial As Integer = 0 To _options.Runs - 1
                 Dim model As New PpiBayesianModel(_alignment, _modelOptions)
                 Dim current As Double = model.LogEvidence()
 
@@ -219,7 +219,7 @@ Namespace Bayesian.Inference
                     End If
                 Next
 
-                logEvidence(run) = current
+                logEvidence(trial) = current
             Next
 
             Return BuildResult(frequency, groups, statistics, logEvidence)
@@ -241,7 +241,10 @@ Namespace Bayesian.Inference
         Private Function BuildResult(frequency As Double(,), groups As Integer(), statistics As Integer, logEvidence As Double()) As InferenceResult
             Dim rows As Integer = _alignment.Rows
             Dim cognate As Double() = New Double(rows - 1) {}
-            Dim partners As List(Of InferenceResult.Partner)() = New List(Of InferenceResult.Partner)(rows - 1)() {}
+            Dim partners As List(Of InferenceResult.Partner)() = Enumerable _
+                .Range(0, rows) _
+                .Select(Function(i) New List(Of InferenceResult.Partner)) _
+                .ToArray()
             Dim names As String() = _alignment.Names
 
             For r As Integer = 0 To rows - 1

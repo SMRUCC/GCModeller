@@ -151,8 +151,8 @@ Namespace Bayesian.Inference
             Dim nullValues As Double() = nulls.ToArray()
 
             Return New Result With {
-                .TrueQuantiles = Quantiles(truth, points),
-                .NullQuantiles = Quantiles(nullValues, points),
+                .TrueQuantiles = ComputeQuantiles(truth, points),
+                .NullQuantiles = ComputeQuantiles(nullValues, points),
                 .KSStatistic = KolmogorovSmirnov(truth, nullValues),
                 .MeanTrue = If(truth.Length = 0, 0.0, truth.Average()),
                 .MeanNull = If(nullValues.Length = 0, 0.0, nullValues.Average()),
@@ -249,7 +249,7 @@ Namespace Bayesian.Inference
             Return values
         End Function
 
-        Private Shared Function Quantiles(values As Double(), points As Double()) As Double()
+        Private Shared Function ComputeQuantiles(values As Double(), points As Double()) As Double()
             If values Is Nothing OrElse values.Length = 0 Then
                 Return New Double(points.Length - 1) {}
             End If

@@ -82,9 +82,14 @@ Namespace SwissTCS
         ''' </summary>
         ''' <returns></returns>
         Public Function GetSpeciesList() As String()
-            Dim webPage As String = ENTRY_URL.GET
-            webPage = Regex.Match(webPage, SECTION, RegexOptions.Singleline).Value
-            Return __getOptions(webPage)
+            Dim webPage As String = WebParser.Download(ENTRY_URL)
+            Dim section As String = Regex.Match(webPage, SECTION, RegexOptions.Singleline).Value
+
+            If String.IsNullOrEmpty(section) Then
+                Return WebParser.ParseOptions(webPage)
+            Else
+                Return WebParser.ParseOptions(section)
+            End If
         End Function
 
         ''' <summary>
@@ -101,7 +106,7 @@ Namespace SwissTCS
         <ExportAPI("Get.TCS.Scores")>
         Public Function GetScores(geneId As String, speciesId As String, component As TCSComponentTypes) As CrossTalks()
             Dim Url As String = String.Format(SCORE, component.ToString, geneId, speciesId)
-            Dim WebPage As String = Url.GET
+            Dim WebPage As String = WebParser.Download(Url)
             WebPage = Mid(WebPage, InStr(WebPage, SECTION_START) + 200)
 
             Dim items As String() = (From m As Match
@@ -148,7 +153,7 @@ Namespace SwissTCS
         <ExportAPI("Get.Tcs.System")>
         Public Function GetTCSList(speciesId As String) As String()()
             Dim url = String.Format(SCORE, TCSComponentTypes.kinase.ToString, "geneId", speciesId)
-            Dim pageContent As String = url.GET
+            Dim pageContent As String = WebParser.Download(url)
             Dim Groups = Regex.Matches(pageContent, OPTGROUP, RegexOptions.Singleline)
             Dim returnList = (From mi As Match In Groups Select __getOptions(mi.Value)).ToArray
             Return returnList

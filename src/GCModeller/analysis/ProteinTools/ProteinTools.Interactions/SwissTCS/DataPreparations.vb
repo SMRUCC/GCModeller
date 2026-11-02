@@ -1,57 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::f0a36ca2893a3e065a7508a60275e47a, analysis\ProteinTools\ProteinTools.Interactions\SwissTCS\DataPreparations.vb"
-
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
-
-' Class DataPreparations
-' 
-'     Constructor: (+1 Overloads) Sub New
-'     Function: InferInteraction, (+2 Overloads) SequenceAssemble, Trim
-'     Class DipRecord
-' 
-'         Properties: ConfidenceValues, IdInteractorA, IdInteractorB, InteractionDetectionMethods, InteractionIdentifiers
-'                     InteractionTypes, ProcessingStatus, PublicationIdentifiers, SourceDatabases, TaxidInteractorA
-'                     TaxidInteractorB
-' 
-'         Function: Convert
-' 
-' 
-' 
-' /********************************************************************************/
-
-#End Region
-
-Imports Microsoft.VisualBasic.Data.Framework
+﻿Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Data.Framework.Extensions
 Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
+Imports SMRUCC.genomics.Analysis.ProteinTools.Interactions.Bayesian.Alignment
+Imports SMRUCC.genomics.Analysis.ProteinTools.Interactions.Bayesian.Evaluation
+Imports SMRUCC.genomics.Analysis.ProteinTools.Interactions.Bayesian.Model
+Imports SMRUCC.genomics.Analysis.ProteinTools.Interactions.Bayesian.Statistics
 Imports SMRUCC.genomics.Analysis.SequenceAlignment.Clustal
 Imports SMRUCC.genomics.Interops
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
@@ -60,6 +13,31 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Programs
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
+''' <summary>
+''' 从实验互作数据库(DIP)出发，为单个目标基因构建配对比对并预测其互作伙伴。
+''' </summary>
+''' <remarks>
+''' <para>
+''' 这是论文流水线的工程化版本，与旧实现的区别在于步骤 6 之后：
+''' </para>
+''' <list type="bullet">
+''' <item><description>
+''' 旧实现把两个家族的比对序列按字符串直接拼接之后交给 R 的 <c>bnlearn</c>，
+''' 既没有「按基因组配对」的概念，也没有互作标签节点；
+''' </description></item>
+''' <item><description>
+''' 新实现按照论文的要求把同一互作对(同一个 DIP 复合物)的两条比对序列放在同一行构造
+''' <b>配对联合比对</b>，然后计算 Dirichlet-多项似然比、依赖树与静态打分 <c>X</c>，
+''' 最终以 <c>X ≥ 阈值</c> 判定互作，并输出逐残基对的贡献以支持可解释性分析。
+''' </description></item>
+''' </list>
+''' <para>
+''' 需要说明的是：DIP 记录本身并不包含物种信息，因此在「单目标基因」这一使用场景下
+''' 每个候选互作对自成一个分组，Gibbs 分配采样没有可置换的对象，
+''' 此时直接使用静态打分即可；如果要运行完整的分配采样，应当改用 SwissTCS 的
+''' 「同一基因组内多个激酶与多个响应调节蛋白」数据。
+''' </para>
+''' </remarks>
 Public Class DataPreparations
 
     Dim LocalBLAST As BLASTPlus
@@ -69,173 +47,330 @@ Public Class DataPreparations
     Dim GenomicsProteins As FASTA.FastaFile
 
     ''' <summary>
-    ''' 
+    ''' 模型配置
     ''' </summary>
-    ''' <param name="GenomicProteins">每一条序列对象仅包含有基因号</param>
-    ''' <param name="DipDir"></param>
-    ''' <param name="Blastbin"></param>
-    ''' <remarks></remarks>
-    Sub New(GenomicProteins As FASTA.FastaFile, DipDir As String, Blastbin As String, rBin As String, ClustalBin As String, Optional Temp As String = "")
+    Public Property Options As PpiModelOptions = Nothing
+
+    ''' <summary>
+    ''' 是否输出残基对级别的可解释性明细
+    ''' </summary>
+    Public Property ExplainResidues As Boolean = True
+
+    ''' <summary>
+    ''' 调试模式下最多保留的同源序列条数，-1 表示不限制
+    ''' </summary>
+    Public Property MaxHomologs As Integer = -1
+
+    ''' <summary>
+    ''' 初始化会话
+    ''' </summary>
+    ''' <param name="GenomicProteins">目标基因组的蛋白质序列，每一条序列对象仅包含有基因号</param>
+    ''' <param name="DipDir">包含 <c>dip.csv</c> 与 <c>dip.fsa</c> 的目录</param>
+    ''' <param name="Blastbin">BLAST+ 可执行文件的目录</param>
+    ''' <param name="ClustalBin">Clustal Omega 可执行文件的目录(当前由内置的 Clustal Omega 复现提供，此参数保留)</param>
+    ''' <param name="Temp">工作目录，为空的时候使用系统临时目录</param>
+    Public Sub New(GenomicProteins As FASTA.FastaFile, DipDir As String, Blastbin As String, ClustalBin As String, Optional Temp As String = "")
         Call Console.WriteLine("===================================INITIALIZE_SESSION==========================================")
 
         LocalBLAST = New BLASTPlus(Blastbin)
         DipInteractions = String.Format("{0}/dip.csv", DipDir).LoadCsv(Of DipRecord)(False).ToArray
         DipFsaSequence = FASTA.FastaFile.Read(DipDir & "/dip.fsa")
-        GenomicsProteins = GenomicProteins
+        Me.GenomicsProteins = GenomicProteins
+        WorkDir = If(String.IsNullOrEmpty(Temp), System.IO.Path.GetTempPath(), Temp)
 
         Call LocalBLAST.FormatDb(DipFsaSequence.FilePath, LocalBLAST.MolTypeProtein).Start(waitForExit:=True)
 
         Call Console.WriteLine("===============================Initialization job done!======================================" & vbCrLf & vbCrLf)
     End Sub
 
+    ''' <summary>
+    ''' 旧版本的构造函数重载。
+    ''' </summary>
+    ''' <remarks>
+    ''' <c>rBin</c> 参数原本用于指定 R 解释器的路径。重构之后整个流水线已经完全用纯 .NET 实现，
+    ''' 不再需要 R，因此该参数会被忽略。保留这个重载只是为了让历史调用代码仍然可以编译。
+    ''' </remarks>
+    <Obsolete("The R interpreter is no longer required; use the overload without the rBin parameter.")>
+    Public Sub New(GenomicProteins As FASTA.FastaFile, DipDir As String, Blastbin As String, rBin As String, ClustalBin As String, Temp As String, IgnoreR As Boolean)
+        Me.New(GenomicProteins, DipDir, Blastbin, ClustalBin, Temp)
+    End Sub
+
+    ''' <summary>
+    ''' 为一个目标基因推断其互作伙伴
+    ''' </summary>
+    ''' <param name="GeneId">目标基因的编号</param>
+    ''' <returns>可以直接保存为 CSV 的预测结果表</returns>
     Public Function InferInteraction(GeneId As String) As IO.File
-        Dim workDir As String = String.Format("{0}/{1}/", Me.WorkDir, GeneId)
-        Dim TempFile As String = workDir & GeneId
+        Dim workDir As String = System.IO.Path.Combine(Me.WorkDir, GeneId)
 
-        '1.保存目标基因的蛋白质序列数据
-        Call GenomicsProteins.Select(Function(FsaObject As FASTA.FastaSeq) String.Equals(FsaObject.Headers.First, GeneId)).Save(TempFile)
-        '2.blastp搜索dip数据库中的同源蛋白，作为原始计算数据
+        If Not System.IO.Directory.Exists(workDir) Then
+            Call System.IO.Directory.CreateDirectory(workDir)
+        End If
+
+        Dim tempFile As String = System.IO.Path.Combine(workDir, GeneId)
+
+        ' 1. 保存目标基因的蛋白质序列
+        Call GenomicsProteins _
+            .Select(Function(FsaObject As FASTA.FastaSeq) String.Equals(FsaObject.Headers.First, GeneId)) _
+            .Save(tempFile)
+
+        ' 2. blastp 搜索 DIP 数据库之中的同源蛋白，作为家族 A 的原始数据
         Call Console.WriteLine("Searching the homologous protein in the dip database for object ""{0}""...", GeneId)
-        Call LocalBLAST.Blastp(TempFile, DipFsaSequence.FilePath, String.Format("{0}/blastp_{1}_vs._dip.txt", workDir, GeneId), "1e-3").Start(waitForExit:=True)
-        '3.导出所有的符合条件的besthit
-        Dim Besthits = NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.TryParse(Me.LocalBLAST.LastBLASTOutputFilePath).ExportAllBestHist
-        Dim Hits As BestHit() = Besthits
-        Call Besthits.SaveTo(LocalBLAST.LastBLASTOutputFilePath & ".csv", False)
-        '将besthit的蛋白质序列导出，留作多序列比对
-        Dim MatchedIdCollection = (From item In Hits Where Not String.Equals(item.HitName, IBlastOutput.HITS_NOT_FOUND) Select item.HitName.Split.First Distinct).ToArray
-#If DEBUG Then
-        MatchedIdCollection = MatchedIdCollection.Take(5).ToArray
-#End If
 
-        Dim TargetHomologous = DipFsaSequence.Select(Function(FsaObject As FASTA.FastaSeq) Array.IndexOf(MatchedIdCollection, FsaObject.Headers.First.Split.First) > -1)
-        '将目标基因的蛋白质序列加入到最后
-        Call TargetHomologous.AddRange(FASTA.FastaFile.Read(TempFile))
-        TempFile = TempFile & "_alignment.fsa"
-        Call TargetHomologous.Save(TempFile)
+        Dim blastOut As String = String.Format("{0}/blastp_{1}_vs._dip.txt", workDir, GeneId)
+        Call LocalBLAST.Blastp(tempFile, DipFsaSequence.FilePath, blastOut, "1e-3").Start(waitForExit:=True)
 
-        Dim InteractionPairs As List(Of KeyValuePair(Of String, String)) = New List(Of KeyValuePair(Of String, String))
+        Dim hits As BestHit() = NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus _
+            .TryParse(Me.LocalBLAST.LastBLASTOutputFilePath) _
+            .ExportAllBestHist
+        Call hits.SaveTo(LocalBLAST.LastBLASTOutputFilePath & ".csv", False)
 
+        Dim matched As String() = (From item In hits
+                                   Where Not String.Equals(item.HitName, IBlastOutput.HITS_NOT_FOUND)
+                                   Select item.HitName.Split.First Distinct).ToArray
+
+        If MaxHomologs > 0 Then
+            matched = matched.Take(MaxHomologs).ToArray()
+        End If
+
+        If matched.Length = 0 Then
+            Call Console.WriteLine("No homologous protein was found in the DIP database, nothing to predict.")
+
+            Return EmptyResult(GeneId)
+        End If
+
+        Dim familyASequences As FASTA.FastaFile = DipFsaSequence.Select(
+            Function(FsaObject As FASTA.FastaSeq) Array.IndexOf(matched, FsaObject.Headers.First.Split.First) > -1)
+
+        Call familyASequences.AddRange(FASTA.FastaFile.Read(tempFile))
+
+        ' 3. 在 DIP 记录之中查找这些同源蛋白的互作伙伴
         Call Console.WriteLine("Looking for the interaction pairs in the dip database...")
-        '查找出partner
-        Dim PartnersIdList As List(Of String) = New List(Of String)
-        For Each id In MatchedIdCollection
-            Dim PartnerIds = (From item In DipInteractions.AsParallel Where String.Equals(item.IdInteractorA, id) Select item.IdInteractorB).ToArray
-            Call PartnersIdList.AddRange(PartnerIds)
-            For Each partnerid As String In PartnerIds
-                Call InteractionPairs.Add(New KeyValuePair(Of String, String)(id, partnerid))
-            Next
-            PartnerIds = (From item In DipInteractions.AsParallel Where String.Equals(item.IdInteractorB, id) Select item.IdInteractorA).ToArray
-            Call PartnersIdList.AddRange(PartnerIds)
-            For Each partnerid As String In PartnerIds
-                Call InteractionPairs.Add(New KeyValuePair(Of String, String)(id, partnerid))
+
+        Dim interactionPairs As New List(Of (a As String, b As String))
+        Dim partnerIds As New List(Of String)
+
+        For Each id As String In matched
+            For Each item As DipRecord In DipInteractions
+                If String.Equals(item.IdInteractorA, id) Then
+                    Call partnerIds.Add(item.IdInteractorB)
+                    Call interactionPairs.Add((id, item.IdInteractorB))
+                ElseIf String.Equals(item.IdInteractorB, id) Then
+                    Call partnerIds.Add(item.IdInteractorA)
+                    Call interactionPairs.Add((item.IdInteractorA, id))
+                End If
             Next
         Next
-        PartnersIdList = (From id As String In PartnersIdList Select id Distinct Order By id Ascending).AsList
-        Call Console.WriteLine("There are {0} partner records was found in the database!", PartnersIdList.Count)
 
-        Dim TargetHomologousPartners = DipFsaSequence.Select(Function(FsaObject As FASTA.FastaSeq) PartnersIdList.IndexOf(FsaObject.Headers.First.Split.First) > -1)
-        TempFile = workDir & GeneId & "_alignment_partners.fsa"
-        Call TargetHomologousPartners.Save(TempFile)
-        Call LocalBLAST.FormatDb(TempFile, LocalBLAST.MolTypeProtein).Start(waitForExit:=True)
-        Call LocalBLAST.Blastp(GenomicsProteins.FilePath, TargetHomologousPartners.FilePath, workDir & "/blastp_genomics_proteins_vs.dip_partner.txt", "1e-3").Start(waitForExit:=True)
+        Dim partners As String() = partnerIds.Distinct().OrderBy(Function(s) s).ToArray()
 
-        Besthits = NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.TryParse(Me.LocalBLAST.LastBLASTOutputFilePath).ExportAllBestHist
-        Hits = Besthits
-        Call Besthits.SaveTo(LocalBLAST.LastBLASTOutputFilePath & ".csv", False)
-        MatchedIdCollection = (From item In Hits Where Not String.Equals(IBlastOutput.HITS_NOT_FOUND, item.HitName) Select item.QueryName Distinct).ToArray
-#If DEBUG Then
-        MatchedIdCollection = MatchedIdCollection.Take(10).ToArray
-#End If
-        Dim PartnerTargetHomologous = GenomicsProteins.Select(Function(FsaObject As FASTA.FastaSeq) Array.IndexOf(MatchedIdCollection, FsaObject.Headers.First.Split.First) > -1)
-        Call PartnerTargetHomologous.Save(workDir & "target_genomics_proteins_homologous_partners.fsa")
-        Call TargetHomologousPartners.AddRange(PartnerTargetHomologous)
-        Call TargetHomologousPartners.Save(TempFile)
+        Call Console.WriteLine("There are {0} partner records was found in the database!", partners.Length)
 
-        Console.WriteLine("Write dip interaction pairs data...")
+        If partners.Length = 0 Then
+            Call Console.WriteLine("No interaction partner was recorded for the homologous proteins.")
 
-        Dim pairsFile As IO.File = New IO.File
-        Call pairsFile.Add(New String() {"proteinId", "partnerId"})
-        '生成具备实验事实的互作关系
-        Call pairsFile.AppendRange((From item In InteractionPairs Select New IO.RowObject From {item.Key, item.Value}).ToArray)
-        Call pairsFile.Save(String.Format("{0}/interaction_pairs_partners_for_{1}.csv", workDir, GeneId), False)
+            Return EmptyResult(GeneId)
+        End If
 
-        Dim pairsFilePretend As New IO.File
-        Call pairsFilePretend.Add(New String() {"proteinId", "partnerId"})
-        '生成假定具备互作关系的互作蛋白质对
-        Call pairsFilePretend.AppendRange((From item In MatchedIdCollection Select New IO.RowObject From {GeneId, item}).ToArray)
-        Call pairsFilePretend.Save(String.Format("{0}/interaction_pairs_partners_for_{1}_pretended.csv", workDir, GeneId), False)
+        Dim familyBSequences As FASTA.FastaFile = DipFsaSequence.Select(
+            Function(FsaObject As FASTA.FastaSeq) Array.IndexOf(partners, FsaObject.Headers.First.Split.First) > -1)
 
-        Call Console.WriteLine("Start multiple sequence alignment calling clustal...")
-        '进行多序列比对
-        Call ClustalOmega.MultipleAlignmentOmega(FastaFile.Read(TargetHomologous.FilePath)).SaveAs(MSAFormat.Fasta, workDir & "___target_aligned.fsa")
-        Call ClustalOmega.MultipleAlignmentOmega(FastaFile.Read(TargetHomologousPartners.FilePath)).SaveAs(MSAFormat.Fasta, workDir & "__target_partner_aligned.fsa")
-        Call Console.WriteLine("Alignment job done, saving temp data!")
+        ' 4. 再搜索一次，把目标基因组之中与这些伙伴同源的蛋白也纳入家族 B
+        Dim partnerMsa As String = System.IO.Path.Combine(workDir, GeneId & "_alignment_partners.fsa")
+        Call familyBSequences.Save(partnerMsa)
+        Call LocalBLAST.FormatDb(partnerMsa, LocalBLAST.MolTypeProtein).Start(waitForExit:=True)
 
-        ' NOTE: 原来的建模与预测步骤依赖于外部 R 程序包 bnlearn(iamb/bn.fit/cpquery)。
-        ' 该方法已经被完全替换为 Burger & van Nimwegen (2008) 论文中的贝叶斯网络方法，
-        ' 由 Bayesian\Model\PpiBayesianModel.vb 与 Bayesian\Inference\GibbsSampler.vb 提供，
-        ' 对应的流水线接线工作在 SwissTCS 的重写步骤中完成。
-        Call Console.WriteLine("Prediction step is provided by the Bayesian\ model pipeline, see PpiBayesianModel.")
+        Dim targetHitsOut As String = String.Format("{0}/blastp_genomics_proteins_vs.dip_partner.txt", workDir)
+        Call LocalBLAST.Blastp(GenomicsProteins.FilePath, familyBSequences.FilePath, targetHitsOut, "1e-3").Start(waitForExit:=True)
 
-        Return pairsFilePretend
-    End Function
+        hits = NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus _
+            .TryParse(Me.LocalBLAST.LastBLASTOutputFilePath) _
+            .ExportAllBestHist
 
-    Protected Friend Shared Function Trim(AlignedData As FASTA.FastaFile) As FASTA.FastaFile
-        Dim p As Integer = 0
-        Dim Sequence As List(Of Char)() = (From fsa In AlignedData Select fsa.SequenceData.AsList).ToArray  '请注意，对象之间需要保持顺序
-        Dim SequenceCountsCutOff = AlignedData.Count * 0.75
+        Dim targetHomologs As String() = (From item In hits
+                                          Where Not String.Equals(IBlastOutput.HITS_NOT_FOUND, item.HitName)
+                                          Select item.QueryName Distinct).ToArray
 
-        Do While True
-            Dim LQuery = (From seq In Sequence Where seq(p) = "-"c Select 1).ToArray.Sum
-            If LQuery >= SequenceCountsCutOff Then
-                For i As Integer = 0 To Sequence.Count - 1
-                    Dim seq = Sequence(i)
-                    Call seq.RemoveAt(p)
-                Next
+        If MaxHomologs > 0 Then
+            targetHomologs = targetHomologs.Take(MaxHomologs).ToArray()
+        End If
 
-                p -= 1
+        Dim extra As FASTA.FastaFile = GenomicsProteins.Select(
+            Function(FsaObject As FASTA.FastaSeq) Array.IndexOf(targetHomologs, FsaObject.Headers.First.Split.First) > -1)
+
+        Call extra.Save(System.IO.Path.Combine(workDir, "target_genomics_proteins_homologous_partners.fsa"))
+        Call familyBSequences.AddRange(extra)
+
+        ' 5. 两个家族各自做多重序列比对
+        Call Console.WriteLine("Start multiple sequence alignment...")
+
+        Dim alignmentA As ClustalOmegaResult = ClustalOmega.MultipleAlignmentOmega(familyASequences)
+        Dim alignmentB As ClustalOmegaResult = ClustalOmega.MultipleAlignmentOmega(familyBSequences)
+
+        Call alignmentA.SaveAs(MSAFormat.Fasta, System.IO.Path.Combine(workDir, "___target_aligned.fsa"))
+        Call alignmentB.SaveAs(MSAFormat.Fasta, System.IO.Path.Combine(workDir, "__target_partner_aligned.fsa"))
+
+        Call Console.WriteLine("Alignment job done!")
+
+        ' 6. 构造配对联合比对
+        Dim builder As New PairedMsaBuilder With {
+            .Alphabet = If(Options, New PpiModelOptions()).Alphabet
+        }
+        Dim pairings As PairedMsaBuilder.Pairing() = interactionPairs _
+            .Select(Function(p) New PairedMsaBuilder.Pairing(p.a & "-" & p.b, p.a, p.b)) _
+            .Distinct() _
+            .ToArray()
+
+        Dim joint As JointAlignment
+
+        Try
+            joint = builder.Build(alignmentA, alignmentB, pairings)
+        Catch ex As Exception
+            Call Console.WriteLine($"Can not build the paired alignment: {ex.Message}")
+
+            Return EmptyResult(GeneId)
+        End Try
+
+        Call Console.WriteLine("Paired alignment: {0}", builder.LastReport)
+
+        ' 7. 建模与打分
+        Call Console.WriteLine("Start to model the protein interaction Bayesian network...")
+
+        Dim optionsUsed As PpiModelOptions = If(Options, New PpiModelOptions())
+        Dim model As New PpiBayesianModel(joint, optionsUsed)
+        Dim scoring As New PpiScoring(model)
+
+        Call Console.WriteLine("Dependency tree: {0}", model.FullTree)
+
+        Dim alignA As Dictionary(Of String, String) = AlignedSequences(alignmentA)
+        Dim alignB As Dictionary(Of String, String) = AlignedSequences(alignmentB)
+        Dim result As New IO.File
+
+        Call result.Add(New String() {"GeneId", "InteractionPartner", "Score", "IsInteraction", "TopContacts"})
+
+        Call Console.WriteLine("Predicting protein interactions...")
+
+        Dim targetSequence As String = Nothing
+        Dim alphabet As ResidueAlphabet = optionsUsed.Alphabet
+
+        If Not alignA.TryGetValue(GeneId, targetSequence) Then
+            Call Console.WriteLine("The query protein was removed by the column filter, falling back to the unaligned sequence.")
+            targetSequence = Nothing
+        End If
+
+        For Each partnerId As String In targetHomologs
+            Dim partnerSequence As String = Nothing
+
+            If Not alignB.TryGetValue(partnerId, partnerSequence) Then
+                Call Console.WriteLine("  partner ""{0}"" was not found in the family B alignment, skipped.", partnerId)
+                Continue For
             End If
 
-            p += 1
+            Dim codesA As Integer()
+            Dim codesB As Integer()
 
-            If p >= Sequence.First.Count Then
-                Exit Do
+            Try
+                If targetSequence Is Nothing Then
+                    codesA = alphabet.Encode(familyASequences.First(Function(s) String.Equals(s.Headers.First.Split.First, GeneId)).SequenceData)
+                Else
+                    codesA = alphabet.Encode(targetSequence)
+                End If
+
+                codesB = alphabet.Encode(partnerSequence)
+            Catch ex As ArgumentException
+                Call Console.WriteLine("  {0} -> {1}: {2}", GeneId, partnerId, ex.Message)
+                Continue For
+            End Try
+
+            If codesA.Length <> joint.LengthA OrElse codesB.Length <> joint.LengthB Then
+                Call Console.WriteLine("  {0} -> {1}: the aligned length does not match the paired alignment, skipped.", GeneId, partnerId)
+                Continue For
+            End If
+
+            Dim detail As PpiScoring.ScoreDetail = scoring.ScoreDetailed(codesA, codesB)
+            Dim explanation As String = ""
+
+            If ExplainResidues Then
+                explanation = String.Join("; ", detail.Contributions.Take(5).Select(Function(c) c.ToString()))
+            End If
+
+            Call result.Add(New String() {
+                GeneId,
+                partnerId,
+                detail.Score.ToString("0.0000"),
+                detail.IsInteraction.ToString(),
+                explanation
+            })
+
+            Call Console.WriteLine("  {0} -> {1}: X={2:0.0000} interaction={3}", GeneId, partnerId, detail.Score, detail.IsInteraction)
+        Next
+
+        Call Console.WriteLine("==================END_OF_PREDITION_OF ""{0}""=====================", GeneId)
+
+        Dim output As String = System.IO.Path.Combine(workDir, String.Format("interaction_partners_for_{0}.csv", GeneId))
+        Call result.Save(output, False)
+
+        Return result
+    End Function
+
+    Private Shared Function AlignedSequences(alignment As ClustalOmegaResult) As Dictionary(Of String, String)
+        Dim result As New Dictionary(Of String, String)(StringComparer.Ordinal)
+
+        For i As Integer = 0 To alignment.names.Length - 1
+            Dim id As String = alignment.names(i).Split(" "c).First
+
+            If Not result.ContainsKey(id) Then
+                result(id) = alignment.MSA(i)
+            End If
+        Next
+
+        Return result
+    End Function
+
+    Private Shared Function EmptyResult(geneId As String) As IO.File
+        Dim file As New IO.File
+
+        Call file.Add(New String() {"GeneId", "InteractionPartner", "Score", "IsInteraction", "TopContacts"})
+
+        Return file
+    End Function
+
+    ''' <summary>
+    ''' 删除空位比例过高的比对列(readme 与论文共有的预处理步骤)。
+    ''' </summary>
+    ''' <param name="AlignedData">已经比对好的序列集合</param>
+    Public Shared Function Trim(AlignedData As FASTA.FastaFile) As FASTA.FastaFile
+        If AlignedData Is Nothing OrElse AlignedData.Count = 0 Then
+            Return AlignedData
+        End If
+
+        Dim sequences As List(Of Char)() = (From fsa In AlignedData Select fsa.SequenceData.AsList).ToArray
+        Dim cutoff As Integer = CInt(AlignedData.Count * 0.75)
+        Dim position As Integer = 0
+
+        Do While position < sequences(0).Count
+            Dim gaps As Integer = 0
+
+            For i As Integer = 0 To sequences.Length - 1
+                If sequences(i)(position) = "-"c Then
+                    gaps += 1
+                End If
+            Next
+
+            If gaps >= cutoff Then
+                For i As Integer = 0 To sequences.Length - 1
+                    Call sequences(i).RemoveAt(position)
+                Next
+            Else
+                position += 1
             End If
         Loop
 
         For i As Integer = 0 To AlignedData.Count - 1
-            AlignedData(i).SequenceData = Sequence(i).ToArray '请注意，对象之间需要保持顺序
+            AlignedData(i).SequenceData = sequences(i).ToArray
         Next
 
         Return AlignedData
-    End Function
-
-    ''' <summary>
-    ''' 
-    ''' </summary>
-    ''' <param name="InteractorA">经过多序列比对后的结果序列文件</param>
-    ''' <param name="InteractorB"></param>
-    ''' <param name="InteractionPairs"></param>
-    ''' <returns></returns>
-    ''' <remarks></remarks>
-    Private Shared Function SequenceAssemble(InteractorA As FASTA.FastaFile, InteractorB As FASTA.FastaFile, InteractionPairs As IO.File) As String()
-        Dim List As List(Of String) = New List(Of String)
-        For Each pair In InteractionPairs.Skip(1)
-            Dim itA = pair(0), itB = pair(1)
-            Dim itASeq = InteractorA.Select(Function(FsaObject As FASTA.FastaSeq) String.Equals(FsaObject.Headers.First.Split.First, itA)).First
-            Dim itBSeq = InteractorB.Select(Function(FsaObject As FASTA.FastaSeq) String.Equals(FsaObject.Headers.First.Split.First, itB)).First
-            Call List.Add(itASeq.SequenceData.ToUpper & itBSeq.SequenceData.ToUpper)
-        Next
-
-        Return List.ToArray
-    End Function
-
-    Private Shared Function SequenceAssemble(InteractorA As FASTA.FastaFile, InteractorB As FASTA.FastaFile, InteractionPairs As KeyValuePair(Of String, String)) As KeyValuePair(Of String, String)
-        Dim itASeq = InteractorA.Select(Function(FsaObject As SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) String.Equals(FsaObject.Headers.First, InteractionPairs.Key)).First
-        Dim itBSeq = InteractorB.Select(Function(FsaObject As SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) String.Equals(FsaObject.Headers.First, InteractionPairs.Value)).First
-        Dim result = New KeyValuePair(Of String, String)(itASeq.SequenceData.ToUpper, itBSeq.SequenceData.ToUpper)
-
-        Return result
     End Function
 
     Public Class DipRecord
@@ -253,6 +388,7 @@ Public Class DataPreparations
 
         Public Shared Function Convert(DataSet As DipRecord()) As DipRecord()
             Dim ChunkBuffer As DipRecord() = New DipRecord(DataSet.Count - 1) {}
+
             For i As Integer = 0 To DataSet.Count - 1
                 Dim itemObject = DataSet(i)
                 itemObject.IdInteractorA = itemObject.IdInteractorA.Split(CChar("|")).First
@@ -260,6 +396,7 @@ Public Class DataPreparations
 
                 ChunkBuffer(i) = itemObject
             Next
+
             Return ChunkBuffer
         End Function
     End Class
