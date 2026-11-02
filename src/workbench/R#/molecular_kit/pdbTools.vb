@@ -13,6 +13,10 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 <Package("pdb")>
 Public Module pdbTools
 
+    Sub Main()
+
+    End Sub
+
     ''' <summary>
     ''' parse the pdb struct data from a given document text data
     ''' </summary>
