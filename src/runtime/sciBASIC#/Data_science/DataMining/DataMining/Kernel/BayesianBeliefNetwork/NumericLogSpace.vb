@@ -1,3 +1,5 @@
+Imports std = System.Math
+
 Namespace Kernel.BayesianBeliefNetwork
 
     ''' <summary>
@@ -65,7 +67,7 @@ Namespace Kernel.BayesianBeliefNetwork
 
             If x < 0.5 Then
                 ' Γ(x) = π / (sin(πx) · Γ(1-x))
-                Return Math.Log(Math.PI / Math.Sin(Math.PI * x)) - LogGamma(1.0 - x)
+                Return std.Log(std.PI / std.Sin(std.PI * x)) - LogGamma(1.0 - x)
             End If
 
             Dim z As Double = x - 1.0
@@ -77,14 +79,14 @@ Namespace Kernel.BayesianBeliefNetwork
 
             Dim t As Double = z + LanczosG + 0.5
 
-            Return 0.5 * Math.Log(2.0 * Math.PI) + (z + 0.5) * Math.Log(t) - t + Math.Log(series)
+            Return 0.5 * std.Log(2.0 * std.PI) + (z + 0.5) * std.Log(t) - t + std.Log(series)
         End Function
 
         ''' <summary>
         ''' Gamma 函数本身，由 <see cref="LogGamma"/> 指数还原
         ''' </summary>
         Public Function GammaOf(x As Double) As Double
-            Return Math.Exp(LogGamma(x))
+            Return std.Exp(LogGamma(x))
         End Function
 
 #End Region
@@ -102,7 +104,7 @@ Namespace Kernel.BayesianBeliefNetwork
             End If
 
             Dim max As Double = If(a > b, a, b)
-            Return max + Math.Log(Math.Exp(a - max) + Math.Exp(b - max))
+            Return max + std.Log(std.Exp(a - max) + std.Exp(b - max))
         End Function
 
         ''' <summary>
@@ -130,11 +132,11 @@ Namespace Kernel.BayesianBeliefNetwork
 
             For Each v As Double In values
                 If Not Double.IsNegativeInfinity(v) Then
-                    sum += Math.Exp(v - max)
+                    sum += std.Exp(v - max)
                 End If
             Next
 
-            Return max + Math.Log(sum)
+            Return max + std.Log(sum)
         End Function
 
         ''' <summary>
@@ -165,11 +167,11 @@ Namespace Kernel.BayesianBeliefNetwork
 
             For i As Integer = 0 To n - 1
                 If Not Double.IsNegativeInfinity(values(i)) Then
-                    sum += Math.Exp(values(i) - max)
+                    sum += std.Exp(values(i) - max)
                 End If
             Next
 
-            Return max + Math.Log(sum)
+            Return max + std.Log(sum)
         End Function
 
 #End Region
@@ -183,7 +185,7 @@ Namespace Kernel.BayesianBeliefNetwork
             Dim result As Double() = New Double(probabilities.Length - 1) {}
 
             For i As Integer = 0 To probabilities.Length - 1
-                result(i) = If(probabilities(i) <= 0, Double.NegativeInfinity, Math.Log(probabilities(i)))
+                result(i) = If(probabilities(i) <= 0, Double.NegativeInfinity, std.Log(probabilities(i)))
             Next
 
             Return result
@@ -206,7 +208,7 @@ Namespace Kernel.BayesianBeliefNetwork
 
             For i As Integer = 0 To logValues.Length - 1
                 If Not Double.IsNegativeInfinity(logValues(i)) Then
-                    result(i) = Math.Exp(logValues(i) - z)
+                    result(i) = std.Exp(logValues(i) - z)
                 End If
             Next
 
@@ -261,10 +263,10 @@ Namespace Kernel.BayesianBeliefNetwork
             For k As Integer = 0 To n - 1
                 ' partial pivoting
                 Dim pivot As Integer = k
-                Dim maxAbs As Double = Math.Abs(a(k, k))
+                Dim maxAbs As Double = std.Abs(a(k, k))
 
                 For i As Integer = k + 1 To n - 1
-                    Dim v As Double = Math.Abs(a(i, k))
+                    Dim v As Double = std.Abs(a(i, k))
 
                     If v > maxAbs Then
                         maxAbs = v
@@ -285,7 +287,7 @@ Namespace Kernel.BayesianBeliefNetwork
                 End If
 
                 Dim diagonal As Double = a(k, k)
-                logAbsDet += Math.Log(Math.Abs(diagonal))
+                logAbsDet += std.Log(std.Abs(diagonal))
 
                 For i As Integer = k + 1 To n - 1
                     Dim factor As Double = a(i, k) / diagonal
