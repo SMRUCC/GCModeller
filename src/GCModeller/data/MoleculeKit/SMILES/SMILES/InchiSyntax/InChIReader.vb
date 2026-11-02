@@ -1,4 +1,6 @@
-﻿Imports System.Text.RegularExpressions
+﻿Imports G = SMRUCC.genomics.Molecule.SMILES.Graph
+Imports System.Text
+Imports System.Text.RegularExpressions
 
 Namespace InchiSyntax
 

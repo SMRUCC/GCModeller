@@ -1,3 +1,4 @@
+﻿Imports G = SMRUCC.genomics.Molecule.SMILES.Graph
 Namespace InchiSyntax
 
     ''' <summary>
@@ -7,7 +8,7 @@ Namespace InchiSyntax
     ''' InChI 只给出"重原子拓扑 + 每类原子上的氢数 + 形式电荷"，不含键级。
     ''' 因此构建过程分三步：先建原子与单键、再按电荷层与质子层定出带电中心、
     ''' 最后由 <see cref="BondOrderAssigner"/> 还原键级。
-    ''' 所有无法确定的部分都写入 <see cref="Graph.MoleculeGraph.Warnings"/>。
+    ''' 所有无法确定的部分都写入 <see cref="G.MoleculeGraph.Warnings"/>。
     ''' </remarks>
     Public Module InChIBuilder
 
@@ -15,7 +16,7 @@ Namespace InchiSyntax
         ''' 解析 InChI 文本并直接构建分子图。
         ''' </summary>
         ''' <param name="inchi">InChI 文本。</param>
-        Public Function Parse(inchi As String) As Graph.MoleculeGraph
+        Public Function Parse(inchi As String) As G.MoleculeGraph
             Return Build(InChIReader.Parse(inchi), inchi)
         End Function
 
@@ -23,15 +24,15 @@ Namespace InchiSyntax
         ''' 由层数据构建分子图。
         ''' </summary>
         ''' <param name="data">InChI 层数据。</param>
-        ''' <param name="source">原始 InChI 字符串（写入 <see cref="Graph.MoleculeGraph.SourceText"/>）。</param>
-        Public Function Build(data As InChIData, Optional source As String = Nothing) As Graph.MoleculeGraph
-            Dim graph As New Graph.MoleculeGraph With {
-                .Format = Graph.MoleculeFormat.InChI,
+        ''' <param name="source">原始 InChI 字符串（写入 <see cref="G.MoleculeGraph.SourceText"/>）。</param>
+        Public Function Build(data As InChIData, Optional source As String = Nothing) As G.MoleculeGraph
+            Dim graph As New G.MoleculeGraph With {
+                .Format = G.MoleculeFormat.InChI,
                 .SourceText = If(source, data.Formula)
             }
 
             For Each element As String In data.Elements
-                Dim atom As Graph.Atom = graph.AddAtom(element, 0)
+                Dim atom As G.Atom = graph.AddAtom(element, 0)
 
                 atom.NoImplicitH = True
             Next
@@ -62,7 +63,7 @@ Namespace InchiSyntax
             Return graph
         End Function
 
-        Private Sub assignCharges(graph As Graph.MoleculeGraph, data As InChIData)
+        Private Sub assignCharges(graph As G.MoleculeGraph, data As InChIData)
             For i = 0 To data.ComponentOffsets.Count - 1
                 Dim range As (start As Integer, [end] As Integer) = data.ComponentOffsets(i)
 
@@ -135,7 +136,7 @@ Namespace InchiSyntax
             End Select
         End Function
 
-        Private Sub assignProtons(graph As Graph.MoleculeGraph, data As InChIData)
+        Private Sub assignProtons(graph As G.MoleculeGraph, data As InChIData)
             For i = 0 To data.ComponentProtons.Count - 1
                 Dim protons As Integer = data.ComponentProtons(i)
 
@@ -182,17 +183,17 @@ Namespace InchiSyntax
             Next
         End Sub
 
-        Private Sub assignStereo(graph As Graph.MoleculeGraph, data As InChIData)
+        Private Sub assignStereo(graph As G.MoleculeGraph, data As InChIData)
             For Each item In data.StereoCenters
                 If item.Key < 0 OrElse item.Key >= graph.AtomCount Then Continue For
 
-                Dim atom As Graph.Atom = graph.Atoms(item.Key)
+                Dim atom As G.Atom = graph.Atoms(item.Key)
 
                 atom.StereoText = $"t{item.Key + 1}{If(item.Value > 0, "+", "-")}"
 
                 ' InChI 的奇偶符号与 SMILES 的 @/@@ 不是同一套基准，
                 ' 这里按"符号相同即同向"的近似对应写入，供 3D 重建做一致性校正
-                atom.Stereo = If(item.Value > 0, Graph.AtomStereo.CounterClockwise, Graph.AtomStereo.Clockwise)
+                atom.Stereo = If(item.Value > 0, G.AtomStereo.CounterClockwise, G.AtomStereo.Clockwise)
 
                 graph.Warnings.Add(
                     $"stereo center #{item.Key} from InChI layer uses the InChI parity convention " &
@@ -200,7 +201,7 @@ Namespace InchiSyntax
             Next
         End Sub
 
-        Private Sub validateHydrogen(graph As Graph.MoleculeGraph, data As InChIData)
+        Private Sub validateHydrogen(graph As G.MoleculeGraph, data As InChIData)
             Dim counted As Integer = 0
 
             For i = 0 To graph.AtomCount - 1

@@ -1,3 +1,4 @@
+﻿Imports G = SMRUCC.genomics.Molecule.SMILES.Graph
 Namespace InchiSyntax
 
     ''' <summary>
@@ -20,7 +21,7 @@ Namespace InchiSyntax
         ''' </summary>
         ''' <param name="graph">已建好原子、单键与电荷的分子图。</param>
         ''' <param name="data">InChI 层数据（提供移动氢组）。</param>
-        Public Sub Assign(graph As Graph.MoleculeGraph, data As InChIData)
+        Public Sub Assign(graph As G.MoleculeGraph, data As InChIData)
             Dim n As Integer = graph.AtomCount
 
             If n = 0 Then Return
@@ -38,7 +39,7 @@ Namespace InchiSyntax
                 changed = False
                 guard += 1
 
-                For Each bond As Graph.Bond In graph.Bonds
+                For Each bond As G.Bond In graph.Bonds
                     If bond.order >= 3 Then Continue For
                     If deficits(bond.a) <= 0 OrElse deficits(bond.b) <= 0 Then Continue For
 
@@ -86,7 +87,7 @@ Namespace InchiSyntax
                     String.Join(", ", leftover.Select(Function(a) $"#{a} {graph.Atoms(a).Element}")))
             End If
 
-            Call ChemistryRules.PerceiveAromaticity(graph)
+            Call G.ChemistryRules.PerceiveAromaticity(graph)
         End Sub
 
         ''' <summary>
@@ -94,15 +95,15 @@ Namespace InchiSyntax
         ''' </summary>
         ''' <param name="graph">分子图。</param>
         ''' <param name="index">原子下标。</param>
-        Public Function DeficitOf(graph As Graph.MoleculeGraph, index As Integer) As Integer
-            Dim atom As Graph.Atom = graph.Atoms(index)
+        Public Function DeficitOf(graph As G.MoleculeGraph, index As Integer) As Integer
+            Dim atom As G.Atom = graph.Atoms(index)
             Dim used As Integer = atom.ExplicitH
 
-            For Each bond As Graph.Bond In graph.BondsOf(index)
+            For Each bond As G.Bond In graph.BondsOf(index)
                 used += CInt(Math.Round(bond.order))
             Next
 
-            Dim target As Integer = ChemistryRules.EffectiveValence(atom.Element, atom.Charge, used)
+            Dim target As Integer = G.ChemistryRules.EffectiveValence(atom.Element, atom.Charge, used)
 
             If target <= used Then Return 0
 

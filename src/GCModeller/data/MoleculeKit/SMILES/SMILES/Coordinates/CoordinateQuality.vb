@@ -1,3 +1,4 @@
+﻿Imports G = SMRUCC.genomics.Molecule.SMILES.Graph
 Namespace Coordinates
 
     ''' <summary>
@@ -33,7 +34,7 @@ Namespace Coordinates
         ''' 测量 2D 坐标质量。
         ''' </summary>
         ''' <param name="graph">已重建 2D 坐标的分子图。</param>
-        Public Shared Function Measure2D(graph As Graph.MoleculeGraph) As CoordinateQuality
+        Public Shared Function Measure2D(graph As G.MoleculeGraph) As CoordinateQuality
             Return measure(graph, False)
         End Function
 
@@ -41,11 +42,11 @@ Namespace Coordinates
         ''' 测量 3D 坐标质量。
         ''' </summary>
         ''' <param name="graph">已重建 3D 坐标的分子图。</param>
-        Public Shared Function Measure3D(graph As Graph.MoleculeGraph) As CoordinateQuality
+        Public Shared Function Measure3D(graph As G.MoleculeGraph) As CoordinateQuality
             Return measure(graph, True)
         End Function
 
-        Private Shared Function measure(graph As Graph.MoleculeGraph, threeD As Boolean) As CoordinateQuality
+        Private Shared Function measure(graph As G.MoleculeGraph, threeD As Boolean) As CoordinateQuality
             Dim n As Integer = graph.AtomCount
             Dim result As New CoordinateQuality With {
                 .Dimension = If(threeD, "3D", "2D"),
@@ -60,7 +61,7 @@ Namespace Coordinates
             Dim points(n - 1) As Vec3
 
             For i = 0 To n - 1
-                Dim atom As Graph.Atom = graph.Atoms(i)
+                Dim atom As G.Atom = graph.Atoms(i)
 
                 points(i) = New Vec3(atom.X, atom.Y, If(threeD, atom.Z, 0))
 
@@ -72,7 +73,7 @@ Namespace Coordinates
 
             Dim lengths As New List(Of Double)
 
-            For Each bond As Graph.Bond In graph.Bonds
+            For Each bond As G.Bond In graph.Bonds
                 lengths.Add(Vec3.Distance(points(bond.a), points(bond.b)))
             Next
 

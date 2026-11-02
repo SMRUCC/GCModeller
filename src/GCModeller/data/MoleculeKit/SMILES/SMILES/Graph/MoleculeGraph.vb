@@ -1,3 +1,4 @@
+﻿Imports G = SMRUCC.genomics.Molecule.SMILES.Graph
 Imports System.Text
 Imports Coordinates = SMRUCC.genomics.Molecule.SMILES.Coordinates
 
@@ -151,22 +152,22 @@ Namespace Graph
         Public Function Adjacency() As List(Of List(Of Integer))
             If _adjacency IsNot Nothing Then Return _adjacency
 
-            Dim adjacency As New List(Of List(Of Integer))
+            Dim adjacencyList As New List(Of List(Of Integer))
 
             For i = 0 To Atoms.Count - 1
-                adjacency.Add(New List(Of Integer))
+                adjacencyList.Add(New List(Of Integer))
             Next
 
             For i = 0 To Bonds.Count - 1
                 Dim bond As Bond = Bonds(i)
 
-                If bond.a >= 0 AndAlso bond.a < adjacency.Count Then adjacency(bond.a).Add(i)
-                If bond.b >= 0 AndAlso bond.b < adjacency.Count Then adjacency(bond.b).Add(i)
+                If bond.a >= 0 AndAlso bond.a < adjacencyList.Count Then adjacencyList(bond.a).Add(i)
+                If bond.b >= 0 AndAlso bond.b < adjacencyList.Count Then adjacencyList(bond.b).Add(i)
             Next
 
-            _adjacency = adjacency
+            _adjacency = adjacencyList
 
-            Return adjacency
+            Return adjacencyList
         End Function
 
         ''' <summary>
@@ -292,8 +293,8 @@ Namespace Graph
         ''' </summary>
         Public Function Components() As List(Of List(Of Integer))
             Dim visited(Atoms.Count - 1) As Boolean
-            Dim components As New List(Of List(Of Integer))
-            Dim adjacency As List(Of List(Of Integer)) = Adjacency()
+            Dim parts As New List(Of List(Of Integer))
+            Dim adjacencyList As List(Of List(Of Integer)) = Adjacency()
 
             For a = 0 To Atoms.Count - 1
                 If visited(a) Then Continue For
@@ -308,7 +309,7 @@ Namespace Graph
                     Dim current As Integer = stack.Pop()
                     component.Add(current)
 
-                    For Each id As Integer In adjacency(current)
+                    For Each id As Integer In adjacencyList(current)
                         Dim bond As Bond = Bonds(id)
                         Dim nextNode As Integer = If(bond.a = current, bond.b, bond.a)
 
@@ -320,17 +321,17 @@ Namespace Graph
                 End While
 
                 component.Sort()
-                components.Add(component)
+                parts.Add(component)
             Next
 
-            Return components
+            Return parts
         End Function
 
         ''' <summary>
         ''' 最小环基（惰性计算并缓存）。
         ''' </summary>
         Public Function Rings() As List(Of Ring)
-            If _rings Is Nothing Then _rings = Graph.Rings.FindRings(Me)
+            If _rings Is Nothing Then _rings = G.Rings.FindRings(Me)
 
             Return _rings
         End Function
@@ -339,7 +340,7 @@ Namespace Graph
         ''' 环系：由共享键的环合并而成的稠合环集合。
         ''' </summary>
         Public Function RingSystems() As List(Of List(Of Ring))
-            Return Graph.Rings.RingSystems(Rings())
+            Return G.Rings.RingSystems(Rings())
         End Function
 
         ''' <summary>
@@ -466,7 +467,7 @@ Namespace Graph
 
             If removed = 0 Then Return 0
 
-            Dim bonds As New List(Of Bond)
+            Dim survivingBonds As New List(Of Bond)
 
             For Each bond As Bond In Bonds
                 Dim a As Integer = mapping(bond.a)
@@ -474,7 +475,7 @@ Namespace Graph
 
                 If a < 0 OrElse b < 0 Then Continue For
 
-                bonds.Add(New Bond(a, b, bond.order) With {
+                survivingBonds.Add(New Bond(a, b, bond.order) With {
                     .IsAromatic = bond.IsAromatic,
                     .Stereo = bond.Stereo,
                     .IsRing = bond.IsRing
@@ -520,16 +521,16 @@ Namespace Graph
         Public Function MorganRanks(Optional rounds As Integer = 8) As List(Of String)
             If _morgan IsNot Nothing Then Return _morgan
 
-            Dim adjacency As List(Of List(Of Integer)) = Adjacency()
+            Dim adjacencyList As List(Of List(Of Integer)) = Adjacency()
             Dim labels As New List(Of String)
 
             For a = 0 To Atoms.Count - 1
-                Dim orders As List(Of Integer) = adjacency(a).
+                Dim orders As List(Of Integer) = adjacencyList(a).
                     Select(Function(id) CInt(Math.Round(Bonds(id).order))).
                     OrderBy(Function(x) x).
                     ToList()
 
-                labels.Add($"{Atoms(a).Element}|{Atoms(a).Charge}|{TotalH(a)}|{adjacency(a).Count}|{String.Join(",", orders)}")
+                labels.Add($"{Atoms(a).Element}|{Atoms(a).Charge}|{TotalH(a)}|{adjacencyList(a).Count}|{String.Join(",", orders)}")
             Next
 
             labels = compress(labels)
@@ -542,7 +543,7 @@ Namespace Graph
                 For a = 0 To Atoms.Count - 1
                     Dim parts As New List(Of String)
 
-                    For Each id As Integer In adjacency(a)
+                    For Each id As Integer In adjacencyList(a)
                         Dim bond As Bond = Bonds(id)
                         Dim other As Integer = If(bond.a = a, bond.b, bond.a)
 
@@ -604,24 +605,24 @@ Namespace Graph
                 map(unique(i)) = i
             Next
 
-            Dim atoms As New List(Of String)
+            Dim atomEntries As New List(Of String)
 
             For a = 0 To Atoms.Count - 1
-                atoms.Add($"{Atoms(a).Element}|{Atoms(a).Charge}|{TotalH(a)}|{map(ranks(a))}")
+                atomEntries.Add($"{Atoms(a).Element}|{Atoms(a).Charge}|{TotalH(a)}|{map(ranks(a))}")
             Next
 
-            atoms.Sort(StringComparer.Ordinal)
+            atomEntries.Sort(StringComparer.Ordinal)
 
-            Dim bonds As New List(Of String)
+            Dim bondEntries As New List(Of String)
 
             For Each bond As Bond In Bonds
                 Dim ra As Integer = map(ranks(bond.a))
                 Dim rb As Integer = map(ranks(bond.b))
 
-                bonds.Add($"{Math.Min(ra, rb)}-{Math.Max(ra, rb)}:{CInt(Math.Round(bond.order))}")
+                bondEntries.Add($"{Math.Min(ra, rb)}-{Math.Max(ra, rb)}:{CInt(Math.Round(bond.order))}")
             Next
 
-            bonds.Sort(StringComparer.Ordinal)
+            bondEntries.Sort(StringComparer.Ordinal)
             _molKey = String.Join(";", atoms) & "#" & String.Join(";", bonds)
 
             Return _molKey

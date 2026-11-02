@@ -122,7 +122,7 @@
     <ProjectReference Include="..\..\..\GCModeller\annotations\Bifrost\MetaEuk\MetaEuk.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\annotations\Bifrost\Prodigal\Prodigal.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj" />
-    <ProjectReference Include="..\..\..\GCModeller\data\RCSB PDB\RCSB PDB.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\data\MoleculeKit\RCSB-pdb\RCSB-PDB.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\data\Xfam\Pfam\Pfam.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\visualize\SyntenyVisual\SyntenyVisual.vbproj" />
     <ProjectReference Include="..\..\..\interops\localblast\LocalBLAST\localblast.NET5.vbproj" />

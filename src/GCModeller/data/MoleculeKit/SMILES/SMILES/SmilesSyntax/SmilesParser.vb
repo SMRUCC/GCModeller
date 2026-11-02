@@ -1,4 +1,5 @@
-﻿Namespace SmilesSyntax
+﻿Imports G = SMRUCC.genomics.Molecule.SMILES.Graph
+Namespace SmilesSyntax
 
     ''' <summary>
     ''' SMILES 结构式字符串解析器（单遍状态机）。
@@ -17,7 +18,7 @@
         ''' <param name="smiles">SMILES 文本。</param>
         ''' <returns>统一的分子图对象。</returns>
         ''' <exception cref="MoleculeParseException">遇到无法识别的记号时抛出，异常中带有出错位置。</exception>
-        Public Function Parse(smiles As String) As Graph.MoleculeGraph
+        Public Function Parse(smiles As String) As G.MoleculeGraph
             If String.IsNullOrWhiteSpace(smiles) Then
                 Throw New MoleculeParseException("empty SMILES input", 0, smiles)
             End If
@@ -38,13 +39,13 @@
             Public Property Atom As Integer
             Public Property Order As Double
             Public Property Aromatic As Boolean
-            Public Property Stereo As Graph.BondStereo
+            Public Property Stereo As G.BondStereo
         End Structure
 
         Const TWO_LETTER_ELEMENTS As String = "He,Li,Be,Ne,Na,Mg,Al,Si,Cl,Ar,Ca,Sc,Ti,Cr,Mn,Fe,Co,Ni,Cu,Zn,Ga,Ge,As,Se,Br,Kr,Rb,Sr,Zr,Nb,Mo,Tc,Ru,Rh,Pd,Ag,Cd,In,Sn,Sb,Te,Xe,Cs,Ba,La,Ce,Pr,Nd,Pm,Sm,Eu,Gd,Tb,Dy,Ho,Er,Tm,Yb,Lu,Hf,Ta,Re,Os,Ir,Pt,Au,Hg,Tl,Pb,Bi,Po,At,Rn"
 
         Private ReadOnly text As String
-        Private ReadOnly graph As New Graph.MoleculeGraph
+        Private ReadOnly graph As New G.MoleculeGraph
         Private ReadOnly twoLetter As New HashSet(Of String)(TWO_LETTER_ELEMENTS.Split(","c), StringComparer.OrdinalIgnoreCase)
         Private ReadOnly ringOpen As New Dictionary(Of String, RingClosure)
         Private ReadOnly stereoNeighbors As New Dictionary(Of Integer, List(Of Integer))
@@ -53,7 +54,7 @@
         Private cursor As Integer = 0
         Private previous As Integer = -1
         Private pendingOrder As Double = 0
-        Private pendingStereo As Graph.BondStereo = Graph.BondStereo.None
+        Private pendingStereo As G.BondStereo = G.BondStereo.None
         Private bondPending As Boolean = False
         Private pendingAromaticBond As Boolean = False
 
@@ -68,8 +69,8 @@
         ''' <summary>
         ''' 执行解析，返回构建好的分子图。
         ''' </summary>
-        Public Function Read() As Graph.MoleculeGraph
-            graph.Format = Graph.MoleculeFormat.Smiles
+        Public Function Read() As G.MoleculeGraph
+            graph.Format = G.MoleculeFormat.Smiles
             graph.SourceText = text
 
             While cursor < text.Length
@@ -91,7 +92,7 @@
                     Case "-"c
                         pendingOrder = 1
                         bondPending = True
-                        pendingStereo = Graph.BondStereo.None
+                        pendingStereo = G.BondStereo.None
                         cursor += 1
                     Case "="c
                         pendingOrder = 2
@@ -113,12 +114,12 @@
                     Case "/"c
                         pendingOrder = 1
                         bondPending = True
-                        pendingStereo = Graph.BondStereo.Up
+                        pendingStereo = G.BondStereo.Up
                         cursor += 1
                     Case "\"c
                         pendingOrder = 1
                         bondPending = True
-                        pendingStereo = Graph.BondStereo.Down
+                        pendingStereo = G.BondStereo.Down
                         cursor += 1
                     Case "%"c
                         Call readPercentRing()
@@ -147,7 +148,7 @@
 
             Call finishStereo()
 
-            Call ChemistryRules.Kekulize(graph)
+            Call G.ChemistryRules.Kekulize(graph)
 
             For Each bad As Integer In graph.ValenceViolations()
                 graph.Warnings.Add($"valence overflow on atom #{bad} ({graph.Atoms(bad).Element})")
@@ -206,7 +207,7 @@
 
             If symbol Is Nothing Then Throw fail("missing element symbol at " & start)
 
-            Dim atom As Graph.Atom = graph.AddAtom(symbol, 0)
+            Dim atom As G.Atom = graph.AddAtom(symbol, 0)
 
             atom.IsAromatic = aromatic
             atom.NoImplicitH = False
@@ -223,7 +224,7 @@
             Dim hcount As Integer = 0
             Dim charge As Integer = 0
             Dim atomClass As Integer = 0
-            Dim stereo As Graph.AtomStereo = Graph.AtomStereo.None
+            Dim stereo As G.AtomStereo = G.AtomStereo.None
             Dim stereoText As String = Nothing
 
             Dim digits As String = readDigits()
@@ -291,11 +292,11 @@
                 stereoText = tag.ToString()
 
                 If stereoText = "@" Then
-                    stereo = Graph.AtomStereo.CounterClockwise
+                    stereo = G.AtomStereo.CounterClockwise
                 ElseIf stereoText = "@@" Then
-                    stereo = Graph.AtomStereo.Clockwise
+                    stereo = G.AtomStereo.Clockwise
                 Else
-                    stereo = Graph.AtomStereo.Unsupported
+                    stereo = G.AtomStereo.Unsupported
                 End If
             End If
 
@@ -345,7 +346,7 @@
 
             cursor += 1
 
-            Dim atom As Graph.Atom = graph.AddAtom(symbol, charge)
+            Dim atom As G.Atom = graph.AddAtom(symbol, charge)
 
             atom.Isotope = isotope
             atom.IsAromatic = aromatic
@@ -372,7 +373,7 @@
 
 #Region "键与环闭合"
 
-        Private Sub connect(atom As Graph.Atom)
+        Private Sub connect(atom As G.Atom)
             If previous >= 0 Then
                 Dim order As Double = If(bondPending, pendingOrder, 1)
                 Dim aromatic As Boolean = pendingAromaticBond OrElse
@@ -380,7 +381,7 @@
 
                 If order <= 0 Then order = 1
 
-                Dim bond As Graph.Bond = graph.AddBond(previous, atom.Index, If(aromatic, 1, order), aromatic)
+                Dim bond As G.Bond = graph.AddBond(previous, atom.Index, If(aromatic, 1, order), aromatic)
 
                 bond.Stereo = pendingStereo
 
@@ -391,7 +392,7 @@
             pendingOrder = 0
             bondPending = False
             pendingAromaticBond = False
-            pendingStereo = Graph.BondStereo.None
+            pendingStereo = G.BondStereo.None
             previous = atom.Index
         End Sub
 
@@ -431,9 +432,9 @@
 
                 If order <= 0 Then order = 1
 
-                Dim bond As Graph.Bond = graph.AddBond(closure.Atom, previous, If(aromatic, 1, order), aromatic)
+                Dim bond As G.Bond = graph.AddBond(closure.Atom, previous, If(aromatic, 1, order), aromatic)
 
-                bond.Stereo = If(pendingStereo <> Graph.BondStereo.None, pendingStereo, closure.Stereo)
+                bond.Stereo = If(pendingStereo <> G.BondStereo.None, pendingStereo, closure.Stereo)
 
                 ringOpen.Remove(ringId)
             Else
@@ -448,16 +449,16 @@
             pendingOrder = 0
             bondPending = False
             pendingAromaticBond = False
-            pendingStereo = Graph.BondStereo.None
+            pendingStereo = G.BondStereo.None
         End Sub
 
 #End Region
 
         Private Sub finishStereo()
             For Each item In stereoNeighbors
-                Dim atom As Graph.Atom = graph.Atoms(item.Key)
+                Dim atom As G.Atom = graph.Atoms(item.Key)
 
-                If atom.Stereo = Graph.AtomStereo.None Then Continue For
+                If atom.Stereo = G.AtomStereo.None Then Continue For
 
                 Dim list As New List(Of Integer)(item.Value)
                 Dim h As Integer = atom.ExplicitH + graph.ImplicitH(atom.Index)

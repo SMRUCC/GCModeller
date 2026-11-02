@@ -1,4 +1,5 @@
-﻿Namespace Coordinates
+﻿Imports G = SMRUCC.genomics.Molecule.SMILES.Graph
+Namespace Coordinates
 
     ''' <summary>
     ''' 2D 平面坐标重建：环模板布局 + 取代基生长 + 力导向精修。
@@ -10,7 +11,7 @@
     ''' <item>最后做 Gauss-Seidel 式的约束松弛（等键长 + 1-3 距离 + 1-4 排斥），并归一化键长。</item>
     ''' </list>
     ''' 输出的坐标位于化学坐标系（Y 轴向上），键长被归一化为
-    ''' <see cref="Graph.Layout2DOptions.BondLength"/>，质心位于原点。
+    ''' <see cref="G.Layout2DOptions.BondLength"/>，质心位于原点。
     ''' </remarks>
     Public Module PlaneLayout
 
@@ -23,7 +24,7 @@
         ''' </summary>
         ''' <param name="graph">目标分子图。</param>
         ''' <param name="options">布局参数。</param>
-        Public Sub Run(graph As Graph.MoleculeGraph, options As Graph.Layout2DOptions)
+        Public Sub Run(graph As G.MoleculeGraph, options As G.Layout2DOptions)
             Dim n As Integer = graph.AtomCount
 
             If n = 0 Then Return
@@ -56,17 +57,17 @@
 
 #Region "环模板布局"
 
-        Private Sub placeRings(graph As Graph.MoleculeGraph, px As Double(), py As Double(), placed As Boolean())
-            Dim rings As List(Of Graph.Ring) = graph.Rings()
+        Private Sub placeRings(graph As G.MoleculeGraph, px As Double(), py As Double(), placed As Boolean())
+            Dim rings As List(Of G.Ring) = graph.Rings()
 
             If rings.Count = 0 Then Return
 
-            Dim systems As List(Of List(Of Graph.Ring)) = Graph.Rings.RingSystems(rings)
+            Dim systems As List(Of List(Of G.Ring)) = G.Rings.RingSystems(rings)
 
             systems.Sort(Function(x, y) y.Count.CompareTo(x.Count))
 
-            For Each system As List(Of Graph.Ring) In systems
-                For Each ring As Graph.Ring In system.OrderByDescending(Function(r) r.Size)
+            For Each system As List(Of G.Ring) In systems
+                For Each ring As G.Ring In system.OrderByDescending(Function(r) r.Size)
                     Dim sharedCount As Integer = ring.Atoms.Count(Function(a) placed(a))
 
                     If sharedCount = 0 Then
@@ -108,7 +109,7 @@
             Return BOND_LENGTH / (2 * Math.Sin(Math.PI / size))
         End Function
 
-        Private Sub placePolygon(ring As Graph.Ring, cx As Double, cy As Double, startAngle As Double, orientation As Integer,
+        Private Sub placePolygon(ring As G.Ring, cx As Double, cy As Double, startAngle As Double, orientation As Integer,
                                  px As Double(), py As Double(), placed As Boolean())
 
             Dim n As Integer = ring.Size
@@ -186,7 +187,7 @@
             Return score
         End Function
 
-        Private Function findPlacedEdge(ring As Graph.Ring, placed As Boolean()) As Integer
+        Private Function findPlacedEdge(ring As G.Ring, placed As Boolean()) As Integer
             Dim n As Integer = ring.Size
 
             For k = 0 To n - 1
@@ -199,7 +200,7 @@
         ''' <summary>
         ''' 以环上已布局的一条键为基准，把整个环按正多边形拼接上去。
         ''' </summary>
-        Private Function placeFromEdge(ring As Graph.Ring, edge As Integer,
+        Private Function placeFromEdge(ring As G.Ring, edge As Integer,
                                        px As Double(), py As Double(), placed As Boolean()) As Boolean
 
             Dim n As Integer = ring.Size
@@ -275,7 +276,7 @@
             Return True
         End Function
 
-        Private Function clearScoreFor(px As Double(), py As Double(), placed As Boolean(), self As Integer, x As Double, y As Double, ring As Graph.Ring) As Double
+        Private Function clearScoreFor(px As Double(), py As Double(), placed As Boolean(), self As Integer, x As Double, y As Double, ring As G.Ring) As Double
             Dim score As Double = Double.MaxValue
             Dim skip As New HashSet(Of Integer)(ring.Atoms)
             Dim count As Integer = 0
@@ -297,7 +298,7 @@
         ''' <summary>
         ''' 以环上唯一的已布局原子为基准（螺环）放置整个环。
         ''' </summary>
-        Private Sub placeFromAtom(ring As Graph.Ring, anchor As Integer, px As Double(), py As Double(), placed As Boolean())
+        Private Sub placeFromAtom(ring As G.Ring, anchor As Integer, px As Double(), py As Double(), placed As Boolean())
             Dim n As Integer = ring.Size
             Dim position As Integer = Array.IndexOf(ring.Atoms, anchor)
             Dim orientation As Integer = 1
@@ -363,7 +364,7 @@
 
 #Region "取代基生长"
 
-        Private Sub growSubstituents(graph As Graph.MoleculeGraph, px As Double(), py As Double(), placed As Boolean())
+        Private Sub growSubstituents(graph As G.MoleculeGraph, px As Double(), py As Double(), placed As Boolean())
             Dim queue As New Queue(Of Integer)
 
             For i = 0 To graph.AtomCount - 1
@@ -404,7 +405,7 @@
             Next
         End Sub
 
-        Private Sub placeNextTo(graph As Graph.MoleculeGraph, a As Integer, b As Integer,
+        Private Sub placeNextTo(graph As G.MoleculeGraph, a As Integer, b As Integer,
                                 px As Double(), py As Double(), placed As Boolean())
 
             Dim preferred As Double = 0
@@ -477,14 +478,14 @@
 
 #Region "力导向精修"
 
-        Private Sub refine(graph As Graph.MoleculeGraph, px As Double(), py As Double(), options As Graph.Layout2DOptions)
+        Private Sub refine(graph As G.MoleculeGraph, px As Double(), py As Double(), options As G.Layout2DOptions)
             Dim n As Integer = graph.AtomCount
 
             If n < 2 Then Return
 
             Dim bonds As New List(Of (a As Integer, b As Integer))
 
-            For Each bond As Graph.Bond In graph.Bonds
+            For Each bond As G.Bond In graph.Bonds
                 If bond.a <> bond.b Then bonds.Add((bond.a, bond.b))
             Next
 
@@ -565,18 +566,18 @@
             py(b) -= dy * delta
         End Sub
 
-        Private Function target13(graph As Graph.MoleculeGraph, center As Integer) As Double
+        Private Function target13(graph As G.MoleculeGraph, center As Integer) As Double
             Select Case graph.Hybridization(center)
-                Case Graph.Hybridization.SP
+                Case G.Hybridization.SP
                     Return 2.0
-                Case Graph.Hybridization.SP2
+                Case G.Hybridization.SP2
                     Return 1.732
                 Case Else
                     Return 1.633
             End Select
         End Function
 
-        Private Sub graphDistances(graph As Graph.MoleculeGraph, distance As Integer(,))
+        Private Sub graphDistances(graph As G.MoleculeGraph, distance As Integer(,))
             Dim n As Integer = graph.AtomCount
 
             For i = 0 To n - 1
@@ -598,7 +599,7 @@
                     Dim current As Integer = queue.Dequeue()
 
                     For Each id As Integer In adjacency(current)
-                        Dim bond As Graph.Bond = graph.Bonds(id)
+                        Dim bond As G.Bond = graph.Bonds(id)
                         Dim nextNode As Integer = If(bond.a = current, bond.b, bond.a)
 
                         If visited(nextNode) Then Continue For
@@ -613,7 +614,7 @@
 
 #End Region
 
-        Private Sub normalize(graph As Graph.MoleculeGraph, px As Double(), py As Double(), options As Graph.Layout2DOptions)
+        Private Sub normalize(graph As G.MoleculeGraph, px As Double(), py As Double(), options As G.Layout2DOptions)
             Dim n As Integer = graph.AtomCount
 
             If n = 0 Then Return
@@ -621,7 +622,7 @@
             Dim total As Double = 0
             Dim count As Integer = 0
 
-            For Each bond As Graph.Bond In graph.Bonds
+            For Each bond As G.Bond In graph.Bonds
                 Dim d As Double = Math.Sqrt((px(bond.b) - px(bond.a)) ^ 2 + (py(bond.b) - py(bond.a)) ^ 2)
 
                 If d > EPS Then

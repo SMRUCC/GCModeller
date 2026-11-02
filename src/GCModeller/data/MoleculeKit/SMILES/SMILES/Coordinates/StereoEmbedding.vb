@@ -1,3 +1,4 @@
+﻿Imports G = SMRUCC.genomics.Molecule.SMILES.Graph
 Namespace Coordinates
 
     ''' <summary>
@@ -8,7 +9,7 @@ Namespace Coordinates
     ''' <item>按杂化类型（sp / sp² / sp³）为每个原子选择理想键角；</item>
     ''' <item>以 BFS 顺序把原子逐个放到"与已放置邻居夹角最接近理想值"的方向上；</item>
     ''' <item>用 Gauss-Seidel 式约束松弛同时优化键长、键角（以 1-3 距离表达）、环平面性与非键排斥；</item>
-    ''' <item>最后按 <see cref="Graph.Atom.Stereo"/> 标记检查四面体手性，必要时交换两个取代基并重新弛豫。</item>
+    ''' <item>最后按 <see cref="G.Atom.Stereo"/> 标记检查四面体手性，必要时交换两个取代基并重新弛豫。</item>
     ''' </list>
     ''' 输出坐标单位为埃（Å），质心位于原点。
     ''' </remarks>
@@ -19,9 +20,9 @@ Namespace Coordinates
         ''' <summary>
         ''' 对指定分子图执行 3D 坐标重建。
         ''' </summary>
-        ''' <param name="graph">目标分子图（若需要显式氢，请先调用 <see cref="Graph.MoleculeGraph.AddHydrogens"/>）。</param>
+        ''' <param name="graph">目标分子图（若需要显式氢，请先调用 <see cref="G.MoleculeGraph.AddHydrogens"/>）。</param>
         ''' <param name="options">重建参数。</param>
-        Public Sub Run(graph As Graph.MoleculeGraph, options As Graph.Embed3DOptions)
+        Public Sub Run(graph As G.MoleculeGraph, options As G.Embed3DOptions)
             Dim n As Integer = graph.AtomCount
 
             If n = 0 Then Return
@@ -53,7 +54,7 @@ Namespace Coordinates
 
 #Region "初始几何生长"
 
-        Private Sub growComponents(graph As Graph.MoleculeGraph, positions As Vec3(), placed As Boolean())
+        Private Sub growComponents(graph As G.MoleculeGraph, positions As Vec3(), placed As Boolean())
             Dim components As List(Of List(Of Integer)) = graph.Components()
             Dim offset As Vec3 = Vec3.Zero
 
@@ -75,7 +76,7 @@ Namespace Coordinates
                         If placed(b) Then Continue For
 
                         Dim direction As Vec3 = chooseDirection(graph, positions, placed, a)
-                        Dim length As Double = ElementTable.DefaultBondLength(graph.Atoms(a).Element, graph.Atoms(b).Element)
+                        Dim length As Double = G.ElementTable.DefaultBondLength(graph.Atoms(a).Element, graph.Atoms(b).Element)
 
                         If length < 0.6 Then length = 1.5
 
@@ -95,7 +96,7 @@ Namespace Coordinates
             Next
         End Sub
 
-        Private Function chooseDirection(graph As Graph.MoleculeGraph, positions As Vec3(), placed As Boolean(), a As Integer) As Vec3
+        Private Function chooseDirection(graph As G.MoleculeGraph, positions As Vec3(), placed As Boolean(), a As Integer) As Vec3
             Dim directions As New List(Of Vec3)
 
             For Each neighbor In graph.Neighbors(a)
@@ -108,7 +109,7 @@ Namespace Coordinates
                 If v.Length > EPS Then directions.Add(v.Normalize())
             Next
 
-            Dim hybrid As Graph.Hybridization = graph.Hybridization(a)
+            Dim hybrid As G.Hybridization = graph.Hybridization(a)
             Dim theta As Double = idealAngle(hybrid)
 
             Select Case directions.Count
@@ -164,7 +165,7 @@ Namespace Coordinates
             End Select
         End Function
 
-        Private Function clearance(graph As Graph.MoleculeGraph, positions As Vec3(), placed As Boolean(), a As Integer, direction As Vec3) As Double
+        Private Function clearance(graph As G.MoleculeGraph, positions As Vec3(), placed As Boolean(), a As Integer, direction As Vec3) As Double
             Dim probe As Vec3 = positions(a) + direction * 1.5
             Dim score As Double = Double.MaxValue
 
@@ -182,11 +183,11 @@ Namespace Coordinates
             Return score
         End Function
 
-        Private Function idealAngle(hybrid As Graph.Hybridization) As Double
+        Private Function idealAngle(hybrid As G.Hybridization) As Double
             Select Case hybrid
-                Case Graph.Hybridization.SP
+                Case G.Hybridization.SP
                     Return 180
-                Case Graph.Hybridization.SP2
+                Case G.Hybridization.SP2
                     Return 120
                 Case Else
                     Return 109.47
@@ -197,7 +198,7 @@ Namespace Coordinates
 
 #Region "力场弛豫"
 
-        Private Sub relax(graph As Graph.MoleculeGraph, positions As Vec3(), options As Graph.Embed3DOptions)
+        Private Sub relax(graph As G.MoleculeGraph, positions As Vec3(), options As G.Embed3DOptions)
             Dim n As Integer = graph.AtomCount
 
             If n < 2 Then Return
@@ -206,10 +207,10 @@ Namespace Coordinates
             Dim angles As New List(Of (a As Integer, c As Integer, target As Double))
             Dim repulsion As New List(Of (a As Integer, b As Integer))
 
-            For Each bond As Graph.Bond In graph.Bonds
+            For Each bond As G.Bond In graph.Bonds
                 If bond.a = bond.b Then Continue For
 
-                Dim target As Double = ElementTable.DefaultBondLength(graph.Atoms(bond.a).Element, graph.Atoms(bond.b).Element)
+                Dim target As Double = G.ElementTable.DefaultBondLength(graph.Atoms(bond.a).Element, graph.Atoms(bond.b).Element)
 
                 If target < 0.6 Then target = 1.5
 
@@ -277,8 +278,8 @@ Namespace Coordinates
             Next
         End Sub
 
-        Private Function bondGoal(graph As Graph.MoleculeGraph, a As Integer, b As Integer) As Double
-            Dim target As Double = ElementTable.DefaultBondLength(graph.Atoms(a).Element, graph.Atoms(b).Element)
+        Private Function bondGoal(graph As G.MoleculeGraph, a As Integer, b As Integer) As Double
+            Dim target As Double = G.ElementTable.DefaultBondLength(graph.Atoms(a).Element, graph.Atoms(b).Element)
 
             Return If(target < 0.6, 1.5, target)
         End Function
@@ -301,12 +302,12 @@ Namespace Coordinates
         ''' <summary>
         ''' 环平面性约束：把全为 sp² 的环拉向其最佳拟合平面。
         ''' </summary>
-        Private Sub enforcePlanarity(graph As Graph.MoleculeGraph, positions As Vec3(), weight As Double)
-            For Each ring As Graph.Ring In graph.Rings()
+        Private Sub enforcePlanarity(graph As G.MoleculeGraph, positions As Vec3(), weight As Double)
+            For Each ring As G.Ring In graph.Rings()
                 Dim sp2 As Boolean = True
 
                 For Each atom As Integer In ring.Atoms
-                    If graph.Hybridization(atom) <> Graph.Hybridization.SP2 Then
+                    If graph.Hybridization(atom) <> G.Hybridization.SP2 Then
                         sp2 = False
                         Exit For
                     End If
@@ -344,7 +345,7 @@ Namespace Coordinates
             Next
         End Sub
 
-        Private Sub graphDistances(graph As Graph.MoleculeGraph, distance As Integer(,))
+        Private Sub graphDistances(graph As G.MoleculeGraph, distance As Integer(,))
             Dim n As Integer = graph.AtomCount
 
             For i = 0 To n - 1
@@ -366,7 +367,7 @@ Namespace Coordinates
                     Dim current As Integer = queue.Dequeue()
 
                     For Each id As Integer In adjacency(current)
-                        Dim bond As Graph.Bond = graph.Bonds(id)
+                        Dim bond As G.Bond = graph.Bonds(id)
                         Dim nextNode As Integer = If(bond.a = current, bond.b, bond.a)
 
                         If visited(nextNode) Then Continue For
@@ -384,16 +385,16 @@ Namespace Coordinates
 #Region "手性校正"
 
         ''' <summary>
-        ''' 按 <see cref="Graph.Atom.Stereo"/> 检查并校正四面体手性。
+        ''' 按 <see cref="G.Atom.Stereo"/> 检查并校正四面体手性。
         ''' </summary>
         ''' <returns>是否发生过取代基交换（发生交换后需要重新弛豫）。</returns>
-        Private Function correctStereo(graph As Graph.MoleculeGraph, positions As Vec3(), options As Graph.Embed3DOptions) As Boolean
+        Private Function correctStereo(graph As G.MoleculeGraph, positions As Vec3(), options As G.Embed3DOptions) As Boolean
             Dim changed As Boolean = False
 
             For a = 0 To graph.AtomCount - 1
-                Dim atom As Graph.Atom = graph.Atoms(a)
+                Dim atom As G.Atom = graph.Atoms(a)
 
-                If atom.Stereo = Graph.AtomStereo.None OrElse atom.Stereo = Graph.AtomStereo.Unsupported Then Continue For
+                If atom.Stereo = G.AtomStereo.None OrElse atom.Stereo = G.AtomStereo.Unsupported Then Continue For
                 If graph.Degree(a) < 3 Then Continue For
 
                 Dim order As New List(Of Integer)
@@ -416,7 +417,7 @@ Namespace Coordinates
                 Dim fourth As Integer = If(order.Count >= 4, order(3), -1)
 
                 Dim sign As Integer = stereoSign(positions, a, points, fourth)
-                Dim expected As Integer = If(atom.Stereo = Graph.AtomStereo.CounterClockwise, 1, -1)
+                Dim expected As Integer = If(atom.Stereo = G.AtomStereo.CounterClockwise, 1, -1)
 
                 If sign = 0 OrElse sign = expected Then Continue For
 

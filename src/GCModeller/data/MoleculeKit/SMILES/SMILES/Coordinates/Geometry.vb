@@ -1,3 +1,4 @@
+﻿Imports G = SMRUCC.genomics.Molecule.SMILES.Graph
 Namespace Coordinates
 
     ''' <summary>
@@ -72,6 +73,13 @@ Namespace Coordinates
         ''' </summary>
         Public Shared Operator *(a As Vec3, k As Double) As Vec3
             Return New Vec3(a.X * k, a.Y * k, a.Z * k)
+        End Operator
+
+        ''' <summary>
+        ''' 取反。
+        ''' </summary>
+        Public Shared Operator -(a As Vec3) As Vec3
+            Return New Vec3(-a.X, -a.Y, -a.Z)
         End Operator
 
         ''' <summary>
@@ -171,8 +179,8 @@ Namespace Coordinates
         ''' </summary>
         ''' <param name="graph">分子图。</param>
         ''' <param name="index">原子下标。</param>
-        Public Function PointOf(graph As Graph.MoleculeGraph, index As Integer) As Vec3
-            Dim atom As Graph.Atom = graph.Atoms(index)
+        Public Function PointOf(graph As G.MoleculeGraph, index As Integer) As Vec3
+            Dim atom As G.Atom = graph.Atoms(index)
 
             Return New Vec3(atom.X, atom.Y, atom.Z)
         End Function
@@ -183,7 +191,7 @@ Namespace Coordinates
         ''' <param name="graph">分子图。</param>
         ''' <param name="index">原子下标。</param>
         ''' <param name="point">坐标值。</param>
-        Public Sub SetPoint(graph As Graph.MoleculeGraph, index As Integer, point As Vec3)
+        Public Sub SetPoint(graph As G.MoleculeGraph, index As Integer, point As Vec3)
             With graph.Atoms(index)
                 .X = point.X
                 .Y = point.Y

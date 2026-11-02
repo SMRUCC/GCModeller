@@ -1,3 +1,4 @@
+﻿Imports G = SMRUCC.genomics.Molecule.SMILES.Graph
 Imports System.Text
 
 Namespace SmilesSyntax
@@ -8,7 +9,7 @@ Namespace SmilesSyntax
     ''' <remarks>
     ''' 写出的是 Kekulé 形式（芳香体系以交替的单/双键表达），因此与
     ''' <see cref="SmilesParser"/> 的输出可以互相 round-trip。
-    ''' 遍历顺序由 <see cref="Graph.MoleculeGraph.MorganRanks"/> 决定，同一分子图多次写出结果一致。
+    ''' 遍历顺序由 <see cref="G.MoleculeGraph.MorganRanks"/> 决定，同一分子图多次写出结果一致。
     ''' 环闭合号按"先生成先生效"的顺序分配，超过 9 时使用 <c>%nn</c> 记号。
     ''' </remarks>
     Public Module SmilesWriter
@@ -18,7 +19,7 @@ Namespace SmilesSyntax
         ''' </summary>
         ''' <param name="graph">待写出的分子图。</param>
         ''' <returns>SMILES 文本；多组分之间以 <c>.</c> 分隔。</returns>
-        Public Function Write(graph As Graph.MoleculeGraph) As String
+        Public Function Write(graph As G.MoleculeGraph) As String
             Dim builder As New SmilesBuilder(graph)
 
             Return builder.Build()
@@ -28,7 +29,7 @@ Namespace SmilesSyntax
 
     Friend Class SmilesBuilder
 
-        Private ReadOnly graph As Graph.MoleculeGraph
+        Private ReadOnly graph As G.MoleculeGraph
         Private ReadOnly ranks As List(Of String)
         Private ReadOnly adjacency As List(Of List(Of Integer))
         Private ReadOnly componentSet As New HashSet(Of Integer)
@@ -41,7 +42,7 @@ Namespace SmilesSyntax
         ''' 为一个分子图创建一个写出器。
         ''' </summary>
         ''' <param name="graph">待写出的分子图。</param>
-        Public Sub New(graph As Graph.MoleculeGraph)
+        Public Sub New(graph As G.MoleculeGraph)
             Me.graph = graph
             Me.ranks = graph.MorganRanks()
             Me.adjacency = graph.Adjacency()
@@ -99,7 +100,7 @@ Namespace SmilesSyntax
                     OrderBy(Function(i) neighborRank(a, i), StringComparer.Ordinal).
                     ThenBy(Function(i) i)
 
-                    Dim bond As Graph.Bond = graph.Bonds(id)
+                    Dim bond As G.Bond = graph.Bonds(id)
                     Dim other As Integer = If(bond.a = a, bond.b, bond.a)
 
                     If Not componentSet.Contains(other) Then Continue For
@@ -114,7 +115,7 @@ Namespace SmilesSyntax
         End Sub
 
         Private Function neighborRank(atom As Integer, bondIndex As Integer) As String
-            Dim bond As Graph.Bond = graph.Bonds(bondIndex)
+            Dim bond As G.Bond = graph.Bonds(bondIndex)
             Dim other As Integer = If(bond.a = atom, bond.b, bond.a)
 
             Return ranks(other)
@@ -126,7 +127,7 @@ Namespace SmilesSyntax
             For id = 0 To graph.Bonds.Count - 1
                 If inTree.Contains(id) Then Continue For
 
-                Dim bond As Graph.Bond = graph.Bonds(id)
+                Dim bond As G.Bond = graph.Bonds(id)
 
                 If Not componentSet.Contains(bond.a) OrElse Not componentSet.Contains(bond.b) Then Continue For
 
@@ -176,7 +177,7 @@ Namespace SmilesSyntax
         End Sub
 
         Private Function childOf(atom As Integer, bondIndex As Integer) As Integer
-            Dim bond As Graph.Bond = graph.Bonds(bondIndex)
+            Dim bond As G.Bond = graph.Bonds(bondIndex)
 
             Return If(bond.a = atom, bond.b, bond.a)
         End Function
@@ -187,7 +188,7 @@ Namespace SmilesSyntax
             Return "%" & digit.ToString("00")
         End Function
 
-        Private Shared Function bondSymbol(bond As Graph.Bond) As String
+        Private Shared Function bondSymbol(bond As G.Bond) As String
             Select Case bond.OrderInt
                 Case 2
                     Return "="
@@ -199,14 +200,14 @@ Namespace SmilesSyntax
         End Function
 
         Private Function atomSymbol(index As Integer) As String
-            Dim atom As Graph.Atom = graph.Atoms(index)
+            Dim atom As G.Atom = graph.Atoms(index)
             Dim needsBracket As Boolean =
                 atom.Charge <> 0 OrElse
                 atom.Isotope <> 0 OrElse
                 atom.AtomClass <> 0 OrElse
                 atom.ExplicitH > 0 OrElse
                 atom.NoImplicitH OrElse
-                Not Graph.ElementTable.IsOrganicSubset(atom.Element)
+                Not G.ElementTable.IsOrganicSubset(atom.Element)
 
             If Not needsBracket Then Return atom.Element
 
