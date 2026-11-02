@@ -5,7 +5,6 @@ Imports Microsoft.VisualBasic.Imaging.Driver
 Imports SMRUCC.genomics.Molecule.SMILES
 Imports SMRUCC.genomics.Molecule.SMILES.Coordinates
 Imports SMRUCC.genomics.Molecule.SMILES.Graph
-Imports SMILESView
 
 ''' <summary>
 ''' SMILES / InChI 解析、坐标重建与 2D/3D 结构绘图的命令行示例与验证程序。

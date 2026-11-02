@@ -3,6 +3,7 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing3D
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Imaging.SVG
+Imports SMRUCC.genomics.Molecule.SMILES.Styling
 Imports Mol = SMRUCC.genomics.Molecule.SMILES.Graph
 
 ''' <summary>
@@ -27,18 +28,18 @@ Public Class StructureViewer
     ''' <summary>
     ''' 绘制主题。
     ''' </summary>
-    Public Property Theme As SMILESView.Styling.ChemTheme
+    Public Property Theme As ChemTheme
 
     ''' <summary>
     ''' 以一个已有的分子图创建查看器。
     ''' </summary>
     ''' <param name="graph">分子图。</param>
     ''' <param name="theme">绘制主题，为空时使用默认主题。</param>
-    Public Sub New(graph As Mol.MoleculeGraph, Optional theme As SMILESView.Styling.ChemTheme = Nothing)
+    Public Sub New(graph As Mol.MoleculeGraph, Optional theme As ChemTheme = Nothing)
         If graph Is Nothing Then Throw New ArgumentNullException(NameOf(graph))
 
         Me.Graph = graph
-        Me.Theme = If(theme, SMILESView.Styling.ChemTheme.Default)
+        Me.Theme = If(theme, ChemTheme.Default)
     End Sub
 
     ''' <summary>
@@ -46,8 +47,8 @@ Public Class StructureViewer
     ''' </summary>
     ''' <param name="text">结构式文本。</param>
     ''' <param name="theme">绘制主题。</param>
-    Public Shared Function FromText(text As String, Optional theme As SMILESView.Styling.ChemTheme = Nothing) As StructureViewer
-        Return New StructureViewer(SMRUCC.genomics.Molecule.SMILES.MoleculeIO.Parse(text), theme)
+    Public Shared Function FromText(text As String, Optional theme As ChemTheme = Nothing) As StructureViewer
+        Return New StructureViewer(MoleculeIO.Parse(text), theme)
     End Function
 
     ''' <summary>
@@ -55,8 +56,8 @@ Public Class StructureViewer
     ''' </summary>
     ''' <param name="path">文本文件路径。</param>
     ''' <param name="theme">绘制主题。</param>
-    Public Shared Function FromFile(path As String, Optional theme As SMILESView.Styling.ChemTheme = Nothing) As StructureViewer
-        Return New StructureViewer(SMRUCC.genomics.Molecule.SMILES.MoleculeIO.ParseFile(path), theme)
+    Public Shared Function FromFile(path As String, Optional theme As ChemTheme = Nothing) As StructureViewer
+        Return New StructureViewer(MoleculeIO.ParseFile(path), theme)
     End Function
 
 #Region "渲染"
@@ -67,9 +68,9 @@ Public Class StructureViewer
     ''' <param name="size">画布尺寸。</param>
     Public Function Render2D(size As Size) As IGraphics
         Dim canvas As IGraphics = DriverLoad.CreateDefaultRasterGraphics(
-            size, fill_color:=SMILESView.Styling.ElementColors.ParseHex(Theme.BackgroundColor, Color.White))
+            size, fill_color:=ElementColors.ParseHex(Theme.BackgroundColor, Color.White))
 
-        Call New SMILESView.Draw2D.MoleculeDraw2D(Graph, Theme).Draw(canvas)
+        Call New Draw2D.MoleculeDraw2D(Graph, Theme).Draw(canvas)
 
         Return canvas
     End Function
@@ -82,9 +83,9 @@ Public Class StructureViewer
     ''' <param name="camera">相机；为空时自动取景。</param>
     Public Function Render3D(size As Size, Optional mode As RenderMode = RenderMode.BallAndStick, Optional camera As Camera = Nothing) As IGraphics
         Dim canvas As IGraphics = DriverLoad.CreateDefaultRasterGraphics(
-            size, fill_color:=SMILESView.Styling.ElementColors.ParseHex(Theme.BackgroundColor, Color.White))
+            size, fill_color:=ElementColors.ParseHex(Theme.BackgroundColor, Color.White))
 
-        Call New SMILESView.Draw3D.MoleculeDraw3D(Graph, Theme).Draw(canvas, mode, camera)
+        Call New Draw3D.MoleculeDraw3D(Graph, Theme).Draw(canvas, mode, camera)
 
         Return canvas
     End Function
@@ -96,7 +97,7 @@ Public Class StructureViewer
     ''' <param name="size">画布尺寸。</param>
     Public Function SavePng2D(path As String, Optional size As Size = Nothing) As Boolean
         Return savePng(path, If(size = Nothing, New Size(720, 560), size),
-            Sub(canvas) Call New SMILESView.Draw2D.MoleculeDraw2D(Graph, Theme).Draw(canvas))
+            Sub(canvas) Call New Draw2D.MoleculeDraw2D(Graph, Theme).Draw(canvas))
     End Function
 
     ''' <summary>
@@ -110,7 +111,7 @@ Public Class StructureViewer
                               Optional mode As RenderMode = RenderMode.BallAndStick,
                               Optional camera As Camera = Nothing) As Boolean
         Return savePng(path, If(size = Nothing, New Size(720, 560), size),
-            Sub(canvas) Call New SMILESView.Draw3D.MoleculeDraw3D(Graph, Theme).Draw(canvas, mode, camera))
+            Sub(canvas) Call New Draw3D.MoleculeDraw3D(Graph, Theme).Draw(canvas, mode, camera))
     End Function
 
     ''' <summary>
@@ -120,7 +121,7 @@ Public Class StructureViewer
     ''' <param name="size">画布尺寸。</param>
     Public Function SaveSvg2D(path As String, Optional size As Size = Nothing) As Boolean
         Return saveSvg(path, If(size = Nothing, New Size(720, 560), size),
-            Sub(canvas) Call New SMILESView.Draw2D.MoleculeDraw2D(Graph, Theme).Draw(canvas))
+            Sub(canvas) Call New Draw2D.MoleculeDraw2D(Graph, Theme).Draw(canvas))
     End Function
 
     ''' <summary>
@@ -134,7 +135,7 @@ Public Class StructureViewer
                               Optional mode As RenderMode = RenderMode.BallAndStick,
                               Optional camera As Camera = Nothing) As Boolean
         Return saveSvg(path, If(size = Nothing, New Size(720, 560), size),
-            Sub(canvas) Call New SMILESView.Draw3D.MoleculeDraw3D(Graph, Theme).Draw(canvas, mode, camera))
+            Sub(canvas) Call New Draw3D.MoleculeDraw3D(Graph, Theme).Draw(canvas, mode, camera))
     End Function
 
 #End Region
@@ -143,7 +144,7 @@ Public Class StructureViewer
         Call ensureDirectory(path)
 
         Using canvas As IGraphics = DriverLoad.CreateDefaultRasterGraphics(
-            size, fill_color:=SMILESView.Styling.ElementColors.ParseHex(Theme.BackgroundColor, Color.White))
+            size, fill_color:=ElementColors.ParseHex(Theme.BackgroundColor, Color.White))
 
             Call render(canvas)
 
@@ -161,7 +162,7 @@ Public Class StructureViewer
         Call ensureDirectory(path)
 
         Using canvas As New GraphicsSVG(size, 96, 96)
-            Call canvas.Clear(SMILESView.Styling.ElementColors.ParseHex(Theme.BackgroundColor, Color.White))
+            Call canvas.Clear(ElementColors.ParseHex(Theme.BackgroundColor, Color.White))
             Call render(canvas)
             Call canvas.WriteSVG(path, size:=$"{size.Width},{size.Height}")
         End Using

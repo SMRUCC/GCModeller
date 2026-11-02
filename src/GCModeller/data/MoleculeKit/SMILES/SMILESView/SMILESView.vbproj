@@ -1,10 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <RootNamespace>SMILESView</RootNamespace>
+    <RootNamespace>SMRUCC.genomics.Molecule.SMILES</RootNamespace>
     <TargetFramework>net10.0</TargetFramework>
     <Platforms>AnyCPU;x64</Platforms>
     <Configurations>Debug;Release;Rsharp_app_release</Configurations>
+    <AssemblyName>SMRUCC.genomics.Molecule.SMILESView</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
