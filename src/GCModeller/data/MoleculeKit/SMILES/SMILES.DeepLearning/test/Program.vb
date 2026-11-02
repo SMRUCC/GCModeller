@@ -73,6 +73,9 @@ Module Program
         Dim modelPath As String = If(args.Length > 0,
                                      args(0),
                                      "C:\Users\Administrator\Downloads\trfm_12_23000.pkl")
+        Dim vocabPath As String = If(args.Length > 1,
+                                     args(1),
+                                     "C:\Users\Administrator\Downloads\KcatNet-main\KcatNet-main\utils\vocab.pkl")
 
         Call DebugAudit.Reset()
         Call run("tokenizer", AddressOf testTokenizer)
@@ -82,7 +85,7 @@ Module Program
         Call run("model", AddressOf testModel)
         Call run("state_dict", AddressOf testStateDict)
         Call run("pipeline", AddressOf testPipeline)
-        Call run("official", Sub() testOfficialWeights(modelPath))
+        Call run("official", Sub() testOfficialWeights(modelPath, vocabPath))
         Call DebugAudit.Mark("assertions.total", assertions)
 
         Dim report As String = Path.Combine(workDir, "smiles-transformer-p0-report.json")
@@ -654,7 +657,7 @@ Module Program
     ''' 若 QKV 拆分顺序、Linear 转置或 LayerNorm 参数错位，NLL 会退化到 <c>≈ ln(V)</c>。
     ''' 同时用 <c>ln(V)</c> 与"随机初始化模型"的结果作为对照基线。
     ''' </remarks>
-    Private Sub testOfficialWeights(modelPath As String)
+    Private Sub testOfficialWeights(modelPath As String, vocabPath As String)
         If Not File.Exists(modelPath) Then
             Call DebugAudit.Mark("official.skipped", $"{modelPath} 不存在")
 
@@ -702,32 +705,76 @@ Module Program
         Dim ids As Integer(,) = officialSampleIds(vocabSize, 48, 6)
         Dim baseline As Double = std.Log(vocabSize)
 
-        ' 判定权重映射是否正确（与词表标签无关）：
-        ' 该模型是"输入即输出"的自编码器，因此对**分布内的 id 序列**会给出高度尖锐的分布。
-        ' 词表按频次降序排列，id=6 的经验探针（重复 token）在官方权重下 NLL≈0.11，
-        ' 说明它对应一个可在语料中连续重复的常见 token；用同一条序列做跨头数比较，
-        ' 映射正确/头数正确的组合会显著胜出，映射错误则退化为 ln(V)。
+        ' 配套词表（可选）：有它才能把真实 SMILES 编码进官方 id 空间，做语义级校验
+        Dim vocab As WordVocab = If(File.Exists(vocabPath), VocabPickleReader.Load(vocabPath), Nothing)
+        Dim molecules As String() = {
+            "CCO",
+            "c1ccccc1O",
+            "CC(=O)Oc1ccccc1C(=O)O",
+            "CN1C=NC2=C1C(=O)N(C(=O)N2C)C",
+            "O=C(O)CCCCC(=O)O",
+            "ClCCBr",
+            "C1CCCCC1",
+            "N#CC"
+        }
+        Dim realIds As Integer(,) = If(vocab IsNot Nothing, buildIds(vocab, molecules, seqLen), Nothing)
+
+        If vocab IsNot Nothing Then
+            Call equalTo(vocabSize, vocab.Count, "official: 词表大小与 embedding 行数一致")
+            Call DebugAudit.Mark("official.vocab.tokens", String.Join(" ", vocab.IToS))
+
+            Dim unknown As Integer = 0
+            Dim totalTokens As Integer = 0
+
+            For Each molecule As String In molecules
+                For Each token As String In SmilesTokenizer.Split(molecule)
+                    totalTokens += 1
+
+                    If Not vocab.ContainsKey(token) Then unknown += 1
+                Next
+            Next
+
+            Call DebugAudit.Mark("official.oov", $"unknown={unknown}, total={totalTokens}")
+            Call checkThat(unknown = 0, $"official: 真实分子的 token 全部命中词表（OOV={unknown}/{totalTokens}）")
+        Else
+            Call DebugAudit.Mark("official.vocab.missing", vocabPath)
+        End If
+
+        ' 判定权重映射 + 头数是否正确：
+        ' 该模型是"输入即输出"的自编码器，正确映射下对**分布内的 id 序列**会给出高度尖锐的分布。
+        ' 两个正交指标：① 重复 token 探针的 NLL；② 真实分子的逐位置重建准确率。
         Dim probe As Integer() = repeatedTokenIds(6, 16)
         Dim peaks As New Dictionary(Of Integer, Double)()
+        Dim accuracies As New Dictionary(Of Integer, Double)()
+        Dim e2eNlls As New Dictionary(Of Integer, Double)()
         Dim chosen As SequenceTransformer = Nothing
         Dim loadReport As TransformerLoadReport = Nothing
 
-        For Each heads As Integer In New Integer() {2, 4, 8}
+        For Each heads As Integer In New Integer() {4, 8, 16}
             If hidden Mod heads <> 0 Then Continue For
 
             Try
                 Dim candidate As New SequenceTransformer(vocabSize, hidden, layers, heads, dff, seqLen, 0.1, False, 42)
                 Dim report As TransformerLoadReport = TransformerStateDict.Apply(candidate, tensors, strict:=False)
                 Dim loss As Double = sequenceLoss(candidate, probe)
-                Dim greedyLoss As Double = sequenceLoss(candidate, greedyDecode(candidate, 16))
+                Dim accuracy As Double = If(realIds Is Nothing,
+                                            0.0,
+                                            reconstructionAccuracy(candidate, realIds, vocabSize))
+                Dim e2eNll As Double = If(realIds Is Nothing,
+                                          Double.NaN,
+                                          reconstructionLoss(candidate, realIds))
 
                 peaks(heads) = loss
 
+                If realIds IsNot Nothing Then
+                    accuracies(heads) = accuracy
+                    e2eNlls(heads) = e2eNll
+                End If
+
                 If loadReport Is Nothing OrElse report.IsPerfectMatch Then loadReport = report
-                If heads = 4 Then chosen = candidate
 
                 Call DebugAudit.Mark($"official.probe.heads{heads}",
-                                     $"probe_nll={loss:F4}, greedy_nll={greedyLoss:F4}, dk={candidate.HeadDim}")
+                                     $"probe_nll={loss:F4}, e2e_nll={e2eNll:F4}, accuracy={accuracy:P2}, dk={candidate.HeadDim}")
             Catch ex As Exception
                 Call checkThat(False, $"official: heads={heads}（dk={hidden \ heads}）前向失败：{ex.GetType().Name}: {ex.Message}")
             End Try
@@ -737,14 +784,31 @@ Module Program
         Call checkThat(loadReport.IsPerfectMatch,
                        $"official: state_dict 键名映射完全匹配（{loadReport}）")
 
-        If peaks.Count > 0 Then
-            Dim bestHeads As Integer = peaks.OrderBy(Function(kv) kv.Value).First().Key
-            Dim bestLoss As Double = peaks(bestHeads)
+        ' 论文/官方代码里 nn.Transformer 的头数固定为 4，因此这里以 nhead=4 作为基准断言；
+        ' 其余头数只作参考记录（它们在 state_dict 形状上与 4 完全一致，无法从权重文件反推）。
+        If e2eNlls.ContainsKey(4) Then
+            Call checkThat(e2eNlls(4) < baseline * 0.5,
+                           $"official: nhead=4 时真实分子重建 NLL({e2eNlls(4):F4}) 远低于均匀分布基线({baseline:F4})")
+            Call checkThat(accuracies(4) > 0.5,
+                           $"official: nhead=4 时重建准确率({accuracies(4):P2}) 远高于随机水平({1.0 / vocabSize:P2})")
+        End If
 
-            Call DebugAudit.Mark("official.best_heads", bestHeads)
-            Call equalTo(4, bestHeads, "official: 探针损失最小的头数与论文配置一致（nhead=4）")
-            Call checkThat(bestLoss < 1.0,
-                           $"official: 分布内序列的 NLL({bestLoss:F4}) 远低于均匀分布基线({baseline:F4})")
+        If peaks.ContainsKey(4) Then
+            Call checkThat(peaks(4) < 1.0,
+                           $"official: nhead=4 时分布内序列 NLL({peaks(4):F4}) 远低于均匀分布基线({baseline:F4})")
+        End If
+
+        If e2eNlls.Count > 0 Then
+            Dim bestHeads As Integer = e2eNlls.OrderBy(Function(kv) kv.Value).First().Key
+
+            Call DebugAudit.Mark("official.best_heads", $"{bestHeads}（扫描 {String.Join("/", e2eNlls.Keys)}；官方代码固定 nhead=4）")
+
+            ' 用扫描到的最优头数重建模型，供后续指纹/序列化测试使用
+            chosen = New SequenceTransformer(vocabSize, hidden, layers, bestHeads, dff, seqLen, 0.1, False, 42)
+            Call TransformerStateDict.Apply(chosen, tensors, strict:=False)
+        Else
+            chosen = New SequenceTransformer(vocabSize, hidden, layers, 4, dff, seqLen, 0.1, False, 42)
+            Call TransformerStateDict.Apply(chosen, tensors, strict:=False)
         End If
 
         ' 对照组：随机初始化模型的同一探针（应接近 ln(V)）
@@ -757,7 +821,7 @@ Module Program
 
         If chosen Is Nothing Then Return
 
-        ' 经验探针：词表按频次降序排列，id 5 极可能是最高频 token（脂肪碳 C）。
+        ' 经验探针：词表按频次降序排列（实测 itos: 5='c'、6='C'、7='('、8=')'、9='O'）。
         ' 若权重映射正确，像 "CCC…" 这样的序列属于语料分布内，NLL 会明显低于 ln(V)；
         ' 映射错误时输出退化，NLL 会贴着均匀分布基线。
         For token As Integer = 5 To 9
@@ -766,6 +830,94 @@ Module Program
             Call DebugAudit.Mark($"official.probe.id{token}",
                                  $"nll={sequenceLoss(chosen, probeIds):F4}, baseline={baseline:F4}")
         Next
+
+        ' ---- 语义级端到端：配套 vocab.pkl + 真实分子 ----
+        ' 有了词表才能把真实 SMILES 编码成"官方 id 空间"的序列；
+        ' 此时模型对"输入即输出"的重建应当非常准确 —— 这是权重映射正确性的最终判据。
+        If realIds IsNot Nothing Then
+            Dim logProbs2 As Tensor = chosen.Predict(realIds)
+            Dim targets As Integer() = flattenIds(realIds)
+            Dim dLogits2 As Tensor = Nothing
+            Dim e2eLoss As Double = TensorOpsEx.NllLoss(logProbs2, targets, WordVocab.PadIndex, dLogits2)
+
+            Dim correct As Integer = 0
+            Dim counted As Integer = 0
+
+            For b As Integer = 0 To realIds.GetLength(0) - 1
+                For t As Integer = 0 To realIds.GetLength(1) - 1
+                    Dim id As Integer = realIds(b, t)
+
+                    If id = WordVocab.PadIndex Then Continue For
+
+                    Dim offset As Integer = (b * seqLen + t) * vocabSize
+                    Dim best As Integer = 0
+                    Dim bestValue As Double = Double.NegativeInfinity
+
+                    For k As Integer = 0 To vocabSize - 1
+                        If logProbs2.Data(offset + k) > bestValue Then
+                            bestValue = logProbs2.Data(offset + k)
+                            best = k
+                        End If
+                    Next
+
+                    If best = id Then correct += 1
+
+                    counted += 1
+                Next
+            Next
+
+            Dim accuracy As Double = correct / CDbl(counted)
+
+            ' 逐分子诊断：区分"模型整体偏弱"与"个别分子 OOV/超长截断"
+            For b As Integer = 0 To realIds.GetLength(0) - 1
+                Dim ok As Integer = 0
+                Dim n As Integer = 0
+
+                For t As Integer = 0 To realIds.GetLength(1) - 1
+                    Dim id As Integer = realIds(b, t)
+
+                    If id = WordVocab.PadIndex Then Continue For
+
+                    Dim offset As Integer = (b * seqLen + t) * vocabSize
+                    Dim best As Integer = 0
+                    Dim bestValue As Double = Double.NegativeInfinity
+
+                    For k As Integer = 0 To vocabSize - 1
+                        If logProbs2.Data(offset + k) > bestValue Then
+                            bestValue = logProbs2.Data(offset + k)
+                            best = k
+                        End If
+                    Next
+
+                    If best = id Then ok += 1
+
+                    n += 1
+                Next
+
+                Call DebugAudit.Mark($"official.e2e.mol{b}",
+                                     $"{molecules(b)} → {ok}/{n} ({(If(n > 0, ok / CDbl(n), 0)):P0})")
+            Next
+
+            Call DebugAudit.Mark("official.e2e", $"nll={e2eLoss:F4}, accuracy={accuracy:P2}, positions={counted}")
+            Call checkThat(e2eLoss < baseline * 0.5,
+                           $"official: 真实分子的重建 NLL({e2eLoss:F4}) 远低于均匀分布基线({baseline:F4})")
+            Call checkThat(accuracy > 0.5,
+                           $"official: 真实分子的重建准确率({accuracy:P2}) 远高于随机水平({1.0 / vocabSize:P2})")
+
+            ' 用真实分子抽取 1024 维指纹并落盘
+            Dim extractor As New SmilesTransformerFingerprint(chosen, vocab, seqLen)
+            Dim fingerprint As SmilesFingerprint = extractor.Encode(molecules, batchSize:=4)
+
+            Call equalTo(molecules.Length, fingerprint.Count, "official: 指纹行数 = 分子数")
+            Call equalTo(hidden * 4, fingerprint.Width, "official: 指纹维度 = 4H")
+
+            Dim fpFile As String = Path.Combine(workDir, "official-fingerprint.csv")
+
+            Call fingerprint.SaveCsv(fpFile)
+            Call checkThat(File.Exists(fpFile), "official: 指纹 CSV 已写出")
+        Else
+            Call DebugAudit.Mark("official.vocab.missing", vocabPath)
+        End If
 
         ' 指纹：维度、有限性、确定性与可区分性
         Dim encoded As Double(,) = chosen.Encode(ids, chunkSize:=3)
@@ -798,7 +950,7 @@ Module Program
 
         ' 导出后重新加载，验证序列化闭环
         Dim exported As Dictionary(Of String, Tensor) = TransformerStateDict.Export(chosen)
-        Dim reloaded As New SequenceTransformer(vocabSize, hidden, layers, 4, dff, seqLen, 0.1, False, 1)
+        Dim reloaded As New SequenceTransformer(vocabSize, hidden, layers, chosen.NHeads, dff, seqLen, 0.1, False, 1)
         Dim reloadReport As TransformerLoadReport = TransformerStateDict.Apply(reloaded, exported)
 
         Call checkThat(reloadReport.IsPerfectMatch, "official: 导出→重载键集合一致")
@@ -939,6 +1091,45 @@ Module Program
         Next
 
         Return decoded
+    End Function
+
+    ''' <summary>
+    ''' 真实序列的逐位置重建准确率（argmax 是否等于输入 token，忽略 pad）。
+    ''' </summary>
+    ''' <param name="model">被测模型。</param>
+    ''' <param name="ids">id 序列矩阵。</param>
+    ''' <param name="vocabSize">词表大小。</param>
+    Private Function reconstructionAccuracy(model As SequenceTransformer, ids As Integer(,),
+                                            vocabSize As Integer) As Double
+        Dim logProbs As Tensor = model.Predict(ids)
+        Dim time As Integer = ids.GetLength(1)
+        Dim correct As Integer = 0
+        Dim counted As Integer = 0
+
+        For b As Integer = 0 To ids.GetLength(0) - 1
+            For t As Integer = 0 To time - 1
+                Dim id As Integer = ids(b, t)
+
+                If id = WordVocab.PadIndex Then Continue For
+
+                Dim offset As Integer = (b * time + t) * vocabSize
+                Dim best As Integer = 0
+                Dim bestValue As Double = Double.NegativeInfinity
+
+                For k As Integer = 0 To vocabSize - 1
+                    If logProbs.Data(offset + k) > bestValue Then
+                        bestValue = logProbs.Data(offset + k)
+                        best = k
+                    End If
+                Next
+
+                If best = id Then correct += 1
+
+                counted += 1
+            Next
+        Next
+
+        Return If(counted = 0, 0.0, correct / CDbl(counted))
     End Function
 
     ''' <summary>构造 <c>sos + token×n + eos</c> 的重复序列（词表探针）。</summary>
