@@ -190,7 +190,6 @@ Public Class PerturbationSolver
     ''' 于是第一轮只需要重算它们的下游靶基因，后续迭代也只在扰动传播的波前上计算，
     ''' 单次扰动可以从“全网重算”降到“受影响子网重算”。
     ''' </param>
-    ''' <returns></returns>
     Public Function Solve(initial As Double()(),
                           Optional pinned As IReadOnlyDictionary(Of Integer, Double) = Nothing,
                           Optional hardCap As Integer = 0,
