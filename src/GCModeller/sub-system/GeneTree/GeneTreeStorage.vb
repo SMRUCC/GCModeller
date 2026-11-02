@@ -68,6 +68,7 @@ Public Module GeneTreeStorage
                 Call writeModelIndex(zip, grn)
                 Call writeModels(zip, grn)
                 Call writeReport(zip, grn)
+                Call writeDiscovery(zip, grn)
             End Using
         Finally
             Thread.CurrentThread.CurrentCulture = culture
@@ -121,6 +122,15 @@ Public Module GeneTreeStorage
         values("opt.contextQuantileAlignment") = bool(opt.ContextQuantileAlignment)
         values("opt.baselineFromControlSteadyState") = bool(opt.BaselineFromControlSteadyState)
         values("opt.collapseUniformPopulation") = bool(opt.CollapseUniformPopulation)
+        ' ---- 结构发现 ----
+        values("opt.edgeDiscovery") = opt.EdgeDiscovery.ToString
+        values("opt.discoveryMaxPerGene") = opt.DiscoveryMaxPerGene.ToString
+        values("opt.discoveryMaxCandidates") = opt.DiscoveryMaxCandidates.ToString
+        values("opt.discoveryMinCorrelation") = number(opt.DiscoveryMinCorrelation)
+        values("opt.discoveryMinDeltaR2") = number(opt.DiscoveryMinDeltaR2)
+        values("opt.discoverySampleSize") = opt.DiscoverySampleSize.ToString
+        values("opt.discoveryMaxGenes") = opt.DiscoveryMaxGenes.ToString
+        values("opt.discoveryCandidates") = CStr(If(opt.DiscoveryCandidates, New String() {}).Length)
 
         Dim report As TrainingReport = grn.ReportData
 
@@ -132,6 +142,12 @@ Public Module GeneTreeStorage
             values("report.meanR2") = number(report.MeanR2)
             values("report.informative") = report.InformativeModels.ToString
             values("report.cells") = report.Cells.ToString
+            values("report.discoveredEdges") = report.DiscoveredEdges.ToString
+
+            If report.Discovery IsNot Nothing Then
+                values("report.discoveryTargets") = report.Discovery.TargetsExamined.ToString
+                values("report.discoveryScreened") = report.Discovery.CandidatesScreened.ToString
+            End If
         End If
 
         Using stream As Stream = createEntry(zip, "manifest.tsv")
@@ -310,7 +326,7 @@ Public Module GeneTreeStorage
 
         Using stream As Stream = createEntry(zip, "importance.tsv")
             Using writer As New StreamWriter(stream, Encoding.UTF8)
-                Call writer.WriteLine("gene,regulator,rank,mi,correlation,splits,sensitivity")
+                Call writer.WriteLine("gene,regulator,rank,mi,correlation,splits,sensitivity,source,delta_r2")
 
                 For Each model As GeneModel In grn.Models.SafeQuery.Where(Function(m) m IsNot Nothing)
                     For Each item As RegulatorImportance In model.Performance.importance.SafeQuery
@@ -321,11 +337,42 @@ Public Module GeneTreeStorage
                             number(item.mi),
                             number(item.correlation),
                             item.splits.ToString,
-                            number(item.sensitivity)))
+                            number(item.sensitivity),
+                            If(item.source, "aracne"),
+                            number(item.deltaR2)))
                     Next
                 Next
             End Using
         End Using
+    End Sub
+
+    ''' <summary>
+    ''' 写出结构发现结果（<c>discovery.tsv</c> 与候选基因清单）
+    ''' </summary>
+    Private Sub writeDiscovery(zip As ZipArchive, grn As XGBoostGRN)
+        Dim report As TrainingReport = grn.ReportData
+
+        If report Is Nothing OrElse report.Discovery Is Nothing Then
+            Return
+        End If
+
+        Using stream As Stream = createEntry(zip, "discovery.tsv")
+            Using writer As New StreamWriter(stream, Encoding.UTF8)
+                Call report.Discovery.WriteTo(writer)
+            End Using
+        End Using
+
+        Dim candidates As String() = If(grn.Config.DiscoveryCandidates, New String() {})
+
+        If candidates.Length > 0 Then
+            Using stream As Stream = createEntry(zip, "discovery_candidates.txt")
+                Using writer As New StreamWriter(stream, Encoding.UTF8)
+                    For Each gene As String In candidates
+                        Call writer.WriteLine(gene)
+                    Next
+                End Using
+            End Using
+        End If
     End Sub
 
 #End Region
@@ -358,6 +405,9 @@ Public Module GeneTreeStorage
                 End If
 
                 Dim config As GeneTreeConfig = readConfig(values)
+
+                Call config.SetDiscoveryCandidates(readDiscoveryCandidates(zip))
+
                 Dim genes As String() = Nothing
                 Dim tfFlags As Boolean() = Nothing
 
@@ -375,6 +425,13 @@ Public Module GeneTreeStorage
                 Dim grn As XGBoostGRN = XGBoostGRN.FromArchive(graph, config, genes, tfFlags)
                 Dim report As TrainingReport = TrainingReport.FromModels(
                     models, config, getInt(values, "report.cells", 0))
+
+                ' 结构发现的明细表按存档恢复（旧存档没有该条目时保持 Nothing）
+                Dim discovery As DiscoveryReport = readDiscovery(zip, config, values)
+
+                If discovery IsNot Nothing Then
+                    report.Discovery = discovery
+                End If
 
                 Call grn.RestoreState(models, baseline.means, baseline.sds, population.values, population.cells, report)
 
@@ -457,8 +514,28 @@ Public Module GeneTreeStorage
             .MaxIterationsHardCap = getInt(values, "opt.maxIterationsHardCap", 0),
             .ContextQuantileAlignment = getBool(values, "opt.contextQuantileAlignment", True),
             .BaselineFromControlSteadyState = getBool(values, "opt.baselineFromControlSteadyState", True),
-            .CollapseUniformPopulation = getBool(values, "opt.collapseUniformPopulation", True)
+            .CollapseUniformPopulation = getBool(values, "opt.collapseUniformPopulation", True),
+            .EdgeDiscovery = parseDiscoveryMode(getValue(values, "opt.edgeDiscovery")),
+            .DiscoveryMaxPerGene = getInt(values, "opt.discoveryMaxPerGene", 2),
+            .DiscoveryMaxCandidates = getInt(values, "opt.discoveryMaxCandidates", 5),
+            .DiscoveryMinCorrelation = getDouble(values, "opt.discoveryMinCorrelation", 0.1R),
+            .DiscoveryMinDeltaR2 = getDouble(values, "opt.discoveryMinDeltaR2", 0.002R),
+            .DiscoverySampleSize = getInt(values, "opt.discoverySampleSize", 1000),
+            .DiscoveryMaxGenes = getInt(values, "opt.discoveryMaxGenes", 0)
             }
+    End Function
+
+    ''' <summary>
+    ''' 解析存档中结构发现模式的文本（兼容缺失与非法值）
+    ''' </summary>
+    Private Function parseDiscoveryMode(text As String) As EdgeDiscoveryMode
+        Dim mode As EdgeDiscoveryMode
+
+        If [Enum].TryParse(If(text, "").Trim(), True, mode) Then
+            Return mode
+        Else
+            Return EdgeDiscoveryMode.AracneOnly
+        End If
     End Function
 
     Private Sub readGenes(zip As ZipArchive, ByRef genes As String(), ByRef tfFlags As Boolean())
@@ -780,7 +857,9 @@ Public Module GeneTreeStorage
                                 .mi = parseNumber(f(3)),
                                 .correlation = parseNumber(f(4)),
                                 .splits = Integer.Parse(f(5)),
-                                .sensitivity = parseNumber(f(6))
+                                .sensitivity = parseNumber(f(6)),
+                                .source = If(f.Length >= 8 AndAlso f(7).Length > 0, f(7), "aracne"),
+                                .deltaR2 = If(f.Length >= 9, parseNumber(f(8)), 0.0R)
                             })
                         End If
                     End If
@@ -800,6 +879,98 @@ Public Module GeneTreeStorage
             Next
         End Using
     End Sub
+
+    ''' <summary>
+    ''' 读取存档之中的候选基因清单（<c>discovery_candidates.txt</c>）
+    ''' </summary>
+    Private Function readDiscoveryCandidates(zip As ZipArchive) As String()
+        Using stream As Stream = openEntry(zip, "discovery_candidates.txt")
+            If stream Is Nothing Then
+                Return New String() {}
+            End If
+
+            Dim genes As New List(Of String)
+
+            Using reader As New StreamReader(stream, Encoding.UTF8)
+                Dim line As String = reader.ReadLine()
+
+                While line IsNot Nothing
+                    Dim gene As String = If(line, "").Trim()
+
+                    If gene.Length > 0 Then
+                        Call genes.Add(gene)
+                    End If
+
+                    line = reader.ReadLine()
+                End While
+            End Using
+
+            Return genes.ToArray
+        End Using
+    End Function
+
+    ''' <summary>
+    ''' 读取存档之中的结构发现明细（<c>discovery.tsv</c>）
+    ''' </summary>
+    Private Function readDiscovery(zip As ZipArchive,
+                                   config As GeneTreeConfig,
+                                   values As Dictionary(Of String, String)) As DiscoveryReport
+        Using stream As Stream = openEntry(zip, "discovery.tsv")
+            If stream Is Nothing Then
+                Return Nothing
+            End If
+
+            Dim edges As New List(Of DiscoveryEdge)
+            Dim header As Boolean = False
+
+            Using reader As New StreamReader(stream, Encoding.UTF8)
+                Dim line As String = reader.ReadLine()
+
+                While line IsNot Nothing
+                    If line.StartsWith("#") Then
+                        line = reader.ReadLine()
+                        Continue While
+                    End If
+                    If Not header Then
+                        header = True
+                        line = reader.ReadLine()
+                        Continue While
+                    End If
+
+                    Dim f As String() = line.Split(","c)
+
+                    If f.Length >= 10 Then
+                        Call edges.Add(New DiscoveryEdge With {
+                            .target = f(0),
+                            .regulator = f(1),
+                            .status = f(3),
+                            .correlation = parseNumber(f(4)),
+                            .deltaR2 = parseNumber(f(5)),
+                            .r2Before = parseNumber(f(6)),
+                            .r2After = parseNumber(f(7)),
+                            .splits = Integer.Parse(f(8)),
+                            .sensitivity = parseNumber(f(9)),
+                            .reason = If(f.Length >= 11, f(10), "")
+                        })
+                    End If
+
+                    line = reader.ReadLine()
+                End While
+            End Using
+
+            If edges.Count = 0 Then
+                Return Nothing
+            End If
+
+            Return New DiscoveryReport With {
+                .Mode = config.EdgeDiscovery,
+                .Candidates = config.DiscoveryCandidates,
+                .TargetsExamined = getInt(values, "report.discoveryTargets", 0),
+                .CandidatesScreened = getInt(values, "report.discoveryScreened", 0),
+                .Edges = edges.ToArray
+            }
+        End Using
+    End Function
 
 #End Region
 

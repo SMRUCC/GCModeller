@@ -28,6 +28,9 @@ Public Module GeneTreeDemo
             Call Console.WriteLine(Usage)
             Return 0
         End If
+        If opt.Synthetic Then
+            Return RunSynthetic(opt)
+        End If
         If String.IsNullOrEmpty(opt.AracneZip) OrElse String.IsNullOrEmpty(opt.ExpressionCsv) Then
             Call Console.WriteLine("缺少必需参数 --aracne / --expr")
             Call Console.WriteLine()
@@ -88,6 +91,28 @@ Public Module GeneTreeDemo
             config.MaxRegulators = opt.MaxRegulators
         End If
 
+        ' ---- 结构发现（可选）----
+        If Not String.IsNullOrEmpty(opt.DiscoveryCandidatesFile) Then
+            If Not File.Exists(opt.DiscoveryCandidatesFile) Then
+                Throw New FileNotFoundException($"找不到候选基因清单: {opt.DiscoveryCandidatesFile}", opt.DiscoveryCandidatesFile)
+            End If
+
+            Dim candidates As String() = File.ReadAllLines(opt.DiscoveryCandidatesFile) _
+                .Select(Function(line) If(line, "").Trim()) _
+                .Where(Function(line) line.Length > 0 AndAlso Not line.StartsWith("#")) _
+                .ToArray
+
+            config.EdgeDiscovery = EdgeDiscoveryMode.ResidualTwoStage
+            Call config.SetDiscoveryCandidates(candidates)
+            config.DiscoveryMaxPerGene = opt.DiscoveryMaxPerGene
+
+            If opt.DiscoveryMaxCandidates > 0 Then
+                config.DiscoveryMaxCandidates = opt.DiscoveryMaxCandidates
+            End If
+
+            Call DebugAudit.Mark("discovery", $"candidates={candidates.Length}, max/gene={config.DiscoveryMaxPerGene}")
+        End If
+
         Call config.ValidateOrThrow()
 
         ' ---- 1. 拓扑 ----
@@ -123,9 +148,15 @@ Public Module GeneTreeDemo
         Call DebugAudit.Test(report.BoostedModels > 0, "应当至少训练出一个梯度提升树模型")
         Call DebugAudit.Test(report.InformativeModels > 0, "应当存在 R² > 0.05 的模型，否则说明网络拓扑与表达数据不匹配")
 
+        If grn.Discovery IsNot Nothing Then
+            Call DebugAudit.Mark("discovered-edges", grn.Discovery.ToString)
+            Call DebugAudit.Test(grn.Discovery.Accepted >= 0, "结构发现的接受边数应当是非负数")
+        End If
+
         Call report.Write(opt.OutputDir)
         Call Console.WriteLine($"训练报告已写出: {Path.Combine(opt.OutputDir, "report.tsv")}、" &
-                              $"{Path.Combine(opt.OutputDir, "importance.tsv")}")
+                              $"{Path.Combine(opt.OutputDir, "importance.tsv")}" &
+                              If(grn.Discovery Is Nothing, "", $"、{Path.Combine(opt.OutputDir, "discovery.tsv")}"))
 
         ' ---- 4. 选择扰动目标 ----
         Dim gene As String = If(opt.Gene, PickTargetGene(grn))
@@ -245,6 +276,167 @@ Public Module GeneTreeDemo
     ''' <summary>
     ''' 挑选一个“扰动效应最容易传播”的基因：优先转录因子，其次 R² 高、调控者多的基因
     ''' </summary>
+    ''' <summary>
+    ''' 合成数据自检：构造一个“真值已知”的非线性调控网络，其中每个靶基因除了 ARACNE 拓扑给出的
+    ''' 一个调控者之外，还额外受到一个**隐藏调控者**的影响；随后用残差二阶段发现去把它找回来。
+    ''' </summary>
+    ''' <param name="opt">命令行参数（只需要 OutputDir）</param>
+    ''' <returns>退出码：0 表示全部检查通过</returns>
+    Private Function RunSynthetic(opt As Options) As Integer
+        If Not Directory.Exists(opt.OutputDir) Then
+            Call Directory.CreateDirectory(opt.OutputDir)
+        End If
+
+        Call DebugAudit.Reset()
+
+        Const nTf As Integer = 12
+        Const nHidden As Integer = 8
+        Const nTarget As Integer = 120
+        Const nDecoy As Integer = 12
+        Const nCells As Integer = 900
+
+        Dim rnd As New Random(20261102)
+        Dim genes As New List(Of String)
+        Dim tfFlags As New List(Of Boolean)
+        Dim values As New Dictionary(Of String, Double())(StringComparer.OrdinalIgnoreCase)
+
+        For i As Integer = 0 To nTf - 1
+            Call genes.Add($"TF{i:D2}")
+            Call tfFlags.Add(True)
+            values($"TF{i:D2}") = gauss(rnd, nCells)
+        Next
+        For i As Integer = 0 To nHidden - 1
+            Call genes.Add($"HID{i:D2}")
+            Call tfFlags.Add(False)
+            values($"HID{i:D2}") = gauss(rnd, nCells)
+        Next
+        For i As Integer = 0 To nDecoy - 1
+            Call genes.Add($"DECOY{i:D2}")
+            Call tfFlags.Add(False)
+            values($"DECOY{i:D2}") = gauss(rnd, nCells)
+        Next
+
+        ' ---- 真值网络 ----
+        Dim edges As New List(Of RegulationInput)
+        Dim truth As New Dictionary(Of String, String)(StringComparer.OrdinalIgnoreCase)
+
+        For t As Integer = 0 To nTarget - 1
+            Dim target As String = $"TG{t:D3}"
+            Dim given As String = $"TF{rnd.Next(0, nTf):D2}"
+            Dim hidden As String = $"HID{rnd.Next(0, nHidden):D2}"
+            Dim y As Double() = New Double(nCells - 1) {}
+
+            For c As Integer = 0 To nCells - 1
+                ' 非线性：已知调控者走正弦、隐藏调控者走 tanh，外加噪声
+                y(c) = 2.0R * std.Sin(1.5R * values(given)(c)) +
+                       1.5R * std.Tanh(1.2R * values(hidden)(c)) +
+                       0.1R * gauss1(rnd)
+            Next
+
+            values(target) = y
+            truth(target) = hidden
+
+            Call genes.Add(target)
+            Call tfFlags.Add(False)
+            Call edges.Add(New RegulationInput With {
+                .target = target,
+                .regulator = given,
+                .mi = 0.5R,
+                .correlation = 0.4R,
+                .interaction = "directed"
+            })
+        Next
+
+        Dim samples As String() = Enumerable.Range(0, nCells).Select(Function(i) $"cell{i:D4}").ToArray
+        Dim rows As DataFrameRow() = genes _
+            .Select(Function(g) New DataFrameRow(g, values(g))) _
+            .ToArray
+        Dim expr As New Matrix With {
+            .sampleID = samples,
+            .expression = rows
+        }
+
+        ' ---- 训练 + 发现 ----
+        Dim config As GeneTreeConfig = GeneTreeConfig.CreateFast()
+
+        config.MaxRegulators = 5
+        config.NumBoostRound = 80
+        config.MaxDepth = 4
+        config.Verbose = True
+        config.EdgeDiscovery = EdgeDiscoveryMode.ResidualTwoStage
+        Call config.SetDiscoveryCandidates(genes.Where(Function(g) Not g.StartsWith("TG", StringComparison.OrdinalIgnoreCase)))
+        config.DiscoveryMaxPerGene = 1
+        config.DiscoveryMaxCandidates = 4
+        config.DiscoveryMinCorrelation = 0.05R
+        config.DiscoveryMinDeltaR2 = 0.002R
+
+        Call config.ValidateOrThrow()
+
+        Dim graph As GeneRegulationGraph = GeneRegulationGraph.FromRegulations(genes.ToArray, tfFlags.ToArray, edges, config)
+        Dim grn As XGBoostGRN = Nothing
+        Dim report As TrainingReport = Nothing
+
+        Using DebugAudit.Watch("synthetic-fit")
+            grn = XGBoostGRN.Open(graph, expr, config)
+            report = grn.Fit()
+        End Using
+
+        Call DebugAudit.Mark("synthetic-report", report.ToString)
+        Call report.Write(opt.OutputDir)
+
+        ' ---- 检查点 ----
+        Call DebugAudit.Test(grn.Discovery IsNot Nothing, "开启发现模式之后应当产生发现报告")
+
+        If grn.Discovery Is Nothing Then
+            Return 1
+        End If
+
+        Dim accepted As DiscoveryEdge() = grn.Discovery.Edges.Where(Function(e) e.isAccepted).ToArray
+        Dim hits As Integer = accepted.Count(Function(e) truth.ContainsKey(e.target) AndAlso
+                                                         String.Equals(truth(e.target), e.regulator, StringComparison.OrdinalIgnoreCase))
+
+        Call DebugAudit.Mark("synthetic-discovery", grn.Discovery.ToString)
+        Call DebugAudit.Mark("synthetic-truth", $"{hits}/{accepted.Length} 条被接受的边就是隐藏调控者")
+
+        Call DebugAudit.Test(accepted.Length >= nTarget * 0.6,
+                             $"应当至少找回 60% 的隐藏调控边，实际接受 {accepted.Length}/{nTarget}")
+        Call DebugAudit.Test(accepted.Length > 0 AndAlso hits >= accepted.Length * 0.6,
+                             $"被接受的边之中至少 60% 应当是真正的隐藏调控者，实际 {hits}/{accepted.Length}")
+        Call DebugAudit.Test(accepted.Length = 0 OrElse accepted.All(Function(e) e.deltaR2 > 0),
+                             "被接受的边都应当带来正的 R² 增益")
+
+        Call Console.WriteLine()
+        Call Console.WriteLine($"合成数据自检: 接受 {accepted.Length}/{nTarget} 条新边，其中 {hits} 条命中隐藏调控者")
+        Call Console.WriteLine($"报告: {Path.Combine(opt.OutputDir, "discovery.tsv")}")
+
+        Call DebugAudit.SaveReport(Path.Combine(opt.OutputDir, "geneTree.synthetic.audit.json"))
+
+        Return If(DebugAudit.FailureCount = 0, 0, 1)
+    End Function
+
+    ''' <summary>
+    ''' 生成标准正态随机向量
+    ''' </summary>
+    Private Function gauss(rnd As Random, n As Integer) As Double()
+        Dim result As Double() = New Double(n - 1) {}
+
+        For i As Integer = 0 To n - 1
+            result(i) = gauss1(rnd)
+        Next
+
+        Return result
+    End Function
+
+    ''' <summary>
+    ''' Box-Muller 生成一个标准正态随机数
+    ''' </summary>
+    Private Function gauss1(rnd As Random) As Double
+        Dim u1 As Double = 1.0R - rnd.NextDouble()
+        Dim u2 As Double = rnd.NextDouble()
+
+        Return std.Sqrt(-2.0R * std.Log(u1)) * std.Cos(2.0R * std.PI * u2)
+    End Function
+
     Private Function PickTargetGene(grn As SMRUCC.genomics.Analysis.GeneTree.XGBoostGRN) As String
         Dim tfs As New HashSet(Of String)(grn.TFNames, StringComparer.OrdinalIgnoreCase)
         Dim best As String = Nothing
@@ -307,6 +499,14 @@ Public Module GeneTreeDemo
         Public Property BaselineCells As Integer = 0
         Public Property ShowHelp As Boolean = False
 
+        ''' <summary>候选调控者清单文件（每行一个基因编号）；指定后开启残差二阶段结构发现</summary>
+        Public Property DiscoveryCandidatesFile As String
+        Public Property DiscoveryMaxPerGene As Integer = 2
+        Public Property DiscoveryMaxCandidates As Integer = 0
+
+        ''' <summary>使用合成数据自检结构发现（不需要 aracne.zip 与表达矩阵）</summary>
+        Public Property Synthetic As Boolean = False
+
         ''' <summary>
         ''' 指定了 <c>--save</c> 但是没有给出路径时，使用输出目录下的默认存档名
         ''' </summary>
@@ -363,6 +563,14 @@ Public Module GeneTreeDemo
                         i += 1 : opt.MaxRegulators = Integer.Parse(nextArg(args, i))
                     Case "--baseline-cells"
                         i += 1 : opt.BaselineCells = Integer.Parse(nextArg(args, i))
+                    Case "--synthetic"
+                        opt.Synthetic = True
+                    Case "--discovery-candidates"
+                        i += 1 : opt.DiscoveryCandidatesFile = nextArg(args, i)
+                    Case "--discovery-max"
+                        i += 1 : opt.DiscoveryMaxPerGene = Integer.Parse(nextArg(args, i))
+                    Case "--discovery-try"
+                        i += 1 : opt.DiscoveryMaxCandidates = Integer.Parse(nextArg(args, i))
                     Case "--no-save"
                         opt.SavePath = Nothing
                         opt.DefaultSavePath = False
@@ -418,6 +626,9 @@ Public Module GeneTreeDemo
             Call sb.AppendLine("  --iterations <n>       定点迭代的最大轮数（默认 60）")
             Call sb.AppendLine("  --baseline-cells <n>   接口方法的 nSamples 参数（0 表示使用整个种群）")
             Call sb.AppendLine("  --gene <name>          指定扰动目标基因（默认自动挑选转录因子）")
+            Call sb.AppendLine("  --discovery-candidates <file>  候选调控者清单（每行一个基因），指定后开启残差二阶段结构发现")
+            Call sb.AppendLine("  --discovery-max <n>    每个靶基因最多接受几条新边（默认 2）")
+            Call sb.AppendLine("  --discovery-try <n>    每个靶基因最多尝试几个候选（默认 5）")
             Call sb.AppendLine("  --save [file]          训练完成后写模型存档（不给路径时写到 {out}/genetree.zip）")
             Call sb.AppendLine("  --no-save              不写模型存档（默认行为）")
             Call sb.AppendLine("  --help                 显示本帮助")

@@ -1,3 +1,4 @@
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MachineLearning.XGBoost.train
 
 ''' <summary>
@@ -27,8 +28,29 @@ Public Class RegulatorImportance
     ''' </summary>
     Public Property sensitivity As Double
 
+    ''' <summary>
+    ''' 这条调控边的来源：<c>aracne</c>（ARACNE 拓扑给出的边）或 <c>discovered</c>（残差发现阶段新增的边）
+    ''' </summary>
+    Public Property source As String = "aracne"
+
+    ''' <summary>
+    ''' 该边被接受时带来的验证集 R² 增益；ARACNE 原有的边为 0
+    ''' </summary>
+    Public Property deltaR2 As Double = 0.0R
+
+    ''' <summary>
+    ''' 是否为结构发现阶段新增的调控边
+    ''' </summary>
+    ''' <returns></returns>
+    Public ReadOnly Property isDiscovered As Boolean
+        Get
+            Return String.Equals(source, "discovered", StringComparison.OrdinalIgnoreCase)
+        End Get
+    End Property
+
     Public Overrides Function ToString() As String
-        Return $"{regulator}: splits={splits}, sensitivity={sensitivity.ToString("G4")}, MI={mi.ToString("G4")}"
+        Return $"{regulator} ({source}): splits={splits}, sensitivity={sensitivity.ToString("G4")}, " &
+               $"MI={mi.ToString("G4")}, dR2={deltaR2.ToString("G4")}"
     End Function
 End Class
 
@@ -134,6 +156,21 @@ Public Class GeneModel
 
     ''' <summary>拟合评价与特征重要性</summary>
     Public Property Performance As ModelPerformance = New ModelPerformance()
+
+    ''' <summary>
+    ''' 结构发现阶段对该基因检验过的候选边（含接受与拒绝）；未开启发现时为空数组
+    ''' </summary>
+    Public Property DiscoveryEdges As DiscoveryEdge() = New DiscoveryEdge() {}
+
+    ''' <summary>
+    ''' 该基因的模型之中是否包含结构发现阶段新增的调控边
+    ''' </summary>
+    ''' <returns></returns>
+    Public ReadOnly Property HasDiscoveredEdges As Boolean
+        Get
+            Return DiscoveryEdges.SafeQuery.Any(Function(e) e.isAccepted)
+        End Get
+    End Property
 
     ''' <summary>
     ''' 梯度提升树模型。赋值为 <c>Nothing</c> 时模型退化为常数模型。

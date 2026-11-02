@@ -118,6 +118,34 @@ Public Class XGBoostGRN : Implements InsilicoPerturbationExperiment
         End Get
     End Property
 
+    ''' <summary>
+    ''' 结构发现的汇总结果（未开启发现或者模型尚未训练时为 <c>Nothing</c>）
+    ''' </summary>
+    ''' <returns></returns>
+    Public ReadOnly Property Discovery As DiscoveryReport
+        Get
+            If m_report Is Nothing Then
+                Return Nothing
+            Else
+                Return m_report.Discovery
+            End If
+        End Get
+    End Property
+
+    ''' <summary>
+    ''' 模型之中由结构发现阶段新增的调控边数量
+    ''' </summary>
+    ''' <returns></returns>
+    Public ReadOnly Property DiscoveredEdgesCount As Integer
+        Get
+            If Discovery Is Nothing Then
+                Return 0
+            Else
+                Return Discovery.Accepted
+            End If
+        End Get
+    End Property
+
     ''' <summary>逐基因模型（下标与 <see cref="GeneNames"/> 一致）</summary>
     Public ReadOnly Property Models As GeneModel()
         Get

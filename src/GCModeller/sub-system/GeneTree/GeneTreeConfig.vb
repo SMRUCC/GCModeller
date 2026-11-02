@@ -13,6 +13,23 @@ Public Enum GeneTreeProfile
 End Enum
 
 ''' <summary>
+''' 调控边的结构发现模式
+''' </summary>
+Public Enum EdgeDiscoveryMode
+    ''' <summary>
+    ''' 只使用 ARACNE 给出的拓扑（默认）。梯度提升树的重要性只用于排序与剪枝参考，
+    ''' 不会新增任何调控边，行为与历史版本完全一致。
+    ''' </summary>
+    AracneOnly = 0
+
+    ''' <summary>
+    ''' 残差二阶段发现：先只用 ARACNE 边拟合，再在残差上对候选基因集合做相关筛选，
+    ''' 候选逐个增量重拟合并以验证集 ΔR² 决定是否接受为新调控边。
+    ''' </summary>
+    ResidualTwoStage = 1
+End Enum
+
+''' <summary>
 ''' GeneTree（XGBoost 非线性基因调控网络）的全量超参数配置。
 ''' 
 ''' 配置分成四组：
@@ -57,6 +74,94 @@ Public Class GeneTreeConfig
     ''' 其余基因在迭代求解中保持初始值不变。
     ''' </remarks>
     Public Property MaxGenes As Integer = 0
+
+#End Region
+
+#Region "edge discovery"
+
+    ''' <summary>
+    ''' 调控边的结构发现模式，默认 <see cref="EdgeDiscoveryMode.AracneOnly"/>（不发现新边）。
+    ''' </summary>
+    ''' <remarks>
+    ''' 开启之后模型会在 ARACNE 拓扑之外，从 <see cref="DiscoveryCandidates"/> 指定的基因集合之中
+    ''' 找出能显著解释残差的调控者，并把它们追加到对应靶基因的特征列表末尾。
+    ''' ARACNE 原有的边**始终保留**，因此开启前后的拓扑是可比的。
+    ''' </remarks>
+    Public Property EdgeDiscovery As EdgeDiscoveryMode = EdgeDiscoveryMode.AracneOnly
+
+    ''' <summary>
+    ''' 参与结构发现的候选调控者基因编号集合（由调用方显式给出，不自动推断）。
+    ''' </summary>
+    ''' <remarks>
+    ''' + 候选池只需要覆盖“可能的新调控者”，通常是转录因子集合，也可以是全部基因；
+    ''' + 若希望某个非转录因子的扰动目标能够产生下游效应，必须把该基因本身放进候选集，
+    '''   这样它才有可能成为其他基因的调控者；
+    ''' + 集合之中不存在于表达矩阵里的基因会被静默忽略。
+    ''' </remarks>
+    Public Property DiscoveryCandidates As String() = New String() {}
+
+    ''' <summary>
+    ''' 每个靶基因最多接受几条新发现的调控边，默认 2。
+    ''' </summary>
+    Public Property DiscoveryMaxPerGene As Integer = 2
+
+    ''' <summary>
+    ''' 每个靶基因最多尝试几个候选（控制重拟合次数），默认 5。
+    ''' </summary>
+    ''' <remarks>
+    ''' 候选按残差相关的绝对值降序尝试，接受一条之后继续尝试下一条，达到
+    ''' <see cref="DiscoveryMaxPerGene"/> 或者候选耗尽即停止。
+    ''' </remarks>
+    Public Property DiscoveryMaxCandidates As Integer = 5
+
+    ''' <summary>
+    ''' 残差与候选基因表达之间的 pearson 相关绝对值下限，默认 0.10。
+    ''' </summary>
+    Public Property DiscoveryMinCorrelation As Double = 0.1
+
+    ''' <summary>
+    ''' 接受一条新调控边所需要的最小验证集 R² 增益，默认 0.002。
+    ''' </summary>
+    Public Property DiscoveryMinDeltaR2 As Double = 0.002
+
+    ''' <summary>
+    ''' 计算残差相关时采样的细胞数量，默认 1000；0 表示使用全部训练细胞。
+    ''' </summary>
+    Public Property DiscoverySampleSize As Integer = 1000
+
+    ''' <summary>
+    ''' 最多对多少个靶基因执行结构发现，0 表示不限制（用于试跑限流）。
+    ''' </summary>
+    Public Property DiscoveryMaxGenes As Integer = 0
+
+    ''' <summary>
+    ''' 设置候选调控者集合（去重、去空、去自身）
+    ''' </summary>
+    ''' <param name="genes">候选基因编号</param>
+    ''' <returns>当前对象（便于链式调用）</returns>
+    Public Function SetDiscoveryCandidates(genes As IEnumerable(Of String)) As GeneTreeConfig
+        If genes Is Nothing Then
+            DiscoveryCandidates = New String() {}
+        Else
+            DiscoveryCandidates = genes _
+                .Where(Function(g) Not String.IsNullOrWhiteSpace(g)) _
+                .Select(Function(g) g.Trim()) _
+                .Distinct(StringComparer.OrdinalIgnoreCase) _
+                .ToArray
+        End If
+
+        Return Me
+    End Function
+
+    ''' <summary>
+    ''' 是否启用结构发现
+    ''' </summary>
+    ''' <returns></returns>
+    Public ReadOnly Property IsDiscoveryEnabled As Boolean
+        Get
+            Return EdgeDiscovery <> EdgeDiscoveryMode.AracneOnly
+        End Get
+    End Property
 
 #End Region
 
@@ -417,6 +522,31 @@ Public Class GeneTreeConfig
             Call errors.Add($"{NameOf(MaxIterationsHardCap)} 不能小于 {NameOf(MaxIterations)}（{MaxIterations}），实际为 {MaxIterationsHardCap}")
         End If
 
+        ' ---- 结构发现 ----
+        If IsDiscoveryEnabled Then
+            If DiscoveryCandidates Is Nothing OrElse DiscoveryCandidates.Length = 0 Then
+                Call errors.Add($"{NameOf(EdgeDiscovery)} 开启时必须通过 {NameOf(DiscoveryCandidates)} 给出候选基因集合")
+            End If
+            If DiscoveryMaxPerGene < 1 Then
+                Call errors.Add($"{NameOf(DiscoveryMaxPerGene)} 至少为 1")
+            End If
+            If DiscoveryMaxCandidates < DiscoveryMaxPerGene Then
+                Call errors.Add($"{NameOf(DiscoveryMaxCandidates)} 不能小于 {NameOf(DiscoveryMaxPerGene)}")
+            End If
+            If DiscoveryMinCorrelation <= 0 OrElse DiscoveryMinCorrelation >= 1 Then
+                Call errors.Add($"{NameOf(DiscoveryMinCorrelation)} 必须落在 (0, 1) 区间内，实际为 {DiscoveryMinCorrelation}")
+            End If
+            If DiscoveryMinDeltaR2 <= 0 Then
+                Call errors.Add($"{NameOf(DiscoveryMinDeltaR2)} 必须大于 0")
+            End If
+            If DiscoverySampleSize <> 0 AndAlso DiscoverySampleSize < 50 Then
+                Call errors.Add($"{NameOf(DiscoverySampleSize)} 至少为 50（或设为 0 使用全部训练细胞）")
+            End If
+            If DiscoveryMaxGenes < 0 Then
+                Call errors.Add($"{NameOf(DiscoveryMaxGenes)} 不能为负数")
+            End If
+        End If
+
         Return errors
     End Function
 
@@ -521,6 +651,12 @@ Public Class GeneTreeConfig
         Call sb.Append($"rounds={NumBoostRound}, depth={MaxDepth}, eta={LearningRate}, lambda={Lambda}, ")
         Call sb.Append($"alpha={DampingAlpha}, iterations={MaxIterations}/{EffectiveMaxIterationsHardCap}, population={PopulationSize}, ")
         Call sb.Append($"tol={ConvergenceTolerance}, kd={KnockdownResidual}, oe={OverexpressionFactor}")
+
+        If IsDiscoveryEnabled Then
+            Call sb.Append($", discovery={EdgeDiscovery}(candidates={If(DiscoveryCandidates, New String() {}).Length}, " &
+                           $"max/gene={DiscoveryMaxPerGene}, try={DiscoveryMaxCandidates}, " &
+                           $"r>={DiscoveryMinCorrelation}, dR2>={DiscoveryMinDeltaR2})")
+        End If
 
         Return sb.ToString()
     End Function

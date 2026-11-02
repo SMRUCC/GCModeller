@@ -12,6 +12,7 @@ Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports HTSMatrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
+Imports std = System.Math
 Imports RDataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
@@ -127,13 +128,15 @@ Module geneTreeTools
                                  Optional iterations As Integer = 60,
                                  Optional cells As Integer = 0,
                                  Optional max_genes As Integer = 0,
-                                 Optional max_regulators As Integer = -1) As GeneTreeConfig
+                                 Optional max_regulators As Integer = -1,
+                                 Optional include_undirected As Boolean = True) As GeneTreeConfig
 
         Dim config As GeneTreeConfig = GeneTreeConfig.FromProfile(profile)
 
         config.PopulationSize = population
         config.MaxIterations = iterations
         config.Verbose = True
+        config.IncludeUndirectedEdges = include_undirected
 
         If cells > 0 Then
             config.MaxSamplesPerModel = cells
@@ -146,6 +149,120 @@ Module geneTreeTools
         End If
 
         Call config.ValidateOrThrow()
+
+        Return config
+    End Function
+
+    ''' <summary>
+    ''' Enable the residual two-stage structure discovery on a GeneTree configuration.
+    ''' </summary>
+    ''' <param name="config">
+    ''' the configuration object created by the ``make_profile`` api (it is modified in
+    ''' place and returned, so it can be chained).
+    ''' </param>
+    ''' <param name="candidates">
+    ''' a character vector of the candidate regulator gene id; the discovery only searches
+    ''' inside this set, it never guesses the candidate space by itself.
+    ''' 
+    ''' to make a non-transcription-factor perturbation target able to propagate to its
+    ''' downstream genes, the target gene itself must be included in this candidate set.
+    ''' </param>
+    ''' <param name="max_per_gene">
+    ''' the maximum number of the new edges that could be accepted for each target gene,
+    ''' default is 2.
+    ''' </param>
+    ''' <param name="max_candidates">
+    ''' the maximum number of the candidates that are tried for each target gene (each try
+    ''' costs one more model fitting), default is 5.
+    ''' </param>
+    ''' <param name="min_correlation">
+    ''' the minimal |pearson r| between the target gene residual and the candidate gene
+    ''' expression, default is 0.1.
+    ''' </param>
+    ''' <param name="min_delta_r2">
+    ''' the minimal validation R² gain that is required for accepting one new edge,
+    ''' default is 0.002.
+    ''' </param>
+    ''' <param name="sample_size">
+    ''' the number of the cells that are used by the residual correlation screening,
+    ''' default is 1000, ``0`` uses all of the training cells.
+    ''' </param>
+    ''' <param name="max_genes">
+    ''' only the first n target genes run the discovery, ``0`` means all of them (useful for
+    ''' a quick trial).
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' the input configuration object with ``EdgeDiscovery = ResidualTwoStage``; an R#
+    ''' error message object is returned when the candidate set is empty or the resulting
+    ''' configuration is invalid.
+    ''' </returns>
+    ''' <remarks>
+    ''' <para>
+    ''' The discovery runs in two stages:
+    ''' </para>
+    ''' <list type="number">
+    ''' <item><description>
+    ''' only the ARACNE edges are used to fit the target gene model, and the residual
+    ''' (label - prediction) is computed;
+    ''' </description></item>
+    ''' <item><description>
+    ''' the candidates are ranked by the correlation with the residual, then they are added
+    ''' into the feature set one by one; a candidate is accepted as a new regulation edge
+    ''' only when the validation R² gain is above ``min_delta_r2`` and the feature is
+    ''' actually used by the trees.
+    ''' </description></item>
+    ''' </list>
+    ''' <para>
+    ''' the ARACNE edges are always kept, the accepted edges are appended after them, so the
+    ''' topology of a discovery model is still comparable with the previous models.
+    ''' </para>
+    ''' </remarks>
+    ''' <example>
+    ''' imports ["geneTree"] from "biosystem";
+    ''' 
+    ''' let tfs = read.csv("./tfs.csv");
+    ''' let opts = geneTree::make_profile("fast", population = 100, max_regulators = 10)
+    '''          |> geneTree::discovery(tfs$gene_id, max_per_gene = 2);
+    ''' let grn = geneTree::new(aracne, expr, opts) |> fit_tree();
+    ''' geneTree::discovered_edges(grn, top_n = 100) |> print();
+    ''' </example>
+    <ExportAPI("discovery")>
+    <RApiReturn(GetType(GeneTreeConfig))>
+    Public Function discovery(config As GeneTreeConfig,
+                              <RRawVectorArgument(TypeCodes.string)> candidates As Object,
+                              Optional max_per_gene As Integer = 2,
+                              Optional max_candidates As Integer = 5,
+                              Optional min_correlation As Double = 0.1,
+                              Optional min_delta_r2 As Double = 0.002,
+                              Optional sample_size As Integer = 1000,
+                              Optional max_genes As Integer = 0,
+                              Optional env As Environment = Nothing) As Object
+
+        If config Is Nothing Then
+            Return RInternal.debug.stop("the given GeneTree configuration is nothing!", env)
+        End If
+
+        Dim geneIds As String() = CLRVector.asCharacter(candidates)
+
+        If geneIds.IsNullOrEmpty Then
+            Return RInternal.debug.stop("the candidate gene list is empty, at least one gene id is required for the edge discovery!", env)
+        End If
+
+        config.EdgeDiscovery = EdgeDiscoveryMode.ResidualTwoStage
+        Call config.SetDiscoveryCandidates(geneIds)
+        config.DiscoveryMaxPerGene = std.Max(1, max_per_gene)
+        config.DiscoveryMaxCandidates = std.Max(config.DiscoveryMaxPerGene, max_candidates)
+        config.DiscoveryMinCorrelation = min_correlation
+        config.DiscoveryMinDeltaR2 = min_delta_r2
+        config.DiscoverySampleSize = sample_size
+        config.DiscoveryMaxGenes = std.Max(0, max_genes)
+
+        Try
+            Call config.ValidateOrThrow()
+        Catch ex As Exception
+            Return RInternal.debug.stop(ex.Message, env)
+        End Try
 
         Return config
     End Function
@@ -331,10 +448,80 @@ Module geneTreeTools
             {"informative_models", report.InformativeModels},
             {"cells", report.Cells},
             {"population", tree.PopulationSize},
-            {"fitted", tree.IsFitted}
+            {"fitted", tree.IsFitted},
+            {"discovery_mode", tree.Config.EdgeDiscovery.ToString()},
+            {"discovered_edges", tree.DiscoveredEdgesCount},
+            {"discovery_targets", If(tree.Discovery Is Nothing, 0, tree.Discovery.TargetsExamined)}
         }
 
         Return New list(slots)
+    End Function
+
+    ''' <summary>
+    ''' Get the candidate edges that were examined by the residual two-stage structure discovery.
+    ''' </summary>
+    ''' <param name="tree">the trained <see cref="XGBoostGRN"/> model object.</param>
+    ''' <param name="top_n">
+    ''' the number of the records that are ordered by the R² gain in descending order, ``0``
+    ''' returns all of them.
+    ''' </param>
+    ''' <param name="accepted_only">when TRUE only the accepted new edges are returned.</param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a dataframe whose columns are ``gene``, ``regulator``, ``status``, ``correlation``,
+    ''' ``delta_r2``, ``r2_before``, ``r2_after``, ``splits``, ``sensitivity`` and ``reason``;
+    ''' an R# error message object is returned when the model does not contain any discovery
+    ''' result.
+    ''' </returns>
+    ''' <remarks>
+    ''' the ``delta_r2`` of an accepted edge is the validation R² gain that the edge brought
+    ''' to its target gene model, the ``correlation`` column is the pearson correlation between
+    ''' the target gene residual and the candidate gene expression.
+    ''' </remarks>
+    <ExportAPI("discovered_edges")>
+    <RApiReturn(GetType(RDataframe))>
+    Public Function discovered_edges(tree As XGBoostGRN,
+                                     Optional top_n As Integer = 50,
+                                     Optional accepted_only As Boolean = True,
+                                     Optional env As Environment = Nothing) As Object
+
+        If tree Is Nothing Then
+            Return RInternal.debug.stop("the given GeneTree model is nothing!", env)
+        End If
+        If tree.Discovery Is Nothing OrElse tree.Discovery.Edges.Length = 0 Then
+            Return RInternal.debug.stop("no edge discovery result was found on the given GeneTree model, please enable the discovery via the discovery api before the model training!", env)
+        End If
+
+        Dim data As DiscoveryEdge() = tree.Discovery.Edges _
+            .Where(Function(e) Not accepted_only OrElse e.isAccepted) _
+            .OrderByDescending(Function(e) e.deltaR2) _
+            .ToArray
+
+        If top_n > 0 AndAlso data.Length > top_n Then
+            data = data.Take(top_n).ToArray
+        End If
+
+        If data.Length = 0 Then
+            Return RInternal.debug.stop($"the given GeneTree model contains no {"accepted"} edge discovery result!", env)
+        End If
+
+        Dim df As New RDataframe With {
+            .columns = New Dictionary(Of String, Array),
+            .rownames = Enumerable.Range(1, data.Length).Select(Function(i) CStr(i)).ToArray
+        }
+
+        Call df.add("gene", data.Select(Function(e) e.target))
+        Call df.add("regulator", data.Select(Function(e) e.regulator))
+        Call df.add("status", data.Select(Function(e) e.status))
+        Call df.add("correlation", data.Select(Function(e) e.correlation))
+        Call df.add("delta_r2", data.Select(Function(e) e.deltaR2))
+        Call df.add("r2_before", data.Select(Function(e) e.r2Before))
+        Call df.add("r2_after", data.Select(Function(e) e.r2After))
+        Call df.add("splits", data.Select(Function(e) e.splits))
+        Call df.add("sensitivity", data.Select(Function(e) e.sensitivity))
+        Call df.add("reason", data.Select(Function(e) If(e.reason, "")))
+
+        Return df
     End Function
 
     ''' <summary>

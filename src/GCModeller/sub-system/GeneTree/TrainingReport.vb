@@ -17,6 +17,22 @@ Public Class TrainingReport
     ''' <summary>每个基因的模型（下标与表达矩阵的行一致，可能包含 <c>Nothing</c>）</summary>
     Public Property Models As GeneModel() = New GeneModel() {}
 
+    ''' <summary>
+    ''' 结构发现的汇总结果；未开启发现时为 <c>Nothing</c>
+    ''' </summary>
+    Public Property Discovery As DiscoveryReport
+
+    ''' <summary>被接受的新调控边数量</summary>
+    Public ReadOnly Property DiscoveredEdges As Integer
+        Get
+            If Discovery Is Nothing Then
+                Return 0
+            Else
+                Return Discovery.Accepted
+            End If
+        End Get
+    End Property
+
     ''' <summary>成功训练出梯度提升树的基因数量</summary>
     Public ReadOnly Property BoostedModels As Integer
         Get
@@ -78,10 +94,46 @@ Public Class TrainingReport
                                       config As GeneTreeConfig,
                                       cells As Integer) As TrainingReport
 
-        Return New TrainingReport With {
+        Dim report As New TrainingReport With {
             .Models = If(models, New GeneModel() {}),
             .Config = config,
             .Cells = cells
+        }
+
+        report.Discovery = buildDiscovery(report.Models, config)
+
+        Return report
+    End Function
+
+    ''' <summary>
+    ''' 从每基因模型上的发现记录聚合出全局的发现报告（在并行训练结束之后单线程执行）
+    ''' </summary>
+    ''' <param name="models">模型集合</param>
+    ''' <param name="config">训练配置</param>
+    ''' <returns>未开启结构发现时返回 <c>Nothing</c></returns>
+    Public Shared Function buildDiscovery(models As GeneModel(), config As GeneTreeConfig) As DiscoveryReport
+        If config Is Nothing OrElse Not config.IsDiscoveryEnabled Then
+            Return Nothing
+        End If
+
+        Dim edges As New List(Of DiscoveryEdge)
+        Dim examined As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)
+
+        For Each model As GeneModel In models.SafeQuery
+            If model Is Nothing OrElse model.DiscoveryEdges Is Nothing OrElse model.DiscoveryEdges.Length = 0 Then
+                Continue For
+            End If
+
+            Call examined.Add(model.Gene)
+            Call edges.AddRange(model.DiscoveryEdges)
+        Next
+
+        Return New DiscoveryReport With {
+            .Mode = config.EdgeDiscovery,
+            .Candidates = config.DiscoveryCandidates,
+            .TargetsExamined = examined.Count,
+            .CandidatesScreened = 0,
+            .Edges = edges.ToArray
         }
     End Function
 
@@ -122,6 +174,10 @@ Public Class TrainingReport
 
         Call WriteTable(Path.Combine(folder, "report.tsv"))
         Call WriteImportance(Path.Combine(folder, "importance.tsv"))
+
+        If Discovery IsNot Nothing Then
+            Call Discovery.Write(Path.Combine(folder, "discovery.tsv"))
+        End If
     End Sub
 
     ''' <summary>
@@ -158,7 +214,7 @@ Public Class TrainingReport
     ''' <param name="file">目标文件路径</param>
     Public Sub WriteImportance(file As String)
         Using writer As New StreamWriter(file, False, Encoding.UTF8)
-            Call writer.WriteLine("gene,regulator,rank,mi,correlation,splits,sensitivity")
+            Call writer.WriteLine("gene,regulator,rank,mi,correlation,splits,sensitivity,source,delta_r2")
 
             For Each model As GeneModel In Models.SafeQuery.Where(Function(m) m IsNot Nothing)
                 For Each item As RegulatorImportance In model.Performance.importance.SafeQuery
@@ -169,7 +225,9 @@ Public Class TrainingReport
                         number(item.mi),
                         number(item.correlation),
                         item.splits.ToString,
-                        number(item.sensitivity)))
+                        number(item.sensitivity),
+                        If(item.source, "aracne"),
+                        number(item.deltaR2)))
                 Next
             Next
         End Using
@@ -190,6 +248,11 @@ Public Class TrainingReport
                            $"{SourceNodes} 个无调控者的源节点，细胞数 {Cells}")
         Call sb.AppendLine($"拟合优度: 中位 R² = {MedianR2.ToString("F4")}、平均 R² = {MeanR2.ToString("F4")}、" &
                            $"{InformativeModels} 个模型的 R² > 0.05")
+
+        If Discovery IsNot Nothing Then
+            Call sb.AppendLine($"结构发现: {Discovery}")
+        End If
+
         Call sb.Append($"配置: {If(Config Is Nothing, "N/A", Config.ToString)}")
 
         Return sb.ToString()

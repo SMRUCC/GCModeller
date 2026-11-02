@@ -134,6 +134,22 @@ Public Class GeneTreeTrainer
         Dim cells As Integer() = SampleCells(nSamples, opt.MaxSamplesPerModel, opt.Seed)
         Dim split As (train As Integer(), validate As Integer()) = SplitPositions(cells.Length, opt.ValidationRatio, opt.Seed Xor &H2A3F)
 
+        ' ---- 结构发现：候选向量只在全部训练细胞上标准化一次，供所有靶基因共享 ----
+        Dim discovery As DiscoveryContext = Nothing
+
+        If opt.IsDiscoveryEnabled Then
+            discovery = DiscoveryContext.Create(opt, rows, rowIndex, cells)
+
+            If opt.Verbose Then
+                If discovery Is Nothing Then
+                    Console.WriteLine("[GeneTree] 结构发现已开启，但候选基因集合之中没有可用的基因（不在矩阵中或表达为常量），本次按 ARACNE 拓扑训练")
+                Else
+                    Console.WriteLine($"[GeneTree] 结构发现: {opt.EdgeDiscovery}，候选 {discovery.Candidates.Length} 个（给定 {opt.DiscoveryCandidates.Length} 个），" &
+                                      $"筛选细胞 {discovery.Cells.Length} 个，每基因最多接受 {opt.DiscoveryMaxPerGene} 条 / 尝试 {opt.DiscoveryMaxCandidates} 个")
+                End If
+            End If
+        End If
+
         ' ---- 选出参与训练的靶基因 ----
         Dim targets As New List(Of String)
         Dim missing As Integer = 0
@@ -188,8 +204,15 @@ Public Class GeneTreeTrainer
                     Dim gene As String = targets(k)
                     Dim model As GeneModel = Nothing
 
+                    Dim ctx As DiscoveryContext = discovery
+
+                    If ctx IsNot Nothing AndAlso opt.DiscoveryMaxGenes > 0 AndAlso k >= opt.DiscoveryMaxGenes Then
+                        ' 试跑限流：只对前 N 个靶基因执行结构发现
+                        ctx = Nothing
+                    End If
+
                     Try
-                        model = TrainGene(gene, graph, rows, rowIndex, cells, split.train, split.validate, opt)
+                        model = TrainGene(gene, graph, rows, rowIndex, cells, split.train, split.validate, opt, ctx)
                     Catch ex As Exception
                         Call log($"  [GeneTree] 基因 '{gene}' 拟合失败，退化为常数模型: {ex.Message}")
                     End Try
@@ -210,6 +233,10 @@ Public Class GeneTreeTrainer
 
         Dim report As TrainingReport = TrainingReport.FromModels(models, opt, cells.Length)
 
+        If discovery IsNot Nothing AndAlso report.Discovery IsNot Nothing Then
+            report.Discovery.CandidatesScreened = discovery.Candidates.Length
+        End If
+
         If opt.Verbose Then
             Call $"[GeneTree] {report.ToString}".info
         End If
@@ -220,9 +247,29 @@ Public Class GeneTreeTrainer
 #Region "single gene fitting"
 
     ''' <summary>
+    ''' 一次 GBM 拟合的结果（结构发现阶段会反复复用这个结构）
+    ''' </summary>
+    Private Structure FitResult
+        Public gbm As GBM
+        Public r2 As Double
+        Public rmse As Double
+        ''' <summary>同一评价集合上用标签均值作为预测时的 RMSE</summary>
+        Public baselineRmse As Double
+    End Structure
+
+    ''' <summary>
     ''' 拟合单个靶基因的非线性调控函数
     ''' </summary>
-    ''' <returns>模型对象；该基因没有任何可用调控者时返回 <c>Nothing</c></returns>
+    ''' <param name="gene">靶基因编号</param>
+    ''' <param name="graph">ARACNE 拓扑（第一阶段只使用这里的边）</param>
+    ''' <param name="rows">表达矩阵的行</param>
+    ''' <param name="rowIndex">基因编号 → 行号</param>
+    ''' <param name="cells">参与训练的细胞列下标</param>
+    ''' <param name="trainPos"><paramref name="cells"/> 之中的训练位置</param>
+    ''' <param name="validatePos"><paramref name="cells"/> 之中的验证位置</param>
+    ''' <param name="opt">配置</param>
+    ''' <param name="discovery">结构发现上下文；<c>Nothing</c> 表示该基因不执行发现</param>
+    ''' <returns>模型对象；该基因没有任何可用调控者（且未发现任何新边）时返回 <c>Nothing</c></returns>
     Private Shared Function TrainGene(gene As String,
                                       graph As GeneRegulationGraph,
                                       rows As DataFrameRow(),
@@ -230,20 +277,20 @@ Public Class GeneTreeTrainer
                                       cells As Integer(),
                                       trainPos As Integer(),
                                       validatePos As Integer(),
-                                      opt As GeneTreeConfig) As GeneModel
+                                      opt As GeneTreeConfig,
+                                      discovery As DiscoveryContext) As GeneModel
 
         Dim inputs As RegulationInput() = graph.RegulatorsOf(gene) _
             .Where(Function(r) r IsNot Nothing AndAlso rowIndex.ContainsKey(If(r.regulator, ""))) _
             .ToArray
 
-        If inputs.Length = 0 Then
+        If inputs.Length = 0 AndAlso discovery Is Nothing Then
             ' 没有任何调控者：这是一个源节点，迭代之中保持初始值不变
             Return Nothing
         End If
 
-        Dim targetRow As DataFrameRow = rows(rowIndex(gene))
-        Dim regRows As DataFrameRow() = inputs.Select(Function(r) rows(rowIndex(r.regulator))).ToArray
-        Dim k As Integer = regRows.Length
+        Dim targetIndex As Integer = rowIndex(gene)
+        Dim targetRow As DataFrameRow = rows(targetIndex)
         Dim labels As Double() = sanitizeLabels(targetRow, cells)
 
         Dim minValue As Double = labels.Min()
@@ -253,7 +300,7 @@ Public Class GeneTreeTrainer
         Dim baselineRmse As Double = std.Sqrt(
             labels.Sum(Function(x) (x - mean) ^ 2) / std.Max(1, labels.Length - 1))
         Dim performance As New ModelPerformance With {
-            .nRegulators = k,
+            .nRegulators = inputs.Length,
             .nTrain = trainPos.Length,
             .nValidate = validatePos.Length,
             .minValue = minValue,
@@ -269,6 +316,206 @@ Public Class GeneTreeTrainer
             Return constantModel(gene, inputs, rowIndex, minValue, maxValue, mean, baselineRmse, performance, "常量表达")
         End If
 
+        ' ---- 第一阶段：只用 ARACNE 给出的调控者拟合 ----
+        Dim regRows As DataFrameRow() = inputs.Select(Function(r) rows(rowIndex(r.regulator))).ToArray
+        Dim regNames As String() = inputs.Select(Function(r) r.regulator).ToArray
+        Dim regIndices As Integer() = inputs.Select(Function(r) rowIndex(r.regulator)).ToArray
+        Dim current As FitResult
+
+        If regRows.Length > 0 Then
+            current = fitModel(gene, regRows, regNames, regIndices, targetRow, cells, trainPos, validatePos, labels, opt)
+
+            If current.gbm Is Nothing Then
+                Return constantModel(gene, inputs, rowIndex, minValue, maxValue, mean, baselineRmse, performance, "拟合异常")
+            End If
+        Else
+            ' 源节点：先当作“只预测均值”的基线，交给发现阶段决定是否要加边
+            current = New FitResult With {.gbm = Nothing, .r2 = 0.0R, .rmse = baselineRmse}
+        End If
+
+        ' ---- 第二阶段：残差二阶段结构发现 ----
+        Dim discoveryEdges As New List(Of DiscoveryEdge)
+        Dim discovered As New List(Of RegulationInput)
+
+        If discovery IsNot Nothing Then
+            Call discoverEdges(gene, targetIndex, rows, rowIndex, cells, trainPos, validatePos, labels, mean, opt,
+                               discovery, regRows, regNames, regIndices, current, discoveryEdges, discovered)
+        End If
+
+        If regRows.Length = 0 Then
+            ' 源节点，且没有发现任何有效的新边
+            Return Nothing
+        End If
+
+        Dim allInputs As RegulationInput() = inputs.Concat(discovered).ToArray
+        Dim trainFeatures As Single()() = buildFeatures(regRows, cells, trainPos, regRows.Length)
+        Dim model As New GeneModel With {
+            .Gene = gene,
+            .Regulators = regNames,
+            .RegulatorIndex = regIndices,
+            .MinValue = minValue,
+            .MaxValue = maxValue,
+            .Constant = mean,
+            .Performance = performance,
+            .Booster = current.gbm,
+            .DiscoveryEdges = discoveryEdges.ToArray
+        }
+
+        performance.nRegulators = regRows.Length
+        performance.r2 = current.r2
+        performance.rmse = current.rmse
+        performance.baselineRmse = If(current.baselineRmse > 0, current.baselineRmse, baselineRmse)
+        performance.kind = model.Kind
+        performance.trees = model.TreeCount
+        performance.importance = computeImportance(model, allInputs, trainFeatures)
+
+        ' 标注每一条边的来源，便于报告与验证（ARACNE 边在前，发现边追加在后）
+        For Each edge As DiscoveryEdge In discoveryEdges.Where(Function(e) e.isAccepted)
+            Dim item As RegulatorImportance = performance.importance.FirstOrDefault(
+                Function(x) String.Equals(x.regulator, edge.regulator, StringComparison.OrdinalIgnoreCase))
+
+            If item IsNot Nothing Then
+                item.source = "discovered"
+                item.deltaR2 = edge.deltaR2
+            End If
+        Next
+
+        Return model
+    End Function
+
+    ''' <summary>
+    ''' 在残差上筛选候选调控者，并逐个增量重拟合，以验证集 ΔR² 决定是否接受
+    ''' </summary>
+    ''' <remarks>
+    ''' 该方法会就地修改 <paramref name="regRows"/>/<paramref name="regNames"/>/<paramref name="regIndices"/>
+    ''' 与 <paramref name="current"/>，被接受的边会追加到末尾（保持特征顺序与模型一致）。
+    ''' </remarks>
+    Private Shared Sub discoverEdges(gene As String,
+                                     targetIndex As Integer,
+                                     rows As DataFrameRow(),
+                                     rowIndex As Dictionary(Of String, Integer),
+                                     cells As Integer(),
+                                     trainPos As Integer(),
+                                     validatePos As Integer(),
+                                     labels As Double(),
+                                     mean As Double,
+                                     opt As GeneTreeConfig,
+                                     discovery As DiscoveryContext,
+                                     ByRef regRows As DataFrameRow(),
+                                     ByRef regNames As String(),
+                                     ByRef regIndices As Integer(),
+                                     ByRef current As FitResult,
+                                     edges As List(Of DiscoveryEdge),
+                                     discovered As List(Of RegulationInput))
+
+        Dim exclude As New HashSet(Of Integer)
+        Dim accepted As Integer = 0
+        Dim tried As Integer = 0
+
+        Call exclude.Add(targetIndex)
+
+        For Each index As Integer In regIndices
+            Call exclude.Add(index)
+        Next
+
+        Dim r2Current As Double = current.r2
+        Dim residual As Double() = computeResidual(current, regRows, regIndices, cells, discovery.Cells, labels, mean, opt)
+        Dim ranked As List(Of (candidate As ResidualScreening.CandidateVector, r As Double)) =
+            ResidualScreening.Screen(residual, discovery.Candidates, exclude, opt.DiscoveryMinCorrelation, Integer.MaxValue)
+        Dim cursor As Integer = 0
+
+        While tried < opt.DiscoveryMaxCandidates AndAlso accepted < opt.DiscoveryMaxPerGene AndAlso cursor < ranked.Count
+            Dim item = ranked(cursor)
+
+            cursor += 1
+
+            If exclude.Contains(item.candidate.index) Then
+                Continue While
+            End If
+
+            tried += 1
+
+            Dim candidateRows As DataFrameRow() = regRows.Concat({rows(item.candidate.index)}).ToArray
+            Dim candidateNames As String() = regNames.Concat({item.candidate.gene}).ToArray
+            Dim candidateIndices As Integer() = regIndices.Concat({item.candidate.index}).ToArray
+            Dim fit As FitResult = fitModel(gene, candidateRows, candidateNames, candidateIndices,
+                                            rows(targetIndex), cells, trainPos, validatePos, labels, opt)
+            Dim delta As Double = If(fit.gbm Is Nothing, 0.0R, fit.r2 - r2Current)
+            Dim edge As New DiscoveryEdge With {
+                .target = gene,
+                .regulator = item.candidate.gene,
+                .correlation = item.r,
+                .deltaR2 = delta,
+                .r2Before = r2Current,
+                .r2After = If(fit.gbm Is Nothing, r2Current, fit.r2),
+                .status = "rejected"
+            }
+
+            If fit.gbm Is Nothing Then
+                edge.reason = "重拟合失败"
+
+                Call edges.Add(edge)
+                Call exclude.Add(item.candidate.index)
+                Continue While
+            End If
+
+            edge.splits = countFeatureSplits(fit.gbm, candidateIndices.Length - 1)
+
+            If delta >= opt.DiscoveryMinDeltaR2 AndAlso edge.splits > 0 Then
+                ' 接受：新边追加在 ARACNE 特征之后，保证特征顺序在训练/预测/存档三处一致
+                edge.status = "accepted"
+
+                regRows = candidateRows
+                regNames = candidateNames
+                regIndices = candidateIndices
+                current = fit
+                r2Current = fit.r2
+                accepted += 1
+
+                Call exclude.Add(item.candidate.index)
+
+                Call discovered.Add(New RegulationInput With {
+                    .target = gene,
+                    .regulator = item.candidate.gene,
+                    .mi = 0.0R,
+                    .correlation = item.r,
+                    .interaction = "discovered"
+                })
+
+                ' 残差改变，重新排名剩余候选
+                residual = computeResidual(current, regRows, regIndices, cells, discovery.Cells, labels, mean, opt)
+                ranked = ResidualScreening.Screen(residual, discovery.Candidates, exclude, opt.DiscoveryMinCorrelation, Integer.MaxValue)
+                cursor = 0
+            Else
+                edge.reason = If(edge.splits <= 0, "该特征未被任何树使用", $"ΔR² {delta.ToString("G4")} 低于阈值 {opt.DiscoveryMinDeltaR2.ToString("G4")}")
+
+                Call exclude.Add(item.candidate.index)
+            End If
+
+            Call edges.Add(edge)
+        End While
+    End Sub
+
+    ''' <summary>
+    ''' 用给定的一组调控者拟合一个 GBM，并返回验证集 R²/RMSE
+    ''' </summary>
+    Private Shared Function fitModel(gene As String,
+                                     regRows As DataFrameRow(),
+                                     regNames As String(),
+                                     regIndices As Integer(),
+                                     targetRow As DataFrameRow,
+                                     cells As Integer(),
+                                     trainPos As Integer(),
+                                     validatePos As Integer(),
+                                     labels As Double(),
+                                     opt As GeneTreeConfig) As FitResult
+
+        Dim k As Integer = regRows.Length
+
+        If k = 0 Then
+            Return New FitResult With {.gbm = Nothing}
+        End If
+
         Dim trainFeatures As Single()() = buildFeatures(regRows, cells, trainPos, k)
         Dim validateFeatures As Single()() = buildFeatures(regRows, cells, validatePos, k)
         Dim trainLabels As Double() = trainPos.Select(Function(pos) labels(pos)).ToArray
@@ -281,7 +528,7 @@ Public Class GeneTreeTrainer
         End If
 
         Dim trainset As TrainData = tag(trainFeatures, trainLabels).ToTrainingSet(
-            columns:=inputs.Select(Function(r) r.regulator).ToArray,
+            columns:=regNames,
             categorical_features:=New String() {})
         Dim valset As ValidationData = Nothing
 
@@ -314,12 +561,11 @@ Public Class GeneTreeTrainer
                 opt.Gamma,
                 opt.ThreadsPerModel)
         Catch ex As Exception
-            Call logLimited($"  [GeneTree] 基因 '{gene}' 的 TGBoost 拟合异常，退化为常数模型: {ex.Message}")
+            Call logLimited($"  [GeneTree] 基因 '{gene}' 的 TGBoost 拟合异常: {ex.Message}")
 
-            Return constantModel(gene, inputs, rowIndex, minValue, maxValue, mean, baselineRmse, performance, "拟合异常")
+            Return New FitResult With {.gbm = Nothing}
         End Try
 
-        ' ---- 评价 ----
         Dim evalFeatures As Single()()
         Dim evalLabels As Double()
 
@@ -331,30 +577,98 @@ Public Class GeneTreeTrainer
             evalLabels = trainLabels
         End If
 
-        Dim model As New GeneModel With {
-            .Gene = gene,
-            .Regulators = inputs.Select(Function(r) r.regulator).ToArray,
-            .RegulatorIndex = inputs.Select(Function(r) rowIndex(r.regulator)).ToArray,
-            .MinValue = minValue,
-            .MaxValue = maxValue,
-            .Constant = mean,
-            .Performance = performance,
-            .Booster = gbm
+        ' 用紧凑打分器而不是 GBM.predict：后者对每一棵树都要启动一次 PLINQ 查询
+        Dim probe As New GeneModel With {.Gene = gene, .RegulatorIndex = regIndices, .Booster = gbm}
+        Dim prediction As Double() = probe.PredictBatch(evalFeatures)
+
+        Return New FitResult With {
+            .gbm = gbm,
+            .r2 = Metric.r2_score(prediction, evalLabels),
+            .rmse = Metric.root_mean_square_error(prediction, evalLabels),
+            .baselineRmse = Metric.root_mean_square_error(
+                Enumerable.Repeat(evalLabels.Average(), evalLabels.Length).ToArray, evalLabels)
         }
+    End Function
 
-        ' 用紧凑打分器而不是 GBM.predict：后者对每一棵树都要启动一次 PLINQ 查询，
-        ' 在“每个基因都要评价 + 特征重要性扫描”的场景下开销会非常明显
-        Dim prediction As Double() = model.PredictBatch(evalFeatures)
+    ''' <summary>
+    ''' 统计某个特征在全部树之中被用作分裂特征的节点数量
+    ''' </summary>
+    ''' <param name="gbm">已训练的模型</param>
+    ''' <param name="feature">特征下标</param>
+    ''' <returns></returns>
+    Private Shared Function countFeatureSplits(gbm As GBM, feature As Integer) As Integer
+        If gbm Is Nothing OrElse gbm.trees Is Nothing OrElse feature < 0 Then
+            Return 0
+        End If
 
-        performance.r2 = Metric.r2_score(prediction, evalLabels)
-        performance.rmse = Metric.root_mean_square_error(prediction, evalLabels)
-        performance.baselineRmse = Metric.root_mean_square_error(
-            Enumerable.Repeat(evalLabels.Average(), evalLabels.Length).ToArray, evalLabels)
-        performance.kind = model.Kind
-        performance.trees = model.TreeCount
-        performance.importance = computeImportance(model, inputs, trainFeatures)
+        Dim splits As Integer() = New Integer(feature) {}
 
-        Return model
+        For Each tree As Tree In gbm.trees
+            Call countSplits(tree.root, splits)
+        Next
+
+        Return splits(feature)
+    End Function
+
+    ''' <summary>
+    ''' 计算靶基因在筛选细胞上的标准化残差（<c>label − prediction</c>）
+    ''' </summary>
+    ''' <param name="fit">当前模型；<c>gbm</c> 为空时退化为“预测均值”</param>
+    ''' <param name="regRows">当前特征行</param>
+    ''' <param name="regIndices">当前特征对应的基因行号</param>
+    ''' <param name="cells">细胞列下标</param>
+    ''' <param name="sample"><paramref name="cells"/> 之中用于筛选的位置</param>
+    ''' <param name="labels">与 <paramref name="cells"/> 对齐的标签</param>
+    ''' <param name="mean">标签均值（无模型时的常数预测）</param>
+    ''' <param name="opt">配置</param>
+    ''' <returns>长度为 <paramref name="sample"/>.Length 的标准分残差；残差为常量时返回零向量</returns>
+    Private Shared Function computeResidual(fit As FitResult,
+                                            regRows As DataFrameRow(),
+                                            regIndices As Integer(),
+                                            cells As Integer(),
+                                            sample As Integer(),
+                                            labels As Double(),
+                                            mean As Double,
+                                            opt As GeneTreeConfig) As Double()
+
+        Dim n As Integer = sample.Length
+        Dim residual As Double() = New Double(n - 1) {}
+        Dim predicted As Double()
+
+        If fit.gbm Is Nothing OrElse regRows.Length = 0 Then
+            predicted = Enumerable.Repeat(mean, n).ToArray
+        Else
+            Dim probe As New GeneModel With {.RegulatorIndex = regIndices, .Booster = fit.gbm}
+
+            predicted = probe.PredictBatch(buildFeatures(regRows, cells, sample, regRows.Length))
+        End If
+
+        Dim sum As Double = 0.0R
+
+        For i As Integer = 0 To n - 1
+            residual(i) = labels(sample(i)) - predicted(i)
+            sum += residual(i)
+        Next
+
+        Dim avg As Double = sum / n
+        Dim sse As Double = 0.0R
+
+        For i As Integer = 0 To n - 1
+            sse += (residual(i) - avg) ^ 2
+        Next
+
+        Dim sd As Double = std.Sqrt(sse / std.Max(1, n - 1))
+
+        If sd <= 1.0E-09R Then
+            ' 残差完全平坦：与任何候选都不相关
+            Return New Double(n - 1) {}
+        End If
+
+        For i As Integer = 0 To n - 1
+            residual(i) = (residual(i) - avg) / sd
+        Next
+
+        Return residual
     End Function
 
     ''' <summary>
