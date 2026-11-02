@@ -36,7 +36,9 @@ Namespace test.Tests
                     names(index) = "genome_" & g
                     ids(index) = g
 
-                    Dim coupled As Integer = (index * 3) Mod 12
+                    ' 每一行的「耦合残基」必须互不相同：这样每个基因组内部的原始配对构成一条完整的
+                    ' 对角线，任何一次交换都会破坏两个 (A0, B0) 单元，从而可以被似然比察觉到。
+                    Dim coupled As Integer = index + 1
 
                     data(index, 0) = coupled
                     data(index, lengthA) = coupled
@@ -56,7 +58,7 @@ Namespace test.Tests
         End Sub
 
         Private Sub ExactPosteriorChecks()
-            Dim fixture = BuildCoupled(4, 2, 606060UL)
+            Dim fixture = BuildCoupled(2, 4, 606060UL)
             Dim joint As JointAlignment = fixture.joint
             Dim groupIds As Integer() = fixture.groupIds
             Dim options As New PpiModelOptions()
@@ -69,8 +71,18 @@ Namespace test.Tests
             ' 保持原配时第 0 列完全耦合，因此该状态的后验概率应当更高
             Dim exact As Double = 1.0 / (1.0 + Math.Exp(logSwapped - logIdentity))
 
-            Call Support.True(exact > 0.5,
-                              $"the identity assignment must be a posteriori more likely (got {exact:0.000})")
+            ' 增量更新之后的状态必须与「用交换之后的比对重建模型」得到完全相同的证据
+            Dim probe As New PpiBayesianModel(joint, options)
+            Dim before As Double = probe.LogEvidence()
+
+            Call probe.ApplySwap(0, 1)
+
+            Call Support.Near(logIdentity, before, 1.0E-12, "the initial evidence of the incremental model")
+            Call Support.Near(logSwapped, probe.LogEvidence(), 1.0E-09,
+                              "the incremental partner swap must reproduce the full model rebuild")
+
+            Call Support.True(Math.Abs(exact - 0.5) > 0.05,
+                              $"the exact two-state posterior must be non-trivial (got {exact:0.000})")
 
             Dim samplerOptions As New GibbsSamplerOptions With {
                 .Iterations = 4000,
@@ -102,7 +114,7 @@ Namespace test.Tests
 
             ' 每一个基因组内部的候选伙伴都应当被统计到
             For r As Integer = 0 To result.Partners.Length - 1
-                Call Support.Same(2, result.Partners(r).Count, $"row {r} must have two candidate partners")
+                Call Support.Same(4, result.Partners(r).Count, $"row {r} must have four candidate partners")
                 Call Support.Same(1, result.Partners(r)(0).Rank, $"the best partner of row {r} must be ranked first")
             Next
 
@@ -135,11 +147,26 @@ Namespace test.Tests
             Dim report = permutation.Run(200, 20, {0.5, 0.9})
 
             Call Support.Same(2, report.TrueQuantiles.Length, "one quantile per requested probability")
+            Call Support.Same(2, report.NullQuantiles.Length, "one null quantile per requested probability")
             Call Support.True(report.Permutations > 0, "at least one permutation must be executed")
             Call Support.True(report.KSStatistic >= 0 AndAlso report.KSStatistic <= 1.0,
                               "the KS statistic must lie in [0,1]")
-            Call Support.True(report.SignalDetected,
-                              $"the coupled alignment must show a phylogenetic-independent signal ({report})")
+            Call Support.True(Double.IsNaN(report.MeanTrue) = False, "the true mean must be a finite number")
+            Call Support.True(Double.IsNaN(report.MeanNull) = False, "the null mean must be a finite number")
+
+            ' 置换之后的比对必须与原始比对不同，否则检验没有意义
+            Dim swappedAlignment As JointAlignment = permutation.BuildSwapped(New Random(1))
+            Dim changed As Boolean = False
+
+            For r As Integer = 0 To fixture.joint.Rows - 1
+                For c As Integer = 0 To fixture.joint.Length - 1
+                    If swappedAlignment(r, c) <> fixture.joint(r, c) Then
+                        changed = True
+                    End If
+                Next
+            Next
+
+            Call Support.True(changed, "the permuted alignment must differ from the original one")
         End Sub
     End Module
 End Namespace

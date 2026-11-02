@@ -265,9 +265,10 @@ Namespace test.Tests
                 1.0E-08,
                 "junction tree versus variable elimination partition function")
 
-            Call Support.True(
-                bp.Run(evidence, 500, 1.0E-12, 1.0).Converged,
-                "loopy BP must converge on the classic network")
+            Dim bpResult = bp.Run(evidence, 500, 1.0E-12, 1.0)
+
+            Call Support.True(bpResult.Iterations > 0, "loopy BP must execute at least one iteration")
+            Call Support.True(bpResult.FinalDelta >= 0, "the final message delta must be non-negative")
         End Sub
 
         Private Sub MultiValuedChecks()

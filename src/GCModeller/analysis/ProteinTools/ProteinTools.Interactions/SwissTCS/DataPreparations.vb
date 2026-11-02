@@ -91,7 +91,7 @@ Public Class DataPreparations
     ''' 不再需要 R，因此该参数会被忽略。保留这个重载只是为了让历史调用代码仍然可以编译。
     ''' </remarks>
     <Obsolete("The R interpreter is no longer required; use the overload without the rBin parameter.")>
-    Public Sub New(GenomicProteins As FASTA.FastaFile, DipDir As String, Blastbin As String, rBin As String, ClustalBin As String, Temp As String, IgnoreR As Boolean)
+    Public Sub New(GenomicProteins As FASTA.FastaFile, DipDir As String, Blastbin As String, rBin As String, ClustalBin As String, Optional Temp As String = "")
         Me.New(GenomicProteins, DipDir, Blastbin, ClustalBin, Temp)
     End Sub
 

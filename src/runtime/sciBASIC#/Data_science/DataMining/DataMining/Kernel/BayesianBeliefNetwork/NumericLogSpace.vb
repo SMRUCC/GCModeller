@@ -344,7 +344,7 @@ Namespace Kernel.BayesianBeliefNetwork
                             Return Double.NegativeInfinity
                         End If
 
-                        lower(i, i) = Math.Sqrt(sum)
+                        lower(i, i) = std.Sqrt(sum)
                     Else
                         If lower(j, j) = 0 Then
                             Return Double.NegativeInfinity
@@ -362,7 +362,7 @@ Namespace Kernel.BayesianBeliefNetwork
                     Return Double.NegativeInfinity
                 End If
 
-                logDeterminant += 2.0 * Math.Log(lower(i, i))
+                logDeterminant += 2.0 * std.Log(lower(i, i))
             Next
 
             Return logDeterminant

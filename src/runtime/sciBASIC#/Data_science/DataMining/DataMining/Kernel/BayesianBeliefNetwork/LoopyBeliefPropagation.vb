@@ -192,7 +192,17 @@ Namespace Kernel.BayesianBeliefNetwork
             Dim marginals As Double()() = New Double(count - 1)() {}
 
             For v As Integer = 0 To count - 1
-                Dim belief As Double() = New Double(_nodes(v).Range - 1) {}
+                Dim range As Integer = _nodes(v).Range
+
+                If evidence IsNot Nothing AndAlso v < evidence.Length AndAlso evidence(v) <> BeliefNode.NotObserved Then
+                    ' 被观测变量的边缘分布就是一个确定性的点分布
+                    Dim fixedValue As Double() = New Double(range - 1) {}
+                    fixedValue(evidence(v)) = 1.0
+                    marginals(v) = fixedValue
+                    Continue For
+                End If
+
+                Dim belief As Double() = New Double(range - 1) {}
 
                 For Each fi As Integer In varFactors(v)
                     Dim message As Double() = factorToVar(MessageSlot(fi, v))

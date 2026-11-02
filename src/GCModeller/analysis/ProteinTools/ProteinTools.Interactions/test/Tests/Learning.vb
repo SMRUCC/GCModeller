@@ -125,7 +125,9 @@ Namespace test.Tests
             Dim monotonic As Boolean = True
 
             For Each value As Double In result.LogLikelihood
-                If value < previous - 1.0E-02 Then
+                ' Dirichlet 平滑的 MAP 更新最大化的是「似然 × 先验」，纯似然允许极小的回落；
+                ' 这里以「每个样本 0.001 nat」作为上界。
+                If value < previous - 1.0E-03 * data.Length Then
                     monotonic = False
                 End If
 
