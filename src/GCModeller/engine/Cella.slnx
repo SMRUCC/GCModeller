@@ -71,6 +71,9 @@
     <Project Path="../core/Bio.InteractionModel/InteractionModel.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
+    <Project Path="../models/BioCyc/BioCyc.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
     <Project Path="Model/Model.Core.NET5.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
@@ -96,6 +99,9 @@
     <Platform Solution="*|x64" Project="x64" />
   </Project>
   <Project Path="CompilerServices/CompilerServices.NET5.vbproj">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
+  <Project Path="IO/BioCycCompiler/BioCycCompiler.vbproj">
     <Platform Solution="*|x64" Project="x64" />
   </Project>
   <Project Path="IO/GCMarkupLanguage/GCMarkupXML.NET5.vbproj">
