@@ -14,32 +14,43 @@ Namespace test.Tests
     Module Fixtures
 
         ''' <summary>
-        ''' 一个确定性的线性同余随机数发生器
+        ''' 一个确定性的线性同余随机数发生器(MINSTD / Lehmer)。
         ''' </summary>
+        ''' <remarks>
+        ''' 使用 31 位的乘同余发生器 <c>x' = 16807 · x mod (2^31 - 1)</c>：
+        ''' 中间结果最大约为 <c>2^46</c>，完全落在 <see cref="Long"/> 的范围之内，
+        ''' 因此即使打开了 VB 的整数溢出检查也不会抛异常，
+        ''' 并且序列在任何平台、任何 .NET 版本之上都完全一致。
+        ''' </remarks>
         Public Class Lcg
 
-            Private _state As ULong
+            Private Const Modulus As Long = 2147483647L
+            Private Const Multiplier As Long = 16807L
+
+            Private _state As Long
 
             Public Sub New(seed As ULong)
-                _state = If(seed = 0UL, 1UL, seed)
+                Dim value As Long = CLng(seed Mod CULng(Modulus))
+
+                _state = If(value <= 0, 1L, value)
             End Sub
 
             ''' <summary>
             ''' 返回 <c>[0, bound)</c> 区间之内的整数
             ''' </summary>
             Public Function [Next](bound As Integer) As Integer
-                _state = _state * 6364136223846793005UL + 1442695040888963407UL
+                _state = (_state * Multiplier) Mod Modulus
 
-                Return CInt((_state >> 33) Mod CULng(bound))
+                Return CInt(_state Mod bound)
             End Function
 
             ''' <summary>
             ''' 返回 <c>[0, 1)</c> 区间之内的浮点数
             ''' </summary>
             Public Function NextDouble() As Double
-                _state = _state * 6364136223846793005UL + 1442695040888963407UL
+                _state = (_state * Multiplier) Mod Modulus
 
-                Return (_state >> 11) / CDbl(1UL << 53)
+                Return _state / CDbl(Modulus)
             End Function
         End Class
 

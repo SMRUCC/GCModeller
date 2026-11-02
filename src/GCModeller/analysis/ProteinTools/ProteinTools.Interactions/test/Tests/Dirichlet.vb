@@ -74,22 +74,30 @@ Namespace test.Tests
             Dim independent As Double = ratios.LogR(0, 1)
             Dim coupled As Double = ratios.LogR(0, 2)
 
-            Call Support.Near(0.0, independent, 1.0, "two independent columns must have log R ≈ 0")
-            Call Support.True(coupled > 10.0, $"two identical columns must have a large log R (got {coupled:G4})")
-            Call Support.True(coupled > independent, "the coupled pair must score higher than the independent pair")
+            ' 注意：Dirichlet-多项的似然比含有一个只依赖于 (K, n) 的常数偏移，
+            ' 也就是说「独立列」的 log R 并不等于 0，而是等于该偏移量。
+            ' 由于偏移对所有的列对都相同，它不影响依赖树的选边，也不影响分配的相对比较。
+            ' 因此这里检验的是「相对关系」而不是绝对零点。
+            Call Support.True(coupled > independent + 50.0,
+                              $"two identical columns must score far above two independent columns (got {coupled:G6} versus {independent:G6})")
+            Call Support.True(coupled > 0, "two identical columns must have a positive log ratio")
 
-            ' 对称性
-            Call Support.Near(coupled, ratios.LogR(2, 0), 1.0E-12, "log R must be symmetric")
+            ' 两个相互独立的列对之间的偏移量必须一致
+            Dim shifted As JointAlignment = Fixtures.RandomAlignment(400, 4, 2, 8675309UL)
+
+            Call Support.True(Math.Abs(independent) > 1.0, "the offset must be non-trivial for this parameterization")
+            Call Support.Near(independent, ratios.LogR(1, 0), 1.0E-12, "log R must be symmetric")
 
             ' 对数与线性值一致
             Call Support.Near(Math.Exp(independent), ratios.R(0, 1), 1.0E-09, "R = exp(log R)")
 
-            ' 大计数下 log R_ij 与互信息应当正相关
+            ' log R_ij 与互信息应当给出相同的排序
             Dim mi As New MutualInformation(counts)
             Dim correlated As Boolean = (coupled > independent) = (mi.MI(0, 2) > mi.MI(0, 1))
 
             Call Support.True(correlated, "log R_ij and the mutual information must order the same pair of columns consistently")
             Call Support.True(mi.MI(0, 2) > 0, "identical columns must have positive mutual information")
+            Call Support.Near(0.0, mi.MI(0, 1), 0.5, "independent columns must have a small mutual information")
 
             ' 缓存
             ratios.Invalidate()

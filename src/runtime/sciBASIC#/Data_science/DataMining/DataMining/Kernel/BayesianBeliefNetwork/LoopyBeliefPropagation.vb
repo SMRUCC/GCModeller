@@ -103,12 +103,17 @@ Namespace Kernel.BayesianBeliefNetwork
             ' 因子 -> 变量 的消息，按 (factor, variable) 索引
             Dim factorToVar As New Dictionary(Of Long, Double())
             Dim varToFactor As New Dictionary(Of Long, Double())
+            Dim varFactors As List(Of Integer)() = Enumerable _
+                .Range(0, count) _
+                .Select(Function(i) New List(Of Integer)) _
+                .ToArray()
 
             For fi As Integer = 0 To count - 1
                 For Each v As Integer In factors(fi).Variables
                     Dim slot As Long = MessageSlot(fi, v)
                     factorToVar(slot) = Uniform(factors(fi), v)
                     varToFactor(slot) = New Double(_nodes(v).Range - 1) {}
+                    Call varFactors(v).Add(fi)
                 Next
             Next
 
@@ -150,7 +155,7 @@ Namespace Kernel.BayesianBeliefNetwork
 
                 ' 变量 -> 因子
                 For v As Integer = 0 To count - 1
-                    Dim containing As List(Of Integer) = _varFactors(v)
+                    Dim containing As List(Of Integer) = varFactors(v)
 
                     For Each target As Integer In containing
                         Dim updated As Double() = New Double(_nodes(v).Range - 1) {}
@@ -189,7 +194,7 @@ Namespace Kernel.BayesianBeliefNetwork
             For v As Integer = 0 To count - 1
                 Dim belief As Double() = New Double(_nodes(v).Range - 1) {}
 
-                For Each fi As Integer In _varFactors(v)
+                For Each fi As Integer In varFactors(v)
                     Dim message As Double() = factorToVar(MessageSlot(fi, v))
 
                     For k As Integer = 0 To belief.Length - 1

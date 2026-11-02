@@ -32,7 +32,7 @@ Namespace test
             Call Support.RunGroup("numeric", AddressOf Tests.Numeric.Run)
             Call Support.RunGroup("dirichlet-multinomial", AddressOf Tests.Dirichlet.Run)
             Call Support.RunGroup("dependency tree & matrix-tree", AddressOf Tests.Tree.Run)
-            Call Support.RunGroup("belief network inference", AddressOf Tests.BeliefNetwork.Run)
+            Call Support.RunGroup("belief network inference", AddressOf Tests.Inference.Run)
             Call Support.RunGroup("parameter / structure learning", AddressOf Tests.Learning.Run)
             Call Support.RunGroup("joint alignment & counting", AddressOf Tests.Alignment.Run)
             Call Support.RunGroup("ppi model & scoring", AddressOf Tests.Ppi.Run)

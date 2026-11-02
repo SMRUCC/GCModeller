@@ -155,6 +155,7 @@ Namespace Bayesian.Inference
             For trial As Integer = 0 To _options.Runs - 1
                 Dim model As New PpiBayesianModel(_alignment, _modelOptions)
                 Dim current As Double = model.LogEvidence()
+                Dim perm As Integer() = Enumerable.Range(0, rows).ToArray()
 
                 For iteration As Integer = 1 To _options.Iterations
                     If candidates.Length = 0 Then
@@ -195,24 +196,19 @@ Namespace Bayesian.Inference
 
                     If accept Then
                         current = proposed
+
+                        ' 交换会同步作用在「行 -> 原始行」的置换之上
+                        Dim temp As Integer = perm(first)
+                        perm(first) = perm(second)
+                        perm(second) = temp
                     Else
                         ' 交换是对合操作，再交换一次即可精确还原
                         Call model.ApplySwap(first, second)
                     End If
 
                     If iteration > _options.BurnIn AndAlso (iteration - _options.BurnIn) Mod _options.SampleEvery = 0 Then
-                        Dim state As JointAlignment = model.Alignment
-
-                        For Each g As Integer In Enumerable.Range(0, members.Length)
-                            Dim list As List(Of Integer) = members(g)
-
-                            For Each a As Integer In list
-                                For Each b As Integer In list
-                                    If SamePartner(state, a, b, _alignment) Then
-                                        frequency(a, b) += 1.0
-                                    End If
-                                Next
-                            Next
+                        For a As Integer = 0 To rows - 1
+                            frequency(a, perm(a)) += 1.0
                         Next
 
                         statistics += 1
@@ -223,19 +219,6 @@ Namespace Bayesian.Inference
             Next
 
             Return BuildResult(frequency, groups, statistics, logEvidence)
-        End Function
-
-        ''' <summary>
-        ''' 判断在新状态之中，行 <paramref name="a"/> 的 A 段是否与行 <paramref name="b"/> 的 B 段配对
-        ''' </summary>
-        Private Shared Function SamePartner(state As JointAlignment, a As Integer, b As Integer, template As JointAlignment) As Boolean
-            For c As Integer = 0 To template.LengthB - 1
-                If state(a, template.LengthA + c) <> template(b, template.LengthA + c) Then
-                    Return False
-                End If
-            Next
-
-            Return True
         End Function
 
         Private Function BuildResult(frequency As Double(,), groups As Integer(), statistics As Integer, logEvidence As Double()) As InferenceResult

@@ -150,12 +150,17 @@ Namespace Bayesian.Alignment
 
             Dim indexA As Dictionary(Of String, FastaSeq) = IndexByName(msaA)
             Dim indexB As Dictionary(Of String, FastaSeq) = IndexByName(msaB)
-            Dim mapping As List(Of Pairing) = If(pairings IsNot Nothing, pairings.ToList(), Derive(mappingA:=indexA, mappingB:=indexB))
+            Dim mapping As List(Of Pairing) = If(pairings IsNot Nothing, pairings.ToList(), Derive(msaA, msaB))
 
             Dim report As New BuildReport With {
                 .ColumnsABefore = msaA.First.SequenceData.Length,
                 .ColumnsBBefore = msaB.First.SequenceData.Length
             }
+
+            If _report IsNot Nothing AndAlso _report.Ambiguous IsNot Nothing Then
+                report.Ambiguous = _report.Ambiguous
+            End If
+
             Dim missingA As New List(Of String)
             Dim missingB As New List(Of String)
             Dim selected As New List(Of (pair As Pairing, seqA As FastaSeq, seqB As FastaSeq))
@@ -164,11 +169,11 @@ Namespace Bayesian.Alignment
                 Dim seqA As FastaSeq = Nothing
                 Dim seqB As FastaSeq = Nothing
 
-                If Not indexA.TryGetValue(pair.GeneA, seqA) Then
+                If String.IsNullOrEmpty(pair.GeneA) OrElse Not indexA.TryGetValue(pair.GeneA, seqA) Then
                     Call missingA.Add(pair.Genome)
                     Continue For
                 End If
-                If Not indexB.TryGetValue(pair.GeneB, seqB) Then
+                If String.IsNullOrEmpty(pair.GeneB) OrElse Not indexB.TryGetValue(pair.GeneB, seqB) Then
                     Call missingB.Add(pair.Genome)
                     Continue For
                 End If
@@ -370,34 +375,13 @@ Namespace Bayesian.Alignment
         ''' <summary>
         ''' 从序列标题推导配对关系：要求每个基因组在两侧都恰好各有一个成员。
         ''' </summary>
-        Private Function Derive(mappingA As Dictionary(Of String, FastaSeq), mappingB As Dictionary(Of String, FastaSeq)) As List(Of Pairing)
-            Dim groupA As New Dictionary(Of String, List(Of String))(StringComparer.Ordinal)
-            Dim groupB As New Dictionary(Of String, List(Of String))(StringComparer.Ordinal)
-
-            For Each entry As KeyValuePair(Of String, FastaSeq) In mappingA
-                Dim genome As String = GenomeId(entry.Key)
-                Dim list As List(Of String) = Nothing
-
-                If Not groupA.TryGetValue(genome, list) Then
-                    list = New List(Of String)
-                    groupA(genome) = list
-                End If
-
-                Call list.Add(entry.Key)
-            Next
-
-            For Each entry As KeyValuePair(Of String, FastaSeq) In mappingB
-                Dim genome As String = GenomeId(entry.Key)
-                Dim list As List(Of String) = Nothing
-
-                If Not groupB.TryGetValue(genome, list) Then
-                    list = New List(Of String)
-                    groupB(genome) = list
-                End If
-
-                Call list.Add(entry.Key)
-            Next
-
+        ''' <remarks>
+        ''' 标题的格式约定为 <c>genomeId|geneId</c>。这里必须使用<b>原始标题</b>而不是已经
+        ''' 去掉基因组前缀之后的基因编号，否则无法恢复出基因组这一层分组信息。
+        ''' </remarks>
+        Private Function Derive(msaA As FastaFile, msaB As FastaFile) As List(Of Pairing)
+            Dim groupA As Dictionary(Of String, List(Of String)) = GroupByGenome(msaA)
+            Dim groupB As Dictionary(Of String, List(Of String)) = GroupByGenome(msaB)
             Dim result As New List(Of Pairing)
             Dim ambiguous As New List(Of String)
 
@@ -420,6 +404,32 @@ Namespace Bayesian.Alignment
             _report = New BuildReport With {.Ambiguous = ambiguous.ToArray()}
 
             Return result
+        End Function
+
+        Private Function GroupByGenome(msa As FastaFile) As Dictionary(Of String, List(Of String))
+            Dim groups As New Dictionary(Of String, List(Of String))(StringComparer.Ordinal)
+
+            For Each seq As FastaSeq In msa
+                Dim header As String = seq.Headers.First
+                Dim token As String = header
+                Dim space As Integer = token.IndexOf(" "c)
+
+                If space > 0 Then
+                    token = token.Substring(0, space)
+                End If
+
+                Dim genome As String = GenomeId(token)
+                Dim list As List(Of String) = Nothing
+
+                If Not groups.TryGetValue(genome, list) Then
+                    list = New List(Of String)
+                    groups(genome) = list
+                End If
+
+                Call list.Add(GeneId(token))
+            Next
+
+            Return groups
         End Function
 
         Private Function GenomeId(geneId As String) As String

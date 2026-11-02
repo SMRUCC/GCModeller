@@ -94,6 +94,22 @@ Namespace Bayesian.Tree
                 Return Double.NegativeInfinity
             End If
 
+            ' 用「最大生成树的平均边权」作为缩放因子，而不是单条边的最大权重。
+            ' 只按单条边的最大值缩放会让其余边在 R_ij 的量级很大时全部下溢为 0，
+            ' 使 Laplacian 近似奇异、行列式严重失真。以最大生成树的平均边权缩放之后，
+            ' 最优树上的权重都落在 1 附近，矩阵条件数良好，而且 log Σ_T Π R_ij
+            ' 必然不小于最大生成树的权重(因为最优树那一项的缩放乘积恰好为 1)。
+            Dim reference As Double = maxLog
+
+            If n > 2 Then
+                Dim tree As DependencyTree = DependencyTree.Prim(logWeights)
+                reference = tree.TotalLogWeight / (n - 1)
+
+                If Double.IsNegativeInfinity(reference) OrElse Double.IsNaN(reference) Then
+                    reference = maxLog
+                End If
+            End If
+
             Dim laplacian As Double(,) = New Double(n - 2, n - 2) {}
 
             For i As Integer = 0 To n - 2
@@ -104,7 +120,7 @@ Namespace Bayesian.Tree
                         Continue For
                     End If
 
-                    Dim scaled As Double = Scale(logWeights(i, j), maxLog)
+                    Dim scaled As Double = Scale(logWeights(i, j), reference)
                     diagonal += scaled
 
                     If j <= n - 2 Then
@@ -121,7 +137,7 @@ Namespace Bayesian.Tree
                 Return Double.NegativeInfinity
             End If
 
-            Return logDet + (n - 1) * maxLog
+            Return logDet + (n - 1) * reference
         End Function
 
         ''' <summary>
