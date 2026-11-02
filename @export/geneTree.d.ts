@@ -276,9 +276,13 @@ declare namespace geneTree {
      * + default value Is ``-1``.
      * @param include_undirected 
      * + default value Is ``true``.
+     * @param threads 
+     * + default value Is ``-1``.
+     * @param threads_per_model 
+     * + default value Is ``-1``.
      * @return the [GeneTreeConfig](cref:T:SMRUCC.genomics.Analysis.GeneTree.GeneTreeConfig) configuration object.
    */
-   function make_profile(profile?: object, population?: object, iterations?: object, cells?: object, max_genes?: object, max_regulators?: object, include_undirected?: boolean): object;
+   function make_profile(profile?: object, population?: object, iterations?: object, cells?: object, max_genes?: object, max_regulators?: object, include_undirected?: boolean, threads?: object, threads_per_model?: object): object;
    /**
     * Create the GeneTree model from the ARACNE network and the gene expression matrix.
     * 
@@ -298,6 +302,31 @@ declare namespace geneTree {
      *  is returned when the network or the expression matrix is invalid.
    */
    function new(aracne: object, expr: object, config?: object, env?: object): object;
+   /**
+    * Override the parallelism of a trained model (the perturbation solver) or of a
+    *  configuration object (the model training).
+    * 
+    * > the training is parallel over the target genes, therefore the per model threads are
+    * >  resolved to 1 automatically: nested parallelism (outer over genes plus inner tree
+    * >  building) starves the .NET thread pool and the CPU utilization collapses to a few
+    * >  cores even on a 128 threads server.
+    * 
+     * @param tree the GeneTree model or the configuration object.
+     * @param threads the outer (per gene) degree of parallelism; ``<= 0`` restores the automatic mode
+     *  which uses all of the available processors.
+     * 
+     * + default value Is ``-1``.
+     * @param threads_per_model the TGBoost thread number of a single gene model: ``-1`` automatic (1 when the genes
+     *  are trained in parallel), ``0`` sequential, ``>0`` explicit. It only affects the
+     *  model training, it is ignored for the perturbation solving.
+     * 
+     * + default value Is ``-1``.
+     * @param env the R# runtime environment object.
+     * 
+     * + default value Is ``null``.
+     * @return the input object with the new parallelism settings.
+   */
+   function parallel_opts(tree: any, threads?: object, threads_per_model?: object, env?: object): any;
    /**
     * Set the expression value of a set of genes to the given values, i.e. run a
     *  ``Custom`` mode in silico intervention.

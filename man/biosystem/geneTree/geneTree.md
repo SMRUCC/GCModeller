@@ -48,6 +48,7 @@ XGBoost based gene regulatory network simulator and the in silico perturbation t
 >  api of the ``bnlearn`` package module can be used directly on it.
 
 + [make_profile](geneTree/make_profile.1) Create the training/solving configuration profile of the GeneTree model.
++ [parallel_opts](geneTree/parallel_opts.1) Override the parallelism of a trained model (the perturbation solver) or of a
 + [discovery](geneTree/discovery.1) Enable the residual two-stage structure discovery on a GeneTree configuration.
 + [load_topology](geneTree/load_topology.1) Build the regulation graph model from the ARACNE inferred network.
 + [load_expression](geneTree/load_expression.1) Attach the gene expression matrix to the regulation graph, the created model is

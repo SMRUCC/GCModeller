@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Override the parallelism of a trained model (the perturbation solver) or of a</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>parallel_opts {geneTree}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>Override the parallelism of a trained model (the perturbation solver) or of a</h2>
+
+        <h3>Description</h3>
+
+        <p>configuration object (the model training).</p>
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>parallel_opts</strong>(<i>tree</i>,
+    <i>threads</i> = <span style='color: green;'>-1</span>,
+    <i>threads.per.model</i> = <span style='color: green;'>-1</span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>tree</dt>
+<dd><p>the GeneTree model or the configuration object.</p></dd>
+
+
+<dt>threads</dt>
+<dd><p>the outer (per gene) degree of parallelism; <code>&lt;= 0</code> restores the automatic mode which uses all of the available processors. [as integer]</p></dd>
+
+
+<dt>threads.per.model</dt>
+<dd><p>the TGBoost thread number of a single gene model: <code>-1</code> automatic (1 when the genes are trained in parallel), <code>0</code> sequential, <code>&gt;0</code> explicit. It only affects the model training, it is ignored for the perturbation solving. [as integer]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: block;">Details</h3>
+
+        <p>the training is parallel over the target genes, therefore the per model threads are resolved to 1 automatically: nested parallelism (outer over genes plus inner tree building) starves the .NET thread pool and the CPU utilization collapses to a few cores even on a 128 threads server.</p>
+
+        <h3 style="display: block">Authors</h3>
+
+        biosystem
+
+        <h3>Value</h3>
+
+        <p>the input object with the new parallelism settings.</p><h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>geneTree</em> version 1.0.0.0 <a
+                href="../geneTree.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

@@ -93,7 +93,7 @@ export class GeneTreeConfig {
    LearningRate: double;
    # 允许在迭代过程中被“钳制”的基因比例上限，默认 0.05（5%）。
    MaxClampRatio: double;
-   # 训练阶段的最大并行度，-1 表示使用全部可用核心。
+   # 训练（以及扰动求解）时<strong>外层</strong>并行的最大并行度；<code>&lt;= 0</code> 表示自动使用全部可用核心。
    MaxDegreeOfParallelism: integer;
    # 单棵树的最大深度。建议 3~4：树越浅，预测函数越平滑，定点迭代越容易收敛。
    MaxDepth: integer;
@@ -131,7 +131,7 @@ export class GeneTreeConfig {
    Seed: integer;
    # 显著性判定所用的 Z-score 阈值，默认 2。
    SignificanceZScore: double;
-   # 单模型训练时 TGBoost 内部使用的线程数，-1 表示由库自行决定。
+   # 单个基因模型在 TGBoost 内部使用的线程数。
    ThreadsPerModel: integer;
    # 留出验证集的比例，用于早停与 R²/RMSE 评估。取值 [0.05, 0.5]。
    ValidationRatio: double;
