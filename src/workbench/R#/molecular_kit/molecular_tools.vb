@@ -13,7 +13,9 @@ Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
 Imports ChemRenderMode = SMILESView.RenderMode
+Imports Image = Microsoft.VisualBasic.Imaging.Image
 Imports Imaging = Microsoft.VisualBasic.Imaging
 Imports Mol = SMRUCC.genomics.Molecule.SMILES.Graph
 Imports Molecules = SMRUCC.genomics.Molecule.SMILES
@@ -916,7 +918,11 @@ Public Module molecular_tools
         Dim mode As ChemRenderMode = getRenderMode(args, env)
         Dim dim3 As Boolean = is3D(args, env)
 
-        Return renderMolecule(mol, size, dpi, theme, dim3, mode)
+        Try
+            Return renderMolecule(mol, size, dpi, theme, dim3, mode)
+        Catch ex As Exception
+            Return RInternal.debug.stop($"failed to render the molecule structure: {ex.Message}", env)
+        End Try
     End Function
 
     ''' <summary>
@@ -964,26 +970,37 @@ Public Module molecular_tools
         Dim canvasSize As New Size(cellSize.Width * ncol, cellSize.Height * nrow)
         Dim bg As Color = Styling.ElementColors.ParseHex(theme.BackgroundColor, Color.White)
         Dim img As New Bitmap(canvasSize.Width, canvasSize.Height)
+        Dim composed As Image = Nothing
 
-        Using gfx As IGraphics = DriverLoad.CreateGraphicsDevice(img)
-            Call gfx.Clear(bg)
+        Try
+            Using gfx As IGraphics = DriverLoad.CreateGraphicsDevice(img)
+                Call gfx.Clear(bg)
 
-            For i As Integer = 0 To data.Length - 1
-                Dim col As Integer = i Mod ncol
-                Dim row As Integer = i \ ncol
-                Dim offset As New Point(col * cellSize.Width, row * cellSize.Height)
+                For i As Integer = 0 To data.Length - 1
+                    Dim col As Integer = i Mod ncol
+                    Dim row As Integer = i \ ncol
+                    Dim offset As New Point(col * cellSize.Width, row * cellSize.Height)
 
-                Using cell As Bitmap = renderMolecule(data(i), cellSize, dpi, theme, dim3, mode)
-                    If cell Is Nothing Then
-                        Continue For
-                    End If
+                    Using cell As Bitmap = renderMolecule(data(i), cellSize, dpi, theme, dim3, mode)
+                        If cell Is Nothing Then
+                            Continue For
+                        End If
 
-                    Call gfx.DrawImageUnscaled(cell, offset)
-                End Using
-            Next
-        End Using
+                        Call gfx.DrawImageUnscaled(cell, offset)
+                    End Using
+                Next
 
-        Return img
+                composed = imageOfCanvas(gfx)
+            End Using
+        Catch ex As Exception
+            Return RInternal.debug.stop($"failed to render the molecule structure grid: {ex.Message}", env)
+        End Try
+
+        If composed Is Nothing Then
+            Return img
+        End If
+
+        Return New Bitmap(composed)
     End Function
 
     ''' <summary>
@@ -1120,21 +1137,36 @@ Public Module molecular_tools
     ''' the returned image is safe to use after the canvas is disposed.
     ''' </summary>
     Private Function copyOfCanvas(canvas As IGraphics) As Bitmap
-        Dim raster As GdiRasterGraphics = TryCast(canvas, GdiRasterGraphics)
+        Dim raw As Image = imageOfCanvas(canvas)
 
-        If raster Is Nothing Then
+        If raw Is Nothing Then
             Return Nothing
         End If
 
-        Using buffer As New MemoryStream
-            Call raster.ImageResource.Save(buffer, Imaging.ImageFormats.Png)
+        ' Imaging.Bitmap(copy As Image) makes a in-memory copy of the image 
+        ' pixels, so that the returned image is still available after the 
+        ' graphics canvas is disposed.
+        Return New Bitmap(raw)
+    End Function
 
-            buffer.Position = 0
+    ''' <summary>
+    ''' get the raster image data from the given graphics canvas
+    ''' </summary>
+    Private Function imageOfCanvas(canvas As IGraphics) As Image
+        Dim raster As GdiRasterGraphics = TryCast(canvas, GdiRasterGraphics)
 
-            Using raw As Image = Image.FromStream(buffer)
-                Return New Bitmap(raw)
-            End Using
-        End Using
+        If raster IsNot Nothing Then
+            Return raster.ImageResource
+        End If
+
+        Dim data As IGraphicsData = DriverLoad.GetData(canvas, {0, 0, 0, 0})
+        Dim image As Imaging.Driver.ImageData = TryCast(data, Imaging.Driver.ImageData)
+
+        If image Is Nothing Then
+            Return Nothing
+        End If
+
+        Return image.Image
     End Function
 
     ''' <summary>
