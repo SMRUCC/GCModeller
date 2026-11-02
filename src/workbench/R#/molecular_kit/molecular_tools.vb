@@ -9,20 +9,21 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.Molecule.SMILES
 Imports SMRUCC.genomics.Molecule.SMILES.Graph
+Imports SMRUCC.genomics.Molecule.SMILES.Styling
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
-Imports ChemRenderMode = SMILESView.RenderMode
+Imports ChemRenderMode = SMRUCC.genomics.Molecule.SMILES.RenderMode
 Imports Image = Microsoft.VisualBasic.Imaging.Image
 Imports Imaging = Microsoft.VisualBasic.Imaging
 Imports Mol = SMRUCC.genomics.Molecule.SMILES.Graph
 Imports Molecules = SMRUCC.genomics.Molecule.SMILES
 Imports PdbStructure = SMRUCC.genomics.Data.RCSB.PDB.Structures
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
-Imports Styling = SMILESView.Styling
-Imports Viewer = SMILESView.StructureViewer
+Imports Styling = SMRUCC.genomics.Molecule.SMILES.Styling
+Imports Viewer = SMRUCC.genomics.Molecule.SMILES.StructureViewer
 
 ''' <summary>
 ''' molecule structure toolkit for the R# scripting language: SMILES/InChI parsing, 
@@ -1080,10 +1081,10 @@ Public Module molecular_tools
             Return RInternal.debug.stop("the output image file path can not be empty!", env)
         End If
 
-        Dim style As Styling.ChemTheme = TryCast(theme, Styling.ChemTheme)
+        Dim style As ChemTheme = TryCast(theme, ChemTheme)
 
         If style Is Nothing Then
-            style = New Styling.ChemTheme
+            style = New ChemTheme
         End If
 
         Dim canvasSize As Size = graphicsPipeline.getSize(size, env, "1200,1000").SizeParser
@@ -1115,17 +1116,17 @@ Public Module molecular_tools
     Private Function renderMolecule(graph As Mol.MoleculeGraph,
                                     size As Size,
                                     dpi As Integer,
-                                    theme As Styling.ChemTheme,
+                                    theme As ChemTheme,
                                     dim3 As Boolean,
                                     mode As ChemRenderMode) As Bitmap
 
-        Dim bg As Color = Styling.ElementColors.ParseHex(theme.BackgroundColor, Color.White)
+        Dim bg As Color = ElementColors.ParseHex(theme.BackgroundColor, Color.White)
 
         Using canvas As IGraphics = DriverLoad.CreateDefaultRasterGraphics(size, fill_color:=bg, dpi:=dpi)
             If dim3 Then
-                Call New SMILESView.Draw3D.MoleculeDraw3D(graph, theme).Draw(canvas, mode)
+                Call New Draw3D.MoleculeDraw3D(graph, theme).Draw(canvas, mode)
             Else
-                Call New SMILESView.Draw2D.MoleculeDraw2D(graph, theme).Draw(canvas)
+                Call New Draw2D.MoleculeDraw2D(graph, theme).Draw(canvas)
             End If
 
             Return copyOfCanvas(canvas)
@@ -1173,9 +1174,9 @@ Public Module molecular_tools
     ''' build the molecule structure plot theme from the ``plot`` function 
     ''' arguments, the shared default theme object is never modified here.
     ''' </summary>
-    Private Function getTheme(args As list, env As Environment, Optional forCell As Boolean = False) As Styling.ChemTheme
-        Dim custom As Styling.ChemTheme = TryCast(args.getValue(Of Object)("theme", env, Nothing), Styling.ChemTheme)
-        Dim theme As Styling.ChemTheme = If(custom Is Nothing, New Styling.ChemTheme, copyTheme(custom))
+    Private Function getTheme(args As list, env As Environment, Optional forCell As Boolean = False) As ChemTheme
+        Dim custom As ChemTheme = TryCast(args.getValue(Of Object)("theme", env, Nothing), ChemTheme)
+        Dim theme As ChemTheme = If(custom Is Nothing, New ChemTheme, copyTheme(custom))
         Dim value As Object = argValue(args, env, "bg", "background")
 
         If value IsNot Nothing Then
@@ -1234,8 +1235,8 @@ Public Module molecular_tools
     ''' <summary>
     ''' make a independent copy of the given theme object
     ''' </summary>
-    Private Function copyTheme(source As Styling.ChemTheme) As Styling.ChemTheme
-        Return New Styling.ChemTheme With {
+    Private Function copyTheme(source As ChemTheme) As ChemTheme
+        Return New ChemTheme With {
             .BackgroundColor = source.BackgroundColor,
             .BondColor = source.BondColor,
             .BondWidth = source.BondWidth,
