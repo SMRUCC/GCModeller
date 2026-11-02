@@ -21,6 +21,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="XGBoostInfoLogging0d041099840ed974f9620c5ffceb0901.log" />
+    <None Remove="XGBoostInfoLogging20f5fe9d925257d6c619de53bb223679.log" />
+    <None Remove="XGBoostInfoLogging4c52d413349c0a0c572295371f0dd3d4.log" />
+    <None Remove="XGBoostInfoLogginga206a3932ddd8a671c4d3d469cd4d69d.log" />
+    <None Remove="XGBoostInfoLoggingbbaa80d5fda77838227993f845506d22.log" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\DataMining\DataMining\DataMining.NET5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Graph\graph-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\MachineLearning\MachineLearning\machine_learning-netcore5.vbproj" />
