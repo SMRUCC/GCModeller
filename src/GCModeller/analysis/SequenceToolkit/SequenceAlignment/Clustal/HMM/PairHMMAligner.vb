@@ -423,14 +423,17 @@ Namespace Clustal
             Call Fill(x, NEG)
             Call Fill(y, NEG)
 
+            Dim endOpen As Double = options.GapOpenBits * options.EndGapScale
+            Dim endExt As Double = options.GapExtendBits * options.EndGapScale
+
             m(0) = 0
 
             For j As Integer = 1 To M2
-                y(j) = 0
+                y(j) = -endOpen - (j - 1) * endExt
             Next
 
             For i As Integer = 1 To M1
-                x(i * W) = 0
+                x(i * W) = -endOpen - (i - 1) * endExt
             Next
 
             For i As Integer = 1 To M1
@@ -448,13 +451,13 @@ Namespace Clustal
                     m(k) = MaxOf(m(prev), x(prev), y(prev)) + S((i - 1) * M2 + (j - 1)) + bonusM
 
                     If j = M2 Then
-                        x(k) = Math.Max(m((i - 1) * W + j), x((i - 1) * W + j)) + bonusX
+                        x(k) = Math.Max(m((i - 1) * W + j) - endOpen, x((i - 1) * W + j) - endExt) + bonusX
                     Else
                         x(k) = Math.Max(m((i - 1) * W + j) - openA, x((i - 1) * W + j) - extA) + bonusX
                     End If
 
                     If i = M1 Then
-                        y(k) = Math.Max(m(k - 1), y(k - 1)) + bonusY
+                        y(k) = Math.Max(m(k - 1) - endOpen, y(k - 1) - endExt) + bonusY
                     Else
                         y(k) = Math.Max(m(k - 1) - t.OpenBits(j - 1), y(k - 1) - t.ExtendBits(j - 1)) + bonusY
                     End If

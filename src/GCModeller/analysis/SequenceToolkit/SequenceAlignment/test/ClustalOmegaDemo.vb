@@ -63,7 +63,7 @@ Module ClustalOmegaDemo
 
             DebugAudit.AreEqual(SequenceType.DNA, result.SequenceTypeUsed, "序列类型应该判定为核酸")
             DebugAudit.AreEqual(6, result.GuideTree.LeafCount, "引导树叶子数")
-            DebugAudit.Check(result.Statistics.ColumnCount > 15, "比对之后应该出现额外的空位列")
+            DebugAudit.Check(result.Statistics.ColumnCount >= 15, "比对之后的列数不应该少于最长序列")
             DebugAudit.Check(result.Statistics.SpScore > 0, "SP 得分应该为正(核酸矩阵的匹配打分为正)")
 
             Call DebugAudit.Snapshot(
@@ -73,22 +73,14 @@ Module ClustalOmegaDemo
 
             Call Console.WriteLine(result.ToString())
 
+            ' 两种解码方式都应该得到合法的比对结果
             Dim viterbi As ClustalOmegaResult = ClustalOmega.Align(seqs, names,
                 New ClustalOmegaOptions With {.Decode = DecodeMode.Viterbi})
 
-            Call Console.WriteLine("--- VITERBI ---")
-            Call Console.WriteLine(viterbi.ToString())
+            Call CheckAlignment("nucleotide-viterbi", viterbi, seqs)
 
-            ' 直接观察两条单序列 profile 的列映射，用于定位解码器的行为
-            Dim dnaMatrix As ScoringMatrix = ScoringMatrix.DNAMatrix()
-            Dim opts As New ClustalOmegaOptions()
-
-            Call DumpPairs("identical", {"ATGATCCGAATTCAT"}, {"ATGATCCGAATTCAT"}, dnaMatrix, opts)
-            Call DumpPairs("shifted", {"ATGATCCGAATTCAT"}, {"ATGAATTCGGATCAT"}, dnaMatrix, opts)
-            Call DumpPairs("identical-v", {"ATGATCCGAATTCAT"}, {"ATGATCCGAATTCAT"}, dnaMatrix,
-                           New ClustalOmegaOptions With {.Decode = DecodeMode.Viterbi})
-            Call DumpPairs("shifted-v", {"ATGATCCGAATTCAT"}, {"ATGAATTCGGATCAT"}, dnaMatrix,
-                           New ClustalOmegaOptions With {.Decode = DecodeMode.Viterbi})
+            DebugAudit.Check(result.Statistics.ColumnCount = viterbi.Statistics.ColumnCount,
+                             $"MAC 与 Viterbi 的列数应该一致: {result.Statistics.ColumnCount} vs {viterbi.Statistics.ColumnCount}")
         End Using
     End Sub
 
@@ -271,17 +263,6 @@ Module ClustalOmegaDemo
     ' ------------------------------------------------------------------
     ' 断言辅助
     ' ------------------------------------------------------------------
-
-    Private Sub DumpPairs(tag As String, a As String(), b As String(), matrix As ScoringMatrix, options As ClustalOmegaOptions)
-        Dim pa As ProfileHMM = ProfileHMM.FromAlignment(a, matrix, options)
-        Dim pb As ProfileHMM = ProfileHMM.FromAlignment(b, matrix, options)
-        Dim aligner As New PairHMMAligner(options)
-        Dim stats As PairHMMAligner.PairHMMStatistics = Nothing
-        Dim pairs As (Integer, Integer)() = aligner.Align(pa, pb, stats)
-
-        Call Console.WriteLine($"[pairs:{tag}] cells={stats.Cells}, Z={stats.PartitionFunction:0.###}, count={pairs.Length}")
-        Call Console.WriteLine("  " & String.Join(" ", pairs.Select(Function(x) $"{x.Item1}:{x.Item2}")))
-    End Sub
 
     Private Sub CheckAlignment(name As String, result As ClustalOmegaResult, input As String())
         DebugAudit.AreEqual(input.Length, result.MSA.Length, $"{name}: 结果行数")

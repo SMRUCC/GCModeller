@@ -98,3 +98,93 @@ clustalo -i input.fasta -o out.aln --guidetree-out=tree.dnd --clustering-out=clu
 ---
 ## 六、总结
 Clustal Omega 的本质是**"渐进式比对框架 + 三大现代化组件"**：用 mBed 的随机投影聚类解决可扩展性，用 HHalign 的 HMM-HMM 剖面比对解决精度，用引导树/HMM 双重迭代解决早锁问题。它在保持 Clustal 系列易用性的同时，把多序列比对从"千条级"推到了"十万条级"，至今仍是蛋白家族比对与大规模注释流程的主力工具之一。
+
+---
+
+## 七、本目录的托管代码实现
+
+本节记录 `SequenceAlignment.vbproj` 中 `Clustal` 目录的 VB.NET 实现与上文算法的对应关系。
+
+### 7.1 模块映射
+
+| 流水线阶段 | 实现模块 |
+|---|---|
+| 序列归一化与类型判定 | `SequenceAlphabet.vb` |
+| k-mer 计数与距离 | `Distance/KmerCounter.vb`、`Distance/MBedDistance.vb` |
+| k-means 分簇 | `Clustering/KMeansCluster.vb` |
+| 簇内/簇间 UPGMA + 引导树 | `Clustering/UPGMA.vb`、`Clustering/ClusterTreeBuilder.vb`、`Clustering/GuideTree.vb` |
+| 替换矩阵(Gonnet 250 / DNA) | `Resources/Gonnet250.vb`、`HMM/ScoringMatrix.vb` |
+| 三态 profile HMM 构建 | `HMM/ProfileHMM.vb` |
+| 4 状态 pair-HMM 前向/后向 + 路径解码 | `HMM/PairHMMAligner.vb` |
+| 渐进合并 | `Progressive/ProgressiveAligner.vb` |
+| 迭代精炼 | `Progressive/Refinement.vb` |
+| 统计(SP/一致性/保守列) | `Progressive/AlignmentStatistics.vb` |
+| 结果容器与门面 | `ClustalOmegaResult.vb`、`ClustalOmega.vb` |
+| 输出格式 | `IO/FastaWriter.vb`、`IO/ClustalWriter.vb`、`IO/StockholmWriter.vb`、`IO/PhylipWriter.vb`、`IO/MSAIO.vb` |
+
+### 7.2 用法
+
+```vbnet
+Imports SMRUCC.genomics.Analysis.SequenceAlignment.Clustal
+
+Dim options As New ClustalOmegaOptions With {
+    .SeqType = SequenceType.Auto,      ' 自动判定蛋白/核酸
+    .ClusterSize = 100,                ' mBed 聚类的软上限
+    .Iterations = 2,                   ' 迭代精炼轮数
+    .GapOpenBits = 6.0,                ' 与 clustalo/HHalign 一致
+    .GapExtendBits = 1.0
+}
+
+Dim result As ClustalOmegaResult = ClustalOmega.AlignFile("./input.fasta", options)
+
+Call Console.WriteLine(result.ToString())                 ' 表格 + 保守列标记
+Call result.SaveAs(MSAFormat.Clustal, "./output.aln")     ' 也可以 Fasta/Stockholm/Phylip
+Call Console.WriteLine(result.TreeNewick())               ' 引导树
+```
+
+### 7.3 参数说明
+
+| 参数 | 默认值 | 说明 |
+|---|---|---|
+| `SeqType` | `Auto` | 碱基占比 ≥ 85% 判定为核酸，否则为蛋白 |
+| `KmerSize` | 0(自动) | 蛋白 2、核酸 5 |
+| `ClusterSize` | 100 | k-means 分簇的目标上限，簇数 = ⌈N / ClusterSize⌉ |
+| `FullDistanceMatrix` | False | 对应 clustalo 的 `--full`，仅在 N ≤ `MaxFullDistanceSequences` 时生效 |
+| `Iterations` | 0 | 迭代精炼轮数，仅对 N ≤ 2000 生效 |
+| `GapOpenBits` / `GapExtendBits` | 6.0 / 1.0 | 单位 bit，与 HHalign 默认值一致 |
+| `EndGapScale` | 0.25 | 终端空位罚分的缩放系数，0 = 半全局(可自由滑动)，1 = 纯全局 |
+| `MacRamMb` | 2048 | 后验概率缓冲上限，超限自动退化为 Viterbi |
+| `Decode` | `MaximumAccuracy` | 也可以显式选择 `Viterbi` |
+| `Seed` | 20111 | 控制 k-means++ 的抽样，保证可复现 |
+
+### 7.4 实现与 clustalo 的已知差异
+
+1. **打分**：本实现使用 1/3 bit 单位的**整数取整** Gonnet 250 矩阵(与 `data/BLOSUM/GONNET.txt` 一致)，
+   而不是 clustalo 内部的高精度浮点矩阵，因此远源序列的灵敏度略低；可通过
+   `ScoringMatrix.Gonnet(scoreScale)` 或 `ScoringMatrix.LoadFile` 换用其它矩阵。
+2. **profile HMM**：只保留 match/insert/delete 三种状态与位置特异空位罚分，省略了
+   HHalign 的二级结构信息、`Neff` 之外的多重序列加权细则以及 MAC 的完整后验解码
+   (见 `PairHMMAligner` 的类注释)。
+3. **引导树**：簇内使用全距离 UPGMA，簇间以 medoid 为代表序列做上层 UPGMA；
+   clustalo 的 mBed 内部细节(随机抽样次数、k-means 的软上限策略)与本实现不完全相同。
+4. **可扩展性**：渐进合并阶段的时间复杂度仍是 O(ΣL²)，10^5 条序列需要数十小时级别的算力，
+   而 clustalo 通过更激进的并行与 HMM 加速把常数压得更低。
+
+因此**验收标准是结构性正确**，而不是与 clustalo 输出逐列一致：
+
+- 所有行等长，且每行去掉空位后可以还原输入序列；
+- SP 得分不劣于 `MSA/CenterStar.vb`(中心星)在同一输入上的结果；
+- 引导树叶子数等于序列条数，Newick 可被下游解析；
+- 四种输出格式可以互相回读(Stockholm 与项目内既有的 `MSA.Tabular.Reader` 互通)。
+
+### 7.5 验证
+
+`test/ClustalOmegaDemo.vb` 是控制台验证程序，覆盖核酸小样例、蛋白样例、四种格式的往返、
+迭代精炼不劣化、k-means 分簇分支(120 条序列)以及空/单条/全同的退化输入，
+所有断言通过 `Microsoft.VisualBasic.ApplicationServices.Debugging.DebugAudit` 记录，
+运行结束后生成 `clustal-omega-test/clustal-omega.audit.json` 报告。
+
+```bash
+dotnet build test.vbproj -c Debug -p:StartupObject=test.ClustalOmegaDemo
+dotnet bin/Debug/net10.0/test.dll
+```
