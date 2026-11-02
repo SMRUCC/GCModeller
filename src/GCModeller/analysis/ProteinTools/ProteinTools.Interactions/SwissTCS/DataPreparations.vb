@@ -50,9 +50,9 @@
 #End Region
 
 Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.Extensions
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.Extensions
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports RDotNet.Extensions.VisualBasic
 Imports SMRUCC.genomics.Interops
 Imports SMRUCC.genomics.Interops.ClustalOrg
