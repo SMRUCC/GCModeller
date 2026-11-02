@@ -66,9 +66,7 @@ Namespace Draw3D
             Dim key As String = $"{stacks}x{slices}"
 
             SyncLock templates
-                Dim cached As (vertices As Point3D(), faces As Integer()())
-
-                If templates.TryGetValue(key, cached) Then Return cached
+                If templates.ContainsKey(key) Then Return templates(key)
             End SyncLock
 
             Dim vertices((stacks + 1) * slices - 1) As Point3D

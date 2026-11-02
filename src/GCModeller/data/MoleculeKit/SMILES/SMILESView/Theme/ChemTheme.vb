@@ -34,16 +34,19 @@
         ''' <summary>是否隐藏碳原子标签（键线式画法）。</summary>
         Public Property HideCarbon As Boolean = True
 
+        ''' <summary>3D 渲染前是否自动把分子的主平面转到正对屏幕。</summary>
+        Public Property AutoOrient As Boolean = True
+
         ''' <summary>球棍模型中原子球的半径与共价半径之比。</summary>
-        Public Property BallScale As Double = 0.38
+        Public Property BallScale As Double = 0.5
         ''' <summary>空间填充模型中原子球的半径与范德华半径之比。</summary>
         Public Property SpaceFillScale As Double = 1.0
         ''' <summary>球棍模型中键圆柱的半径（Å）。</summary>
-        Public Property BondRadius As Double = 0.11
+        Public Property BondRadius As Double = 0.13
         ''' <summary>3D 相机的旋转角（欧拉角，度）。</summary>
-        Public Property CameraAngleX As Single = 18
+        Public Property CameraAngleX As Single = 12
         ''' <summary>3D 相机的旋转角（欧拉角，度）。</summary>
-        Public Property CameraAngleY As Single = -32
+        Public Property CameraAngleY As Single = -8
         ''' <summary>3D 相机的旋转角（欧拉角，度）。</summary>
         Public Property CameraAngleZ As Single = 0
         ''' <summary>3D 场景的环境光强度。</summary>
@@ -51,9 +54,9 @@
         ''' <summary>3D 场景的透视视场（Drawing3D 的 fov 参数）。</summary>
         Public Property FieldOfView As Single = 320
         ''' <summary>3D 球体的纬度分段数。</summary>
-        Public Property SphereStacks As Integer = 8
+        Public Property SphereStacks As Integer = 10
         ''' <summary>3D 球体的经度分段数。</summary>
-        Public Property SphereSlices As Integer = 14
+        Public Property SphereSlices As Integer = 16
         ''' <summary>3D 键圆柱沿轴向的分段数（影响画家算法的遮挡正确性）。</summary>
         Public Property CylinderSegments As Integer = 8
         ''' <summary>3D 键圆柱的环向分段数。</summary>

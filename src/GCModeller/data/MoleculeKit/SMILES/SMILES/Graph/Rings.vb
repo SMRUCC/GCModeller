@@ -161,8 +161,11 @@
 
                 For i = 0 To systems.Count - 1
                     For j = i + 1 To systems.Count - 1
-                        If systems(i).Any(Function(a) systems(j).Any(Function(b) sharesBond(a, b))) Then
-                            systems(i).AddRange(systems(j))
+                        Dim left As List(Of Ring) = systems(i)
+                        Dim right As List(Of Ring) = systems(j)
+
+                        If left.Any(Function(a) right.Any(Function(b) sharesBond(a, b))) Then
+                            left.AddRange(right)
                             systems.RemoveAt(j)
                             merged = True
                             Exit For

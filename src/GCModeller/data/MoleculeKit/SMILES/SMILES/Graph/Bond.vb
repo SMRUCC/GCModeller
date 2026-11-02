@@ -1,4 +1,4 @@
-Imports GraphTheory = Microsoft.VisualBasic.Data.GraphTheory.Network
+﻿Imports GraphTheory = Microsoft.VisualBasic.Data.GraphTheory.Network
 
 Namespace Graph
 
@@ -10,7 +10,7 @@ Namespace Graph
     ''' "Kekulé 化之后的 1/2/3" 与 "尚未 Kekulé 化的 1.5 芳香键"。
     ''' 解析器完成 Kekulé 化之后，<see cref="order"/> 会归一到 1/2/3，
     ''' 而 <see cref="IsAromatic"/> 继续保留芳香性信息供绘图使用。
-    ''' 实现 <see cref="IndexEdge"/> 使分子图可以直接接入 sciBASIC 的图论算法。
+    ''' 实现 <see cref="Microsoft.VisualBasic.Data.GraphTheory.Network.IndexEdge"/> 使分子图可以直接接入 sciBASIC 的图论算法。
     ''' </remarks>
     Public Class Bond
         Implements GraphTheory.IndexEdge

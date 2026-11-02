@@ -53,6 +53,67 @@ Namespace Coordinates
                     .Z = 0
                 End With
             Next
+
+            Call assignStereoWedges(graph, px, py)
+        End Sub
+
+        ''' <summary>
+        ''' 为每个手性中心挑一条"朝外"的取代基键标记为楔形/虚楔形，
+        ''' 使 2D 结构图能够表达立体化学（SMILES 的 <c>@</c>/<c>@@</c> 本身不带楔形信息）。
+        ''' </summary>
+        Private Sub assignStereoWedges(graph As G.MoleculeGraph, px As Double(), py As Double())
+            For i = 0 To graph.AtomCount - 1
+                Dim atom As G.Atom = graph.Atoms(i)
+
+                If atom.Stereo = G.AtomStereo.None OrElse atom.Stereo = G.AtomStereo.Unsupported Then Continue For
+
+                Dim neighbors As List(Of (neighbor As Integer, order As Double)) = graph.Neighbors(i)
+
+                If neighbors.Count < 3 Then Continue For
+
+                Dim bestBond As G.Bond = Nothing
+                Dim bestScore As Double = Double.MinValue
+
+                For Each item In neighbors
+                    Dim bond As G.Bond = graph.BondBetween(i, item.neighbor)
+
+                    If bond Is Nothing OrElse bond.IsRing Then Continue For
+
+                    Dim dx As Double = px(item.neighbor) - px(i)
+                    Dim dy As Double = py(item.neighbor) - py(i)
+                    Dim length As Double = Math.Sqrt(dx * dx + dy * dy)
+
+                    If length < EPS Then Continue For
+
+                    Dim sumX As Double = 0
+                    Dim sumY As Double = 0
+
+                    For Each other In neighbors
+                        If other.neighbor = item.neighbor Then Continue For
+
+                        Dim ox As Double = px(other.neighbor) - px(i)
+                        Dim oy As Double = py(other.neighbor) - py(i)
+                        Dim olen As Double = Math.Sqrt(ox * ox + oy * oy)
+
+                        If olen < EPS Then Continue For
+
+                        sumX += ox / olen
+                        sumY += oy / olen
+                    Next
+
+                    ' 与其它取代基的平均方向越相反，说明它越朝外，越适合画楔形
+                    Dim score As Double = -(sumX * dx / length + sumY * dy / length)
+
+                    If score > bestScore Then
+                        bestScore = score
+                        bestBond = bond
+                    End If
+                Next
+
+                If bestBond Is Nothing Then Continue For
+
+                bestBond.Stereo = If(atom.Stereo = G.AtomStereo.Clockwise, G.BondStereo.Down, G.BondStereo.Up)
+            Next
         End Sub
 
 #Region "环模板布局"

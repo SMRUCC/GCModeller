@@ -63,6 +63,8 @@ Namespace Draw3D
                     Math.Max(0.22, Mol.ElementTable.CovalentRadius(atom.Element) * theme.BallScale))
             Next
 
+            If theme.AutoOrient Then centers = autoOrient(centers)
+
             If mode = RenderMode.BallAndStick Then
                 For Each bond As Mol.Bond In graph.Bonds
                     Dim colorA As Color = Styling.ElementColors.ColorOf(graph.Atoms(bond.a).Element)
@@ -109,12 +111,100 @@ Namespace Draw3D
             Dim camera As New Camera(New Point3D(theme.CameraAngleX, theme.CameraAngleY, theme.CameraAngleZ)) With {
                 .Screen = size,
                 .FieldOfView = theme.FieldOfView,
-                .ViewDistance = CSng(Math.Max(distance, scene.Radius * 3)),
+                .ViewDistance = CSng(Math.Max(distance * 1.05, scene.Radius * 1.2)),
                 .Offset = New PointF(0, 0),
                 .AmbientStrength = theme.AmbientStrength
             }
 
             Return camera
+        End Function
+
+        ''' <summary>
+        ''' 把点云旋转到"主平面平行于屏幕"的姿态：先取最远点确定一条主轴，
+        ''' 再取距该轴最远的点确定次轴，两者的叉积即主平面法向；随后把法向转到 +Z。
+        ''' </summary>
+        ''' <param name="centers">以质心为原点的原子坐标。</param>
+        Private Shared Function autoOrient(centers As Point3D()) As Point3D()
+            If centers.Length < 3 Then Return centers
+
+            Dim far As Integer = 0
+            Dim best As Double = -1
+
+            For i = 0 To centers.Length - 1
+                Dim radius As Double = centers(i).Length()
+
+                If radius > best Then
+                    best = radius
+                    far = i
+                End If
+            Next
+
+            If best < 1.0E-6 Then Return centers
+
+            Dim u As Point3D = centers(far).Normalize()
+            Dim second As Integer = -1
+
+            best = -1
+
+            For i = 0 To centers.Length - 1
+                Dim v As Point3D = centers(i)
+                Dim w As Point3D = v.Subtract(u.Multiply(Point3D.Dot(v, u)))
+                Dim length As Double = w.Length()
+
+                If length > best Then
+                    best = length
+                    second = i
+                End If
+            Next
+
+            If second < 0 OrElse best < 1.0E-6 Then Return centers
+
+            Dim v2 As Point3D = centers(second)
+            Dim u2 As Point3D = v2.Subtract(u.Multiply(Point3D.Dot(v2, u))).Normalize()
+            Dim normal As Point3D = Point3D.Cross(u, u2).Normalize()
+
+            If normal.Length() < 1.0E-6 Then Return centers
+
+            Return rotateToAxis(centers, normal)
+        End Function
+
+        ''' <summary>
+        ''' 把给定法向旋转到 <c>+Z</c>（罗德里格斯公式）。
+        ''' </summary>
+        Private Shared Function rotateToAxis(centers As Point3D(), normal As Point3D) As Point3D()
+            Dim z As New Point3D(0, 0, 1)
+            Dim axis As Point3D = Point3D.Cross(normal, z)
+            Dim sinA As Double = axis.Length()
+            Dim cosA As Double = Point3D.Dot(normal, z)
+
+            If sinA < 1.0E-6 Then
+                If cosA > 0 Then Return centers
+
+                Dim flipped(centers.Length - 1) As Point3D
+
+                For i = 0 To centers.Length - 1
+                    flipped(i) = New Point3D(centers(i).X, -centers(i).Y, -centers(i).Z)
+                Next
+
+                Return flipped
+            End If
+
+            Dim unit As Point3D = axis.Normalize()
+            Dim theta As Double = Math.Atan2(sinA, cosA)
+            Dim cosT As Double = Math.Cos(theta)
+            Dim sinT As Double = Math.Sin(theta)
+            Dim result(centers.Length - 1) As Point3D
+
+            For i = 0 To centers.Length - 1
+                Dim v As Point3D = centers(i)
+                Dim projection As Double = Point3D.Dot(unit, v)
+
+                result(i) = v.Multiply(cosT).
+                    Add(Point3D.Cross(unit, v).Multiply(sinT)).
+                    Add(unit.Multiply(projection * (1 - cosT)))
+            Next
+
+            Return result
         End Function
 
         Private Shared Function hasCoordinates(graph As Mol.MoleculeGraph) As Boolean

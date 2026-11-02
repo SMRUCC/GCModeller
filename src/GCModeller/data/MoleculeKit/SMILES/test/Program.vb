@@ -120,6 +120,10 @@ Module Program
         Call DebugAudit.Test(quality3D.MinNonBondedDistance > 0.5,
             $"{item.Name}: no 3D atom clash ({quality3D.MinNonBondedDistance:F3}, {quality3D.MinNonBondedPair})")
 
+        Call DebugAudit.Mark($"{item.Name}: checked",
+            $"{graph.MolecularFormula()}, atoms={graph.AtomCount}, bonds={graph.BondCount}, " &
+            $"2D avg={quality2D.AverageBondLength:F3}, 3D avg={quality3D.AverageBondLength:F3}")
+
         ' ---- SMILES round trip ----
         If graph.Format = MoleculeFormat.Smiles Then
             Dim written As String = MoleculeIO.WriteSmiles(graph)

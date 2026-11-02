@@ -25,7 +25,23 @@ Namespace Draw2D
         ''' <param name="p2">终点（屏幕坐标）。</param>
         ''' <param name="bond">键对象。</param>
         ''' <param name="theme">绘制主题。</param>
-        Public Sub Draw(canvas As IGraphics, p1 As PointF, p2 As PointF, bond As Mol.Bond, theme As Styling.ChemTheme)
+        ''' <param name="stereoCenter">手性中心所在的原子下标（楔形收窄端），未知时传 <c>-1</c>。</param>
+        ''' <param name="inwardX">环内方向的 X 分量（屏幕坐标），仅在 <paramref name="hasInward"/> 为真时使用。</param>
+        ''' <param name="inwardY">环内方向的 Y 分量（屏幕坐标），仅在 <paramref name="hasInward"/> 为真时使用。</param>
+        ''' <param name="hasInward">是否已知该键的"环内侧"方向（用于把双键的第二条线画在环内）。</param>
+        Public Sub Draw(canvas As IGraphics, p1 As PointF, p2 As PointF, bond As Mol.Bond, theme As Styling.ChemTheme,
+                        Optional stereoCenter As Integer = -1,
+                        Optional inwardX As Double = 0,
+                        Optional inwardY As Double = 0,
+                        Optional hasInward As Boolean = False)
+
+            If stereoCenter >= 0 AndAlso bond.a = stereoCenter AndAlso bond.b <> stereoCenter Then
+                Dim swap As PointF = p1
+
+                p1 = p2
+                p2 = swap
+            End If
+
             Dim color As Color = Styling.ElementColors.ParseHex(theme.BondColor, Color.Black)
             Dim dx As Double = p2.X - p1.X
             Dim dy As Double = p2.Y - p1.Y
@@ -47,8 +63,15 @@ Namespace Draw2D
                     Return
             End Select
 
-            Dim order As Integer = If(bond.IsAromatic AndAlso bond.OrderInt < 2, 1, bond.OrderInt)
-            Dim aromatic As Boolean = bond.IsAromatic AndAlso bond.OrderInt < 2
+            ' 只有在未做 Kekulé 化（键级仍为 1.5）时才用虚线表示芳香键；
+            ' 完成 Kekulé 化之后按经典的单/双键画法绘制，避免两种表示混用
+            Dim aromatic As Boolean = bond.IsAromatic AndAlso Math.Abs(bond.order - 1.5) < 0.01
+            Dim order As Integer = If(aromatic, 1, bond.OrderInt)
+
+            ' 环内侧方向决定附加平行线画在哪一边
+            Dim sign As Double = 1
+
+            If hasInward AndAlso (nx * inwardX + ny * inwardY) < 0 Then sign = -1
 
             Select Case order
                 Case 1
@@ -58,20 +81,29 @@ Namespace Draw2D
                         Dim dash As New Pen(color, Math.Max(1.0F, theme.BondWidth * 0.6F)) With {
                             .DashStyle = DashStyle.Dash
                         }
-                        Dim offset As Single = theme.BondSeparation * 0.5F
 
                         Call canvas.DrawLine(dash,
-                            offsetPoint(p1, nx, ny, offset),
-                            offsetPoint(p2, nx, ny, offset))
+                            offsetPoint(p1, nx, ny, CSng(sign * theme.BondSeparation * 0.7)),
+                            offsetPoint(p2, nx, ny, CSng(sign * theme.BondSeparation * 0.7)))
                     End If
 
                 Case 2
-                    Dim offset As Single = theme.BondSeparation * 0.5F
+                    If hasInward Then
+                        ' 环上的双键：一条线在键轴上，另一条线向环内偏移并略微缩短
+                        Dim offset As Single = CSng(sign * theme.BondSeparation)
 
-                    Call canvas.DrawLine(New Pen(color, theme.BondWidth),
-                        offsetPoint(p1, nx, ny, offset), offsetPoint(p2, nx, ny, offset))
-                    Call canvas.DrawLine(New Pen(color, theme.BondWidth),
-                        offsetPoint(p1, nx, ny, -offset), offsetPoint(p2, nx, ny, -offset))
+                        Call canvas.DrawLine(New Pen(color, theme.BondWidth), p1, p2)
+                        Call canvas.DrawLine(New Pen(color, theme.BondWidth),
+                            offsetPoint(shrink(p1, p2, 0.12), nx, ny, offset),
+                            offsetPoint(shrink(p2, p1, 0.12), nx, ny, offset))
+                    Else
+                        Dim offset As Single = theme.BondSeparation * 0.5F
+
+                        Call canvas.DrawLine(New Pen(color, theme.BondWidth),
+                            offsetPoint(p1, nx, ny, offset), offsetPoint(p2, nx, ny, offset))
+                        Call canvas.DrawLine(New Pen(color, theme.BondWidth),
+                            offsetPoint(p1, nx, ny, -offset), offsetPoint(p2, nx, ny, -offset))
+                    End If
 
                 Case Else
                     Dim offset As Single = theme.BondSeparation
@@ -83,6 +115,15 @@ Namespace Draw2D
                         offsetPoint(p1, nx, ny, -offset), offsetPoint(p2, nx, ny, -offset))
             End Select
         End Sub
+
+        ''' <summary>
+        ''' 把点 <paramref name="p"/> 沿 <paramref name="towards"/> 方向缩短给定的比例。
+        ''' </summary>
+        Private Function shrink(p As PointF, towards As PointF, ratio As Double) As PointF
+            Return New PointF(
+                CSng(p.X + (towards.X - p.X) * ratio),
+                CSng(p.Y + (towards.Y - p.Y) * ratio))
+        End Function
 
         Private Function offsetPoint(p As PointF, nx As Double, ny As Double, offset As Single) As PointF
             Return New PointF(CSng(p.X + nx * offset), CSng(p.Y + ny * offset))
