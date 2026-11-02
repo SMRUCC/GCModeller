@@ -28,7 +28,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
     <ProjectReference Include="..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
-    <ProjectReference Include="..\..\data\RCSB PDB\RCSB PDB.vbproj" />
+    <ProjectReference Include="..\..\data\MoleculeKit\RCSB-pdb\RCSB-PDB.vbproj" />
   </ItemGroup>
 
 </Project>
