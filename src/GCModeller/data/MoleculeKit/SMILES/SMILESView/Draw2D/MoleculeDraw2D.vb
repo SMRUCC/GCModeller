@@ -1,9 +1,6 @@
 ﻿Imports System.Drawing
 Imports Microsoft.VisualBasic.Imaging
 Imports Mol = SMRUCC.genomics.Molecule.SMILES.Graph
-Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
-Imports Font = Microsoft.VisualBasic.Imaging.Font
-Imports FontStyle = System.Drawing.FontStyle
 
 Namespace Draw2D
 

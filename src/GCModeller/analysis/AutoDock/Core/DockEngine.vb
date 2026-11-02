@@ -9,8 +9,7 @@
 '   protein-protein  配体 = 第二条蛋白（PDB，刚体 6 DOF，无扭转）
 ' ============================================================================
 
-Imports MiniDock.Model
-Imports SMRUCC.genomics.Data.RCSB.PDB.Structures
+Imports SMRUCC.genomics.Molecule.VinaDock.Model
 
 Namespace Core
 
@@ -19,8 +18,7 @@ Namespace Core
         ''' <summary>
         ''' 执行对接。receptorMol / ligandMol 已完成类型与电荷分配。
         ''' </summary>
-        Public Shared Function Dock(receptorMol As VinaMolecule, ligandMol As VinaMolecule,
-                                    opts As DockOptions) As LigandResult
+        Public Shared Function Dock(receptorMol As VinaMolecule, ligandMol As VinaMolecule, opts As DockOptions) As LigandResult
             ' 1. 内部 1-4 以上原子对（配体柔性时）
             Dim intraI() As Int32 = Nothing
             Dim intraJ() As Int32 = Nothing
@@ -121,7 +119,7 @@ Namespace Core
                         .X = Math.Round(coords(3 * i), 3),
                         .Y = Math.Round(coords(3 * i + 1), 3),
                         .Z = Math.Round(coords(3 * i + 2), 3),
-                        .Chain = src.ChainId,
+                        .Chain = src.ChainID,
                         .ResName = src.ResName,
                         .ResSeq = src.ResSeq,
                         .AtomName = src.AtomName})

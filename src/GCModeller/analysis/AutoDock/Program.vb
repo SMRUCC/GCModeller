@@ -19,9 +19,9 @@ Imports System.Globalization
 Imports System.IO
 Imports System.Text.Json
 Imports System.Text.Json.Serialization
-Imports MiniDock.Core
-Imports MiniDock.Model
 Imports SMRUCC.genomics.Data.RCSB.PDB.Structures
+Imports SMRUCC.genomics.Molecule.VinaDock.Core
+Imports SMRUCC.genomics.Molecule.VinaDock.Model
 
 Module Program
 

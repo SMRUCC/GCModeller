@@ -1,10 +1,6 @@
 ﻿Imports System.Drawing
 Imports Microsoft.VisualBasic.Imaging
 Imports Mol = SMRUCC.genomics.Molecule.SMILES.Graph
-Imports Pen = Microsoft.VisualBasic.Imaging.Pen
-Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
-Imports Brush = Microsoft.VisualBasic.Imaging.Brush
-Imports DashStyle = System.Drawing.Drawing2D.DashStyle
 
 Namespace Draw2D
 
