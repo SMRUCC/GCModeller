@@ -203,42 +203,34 @@ Public Class GeneTreeTrainer
 
         ' TGBoost 内部会把每一次建树都写入日志通道（18404 个模型 × 40 轮 ≈ 74 万行），
         ' 训练期间屏蔽控制台回显，避免把时间浪费在终端输出上
-        Dim mute As Boolean = VBDebugger.Mute
+        Parallel.For(0, total, popts,
+            Sub(k As Integer)
+                Dim gene As String = targets(k)
+                Dim model As GeneModel = Nothing
 
-        VBDebugger.Mute = True
+                Dim ctx As DiscoveryContext = discovery
 
-        Try
-            Parallel.For(0, total, popts,
-                Sub(k As Integer)
-                    Dim gene As String = targets(k)
-                    Dim model As GeneModel = Nothing
+                If ctx IsNot Nothing AndAlso opt.DiscoveryMaxGenes > 0 AndAlso k >= opt.DiscoveryMaxGenes Then
+                    ' 试跑限流：只对前 N 个靶基因执行结构发现
+                    ctx = Nothing
+                End If
 
-                    Dim ctx As DiscoveryContext = discovery
+                Try
+                    model = TrainGene(gene, graph, rows, rowIndex, cells, split.train, split.validate, opt, ctx, threadsPerModel)
+                Catch ex As Exception
+                    Call log($"  [GeneTree] 基因 '{gene}' 拟合失败，退化为常数模型: {ex.Message}")
+                End Try
 
-                    If ctx IsNot Nothing AndAlso opt.DiscoveryMaxGenes > 0 AndAlso k >= opt.DiscoveryMaxGenes Then
-                        ' 试跑限流：只对前 N 个靶基因执行结构发现
-                        ctx = Nothing
-                    End If
+                models(rowIndex(gene)) = model
 
-                    Try
-                        model = TrainGene(gene, graph, rows, rowIndex, cells, split.train, split.validate, opt, ctx, threadsPerModel)
-                    Catch ex As Exception
-                        Call log($"  [GeneTree] 基因 '{gene}' 拟合失败，退化为常数模型: {ex.Message}")
-                    End Try
+                Dim done As Integer = Interlocked.Increment(finished)
 
-                    models(rowIndex(gene)) = model
-
-                    Dim done As Integer = Interlocked.Increment(finished)
-
-                    If progress IsNot Nothing Then
-                        Call progress(done, total)
-                    ElseIf opt.Verbose AndAlso (done Mod std.Max(1, opt.ProgressInterval) = 0 OrElse done = total) Then
-                        Call $"  [GeneTree] 已完成 {done}/{total} 个基因模型的拟合".debug
-                    End If
-                End Sub)
-        Finally
-            VBDebugger.Mute = mute
-        End Try
+                If progress IsNot Nothing Then
+                    Call progress(done, total)
+                ElseIf opt.Verbose AndAlso (done Mod std.Max(1, opt.ProgressInterval) = 0 OrElse done = total) Then
+                    Call $"  [GeneTree] 已完成 {done}/{total} 个基因模型的拟合".debug
+                End If
+            End Sub)
 
         Dim report As TrainingReport = TrainingReport.FromModels(models, opt, cells.Length)
 
@@ -677,7 +669,7 @@ Public Class GeneTreeTrainer
 
         Dim sd As Double = std.Sqrt(sse / std.Max(1, n - 1))
 
-        If sd <= 1.0E-09R Then
+        If sd <= 0.000000001R Then
             ' 残差完全平坦：与任何候选都不相关
             Return New Double(n - 1) {}
         End If
