@@ -15,19 +15,15 @@
 '   --nwat N             Nwat-MMGBSA 保留水数（默认 0）
 ' ============================================================================
 
-Imports System
-Imports System.Collections.Generic
 Imports System.Globalization
 Imports System.IO
-Imports System.Linq
 Imports System.Text.Json
 Imports System.Text.Json.Serialization
 Imports MiniDock.Core
 Imports MiniDock.Model
 Imports SMRUCC.genomics.Data.RCSB.PDB.Structures
 
-
-Public Module Program
+Module Program
 
     Private Const VersionString As String = "1.0.0"
 
@@ -177,7 +173,7 @@ Public Module Program
         Dim report As New DockReport With {
             .Program = "MiniDock",
             .Version = VersionString,
-            .mode = mode,
+            .Mode = mode,
             .Parameters = New DockParameters With {
                 .Exhaustiveness = opts.Exhaustiveness,
                 .StepsPerRun = opts.StepsPerRun,
@@ -230,7 +226,7 @@ Public Module Program
             For Each a In mol.Atoms
                 If a.IsWater Then Continue For
                 Dim isLig As Boolean = False
-                If ligChain IsNot Nothing AndAlso a.ChainId = ligChain Then isLig = True
+                If ligChain IsNot Nothing AndAlso a.ChainID = ligChain Then isLig = True
                 If ligResname IsNot Nothing AndAlso a.ResName = ligResname.ToUpperInvariant() Then isLig = True
                 If isLig Then lig.Add(a) Else rec.Add(a)
             Next
@@ -256,8 +252,8 @@ Public Module Program
             .Program = "MiniDock",
             .Version = VersionString,
             .Mode = "mmgbsa",
-            .nwat = nwat,
-            .frames = frameResults}
+            .Nwat = nwat,
+            .Frames = frameResults}
 
         Dim jsonOpts As New JsonSerializerOptions With {
             .WriteIndented = HasFlag(args, "--pretty"),
