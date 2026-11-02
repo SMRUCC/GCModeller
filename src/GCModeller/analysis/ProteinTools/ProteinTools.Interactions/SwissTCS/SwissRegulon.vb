@@ -276,7 +276,7 @@ Namespace SwissTCS
         <Extension> Public Function CrossTalk(profiles As IEnumerable(Of CrossTalks), HisK As String, RR As String) As Double
             Dim LQuery = (From ctk As CrossTalks
                           In profiles
-                          Where Graph.Abstract.Contains(ctk, HisK) AndAlso Graph.Abstract.Contains(ctk, RR)
+                          Where String.Equals(ctk.TrimedKinaseId(), HisK) AndAlso String.Equals(ctk.TrimedRegulatorId(), RR)
                           Select ctk).FirstOrDefault
             If LQuery Is Nothing Then
                 Return 0

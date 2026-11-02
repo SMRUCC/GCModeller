@@ -12,7 +12,7 @@
     <Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
     <Company>SMRUCC genomics institute</Company>
     <Product>GCModeller</Product>
-    <PackageIcon>logo.png</PackageIcon>
+    <PackageIcon Condition="Exists('logo.png')">logo.png</PackageIcon>
     <PackageTags>gcmodeller;bioinformatics;genomics;protein-interaction;bayesian-network;coevolution;two-component-system;ppi-prediction</PackageTags>
     <PackageReleaseNotes>Complete rewrite of the protein interaction prediction core: the R bnlearn based pipeline was replaced by a pure .NET implementation of the Burger &amp; van Nimwegen Bayesian network method (paired MSA, Dirichlet-multinomial likelihood ratio R_ij, dependency trees through the matrix-tree theorem, Gibbs sampling and phylogenetic permutation tests). The BayesianBeliefNetwork kernel now supports multi-valued nodes, correct evidence merging, variable elimination, junction trees, loopy belief propagation, parameter/structure learning and EM.</PackageReleaseNotes>
     <Platforms>AnyCPU;x64</Platforms>
