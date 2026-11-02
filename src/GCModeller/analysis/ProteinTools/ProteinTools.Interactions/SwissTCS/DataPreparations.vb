@@ -171,33 +171,13 @@ Public Class DataPreparations
         Call ClustalOmega.MultipleAlignmentOmega(FastaFile.Read(TargetHomologousPartners.FilePath)).SaveAs(MSAFormat.Fasta, workDir & "__target_partner_aligned.fsa")
         Call Console.WriteLine("Alignment job done, saving temp data!")
 
-        '建模操作
-        Call Console.WriteLine("Start to modelling the protein interaction Bayesian network...")
+        ' NOTE: 原来的建模与预测步骤依赖于外部 R 程序包 bnlearn(iamb/bn.fit/cpquery)。
+        ' 该方法已经被完全替换为 Burger & van Nimwegen (2008) 论文中的贝叶斯网络方法，
+        ' 由 Bayesian\Model\PpiBayesianModel.vb 与 Bayesian\Inference\GibbsSampler.vb 提供，
+        ' 对应的流水线接线工作在 SwissTCS 的重写步骤中完成。
+        Call Console.WriteLine("Prediction step is provided by the Bayesian\ model pipeline, see PpiBayesianModel.")
 
-        '利用所建立的模型求解具体的蛋白质互作问题
-        Dim ResultInteractions As New IO.File
-
-        Dim model As New BnlearnModelling(SequenceAssemble(TargetHomologous, TargetHomologousPartners, pairsFile))
-        Dim StandardOutput As String() = .WriteLine(model)
-
-        Call Console.WriteLine("Modelling job done!")
-        Call ResultInteractions.Add(New String() {"GeneId", "InteractionPartner", "Possibilities"})
-        Call Console.WriteLine("Predicting protein interactions...")
-
-        For Each x In pairsFilePretend.Skip(1)
-            Dim seqPair = SequenceAssemble(TargetHomologous, TargetHomologousPartners, New KeyValuePair(Of String, String)(x(0), x(1)))
-            Dim stpwatch = Stopwatch.StartNew
-            StandardOutput = .WriteLine(New BnlearnInference(seqPair.Key, seqPair.Value)) '对未知的两个蛋白质之间的互作问题做出推测
-            Call x.Add(StandardOutput.First)
-            Call Console.WriteLine("{0} -> {1}  P(A|B):={2}, {3}ms", x(0), x(1), x(2), stpwatch.ElapsedMilliseconds)
-            Call ResultInteractions.Add(x)
-        Next
-
-
-        Call Console.WriteLine("Prediction job done!" & vbCrLf)
-        Call Console.WriteLine("==================END_OF_PREDITION_OF ""{0}""=====================", GeneId)
-
-        Return ResultInteractions
+        Return pairsFilePretend
     End Function
 
     Protected Friend Shared Function Trim(AlignedData As FASTA.FastaFile) As FASTA.FastaFile
