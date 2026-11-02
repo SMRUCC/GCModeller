@@ -111,10 +111,14 @@ Module Program
         Console.WriteLine($"    {quality3D}  ({stereo.AtomCount} atoms with H)")
 
         Call DebugAudit.Test(quality3D.IsValid, $"{item.Name}: 3D coordinates are sane")
-        Call DebugAudit.Test(quality3D.AverageBondLength > 0.9 AndAlso quality3D.AverageBondLength < 2.0,
-            $"{item.Name}: 3D bond length in physical range ({quality3D.AverageBondLength:F3})")
+
+        If graph.BondCount > 0 Then
+            Call DebugAudit.Test(quality3D.AverageBondLength > 0.9 AndAlso quality3D.AverageBondLength < 2.0,
+                $"{item.Name}: 3D bond length in physical range ({quality3D.AverageBondLength:F3})")
+        End If
+
         Call DebugAudit.Test(quality3D.MinNonBondedDistance > 0.5,
-            $"{item.Name}: no 3D atom clash ({quality3D.MinNonBondedDistance:F3})")
+            $"{item.Name}: no 3D atom clash ({quality3D.MinNonBondedDistance:F3}, {quality3D.MinNonBondedPair})")
 
         ' ---- SMILES round trip ----
         If graph.Format = MoleculeFormat.Smiles Then

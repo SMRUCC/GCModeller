@@ -126,7 +126,6 @@ Namespace InchiSyntax
             Dim current As Integer = -1
             Dim stack As New Stack(Of Integer)
             Dim number As New StringBuilder
-            Dim pending As Boolean = False
 
             For i = 0 To layer.Length - 1
                 Dim c As Char = layer(i)
@@ -139,16 +138,14 @@ Namespace InchiSyntax
                 If number.Length > 0 Then
                     Dim index As Integer = Integer.Parse(number.ToString) - 1
 
-                    If pending AndAlso current >= 0 Then bonds.Add((current, index))
+                    If current >= 0 Then bonds.Add((current, index))
 
                     current = index
-                    pending = False
                     number.Clear()
                 End If
 
                 Select Case c
                     Case "-"c
-                        pending = True
                     Case "("c
                         stack.Push(current)
                     Case ")"c
@@ -161,7 +158,7 @@ Namespace InchiSyntax
             If number.Length > 0 Then
                 Dim index As Integer = Integer.Parse(number.ToString) - 1
 
-                If pending AndAlso current >= 0 Then bonds.Add((current, index))
+                If current >= 0 Then bonds.Add((current, index))
             End If
         End Sub
 
