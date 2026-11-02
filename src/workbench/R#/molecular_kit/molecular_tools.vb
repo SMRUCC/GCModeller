@@ -1,21 +1,18 @@
 Imports System.Drawing
 Imports System.IO
 Imports System.Text
-
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
-
+Imports Microsoft.VisualBasic.Scripting.Runtime
+Imports SMRUCC.genomics.Molecule.SMILES.Graph
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
-Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
-
-Imports Bitmap = System.Drawing.Bitmap
+Imports SMRUCC.Rsharp.Runtime.Interop
 Imports ChemRenderMode = SMILESView.RenderMode
-Imports Image = System.Drawing.Image
 Imports Imaging = Microsoft.VisualBasic.Imaging
 Imports Mol = SMRUCC.genomics.Molecule.SMILES.Graph
 Imports Molecules = SMRUCC.genomics.Molecule.SMILES
@@ -159,7 +156,7 @@ Public Module molecular_tools
             End If
 
             Try
-                Call molecules.Add(Molecules.MoleculeIO.Parse(line))
+                Call molecules.Add(molecules.MoleculeIO.Parse(line))
             Catch ex As Exception
                 Return RInternal.debug.stop($"invalid molecule structure text '{line}': {ex.Message}", env)
             End Try
@@ -246,14 +243,14 @@ Public Module molecular_tools
     ''' </example>
     <ExportAPI("molecule_format")>
     <RApiReturn(GetType(String))>
-    Public Function moleculeFormat(mol As Mol.MoleculeGraph) As Object
+    Public Function getMoleculeFormat(mol As Mol.MoleculeGraph) As Object
         If mol Is Nothing Then
             Return "unknown"
         End If
 
         Select Case mol.Format
-            Case Mol.MoleculeFormat.InChI : Return "inchi"
-            Case Mol.MoleculeFormat.Smiles : Return "smiles"
+            Case MoleculeFormat.InChI : Return "inchi"
+            Case MoleculeFormat.Smiles : Return "smiles"
             Case Else : Return "unknown"
         End Select
     End Function
@@ -1302,7 +1299,7 @@ Public Module molecular_tools
         End If
 
         With graphicsPipeline.GetRawColor(value, fallback)
-            Return $"#{.R:X2}{.G:X2}{.B:X2}"
+            Return $"#{ .R:X2}{ .G:X2}{ .B:X2}"
         End With
     End Function
 
