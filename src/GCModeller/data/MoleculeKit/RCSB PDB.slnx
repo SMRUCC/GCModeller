@@ -8,6 +8,9 @@
     <Platform Name="x64" />
   </Configurations>
   <Folder Name="/framework/">
+    <Project Path="../../../runtime/sciBASIC#/Data_science/Graph/graph-netcore5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
     <Project Path="../../../runtime/sciBASIC#/Data_science/Mathematica/Math/Math/Math.NET5.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
@@ -22,6 +25,11 @@
     <Platform Solution="*|x64" Project="x64" />
   </Project>
   <Project Path="RCSB-PDB/test/test.vbproj">
+    <BuildType Solution="nuget_release|*" Project="Release" />
+    <BuildType Solution="Rsharp_app_release|*" Project="Release" />
+    <Platform Solution="Debug|x64" Project="x64" />
+  </Project>
+  <Project Path="SMILES/SMILES/SMILES.vbproj" Id="708c1873-f55d-4a0e-81b9-2aff275142d4">
     <BuildType Solution="nuget_release|*" Project="Release" />
     <BuildType Solution="Rsharp_app_release|*" Project="Release" />
     <Platform Solution="Debug|x64" Project="x64" />
