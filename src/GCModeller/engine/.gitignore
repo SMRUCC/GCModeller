@@ -253,3 +253,7 @@ paket-files/
 .idea/
 *.sln.iml
 Rscript/ecoli.xml
+vCella/smoke.zip
+vCella/output/ecoli.vcella.xml
+vCella/output/smoke_multi.zip
+vCella/output/voxel_smoke.zip
