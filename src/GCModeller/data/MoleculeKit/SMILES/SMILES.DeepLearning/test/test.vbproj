@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>SMRUCC.genomics.Molecule.SMILES.DeepLearning.Test</RootNamespace>
+    <AssemblyName>SMILES.DeepLearning.Test</AssemblyName>
+    <StartupObject>SMRUCC.genomics.Molecule.SMILES.DeepLearning.Test.Program</StartupObject>
+    <Platforms>AnyCPU;x64</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SMILES.DeepLearning.vbproj" />
+    <ProjectReference Include="..\..\SMILES\SMILES.vbproj" />
+    <ProjectReference Include="..\..\..\..\..\..\runtime\sciBASIC#\Data_science\MachineLearning\DeepLearning\DeepLearning.NET6.vbproj" />
+    <ProjectReference Include="..\..\..\..\..\..\runtime\sciBASIC#\Data_science\MachineLearning\TensorFlow\TensorFlow.vbproj" />
+    <ProjectReference Include="..\..\..\..\..\..\runtime\sciBASIC#\Data_science\MachineLearning\MLDataStorage\MLDataStorage.vbproj" />
+    <ProjectReference Include="..\..\..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+  </ItemGroup>
+
+</Project>

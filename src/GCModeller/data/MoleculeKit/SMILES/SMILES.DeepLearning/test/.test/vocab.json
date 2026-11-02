@@ -1,0 +1,23 @@
+﻿{
+  "Version": 1,
+  "Tokens": [
+    "\u003Cpad\u003E",
+    "\u003Cunk\u003E",
+    "\u003Ceos\u003E",
+    "\u003Csos\u003E",
+    "\u003Cmask\u003E",
+    "C",
+    "O",
+    "N"
+  ],
+  "Freqs": {
+    "\u003Cpad\u003E": 0,
+    "\u003Cunk\u003E": 0,
+    "\u003Ceos\u003E": 0,
+    "\u003Csos\u003E": 0,
+    "\u003Cmask\u003E": 0,
+    "C": 5,
+    "O": 2,
+    "N": 1
+  }
+}

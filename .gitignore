@@ -692,3 +692,5 @@ src/runtime/sciBASIC\#/Data_science/MachineVision/GaussianSplatting3D/output/ren
 src/GCModeller/engine/Rscript/ecoli.xml
 test/demo/sequencekit/tmp_ko_small.fasta
 test/demo/sequencekit/tmp_ecoli_small.fsa
+src/GCModeller/data/MoleculeKit/SMILES/SMILES.DeepLearning/test/.test/checkpoint.pt
+src/GCModeller/data/MoleculeKit/SMILES/SMILES.DeepLearning/test/.test/smiles-transformer.pt
