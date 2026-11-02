@@ -167,12 +167,16 @@ Namespace SmilesSyntax
 
             For i = 0 To children.Count - 2
                 sb.Append("("c)
+                sb.Append(bondSymbol(graph.Bonds(children(i))))
                 Call emit(childOf(a, children(i)), children(i), sb)
                 sb.Append(")"c)
             Next
 
             If children.Count > 0 Then
-                Call emit(childOf(a, children(children.Count - 1)), children(children.Count - 1), sb)
+                Dim last As Integer = children(children.Count - 1)
+
+                sb.Append(bondSymbol(graph.Bonds(last)))
+                Call emit(childOf(a, last), last, sb)
             End If
         End Sub
 

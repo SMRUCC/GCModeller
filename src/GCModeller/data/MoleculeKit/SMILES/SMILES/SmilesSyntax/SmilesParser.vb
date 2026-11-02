@@ -275,28 +275,26 @@ Namespace SmilesSyntax
 
             ' 手性
             If cursor < text.Length AndAlso text(cursor) = "@"c Then
-                Dim tag As New Text.StringBuilder("@")
-
                 cursor += 1
 
                 If cursor < text.Length AndAlso text(cursor) = "@"c Then
-                    tag.Append("@")
                     cursor += 1
-                Else
+                    stereoText = "@@"
+                    stereo = G.AtomStereo.Clockwise
+                ElseIf isStereoTagPrefix() Then
+                    ' @TH1 / @AL2 / @SP1 / @TB10 / @OH22 之类的扩展记号
+                    Dim tag As New Text.StringBuilder("@")
+
                     While cursor < text.Length AndAlso Char.IsLetterOrDigit(text(cursor))
                         tag.Append(text(cursor))
                         cursor += 1
                     End While
-                End If
 
-                stereoText = tag.ToString()
-
-                If stereoText = "@" Then
-                    stereo = G.AtomStereo.CounterClockwise
-                ElseIf stereoText = "@@" Then
-                    stereo = G.AtomStereo.Clockwise
-                Else
+                    stereoText = tag.ToString()
                     stereo = G.AtomStereo.Unsupported
+                Else
+                    stereoText = "@"
+                    stereo = G.AtomStereo.CounterClockwise
                 End If
             End If
 
@@ -367,6 +365,23 @@ Namespace SmilesSyntax
             End While
 
             Return text.Substring(start, cursor - start)
+        End Function
+
+        ''' <summary>
+        ''' 判断当前位置是否是 SMILES 扩展手性记号（<c>TH</c>/<c>AL</c>/<c>SP</c>/<c>TB</c>/<c>OH</c>）的起始位置。
+        ''' 这一点很重要：<c>[C@H]</c> 中的 <c>H</c> 是氢数，不能被当成手性记号的一部分。
+        ''' </summary>
+        Private Function isStereoTagPrefix() As Boolean
+            If cursor + 1 >= text.Length Then Return False
+
+            Dim prefix As String = text.Substring(cursor, 2).ToUpper()
+
+            Select Case prefix
+                Case "TH", "AL", "SP", "TB", "OH"
+                    Return True
+                Case Else
+                    Return False
+            End Select
         End Function
 
 #End Region

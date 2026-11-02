@@ -16,6 +16,7 @@ src/GCModeller/engine/CellaLoader/
 src/GCModeller/engine/Cella/
 assembly/
 test/ncbi/GCF_000009985.1/
+src/GCModeller/data/MoleculeKit/SMILES/test/output/
 
 node_modules
 *.lock

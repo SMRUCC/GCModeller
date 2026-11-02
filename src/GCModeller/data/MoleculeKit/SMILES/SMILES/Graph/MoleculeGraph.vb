@@ -623,7 +623,7 @@ Namespace Graph
             Next
 
             bondEntries.Sort(StringComparer.Ordinal)
-            _molKey = String.Join(";", atoms) & "#" & String.Join(";", bonds)
+            _molKey = String.Join(";", atomEntries) & "#" & String.Join(";", bondEntries)
 
             Return _molKey
         End Function
