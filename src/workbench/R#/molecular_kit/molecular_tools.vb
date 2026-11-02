@@ -7,6 +7,7 @@ Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Scripting.Runtime
+Imports SMRUCC.genomics.Molecule.SMILES
 Imports SMRUCC.genomics.Molecule.SMILES.Graph
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
@@ -156,7 +157,7 @@ Public Module molecular_tools
             End If
 
             Try
-                Call molecules.Add(molecules.MoleculeIO.Parse(line))
+                Call molecules.Add(MoleculeIO.Parse(line))
             Catch ex As Exception
                 Return RInternal.debug.stop($"invalid molecule structure text '{line}': {ex.Message}", env)
             End Try
@@ -964,7 +965,7 @@ Public Module molecular_tools
         Dim bg As Color = Styling.ElementColors.ParseHex(theme.BackgroundColor, Color.White)
         Dim img As New Bitmap(canvasSize.Width, canvasSize.Height)
 
-        Using gfx As Graphics = Graphics.FromImage(img)
+        Using gfx As IGraphics = DriverLoad.CreateGraphicsDevice(img)
             Call gfx.Clear(bg)
 
             For i As Integer = 0 To data.Length - 1
