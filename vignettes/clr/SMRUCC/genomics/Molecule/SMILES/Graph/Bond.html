@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Molecule.SMILES.Graph.Bond</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>Bond {SMRUCC.genomics.Molecule.SMILES.Graph}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>Bond</h2>
+
+        <h3>Description</h3>
+
+        <p>分子图中的一条化学键：由两个原子下标与键级构成。</p>
+
+<p>键级使用 <a href="cref:T:System.Double">Double</a> 而不是整数，是为了在同一字段内同时表达 "Kekulé 化之后的 1/2/3" 与 "尚未 Kekulé 化的 1.5 芳香键"。 解析器完成 Kekulé 化之后，<a href="cref:P:SMRUCC.genomics.Molecule.SMILES.Graph.Bond.order">Bond.order</a> 会归一到 1/2/3， 而 <a href="cref:P:SMRUCC.genomics.Molecule.SMILES.Graph.Bond.IsAromatic">Bond.IsAromatic</a> 继续保留芳香性信息供绘图使用。 实现 <a href="cref:T:Microsoft.VisualBasic.Data.GraphTheory.Network.IndexEdge">IndexEdge</a> 使分子图可以直接接入 sciBASIC 的图论算法。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Molecule.SMILES.Graph
+export class Bond {
+   # 键一端的原子下标。
+   a: integer;
+   # 键另一端的原子下标。
+   b: integer;
+   # 该键是否属于芳香体系。
+   IsAromatic: boolean;
+   # 该键是否位于某个环上（由 <a href="cref:M:SMRUCC.genomics.Molecule.SMILES.Graph.MoleculeGraph.Rings">MoleculeGraph.Rings()</a> 计算后回填）。
+   IsRing: boolean;
+   # 是否被立体记号标记为未知的双键构型（<code>/?</code>）。
+   IsStereoUnknown: boolean;
+   # 键级：<code>1</code> 单键、<code>2</code> 双键、<code>3</code> 叁键；芳香键在 Kekulé 化之前为 <code>1.5</code>。
+   order: double;
+   # 键级取整（用于绘图时选择单/双/叁键画法）。
+   OrderInt: integer;
+   # 立体标记（实楔形 / 虚楔形 / 双键顺反）。
+   Stereo: <a href="/vignettes/clr/SMRUCC/genomics/Molecule/SMILES/Graph/BondStereo.html">BondStereo</a>;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>Stereo</code>: <a href="/vignettes/clr/SMRUCC/genomics/Molecule/SMILES/Graph/BondStereo.html">BondStereo</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

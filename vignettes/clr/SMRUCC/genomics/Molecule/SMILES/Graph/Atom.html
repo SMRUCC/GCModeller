@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Molecule.SMILES.Graph.Atom</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>Atom {SMRUCC.genomics.Molecule.SMILES.Graph}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>Atom</h2>
+
+        <h3>Description</h3>
+
+        <p>分子图中的一个原子。同时携带 2D 与 3D 坐标，坐标由 <a href="cref:M:SMRUCC.genomics.Molecule.SMILES.Graph.MoleculeGraph.Layout2D(SMRUCC.genomics.Molecule.SMILES.Graph.Layout2DOptions)">MoleculeGraph.Layout2D()</a> / <a href="cref:M:SMRUCC.genomics.Molecule.SMILES.Graph.MoleculeGraph.Embed3D(SMRUCC.genomics.Molecule.SMILES.Graph.Embed3DOptions)">MoleculeGraph.Embed3D()</a> 写入。</p>
+
+<p>实现 <a href="cref:T:Microsoft.VisualBasic.Imaging.PointF3D">PointF3D</a> 的目的是让视图层可以直接把原子 集合交给 <code>Drawing3D</code> 的点云/相机 API（<code>Extensions.LoadVector3D</code>）， 避免在渲染层再写一遍坐标搬运代码。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Molecule.SMILES.Graph
+export class Atom {
+   # SMILES 中的原子类别（<code>:n</code> 记号），<code>0</code> 表示未指定。
+   AtomClass: integer;
+   # 形式电荷（电子数差值，如 <code>+1</code>、<code>-2</code>）。
+   Charge: integer;
+   # 元素符号（标准大小写，如 <code>C</code>、<code>Cl</code>、<code>Na</code>）。
+   Element: string;
+   # 结构式记号中显式声明的氢原子个数（SMILES 方括号原子、InChI 的氢层）。 注意这与"作为独立原子出现在图中的氢"是两种不同的表示，统计总数请使用 <a href="cref:M:SMRUCC.genomics.Molecule.SMILES.Graph.MoleculeGraph.TotalH(System.Int32)">MoleculeGraph.TotalH()</a>。
+   ExplicitH: integer;
+   # 原子在分子图中的 0 基下标，与 <a href="cref:P:SMRUCC.genomics.Molecule.SMILES.Graph.MoleculeGraph.Atoms">MoleculeGraph.Atoms</a> 的位置一致。
+   Index: integer;
+   # 该原子是否参与芳香体系（在 SMILES 中以小写字母书写，或由 InChI 推断）。
+   IsAromatic: boolean;
+   # 是否为氢（或氘/氚）。
+   IsH: boolean;
+   # 该原子是否由 <a href="cref:M:SMRUCC.genomics.Molecule.SMILES.Graph.MoleculeGraph.AddHydrogens">MoleculeGraph.AddHydrogens()</a> 生成的氢原子。 绘图时可以据此决定是否隐藏。
+   IsHydrogen: boolean;
+   # 同位素质量数；<code>0</code> 表示按天然丰度处理。
+   Isotope: integer;
+   # 该原子的元素符号在显示时是否需要连同氢数/电荷一起标注（即非碳原子）。
+   NeedsLabel: boolean;
+   # 该原子是否来自"氢数被显式固定"的记号（SMILES 的 <code>[...]</code>、InChI 的全部原子）。 为 <code>True</code> 时不再按价态补隐式氢。
+   NoImplicitH: boolean;
+   # 四面体手性标记。
+   Stereo: <a href="/vignettes/clr/SMRUCC/genomics/Molecule/SMILES/Graph/AtomStereo.html">AtomStereo</a>;
+   # 结构式中出现的邻接原子顺序（用于按 SMILES 约定还原四面体构型）。 缺少第 4 个取代基时以 <code>-1</code> 表示隐式氢。
+   StereoNeighbors: integer;
+   # 手性记号的原始文本（如 <code>@@</code>、<code>@TH1</code>），便于原样回写与诊断。
+   StereoText: string;
+   # 2D 平面坐标的 X 分量（布局完成后键长被归一化为 1）。
+   X: double;
+   # 2D 平面坐标的 Y 分量（化学坐标系，Y 轴向上；渲染时再翻转为屏幕坐标）。
+   Y: double;
+   # 3D 坐标的 Z 分量，单位为埃（Å）。
+   Z: double;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>Stereo</code>: <a href="/vignettes/clr/SMRUCC/genomics/Molecule/SMILES/Graph/AtomStereo.html">AtomStereo</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>
