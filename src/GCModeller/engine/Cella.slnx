@@ -47,6 +47,17 @@
       <Platform Solution="*|x64" Project="x64" />
     </Project>
   </Folder>
+  <Folder Name="/framework/voxels/">
+    <Project Path="../../runtime/sciBASIC#/gr/Landscape/Landscape.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../runtime/sciBASIC#/gr/Microsoft.VisualBasic.Imaging/imaging.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../runtime/sciBASIC#/mime/text%html/html_netcore5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+  </Folder>
   <Folder Name="/gcmodeller/">
     <Project Path="../../workbench/modules/ExperimentDesigner/designer-netcore5.vbproj">
       <Platform Solution="*|x64" Project="x64" />
