@@ -1,8 +1,8 @@
 ﻿# automation
 
-accession the cytoscape function via http service
 
-+ [layouts](automation/layouts.1) GET list of layout algorithms
+
++ [layouts](automation/layouts.1) 
 + [put_network](automation/put_network.1) 
 + [layout](automation/layout.1) 
 + [session.save](automation/session.save.1) 

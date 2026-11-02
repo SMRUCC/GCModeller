@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>read the WGCNA module map sidecar cache that was written by `write_bicor`</title>
+    <title>open_modules</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>read the WGCNA module map sidecar cache that was written by `write_bicor`</h2>
+        <h2>open_modules</h2>
 
         <h3>Description</h3>
 
-        
+        open_modules
 
         <h3>Usage</h3>
 
@@ -34,19 +34,12 @@
 
         <table>
             
-<dt>repo</dt>
-<dd><p>the same data repository directory that was passed to <code>write_bicor</code> (reads <code>{repo}/modules.dat</code>). [as string]</p></dd>
-
-
-<dt>env</dt>
-<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
-
         </table>
 
 
-        <h3 style="display: block;">Details</h3>
+        <h3 style="display: none;">Details</h3>
 
-        <p>pass the returned object to <code>build_grn</code> via the <code>modules</code> parameter to skip the WGCNA blockwise module detection. Note that the cache carries a fingerprint (gene id row order + WGCNA configuration); when it does not match the current data, <code>build_grn</code> will ignore it and rebuild automatically.</p>
+        
 
         <h3 style="display: block">Authors</h3>
 
@@ -54,12 +47,11 @@
 
         <h3>Value</h3>
 
-        <p>the cached module map object, or Nothing when the cache file does not exist (in that case <code>build_grn</code> will fall back to running the WGCNA blockwise module detection and write the cache automatically).</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/WGCNA/WGCNAModuleMap.html">WGCNAModuleMap</a></li></ul>
+        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/WGCNA/WGCNAModuleMap.html">WGCNAModuleMap</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/WGCNA/WGCNAModuleMap.html">WGCNAModuleMap</a></li></ul>
 
-        <h3 style="display: block;">Examples</h3>
+        <h3 style="display: none;">Examples</h3>
 
-        <pre><code id="example_r"> let modules = open_modules("Z:/hsa_mat");
- let grn = WGCNA::build_grn(hsa, TF$Ensembl, opts, bicor = bicor, modules = modules);</code></pre>
+        
 
         <hr />
         <div style="text-align: center;">[Package <em>TRN</em> version 1.0.0.0 <a

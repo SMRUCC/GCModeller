@@ -1,7 +1,7 @@
 .\" man page create by R# package system.
 .TH TRN 1 2000-1月 "write_bicor" "write_bicor"
 .SH NAME
-write_bicor \- compute the signed bicor correlation matrix once and persist it into a
+write_bicor \- 
 .SH SYNOPSIS
 \fIwrite_bicor(\fBx\fR as <generic> Matrix, 
 \fBrepo\fR as string, 
@@ -9,76 +9,6 @@ write_bicor \- compute the signed bicor correlation matrix once and persist it i
 \fBwgcnaOpts\fR as <generic> WGCNAConfig = \fB<NULL>\fR, 
 \fBcorKind\fR as <integer> CorrelationKind = [Bicor], 
 [\fB<Environment>\fR]);\fR
-.SH DESCRIPTION
-.PP
-compute the signed bicor correlation matrix once and persist it into a
- random-access correlation store for repeated threshold filtering experiments.
-.PP
-.SH OPTIONS
-.PP
-\fBx\fB \fR\- 
- the gene expression matrix (genes in rows, samples in columns) that the
- robust biweight midcorrelation (bicor) is computed from. Should be
- batch-normalized and variance-filtered already (see
- `batch_normalize` and `top_variance`).
-. 
-.PP
-.PP
-\fBrepo\fB \fR\- 
- the data repository directory. Two files are written into it:
- `{repo}/{corKind}.dat` (the row blocks of the correlation matrix,
- named `bicor.dat` or `pearson.dat` after the correlation kind)
- and `{repo}/index.dat` (the gene table + row directory). The WGCNA
- module map sidecar cache is written as `{repo}/modules.dat`.
-. 
-.PP
-.PP
-\fBtype\fB \fR\- 
- the on-disk encoding of the correlation values:
- [CorrelationEncodings.Float32](cref:F:Microsoft.VisualBasic.Math.Matrix.CorrelationEncodings.Float32) (4 bytes per value, ~1e-7 precision,
- default) or [CorrelationEncodings.QuantizedInt16](cref:F:Microsoft.VisualBasic.Math.Matrix.CorrelationEncodings.QuantizedInt16) (2 bytes per value,
- ~3e-5 precision, about half of the storage size).
-. 
-.PP
-.PP
-\fBwgcnaOpts\fB \fR\- 
- optional WGCNA blockwise configuration used by the module detection that
- runs in the same pass. Nothing (default) uses the default configuration with
- the GPU backend enabled and the network graph materialization disabled.
-. 
-.PP
-.PP
-\fBcorKind\fB \fR\- 
- the correlation estimator used for the matrix computation:
- [CorrelationKind.Bicor](cref:F:SMRUCC.genomics.Analysis.HTS.WGCNA.CorrelationKind.Bicor) (robust biweight midcorrelation,
- default) or [CorrelationKind.Pearson](cref:F:SMRUCC.genomics.Analysis.HTS.WGCNA.CorrelationKind.Pearson). The kind is not stored
- in the index but implied by the data file name.
-. 
-.PP
-.PP
-\fBenv\fB \fR\- the R# runtime environment object.. 
-.PP
-.SH VALUE
-.PP
-TRUE when the correlation store (and the module map cache) is written successfully.
-.PP
-.SH DETAILS
-.PP
-computing the full N×N correlation matrix of a large expression matrix is
- very expensive (hours for 50,000 genes), while all downstream network
- generations are just threshold filters over this matrix. So this function
- performs the expensive computation once and persists two artifacts:
- 1. the raw unfiltered signed correlation matrix (open it later via
- `open_bicor`);
- 2. the WGCNA module map sidecar cache `{repo}/modules.dat` (consumed by
- `build_grn`, so the WGCNA blockwise module detection is not re-run).
- After this one-time computation, every different correlation threshold
- experiment only costs a fast filtering over the cached matrix.
-.PP
-.SH EXAMPLES
-.PP
-write_bicor(hsa, repo = "Z:/hsa_mat");
-.PP
 .SH SEE ALSO
 TRN
 .SH FILES

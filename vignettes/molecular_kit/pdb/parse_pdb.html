@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>parse the pdb struct data from a given document text data</title>
+    <title>parse_pdb</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -13,16 +13,16 @@
 
         <table style="width: 100%;">
             <tr>
-                <td>parse_pdb {proteinKit}</td>
+                <td>parse_pdb {pdb}</td>
                 <td style="text-align: right;">R Documentation</td>
             </tr>
         </table>
 
-        <h2>parse the pdb struct data from a given document text data</h2>
+        <h2>parse_pdb</h2>
 
         <h3>Description</h3>
 
-        
+        parse_pdb
 
         <h3>Usage</h3>
 
@@ -36,17 +36,6 @@
 
         <table>
             
-<dt>pdb.txt</dt>
-<dd><p>the PDB document text data for parse as the protein structure object model. [as string]</p></dd>
-
-
-<dt>safe</dt>
-<dd><p>catch and ignore the exception when the parsing is failed? if this parameter is TRUE, then a NULL value will be returned instead of throwing an exception when the given document text data is invalid. [as boolean]</p></dd>
-
-
-<dt>verbose</dt>
-<dd><p>print the verbose log message of the parsing progress?. [as boolean]</p></dd>
-
         </table>
 
 
@@ -56,19 +45,19 @@
 
         <h3 style="display: block">Authors</h3>
 
-        seqtoolkit
+        molecular_kit
 
         <h3>Value</h3>
 
-        <p>a <a href="cref:T:SMRUCC.genomics.Data.RCSB.PDB.PDB">PDB</a> protein structure object model that parsed from the given PDB document text data; NULL will be returned when the parsing is failed and the <code>safe</code> parameter is TRUE.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/PDB.html">PDB</a></li></ul>
+        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/PDB.html">PDB</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/PDB.html">PDB</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 
         
 
         <hr />
-        <div style="text-align: center;">[Package <em>proteinKit</em> version 1.0.0.0 <a
-                href="../proteinKit.html">Index</a>]
+        <div style="text-align: center;">[Package <em>pdb</em> version 1.0.0.0 <a
+                href="../pdb.html">Index</a>]
         </div>
     </div>
 </body>

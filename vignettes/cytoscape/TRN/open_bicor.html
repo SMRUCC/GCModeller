@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>re-open the persisted bicor correlation store that was written by `write_bicor`</title>
+    <title>open_bicor</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>re-open the persisted bicor correlation store that was written by `write_bicor`</h2>
+        <h2>open_bicor</h2>
 
         <h3>Description</h3>
 
-        
+        open_bicor
 
         <h3>Usage</h3>
 
@@ -35,23 +35,12 @@
 
         <table>
             
-<dt>repo</dt>
-<dd><p>the data repository directory that was passed to <code>write_bicor</code> (reads <code>{repo}/bicor.dat</code>, or <code>{repo}/pearson.dat</code> when the store was written with <code>corKind = "pearson"</code>, and <code>{repo}/index.dat</code>). [as string]</p></dd>
-
-
-<dt>cache</dt>
-<dd><p>the hot-row LRU cache capacity in rows. Each cached row of a N = 50,000 matrix costs about 200 KB of memory. The default value 2048 means at most about 400 MB of the hot row cache. [as integer]</p></dd>
-
-
-<dt>env</dt>
-<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
-
         </table>
 
 
-        <h3 style="display: block;">Details</h3>
+        <h3 style="display: none;">Details</h3>
 
-        <p>the returned store supports fast point queries (gene1, gene2 -&gt; correlation and p-value), neighborhood queries (gene + threshold -&gt; all correlated genes) and full-library streaming edge filters, all without loading the matrix into memory.</p>
+        
 
         <h3 style="display: block">Authors</h3>
 
@@ -59,11 +48,11 @@
 
         <h3>Value</h3>
 
-        <p>an opened <a href="cref:T:Microsoft.VisualBasic.Math.Matrix.CorrelationMatrixStore">CorrelationMatrixStore</a> object. Pass it to <code>build_grn</code> via the <code>bicor</code> parameter to skip the expensive correlation matrix re-computation.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/Microsoft/VisualBasic/Math/Matrix/CorrelationMatrixStore.html">CorrelationMatrixStore</a></li></ul>
+        this function returns data object of type <a href="/vignettes/clr/Microsoft/VisualBasic/Math/Matrix/CorrelationMatrixStore.html">CorrelationMatrixStore</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/Microsoft/VisualBasic/Math/Matrix/CorrelationMatrixStore.html">CorrelationMatrixStore</a></li></ul>
 
-        <h3 style="display: block;">Examples</h3>
+        <h3 style="display: none;">Examples</h3>
 
-        <pre><code id="example_r"> let bicor = open_bicor("Z:/hsa_mat");</code></pre>
+        
 
         <hr />
         <div style="text-align: center;">[Package <em>TRN</em> version 1.0.0.0 <a

@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>compute the signed bicor correlation matrix once and persist it into a</title>
+    <title>write_bicor</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>compute the signed bicor correlation matrix once and persist it into a</h2>
+        <h2>write_bicor</h2>
 
         <h3>Description</h3>
 
-        <p>random-access correlation store for repeated threshold filtering experiments.</p>
+        write_bicor
 
         <h3>Usage</h3>
 
@@ -37,51 +37,12 @@
 
         <table>
             
-<dt>x</dt>
-<dd><p>the gene expression matrix (genes in rows, samples in columns) that the robust biweight midcorrelation (bicor) is computed from. Should be batch-normalized and variance-filtered already (see <code>batch_normalize</code> and <code>top_variance</code>). [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>]</p></dd>
-
-
-<dt>repo</dt>
-<dd><p>the data repository directory. Two files are written into it: <code>{repo}/{corKind}.dat</code> (the row blocks of the correlation matrix, named <code>bicor.dat</code> or <code>pearson.dat</code> after the correlation kind) and <code>{repo}/index.dat</code> (the gene table + row directory). The WGCNA module map sidecar cache is written as <code>{repo}/modules.dat</code>. [as string]</p></dd>
-
-
-<dt>type</dt>
-<dd><p>the on-disk encoding of the correlation values: <a href="cref:F:Microsoft.VisualBasic.Math.Matrix.CorrelationEncodings.Float32">CorrelationEncodings.Float32</a> (4 bytes per value, ~1e-7 precision, default) or <a href="cref:F:Microsoft.VisualBasic.Math.Matrix.CorrelationEncodings.QuantizedInt16">CorrelationEncodings.QuantizedInt16</a> (2 bytes per value, ~3e-5 precision, about half of the storage size). [as <a href="/vignettes/clr/Microsoft/VisualBasic/Math/Matrix/CorrelationEncodings.html">CorrelationEncodings</a>]</p></dd>
-
-
-<dt>wgcnaOpts</dt>
-<dd><p>optional WGCNA blockwise configuration used by the module detection that runs in the same pass. Nothing (default) uses the default configuration with the GPU backend enabled and the network graph materialization disabled. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/WGCNA/WGCNAConfig.html">WGCNAConfig</a>]</p></dd>
-
-
-<dt>corKind</dt>
-<dd><p>the correlation estimator used for the matrix computation: <a href="cref:F:SMRUCC.genomics.Analysis.HTS.WGCNA.CorrelationKind.Bicor">CorrelationKind.Bicor</a> (robust biweight midcorrelation, default) or <a href="cref:F:SMRUCC.genomics.Analysis.HTS.WGCNA.CorrelationKind.Pearson">CorrelationKind.Pearson</a>. The kind is not stored in the index but implied by the data file name. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/WGCNA/CorrelationKind.html">CorrelationKind</a>]</p></dd>
-
-
-<dt>env</dt>
-<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
-
         </table>
 
 
-        <h3 style="display: block;">Details</h3>
+        <h3 style="display: none;">Details</h3>
 
-        <p>computing the full N×N correlation matrix of a large expression matrix is very expensive (hours for 50,000 genes), while all downstream network generations are just threshold filters over this matrix. So this function performs the expensive computation once and persists two artifacts:</p>
-
-
-<ol>
-<li>the raw unfiltered signed correlation matrix (open it later via</li>
-</ol>
-
-
-<p><code>open_bicor</code>);</p>
-
-
-<ol start="2">
-<li>the WGCNA module map sidecar cache <code>{repo}/modules.dat</code> (consumed by</li>
-</ol>
-
-
-<p><code>build_grn</code>, so the WGCNA blockwise module detection is not re-run). After this one-time computation, every different correlation threshold experiment only costs a fast filtering over the cached matrix.</p>
+        
 
         <h3 style="display: block">Authors</h3>
 
@@ -89,11 +50,11 @@
 
         <h3>Value</h3>
 
-        <p>TRUE when the correlation store (and the module map cache) is written successfully.</p><h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
+        this function returns data object of type <i>any</i> kind.<h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
 
-        <h3 style="display: block;">Examples</h3>
+        <h3 style="display: none;">Examples</h3>
 
-        <pre><code id="example_r"> write_bicor(hsa, repo = "Z:/hsa_mat");</code></pre>
+        
 
         <hr />
         <div style="text-align: center;">[Package <em>TRN</em> version 1.0.0.0 <a

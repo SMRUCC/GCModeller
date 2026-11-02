@@ -53,7 +53,6 @@
 
 #End Region
 
-Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
@@ -62,9 +61,6 @@ Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MachineLearning.Transformer
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports SMRUCC.genomics.Data
-Imports SMRUCC.genomics.Data.RCSB.PDB
-Imports SMRUCC.genomics.Data.RCSB.PDB.Keywords
 Imports SMRUCC.genomics.Data.Xfam.Pfam.PfamString
 Imports SMRUCC.genomics.Data.Xfam.Pfam.Pipeline.LocalBlast
 Imports SMRUCC.genomics.Interops.NCBI.Extensions
@@ -118,7 +114,6 @@ Imports SMRUCC.Rsharp.Runtime.Vectorization
 ''' </example>
 ''' <seealso cref="ChouFasmanRules"/> Class implementing core prediction logic
 ''' <seealso cref="KMerGraph"/> Data structure for k-mer adjacency relationships
-''' <seealso cref="PDB"/> Protein Data Bank object model
 ''' <author type="copyright">SMRUCC genomics Institute</author>
 ''' <version>1.6.0</version>
 <Package("proteinKit")>
