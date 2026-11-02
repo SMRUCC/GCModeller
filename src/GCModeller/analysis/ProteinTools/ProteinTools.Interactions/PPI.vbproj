@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>SMRUCC.genomics.Analysis.ProteinTools.Interactions</RootNamespace>
+    <AssemblyName>SMRUCC.genomics.Analysis.ProteinTools.Interactions</AssemblyName>
+    <Title>Protein-Protein Interaction Prediction Tools</Title>
+    <Description>Protein-protein interaction analysis library that predicts interaction partners from sequence alignments using a Bayesian network method. It builds Bayesian belief networks from aligned protein domains, wraps R bnlearn modelling and inference, and downloads and parses SwissTCS two-component system interaction data and iPfam PPI annotations.</Description>
+    <PackageProjectUrl>https://gcmodeller.org/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/SMRUCC/GCModeller.git</RepositoryUrl>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <Copyright>Copyright © SMRUCC genomics, GuiLin China, 2026</Copyright>
+    <Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
+    <Company>SMRUCC genomics institute</Company>
+    <Product>GCModeller</Product>
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageTags>gcmodeller;bioinformatics;genomics;protein-interaction;bayesian-network;two-component-system;ppi-prediction</PackageTags>
+    <PackageReleaseNotes>Added Bayesian-network protein interaction inference with SwissTCS two-component system and iPfam PPI data support.</PackageReleaseNotes>
+    <Platforms>AnyCPU;x64</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="test\**" />
+    <EmbeddedResource Remove="test\**" />
+    <None Remove="test\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\DataMining\DataMining\DataMining.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Graph\graph-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\core\Bio.InteractionModel\InteractionModel.vbproj" />
+  </ItemGroup>
+ 
+</Project>
