@@ -171,7 +171,7 @@
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\nlp\NLP\NLP.NET.vbproj" />
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\nlp\word2vec\word2vec.vbproj" />
     <ProjectReference Include="..\..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
-    <ProjectReference Include="..\..\..\data\RCSB PDB\RCSB PDB.vbproj" />
+  
     <ProjectReference Include="..\..\SequenceToolkit\SequenceAlignment\SequenceAlignment.vbproj" />
   </ItemGroup>
 
