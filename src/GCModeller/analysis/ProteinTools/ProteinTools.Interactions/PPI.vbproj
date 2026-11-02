@@ -16,6 +16,10 @@
     <PackageTags>gcmodeller;bioinformatics;genomics;protein-interaction;bayesian-network;two-component-system;ppi-prediction</PackageTags>
     <PackageReleaseNotes>Added Bayesian-network protein interaction inference with SwissTCS two-component system and iPfam PPI data support.</PackageReleaseNotes>
     <Platforms>AnyCPU;x64</Platforms>
+    <TargetFramework>net10.0</TargetFramework>
+    <OutputType>Library</OutputType>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
