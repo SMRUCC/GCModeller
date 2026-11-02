@@ -129,7 +129,9 @@ Module geneTreeTools
                                  Optional cells As Integer = 0,
                                  Optional max_genes As Integer = 0,
                                  Optional max_regulators As Integer = -1,
-                                 Optional include_undirected As Boolean = True) As GeneTreeConfig
+                                 Optional include_undirected As Boolean = True,
+                                 Optional threads As Integer = -1,
+                                 Optional threads_per_model As Integer = -1) As GeneTreeConfig
 
         Dim config As GeneTreeConfig = GeneTreeConfig.FromProfile(profile)
 
@@ -137,6 +139,13 @@ Module geneTreeTools
         config.MaxIterations = iterations
         config.Verbose = True
         config.IncludeUndirectedEdges = include_undirected
+
+        ' 外层（按基因）并行度；<=0 表示自动使用全部可用核心
+        If threads > 0 Then
+            config.MaxDegreeOfParallelism = threads
+        End If
+
+        config.ThreadsPerModel = threads_per_model
 
         If cells > 0 Then
             config.MaxSamplesPerModel = cells
@@ -151,6 +160,58 @@ Module geneTreeTools
         Call config.ValidateOrThrow()
 
         Return config
+    End Function
+
+    ''' <summary>
+    ''' Override the parallelism of a trained model (the perturbation solver) or of a
+    ''' configuration object (the model training).
+    ''' </summary>
+    ''' <param name="tree">the GeneTree model or the configuration object.</param>
+    ''' <param name="threads">
+    ''' the outer (per gene) degree of parallelism; ``&lt;= 0`` restores the automatic mode
+    ''' which uses all of the available processors.
+    ''' </param>
+    ''' <param name="threads_per_model">
+    ''' the TGBoost thread number of a single gene model: ``-1`` automatic (1 when the genes
+    ''' are trained in parallel), ``0`` sequential, ``&gt;0`` explicit. It only affects the
+    ''' model training, it is ignored for the perturbation solving.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>the input object with the new parallelism settings.</returns>
+    ''' <remarks>
+    ''' the training is parallel over the target genes, therefore the per model threads are
+    ''' resolved to 1 automatically: nested parallelism (outer over genes plus inner tree
+    ''' building) starves the .NET thread pool and the CPU utilization collapses to a few
+    ''' cores even on a 128 threads server.
+    ''' </remarks>
+    <ExportAPI("parallel_opts")>
+    Public Function parallel_opts(tree As Object,
+                                  Optional threads As Integer = -1,
+                                  Optional threads_per_model As Integer = -1,
+                                  Optional env As Environment = Nothing) As Object
+
+        If tree Is Nothing Then
+            Return RInternal.debug.stop("the given GeneTree model or configuration is nothing!", env)
+        End If
+
+        Dim config As GeneTreeConfig = Nothing
+
+        If TypeOf tree Is GeneTreeConfig Then
+            config = DirectCast(tree, GeneTreeConfig)
+        ElseIf TypeOf tree Is XGBoostGRN Then
+            config = DirectCast(tree, XGBoostGRN).Config
+        Else
+            Return RInternal.debug.stop($"unsupported object type '{tree.GetType.FullName}' for the parallel_opts api!", env)
+        End If
+
+        config.MaxDegreeOfParallelism = If(threads > 0, threads, -1)
+        config.ThreadsPerModel = threads_per_model
+
+        If TypeOf tree Is XGBoostGRN Then
+            Return DirectCast(tree, XGBoostGRN).ResetSolver()
+        Else
+            Return config
+        End If
     End Function
 
     ''' <summary>

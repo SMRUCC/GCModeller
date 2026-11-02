@@ -44,11 +44,11 @@ Public Class PerturbationSolver
 
         m_models = models
         m_config = If(config, GeneTreeConfig.CreateFast())
-        m_popts = New ParallelOptions()
+        m_popts = New ParallelOptions() With {
+            .MaxDegreeOfParallelism = GeneTreeParallelism.ResolveOuterDop(m_config)
+        }
 
-        If m_config.MaxDegreeOfParallelism > 0 Then
-            m_popts.MaxDegreeOfParallelism = m_config.MaxDegreeOfParallelism
-        End If
+        Call GeneTreeParallelism.EnsureThreadPool(m_popts.MaxDegreeOfParallelism)
 
         Dim maxK As Integer = 0
 

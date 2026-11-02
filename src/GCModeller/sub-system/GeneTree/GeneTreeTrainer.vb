@@ -188,8 +188,17 @@ Public Class GeneTreeTrainer
 
         m_logged = 0
 
-        If opt.MaxDegreeOfParallelism > 0 Then
-            popts.MaxDegreeOfParallelism = opt.MaxDegreeOfParallelism
+        ' ---- 并行度解析：外层按基因并行，单模型串行（避免嵌套并行把线程池拖死） ----
+        Dim outerDop As Integer = GeneTreeParallelism.ResolveOuterDop(opt)
+        Dim threadsPerModel As Integer = GeneTreeParallelism.ResolveThreadsPerModel(opt, outerDop)
+
+        popts.MaxDegreeOfParallelism = outerDop
+
+        ' 线程池预热：让 Parallel.For 一开始就能拿到足够的 worker
+        Call GeneTreeParallelism.EnsureThreadPool(outerDop)
+
+        If opt.Verbose Then
+            Console.WriteLine($"[GeneTree] 并行配置: {GeneTreeParallelism.Describe(outerDop, threadsPerModel)}")
         End If
 
         ' TGBoost 内部会把每一次建树都写入日志通道（18404 个模型 × 40 轮 ≈ 74 万行），
@@ -212,7 +221,7 @@ Public Class GeneTreeTrainer
                     End If
 
                     Try
-                        model = TrainGene(gene, graph, rows, rowIndex, cells, split.train, split.validate, opt, ctx)
+                        model = TrainGene(gene, graph, rows, rowIndex, cells, split.train, split.validate, opt, ctx, threadsPerModel)
                     Catch ex As Exception
                         Call log($"  [GeneTree] 基因 '{gene}' 拟合失败，退化为常数模型: {ex.Message}")
                     End Try
@@ -269,6 +278,7 @@ Public Class GeneTreeTrainer
     ''' <param name="validatePos"><paramref name="cells"/> 之中的验证位置</param>
     ''' <param name="opt">配置</param>
     ''' <param name="discovery">结构发现上下文；<c>Nothing</c> 表示该基因不执行发现</param>
+    ''' <param name="threadsPerModel">单个模型在 TGBoost 内部的线程数（外层已并行时应当为 1）</param>
     ''' <returns>模型对象；该基因没有任何可用调控者（且未发现任何新边）时返回 <c>Nothing</c></returns>
     Private Shared Function TrainGene(gene As String,
                                       graph As GeneRegulationGraph,
@@ -278,7 +288,8 @@ Public Class GeneTreeTrainer
                                       trainPos As Integer(),
                                       validatePos As Integer(),
                                       opt As GeneTreeConfig,
-                                      discovery As DiscoveryContext) As GeneModel
+                                      discovery As DiscoveryContext,
+                                      threadsPerModel As Integer) As GeneModel
 
         Dim inputs As RegulationInput() = graph.RegulatorsOf(gene) _
             .Where(Function(r) r IsNot Nothing AndAlso rowIndex.ContainsKey(If(r.regulator, ""))) _
@@ -323,7 +334,7 @@ Public Class GeneTreeTrainer
         Dim current As FitResult
 
         If regRows.Length > 0 Then
-            current = fitModel(gene, regRows, regNames, regIndices, targetRow, cells, trainPos, validatePos, labels, opt)
+            current = fitModel(gene, regRows, regNames, regIndices, targetRow, cells, trainPos, validatePos, labels, opt, threadsPerModel)
 
             If current.gbm Is Nothing Then
                 Return constantModel(gene, inputs, rowIndex, minValue, maxValue, mean, baselineRmse, performance, "拟合异常")
@@ -339,7 +350,8 @@ Public Class GeneTreeTrainer
 
         If discovery IsNot Nothing Then
             Call discoverEdges(gene, targetIndex, rows, rowIndex, cells, trainPos, validatePos, labels, mean, opt,
-                               discovery, regRows, regNames, regIndices, current, discoveryEdges, discovered)
+                               discovery, regRows, regNames, regIndices, current, discoveryEdges, discovered,
+                               threadsPerModel)
         End If
 
         If regRows.Length = 0 Then
@@ -406,7 +418,8 @@ Public Class GeneTreeTrainer
                                      ByRef regIndices As Integer(),
                                      ByRef current As FitResult,
                                      edges As List(Of DiscoveryEdge),
-                                     discovered As List(Of RegulationInput))
+                                     discovered As List(Of RegulationInput),
+                                     threadsPerModel As Integer)
 
         Dim exclude As New HashSet(Of Integer)
         Dim accepted As Integer = 0
@@ -439,7 +452,7 @@ Public Class GeneTreeTrainer
             Dim candidateNames As String() = regNames.Concat({item.candidate.gene}).ToArray
             Dim candidateIndices As Integer() = regIndices.Concat({item.candidate.index}).ToArray
             Dim fit As FitResult = fitModel(gene, candidateRows, candidateNames, candidateIndices,
-                                            rows(targetIndex), cells, trainPos, validatePos, labels, opt)
+                                            rows(targetIndex), cells, trainPos, validatePos, labels, opt, threadsPerModel)
             Dim delta As Double = If(fit.gbm Is Nothing, 0.0R, fit.r2 - r2Current)
             Dim edge As New DiscoveryEdge With {
                 .target = gene,
@@ -508,13 +521,18 @@ Public Class GeneTreeTrainer
                                      trainPos As Integer(),
                                      validatePos As Integer(),
                                      labels As Double(),
-                                     opt As GeneTreeConfig) As FitResult
+                                     opt As GeneTreeConfig,
+                                     threadsPerModel As Integer) As FitResult
 
         Dim k As Integer = regRows.Length
 
         If k = 0 Then
             Return New FitResult With {.gbm = Nothing}
         End If
+
+        ' 外层已经按基因并行时 threadsPerModel = 1：TGBoost 内部的建树并行必须关掉，
+        ' 否则会形成“外层并行 × 内层并行”的嵌套并行，线程池被拖死后 CPU 反而用不满
+        Dim numThread As Integer = If(threadsPerModel > 0, threadsPerModel, -1)
 
         Dim trainFeatures As Single()() = buildFeatures(regRows, cells, trainPos, k)
         Dim validateFeatures As Single()() = buildFeatures(regRows, cells, validatePos, k)
@@ -559,7 +577,7 @@ Public Class GeneTreeTrainer
                 opt.MinSampleSplit,
                 opt.Lambda,
                 opt.Gamma,
-                opt.ThreadsPerModel)
+                numThread)
         Catch ex As Exception
             Call logLimited($"  [GeneTree] 基因 '{gene}' 的 TGBoost 拟合异常: {ex.ToString}")
 

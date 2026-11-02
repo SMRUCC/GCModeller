@@ -246,10 +246,17 @@ Public Class GeneTreeConfig
     Public Property EarlyStoppingRounds As Integer = 10
 
     ''' <summary>
-    ''' 单模型训练时 TGBoost 内部使用的线程数，-1 表示由库自行决定。
+    ''' 单个基因模型在 TGBoost 内部使用的线程数。
     ''' </summary>
     ''' <remarks>
-    ''' 训练是按基因并行的，模型内部再并行会造成线程超额订阅，因此默认 -1（TGBoost 默认值）。
+    ''' + <c>-1</c>（默认，自动）：训练器外层已经按基因并行，此时单模型解析为 **1**
+    '''   （避免“外层并行 × 内层并行”的嵌套并行把线程池拖死）；当
+    '''   <see cref="MaxDegreeOfParallelism"/> 显式设为 1（单基因串行训练）时才让单模型吃满全部核心；
+    ''' + <c>0</c>：强制串行（等价于 1）；
+    ''' + <c>&gt; 0</c>：显式指定单模型线程数。
+    ''' 
+    ''' 只有当你把 <see cref="MaxDegreeOfParallelism"/> 设为 1、希望“一次只训练一个基因但把它算到最快”时，
+    ''' 才需要手动把它设成核心数。
     ''' </remarks>
     Public Property ThreadsPerModel As Integer = -1
 
@@ -408,9 +415,13 @@ Public Class GeneTreeConfig
     Public Property Seed As Integer = 1234567
 
     ''' <summary>
-    ''' 训练阶段的最大并行度，-1 表示使用全部可用核心。
+    ''' 训练（以及扰动求解）时**外层**并行的最大并行度；<c>&lt;= 0</c> 表示自动使用全部可用核心。
     ''' </summary>
     ''' <remarks>
+    ''' “外层”指按基因并行：每个靶基因一个模型，由 <c>Parallel.For</c> 分派。
+    ''' 把它设为 1 表示串行训练（此时单个模型会自动使用全部核心），
+    ''' 适用于“基因数很少但单个模型特征很多”的场景。
+    ''' 
     ''' 注意：TGBoost 的行/列抽样使用全局随机数流，因此 <c>MaxDegreeOfParallelism &gt; 1</c> 时
     ''' 训练结果不保证逐位可复现（抽样与折分本身仍然是可复现的）。
     ''' </remarks>
