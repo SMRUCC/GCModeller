@@ -117,7 +117,7 @@ Namespace Clustal
         ''' 收集引导树上的内部节点所代表的叶子集合(用于切分)
         ''' </summary>
         Private Function CollectClades(tree As GuideTree) As List(Of Integer())
-            Dim result As New List(Of Integer)()
+            Dim result As New List(Of Integer())()
 
             For Each node As GuideTreeNode In tree.PostOrder()
                 If node.IsLeaf Then
@@ -133,7 +133,7 @@ Namespace Clustal
 
             If result.Count > MaxSplitsPerRound Then
                 ' 确定性抽样：按索引等距取，保证结果可复现
-                Dim sampled As New List(Of Integer)(MaxSplitsPerRound)
+                Dim sampled As New List(Of Integer())(MaxSplitsPerRound)
 
                 For t As Integer = 0 To MaxSplitsPerRound - 1
                     Dim index As Integer = CInt(Math.Floor(CDbl(t) * result.Count / MaxSplitsPerRound))

@@ -14,7 +14,7 @@ Namespace Clustal
         ''' </summary>
         ''' <param name="dist">对称的距离矩阵</param>
         ''' <param name="labels">可选的叶子名称</param>
-        Public Shared Function Build(dist As Double()(), Optional labels As String() = Nothing) As GuideTree
+        Public Function Build(dist As Double()(), Optional labels As String() = Nothing) As GuideTree
             Dim n As Integer = If(dist Is Nothing, 0, dist.Length)
 
             If n = 0 Then
@@ -22,14 +22,14 @@ Namespace Clustal
             End If
 
             If n = 1 Then
-                Dim single As New GuideTreeNode With {
+                Dim leaf As New GuideTreeNode With {
                     .Index = 0,
                     .Label = If(labels IsNot Nothing AndAlso labels.Length > 0, labels(0), "seq_1"),
                     .Height = 0,
                     .LeafCount = 1
                 }
 
-                Return New GuideTree(single, 1)
+                Return New GuideTree(leaf, 1)
             End If
 
             Dim total As Integer = 2 * n - 1
@@ -53,17 +53,17 @@ Namespace Clustal
                 Next
             Next
 
-            For step As Integer = 0 To n - 2
+            For round As Integer = 0 To n - 2
                 Dim minI As Integer = -1
                 Dim minJ As Integer = -1
                 Dim minValue As Double = Double.MaxValue
 
-                For i As Integer = 0 To n + step - 1
+                For i As Integer = 0 To n + round - 1
                     If sizes(i) <= 0 Then
                         Continue For
                     End If
 
-                    For j As Integer = i + 1 To n + step - 1
+                    For j As Integer = i + 1 To n + round - 1
                         If sizes(j) <= 0 Then
                             Continue For
                         End If
@@ -85,7 +85,7 @@ Namespace Clustal
                     ' 理论上不会发生，防御性处理：把剩余的簇顺序串成一棵退化树
                     minI = -1
 
-                    For i As Integer = 0 To n + step - 1
+                    For i As Integer = 0 To n + round - 1
                         If sizes(i) > 0 Then
                             If minI < 0 Then
                                 minI = i
@@ -104,7 +104,7 @@ Namespace Clustal
                     Exit For
                 End If
 
-                Dim node As Integer = n + step
+                Dim node As Integer = n + round
                 Dim si As Integer = sizes(minI)
                 Dim sj As Integer = sizes(minJ)
 
@@ -119,7 +119,7 @@ Namespace Clustal
                 sizes(minI) = 0
                 sizes(minJ) = 0
 
-                For k As Integer = 0 To n + step - 1
+                For k As Integer = 0 To n + round - 1
                     If sizes(k) <= 0 Then
                         d(node, k) = Double.MaxValue
                         d(k, node) = Double.MaxValue
@@ -137,5 +137,5 @@ Namespace Clustal
 
             Return New GuideTree(nodes(total - 1), n)
         End Function
-    End Class
+    End Module
 End Namespace

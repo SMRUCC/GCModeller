@@ -1,3 +1,5 @@
+Imports System.Text
+
 Namespace Clustal
 
     ''' <summary>

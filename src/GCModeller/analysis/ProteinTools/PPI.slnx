@@ -10,6 +10,10 @@
     <Project Path="../../../runtime/sciBASIC#/Data_science/DataMining/DataMining/DataMining.NET5.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
+    <Project Path="../../../runtime/sciBASIC#/Data_science/DataMining/DBNCode/DBNCode.vbproj">
+      <BuildType Solution="Release|*" Project="nuget_release" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
     <Project Path="../../../runtime/sciBASIC#/Data_science/DataMining/DynamicProgramming/DynamicProgramming.NET5.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>

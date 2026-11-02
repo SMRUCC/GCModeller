@@ -68,8 +68,8 @@ Namespace Clustal
             End If
 
             If n = 1 Then
-                Dim single As Double()() = New Double()() {New Double() {}}
-                Return New MBedDistance(1, single, New Integer() {0}, False, Nothing, k)
+                Dim probe As Double()() = New Double()() {New Double() {}}
+                Return New MBedDistance(1, probe, New Integer() {0}, False, Nothing, k)
             End If
 
             If options.FullDistanceMatrix AndAlso n <= options.MaxFullDistanceSequences Then

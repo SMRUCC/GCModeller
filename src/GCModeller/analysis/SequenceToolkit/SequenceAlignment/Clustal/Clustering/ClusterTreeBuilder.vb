@@ -41,7 +41,7 @@ Namespace Clustal
         ''' <param name="alphabet">字母表</param>
         ''' <param name="kmer">k-mer 长度</param>
         ''' <param name="options">参数</param>
-        Public Shared Function Build(seqs As String(), mbed As MBedDistance, alphabet As SequenceAlphabet,
+        Public Function Build(seqs As String(), mbed As MBedDistance, alphabet As SequenceAlphabet,
                                      kmer As Integer, options As ClustalOmegaOptions) As ClusterTree
 
             Dim n As Integer = seqs.Length
@@ -138,7 +138,7 @@ Namespace Clustal
             }
         End Function
 
-        Private Shared Function GroupMembers(assignments As Integer(), clusterCount As Integer) As List(Of Integer)()
+        Private Function GroupMembers(assignments As Integer(), clusterCount As Integer) As List(Of Integer)()
             Dim members As List(Of Integer)() = New List(Of Integer)(clusterCount - 1) {}
 
             For c As Integer = 0 To clusterCount - 1
@@ -156,7 +156,7 @@ Namespace Clustal
         ''' <summary>
         ''' 簇内精确的 k-mer 距离矩阵
         ''' </summary>
-        Private Shared Function IntraClusterDistance(seqs As String(), index As Integer(),
+        Private Function IntraClusterDistance(seqs As String(), index As Integer(),
                                                      alphabet As SequenceAlphabet, kmer As Integer) As Double()()
 
             Dim c As Integer = index.Length
@@ -182,7 +182,7 @@ Namespace Clustal
         ''' <summary>
         ''' 把子树里的局部叶子索引(0..c-1)重映射为全局序列索引
         ''' </summary>
-        Private Shared Sub RemapLeaves(node As GuideTreeNode, index As Integer())
+        Private Sub RemapLeaves(node As GuideTreeNode, index As Integer())
             If node Is Nothing Then
                 Return
             End If
@@ -202,7 +202,7 @@ Namespace Clustal
         ''' <summary>
         ''' 选取离簇质心最近的成员作为代表序列
         ''' </summary>
-        Private Shared Function SelectMedoid(feature As Double()(), index As Integer()) As Integer
+        Private Function SelectMedoid(feature As Double()(), index As Integer()) As Integer
             If index.Length = 0 Then
                 Return -1
             End If
@@ -249,7 +249,7 @@ Namespace Clustal
         ''' <summary>
         ''' 把上层树的每一个叶子替换为对应的簇内子树
         ''' </summary>
-        Private Shared Function Splice(node As GuideTreeNode, subtrees As GuideTreeNode()) As GuideTreeNode
+        Private Function Splice(node As GuideTreeNode, subtrees As GuideTreeNode()) As GuideTreeNode
             If node Is Nothing Then
                 Return Nothing
             End If

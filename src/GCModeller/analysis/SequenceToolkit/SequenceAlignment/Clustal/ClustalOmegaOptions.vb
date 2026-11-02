@@ -56,6 +56,14 @@ Namespace Clustal
         ''' </summary>
         Public Property GapExtendBits As Double = 1.0
         ''' <summary>
+        ''' 终端空位的罚分缩放系数。
+        ''' 
+        ''' 取 0 时终端空位完全免费(纯半全局比对)，此时两条长度相近的 profile 可以通过
+        ''' "自由滑动"得到只覆盖局部最优片段的退化比对；取 1 时终端空位与内部空位同罚
+        ''' (纯全局比对)，对真实存在的末端悬挂过于严苛。默认 0.25 是在两者之间的折中。
+        ''' </summary>
+        Public Property EndGapScale As Double = 0.25
+        ''' <summary>
         ''' MAC 后验概率缓冲的内存上限(MB)，超限时自动降级为 Viterbi 解码
         ''' </summary>
         Public Property MacRamMb As Integer = 2048
@@ -89,6 +97,7 @@ Namespace Clustal
                 .Iterations = Iterations,
                 .GapOpenBits = GapOpenBits,
                 .GapExtendBits = GapExtendBits,
+                .EndGapScale = EndGapScale,
                 .MacRamMb = MacRamMb,
                 .Decode = Decode,
                 .Seed = Seed,
@@ -126,6 +135,12 @@ Namespace Clustal
 
             If copy.GapExtendBits <= 0 Then
                 Throw New ArgumentException($"gap extend 罚分必须为正数(单位 bit): {copy.GapExtendBits}", NameOf(GapExtendBits))
+            End If
+
+            If copy.EndGapScale < 0 Then
+                copy.EndGapScale = 0
+            ElseIf copy.EndGapScale > 1 Then
+                copy.EndGapScale = 1
             End If
 
             If copy.MacRamMb < 16 Then

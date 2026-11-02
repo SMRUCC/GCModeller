@@ -50,7 +50,7 @@ Namespace Clustal
         Public Function SaveFile(names As String(), rows As String(), path As String,
                                  Optional lineBreak As Integer = 60) As Boolean
 
-            Dim folder As String = Path.GetDirectoryName(path)
+            Dim folder As String = System.IO.Path.GetDirectoryName(path)
 
             If Not String.IsNullOrEmpty(folder) AndAlso Not Directory.Exists(folder) Then
                 Call Directory.CreateDirectory(folder)

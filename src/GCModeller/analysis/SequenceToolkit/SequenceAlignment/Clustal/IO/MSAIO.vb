@@ -40,7 +40,7 @@ Namespace Clustal
         ''' 按指定格式保存结果文件
         ''' </summary>
         Public Function Save(result As ClustalOmegaResult, format As MSAFormat, path As String) As Boolean
-            Dim folder As String = Path.GetDirectoryName(path)
+            Dim folder As String = System.IO.Path.GetDirectoryName(path)
 
             If Not String.IsNullOrEmpty(folder) AndAlso Not Directory.Exists(folder) Then
                 Call Directory.CreateDirectory(folder)
@@ -64,7 +64,7 @@ Namespace Clustal
         End Function
 
         Private Function BaseName(path As String) As String
-            Dim name As String = Path.GetFileNameWithoutExtension(path)
+            Dim name As String = System.IO.Path.GetFileNameWithoutExtension(path)
 
             If String.IsNullOrEmpty(name) Then
                 Return "MSA"

@@ -1,5 +1,4 @@
 Imports System.Runtime.CompilerServices
-Imports System.Threading
 
 Namespace Clustal
 
@@ -9,18 +8,23 @@ Namespace Clustal
     ''' <remarks>
     ''' <para>
     ''' 与 HHalign 同源的实现思路：先在 profile 之间计算位置特异的替换打分
-    ''' (把 Gonnet 矩阵按发射概率加权)，再在对数空间做前向/后向动态规划求后验概率，
-    ''' 最后用最大准确度(MAC)解码回溯出列对齐。
+    ''' (把替换矩阵按发射概率加权成对数几率)，再在对数空间做前向/后向动态规划求后验概率，
+    ''' 最后在"后验加权"的路径空间里搜索最优路径。
     ''' </para>
     ''' <para>
-    ''' 为了让实现保持可读，这里把 GG(双空位)状态并入两端自由空位的处理中：序列两端
-    ''' 的空位不占用罚分，这与 clustalo 的终端空位处理一致。
+    ''' 关于解码：HHalign 的 MAC 解码直接对后验和做最大化，这要求模型是严格归一化的概率模型；
+    ''' 本实现保留了两端自由空位(与 clustalo 的终端空位处理一致)，此时纯后验和最大化会倾向
+    ''' 沿着边界行走(边界格的 alpha 恒为 0，后验被抬高)。因此这里采用工程化的近似：
+    ''' 路径搜索仍然使用真实的打分与仿射空位罚分，后验概率只作为每个格子的"可信度奖励"，
+    ''' 用来在多个近似等价的路径之间挑出与整体后验最一致的那一条。
+    ''' 当 <see cref="ClustalOmegaOptions.Decode"/> 为 <see cref="DecodeMode.Viterbi"/> 时
+    ''' 完全不计算后验，等价于纯 Viterbi 解码。
     ''' </para>
     ''' </remarks>
     Public Class PairHMMAligner
 
         ''' <summary>
-        ''' 对数空间中的负无穷哨兵值。<see cref="LogAdd2"/> 与所有比较都会显式跳过它，
+        ''' 对数空间中的负无穷哨兵值。所有比较与加法都会显式跳过它，
         ''' 避免出现"哨兵参与算术运算后反而变成最优路径"的错误。
         ''' </summary>
         Private Const NEG As Double = -1.0E+30
@@ -29,6 +33,11 @@ Namespace Clustal
         ''' 每个 DP 单元的平均内存占用(3 个 alpha + 3 个 beta 的 Double，加上 3 个量化的后验 Byte)
         ''' </summary>
         Private Const BytesPerCell As Double = 51.0R
+
+        ''' <summary>
+        ''' 后验概率对路径搜索的奖励权重(单位 bit，对应后验概率为 1 的格子)
+        ''' </summary>
+        Private Const PosteriorBonus As Double = 1.0R
 
         Private ReadOnly options As ClustalOmegaOptions
 
@@ -106,13 +115,13 @@ Namespace Clustal
             stats.MemoryBytes = CLng(stats.Cells * BytesPerCell)
 
             Dim limit As Long = CLng(options.MacRamMb) * 1024L * 1024L
-            Dim useMac As Boolean = options.Decode = DecodeMode.MaximumAccuracy AndAlso stats.MemoryBytes <= limit
+            Dim usePosterior As Boolean = options.Decode = DecodeMode.MaximumAccuracy AndAlso stats.MemoryBytes <= limit
 
-            If Not useMac Then
+            If Not usePosterior Then
                 stats.FallbackToViterbi = options.Decode = DecodeMode.MaximumAccuracy
-                Return AlignViterbi(q, t, stats)
+                Return PathAlign(q, t, Nothing, Nothing, Nothing, stats)
             Else
-                Return AlignMaximumAccuracy(q, t, stats)
+                Return AlignWithPosterior(q, t, stats)
             End If
         End Function
 
@@ -120,59 +129,79 @@ Namespace Clustal
         ''' 计算位置特异的替换打分矩阵(单位 bit)，结果按 A 的列优先展平
         ''' </summary>
         ''' <remarks>
-        ''' 先把 B 的每一列对 20 种残基做一次加权求和(预计算 Q)，之后每个 DP 单元只需要
-        ''' 对 A 的字母表做一次点积，把 O(A^2) 的单元开销降到 O(A)。
+        ''' <para>
+        ''' 打分采用 HHalign 同源的"对数平均几率"(log-average of odds)形式：
+        ''' </para>
+        ''' <para>
+        ''' <c>S(i,j) = sum_a pA(i,a) * log2( sum_b pB(j,b) * 2^M(a,b) )</c>
+        ''' </para>
+        ''' <para>
+        ''' 其中 <c>M</c> 是替换矩阵的对数几率。之所以不能直接计算
+        ''' <c>sum_a sum_b pA * pB * M</c> 这样的线性期望，是因为 profile 的发射概率带有伪计数，
+        ''' 分布被"抹平"之后线性期望恒为负值，会让动态规划选择"完全不比"的退化路径。
+        ''' 先对 B 的列做一次加权求和(预计算 logOdds)，之后每个 DP 单元只需要 O(A) 的点积。
+        ''' </para>
         ''' </remarks>
         Private Shared Function SubstitutionScores(q As ProfileHMM, t As ProfileHMM) As Double()
-            Dim A As Integer = q.AlphabetSize
+            Dim alphaSize As Integer = q.AlphabetSize
             Dim M1 As Integer = q.Columns
             Dim M2 As Integer = t.Columns
             Dim matrix As ScoringMatrix = q.Matrix
 
-            ' Q(j, a) = sum_b pB(j, b) * S(a, b)
-            Dim Q As Double() = New Double(M2 * A - 1) {}
+            ' 预先换算几率比 ratio(a,b) = 2^M(a,b)，避免在热路径里反复调用 Math.Pow
+            Dim ratio As Double() = New Double(alphaSize * alphaSize - 1) {}
 
-            For j As Integer = 0 To M2 - 1
-                Dim baseB As Integer = j * A
-
-                For a As Integer = 0 To A - 1
-                    Dim acc As Double = 0
-
-                    For b As Integer = 0 To A - 1
-                        acc += t.Emit(baseB + b) * matrix.Scores(a * A + b)
-                    Next
-
-                    Q(baseB + a) = acc
+            For a As Integer = 0 To alphaSize - 1
+                For b As Integer = 0 To alphaSize - 1
+                    ratio(a * alphaSize + b) = Math.Pow(2.0R, matrix.Scores(a * alphaSize + b))
                 Next
             Next
 
-            ' S(i, j) = sum_a pA(i, a) * Q(j, a)
-            Dim S As Double() = New Double(M1 * M2 - 1) {}
+            ' logOdds(j, a) = log2( sum_b pB(j, b) * ratio(a, b) )
+            Dim logOdds As Double() = New Double(M2 * alphaSize - 1) {}
+
+            For j As Integer = 0 To M2 - 1
+                Dim baseB As Integer = j * alphaSize
+
+                For ai As Integer = 0 To alphaSize - 1
+                    Dim acc As Double = 0
+                    Dim ratioRow As Integer = ai * alphaSize
+
+                    For bi As Integer = 0 To alphaSize - 1
+                        acc += t.Emit(baseB + bi) * ratio(ratioRow + bi)
+                    Next
+
+                    logOdds(baseB + ai) = Math.Log(Math.Max(acc, 1.0E-12), 2.0R)
+                Next
+            Next
+
+            ' score(i, j) = sum_a pA(i, a) * logOdds(j, a)
+            Dim score As Double() = New Double(M1 * M2 - 1) {}
 
             For i As Integer = 0 To M1 - 1
-                Dim baseA As Integer = i * A
+                Dim baseA As Integer = i * alphaSize
                 Dim row As Integer = i * M2
 
                 For j As Integer = 0 To M2 - 1
-                    Dim baseB As Integer = j * A
+                    Dim baseB As Integer = j * alphaSize
                     Dim acc As Double = 0
 
-                    For a As Integer = 0 To A - 1
-                        acc += q.Emit(baseA + a) * Q(baseB + a)
+                    For ai As Integer = 0 To alphaSize - 1
+                        acc += q.Emit(baseA + ai) * logOdds(baseB + ai)
                     Next
 
-                    S(row + j) = acc
+                    score(row + j) = acc
                 Next
             Next
 
-            Return S
+            Return score
         End Function
 
         ''' <summary>
-        ''' 最大准确度解码：前向 + 后向求后验，再在量化后的后验矩阵上做一次 DP 回溯
+        ''' 前向 + 后向求后验概率，然后在后验加权的路径空间里解码
         ''' </summary>
-        Private Function AlignMaximumAccuracy(q As ProfileHMM, t As ProfileHMM,
-                                              stats As PairHMMStatistics) As (Integer, Integer)()
+        Private Function AlignWithPosterior(q As ProfileHMM, t As ProfileHMM,
+                                            stats As PairHMMStatistics) As (Integer, Integer)()
 
             Dim M1 As Integer = q.Columns
             Dim M2 As Integer = t.Columns
@@ -188,15 +217,18 @@ Namespace Clustal
             Call Fill(alphaX, NEG)
             Call Fill(alphaY, NEG)
 
-            ' 首行/首列：终端空位不罚分
+            ' 首行/首列：终端空位按 EndGapScale 打折罚分
+            Dim endOpen As Double = options.GapOpenBits * options.EndGapScale
+            Dim endExt As Double = options.GapExtendBits * options.EndGapScale
+
             alphaM(0) = 0
 
             For j As Integer = 1 To M2
-                alphaY(j) = 0
+                alphaY(j) = -endOpen - (j - 1) * endExt
             Next
 
             For i As Integer = 1 To M1
-                alphaX(i * W) = 0
+                alphaX(i * W) = -endOpen - (i - 1) * endExt
             Next
 
             For i As Integer = 1 To M1
@@ -208,7 +240,6 @@ Namespace Clustal
                     Dim k As Integer = row + j
                     Dim prev As Integer = (i - 1) * W + (j - 1)
 
-                    ' MM
                     Dim m As Double = LogAdd2(alphaM(prev), alphaX(prev), alphaY(prev))
 
                     If m > NEG / 2 Then
@@ -217,14 +248,14 @@ Namespace Clustal
 
                     ' GD：A 的第 i 列对空位，B 停在 j 列
                     If j = M2 Then
-                        alphaX(k) = LogAdd2(alphaM(row - W + j), alphaX(row - W + j))
+                        alphaX(k) = LogAdd2(alphaM((i - 1) * W + j) - endOpen, alphaX((i - 1) * W + j) - endExt)
                     Else
-                        alphaX(k) = LogAdd2(alphaM(row - W + j) - openA, alphaX(row - W + j) - extA)
+                        alphaX(k) = LogAdd2(alphaM((i - 1) * W + j) - openA, alphaX((i - 1) * W + j) - extA)
                     End If
 
                     ' DG：B 的第 j 列对空位，A 停在 i 列
                     If i = M1 Then
-                        alphaY(k) = LogAdd2(alphaM(k - 1), alphaY(k - 1))
+                        alphaY(k) = LogAdd2(alphaM(k - 1) - endOpen, alphaY(k - 1) - endExt)
                     Else
                         alphaY(k) = LogAdd2(alphaM(k - 1) - t.OpenBits(j - 1), alphaY(k - 1) - t.ExtendBits(j - 1))
                     End If
@@ -237,9 +268,8 @@ Namespace Clustal
             stats.PartitionFunction = Z
 
             If Z <= NEG / 2 Then
-                ' 理论上不会发生，防御性地退化为简单拼接
                 stats.FallbackToViterbi = True
-                Return AlignViterbi(q, t, stats)
+                Return PathAlign(q, t, Nothing, Nothing, Nothing, stats)
             End If
 
             ' 后向
@@ -264,21 +294,21 @@ Namespace Clustal
                     End If
 
                     Dim k As Integer = row + j
-                    Dim s As Double = If(i < M1 AndAlso j < M2, S(i * M2 + j), NEG)
+                    Dim subScore As Double = If(i < M1 AndAlso j < M2, S(i * M2 + j), NEG)
                     Dim diag As Integer = (i + 1) * W + (j + 1)
                     Dim bm As Double = NEG
                     Dim bx As Double = NEG
                     Dim by As Double = NEG
 
                     If i < M1 AndAlso j < M2 Then
-                        bm = s + betaM(diag)
-                        bx = s + betaM(diag)
-                        by = s + betaM(diag)
+                        bm = subScore + betaM(diag)
+                        bx = subScore + betaM(diag)
+                        by = subScore + betaM(diag)
                     End If
 
                     If i < M1 Then
-                        Dim penOpen As Double = If(j = M2, 0.0, q.OpenBits(i))
-                        Dim penExt As Double = If(j = M2, 0.0, q.ExtendBits(i))
+                        Dim penOpen As Double = If(j = M2, endOpen, q.OpenBits(i))
+                        Dim penExt As Double = If(j = M2, endExt, q.ExtendBits(i))
                         Dim down As Integer = (i + 1) * W + j
 
                         bm = LogAdd2(bm, -penOpen + betaX(down))
@@ -286,8 +316,8 @@ Namespace Clustal
                     End If
 
                     If j < M2 Then
-                        Dim penOpen As Double = If(i = M1, 0.0, t.OpenBits(j))
-                        Dim penExt As Double = If(i = M1, 0.0, t.ExtendBits(j))
+                        Dim penOpen As Double = If(i = M1, endOpen, t.OpenBits(j))
+                        Dim penExt As Double = If(i = M1, endExt, t.ExtendBits(j))
                         Dim right As Integer = row + j + 1
 
                         bm = LogAdd2(bm, -penOpen + betaY(right))
@@ -308,23 +338,9 @@ Namespace Clustal
             Dim maxValue As Double = Double.MinValue
 
             For k As Integer = 0 To cells - 1
-                If alphaM(k) > NEG / 2 AndAlso betaM(k) > NEG / 2 Then
-                    Dim v As Double = alphaM(k) + betaM(k) - Z
-                    If v < minValue Then minValue = v
-                    If v > maxValue Then maxValue = v
-                End If
-
-                If alphaX(k) > NEG / 2 AndAlso betaX(k) > NEG / 2 Then
-                    Dim v As Double = alphaX(k) + betaX(k) - Z
-                    If v < minValue Then minValue = v
-                    If v > maxValue Then maxValue = v
-                End If
-
-                If alphaY(k) > NEG / 2 AndAlso betaY(k) > NEG / 2 Then
-                    Dim v As Double = alphaY(k) + betaY(k) - Z
-                    If v < minValue Then minValue = v
-                    If v > maxValue Then maxValue = v
-                End If
+                Call TrackPosterior(alphaM, betaM, k, Z, minValue, maxValue)
+                Call TrackPosterior(alphaX, betaX, k, Z, minValue, maxValue)
+                Call TrackPosterior(alphaY, betaY, k, Z, minValue, maxValue)
             Next
 
             If maxValue <= minValue Then
@@ -347,8 +363,25 @@ Namespace Clustal
             betaX = Nothing
             betaY = Nothing
 
-            Return TraceMaximumAccuracy(postM, postX, postY, M1, M2, W)
+            Return PathAlign(q, t, postM, postX, postY, stats)
         End Function
+
+        Private Shared Sub TrackPosterior(alpha As Double(), beta As Double(), k As Integer,
+                                          Z As Double, ByRef minValue As Double, ByRef maxValue As Double)
+
+            If alpha(k) <= NEG / 2 OrElse beta(k) <= NEG / 2 Then
+                Return
+            End If
+
+            Dim value As Double = alpha(k) + beta(k) - Z
+
+            If value < minValue Then
+                minValue = value
+            End If
+            If value > maxValue Then
+                maxValue = value
+            End If
+        End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Private Shared Function Quantize(alpha As Double(), beta As Double(), k As Integer,
@@ -370,95 +403,11 @@ Namespace Clustal
         End Function
 
         ''' <summary>
-        ''' 在量化后的后验矩阵上做一次"最大化后验和"的 DP，并回溯出列对齐
+        ''' 路径解码：真实的替换打分 + 仿射空位罚分，后验概率(如果提供)作为每个格子的可信度奖励。
         ''' </summary>
-        Private Shared Function TraceMaximumAccuracy(postM As Byte(), postX As Byte(), postY As Byte(),
-                                                     M1 As Integer, M2 As Integer, W As Integer) As (Integer, Integer)()
-
-            Dim cells As Integer = (M1 + 1) * W
-            Dim bestM As Double() = New Double(cells - 1) {}
-            Dim bestX As Double() = New Double(cells - 1) {}
-            Dim bestY As Double() = New Double(cells - 1) {}
-
-            Call Fill(bestM, NEG)
-            Call Fill(bestX, NEG)
-            Call Fill(bestY, NEG)
-
-            bestM(0) = postM(0)
-            bestX(0) = postM(0)
-            bestY(0) = postM(0)
-
-            For i As Integer = 1 To M1
-                bestX(i * W) = bestX((i - 1) * W) + postX(i * W)
-            Next
-
-            For j As Integer = 1 To M2
-                bestY(j) = bestY(j - 1) + postY(j)
-            Next
-
-            For i As Integer = 1 To M1
-                Dim row As Integer = i * W
-
-                For j As Integer = 1 To M2
-                    Dim k As Integer = row + j
-                    Dim prev As Integer = (i - 1) * W + (j - 1)
-
-                    bestM(k) = postM(k) + MaxOf(bestM(prev), bestX(prev), bestY(prev))
-                    bestX(k) = postX(k) + Math.Max(bestM(row - W + j), bestX(row - W + j))
-                    bestY(k) = postY(k) + Math.Max(bestM(k - 1), bestY(k - 1))
-                Next
-            Next
-
-            Dim last As Integer = M1 * W + M2
-            Dim state As Integer = ArgMax(bestM(last), bestX(last), bestY(last))
-            Dim pairs As New List(Of (Integer, Integer))()
-            Dim ci As Integer = M1
-            Dim cj As Integer = M2
-
-            While ci > 0 OrElse cj > 0
-                Dim k As Integer = ci * W + cj
-
-                ' 边界守卫：任意一侧已经走完时，路径只能沿另一侧的空位继续前进，
-                ' 这样可以避免回溯到负索引的非法单元
-                If ci = 0 Then
-                    state = 2
-                ElseIf cj = 0 Then
-                    state = 1
-                End If
-
-                Select Case state
-                    Case 0 ' MM
-                        Call pairs.Add((ci - 1, cj - 1))
-
-                        Dim prev As Integer = (ci - 1) * W + (cj - 1)
-                        state = ArgMax(bestM(prev), bestX(prev), bestY(prev))
-                        ci -= 1
-                        cj -= 1
-                    Case 1 ' GD
-                        Call pairs.Add((ci - 1, -1))
-
-                        Dim down As Integer = (ci - 1) * W + cj
-                        state = If(bestX(down) >= bestM(down), 1, 0)
-                        ci -= 1
-                    Case Else ' DG
-                        Call pairs.Add((-1, cj - 1))
-
-                        Dim right As Integer = ci * W + cj - 1
-                        state = If(bestY(right) >= bestM(right), 2, 0)
-                        cj -= 1
-                End Select
-            End While
-
-            Call pairs.Reverse()
-
-            Return pairs.ToArray
-        End Function
-
-        ''' <summary>
-        ''' Viterbi 解码：内存超限或者显式指定时使用，只保留最优单一路径
-        ''' </summary>
-        Private Function AlignViterbi(q As ProfileHMM, t As ProfileHMM,
-                                      stats As PairHMMStatistics) As (Integer, Integer)()
+        Private Function PathAlign(q As ProfileHMM, t As ProfileHMM,
+                                   postM As Byte(), postX As Byte(), postY As Byte(),
+                                   stats As PairHMMStatistics) As (Integer, Integer)()
 
             Dim M1 As Integer = q.Columns
             Dim M2 As Integer = t.Columns
@@ -492,25 +441,31 @@ Namespace Clustal
                 For j As Integer = 1 To M2
                     Dim k As Integer = row + j
                     Dim prev As Integer = (i - 1) * W + (j - 1)
+                    Dim bonusM As Double = If(postM Is Nothing, 0.0, postM(k) / 255.0R * PosteriorBonus)
+                    Dim bonusX As Double = If(postX Is Nothing, 0.0, postX(k) / 255.0R * PosteriorBonus)
+                    Dim bonusY As Double = If(postY Is Nothing, 0.0, postY(k) / 255.0R * PosteriorBonus)
 
-                    m(k) = MaxOf(m(prev), x(prev), y(prev)) + S((i - 1) * M2 + (j - 1))
+                    m(k) = MaxOf(m(prev), x(prev), y(prev)) + S((i - 1) * M2 + (j - 1)) + bonusM
 
                     If j = M2 Then
-                        x(k) = Math.Max(m(row - W + j), x(row - W + j))
+                        x(k) = Math.Max(m((i - 1) * W + j), x((i - 1) * W + j)) + bonusX
                     Else
-                        x(k) = Math.Max(m(row - W + j) - openA, x(row - W + j) - extA)
+                        x(k) = Math.Max(m((i - 1) * W + j) - openA, x((i - 1) * W + j) - extA) + bonusX
                     End If
 
                     If i = M1 Then
-                        y(k) = Math.Max(m(k - 1), y(k - 1))
+                        y(k) = Math.Max(m(k - 1), y(k - 1)) + bonusY
                     Else
-                        y(k) = Math.Max(m(k - 1) - t.OpenBits(j - 1), y(k - 1) - t.ExtendBits(j - 1))
+                        y(k) = Math.Max(m(k - 1) - t.OpenBits(j - 1), y(k - 1) - t.ExtendBits(j - 1)) + bonusY
                     End If
                 Next
             Next
 
             Dim last As Integer = M1 * W + M2
-            stats.PartitionFunction = MaxOf(m(last), x(last), y(last))
+
+            If postM Is Nothing Then
+                stats.PartitionFunction = MaxOf(m(last), x(last), y(last))
+            End If
 
             Dim state As Integer = ArgMax(m(last), x(last), y(last))
             Dim pairs As New List(Of (Integer, Integer))()
@@ -529,20 +484,20 @@ Namespace Clustal
                 End If
 
                 Select Case state
-                    Case 0
+                    Case 0 ' MM
                         Call pairs.Add((ci - 1, cj - 1))
 
                         Dim prev As Integer = (ci - 1) * W + (cj - 1)
                         state = ArgMax(m(prev), x(prev), y(prev))
                         ci -= 1
                         cj -= 1
-                    Case 1
+                    Case 1 ' GD
                         Call pairs.Add((ci - 1, -1))
 
                         Dim down As Integer = (ci - 1) * W + cj
                         state = If(x(down) >= m(down), 1, 0)
                         ci -= 1
-                    Case Else
+                    Case Else ' DG
                         Call pairs.Add((-1, cj - 1))
 
                         Dim right As Integer = ci * W + cj - 1

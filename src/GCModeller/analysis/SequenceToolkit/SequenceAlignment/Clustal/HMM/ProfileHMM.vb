@@ -204,14 +204,16 @@ Namespace Clustal
             Next
 
             ' 3. 发射概率：频度 + Gonnet 背景先验 + 伪计数
-            Dim pseudo As Double = 1.0R
+            '    伪计数取 0.5 条序列的量级：太小会让单序列 profile 过于尖锐(过拟合)，
+            '    太大会把分布抹平，使得 log-odds 打分失去区分度
+            Dim pseudo As Double = 0.5R
             Dim emit As Double() = New Double(columns * A - 1) {}
 
             For c As Integer = 0 To columns - 1
                 Dim total As Double = matchWeight(c) + pseudo
 
-                For a As Integer = 0 To A - 1
-                    emit(c * A + a) = (counts(c * A + a) + pseudo * background(a)) / total
+                For ai As Integer = 0 To A - 1
+                    emit(c * A + ai) = (counts(c * A + ai) + pseudo * background(ai)) / total
                 Next
             Next
 
@@ -328,8 +330,8 @@ Namespace Clustal
 
                 Dim k As Integer = 0
 
-                For a As Integer = 0 To slot.Length - 1
-                    If slot(a) > 0 Then
+                For si As Integer = 0 To slot.Length - 1
+                    If slot(si) > 0 Then
                         k += 1
                     End If
                 Next

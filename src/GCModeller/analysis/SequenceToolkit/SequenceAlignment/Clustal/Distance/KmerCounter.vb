@@ -111,7 +111,7 @@ Namespace Clustal
         ''' <summary>
         ''' 两个计数表之间共享的 k-mer 个数：sum(min(countA, countB))
         ''' </summary>
-        Public Function Shared(other As KmerCounter) As Integer
+        Public Function SharedKmers(other As KmerCounter) As Integer
             If K <> other.K Then
                 Throw New ArgumentException($"k-mer 长度不一致: {K} vs {other.K}")
             End If
@@ -156,13 +156,13 @@ Namespace Clustal
         ''' 基于共享 k-mer 的归一化距离，取值区间 [0, 1]
         ''' </summary>
         Public Function Distance(other As KmerCounter) As Double
-            Dim sharedKmers As Integer = Shared(other)
-            Dim union As Integer = Total + other.Total - sharedKmers
+            Dim sharedCount As Integer = SharedKmers(other)
+            Dim union As Integer = Total + other.Total - sharedCount
 
             If union <= 0 Then
                 Return 0
             Else
-                Return 1.0R - CDbl(sharedKmers) / union
+                Return 1.0R - CDbl(sharedCount) / union
             End If
         End Function
 

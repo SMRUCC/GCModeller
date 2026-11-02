@@ -1,0 +1,14 @@
+# STOCKHOLM 1.0
+#=GF ID roundtrip
+#=GF AC roundtrip
+#=GF DE Clustal Omega style multiple sequence alignment
+#=GS s1 AC s1
+#=GS s2 AC s2
+#=GS s3 AC s3
+#=GS s4 AC s4
+s1 ------------------------------------------ATGGCAATTCCGGTT
+s2 ----------------------------ATGGCAATTCCAGTT--------------
+s3 ATGGCCATTCCGGTT------------------------------------------
+s4 --------------ATGGCAATTCCTGTT----------------------------
+#=GC seq_cons                                                          
+//

@@ -1,66 +1,64 @@
 ﻿#Region "Microsoft.VisualBasic::f0a36ca2893a3e065a7508a60275e47a, analysis\ProteinTools\ProteinTools.Interactions\SwissTCS\DataPreparations.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Class DataPreparations
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: InferInteraction, (+2 Overloads) SequenceAssemble, Trim
-    '     Class DipRecord
-    ' 
-    '         Properties: ConfidenceValues, IdInteractorA, IdInteractorB, InteractionDetectionMethods, InteractionIdentifiers
-    '                     InteractionTypes, ProcessingStatus, PublicationIdentifiers, SourceDatabases, TaxidInteractorA
-    '                     TaxidInteractorB
-    ' 
-    '         Function: Convert
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Class DataPreparations
+' 
+'     Constructor: (+1 Overloads) Sub New
+'     Function: InferInteraction, (+2 Overloads) SequenceAssemble, Trim
+'     Class DipRecord
+' 
+'         Properties: ConfidenceValues, IdInteractorA, IdInteractorB, InteractionDetectionMethods, InteractionIdentifiers
+'                     InteractionTypes, ProcessingStatus, PublicationIdentifiers, SourceDatabases, TaxidInteractorA
+'                     TaxidInteractorB
+' 
+'         Function: Convert
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Data.Framework.Extensions
 Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
-Imports RDotNet.Extensions.VisualBasic
+Imports SMRUCC.genomics.Analysis.SequenceAlignment.Clustal
 Imports SMRUCC.genomics.Interops
-Imports SMRUCC.genomics.Interops.ClustalOrg
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Programs
 Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Public Class DataPreparations
 
@@ -69,7 +67,6 @@ Public Class DataPreparations
     Dim DipFsaSequence As FASTA.FastaFile
     Dim WorkDir As String
     Dim GenomicsProteins As FASTA.FastaFile
-    Dim Clustal As Clustal
 
     ''' <summary>
     ''' 
@@ -86,17 +83,8 @@ Public Class DataPreparations
         DipFsaSequence = FASTA.FastaFile.Read(DipDir & "/dip.fsa")
         GenomicsProteins = GenomicProteins
 
-        If Not String.IsNullOrEmpty(Temp) Then
-            Call FileIO.FileSystem.CreateDirectory(Temp)
-            WorkDir = Temp & "/"
-        Else
-            Temp = My.Computer.FileSystem.SpecialDirectories.Temp & "/"
-        End If
-
         Call LocalBLAST.FormatDb(DipFsaSequence.FilePath, LocalBLAST.MolTypeProtein).Start(waitForExit:=True)
-        Call TryInit(rBin)
 
-        Clustal = New Clustal(ClustalBin)
         Call Console.WriteLine("===============================Initialization job done!======================================" & vbCrLf & vbCrLf)
     End Sub
 
@@ -179,12 +167,9 @@ Public Class DataPreparations
 
         Call Console.WriteLine("Start multiple sequence alignment calling clustal...")
         '进行多序列比对
-        TargetHomologous = Trim(Clustal.MultipleAlignment(TargetHomologous.FilePath))
-        TargetHomologousPartners = Trim(Clustal.MultipleAlignment(TargetHomologousPartners.FilePath))
+        Call ClustalOmega.MultipleAlignmentOmega(FastaFile.Read(TargetHomologous.FilePath)).SaveAs(MSAFormat.Fasta, workDir & "___target_aligned.fsa")
+        Call ClustalOmega.MultipleAlignmentOmega(FastaFile.Read(TargetHomologousPartners.FilePath)).SaveAs(MSAFormat.Fasta, workDir & "__target_partner_aligned.fsa")
         Call Console.WriteLine("Alignment job done, saving temp data!")
-
-        Call TargetHomologous.Save(workDir & "___target_aligned.fsa")
-        Call TargetHomologousPartners.Save(workDir & "__target_partner_aligned.fsa")
 
         '建模操作
         Call Console.WriteLine("Start to modelling the protein interaction Bayesian network...")
@@ -192,25 +177,22 @@ Public Class DataPreparations
         '利用所建立的模型求解具体的蛋白质互作问题
         Dim ResultInteractions As New IO.File
 
-        SyncLock R
-            With R
-                Dim model As New BnlearnModelling(SequenceAssemble(TargetHomologous, TargetHomologousPartners, pairsFile))
-                Dim StandardOutput As String() = .WriteLine(model)
+        Dim model As New BnlearnModelling(SequenceAssemble(TargetHomologous, TargetHomologousPartners, pairsFile))
+        Dim StandardOutput As String() = .WriteLine(model)
 
-                Call Console.WriteLine("Modelling job done!")
-                Call ResultInteractions.Add(New String() {"GeneId", "InteractionPartner", "Possibilities"})
-                Call Console.WriteLine("Predicting protein interactions...")
+        Call Console.WriteLine("Modelling job done!")
+        Call ResultInteractions.Add(New String() {"GeneId", "InteractionPartner", "Possibilities"})
+        Call Console.WriteLine("Predicting protein interactions...")
 
-                For Each x In pairsFilePretend.Skip(1)
-                    Dim seqPair = SequenceAssemble(TargetHomologous, TargetHomologousPartners, New KeyValuePair(Of String, String)(x(0), x(1)))
-                    Dim stpwatch = Stopwatch.StartNew
-                    StandardOutput = .WriteLine(New BnlearnInference(seqPair.Key, seqPair.Value)) '对未知的两个蛋白质之间的互作问题做出推测
-                    Call x.Add(StandardOutput.First)
-                    Call Console.WriteLine("{0} -> {1}  P(A|B):={2}, {3}ms", x(0), x(1), x(2), stpwatch.ElapsedMilliseconds)
-                    Call ResultInteractions.Add(x)
-                Next
-            End With
-        End SyncLock
+        For Each x In pairsFilePretend.Skip(1)
+            Dim seqPair = SequenceAssemble(TargetHomologous, TargetHomologousPartners, New KeyValuePair(Of String, String)(x(0), x(1)))
+            Dim stpwatch = Stopwatch.StartNew
+            StandardOutput = .WriteLine(New BnlearnInference(seqPair.Key, seqPair.Value)) '对未知的两个蛋白质之间的互作问题做出推测
+            Call x.Add(StandardOutput.First)
+            Call Console.WriteLine("{0} -> {1}  P(A|B):={2}, {3}ms", x(0), x(1), x(2), stpwatch.ElapsedMilliseconds)
+            Call ResultInteractions.Add(x)
+        Next
+
 
         Call Console.WriteLine("Prediction job done!" & vbCrLf)
         Call Console.WriteLine("==================END_OF_PREDITION_OF ""{0}""=====================", GeneId)
