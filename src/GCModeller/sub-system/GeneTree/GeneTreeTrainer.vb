@@ -203,6 +203,7 @@ Public Class GeneTreeTrainer
 
         ' TGBoost 内部会把每一次建树都写入日志通道（18404 个模型 × 40 轮 ≈ 74 万行），
         ' 训练期间屏蔽控制台回显，避免把时间浪费在终端输出上
+        GBM.logger.SetSplit(split:=Nothing)
         Parallel.For(0, total, popts,
             Sub(k As Integer)
                 Dim gene As String = targets(k)
