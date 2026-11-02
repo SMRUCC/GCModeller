@@ -117,7 +117,31 @@ Namespace Coordinates
                     Return New Vec3(1, 0, 0)
 
                 Case 1
-                    Return -directions(0)
+                    ' 只有一个已知邻居：新键与它成理想夹角（sp 为 180°，其余按 VSEPR 收敛）
+                    Dim u As Vec3 = directions(0)
+
+                    If theta >= 175 Then Return -u
+
+                    Dim rad1 As Double = theta * Math.PI / 180.0
+                    Dim perp As Vec3 = Vec3.AnyPerpendicular(u)
+                    Dim best As Vec3 = -u
+                    Dim bestScore As Double = Double.MinValue
+
+                    For k = 0 To 5
+                        Dim spin As Vec3 = Vec3.Rotate(perp, u, 60 * k)
+                        Dim candidate As Vec3 = (u * Math.Cos(rad1) + spin * Math.Sin(rad1)).Normalize()
+
+                        If candidate.Length < 0.2 Then Continue For
+
+                        Dim score As Double = clearance(graph, positions, placed, a, candidate)
+
+                        If score > bestScore Then
+                            bestScore = score
+                            best = candidate
+                        End If
+                    Next
+
+                    Return best
 
                 Case 2
                     Dim sum As Vec3 = directions(0) + directions(1)
@@ -253,11 +277,11 @@ Namespace Coordinates
 
             For iteration = 1 To iterations
                 For Each item In bonds
-                    Call relaxPair(positions, item.a, item.b, item.target, options.BondWeight * 0.5)
+                    Call relaxPair(positions, item.a, item.b, item.target, options.BondWeight)
                 Next
 
                 For Each item In angles
-                    Call relaxPair(positions, item.a, item.c, item.target, options.AngleWeight * 0.35)
+                    Call relaxPair(positions, item.a, item.c, item.target, options.AngleWeight)
                 Next
 
                 For Each item In repulsion
@@ -265,7 +289,7 @@ Namespace Coordinates
                     Dim d As Double = delta.Length
 
                     If d < cutoff AndAlso d > EPS Then
-                        Dim push As Double = (cutoff - d) / d * 0.02 * options.RepulsionWeight * 10
+                        Dim push As Double = (cutoff - d) / d * 0.5 * options.RepulsionWeight
 
                         positions(item.a) -= delta * push
                         positions(item.b) += delta * push
@@ -293,7 +317,13 @@ Namespace Coordinates
                 Return
             End If
 
-            Dim move As Vec3 = delta * ((d - target) / d * weight * 0.5)
+            ' 把单步修正量限制在当前间距的一半以内，避免极短距离下出现过冲振荡
+            Dim factor As Double = (d - target) / d * weight * 0.5
+
+            If factor > 0.5 Then factor = 0.5
+            If factor < -0.5 Then factor = -0.5
+
+            Dim move As Vec3 = delta * factor
 
             positions(a) += move
             positions(b) -= move

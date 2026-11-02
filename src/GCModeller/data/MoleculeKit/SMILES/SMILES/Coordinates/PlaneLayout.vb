@@ -560,6 +560,9 @@ Namespace Coordinates
 
             Dim delta As Double = (d - target) / d * weight * 0.5
 
+            If delta > 0.5 Then delta = 0.5
+            If delta < -0.5 Then delta = -0.5
+
             px(a) += dx * delta
             py(a) += dy * delta
             px(b) -= dx * delta

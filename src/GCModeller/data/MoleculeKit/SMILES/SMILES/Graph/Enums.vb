@@ -1,4 +1,4 @@
-Namespace Graph
+﻿Namespace Graph
 
     ''' <summary>
     ''' 原子的四面体手性标记（源自 SMILES 的 <c>@</c> / <c>@@</c> 记号）。
@@ -104,7 +104,7 @@ Namespace Graph
         ''' <summary>
         ''' 键角项的力常数。默认 <c>0.35</c>。
         ''' </summary>
-        Public Property AngleWeight As Double = 0.35
+        Public Property AngleWeight As Double = 0.8
 
         ''' <summary>
         ''' 环平面性项的力常数。默认 <c>0.15</c>。
@@ -114,12 +114,12 @@ Namespace Graph
         ''' <summary>
         ''' 非键排斥项的力常数。默认 <c>0.08</c>。
         ''' </summary>
-        Public Property RepulsionWeight As Double = 0.08
+        Public Property RepulsionWeight As Double = 1.0
 
         ''' <summary>
         ''' 非键排斥的截断距离（Å）。默认 <c>3.2</c>。
         ''' </summary>
-        Public Property RepulsionCutoff As Double = 3.2
+        Public Property RepulsionCutoff As Double = 1.9
 
         ''' <summary>
         ''' 是否在重建坐标之前把隐式氢展开为显式氢原子。默认 <c>True</c>。
