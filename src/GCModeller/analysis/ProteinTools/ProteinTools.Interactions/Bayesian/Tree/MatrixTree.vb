@@ -131,7 +131,9 @@ Namespace Bayesian.Tree
                 laplacian(i, i) = diagonal
             Next
 
-            Dim logDet As Double = NumericLogSpace.LogDet(laplacian)
+            ' Laplacian 的余子式是对称正定的，因此使用 Cholesky 分解计算对数行列式，
+            ' 这样在边权跨越多个数量级的时候也不会出现相消误差。
+            Dim logDet As Double = NumericLogSpace.LogDetSpd(laplacian)
 
             If Double.IsNegativeInfinity(logDet) Then
                 Return Double.NegativeInfinity
