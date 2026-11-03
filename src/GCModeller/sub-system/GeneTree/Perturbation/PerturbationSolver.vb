@@ -1,4 +1,6 @@
 
+Imports System.Text
+
 ''' <summary>
 ''' 非线性调控网络的稳态求解器：阻尼定点迭代
 ''' <c>x_i^new = (1-α)·x_i^old + α·f_i(X_Reg(i)^old)</c>。
@@ -85,10 +87,12 @@ Public Class PerturbationSolver
                           Optional pinned As IReadOnlyDictionary(Of Integer, Double) = Nothing,
                           Optional hardCap As Integer = 0,
                           Optional warmStart As Boolean = False) As SolveResult
+
         If initial Is Nothing OrElse initial.Length = 0 Then
             Throw New ArgumentNullException(NameOf(initial))
         End If
 
+        Dim t0 = Now
         Dim nGenes As Integer = m_models.Length
 
         If initial.Length <> nGenes Then
@@ -104,13 +108,14 @@ Public Class PerturbationSolver
 
         ' ---- 均匀初始态折叠：全基因组上下文会把所有细胞设置成同一个状态 ----
         Dim collapsed As Boolean = False
+        Dim logtext As New StringBuilder
 
         If m_config.CollapseUniformPopulation AndAlso population > 1 AndAlso isUniform(initial, population) Then
             collapsed = True
             population = 1
 
             If m_config.Verbose Then
-                Console.WriteLine($"  [GeneTree] 初始状态在所有细胞上完全一致，已折叠为单细胞轨迹（{nGenes} 个基因）")
+                Call logtext.AppendLine($"  [GeneTree] 初始状态在所有细胞上完全一致，已折叠为单细胞轨迹（{nGenes} 个基因）")
             End If
         End If
 
@@ -204,18 +209,18 @@ Public Class PerturbationSolver
                 exceeded = True
 
                 If m_config.Verbose Then
-                    Console.WriteLine($"  [GeneTree] 软上限 {softLimit} 轮后仍有 {moving} 个基因在移动（最大相对变化 {maxChange.ToString("G4")}），" &
+                    Call logtext.AppendLine($"  [GeneTree] 软上限 {softLimit} 轮后仍有 {moving} 个基因在移动（最大相对变化 {maxChange.ToString("G4")}），" &
                                       $"继续迭代到硬上限 {hardLimit} 轮")
                 End If
             End If
 
             If m_config.Verbose AndAlso iteration Mod 10 = 0 Then
-                Console.WriteLine($"  [GeneTree] 迭代 {iteration}/{hardLimit}，最大相对变化 {maxChange.ToString("G4")}，" &
+                Call logtext.AppendLine($"  [GeneTree] 迭代 {iteration}/{hardLimit}，最大相对变化 {maxChange.ToString("G4")}，" &
                                   $"仍在移动的基因 {moving}/{nGenes}")
             End If
         Next
 
-        Return New SolveResult With {
+        Dim solved As New SolveResult With {
             .SteadyState = cur,
             .Iterations = Math.Min(iteration, hardLimit),
             .Converged = converged,
@@ -226,6 +231,14 @@ Public Class PerturbationSolver
             .Collapsed = collapsed,
             .ExceededSoftLimit = exceeded
         }
+
+        If m_config.Verbose Then
+            Call logtext.AppendLine($"[GeneTree] 扰动稳态求解完成（{StringFormats.ReadableElapsedTime(Now - t0)}）: {solved.ToString}")
+        End If
+
+        solved.log = logtext.ToString
+
+        Return solved
     End Function
 
     ''' <summary>

@@ -971,21 +971,14 @@ Public Class XGBoostGRN : Implements InsilicoPerturbationExperiment
         Next
 
         Dim solver As PerturbationSolver = getSolver()
-        Dim watch As Stopwatch = Stopwatch.StartNew()
         Dim solved As SolveResult = solver.Solve(initial, pinned, warmStart:=warmStart)
-
-        watch.Stop()
-        m_lastSolve = solved
-
-        If m_config.Verbose Then
-            Console.WriteLine($"[GeneTree] 扰动稳态求解完成（{watch.Elapsed.TotalSeconds.ToString("F2")}s）: {solved.ToString}")
-        End If
-
         Dim mutant As Double() = solved.GetMeans()
         Dim fold As Double() = New Double(n - 1) {}
         Dim percent As Double() = New Double(n - 1) {}
         Dim zscore As Double() = New Double(n - 1) {}
         Dim significant As Boolean() = New Boolean(n - 1) {}
+
+        m_lastSolve = solved
 
         For i As Integer = 0 To n - 1
             fold(i) = mutant(i) - means(i)

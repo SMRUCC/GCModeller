@@ -51,6 +51,8 @@ Public Class SolveResult
         End Get
     End Property
 
+    Public Property log As String
+
     ''' <summary>
     ''' 稳态下每个基因在细胞种群上的均值
     ''' </summary>
