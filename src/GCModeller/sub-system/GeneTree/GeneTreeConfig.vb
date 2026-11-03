@@ -1,4 +1,5 @@
 Imports System.Text
+Imports SMRUCC.genomics.BioSystem
 
 ''' <summary>
 ''' 训练规模的预设档位（与 readme 中的“快速验证 / 精度优先 / 全量”三档对应）
@@ -376,14 +377,17 @@ Public Class GeneTreeConfig
     Public Property MaxClampRatio As Double = 0.05
 
     ''' <summary>
-    ''' 是否在注入表达状态上下文（context）时执行分位对齐，默认开启。
+    ''' 注入表达状态上下文（context）时使用的对齐模式，默认 <see cref="ContextAlignmentMode.Quantile"/>。
     ''' </summary>
     ''' <remarks>
     ''' 外部管线给出的 context（例如 pseudobulk 的 mean counts）与模型训练矩阵往往不是同一套归一化，
     ''' 直接注入会让大部分特征落到决策树的极值叶子上，局部灵敏度接近零。
     ''' 分位对齐会把 context 映射回每个基因自身的训练分布，同时保留基因之间的相对高低。
+    ''' 
+    ''' 对齐算法由公共组件 <see cref="Intervention.ContextAligner"/> 提供，可以在运行期通过
+    ''' <c>XGBoostGRN.SetContextAlignmentMode</c> 切换为其它模式（例如两条管线一致时用 <c>None</c>）。
     ''' </remarks>
-    Public Property ContextQuantileAlignment As Boolean = True
+    Public Property ContextAlignmentMode As ContextAlignmentMode = ContextAlignmentMode.Quantile
 
     ''' <summary>
     ''' 有上下文时，是否把“同一上下文下不做任何扰动”的控制稳态作为差异分析的野生型基线。

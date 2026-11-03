@@ -5,6 +5,7 @@ Imports System.Text
 Imports System.Threading
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MachineLearning.XGBoost.train
+Imports SMRUCC.genomics.BioSystem
 
 ''' <summary>
 ''' GeneTree 模型的 zip 存档读写。
@@ -119,7 +120,7 @@ Public Module GeneTreeStorage
         values("opt.overexpressionFactor") = number(opt.OverexpressionFactor)
         values("opt.maxClampRatio") = number(opt.MaxClampRatio)
         values("opt.maxIterationsHardCap") = opt.MaxIterationsHardCap.ToString
-        values("opt.contextQuantileAlignment") = bool(opt.ContextQuantileAlignment)
+        values("opt.contextAlignmentMode") = opt.ContextAlignmentMode.ToString
         values("opt.baselineFromControlSteadyState") = bool(opt.BaselineFromControlSteadyState)
         values("opt.collapseUniformPopulation") = bool(opt.CollapseUniformPopulation)
         ' ---- 结构发现 ----
@@ -512,7 +513,7 @@ Public Module GeneTreeStorage
             .OverexpressionFactor = getDouble(values, "opt.overexpressionFactor", 2.0R),
             .MaxClampRatio = getDouble(values, "opt.maxClampRatio", 0.05R),
             .MaxIterationsHardCap = getInt(values, "opt.maxIterationsHardCap", 0),
-            .ContextQuantileAlignment = getBool(values, "opt.contextQuantileAlignment", True),
+            .ContextAlignmentMode = parseAlignmentMode(values),
             .BaselineFromControlSteadyState = getBool(values, "opt.baselineFromControlSteadyState", True),
             .CollapseUniformPopulation = getBool(values, "opt.collapseUniformPopulation", True),
             .EdgeDiscovery = parseDiscoveryMode(getValue(values, "opt.edgeDiscovery")),
@@ -536,6 +537,31 @@ Public Module GeneTreeStorage
         Else
             Return EdgeDiscoveryMode.AracneOnly
         End If
+    End Function
+
+    ''' <summary>
+    ''' 解析存档中的上下文对齐模式。
+    ''' </summary>
+    ''' <remarks>
+    ''' 新存档写入 <c>opt.contextAlignmentMode</c>；旧存档只有布尔键
+    ''' <c>opt.contextQuantileAlignment</c>（<c>True</c> → <see cref="ContextAlignmentMode.Quantile"/>，
+    ''' <c>False</c> → <see cref="ContextAlignmentMode.None"/>），这里做向后兼容，
+    ''' 避免旧模型包加载之后行为突变。
+    ''' </remarks>
+    Private Function parseAlignmentMode(values As Dictionary(Of String, String)) As ContextAlignmentMode
+        Dim text As String = getValue(values, "opt.contextAlignmentMode")
+
+        If Not String.IsNullOrWhiteSpace(text) Then
+            Dim mode As ContextAlignmentMode
+
+            If [Enum].TryParse(text.Trim(), True, mode) Then
+                Return mode
+            End If
+        End If
+
+        Return If(getBool(values, "opt.contextQuantileAlignment", True),
+                  ContextAlignmentMode.Quantile,
+                  ContextAlignmentMode.None)
     End Function
 
     Private Sub readGenes(zip As ZipArchive, ByRef genes As String(), ByRef tfFlags As Boolean())

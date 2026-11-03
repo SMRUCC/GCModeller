@@ -47,7 +47,7 @@ Imports std = System.Math
 ''' <see cref="ControlSteadyState"/> 给出了“不施加任何干预”时的稳态均值，可用于对扰动结果做基线校正与诊断。
 ''' </para>
 ''' <para>
-''' **表达状态上下文**：<see cref="SetContext(IDictionary(Of String, Double), Boolean)"/> 可以把模型从
+''' **表达状态上下文**：<see cref="SetContext(Dictionary(Of String, Double))"/> 可以把模型从
 ''' “训练时的野生型基线”切换到任意给定的表达状态（例如某个疾病态、处理态或者外部扰动实验的对照态），
 ''' 之后的 <see cref="Predict"/> / <see cref="KnockoutGene"/> / <see cref="OverexpressGene"/> /
 ''' <see cref="KnockDownGene"/> 都会以这个状态作为迭代起点与差异分析的基线。
@@ -72,12 +72,22 @@ Public Class XGBoostGRN : Implements InsilicoPerturbationExperiment
     Private m_control As Double()
     Private m_controlSolve As SolveResult
     Private m_lastSolve As SolveResult
-    Private m_context As Dictionary(Of String, Double)
+    ''' <summary>上下文的原始值 + 对齐结果 + 诊断（对齐算法由公共组件提供）。</summary>
+    Private m_contextState As ContextAlignmentState
     Private m_contextFix As Boolean = False
-    Private m_contextAligned As Boolean = False
     Private m_contextNote As String = Nothing
     Private m_contextClampGenes As Integer = 0
-    Private m_unknownContext As String() = New String() {}
+
+    ''' <summary>上下文状态容器（惰性创建，默认模式取 <see cref="GeneTreeConfig.ContextAlignmentMode"/>）。</summary>
+    Private ReadOnly Property ContextState As ContextAlignmentState
+        Get
+            If m_contextState Is Nothing Then
+                m_contextState = New ContextAlignmentState(m_config.ContextAlignmentMode)
+            End If
+
+            Return m_contextState
+        End Get
+    End Property
 
     ''' <summary>调控网络拓扑</summary>
     Public ReadOnly Property Graph As GeneRegulationGraph
@@ -224,7 +234,7 @@ Public Class XGBoostGRN : Implements InsilicoPerturbationExperiment
     ''' <remarks>
     ''' 该结果同时被用作扰动的热启动点：从控制稳态出发，被扰动基因之外的部分已经在稳态上，
     ''' 因此只需要传播扰动本身，收敛速度远快于从原始观测谱出发。
-    ''' 上下文（<see cref="SetContext(IDictionary(Of String, Double), Boolean)"/>）、
+    ''' 上下文（<see cref="SetContext(Dictionary(Of String, Double))"/>）、
     ''' 求解参数（<see cref="ResetSolver"/>）或者模型本身发生变化时缓存会失效。
     ''' </remarks>
     Public Function GetControlSolve() As SolveResult
@@ -258,7 +268,23 @@ Public Class XGBoostGRN : Implements InsilicoPerturbationExperiment
     ''' <returns></returns>
     Public ReadOnly Property ContextAligned As Boolean
         Get
-            Return m_contextAligned
+            Dim diagnosis As ContextAlignmentDiagnostics = ContextState.Diagnostics
+
+            Return diagnosis IsNot Nothing AndAlso diagnosis.Aligned
+        End Get
+    End Property
+
+    ''' <summary>上下文对齐使用的模式（默认 <see cref="ContextAlignmentMode.Quantile"/>）。</summary>
+    Public ReadOnly Property ContextAlignmentMode As ContextAlignmentMode
+        Get
+            Return ContextState.Mode
+        End Get
+    End Property
+
+    ''' <summary>最近一次上下文注入的完整诊断（覆盖率、未知基因、越界基因等）。</summary>
+    Public ReadOnly Property ContextDiagnostics As ContextAlignmentDiagnostics
+        Get
+            Return ContextState.Diagnostics
         End Get
     End Property
 
@@ -301,16 +327,12 @@ Public Class XGBoostGRN : Implements InsilicoPerturbationExperiment
     ''' <summary>
     ''' 当前生效的表达状态上下文（基因名 → 表达值）。
     ''' 
-    ''' 没有被 <see cref="SetContext(IDictionary(Of String, Double), Boolean)"/> 设置过的时候为<c>Nothing</c>。
+    ''' 没有被 <see cref="SetContext(Dictionary(Of String, Double))"/> 设置过的时候为<c>Nothing</c>。
     ''' </summary>
     ''' <returns></returns>
     Public ReadOnly Property Context As IReadOnlyDictionary(Of String, Double)
         Get
-            If m_context Is Nothing Then
-                Return Nothing
-            Else
-                Return m_context
-            End If
+            Return ContextState.Values
         End Get
     End Property
 
@@ -325,12 +347,23 @@ Public Class XGBoostGRN : Implements InsilicoPerturbationExperiment
     End Property
 
     ''' <summary>
+    ''' 是否在迭代过程中把上下文基因钳制为给定值。
+    ''' </summary>
+    ''' <remarks>
+    ''' <c>True</c> 相当于“基因敲入/外源表达固定”的实验，钳制基因的抽样标准差会被置零（不做 z 检验）；
+    ''' <c>False</c>（默认）表示上下文只作为迭代起点，随网络一起演化。
+    ''' 当钳制基因数超过 <see cref="GeneTreeConfig.MaxClampRatio"/> 时库会自动降级为
+    ''' “仅作为迭代初始状态”，降级原因记录在 <see cref="ContextNote"/> 之中。
+    ''' </remarks>
+    Public Property FixContext As Boolean = False
+
+    ''' <summary>
     ''' 是否已经设置了表达状态上下文
     ''' </summary>
     ''' <returns></returns>
     Public ReadOnly Property HasContext As Boolean
         Get
-            Return m_context IsNot Nothing AndAlso m_context.Count > 0
+            Return ContextState.HasContext
         End Get
     End Property
 
@@ -340,7 +373,13 @@ Public Class XGBoostGRN : Implements InsilicoPerturbationExperiment
     ''' <returns></returns>
     Public ReadOnly Property UnknownContextGenes As String()
         Get
-            Return m_unknownContext
+            Dim diagnosis As ContextAlignmentDiagnostics = ContextState.Diagnostics
+
+            If diagnosis Is Nothing OrElse diagnosis.UnknownGenes Is Nothing Then
+                Return New String() {}
+            Else
+                Return diagnosis.UnknownGenes
+            End If
         End Get
     End Property
 
@@ -575,54 +614,42 @@ Public Class XGBoostGRN : Implements InsilicoPerturbationExperiment
     ''' + <see cref="InterventionResult.WildtypeMeans"/> 会用上下文的取值替换对应基因的基线均值，
     '''   因此 <see cref="InterventionResult.FoldChanges"/> 是相对“上下文状态”的变化量，
     '''   这样可以模拟在某个特定细胞状态（例如疾病态、处理态）之上再施加基因扰动；
-    ''' + <paramref name="fix"/> 为<c>True</c> 时，上下文之中的基因在整个迭代过程中被钳制（固定为给定值），
-    '''   相当于“基因敲入/外源表达固定”的实验，此时它们的标准差被置零（不做 z 检验）；
-    '''   为<c>False</c> 时它们只作为起点，会随网络一起演化，标准差仍然是细胞种群上的统计量。
+    ''' + 是否在迭代过程中钳制上下文基因由 <see cref="FixContext"/> 控制
+    '''   （需要“基因敲入/外源表达固定”语义时把它设为 <c>True</c>）。
     ''' </summary>
     ''' <param name="context">基因名 → 表达值。名字大小写不敏感，无法映射的名字会记录在 <see cref="UnknownContextGenes"/> 之中</param>
-    ''' <param name="fix">
-    ''' 是否在迭代过程中钳制上下文基因的取值。
-    ''' 
+    ''' <returns>当前对象（便于链式调用）</returns>
+    ''' <remarks>
+    ''' <para>
+    ''' 外部管线的 context 与模型训练矩阵往往不是同一套归一化，直接注入会让特征落到决策树的极值叶子上，
+    ''' 局部灵敏度趋近于零。因此这里统一走公共组件 <see cref="ContextAligner"/>：
+    ''' 默认按 <see cref="ContextAlignmentMode.Quantile"/>（每基因训练种群的分位映射）对齐，
+    ''' 也可以通过 <see cref="SetContextAlignmentMode"/> 切换为其它模式。
+    ''' 对齐结果与覆盖情况记录在 <see cref="ContextDiagnostics"/> 之中。
+    ''' </para>
+    ''' <para>
     ''' 钳制只对少量基因有意义：当钳制的基因数超过 <c>GeneTreeConfig.MaxClampRatio</c>（默认 5%）时，
     ''' 网络会失去几乎全部自由度、扰动结果必然趋近于零，因此库会**自动降级**为“仅作为迭代初始状态”，
     ''' 并把原因记录到 <see cref="ContextNote"/>。
-    ''' </param>
-    ''' <returns>当前对象（便于链式调用）</returns>
-    ''' <remarks>
-    ''' 外部管线的 context 与模型训练矩阵往往不是同一套归一化，直接注入会让特征落到决策树的极值叶子上，
-    ''' 因此当 <c>GeneTreeConfig.ContextQuantileAlignment</c> 开启（默认）时，
-    ''' 每次调用都会按每基因自身的种群分布做**分位对齐**，把值映射回模型尺度并保留基因间的相对高低，
-    ''' 对齐结果可以通过 <see cref="ContextAligned"/> 与 <see cref="Context"/> 检查。
+    ''' </para>
     ''' </remarks>
-    ''' <exception cref="InvalidDataException">表达值不是有效数值</exception>
-    ''' <exception cref="InvalidOperationException">上下文之中没有任何基因能够映射到模型上，或者模型尚未训练（无法做分位对齐）</exception>
-    Public Function SetContext(context As IDictionary(Of String, Double), Optional fix As Boolean = False) As XGBoostGRN
+    ''' <exception cref="InvalidOperationException">
+    ''' 上下文之中没有任何基因能够映射到模型上，或者所选对齐模式缺少必需的训练统计量（例如模型尚未训练）
+    ''' </exception>
+    Public Function SetContext(context As Dictionary(Of String, Double)) As InsilicoPerturbationExperiment Implements InsilicoPerturbationExperiment.SetContext
         If context Is Nothing OrElse context.Count = 0 Then
-            Return ClearContext()
+            Call ClearContext()
+
+            Return Me
         End If
 
-        Dim values As New Dictionary(Of String, Double)(StringComparer.OrdinalIgnoreCase)
-        Dim unknown As New List(Of String)
+        ' ---- 1. 公共组件负责对齐：把外部管线的数值映射回模型自身的表达尺度 ----
+        Dim aligned As ContextAlignmentResult = ContextState.SetContext(context, buildContextReference())
+        Dim notes As New List(Of String)(aligned.Diagnostics.Notes)
 
-        For Each item As KeyValuePair(Of String, Double) In context
-            Dim name As String = If(item.Key, "").Trim()
-
-            If name.Length = 0 Then
-                Continue For
-            End If
-            If Double.IsNaN(item.Value) OrElse Double.IsInfinity(item.Value) Then
-                Throw New InvalidDataException($"上下文基因 '{name}' 的表达值 {item.Value} 不是有效数值")
-            End If
-
-            If m_geneIndex.ContainsKey(name) Then
-                values(name) = item.Value
-            Else
-                Call unknown.Add(name)
-            End If
-        Next
-
-        If values.Count = 0 Then
-            Dim detail As String = If(unknown.Count = 0,
+        If aligned.Diagnostics.Matched = 0 Then
+            Dim unknown As String() = aligned.Diagnostics.UnknownGenes
+            Dim detail As String = If(unknown.Length = 0,
                 "",
                 $"（无法匹配的基因示例: {String.Join(", ", unknown.Take(10))}）")
 
@@ -630,32 +657,12 @@ Public Class XGBoostGRN : Implements InsilicoPerturbationExperiment
                 $"表达状态上下文之中没有任何基因能够映射到模型的 {m_genes.Length} 个基因上{detail}")
         End If
 
-        Dim notes As New List(Of String)
-        Dim aligned As Boolean = False
-
-        ' ---- 1. 分位对齐：把外部管线的数值映射回模型自身的表达尺度 ----
-        If m_config.ContextQuantileAlignment Then
-            If Not IsFitted Then
-                Throw New InvalidOperationException(
-                    "对上下文做分位对齐需要模型已经训练完成（或者从存档加载），请先调用 Fit() / XGBoostGRN.Load()")
-            End If
-
-            If values.Count >= 2 Then
-                values = ExpressionContextAlignment.Align(values, m_population, m_geneIndex)
-                aligned = True
-
-                Call notes.Add($"context 已按每基因种群分布做分位对齐（{values.Count} 个基因）")
-            Else
-                ' 只有一个基因时“跨基因分位”没有定义，保留调用方给出的显式取值
-                Call notes.Add("上下文只包含 1 个基因，分位对齐无定义，已按给定值直接注入")
-            End If
-        End If
-
         ' ---- 2. 钳制规模检查：全基因组 context 的钳制会让网络失去全部自由度 ----
+        Dim values As Dictionary(Of String, Double) = aligned.Values
         Dim clampGenes As Integer = 0
-        Dim effectiveFix As Boolean = fix
+        Dim effectiveFix As Boolean = FixContext
 
-        If fix Then
+        If FixContext Then
             Dim limit As Integer = std.Max(1, CInt(std.Truncate(m_config.MaxClampRatio * m_genes.Length)))
 
             If values.Count > limit Then
@@ -671,12 +678,9 @@ Public Class XGBoostGRN : Implements InsilicoPerturbationExperiment
             End If
         End If
 
-        m_context = values
         m_contextFix = effectiveFix
-        m_contextAligned = aligned
         m_contextClampGenes = clampGenes
         m_contextNote = If(notes.Count = 0, Nothing, String.Join("；", notes))
-        m_unknownContext = unknown.ToArray
         ' 控制稳态与上下文相关，必须失效重算
         m_control = Nothing
         m_controlSolve = Nothing
@@ -690,33 +694,34 @@ Public Class XGBoostGRN : Implements InsilicoPerturbationExperiment
     End Function
 
     ''' <summary>
-    ''' 设置表达状态上下文（平行数组形式）
+    ''' 切换上下文对齐模式；若已经注入过上下文，会立即用同一份原始上下文重新对齐。
     ''' </summary>
-    ''' <param name="genes">基因名数组</param>
-    ''' <param name="values">与 <paramref name="genes"/> 一一对应的表达值</param>
-    ''' <param name="fix">是否在迭代过程中钳制上下文基因的取值</param>
+    ''' <param name="mode">新的对齐模式</param>
     ''' <returns>当前对象（便于链式调用）</returns>
-    Public Function SetContext(genes As String(), values As Double(), Optional fix As Boolean = False) As XGBoostGRN
-        If genes Is Nothing OrElse genes.Length = 0 Then
-            Return ClearContext()
-        End If
-        If values Is Nothing OrElse values.Length <> genes.Length Then
-            Throw New ArgumentException(
-                $"基因名数组的长度 {If(genes Is Nothing, 0, genes.Length)} 与表达值数组的长度 " &
-                $"{If(values Is Nothing, 0, values.Length)} 不一致")
-        End If
+    ''' <remarks>
+    ''' 树模型只按阈值切分特征，因此默认使用 <see cref="ContextAlignmentMode.Quantile"/>；
+    ''' 当上下文的归一化管线与训练矩阵完全一致时，可以切换为
+    ''' <see cref="ContextAlignmentMode.None"/> 以保留原始的绝对量纲。
+    ''' </remarks>
+    Public Function SetContextAlignmentMode(mode As ContextAlignmentMode) As InsilicoPerturbationExperiment Implements InsilicoPerturbationExperiment.SetContextAlignmentMode
+        Call ContextState.SetMode(mode)
 
-        Dim context As New Dictionary(Of String, Double)(StringComparer.OrdinalIgnoreCase)
+        ' 对齐结果变了，控制稳态与上一次求解结果都必须失效
+        m_control = Nothing
+        m_controlSolve = Nothing
+        m_lastSolve = Nothing
 
-        For i As Integer = 0 To genes.Length - 1
-            Dim name As String = If(genes(i), "").Trim()
+        Return Me
+    End Function
 
-            If name.Length > 0 Then
-                context(name) = values(i)
-            End If
-        Next
-
-        Return SetContext(context, fix)
+    ''' <summary>构造公共对齐组件所需的训练侧统计量。</summary>
+    Private Function buildContextReference() As ContextAlignmentReference
+        Return New ContextAlignmentReference With {
+            .GeneNames = m_genes,
+            .Means = m_means,
+            .StandardDeviations = m_sds,
+            .Population = m_population
+        }
     End Function
 
     ''' <summary>
@@ -724,12 +729,11 @@ Public Class XGBoostGRN : Implements InsilicoPerturbationExperiment
     ''' </summary>
     ''' <returns>当前对象（便于链式调用）</returns>
     Public Function ClearContext() As XGBoostGRN
-        m_context = Nothing
+        Call ContextState.Clear()
+
         m_contextFix = False
-        m_contextAligned = False
         m_contextNote = Nothing
         m_contextClampGenes = 0
-        m_unknownContext = New String() {}
         m_control = Nothing
         m_controlSolve = Nothing
         m_lastSolve = Nothing
@@ -754,7 +758,7 @@ Public Class XGBoostGRN : Implements InsilicoPerturbationExperiment
             Return pinned
         End If
 
-        For Each item As KeyValuePair(Of String, Double) In m_context
+        For Each item As KeyValuePair(Of String, Double) In ContextState.Values
             Dim idx As Integer = -1
 
             If Not m_geneIndex.TryGetValue(item.Key, idx) Then
@@ -789,7 +793,7 @@ Public Class XGBoostGRN : Implements InsilicoPerturbationExperiment
     ''' <param name="specs">干预定义集合；多个元素表示组合扰动</param>
     ''' <returns></returns>
     ''' <remarks>
-    ''' 如果已经通过 <see cref="SetContext(IDictionary(Of String, Double), Boolean)"/> 设置了表达状态上下文，
+    ''' 如果已经通过 <see cref="SetContext(Dictionary(Of String, Double))"/> 设置了表达状态上下文，
     ''' 那么迭代会从上下文状态出发，并且变化量是相对上下文基线的。
     ''' 
     ''' 当 <c>GeneTreeConfig.BaselineFromControlSteadyState</c> 开启（默认）时，
@@ -839,7 +843,7 @@ Public Class XGBoostGRN : Implements InsilicoPerturbationExperiment
             Return pinned
         End If
 
-        For Each item As KeyValuePair(Of String, Double) In m_context
+        For Each item As KeyValuePair(Of String, Double) In ContextState.Values
             Dim idx As Integer = -1
 
             If m_geneIndex.TryGetValue(item.Key, idx) Then

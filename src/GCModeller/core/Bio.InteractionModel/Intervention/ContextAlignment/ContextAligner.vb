@@ -454,7 +454,7 @@ Namespace Intervention
                 Return Not (Double.IsNaN(lower) OrElse Double.IsNaN(upper)) AndAlso upper >= lower
             End If
 
-            Dim population As Double() = reference.SortedPopulation
+            Dim population As Double()() = reference.SortedPopulation
 
             If population Is Nothing OrElse index >= population.Length Then
                 Return False
@@ -702,7 +702,7 @@ Namespace Intervention
                         Return reference.Means(index)
                     End If
                 Case ContextMissingGeneFill.Minimum
-                    Dim population As Double() = reference.SortedPopulation
+                    Dim population As Double()() = reference.SortedPopulation
 
                     If population IsNot Nothing AndAlso index < population.Length AndAlso
                        population(index) IsNot Nothing AndAlso population(index).Length > 0 Then

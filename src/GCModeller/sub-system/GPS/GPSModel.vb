@@ -435,25 +435,92 @@ Public Class GPSModel : Implements InsilicoPerturbationExperiment
     End Property
 
     ''' <summary>
+    ''' 上下文状态（默认 <see cref="ContextAlignmentMode.Affine"/>：模型在逐基因 z-score 空间训练）。
+    ''' </summary>
+    Private m_contextState As ContextAlignmentState
+
+    Private ReadOnly Property ContextState As ContextAlignmentState
+        Get
+            If m_contextState Is Nothing Then
+                m_contextState = New ContextAlignmentState(ContextAlignmentMode.Affine)
+            End If
+
+            Return m_contextState
+        End Get
+    End Property
+
+    ''' <summary>当前生效的上下文对齐模式。</summary>
+    Public ReadOnly Property ContextAlignmentMode As ContextAlignmentMode
+        Get
+            Return ContextState.Mode
+        End Get
+    End Property
+
+    ''' <summary>最近一次上下文注入的诊断。</summary>
+    Public ReadOnly Property ContextDiagnostics As ContextAlignmentDiagnostics
+        Get
+            Return ContextState.Diagnostics
+        End Get
+    End Property
+
+    ''' <summary>
     ''' 把外部细胞上下文注入模型，作为后续虚拟扰动的对照基线。
     ''' </summary>
-    ''' <param name="genes">上下文表达谱的基因名（大小写不敏感；可只给出一部分基因）</param>
-    ''' <param name="logCpm">
-    ''' 与 <paramref name="genes"/> 一一对应的 <b>log2(CPM + 1)</b> 表达值；
-    ''' 由调用方完成文库归一化与 log 变换，模型只负责 z-score。
+    ''' <param name="context">
+    ''' 基因名 → <b>log2(CPM + 1)</b> 表达值（大小写不敏感；可以只覆盖部分基因）。
+    ''' 文库归一化与 log 变换由调用方完成。
     ''' </param>
+    ''' <returns>当前对象（便于链式调用）</returns>
     ''' <remarks>
-    ''' 未出现在 <paramref name="genes"/> 中的建模基因会填入该基因的
-    ''' <see cref="GeneMeans"/>（标准化后为 0，即"等同对照均值"），
-    ''' 因此上下文可以只覆盖测序面板内的基因。
+    ''' <para>
+    ''' 对齐默认使用 <see cref="ContextAlignmentMode.Affine"/>，即
+    ''' <c>z = (logCpm - GeneMeans) / GeneSDs</c>：GPS 的滑窗输入本身就是逐基因 z-score，
+    ''' 仿射换算既保量级又不会破坏网络学到的连续响应。
+    ''' </para>
+    ''' <para>
+    ''' 未覆盖的建模基因在 z 空间中保持 0（等价于“取对照均值”），因此上下文可以只覆盖测序面板内的基因。
+    ''' 若把模式切换为 <see cref="ContextAlignmentMode.None"/> 或 <see cref="ContextAlignmentMode.LogAffine"/>，
+    ''' 调用方必须保证对齐结果已经是 z 空间，否则滑窗输入会与训练分布不一致。
+    ''' </para>
     ''' </remarks>
-    Public Sub SetContext(genes As String(), logCpm As Double())
-        If genes Is Nothing Then Throw New ArgumentNullException(NameOf(genes))
-        If logCpm Is Nothing Then Throw New ArgumentNullException(NameOf(logCpm))
-        If genes.Length <> logCpm.Length Then
-            Throw New ArgumentException($"基因名数量 {genes.Length} 与表达值数量 {logCpm.Length} 不一致", NameOf(logCpm))
+    ''' <exception cref="InvalidOperationException">上下文没有任何基因命中模型</exception>
+    Public Function SetContext(context As Dictionary(Of String, Double)) As InsilicoPerturbationExperiment Implements InsilicoPerturbationExperiment.SetContext
+        Dim aligned As ContextAlignmentResult = ContextState.SetContext(context, buildContextReference())
+
+        If aligned.Diagnostics.Matched = 0 Then
+            Throw New InvalidOperationException(
+                "上下文中没有任何基因与建模基因匹配，请检查基因标识空间（模型使用 Ensembl ID）")
         End If
 
+        Call applyContextWindow(aligned)
+
+        Return Me
+    End Function
+
+    ''' <summary>
+    ''' 切换上下文对齐模式；若已经注入过上下文，会立即用同一份原始上下文重新对齐。
+    ''' </summary>
+    ''' <param name="mode">新的对齐模式</param>
+    ''' <returns>当前对象（便于链式调用）</returns>
+    Public Function SetContextAlignmentMode(mode As ContextAlignmentMode) As InsilicoPerturbationExperiment Implements InsilicoPerturbationExperiment.SetContextAlignmentMode
+        Call ContextState.SetMode(mode)
+
+        If ContextState.HasContext Then
+            ' 模式改变之后必须按新结果重建对照窗口
+            Call applyContextWindow(ContextState.Result)
+        End If
+
+        Return Me
+    End Function
+
+    ''' <summary>
+    ''' 把对齐结果写进对照窗口。
+    ''' </summary>
+    ''' <param name="aligned">对齐结果（Affine 模式下即为 z 值）</param>
+    ''' <remarks>
+    ''' 未覆盖的基因在 z 空间中保持 0（等价于“取对照均值”），因此上下文可以只覆盖测序面板内的基因。
+    ''' </remarks>
+    Private Sub applyContextWindow(aligned As ContextAlignmentResult)
         Dim index As New Dictionary(Of String, Integer)(StringComparer.OrdinalIgnoreCase)
         Dim n As Integer = Me.GeneNames.Length
         Dim z As Double() = New Double(n - 1) {}
@@ -462,33 +529,27 @@ Public Class GPSModel : Implements InsilicoPerturbationExperiment
             index(Me.GeneNames(i)) = i
         Next
 
-        ' 数组默认全 0：缺失基因填自身均值 ⇒ 标准化后为 0，等效于"该基因取对照水平"
-        Dim hit As Integer = 0
-
-        For k As Integer = 0 To genes.Length - 1
-            Dim name As String = genes(k)
+        For Each item As KeyValuePair(Of String, Double) In aligned.Values
             Dim i As Integer
 
-            If String.IsNullOrEmpty(name) Then Continue For
-            If Not index.TryGetValue(name, i) Then Continue For
-
-            Dim sd As Double = System.Math.Max(Me.GeneSDs(i), 1.0E-08)
-
-            z(i) = (logCpm(k) - Me.GeneMeans(i)) / sd
-            hit += 1
+            If index.TryGetValue(item.Key, i) Then
+                z(i) = item.Value
+            End If
         Next
-
-        If hit = 0 Then
-            Throw New ArgumentException("上下文中没有任何基因与建模基因匹配，请检查基因标识空间（模型使用 Ensembl ID）", NameOf(genes))
-        End If
 
         Call engine.SetBaselineWindow(engine.BuildStaticWindow(z))
     End Sub
 
+    ''' <summary>构造公共对齐组件所需的训练侧统计量（log-CPM 空间的均值与标准差）。</summary>
+    Private Function buildContextReference() As ContextAlignmentReference
+        Return ContextAlignmentReference.FromStatistics(Me.GeneNames, Me.GeneMeans, Me.GeneSDs)
+    End Function
+
     ''' <summary>
-    ''' 撤销 <see cref="SetContext"/>，把对照基线恢复为训练数据推导出的尾部时间窗。
+    ''' 撤销 <see cref="SetContext(Dictionary(Of String, Double))"/>，把对照基线恢复为训练数据推导出的尾部时间窗。
     ''' </summary>
     Public Sub ResetContext()
+        Call ContextState.Clear()
         Call engine.SetBaselineWindow(trainingBaseline)
     End Sub
 

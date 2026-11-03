@@ -236,10 +236,15 @@ Public Module GeneTreeDemo
                 {gene, grn.WildtypeMeans(idx) * 0.5R}
             }
 
-            Call grn.SetContext(context, fix:=True)
-            Call DebugAudit.Mark("context", $"{grn.Context.Count} gene(s), fix={grn.ContextFix}, " &
+            ' 钳制语义通过属性设置（接口只保留 SetContext 本身）
+            grn.FixContext = True
+            Call grn.SetContext(context)
+            Call DebugAudit.Mark("context", $"{grn.Context.Count} gene(s), mode={grn.ContextAlignmentMode}, fix={grn.ContextFix}, " &
                                             $"aligned={grn.ContextAligned}, clamp={grn.ContextClampGenes}")
             Call DebugAudit.Mark("context-note", If(grn.ContextNote, "<none>"))
+
+            Call DebugAudit.Test(grn.ContextDiagnostics IsNot Nothing AndAlso grn.ContextDiagnostics.Matched > 0,
+                                 "上下文注入应当返回非空的覆盖率诊断")
 
             Dim ctxResult As InterventionResult = grn.KnockoutGene(gene)
 

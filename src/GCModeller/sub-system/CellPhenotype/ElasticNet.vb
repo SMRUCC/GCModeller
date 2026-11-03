@@ -632,49 +632,142 @@ Public Class ElasticNet : Implements InsilicoPerturbationExperiment
     End Property
 
     ''' <summary>
-    ''' 按照基因编号对齐地设置野生型基线(原始表达量尺度)。
-    ''' 
-    ''' 与 <see cref="Baseline"/> 的严格长度校验不同，这里允许只提供一部分基因：
-    ''' 没有出现的基因会保留当前基线(默认是训练集的样本均值)，
-    ''' 因此特别适合把一条外部 context 的表达谱注入模型。
+    ''' 上下文状态：默认 <see cref="ContextAlignmentMode.Quantile"/>。
     ''' </summary>
-    ''' <param name="genes">基因编号列表，大小写不敏感</param>
-    ''' <param name="values">与 <paramref name="genes"/> 一一对应的基线表达量</param>
-    ''' <returns>成功匹配并写入的基因数量</returns>
-    Public Function SetBaseline(genes As String(), values As Double()) As Integer
-        If genes Is Nothing Then
-            Throw New ArgumentNullException(NameOf(genes))
-        End If
-        If values Is Nothing Then
-            Throw New ArgumentNullException(NameOf(values))
-        End If
-        If genes.Length <> values.Length Then
-            Throw New ArgumentException(
-                $"the size of the given gene list({genes.Length}) is not equals to the size of the given values({values.Length})!",
-                NameOf(values))
-        End If
+    ''' <remarks>
+    ''' 这个模型的<strong>对外基线是原始表达量尺度</strong>，z-score 换算是它在内部
+    ''' 按固定公式完成的（<see cref="ToModel"/>）。因此把外部 context 映射成 z 值再反算回
+    ''' 原始尺度等于什么都没做；真正需要的是把<strong>另一条归一化管线</strong>的分布
+    ''' 映射到训练矩阵的原始尺度上，也就是分位对齐。
+    ''' </remarks>
+    Private m_contextState As ContextAlignmentState
+    Private m_baselineBeforeContext As Double()
+    Private m_populationCache As Double()()
 
-        Dim aligned As Double() = CType(Baseline.Clone(), Double())
-        Dim hits As Integer = 0
-
-        For i As Integer = 0 To genes.Length - 1
-            If String.IsNullOrEmpty(genes(i)) OrElse Not IsFinite(values(i)) Then
-                Continue For
+    Private ReadOnly Property ContextState As ContextAlignmentState
+        Get
+            If m_contextState Is Nothing Then
+                m_contextState = New ContextAlignmentState(ContextAlignmentMode.Quantile)
             End If
 
-            Dim idx As Integer = IndexOfGene(genes(i))
+            Return m_contextState
+        End Get
+    End Property
 
-            If idx < 0 Then
-                Continue For
+    ''' <summary>当前生效的上下文对齐模式。</summary>
+    Public ReadOnly Property ContextAlignmentMode As ContextAlignmentMode
+        Get
+            Return ContextState.Mode
+        End Get
+    End Property
+
+    ''' <summary>最近一次上下文注入的诊断（覆盖率、缺失基因、越界基因等）。</summary>
+    Public ReadOnly Property ContextDiagnostics As ContextAlignmentDiagnostics
+        Get
+            Return ContextState.Diagnostics
+        End Get
+    End Property
+
+    ''' <summary>
+    ''' 把一条外部 context 表达谱注入为野生型基线（原始表达量尺度）。
+    ''' </summary>
+    ''' <param name="context">基因编号 → 表达量（大小写不敏感；可以只覆盖一部分基因）</param>
+    ''' <returns>当前对象（便于链式调用）</returns>
+    ''' <remarks>
+    ''' <para>
+    ''' 与 <see cref="Baseline"/> 的严格长度校验不同，这里允许只提供一部分基因：
+    ''' 没有出现的基因会保留注入前的基线（默认是训练集的样本均值）。
+    ''' </para>
+    ''' <para>
+    ''' 对齐算法由公共组件提供，默认 <see cref="ContextAlignmentMode.Quantile"/>：
+    ''' 把外部管线的数值按“跨基因分位 → 该基因训练种群同分位”映射回训练矩阵的尺度。
+    ''' 若外部数据与训练矩阵完全同管线，可以切换为 <see cref="ContextAlignmentMode.None"/>。
+    ''' </para>
+    ''' </remarks>
+    ''' <exception cref="InvalidOperationException">上下文没有任何基因命中模型</exception>
+    Public Function SetContext(context As Dictionary(Of String, Double)) As InsilicoPerturbationExperiment Implements InsilicoPerturbationExperiment.SetContext
+        If m_baselineBeforeContext Is Nothing Then
+            m_baselineBeforeContext = CType(Baseline.Clone(), Double())
+        End If
+
+        Dim aligned As ContextAlignmentResult = ContextState.SetContext(context, buildContextReference())
+
+        If aligned.Diagnostics.Matched = 0 Then
+            Throw New InvalidOperationException(
+                "上下文中没有任何基因与网络基因匹配，请检查基因标识空间")
+        End If
+
+        Call applyContextBaseline(aligned)
+
+        Return Me
+    End Function
+
+    ''' <summary>
+    ''' 切换上下文对齐模式；若已经注入过上下文，会立即用同一份原始上下文重新对齐。
+    ''' </summary>
+    ''' <param name="mode">新的对齐模式</param>
+    ''' <returns>当前对象（便于链式调用）</returns>
+    Public Function SetContextAlignmentMode(mode As ContextAlignmentMode) As InsilicoPerturbationExperiment Implements InsilicoPerturbationExperiment.SetContextAlignmentMode
+        Call ContextState.SetMode(mode)
+
+        If ContextState.HasContext Then
+            Call applyContextBaseline(ContextState.Result)
+        End If
+
+        Return Me
+    End Function
+
+    ''' <summary>撤销上下文，恢复注入之前的野生型基线。</summary>
+    Public Sub ClearContext()
+        Call ContextState.Clear()
+
+        If m_baselineBeforeContext IsNot Nothing Then
+            Me.Baseline = CType(m_baselineBeforeContext.Clone(), Double())
+            m_baselineBeforeContext = Nothing
+        End If
+    End Sub
+
+    ''' <summary>把对齐结果写回原始尺度基线（未覆盖的基因保持注入前的取值）。</summary>
+    Private Sub applyContextBaseline(aligned As ContextAlignmentResult)
+        Dim baseline As Double() = CType(If(m_baselineBeforeContext, Baseline).Clone(), Double())
+
+        For Each item As KeyValuePair(Of String, Double) In aligned.Values
+            Dim idx As Integer = IndexOfGene(item.Key)
+
+            If idx >= 0 Then
+                baseline(idx) = item.Value
             End If
-
-            aligned(idx) = values(i)
-            hits += 1
         Next
 
-        Me.Baseline = aligned
+        Me.Baseline = baseline
+    End Sub
 
-        Return hits
+    ''' <summary>构造公共对齐组件所需的训练侧统计量（原始表达量尺度）。</summary>
+    Private Function buildContextReference() As ContextAlignmentReference
+        Return New ContextAlignmentReference With {
+            .GeneNames = net.Genes,
+            .Means = rawMean,
+            .StandardDeviations = rawSd,
+            .Population = trainingPopulation()
+        }
+    End Function
+
+    ''' <summary>
+    ''' 训练矩阵的逐基因种群 <c>population(gene)(sample)</c>（惰性构建并缓存）。
+    ''' </summary>
+    Private Function trainingPopulation() As Double()()
+        If m_populationCache Is Nothing Then
+            Dim rows As DataFrameRow() = net.Expression.expression
+            Dim result(rows.Length - 1)() As Double
+
+            For i As Integer = 0 To rows.Length - 1
+                result(i) = CType(rows(i).experiments.Clone(), Double())
+            Next
+
+            m_populationCache = result
+        End If
+
+        Return m_populationCache
     End Function
 
     ''' <summary>
