@@ -62,6 +62,7 @@ XGBoost based gene regulatory network simulator and the in silico perturbation t
 + [gene_stats](geneTree/gene_stats.1) Get the gene alignment and the wildtype baseline of the model.
 + [gene_names](geneTree/gene_names.1) Get the gene ids of the model.
 + [set_context](geneTree/set_context.1) Inject an expression state context into the model, the context becomes the
++ [solve_control](geneTree/solve_control.1) 
 + [solver_opts](geneTree/solver_opts.1) Override the fixed point solving options of a trained model at runtime, so that
 + [reset_context](geneTree/reset_context.1) Remove the expression state context, the model is restored back to the wildtype
 + [get_context](geneTree/get_context.1) Get the expression state context that is currently applied on the model.

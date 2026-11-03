@@ -431,6 +431,9 @@ declare namespace geneTree {
    */
    function set_context(tree: object, genes: any, expression: any, fix?: boolean, align?: boolean, env?: object): object;
    /**
+   */
+   function solve_control(tree: object): object;
+   /**
     * Get the diagnostics of the last fixed point solving.
     * 
     * 

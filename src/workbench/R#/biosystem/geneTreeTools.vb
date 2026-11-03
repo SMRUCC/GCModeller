@@ -835,6 +835,11 @@ Module geneTreeTools
         End Try
     End Function
 
+    <ExportAPI("solve_control")>
+    Public Function solve_control(tree As XGBoostGRN) As SolveResult
+        Return tree.GetControlSolve()
+    End Function
+
     ''' <summary>
     ''' Override the fixed point solving options of a trained model at runtime, so that
     ''' the solver can be tuned without re-training the whole network.
