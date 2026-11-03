@@ -56,6 +56,8 @@ export class FuzzyGeneNetwork {
    NGene: integer;
    # 参与建模（有模型）的基因数量。
    NModelled: integer;
+   # 本次迭代实际使用的并行度（<code>1</code> 表示串行）。
+   ParallelDegree: integer;
    # 逐基因原始表达标准差。
    SDs: double;
    # 模型是否在 z 空间训练。
