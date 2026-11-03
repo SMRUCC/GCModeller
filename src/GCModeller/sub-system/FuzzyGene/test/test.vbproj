@@ -19,6 +19,8 @@
     <ProjectReference Include="..\..\..\analysis\HTS_matrix\HTS_matrix-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
     <ProjectReference Include="..\..\BNLearn\BNLearn.vbproj" />
+    <!-- 自测直接用到 PriorNetwork / InterventionResult，显式引用比依赖传递引用更稳 -->
+    <ProjectReference Include="..\..\..\core\Bio.InteractionModel\InteractionModel.vbproj" />
     <ProjectReference Include="..\FuzzyGene.vbproj" />
   </ItemGroup>
 

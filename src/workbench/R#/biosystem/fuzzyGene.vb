@@ -707,6 +707,56 @@ Module fuzzyGene
     End Function
 
     ''' <summary>
+    ''' Inject the result of an **upstream perturbation** as the control baseline (iterative perturbation).
+    ''' </summary>
+    ''' <remarks>
+    ''' <para>
+    ''' After this call the mutant state of the upstream experiment becomes the reference state of the
+    ''' model, so the next perturbation reports "effect of B given that A is already knocked out"
+    ''' instead of "effect of B from the original baseline".
+    ''' <code>
+    ''' let round1 = model |> knockouts(c("A"));           # A 失活
+    ''' print(fuzzygene::fuzzygene_context_upstream(model, round1[[1]]));
+    ''' let round2 = model |> knockouts(c("B"));           # 在 A 失活的背景上敲 B
+    ''' </code>
+    ''' </para>
+    ''' <para>
+    ''' ``useMutant = TRUE`` (default) takes ``MutantMeans``; ``FALSE`` takes ``WildtypeMeans``, which
+    ''' restores the reference frame of the upstream round. An upstream result flagged as
+    ''' ``Undefined`` (the target gene was not modelled) is rejected instead of being silently applied.
+    ''' </para>
+    ''' </remarks>
+    ''' <param name="fuzzygene">a trained model</param>
+    ''' <param name="upstream">an <c>InterventionResult</c>, e.g. one element of <c>knockouts(...)</c></param>
+    ''' <param name="useMutant">take the mutant (perturbed) state instead of the wildtype one. Default TRUE.</param>
+    ''' <param name="minCoverage">minimum fraction (0-1) of model genes the upstream result must cover; 0 disables the check</param>
+    ''' <param name="env">the R# runtime environment used to report errors</param>
+    ''' <returns>a multi line coverage summary, or an R# error object when the context is rejected</returns>
+    <ExportAPI("fuzzygene_context_upstream")>
+    <RApiReturn(TypeCodes.string)>
+    Public Function fuzzygene_context_upstream(fuzzygene As fz.FuzzyGeneModel,
+                                               upstream As InterventionResult,
+                                               Optional useMutant As Boolean = True,
+                                               Optional minCoverage As Double = 0,
+                                               Optional env As Environment = Nothing) As Object
+        If fuzzygene Is Nothing OrElse Not fuzzygene.IsTrained Then
+            Return RInternal.debug.stop("the model has not been trained yet", env)
+        End If
+        If upstream Is Nothing Then
+            Return RInternal.debug.stop("an upstream perturbation result is required, for example one element of knockouts(...)", env)
+        End If
+
+        Try
+            Dim table As ContextTable = ContextTable.FromUpstreamIntervention(upstream, useMutant)
+            Dim report = fuzzygene.LoadContext(table, minCoverage)
+
+            Return report.ToString().LineTokens
+        Catch ex As Exception
+            Return RInternal.debug.stop(ex.Message, env)
+        End Try
+    End Function
+
+    ''' <summary>
     ''' Human readable training report of a fitted model.
     ''' </summary>
     ''' <param name="fuzzygene">a trained model</param>

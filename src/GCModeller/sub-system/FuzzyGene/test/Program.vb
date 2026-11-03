@@ -5,8 +5,8 @@ Imports System.IO
 Imports System.IO.Compression
 Imports Microsoft.VisualBasic.DataMining.FuzzyLogic.TSK
 Imports SMRUCC.genomics.Analysis.BNLearn
-Imports SMRUCC.genomics.Analysis.BNLearn.Core
-Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
+Imports SMRUCC.genomics.BioSystem.Core
+Imports SMRUCC.genomics.BioSystem.Intervention
 Imports SMRUCC.genomics.Analysis.FuzzyGene
 Imports SMRUCC.genomics.Analysis.FuzzyGene.Config
 Imports SMRUCC.genomics.Analysis.FuzzyGene.Data
@@ -755,6 +755,56 @@ Module Program
             Next
 
             Check(identical, "resetting the context reproduces the baseline perturbation exactly")
+
+            ' ---- 迭代扰动：上游突变体稳态 → 下一轮的对照基线 ----
+            Dim round1 As InterventionResult = model.KnockoutGene("A")
+
+            Check(round1 IsNot Nothing AndAlso Not round1.Undefined, "the first perturbation round produces a defined result")
+
+            Dim chained As ContextCoverage = model.LoadContext(round1)
+
+            Check(model.IsContextSet, "the upstream result is injected as the context")
+            Check(chained.Matched = net.NGene, $"the upstream context covers every model gene (actual {chained.Matched})")
+
+            Dim exact As Boolean = True
+
+            For i As Integer = 0 To net.NGene - 1
+                If std.Abs(model.Context(i) - round1.MutantMeans(i)) > 1.0E-12 Then
+                    exact = False
+                End If
+            Next
+
+            Check(exact, "the injected context equals the upstream mutant state")
+
+            Dim round2 As InterventionResult = model.KnockoutGene("B")
+
+            Check(round2 IsNot Nothing AndAlso round2.FoldChanges.Length = net.NGene,
+                  "the chained round still returns a full result")
+
+            ' 第 2 轮的对照态应当更接近上游突变体，而不是原始基线
+            Dim toUpstream As Double = 0.0
+            Dim toBaseline As Double = 0.0
+
+            For i As Integer = 0 To net.NGene - 1
+                toUpstream = std.Max(toUpstream, std.Abs(round2.WildtypeMeans(i) - round1.MutantMeans(i)))
+                toBaseline = std.Max(toBaseline, std.Abs(round2.WildtypeMeans(i) - baselineRun.WildtypeMeans(i)))
+            Next
+
+            Check(toUpstream <= toBaseline,
+                  $"the chained control state moves towards the upstream mutant (dUp={toUpstream:G3} vs dBase={toBaseline:G3})")
+
+            ' ---- 未定义的上游结果必须被拒绝，而不是被静默应用 ----
+            Dim rejectedUpstream As Boolean = False
+
+            Try
+                Call model.LoadContext(New InterventionResult With {.Undefined = True})
+            Catch ex As InvalidOperationException
+                rejectedUpstream = True
+            End Try
+
+            Check(rejectedUpstream, "an undefined upstream result is rejected")
+
+            Call model.ResetContext()
         Finally
             If File.Exists(contextFile) Then
                 Call File.Delete(contextFile)

@@ -344,12 +344,40 @@ Public Class FuzzyGeneModel : Implements InsilicoPerturbationExperiment
         Return coverage
     End Function
 
+    ''' <summary>
+    ''' 把**上游扰动实验的结果**注入为对照基线，实现迭代扰动
+    ''' （本轮突变体稳态 → 下一轮的基线）。
+    ''' </summary>
+    ''' <param name="upstream">上游扰动结果，例如 <c>KnockoutGene("A")</c></param>
+    ''' <param name="minCoverage">要求的覆盖率下限（0–1，0 表示不检查）</param>
+    ''' <returns>覆盖率诊断</returns>
+    ''' <remarks>
+    ''' <para>
+    ''' 取的是上游的 <see cref="InterventionResult.MutantMeans"/>（扰动之后的表达谱）。
+    ''' 注入之后，下一轮扰动的 <c>foldchange</c> 含义变成
+    ''' 「在 A 已经失活的前提下再敲 B」，而不是「从原始基线出发敲 B」。
+    ''' </para>
+    ''' <para>
+    ''' 想回到上游的**对照态**（等价于撤销这一轮），改用
+    ''' <c>LoadContext(ContextTable.FromUpstreamIntervention(result, useMutant:=False), 0)</c>。
+    ''' </para>
+    ''' <para>
+    ''' 注意上下文是**初始条件**而不是终态：野生型/突变体都会从它出发各自迭代到稳态，
+    ''' 因此报告的 <c>WildtypeMeans</c> 是该 context 的不动点近似，不一定逐位等于注入值。
+    ''' </para>
+    ''' </remarks>
     Public Function LoadContext(upstream As InterventionResult, Optional minCoverage As Double = 0.0) As ContextCoverage
         Call EnsureTrained()
+
         Return LoadContext(ContextTable.FromUpstreamIntervention(upstream), minCoverage)
     End Function
 
-    Private Function LoadContext(table As ContextTable, minCoverage As Double) As ContextCoverage
+    ''' <summary>
+    ''' 把任意 <see cref="ContextTable"/> 注入为对照基线（多列时会自动选命中模型基因最多的一列）。
+    ''' </summary>
+    ''' <param name="table">上下文表（来自文件，或 <see cref="ContextTable.FromUpstreamIntervention"/>）</param>
+    ''' <param name="minCoverage">要求的覆盖率下限（0–1，0 表示不检查）</param>
+    Public Function LoadContext(table As ContextTable, minCoverage As Double) As ContextCoverage
         Dim best As Integer = 0
         Dim bestHits As Integer = -1
 
