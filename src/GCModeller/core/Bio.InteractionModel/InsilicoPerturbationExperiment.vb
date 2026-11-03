@@ -27,9 +27,24 @@ Public Interface InsilicoPerturbationExperiment
 End Interface
 
 Public Enum ContextAlignmentMode
-    None          ' 原值直灌（同管线、已配对）
-    Affine        ' 逐基因 (x-μ)/σ（线性/高斯/幂律模型）
-    LogAffine     ' log2(max(x,0)+pseudo)+δ（PLAS.NET 口径）
-    Quantile      ' 秩映射（树模型，现 GeneTree 实现）
-    QuantileDelta ' 保倍数的分位偏移
+    ''' <summary>
+    ''' 原值直灌（同管线、已配对）
+    ''' </summary>
+    None
+    ''' <summary>
+    ''' 逐基因 (x-μ)/σ（线性/高斯/幂律模型）
+    ''' </summary>
+    Affine
+    ''' <summary>
+    ''' log2(max(x,0)+pseudo)+δ（PLAS.NET 口径）
+    ''' </summary>
+    LogAffine
+    ''' <summary>
+    ''' 秩映射（树模型，现 GeneTree 实现）
+    ''' </summary>
+    Quantile
+    ''' <summary>
+    ''' 保倍数的分位偏移
+    ''' </summary>
+    QuantileDelta
 End Enum
