@@ -44,10 +44,35 @@ Public Class FuzzyGeneModel : Implements InsilicoPerturbationExperiment
     Private _lastResult As FuzzyGeneTrainingResult
     Private _strict As Boolean = True
 
-    ''' <summary>当前注入的上下文（原始表达量，长度 = 基因数）；未注入时为 Nothing。</summary>
+    ''' <summary>上下文状态（原始值 + 对齐结果 + 诊断）。</summary>
+    Private m_context As ContextAlignmentState
+    ''' <summary>对齐之后的完整基线向量（原始表达量，长度 = 基因数）；未注入时为 Nothing。</summary>
     Private _contextState As Double()
-    ''' <summary>最近一次上下文注入的诊断。</summary>
-    Private _contextCoverage As ContextCoverage
+    Private m_populationCache As Double()()
+
+    ''' <summary>
+    ''' 上下文状态：默认 <see cref="ContextAlignmentMode.Quantile"/>。
+    ''' </summary>
+    ''' <remarks>
+    ''' 本模型的<strong>基线是原始表达量尺度</strong>，z-score 换算是网络在迭代内部按固定公式
+    ''' 完成的（<see cref="FuzzyGeneNetwork.ToZValue"/>）。因此把外部 context 换算成 z 再反算回原始值
+    ''' 等于什么都没做，真正需要的是把另一条归一化管线的分布映射到训练矩阵的原始尺度上。
+    ''' </remarks>
+    Private ReadOnly Property ContextState As ContextAlignmentState
+        Get
+            If m_context Is Nothing Then
+                m_context = New ContextAlignmentState(ContextAlignmentMode.Quantile)
+            End If
+
+            Return m_context
+        End Get
+    End Property
+
+    ''' <summary>
+    ''' 上下文覆盖率的下限（0–1，0 表示不检查）。
+    ''' </summary>
+    ''' <remarks>低于该值时 <see cref="SetContext"/> 直接抛出异常，避免在“其实没设上”的上下文里继续做分析。</remarks>
+    Public Property MinContextCoverage As Double = 0.0
 
     ''' <summary>
     ''' 由表达矩阵与（可选的）先验调控网络构建模型（此时尚未训练）。
@@ -113,7 +138,7 @@ Public Class FuzzyGeneModel : Implements InsilicoPerturbationExperiment
         End Get
     End Property
 
-    ''' <summary>当前注入的上下文（原始表达量，长度 = 基因数）；未注入时为 Nothing。</summary>
+    ''' <summary>当前注入的上下文（对齐之后的原始表达量，长度 = 基因数）；未注入时为 Nothing。</summary>
     Public ReadOnly Property Context As Double()
         Get
             Return _contextState
@@ -123,14 +148,21 @@ Public Class FuzzyGeneModel : Implements InsilicoPerturbationExperiment
     ''' <summary>是否已注入上下文（注入后对照基线被整体替换）。</summary>
     Public ReadOnly Property IsContextSet As Boolean
         Get
-            Return _contextState IsNot Nothing
+            Return _contextState IsNot Nothing AndAlso ContextState.HasContext
         End Get
     End Property
 
-    ''' <summary>最近一次上下文注入的覆盖率诊断；未注入时为 Nothing。</summary>
-    Public ReadOnly Property LastContextCoverage As ContextCoverage
+    ''' <summary>最近一次上下文注入的诊断；未注入时为 Nothing。</summary>
+    Public ReadOnly Property ContextDiagnostics As ContextAlignmentDiagnostics
         Get
-            Return _contextCoverage
+            Return ContextState.Diagnostics
+        End Get
+    End Property
+
+    ''' <summary>当前生效的上下文对齐模式。</summary>
+    Public ReadOnly Property ContextAlignmentMode As ContextAlignmentMode
+        Get
+            Return ContextState.Mode
         End Get
     End Property
 
@@ -247,101 +279,105 @@ Public Class FuzzyGeneModel : Implements InsilicoPerturbationExperiment
     End Function
 
     ''' <summary>把外部样本背景注入为扰动分析的对照基线（未给出的基因保持训练基线）。</summary>
-    ''' <param name="genes">基因名（大小写不敏感，可只给出部分基因）</param>
-    ''' <param name="values">与 <paramref name="genes"/> 一一对应的原始表达量</param>
-    ''' <param name="minCoverage">
-    ''' 要求的覆盖率下限（0–1，0 表示不检查）：低于该值时直接抛异常，
-    ''' 避免在"其实没设上"的上下文里继续做分析
-    ''' </param>
-    ''' <returns>覆盖率诊断（命中数、缺失基因、越界取值等）</returns>
+    ''' <param name="context">基因名 → 原始表达量（大小写不敏感，可只给出部分基因）</param>
+    ''' <returns>当前对象（便于链式调用）</returns>
     ''' <remarks>
+    ''' <para>
     ''' 注入之后，对照（野生型）态与突变体态都**从该初始条件出发**各自迭代到稳态，
-    ''' 因此 <see cref="InterventionResult.FoldChanges"/>
-    ''' 的含义变成「同一 context 下的突变体 vs 野生型」。
+    ''' 因此 <see cref="InterventionResult.FoldChanges"/> 的含义变成「同一 context 下的突变体 vs 野生型」。
+    ''' </para>
+    ''' <para>
+    ''' 对齐由公共组件完成，默认 <see cref="ContextAlignmentMode.Quantile"/>；
+    ''' 覆盖率下限改由 <see cref="MinContextCoverage"/> 控制，注入结果见 <see cref="ContextDiagnostics"/>。
+    ''' </para>
     ''' </remarks>
-    Public Function SetContext(genes As String(), values As Double(), Optional minCoverage As Double = 0.0) As ContextCoverage
+    ''' <exception cref="ArgumentException">没有任何基因命中模型，或覆盖率低于 <see cref="MinContextCoverage"/></exception>
+    Public Function SetContext(context As Dictionary(Of String, Double)) As InsilicoPerturbationExperiment Implements InsilicoPerturbationExperiment.SetContext
         Call EnsureTrained()
 
-        If genes Is Nothing Then
-            Throw New ArgumentNullException(NameOf(genes))
+        Dim aligned As ContextAlignmentResult = ContextState.SetContext(context, buildContextReference())
+
+        If aligned.Diagnostics.Matched = 0 Then
+            Throw New ArgumentException("none of the given genes is present in the model", NameOf(context))
         End If
-        If values Is Nothing Then
-            Throw New ArgumentNullException(NameOf(values))
-        End If
-        If genes.Length <> values.Length Then
-            Throw New ArgumentException($"got {genes.Length} gene names but {values.Length} values", NameOf(values))
-        End If
-
-        Dim n As Integer = _network.NGene
-        Dim state As Double() = CType(_network.BaselineRaw.Clone(), Double())
-        Dim covered(n - 1) As Boolean
-        Dim coverage As New ContextCoverage With {.NGene = n}
-        Dim hit As Integer = 0
-
-        For k As Integer = 0 To genes.Length - 1
-            Dim idx As Integer = _network.IndexOfGene(genes(k))
-
-            If idx < 0 Then
-                Continue For
-            End If
-
-            Dim value As Double = values(k)
-
-            ' 非有限数不能进入状态向量：算一次迭代就会把整条传播链污染成 NaN
-            If value.IsNaNImaginary Then
-                coverage.InvalidValues += 1
-                Continue For
-            End If
-
-            state(idx) = value
-
-            If Not covered(idx) Then
-                covered(idx) = True
-                hit += 1
-            End If
-        Next
-
-        coverage.Matched = hit
-        coverage.Provided = genes.Length - coverage.InvalidValues
-
-        If hit = 0 Then
-            Throw New ArgumentException("none of the given genes is present in the model", NameOf(genes))
-        End If
-        If minCoverage > 0.0 AndAlso coverage.Coverage < minCoverage Then
+        If MinContextCoverage > 0.0 AndAlso aligned.Diagnostics.Coverage < MinContextCoverage Then
             Throw New ArgumentException(
-                $"the context covers only {coverage.Coverage:P1} of the model genes " &
-                $"({hit}/{n}), below the required minimum of {minCoverage:P1}", NameOf(genes))
+                $"the context covers only {aligned.Diagnostics.Coverage:P1} of the model genes " &
+                $"({aligned.Diagnostics.Matched}/{_network.NGene}), " &
+                $"below the required minimum of {MinContextCoverage:P1}", NameOf(context))
         End If
 
-        ' 越界诊断：迭代时限幅会把超出 [支持域 ± 1] 的输入剪平，这部分解释力要打折
-        For i As Integer = 0 To n - 1
-            If Not covered(i) Then
-                Continue For
-            End If
+        Call applyContextBaseline(aligned)
 
-            Dim z As Double = _network.ToZValue(i, state(i))
+        Return Me
+    End Function
 
-            If z < _network.SupportMin(i) - 1.0 OrElse z > _network.SupportMax(i) + 1.0 Then
-                coverage.OutsideSupport += 1
+    ''' <summary>切换上下文对齐模式；已注入上下文时会立即用同一份原始上下文重新对齐。</summary>
+    ''' <param name="mode">新的对齐模式</param>
+    ''' <returns>当前对象（便于链式调用）</returns>
+    Public Function SetContextAlignmentMode(mode As ContextAlignmentMode) As InsilicoPerturbationExperiment Implements InsilicoPerturbationExperiment.SetContextAlignmentMode
+        Call EnsureTrained()
+        Call ContextState.SetMode(mode)
+
+        If ContextState.HasContext Then
+            Call applyContextBaseline(ContextState.Result)
+        End If
+
+        Return Me
+    End Function
+
+    ''' <summary>把对齐结果写进扰动引擎的对照基线（未覆盖的基因沿用训练基线）。</summary>
+    Private Sub applyContextBaseline(aligned As ContextAlignmentResult)
+        Dim state As Double() = CType(_network.BaselineRaw.Clone(), Double())
+
+        For Each item As KeyValuePair(Of String, Double) In aligned.Values
+            Dim idx As Integer = _network.IndexOfGene(item.Key)
+
+            If idx >= 0 Then
+                state(idx) = item.Value
             End If
         Next
-
-        Dim missing As New List(Of String)
-
-        For i As Integer = 0 To n - 1
-            If Not covered(i) Then
-                Call missing.Add(_network.GeneNames(i))
-            End If
-        Next
-
-        coverage.MissingGenes = missing.ToArray()
 
         _engine.SetBaseline(state)
-
         _contextState = state
-        _contextCoverage = coverage
+    End Sub
 
-        Return coverage
+    ''' <summary>构造公共对齐组件所需的训练侧统计量（原始表达量尺度）。</summary>
+    Private Function buildContextReference() As ContextAlignmentReference
+        Return New ContextAlignmentReference With {
+            .GeneNames = _network.GeneNames,
+            .Means = _network.Means,
+            .StandardDeviations = _network.SDs,
+            .Population = trainingPopulation()
+        }
+    End Function
+
+    ''' <summary>训练矩阵的逐基因种群 <c>population(gene)(sample)</c>（惰性构建并缓存）。</summary>
+    Private Function trainingPopulation() As Double()()
+        If m_populationCache Is Nothing Then
+            Dim n As Integer = _network.NGene
+            Dim rows(n - 1)() As Double
+
+            For i As Integer = 0 To n - 1
+                Dim row As Integer = _expression.GetGeneIndex(_network.GeneNames(i))
+
+                If row < 0 OrElse _expression.NSample <= 0 Then
+                    rows(i) = New Double() {}
+                Else
+                    Dim values(_expression.NSample - 1) As Double
+
+                    For j As Integer = 0 To values.Length - 1
+                        values(j) = _expression.Matrix(row, j)
+                    Next
+
+                    rows(i) = values
+                End If
+            Next
+
+            m_populationCache = rows
+        End If
+
+        Return m_populationCache
     End Function
 
     ''' <summary>
