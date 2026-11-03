@@ -278,6 +278,9 @@ declare namespace bnlearn {
    */
    function save_prior(prior_net: object, file: string): any;
    /**
+   */
+   function target_gene(result: object): string;
+   /**
     * set wildtype baseline
     * 
     * > For the elastic net engine the given values are interpreted in the model space

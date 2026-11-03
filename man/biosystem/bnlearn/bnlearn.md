@@ -31,5 +31,6 @@ Bayesian network learning and the in silico gene perturbation toolkit
 + [knockouts](bnlearn/knockouts.1) run the in silico gene knockout experiment on the given network model
 + [overexpress](bnlearn/overexpress.1) run the in silico gene overexpression experiment on the given network model
 + [knockdown](bnlearn/knockdown.1) run the in silico gene knockdown experiment on the given network model
++ [target_gene](bnlearn/target_gene.1) 
 + [make_exports](bnlearn/make_exports.1) export the virtual permutation result as csv table files
 + [save_model](bnlearn/save_model.1) save bnlearn model

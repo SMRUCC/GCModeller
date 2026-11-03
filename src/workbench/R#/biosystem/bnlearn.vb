@@ -646,6 +646,11 @@ Module bnlearn
         End If
     End Function
 
+    <ExportAPI("target_gene")>
+    Public Function target_gene(result As InterventionResult) As String
+        Return result.Spec.GeneName
+    End Function
+
     ''' <summary>
     ''' export the virtual permutation result as csv table files
     ''' </summary>
