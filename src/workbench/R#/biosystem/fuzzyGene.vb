@@ -7,6 +7,7 @@ Imports SMRUCC.genomics.Analysis.FuzzyGene
 Imports SMRUCC.genomics.Analysis.FuzzyGene.Config
 Imports SMRUCC.genomics.Analysis.FuzzyGene.IO
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports SMRUCC.genomics.BioSystem
 Imports SMRUCC.genomics.BioSystem.Core
 Imports SMRUCC.genomics.BioSystem.Intervention
 Imports SMRUCC.Rsharp.Runtime
@@ -640,20 +641,26 @@ Module fuzzyGene
                                       context As Object,
                                       Optional valueColumn As String = Nothing,
                                       Optional minCoverage As Double = 0,
+                                      Optional align As ContextAlignmentMode? = Nothing,
                                       Optional env As Environment = Nothing) As Object
         If fuzzygene Is Nothing OrElse Not fuzzygene.IsTrained Then
             Return RInternal.debug.stop("the model has not been trained yet", env)
         End If
 
+        Dim report As ContextAlignmentDiagnostics
+
         Try
             ' 覆盖率下限现在是模型属性（不再作为 LoadContext 的参数）
             fuzzygene.MinContextCoverage = minCoverage
 
-            Dim report As ContextAlignmentDiagnostics
-
             If TypeOf context Is InterventionResult Then
-                report = fuzzygene.LoadContext(DirectCast(context, InterventionResult))
+                align = If(align, ContextAlignmentMode.None)
+                report = fuzzygene.LoadContext(DirectCast(context, InterventionResult), align)
             Else
+                If align IsNot Nothing Then
+                    Call fuzzygene.SetContextAlignmentMode(align)
+                End If
+
                 report = fuzzygene.LoadContext(CStr(context), valueColumn)
             End If
 

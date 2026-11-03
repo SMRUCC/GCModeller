@@ -407,11 +407,11 @@ Public Class FuzzyGeneModel : Implements InsilicoPerturbationExperiment
     ''' 因此报告的 <c>WildtypeMeans</c> 是该 context 的不动点近似，不一定逐位等于注入值。
     ''' </para>
     ''' </remarks>
-    Public Function LoadContext(upstream As InterventionResult) As ContextAlignmentDiagnostics
+    Public Function LoadContext(upstream As InterventionResult, Optional align As ContextAlignmentMode = ContextAlignmentMode.None) As ContextAlignmentDiagnostics
         Call EnsureTrained()
 
         ' 上游结果是同一个模型迭代出来的，已经处在模型空间：不能再按外部管线的口径二次对齐
-        Return loadTable(ContextTable.FromUpstreamIntervention(upstream), ContextAlignmentMode.None)
+        Return loadTable(ContextTable.FromUpstreamIntervention(upstream), align)
     End Function
 
     ''' <summary>
