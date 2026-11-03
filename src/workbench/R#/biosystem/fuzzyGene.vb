@@ -6,8 +6,10 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.FuzzyGene
 Imports SMRUCC.genomics.Analysis.FuzzyGene.Config
 Imports SMRUCC.genomics.Analysis.FuzzyGene.IO
+Imports SMRUCC.genomics.Analysis.FuzzyGene.Perturbation
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.BioSystem.Core
+Imports SMRUCC.genomics.BioSystem.Intervention
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
@@ -636,7 +638,7 @@ Module fuzzyGene
     <ExportAPI("fuzzygene_context")>
     <RApiReturn(TypeCodes.string)>
     Public Function fuzzygene_context(fuzzygene As fz.FuzzyGeneModel,
-                                      context As String,
+                                      context As Object,
                                       Optional valueColumn As String = Nothing,
                                       Optional minCoverage As Double = 0,
                                       Optional env As Environment = Nothing) As Object
@@ -645,7 +647,13 @@ Module fuzzyGene
         End If
 
         Try
-            Dim report = fuzzygene.LoadContext(context, valueColumn, minCoverage)
+            Dim report As ContextCoverage
+
+            If TypeOf context Is InterventionResult Then
+                report = fuzzygene.LoadContext(DirectCast(context, InterventionResult), minCoverage)
+            Else
+                report = fuzzygene.LoadContext(CStr(context), valueColumn, minCoverage)
+            End If
 
             ' 拆成字符串数组返回，print() 在 R# 里才会一行一行显示
             Return report.ToString().LineTokens

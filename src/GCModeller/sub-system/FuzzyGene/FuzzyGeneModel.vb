@@ -344,25 +344,12 @@ Public Class FuzzyGeneModel : Implements InsilicoPerturbationExperiment
         Return coverage
     End Function
 
-    ''' <summary>
-    ''' 从表格文件（csv / tsv）读取转录组背景并注入为对照基线。
-    ''' </summary>
-    ''' <param name="path">
-    ''' 表格路径，例如 pseudobulk 的 <c>gene_name,gene_id,mean_counts</c>
-    ''' </param>
-    ''' <param name="valueColumn">数值列的列名；为空时取最后一列</param>
-    ''' <param name="minCoverage">要求的覆盖率下限（0–1，0 表示不检查）</param>
-    ''' <returns>覆盖率诊断</returns>
-    ''' <remarks>
-    ''' 表里通常同时有基因符号与数据库 ID 两列，这里会逐个候选列去比对模型基因，
-    ''' 选命中数最多的那一列使用（例如模型是按 Ensembl ID 建的，就会自动改用 <c>gene_id</c> 列）。
-    ''' </remarks>
-    Public Function LoadContext(path As String,
-                                Optional valueColumn As String = Nothing,
-                                Optional minCoverage As Double = 0.0) As ContextCoverage
+    Public Function LoadContext(upstream As InterventionResult, Optional minCoverage As Double = 0.0) As ContextCoverage
         Call EnsureTrained()
+        Return LoadContext(ContextTable.FromUpstreamIntervention(upstream), minCoverage)
+    End Function
 
-        Dim table As ContextTable = GeneContextReader.ReadTable(path, valueColumn)
+    Private Function LoadContext(table As ContextTable, minCoverage As Double) As ContextCoverage
         Dim best As Integer = 0
         Dim bestHits As Integer = -1
 
@@ -381,6 +368,26 @@ Public Class FuzzyGeneModel : Implements InsilicoPerturbationExperiment
         coverage.InvalidValues += table.Invalid
 
         Return coverage
+    End Function
+
+    ''' <summary>
+    ''' 从表格文件（csv / tsv）读取转录组背景并注入为对照基线。
+    ''' </summary>
+    ''' <param name="path">
+    ''' 表格路径，例如 pseudobulk 的 <c>gene_name,gene_id,mean_counts</c>
+    ''' </param>
+    ''' <param name="valueColumn">数值列的列名；为空时取最后一列</param>
+    ''' <param name="minCoverage">要求的覆盖率下限（0–1，0 表示不检查）</param>
+    ''' <returns>覆盖率诊断</returns>
+    ''' <remarks>
+    ''' 表里通常同时有基因符号与数据库 ID 两列，这里会逐个候选列去比对模型基因，
+    ''' 选命中数最多的那一列使用（例如模型是按 Ensembl ID 建的，就会自动改用 <c>gene_id</c> 列）。
+    ''' </remarks>
+    Public Function LoadContext(path As String,
+                                Optional valueColumn As String = Nothing,
+                                Optional minCoverage As Double = 0.0) As ContextCoverage
+        Call EnsureTrained()
+        Return LoadContext(GeneContextReader.ReadTable(path, valueColumn), minCoverage)
     End Function
 
     Private Function CountContextMatches(names As String()) As Integer

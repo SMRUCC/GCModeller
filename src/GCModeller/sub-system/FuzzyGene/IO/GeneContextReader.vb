@@ -1,6 +1,7 @@
 Imports System.Globalization
 Imports System.IO
 Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.BioSystem.Intervention
 
 Namespace IO
 
@@ -25,6 +26,10 @@ Namespace IO
 
         ''' <summary>因为取值无法解析为有限数而整行跳过的行数。</summary>
         Public Property Invalid As Integer
+
+        Public Shared Function FromUpstreamIntervention(result As InterventionResult) As ContextTable
+
+        End Function
 
     End Class
 
