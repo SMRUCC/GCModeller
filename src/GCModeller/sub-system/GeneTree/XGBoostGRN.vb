@@ -254,8 +254,8 @@ Public Class XGBoostGRN : Implements InsilicoPerturbationExperiment
 
             watch.Stop()
 
-            If m_config.Verbose Then
-                Console.WriteLine($"[GeneTree] 控制稳态求解完成（{watch.Elapsed.TotalSeconds.ToString("F1")}s）: {m_controlSolve.ToString}")
+            If m_config.Verbose AndAlso m_controlSolve.log IsNot Nothing Then
+                m_controlSolve.log &= vbCrLf & $"[GeneTree] 控制稳态求解完成（{watch.Elapsed.TotalSeconds.ToString("F1")}s）: {m_controlSolve.ToString}"
             End If
         End If
 
