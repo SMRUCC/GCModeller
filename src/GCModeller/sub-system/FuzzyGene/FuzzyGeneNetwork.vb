@@ -208,9 +208,8 @@ Imports std = System.Math
         ''' </summary>
         ''' <remarks>
         ''' 单基因前向约 0.2~0.8 微秒，2048 个基因约 0.5~1.5 毫秒，远大于
-        ''' <see cref="System.Threading.Tasks.Parallel.For(int,int,Action(Of Integer))"/>
-        ''' 每次 5~20 微秒的调度开销；更小的网络直接走串行分支，
-        ''' 避免「为几百个基因起线程池」造成的负收益。
+        ''' <c>System.Threading.Tasks.Parallel.For</c> 每次 5~20 微秒的调度开销；
+        ''' 更小的网络直接走串行分支，避免「为几百个基因起线程池」造成的负收益。
         ''' </remarks>
         Private Const ParallelMinGenes As Integer = 2048
 
@@ -233,11 +232,15 @@ Imports std = System.Math
         ''' 复用训练阶段的 <see cref="FuzzyGeneConfig.DegreeOfParallelism"/>：
         ''' <c>0</c> = 使用全部逻辑核心，<c>1</c> = 强制串行（单元测试与 A/B 基准都依赖这一点）。
         ''' </remarks>
-        Private ReadOnly Property Workers As Integer
+        Public ReadOnly Property ParallelDegree As Integer
             Get
                 Dim degree As Integer = _config.DegreeOfParallelism
 
-                Return If(degree > 0, degree, System.Environment.ProcessorCount)
+                If degree > 0 Then
+                    Return degree
+                End If
+
+                Return System.Environment.ProcessorCount
             End Get
         End Property
 
@@ -270,6 +273,52 @@ Imports std = System.Math
         Private Shared Function ParallelOptionsOf(workers As Integer) As System.Threading.Tasks.ParallelOptions
             Return New System.Threading.Tasks.ParallelOptions With {.MaxDegreeOfParallelism = workers}
         End Function
+
+        ''' <summary>线程池最小线程数已经按多大的并行度抬高过（进程级，只增不减）。</summary>
+        Private Shared _poolWarmed As Integer = 0
+
+        Private Shared ReadOnly _poolWarmSync As New Object()
+
+        ''' <summary>
+        ''' 把线程池的最小线程数抬到本次并行度（进程级一次性设置）。
+        ''' </summary>
+        ''' <param name="workers">本次稳态迭代要用的并行度</param>
+        ''' <remarks>
+        ''' <para>
+        ''' .NET 线程池在「饥饿」状态下注入新线程的速度约为每 500 毫秒一条（hill-climbing）。
+        ''' 稳态迭代是「短并行区 + 每步 barrier」的形态：万级基因时每步只有 3~15 毫秒，
+        ''' 整轮迭代也就一两百毫秒，线程池根本来不及长满——实测并发度会稳定在 2~3 条线程，
+        ''' 加速比趋近于 1。逐基因训练改用 <c>LongRunning</c> 长任务，正是为了绕开同一问题。
+        ''' </para>
+        ''' <para>
+        ''' 这里选择抬高最小线程数、而不是自建工作线程池：不需要管理线程生命周期，
+        ''' 也不会在每次 <see cref="SteadyState"/> 调用时付出「新建 N 条线程」的固定开销
+        ''' （扰动扫描会反复调用同一个网络的 <see cref="SteadyState"/>）。
+        ''' 设置只增不减，可以与宿主程序既有的设置共存。
+        ''' </para>
+        ''' </remarks>
+        Private Shared Sub EnsureThreadPool(workers As Integer)
+            If workers <= _poolWarmed Then
+                Return
+            End If
+
+            SyncLock _poolWarmSync
+                If workers <= _poolWarmed Then
+                    Return
+                End If
+
+                Dim minWorker As Integer = 0
+                Dim minIo As Integer = 0
+
+                System.Threading.ThreadPool.GetMinThreads(minWorker, minIo)
+
+                If minWorker < workers Then
+                    System.Threading.ThreadPool.SetMinThreads(workers, minIo)
+                End If
+
+                _poolWarmed = workers
+            End SyncLock
+        End Sub
 
 #End Region
 
@@ -323,19 +372,25 @@ Imports std = System.Math
             Call ResolveClamps(clamps, z, clampIndex, clampValue)
 
             Dim n As Integer = NGene
-            Dim workers As Integer = Workers
+            ' 注意：局部变量不能叫 Workers —— VB 大小写不敏感，
+            ' 那会与同名属性冲突并使初始化表达式自引用（BC42104，结果为 0）
+            Dim parallelism As Integer = ParallelDegree
 
             ' 双缓冲：nextZ / nextDirty 每次迭代复用，不再每步分配两个 N 长数组
             Dim nextZ(n - 1) As Double
             Dim dirty As Boolean() = Repeat(True, n)
             Dim nextDirty(n - 1) As Boolean
 
+            If ShouldParallelize(n, parallelism) Then
+                Call EnsureThreadPool(parallelism)
+            End If
+
             For stepIndex As Integer = 0 To maxSteps - 1
                 ' 1) 基因维并行：只读 z / dirty，只写 nextZ（未重算的基因保持原值）
-                Call StepZInto(z, dirty, stepIndex = 0, nextZ, workers)
+                Call StepZInto(z, dirty, stepIndex = 0, nextZ, parallelism)
 
                 ' 2) 阻尼混合 + 收敛统计：max 精确可结合，分块合并顺序不影响结果
-                Dim maxDelta As Double = BlendInto(z, nextZ, omega, nextDirty, workers)
+                Dim maxDelta As Double = BlendInto(z, nextZ, omega, nextDirty, parallelism)
 
                 ' 3) 钳制回写必须串行：它和混合写的是同一批位置
                 For k As Integer = 0 To clampIndex.Count - 1
@@ -456,7 +511,7 @@ Imports std = System.Math
         Private Function StepZ(z As Double(), dirty As Boolean(), forceAll As Boolean) As Double()
             Dim result(NGene - 1) As Double
 
-            Call StepZInto(z, dirty, forceAll, result, Workers)
+            Call StepZInto(z, dirty, forceAll, result, ParallelDegree)
 
             Return result
         End Function
@@ -591,7 +646,7 @@ Imports std = System.Math
         ''' <returns>本步的最大变化量</returns>
         ''' <remarks>
         ''' <c>max</c> 精确可结合，因此分块归约的合并顺序不影响结果——
-        ''' 并行与串行给出<b>逐位相同</b>的 <paramref name="maxDelta"/> 与 <paramref name="z"/>，
+        ''' 并行与串行给出<b>逐位相同</b>的最大变化量与 <paramref name="z"/>，
         ''' 这一点与 <c>Sum</c>/<c>Dot</c> 的分块归约（末位 ULP 会变）不同。
         ''' </remarks>
         Private Function BlendInto(z As Double(),

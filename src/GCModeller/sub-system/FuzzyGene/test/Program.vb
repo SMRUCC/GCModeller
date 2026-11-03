@@ -3,6 +3,7 @@ Imports System.Diagnostics
 Imports System.Globalization
 Imports System.IO
 Imports System.IO.Compression
+Imports Microsoft.VisualBasic.ApplicationServices.Debugging
 Imports Microsoft.VisualBasic.DataMining.FuzzyLogic.TSK
 Imports SMRUCC.genomics.Analysis.BNLearn
 Imports SMRUCC.genomics.BioSystem.Core
@@ -34,6 +35,9 @@ Module Program
     Function Main(args As String()) As Integer
         If args.Length > 0 AndAlso String.Equals(args(0), "--bench", StringComparison.OrdinalIgnoreCase) Then
             Return RunBenchmark(args)
+        End If
+        If args.Length > 0 AndAlso String.Equals(args(0), "--bench-steady", StringComparison.OrdinalIgnoreCase) Then
+            Return RunSteadyStateBenchmark(args)
         End If
 
         Console.WriteLine("=== FuzzyGene self test ===")
@@ -176,6 +180,500 @@ Module Program
             .Matrix = matrix,
             .TimePoints = Nothing
         }
+    End Function
+
+#End Region
+
+#Region "稳态迭代基准：--bench-steady [blockGenes] [tiles] [rows] [steps]"
+
+    ''' <summary>
+    ''' 稳态迭代基准：验证「并行」与「串行」输出逐位一致，并给出加速比与分配量。
+    ''' </summary>
+    ''' <remarks>
+    ''' 用法：<c>dotnet run -c Debug -p:Platform=x64 -- --bench-steady 64 48 400 50</c>
+    ''' （依次为种子基因数、平铺倍数、训练行数、迭代步数；均可省略）
+    ''' <para>
+    ''' 只训练一个小规模「种子」网络，然后平铺成上万基因的块对角网络：
+    ''' 稳态迭代的耗时只与基因数、每基因的规则数有关，平铺可以在秒级完成
+    ''' 却保留与真实网络同量级的单基因推理成本。
+    ''' </para>
+    ''' </remarks>
+    Private Function RunSteadyStateBenchmark(args As String()) As Integer
+        Dim blockGenes As Integer = If(args.Length > 1, CInt(args(1)), 64)
+        Dim tiles As Integer = If(args.Length > 2, CInt(args(2)), 48)
+        Dim rows As Integer = If(args.Length > 3, CInt(args(3)), 400)
+        Dim steps As Integer = If(args.Length > 4, CInt(args(4)), 50)
+        Dim degree As Integer = If(args.Length > 5, CInt(args(5)), 0)
+
+        Call DebugAudit.Reset()
+
+        Console.WriteLine("=== FuzzyGene steady-state benchmark ===")
+        Console.WriteLine($"seed block: {blockGenes} genes x {rows} samples, tiled x{tiles}, steps = {steps}")
+        Console.WriteLine($"logical cores: {Environment.ProcessorCount}, parallel degree: {If(degree > 0, degree, Environment.ProcessorCount)}")
+
+        ' 先用一段纯 CPU 循环标定本机实际能拿到的并行加速比：
+        ' 若这里也接近 1x，说明是运行环境的 CPU 配额/亲和性限制，不是稳态迭代代码的问题
+        For Each probe As Integer In New Integer() {1, 2, 4, Environment.ProcessorCount}.Distinct()
+            Console.WriteLine($"raw CPU scaling @ {probe,2} worker(s): {MeasureParallelScaling(probe):F2}x")
+        Next
+
+        Console.WriteLine()
+
+        Call DebugAudit.Mark("bench.degree", If(degree > 0, degree, Environment.ProcessorCount))
+
+        ' ==================== 1. 训练种子网络 ====================
+        Dim data As GeneExpressionData = BuildBenchmarkMatrix(blockGenes, rows)
+        Dim config As New FuzzyGeneConfig With {
+            .Selection = RegulatorSelection.CorrelationOnly,
+            .MaxRegulators = 3,
+            .MaxCandidateGenes = 0,
+            .MfCount = 2,
+            .MaxEpoch = 20,
+            .Standardize = True,
+            .TargetMode = FuzzyTargetMode.StaticRoute,
+            .PropagationSteps = steps,
+            .DegreeOfParallelism = 1
+        }
+
+        Dim seedModel As New FuzzyGeneModel(data, Nothing, config)
+        Dim report As FuzzyGeneTrainingResult = seedModel.Train()
+
+        Console.WriteLine($"seed: {report.NTrained}/{blockGenes} targets fitted, mean R2 = {report.MeanR2:F3}")
+        Console.WriteLine()
+
+        ' ==================== 2. 平铺成大规模网络 ====================
+        Dim net As FuzzyGeneNetwork = TileNetwork(seedModel.Network, tiles)
+
+        Call DebugAudit.Mark("bench.genes", net.NGene)
+        Call DebugAudit.Mark("bench.modelled", net.NModelled)
+        Call DebugAudit.Mark("bench.edges", net.Edges.Length)
+        Call DebugAudit.Mark("bench.steps", steps)
+        Call DebugAudit.Mark("bench.cores", Environment.ProcessorCount)
+
+        Console.WriteLine($"benchmark network: {net.NGene} genes, {net.NModelled} modelled, " &
+                          $"avg rules = {If(net.NModelled > 0, net.Models.Where(Function(m) m IsNot Nothing).Average(Function(m) m.RuleCount), 0):F1}")
+        Console.WriteLine()
+
+        ' 扰动一个基因：同时覆盖「首步全量重算」与后续脏集传播
+        Dim target As String = net.GeneNames(0)
+        Dim clamps As New Dictionary(Of String, Double)(StringComparer.OrdinalIgnoreCase) From {
+            {target, net.BaselineRaw(0) * 0.2}
+        }
+
+        ' ==================== 3. 预热 ====================
+        ' JIT、线程池、线程局部缓冲与规则缓存的首次开销都不应计入任何一侧的计时窗口
+        net.Config.DegreeOfParallelism = 1
+        Call net.SteadyState(net.BaselineRaw, clamps, 1, 0.5, 0.000001)
+        net.Config.DegreeOfParallelism = 0
+        Call net.SteadyState(net.BaselineRaw, clamps, 1, 0.5, 0.000001)
+
+        ' ==================== 4. 串行基准（取 3 次最优）====================
+        Dim serialRun = MeasureSteady(net, clamps, steps, 1, 3)
+        Dim parallelRun = MeasureSteady(net, clamps, steps, degree, 3)
+
+        Dim serialResult As Double() = serialRun.result
+        Dim serialMs As Double = serialRun.ms
+        Dim serialAlloc As Long = serialRun.alloc
+        Dim serialGen2 As Integer = serialRun.gen2
+        Dim parallelResult As Double() = parallelRun.result
+        Dim parallelMs As Double = parallelRun.ms
+        Dim parallelAlloc As Long = parallelRun.alloc
+        Dim parallelGen2 As Integer = parallelRun.gen2
+
+        ' ==================== 5. 等价性：必须逐位相同 ====================
+        Dim mismatch As Integer = 0
+        Dim maxDiff As Double = 0.0
+
+        For i As Integer = 0 To net.NGene - 1
+            If serialResult(i) <> parallelResult(i) Then
+                mismatch += 1
+                maxDiff = std.Max(maxDiff, std.Abs(serialResult(i) - parallelResult(i)))
+            End If
+        Next
+
+        Call DebugAudit.Test(mismatch = 0,
+                             $"parallel steady state must be bit-identical to the serial one ({mismatch} value(s) differ, max diff {maxDiff:G3})")
+        Call DebugAudit.Test(IsFinite(serialResult(0)), "the steady state stays finite under clamping")
+
+        ' ==================== 6. 混合循环占比（决定是否值得 SIMD 化）====================
+        Dim blendMs As Double = MeasureBlendLoop(net.NGene, steps, 0.5)
+        Dim blendShare As Double = If(serialMs > 0.0, blendMs / serialMs * 100.0, 0.0)
+        Dim speedup As Double = If(parallelMs > 0.0, serialMs / parallelMs, 0.0)
+
+        ' 诊断：只看「逐基因推理」这一层能不能并行（不经稳态编排，用来定位串行化来源）
+        Dim geneLoop = MeasureGeneForwardScaling(net, degree)
+        Dim sharedLoop = MeasureGeneForwardScaling(TileNetwork(seedModel.Network, std.Max(1, tiles), shareNetworkPerSeed:=True), degree)
+
+        Call DebugAudit.Mark("forward.serial.ms", geneLoop.serialMs)
+        Call DebugAudit.Mark("forward.parallel.ms", geneLoop.parallelMs)
+        Call DebugAudit.Mark("forward.speedup", geneLoop.speedup)
+        Call DebugAudit.Mark("forward.shared.speedup", sharedLoop.speedup)
+
+        Call DebugAudit.Mark("steady.serial.ms", serialMs)
+        Call DebugAudit.Mark("steady.parallel.ms", parallelMs)
+        Call DebugAudit.Mark("steady.speedup", speedup)
+        Call DebugAudit.Mark("steady.blend.ms", blendMs)
+        Call DebugAudit.Mark("steady.blend.share.pct", blendShare)
+
+        Console.WriteLine("mode      | wall(ms) | alloc(MB) | Gen2 | speedup")
+        Console.WriteLine("----------+----------+-----------+------+--------")
+        Console.WriteLine($"serial    | {serialMs,8:F1} | {serialAlloc / 1024.0 / 1024,9:F2} | {serialGen2,4} |    1.00x")
+        Console.WriteLine($"parallel  | {parallelMs,8:F1} | {parallelAlloc / 1024.0 / 1024,9:F2} | {parallelGen2,4} | {speedup,7:F2}x")
+        Console.WriteLine()
+        Console.WriteLine($"blend loop alone: {blendMs:F1} ms ({blendShare:F2}% of the serial run)")
+        Console.WriteLine($"gene forward only: serial {geneLoop.serialMs:F1} ms vs parallel {geneLoop.parallelMs:F1} ms " &
+                          $"({geneLoop.speedup:F2}x); shared-network variant: {sharedLoop.speedup:F2}x")
+        Console.WriteLine($"bit-identical: {mismatch = 0} ({mismatch} mismatch(es))")
+        Console.WriteLine()
+
+        If blendShare > 5.0 Then
+            Console.WriteLine("=> the blend loop is a non-trivial share; SIMD-izing BlendRange is worth trying.")
+        Else
+            Console.WriteLine("=> the blend loop is negligible; gene-level parallelism is the right lever (skip SIMD).")
+        End If
+
+        Console.WriteLine()
+        Console.WriteLine(DebugAudit.Dump())
+
+        Dim reportPath As String = Path.Combine(
+            Path.GetTempPath(),
+            $"fuzzygene-steady-bench-{DateTime.Now:yyyyMMdd-HHmmss}.json")
+
+        Call DebugAudit.SaveReport(reportPath)
+
+        Console.WriteLine($"report: {reportPath}")
+
+        Return If(DebugAudit.FailureCount = 0, 0, 1)
+    End Function
+
+    ''' <summary>
+    ''' 把小规模「种子」网络平铺成大规模块对角网络（每块内部拓扑与种子一致）。
+    ''' </summary>
+    ''' <remarks>
+    ''' 训练上万个靶基因要几十分钟，而稳态迭代的耗时只与基因数、每基因的规则数有关。
+    ''' 平铺既保留了「逐靶基因一个模型 + 一个 TSK 网络」的生产形态（每个基因都是独立克隆，
+    ''' 因此并行阶段不存在共享实例上的伪竞争），又能让基准在秒级完成。
+    ''' </remarks>
+    Private Function TileNetwork(seed As FuzzyGeneNetwork,
+                                 tiles As Integer,
+                                 Optional shareNetworkPerSeed As Boolean = False) As FuzzyGeneNetwork
+        Dim count As Integer = std.Max(1, tiles)
+        Dim block As Integer = seed.NGene
+        Dim n As Integer = block * count
+        Dim names(n - 1) As String
+        Dim models(n - 1) As GeneRegulationModel
+        Dim means(n - 1) As Double
+        Dim sds(n - 1) As Double
+        Dim baseline(n - 1) As Double
+        Dim supportMin(n - 1) As Double
+        Dim supportMax(n - 1) As Double
+        ' 诊断用：每个种子基因只保留一份 TskNetwork，块与块之间共享
+        Dim sharedNetworks(block - 1) As TskNetwork
+
+        For t As Integer = 0 To count - 1
+            For local As Integer = 0 To block - 1
+                Dim g As Integer = t * block + local
+                Dim source As GeneRegulationModel = seed.Models(local)
+
+                names(g) = $"{seed.GeneNames(local)}_{t}"
+                means(g) = seed.Means(local)
+                sds(g) = seed.SDs(local)
+                baseline(g) = seed.BaselineRaw(local)
+                supportMin(g) = seed.SupportMin(local)
+                supportMax(g) = seed.SupportMax(local)
+
+                If source Is Nothing OrElse source.Network Is Nothing OrElse source.Regulators Is Nothing Then
+                    Continue For
+                End If
+
+                Dim regulators(source.Regulators.Length - 1) As String
+
+                For j As Integer = 0 To source.Regulators.Length - 1
+                    ' 种子里的调控因子名（如 "G12"）重映射到本块内的同位置基因（"G12_3"）
+                    Dim sourceIndex As Integer = seed.IndexOfGene(source.Regulators(j))
+
+                    regulators(j) = If(sourceIndex < 0,
+                                       source.Regulators(j),
+                                       $"{seed.GeneNames(sourceIndex)}_{t}")
+                Next
+
+                Dim network As TskNetwork
+
+                If shareNetworkPerSeed Then
+                    If sharedNetworks(local) Is Nothing Then
+                        sharedNetworks(local) = source.Network
+                    End If
+
+                    network = sharedNetworks(local)
+                Else
+                    network = source.Network.Clone()
+                End If
+
+                models(g) = New GeneRegulationModel With {
+                    .TargetGene = names(g),
+                    .Regulators = regulators,
+                    .Network = network,
+                    .R2 = source.R2,
+                    .RMSE = source.RMSE,
+                    .Iterations = source.Iterations,
+                    .Converged = source.Converged,
+                    .Mean = source.Mean,
+                    .Sd = source.Sd,
+                    .SupportMin = source.SupportMin,
+                    .SupportMax = source.SupportMax,
+                    .IsLagged = source.IsLagged,
+                    .SampleCount = source.SampleCount
+                }
+            Next
+        Next
+
+        Dim tiledConfig As New FuzzyGeneConfig With {
+            .PropagationSteps = seed.Config.PropagationSteps,
+            .Relaxation = seed.Config.Relaxation,
+            .ConvergenceTolerance = seed.Config.ConvergenceTolerance,
+            .ClampToSupport = seed.Config.ClampToSupport
+        }
+
+        Return New FuzzyGeneNetwork(names, models, New RegulationEdgeModel() {}, tiledConfig,
+                                    means, sds, baseline, supportMin, supportMax,
+                                    seed.Mode, seed.Standardized)
+    End Function
+
+    ''' <summary>
+    ''' 单独计时「与 BlendRange 同构」的混合扫描，用于估算它在端到端耗时里的占比。
+    ''' </summary>
+    ''' <remarks>
+    ''' 稳态循环的提前退出会让「只跑混合」的对照组在第一步就收敛，
+    ''' 因此这里复制同一段逐元素运算单独计时，作为「SIMD 化是否值得」的判据。
+    ''' </remarks>
+    Private Function MeasureBlendLoop(n As Integer, steps As Integer, omega As Double) As Double
+        Dim z(n - 1) As Double
+        Dim nextZ(n - 1) As Double
+        Dim dirty(n - 1) As Boolean
+
+        For i As Integer = 0 To n - 1
+            z(i) = std.Sin(i * 0.001)
+            nextZ(i) = std.Cos(i * 0.001)
+        Next
+
+        Dim clock As Stopwatch = Stopwatch.StartNew()
+
+        For stepIndex As Integer = 0 To std.Max(0, steps - 1)
+            Dim maxDelta As Double = 0.0
+
+            For i As Integer = 0 To n - 1
+                Dim blended As Double = z(i) + omega * (nextZ(i) - z(i))
+                Dim delta As Double = std.Abs(blended - z(i))
+
+                z(i) = blended
+                dirty(i) = delta > 0.000000000001
+
+                If delta > maxDelta Then
+                    maxDelta = delta
+                End If
+            Next
+        Next
+
+        clock.Stop()
+
+        Return clock.Elapsed.TotalMilliseconds
+    End Function
+
+    ''' <summary>
+    ''' 只对「逐基因推理」这一层做串行/并行对照，用于定位稳态迭代里的串行化来源。
+    ''' </summary>
+    ''' <remarks>
+    ''' 行向量按调控因子顺序预先拼好，循环体内只调用 <see cref="GeneRegulationModel.Predict"/>，
+    ''' 因此这个数字反映的是「每基因一次 TSK 前向」能否并行，
+    ''' 与稳态编排（双缓冲、钳制、收敛判定）无关。
+    ''' </remarks>
+    Private Function MeasureGeneForwardScaling(net As FuzzyGeneNetwork,
+                                               degree As Integer) As (serialMs As Double, parallelMs As Double, speedup As Double)
+        Dim workers As Integer = If(degree > 0, degree, Environment.ProcessorCount)
+        Dim n As Integer = net.NGene
+        Dim rows As Double()() = New Double(n - 1)() {}
+        Dim sink(n - 1) As Double
+
+        For g As Integer = 0 To n - 1
+            Dim model As GeneRegulationModel = net.Models(g)
+
+            If model Is Nothing OrElse model.Regulators Is Nothing Then
+                rows(g) = New Double() {}
+                Continue For
+            End If
+
+            Dim row(model.Regulators.Length - 1) As Double
+
+            For j As Integer = 0 To row.Length - 1
+                Dim idx As Integer = net.IndexOfGene(model.Regulators(j))
+
+                row(j) = If(idx < 0, 0.0, net.BaselineRaw(idx))
+            Next
+
+            rows(g) = row
+        Next
+
+        ' 预热：让每个线程的标量缓冲先创建好
+        Call RunGeneForward(net, rows, sink, 1, 1)
+
+        Dim serialMs As Double = RunGeneForward(net, rows, sink, 1, 2)
+        Dim parallelMs As Double = RunGeneForward(net, rows, sink, workers, 2)
+
+        Return (serialMs, parallelMs, If(parallelMs > 0.0, serialMs / parallelMs, 0.0))
+    End Function
+
+    ''' <summary>按给定并行度跑一遍全基因推理，返回最快一次的毫秒数。</summary>
+    Private Function RunGeneForward(net As FuzzyGeneNetwork, rows As Double()(), sink As Double(),
+                                    workers As Integer, repeats As Integer) As Double
+        Dim n As Integer = net.NGene
+        Dim best As Double = Double.MaxValue
+
+        For repeat As Integer = 1 To std.Max(1, repeats)
+            Dim clock As Stopwatch = Stopwatch.StartNew()
+
+            If workers <= 1 Then
+                For g As Integer = 0 To n - 1
+                    Dim model As GeneRegulationModel = net.Models(g)
+
+                    If model IsNot Nothing Then
+                        sink(g) = model.Predict(rows(g))
+                    End If
+                Next
+            Else
+                System.Threading.Tasks.Parallel.For(0, n,
+                    New System.Threading.Tasks.ParallelOptions With {.MaxDegreeOfParallelism = workers},
+                    Sub(g)
+                        Dim model As GeneRegulationModel = net.Models(g)
+
+                        If model IsNot Nothing Then
+                            sink(g) = model.Predict(rows(g))
+                        End If
+                    End Sub)
+            End If
+
+            clock.Stop()
+
+            If clock.Elapsed.TotalMilliseconds < best Then
+                best = clock.Elapsed.TotalMilliseconds
+            End If
+        Next
+
+        Return best
+    End Function
+
+    ''' <summary>
+    ''' 用一段纯 CPU 循环标定本机实际的并行加速比（环境是否真的能跑满多核）。
+    ''' </summary>
+    ''' <remarks>
+    ''' 容器 / 沙箱环境经常出现「报告 24 个逻辑核，但 CPU 配额只有 1 核」的情况，
+    ''' 这时任何并行改造都不可能拿到加速。先量出这个基线，才能判断
+    ''' 稳态迭代的加速比偏低是环境问题还是代码问题。
+    ''' </remarks>
+    Private Function MeasureParallelScaling(workers As Integer) As Double
+        workers = std.Max(1, workers)
+
+        Dim n As Integer = 4000000
+        Dim v(n - 1) As Double
+
+        For i As Integer = 0 To n - 1
+            v(i) = i * 0.000001
+        Next
+
+        Dim sink As Double = 0.0
+        Dim clock As Stopwatch = Stopwatch.StartNew()
+
+        For i As Integer = 0 To n - 1
+            sink += std.Sqrt(v(i))
+        Next
+
+        clock.Stop()
+
+        Dim serialMs As Double = clock.Elapsed.TotalMilliseconds
+
+        If workers = 1 Then
+            Return 1.0
+        End If
+
+        Dim partials(workers - 1) As Double
+        Dim chunk As Integer = (n + workers - 1) \ workers
+
+        clock.Restart()
+
+        System.Threading.Tasks.Parallel.For(0, workers,
+            New System.Threading.Tasks.ParallelOptions With {.MaxDegreeOfParallelism = workers},
+            Sub(c)
+                Dim start As Integer = c * chunk
+                Dim ends As Integer = std.Min(start + chunk, n)
+                Dim acc As Double = 0.0
+
+                For i As Integer = start To ends - 1
+                    acc += std.Sqrt(v(i))
+                Next
+
+                partials(c) = acc
+            End Sub)
+
+        clock.Stop()
+
+        Dim parallelMs As Double = clock.Elapsed.TotalMilliseconds
+        Dim total As Double = 0.0
+
+        For i As Integer = 0 To workers - 1
+            total += partials(i)
+        Next
+
+        If total < sink Then
+            sink = total
+        End If
+
+        Return If(parallelMs > 0.0, serialMs / parallelMs, 0.0)
+    End Function
+
+    ''' <summary>把 GC 基线拉平，避免把上一阶段的数据生成垃圾算进计时窗口。</summary>
+    Private Sub CollectGarbage()
+        Call GC.Collect()
+        Call GC.WaitForPendingFinalizers()
+        Call GC.Collect()
+    End Sub
+
+    ''' <summary>
+    ''' 以给定并行度重复运行稳态迭代，返回最快一次的耗时、分配量与运行结果。
+    ''' </summary>
+    ''' <remarks>
+    ''' 取最优而不是平均值：稳态迭代本身没有共享可变状态，重复运行之间的差异
+    ''' 来自 JIT 分层编译与线程池调度，取最优更接近「稳定态」的真实成本。
+    ''' </remarks>
+    Private Function MeasureSteady(net As FuzzyGeneNetwork,
+                                   clamps As Dictionary(Of String, Double),
+                                   steps As Integer,
+                                   degree As Integer,
+                                   repeats As Integer) As (ms As Double, alloc As Long, gen2 As Integer, result As Double())
+        net.Config.DegreeOfParallelism = degree
+
+        Dim bestMs As Double = Double.MaxValue
+        Dim bestAlloc As Long = 0
+        Dim bestGen2 As Integer = 0
+        Dim result As Double() = Nothing
+
+        For repeat As Integer = 1 To std.Max(1, repeats)
+            Call CollectGarbage()
+
+            Dim allocBefore As Long = GC.GetTotalAllocatedBytes(precise:=True)
+            Dim gen2Before As Integer = GC.CollectionCount(2)
+            Dim clock As Stopwatch = Stopwatch.StartNew()
+
+            result = net.SteadyState(net.BaselineRaw, clamps, steps, 0.5, 0.000001)
+
+            clock.Stop()
+
+            If clock.Elapsed.TotalMilliseconds < bestMs Then
+                bestMs = clock.Elapsed.TotalMilliseconds
+                bestAlloc = GC.GetTotalAllocatedBytes(precise:=True) - allocBefore
+                bestGen2 = GC.CollectionCount(2) - gen2Before
+            End If
+        Next
+
+        Return (bestMs, bestAlloc, bestGen2, result)
     End Function
 
 #End Region
