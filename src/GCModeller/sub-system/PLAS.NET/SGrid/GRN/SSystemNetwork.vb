@@ -328,7 +328,7 @@ Namespace GRN
 
             For Each item As KeyValuePair(Of String, Double) In context
                 Dim name As String = If(item.Key, "").Trim()
-                Dim key As String
+                Dim key As String = Nothing
 
                 If name.Length = 0 Then
                     Continue For

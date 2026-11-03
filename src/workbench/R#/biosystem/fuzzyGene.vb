@@ -6,7 +6,6 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.FuzzyGene
 Imports SMRUCC.genomics.Analysis.FuzzyGene.Config
 Imports SMRUCC.genomics.Analysis.FuzzyGene.IO
-Imports SMRUCC.genomics.Analysis.FuzzyGene.Perturbation
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.BioSystem.Core
 Imports SMRUCC.genomics.BioSystem.Intervention

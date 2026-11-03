@@ -387,7 +387,6 @@ Public Class FuzzyGeneModel : Implements InsilicoPerturbationExperiment
     ''' （本轮突变体稳态 → 下一轮的基线）。
     ''' </summary>
     ''' <param name="upstream">上游扰动结果，例如 <c>KnockoutGene("A")</c></param>
-    ''' <param name="minCoverage">要求的覆盖率下限（0–1，0 表示不检查）</param>
     ''' <returns>覆盖率诊断</returns>
     ''' <remarks>
     ''' <para>
