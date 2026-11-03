@@ -1,11 +1,51 @@
 .\" man page create by R# package system.
 .TH TRN 1 2000-1月 "open_bicor" "open_bicor"
 .SH NAME
-open_bicor \- 
+open_bicor \- re-open the persisted bicor correlation store that was written by `write_bicor`
 .SH SYNOPSIS
 \fIopen_bicor(\fBrepo\fR as string, 
 \fBcache\fR as integer = 2048, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+re-open the persisted bicor correlation store that was written by `write_bicor`
+.PP
+.SH OPTIONS
+.PP
+\fBrepo\fB \fR\- 
+ the data repository directory that was passed to `write_bicor`
+ (reads `{repo}/bicor.dat`, or `{repo}/pearson.dat` when the
+ store was written with `corKind = "pearson"`, and
+ `{repo}/index.dat`).
+. 
+.PP
+.PP
+\fBcache\fB \fR\- 
+ the hot-row LRU cache capacity in rows. Each cached row of a N = 50,000
+ matrix costs about 200 KB of memory. The default value 2048 means at most
+ about 400 MB of the hot row cache.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+an opened [CorrelationMatrixStore](cref:T:Microsoft.VisualBasic.Math.Matrix.CorrelationMatrixStore) object. Pass it to
+ `build_grn` via the `bicor` parameter to skip the expensive
+ correlation matrix re-computation.
+.PP
+.SH DETAILS
+.PP
+the returned store supports fast point queries (gene1, gene2 -> correlation
+ and p-value), neighborhood queries (gene + threshold -> all correlated genes)
+ and full-library streaming edge filters, all without loading the matrix
+ into memory.
+.PP
+.SH EXAMPLES
+.PP
+let bicor = open_bicor("Z:/hsa_mat");
+.PP
 .SH SEE ALSO
 TRN
 .SH FILES

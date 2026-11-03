@@ -5,6 +5,8 @@
 // ref=cytoscape_toolkit.automation@cytoscape, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**
+ * accession the cytoscape function via http service
+ * 
 */
 declare namespace automation {
    /**
@@ -22,9 +24,15 @@ declare namespace automation {
    */
    function layout(networkId: any, algorithmName?: string, version?: string, port?: object, host?: string, env?: object): any;
    /**
-     * @param version default value Is ``'v1'``.
-     * @param port default value Is ``1234``.
-     * @param host default value Is ``'localhost'``.
+    * GET list of layout algorithms
+    * 
+    * 
+     * @param version 
+     * + default value Is ``'v1'``.
+     * @param port 
+     * + default value Is ``1234``.
+     * @param host 
+     * + default value Is ``'localhost'``.
    */
    function layouts(version?: string, port?: object, host?: string): string;
    /**

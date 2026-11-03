@@ -110,11 +110,12 @@ Namespace Perturbation
 
         ''' <summary>未扰动时的稳态（缓存；基线变化时自动失效）。</summary>
         Public Function ControlSteadyState() As Double()
-            If _control Is Nothing Then
-                _control = _network.SteadyState(_baseline)
-            End If
+            'If _control Is Nothing Then
+            '    _control = _network.SteadyState(_baseline)
+            'End If
 
-            Return _control
+            'Return _control
+            Return _baseline
         End Function
 
         ''' <summary>

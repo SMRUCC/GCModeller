@@ -278,12 +278,14 @@ declare namespace FuzzyGene {
      *  0 disables the check
      * 
      * + default value Is ``0``.
+     * @param align 
+     * + default value Is ``null``.
      * @param env the R# runtime environment used to report errors
      * 
      * + default value Is ``null``.
      * @return a multi line coverage summary, or an R# error object when the context is rejected
    */
-   function fuzzygene_context(fuzzygene: object, context: any, valueColumn?: string, minCoverage?: number, env?: object): string;
+   function fuzzygene_context(fuzzygene: object, context: any, valueColumn?: string, minCoverage?: number, align?: object, env?: object): string;
    /**
     * Inject the result of an **upstream perturbation** as the control baseline (iterative perturbation).
     * 

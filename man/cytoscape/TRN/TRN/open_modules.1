@@ -1,10 +1,42 @@
 .\" man page create by R# package system.
 .TH TRN 1 2000-1月 "open_modules" "open_modules"
 .SH NAME
-open_modules \- 
+open_modules \- read the WGCNA module map sidecar cache that was written by `write_bicor`
 .SH SYNOPSIS
 \fIopen_modules(\fBrepo\fR as string, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+read the WGCNA module map sidecar cache that was written by `write_bicor`
+.PP
+.SH OPTIONS
+.PP
+\fBrepo\fB \fR\- 
+ the same data repository directory that was passed to `write_bicor`
+ (reads `{repo}/modules.dat`).
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+the cached module map object, or Nothing when the cache file does not exist
+ (in that case `build_grn` will fall back to running the WGCNA blockwise
+ module detection and write the cache automatically).
+.PP
+.SH DETAILS
+.PP
+pass the returned object to `build_grn` via the `modules` parameter
+ to skip the WGCNA blockwise module detection. Note that the cache carries a
+ fingerprint (gene id row order + WGCNA configuration); when it does not match
+ the current data, `build_grn` will ignore it and rebuild automatically.
+.PP
+.SH EXAMPLES
+.PP
+let modules = open_modules("Z:/hsa_mat");
+ let grn = WGCNA::build_grn(hsa, TF$Ensembl, opts, bicor = bicor, modules = modules);
+.PP
 .SH SEE ALSO
 TRN
 .SH FILES
