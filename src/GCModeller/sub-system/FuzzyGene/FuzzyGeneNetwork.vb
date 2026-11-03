@@ -201,6 +201,78 @@ Imports std = System.Math
             Return -1
         End Function
 
+#Region "并行调度"
+
+        ''' <summary>
+        ''' 触发基因维并行的最小基因数。
+        ''' </summary>
+        ''' <remarks>
+        ''' 单基因前向约 0.2~0.8 微秒，2048 个基因约 0.5~1.5 毫秒，远大于
+        ''' <see cref="System.Threading.Tasks.Parallel.For(int,int,Action(Of Integer))"/>
+        ''' 每次 5~20 微秒的调度开销；更小的网络直接走串行分支，
+        ''' 避免「为几百个基因起线程池」造成的负收益。
+        ''' </remarks>
+        Private Const ParallelMinGenes As Integer = 2048
+
+        ''' <summary>并行分块的最小基因数：用于摊薄每个分块的任务开销。</summary>
+        Private Const MinChunkGenes As Integer = 128
+
+        ''' <summary>
+        ''' 脏位阈值：单步变化量低于它即认为该基因没有发生变化。
+        ''' </summary>
+        ''' <remarks>
+        ''' 与 <c>TskLayers.MinimumActivationSum</c> 一样以具名常量表达，
+        ''' 避免同一个魔法数字在稳态循环里出现两次。
+        ''' </remarks>
+        Private Const DirtyEpsilon As Double = 0.000000000001
+
+        ''' <summary>
+        ''' 本次迭代实际使用的并行度（<c>1</c> 表示串行）。
+        ''' </summary>
+        ''' <remarks>
+        ''' 复用训练阶段的 <see cref="FuzzyGeneConfig.DegreeOfParallelism"/>：
+        ''' <c>0</c> = 使用全部逻辑核心，<c>1</c> = 强制串行（单元测试与 A/B 基准都依赖这一点）。
+        ''' </remarks>
+        Private ReadOnly Property Workers As Integer
+            Get
+                Dim degree As Integer = _config.DegreeOfParallelism
+
+                Return If(degree > 0, degree, System.Environment.ProcessorCount)
+            End Get
+        End Property
+
+        ''' <summary>给定基因数是否值得启用并行。</summary>
+        Private Shared Function ShouldParallelize(count As Integer, workers As Integer) As Boolean
+            Return workers > 1 AndAlso count >= ParallelMinGenes
+        End Function
+
+        ''' <summary>
+        ''' 按基因数与并行度计算分块大小。
+        ''' </summary>
+        ''' <remarks>
+        ''' 目标是「每核约 4 个分块」以实现动态负载均衡（不同基因的规则数不同，
+        ''' 静态均分很容易卡在最慢的那一块）；同时每块不小于 <see cref="MinChunkGenes"/>，
+        ''' 且不小于「每核至少一块」，避免分块碎到调度开销盖过计算。
+        ''' </remarks>
+        Private Shared Function ChunkGenes(count As Integer, workers As Integer) As Integer
+            Dim target As Integer = (count + workers * 4 - 1) \ std.Max(1, workers * 4)
+            Dim chunk As Integer = std.Max(MinChunkGenes, target)
+            Dim upper As Integer = std.Max(1, count \ std.Max(1, workers))
+
+            If chunk > upper Then
+                chunk = upper
+            End If
+
+            Return std.Max(1, chunk)
+        End Function
+
+        ''' <summary>构造本次迭代的并行选项（<see cref="System.Threading.Tasks.Parallel"/> 必须全限定）。</summary>
+        Private Shared Function ParallelOptionsOf(workers As Integer) As System.Threading.Tasks.ParallelOptions
+            Return New System.Threading.Tasks.ParallelOptions With {.MaxDegreeOfParallelism = workers}
+        End Function
+
+#End Region
+
 #Region "推理"
 
         ''' <summary>单步预测（原始表达量进、原始表达量出）。</summary>
@@ -250,33 +322,32 @@ Imports std = System.Math
 
             Call ResolveClamps(clamps, z, clampIndex, clampValue)
 
-            Dim dirty As Boolean() = Repeat(True, NGene)
+            Dim n As Integer = NGene
+            Dim workers As Integer = Workers
+
+            ' 双缓冲：nextZ / nextDirty 每次迭代复用，不再每步分配两个 N 长数组
+            Dim nextZ(n - 1) As Double
+            Dim dirty As Boolean() = Repeat(True, n)
+            Dim nextDirty(n - 1) As Boolean
 
             For stepIndex As Integer = 0 To maxSteps - 1
-                Dim nextZ As Double() = StepZ(z, dirty, stepIndex = 0)
-                Dim nextDirty As Boolean() = Repeat(False, NGene)
-                Dim maxDelta As Double = 0.0
+                ' 1) 基因维并行：只读 z / dirty，只写 nextZ（未重算的基因保持原值）
+                Call StepZInto(z, dirty, stepIndex = 0, nextZ, workers)
 
-                For i As Integer = 0 To NGene - 1
-                    Dim blended As Double = z(i) + omega * (nextZ(i) - z(i))
-                    Dim delta As Double = std.Abs(blended - z(i))
+                ' 2) 阻尼混合 + 收敛统计：max 精确可结合，分块合并顺序不影响结果
+                Dim maxDelta As Double = BlendInto(z, nextZ, omega, nextDirty, workers)
 
-                    z(i) = blended
-
-                    If delta > 0.000000000001 Then
-                        nextDirty(i) = True
-                    End If
-                    If delta > maxDelta Then
-                        maxDelta = delta
-                    End If
-                Next
-
+                ' 3) 钳制回写必须串行：它和混合写的是同一批位置
                 For k As Integer = 0 To clampIndex.Count - 1
                     z(clampIndex(k)) = clampValue(k)
                     nextDirty(clampIndex(k)) = False
                 Next
 
+                ' 4) 交换脏集缓冲：BlendRange 对 [0, N) 全段赋值，因此换过来的缓冲不需要清零
+                Dim swapDirty As Boolean() = dirty
+
                 dirty = nextDirty
+                nextDirty = swapDirty
 
                 If maxDelta < tol Then
                     Exit For
@@ -319,8 +390,11 @@ Imports std = System.Math
 
             Record(trajectory, 0, z)
 
+            ' forceAll 为 True 时 dirty 不参与判定，复用同一个全 True 缓冲即可（不再每步 Repeat）
+            Dim allDirty As Boolean() = Repeat(True, NGene)
+
             For t As Integer = 1 To count - 1
-                z = StepZ(z, Repeat(True, NGene), True)
+                z = StepZ(z, allDirty, True)
 
                 For k As Integer = 0 To clampIndex.Count - 1
                     z(clampIndex(k)) = clampValue(k)
@@ -373,15 +447,83 @@ Imports std = System.Math
         End Sub
 
         ''' <summary>
-        ''' 一步状态更新：只重算「有调控因子发生变化」的基因（脏集传播）。
+        ''' 一步状态更新（分配结果数组的便捷入口）：只重算「有调控因子发生变化」的基因。
         ''' </summary>
+        ''' <remarks>
+        ''' 单次调用（<see cref="Predict"/>、<see cref="SimulateCascade"/>）用这个入口；
+        ''' 稳态迭代走 <see cref="StepZInto"/> 的零分配路径。
+        ''' </remarks>
         Private Function StepZ(z As Double(), dirty As Boolean(), forceAll As Boolean) As Double()
+            Dim result(NGene - 1) As Double
+
+            Call StepZInto(z, dirty, forceAll, result, Workers)
+
+            Return result
+        End Function
+
+        ''' <summary>
+        ''' 一步状态更新，结果写入 <paramref name="nextZ"/>；基因维按块并行。
+        ''' </summary>
+        ''' <param name="z">当前状态（z 空间，只读）</param>
+        ''' <param name="dirty">上一步发生变化的基因（只读）</param>
+        ''' <param name="forceAll">为 <c>True</c> 时忽略脏集，全量重算</param>
+        ''' <param name="nextZ">目标缓冲，长度必须等于基因数</param>
+        ''' <param name="workers">并行度（<c>1</c> 表示串行）</param>
+        ''' <remarks>
+        ''' <para>
+        ''' 每个基因只写自己的 <c>nextZ(g)</c>，对 <c>z</c> / <c>dirty</c> 只读，
+        ''' 因此按基因并行天然无竞争、也与线程调度无关：结果逐位可复现。
+        ''' 线程局部缓冲（<see cref="_inputScratch"/>）在 <c>TskNetwork</c> 一侧同样是每线程一份，
+        ''' 所以并行不需要任何锁。
+        ''' </para>
+        ''' <para>
+        ''' <b>不能就地写回 <paramref name="z"/></b>：同一步内其他基因还要读旧状态。
+        ''' </para>
+        ''' </remarks>
+        Private Sub StepZInto(z As Double(),
+                              dirty As Boolean(),
+                              forceAll As Boolean,
+                              nextZ As Double(),
+                              workers As Integer)
+
             Dim n As Integer = NGene
-            Dim result(n - 1) As Double
 
-            Call Array.Copy(z, result, n)
+            ' 未被重算的基因必须逐位保持原值（也保证混合循环看到的是完整的下一步状态）
+            Call Array.Copy(z, nextZ, n)
 
-            For g As Integer = 0 To n - 1
+            If Not ShouldParallelize(n, workers) Then
+                Call StepZRange(z, dirty, forceAll, nextZ, 0, n)
+
+                Return
+            End If
+
+            Dim chunk As Integer = ChunkGenes(n, workers)
+            Dim nChunks As Integer = (n + chunk - 1) \ chunk
+            Dim options As System.Threading.Tasks.ParallelOptions = ParallelOptionsOf(workers)
+
+            ' Parallel 必须全限定：Microsoft.VisualBasic.Parallel 会遮蔽同名类型
+            System.Threading.Tasks.Parallel.For(0, nChunks, options,
+                Sub(c)
+                    Dim start As Integer = c * chunk
+
+                    Call StepZRange(z, dirty, forceAll, nextZ, start, std.Min(start + chunk, n))
+                End Sub)
+        End Sub
+
+        ''' <summary>
+        ''' <see cref="StepZInto"/> 的逐基因内核，只处理 <c>[start, ends)</c> 区间。
+        ''' </summary>
+        Private Sub StepZRange(z As Double(),
+                               dirty As Boolean(),
+                               forceAll As Boolean,
+                               nextZ As Double(),
+                               start As Integer,
+                               ends As Integer)
+
+            ' 提到循环外：配置在一次迭代内不会变化，避免每个基因都做一次属性访问
+            Dim clampToSupport As Boolean = _config.ClampToSupport
+
+            For g As Integer = start To ends - 1
                 Dim model As GeneRegulationModel = Models(g)
 
                 If model Is Nothing Then
@@ -421,7 +563,7 @@ Imports std = System.Math
                     value = z(g)
                 End If
 
-                If _config.ClampToSupport Then
+                If clampToSupport Then
                     Dim lower As Double = SupportMin(g) - 1.0
                     Dim upper As Double = SupportMax(g) + 1.0
 
@@ -434,10 +576,90 @@ Imports std = System.Math
                     End If
                 End If
 
-                result(g) = value
+                nextZ(g) = value
+            Next
+        End Sub
+
+        ''' <summary>
+        ''' 阻尼混合 <c>z ← z + ω·(next − z)</c> + 收敛统计 + 脏位刷新；基因维按块并行。
+        ''' </summary>
+        ''' <param name="z">当前状态，就地更新</param>
+        ''' <param name="nextZ">一步预测结果</param>
+        ''' <param name="omega">阻尼系数</param>
+        ''' <param name="nextDirty">脏位输出（整段赋值，无需预先清零）</param>
+        ''' <param name="workers">并行度（<c>1</c> 表示串行）</param>
+        ''' <returns>本步的最大变化量</returns>
+        ''' <remarks>
+        ''' <c>max</c> 精确可结合，因此分块归约的合并顺序不影响结果——
+        ''' 并行与串行给出<b>逐位相同</b>的 <paramref name="maxDelta"/> 与 <paramref name="z"/>，
+        ''' 这一点与 <c>Sum</c>/<c>Dot</c> 的分块归约（末位 ULP 会变）不同。
+        ''' </remarks>
+        Private Function BlendInto(z As Double(),
+                                   nextZ As Double(),
+                                   omega As Double,
+                                   nextDirty As Boolean(),
+                                   workers As Integer) As Double
+
+            Dim n As Integer = NGene
+
+            If Not ShouldParallelize(n, workers) Then
+                Return BlendRange(z, nextZ, omega, nextDirty, 0, n)
+            End If
+
+            Dim chunk As Integer = ChunkGenes(n, workers)
+            Dim nChunks As Integer = (n + chunk - 1) \ chunk
+            Dim partials As Double() = New Double(nChunks - 1) {}
+            Dim options As System.Threading.Tasks.ParallelOptions = ParallelOptionsOf(workers)
+
+            ' 每个分块只写自己的 partials(c)，无锁、无跨块共享写
+            System.Threading.Tasks.Parallel.For(0, nChunks, options,
+                Sub(c)
+                    Dim start As Integer = c * chunk
+
+                    partials(c) = BlendRange(z, nextZ, omega, nextDirty, start, std.Min(start + chunk, n))
+                End Sub)
+
+            Dim maxDelta As Double = 0.0
+
+            For i As Integer = 0 To nChunks - 1
+                If partials(i) > maxDelta Then
+                    maxDelta = partials(i)
+                End If
             Next
 
-            Return result
+            Return maxDelta
+        End Function
+
+        ''' <summary>
+        ''' <see cref="BlendInto"/> 的逐元素内核，只处理 <c>[start, ends)</c> 区间。
+        ''' </summary>
+        ''' <remarks>
+        ''' 脏位在这里是<b>直接赋值</b>而不是「先清零再条件置 True」：
+        ''' 因为本函数覆盖 <c>[0, N)</c> 的每一个下标，两种写法完全等价，
+        ''' 但直接赋值可以省掉每步一次 <c>Array.Clear</c>。
+        ''' </remarks>
+        Private Shared Function BlendRange(z As Double(),
+                                           nextZ As Double(),
+                                           omega As Double,
+                                           nextDirty As Boolean(),
+                                           start As Integer,
+                                           ends As Integer) As Double
+
+            Dim maxDelta As Double = 0.0
+
+            For i As Integer = start To ends - 1
+                Dim blended As Double = z(i) + omega * (nextZ(i) - z(i))
+                Dim delta As Double = std.Abs(blended - z(i))
+
+                z(i) = blended
+                nextDirty(i) = delta > DirtyEpsilon
+
+                If delta > maxDelta Then
+                    maxDelta = delta
+                End If
+            Next
+
+            Return maxDelta
         End Function
 
         Private Shared Function AnyDirty(indices As Integer(), dirty As Boolean()) As Boolean
