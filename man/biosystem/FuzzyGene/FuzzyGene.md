@@ -49,6 +49,7 @@ FuzzyGene: the neuro-fuzzy (Wilson/Takagi-Sugeno ANFIS) gene regulatory network 
 + [fuzzygene_context](FuzzyGene/fuzzygene_context.1) Inject a transcriptome context as the initial condition of the virtual perturbation.
 + [fuzzygene_reset_context](FuzzyGene/fuzzygene_reset_context.1) Drop the injected context and restore the training baseline.
 + [fuzzygene_model_config](FuzzyGene/fuzzygene_model_config.1) The configuration attached to a model (identical to ``config.json`` inside the package).
++ [fuzzygene_context_upstream](FuzzyGene/fuzzygene_context_upstream.1) Inject the result of an **upstream perturbation** as the control baseline (iterative perturbation).
 + [fuzzygene_report](FuzzyGene/fuzzygene_report.1) Human readable training report of a fitted model.
 + [save_fuzzygene](FuzzyGene/save_fuzzygene.1) Save a trained model into a ``*.fuzzygene.zip`` package.
 + [load_fuzzygene](FuzzyGene/load_fuzzygene.1) Load a model from a ``*.fuzzygene.zip`` package.

@@ -283,7 +283,45 @@ declare namespace FuzzyGene {
      * + default value Is ``null``.
      * @return a multi line coverage summary, or an R# error object when the context is rejected
    */
-   function fuzzygene_context(fuzzygene: object, context: string, valueColumn?: string, minCoverage?: number, env?: object): string;
+   function fuzzygene_context(fuzzygene: object, context: any, valueColumn?: string, minCoverage?: number, env?: object): string;
+   /**
+    * Inject the result of an **upstream perturbation** as the control baseline (iterative perturbation).
+    * 
+    * > After this call the mutant state of the upstream experiment becomes the reference state of the
+    * >  model, so the next perturbation reports "effect of B given that A is already knocked out"
+    * >  instead of "effect of B from the original baseline".
+    * >  
+    * > ```
+    * >  let round1 = model |> knockouts(c("A"));           # A 失活
+    * >  print(fuzzygene::fuzzygene_context_upstream(model, round1[[1]]));
+    * >  let round2 = model |> knockouts(c("B"));           # 在 A 失活的背景上敲 B
+    * >  
+    * > ```
+    * > 
+    * >  
+    * > 
+    * > 
+    * >  
+    * > 
+    * > 
+    * >  ``useMutant = TRUE`` (default) takes ``MutantMeans``; ``FALSE`` takes ``WildtypeMeans``, which
+    * >  restores the reference frame of the upstream round. An upstream result flagged as
+    * >  ``Undefined`` (the target gene was not modelled) is rejected instead of being silently applied.
+    * 
+     * @param fuzzygene a trained model
+     * @param upstream an `InterventionResult`, e.g. one element of `knockouts(...)`
+     * @param useMutant take the mutant (perturbed) state instead of the wildtype one. Default TRUE.
+     * 
+     * + default value Is ``true``.
+     * @param minCoverage minimum fraction (0-1) of model genes the upstream result must cover; 0 disables the check
+     * 
+     * + default value Is ``0``.
+     * @param env the R# runtime environment used to report errors
+     * 
+     * + default value Is ``null``.
+     * @return a multi line coverage summary, or an R# error object when the context is rejected
+   */
+   function fuzzygene_context_upstream(fuzzygene: object, upstream: object, useMutant?: boolean, minCoverage?: number, env?: object): string;
    /**
     * Export the signed regulatory edge table of a trained model.
     * 

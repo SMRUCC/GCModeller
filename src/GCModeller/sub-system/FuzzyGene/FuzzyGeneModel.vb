@@ -479,8 +479,7 @@ Public Class FuzzyGeneModel : Implements InsilicoPerturbationExperiment
     ''' <param name="geneNames">目标基因名集合（至少两个）</param>
     ''' <param name="mode">干预模式</param>
     ''' <returns>组合扰动结果</returns>
-    Public Function PredictCombination(geneNames As IEnumerable(Of String),
-                                       Optional mode As InterventionMode = InterventionMode.Knockout) As CombinationPerturbationResult
+    Public Function PredictCombination(geneNames As IEnumerable(Of String), Optional mode As InterventionMode = InterventionMode.Knockout) As CombinationPerturbationResult
         Call EnsureTrained()
 
         Dim specs As New List(Of InterventionSpec)

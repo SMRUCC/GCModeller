@@ -1,0 +1,63 @@
+.\" man page create by R# package system.
+.TH FUZZYGENE 1 2000-1月 "fuzzygene_context_upstream" "fuzzygene_context_upstream"
+.SH NAME
+fuzzygene_context_upstream \- Inject the result of an **upstream perturbation** as the control baseline (iterative perturbation).
+.SH SYNOPSIS
+\fIfuzzygene_context_upstream(\fBfuzzygene\fR as <generic> FuzzyGeneModel, 
+\fBupstream\fR as <generic> InterventionResult, 
+\fBuseMutant\fR as boolean = TRUE, 
+\fBminCoverage\fR as double = 0, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Inject the result of an **upstream perturbation** as the control baseline (iterative perturbation).
+.PP
+.SH OPTIONS
+.PP
+\fBfuzzygene\fB \fR\- a trained model. 
+.PP
+.PP
+\fBupstream\fB \fR\- an `InterventionResult`, e.g. one element of `knockouts(...)`. 
+.PP
+.PP
+\fBuseMutant\fB \fR\- take the mutant (perturbed) state instead of the wildtype one. Default TRUE.. 
+.PP
+.PP
+\fBminCoverage\fB \fR\- minimum fraction (0-1) of model genes the upstream result must cover; 0 disables the check. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment used to report errors. 
+.PP
+.SH VALUE
+.PP
+a multi line coverage summary, or an R# error object when the context is rejected
+.PP
+.SH DETAILS
+.PP
+After this call the mutant state of the upstream experiment becomes the reference state of the
+ model, so the next perturbation reports "effect of B given that A is already knocked out"
+ instead of "effect of B from the original baseline".
+ 
+\fB
+ let round1 = model |> knockouts(c("A"));           # A 失活
+ print(fuzzygene::fuzzygene_context_upstream(model, round1[[1]]));
+ let round2 = model |> knockouts(c("B"));           # 在 A 失活的背景上敲 B
+ 
+\fR`
+
+ 
+
+
+ 
+
+
+ \fBuseMutant = TRUE\fR (default) takes \fBMutantMeans\fR; \fBFALSE\fR takes \fBWildtypeMeans\fR, which
+ restores the reference frame of the upstream round. An upstream result flagged as
+ \fBUndefined\fR (the target gene was not modelled) is rejected instead of being silently applied.
+.PP
+.SH SEE ALSO
+FuzzyGene
+.SH FILES
+.PP
+biosystem.dll
+.PP
