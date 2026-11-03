@@ -36,7 +36,7 @@ Imports SMRUCC.genomics.BioSystem.Intervention
 ''' </remarks>
 Public Class FuzzyGeneModel : Implements InsilicoPerturbationExperiment
 
-    Private ReadOnly _expression As GeneExpressionData
+    Private _expression As GeneExpressionData
     Private ReadOnly _config As FuzzyGeneConfig
 
     Private _network As FuzzyGeneNetwork
@@ -346,6 +346,10 @@ Public Class FuzzyGeneModel : Implements InsilicoPerturbationExperiment
 
     ''' <summary>构造公共对齐组件所需的训练侧统计量（原始表达量尺度）。</summary>
     Private Function buildContextReference() As ContextAlignmentReference
+        If _expression Is Nothing Then
+            _expression = GeneExpressionData.FromMeanExpression(_network.GeneNames, _network.Means)
+        End If
+
         Return New ContextAlignmentReference With {
             .GeneNames = _network.GeneNames,
             .Means = _network.Means,

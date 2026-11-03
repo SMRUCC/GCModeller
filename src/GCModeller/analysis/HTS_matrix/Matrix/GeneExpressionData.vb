@@ -119,6 +119,21 @@ Public Class GeneExpressionData
         End Get
     End Property
 
+    Public Shared Function FromMeanExpression(geneNames As String(), expr As Double()) As GeneExpressionData
+        Dim mat As Double(,) = New Double(geneNames.Length - 1, 0) {}
+
+        For i As Integer = 0 To expr.Length - 1
+            mat(i, 0) = expr(i)
+        Next
+
+        Return New GeneExpressionData With {
+            .GeneNames = geneNames,
+            .SampleNames = {"mean_expression"},
+            .TimePoints = Nothing,
+            .Matrix = mat
+        }
+    End Function
+
     ' ==================== 数据访问 ====================
 
     ''' <summary>获取指定基因的表达向量</summary>
