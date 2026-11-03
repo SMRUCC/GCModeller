@@ -204,8 +204,10 @@ Public Class FuzzyGeneModel : Implements InsilicoPerturbationExperiment
         _lastResult = output.Report
         _engine = New AnfisPerturbationEngine(_network) With {.Strict = _strict}
         ' 重新训练后扰动引擎换了实例，之前注入的上下文不再适用
+        Call ContextState.Clear()
+
         _contextState = Nothing
-        _contextCoverage = Nothing
+        m_populationCache = Nothing
 
         Return _lastResult
     End Function
@@ -402,18 +404,27 @@ Public Class FuzzyGeneModel : Implements InsilicoPerturbationExperiment
     ''' 因此报告的 <c>WildtypeMeans</c> 是该 context 的不动点近似，不一定逐位等于注入值。
     ''' </para>
     ''' </remarks>
-    Public Function LoadContext(upstream As InterventionResult, Optional minCoverage As Double = 0.0) As ContextCoverage
+    Public Function LoadContext(upstream As InterventionResult) As ContextAlignmentDiagnostics
         Call EnsureTrained()
 
-        Return LoadContext(ContextTable.FromUpstreamIntervention(upstream), minCoverage)
+        ' 上游结果是同一个模型迭代出来的，已经处在模型空间：不能再按外部管线的口径二次对齐
+        Return loadTable(ContextTable.FromUpstreamIntervention(upstream), ContextAlignmentMode.None)
     End Function
 
     ''' <summary>
     ''' 把任意 <see cref="ContextTable"/> 注入为对照基线（多列时会自动选命中模型基因最多的一列）。
     ''' </summary>
     ''' <param name="table">上下文表（来自文件，或 <see cref="ContextTable.FromUpstreamIntervention"/>）</param>
-    ''' <param name="minCoverage">要求的覆盖率下限（0–1，0 表示不检查）</param>
-    Public Function LoadContext(table As ContextTable, minCoverage As Double) As ContextCoverage
+    ''' <returns>对齐诊断（覆盖率、缺失基因、实际使用的基因列等）</returns>
+    ''' <remarks>使用当前生效的对齐模式（默认 <see cref="ContextAlignmentMode.Quantile"/>）。</remarks>
+    Public Function LoadContext(table As ContextTable) As ContextAlignmentDiagnostics
+        Return loadTable(table, ContextState.Mode)
+    End Function
+
+    ''' <summary>按指定模式把上下文表注入为对照基线。</summary>
+    Private Function loadTable(table As ContextTable, mode As ContextAlignmentMode) As ContextAlignmentDiagnostics
+        Call EnsureTrained()
+
         Dim best As Integer = 0
         Dim bestHits As Integer = -1
 
@@ -426,12 +437,39 @@ Public Class FuzzyGeneModel : Implements InsilicoPerturbationExperiment
             End If
         Next
 
-        Dim coverage As ContextCoverage = SetContext(table.Columns(best), table.Values, minCoverage)
+        Dim context As New Dictionary(Of String, Double)(StringComparer.OrdinalIgnoreCase)
 
-        coverage.GeneColumn = table.Headers(best)
-        coverage.InvalidValues += table.Invalid
+        For i As Integer = 0 To table.Columns(best).Length - 1
+            Dim name As String = table.Columns(best)(i)
 
-        Return coverage
+            If String.IsNullOrEmpty(name) Then
+                Continue For
+            End If
+
+            context(name) = table.Values(i)
+        Next
+
+        Dim aligned As ContextAlignmentResult =
+            ContextState.SetContextWith(context, buildContextReference(), mode)
+
+        If aligned.Diagnostics.Matched = 0 Then
+            Throw New ArgumentException("none of the given genes is present in the model", NameOf(table))
+        End If
+        If MinContextCoverage > 0.0 AndAlso aligned.Diagnostics.Coverage < MinContextCoverage Then
+            Throw New ArgumentException(
+                $"the context covers only {aligned.Diagnostics.Coverage:P1} of the model genes " &
+                $"({aligned.Diagnostics.Matched}/{_network.NGene}), " &
+                $"below the required minimum of {MinContextCoverage:P1}", NameOf(table))
+        End If
+
+        Call applyContextBaseline(aligned)
+
+        Dim diagnosis As ContextAlignmentDiagnostics = aligned.Diagnostics
+
+        diagnosis.InvalidValues += table.Invalid
+        diagnosis.AddNote($"gene column: {table.Headers(best)}")
+
+        Return diagnosis
     End Function
 
     ''' <summary>
@@ -441,17 +479,15 @@ Public Class FuzzyGeneModel : Implements InsilicoPerturbationExperiment
     ''' 表格路径，例如 pseudobulk 的 <c>gene_name,gene_id,mean_counts</c>
     ''' </param>
     ''' <param name="valueColumn">数值列的列名；为空时取最后一列</param>
-    ''' <param name="minCoverage">要求的覆盖率下限（0–1，0 表示不检查）</param>
-    ''' <returns>覆盖率诊断</returns>
+    ''' <returns>对齐诊断</returns>
     ''' <remarks>
     ''' 表里通常同时有基因符号与数据库 ID 两列，这里会逐个候选列去比对模型基因，
     ''' 选命中数最多的那一列使用（例如模型是按 Ensembl ID 建的，就会自动改用 <c>gene_id</c> 列）。
     ''' </remarks>
     Public Function LoadContext(path As String,
-                                Optional valueColumn As String = Nothing,
-                                Optional minCoverage As Double = 0.0) As ContextCoverage
+                                Optional valueColumn As String = Nothing) As ContextAlignmentDiagnostics
         Call EnsureTrained()
-        Return LoadContext(GeneContextReader.ReadTable(path, valueColumn), minCoverage)
+        Return LoadContext(GeneContextReader.ReadTable(path, valueColumn))
     End Function
 
     Private Function CountContextMatches(names As String()) As Integer
@@ -471,9 +507,9 @@ Public Class FuzzyGeneModel : Implements InsilicoPerturbationExperiment
         Call EnsureTrained()
 
         _engine.ResetBaseline()
+        Call ContextState.Clear()
 
         _contextState = Nothing
-        _contextCoverage = Nothing
     End Sub
 
     ' ==================== InsilicoPerturbationExperiment ====================

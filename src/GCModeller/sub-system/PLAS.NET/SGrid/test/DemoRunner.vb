@@ -7,7 +7,7 @@ Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.SGrid.GRN
 Imports SMRUCC.genomics.Analysis.SGrid.Perturbation
 Imports std = System.Math
-Imports PriorNet = SMRUCC.genomics.Analysis.BNLearn.Core.PriorNetwork
+Imports PriorNet = SMRUCC.genomics.BioSystem.Core.PriorNetwork
 Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
 
 Namespace GRNDemo
@@ -180,7 +180,7 @@ Namespace GRNDemo
         ''' </summary>
         ''' <remarks>
         ''' 每一个 panel 都会：
-        ''' 1. 把 context 的原始 counts 通过 <see cref="SSystemNetwork.MapContext"/> 映射到模型的状态空间
+        ''' 1. 把 context 的原始 counts 通过 <c>SetContext</c>（公共对齐组件）映射到模型的状态空间
         ''' 2. 用同一组初值积分得到该 panel 自己的 control 轨迹
         ''' 3. 用同一组初值 + 敲降实验积分得到 perturbed 轨迹，并与 control 逐步相减
         ''' 
@@ -269,7 +269,15 @@ Namespace GRNDemo
 
             For Each panel As Tuple(Of String, String) In panels
                 Dim counts As Dictionary(Of String, Double) = readContextPanel(panel.Item2)
-                Dim initial As Dictionary(Of String, Double) = model.MapContext(counts)
+                Call model.SetContext(counts)
+
+                Dim initial As New Dictionary(Of String, Double)(StringComparer.OrdinalIgnoreCase)
+
+                If model.ContextValues IsNot Nothing Then
+                    For Each item As KeyValuePair(Of String, Double) In model.ContextValues
+                        initial(item.Key) = item.Value
+                    Next
+                End If
                 Dim designs As New List(Of PerturbationDesign)
 
                 For Each gene As String In modeled

@@ -699,32 +699,42 @@ Module Program
 
             Call File.WriteAllLines(contextFile, lines)
 
-            Dim coverage As ContextCoverage = model.LoadContext(contextFile)
+            Dim coverage As ContextAlignmentDiagnostics = model.LoadContext(contextFile)
 
             Console.WriteLine(coverage.ToString())
 
             Check(coverage.Matched = net.NGene, $"every model gene is covered (actual {coverage.Matched})")
             Check(std.Abs(coverage.Coverage - 1.0) < 1.0E-09, "coverage reaches 100%")
-            Check(String.Equals(coverage.GeneColumn, "gene_name"), $"the gene column is detected (actual {coverage.GeneColumn})")
+            Check(coverage.Notes.Any(Function(n) n.Contains("gene_name")), "the gene column is detected")
             Check(coverage.InvalidValues = 1, $"the NA row is skipped instead of becoming zero (actual {coverage.InvalidValues})")
             Check(model.IsContextSet, "the model reports the context as applied")
-            Check(std.Abs(model.Context(indexA) - contextA) < 1.0E-09,
-                  $"the context value reaches the state vector (actual {model.Context(indexA):F6})")
+            Check(coverage.Aligned, "the context is aligned through the public component")
+            Check(std.Abs(model.Context(indexA) - contextA) > 1.0E-09,
+                  "quantile alignment maps the external value onto the model training scale")
 
             ' ---- 部分覆盖：未给出的基因继续沿用训练基线 ----
-            Dim partialContext As ContextCoverage = model.SetContext(New String() {"A"}, New Double() {contextA})
+            Dim partialInput As New Dictionary(Of String, Double)(StringComparer.OrdinalIgnoreCase) From {{"A", contextA}}
+
+            Call model.SetContext(partialInput)
+
+            Dim partialContext As ContextAlignmentDiagnostics = model.ContextDiagnostics
 
             Check(partialContext.Matched = 1 AndAlso partialContext.MissingGenes.Length = net.NGene - 1,
                   $"a partial context keeps the remaining genes on the training baseline ({partialContext.Matched}/{net.NGene})")
             Check(std.Abs(partialContext.Coverage - 1.0 / net.NGene) < 1.0E-09, "partial coverage is reported correctly")
+            Check(std.Abs(model.Context(indexA) - contextA) < 1.0E-09,
+                  "a single-gene context is injected verbatim (cross-gene quantile is undefined)")
 
             ' ---- 覆盖率门槛 ----
             Dim rejected As Boolean = False
 
             Try
-                Call model.SetContext(New String() {"A"}, New Double() {contextA}, minCoverage:=0.9)
+                model.MinContextCoverage = 0.9
+                Call model.SetContext(partialInput)
             Catch ex As ArgumentException
                 rejected = True
+            Finally
+                model.MinContextCoverage = 0
             End Try
 
             Check(rejected, "a context below minCoverage is rejected")
@@ -761,7 +771,7 @@ Module Program
 
             Check(round1 IsNot Nothing AndAlso Not round1.Undefined, "the first perturbation round produces a defined result")
 
-            Dim chained As ContextCoverage = model.LoadContext(round1)
+            Dim chained As ContextAlignmentDiagnostics = model.LoadContext(round1)
 
             Check(model.IsContextSet, "the upstream result is injected as the context")
             Check(chained.Matched = net.NGene, $"the upstream context covers every model gene (actual {chained.Matched})")

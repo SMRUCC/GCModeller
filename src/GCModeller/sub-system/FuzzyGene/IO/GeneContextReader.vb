@@ -52,7 +52,7 @@ Namespace IO
         ''' <para>
         ''' 这里**不**做任何数值修正：上游结果里的 <c>NaN</c>/<c>Inf</c> 原样带过来，
         ''' 由 <see cref="FuzzyGeneModel.SetContext"/> 统一跳过并计入
-        ''' <c>ContextCoverage.InvalidValues</c>，避免两处各算一遍。
+        ''' <c>ContextAlignmentDiagnostics.InvalidValues</c>，避免两处各算一遍。
         ''' </para>
         ''' </remarks>
         Public Shared Function FromUpstreamIntervention(result As InterventionResult,

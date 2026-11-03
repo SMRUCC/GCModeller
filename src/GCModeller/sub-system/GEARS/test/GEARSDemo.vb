@@ -59,7 +59,7 @@ Module GEARSDemo
         End If
 
         Dim matrix As Matrix = Matrix.LoadData(exprFile)
-        Dim exprData = BnIO.ReadGeneExpressionMatrix(matrix)
+        Dim exprData = HTSDataFrame.ReadGeneExpressionMatrix(matrix)
         Dim prior As PriorNetwork = PriorNetworkIO.LoadPriorNetwork(priorFile)
 
         Console.WriteLine($"  表达矩阵: {exprData.NGene} 基因 x {exprData.NSample} 样本")
@@ -187,11 +187,11 @@ Module GEARSDemo
             Dim name As String = res.Spec.GeneName.Replace("+"c, "_"c)
             Dim file As String = Path.Combine(outputDir, $"gears_{name}_{res.Spec.Mode.ToString()}.csv")
 
-            Call BnIO.WriteInterventionResult(res, file)
+            Call res.WriteInterventionResult(file)
         Next
 
         ' 批量汇总表
-        Call BnIO.WriteBatchInterventionResults(results, Path.Combine(outputDir, "gears_batch_summary.csv"))
+        Call results.WriteBatchInterventionResults(Path.Combine(outputDir, "gears_batch_summary.csv"))
 
         ' 比较分析矩阵（复用 BNLearn\Intervention\InterventionComparison.vb）
         Dim exporter As New InterventionComparisonExporter(results)

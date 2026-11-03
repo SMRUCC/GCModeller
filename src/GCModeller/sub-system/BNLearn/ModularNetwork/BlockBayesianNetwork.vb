@@ -923,7 +923,7 @@ Namespace ModularNetwork
         ''' <summary>
         ''' 设置野生型（未受扰动）各基因的表达丰度，作为后续虚拟扰动实验的基线。
         ''' 
-        ''' 语义与 <see cref="BNLearnWorkflow.SetExternalExpression"/> 保持一致：
+        ''' 语义与 <see cref="BNLearnWorkflow.SetContext(Dictionary(Of String, Double))"/> 保持一致：
         '''   - 只保留与网络中已建模基因重叠的部分，忽略未建模基因；
         '''   - 未覆盖的基因回退到"训练数据各基因的平均表达水平"（由训练流程自动计算）；
         '''   - 基因名大小写不敏感。

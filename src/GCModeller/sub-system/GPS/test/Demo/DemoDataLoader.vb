@@ -3,6 +3,7 @@ Imports System.IO
 Imports System.Text.RegularExpressions
 Imports SMRUCC.genomics.Analysis.BNLearn
 Imports SMRUCC.genomics.Analysis.BNLearn.Core
+Imports GeneExpressionData = SMRUCC.genomics.Analysis.HTS.DataFrame.GeneExpressionData
 Imports EnrichBackground = SMRUCC.genomics.Analysis.HTS.GSEA.Background
 Imports EnrichCluster = SMRUCC.genomics.Analysis.HTS.GSEA.Cluster
 Imports EnrichGene = SMRUCC.genomics.Analysis.HTS.GSEA.BackgroundGene

@@ -164,6 +164,34 @@ Namespace Intervention
             Return _result
         End Function
 
+        ''' <summary>
+        ''' 用<b>指定的模式</b>对齐本次上下文，但<b>不改变</b> <see cref="Mode"/>。
+        ''' </summary>
+        ''' <param name="context">基因名 → 表达值</param>
+        ''' <param name="reference">模型侧的训练统计量</param>
+        ''' <param name="mode">本次对齐使用的模式</param>
+        ''' <param name="options">可调参数；为空时沿用上一次的设置</param>
+        ''' <returns>对齐结果（含诊断）</returns>
+        ''' <remarks>
+        ''' 用于「上游扰动结果回灌」这类场景：数值本来就是同一个模型算出来的、已经处在模型空间，
+        ''' 不能再按外部管线的口径二次对齐，但也不应该永久改掉调用方选择的模式。
+        ''' </remarks>
+        Public Function SetContextWith(context As IDictionary(Of String, Double),
+                                       reference As ContextAlignmentReference,
+                                       mode As ContextAlignmentMode,
+                                       Optional options As ContextAlignmentOptions = Nothing) As ContextAlignmentResult
+            If reference Is Nothing Then
+                Throw New ArgumentNullException(NameOf(reference))
+            End If
+
+            _reference = reference
+            _options = If(options, If(_options, ContextAlignmentOptions.Default))
+            _raw = copy(context)
+            _result = ContextAligner.Align(_raw, _reference, mode, _options)
+
+            Return _result
+        End Function
+
         ''' <summary>把已注入的上下文展开成与模型基因顺序一致的稠密向量。</summary>
         ''' <param name="fill">未覆盖基因的填充策略</param>
         Public Function ToVector(Optional fill As ContextMissingGeneFill = ContextMissingGeneFill.Mean) As Double()

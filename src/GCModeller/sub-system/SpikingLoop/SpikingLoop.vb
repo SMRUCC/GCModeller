@@ -31,6 +31,7 @@ Imports SMRUCC.genomics.Analysis.SpikingLoop.Graph
 Imports SMRUCC.genomics.Analysis.SpikingLoop.Model
 Imports SMRUCC.genomics.Analysis.SpikingLoop.Perturbation
 Imports SMRUCC.genomics.Analysis.SpikingLoop.Training
+Imports SMRUCC.genomics.BioSystem
 Imports SMRUCC.genomics.BioSystem.Core
 Imports SMRUCC.genomics.BioSystem.Intervention
 
@@ -39,7 +40,7 @@ Imports SMRUCC.genomics.BioSystem.Intervention
 ''' <summary>
 ''' 基于脉冲神经网络的基因表达调控网络建模与虚拟扰动流水线。
 ''' </summary>
-Public Class SpikingLoop
+Public Class SpikingLoop : Implements InsilicoPerturbationExperiment
 
 #Region "输入"
 
@@ -397,5 +398,240 @@ Public Class SpikingLoop
         Return $"SpikingLoop(genes={If(Subnetwork Is Nothing, 0, Subnetwork.NumGenes)}, " &
                $"bins={If(Trajectory Is Nothing, 0, Trajectory.NumBins)}, trained={Training IsNot Nothing})"
     End Function
+
+#Region "上下文与虚拟扰动（InsilicoPerturbationExperiment）"
+
+    ''' <summary>
+    ''' 上下文状态：默认 <see cref="ContextAlignmentMode.Affine"/>。
+    ''' </summary>
+    ''' <remarks>
+    ''' 网络的输入是 MinMax 归一化到 <c>[0,1]</c> 的表达量，因此外部上下文必须先换算到同一空间。
+    ''' 这里把 <c>Means = GlobalMin</c>、<c>StandardDeviations = GlobalMax - GlobalMin</c> 交给
+    ''' 公共组件的仿射换算，得到的正是 <c>(x - min) / range</c>，即模型训练时用的同一变换。
+    ''' </remarks>
+    Private m_context As ContextAlignmentState
+    Private m_contextBaseline As Tensor
+
+    Private ReadOnly Property ContextState As ContextAlignmentState
+        Get
+            If m_context Is Nothing Then
+                m_context = New ContextAlignmentState(ContextAlignmentMode.Affine)
+            End If
+
+            Return m_context
+        End Get
+    End Property
+
+    ''' <summary>当前生效的上下文对齐模式。</summary>
+    Public ReadOnly Property ContextAlignmentMode As ContextAlignmentMode
+        Get
+            Return ContextState.Mode
+        End Get
+    End Property
+
+    ''' <summary>最近一次上下文注入的诊断。</summary>
+    Public ReadOnly Property ContextDiagnostics As ContextAlignmentDiagnostics
+        Get
+            Return ContextState.Diagnostics
+        End Get
+    End Property
+
+    ''' <summary>是否已经注入了上下文。</summary>
+    Public ReadOnly Property HasContext As Boolean
+        Get
+            Return m_contextBaseline IsNot Nothing
+        End Get
+    End Property
+
+    ''' <summary>
+    ''' 把外部表达状态注入为虚拟扰动的基线。
+    ''' </summary>
+    ''' <param name="context">基因名 → 原始表达量（大小写不敏感；可以只覆盖部分基因）</param>
+    ''' <returns>当前对象（便于链式调用）</returns>
+    ''' <remarks>
+    ''' 未覆盖的基因沿用训练轨迹末端的基线（<see cref="Baseline"/>）在模型空间中的取值，
+    ''' 因此上下文可以是部分覆盖的“样本环境”。
+    ''' </remarks>
+    ''' <exception cref="InvalidOperationException">上下文没有任何基因命中子网络</exception>
+    Public Function SetContext(context As Dictionary(Of String, Double)) As InsilicoPerturbationExperiment Implements InsilicoPerturbationExperiment.SetContext
+        Call EnsureReady()
+
+        Dim aligned As ContextAlignmentResult = ContextState.SetContext(context, buildContextReference())
+
+        If aligned.Diagnostics.Matched = 0 Then
+            Throw New InvalidOperationException("上下文中没有任何基因能够映射到当前子网络的基因集合上")
+        End If
+
+        Call applyContextBaseline(aligned)
+
+        Return Me
+    End Function
+
+    ''' <summary>切换上下文对齐模式；已注入上下文时会立即重新对齐。</summary>
+    ''' <param name="mode">新的对齐模式</param>
+    ''' <returns>当前对象（便于链式调用）</returns>
+    Public Function SetContextAlignmentMode(mode As ContextAlignmentMode) As InsilicoPerturbationExperiment Implements InsilicoPerturbationExperiment.SetContextAlignmentMode
+        Call EnsureReady()
+        Call ContextState.SetMode(mode)
+
+        If ContextState.HasContext Then
+            Call applyContextBaseline(ContextState.Result)
+        End If
+
+        Return Me
+    End Function
+
+    ''' <summary>撤销上下文，回到训练轨迹末端推导出的基线。</summary>
+    Public Sub ClearContext()
+        Call ContextState.Clear()
+
+        m_contextBaseline = Nothing
+    End Sub
+
+    ''' <summary>虚拟敲除：把目标基因的输入电流置零。</summary>
+    Public Function KnockoutGene(geneName As String, Optional nSamples As Integer = 0) As InterventionResult Implements InsilicoPerturbationExperiment.KnockoutGene
+        Return perturb(PerturbationSpec.Knockout(geneName))
+    End Function
+
+    ''' <summary>虚拟过表达：给目标基因叠加一个最大幅度的输入电流。</summary>
+    Public Function OverexpressGene(geneName As String, Optional nSamples As Integer = 0) As InterventionResult Implements InsilicoPerturbationExperiment.OverexpressGene
+        Return perturb(PerturbationSpec.Overexpress(geneName))
+    End Function
+
+    ''' <summary>虚拟敲低：把目标基因的输入电流衰减 50%。</summary>
+    Public Function KnockDownGene(geneName As String, Optional nSamples As Integer = 0) As InterventionResult Implements InsilicoPerturbationExperiment.KnockDownGene
+        Return perturb(PerturbationSpec.Knockdown(geneName))
+    End Function
+
+    ''' <summary>执行一次扰动并积分，把终末状态转成标准的干预结果（原始表达量尺度）。</summary>
+    Private Function perturb(spec As PerturbationSpec) As InterventionResult
+        Call EnsureReady()
+        Call spec.ResolveIndex(NetworkGeneNames())
+
+        Dim trajectory As PerturbationTrajectory = VirtualPerturbate({spec}, m_contextBaseline)
+        Dim n As Integer = NetworkGeneNames().Length
+        Dim control As Double() = denormalize(trajectory.Baseline)
+        Dim mutant As Double() = control
+
+        If trajectory.Denormalized IsNot Nothing AndAlso trajectory.Denormalized.Length > 0 Then
+            mutant = trajectory.Denormalized(trajectory.Denormalized.Length - 1)
+        ElseIf trajectory.Trajectory IsNot Nothing AndAlso trajectory.Trajectory.Length > 0 Then
+            mutant = denormalize(trajectory.Trajectory(trajectory.Trajectory.Length - 1))
+        End If
+
+        Dim fold(n - 1) As Double
+        Dim percent(n - 1) As Double
+        Dim z(n - 1) As Double
+        Dim significant(n - 1) As Boolean
+
+        For i As Integer = 0 To n - 1
+            fold(i) = mutant(i) - control(i)
+
+            If System.Math.Abs(control(i)) > 1.0E-10 Then
+                percent(i) = fold(i) / System.Math.Abs(control(i)) * 100.0R
+            End If
+
+            significant(i) = i = spec.GeneIndex OrElse System.Math.Abs(fold(i)) > 1.0E-09
+        Next
+
+        Return New InterventionResult With {
+            .Spec = New InterventionSpec With {
+                .GeneName = spec.GeneName,
+                .GeneIndex = spec.GeneIndex,
+                .Mode = spec.Mode
+            },
+            .GeneNames = NetworkGeneNames(),
+            .WildtypeMeans = control,
+            .MutantMeans = mutant,
+            .FoldChanges = fold,
+            .PercentChanges = percent,
+            .ZScores = z,
+            .IsSignificant = significant,
+            .Undefined = Not trajectory.Applied
+        }
+    End Function
+
+    ''' <summary>把对齐结果写进模型空间的基线张量（未覆盖的基因沿用训练基线）。</summary>
+    Private Sub applyContextBaseline(aligned As ContextAlignmentResult)
+        Dim names As String() = NetworkGeneNames()
+        Dim data As Double() = CType(Baseline().Data.Clone(), Double())
+
+        For Each item As KeyValuePair(Of String, Double) In aligned.Values
+            Dim idx As Integer = Array.FindIndex(
+                names,
+                Function(g) String.Equals(g, item.Key, StringComparison.OrdinalIgnoreCase))
+
+            If idx >= 0 Then
+                data(idx) = item.Value
+            End If
+        Next
+
+        m_contextBaseline = Tensor.Wrap(data, 1, names.Length)
+    End Sub
+
+    ''' <summary>构造公共对齐组件所需的训练侧统计量（MinMax 参数放在均值/标准差位置）。</summary>
+    Private Function buildContextReference() As ContextAlignmentReference
+        Dim names As String() = NetworkGeneNames()
+        Dim n As Integer = names.Length
+        Dim mins(n - 1) As Double
+        Dim ranges(n - 1) As Double
+        Dim population(n - 1)() As Double
+        Dim bins As Integer = Trajectory.NumBins
+        Dim u As Double() = Trajectory.U.Data
+
+        For i As Integer = 0 To n - 1
+            Dim values(bins - 1) As Double
+
+            For t As Integer = 0 To bins - 1
+                values(t) = u(t * n + i)
+            Next
+
+            population(i) = values
+            mins(i) = Trajectory.GlobalMin
+
+            Dim range As Double = Trajectory.GlobalMax - Trajectory.GlobalMin
+
+            ' 极差为 0（未归一化或常量矩阵）时退化为恒等映射
+            ranges(i) = If(range > 0.0, range, 1.0R)
+        Next
+
+        Return New ContextAlignmentReference With {
+            .GeneNames = names,
+            .Means = mins,
+            .StandardDeviations = ranges,
+            .Population = population
+        }
+    End Function
+
+    ''' <summary>子网络基因名（顺序与模型输入一致）。</summary>
+    Private Function NetworkGeneNames() As String()
+        Return Subnetwork.GeneNames
+    End Function
+
+    ''' <summary>把归一化空间的一行数据反变换回原始表达量。</summary>
+    Private Function denormalize(values As Double()) As Double()
+        If values Is Nothing Then
+            Return Nothing
+        End If
+
+        If Trajectory Is Nothing Then
+            Return CType(values.Clone(), Double())
+        End If
+
+        Dim scale As Double = Trajectory.GlobalMax - Trajectory.GlobalMin
+        Dim result(values.Length - 1) As Double
+
+        If scale <= 0.0 Then
+            Return CType(values.Clone(), Double())
+        End If
+
+        For i As Integer = 0 To values.Length - 1
+            result(i) = Trajectory.GlobalMin + values(i) * scale
+        Next
+
+        Return result
+    End Function
+
+#End Region
 
 End Class

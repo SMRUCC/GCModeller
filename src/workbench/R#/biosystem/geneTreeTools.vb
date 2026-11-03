@@ -4,6 +4,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.GeneTree
+Imports SMRUCC.genomics.BioSystem
 Imports SMRUCC.genomics.BioSystem.Intervention
 Imports SMRUCC.genomics.Model.Network.Regulons.ARACNE
 Imports SMRUCC.Rsharp.Runtime
@@ -806,25 +807,31 @@ Module geneTreeTools
                 $"the size of the genes vector ({geneIds.Length}) does not match the size of the expression vector ({values.Length})", env)
         End If
 
-        Dim keep As Boolean = tree.Config.ContextQuantileAlignment
+        Dim context As New Dictionary(Of String, Double)(StringComparer.OrdinalIgnoreCase)
 
+        For i As Integer = 0 To geneIds.Length - 1
+            context(geneIds(i)) = values(i)
+        Next
+
+        ' 对齐模式的切换是模型状态的一部分（不随本次调用恢复）：
+        ' 关掉对齐之后再恢复模式会按新的模式重新对齐，反而让 align:=FALSE 失效。
         If Not align Then
-            tree.Config.ContextQuantileAlignment = False
+            Call tree.SetContextAlignmentMode(ContextAlignmentMode.None)
         End If
 
         Try
-            Dim state As XGBoostGRN = tree.SetContext(geneIds, values, fix)
-            Dim note As String = state.ContextNote
+            tree.FixContext = fix
+            Call tree.SetContext(context)
+
+            Dim note As String = tree.ContextNote
 
             If Not String.IsNullOrEmpty(note) AndAlso env IsNot Nothing Then
                 Call env.AddMessage($"[geneTree] {note}", MSG_TYPES.WRN)
             End If
 
-            Return state
+            Return tree
         Catch ex As Exception
             Return RInternal.debug.stop(ex.Message, env)
-        Finally
-            tree.Config.ContextQuantileAlignment = keep
         End Try
     End Function
 

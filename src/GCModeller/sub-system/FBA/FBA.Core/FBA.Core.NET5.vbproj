@@ -421,6 +421,8 @@
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj" />
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
     <ProjectReference Include="..\..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
+    <!-- 虚拟扰动的上下文对齐公共组件（InsilicoPerturbationExperiment / ContextAligner） -->
+    <ProjectReference Include="..\..\..\core\Bio.InteractionModel\InteractionModel.vbproj" />
     <ProjectReference Include="..\..\..\engine\Model\Model.Core.NET5.vbproj" />
   </ItemGroup>
 

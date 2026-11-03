@@ -712,8 +712,14 @@ Module gpsTools
                 $"the size of the genes vector ({geneIds.Length}) does not match the size of the logcpm vector ({values.Length})", env)
         End If
 
+        Dim context As New Dictionary(Of String, Double)(StringComparer.OrdinalIgnoreCase)
+
+        For i As Integer = 0 To geneIds.Length - 1
+            context(geneIds(i)) = values(i)
+        Next
+
         Try
-            Call gps.SetContext(geneIds, values)
+            Call gps.SetContext(context)
         Catch ex As Exception
             Return RInternal.debug.stop(ex.Message, env)
         End Try

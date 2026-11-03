@@ -68,7 +68,7 @@ Module grn_demo2
         Dim grn = GeneRegulatoryNetwork.BuildBNNetwork(wgcna, TFlist)
 
 
-        Dim exprData = BnIO.ReadGeneExpressionMatrix(Matrix.LoadData(data, tqdm_wrap:=True))
+        Dim exprData = HTSDataFrame.ReadGeneExpressionMatrix(Matrix.LoadData(data, tqdm_wrap:=True))
 
         Pause()
     End Sub

@@ -145,7 +145,7 @@ Namespace Core
 
         ''' <summary>
         ''' 外部导入的新基因表达水平（单样本向量，基因名 → 表达值）。
-        ''' 通过 <see cref="SetExternalExpression"/> 设置，通常来自用户新检测的转录组。
+        ''' 通过 <see cref="SetContext(Dictionary(Of String, Double))"/> 设置，通常来自用户新检测的转录组。
         ''' 设置时仅保留与训练网络重叠的基因，并自动派生观测证据与动态初始状态。
         ''' </summary>
         Public Property ExternalExpression As Dictionary(Of String, Double)
@@ -323,8 +323,44 @@ Namespace Core
         ''' </summary>
         Public Sub ImportExternalExpression(path As String)
             Dim vector As Dictionary(Of String, Double) = Document.ReadExpressionVector(path)
-            SetExternalExpression(vector)
+
+            Call SetContext(vector)
         End Sub
+
+        ''' <summary>
+        ''' 上下文状态：默认 <see cref="ContextAlignmentMode.Affine"/>。
+        ''' </summary>
+        ''' <remarks>
+        ''' 高斯贝叶斯网在 <see cref="NormalizeData"/> 开启时（默认）训练在逐基因 z-score 空间，
+        ''' 因此外部转录组必须按同一组均值/标准差换算，否则证据的尺度与网络参数不一致
+        ''' （此前直接把原值当证据交给 <c>ConditionalInference</c>，结果会整体偏移）。
+        ''' </remarks>
+        Private m_context As ContextAlignmentState
+        Private m_contextReference As ContextAlignmentReference
+
+        Private ReadOnly Property ContextState As ContextAlignmentState
+            Get
+                If m_context Is Nothing Then
+                    m_context = New ContextAlignmentState(ContextAlignmentMode.Affine)
+                End If
+
+                Return m_context
+            End Get
+        End Property
+
+        ''' <summary>当前生效的上下文对齐模式。</summary>
+        Public ReadOnly Property ContextAlignmentMode As ContextAlignmentMode
+            Get
+                Return ContextState.Mode
+            End Get
+        End Property
+
+        ''' <summary>最近一次上下文注入的诊断。</summary>
+        Public ReadOnly Property ContextDiagnostics As ContextAlignmentDiagnostics
+            Get
+                Return ContextState.Diagnostics
+            End Get
+        End Property
 
         ''' <summary>
         ''' 核心导入接口：接收基因名 → 表达值的键值对字典（单样本向量 / 一组均值），
@@ -333,65 +369,165 @@ Namespace Core
         ''' 若没有任何重叠基因则抛出友好异常。派生内容写入
         ''' <see cref="ExternalEvidence"/>（观测证据模式）与 <see cref="ExternalInitialState"/>（动态初始状态模式）。
         ''' </summary>
-        ''' <param name="geneExpression">
-        ''' 外部转录组数据：基因名 → 表达值 的键值对字典。
+        ''' <param name="context">
+        ''' 外部转录组数据：基因名 → 原始表达值 的键值对字典。
         ''' 例如 New Dictionary(Of String, Double) From {{"codY", 12.3}, {"comK", 4.5}}
         ''' </param>
-        Public Sub SetExternalExpression(geneExpression As Dictionary(Of String, Double))
+        ''' <returns>当前对象（便于链式调用）</returns>
+        ''' <remarks>
+        ''' 对齐由公共组件完成（默认 <see cref="ContextAlignmentMode.Affine"/>），
+        ''' 换算之后的取值同时用于观测证据与动态初始状态，保证两者处于同一尺度。
+        ''' </remarks>
+        Public Function SetContext(context As Dictionary(Of String, Double)) As InsilicoPerturbationExperiment Implements InsilicoPerturbationExperiment.SetContext
             If FittedNetwork Is Nothing Then
                 Throw New Exception("请先执行结构学习和参数学习，再导入外部表达数据")
             End If
-            If geneExpression Is Nothing OrElse geneExpression.Count = 0 Then
+            If context Is Nothing OrElse context.Count = 0 Then
                 Throw New Exception("外部表达数据为空，无法导入")
             End If
 
-            ExternalExpression = New Dictionary(Of String, Double)(geneExpression, StringComparer.OrdinalIgnoreCase)
+            ExternalExpression = New Dictionary(Of String, Double)(context, StringComparer.OrdinalIgnoreCase)
+
+            Dim aligned As ContextAlignmentResult = ContextState.SetContext(context, buildContextReference())
+
+            If aligned.Diagnostics.Matched = 0 Then
+                Throw New Exception("外部表达数据未包含任何与训练网络重叠的基因，无法导入（请检查基因名是否一致）")
+            End If
 
             Dim nG As Integer = FittedNetwork.Nodes.Count
             Dim names As String() = FittedNetwork.Nodes.Select(Function(n) n.Name).ToArray()
 
-            ' 1) 观测证据：仅保留重叠基因
+            ' 1) 观测证据：仅保留重叠基因（已对齐到网络空间）
             Dim evidence As New Dictionary(Of String, Double)(StringComparer.OrdinalIgnoreCase)
-            ' 2) 动态初始状态：按网络节点序，默认用训练数据各基因行均值
+            ' 2) 动态初始状态：按网络节点序，未覆盖者取训练数据各基因行均值
             Dim initialState As Double() = New Double(nG - 1) {}
             Dim workData As GeneExpressionData = ExpressionData
+
             If NormalizeData Then workData = ExpressionData.Standardize
+
             For i = 0 To nG - 1
                 Dim geneRow As Integer = workData.GetGeneIndex(names(i))
-                If geneRow >= 0 Then
+                Dim value As Double
+
+                If aligned.Values.TryGetValue(names(i), value) Then
+                    evidence(names(i)) = value
+                    initialState(i) = value
+                ElseIf geneRow >= 0 Then
                     Dim sum As Double = 0
+
                     For j = 0 To workData.NSample - 1
                         sum += workData.Matrix(geneRow, j)
                     Next
+
                     initialState(i) = If(workData.NSample > 0, sum / workData.NSample, 0)
                 Else
                     initialState(i) = 0
                 End If
             Next
 
-            Dim overlap As Integer = 0
-            For Each kv In geneExpression
-                Dim idx As Integer = Array.FindIndex(names, Function(n) String.Equals(n, kv.Key, StringComparison.OrdinalIgnoreCase))
-                If idx >= 0 Then
-                    evidence(names(idx)) = kv.Value
-                    initialState(idx) = kv.Value
-                    overlap += 1
+            ExternalEvidence = evidence
+            ExternalInitialState = initialState
+
+            Return Me
+        End Function
+
+        ''' <summary>
+        ''' 切换上下文对齐模式；已导入外部数据时会立即用同一份原始数据重新对齐。
+        ''' </summary>
+        ''' <param name="mode">新的对齐模式</param>
+        ''' <returns>当前对象（便于链式调用）</returns>
+        ''' <remarks>
+        ''' 高斯 BN 依赖均值/协方差，因此除非外部数据与训练矩阵完全同管线
+        ''' （此时可用 <see cref="ContextAlignmentMode.None"/>），否则不建议改用分布类对齐。
+        ''' </remarks>
+        Public Function SetContextAlignmentMode(mode As ContextAlignmentMode) As InsilicoPerturbationExperiment Implements InsilicoPerturbationExperiment.SetContextAlignmentMode
+            Call ContextState.SetMode(mode)
+
+            If ExternalExpression IsNot Nothing AndAlso ExternalExpression.Count > 0 Then
+                Call SetContext(New Dictionary(Of String, Double)(ExternalExpression, StringComparer.OrdinalIgnoreCase))
+            End If
+
+            Return Me
+        End Function
+
+        ''' <summary>构造公共对齐组件所需的训练侧统计量（与 <see cref="GeneExpressionData.Standardize"/> 同口径）。</summary>
+        Private Function buildContextReference() As ContextAlignmentReference
+            If m_contextReference IsNot Nothing Then
+                Return m_contextReference
+            End If
+
+            Dim names As String() = FittedNetwork.Nodes.Select(Function(n) n.Name).ToArray()
+            Dim means(names.Length - 1) As Double
+            Dim sds(names.Length - 1) As Double
+            Dim nSample As Integer = If(ExpressionData Is Nothing, 0, ExpressionData.NSample)
+
+            For i As Integer = 0 To names.Length - 1
+                Dim row As Integer = If(ExpressionData Is Nothing, -1, ExpressionData.GetGeneIndex(names(i)))
+
+                If row < 0 OrElse nSample <= 0 Then
+                    ' 未建模在该矩阵中：均值 0、标准差 1 ⇒ 对齐后保持原值，不做扭曲
+                    sds(i) = 1.0R
+                    Continue For
+                End If
+
+                Dim sum As Double = 0
+
+                For j As Integer = 0 To nSample - 1
+                    sum += ExpressionData.Matrix(row, j)
+                Next
+
+                Dim mean As Double = sum / nSample
+                Dim ss As Double = 0
+
+                For j As Integer = 0 To nSample - 1
+                    ss += (ExpressionData.Matrix(row, j) - mean) ^ 2
+                Next
+
+                Dim sd As Double = If(nSample > 1, System.Math.Sqrt(ss / (nSample - 1)), 1.0R)
+
+                means(i) = mean
+                sds(i) = If(sd < 0.000000000000001, 1.0R, sd)
+            Next
+
+            m_contextReference = New ContextAlignmentReference With {
+                .GeneNames = names,
+                .Means = means,
+                .StandardDeviations = sds,
+                .Population = trainingPopulation(names)
+            }
+
+            Return m_contextReference
+        End Function
+
+        ''' <summary>训练矩阵的逐基因种群（与网络节点同序），用于分布类对齐。</summary>
+        Private Function trainingPopulation(names As String()) As Double()()
+            Dim result(names.Length - 1)() As Double
+            Dim nSample As Integer = If(ExpressionData Is Nothing, 0, ExpressionData.NSample)
+
+            For i As Integer = 0 To names.Length - 1
+                Dim row As Integer = If(ExpressionData Is Nothing, -1, ExpressionData.GetGeneIndex(names(i)))
+
+                If row < 0 OrElse nSample <= 0 Then
+                    result(i) = New Double() {}
+                Else
+                    Dim values(nSample - 1) As Double
+
+                    For j As Integer = 0 To nSample - 1
+                        values(j) = ExpressionData.Matrix(row, j)
+                    Next
+
+                    result(i) = values
                 End If
             Next
 
-            If overlap = 0 Then
-                Throw New Exception("外部表达数据未包含任何与训练网络重叠的基因，无法导入（请检查基因名是否一致）")
-            End If
-
-            ExternalEvidence = evidence
-            ExternalInitialState = initialState
-        End Sub
+            Return result
+        End Function
 
         ''' <summary>
         ''' 观测证据模式：基于已导入的外部转录组数据（<see cref="ExternalEvidence"/>），
         ''' 在"给定该表达水平条件"下执行敲除虚拟扰动（do-演算 + 条件推断）。
         ''' 结果反映用户真实样本背景下的因果效应。
-        ''' 必须先调用 <see cref="SetExternalExpression"/> / <see cref="ImportExternalExpression"/>。
+        ''' 必须先调用 <see cref="SetContext(Dictionary(Of String, Double))"/> / <see cref="ImportExternalExpression"/>。
         ''' </summary>
         Public Function KnockoutGeneWithEvidence(geneName As String, Optional nSamples As Integer = 0) As InterventionResult
             Return RunInterventionWithEvidence(geneName, InterventionMode.Knockout, nSamples)
@@ -411,7 +547,7 @@ Namespace Core
                 Throw New Exception("请先执行结构学习和参数学习")
             End If
             If ExternalEvidence Is Nothing OrElse ExternalEvidence.Count = 0 Then
-                Throw New Exception("请先调用 SetExternalExpression / ImportExternalExpression 导入外部表达数据")
+                Throw New Exception("请先调用 SetContext / ImportExternalExpression 导入外部表达数据")
             End If
             If nSamples <= 0 Then nSamples = Me.NSamples
 
@@ -430,14 +566,14 @@ Namespace Core
         ''' <summary>
         ''' 动态初始状态模式：基于已导入的外部转录组数据（<see cref="ExternalInitialState"/>），
         ''' 以其作为级联模拟起点执行动态敲除虚拟扰动，模拟在用户样本背景下的级联传播。
-        ''' 必须先调用 <see cref="SetExternalExpression"/> / <see cref="ImportExternalExpression"/>。
+        ''' 必须先调用 <see cref="SetContext(Dictionary(Of String, Double))"/> / <see cref="ImportExternalExpression"/>。
         ''' </summary>
         Public Function DynamicKnockoutWithState(geneName As String, nTimeSteps As Integer, Optional nSamples As Integer = 0) As InterventionResult
             If FittedNetwork Is Nothing OrElse ParameterResult Is Nothing Then
                 Throw New Exception("请先执行结构学习和参数学习")
             End If
             If ExternalInitialState Is Nothing Then
-                Throw New Exception("请先调用 SetExternalExpression / ImportExternalExpression 导入外部表达数据")
+                Throw New Exception("请先调用 SetContext / ImportExternalExpression 导入外部表达数据")
             End If
             If nSamples <= 0 Then nSamples = Me.NSamples
 

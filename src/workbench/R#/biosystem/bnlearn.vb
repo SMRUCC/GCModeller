@@ -316,7 +316,7 @@ Module bnlearn
     <RApiReturn(GetType(BNLearnWorkflow), GetType(BlockBayesianNetwork), GetType(SMRUCC.genomics.Analysis.CellPhenotype.ElasticNet))>
     Public Function setBaseline(model As Object, baseline As list, Optional env As Environment = Nothing) As Object
         If TypeOf model Is BNLearnWorkflow Then
-            Call DirectCast(model, BNLearnWorkflow).SetExternalExpression(baseline.asGeneric(Function(x) CLRVector.asScalarNumber(x)))
+            Call DirectCast(model, BNLearnWorkflow).SetContext(baseline.asGeneric(Function(x) CLRVector.asScalarNumber(x)))
         ElseIf TypeOf model Is BlockBayesianNetwork Then
             Call DirectCast(model, BlockBayesianNetwork).SetWildtypeBaseline(baseline.asGeneric(Function(x) CLRVector.asScalarNumber(x)))
         ElseIf TypeOf model Is SMRUCC.genomics.Analysis.CellPhenotype.ElasticNet Then
@@ -324,7 +324,7 @@ Module bnlearn
             Dim engine As SMRUCC.genomics.Analysis.CellPhenotype.ElasticNet =
                 DirectCast(model, SMRUCC.genomics.Analysis.CellPhenotype.ElasticNet)
 
-            Call engine.SetBaseline(values.Keys.ToArray, values.Values.ToArray)
+            Call engine.SetContext(values)
         Else
             Return Message.InCompatibleType(GetType(BNLearnWorkflow), model.GetType, env)
         End If

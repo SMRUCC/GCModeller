@@ -1105,8 +1105,18 @@ Module Linear
                 $"the size of the genes vector ({ids.Length}) does not match the size of the values vector ({vals.Length})", env)
         End If
 
+        Dim context As New Dictionary(Of String, Double)(StringComparer.OrdinalIgnoreCase)
+
+        For i As Integer = 0 To ids.Length - 1
+            context(ids(i)) = vals(i)
+        Next
+
         Try
-            Return model.SetBaseline(ids, vals)
+            Call model.SetContext(context)
+
+            Dim diagnosis = model.ContextDiagnostics
+
+            Return If(diagnosis Is Nothing, 0, diagnosis.Matched)
         Catch ex As Exception
             Return RInternal.debug.stop(ex.Message, env)
         End Try

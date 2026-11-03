@@ -61,6 +61,19 @@ Public Class GEARS : Implements InsilicoPerturbationExperiment
     ''' </remarks>
     Dim baselineSamples As Integer()
 
+    ''' <summary>
+    ''' 上下文状态：默认 <see cref="ContextAlignmentMode.Quantile"/>。
+    ''' </summary>
+    ''' <remarks>
+    ''' GEARS 的输入侧是<strong>原始表达谱</strong>（<see cref="WildtypeMeans"/>），
+    ''' 归一化 <c>(x - controlMean) / controlSD</c> 由 <see cref="Predict"/> 内部完成。
+    ''' 因此把外部 context 换算成 z 值再反算回原始值等于什么都没做，
+    ''' 真正需要的是把另一条归一化管线的分布映射到训练矩阵的原始尺度上。
+    ''' </remarks>
+    Private m_context As ContextAlignmentState
+    ''' <summary>上下文覆盖之后的对照基线（原始表达量，长度 = 基因数）；未注入时为 Nothing。</summary>
+    Private m_contextBaseline As Double()
+
     ''' <summary>基因调控图</summary>
     ''' <returns><see cref="GeneRegulatoryGraph"/> 实例</returns>
     Public ReadOnly Property GraphData As GeneRegulatoryGraph
@@ -965,14 +978,16 @@ Public Class GEARS : Implements InsilicoPerturbationExperiment
         End If
 
         ' ---- 构造输入侧表达谱：被扰动基因改写为干预值 ----
-        Dim inputExpr As Double() = CType(WildtypeMeans.Clone(), Double())
+        ' 注入了上下文之后，对照基线由上下文替换（未覆盖的基因沿用训练 control 均值）
+        Dim baseline As Double() = If(m_contextBaseline, WildtypeMeans)
+        Dim inputExpr As Double() = CType(baseline.Clone(), Double())
         Dim flag As Double() = New Double(n - 1) {}
         Dim xNorm As Double() = New Double(n - 1) {}
         Dim pertSet As New HashSet(Of Integer)(indices)
 
         For k As Integer = 0 To indices.Count - 1
             Dim i As Integer = indices(k)
-            Dim target As Double = specList(k).GetInterventionValue(WildtypeMeans(i), WildtypeSDs(i))
+            Dim target As Double = specList(k).GetInterventionValue(baseline(i), WildtypeSDs(i))
 
             inputExpr(i) = target
             flag(i) = 1.0
@@ -1003,10 +1018,10 @@ Public Class GEARS : Implements InsilicoPerturbationExperiment
                 mutant(i) = std.Max(0.0, inputExpr(i) + delta)
             End If
 
-            fold(i) = mutant(i) - WildtypeMeans(i)
+            fold(i) = mutant(i) - baseline(i)
 
-            If std.Abs(WildtypeMeans(i)) > 0.0000000001 Then
-                percent(i) = fold(i) / std.Abs(WildtypeMeans(i)) * 100
+            If std.Abs(baseline(i)) > 0.0000000001 Then
+                percent(i) = fold(i) / std.Abs(baseline(i)) * 100
             End If
 
             z(i) = fold(i) / sd
@@ -1027,7 +1042,7 @@ Public Class GEARS : Implements InsilicoPerturbationExperiment
 
         Return New InterventionResult With {
             .Spec = resultSpec,
-            .WildtypeMeans = CType(WildtypeMeans.Clone(), Double()),
+            .WildtypeMeans = CType(baseline.Clone(), Double()),
             .WildtypeSDs = CType(WildtypeSDs.Clone(), Double()),
             .MutantMeans = mutant,
             .FoldChanges = fold,
@@ -1045,12 +1060,13 @@ Public Class GEARS : Implements InsilicoPerturbationExperiment
     ''' <returns>所有变化量均为 0 的结果对象，其 <see cref="InterventionResult.Undefined"/> 为 True</returns>
     Private Function CreateUndefinedResult(spec As InterventionSpec) As InterventionResult
         Dim n As Integer = exprData.NGene
+        Dim baseline As Double() = If(m_contextBaseline, WildtypeMeans)
 
         Return New InterventionResult With {
             .Spec = spec,
-            .WildtypeMeans = CType(WildtypeMeans.Clone(), Double()),
+            .WildtypeMeans = CType(baseline.Clone(), Double()),
             .WildtypeSDs = CType(WildtypeSDs.Clone(), Double()),
-            .MutantMeans = CType(WildtypeMeans.Clone(), Double()),
+            .MutantMeans = CType(baseline.Clone(), Double()),
             .FoldChanges = New Double(n - 1) {},
             .PercentChanges = New Double(n - 1) {},
             .IsSignificant = New Boolean(n - 1) {},
@@ -1058,6 +1074,143 @@ Public Class GEARS : Implements InsilicoPerturbationExperiment
             .GeneNames = CType(GeneNames.Clone(), String()),
             .Undefined = True
         }
+    End Function
+
+    ' ==================== 上下文（表达状态） ====================
+
+    Private ReadOnly Property ContextState As ContextAlignmentState
+        Get
+            If m_context Is Nothing Then
+                m_context = New ContextAlignmentState(ContextAlignmentMode.Quantile)
+            End If
+
+            Return m_context
+        End Get
+    End Property
+
+    ''' <summary>当前生效的上下文对齐模式。</summary>
+    Public ReadOnly Property ContextAlignmentMode As ContextAlignmentMode
+        Get
+            Return ContextState.Mode
+        End Get
+    End Property
+
+    ''' <summary>最近一次上下文注入的诊断。</summary>
+    Public ReadOnly Property ContextDiagnostics As ContextAlignmentDiagnostics
+        Get
+            Return ContextState.Diagnostics
+        End Get
+    End Property
+
+    ''' <summary>是否已经注入了上下文。</summary>
+    Public ReadOnly Property HasContext As Boolean
+        Get
+            Return m_contextBaseline IsNot Nothing
+        End Get
+    End Property
+
+    ''' <summary>
+    ''' 把外部表达状态注入为扰动分析的对照基线。
+    ''' </summary>
+    ''' <param name="context">基因名 → 原始表达量（大小写不敏感；可以只覆盖部分基因）</param>
+    ''' <returns>当前对象（便于链式调用）</returns>
+    ''' <remarks>
+    ''' <para>
+    ''' 对齐默认使用 <see cref="ContextAlignmentMode.Quantile"/>：GEARS 的输入侧是原始表达谱，
+    ''' 归一化在内部按训练 control 的均值/标准差完成，因此真正需要对齐的是“外部管线 → 训练矩阵尺度”。
+    ''' </para>
+    ''' <para>
+    ''' 注入之后，<see cref="Predict"/> 的对照基线、<see cref="InterventionResult.WildtypeMeans"/>
+    ''' 以及 <c>FoldChanges</c> 都改为相对该上下文计算；未覆盖的基因继续沿用训练 control 均值。
+    ''' </para>
+    ''' </remarks>
+    ''' <exception cref="InvalidOperationException">上下文没有任何基因命中模型</exception>
+    Public Function SetContext(context As Dictionary(Of String, Double)) As InsilicoPerturbationExperiment Implements InsilicoPerturbationExperiment.SetContext
+        Dim aligned As ContextAlignmentResult = ContextState.SetContext(context, buildContextReference())
+
+        If aligned.Diagnostics.Matched = 0 Then
+            Throw New InvalidOperationException(
+                "上下文中没有任何基因与建模基因匹配，请检查基因标识空间")
+        End If
+
+        Call applyContextBaseline(aligned)
+
+        Return Me
+    End Function
+
+    ''' <summary>切换上下文对齐模式；已注入上下文时会立即重新对齐。</summary>
+    ''' <param name="mode">新的对齐模式</param>
+    ''' <returns>当前对象（便于链式调用）</returns>
+    Public Function SetContextAlignmentMode(mode As ContextAlignmentMode) As InsilicoPerturbationExperiment Implements InsilicoPerturbationExperiment.SetContextAlignmentMode
+        Call ContextState.SetMode(mode)
+
+        If ContextState.HasContext Then
+            Call applyContextBaseline(ContextState.Result)
+        End If
+
+        Return Me
+    End Function
+
+    ''' <summary>撤销上下文，恢复训练 control 推导出的对照基线。</summary>
+    Public Sub ClearContext()
+        Call ContextState.Clear()
+
+        m_contextBaseline = Nothing
+    End Sub
+
+    ''' <summary>把对齐结果写进对照基线（未覆盖的基因沿用训练 control 均值）。</summary>
+    Private Sub applyContextBaseline(aligned As ContextAlignmentResult)
+        Dim baseline As Double() = CType(WildtypeMeans.Clone(), Double())
+
+        For Each item As KeyValuePair(Of String, Double) In aligned.Values
+            Dim idx As Integer = -1
+
+            If GraphData IsNot Nothing Then
+                If Not GraphData.TryGetGeneIndex(item.Key, idx) Then
+                    idx = -1
+                End If
+            End If
+            If idx < 0 OrElse idx >= baseline.Length Then
+                Continue For
+            End If
+
+            baseline(idx) = item.Value
+        Next
+
+        m_contextBaseline = baseline
+    End Sub
+
+    ''' <summary>构造公共对齐组件所需的训练侧统计量（原始表达量尺度）。</summary>
+    Private Function buildContextReference() As ContextAlignmentReference
+        Return New ContextAlignmentReference With {
+            .GeneNames = GeneNames,
+            .Means = WildtypeMeans,
+            .StandardDeviations = WildtypeSDs,
+            .Population = trainingPopulation()
+        }
+    End Function
+
+    ''' <summary>训练矩阵的逐基因种群 <c>population(gene)(sample)</c>。</summary>
+    Private Function trainingPopulation() As Double()()
+        Dim names As String() = GeneNames
+        Dim result(names.Length - 1)() As Double
+        Dim nSample As Integer = exprData.NSample
+
+        For i As Integer = 0 To names.Length - 1
+            If nSample <= 0 Then
+                result(i) = New Double() {}
+            Else
+                Dim values(nSample - 1) As Double
+
+                For j As Integer = 0 To nSample - 1
+                    values(j) = exprData.Matrix(i, j)
+                Next
+
+                result(i) = values
+            End If
+        Next
+
+        Return result
     End Function
 
     ' ==================== InsilicoPerturbationExperiment 接口实现 ====================

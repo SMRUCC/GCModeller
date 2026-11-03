@@ -189,7 +189,7 @@ Namespace Perturbation
         ''' <param name="context">
         ''' 可选的环境初值（<c>context</c>）：非空的时候 control 与每一组扰动
         ''' 都从这同一个状态出发，因此三个不同的 pseudobulk panel 会得到三套互不相同的基线轨迹。
-        ''' 该表可以由 <see cref="GRN.SSystemNetwork.MapContext"/> 从原始 counts 构造
+        ''' 该表可以由 <c>SSystemNetwork.SetContext</c>（公共对齐组件）从原始 counts 构造
         ''' </param>
         ''' <param name="onSimulated">
         ''' 可选的回调：每一组扰动积分完成之后会被调用一次。

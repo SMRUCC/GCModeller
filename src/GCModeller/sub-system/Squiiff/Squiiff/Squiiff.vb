@@ -5,6 +5,8 @@ Imports SMRUCC.genomics.Analysis.Squiiff.Model
 Imports SMRUCC.genomics.Analysis.Squiiff.NN
 Imports SMRUCC.genomics.Analysis.Squiiff.Perturbation
 Imports SMRUCC.genomics.Analysis.Squiiff.Training
+Imports SMRUCC.genomics.BioSystem
+Imports SMRUCC.genomics.BioSystem.Intervention
 
 ''' <summary>
 ''' SquiDiff 门面：串联「数据 → 建模型 → 训练 → 编码/重建 → 扰动预测 → 插值 → 存档」全流程。
@@ -18,7 +20,7 @@ Imports SMRUCC.genomics.Analysis.Squiiff.Training
 ''' <item>扰动效应通过在 <c>z_sem</c> 空间中做向量加法或线性插值来编码。</item>
 ''' </list>
 ''' </summary>
-Public Class SquiDiff
+Public Class SquiDiff : Implements InsilicoPerturbationExperiment
 
     Private ReadOnly _model As DiffusionAutoEncoder
     Private ReadOnly _geneNames As String()
@@ -87,9 +89,15 @@ Public Class SquiDiff
     End Property
 
     ''' <summary>训练模型。</summary>
+    ''' <remarks>
+    ''' 训练时会顺带记录每个基因在<b>模型输入空间</b>（逐基因 z-score）中的经验分布，
+    ''' 供 <see cref="SetContext"/> 的上下文对齐使用。
+    ''' </remarks>
     Public Function Train(x0 As Tensor, Optional epochs As Integer? = Nothing, Optional verbose As Boolean = True) As TrainingHistory
         Me._trainer = New DiffusionTrainer(_model, verbose)
         Me._history = _trainer.Fit(x0, epochs)
+
+        Call capturePopulation(x0)
 
         Return _history
     End Function
@@ -194,6 +202,259 @@ Public Class SquiDiff
 
         Return decoded
     End Function
+
+#End Region
+
+#Region "上下文与虚拟扰动（InsilicoPerturbationExperiment）"
+
+    ''' <summary>
+    ''' 上下文状态：默认 <see cref="ContextAlignmentMode.Quantile"/>。
+    ''' </summary>
+    ''' <remarks>
+    ''' 扩散模型的输入是<b>逐基因 z-score 之后</b>的表达谱（HVG 子集），库本身不保存原始管线的
+    ''' 文库大小与对数变换参数，因此无法做“原始计数 → 模型输入”的确定换算；
+    ''' 分位对齐把外部 context 的跨基因排序映射到每个基因在训练细胞中的经验分布上，
+    ''' 是这种信息条件下唯一不依赖具体管线公式的选择。
+    ''' </remarks>
+    Private m_context As ContextAlignmentState
+    Private m_contextCells As Tensor
+    Private m_population As Double()()
+
+    Private ReadOnly Property ContextState As ContextAlignmentState
+        Get
+            If m_context Is Nothing Then
+                m_context = New ContextAlignmentState(ContextAlignmentMode.Quantile)
+            End If
+
+            Return m_context
+        End Get
+    End Property
+
+    ''' <summary>当前生效的上下文对齐模式。</summary>
+    Public ReadOnly Property ContextAlignmentMode As ContextAlignmentMode
+        Get
+            Return ContextState.Mode
+        End Get
+    End Property
+
+    ''' <summary>最近一次上下文注入的诊断。</summary>
+    Public ReadOnly Property ContextDiagnostics As ContextAlignmentDiagnostics
+        Get
+            Return ContextState.Diagnostics
+        End Get
+    End Property
+
+    ''' <summary>是否已经注入了上下文（对照细胞）。</summary>
+    Public ReadOnly Property HasContext As Boolean
+        Get
+            Return m_contextCells IsNot Nothing
+        End Get
+    End Property
+
+    ''' <summary>当前注入的对照细胞 <c>[1, G]</c>（模型输入空间）；未注入时为 Nothing。</summary>
+    Public ReadOnly Property ContextCells As Tensor
+        Get
+            Return m_contextCells
+        End Get
+    End Property
+
+    ''' <summary>
+    ''' 把外部表达状态注入为扰动预测的对照细胞。
+    ''' </summary>
+    ''' <param name="context">基因名 → 表达值（大小写不敏感；可以只覆盖部分基因）</param>
+    ''' <returns>当前对象（便于链式调用）</returns>
+    ''' <remarks>
+    ''' 未覆盖的基因在模型输入空间中取 0（= 训练细胞的平均表达水平）。
+    ''' 必须在 <see cref="Train"/> 之后调用：分位对齐需要每个基因在训练细胞中的经验分布。
+    ''' </remarks>
+    ''' <exception cref="InvalidOperationException">模型尚未训练（缺少训练细胞的分布）</exception>
+    Public Function SetContext(context As Dictionary(Of String, Double)) As InsilicoPerturbationExperiment Implements InsilicoPerturbationExperiment.SetContext
+        Dim aligned As ContextAlignmentResult = ContextState.SetContext(context, buildContextReference())
+
+        If aligned.Diagnostics.Matched = 0 Then
+            Throw New InvalidOperationException("上下文中没有任何基因能够映射到模型的基因维度上")
+        End If
+
+        Call applyContextCells(aligned)
+
+        Return Me
+    End Function
+
+    ''' <summary>切换上下文对齐模式；已注入上下文时会立即重新对齐。</summary>
+    ''' <param name="mode">新的对齐模式</param>
+    ''' <returns>当前对象（便于链式调用）</returns>
+    Public Function SetContextAlignmentMode(mode As ContextAlignmentMode) As InsilicoPerturbationExperiment Implements InsilicoPerturbationExperiment.SetContextAlignmentMode
+        Call ContextState.SetMode(mode)
+
+        If ContextState.HasContext Then
+            Call applyContextCells(ContextState.Result)
+        End If
+
+        Return Me
+    End Function
+
+    ''' <summary>撤销上下文。</summary>
+    Public Sub ClearContext()
+        Call ContextState.Clear()
+
+        m_contextCells = Nothing
+    End Sub
+
+    ''' <summary>
+    ''' 虚拟敲除：使用已登记的扰动方向向量生成扰动后的转录组。
+    ''' </summary>
+    ''' <param name="geneName">
+    ''' 扰动名。扩散模型不能从基因名直接推出方向向量，必须先用
+    ''' <see cref="RegisterPerturbation"/> 登记同名扰动
+    ''' </param>
+    ''' <param name="nSamples">保留参数（生成过程由采样器控制）</param>
+    ''' <returns>模型输入空间（z-score）下的干预结果</returns>
+    ''' <remarks>
+    ''' 预测值与对照值都在模型输入空间（逐基因 z-score）中，未反变换回原始表达量——
+    ''' 库不保存训练期的逐基因均值/标准差，无法可靠反算。
+    ''' </remarks>
+    ''' <exception cref="InvalidOperationException">尚未注入对照细胞（请先 SetContext）</exception>
+    ''' <exception cref="KeyNotFoundException">该扰动尚未登记到 <see cref="Space"/></exception>
+    Public Function KnockoutGene(geneName As String, Optional nSamples As Integer = 0) As InterventionResult Implements InsilicoPerturbationExperiment.KnockoutGene
+        Return predictByName(geneName, InterventionMode.Knockout)
+    End Function
+
+    ''' <summary>虚拟过表达：见 <see cref="KnockoutGene"/>（同样需要先登记方向向量）。</summary>
+    Public Function OverexpressGene(geneName As String, Optional nSamples As Integer = 0) As InterventionResult Implements InsilicoPerturbationExperiment.OverexpressGene
+        Return predictByName(geneName, InterventionMode.Overexpression)
+    End Function
+
+    ''' <summary>虚拟敲低：见 <see cref="KnockoutGene"/>（同样需要先登记方向向量）。</summary>
+    Public Function KnockDownGene(geneName As String, Optional nSamples As Integer = 0) As InterventionResult Implements InsilicoPerturbationExperiment.KnockDownGene
+        Return predictByName(geneName, InterventionMode.Knockdown)
+    End Function
+
+    Private Function predictByName(geneName As String, mode As InterventionMode) As InterventionResult
+        If m_contextCells Is Nothing Then
+            Throw New InvalidOperationException(
+                "尚未注入对照细胞：请先调用 SetContext 指定扰动的起点，扩散模型没有默认细胞")
+        End If
+
+        Dim delta As Tensor
+
+        If Not Space.TryGet(geneName, delta) Then
+            Throw New KeyNotFoundException(
+                $"扰动 '{geneName}' 尚未登记到扰动空间；请先用 RegisterPerturbation 登记方向向量")
+        End If
+
+        Dim predicted As Tensor = PredictPerturbation(m_contextCells, delta)
+        Dim control As Double() = CType(m_contextCells.Data.Clone(), Double())
+        Dim mutant As Double() = CType(predicted.Data.Clone(), Double())
+        Dim n As Integer = control.Length
+        Dim fold(n - 1) As Double
+        Dim percent(n - 1) As Double
+        Dim z(n - 1) As Double
+        Dim significant(n - 1) As Boolean
+
+        For i As Integer = 0 To n - 1
+            fold(i) = mutant(i) - control(i)
+
+            If System.Math.Abs(control(i)) > 1.0E-10 Then
+                percent(i) = fold(i) / System.Math.Abs(control(i)) * 100.0R
+            End If
+
+            z(i) = fold(i)
+            significant(i) = System.Math.Abs(fold(i)) > 1.0E-09
+        Next
+
+        Return New InterventionResult With {
+            .Spec = New InterventionSpec With {.GeneName = geneName, .GeneIndex = -1, .Mode = mode},
+            .GeneNames = CType(_geneNames.Clone(), String()),
+            .WildtypeMeans = control,
+            .MutantMeans = mutant,
+            .FoldChanges = fold,
+            .PercentChanges = percent,
+            .ZScores = z,
+            .IsSignificant = significant,
+            .Undefined = False
+        }
+    End Function
+
+    ''' <summary>把对齐结果铺成 <c>[1, G]</c> 的对照细胞张量（未覆盖基因取 0）。</summary>
+    Private Sub applyContextCells(aligned As ContextAlignmentResult)
+        Dim n As Integer = GeneCount
+        Dim values(n - 1) As Double
+
+        For Each item As KeyValuePair(Of String, Double) In aligned.Values
+            Dim idx As Integer = Array.FindIndex(
+                _geneNames,
+                Function(g) String.Equals(g, item.Key, StringComparison.OrdinalIgnoreCase))
+
+            If idx >= 0 Then
+                values(idx) = item.Value
+            End If
+        Next
+
+        m_contextCells = Tensor.Wrap(values, 1, n)
+    End Sub
+
+    ''' <summary>构造公共对齐组件所需的统计量（训练细胞在模型输入空间的经验分布）。</summary>
+    Private Function buildContextReference() As ContextAlignmentReference
+        Dim n As Integer = GeneCount
+        Dim means(n - 1) As Double
+        Dim sds(n - 1) As Double
+
+        If m_population IsNot Nothing Then
+            For i As Integer = 0 To n - 1
+                Dim values As Double() = m_population(i)
+
+                If values Is Nothing OrElse values.Length = 0 Then
+                    Continue For
+                End If
+
+                Dim sum As Double = 0
+
+                For Each v As Double In values
+                    sum += v
+                Next
+
+                Dim mean As Double = sum / values.Length
+                Dim ss As Double = 0
+
+                For Each v As Double In values
+                    ss += (v - mean) ^ 2
+                Next
+
+                means(i) = mean
+                sds(i) = If(values.Length > 1, System.Math.Sqrt(ss / (values.Length - 1)), 0.0R)
+            Next
+        End If
+
+        Return New ContextAlignmentReference With {
+            .GeneNames = _geneNames,
+            .Means = means,
+            .StandardDeviations = sds,
+            .Population = m_population
+        }
+    End Function
+
+    ''' <summary>记录训练矩阵（模型输入空间）中每个基因的经验分布。</summary>
+    Private Sub capturePopulation(x0 As Tensor)
+        Dim cells As Integer = x0.Shape(0)
+        Dim genes As Integer = x0.Shape(1)
+        Dim population(genes - 1)() As Double
+        Dim data As Double() = x0.Data
+
+        For j As Integer = 0 To genes - 1
+            Dim values(cells - 1) As Double
+
+            For b As Integer = 0 To cells - 1
+                values(b) = data(b * genes + j)
+            Next
+
+            population(j) = values
+        Next
+
+        m_population = population
+        Call ContextState.Clear()
+
+        m_contextCells = Nothing
+    End Sub
 
 #End Region
 

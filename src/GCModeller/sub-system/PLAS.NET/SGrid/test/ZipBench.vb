@@ -241,7 +241,7 @@ Namespace SelfTest
                 .Parameters = parameters,
                 .Edges = edges.ToArray,
                 .Options = New FittingOptions(),
-                .Prior = New SMRUCC.genomics.Analysis.BNLearn.Core.PriorNetwork(),
+                .Prior = New SMRUCC.genomics.BioSystem.Core.PriorNetwork(),
                 .Warnings = New List(Of String)
             }
         End Function

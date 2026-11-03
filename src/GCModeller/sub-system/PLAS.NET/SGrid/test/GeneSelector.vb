@@ -4,7 +4,7 @@ Imports System.Text
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.SGrid.GRN
 Imports PriorEdge = SMRUCC.genomics.Analysis.BNLearn.Core.RegulatoryEdge
-Imports PriorNet = SMRUCC.genomics.Analysis.BNLearn.Core.PriorNetwork
+Imports PriorNet = SMRUCC.genomics.BioSystem.Core.PriorNetwork
 
 Namespace GRNDemo
 

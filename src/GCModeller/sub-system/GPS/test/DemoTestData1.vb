@@ -4,6 +4,7 @@ Imports System.IO
 Imports System.Text
 Imports SMRUCC.genomics.Analysis.BNLearn.Core
 Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
+Imports GeneExpressionData = SMRUCC.genomics.Analysis.HTS.DataFrame.GeneExpressionData
 Imports SMRUCC.genomics.Analysis.GPS
 Imports SMRUCC.genomics.Analysis.GPS.Config
 Imports SMRUCC.genomics.Analysis.GPS.Data
@@ -157,7 +158,7 @@ Public Module DemoTestData1
 
         ' ---- 3. 训练 ----
         Dim sw As Stopwatch = Stopwatch.StartNew()
-        Dim training As GPSTrainingResult = gps.Train(config.PrintEvery)
+        Dim training As GPSTrainingResult = gps.Train(resumeFromCheckpoint:=False)
 
         sw.Stop()
 
@@ -441,7 +442,6 @@ Public Module DemoTestData1
             .FinetuneEpochs = options.FinetuneEpochs,
             .LearningRate = options.LearningRate,
             .EarlyStopPatience = 4,
-            .PrintEvery = Math.Max(1, options.FinetuneEpochs \ 4),
             .Seed = options.Seed,
             .MaskRatio = 0.15,
             .UseSpdBias = True,

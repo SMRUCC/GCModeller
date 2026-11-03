@@ -732,7 +732,41 @@ Module ssGrid
             Return RInternal.debug.stop("the context data is invalid, it should be a csv file, a data.frame or a named numeric vector!", env)
         End If
 
-        Return New list(network.MapContext(counts, missing))
+        Call network.SetContext(counts)
+
+        Dim mapped As New Dictionary(Of String, Double)(StringComparer.OrdinalIgnoreCase)
+
+        If network.ContextValues IsNot Nothing Then
+            For Each item As KeyValuePair(Of String, Double) In network.ContextValues
+                mapped(item.Key) = item.Value
+            Next
+        End If
+
+        ' 缺失基因的填充沿用旧行为：baseline = 训练集最小采样值，zero = 0
+        Dim useZero As Boolean = String.Equals(missing, "zero", StringComparison.OrdinalIgnoreCase)
+
+        For i As Integer = 0 To network.Parameters.GeneNames.Length - 1
+            Dim gene As String = network.Parameters.GeneNames(i)
+
+            If mapped.ContainsKey(gene) Then
+                Continue For
+            End If
+
+            If useZero Then
+                mapped(gene) = 0.0
+            Else
+                Dim values As Double() = network.Series.X(i)
+                Dim min As Double = Double.MaxValue
+
+                For Each v As Double In values
+                    If v < min Then min = v
+                Next
+
+                mapped(gene) = If(min = Double.MaxValue, 0.0, min)
+            End If
+        Next
+
+        Return New list(mapped)
     End Function
 
 #End Region

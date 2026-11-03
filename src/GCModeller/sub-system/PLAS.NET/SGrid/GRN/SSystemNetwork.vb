@@ -1,7 +1,10 @@
 Imports System.Globalization
 Imports System.Text
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports SMRUCC.genomics.Analysis.SGrid.Perturbation
 Imports SMRUCC.genomics.Analysis.SSystem.Runner
+Imports SMRUCC.genomics.BioSystem
+Imports SMRUCC.genomics.BioSystem.Intervention
 Imports PriorNet = SMRUCC.genomics.BioSystem.Core.PriorNetwork
 Imports SSExperiment = SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels.Experiment
 Imports SSModel = SMRUCC.genomics.Analysis.SSystem.Script.Model
@@ -21,7 +24,7 @@ Namespace GRN
     ''' 3. 稀疏化之后的调控拓扑 <see cref="Edges"/>
     ''' 并且可以生成可以直接被 PLAS 运行的 S-system 模型对象。
     ''' </remarks>
-    Public Class SSystemNetwork
+    Public Class SSystemNetwork : Implements InsilicoPerturbationExperiment
 
         ''' <summary>
         ''' 预处理之后的基因表达时序数据
@@ -224,81 +227,10 @@ Namespace GRN
             Return model
         End Function
 
-        ''' <summary>
-        ''' 把一个外部表达谱（例如 pseudobulk context 的原始 counts）映射到模型的状态空间
-        ''' </summary>
-        ''' <param name="counts">原始表达量表：键可以是原始基因符号或者规整化之后的编号</param>
-        ''' <param name="missing">
-        ''' 缺失基因的填充方式：<c>baseline</c> 表示使用该基因在训练集之中的最小采样值（推荐），
-        ''' <c>zero</c> 表示使用零表达
-        ''' </param>
-        ''' <returns>以规整化基因编号为键的状态初值表，可以直接传给 <see cref="CreateModel"/></returns>
-        ''' <remarks>
-        ''' 模型的状态并不是原始的 counts，而是
-        ''' <c>X = log2(max(raw,0) + pseudo) + δ</c>（见 <see cref="ExpressionTimeSeries.Offsets"/>）；
-        ''' 故外部数据必须经过完全相同的变换才能作为初值使用，
-        ''' 否则整体会偏移若干个对数单位（相当于成倍的浓度差异），幂律项也就完全错位了。
-        ''' </remarks>
-        Public Function MapContext(counts As System.Collections.Generic.IDictionary(Of String, Double),
-                                   Optional missing As String = "baseline") As System.Collections.Generic.Dictionary(Of String, Double)
-            If counts Is Nothing Then
-                Throw New ArgumentNullException(NameOf(counts))
-            End If
+        ' 说明：把一个外部表达谱映射到模型状态空间的工作已经迁移到公共组件
+        ' （SMRUCC.genomics.BioSystem.Intervention.ContextAligner，LogAffine 模式），
+        ' 通过 InsilicoPerturbationExperiment.SetContext 调用，本类不再自行实现换算。
 
-            Dim result As New System.Collections.Generic.Dictionary(Of String, Double)(StringComparer.OrdinalIgnoreCase)
-            Dim useZero As Boolean = String.Equals(missing, "zero", StringComparison.OrdinalIgnoreCase)
-
-            For i As Integer = 0 To Parameters.nGenes - 1
-                Dim raw As Double
-                Dim hit As Boolean = False
-
-                If Not String.IsNullOrEmpty(Parameters.OriginalNames(i)) Then
-                    hit = counts.TryGetValue(Parameters.OriginalNames(i), raw)
-                End If
-                If Not hit Then
-                    hit = counts.TryGetValue(Parameters.GeneNames(i), raw)
-                End If
-
-                Dim value As Double
-
-                If hit Then
-                    value = toModelSpace(raw, i)
-                ElseIf useZero Then
-                    value = toModelSpace(0, i)
-                Else
-                    value = Series.X(i).Min
-                End If
-
-                result(Parameters.GeneNames(i)) = value
-            Next
-
-            Return result
-        End Function
-
-        ''' <summary>
-        ''' 把单个原始表达值变换到模型的状态空间
-        ''' </summary>
-        ''' <param name="raw"></param>
-        ''' <param name="i">基因的行号</param>
-        ''' <returns></returns>
-        Private Function toModelSpace(raw As Double, i As Integer) As Double
-            Dim offset As Double = 0
-
-            If Not Series.Offsets.IsNullOrEmpty AndAlso i < Series.Offsets.Length Then
-                offset = Series.Offsets(i)
-            End If
-
-            Select Case Series.Normalize
-                Case NormalizationMethods.Log2
-                    Return std.Log(std.Max(raw, 0) + Series.PseudoCount) / std.Log(2) + offset
-                Case NormalizationMethods.None
-                    Return raw + offset
-                Case Else
-                    Throw New NotSupportedException(
-                        $"The normalization method '{Series.Normalize.ToString}' is a per-row transformation, " &
-                        "the context data can not be mapped onto the model space by a single scalar formula.")
-            End Select
-        End Function
 
         ''' <summary>
         ''' 取出某一个基因的状态初值：优先使用外部给定的 context，否则回落到时间序列的第一个采样点
@@ -319,6 +251,272 @@ Namespace GRN
             End If
 
             Return Series.X(i)(0)
+        End Function
+
+        ' ==================== 上下文与虚拟扰动（InsilicoPerturbationExperiment） ====================
+
+        Private m_context As ContextAlignmentState
+        Private m_contextValues As Dictionary(Of String, Double)
+
+        Private ReadOnly Property ContextState As ContextAlignmentState
+            Get
+                If m_context Is Nothing Then
+                    m_context = New ContextAlignmentState(ContextAlignmentMode.LogAffine)
+                End If
+
+                Return m_context
+            End Get
+        End Property
+
+        ''' <summary>当前生效的上下文对齐模式（默认为 <see cref="ContextAlignmentMode.LogAffine"/>）。</summary>
+        Public ReadOnly Property ContextAlignmentMode As ContextAlignmentMode
+            Get
+                Return ContextState.Mode
+            End Get
+        End Property
+
+        ''' <summary>最近一次上下文注入的诊断。</summary>
+        Public ReadOnly Property ContextDiagnostics As ContextAlignmentDiagnostics
+            Get
+                Return ContextState.Diagnostics
+            End Get
+        End Property
+
+        ''' <summary>是否已经注入了上下文。</summary>
+        Public ReadOnly Property HasContext As Boolean
+            Get
+                Return m_contextValues IsNot Nothing AndAlso m_contextValues.Count > 0
+            End Get
+        End Property
+
+        ''' <summary>对齐之后的上下文取值（模型状态空间；键为规整化之后的基因编号）。</summary>
+        Public ReadOnly Property ContextValues As IReadOnlyDictionary(Of String, Double)
+            Get
+                If m_contextValues Is Nothing Then
+                    Return Nothing
+                Else
+                    Return m_contextValues
+                End If
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' 把外部表达谱注入为 ODE 积分的初始状态。
+        ''' </summary>
+        ''' <param name="context">基因名 → 原始表达量（原始基因符号与规整化编号都可接受）</param>
+        ''' <returns>当前对象（便于链式调用）</returns>
+        ''' <remarks>
+        ''' <para>
+        ''' 模型的状态不是原始 counts，而是 <c>X = log2(max(raw,0) + pseudo) + δ</c>
+        ''' （见 <see cref="ExpressionTimeSeries.Offsets"/>），因此默认用
+        ''' <see cref="ContextAlignmentMode.LogAffine"/> 做与训练完全一致的换算。
+        ''' </para>
+        ''' <para>
+        ''' 数值对齐由公共组件完成；本类不再自行实现换算逻辑。
+        ''' </para>
+        ''' </remarks>
+        Public Function SetContext(context As Dictionary(Of String, Double)) As InsilicoPerturbationExperiment Implements InsilicoPerturbationExperiment.SetContext
+            If context Is Nothing OrElse context.Count = 0 Then
+                Call ClearContext()
+
+                Return Me
+            End If
+
+            ' 外部表可能用原始基因符号：先折算到规整化编号，再交给公共组件做数值对齐
+            Dim map As IDictionary(Of String, String) = geneNameMap(Series)
+            Dim normalized As New Dictionary(Of String, Double)(StringComparer.OrdinalIgnoreCase)
+
+            For Each item As KeyValuePair(Of String, Double) In context
+                Dim name As String = If(item.Key, "").Trim()
+                Dim key As String
+
+                If name.Length = 0 Then
+                    Continue For
+                End If
+
+                If map.TryGetValue(name, key) Then
+                    normalized(key) = item.Value
+                Else
+                    normalized(name) = item.Value
+                End If
+            Next
+
+            Dim aligned As ContextAlignmentResult = ContextState.SetContext(normalized, buildContextReference())
+
+            If aligned.Diagnostics.Matched = 0 Then
+                Throw New InvalidOperationException("上下文中没有任何基因能够映射到拟合的 S-system 模型上")
+            End If
+
+            m_contextValues = aligned.Values
+
+            Return Me
+        End Function
+
+        ''' <summary>切换上下文对齐模式；已注入上下文时会立即重新对齐。</summary>
+        ''' <param name="mode">新的对齐模式</param>
+        ''' <returns>当前对象（便于链式调用）</returns>
+        Public Function SetContextAlignmentMode(mode As ContextAlignmentMode) As InsilicoPerturbationExperiment Implements InsilicoPerturbationExperiment.SetContextAlignmentMode
+            Call ContextState.SetMode(mode)
+
+            If ContextState.HasContext Then
+                m_contextValues = ContextState.Values
+            End If
+
+            Return Me
+        End Function
+
+        ''' <summary>撤销上下文，回到时间序列的第一个采样点作为积分初值。</summary>
+        Public Sub ClearContext()
+            Call ContextState.Clear()
+
+            m_contextValues = Nothing
+        End Sub
+
+        ''' <summary>虚拟敲除：把目标基因的表达压到 0 后重新积分。</summary>
+        Public Function KnockoutGene(geneName As String, Optional nSamples As Integer = 0) As InterventionResult Implements InsilicoPerturbationExperiment.KnockoutGene
+            Return perturb(geneName, InterventionMode.Knockout, 1.0R)
+        End Function
+
+        ''' <summary>虚拟过表达：把目标基因的表达提升到当前值的 2 倍。</summary>
+        Public Function OverexpressGene(geneName As String, Optional nSamples As Integer = 0) As InterventionResult Implements InsilicoPerturbationExperiment.OverexpressGene
+            Return perturb(geneName, InterventionMode.Overexpression, 2.0R)
+        End Function
+
+        ''' <summary>虚拟敲低：把目标基因的表达降低到当前值的 20%。</summary>
+        Public Function KnockDownGene(geneName As String, Optional nSamples As Integer = 0) As InterventionResult Implements InsilicoPerturbationExperiment.KnockDownGene
+            Return perturb(geneName, InterventionMode.Knockdown, 0.8R)
+        End Function
+
+        ''' <summary>执行一次扰动并积分到仿真终点，把终末值转成标准的干预结果。</summary>
+        Private Function perturb(geneName As String, mode As InterventionMode, magnitude As Double) As InterventionResult
+            Dim index As Integer = Array.FindIndex(
+                Parameters.GeneNames,
+                Function(g) String.Equals(g, geneName, StringComparison.OrdinalIgnoreCase))
+
+            If index < 0 AndAlso Parameters.OriginalNames IsNot Nothing Then
+                index = Array.FindIndex(
+                    Parameters.OriginalNames,
+                    Function(g) String.Equals(g, geneName, StringComparison.OrdinalIgnoreCase))
+            End If
+
+            If index < 0 Then
+                Return undefinedResult(geneName, mode)
+            End If
+
+            Dim target As String = Parameters.GeneNames(index)
+            Dim design As New PerturbationDesign With {
+                .TargetGene = target,
+                .Type = mode,
+                .Magnitude = magnitude,
+                .Start = 0,
+                .Interval = 1,
+                .Kicks = 1
+            }
+            Dim screening As ScreeningResult = VirtualScreening.Run(Me, New PerturbationDesign() {design}, context:=m_contextValues)
+
+            If screening Is Nothing OrElse screening.Records Is Nothing OrElse screening.Records.Length = 0 Then
+                Return undefinedResult(geneName, mode)
+            End If
+
+            Dim n As Integer = Parameters.nGenes
+            Dim control(n - 1) As Double
+            Dim mutant(n - 1) As Double
+            Dim fold(n - 1) As Double
+            Dim percent(n - 1) As Double
+            Dim z(n - 1) As Double
+            Dim significant(n - 1) As Boolean
+
+            For Each record As ScreeningRecord In screening.Records
+                Dim i As Integer = Array.FindIndex(
+                    Parameters.GeneNames,
+                    Function(g) String.Equals(g, record.Gene, StringComparison.OrdinalIgnoreCase))
+
+                If i < 0 Then
+                    Continue For
+                End If
+
+                control(i) = record.ControlLevel
+                mutant(i) = record.PerturbedLevel
+                fold(i) = record.PerturbedLevel - record.ControlLevel
+
+                If std.Abs(control(i)) > 1.0E-10 Then
+                    percent(i) = fold(i) / std.Abs(control(i)) * 100.0R
+                End If
+
+                significant(i) = record.IsTarget OrElse std.Abs(fold(i)) > 1.0E-09
+            Next
+
+            Return New InterventionResult With {
+                .Spec = New InterventionSpec With {.GeneName = target, .GeneIndex = index, .Mode = mode},
+                .GeneNames = CType(Parameters.GeneNames.Clone(), String()),
+                .WildtypeMeans = control,
+                .MutantMeans = mutant,
+                .FoldChanges = fold,
+                .PercentChanges = percent,
+                .ZScores = z,
+                .IsSignificant = significant,
+                .Undefined = False
+            }
+        End Function
+
+        ''' <summary>目标基因不在模型里时的降级结果（不抛异常，标记 Undefined）。</summary>
+        Private Function undefinedResult(geneName As String, mode As InterventionMode) As InterventionResult
+            Dim n As Integer = Parameters.nGenes
+
+            Return New InterventionResult With {
+                .Spec = New InterventionSpec With {.GeneName = geneName, .GeneIndex = -1, .Mode = mode},
+                .GeneNames = CType(Parameters.GeneNames.Clone(), String()),
+                .WildtypeMeans = New Double(n - 1) {},
+                .MutantMeans = New Double(n - 1) {},
+                .FoldChanges = New Double(n - 1) {},
+                .PercentChanges = New Double(n - 1) {},
+                .ZScores = New Double(n - 1) {},
+                .IsSignificant = New Boolean(n - 1) {},
+                .Undefined = True
+            }
+        End Function
+
+        ''' <summary>构造公共对齐组件所需的训练侧统计量。</summary>
+        Private Function buildContextReference() As ContextAlignmentReference
+            Dim n As Integer = Parameters.nGenes
+            Dim means(n - 1) As Double
+            Dim sds(n - 1) As Double
+            Dim population(n - 1)() As Double
+
+            For i As Integer = 0 To n - 1
+                Dim values As Double() = Series.X(i)
+
+                population(i) = values
+
+                If values Is Nothing OrElse values.Length = 0 Then
+                    Continue For
+                End If
+
+                Dim sum As Double = 0
+
+                For Each v As Double In values
+                    sum += v
+                Next
+
+                Dim mean As Double = sum / values.Length
+                Dim ss As Double = 0
+
+                For Each v As Double In values
+                    ss += (v - mean) ^ 2
+                Next
+
+                means(i) = mean
+                sds(i) = If(values.Length > 1, std.Sqrt(ss / (values.Length - 1)), 0.0R)
+            Next
+
+            Return New ContextAlignmentReference With {
+                .GeneNames = Parameters.GeneNames,
+                .Means = means,
+                .StandardDeviations = sds,
+                .Population = population,
+                .Offsets = Series.Offsets,
+                .PseudoCount = Series.PseudoCount
+            }
         End Function
 
         ''' <summary>

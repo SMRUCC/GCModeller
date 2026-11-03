@@ -8,6 +8,7 @@ Imports Microsoft.VisualBasic.MachineLearning.TensorFlow.Compute
 Imports Microsoft.VisualBasic.MachineLearning.Transformer
 Imports SMRUCC.genomics.Analysis.BNLearn
 Imports SMRUCC.genomics.Analysis.BNLearn.Core
+Imports GeneExpressionData = SMRUCC.genomics.Analysis.HTS.DataFrame.GeneExpressionData
 Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
 Imports SMRUCC.genomics.Analysis.GPS
 Imports SMRUCC.genomics.Analysis.GPS.Perturbation
@@ -736,8 +737,7 @@ Module Program
             .Dropout = 0.0,
             .PretrainEpochs = 0,
             .FinetuneEpochs = 1,
-            .LearningRate = 0.01,
-            .PrintEvery = 0
+            .LearningRate = 0.01
         }
 
         Dim gps As New GPSModel(data, prior, config)
@@ -867,13 +867,13 @@ Module Program
             Dim partialTrainer As New GPSTrainer(interrupted.Model, interrupted.Config)
 
             ' 只跑预训练前 2 轮，模拟"意外中断"
-            Call partialTrainer.Pretrain(interrupted.Dataset.Train(), epochs:=2, printEvery:=0)
+            Call partialTrainer.Pretrain(interrupted.Dataset.Train(), epochs:=2)
 
             ' 隔离断言 A：同配置全新实例跑同样 2 轮，应与 interrupted 逐位一致
             ' （验证初始化与训练路径的确定性——续训轨迹一致的前提）
             Dim probeModel As GPSModel = NewCheckpointTestModel(data, prior, pretrainEpochs:=2, finetuneEpochs:=2, checkpointInterval:=0)
             Dim probeTrainer As New GPSTrainer(probeModel.Model, probeModel.Config)
-            Call probeTrainer.Pretrain(probeModel.Dataset.Train(), epochs:=2, printEvery:=0)
+            Call probeTrainer.Pretrain(probeModel.Dataset.Train(), epochs:=2)
 
             Dim dbgProbeDiff As Double = 0.0
 
@@ -913,7 +913,7 @@ Module Program
             Call Check(dbgLoadDiff <= 1.0E-12, $"存取往返参数一致（最大差异 {dbgLoadDiff:G3}）")
 
             resumed.CheckpointPath = ckptPath
-            Dim resumedResult As GPSTrainingResult = resumed.Train(resumeFromCheckpoint:=True, printEvery:=0)
+            Dim resumedResult As GPSTrainingResult = resumed.Train(resumeFromCheckpoint:=True)
 
             Call Check(resumed.TrainerState IsNot Nothing AndAlso
                        resumed.TrainerState.PretrainEpochsDone = 3 AndAlso
@@ -1042,7 +1042,6 @@ Module Program
             .PretrainEpochs = pretrainEpochs,
             .FinetuneEpochs = finetuneEpochs,
             .LearningRate = learningRate,
-            .PrintEvery = 0,
             .EarlyStopPatience = earlyStopPatience,
             .Seed = 77,
             .TrainRatio = trainRatio,
@@ -1217,12 +1216,11 @@ Module Program
             .Dropout = 0.0,
             .PretrainEpochs = 2,
             .FinetuneEpochs = 6,
-            .LearningRate = 0.005,
-            .PrintEvery = 0
+            .LearningRate = 0.005
         }
 
         Dim gps As New GPSModel(data, prior, config)
-        Dim result As GPSTrainingResult = gps.Train(0)
+        Dim result As GPSTrainingResult = gps.Train(resumeFromCheckpoint:=False)
 
         Call Check(gps.IsTrained, "训练完成标记")
         Call Check(result.FinetuneEpochs > 0, "门面训练轮数")
@@ -1290,8 +1288,7 @@ Module Program
             .ValidationRatio = 0.2,
             .PretrainEpochs = 3,
             .FinetuneEpochs = 12,
-            .LearningRate = 0.005,
-            .PrintEvery = 0
+            .LearningRate = 0.005
         }
 
         Dim pre As PreprocessedExpression = ExpressionPreprocess.Preprocess(data, config, New String() {"TF1", "TF2"})

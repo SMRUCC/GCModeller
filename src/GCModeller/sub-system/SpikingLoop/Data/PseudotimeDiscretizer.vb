@@ -105,6 +105,35 @@ Namespace Data
         End Function
 
         ''' <summary>
+        ''' 把<strong>原始表达量</strong>换算到模型输入空间（MinMax 归一化），即
+        ''' <see cref="Denormalize"/> 的逆变换。
+        ''' </summary>
+        ''' <param name="values">原始表达量向量</param>
+        ''' <returns>与 <paramref name="values"/> 等长的 [0,1] 归一化向量</returns>
+        ''' <remarks>
+        ''' 外部上下文（pseudobulk / 疾病态）要作为虚拟扰动的基线，必须先走这一步，
+        ''' 否则会以原始量的尺度去驱动按 [0,1] 训练的脉冲网络。极差为 0（常量矩阵）时返回全 0。
+        ''' </remarks>
+        Public Function Normalize(values As Double()) As Double()
+            If values Is Nothing Then
+                Throw New ArgumentNullException(NameOf(values))
+            End If
+
+            Dim scale = GlobalMax - GlobalMin
+            Dim result(values.Length - 1) As Double
+
+            If scale <= 0.0 Then
+                Return result
+            End If
+
+            For i As Integer = 0 To values.Length - 1
+                result(i) = (values(i) - GlobalMin) / scale
+            Next
+
+            Return result
+        End Function
+
+        ''' <summary>
         ''' 把表达轨迹渲染成 ASCII 强度图（前若干基因），便于在控制台直观判断
         ''' "平滑是否足够 / 是否存在剧烈跳变 / 是否有基因全程静默"。
         ''' </summary>

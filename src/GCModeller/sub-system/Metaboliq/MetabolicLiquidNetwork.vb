@@ -1,5 +1,7 @@
 Imports Microsoft.VisualBasic.DeepLearning.LiquidNeuralNetwork
 Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
+Imports SMRUCC.genomics.BioSystem
+Imports SMRUCC.genomics.BioSystem.Intervention
 Imports std = System.Math
 
 ''' <summary>
@@ -16,7 +18,7 @@ Imports std = System.Math
 ''' </list>
 ''' 底层 ODE 与反向模式 AD 全部复用 <see cref="LiquidNeuralNetwork"/>（LTC / CfC 模式）。
 ''' </remarks>
-Public Class MetabolicLiquidNetwork
+Public Class MetabolicLiquidNetwork : Implements InsilicoPerturbationExperiment
 
 #Region "属性"
 
@@ -264,6 +266,180 @@ Public Class MetabolicLiquidNetwork
             _boundaryFixed(k) = False
             _boundaryOverride(k) = 0.0
         Next
+    End Sub
+
+#End Region
+
+#Region "上下文（酶表达量）"
+
+    ''' <summary>
+    ''' 上下文状态：默认 <see cref="ContextAlignmentMode.Affine"/>。
+    ''' </summary>
+    ''' <remarks>
+    ''' 网络的酶输入在训练前被 MinMax 归一化到 <c>[0,1]</c>（见 <c>MetabolicDataIO.MinMaxNormalize</c>），
+    ''' 因此把 <c>Means = 训练最小值</c>、<c>StandardDeviations = 极差</c> 交给公共组件的仿射换算，
+    ''' 得到的正是训练时使用的同一变换。
+    ''' </remarks>
+    Private m_context As ContextAlignmentState
+    Private m_contextEnzymes As Double()
+    Private m_contextReference As ContextAlignmentReference
+
+    Private ReadOnly Property ContextState As ContextAlignmentState
+        Get
+            If m_context Is Nothing Then
+                m_context = New ContextAlignmentState(ContextAlignmentMode.Affine)
+            End If
+
+            Return m_context
+        End Get
+    End Property
+
+    ''' <summary>当前生效的上下文对齐模式。</summary>
+    Public ReadOnly Property ContextAlignmentMode As ContextAlignmentMode
+        Get
+            Return ContextState.Mode
+        End Get
+    End Property
+
+    ''' <summary>最近一次上下文注入的诊断。</summary>
+    Public ReadOnly Property ContextDiagnostics As ContextAlignmentDiagnostics
+        Get
+            Return ContextState.Diagnostics
+        End Get
+    End Property
+
+    ''' <summary>是否已经注入了上下文。</summary>
+    Public ReadOnly Property HasContext As Boolean
+        Get
+            Return m_contextEnzymes IsNot Nothing
+        End Get
+    End Property
+
+    ''' <summary>
+    ''' 注册训练期的酶表达统计量（供上下文对齐使用）。
+    ''' </summary>
+    ''' <param name="minimum">逐反应的训练最小值（模型输入空间）</param>
+    ''' <param name="range">逐反应的训练极差（最大值 − 最小值，非正数按 1 处理）</param>
+    ''' <param name="population">逐反应的训练取值序列（分布类对齐需要）</param>
+    ''' <remarks>由 <see cref="MetabolicTrainer"/> 在训练完成之后自动调用。</remarks>
+    Public Sub SetContextReference(minimum As Double(), range As Double(), population As Double()())
+        Dim ranges(minimum.Length - 1) As Double
+
+        For i As Integer = 0 To ranges.Length - 1
+            ranges(i) = If(range(i) > 0.0, range(i), 1.0R)
+        Next
+
+        m_contextReference = New ContextAlignmentReference With {
+            .GeneNames = Graph.ReactionIds,
+            .Means = minimum,
+            .StandardDeviations = ranges,
+            .Population = population
+        }
+
+        Call ContextState.Clear()
+
+        m_contextEnzymes = Nothing
+    End Sub
+
+    ''' <summary>
+    ''' 把外部酶表达谱注入为模型的野生型背景。
+    ''' </summary>
+    ''' <param name="context">反应 ID → 原始酶表达量（大小写不敏感；可以只覆盖部分反应）</param>
+    ''' <returns>当前对象（便于链式调用）</returns>
+    ''' <remarks>
+    ''' 注入之后可通过 <see cref="ContextEnzymes"/> 取得模型输入空间下的逐反应酶水平
+    ''' （未覆盖的反应保持 1.0，即野生型容量），再配合 <see cref="SetEnzymeLevel"/>、
+    ''' <see cref="KnockOut"/> 与 <see cref="Simulate"/> 做通量级的扰动分析。
+    ''' </remarks>
+    ''' <exception cref="InvalidOperationException">
+    ''' 模型尚未注册训练统计量（请先训练），或者上下文没有任何反应命中
+    ''' </exception>
+    Public Function SetContext(context As Dictionary(Of String, Double)) As InsilicoPerturbationExperiment Implements InsilicoPerturbationExperiment.SetContext
+        Call ContextState.SetContext(context, m_contextReference)
+
+        If ContextState.Diagnostics Is Nothing OrElse ContextState.Diagnostics.Matched = 0 Then
+            Throw New InvalidOperationException(
+                "上下文中没有任何反应能够映射到代谢网络的反应集合上")
+        End If
+
+        Call applyContext(ContextState.Result)
+
+        Return Me
+    End Function
+
+    ''' <summary>切换上下文对齐模式；已注入上下文时会立即重新对齐。</summary>
+    ''' <param name="mode">新的对齐模式</param>
+    ''' <returns>当前对象（便于链式调用）</returns>
+    Public Function SetContextAlignmentMode(mode As ContextAlignmentMode) As InsilicoPerturbationExperiment Implements InsilicoPerturbationExperiment.SetContextAlignmentMode
+        Call ContextState.SetMode(mode)
+
+        If ContextState.HasContext Then
+            Call applyContext(ContextState.Result)
+        End If
+
+        Return Me
+    End Function
+
+    ''' <summary>撤销上下文，回到野生型酶容量。</summary>
+    Public Sub ClearContext()
+        Call ContextState.Clear()
+
+        m_contextEnzymes = Nothing
+    End Sub
+
+    ''' <summary>模型输入空间下的逐反应酶水平（未注入时为 Nothing）。</summary>
+    Public ReadOnly Property ContextEnzymes As Double()
+        Get
+            Return m_contextEnzymes
+        End Get
+    End Property
+
+    ''' <summary>
+    ''' 通量级扰动不通过本接口返回。
+    ''' </summary>
+    ''' <remarks>
+    ''' 代谢模型的“表型”是浓度/通量轨迹，必须由调用方给出初始状态、酶序列、边界序列与时间网格
+    ''' （<see cref="Simulate"/> / <see cref="MetabolicTrainer.Predict"/>）。接口签名没有这些输入，
+    ''' 因此这里显式拒绝，避免返回一个看似合理、实则没有意义的差异结果。
+    ''' 常用的做法是 <see cref="KnockOut"/> 之后重新 <see cref="Simulate"/>，再与对照轨迹相减。
+    ''' </remarks>
+    Public Function KnockoutGene(geneName As String, Optional nSamples As Integer = 0) As InterventionResult Implements InsilicoPerturbationExperiment.KnockoutGene
+        Throw New NotSupportedException(fluxLevelMessage(geneName))
+    End Function
+
+    ''' <summary>见 <see cref="KnockoutGene"/>（通量级扰动需要完整的仿真条件）。</summary>
+    Public Function OverexpressGene(geneName As String, Optional nSamples As Integer = 0) As InterventionResult Implements InsilicoPerturbationExperiment.OverexpressGene
+        Throw New NotSupportedException(fluxLevelMessage(geneName))
+    End Function
+
+    ''' <summary>见 <see cref="KnockoutGene"/>（通量级扰动需要完整的仿真条件）。</summary>
+    Public Function KnockDownGene(geneName As String, Optional nSamples As Integer = 0) As InterventionResult Implements InsilicoPerturbationExperiment.KnockDownGene
+        Throw New NotSupportedException(fluxLevelMessage(geneName))
+    End Function
+
+    Private Function fluxLevelMessage(geneName As String) As String
+        Return $"代谢模型的扰动响应是浓度/通量轨迹，接口没有提供初始状态、酶序列、边界序列与时间网格；" &
+               $"请改用 KnockOut(""{geneName}"") + Simulate(...) 与对照轨迹比较"
+    End Function
+
+    Private Sub applyContext(aligned As ContextAlignmentResult)
+        Dim n As Integer = ReactionCount
+        Dim values(n - 1) As Double
+
+        ' 未覆盖的反应保持 1.0（野生型容量），而不是被映射成 0（= 敲除）
+        For i As Integer = 0 To n - 1
+            values(i) = 1.0R
+        Next
+
+        For Each item As KeyValuePair(Of String, Double) In aligned.Values
+            Dim idx As Integer = Graph.IndexOfReaction(item.Key)
+
+            If idx >= 0 Then
+                values(idx) = item.Value
+            End If
+        Next
+
+        m_contextEnzymes = values
     End Sub
 
 #End Region

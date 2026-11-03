@@ -647,18 +647,23 @@ Module fuzzyGene
         End If
 
         Try
-            Dim report As ContextCoverage
+            ' 覆盖率下限现在是模型属性（不再作为 LoadContext 的参数）
+            fuzzygene.MinContextCoverage = minCoverage
+
+            Dim report As ContextAlignmentDiagnostics
 
             If TypeOf context Is InterventionResult Then
-                report = fuzzygene.LoadContext(DirectCast(context, InterventionResult), minCoverage)
+                report = fuzzygene.LoadContext(DirectCast(context, InterventionResult))
             Else
-                report = fuzzygene.LoadContext(CStr(context), valueColumn, minCoverage)
+                report = fuzzygene.LoadContext(CStr(context), valueColumn)
             End If
 
             ' 拆成字符串数组返回，print() 在 R# 里才会一行一行显示
             Return report.ToString().LineTokens
         Catch ex As Exception
             Return RInternal.debug.stop(ex.Message, env)
+        Finally
+            fuzzygene.MinContextCoverage = 0
         End Try
     End Function
 
@@ -748,9 +753,17 @@ Module fuzzyGene
 
         Try
             Dim table As ContextTable = ContextTable.FromUpstreamIntervention(upstream, useMutant)
-            Dim report = fuzzygene.LoadContext(table, minCoverage)
 
-            Return report.ToString().LineTokens
+            ' 覆盖率下限现在是模型属性，不再作为 LoadContext 的参数
+            fuzzygene.MinContextCoverage = minCoverage
+
+            Try
+                Dim report = fuzzygene.LoadContext(table)
+
+                Return report.ToString().LineTokens
+            Finally
+                fuzzygene.MinContextCoverage = 0
+            End Try
         Catch ex As Exception
             Return RInternal.debug.stop(ex.Message, env)
         End Try
