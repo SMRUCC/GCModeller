@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.BioSystem.Intervention.ContextAlignmentDiagnostics</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>ContextAlignmentDiagnostics {SMRUCC.genomics.BioSystem.Intervention}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>ContextAlignmentDiagnostics</h2>
+
+        <h3>Description</h3>
+
+        <p>上下文对齐过程的统一诊断信息。</p>
+
+<p>这个类型取代了各项目自带的零散诊断（FuzzyGene 的 <code>ContextCoverage</code>、 GeneTree 的 <code>ContextNote</code> / <code>ContextClampGenes</code> / <code>UnknownContextGenes</code>）， 保证「上下文到底覆盖了什么、有没有被裁剪」在任何项目上都用同一套口径回答。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.BioSystem.Intervention
+export class ContextAlignmentDiagnostics {
+   # 是否真的执行了对齐（<a href="cref:F:SMRUCC.genomics.BioSystem.ContextAlignmentMode.None">ContextAlignmentMode.None</a> 时为 <code>False</code>）。
+   Aligned: boolean;
+   # 因为越界策略而被实际钳制到边界的基因数。
+   ClampedGenes: integer;
+   # 覆盖率 = <a href="cref:P:SMRUCC.genomics.BioSystem.Intervention.ContextAlignmentDiagnostics.Matched">ContextAlignmentDiagnostics.Matched</a> / <a href="cref:P:SMRUCC.genomics.BioSystem.Intervention.ContextAlignmentDiagnostics.NGene">ContextAlignmentDiagnostics.NGene</a>。
+   Coverage: double;
+   # 因为取值不是有限数（NaN / ±Inf）而被跳过的条目数。
+   InvalidValues: integer;
+   # 上下文是否至少覆盖了一个基因（否则不会被应用）。
+   IsApplied: boolean;
+   # 命中模型基因、并参与对齐的条目数。
+   Matched: integer;
+   # 模型里未被上下文覆盖、继续沿用训练基线的基因名。
+   MissingGenes: string;
+   # 本次使用的对齐模式。
+   Mode: <a href="/vignettes/clr/SMRUCC/genomics/BioSystem/ContextAlignmentMode.html">ContextAlignmentMode</a>;
+   # 模型基因总数。
+   NGene: integer;
+   # 对齐过程的文字说明（降级、单基因、常量基因等）。
+   Notes: <a href="/vignettes/clr/System/String.html">iterates(String)</a>;
+   # 对齐之后仍落在训练支持域之外的基因数（会被限幅“剪平”的部分）。
+   OutsideSupport: integer;
+   # 调用方提供的有效条目数（同名基因以最后一次出现的为准）。
+   Provided: integer;
+   # 对齐前后（仅命中基因）的 Spearman 秩相关系数。
+   SpearmanBeforeAfter: double;
+   # 无法映射到模型基因的名字（通常意味着基因 ID 空间不一致）。
+   UnknownGenes: string;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>Mode</code>: <a href="/vignettes/clr/SMRUCC/genomics/BioSystem/ContextAlignmentMode.html">ContextAlignmentMode</a></li>
+<li>use by <i>property</i> member <code>Notes</code>: <a href="/vignettes/clr/System/String.html">iterates(String)</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

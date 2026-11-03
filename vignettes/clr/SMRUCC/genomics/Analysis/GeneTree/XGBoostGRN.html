@@ -54,7 +54,7 @@
 
 <p><strong>控制漂移</strong>：树模型的稳态并不严格等于观测到的表达谱，因此即使不做任何扰动，迭代也会让部分基因发生位移。 <a href="cref:P:SMRUCC.genomics.Analysis.GeneTree.XGBoostGRN.ControlSteadyState">XGBoostGRN.ControlSteadyState</a> 给出了“不施加任何干预”时的稳态均值，可用于对扰动结果做基线校正与诊断。</p>
 
-<p><strong>表达状态上下文</strong>：<a href="cref:M:SMRUCC.genomics.Analysis.GeneTree.XGBoostGRN.SetContext(System.Collections.Generic.IDictionary{System.String,System.Double},System.Boolean)">XGBoostGRN.SetContext()</a> 可以把模型从 “训练时的野生型基线”切换到任意给定的表达状态（例如某个疾病态、处理态或者外部扰动实验的对照态）， 之后的 <a href="cref:M:SMRUCC.genomics.Analysis.GeneTree.XGBoostGRN.Predict(System.Collections.Generic.IEnumerable{SMRUCC.genomics.BioSystem.Intervention.InterventionSpec})">XGBoostGRN.Predict()</a> / <a href="cref:M:SMRUCC.genomics.Analysis.GeneTree.XGBoostGRN.KnockoutGene(System.String,System.Int32)">XGBoostGRN.KnockoutGene()</a> / <a href="cref:M:SMRUCC.genomics.Analysis.GeneTree.XGBoostGRN.OverexpressGene(System.String,System.Int32)">XGBoostGRN.OverexpressGene()</a> / <a href="cref:M:SMRUCC.genomics.Analysis.GeneTree.XGBoostGRN.KnockDownGene(System.String,System.Int32)">XGBoostGRN.KnockDownGene()</a> 都会以这个状态作为迭代起点与差异分析的基线。</p>
+<p><strong>表达状态上下文</strong>：<a href="cref:M:SMRUCC.genomics.Analysis.GeneTree.XGBoostGRN.SetContext(System.Collections.Generic.Dictionary{System.String,System.Double})">XGBoostGRN.SetContext()</a> 可以把模型从 “训练时的野生型基线”切换到任意给定的表达状态（例如某个疾病态、处理态或者外部扰动实验的对照态）， 之后的 <a href="cref:M:SMRUCC.genomics.Analysis.GeneTree.XGBoostGRN.Predict(System.Collections.Generic.IEnumerable{SMRUCC.genomics.BioSystem.Intervention.InterventionSpec})">XGBoostGRN.Predict()</a> / <a href="cref:M:SMRUCC.genomics.Analysis.GeneTree.XGBoostGRN.KnockoutGene(System.String,System.Int32)">XGBoostGRN.KnockoutGene()</a> / <a href="cref:M:SMRUCC.genomics.Analysis.GeneTree.XGBoostGRN.OverexpressGene(System.String,System.Int32)">XGBoostGRN.OverexpressGene()</a> / <a href="cref:M:SMRUCC.genomics.Analysis.GeneTree.XGBoostGRN.KnockDownGene(System.String,System.Int32)">XGBoostGRN.KnockDownGene()</a> 都会以这个状态作为迭代起点与差异分析的基线。</p>
 
         <h3>Declare</h3>        
 
@@ -66,12 +66,16 @@ export class XGBoostGRN {
    Config: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GeneTree/GeneTreeConfig.html">GeneTreeConfig</a>;
    # 当前生效的表达状态上下文（基因名 → 表达值）。
    # 
-   # 没有被 <a href="cref:M:SMRUCC.genomics.Analysis.GeneTree.XGBoostGRN.SetContext(System.Collections.Generic.IDictionary{System.String,System.Double},System.Boolean)">XGBoostGRN.SetContext()</a> 设置过的时候为<code>Nothing</code>。
+   # 没有被 <a href="cref:M:SMRUCC.genomics.Analysis.GeneTree.XGBoostGRN.SetContext(System.Collections.Generic.Dictionary{System.String,System.Double})">XGBoostGRN.SetContext()</a> 设置过的时候为<code>Nothing</code>。
    Context: <a href="/vignettes/clr/System/Collections/Generic/IReadOnlyDictionary`2.html">IReadOnlyDictionary`2</a>;
    # 应用状态上下文时是否执行过分位对齐
    ContextAligned: boolean;
+   # 上下文对齐使用的模式（默认 <a href="cref:F:SMRUCC.genomics.BioSystem.ContextAlignmentMode.Quantile">ContextAlignmentMode.Quantile</a>）。
+   ContextAlignmentMode: <a href="/vignettes/clr/SMRUCC/genomics/BioSystem/ContextAlignmentMode.html">ContextAlignmentMode</a>;
    # 上下文之中真正被钳制的基因数量（钳制被自动降级时为 0）
    ContextClampGenes: integer;
+   # 最近一次上下文注入的完整诊断（覆盖率、未知基因、越界基因等）。
+   ContextDiagnostics: <a href="/vignettes/clr/SMRUCC/genomics/BioSystem/Intervention/ContextAlignmentDiagnostics.html">ContextAlignmentDiagnostics</a>;
    # 上下文之中的基因是否在迭代过程中被钳制（固定不变）
    ContextFix: boolean;
    # 上下文注入过程的诊断信息（对齐、钳制降级等），没有需要提示的信息时为<code>Nothing</code>
@@ -84,6 +88,8 @@ export class XGBoostGRN {
    Discovery: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GeneTree/DiscoveryReport.html">DiscoveryReport</a>;
    # 用于训练的表达矩阵（从存档加载的模型为 <code>Nothing</code>）
    Expression: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>;
+   # 是否在迭代过程中把上下文基因钳制为给定值。
+   FixContext: boolean;
    # 基因名称（顺序与 <a href="cref:P:SMRUCC.genomics.BioSystem.Intervention.InterventionResult.GeneNames">InterventionResult.GeneNames</a> 一致）
    GeneNames: string;
    # 调控网络拓扑
@@ -117,6 +123,8 @@ export class XGBoostGRN {
         <ol>
 <li>use by <i>property</i> member <code>Config</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GeneTree/GeneTreeConfig.html">GeneTreeConfig</a></li>
 <li>use by <i>property</i> member <code>Context</code>: <a href="/vignettes/clr/System/Collections/Generic/IReadOnlyDictionary`2.html">IReadOnlyDictionary`2</a></li>
+<li>use by <i>property</i> member <code>ContextAlignmentMode</code>: <a href="/vignettes/clr/SMRUCC/genomics/BioSystem/ContextAlignmentMode.html">ContextAlignmentMode</a></li>
+<li>use by <i>property</i> member <code>ContextDiagnostics</code>: <a href="/vignettes/clr/SMRUCC/genomics/BioSystem/Intervention/ContextAlignmentDiagnostics.html">ContextAlignmentDiagnostics</a></li>
 <li>use by <i>property</i> member <code>Discovery</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GeneTree/DiscoveryReport.html">DiscoveryReport</a></li>
 <li>use by <i>property</i> member <code>Expression</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a></li>
 <li>use by <i>property</i> member <code>Graph</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GeneTree/GeneRegulationGraph.html">GeneRegulationGraph</a></li>

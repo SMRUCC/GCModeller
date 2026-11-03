@@ -53,8 +53,8 @@ export class GeneTreeConfig {
    CollapseUniformPopulation: boolean;
    # 列抽样比例 (0, 1]。
    ColSample: double;
-   # 是否在注入表达状态上下文（context）时执行分位对齐，默认开启。
-   ContextQuantileAlignment: boolean;
+   # 注入表达状态上下文（context）时使用的对齐模式，默认 <a href="cref:F:SMRUCC.genomics.BioSystem.ContextAlignmentMode.Quantile">ContextAlignmentMode.Quantile</a>。
+   ContextAlignmentMode: <a href="/vignettes/clr/SMRUCC/genomics/BioSystem/ContextAlignmentMode.html">ContextAlignmentMode</a>;
    # 收敛阈值：单轮相对变化量（<code>|Δx| / max(1,|x|)</code>）低于该值时认为该基因已经稳定。
    ConvergenceTolerance: double;
    # 阻尼系数 α：<code>x_new = (1-α)·x_old + α·f(x)</code>。默认 0.1，越大越激进、越容易震荡。
@@ -144,6 +144,7 @@ export class GeneTreeConfig {
         <h3>.NET clr type reference tree</h3>
 
         <ol>
+<li>use by <i>property</i> member <code>ContextAlignmentMode</code>: <a href="/vignettes/clr/SMRUCC/genomics/BioSystem/ContextAlignmentMode.html">ContextAlignmentMode</a></li>
 <li>use by <i>property</i> member <code>EdgeDiscovery</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GeneTree/EdgeDiscoveryMode.html">EdgeDiscoveryMode</a></li>
 </ol>
 

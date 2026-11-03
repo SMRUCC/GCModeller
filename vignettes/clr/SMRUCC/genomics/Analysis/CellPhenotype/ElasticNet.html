@@ -61,6 +61,10 @@ export class ElasticNet {
    # 
    # 可以显式赋值以指定对照组基线(例如某个对照样本子集的均值)， 赋值 Nothing 可以恢复默认行为。
    Baseline: double;
+   # 当前生效的上下文对齐模式。
+   ContextAlignmentMode: <a href="/vignettes/clr/SMRUCC/genomics/BioSystem/ContextAlignmentMode.html">ContextAlignmentMode</a>;
+   # 最近一次上下文注入的诊断（覆盖率、缺失基因、越界基因等）。
+   ContextDiagnostics: <a href="/vignettes/clr/SMRUCC/genomics/BioSystem/Intervention/ContextAlignmentDiagnostics.html">ContextAlignmentDiagnostics</a>;
    # 被模拟的线性调控网络。
    Network: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/GeneRegulatoryNetwork.html">GeneRegulatoryNetwork</a>;
    # 虚拟扰动的参数配置。
@@ -86,6 +90,8 @@ export class ElasticNet {
         <h3>.NET clr type reference tree</h3>
 
         <ol>
+<li>use by <i>property</i> member <code>ContextAlignmentMode</code>: <a href="/vignettes/clr/SMRUCC/genomics/BioSystem/ContextAlignmentMode.html">ContextAlignmentMode</a></li>
+<li>use by <i>property</i> member <code>ContextDiagnostics</code>: <a href="/vignettes/clr/SMRUCC/genomics/BioSystem/Intervention/ContextAlignmentDiagnostics.html">ContextAlignmentDiagnostics</a></li>
 <li>use by <i>property</i> member <code>Network</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/GeneRegulatoryNetwork.html">GeneRegulatoryNetwork</a></li>
 <li>use by <i>property</i> member <code>Options</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/CellPhenotype/ElasticNetPerturbationOptions.html">ElasticNetPerturbationOptions</a></li>
 </ol>

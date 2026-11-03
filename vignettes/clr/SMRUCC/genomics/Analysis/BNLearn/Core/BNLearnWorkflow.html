@@ -30,11 +30,15 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Analysis.BNLearn.Core
 export class BNLearnWorkflow {
+   # 当前生效的上下文对齐模式。
+   ContextAlignmentMode: <a href="/vignettes/clr/SMRUCC/genomics/BioSystem/ContextAlignmentMode.html">ContextAlignmentMode</a>;
+   # 最近一次上下文注入的诊断。
+   ContextDiagnostics: <a href="/vignettes/clr/SMRUCC/genomics/BioSystem/Intervention/ContextAlignmentDiagnostics.html">ContextAlignmentDiagnostics</a>;
    # 基因表达矩阵
    ExpressionData: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/GeneExpressionData.html">GeneExpressionData</a>;
    # 观测证据：按基因名对齐后仅保留与训练网络重叠的（基因名 → 表达值）。 供"观测证据模式"虚拟扰动使用（在给定表达水平条件下做 do-演算）。
    ExternalEvidence: list;
-   # 外部导入的新基因表达水平（单样本向量，基因名 → 表达值）。 通过 <a href="cref:M:SMRUCC.genomics.Analysis.BNLearn.Core.BNLearnWorkflow.SetExternalExpression(System.Collections.Generic.Dictionary{System.String,System.Double})">BNLearnWorkflow.SetExternalExpression()</a> 设置，通常来自用户新检测的转录组。 设置时仅保留与训练网络重叠的基因，并自动派生观测证据与动态初始状态。
+   # 外部导入的新基因表达水平（单样本向量，基因名 → 表达值）。 通过 <a href="cref:M:SMRUCC.genomics.Analysis.BNLearn.Core.BNLearnWorkflow.SetContext(System.Collections.Generic.Dictionary{System.String,System.Double})">BNLearnWorkflow.SetContext()</a> 设置，通常来自用户新检测的转录组。 设置时仅保留与训练网络重叠的基因，并自动派生观测证据与动态初始状态。
    ExternalExpression: list;
    # 动态初始状态：按训练网络节点序排列的外部表达向量。 供"动态初始状态模式"虚拟扰动使用（作为级联模拟起点）。 仅重叠基因位置被外部值覆盖，未覆盖位置保持训练数据均值。
    ExternalInitialState: double;
@@ -65,6 +69,8 @@ export class BNLearnWorkflow {
         <h3>.NET clr type reference tree</h3>
 
         <ol>
+<li>use by <i>property</i> member <code>ContextAlignmentMode</code>: <a href="/vignettes/clr/SMRUCC/genomics/BioSystem/ContextAlignmentMode.html">ContextAlignmentMode</a></li>
+<li>use by <i>property</i> member <code>ContextDiagnostics</code>: <a href="/vignettes/clr/SMRUCC/genomics/BioSystem/Intervention/ContextAlignmentDiagnostics.html">ContextAlignmentDiagnostics</a></li>
 <li>use by <i>property</i> member <code>ExpressionData</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/GeneExpressionData.html">GeneExpressionData</a></li>
 <li>use by <i>property</i> member <code>ExternalEvidence</code>: list</li>
 <li>use by <i>property</i> member <code>ExternalExpression</code>: list</li>

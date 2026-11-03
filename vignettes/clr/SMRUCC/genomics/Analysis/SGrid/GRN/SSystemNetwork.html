@@ -42,8 +42,16 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Analysis.SGrid.GRN
 export class SSystemNetwork {
+   # 当前生效的上下文对齐模式（默认为 <a href="cref:F:SMRUCC.genomics.BioSystem.ContextAlignmentMode.LogAffine">ContextAlignmentMode.LogAffine</a>）。
+   ContextAlignmentMode: <a href="/vignettes/clr/SMRUCC/genomics/BioSystem/ContextAlignmentMode.html">ContextAlignmentMode</a>;
+   # 最近一次上下文注入的诊断。
+   ContextDiagnostics: <a href="/vignettes/clr/SMRUCC/genomics/BioSystem/Intervention/ContextAlignmentDiagnostics.html">ContextAlignmentDiagnostics</a>;
+   # 对齐之后的上下文取值（模型状态空间；键为规整化之后的基因编号）。
+   ContextValues: <a href="/vignettes/clr/System/Collections/Generic/IReadOnlyDictionary`2.html">IReadOnlyDictionary`2</a>;
    # 稀疏化之后的有向调控边集合
    Edges: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SGrid/GRN/RegulatoryEdge.html">RegulatoryEdge[]</a>;
+   # 是否已经注入了上下文。
+   HasContext: boolean;
    # 本次拟合所使用的配置
    Options: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SGrid/GRN/FittingOptions.html">FittingOptions</a>;
    # 拟合得到的动力学参数
@@ -63,6 +71,9 @@ export class SSystemNetwork {
         <h3>.NET clr type reference tree</h3>
 
         <ol>
+<li>use by <i>property</i> member <code>ContextAlignmentMode</code>: <a href="/vignettes/clr/SMRUCC/genomics/BioSystem/ContextAlignmentMode.html">ContextAlignmentMode</a></li>
+<li>use by <i>property</i> member <code>ContextDiagnostics</code>: <a href="/vignettes/clr/SMRUCC/genomics/BioSystem/Intervention/ContextAlignmentDiagnostics.html">ContextAlignmentDiagnostics</a></li>
+<li>use by <i>property</i> member <code>ContextValues</code>: <a href="/vignettes/clr/System/Collections/Generic/IReadOnlyDictionary`2.html">IReadOnlyDictionary`2</a></li>
 <li>use by <i>property</i> member <code>Edges</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SGrid/GRN/RegulatoryEdge.html">RegulatoryEdge</a></li>
 <li>use by <i>property</i> member <code>Options</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SGrid/GRN/FittingOptions.html">FittingOptions</a></li>
 <li>use by <i>property</i> member <code>Parameters</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SGrid/GRN/SSystemParameters.html">SSystemParameters</a></li>

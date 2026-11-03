@@ -53,10 +53,16 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Analysis.GEARS
 export class GEARS {
+   # 当前生效的上下文对齐模式。
+   ContextAlignmentMode: <a href="/vignettes/clr/SMRUCC/genomics/BioSystem/ContextAlignmentMode.html">ContextAlignmentMode</a>;
+   # 最近一次上下文注入的诊断。
+   ContextDiagnostics: <a href="/vignettes/clr/SMRUCC/genomics/BioSystem/Intervention/ContextAlignmentDiagnostics.html">ContextAlignmentDiagnostics</a>;
    # 基因名称列表（顺序与表达矩阵行序一致）
    GeneNames: string;
    # 基因调控图
    GraphData: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GEARS/Graph/GeneRegulatoryGraph.html">GeneRegulatoryGraph</a>;
+   # 是否已经注入了上下文。
+   HasContext: boolean;
    # 最近一次训练得到的损失曲线（每个 epoch 的平均 MSE）
    LossCurve: double;
    # GNN 模型
@@ -78,6 +84,8 @@ export class GEARS {
         <h3>.NET clr type reference tree</h3>
 
         <ol>
+<li>use by <i>property</i> member <code>ContextAlignmentMode</code>: <a href="/vignettes/clr/SMRUCC/genomics/BioSystem/ContextAlignmentMode.html">ContextAlignmentMode</a></li>
+<li>use by <i>property</i> member <code>ContextDiagnostics</code>: <a href="/vignettes/clr/SMRUCC/genomics/BioSystem/Intervention/ContextAlignmentDiagnostics.html">ContextAlignmentDiagnostics</a></li>
 <li>use by <i>property</i> member <code>GraphData</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GEARS/Graph/GeneRegulatoryGraph.html">GeneRegulatoryGraph</a></li>
 <li>use by <i>property</i> member <code>Model</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GEARS/Model/GEARSModel.html">GEARSModel</a></li>
 <li>use by <i>property</i> member <code>Options</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GEARS/GEARSConfig.html">GEARSConfig</a></li>
