@@ -77,7 +77,7 @@
 
 Imports System.IO
 Imports System.Runtime.InteropServices
-Imports SMRUCC.genomics.Analysis.SequenceTools.HMMER
+Imports SMRUCC.genomics.ComponentModel.Annotation
 
 Namespace Traitar.Modules
 
@@ -212,7 +212,7 @@ Namespace Traitar.Modules
             Optional proteinFastaPath As String = Nothing,
             Optional domtbloutPath As String = Nothing,
             Optional bitScoreThreshold As Double = DEFAULT_BITSCORE_THRESHOLD,
-            Optional evalueThreshold As Double = DEFAULT_EVALUE_THRESHOLD) As Models.GenomeSample
+            Optional evalueThreshold As Double = DEFAULT_EVALUE_THRESHOLD) As PhyleticSample
 
             Dim sample As New Models.GenomeSample()
 
@@ -268,12 +268,12 @@ Namespace Traitar.Modules
             Console.WriteLine("[模块1] 构建系统发育谱（二值化特征矩阵）...")
             Console.WriteLine("       比特分数阈值: {0}", bitScoreThreshold)
             Console.WriteLine("       E值阈值: {0}", evalueThreshold)
-            sample.BuildPhyleticProfile(bitScoreThreshold, evalueThreshold)
+            Dim profile As PhyleticSample = sample.BuildPhyleticProfile(bitScoreThreshold, evalueThreshold)
 
             Console.WriteLine("[模块1] 注释完成: {0} 个蛋白, {1} 条Pfam注释, {2} 个Pfam家族",
-                              sample.Proteins.Count, sample.PfamAnnotations.Count, sample.PfamCount)
+                              sample.Proteins.Count, sample.PfamAnnotations.Count, profile.PfamCount)
 
-            Return sample
+            Return profile
         End Function
 
         ' ================================================================
@@ -284,11 +284,11 @@ Namespace Traitar.Modules
         ''' 将多个样本的特征矩阵合并为二维矩阵
         ''' 论文：将每个样本中各Pfam家族的数量转化为存在(1)或缺失(0)的二元矩阵X
         ''' </summary>
-        Public Function BuildFeatureMatrix(samples As List(Of Models.GenomeSample),
+        Public Function BuildFeatureMatrix(samples As List(Of PhyleticSample),
                                            <Out()> ByRef allPfamIds As List(Of String)) As Integer(,)
             ' 收集所有Pfam ID
             Dim pfamSet As New HashSet(Of String)()
-            For Each s As Models.GenomeSample In samples
+            For Each s As PhyleticSample In samples
                 For Each kvp As KeyValuePair(Of String, Integer) In s.PhyleticProfile
                     pfamSet.Add(kvp.Key)
                 Next
@@ -346,7 +346,7 @@ Namespace Traitar.Modules
         ''' </summary>
         Public Function AnnotateFromDomtblout(domtbloutPath As String,
                                               Optional bitScoreThreshold As Double = DEFAULT_BITSCORE_THRESHOLD,
-                                              Optional evalueThreshold As Double = DEFAULT_EVALUE_THRESHOLD) As Models.GenomeSample
+                                              Optional evalueThreshold As Double = DEFAULT_EVALUE_THRESHOLD) As PhyleticSample
             Return AnnotateGenome(Nothing, Nothing, domtbloutPath, bitScoreThreshold, evalueThreshold)
         End Function
 
@@ -355,7 +355,7 @@ Namespace Traitar.Modules
         ''' </summary>
         Public Function AnnotateFromFasta(proteinFastaPath As String,
                                           Optional bitScoreThreshold As Double = DEFAULT_BITSCORE_THRESHOLD,
-                                          Optional evalueThreshold As Double = DEFAULT_EVALUE_THRESHOLD) As Models.GenomeSample
+                                          Optional evalueThreshold As Double = DEFAULT_EVALUE_THRESHOLD) As PhyleticSample
             Return AnnotateGenome(Nothing, proteinFastaPath, Nothing, bitScoreThreshold, evalueThreshold)
         End Function
 
@@ -364,7 +364,7 @@ Namespace Traitar.Modules
         ''' </summary>
         Public Function AnnotateFromGFF(gffPath As String,
                                         Optional bitScoreThreshold As Double = DEFAULT_BITSCORE_THRESHOLD,
-                                        Optional evalueThreshold As Double = DEFAULT_EVALUE_THRESHOLD) As Models.GenomeSample
+                                        Optional evalueThreshold As Double = DEFAULT_EVALUE_THRESHOLD) As PhyleticSample
             Return AnnotateGenome(gffPath, Nothing, Nothing, bitScoreThreshold, evalueThreshold)
         End Function
 
@@ -375,7 +375,7 @@ Namespace Traitar.Modules
                                                  proteinFastaPath As String,
                                                  Optional domtbloutPath As String = Nothing,
                                                  Optional bitScoreThreshold As Double = DEFAULT_BITSCORE_THRESHOLD,
-                                                 Optional evalueThreshold As Double = DEFAULT_EVALUE_THRESHOLD) As Models.GenomeSample
+                                                 Optional evalueThreshold As Double = DEFAULT_EVALUE_THRESHOLD) As PhyleticSample
             Return AnnotateGenome(gffPath, proteinFastaPath, domtbloutPath, bitScoreThreshold, evalueThreshold)
         End Function
 
