@@ -10,6 +10,9 @@ Imports Trait = SMRUCC.genomics.ComponentModel.Annotation.PhenotypeTrait
 
 Namespace Traitar
 
+    ''' <summary>
+    ''' One phenotype
+    ''' </summary>
     Public Class ReportJSON
 
         ''' <summary>表型标识（即表型名称）</summary>
