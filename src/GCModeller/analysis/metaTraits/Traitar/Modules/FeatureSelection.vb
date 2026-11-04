@@ -12,6 +12,7 @@
 Imports Microsoft.VisualBasic.MachineLearning.SVM
 Imports Microsoft.VisualBasic.MachineLearning.SVM.StorageProcedure
 Imports Microsoft.VisualBasic.Math.Correlations
+Imports RandomExtensions = Microsoft.VisualBasic.Math.RandomExtensions
 
 Namespace Traitar.Modules
 
@@ -184,7 +185,7 @@ Namespace Traitar.Modules
                 Dim raw As Double() = rows.Select(Function(v) v(id)).ToArray
                 Dim shuffled As Double() = raw.ToArray
 
-                Call Shuffle(shuffled, rand)
+                Call RandomExtensions.Shuffle(Of Double)(rand, shuffled)
 
                 Dim backup As Double() = raw.ToArray
 
@@ -235,16 +236,6 @@ Namespace Traitar.Modules
                 Return correct / rows.Length
             End If
         End Function
-
-        Private Shared Sub Shuffle(values As Double(), rand As Random)
-            For i As Integer = values.Length - 1 To 1 Step -1
-                Dim j As Integer = rand.Next(i + 1)
-                Dim tmp As Double = values(i)
-
-                values(i) = values(j)
-                values(j) = tmp
-            Next
-        End Sub
 
     End Class
 End Namespace

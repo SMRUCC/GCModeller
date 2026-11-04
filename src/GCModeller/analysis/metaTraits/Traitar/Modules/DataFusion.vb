@@ -71,6 +71,7 @@
 ' ============================================================================
 
 Imports System.Runtime.InteropServices
+Imports Microsoft.VisualBasic.Math.Numerics
 
 Namespace Traitar.Modules
 
@@ -99,9 +100,8 @@ Namespace Traitar.Modules
         ''' <returns>联合概率</returns>
         Public Function ComputeJointProbability(gainProb As Double,
                                                 lossProb As Double) As Double
-            Dim g As Double = gainProb
-            Dim l As Double = lossProb
-            Return g + l - g * l
+            ' 具体计算由基础算法库提供，这里保留本模块的 API 名称
+            Return MathUtils.GainOrLossProbability(gainProb, lossProb)
         End Function
 
         ''' <summary>
@@ -114,13 +114,8 @@ Namespace Traitar.Modules
         ''' <returns>1=事件发生，0=事件未发生，-1=不确定（需丢弃）</returns>
         Public Function ThresholdFilter(prob As Double,
                                         Optional threshold As Double = DEFAULT_THRESHOLD) As Integer
-            If prob >= threshold Then
-                Return 1  ' 事件发生
-            ElseIf prob <= (1 - threshold) Then
-                Return 0  ' 事件未发生
-            Else
-                Return -1 ' 不确定，丢弃
-            End If
+            ' 1=事件发生，0=事件未发生，-1=不确定（需丢弃）
+            Return MathUtils.ThresholdFilter(prob, threshold)
         End Function
 
         ''' <summary>

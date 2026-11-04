@@ -6,7 +6,6 @@
 ' 子模型投票委员会」，直接逐表型调用各自模型的 Prediction.Predict 即可。
 ' ============================================================================
 
-Imports SMRUCC.genomics.Data.Xfam.Pfam.PfamString
 Imports SMRUCC.genomics.ProteinModel
 
 Namespace Traitar.Modules

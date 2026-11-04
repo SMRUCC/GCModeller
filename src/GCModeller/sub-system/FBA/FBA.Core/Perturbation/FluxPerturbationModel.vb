@@ -20,7 +20,7 @@ Namespace Perturbation
     ''' </para>
     ''' <para>
     ''' 需要做通量层面的扰动时，正确路径是：自行构造修改后的化学计量矩阵/边界
-    ''' （例如关闭某反应的通量），再调用 <see cref="LinearProgrammingEngine.Run(Matrix, OptimizationType)"/>，
+    ''' （例如关闭某反应的通量），再调用 <see cref="LinearProgrammingEngine.Run"/>，
     ''' 与基准解相减即可得到反应通量的变化。
     ''' </para>
     ''' </remarks>
