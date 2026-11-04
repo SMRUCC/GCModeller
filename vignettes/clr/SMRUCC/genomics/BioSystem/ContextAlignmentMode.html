@@ -30,14 +30,19 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.BioSystem
 export class ContextAlignmentMode extends <a href="/vignettes/clr/System/Enum.html">Enum</a> {
+   # 原值直灌（同管线、已配对）
    None: <a href="/vignettes/clr/SMRUCC/genomics/BioSystem/ContextAlignmentMode.html">ContextAlignmentMode</a> = 0;
 
+   # 逐基因 (x-μ)/σ（线性/高斯/幂律模型）
    Affine: <a href="/vignettes/clr/SMRUCC/genomics/BioSystem/ContextAlignmentMode.html">ContextAlignmentMode</a> = 1;
 
+   # log2(max(x,0)+pseudo)+δ（PLAS.NET 口径）
    LogAffine: <a href="/vignettes/clr/SMRUCC/genomics/BioSystem/ContextAlignmentMode.html">ContextAlignmentMode</a> = 2;
 
+   # 秩映射（树模型，现 GeneTree 实现）
    Quantile: <a href="/vignettes/clr/SMRUCC/genomics/BioSystem/ContextAlignmentMode.html">ContextAlignmentMode</a> = 3;
 
+   # 保倍数的分位偏移
    QuantileDelta: <a href="/vignettes/clr/SMRUCC/genomics/BioSystem/ContextAlignmentMode.html">ContextAlignmentMode</a> = 4;
 
 }

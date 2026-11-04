@@ -25,4 +25,4 @@ A computational biology toolkit for protein structural analysis and sequence-bas
 + [enzyme_builder](proteinKit/enzyme_builder.1) build the enzyme protein sequence transformer model from a given enzyme 
 + [predict_sequence](proteinKit/predict_sequence.1) generate the protein sequence data from the given EC number via the 
 + [analysis_domains](proteinKit/analysis_domains.1) analysis the functional domain on the protein sequence
-+ [read.pfam_string](proteinKit/read.pfam_string.1) read the table file of pfam protein domain annotation data, and return the [PfamString](cref:T:SMRUCC.genomics.Data.Xfam.Pfam.PfamString.PfamString) object model
++ [read.pfam_string](proteinKit/read.pfam_string.1) read the table file of pfam protein domain annotation data, and return the [PfamString](cref:T:SMRUCC.genomics.ProteinModel.PfamString) object model

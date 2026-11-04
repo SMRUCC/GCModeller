@@ -35,7 +35,7 @@ declare namespace proteinKit {
      * @param env the R# runtime environment object.
      * 
      * + default value Is ``null``.
-     * @return a vector of the [PfamString](cref:T:SMRUCC.genomics.Data.Xfam.Pfam.PfamString.PfamString) protein domain annotation 
+     * @return a vector of the [PfamString](cref:T:SMRUCC.genomics.ProteinModel.PfamString) protein domain annotation 
      *  result, one result element for each of the protein sequence in the 
      *  input annotation result data.
    */
@@ -162,11 +162,11 @@ declare namespace proteinKit {
    function predict_sequence(model: object, ec_number: any, env?: object): object;
    module read {
       /**
-       * read the table file of pfam protein domain annotation data, and return the [PfamString](cref:T:SMRUCC.genomics.Data.Xfam.Pfam.PfamString.PfamString) object model
+       * read the table file of pfam protein domain annotation data, and return the [PfamString](cref:T:SMRUCC.genomics.ProteinModel.PfamString) object model
        * 
        * 
         * @param file the file path of the pfam protein domain annotation csv table file.
-        * @return a vector of the [PfamString](cref:T:SMRUCC.genomics.Data.Xfam.Pfam.PfamString.PfamString) protein domain annotation 
+        * @return a vector of the [PfamString](cref:T:SMRUCC.genomics.ProteinModel.PfamString) protein domain annotation 
         *  object that loaded from the given table file.
       */
       function pfam_string(file: string): object;
