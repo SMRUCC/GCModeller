@@ -89,9 +89,9 @@ Namespace ProteinModel
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <XmlAttribute> <DataFrameworkReflection.Collection("Pfam-string", "+")>
+        <XmlAttribute> <Collection("Pfam-string", "+")>
         Public Property PfamString As String()
-        <XmlAttribute> <DataFrameworkReflection.Collection("Domain.Ids")>
+        <XmlAttribute> <Collection("Domain.Ids")>
         Public Property Domains As String()
 
         ''' <summary>
@@ -101,7 +101,7 @@ Namespace ProteinModel
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <DataFrameworkReflection.Ignored> Public ReadOnly Property HasChouFasmanData As Boolean
+        <Ignored> Public ReadOnly Property HasChouFasmanData As Boolean
             Get
                 If PfamString.IsNullOrEmpty Then
                     Return False
