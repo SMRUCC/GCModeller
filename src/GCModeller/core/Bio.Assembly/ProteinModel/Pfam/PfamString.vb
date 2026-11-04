@@ -62,7 +62,7 @@ Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
-Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
+Imports DataFrameworkReflection = Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports SMRUCC.genomics.ProteinModel.ChouFasmanRules
 
 Namespace ProteinModel
@@ -89,9 +89,9 @@ Namespace ProteinModel
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <XmlAttribute> <Collection("Pfam-string", "+")>
+        <XmlAttribute> <DataFrameworkReflection.Collection("Pfam-string", "+")>
         Public Property PfamString As String()
-        <XmlAttribute> <Collection("Domain.Ids")>
+        <XmlAttribute> <DataFrameworkReflection.Collection("Domain.Ids")>
         Public Property Domains As String()
 
         ''' <summary>
@@ -101,7 +101,7 @@ Namespace ProteinModel
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <Ignored> Public ReadOnly Property HasChouFasmanData As Boolean
+        <DataFrameworkReflection.Ignored> Public ReadOnly Property HasChouFasmanData As Boolean
             Get
                 If PfamString.IsNullOrEmpty Then
                     Return False

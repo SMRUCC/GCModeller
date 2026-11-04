@@ -1503,6 +1503,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <!-- PfamString 等文件使用 StorageProvider.Reflection 的 Collection/Ignored 特性，
+         这些特性由 dataframework 项目提供；缺少该引用会导致整个 biocore 项目无法编译 -->
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\dataframework-netcore5.vbproj" />
   </ItemGroup>
 
   <ItemGroup>
