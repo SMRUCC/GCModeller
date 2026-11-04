@@ -52,6 +52,49 @@ Namespace Writer
                 Return Me
             End If
 
+            Call buffer.AppendLine(formatTitle(uniqueId, gene, description, location))
+
+            Dim text As String = seq.Trim.ToUpper
+
+            For i As Integer = 0 To text.Length - 1 Step LineWidth
+                Call buffer.AppendLine(text.Substring(i, Math.Min(LineWidth, text.Length - i)))
+            Next
+
+            n += 1
+
+            Return Me
+        End Function
+
+        ''' <summary>
+        ''' 把一条序列记录**直接**写到给定的文本流，不在内存之中缓存。
+        ''' 
+        ''' 用于从数 GB 的 GenBank 文件之中流式导出 ``dnaseq.fsa``；与 <see cref="Add"/> 使用
+        ''' 完全相同的标题格式与折行规则，已有的 ``Add``/``Save`` 行为保持不变。
+        ''' </summary>
+        ''' <param name="writer">由调用方管理生命周期的文本写入器</param>
+        Public Sub WriteRecord(writer As TextWriter, uniqueId As String, seq As String,
+                               Optional gene As String = Nothing,
+                               Optional description As String = Nothing,
+                               Optional location As String = Nothing)
+            If writer Is Nothing OrElse String.IsNullOrEmpty(uniqueId) OrElse String.IsNullOrEmpty(seq) Then
+                Return
+            End If
+
+            Call writer.WriteLine(formatTitle(uniqueId, gene, description, location))
+
+            Dim text As String = seq.Trim.ToUpper
+
+            For i As Integer = 0 To text.Length - 1 Step LineWidth
+                Call writer.WriteLine(text.Substring(i, Math.Min(LineWidth, text.Length - i)))
+            Next
+
+            n += 1
+        End Sub
+
+        ''' <summary>
+        ''' 构造 FASTA 标题行
+        ''' </summary>
+        Private Function formatTitle(uniqueId As String, gene As String, description As String, location As String) As String
             Dim title As New StringBuilder($">gnl|{If(orgId, "UNKNOWN")}|{uniqueId}")
 
             If Not String.IsNullOrEmpty(gene) Then
@@ -70,17 +113,7 @@ Namespace Writer
                 Call title.Append(" " & organism)
             End If
 
-            Call buffer.AppendLine(title.ToString)
-
-            Dim text As String = seq.Trim.ToUpper
-
-            For i As Integer = 0 To text.Length - 1 Step LineWidth
-                Call buffer.AppendLine(text.Substring(i, Math.Min(LineWidth, text.Length - i)))
-            Next
-
-            n += 1
-
-            Return Me
+            Return title.ToString
         End Function
 
         ''' <summary>
