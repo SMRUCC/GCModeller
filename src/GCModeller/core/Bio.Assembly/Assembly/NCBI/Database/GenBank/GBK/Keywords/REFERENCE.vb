@@ -1,67 +1,27 @@
-﻿#Region "Microsoft.VisualBasic::bc0307e12446de48db3421a346b03439, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\REFERENCE.vb"
-
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-    ' /********************************************************************************/
-
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 108
-    '    Code Lines: 81 (75.00%)
-    ' Comment Lines: 8 (7.41%)
-    '    - Xml Docs: 100.00%
-    ' 
-    '   Blank Lines: 19 (17.59%)
-    '     File Size: 4.61 KB
-
-
-    '     Class REFERENCE
-    ' 
-    '         Properties: ReferenceList
-    ' 
-    '         Function: InternalParser
-    ' 
-    '     Class RefInfo
-    ' 
-    '         Properties: Authors, BaseLocation, Consrtm, Id, Journal
-    '                     Pubmed, Title
-    ' 
-    '         Function: Internal_subSectionParser, InternalParser, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
-
-#End Region
-
-Imports System.Text.RegularExpressions
+﻿' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 Namespace Assembly.NCBI.GenBank.GBFF.Keywords
 
@@ -73,32 +33,44 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords
 
         Public Property ReferenceList As RefInfo()
 
+        ''' <summary>
+        ''' 解析``REFERENCE``段
+        ''' </summary>
+        ''' <param name="chunkText">``REFERENCE``段的全部文本行</param>
+        ''' <remarks>
+        ''' 旧版本的实现会针对每一个``REFERENCE``头对整个文本行数组进行<c>Array.IndexOf</c>定位，
+        ''' 复杂度为<c>O(n^2)</c>；这里改为顺序分块，复杂度为<c>O(n)</c>。
+        ''' </remarks>
         Public Shared Function InternalParser(chunkText As String()) As REFERENCE
-            Dim Heads As String() = (From strLine As String In chunkText.AsParallel Where InStr(strLine, "REFERENCE") = 1 Select strLine).ToArray
-            Dim ChunkBuffer As List(Of String()) = New List(Of String())
+            If chunkText.IsNullOrEmpty Then
+                Return New REFERENCE With {.ReferenceList = New RefInfo() {}}
+            End If
 
-            For Each Head As String In Heads
-                Dim p As Integer = Array.IndexOf(chunkText, Head) + 1
+            Dim blocks As New List(Of List(Of String))
+            Dim current As List(Of String) = Nothing
 
-                For i As Integer = p To chunkText.Count - 1
-                    If Not chunkText(i).First = " "c Then
-                        Dim Chunktemp As String() = New String(i - p) {}
+            For Each line As String In chunkText
+                If line.StartsWith("REFERENCE", StringComparison.Ordinal) Then
+                    current = New List(Of String)
+                    Call blocks.Add(current)
+                End If
 
-                        Call Array.ConstrainedCopy(chunkText, p - 1, Chunktemp, 0, Chunktemp.Length)
-                        Call ChunkBuffer.Add(Chunktemp)
-                        Exit For
-                    End If
-                Next
+                If current IsNot Nothing Then
+                    Call current.Add(line)
+                End If
             Next
-#Const DEBUG = 1
-            Dim refList As RefInfo()
-#If DEBUG Then
-            refList = (From chunk As String() In ChunkBuffer Select RefInfo.InternalParser(chunk)).ToArray
-#Else
-            refList = (From chunk As String() In ChunkBuffer.AsParallel Select L_Reference.InternalParser(chunk)).ToArray
-#End If
 
-            Return New REFERENCE With {.ReferenceList = refList}
+            Dim refList As New List(Of RefInfo)
+
+            For Each block As List(Of String) In blocks
+                Try
+                    Call refList.Add(RefInfo.InternalParser(block.ToArray()))
+                Catch ex As Exception
+                    Call App.LogException(New GbkFormatException("failed to parse the REFERENCE section!", lineText:=block(Scan0), innerException:=ex))
+                End Try
+            Next
+
+            Return New REFERENCE With {.ReferenceList = refList.ToArray}
         End Function
     End Class
 
@@ -114,23 +86,50 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords
         Public Property Journal As String
         Public Property Pubmed As String
         Public Property Consrtm As String
+        ''' <summary>
+        ''' ``REMARK``字段(旧版本缺失了这个字段的解析)
+        ''' </summary>
+        Public Property Remark As String
         Public Property Authors As String()
 
         Public Overrides Function ToString() As String
             If String.IsNullOrEmpty(Pubmed) Then
-                Return String.Join("; ", Authors) & "  " & Journal
+                Return String.Join("; ", Authors.SafeQuery) & "  " & Journal
             End If
-            Return String.Format("[PUBMED {0}] {1}  {2}. ({3})", Pubmed, String.Join("; ", Authors), Title, Journal)
+            Return String.Format("[PUBMED {0}] {1}  {2}. ({3})", Pubmed, String.Join("; ", Authors.SafeQuery), Title, Journal)
         End Function
 
         Public Shared Function InternalParser(str As String()) As RefInfo
             Dim ref As String = str.First
             Dim subSections = Internal_subSectionParser(str.Skip(1).ToArray)
             Dim L_ref As RefInfo = New RefInfo
-            Dim numbers As String() = (From m As Match In Regex.Matches(ref, "\d+") Select m.Value).ToArray
-            L_ref.Id = numbers(0)
-            If numbers.Count > 1 Then
-                L_ref.BaseLocation = New ComponentModel.Loci.Location(Val(numbers(1)), Val(numbers(2)))
+            Dim numbers As New List(Of Long)
+            Dim number As Long = 0
+            Dim hasNumber As Boolean = False
+
+            For i As Integer = 0 To ref.Length - 1
+                Dim c As Char = ref(i)
+
+                If c >= "0"c AndAlso c <= "9"c Then
+                    number = number * 10 + (AscW(c) - AscW("0"c))
+                    hasNumber = True
+                ElseIf hasNumber Then
+                    Call numbers.Add(number)
+                    number = 0
+                    hasNumber = False
+                End If
+            Next
+
+            If hasNumber Then
+                Call numbers.Add(number)
+            End If
+
+            If numbers.Count > 0 Then
+                L_ref.Id = CInt(numbers(0))
+            End If
+
+            If numbers.Count > 2 Then
+                L_ref.BaseLocation = New ComponentModel.Loci.Location(numbers(1), numbers(2))
             Else
                 L_ref.BaseLocation = New ComponentModel.Loci.Location
             End If
@@ -142,30 +141,90 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords
             L_ref.Journal = Internal_getValue("JOURNAL")
             L_ref.Consrtm = Internal_getValue("CONSRTM")
             L_ref.Pubmed = Internal_getValue("PUBMED")
+            L_ref.Remark = Internal_getValue("REMARK")
 
             Return L_ref
         End Function
 
+        ''' <summary>
+        ''' 解析引用文献之中的子字段(``AUTHORS``/``TITLE``/``JOURNAL``等)
+        ''' </summary>
         Private Shared Function Internal_subSectionParser(str As String()) As Dictionary(Of String, String)
-            Dim Dict As Dictionary(Of String, String) = New Dictionary(Of String, String)
-            Dim segments As String() = {Mid(str.First, 3, 10).Trim, Mid(str.First, 11).Trim}
-            Dim lastHead As String = segments(0)
-            Dim Temp As String = segments(1)
+            Dim dict As New Dictionary(Of String, String)(StringComparer.OrdinalIgnoreCase)
 
-            For Each line As String In str.Skip(1)
-                segments = {Mid(line, 3, 10).Trim, Mid(line, 11).Trim}
-                If String.IsNullOrEmpty(segments(0)) Then '当前的还没有结束
-                    Temp = Temp & " " & segments(1)
+            If str.IsNullOrEmpty Then
+                Return dict
+            End If
+
+            Dim head As String = __name(str(Scan0))
+            Dim sb As New Text.StringBuilder(__value(str(Scan0)))
+
+            For i As Integer = 1 To str.Length - 1
+                Dim line As String = str(i)
+                Dim name As String = __name(line)
+
+                If String.IsNullOrEmpty(name) Then
+                    ' 当前子字段还没有结束
+                    Call sb.Append(" "c).Append(__value(line))
                 Else
-                    Call Dict.Add(lastHead, Temp)
-                    Temp = segments(1)
-                    lastHead = segments(0)
+                    __setValue(dict, head, sb.ToString())
+                    Call sb.Clear()
+                    Call sb.Append(__value(line))
+                    head = name
                 End If
             Next
 
-            Call Dict.Add(lastHead, Temp)
+            __setValue(dict, head, sb.ToString())
 
-            Return Dict
+            Return dict
+        End Function
+
+        ''' <summary>
+        ''' 向字典之中写入数据，假如同一个名称已经存在，则将新的值追加到旧的值之后
+        ''' (旧版本使用<c>Dictionary.Add</c>，在出现重复的子字段的时候会抛出异常)
+        ''' </summary>
+        Private Shared Sub __setValue(dict As Dictionary(Of String, String), name As String, value As String)
+            If String.IsNullOrEmpty(name) Then
+                Return
+            End If
+
+            Dim exists As String = Nothing
+
+            If dict.TryGetValue(name, exists) Then
+                dict(name) = exists & " " & value
+            Else
+                dict(name) = value
+            End If
+        End Sub
+
+        ''' <summary>
+        ''' 取出子字段的名称(第3列到第12列)
+        ''' </summary>
+        Private Shared Function __name(line As String) As String
+            If String.IsNullOrEmpty(line) OrElse line.Length <= 3 Then
+                Return ""
+            End If
+
+            Dim endIndex As Integer = Math.Min(12, line.Length)
+
+            If endIndex <= 3 Then
+                Return ""
+            End If
+
+            Return line.Substring(3, endIndex - 3).Trim()
+        End Function
+
+        ''' <summary>
+        ''' 取出子字段的值部分(第13列开始)
+        ''' </summary>
+        Private Shared Function __value(line As String) As String
+            If String.IsNullOrEmpty(line) Then
+                Return ""
+            ElseIf line.Length <= 12 Then
+                Return line.Trim()
+            Else
+                Return line.Substring(12).Trim()
+            End If
         End Function
     End Class
 End Namespace

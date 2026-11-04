@@ -1,67 +1,29 @@
-﻿#Region "Microsoft.VisualBasic::792ed0850c149c417a5f22806758b059, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\Location.vb"
+﻿' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-    ' /********************************************************************************/
-
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 179
-    '    Code Lines: 110 (61.45%)
-    ' Comment Lines: 40 (22.35%)
-    '    - Xml Docs: 90.00%
-    ' 
-    '   Blank Lines: 29 (16.20%)
-    '     File Size: 6.55 KB
-
-
-    '     Class Location
-    ' 
-    '         Properties: Complement, ContiguousRegion, HasJoinLocation, JoinLocation, Location
-    '                     Locations, UniqueId
-    ' 
-    '         Function: JoinLocations, ToString
-    ' 
-    '     Class RegionSegment
-    ' 
-    '         Properties: Left, RegionLength, Right
-    ' 
-    '         Function: ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
-
-#End Region
-
-Imports System.Text.RegularExpressions
+Imports System.Text
 Imports System.Xml.Serialization
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
@@ -69,6 +31,25 @@ Imports std = System.Math
 
 Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 
+    ''' <summary>
+    ''' GenBank feature 的位点信息。
+    ''' </summary>
+    ''' <remarks>
+    ''' 支持的 location 语法包括:
+    ''' 
+    ''' ```
+    ''' 1..100
+    ''' &lt;1..100
+    ''' 1..&gt;100
+    ''' complement(1..100)
+    ''' join(1..100,201..300)
+    ''' complement(join(1..100,201..300))
+    ''' order(1..100,201..300)
+    ''' join(complement(1..100),complement(201..300))
+    ''' 100
+    ''' 100^101
+    ''' ```
+    ''' </remarks>
     Public Class Location : Implements ILocationSegment
 
         ''' <summary>
@@ -77,13 +58,22 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property JoinLocation As RegionSegment
+        <XmlElement> Public Property JoinLocation As RegionSegment
 
         ''' <summary>
         ''' 这个基因的位置是否在互补链
         ''' </summary>
         ''' <remarks></remarks>
         <XmlAttribute> Public Property Complement As Boolean
+
+        ''' <summary>
+        ''' 是否为``order(...)``类型的位点: 表示各个片段之间的顺序是不确定的
+        ''' </summary>
+        <XmlAttribute> Public Property IsOrder As Boolean
+        ''' <summary>
+        ''' 位点是否为一个不完整的片段(存在于序列的两端位置被截断的情况)
+        ''' </summary>
+        <XmlAttribute> Public Property IsPartial As Boolean
 
         ''' <summary>
         ''' join mutliple location for the extron.
@@ -103,12 +93,39 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
                 If Not value.IsNullOrEmpty Then
                     _left = value.Select(Function(l) l.Left).Min
                     _right = value.Select(Function(l) l.Right).Max
+                Else
+                    _left = 0
+                    _right = 0
                 End If
             End Set
         End Property
 
         Dim _locis As RegionSegment()
         Dim _left, _right As Long
+
+        ''' <summary>
+        ''' 用于提取序列片段的位点列表：按照原始的书写顺序返回，并且兼容了旧版本
+        ''' 之中用于处理环状分子跨起点的<see cref="JoinLocation"/>属性
+        ''' </summary>
+        Public ReadOnly Property SequenceSegments As RegionSegment()
+            Get
+                If JoinLocation Is Nothing Then
+                    Return If(_locis, New RegionSegment() {})
+                End If
+
+                Dim list As New List(Of RegionSegment)
+
+                If Complement Then
+                    Call list.Add(JoinLocation)
+                    Call list.AddRange(_locis.SafeQuery)
+                Else
+                    Call list.AddRange(_locis.SafeQuery)
+                    Call list.Add(JoinLocation)
+                End If
+
+                Return list.ToArray
+            End Get
+        End Property
 
         ''' <summary>
         ''' 假若目标对象是真核生物基因组的话，则可能会因为内含子的原因出现不连续的片段，
@@ -122,6 +139,24 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
         Public ReadOnly Property ContiguousRegion As NucleotideLocation
             Get
                 Return New NucleotideLocation(_left, _right, Complement)
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' 起始位置
+        ''' </summary>
+        Public ReadOnly Property Left As Long
+            Get
+                Return _left
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' 结束位置
+        ''' </summary>
+        Public ReadOnly Property Right As Long
+            Get
+                Return _right
             End Get
         End Property
 
@@ -143,10 +178,17 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
             End Get
         End Property
 
-        Const LOCATION_PAIRED As String = "\d+[.]{2}[>]?\d+"
+        ''' <summary>
+        ''' 片段的数量
+        ''' </summary>
+        Public ReadOnly Property SegmentCount As Integer
+            Get
+                Return If(_locis Is Nothing, 0, _locis.Length)
+            End Get
+        End Property
 
         Public Iterator Function JoinLocations() As IEnumerable(Of NucleotideLocation)
-            For Each loc As RegionSegment In Locations
+            For Each loc As RegionSegment In SequenceSegments
                 Yield New NucleotideLocation(loc.Left, loc.Right, Complement)
             Next
         End Function
@@ -157,55 +199,56 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
         ''' <param name="strData"></param>
         ''' <returns></returns>
         Public Shared Widening Operator CType(strData As String) As Location
-            Dim LocationComplement As Boolean = InStr(strData, "complement(") > 0
-            Dim LQuery As List(Of RegionSegment) =
-                (From p As Match In Regex.Matches(strData, LOCATION_PAIRED)
-                 Let Tokens = Regex.Split(p.Value, "[.]{2}[>]?")
-                 Let Segment As RegionSegment = New RegionSegment With {
-                     .Left = Val(Tokens.First),
-                     .Right = Val(Tokens.Last)
-                 }
-                 Select Segment).AsList
-
-            'If LQuery.IsNullOrEmpty Then
-            '    Call $"Location is empty!   ""{strData}""".debug
-            'End If
-
-            Dim JoinLocation As RegionSegment = Nothing
-
-            If InStr(strData, "join(") > 0 Then
-                If LocationComplement Then
-                    JoinLocation = LQuery.First
-                    Call LQuery.RemoveAt(0)
-                Else
-                    JoinLocation = LQuery.Last
-                    Call LQuery.Remove(JoinLocation)
-                End If
-
-                ' Call $"Join location at {JoinLocation.ToString}".debug
-            End If
-
-            Dim Location As New Location With {
-                .Locations = LQuery.ToArray,
-                .Complement = LocationComplement,
-                .JoinLocation = JoinLocation
-            }
-
-            Return Location
+            Return LocationParser.Parse(strData)
         End Operator
 
+        ''' <summary>
+        ''' 按照NCBI的标准格式重新生成location的文本表示
+        ''' </summary>
         Public Overrides Function ToString() As String
-            Dim lst As String() = (From p As RegionSegment
-                                   In Locations
-                                   Select p.Left & ".." & p.Right).ToArray
-            Dim s = String.Join(", ", lst)
+            Dim segments As RegionSegment() = SequenceSegments
+            Dim sb As New StringBuilder()
 
-            If Complement Then
-                s = String.Format("complement({0})", s)
+            If segments.Length > 1 Then
+                If IsOrder Then
+                    Call sb.Append("order(")
+                Else
+                    Call sb.Append("join(")
+                End If
             End If
 
-            If HasJoinLocation Then
-                s &= "  Join with " & JoinLocation.ToString
+            For i As Integer = 0 To segments.Length - 1
+                If i > 0 Then
+                    Call sb.Append(",")
+                End If
+
+                Call sb.Append(__segment(segments(i)))
+            Next
+
+            If segments.Length > 1 Then
+                Call sb.Append(")")
+            End If
+
+            Dim s As String = sb.ToString()
+
+            If Complement Then
+                s = $"complement({s})"
+            End If
+
+            Return s
+        End Function
+
+        Private Shared Function __segment(seg As RegionSegment) As String
+            Dim s As String
+
+            If seg.Left = seg.Right Then
+                s = seg.Left.ToString()
+            Else
+                s = $"{If(seg.LeftPartial, "<", "")}{seg.Left}..{If(seg.RightPartial, ">", "")}{seg.Right}"
+            End If
+
+            If seg.Complement Then
+                s = $"complement({s})"
             End If
 
             Return s
@@ -228,10 +271,25 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 
         <XmlAttribute> Public Property Left As Long
         <XmlAttribute> Public Property Right As Long
+        ''' <summary>
+        ''' 这一个片段是否是在互补链上面的(``join(complement(1..10),20..30)``这种写法)
+        ''' </summary>
+        <XmlAttribute> Public Property Complement As Boolean
+        ''' <summary>
+        ''' 片段的起始位置是否为一个不完整的端点(``&lt;1..100``)
+        ''' </summary>
+        <XmlAttribute> Public Property LeftPartial As Boolean
+        ''' <summary>
+        ''' 片段的结束位置是否为一个不完整的端点(``1..&gt;100``)
+        ''' </summary>
+        <XmlAttribute> Public Property RightPartial As Boolean
 
+        ''' <summary>
+        ''' 片段所包含的碱基数量
+        ''' </summary>
         Public ReadOnly Property RegionLength As Integer
             Get
-                Return std.Abs(Left - Right)
+                Return CInt(std.Abs(Right - Left) + 1)
             End Get
         End Property
 

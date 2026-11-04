@@ -233,5 +233,139 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
         usedin
         transl_table
         protein_id
+
+        ' ============================================================
+        ' 下面这些qualifier是在人基因组等复杂真核生物的注释数据之中
+        ' 经常会出现的字段，在旧版本的枚举定义之中缺失
+        ' ============================================================
+
+        ''' <summary>
+        ''' 调控元件的类型，例如 enhancer/promoter/silencer 等
+        ''' </summary>
+        regulatory_class
+        ''' <summary>
+        ''' 非编码RNA的类型，例如 lncRNA/miRNA/rRNA 等
+        ''' </summary>
+        ncRNA_class
+        ''' <summary>
+        ''' 人为指定的位点(``artificial_location``)
+        ''' </summary>
+        artificial_location
+        ''' <summary>
+        ''' 与参考序列不完全一致的例外说明
+        ''' </summary>
+        exception
+        ''' <summary>
+        ''' 历史版本之中的基因编号
+        ''' </summary>
+        old_locus_tag
+        ''' <summary>
+        ''' 移动元件的类型(例如 LINE/SINE/DNA)
+        ''' </summary>
+        mobile_element_type
+        ''' <summary>
+        ''' 重复单元的范围
+        ''' </summary>
+        rpt_unit_range
+        ''' <summary>
+        ''' 重复单元的序列
+        ''' </summary>
+        rpt_unit_seq
+        ''' <summary>
+        ''' 卫星DNA的类型
+        ''' </summary>
+        satellite
+        ''' <summary>
+        ''' 操纵子名称
+        ''' </summary>
+        operon
+        ''' <summary>
+        ''' 等位基因
+        ''' </summary>
+        allele
+        ''' <summary>
+        ''' 比较结果(``trans-splicing``等)
+        ''' </summary>
+        [compare]
+        ''' <summary>
+        ''' 拷贝数
+        ''' </summary>
+        copy_number
+        ''' <summary>
+        ''' 发育阶段
+        ''' </summary>
+        dev_stage
+        ''' <summary>
+        ''' gap 的类型
+        ''' </summary>
+        gap_type
+        ''' <summary>
+        ''' 连锁的证据
+        ''' </summary>
+        linkage_evidence
+        ''' <summary>
+        ''' 连锁群
+        ''' </summary>
+        linkage_group
+        ''' <summary>
+        ''' 质粒名称
+        ''' </summary>
+        plasmid
+        ''' <summary>
+        ''' 群体名称
+        ''' </summary>
+        population
+        ''' <summary>
+        ''' 重排说明
+        ''' </summary>
+        rearranged
+        ''' <summary>
+        ''' 替换说明
+        ''' </summary>
+        replace
+        ''' <summary>
+        ''' 片段编号
+        ''' </summary>
+        segment
+        ''' <summary>
+        ''' 血清型
+        ''' </summary>
+        serotype
+        ''' <summary>
+        ''' 血清变型
+        ''' </summary>
+        serovar
+        ''' <summary>
+        ''' 菌株名称
+        ''' </summary>
+        strain
+        ''' <summary>
+        ''' 组织类型
+        ''' </summary>
+        tissue_type
+        ''' <summary>
+        ''' 转座子名称
+        ''' </summary>
+        transposon
+        ''' <summary>
+        ''' 品种
+        ''' </summary>
+        variety
+        ''' <summary>
+        ''' 宿主
+        ''' </summary>
+        host
+        ''' <summary>
+        ''' 分离来源
+        ''' </summary>
+        isolation_source
+        ''' <summary>
+        ''' 国家/地区
+        ''' </summary>
+        country
+        ''' <summary>
+        ''' 采集日期
+        ''' </summary>
+        collection_date
     End Enum
 End Namespace

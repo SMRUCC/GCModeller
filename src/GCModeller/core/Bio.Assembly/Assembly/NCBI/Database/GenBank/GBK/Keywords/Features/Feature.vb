@@ -1,63 +1,27 @@
-﻿#Region "Microsoft.VisualBasic::e1a6ad636a2429b27e777764d843a404, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\Feature.vb"
-
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-    ' /********************************************************************************/
-
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 363
-    '    Code Lines: 244 (67.22%)
-    ' Comment Lines: 62 (17.08%)
-    '    - Xml Docs: 95.16%
-    ' 
-    '   Blank Lines: 57 (15.70%)
-    '     File Size: 14.91 KB
-
-
-    '     Class Feature
-    ' 
-    '         Properties: Count, IsReadOnly, KeyName, Keys, Location
-    '                     PairedValues, SequenceData, Values
-    ' 
-    '         Function: attributes, Contains, ContainsKey, doParser, GetEnumerator
-    '                   GetEnumerator1, (+2 Overloads) Query, QueryDuplicated, ReadingQualifiers, (+2 Overloads) Remove
-    '                   SetValue, ToGeneFasta, ToString, TryGetValue
-    ' 
-    '         Sub: (+2 Overloads) Add, Clear, (+2 Overloads) CopyTo
-    ' 
-    ' 
-    ' /********************************************************************************/
-
-#End Region
+﻿' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 Imports System.Runtime.CompilerServices
 Imports System.Text
@@ -67,7 +31,6 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
-Imports SMRUCC.genomics.SequenceModel.Slicer
 Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 
 Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
@@ -96,25 +59,61 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>
+        ''' 对于具有多个外显子的feature而言，这里返回的是所有外显子片段按照顺序拼接之后的序列，
+        ''' 并且会在feature位于互补链的时候进行反向互补操作。
+        ''' </remarks>
         Public ReadOnly Property SequenceData As String
             Get
-                Dim jLoci = Location.JoinLocation
-
-                If jLoci Is Nothing Then
-                    Return Me.gb.Origin.GetFeatureSegment(Me)
+                If gb Is Nothing OrElse gb.Origin Is Nothing Then
+                    Return ""
+                ElseIf Location Is Nothing Then
+                    Return ""
                 Else
-                    Dim part1 As String = gb.Origin.GetFeatureSegment(Me)
-                    Dim part2 As String = gb.Origin.CutSequenceByLength(
-                        jLoci.Left,
-                        jLoci.RegionLength).SequenceData
-
-                    If Location.Complement Then
-                        part2 = NucleicAcid.Complement(part2)
-                    End If
-
-                    Return part1 & part2
+                    Return gb.Origin.GetSequence(Me)
                 End If
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' 这个feature是否位于互补链之上
+        ''' </summary>
+        Public ReadOnly Property IsComplement As Boolean
+            Get
+                Return Location IsNot Nothing AndAlso Location.Complement
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' 是否为伪基因
+        ''' </summary>
+        Public ReadOnly Property IsPseudo As Boolean
+            Get
+                Return Not String.IsNullOrEmpty(Query(FeatureQualifiers.pseudo))
+            End Get
+        End Property
+
+        Public ReadOnly Property Gene As String
+            Get
+                Return Query(FeatureQualifiers.gene)
+            End Get
+        End Property
+
+        Public ReadOnly Property LocusTag As String
+            Get
+                Return Query(FeatureQualifiers.locus_tag)
+            End Get
+        End Property
+
+        Public ReadOnly Property ProteinId As String
+            Get
+                Return Query(FeatureQualifiers.protein_id)
+            End Get
+        End Property
+
+        Public ReadOnly Property Product As String
+            Get
+                Return Query(FeatureQualifiers.product)
             End Get
         End Property
 
@@ -152,23 +151,33 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
         ''' query by a <see cref="FeatureQualifiers"/> key string name
         ''' </remarks>
         Public Function Query(key As String) As String Implements IKeyDataReader.GetData
-            Dim LQuery = LinqAPI.DefaultFirst(Of String) <=
-                                                           _
-                From profileData As NamedValue(Of String)
-                In attrSet
-                Where String.Equals(profileData.Name, key)
-                Select profileData.Value
+            If String.IsNullOrEmpty(key) OrElse attrSet.Count = 0 Then
+                Return Nothing
+            End If
 
-            Return LQuery
+            ' 直接循环比较，避免LINQ表达式的迭代器分配
+            For i As Integer = 0 To attrSet.Count - 1
+                Dim item As NamedValue(Of String) = attrSet(i)
+
+                If String.Equals(item.Name, key, StringComparison.Ordinal) Then
+                    Return item.Value
+                End If
+            Next
+
+            Return Nothing
         End Function
 
         ''' <summary>
         ''' Get feature describ value string by key
         ''' </summary>
-        ''' <param name="Key"></param>
+        ''' <param name="key"></param>
         ''' <returns></returns>
-        Public Function Query(Key As FeatureQualifiers) As String
-            Return Query(Key.ToString)
+        Public Function Query(key As FeatureQualifiers) As String
+            Return Query(key.ToString)
+        End Function
+
+        Public Function Contains(key As FeatureQualifiers) As Boolean
+            Return Not String.IsNullOrEmpty(Query(key))
         End Function
 
         Public Function attributes() As Dictionary(Of String, String)
@@ -206,20 +215,32 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function QueryDuplicated(key As String) As String()
-            Dim LQuery As String() = LinqAPI.Exec(Of String) <=
-                From pairedObj As NamedValue(Of String)
-                In attrSet
-                Where String.Equals(pairedObj.Name, key)
-                Select pairedObj.Value '
+            If String.IsNullOrEmpty(key) OrElse attrSet.Count = 0 Then
+                Return New String() {}
+            End If
 
-            Return LQuery
+            Dim list As New List(Of String)
+
+            For i As Integer = 0 To attrSet.Count - 1
+                Dim item As NamedValue(Of String) = attrSet(i)
+
+                If String.Equals(item.Name, key, StringComparison.Ordinal) Then
+                    Call list.Add(item.Value)
+                End If
+            Next
+
+            Return list.ToArray
         End Function
 
         Public Overrides Function ToString() As String
             Dim sb As New StringBuilder(1024)
 
             Call sb.AppendFormat("KeyName:='{0}'{1}", KeyName, vbCrLf)
-            Call sb.AppendFormat("Located:='{0}'{1}", Location.ToString, vbCrLf)
+
+            If Location IsNot Nothing Then
+                Call sb.AppendFormat("Located:='{0}'{1}", Location.ToString, vbCrLf)
+            End If
+
             Call sb.AppendLine("{")
 
             For Each Line As NamedValue(Of String) In attrSet
@@ -233,9 +254,10 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 
         Public Shared Widening Operator CType(strData As String()) As Feature
             Dim s As String = strData.First
+            Dim keyName As String = s.Split.First
             Dim Feature As New Feature With {
-                .KeyName = s.Split.First,
-                .Location = Mid(s, Len(.KeyName) + 1).Trim
+                .KeyName = keyName,
+                .Location = s.Substring(keyName.Length).Trim
             }
 
             For Each e As NamedValue(Of String) In ReadingQualifiers(strData.Skip(1).ToArray)
@@ -247,26 +269,42 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 
         Protected Shared Iterator Function ReadingQualifiers(data As String()) As IEnumerable(Of NamedValue(Of String))
             For Each str As String In data
-                Yield doParser(Mid(str, 2))
+                If String.IsNullOrEmpty(str) Then
+                    Continue For
+                End If
+
+                Yield doParser(str.Substring(1))
             Next
         End Function
 
-        Private Shared Function doParser(s As String) As NamedValue(Of String)
-            Dim value = s.GetTagValue("=")
-            Dim str$ = value.Value
+        ''' <summary>
+        ''' 解析单个qualifier的文本(形如``/product="xxx"``)
+        ''' </summary>
+        Friend Shared Function doParser(s As String) As NamedValue(Of String)
+            Dim i As Integer = s.IndexOf("="c)
+            Dim name As String
+            Dim str As String
 
-            If (Not String.IsNullOrEmpty(str)) AndAlso
-                str.First = ASCII.Quot AndAlso
-                str.Last = ASCII.Quot Then
-                str = Mid(str, 2, Len(str) - 2)
+            If i < 0 Then
+                name = s.Trim()
+                str = ""
+            Else
+                name = s.Substring(0, i).Trim()
+                str = s.Substring(i + 1).Trim()
             End If
 
-            If String.Equals(value.Name, "translation") Then
+            If str.Length > 1 AndAlso str.First = ASCII.Quot AndAlso str.Last = ASCII.Quot Then
+                str = str.Substring(1, str.Length - 2)
+                ' NCBI 标准之中，值内部的引号是使用两个连续的引号来进行转义的
+                str = str.Replace("""""", """")
+            End If
+
+            If String.Equals(name, "translation", StringComparison.Ordinal) Then
                 str = str.Replace(" ", String.Empty)
             End If
 
             Return New NamedValue(Of String) With {
-                .Name = value.Name,
+                .Name = name,
                 .Value = str
             }
         End Function
@@ -276,8 +314,10 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
         End Sub
 
         Public Function SetValue(key As FeatureQualifiers, value As String) As Feature
-            Dim keyName As String = key.ToString
+            Return SetValue(key.ToString, value)
+        End Function
 
+        Public Function SetValue(keyName As String, value As String) As Feature
             For i As Integer = 0 To attrSet.Count - 1
                 If keyName = attrSet(i).Name Then
                     attrSet(i) = New NamedValue(Of String) With {
@@ -306,8 +346,13 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
         End Sub
 
         Public Function Contains(item As KeyValuePair(Of String, String)) As Boolean Implements ICollection(Of KeyValuePair(Of String, String)).Contains
-            Dim LQuery = (From n In attrSet Where String.Equals(item.Key, n.Name) AndAlso String.Equals(item.Value, n.Value) Select n.Name).FirstOrDefault
-            Return Not LQuery Is Nothing
+            For i As Integer = 0 To attrSet.Count - 1
+                If String.Equals(item.Key, attrSet(i).Name) AndAlso String.Equals(item.Value, attrSet(i).Value) Then
+                    Return True
+                End If
+            Next
+
+            Return False
         End Function
 
         Public Sub CopyTo(array() As KeyValuePair(Of String, String), arrayIndex As Integer) Implements ICollection(Of KeyValuePair(Of String, String)).CopyTo
@@ -332,6 +377,7 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 
         Public Function Remove(item As KeyValuePair(Of String, String)) As Boolean Implements ICollection(Of KeyValuePair(Of String, String)).Remove
             Dim LQuery = (From n In attrSet Where String.Equals(item.Key, n.Name) AndAlso String.Equals(item.Value, n.Value) Select n).ToArray
+
             For Each n In LQuery
                 Call attrSet.Remove(n)
             Next
@@ -349,8 +395,17 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
         End Sub
 
         Public Function ContainsKey(skey As String) As Boolean Implements IDictionary(Of String, String).ContainsKey
-            Dim LQuery = (From stored In attrSet Where String.Equals(skey, stored.Name, StringComparison.OrdinalIgnoreCase) Select stored.Name).FirstOrDefault
-            Return Not LQuery Is Nothing
+            If String.IsNullOrEmpty(skey) Then
+                Return False
+            End If
+
+            For i As Integer = 0 To attrSet.Count - 1
+                If String.Equals(skey, attrSet(i).Name, StringComparison.OrdinalIgnoreCase) Then
+                    Return True
+                End If
+            Next
+
+            Return False
         End Function
 
         ''' <summary>
@@ -367,10 +422,12 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
             Set(value As String)
                 If ContainsKey(key) Then
                     Dim data = Me.QueryDuplicated(key)
+
                     If data.Length > 1 Then
                         Call Me.Add(New KeyValuePair(Of String, String)(key, value))
                     Else '只有一个值，则进行替换
                         Call Me.Remove(New KeyValuePair(Of String, String)(key, value:=data.First))
+                        Call Me.Add(New KeyValuePair(Of String, String)(key, value))
                     End If
                 Else
                     Call Me.Add(New KeyValuePair(Of String, String)(key, value))
@@ -386,7 +443,8 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 
         Public Function Remove(key As String) As Boolean Implements IDictionary(Of String, String).Remove
             Dim LQuery = (From item In attrSet Where String.Equals(key, item.Name) Select item).ToArray
-            For Each Item As NamedValue(Of String) In attrSet
+
+            For Each Item As NamedValue(Of String) In LQuery
                 Call attrSet.Remove(Item)
             Next
 
@@ -395,13 +453,10 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 
         Public Function TryGetValue(key As String, ByRef value As String) As Boolean Implements IDictionary(Of String, String).TryGetValue
             Dim s As String = Query(key)
+
             value = s
 
-            If String.IsNullOrEmpty(s) Then
-                Return False
-            Else
-                Return True
-            End If
+            Return Not String.IsNullOrEmpty(s)
         End Function
 
         Public ReadOnly Property Values As ICollection(Of String) Implements IDictionary(Of String, String).Values
