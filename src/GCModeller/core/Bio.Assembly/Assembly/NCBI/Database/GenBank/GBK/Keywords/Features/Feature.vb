@@ -121,7 +121,7 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
         ''' 请注意在值中有拼接断行所产生的空格，在导出CDS序列的时候，请注意消除该空格
         ''' </summary>
         ''' <remarks>这里不能够使用字典来进行储存数据，因为字典对大小写敏感并且这里面会有重复的Key出现</remarks>
-        Protected attrSet As New List(Of NamedValue(Of String))
+        Protected Friend attrSet As New List(Of NamedValue(Of String))
 
         Public ReadOnly Property PairedValues As NamedValue(Of String)()
             Get

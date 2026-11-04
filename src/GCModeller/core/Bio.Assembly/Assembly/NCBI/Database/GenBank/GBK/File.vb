@@ -1,62 +1,27 @@
-﻿#Region "Microsoft.VisualBasic::485fa6b333f71535ae5a2952e34f1e17, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\File.vb"
-
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-    ' /********************************************************************************/
-
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 372
-    '    Code Lines: 178 (47.85%)
-    ' Comment Lines: 158 (42.47%)
-    '    - Xml Docs: 96.20%
-    ' 
-    '   Blank Lines: 36 (9.68%)
-    '     File Size: 16.74 KB
-
-
-    '     Class File
-    ' 
-    '         Properties: Accession, Comment, DbLinks, Definition, Features
-    '                     HasSequenceData, isPlasmid, IsWGS, Keywords, Locus
-    '                     Origin, Reference, Source, SourceFeature, Species
-    '                     Taxon, Version
-    ' 
-    '         Function: IsValidGenbankFormat, Load, (+2 Overloads) LoadDatabase, Read, readGenbankBuffer
-    '                   (+3 Overloads) Save
-    ' 
-    ' 
-    ' /********************************************************************************/
-
-#End Region
+﻿' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 Imports System.IO
 Imports System.Runtime.CompilerServices
@@ -64,14 +29,11 @@ Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 Imports SMRUCC.genomics.SequenceModel
-Imports SMRUCC.genomics.SequenceModel.NucleotideModels
-Imports std = System.Math
 
 Namespace Assembly.NCBI.GenBank.GBFF
 
@@ -81,51 +43,21 @@ Namespace Assembly.NCBI.GenBank.GBFF
     ''' <remarks>
     ''' The National Center for Biotechnology Information (NCBI) GenBank® database is a comprehensive, 
     ''' annotated collection of all publicly available nucleotide sequences and their protein translations. 
-    ''' It is a key resource for bioinformatics researchers and scientists around the world. Here is 
-    ''' an introduction to the GenBank database file:
     ''' 
-    ''' What is GenBank?
+    ''' 文件结构说明: 
     ''' 
-    ''' Establishment: GenBank was established in 1982 and is maintained by the NCBI, which is part of 
-    ''' the National Library of Medicine (NLM) at the National Institutes of Health (NIH) in the United
-    ''' States.
-    ''' Content: It contains sequences from various sources, including genomic, transcriptomic, and 
-    ''' metagenomic studies, as well as sequences from viruses, prokaryotes, eukaryotes, and organelles.
-    ''' Purpose: The primary purpose of GenBank is to provide scientists with a reliable and freely 
-    ''' accessible database to deposit and retrieve genetic sequence data.
-    ''' Key Components of a GenBank File:
-    ''' A GenBank file is typically composed of several sections, each containing specific information about
-    ''' the sequence entry. Here are the main components:
-    ''' Header Section: This includes the LOCUS line, which provides a summary of the entry, including the
-    ''' length of the sequence, the type of molecule (DNA, RNA, or protein), the date of the last update,
-    ''' and the unique accession number.
-    ''' Definition Line: This is the DEFINITION line, which gives a brief description of the sequence.
-    ''' Accession and Version: The ACCESSION line contains the unique identifier for the sequence entry, and
-    ''' the VERSION line indicates the version number of the entry and may include a secondary accession number.
-    ''' Keywords: The KEYWORDS line provides terms that are associated with the sequence and can be used for searching.
-    ''' Source: The SOURCE section describes the organism from which the sequence was derived, including 
-    ''' taxonomy and often the specific tissue or cell type.
-    ''' References: This section lists the literature citations associated with the sequence data, including
-    ''' the authors, title, journal, and publication year.
-    ''' Comment: The COMMENT section can contain various types of information, such as the method used for 
-    ''' sequence determination, the experimental procedures, or additional notes relevant to the sequence.
-    ''' Features Table: This is one of the most important sections, as it provides a detailed annotation of 
-    ''' the sequence. It includes feature key-value pairs that describe the locations and characteristics of
-    ''' genes, exons, introns, regulatory regions, and other sequence features.
-    ''' Sequence Data: The actual nucleotide sequence is presented in the sequence data section, usually in a 
-    ''' 60-character-per-line format. This section can be quite long depending on the size of the sequence.
-    ''' File Format:
-    ''' GenBank files are typically plain text files and can be opened with any text editor. However, they are 
-    ''' often handled using bioinformatics tools and software that can parse and interpret the data more effectively. 
-    ''' The file extension for GenBank files is usually .gb or .gbk.
-    ''' How to Access GenBank:
-    ''' You can access GenBank directly through the NCBI website (https://www.ncbi.nlm.nih.gov/genbank/).
-    ''' Sequences can be searched by various criteria, including accession number, keyword, author, or organism name.
-    ''' Users can also download sequences in various formats, including GenBank flatfile format, FASTA, and others.
-    ''' GenBank providing a wealth of data that scientists use for comparative genomics, evolutionary studies,
-    ''' and many other types of biological research.
+    ''' - ``LOCUS``: 记录的摘要信息(编号/长度/分子类型/拓扑结构/分类代码/更新日期)
+    ''' - ``DEFINITION``: 记录的描述信息
+    ''' - ``ACCESSION``/``VERSION``: 记录的编号以及版本号
+    ''' - ``DBLINK``: 关联的外部数据库编号
+    ''' - ``KEYWORDS``: 关键词
+    ''' - ``SOURCE``/``ORGANISM``: 物种信息以及分类学谱系
+    ''' - ``REFERENCE``: 引用文献
+    ''' - ``COMMENT``: 附加的注释说明
+    ''' - ``FEATURES``: 位点注释数据表
+    ''' - ``CONTIG``: ``CON``类型的记录之中用于拼接序列的片段列表
+    ''' - ``ORIGIN``: 序列数据
     ''' </remarks>
-    '''
     <Package("NCBI.Genbank.GBFF")>
     Public Class File : Implements ISaveHandle
 
@@ -147,9 +79,6 @@ Namespace Assembly.NCBI.GenBank.GBFF
         ''' <summary>
         ''' The definition value for this organism's GenBank data.
         ''' </summary>
-        ''' <value></value>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
         Public Property Definition As Keywords.DEFINITION
         Public Property Version As Keywords.VERSION
 
@@ -161,12 +90,57 @@ Namespace Assembly.NCBI.GenBank.GBFF
         ''' <summary>
         ''' The brief entry information of this genbank data.
         ''' </summary>
-        ''' <value></value>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
         Public Property Locus As Keywords.LOCUS
         Public Property Keywords As Keywords.KEYWORDS
         Public Property DbLinks As DBLINK
+
+        ''' <summary>
+        ''' ``CONTIG``段: 对于``CON``类型的记录(例如人基因组的染色体)，这个字段描述了
+        ''' 序列是由哪些片段拼接而成的
+        ''' </summary>
+        Public Property Contig As Keywords.CONTIG
+        ''' <summary>
+        ''' ``PRIMARY``段
+        ''' </summary>
+        Public Property Primary As Keywords.PRIMARY
+        ''' <summary>
+        ''' ``SEGMENT``段的值(形如``1 of 10``)
+        ''' </summary>
+        Public Property Segment As String
+        ''' <summary>
+        ''' ``PROJECT``段的值
+        ''' </summary>
+        Public Property Project As String
+        ''' <summary>
+        ''' ``WGS``/``WGS_SCAFLD``段的值
+        ''' </summary>
+        Public Property Wgs As String
+        ''' <summary>
+        ''' 未被显式解析的其它字段的原始文本行: 保留这些数据用于保证解析之后再写出的往返保真性
+        ''' </summary>
+        Public Property RawSections As Dictionary(Of String, String())
+
+        ''' <summary>
+        ''' 这个记录是否为``CON``(constructed)类型
+        ''' </summary>
+        Public ReadOnly Property IsCON As Boolean
+            Get
+                Return Locus IsNot Nothing AndAlso Locus.IsCON
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' 分子的拓扑结构
+        ''' </summary>
+        Public ReadOnly Property Topology As String
+            Get
+                If Locus Is Nothing Then
+                    Return Nothing
+                Else
+                    Return Locus.Topology
+                End If
+            End Get
+        End Property
 
         ''' <summary>
         ''' Is plasmid source?
@@ -188,7 +162,16 @@ Namespace Assembly.NCBI.GenBank.GBFF
         ''' <returns></returns>
         Public ReadOnly Property Species As String
             Get
-                Return Source.SpeciesName & " " & Features.source.Query("strain")
+                Dim name As String = ""
+
+                If Source IsNot Nothing Then
+                    name = Source.SpeciesName
+                End If
+                If Features IsNot Nothing AndAlso Features.source IsNot Nothing Then
+                    name = name & " " & Features.source.Query("strain")
+                End If
+
+                Return name
             End Get
         End Property
 
@@ -201,15 +184,19 @@ Namespace Assembly.NCBI.GenBank.GBFF
         ''' </remarks>
         Public ReadOnly Property Taxon As String
             Get
-                Dim db_xref As String() = Features.source.QueryDuplicated("db_xref")
-                Dim LQuery = LinqAPI.DefaultFirst(Of String) <=
-                    From s As String
-                    In db_xref
-                    Let tokens As String() = s.Split(CChar(":"))
-                    Where String.Equals(tokens.First, "taxon", StringComparison.OrdinalIgnoreCase)
-                    Select tokens.Last
+                If Features Is Nothing OrElse Features.source Is Nothing Then
+                    Return Nothing
+                End If
 
-                Return LQuery
+                For Each s As String In Features.source.QueryDuplicated("db_xref")
+                    Dim i As Integer = s.IndexOf(":"c)
+
+                    If i > 0 AndAlso String.Equals(s.Substring(0, i), "taxon", StringComparison.OrdinalIgnoreCase) Then
+                        Return s.Substring(i + 1).Trim()
+                    End If
+                Next
+
+                Return Nothing
             End Get
         End Property
 
@@ -218,13 +205,15 @@ Namespace Assembly.NCBI.GenBank.GBFF
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>
+        ''' 在低内存模式之下，这个属性不会导致序列数据被加载到内存之中。
+        ''' </remarks>
         Public ReadOnly Property HasSequenceData As Boolean
             Get
                 If Origin Is Nothing Then
                     Return False
                 Else
-                    Return Not String.IsNullOrEmpty(Origin.SequenceData)
+                    Return Origin.Size > 0
                 End If
             End Get
         End Property
@@ -237,17 +226,23 @@ Namespace Assembly.NCBI.GenBank.GBFF
         ''' <remarks></remarks>
         Public ReadOnly Property IsWGS As Boolean
             Get
-                For Each KeyWord As String In GenBank.GBFF.Keywords.DEFINITION.WGSKeywords
-                    If InStr(Definition.Value, KeyWord, CompareMethod.Text) > 0 Then
-                        Return True
-                    End If
-
-                    For Each s As String In Keywords
-                        If InStr(s, KeyWord) = 1 Then
+                If Definition IsNot Nothing AndAlso Not String.IsNullOrEmpty(Definition.Value) Then
+                    For Each KeyWord As String In GenBank.GBFF.Keywords.DEFINITION.WGSKeywords
+                        If Definition.Value.IndexOf(KeyWord, StringComparison.OrdinalIgnoreCase) >= 0 Then
                             Return True
                         End If
                     Next
-                Next
+                End If
+
+                If Keywords IsNot Nothing Then
+                    For Each s As String In Keywords
+                        For Each KeyWord As String In GenBank.GBFF.Keywords.DEFINITION.WGSKeywords
+                            If s.StartsWith(KeyWord, StringComparison.OrdinalIgnoreCase) Then
+                                Return True
+                            End If
+                        Next
+                    Next
+                End If
 
                 Return False
             End Get
@@ -266,6 +261,18 @@ Namespace Assembly.NCBI.GenBank.GBFF
         End Property
 
         ''' <summary>
+        ''' 提取一个feature所对应的核酸序列: 多段位点会按照顺序拼接，并且会在需要的时候反向互补
+        ''' </summary>
+        ''' <param name="feature">The target feature site on the genome DNA sequence.</param>
+        Public Function ReadSequence(feature As Feature) As String
+            If Origin Is Nothing OrElse feature Is Nothing Then
+                Return ""
+            Else
+                Return Origin.GetSequence(feature)
+            End If
+        End Function
+
+        ''' <summary>
         ''' Read the gene nucleic acid sequence of a gene feature and then returns a fasta sequence object.
         ''' (读取一个基因特性的核酸序列，该Feature对象可以为任意形式的Qualifier的值，但是必需要具有Location属性)
         ''' </summary>
@@ -273,19 +280,13 @@ Namespace Assembly.NCBI.GenBank.GBFF
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Overloads Function Read(feature As Feature) As FASTA.FastaSeq
-            Dim left As Long = feature.Location.Locations.First.Left
-            Dim right As Long = feature.Location.Locations.Last.Right
-            Dim sequence As String = Mid(Origin, left, std.Abs(left - right))
-
-            If feature.Location.Complement Then
-                sequence = (NucleicAcid.Complement(sequence))
-            End If
+            Dim sequence As String = ReadSequence(feature)
 
             Dim fa As New FASTA.FastaSeq With {
                 .SequenceData = sequence,
                 .Headers = New String() {
                     "Feature",
-                    feature.Location.ToString,
+                    If(feature.Location Is Nothing, "", feature.Location.ToString),
                     feature.KeyName
                 }
             }
@@ -307,7 +308,7 @@ Namespace Assembly.NCBI.GenBank.GBFF
         End Operator
 
         ''' <summary>
-        ''' 当发生错误的时候，会返回空值
+        ''' 读取目标genbank文件之中的第一条记录
         ''' </summary>
         ''' <param name="path"></param>
         ''' <returns></returns>
@@ -316,6 +317,42 @@ Namespace Assembly.NCBI.GenBank.GBFF
         <ExportAPI("Load")>
         Public Shared Function Load(path As String) As NCBI.GenBank.GBFF.File
             Return GbkParser.Read(path)
+        End Function
+
+        ''' <summary>
+        ''' 读取目标genbank文件之中的第一条记录
+        ''' </summary>
+        Public Shared Function Load(path As String, options As GbkReadOptions) As NCBI.GenBank.GBFF.File
+            Return GbkParser.Read(path, If(options, GbkReadOptions.Default))
+        End Function
+
+        ''' <summary>
+        ''' 按照记录的编号从数据库文件之中读取单条记录(随机访问)。
+        ''' 
+        ''' 这个函数会首先使用<see cref="GbkRecordIndex"/>定位到目标记录，因此对于具有
+        ''' 数Gb大小的人基因组数据库文件，也可以以秒级的时间读取到指定的染色体记录。
+        ''' </summary>
+        ''' <param name="path">数据库文件</param>
+        ''' <param name="accession">记录的编号</param>
+        ''' <param name="options">读取选项</param>
+        Public Shared Function LoadRecord(path As String,
+                                          accession As String,
+                                          Optional options As GbkReadOptions = Nothing) As NCBI.GenBank.GBFF.File
+
+            Return GbkParser.LoadRecord(path, accession, If(options, GbkReadOptions.Default))
+        End Function
+
+        ''' <summary>
+        ''' 按照记录的编号从数据库文件之中读取单条记录，记录不存在的时候返回<c>False</c>
+        ''' </summary>
+        Public Shared Function TryLoadRecord(path As String,
+                                             accession As String,
+                                             ByRef gb As NCBI.GenBank.GBFF.File,
+                                             Optional options As GbkReadOptions = Nothing) As Boolean
+
+            gb = LoadRecord(path, accession, options)
+
+            Return gb IsNot Nothing
         End Function
 
         ''' <summary>
@@ -328,13 +365,24 @@ Namespace Assembly.NCBI.GenBank.GBFF
                 "LOCUS", "DEFINITION", "ACCESSION", "VERSION", "DBLINK"
             }
 
-            Dim hits%
+            If Not IO.File.Exists(path) Then
+                Return False
+            End If
 
-            For Each line As String In path.IterateAllLines.Take(samplingHeaders.Count)
-                If line.Split.First Like samplingHeaders Then
-                    hits += 1
-                End If
-            Next
+            Dim hits% = 0
+
+            Using reader As New GbkRawReader(path, 8192)
+                Do While hits < samplingHeaders.Count AndAlso reader.ReadLine()
+                    Dim keyword As String = Nothing
+                    Dim value As String = Nothing
+
+                    Call GbkFormat.SplitKeyword(reader.Line, keyword, value)
+
+                    If keyword Like samplingHeaders Then
+                        hits += 1
+                    End If
+                Loop
+            End Using
 
             Return hits / samplingHeaders.Count >= 0.5
         End Function
@@ -353,7 +401,24 @@ Namespace Assembly.NCBI.GenBank.GBFF
         ''' 一般出现在细菌具有染色体基因组和质粒基因组这种多个复制子的情况)</remarks>
         '''
         Public Shared Function LoadDatabase(filePath As String, Optional suppressError As Boolean = False) As IEnumerable(Of File)
-            Return LoadDatabase(filePath.Open(FileMode.OpenOrCreate, doClear:=False, [readOnly]:=True), filePath.BaseName, suppressError)
+            Return LoopLoad(filePath, GbkReadOptions.Default, suppressError)
+        End Function
+
+        ''' <summary>
+        ''' 使用指定的读取选项加载数据库文件之中的全部记录
+        ''' </summary>
+        Public Shared Function LoadDatabase(filePath As String, options As GbkReadOptions, Optional suppressError As Boolean = False) As IEnumerable(Of File)
+            Return LoopLoad(filePath, If(options, GbkReadOptions.Default), suppressError)
+        End Function
+
+        Private Shared Iterator Function LoopLoad(filePath As String, options As GbkReadOptions, suppressError As Boolean) As IEnumerable(Of File)
+            If Not IO.File.Exists(filePath) Then
+                Throw New FileNotFoundException($"the target genbank database file '{filePath}' does not exist!", filePath)
+            End If
+
+            For Each gb As File In GbkParser.LoadDatabase(filePath, options)
+                Yield gb
+            Next
         End Function
 
         ''' <summary>
@@ -363,7 +428,9 @@ Namespace Assembly.NCBI.GenBank.GBFF
         ''' <param name="defaultAccession"></param>
         ''' <param name="suppressError"></param>
         ''' <returns></returns>
-        Public Shared Iterator Function LoadDatabase(file As Stream, Optional defaultAccession$ = Nothing, Optional suppressError As Boolean = False) As IEnumerable(Of File)
+        Public Shared Iterator Function LoadDatabase(file As Stream,
+                                                     Optional defaultAccession$ = Nothing,
+                                                     Optional suppressError As Boolean = False) As IEnumerable(Of File)
             If defaultAccession.StringEmpty Then
                 If TypeOf file Is FileStream Then
                     defaultAccession = DirectCast(file, FileStream).Name.BaseName
@@ -372,41 +439,28 @@ Namespace Assembly.NCBI.GenBank.GBFF
                 End If
             End If
 
-            For Each buf As String() In readGenbankBuffer(file)
-                Try
-                    Dim sDat As String() = bufferTrims(buf)
+            Using records As New GbkRecordReader(file, defaultAccession, GbkReadOptions.Default)
+                Dim enumerator As IEnumerator(Of File) = records.GetEnumerator()
 
-                    If sDat.IsNullOrEmpty Then
-                        Continue For
-                    Else
-                        Yield doLoadData(sDat, defaultAccession)
-                    End If
-                Catch ex As Exception
-                    ex = New Exception(defaultAccession, ex)
+                Do While True
+                    Dim gb As File = Nothing
 
-                    If Not suppressError Then
-                        Throw ex
-                    End If
-                End Try
-            Next
-        End Function
+                    Try
+                        If Not enumerator.MoveNext() Then
+                            Exit Do
+                        End If
 
-        Private Shared Iterator Function readGenbankBuffer(file As Stream) As IEnumerable(Of String())
-            Using read As New StreamReader(file)
-                Dim buffer As New List(Of String)
-                Dim line As Value(Of String) = ""
+                        gb = enumerator.Current
+                    Catch ex As Exception
+                        If suppressError Then
+                            Exit Do
+                        Else
+                            Throw New Exception(defaultAccession, ex)
+                        End If
+                    End Try
 
-                Do While Not read.EndOfStream
-                    If (line = read.ReadLine) = GenbankMultipleRecordDelimiter Then
-                        Yield buffer.PopAll
-                    Else
-                        buffer += line
-                    End If
+                    Yield gb
                 Loop
-
-                If buffer > 0 Then
-                    Yield buffer.ToArray
-                End If
             End Using
         End Function
 
@@ -417,12 +471,9 @@ Namespace Assembly.NCBI.GenBank.GBFF
         End Function
 
         Public Function Save(s As Stream, encoding As Encoding) As Boolean Implements ISaveHandle.Save
-            Using wr As New StreamWriter(s, encoding)
-                Call wr.WriteLine(Me.CreateDoc)
-                Call wr.Flush()
+            Using wr As New StreamWriter(s, encoding, bufferSize:=1024 * 64)
+                Return GbkWriter.Save(Me, wr)
             End Using
-
-            Return True
         End Function
 
         Public Function Save(path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save

@@ -151,7 +151,7 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
             End If
 
             Dim text As String = qualifier.ToString()
-            Call qualifier = Nothing
+            qualifier = Nothing
 
             If String.IsNullOrEmpty(text) Then
                 Return

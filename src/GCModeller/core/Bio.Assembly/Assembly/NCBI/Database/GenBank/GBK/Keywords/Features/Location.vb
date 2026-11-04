@@ -1,4 +1,4 @@
-﻿' Author:
+' Author:
 ' 
 '       asuka (amethyst.asuka@gcmodeller.org)
 '       xie (genetics@smrucc.org)
@@ -28,6 +28,8 @@ Imports System.Xml.Serialization
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
 Imports std = System.Math
+
+Imports Microsoft.VisualBasic.Linq
 
 Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 

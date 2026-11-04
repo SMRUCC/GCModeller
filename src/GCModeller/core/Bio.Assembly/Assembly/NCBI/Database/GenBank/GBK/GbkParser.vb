@@ -332,7 +332,7 @@ Namespace Assembly.NCBI.GenBank.GBFF
                 Case "DBLINK"
                     gb.DbLinks = DBLINK.Parser(lines)
                 Case "KEYWORDS"
-                    gb.Keywords = KEYWORDS.__innerParser(lines)
+                    gb.Keywords = Keywords.KEYWORDS.__innerParser(lines)
                 Case "SOURCE"
                     gb.Source = lines
                 Case "REFERENCE"
@@ -466,7 +466,7 @@ Namespace Assembly.NCBI.GenBank.GBFF
                 gb.Version = New VERSION
             End If
             If gb.Keywords Is Nothing Then
-                gb.Keywords = New KEYWORDS With {.KeyWordList = New List(Of String)}
+                gb.Keywords = New Keywords.KEYWORDS With {.KeyWordList = New List(Of String)}
             End If
             If gb.DbLinks Is Nothing Then
                 gb.DbLinks = New DBLINK With {.Links = New NamedValue(Of String)() {}}

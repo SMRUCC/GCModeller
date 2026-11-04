@@ -1,4 +1,4 @@
-﻿' Author:
+' Author:
 ' 
 '       asuka (amethyst.asuka@gcmodeller.org)
 '       xie (genetics@smrucc.org)
@@ -25,6 +25,8 @@
 
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+
+Imports Microsoft.VisualBasic.Linq
 
 Namespace Assembly.NCBI.GenBank.GBFF.Keywords
 
