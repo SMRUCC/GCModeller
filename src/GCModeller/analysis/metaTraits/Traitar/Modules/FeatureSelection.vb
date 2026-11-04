@@ -11,6 +11,7 @@
 
 Imports Microsoft.VisualBasic.MachineLearning.SVM
 Imports Microsoft.VisualBasic.MachineLearning.SVM.StorageProcedure
+Imports Microsoft.VisualBasic.Math.Correlations
 
 Namespace Traitar.Modules
 
@@ -133,7 +134,7 @@ Namespace Traitar.Modules
                         target = labels.Select(Function(s) If(s.Equals(cls, StringComparison.OrdinalIgnoreCase), 1.0, 0.0)).ToArray
                     End If
 
-                    Dim r As Double = Utils.MathUtils.PearsonCorrelation(column, target)
+                    Dim r As Double = Correlations.GetPearson(column, target)
 
                     If System.Math.Abs(r) > System.Math.Abs(best) Then
                         best = r

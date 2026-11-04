@@ -7,6 +7,7 @@
 
 Imports Microsoft.VisualBasic.MachineLearning.SVM
 Imports Microsoft.VisualBasic.MachineLearning.SVM.StorageProcedure
+Imports Microsoft.VisualBasic.Math.Correlations
 
 Namespace Traitar.Modules
 
@@ -102,7 +103,7 @@ Namespace Traitar.Modules
 
                 result.mse = sumSq / n
                 result.rmse = System.Math.Sqrt(result.mse)
-                result.correlation = Utils.MathUtils.PearsonCorrelation(expectedValues.ToArray, predictedValues.ToArray)
+                result.correlation = Correlations.GetPearson(expectedValues.ToArray, predictedValues.ToArray)
             Else
                 result.correct = correct
                 result.accuracy = correct / rows.Length

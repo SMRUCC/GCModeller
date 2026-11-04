@@ -72,6 +72,7 @@
 ' ============================================================================
 
 Imports System.Runtime.InteropServices
+Imports Microsoft.VisualBasic.Math.Correlations
 
 Namespace Traitar.Utils
 
@@ -220,38 +221,6 @@ Namespace Traitar.Utils
         End Function
 
         ''' <summary>
-        ''' 计算皮尔逊相关系数（Pearson Correlation Coefficient, PCC）
-        ''' 论文模块7：利用皮尔逊相关系数，对选出的蛋白质家族
-        ''' 与表型的相关性进行排序
-        '''
-        ''' 公式：r = Σ((x_i - x̄)(y_i - ȳ)) / √(Σ(x_i - x̄)² × Σ(y_i - ȳ)²)
-        ''' </summary>
-        Public Function PearsonCorrelation(x As Double(), y As Double()) As Double
-            If x Is Nothing OrElse y Is Nothing Then Return 0.0
-            If x.Length <> y.Length OrElse x.Length = 0 Then Return 0.0
-
-            Dim n As Integer = x.Length
-            Dim meanX As Double = Mean(x)
-            Dim meanY As Double = Mean(y)
-
-            Dim sumXY As Double = 0.0
-            Dim sumXX As Double = 0.0
-            Dim sumYY As Double = 0.0
-
-            For i As Integer = 0 To n - 1
-                Dim dx As Double = x(i) - meanX
-                Dim dy As Double = y(i) - meanY
-                sumXY += dx * dy
-                sumXX += dx * dx
-                sumYY += dy * dy
-            Next
-
-            Dim denom As Double = Math.Sqrt(sumXX * sumYY)
-            If denom = 0.0 Then Return 0.0
-            Return sumXY / denom
-        End Function
-
-        ''' <summary>
         ''' 计算二值变量的皮尔逊相关系数（简化版）
         ''' x和y均为0/1二值向量
         ''' </summary>
@@ -266,7 +235,7 @@ Namespace Traitar.Utils
                 xD(i) = CDbl(x(i))
                 yD(i) = CDbl(y(i))
             Next
-            Return PearsonCorrelation(xD, yD)
+            Return Correlations.GetPearson(xD, yD)
         End Function
 
         ' ================================================================
