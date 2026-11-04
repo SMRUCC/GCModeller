@@ -61,10 +61,11 @@ Imports System.Text
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports SMRUCC.genomics.ProteinModel.ChouFasmanRules
 
-Namespace PfamString
+Namespace ProteinModel
 
     ''' <summary>
     '''  This data object specific for a protein function protein domain structure.
@@ -142,7 +143,7 @@ Namespace PfamString
                 Dim [next] = ChunkBuffer(i + 1)
 
                 If IsChouFasmanData(current.Name) Then
-                    Dim domain = current.CopyTo(Of DomainObject)()
+                    Dim domain = current.CopyTo(Of StructDomainObject)()
                     domain.ProteinId = ProteinId
                     domain.Id_Handle = String.Format("{0}_{1}*{2}_{3}", previous.Name, i - 1, [next].Name, i + 1)
 
@@ -173,7 +174,7 @@ Namespace PfamString
                 LQuery = (From domainData As ProteinModel.DomainObject
                           In LQuery
                           Select domainData
-                          Order By domainData.Name, domainData.Position.Left Ascending).ToArray
+                          Order By domainData.Name, domainData.Position.left Ascending).ToArray
             End If
 
             Return LQuery

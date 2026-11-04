@@ -165,7 +165,7 @@ Public Module DomainAnalysis
                                      Optional evalue As Double = Evalue1En5,
                                      Optional coverage As Double = 0.85,
                                      Optional identities As Double = 0.3,
-                                     Optional offset As Double = 0.1) As PfamString.PfamString()
+                                     Optional offset As Double = 0.1) As PfamString()
 
         ' Show parameters for debug
         Call MethodBase.GetCurrentMethod().GetFullName.debug
@@ -197,28 +197,18 @@ Public Module DomainAnalysis
                                          evalue As Double,
                                          coverage As Double,
                                          identities As Double,
-                                         offset As Double) As PfamString.PfamString()
-        Dim result As PfamString.PfamString()
+                                         offset As Double) As PfamString()
+        Dim result As PfamString()
 
-#If DEBUG Then
-        result = blast_output.Queries.Select(
-            Function(queryHits)
-                Return ToPfamString(queryHits,
-                                             evalue:=evalue,
-                                             coverage:=coverage,
-                                             identities:=identities,
-                                             offset:=offset)
-            End Function).ToArray
-#Else
         result = blast_output.Queries.Select(Function(queryHits) ToPfamString(queryHits)).ToArray
-#End If
+
         If query.IsNullOrEmpty Then
             Return result
         Else
             Call "End of create basic pfam-string, start Chou-Fasman calculation threads....".debug
         End If
 
-        Dim Cache = (From prot As PfamString.PfamString
+        Dim Cache = (From prot As PfamString
                      In result
                      Let fasta As FASTA.FastaSeq = __getFasta(prot.ProteinId, query)
                      Select FastaObject = fasta,
@@ -230,7 +220,7 @@ Public Module DomainAnalysis
         Return LQuery
     End Function
 
-    Private Function __createResult(blast_output As BlastPlus.v228, query As FASTA.FastaFile, time_out As Integer, num_threads As Integer) As PfamString.PfamString()
+    Private Function __createResult(blast_output As BlastPlus.v228, query As FASTA.FastaFile, time_out As Integer, num_threads As Integer) As PfamString()
         Dim data = LQuerySchedule.LQuery(blast_output.Queries, AddressOf ToPfamString, 20000)
 
         If query.IsNullOrEmpty Then
@@ -241,9 +231,9 @@ Public Module DomainAnalysis
 
         Dim Cache = (From item In data Let fasta = __getFasta(item.ProteinId, query) Select fasta, pfam_string = item).ToArray
 
-        Dim QueryHandle = Function(argv As Object) As PfamString.PfamString
+        Dim QueryHandle = Function(argv As Object) As PfamString
                               Dim FastaObject As FASTA.FastaSeq = DirectCast(argv.fasta, FASTA.FastaSeq)
-                              Dim PfamString As PfamString.PfamString = DirectCast(argv.pfam_string, PfamString.PfamString)
+                              Dim PfamString As PfamString = DirectCast(argv.pfam_string, PfamString)
 
                               If FastaObject Is Nothing Then
                                   Dim msg As String = "[DEBUG] fasta sequence data not found for protein " & PfamString.ProteinId & vbCrLf
@@ -267,8 +257,8 @@ Public Module DomainAnalysis
     End Function
 
     <ExportAPI("PfamString.Fill.ChouFasman")>
-    Public Function FillChouFasmanData(data As IEnumerable(Of PfamString.PfamString), Fasta As FASTA.FastaFile) As PfamString.PfamString()
-        Dim Cache = (From pfString As PfamString.PfamString
+    Public Function FillChouFasmanData(data As IEnumerable(Of PfamString), Fasta As FASTA.FastaFile) As PfamString()
+        Dim Cache = (From pfString As PfamString
                      In data
                      Let FastaObject As FASTA.FastaSeq = __getFasta(pfString.ProteinId, Fasta)
                      Select FastaObject, pfam_string = pfString).ToArray '经过修正之后，只有一个attribute值，即第一个attribute值为目标基因的编号
@@ -284,7 +274,7 @@ Public Module DomainAnalysis
     ''' <param name="Fasta">经过了Grep操作的fasta序列数据</param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public Function FillChouFasmanData(pfString As PfamString.PfamString, Fasta As FASTA.FastaSeq) As PfamString.PfamString
+    Public Function FillChouFasmanData(pfString As PfamString, Fasta As FASTA.FastaSeq) As PfamString
         If Fasta Is Nothing Then '没有找到
             Call $"{pfString.ProteinId} sequence fasta not found!".debug
             Return pfString
@@ -301,7 +291,7 @@ Public Module DomainAnalysis
     ''' <param name="sequence"></param>
     ''' <returns>[ABCT](start|ends)</returns>
     ''' <remarks></remarks>
-    Private Function __createStructureRegion(describ As PfamString.PfamString, sequence As FASTA.FastaSeq) As PfamString.PfamString
+    Private Function __createStructureRegion(describ As PfamString, sequence As FASTA.FastaSeq) As PfamString
         If describ.PfamString.IsNullOrEmpty OrElse describ.PfamString.Length = 1 Then
             Return describ
         End If
@@ -340,7 +330,7 @@ Public Module DomainAnalysis
     End Function
 
     <ExportAPI("PfamString.Equals")>
-    Public Function PfamStringEquals(a As PfamString.PfamString, b As PfamString.PfamString,
+    Public Function PfamStringEquals(a As PfamString, b As PfamString,
                                      <Parameter("Threshold.HighlyScoring")>
                                      Optional highlyScoringThreshold As Double = 0.9) As MPAlignment.LevAlign
         Return MPAlignment.Algorithm.PfamStringEquals(a, b, highlyScoringThreshold)
@@ -359,7 +349,7 @@ Public Module DomainAnalysis
                                  Optional evalue As Double = Evalue1En5,
                                  Optional coverage As Double = 0.85,
                                  Optional identities As Double = 0.3,
-                                 Optional offset As Double = 0.1) As PfamString.PfamString
+                                 Optional offset As Double = 0.1) As PfamString
         Dim locusId As String = query.QueryName.Split.First
         Dim Description As String
 
@@ -370,7 +360,7 @@ Public Module DomainAnalysis
         End If
 
         If query.SubjectHits.IsNullOrEmpty Then
-            Return New PfamString.PfamString With {
+            Return New PfamString With {
                 .ProteinId = locusId,
                 .Length = query.QueryLength,
                 .Description = Description
@@ -384,7 +374,7 @@ Public Module DomainAnalysis
             identities:=identities,
             offset:=offset
         )
-        Dim Protein As New PfamString.PfamString With {
+        Dim Protein As New PfamString With {
             .ProteinId = locusId,
             .Description = Description,
             .Length = query.QueryLength,

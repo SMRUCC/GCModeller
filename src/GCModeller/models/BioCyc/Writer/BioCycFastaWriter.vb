@@ -47,12 +47,12 @@ Namespace Writer
         ''' <param name="location">位置描述，例如 ``(3162744..3163481)``</param>
         ''' <param name="seq">序列字符串</param>
         ''' <returns>当前写入器，便于链式调用</returns>
-        Public Function Add(uniqueId As String, seq As String, Optional gene As String = Nothing, Optional description As String = Nothing, Optional location As String = Nothing) As BioCycFastaWriter
+        Public Function Add(uniqueId As String, seq As String, Optional gene As String = Nothing, Optional description As String = Nothing, Optional location As String = Nothing, Optional genePrefix As String = "gn=") As BioCycFastaWriter
             If String.IsNullOrEmpty(uniqueId) OrElse String.IsNullOrEmpty(seq) Then
                 Return Me
             End If
 
-            Call buffer.AppendLine(formatTitle(uniqueId, gene, description, location))
+            Call buffer.AppendLine(formatTitle(uniqueId, gene, description, location, genePrefix))
 
             Dim text As String = seq.Trim.ToUpper
 
@@ -75,12 +75,13 @@ Namespace Writer
         Public Sub WriteRecord(writer As TextWriter, uniqueId As String, seq As String,
                                Optional gene As String = Nothing,
                                Optional description As String = Nothing,
-                               Optional location As String = Nothing)
+                               Optional location As String = Nothing,
+                               Optional genePrefix As String = "gn=")
             If writer Is Nothing OrElse String.IsNullOrEmpty(uniqueId) OrElse String.IsNullOrEmpty(seq) Then
                 Return
             End If
 
-            Call writer.WriteLine(formatTitle(uniqueId, gene, description, location))
+            Call writer.WriteLine(formatTitle(uniqueId, gene, description, location, genePrefix))
 
             Dim text As String = seq.Trim.ToUpper
 
@@ -94,11 +95,11 @@ Namespace Writer
         ''' <summary>
         ''' 构造 FASTA 标题行
         ''' </summary>
-        Private Function formatTitle(uniqueId As String, gene As String, description As String, location As String) As String
+        Private Function formatTitle(uniqueId As String, gene As String, description As String, location As String, Optional genePrefix As String = "gn=") As String
             Dim title As New StringBuilder($">gnl|{If(orgId, "UNKNOWN")}|{uniqueId}")
 
             If Not String.IsNullOrEmpty(gene) Then
-                Call title.Append($" gn={gene}")
+                Call title.Append($" {genePrefix}{flatten(gene)}")
             End If
 
             If Not String.IsNullOrEmpty(description) Then
