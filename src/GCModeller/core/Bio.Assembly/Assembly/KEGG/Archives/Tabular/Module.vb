@@ -76,7 +76,7 @@ Namespace Assembly.KEGG.Archives.Tabular
             End Set
         End Property
 
-        <Column(Name:="Num.Genes")> Public ReadOnly Property NumberGenes As Integer
+        <Column("Num.Genes")> Public ReadOnly Property NumberGenes As Integer
             Get
                 Return PathwayGenes.Length
             End Get
@@ -91,18 +91,18 @@ Namespace Assembly.KEGG.Archives.Tabular
         ''' A
         ''' </summary>
         ''' <returns></returns>
-        <Column(Name:="br.Type")> Public Property Type As String
+        <Column("br.Type")> Public Property Type As String
         ''' <summary>
         ''' B
         ''' </summary>
         ''' <returns></returns>
-        <Column(Name:="br.Class")>
+        <Column("br.Class")>
         Public Property [Class] As String
         ''' <summary>
         ''' C
         ''' </summary>
         ''' <returns></returns>
-        <Column(Name:="br.Category")>
+        <Column("br.Category")>
         Public Property Category As String
 #End Region
 
