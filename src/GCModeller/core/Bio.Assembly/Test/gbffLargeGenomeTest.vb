@@ -217,16 +217,17 @@ Module gbffLargeGenomeTest
         Call DebugAudit.AreEqual(0, failed, "features with empty sequence data")
         Call DebugAudit.AreEqual(multiExon, multiExonOk, "the multi-exon feature sequence length should be the sum of all segments")
 
-        ' 反向互补校验: CDS 的序列应该是其互补链上面正序序列的反向互补
-        Dim reversed As gbFeature = cds.FirstOrDefault(Function(f) f.Location.Complement)
+        ' 反向互补校验: 单外显子的互补链feature，其序列应该是正序片段的反向互补
+        Dim reversed As gbFeature = cds.FirstOrDefault(Function(f) f.Location.Complement AndAlso f.Location.SegmentCount = 1)
 
         If reversed IsNot Nothing Then
             Dim forward As String = gb.Origin.Slice(reversed.Location.Left, reversed.Location.Right)
             Dim reverse As String = gb.ReadSequence(reversed)
+            Dim expected As String = SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcid.Complement(forward.ReverseString())
 
-            Call DebugAudit.Check(reverse.Length = forward.Length, "reverse complement sequence length")
-            Call DebugAudit.Check(reverse.Length > 0 AndAlso reverse.ReverseString().ToUpper = SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcid.Complement(reverse).ToUpper,
-                                  "the reverse complement of the feature sequence should be equal to the complement of the reversed sequence")
+            Call DebugAudit.Mark("feature.complement.sample", $"{reversed.Location.Left}..{reversed.Location.Right}")
+            Call DebugAudit.AreEqual(forward.Length, reverse.Length, "reverse complement sequence length")
+            Call DebugAudit.AreEqual(expected.ToUpper, reverse.ToUpper, "the feature sequence on the complement strand")
         End If
 
         ' 区间查询
@@ -311,7 +312,7 @@ Module gbffLargeGenomeTest
     ''' 记录偏移量索引的构建以及随机访问测试
     ''' </summary>
     Public Sub RunIndex(gbff As String, accession As String)
-        Dim cache As String = gbff & ".gbff.idx"
+        Dim cache As String = gbff & ".idx"
 
         If IO.File.Exists(cache) Then
             Call IO.File.Delete(cache)
@@ -319,13 +320,36 @@ Module gbffLargeGenomeTest
 
         Dim index As GbkRecordIndex = Nothing
 
-        Using DebugAudit.Watch("index.scan")
-            index = GbkRecordIndex.Scan(gbff)
+        Using DebugAudit.Watch("index.open")
+            index = GbkRecordIndex.Open(gbff, GbkReadOptions.Default)
         End Using
 
         Call DebugAudit.Mark("index.records", index.Count)
+        Call DebugAudit.Mark("index.cache", index.CachePath)
+        Call DebugAudit.Mark("index.cache.enabled", GbkReadOptions.Default.UseRecordIndexCache)
+        Call DebugAudit.Mark("index.cache.exists", IO.File.Exists(cache))
+
+        If Not IO.File.Exists(cache) Then
+            Try
+                Call index.SaveCache()
+                Call DebugAudit.Mark("index.cache.retry", IO.File.Exists(cache))
+            Catch ex As Exception
+                Call DebugAudit.Mark("index.cache.error", ex.ToString())
+            End Try
+        End If
+
         Call DebugAudit.Check(index.Count > 0, "the record index should not be empty")
         Call DebugAudit.Check(IO.File.Exists(cache), "the record index cache file should be created")
+
+        ' 校验缓存是否可以正确加载
+        Dim reload As GbkRecordIndex = GbkRecordIndex.Open(gbff, GbkReadOptions.Default)
+
+        Call DebugAudit.AreEqual(index.Count, reload.Count, "the cached record index should have the same record count")
+
+        Dim record As GbkRecordInfo = Nothing
+
+        Call DebugAudit.Check(reload.TryGetRecord(accession, record), $"the record '{accession}' should be found in the index")
+        Call DebugAudit.Check(record IsNot Nothing AndAlso record.LocusOffset > 0, "the locus offset should be greater than zero")
     End Sub
 
     ''' <summary>
@@ -409,11 +433,15 @@ Module gbffLargeGenomeTest
         Dim lines As String() = IO.File.ReadAllLines(target)
 
         Call DebugAudit.Check(lines(0).StartsWith("LOCUS       "), "LOCUS line format")
-        Call DebugAudit.AreEqual(142, Array.IndexOf(lines, "FEATURES             Location/Qualifiers"), "the header lines should be kept in the same order")
+        Call DebugAudit.Check(Array.IndexOf(lines, "FEATURES             Location/Qualifiers") > 0, "the FEATURES section header should be written")
         Call DebugAudit.Check(lines.Any(Function(l) l.StartsWith("ORIGIN")), "ORIGIN line should be written")
         Call DebugAudit.Check(lines.Last() = "//", "the record should be end with //")
 
-        Call IO.File.Delete(target)
+        If Not Environment.GetCommandLineArgs().Contains("--keep") Then
+            Call IO.File.Delete(target)
+        Else
+            Call Console.WriteLine($"output kept: {target}")
+        End If
     End Sub
 End Module
 

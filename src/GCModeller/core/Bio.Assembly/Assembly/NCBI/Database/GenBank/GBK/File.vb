@@ -1,4 +1,4 @@
-﻿' Author:
+' Author:
 ' 
 '       asuka (amethyst.asuka@gcmodeller.org)
 '       xie (genetics@smrucc.org)
@@ -477,7 +477,35 @@ Namespace Assembly.NCBI.GenBank.GBFF
         End Function
 
         Public Function Save(path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
-            Return Save(path, encoding.CodePage)
+            Return Save(path, __getEncoding(encoding))
+        End Function
+
+        ''' <summary>
+        ''' 将genbank记录以指定的代码页写出到文件之中
+        ''' </summary>
+        ''' <param name="path">目标文件的路径</param>
+        ''' <param name="codePage">
+        ''' 文本的代码页。GenBank是ASCII文本，所以一般使用<c>20127</c>(<see cref="Encoding.ASCII"/>的代码页)
+        ''' </param>
+        Public Function Save(path As String, codePage As Integer) As Boolean
+            Return Save(path, __getEncoding(codePage))
+        End Function
+
+        Private Shared Function __getEncoding(codePage As Integer) As Encoding
+            If codePage <= 0 Then
+                Return System.Text.Encoding.Default
+            End If
+
+            Try
+                Return System.Text.Encoding.GetEncoding(codePage)
+            Catch ex As Exception
+                Call App.LogException(New ArgumentException($"invalid code page '{codePage}'!", NameOf(codePage), ex))
+                Return System.Text.Encoding.UTF8
+            End Try
+        End Function
+
+        Private Shared Function __getEncoding(encoding As Encodings) As Encoding
+            Return GbkWriter.GetEncoding(encoding)
         End Function
     End Class
 End Namespace

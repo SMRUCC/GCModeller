@@ -203,17 +203,18 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords
         ''' 取出子字段的名称(第3列到第12列)
         ''' </summary>
         Private Shared Function __name(line As String) As String
-            If String.IsNullOrEmpty(line) OrElse line.Length <= 3 Then
+            ' 子字段的名称占用第3列到第12列(下标2到11)
+            If String.IsNullOrEmpty(line) OrElse line.Length <= 2 Then
                 Return ""
             End If
 
             Dim endIndex As Integer = Math.Min(12, line.Length)
 
-            If endIndex <= 3 Then
+            If endIndex <= 2 Then
                 Return ""
             End If
 
-            Return line.Substring(3, endIndex - 3).Trim()
+            Return line.Substring(2, endIndex - 2).Trim()
         End Function
 
         ''' <summary>

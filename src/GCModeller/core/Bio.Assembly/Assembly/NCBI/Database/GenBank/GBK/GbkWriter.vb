@@ -174,13 +174,31 @@ Namespace Assembly.NCBI.GenBank.GBFF
         <ExportAPI("Write.GBK")>
         <Extension>
         Public Function WriteGenbank(records As IEnumerable(Of GenBank.GBFF.File), path$, Optional encoding As Encodings = Encodings.ASCII) As Boolean
-            Using writer As New StreamWriter(New FileStream(path, FileMode.Create, FileAccess.Write, FileShare.Read, 1024 * 64), System.Text.Encoding.ASCII)
+            Using writer As New StreamWriter(New FileStream(path, FileMode.Create, FileAccess.Write, FileShare.Read, 1024 * 64), GetEncoding(encoding))
                 For Each gb As GenBank.GBFF.File In records
                     Call Save(gb, writer)
                 Next
             End Using
 
             Return True
+        End Function
+
+        ''' <summary>
+        ''' 将<see cref="Encodings"/>枚举转换为文本编码对象
+        ''' </summary>
+        Public Function GetEncoding(encoding As Encodings) As System.Text.Encoding
+            Select Case encoding
+                Case Encodings.ASCII
+                    Return System.Text.Encoding.ASCII
+                Case Encodings.UTF8
+                    Return New System.Text.UTF8Encoding(encoderShouldEmitUTF8Identifier:=True)
+                Case Encodings.UTF8WithoutBOM
+                    Return New System.Text.UTF8Encoding(encoderShouldEmitUTF8Identifier:=False)
+                Case Encodings.Unicode, Encodings.UTF16
+                    Return System.Text.Encoding.Unicode
+                Case Else
+                    Return System.Text.Encoding.Default
+            End Select
         End Function
 
 #Region "LOCUS / head fields"
@@ -245,7 +263,7 @@ Namespace Assembly.NCBI.GenBank.GBFF
         ''' 写出一个头部字段: 字段名占用12列，字段的值在第13列之后，超过行宽的时候自动折行
         ''' </summary>
         Private Sub __writeField(writer As TextWriter, name As String, value As String)
-            Dim lines As String() = __wrap(value, FIELD_WIDTH, FIELD_WIDTH)
+            Dim lines As String() = __wrap(value, GbkFormat.LINE_WIDTH - FIELD_WIDTH, GbkFormat.LINE_WIDTH - FIELD_WIDTH)
             Dim prefix As String = name.PadRight(FIELD_WIDTH)
 
             Call writer.WriteLine(prefix & lines(Scan0))
@@ -271,7 +289,7 @@ Namespace Assembly.NCBI.GenBank.GBFF
             End If
 
             ' ORGANISM字段的名称占用第3列到第12列
-            Dim lines As String() = __wrap(If(organism.SpeciesName, ""), FIELD_WIDTH, FIELD_WIDTH)
+            Dim lines As String() = __wrap(If(organism.SpeciesName, ""), GbkFormat.LINE_WIDTH - FIELD_WIDTH, GbkFormat.LINE_WIDTH - FIELD_WIDTH)
 
             Call writer.WriteLine($"{"  ORGANISM".PadRight(FIELD_WIDTH)}{lines(Scan0)}")
 
@@ -280,9 +298,13 @@ Namespace Assembly.NCBI.GenBank.GBFF
             Next
 
             If Not organism.Lineage.IsNullOrEmpty Then
-                Dim lineage As String = String.Join("; ", organism.Lineage) & "."
+                Dim lineage As String = String.Join("; ", organism.Lineage)
 
-                For Each line As String In __wrap(lineage, FIELD_WIDTH, FIELD_WIDTH)
+                If Not lineage.EndsWith(".") Then
+                    lineage &= "."
+                End If
+
+                For Each line As String In __wrap(lineage, GbkFormat.LINE_WIDTH - FIELD_WIDTH, GbkFormat.LINE_WIDTH - FIELD_WIDTH)
                     Call writer.WriteLine($"{New String(" "c, FIELD_WIDTH)}{line}")
                 Next
             End If
@@ -312,8 +334,10 @@ Namespace Assembly.NCBI.GenBank.GBFF
 
                 Call writer.WriteLine(head.ToString())
 
-                If Not info.Authors.IsNullOrEmpty Then
-                    Call __writeSubField(writer, "AUTHORS", String.Join(", ", info.Authors))
+                Dim authors As String = String.Join(", ", info.Authors.SafeQuery)
+
+                If Not String.IsNullOrEmpty(authors) Then
+                    Call __writeSubField(writer, "AUTHORS", authors)
                 End If
                 If Not String.IsNullOrEmpty(info.Consrtm) Then
                     Call __writeSubField(writer, "CONSRTM", info.Consrtm)
@@ -356,7 +380,7 @@ Namespace Assembly.NCBI.GenBank.GBFF
             Dim key As String = If(feature.KeyName, "")
             Dim location As String = If(feature.Location Is Nothing, "", feature.Location.ToString())
             Dim prefix As String = "     " & key.PadRight(FEATURE_FIELD_WIDTH)
-            Dim locLines As String() = __wrapLocation(location, GbkFormat.QUALIFIER_COLUMN - prefix.Length)
+            Dim locLines As String() = __wrapLocation(location, GbkFormat.LINE_WIDTH - prefix.Length)
 
             Call writer.WriteLine(prefix & locLines(Scan0))
 
@@ -381,6 +405,7 @@ Namespace Assembly.NCBI.GenBank.GBFF
 
             prefix = prefix & "="
             lines = __wrap(text, GbkFormat.LINE_WIDTH - prefix.Length, GbkFormat.LINE_WIDTH - GbkFormat.QUALIFIER_COLUMN)
+
 
             Call writer.WriteLine(prefix & lines(Scan0))
 
