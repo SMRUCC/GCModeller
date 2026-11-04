@@ -1,56 +1,56 @@
 ﻿#Region "Microsoft.VisualBasic::392d1951462066966eafc05f479470fd, data\Xfam\Pfam\MPAlignment\Algorithm\MPAlignment.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 295
-    '    Code Lines: 217 (73.56%)
-    ' Comment Lines: 45 (15.25%)
-    '    - Xml Docs: 84.44%
-    ' 
-    '   Blank Lines: 33 (11.19%)
-    '     File Size: 16.17 KB
+' Summaries:
 
 
-    '     Module Algorithm
-    ' 
-    '         Function: __createDS, AltEquals, Edits, (+2 Overloads) PfamStringEquals, PositionEquals
-    ' 
-    '         Sub: __alignDomain
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 295
+'    Code Lines: 217 (73.56%)
+' Comment Lines: 45 (15.25%)
+'    - Xml Docs: 84.44%
+' 
+'   Blank Lines: 33 (11.19%)
+'     File Size: 16.17 KB
+
+
+'     Module Algorithm
+' 
+'         Function: __createDS, AltEquals, Edits, (+2 Overloads) PfamStringEquals, PositionEquals
+' 
+'         Sub: __alignDomain
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -62,6 +62,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.ProteinModel
 Imports sys = System.Math
 
 Namespace ProteinDomainArchitecture.MPAlignment
@@ -129,13 +130,13 @@ Statistics as Topic",
         ''' <returns></returns>
         ''' <remarks>对于两个Domain之间的序列，其格式为[ABCT](start|ends)</remarks>
         '''
-        Public Function PfamStringEquals(Protein_1 As PfamString.PfamString, Protein_2 As PfamString.PfamString,
+        Public Function PfamStringEquals(Protein_1 As PfamString, Protein_2 As PfamString,
                                          highlyScoringThreshold As Double,
                                          Optional partEquals As Boolean = False) As LevAlign
             Return PfamStringEquals(Protein_1, Protein_2, New DomainEquals(highlyScoringThreshold, partEquals))
         End Function
 
-        Public Function PfamStringEquals(Protein_1 As PfamString.PfamString, Protein_2 As PfamString.PfamString, equals As DomainEquals) As LevAlign
+        Public Function PfamStringEquals(Protein_1 As PfamString, Protein_2 As PfamString, equals As DomainEquals) As LevAlign
             Dim result As LevAlign = New LevAlign(Protein_1, Protein_2, equals)
             Return result
         End Function
@@ -149,7 +150,7 @@ Statistics as Topic",
         ''' <remarks>对于两个Domain之间的序列，其格式为[ABCT](start|ends)</remarks>
         ''' 
         '''
-        Public Function AltEquals(Protein_1 As PfamString.PfamString, Protein_2 As PfamString.PfamString, highlyScoringThreshold As Double) As AlignmentOutput
+        Public Function AltEquals(Protein_1 As PfamString, Protein_2 As PfamString, highlyScoringThreshold As Double) As AlignmentOutput
             If Protein_1.PfamString.IsNullOrEmpty OrElse Protein_2.PfamString.IsNullOrEmpty Then  '两个蛋白质没有任何的结构域，则无法做进一步判断是否到底相等
                 Return New AlignmentOutput With {
                     .ProteinQuery = Protein_1,

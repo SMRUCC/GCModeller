@@ -7,6 +7,7 @@
 ' ============================================================================
 
 Imports SMRUCC.genomics.Data.Xfam.Pfam.PfamString
+Imports SMRUCC.genomics.ProteinModel
 
 Namespace Traitar.Modules
 

@@ -65,6 +65,7 @@ Imports SMRUCC.genomics.Analysis.metaTraits.Traitar
 Imports SMRUCC.genomics.Analysis.metaTraits.Traitar.Models
 Imports SMRUCC.genomics.Analysis.metaTraits.Traitar.Modules
 Imports SMRUCC.genomics.Data.Xfam.Pfam.PfamString
+Imports SMRUCC.genomics.ProteinModel
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
