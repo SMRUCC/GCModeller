@@ -80,6 +80,9 @@ Public Class ObjectWriter
 
     Private Sub New(type As Type)
         model = type
+        ' 没有 AttributeField 标注的属性(例如 proteins.protseq)不对应任何数据槽位，直接跳过：
+        ' 否则每次反序列化都会用一个 Nothing 键去查询属性表，在 DEBUG 版本之中会产生大量的
+        ' "Index key is nothing!" 诊断输出
         schema = DataFramework.Schema(type, PropertyAccess.Writeable, nonIndex:=True) _
             .Values _
             .Select(Function(p)
@@ -88,6 +91,7 @@ Public Class ObjectWriter
 
                         Return map
                     End Function) _
+            .Where(Function(f) Not f.Name Is Nothing) _
             .ToArray
     End Sub
 
