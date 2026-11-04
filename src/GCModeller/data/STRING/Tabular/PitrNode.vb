@@ -1,5 +1,5 @@
 ﻿Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 
 Namespace Tabular

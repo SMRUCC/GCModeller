@@ -8,7 +8,7 @@
 '
 ' /********************************************************************************/
 
-Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Namespace AnalysisAPI
 
