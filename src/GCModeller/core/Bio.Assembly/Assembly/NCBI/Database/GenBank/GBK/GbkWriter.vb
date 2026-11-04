@@ -515,6 +515,12 @@ Namespace Assembly.NCBI.GenBank.GBFF
         ''' <param name="firstWidth">第一行可用的列宽度</param>
         ''' <param name="width">后续行可用的列宽度</param>
         Private Function __wrap(text As String, firstWidth As Integer, width As Integer) As String()
+            If firstWidth < 8 Then
+                firstWidth = 8
+            End If
+            If width < 8 Then
+                width = 8
+            End If
             If String.IsNullOrEmpty(text) Then
                 Return New String() {""}
             End If
@@ -546,13 +552,20 @@ Namespace Assembly.NCBI.GenBank.GBFF
                 End If
 
                 If token.Length > limit Then
-                    ' 超长的单词只能够硬切
-                    Call sb.Append(token.Substring(0, limit))
+                    ' 超长的单词(例如没有空白字符分隔的长编号)只能够硬切
+                    Dim rest As String = token
 
-                    Dim rest As String = token.Substring(limit)
+                    Do While rest.Length > limit
+                        If sb.Length > 0 Then
+                            Call lines.Add(sb.ToString())
+                            Call sb.Clear()
+                            limit = width
+                        End If
 
-                    Call lines.Add(sb.ToString())
-                    Call sb.Clear()
+                        Call lines.Add(rest.Substring(0, limit))
+                        rest = rest.Substring(limit)
+                    Loop
+
                     Call sb.Append(rest)
                     limit = width
                 Else
@@ -573,6 +586,9 @@ Namespace Assembly.NCBI.GenBank.GBFF
         ''' 按照标准的行宽进行折行: 优先在逗号处折行(location或者contig字段)
         ''' </summary>
         Private Function __wrapLocation(text As String, firstWidth As Integer) As String()
+            If firstWidth < 8 Then
+                firstWidth = 8
+            End If
             If String.IsNullOrEmpty(text) Then
                 Return New String() {""}
             End If

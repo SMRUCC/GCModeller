@@ -97,6 +97,8 @@ Module gbffLargeGenomeTest
                     Call RunLowMemory(gbff, accession)
                 Case "index"
                     Call RunIndex(gbff, accession)
+                Case "smoke"
+                    Call RunSmoke(gbff)
                 Case "all"
                     Call RunIndex(gbff, accession)
                     Call RunRecord(gbff, accession)
@@ -140,6 +142,9 @@ Module gbffLargeGenomeTest
     ''' </summary>
     Public Sub RunRecord(gbff As String, accession As String)
         Dim gb As File = Nothing
+
+        Call GC.Collect()
+        Call GC.WaitForPendingFinalizers()
 
         Using DebugAudit.Watch($"record.load[{accession}]")
             gb = File.LoadRecord(gbff, accession)
@@ -309,6 +314,40 @@ Module gbffLargeGenomeTest
     End Sub
 
     ''' <summary>
+    ''' 残缺记录的容错测试: 缺失``ORIGIN``段或者缺失``FEATURES``段的记录不应该抛出异常
+    ''' </summary>
+    Public Sub RunSmoke(gbff As String)
+        Dim gb As File = Nothing
+
+        Using DebugAudit.Watch("smoke.load")
+            gb = File.Load(gbff)
+        End Using
+
+        Call DebugAudit.Require(gb IsNot Nothing, "failed to load the genbank record!")
+
+        Call DebugAudit.Mark("smoke.locus", gb.Locus.AccessionID)
+        Call DebugAudit.Mark("smoke.features", gb.Features.Count)
+        Call DebugAudit.Mark("smoke.origin.size", gb.Origin.Size)
+        Call DebugAudit.Mark("smoke.comment", If(gb.Comment Is Nothing, "<none>", gb.Comment.Comment.Substring(0, Math.Min(40, gb.Comment.Comment.Length))))
+        Call DebugAudit.Mark("smoke.reference", If(gb.Reference Is Nothing, 0, gb.Reference.ReferenceList.Length))
+
+        Call DebugAudit.Check(Not String.IsNullOrEmpty(gb.Locus.AccessionID), "the record accession should be parsed")
+
+        ' 残缺的记录也应当可以正常写出而不抛出异常
+        Dim target As String = IO.Path.Combine(IO.Path.GetTempPath(), "gbff-smoke-test.gbff")
+
+        Using DebugAudit.Watch("smoke.write")
+            Call gb.Save(target, Encoding.ASCII.CodePage)
+        End Using
+
+        Dim reload As File = File.Load(target)
+
+        Call DebugAudit.AreEqual(gb.Features.Count, reload.Features.Count, "smoke round-trip feature count")
+
+        Call IO.File.Delete(target)
+    End Sub
+
+    ''' <summary>
     ''' 记录偏移量索引的构建以及随机访问测试
     ''' </summary>
     Public Sub RunIndex(gbff As String, accession As String)
@@ -326,18 +365,7 @@ Module gbffLargeGenomeTest
 
         Call DebugAudit.Mark("index.records", index.Count)
         Call DebugAudit.Mark("index.cache", index.CachePath)
-        Call DebugAudit.Mark("index.cache.enabled", GbkReadOptions.Default.UseRecordIndexCache)
         Call DebugAudit.Mark("index.cache.exists", IO.File.Exists(cache))
-
-        If Not IO.File.Exists(cache) Then
-            Try
-                Call index.SaveCache()
-                Call DebugAudit.Mark("index.cache.retry", IO.File.Exists(cache))
-            Catch ex As Exception
-                Call DebugAudit.Mark("index.cache.error", ex.ToString())
-            End Try
-        End If
-
         Call DebugAudit.Check(index.Count > 0, "the record index should not be empty")
         Call DebugAudit.Check(IO.File.Exists(cache), "the record index cache file should be created")
 
@@ -349,7 +377,7 @@ Module gbffLargeGenomeTest
         Dim record As GbkRecordInfo = Nothing
 
         Call DebugAudit.Check(reload.TryGetRecord(accession, record), $"the record '{accession}' should be found in the index")
-        Call DebugAudit.Check(record IsNot Nothing AndAlso record.LocusOffset > 0, "the locus offset should be greater than zero")
+        Call DebugAudit.Check(record IsNot Nothing AndAlso record.Length > 0, "the record length should be greater than zero")
     End Sub
 
     ''' <summary>

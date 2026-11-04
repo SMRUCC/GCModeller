@@ -77,7 +77,13 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
                 If _source IsNot Nothing Then
                     Return _source
                 ElseIf _innerList.IsNullOrEmpty Then
-                    Return Nothing
+                    ' 空的位点列表(例如记录之中缺失了FEATURES段): 返回一个空的source位点，
+                    ' 但是不会将其添加到列表之中，从而保证位点的数量以及写出的内容是准确的
+                    If _source Is Nothing Then
+                        _source = ParserHelper.__nullFeature()
+                    End If
+
+                    Return _source
                 Else
                     Return _innerList(Scan0)
                 End If

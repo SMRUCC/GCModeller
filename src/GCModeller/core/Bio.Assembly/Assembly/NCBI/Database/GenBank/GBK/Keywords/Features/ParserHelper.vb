@@ -200,19 +200,22 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
                 End If
             Next
 
-            If source Is Nothing Then
-                source = __nullFeature()
-
-                If InvalidLines > 0 Then
-                    Call $"genbank record '{context}' has no 'source' feature!".warning
-                End If
+            If source Is Nothing AndAlso InvalidLines > 0 Then
+                Call $"genbank record '{context}' has no 'source' feature!".warning
             End If
 
-            Return New FEATURES With {
+            Dim features As New FEATURES With {
                 ._innerList = list,
-                .source = source,
                 .InvalidLines = InvalidLines
             }
+
+            ' source位点已经存在于列表之中(正常情况下是列表的第一个元素)，
+            ' 所以这里的赋值不会产生重复的位点
+            If source IsNot Nothing Then
+                features.source = source
+            End If
+
+            Return features
         End Function
     End Class
 End Namespace

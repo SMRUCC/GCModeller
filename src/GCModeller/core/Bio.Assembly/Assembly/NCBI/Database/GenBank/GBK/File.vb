@@ -416,9 +416,34 @@ Namespace Assembly.NCBI.GenBank.GBFF
                 Throw New FileNotFoundException($"the target genbank database file '{filePath}' does not exist!", filePath)
             End If
 
-            For Each gb As File In GbkParser.LoadDatabase(filePath, options)
-                Yield gb
-            Next
+            If Not suppressError Then
+                For Each gb As File In GbkParser.LoadDatabase(filePath, options)
+                    Yield gb
+                Next
+
+                Return
+            End If
+
+            ' 单个记录的解析错误不会打断整个数据库文件的读取
+            Using records As New GbkRecordReader(filePath, options)
+                Dim enumerator As IEnumerator(Of File) = records.GetEnumerator()
+                Dim gb As File = Nothing
+
+                Do While True
+                    Try
+                        If Not enumerator.MoveNext() Then
+                            Exit Do
+                        End If
+
+                        gb = enumerator.Current
+                    Catch ex As Exception
+                        Call App.LogException(New GbkFormatException($"error while parsing a record in '{filePath}'!", innerException:=ex))
+                        Exit Do
+                    End Try
+
+                    Yield gb
+                Loop
+            End Using
         End Function
 
         ''' <summary>
@@ -471,7 +496,8 @@ Namespace Assembly.NCBI.GenBank.GBFF
         End Function
 
         Public Function Save(s As Stream, encoding As Encoding) As Boolean Implements ISaveHandle.Save
-            Using wr As New StreamWriter(s, encoding, bufferSize:=1024 * 64)
+            ' 目标数据流由调用者管理，这里不会在写出完成之后关闭数据流
+            Using wr As New StreamWriter(s, encoding, bufferSize:=1024 * 64, leaveOpen:=True)
                 Return GbkWriter.Save(Me, wr)
             End Using
         End Function

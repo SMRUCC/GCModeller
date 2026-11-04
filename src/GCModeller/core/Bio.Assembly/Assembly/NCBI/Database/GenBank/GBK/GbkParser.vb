@@ -160,12 +160,18 @@ Namespace Assembly.NCBI.GenBank.GBFF
         Private ReadOnly path As String
         Private ReadOnly stopAfterFirst As Boolean
 
+        ''' <summary>
+        ''' ``ORIGIN``段序列缓冲区所允许的最大预分配长度
+        ''' </summary>
+        Private Const MaxSequenceHint As Integer = 300000000
+
         ' ============ 当前记录的解析状态 ============
         Private gb As File
         Private section As String
         Private ReadOnly sectionLines As New List(Of String)
         Private features As FeatureBuilder
         Private rawSections As Dictionary(Of String, String())
+        Private ReadOnly refList As New List(Of RefInfo)
 
         Private seq As Char()
         Private seqLen As Integer
@@ -254,7 +260,9 @@ Namespace Assembly.NCBI.GenBank.GBFF
 
                     Select Case section
                         Case "FEATURES"
-                            features = New FeatureBuilder(__accession())
+                            If options.LoadFeatures Then
+                                features = New FeatureBuilder(__accession())
+                            End If
                         Case "ORIGIN"
                             Call __beginOrigin()
                         Case "LOCUS"
@@ -288,6 +296,7 @@ Namespace Assembly.NCBI.GenBank.GBFF
             features = Nothing
 
             Call sectionLines.Clear()
+            Call refList.Clear()
 
             rawSections = New Dictionary(Of String, String())(StringComparer.OrdinalIgnoreCase)
 
@@ -322,6 +331,10 @@ Namespace Assembly.NCBI.GenBank.GBFF
 
             Call sectionLines.Clear()
 
+            If String.IsNullOrEmpty(name) Then
+                Return
+            End If
+
             Select Case name
                 Case "DEFINITION"
                     gb.Definition = lines
@@ -336,7 +349,12 @@ Namespace Assembly.NCBI.GenBank.GBFF
                 Case "SOURCE"
                     gb.Source = lines
                 Case "REFERENCE"
-                    gb.Reference = REFERENCE.InternalParser(lines)
+                    ' 每一个REFERENCE字段都是一个独立的小节，所以这里需要将所有的引用文献累积起来
+                    Dim parsed As REFERENCE = REFERENCE.InternalParser(lines)
+
+                    If parsed IsNot Nothing AndAlso parsed.ReferenceList IsNot Nothing Then
+                        Call refList.AddRange(parsed.ReferenceList)
+                    End If
                 Case "COMMENT"
                     gb.Comment = lines
                 Case "CONTIG"
@@ -377,8 +395,12 @@ Namespace Assembly.NCBI.GenBank.GBFF
                     hint = gb.Locus.Length
                 End If
 
+                ' LOCUS行所声明的长度只是一个提示值，这里限制一下预分配的缓冲区大小，
+                ' 避免损坏的数据文件(声明的长度与实际数据不符)造成过大的内存分配
                 If hint <= 0 Then
                     hint = 1024
+                ElseIf hint > MaxSequenceHint Then
+                    hint = MaxSequenceHint
                 End If
 
                 seq = New Char(hint - 1) {}
@@ -398,18 +420,22 @@ Namespace Assembly.NCBI.GenBank.GBFF
                 Call anchorOffsets.Add(originLineStart)
             End If
 
-            Dim letters As Integer = NucleotideSlice.CountLetters(line)
+            Dim letters As Integer
+
+            If options.LoadSequence Then
+                ' 单遍扫描: 直接完成容量检查以及碱基字符的提取，避免对同一行数据进行两次遍历
+                If seqLen + line.Length > seq.Length Then
+                    Call __growSequence(seqLen + line.Length)
+                End If
+
+                letters = NucleotideSlice.ExtractLetters(line, seq, seqLen)
+                seqLen += letters
+            Else
+                letters = NucleotideSlice.CountLetters(line)
+            End If
 
             If letters > perLine Then
                 perLine = letters
-            End If
-
-            If options.LoadSequence Then
-                If seqLen + letters > seq.Length Then
-                    Call __growSequence(seqLen + letters)
-                End If
-
-                seqLen += NucleotideSlice.ExtractLetters(line, seq, seqLen)
             End If
 
             totalLetters += letters
@@ -471,7 +497,9 @@ Namespace Assembly.NCBI.GenBank.GBFF
             If gb.DbLinks Is Nothing Then
                 gb.DbLinks = New DBLINK With {.Links = New NamedValue(Of String)() {}}
             End If
-            If gb.Reference Is Nothing Then
+            If refList.Count > 0 Then
+                gb.Reference = New REFERENCE With {.ReferenceList = refList.ToArray}
+            ElseIf gb.Reference Is Nothing Then
                 gb.Reference = New REFERENCE With {.ReferenceList = New RefInfo() {}}
             End If
             If gb.Source Is Nothing Then
