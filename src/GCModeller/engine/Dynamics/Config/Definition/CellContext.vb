@@ -1,11 +1,14 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.ComponentModel.Settings.Inf
 
 Namespace Definitions
 
     ''' <summary>
     ''' define the x0 status of the cell for run the simulation
     ''' </summary>
+    ''' 
+    <ClassName("cell-context")>
     Public Class CellContext : Implements INamedValue
 
         Public Property name As String Implements INamedValue.Key
