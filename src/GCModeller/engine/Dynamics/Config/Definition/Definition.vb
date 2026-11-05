@@ -68,6 +68,7 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Settings.Inf
 Imports Microsoft.VisualBasic.Linq
@@ -147,6 +148,12 @@ Namespace Definitions
         ''' </returns>
         Public Property context As CellContext()
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function LoadIni(file As String) As Definition
+            Return ClassMapper.LoadIni(Of Definition)(file)
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetInfinitySource() As Index(Of String)
             Return {Water, Oxygen}.Where(Function(ref) Not ref Is Nothing).Indexing
         End Function
