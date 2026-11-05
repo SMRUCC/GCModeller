@@ -33,197 +33,138 @@ todos:
 ---
 
 ## 产品概述
-
-在 96 逻辑核（48 物理核）/8 NUMA 节点的生产服务器上，让 Cella 虚拟细胞模拟真正吃满 CPU 资源。当前 6 物种共培养（每物种 1 个细胞）单步约 33 秒且只占用 1 个核，改造目标是把"跨物种/跨块并行 + 单细胞内并行 + float32 权重带宽优化 + 运行时配置"组合起来，使 48 物理核成为有效计算资源。
+补齐 Cella 模拟输出 zip 中的元数据：修复 `metadata.json` 里「基因→EC 编号」关联为空的问题，并用 KEGG `ko00001` 的「通路→EC」映射生成完整的通路信息；同时在 zip 顶层新增 `manifest.json`，导出每个物种的转录组 mRNA、蛋白质组蛋白、代谢组代谢物 id 清单，供后续可视化使用。
 
 ## 核心功能
-
-- **线程预算统一管理**：默认 `ProcessorCount / 2`（本机 48），支持 `CELLA_THREADS` 与 `/run --threads` 覆盖；启动日志打印核数、GC 模式与堆数。
-- **跨物种与跨块并行**：物种组之间并行推进，每组各自持有批处理缓冲；同一物种内的信号转导、翻译、周转、收尾相也按细胞并行；跨膜转运按格点分组并行以保持培养基扣减顺序；环境扩散按 x 层并行。
-- **单细胞内并行（关键）**：LNN 前向改为"输出维分块并行"，batch=1 时也能占满所有核；为此新增 float32 转置权重缓存（Wrec/Win/门控/输出/通量读出头）与并行内核，权重 f32、状态与累加 f64。
-- **载荷阶段并行**：模型文件并行加载、细胞并行播种（模板先建一次）、快照帧并行序列化后顺序写 zip。
-- **可回退**：`CELLA_KERNEL=legacy|threaded`、`CELLA_DTYPE=double|float32`、`--threads`、`ORGANOID_PROFILE=1` 控制内核选择、精度、并行度与剖析。
+- **基因→EC 关联修复**：当前 `ec_numbers` 全为 `[]`，原因是模型里基因写作 `protein_id="BAH98159.1"`，而酶表写作 `proteinID="Protein[BAH98159.1]"`，两边差一个 `Protein[...]` 外壳；匹配时做去壳归一化即可填充，并新增「EC→基因」反向索引。
+- **pathways 富结构**：用 `BriteHText.Load_ko00001()` 解析 KEGG KO 层次，取 `C` 层通路节点（如 `00010 Glycolysis / Gluconeogenesis`）及其后代 `D` 层条目中的 `[EC:...]`，与模型实际拥有的 EC 取交集后输出 `{ko00010: {name, category, ec_numbers[], genes[], molecules[]}}`，多物种合并为一份。
+- **manifest.json**：zip 顶层新增，按物种列出 `mRNA`（基因 locus_tag）、`protein`（模型原样 `Protein[...]`）、`metabolite`（化合物 id）。
+- **体量与开关**：通路富结构可能使 `metadata.json` 增到数 MB，提供 `--metadata=full|basic` 开关（`basic` 不写 pathways 与 manifest）。
 
 ## 效果
+解压结果后可直接得到「通路 → EC → 基因 → 代谢物」的完整链路与三组 id 清单：`metadata.json` 的 `ec_numbers`、`ec_genes`、`pathways` 不再是空值，`manifest.json` 与 `metadata` 的基因键集合一致，前端可视化的 id 对齐全流程打通。
 
-- 6 物种各 1 细胞：单步从约 33 s 降到个位数秒（目标 ≥5×），CPU 利用率从 1 核提升到 ≥70% 的 48 线程预算。
-- 48 细胞规模：耗时随线程数近似线性增长至 32 线程，48 线程仍有正收益。
-- 数值：权重 f32 + f64 累加，与 legacy 内核在 1e-6 容差内一致。
 
 ## 技术栈
-
-- VB.NET / net100，沿用 `engine/Cella`、`engine/CellaLoader`、`sub-system/Metaboliq`、`engine/vCella`、`runtime/sciBASIC` Tensor 内核。
-- 并行：`System.Threading.Tasks.Parallel` + `ParallelOptions`，SIMD 通过 `System.Runtime.Intrinsics`（AVX2，f32 宽 8）。
-- 运行时配置：MSBuild `ServerGarbageCollection`、`ConcurrentGarbageCollection`、`TieredPGO`、`GCHeapCount`，线程池预热 `ThreadPool.SetMinThreads`。
-- 测试与报告：`DebugAudit`、`PhaseProfiler`、`CellaLoader/bench`。
+- VB.NET / net10.0，沿用 `engine\Cella`（快照 DTO 与 zip 归档）、`engine\vCella`（模拟主流程与元数据构建）。
+- KEGG 通路映射：`core\Bio.Assembly\biocore-netcore5.vbproj` 中的 `SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry.BriteHText.Load_ko00001()`（内嵌资源 `Resources\KEGG\ko00001.txt`，4.2 MB）。
+- 依赖关系已核实：`vCella.vbproj:64` 直接引用 `biocore-netcore5.vbproj`，`BriteHText` 可直接使用；`Cella` 项目不引用 biocore，因此通路推导放在 `vCella`，`Cella` 只持有纯数据 DTO（保持引擎无外部数据库依赖）。
 
 ## 现状与根因（已核实）
+| 现象 | 根因 |
+|---|---|
+| `metadata.json` 的 `ec_numbers` 全为 `[]` | `Simulation.buildCellMetadata` 用 `enzyme.proteinID`（`Protein[BAH98159.1]`）建表，再用 `gene.protein_id`（`BAH98159.1`）查询，键不匹配 |
+| `genes` 全为 `null` | GEM 模型的 `<genes>` 无 GO 子节点，`gene.goTerms` 为 `Nothing`（保持原语义，不伪造） |
+| `pathways` 为 `{}` | `buildPathwaysOf` 依赖 `metabolismStructure.maps`，GEM 模型没有该段 |
+| 模型可用数据 | `genome.GetAllGenes()`（locus_tag / protein_id）、`genome.proteins[].protein_id`（`Protein[...]` 原样）、`metabolismStructure.{compounds, enzymes(proteinID/ECNumber/catalysis), reactions}` |
 
-| 位置 | 现状 | 影响 |
-| --- | --- | --- |
-| `Cella/Environment/CellBatchRunner.vb:173-185` | `For Each groups` 逐物种串行推进 | 6 物种只能串行使用 1 核 |
-| `CellBatchRunner.vb:240-318` | signaling/translation/transport/turnover/finish 为单线程 for | 每块只 1 线程 |
-| `CellBatchRunner.vb:114-134` | 批缓冲为实例级单份 | 物种组无法安全并行 |
-| `SIMDTensor.LtcRk4Batch` | 仅 batch ≥ 4 才 `Parallel.For` | 每物种 1 细胞时全部退化为串行 |
-| `MetabolicNetwork.TickBatch:503` → `StepIntervalBatch:737` → `ForwardBatch` | LNN 为热点（占比超过 90%） | 带宽受限，单核 33 s/步 |
-| `Simulation` 播种 / 模型加载 / 快照写盘 | 串行 | 启动与导出阶段利用率低 |
-| 运行时 | ServerGC 关闭、GCHeapCount 默认 | GC 单线程，易成多核瓶颈 |
-
+ko00001 层级（实测）：
+```
+A09100 Metabolism
+B  09101 Carbohydrate metabolism
+C    00010 Glycolysis / Gluconeogenesis [PATH:ko00010]
+D      K00844  HK; hexokinase [EC:2.7.1.1]
+D      K13810  tal-pgi; ... [EC:2.2.1.2 5.3.1.9]
+```
+`BriteHText.entryID`：`C` 层为 5 位数字（`00010`），`D` 层为 `K00844`；`description` = 去掉 `entryID` 的文本（需再去掉 `[PATH:...]`）；`parent`/`categoryItems` 提供 A/B 祖先。
 
 ## 实现方案
 
-### P0 线程与运行时配置
+### A. 快照 DTO（`engine\Cella\Snapshots\`）
+1. `CellMetadata` 新增 `ec_genes As Dictionary(Of String, String())`（EC → 基因，反向索引），`ec_numbers`（基因→EC）语义不变。
+2. 新增 `PathwayMetadata.vb`：`id`（`ko00010`）、`name`、`category`（`"Metabolism; Carbohydrate metabolism"`）、`ec_numbers As String()`、`genes As String()`、`molecules As String()`。
+3. `Metadata.pathways` 类型由 `Dictionary(Of String, String())` 改为 `Dictionary(Of String, PathwayMetadata)`（当前为 `{}`，无兼容负担）。
+4. `SnapshotWriter.BuildMetadata(..., Optional pathways As Dictionary(Of String, PathwayMetadata))` 同步改签名（`Cella\Snapshots\SnapshotWriter.vb:189`）。
+5. 新增 `Manifest.vb`：`Manifest { total_time, species As Dictionary(Of String, SpeciesManifest) }`，`SpeciesManifest { taxonomy, mRNA As String(), protein As String(), metabolite As String() }`。
+6. `SnapshotArchive` 新增 `Public Const ManifestEntryName As String = "manifest.json"` 与 `WriteManifest(manifest)`，写顶层条目（复用 `WriteMetadata` 的 `CountingStream` + `JsonSerializer` 模式，压缩等级 `SmallestSize`），并补 `ReadManifest()` 便于测试。
 
-新增 `engine/Cella/Environment/CellaThreading.vb`：
+### B. 基因→EC（`engine\vCella\Simulation.vb`）
+- 新增 `normalizeProteinId(id)`：大小写不敏感地把 `Protein[X]` 归一为 `X`（仅用于匹配，输出保持原样）。
+- `buildCellMetadata`：
+  1. 用「原样 + 去壳」两种键建立 `proteinID → EC` 索引（一个酶多 EC 时按空白拆分）；
+  2. 遍历 `genome.GetAllGenes()`，对每个 `gene.protein_id` 先查原样、再查去壳，收集去重后的 EC 数组；
+  3. 同时填充 `ec_genes` 反向索引；
+  4. `genes` 仍写 `gene.goTerms`（GEM 无 GO 时为 null，属预期）。
 
-- `Cores`：`CELLA_THREADS` 优先，否则 `Environment.ProcessorCount \ 2`，下限 1
-- `Options`：`ParallelOptions`（`MaxDegreeOfParallelism = Cores`）
-- `Warmup()`：`ThreadPool.SetMinThreads(Cores, Cores)` + 一次预热并行循环，消除线程注入阶梯
-- `Describe()`：返回核数/GC 模式/堆数，供 `/run` 与 bench 打印
+### C. pathways（`engine\vCella\Simulation.vb`）
+- `Private Shared ReadOnly KeggKo As New Lazy(Of BriteHText)(Function() BriteHText.Load_ko00001())`，全进程只解析一次。
+- 递归遍历：`entryID` 匹配 `^\d{5}$` 的节点即为通路节点：
+  - `id = "ko" & entryID`；`name` = `description` 去 `[PATH:...]`；`category` = A/B 祖先 `description` 以 `"; "` 连接；
+  - `ec` = 该节点全部后代叶子 `classLabel` 中 `\[EC:([0-9. ]+)\]` 的并集。
+- 与模型取交：模型 EC 集来自 `metabolismStructure.enzymes[].ECNumber`（精确匹配，不做模糊），仅保留交集非空的通路。
+- `genes`：`gene→EC` 命中通路 EC 的 locus_tag（去重排序）。
+- `molecules`：经 `enzyme.catalysis.reaction` 找到对应反应，收集 `substrate/product` 的 `compound`（去重，单通路上限 2000 以控体积）。
+- 多物种按 `id` 合并（EC/genes/molecules 取并集），得到全局一份。
 
-工程配置（`vCella`、`CellaLoader/test`、`bench`、`smoke`）增加：
-`ServerGarbageCollection=true`、`ConcurrentGarbageCollection=true`、`TieredPGO=true`、`GCHeapCount=8`（对齐 8 个 NUMA 节点）。
-`/run` 新增 `--threads`，并在启动日志输出实际预算；运行指南给出 `numactl --localalloc --cpunodebind=0-7`。
+### D. manifest（`engine\vCella\Simulation.vb`）
+`buildManifest(models, totalTime)`，按 `getSpeciesName(model)` 建键（重名加 `#n`，与 `Metadata.cells` 一致）：
+- `mRNA` = `genome.GetAllGenes().locus_tag`（去重排序）
+- `protein` = `genome.proteins[].protein_id`（`Protein[...]` 原样；为空时回退到 `enzymes[].proteinID`）
+- `metabolite` = `metabolismStructure.compounds[].ID`
 
-### P1 跨物种/跨块并行（Cella）
+### E. 接线与开关
+- `Simulation.RunModel`：`buildCellMetadata`/`buildPathways` 结果传入 `SnapshotWriter.BuildMetadata`；`archive.WriteMetadata(meta)` 之后调用 `archive.WriteManifest(manifest)`；summary 增加 `pathways / manifest` 统计行。
+- 新增 `Optional metadata As String = "full"`，`/run --metadata=basic|full`：`basic` 时跳过 pathways 与 manifest（走 `args` 回退，保持既有参数绑定习惯）。
 
-- `CellBatchRunner` 引入每蓝图 `BatchState`（Tensor 缓冲、`GearsBatchWorkspace`、容量与尺寸度量），存入 `Dictionary(Of CellaBlueprint, BatchState)`，消除并行组之间的竞争。
-- `Tick` 改为 `Parallel.ForEach(groups, CellaThreading.Options, ...)`；组内仍按块顺序执行。
-- `TickChunk` 的细胞本地相（signaling / translation / turnover / finish）改为 `Parallel.For`；当 `count` 小于阈值（例如 4）时退化为串行，避免调度开销。
-- `transport` 相：先按 `Spot` 分桶，桶内串行（同格点细胞共享培养基），桶间并行，保持原有扣减顺序与质量守恒。
-- `Environment.Diffuse`：按 x 层并行（读相邻层、写本层，无冲突）；`Feed` 按格点并行；`GetAllCells/GetAllSpots` 的 `ToArray` 改为缓存或按需复用。
+## 关键代码结构
+```vb
+' Cella\Snapshots\PathwayMetadata.vb
+Public Class PathwayMetadata
+    Public Property id As String
+    Public Property name As String
+    Public Property category As String
+    Public Property ec_numbers As String()
+    Public Property genes As String()
+    Public Property molecules As String()
+End Class
 
-### P2 单细胞内并行 + float32 权重（最大收益）
+' Cella\Snapshots\Manifest.vb
+Public Class Manifest
+    Public Property total_time As Double
+    Public Property species As Dictionary(Of String, SpeciesManifest)
+End Class
 
-在 `Metaboliq` 层实现，不改动 sciBASIC 通用内核接口（保留 `LtcRk4Batch` 回退）：
-
-- `MetabolicLiquidNetwork` 内部新增 `LtcWeightCache`（每蓝图一份，首次前向惰性构建）：
-- `WrecT_f32`（m×m）、`WinT_f32`（n×m）、`WgateT_f32`、`WgateInT_f32`
-- `Wout_f32`（输出读出）、`Wv_f32`（通量读出头，语义等同 `_FluxWeight`）
-- 各 bias 的 f32 副本与 `tauEff` 的 f64 副本
-- 预估内存 0.9~1.2 GB/物种（252 GB 内存充足），构建时打印估算
-- 新内核 `ForwardBatchThreaded(state, u, span, subSteps)`：
-- 每个 RK4 stage 求 `z[j] = b[j] + Σ WrecT[j,k]·sw[k] + Σ WinT[j,k]·u[k]`
-- 按输出块 j 并行（`Cores` 个块；块内 k 顺序读 f32 权重行，`sw/u` 常驻 L2），f64 累加
-- 激活、门控、子步更新为 SIMD 逐元素循环
-- `batch=1` 时同样吃满全部线程（这正是当前单核的根因）
-- `ComputeOutputFromBatch` / `ComputeFluxBatch` / `SystemTauBatch` 同步改为 f32 权重 + 输出块并行
-- 开关：`CELLA_DTYPE=float32|double`、`CELLA_KERNEL=auto|legacy|threaded`；`auto` 在 `Cores≥4` 且 `m≥1024` 时启用 threaded
-
-### P3 载荷阶段并行
-
-- 模型并行加载（`Parallel.For` over modelFiles，按 `Cores` 限流）
-- 播种：先串行构建 1 个细胞以初始化 `MetabolicTemplate` 与 `Gears`，其余 `Parallel.For`；`Spot.cells` 写入按格点分桶或加锁
-- 快照：按格点并行序列化为帧缓冲，单线程按序写 zip 条目；保留 `--no-state` 与压缩等级
-
-### P4 验证与报告
-
-- `bench` 新增 `--threads`、`--kernel`、CPU 利用率（`Process.TotalProcessorTime / wall / Cores`）与有效 GFLOPS 估算
-- 缩放矩阵：`threads ∈ {8,16,32,48,96}` × `cells ∈ {1,6,48}` × 2~3 步，输出 `bench/output/cpu_scaling_report.md`
-- 通过标准：
-- 6 物种各 1 细胞单步 ≤6 s（相对 33 s 提升 ≥5×），48 线程 CPU 利用率 ≥70%
-- 48 细胞：step 耗时在 32 线程前近似线性，48 线程仍正收益
-- `CELLA_KERNEL=legacy` 与 `threaded` 的轨迹指纹在 1e-6 容差内一致
-
-## 架构设计
-
-```mermaid
-graph TD
-  A[Simulation.RunModel] --> B[CellaThreading.Warmup]
-  B --> C[Environment.Tick]
-  C --> D[Diffuse x-layer parallel]
-  C --> E[CellBatchRunner.Tick]
-  E --> F[Parallel species groups]
-  F --> G[BatchState per blueprint]
-  G --> H[cell-local phases parallel]
-  G --> I[GRN batch parallel rows]
-  G --> J[LNN ForwardBatchThreaded]
-  J --> K[LtcWeightCache f32 transposed]
-  K --> L[output-block parallel f64 accumulate]
-  G --> M[transport grouped by Spot]
+' Cella\Snapshots\SnapshotArchive.vb
+Public Const ManifestEntryName As String = "manifest.json"
+Public Sub WriteManifest(manifest As Manifest)
 ```
 
 ## 目录结构
-
 ```
 engine/
-├── Cella/
-│   ├── Environment/
-│   │   ├── CellaThreading.vb            # [NEW] 线程预算、ParallelOptions、Warmup、Describe
-│   │   ├── CellBatchRunner.vb           # [MODIFY] BatchState per blueprint、物种组并行、细胞本地相并行、transport 按 Spot 分组
-│   │   └── Environment.vb               # [MODIFY] Diffuse 按 x 层并行、Feed 并行、GetAllCells 缓存
-│   └── Networks/MetabolicNetwork.vb     # [MODIFY] 传递 kernel 选择与线程配置
-├── sub-system/Metaboliq/
-│   ├── LtcWeightCache.vb                # [NEW] f32 转置权重/偏置缓存与内存估算
-│   └── MetabolicLiquidNetwork.vb        # [MODIFY] ForwardBatchThreaded 接入、三个读出头并行版本
-├── CellaLoader/
-│   ├── test/test.vbproj                 # [MODIFY] ServerGC/GCHeapCount 配置
-│   └── bench/
-│       ├── bench.vbproj                 # [MODIFY] 同上
-│       └── Program.vb                   # [MODIFY] --threads/--kernel、CPU 利用率、缩放矩阵输出
-└── vCella/
-    ├── Program.vb                       # [MODIFY] /run --threads、启动日志
-    ├── Simulation.vb                    # [MODIFY] 并行加载/播种、并行快照序列化
-    └── vCella.vbproj                    # [MODIFY] ServerGC/GCHeapCount/TieredPGO
+├── Cella/Snapshots/
+│   ├── CellMetadata.vb        # [MODIFY] 新增 ec_genes 反向索引
+│   ├── PathwayMetadata.vb     # [NEW] 通路富结构 DTO
+│   ├── Manifest.vb            # [NEW] manifest DTO
+│   ├── Metadata.vb            # [MODIFY] pathways 类型改为 PathwayMetadata
+│   ├── SnapshotWriter.vb      # [MODIFY] BuildMetadata 的 pathways 参数类型
+│   └── SnapshotArchive.vb     # [MODIFY] WriteManifest / ReadManifest / ManifestEntryName
+├── vCella/
+│   ├── Simulation.vb          # [MODIFY] normalizeProteinId、buildCellMetadata 修复、
+│   │                          #          buildPathways 重写、buildManifest、--metadata 开关
+│   ├── Program.vb             # [MODIFY] /run 透传 --metadata
+│   └── smoke/Program.vb       # [MODIFY] 新增 metadata/manifest 断言
 ```
 
-## 关键代码结构
+## 实施注意事项
+- **只做精确 EC 匹配**：KEGG 的 `1.1.1.-` 之类不完整编号不参与匹配，避免污染；在输出中记录 `matched_ec / total_ec` 便于判断覆盖率。
+- **`Protein[...]` 只在匹配时去壳**：`manifest` 与酶相关输出保持模型原样，避免与 XML 字面不一致。
+- **体积控制**：`molecules` 单通路上限 2000；`ec_genes`/`pathways` 均为去重后数组；提供 `--metadata=basic`。
+- **性能**：ko00001 只解析一次（`Lazy`，约 1–2 s）；按模型 EC 集做交集，不遍历全部 KO 叶子的 EC 组合。
+- **兼容性**：`Metadata.pathways` 类型变更会破坏旧的 JSON 读取方（当前为空，风险可接受）；`ReadMetadata` 保持可读新结构。
 
-```
-' engine/Cella/Environment/CellaThreading.vb
-Public Module CellaThreading
-    ReadOnly Property Cores As Integer
-    ReadOnly Property Options As ParallelOptions
-    Sub Warmup()
-    Function Describe() As String
-End Module
+## 验证
+1. 编译：`Cella`、`CellaLoader`、`vCella`、`smoke` 均 0 error。
+2. `/run`（GEM 目录，1 步，`--no-state`）后解压产物：
+   - `metadata.json`：抽样 20 个基因，`ec_numbers` 非空比例 > 30%；`ec_genes` 条目 > 500；`pathways` 条目 > 100，且 `ko00010/ko00020/ko00620` 的 `ec_numbers`/`genes` 非空；
+   - `manifest.json`：每物种 `mRNA ≥ 1000`、`protein ≥ 1000`、`metabolite ≥ 10000`，`mRNA` 与 `metadata.cells[*].ec_numbers` 键集合一致；
+   - `--metadata=basic` 时两者均不出现额外内容且帧/回读正常。
+3. `smoke` 增加上述断言，保持既有 ini/被动扩散断言 0 failures。
+4. 记录 `metadata.json` 变更前后字节数（0.5 MB → 预计 2–5 MB）。
 
-' sub-system/Metaboliq/LtcWeightCache.vb
-Public Class LtcWeightCache
-    ReadOnly Property HiddenSize As Integer
-    ReadOnly Property InputSize As Integer
-    ReadOnly Property WeightRecurrentT As Single()
-    ReadOnly Property WeightInputT As Single()
-    ReadOnly Property WeightGateT As Single()
-    ReadOnly Property WeightGateInputT As Single()
-    ReadOnly Property OutputWeightT As Single()
-    ReadOnly Property FluxWeightT As Single()
-    Shared Function Build(network As MetabolicLiquidNetwork) As LtcWeightCache
-End Class
-
-' sub-system/Metaboliq/MetabolicLiquidNetwork.vb
-Public Function ForwardBatchThreaded(state As Tensor, u As Tensor, span As Double, subSteps As Integer) As Integer
-```
-
-## 实现注意事项
-
-- **精度**：仅权重 f32，状态与点积累加保持 f64；对拍容差 1e-6，超差时记录首个偏离元素索引。
-- **带宽**：输出块并行要让权重行连续读取；`sw/u` 常驻 L2（约 65 KB/32 KB），块大小取 `m / Cores` 并对齐 8 个 f32。
-- **嵌套并行**：内核按 `batch × blocks` 与 `Cores` 自适应，避免 `Parallel` 套 `Parallel` 造成线程爆炸；物种组并行时内核自动降级为串行。
-- **transport 语义**：按 Spot 分桶后桶内串行，保持 `medium` 读写顺序；`UptakeMass/EffluxMass` 语义不变，交叉喂养归因不受影响。
-- **内存**：缓存按蓝图共享（不按细胞复制）；构建前打印估算，`CELLA_DTYPE=double` 时不构建 f32 缓存。
-- **可回退**：三个环境变量与 `--threads` 均可在不改代码的情况下关闭并行或内核改造。
-- **性能预算**：单次 `Parallel.For` 的调度成本约数十微秒，细胞相并行仅在 `count ≥ 4` 时启用。
-
-## 风险与对策
-
-- f32 权重引入约 1e-6 偏差 → 仅权重 f32、累加 f64，提供 legacy 回退与对拍脚本。
-- 内存增加约 1.2 GB/物种 → 252 GB 内存可容纳；日志给出估算并支持关闭。
-- 并行写共享培养基 → 按 Spot 分组，杜绝竞争且保持扣减顺序。
-- 超订阅（96 逻辑核效率仅 30%） → 默认 48 线程，`--threads` 可显式试 96。
-- NUMA 远端访存 → ServerGC + `GCHeapCount=8`，运行指南给出 `numactl --localalloc`。
-- 回归风险 → `ORGANOID_PROFILE=1` 相级剖析 + bench 基线 + `CELLA_KERNEL=legacy` 对照。
 
 ## Agent Extensions
-
 ### SubAgent
-
 - **code-explorer**
-- Purpose: 实施前核对 `CellBatchRunner` 缓冲字段的全部引用点、`Environment.Tick` 的相顺序、`MetabolicNetwork.TickBatch` 与 `Metaboliq` 前向链的调用签名，以及 `Spot.cells`/`Medium` 的全部写入点。
-- Expected outcome: 输出精确到文件与行号的调用清单与受影响文件列表，确保 `BatchState` 重构与 Spot 分桶并行不遗漏任何写入路径。
-
-### Skill
-
-- **lsp-code-analysis**
-- Purpose: 对 `CellBatchRunner.Tick/TickChunk`、`LTC` 内核入口 `ForwardBatch`、`Environment.Diffuse` 执行引用与调用层级分析，确认并行改造后所有调用点与签名保持一致。
-- Expected outcome: 得到完整引用清单与调用层级，保证新增 `ForwardBatchThreaded` 与 `CellaThreading` 无遗漏适配、无编译回归。
+  - Purpose: 实施前核对 `BriteHText` 的 `entryID/description/parent/categoryItems` 语义与 `ko00001` 层级边界，并确认 `genome.proteins`、`enzyme.catalysis`、`Reaction.substrate/product` 字段在 GEM 模型中的实际取值形态
+  - Expected outcome: 输出精确到文件与行号的引用清单（含 `BriteHText.vb`、`Genome.vb`、`MetabolismStructure.vb`、`Simulation.vb`），确保通路解析与 manifest 字段来源无歧义
