@@ -148,9 +148,23 @@ Namespace Definitions
         ''' </returns>
         Public Property context As CellContext()
 
+        ''' <summary>
+        ''' load from ini file
+        ''' </summary>
+        ''' <param name="file"></param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function LoadIni(file As String) As Definition
             Return ClassMapper.LoadIni(Of Definition)(file)
+        End Function
+
+        ''' <summary>
+        ''' Save to ini file
+        ''' </summary>
+        ''' <param name="file"></param>
+        ''' <returns></returns>
+        Public Function SaveIni(file As String) As Boolean
+            Return ClassMapper.WriteClass(Me, file)
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
