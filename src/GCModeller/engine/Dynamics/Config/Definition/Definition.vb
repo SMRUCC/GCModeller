@@ -146,7 +146,7 @@ Namespace Definitions
         ''' <returns>
         ''' [cell_id => [metabolite => content data]]
         ''' </returns>
-        Public Property status As Dictionary(Of String, Dictionary(Of String, Double))
+        Public Property context As CellContext()
 
         Public Function GetInfinitySource() As Index(Of String)
             Return {Water, Oxygen}.Where(Function(ref) Not ref Is Nothing).Indexing
@@ -164,8 +164,8 @@ Namespace Definitions
                 Next
             End If
 
-            If Not status Is Nothing Then
-                For Each key As String In status.Keys
+            If Not context Is Nothing Then
+                For Each key As String In context.Keys
                     Yield key
                 Next
             End If
@@ -252,7 +252,7 @@ Namespace Definitions
                 .PI = "Pi",
                 .GTP = "GTP",
                 .GDP = "GDP",
-                .status = New Dictionary(Of String, Dictionary(Of String, Double)) From {{"default", initStatus}},
+                .context = {New CellContext With {.cell_id = "default", .context = initStatus}},
                 .GenericCompounds = New Dictionary(Of String, GeneralCompound) From {
                     {"Peptides", GeneralCompound.Protein},
                     {"DNA-Holder", GeneralCompound.DNA},
@@ -317,7 +317,7 @@ Namespace Definitions
                 .Oxygen = "C00007",
                 .NucleicAcid = ntBase,
                 .AminoAcid = aaResidue,
-                .status = New Dictionary(Of String, Dictionary(Of String, Double)) From {{"default", initStatus}},
+                .context = {New CellContext With {.cell_id = "default", .context = initStatus}},
                 .GenericCompounds = New Dictionary(Of String, GeneralCompound) From {
                     {"C00017", GeneralCompound.Protein},
                     {"C00039", GeneralCompound.DNA},

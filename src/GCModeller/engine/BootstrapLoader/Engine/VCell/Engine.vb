@@ -338,7 +338,7 @@ Namespace Engine
             End If
 
             For Each mass As Factor In core.m_massIndex.Values
-                Dim status As Dictionary(Of String, Double) = initials.status(mass.cellular_compartment)
+                Dim status As Dictionary(Of String, Double) = initials.context(mass.cellular_compartment)
 
                 If status.ContainsKey(mass.ID) Then
                     ' instance id has the highest order
@@ -352,8 +352,8 @@ Namespace Engine
                 End If
             Next
 
-            If initials.status.ContainsKey(initials.CultureMedium) Then
-                Call SetCultureMedium(initials.status(initials.CultureMedium))
+            If initials.context.ContainsKey(initials.CultureMedium) Then
+                Call SetCultureMedium(initials.context(initials.CultureMedium))
             End If
         End Sub
 
