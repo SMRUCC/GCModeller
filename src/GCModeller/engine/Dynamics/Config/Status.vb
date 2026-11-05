@@ -92,7 +92,7 @@ Namespace Definitions
         End Sub
 
         Sub New(context As CellContext)
-            Call Me.New(context.cell_id, context.status)
+            Call Me.New(context.name, context.status)
         End Sub
     End Class
 End Namespace
