@@ -230,11 +230,6 @@ Namespace Definitions
         Public Property context As CellContext()
 
         ''' <summary>
-        ''' load from ini file
-        ''' </summary>
-        ''' <param name="file"></param>
-        ''' <returns></returns>
-        ''' <summary>
         ''' 从 ini 文件加载上下文映射定义
         ''' </summary>
         ''' <param name="file">
