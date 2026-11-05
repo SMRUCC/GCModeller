@@ -20,9 +20,9 @@ Namespace Definitions
     Public Class Transmembrane
 
         ''' <summary>
-        ''' Defines the flux unique id set as the passive transmembrane flux
+        ''' Defines the compound unique id set as the passive transmembrane in the simulation
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>an array of the target compound unique id</returns>
         Public Property passive As String()
 
     End Class

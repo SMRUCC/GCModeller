@@ -71,12 +71,11 @@
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Settings.Inf
 Imports Microsoft.VisualBasic.Linq
-Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 Namespace Definitions
 
     ''' <summary>
-    ''' The definition for the mass environment for run the simulation
+    ''' The definition for the mass environment for run the simulation, use for context mapping across database
     ''' </summary>
     ''' <remarks>
     ''' 因为物质编号可能会来自于不同的数据库，所以会需要使用这个对象将一些关键的物质映射为计算引擎所能够被识别的对象
