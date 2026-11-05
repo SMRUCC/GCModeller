@@ -61,11 +61,13 @@
 
 Imports System.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.ComponentModel.Settings.Inf
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Definitions
 
+    <ClassName("amino-acid")>
     Public Class AminoAcid : Implements Enumeration(Of String)
 
         ''' <summary>
