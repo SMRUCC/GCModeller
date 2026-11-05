@@ -252,7 +252,7 @@ Namespace Definitions
                 .PI = "Pi",
                 .GTP = "GTP",
                 .GDP = "GDP",
-                .context = {New CellContext With {.cell_id = "default", .context = initStatus}},
+                .context = {New CellContext With {.name = "default", .status = initStatus}},
                 .GenericCompounds = New Dictionary(Of String, GeneralCompound) From {
                     {"Peptides", GeneralCompound.Protein},
                     {"DNA-Holder", GeneralCompound.DNA},
@@ -317,7 +317,7 @@ Namespace Definitions
                 .Oxygen = "C00007",
                 .NucleicAcid = ntBase,
                 .AminoAcid = aaResidue,
-                .context = {New CellContext With {.cell_id = "default", .context = initStatus}},
+                .context = {New CellContext With {.name = "default", .status = initStatus}},
                 .GenericCompounds = New Dictionary(Of String, GeneralCompound) From {
                     {"C00017", GeneralCompound.Protein},
                     {"C00039", GeneralCompound.DNA},

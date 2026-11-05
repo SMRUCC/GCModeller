@@ -7,13 +7,13 @@ Namespace Definitions
     ''' </summary>
     Public Class CellContext : Implements INamedValue
 
-        Public Property cell_id As String Implements INamedValue.Key
+        Public Property name As String Implements INamedValue.Key
 
         ''' <summary>
         ''' [molecule => initial context status]
         ''' </summary>
         ''' <returns></returns>
-        Public Property context As Dictionary(Of String, Double)
+        Public Property status As Dictionary(Of String, Double)
 
     End Class
 End Namespace

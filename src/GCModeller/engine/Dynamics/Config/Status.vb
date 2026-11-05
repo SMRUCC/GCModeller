@@ -74,13 +74,13 @@ Namespace Definitions
         ''' 状态名称
         ''' </summary>
         ''' <returns></returns>
-        Public Property name As String
+        Public ReadOnly Property name As String
         ''' <summary>
         ''' 当虚拟细胞反应容器<see cref="Vessel"/>中的<see cref="Vessel.MassEnvironment"/>浓度
         ''' 百分比接近于这个向量的百分比的时候就认为<see cref="name"/>状态或者细胞活动事件发生了
         ''' </summary>
         ''' <returns></returns>
-        Public Property definition As Dictionary(Of String, Double)
+        Public ReadOnly Property definition As Dictionary(Of String, Double)
 
         Public ReadOnly masslist$()
         Public ReadOnly status As Vector
@@ -89,6 +89,10 @@ Namespace Definitions
             Me.masslist = status.Keys.ToArray
             Me.status = status.Takes(masslist).AsVector
             Me.name = name
+        End Sub
+
+        Sub New(context As CellContext)
+            Call Me.New(context.cell_id, context.status)
         End Sub
     End Class
 End Namespace
