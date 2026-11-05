@@ -64,6 +64,7 @@ Imports System.IO
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.ModelLoader
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
@@ -338,13 +339,13 @@ Namespace Engine
             End If
 
             For Each mass As Factor In core.m_massIndex.Values
-                Dim status As Dictionary(Of String, Double) = initials.context(mass.cellular_compartment)
+                Dim status As CellContext = initials.context.KeyItem(mass.cellular_compartment)
 
-                If status.ContainsKey(mass.ID) Then
+                If status.CheckCompound(mass.ID) Then
                     ' instance id has the highest order
                     Call mass.reset(status(mass.ID))
                 Else
-                    If status.ContainsKey(mass.template_id) Then
+                    If status.CheckCompound(mass.template_id) Then
                         Call mass.reset(status(mass.template_id))
                     Else
                         Call mass.reset(randf.NextDouble(10, 250))
@@ -352,8 +353,10 @@ Namespace Engine
                 End If
             Next
 
-            If initials.context.ContainsKey(initials.CultureMedium) Then
-                Call SetCultureMedium(initials.context(initials.CultureMedium))
+            Dim cultureMedium As CellContext = initials.context.KeyItem(initials.CultureMedium)
+
+            If cultureMedium IsNot Nothing Then
+                Call SetCultureMedium(cultureMedium)
             End If
         End Sub
 
