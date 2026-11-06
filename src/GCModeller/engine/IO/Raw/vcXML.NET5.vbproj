@@ -522,6 +522,13 @@
 
 
 	<ItemGroup>
+		<!-- 测试工程位于 vcXML\test，其 obj 下的 AssemblyInfo 不能被主工程重复编译 -->
+		<Compile Remove="vcXML\test\**" />
+		<EmbeddedResource Remove="vcXML\test\**" />
+		<None Remove="vcXML\test\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="System.Composition" Version="10.0.14" />
 		<PackageReference Include="System.Resources.Extensions" Version="10.0.14" />
 	</ItemGroup>
