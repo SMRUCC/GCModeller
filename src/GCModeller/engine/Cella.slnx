@@ -115,4 +115,7 @@
   <Project Path="vCella/vCella.vbproj" Id="713d3a2d-f06a-4017-a337-f4bec6ec07b6">
     <Platform Solution="*|x64" Project="x64" />
   </Project>
+  <Project Path="CellaOptimization/test/CellaOptimization.Test.vbproj">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
 </Solution>
