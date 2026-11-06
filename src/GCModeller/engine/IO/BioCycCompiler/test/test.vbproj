@@ -19,4 +19,8 @@
     <ProjectReference Include="..\BioCycCompiler.vbproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="..\..\GCMarkupLanguage\v2\Xml\VirtualCell.xsl" Link="VirtualCell.xsl" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
 </Project>

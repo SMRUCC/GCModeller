@@ -25,6 +25,11 @@ Public Class Program
     Const DefaultDatabase As String = "F:\ecoli\29.0"
 
     Shared Function Main(args As String()) As Integer
+        ' 离线可视化报表模式：把已有的虚拟细胞模型 XML 转换为单文件 HTML 报告
+        If Not args Is Nothing AndAlso args.Length > 0 AndAlso String.Equals(args(0), "--report", StringComparison.OrdinalIgnoreCase) Then
+            Return XslReport.Run(args)
+        End If
+
         Dim database As String = args.ElementAtOrDefault(0)
         Dim output As String = args.ElementAtOrDefault(1)
         Dim stopwatch As Stopwatch = Stopwatch.StartNew()
