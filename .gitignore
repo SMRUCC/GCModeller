@@ -18,6 +18,7 @@ assembly/
 test/ncbi/GCF_000009985.1/
 src/GCModeller/data/MoleculeKit/SMILES/test/output/
 src/GCModeller/engine/vCella
+src/GCModeller/engine/CellaOptimization
 
 node_modules
 *.lock
