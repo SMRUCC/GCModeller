@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.GCModeller.ModellingEngine.IO.vcXML.vcLayout</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>vcLayout {SMRUCC.genomics.GCModeller.ModellingEngine.IO.vcXML}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>vcLayout</h2>
+
+        <h3>Description</h3>
+
+        <p>多物种 × 体素 × 组学的数据布局。</p>
+
+<p><code>frameMode</code>：</p>
+
+
+<ul>
+<li>dense：每 (tick, species, group) 一条 frame，向量 = voxelCount × entityCount 展平</li>
+<li>sparse：每 (tick, species, group, voxel) 一条 frame，voxelCount = 1</li>
+</ul>
+
+
+<p><code>blockOrder</code> 描述向量内部的展平顺序，默认 <code>voxel,molecule</code>。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.GCModeller.ModellingEngine.IO.vcXML
+export class vcLayout {
+   axes: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/IO/vcXML/vcAxis.html">vcAxis[]</a>;
+   blockOrder: string;
+   cvParams: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/IO/vcXML/cvParam.html">cvParam[]</a>;
+   frameMode: string;
+   GroupAxis: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/IO/vcXML/vcAxis.html">vcAxis</a>;
+   # 是否为逐体素的稀疏布局
+   IsSparse: boolean;
+   SpeciesAxis: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/IO/vcXML/vcAxis.html">vcAxis</a>;
+   VoxelAxis: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/IO/vcXML/vcAxis.html">vcAxis</a>;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>axes</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/IO/vcXML/vcAxis.html">vcAxis</a></li>
+<li>use by <i>property</i> member <code>cvParams</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/IO/vcXML/cvParam.html">cvParam</a></li>
+<li>use by <i>property</i> member <code>GroupAxis</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/IO/vcXML/vcAxis.html">vcAxis</a></li>
+<li>use by <i>property</i> member <code>SpeciesAxis</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/IO/vcXML/vcAxis.html">vcAxis</a></li>
+<li>use by <i>property</i> member <code>VoxelAxis</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/IO/vcXML/vcAxis.html">vcAxis</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

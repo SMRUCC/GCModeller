@@ -22,7 +22,9 @@
 
         <h3>Description</h3>
 
-        
+        <p>一个数据块的物理位置。</p>
+
+<p><code>id</code>/<code>tick</code>/<code>module</code>/<code>content_type</code>/<code>offset</code> 是 1.x 已有的字段， 外部调用方（R# vcellkit / Extensions）直接使用，必须保留； <code>species</code>/<code>voxelStart</code>/<code>voxelCount</code> 是 2.0 新增的时空维度。</p>
 
         <h3>Declare</h3>        
 
@@ -34,7 +36,10 @@ export class offset {
    id: integer;
    module: string;
    offset: integer;
+   species: string;
    tick: integer;
+   voxelCount: integer;
+   voxelStart: integer;
 }
 </code>
         </pre>

@@ -30,14 +30,23 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Definitions
 export class Transmembrane {
+   # 列在 <a href="cref:P:SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Definitions.Transmembrane.passive">Transmembrane.passive</a> 之中但没有显式系数的物质所使用的缺省通透系数
+   defaultPermeability: double;
+   # Defines the compound unique id set as the passive transmembrane in the simulation
    passive: string;
+   # 逐物质的被动通透系数(0~1)。
+   # 
+   # 出现在本表之中的物质即使没有列在 <a href="cref:P:SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Definitions.Transmembrane.passive">Transmembrane.passive</a> 之中，也被视为可被动通透； 未出现在本表、同时也没有列出名称的物质默认不可被动通透(返回 0)。
+   permeability: list;
 }
 </code>
         </pre>
 
         <h3>.NET clr type reference tree</h3>
 
-        this clr type has no other .net clr type reference.
+        <ol>
+<li>use by <i>property</i> member <code>permeability</code>: list</li>
+</ol>
 
 
         <hr />

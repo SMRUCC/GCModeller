@@ -22,7 +22,7 @@
 
         <h3>Description</h3>
 
-        
+        <p>把模拟结果写入 vcXML 2.0 的适配器。</p>
 
         <h3>Declare</h3>        
 
@@ -30,8 +30,16 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.GCModeller.ModellingEngine.IO.vcXML
 export class VcellAdapterDriver {
+   CultureMedium: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/IO/vcXML/vcMedium.html">vcMedium</a>;
+   Experiment: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/IO/vcXML/vcExperiment.html">vcExperiment</a>;
    flux: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Engine/OmicsTuple`1.html">OmicsTuple`1</a>;
+   GrowthSpace: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/IO/vcXML/vcGrowthSpace.html">vcGrowthSpace</a>;
+   Layout: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/IO/vcXML/vcLayout.html">vcLayout</a>;
    mass: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Engine/OmicsTuple`1.html">OmicsTuple`1</a>;
+   Perturbations: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/IO/vcXML/vcPerturbation.html">vcPerturbation[]</a>;
+   Species: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/IO/vcXML/vcSpecies.html">vcSpecies[]</a>;
+   # 每个物种的组学 id 列表（species id → 三个组学）
+   SpeciesOmics: list;
 }
 </code>
         </pre>
@@ -39,8 +47,15 @@ export class VcellAdapterDriver {
         <h3>.NET clr type reference tree</h3>
 
         <ol>
+<li>use by <i>property</i> member <code>CultureMedium</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/IO/vcXML/vcMedium.html">vcMedium</a></li>
+<li>use by <i>property</i> member <code>Experiment</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/IO/vcXML/vcExperiment.html">vcExperiment</a></li>
 <li>use by <i>property</i> member <code>flux</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Engine/OmicsTuple`1.html">OmicsTuple`1</a></li>
+<li>use by <i>property</i> member <code>GrowthSpace</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/IO/vcXML/vcGrowthSpace.html">vcGrowthSpace</a></li>
+<li>use by <i>property</i> member <code>Layout</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/IO/vcXML/vcLayout.html">vcLayout</a></li>
 <li>use by <i>property</i> member <code>mass</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Engine/OmicsTuple`1.html">OmicsTuple`1</a></li>
+<li>use by <i>property</i> member <code>Perturbations</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/IO/vcXML/vcPerturbation.html">vcPerturbation</a></li>
+<li>use by <i>property</i> member <code>Species</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/IO/vcXML/vcSpecies.html">vcSpecies</a></li>
+<li>use by <i>property</i> member <code>SpeciesOmics</code>: list</li>
 </ol>
 
 

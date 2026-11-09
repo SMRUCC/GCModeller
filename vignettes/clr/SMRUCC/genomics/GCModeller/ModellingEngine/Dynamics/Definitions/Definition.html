@@ -22,7 +22,7 @@
 
         <h3>Description</h3>
 
-        <p>The definition for the mass environment for run the simulation</p>
+        <p>The definition for the mass environment for run the simulation, use for context mapping across database</p>
 
 <p>因为物质编号可能会来自于不同的数据库，所以会需要使用这个对象将一些关键的物质映射为计算引擎所能够被识别的对象</p>
 
@@ -37,20 +37,36 @@ export class Definition {
    AminoAcid: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Definitions/AminoAcid.html">AminoAcid</a>;
    Ammonia: string;
    ATP: string;
+   # 氧化还原载体与酶辅因子映射：<code>[辅因子名称 =&gt; 化合物编号]</code>
+   # 
+   # 常用键：NAD、NADH、NADP、NADPH、FAD、FADH2、CO-A、ACETYL-COA、 THIAMINE-PP、PYRIDOXAL-P、COBALAMIN
+   Cofactors: list;
+   # define of the cell initial status.
+   context: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Definitions/CellContext.html">CellContext[]</a>;
    # the compartment id of the Culture medium
    CultureMedium: string;
+   # 默认培养基配方。
+   # 
+   # 一个组分由「角色(role) + 数据库化合物编号(id) + 默认浓度(mM)」构成， 因此同一个配方可以在 MetaCyc / BioCyc / KEGG 之间切换而无需改动调用代码。 模拟程序在未指定培养基文件的时候，会按本表初始化胞外环境，并且只保留 模型之中真实存在的化合物编号。
+   CultureMediumComponents: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Definitions/MediumComponent.html">MediumComponent[]</a>;
    GDP: string;
    # define the id mapping to some general compounds
    GenericCompounds: list;
    GTP: string;
+   # 矿物离子映射：<code>[离子符号 =&gt; 化合物编号]</code>
+   # 
+   # 常用键：K、Na、Mg、Ca、Cl、Fe2、Fe3、Zn、Mn、Cu、Co、Ni、Mo、H、OH
+   Ions: list;
    # nucleotide metabolite id mapping for construct of the RNA molecule in the transcription process.
    NucleicAcid: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Definitions/NucleicAcid.html">NucleicAcid</a>;
    Oxygen: string;
    PI: string;
    PPI: string;
-   # define of the cell initial status.
-   status: list;
    transmembrane: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Definitions/Transmembrane.html">Transmembrane</a>;
+   # 分泌产物 / 废物映射：<code>[产物名称 =&gt; 化合物编号]</code>
+   # 
+   # 常用键：CO2、HCO3、LACTATE、ETHANOL、FORMATE、ACETATE、H2、H2S、NH3
+   WasteProducts: list;
    Water: string;
 }
 </code>
@@ -60,10 +76,14 @@ export class Definition {
 
         <ol>
 <li>use by <i>property</i> member <code>AminoAcid</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Definitions/AminoAcid.html">AminoAcid</a></li>
+<li>use by <i>property</i> member <code>Cofactors</code>: list</li>
+<li>use by <i>property</i> member <code>context</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Definitions/CellContext.html">CellContext</a></li>
+<li>use by <i>property</i> member <code>CultureMediumComponents</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Definitions/MediumComponent.html">MediumComponent</a></li>
 <li>use by <i>property</i> member <code>GenericCompounds</code>: list</li>
+<li>use by <i>property</i> member <code>Ions</code>: list</li>
 <li>use by <i>property</i> member <code>NucleicAcid</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Definitions/NucleicAcid.html">NucleicAcid</a></li>
-<li>use by <i>property</i> member <code>status</code>: list</li>
 <li>use by <i>property</i> member <code>transmembrane</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Definitions/Transmembrane.html">Transmembrane</a></li>
+<li>use by <i>property</i> member <code>WasteProducts</code>: list</li>
 </ol>
 
 
