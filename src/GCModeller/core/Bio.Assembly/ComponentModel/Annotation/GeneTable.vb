@@ -124,6 +124,8 @@ Namespace ComponentModel.Annotation
         Public Property replicon_accessionID As String
         Public Property translation As String
         Public Property transl_table As String
+        Public Property subcellular_location As String
+        Public Property TF As String
 
         ''' <summary>
         ''' The COG feature
@@ -148,6 +150,10 @@ Namespace ComponentModel.Annotation
         End Property
 
         Public Property EC_Number As String()
+        ''' <summary>
+        ''' the gene type: CDS/rRNA/tRNA/mics RNA, etc
+        ''' </summary>
+        ''' <returns></returns>
         Public Property type As String
 
         Public Overrides Function ToString() As String
