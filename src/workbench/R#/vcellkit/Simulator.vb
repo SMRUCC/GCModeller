@@ -153,7 +153,7 @@ Public Module Simulator
         Return vcell.metabolismStructure.compounds _
             .Select(Function(c) c.ID) _
             .DoCall(Function(compounds)
-                        Return Definition.KEGG(compounds, initMass:=mass)
+                        Return DbContextMapping.KEGG(compounds, initMass:=mass)
                     End Function)
     End Function
 
@@ -163,7 +163,7 @@ Public Module Simulator
         Return vcell.metabolismStructure.compounds _
             .Select(Function(c) c.ID) _
             .DoCall(Function(compounds)
-                        Return Definition.MetaCyc(compounds, initMass:=mass)
+                        Return DbContextMapping.MetaCyc(compounds, initMass:=mass)
                     End Function)
     End Function
 
@@ -175,19 +175,19 @@ Public Module Simulator
     ''' <returns></returns>
     <ExportAPI("set_status")>
     Public Function setStatus(def As Definition, <RListObjectArgument> Optional env_set As list = Nothing) As Definition
-        If def.status Is Nothing Then
-            def.status = New Dictionary(Of String, Dictionary(Of String, Double))
+        If def.context Is Nothing Then
+            def.context = {}
         End If
 
         For Each compart_id As String In env_set.getNames
             Dim s0 As list = env_set.getByName(compart_id)
-            Dim status = If(def.status.TryGetValue(compart_id), New Dictionary(Of String, Double))
+            Dim context As CellContext = If(def.context.KeyItem(compart_id), New CellContext(compart_id))
 
             For Each cid As String In s0.getNames
-                status(cid) = CLRVector.asNumeric(s0.getByName(cid)).DefaultFirst
+                context.status(cid) = CLRVector.asNumeric(s0.getByName(cid)).DefaultFirst
             Next
 
-            def.status(compart_id) = status
+            Call def.SetContext(context)
         Next
 
         Return def

@@ -248,6 +248,29 @@ Namespace Definitions
             Return ClassMapper.LoadIni(Of Definition)(file)
         End Function
 
+        Public Function SetContext(context As CellContext) As Definition
+            If _context.IsNullOrEmpty Then
+                _context = {context}
+            Else
+                Dim replaced As Boolean = False
+
+                For i As Integer = 0 To _context.Length - 1
+                    If _context(i).name = context.name Then
+                        replaced = True
+                        _context(i) = context
+
+                        Exit For
+                    End If
+                Next
+
+                If Not replaced Then
+                    _context = c(_context, context)
+                End If
+            End If
+
+            Return Me
+        End Function
+
         ''' <summary>
         ''' Save to ini file
         ''' </summary>

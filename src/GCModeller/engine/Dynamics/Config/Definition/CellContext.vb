@@ -25,6 +25,13 @@ Namespace Definitions
             End Get
         End Property
 
+        Sub New()
+        End Sub
+
+        Sub New(name As String)
+            Me.name = name
+        End Sub
+
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function CheckCompound(id As String) As Boolean
             Return status.ContainsKey(id)
