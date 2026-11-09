@@ -407,11 +407,18 @@ Public Module Simulator
             Case ModuleSystemLevels.Proteome
 
             Case ModuleSystemLevels.Metabolome
-                Dim s0 = status.status("default")
+                Dim s0 = status.context.KeyItem("default")
+                Dim append As Boolean = False
+
+                If s0 Is Nothing Then
+                    s0 = New CellContext("default")
+                End If
 
                 For Each compound In profile
-                    s0(compound.Key) = compound.Value
+                    s0.status(compound.Key) = compound.Value
                 Next
+
+                Call status.SetContext(s0)
 
             Case Else
                 Return engine
