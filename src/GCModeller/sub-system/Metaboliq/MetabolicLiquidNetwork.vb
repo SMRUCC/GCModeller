@@ -242,6 +242,46 @@ Public Class MetabolicLiquidNetwork : Implements InsilicoPerturbationExperiment
     End Sub
 
     ''' <summary>
+    ''' 逐反应酶水平系数的只读视图（长度 = 反应数，1 = 野生型，0 = 完全敲除）。
+    ''' </summary>
+    ''' <remarks>
+    ''' 这里刻意返回内部数组而不是副本：批量调度器每个时间步都要把整批细胞的
+    ''' 酶水平搬运进一个 <c>[B, r]</c> 缓冲，逐细胞分配一个新数组会带来与细胞数
+    ''' 成正比的 GC 压力。调用方只允许读取；批量写入请使用
+    ''' <see cref="ApplyEnzymeLevels(Double())"/>。
+    ''' </remarks>
+    Public ReadOnly Property EnzymeLevels As Double()
+        Get
+            Return _enzymeLevel
+        End Get
+    End Property
+
+    ''' <summary>
+    ''' 批量写入逐反应酶水平系数：长度不足的部分保持不变，NaN / Infinity 一律视为野生型 1.0。
+    ''' </summary>
+    ''' <remarks>
+    ''' 供批量管线（把扰动传播到 <c>StepIntervalBatch</c>）与「子代继承亲代基因型」
+    ''' 使用：二者都需要在不逐条解析反应 id 的前提下一次性同步整份基因型。
+    ''' </remarks>
+    Public Sub ApplyEnzymeLevels(levels As Double())
+        If levels Is Nothing Then
+            Return
+        End If
+
+        Dim count As Integer = std.Min(levels.Length, _enzymeLevel.Length)
+
+        For j As Integer = 0 To count - 1
+            Dim value As Double = levels(j)
+
+            If Double.IsNaN(value) OrElse Double.IsInfinity(value) Then
+                value = 1.0
+            End If
+
+            _enzymeLevel(j) = value
+        Next
+    End Sub
+
+    ''' <summary>
     ''' 固定某个边界代谢物的浓度（例如把 o2_e 设为 0 来模拟厌氧条件）。
     ''' 覆盖会一直生效，直到调用 <see cref="ResetPerturbation"/>。
     ''' </summary>
