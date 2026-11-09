@@ -283,8 +283,7 @@ Public Module Simulator
             Next
         End If
 
-        kegg_maps.status = New Dictionary(Of String, Dictionary(Of String, Double))
-        kegg_maps.status(vcell.cellular_id) = s0
+        Call kegg_maps.SetContext(New CellContext(vcell.cellular_id) With {.status = s0})
 
         Return kegg_maps
     End Function
