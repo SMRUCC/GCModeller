@@ -101,9 +101,6 @@
   <Project Path="CellaLoader/CellaLoader.vbproj" Id="3b83bda6-e851-4901-9be9-53b4084c3028">
     <Platform Solution="*|x64" Project="x64" />
   </Project>
-  <Project Path="CellaLoader/test/test.vbproj" Id="c6cca491-68ff-4351-83bf-64b2d5976e98">
-    <Platform Solution="*|x64" Project="x64" />
-  </Project>
   <Project Path="CellaOptimization/CellaOptimization.vbproj" Id="2e56186c-c8eb-4e2e-a605-ab47fa5dbb87">
     <Platform Solution="Release|x64" Project="x64" />
   </Project>
@@ -117,9 +114,6 @@
     <Platform Solution="*|x64" Project="x64" />
   </Project>
   <Project Path="vCella/vCella.vbproj" Id="713d3a2d-f06a-4017-a337-f4bec6ec07b6">
-    <Platform Solution="*|x64" Project="x64" />
-  </Project>
-  <Project Path="CellaOptimization/test/CellaOptimization.Test.vbproj">
     <Platform Solution="*|x64" Project="x64" />
   </Project>
 </Solution>
