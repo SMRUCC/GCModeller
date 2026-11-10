@@ -180,10 +180,23 @@ Public Class MetabolicNetworkGraph
         _internalToAll = Me.InternalIds.Select(Function(id) _metaboliteIndex(id)).ToArray()
 
         ' ---------- 矩阵构建 ----------
-        Me.Stoichiometry = BuildStoichiometry()
-        Me.AdjacencyMask = BuildAdjacency()
-        Me.ParticipationMask = BuildParticipation()
-        Me.InputMask = BuildInputMask()
+        ' 分段计时：构图在 /run 里占 74% 墙钟、单物种约 27 GB 分配，
+        ' 但四个矩阵合计只有 ~1.4 GB，必须知道钱花在哪一段
+        ' ReadOnly 属性只能在构造函数体内赋值，不能在 lambda 里写，因此先落到局部变量
+        Dim stoich As Tensor = Nothing
+        Dim adjacency As Tensor = Nothing
+        Dim participation As Tensor = Nothing
+        Dim inputMask As Tensor = Nothing
+
+        Call MetabolicTelemetry.Timed("graph.build-stoichiometry", Sub() stoich = BuildStoichiometry())
+        Call MetabolicTelemetry.Timed("graph.build-adjacency", Sub() adjacency = BuildAdjacency())
+        Call MetabolicTelemetry.Timed("graph.build-participation", Sub() participation = BuildParticipation())
+        Call MetabolicTelemetry.Timed("graph.build-input-mask", Sub() inputMask = BuildInputMask())
+
+        Me.Stoichiometry = stoich
+        Me.AdjacencyMask = adjacency
+        Me.ParticipationMask = participation
+        Me.InputMask = inputMask
         Me.Reversible = reactions.Select(Function(r) r.is_reversible).ToArray()
     End Sub
 
@@ -302,30 +315,65 @@ Public Class MetabolicNetworkGraph
         Dim nB = BoundaryIds.Length
         Dim mask = New Tensor(n + nB, m)
 
-        ' 酶输入通道
-        For j = 0 To n - 1
+        ' 每条反应涉及的化合物 ID 与内部代谢物下标，只预处理一次。
+        ' 原实现在 nB × n（约 900 × 14386 = 13M）的双重循环里反复用 LINQ 迭代底物，
+        ' 每个元素都要新建两个迭代器 + Concat + 闭包，实测单物种产生约 25 GB 分配、45 s 墙钟。
+        Dim involved As Integer()() = New Integer(n - 1)() {}
+        Dim allIds As String()() = New String(n - 1)() {}
+
+        For j As Integer = 0 To n - 1
+            Dim ids As New List(Of String)()
+            Dim indexList As New List(Of Integer)()
+
             For Each c In ReactantsOf(Reactions(j)).Concat(ProductsOf(Reactions(j)))
-                If _internalIndex.ContainsKey(c.ID) Then
-                    mask(j, _internalIndex(c.ID)) = 1.0
+                Call ids.Add(c.ID)
+
+                Dim i As Integer = 0
+
+                If _internalIndex.TryGetValue(c.ID, i) Then
+                    Call indexList.Add(i)
                 End If
+            Next
+
+            allIds(j) = ids.ToArray()
+            involved(j) = indexList.ToArray()
+        Next
+
+        ' 酶输入通道
+        For j As Integer = 0 To n - 1
+            For Each i As Integer In involved(j)
+                mask(j, i) = 1.0
             Next
         Next
 
-        ' 边界底物输入通道
-        For k = 0 To nB - 1
-            Dim bid = BoundaryIds(k)
+        ' 边界底物输入通道：先建"化合物 → 涉及它的反应"反向索引，
+        ' 把 nB × n 的字符串比较换成一次邻接查询
+        Dim touchedBy As New Dictionary(Of String, List(Of Integer))(StringComparer.Ordinal)
 
-            For j = 0 To n - 1
-                Dim touches = ReactantsOf(Reactions(j)).Concat(ProductsOf(Reactions(j))).
-                              Any(Function(c) c.ID = bid)
+        For j As Integer = 0 To n - 1
+            For Each id As String In allIds(j)
+                Dim bucket As List(Of Integer) = Nothing
 
-                If touches Then
-                    For Each c In ReactantsOf(Reactions(j)).Concat(ProductsOf(Reactions(j)))
-                        If _internalIndex.ContainsKey(c.ID) Then
-                            mask(n + k, _internalIndex(c.ID)) = 1.0
-                        End If
-                    Next
+                If Not touchedBy.TryGetValue(id, bucket) Then
+                    bucket = New List(Of Integer)()
+                    touchedBy(id) = bucket
                 End If
+
+                Call bucket.Add(j)
+            Next
+        Next
+
+        For k As Integer = 0 To nB - 1
+            Dim bucket As List(Of Integer) = Nothing
+
+            If Not touchedBy.TryGetValue(BoundaryIds(k), bucket) Then
+                Continue For
+            End If
+
+            For Each j As Integer In bucket
+                For Each i As Integer In involved(j)
+                    mask(n + k, i) = 1.0
+                Next
             Next
         Next
 

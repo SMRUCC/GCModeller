@@ -90,10 +90,19 @@ Public Class MetabolicLiquidNetwork : Implements InsilicoPerturbationExperiment
     ''' <param name="mode">液态神经元动力学模式（LTC 或 CFC）</param>
     ''' <param name="solver">ODE 求解器（CfC 模式下被忽略）</param>
     ''' <param name="seed">随机种子</param>
+    ''' <param name="lightweight">
+    ''' 为 <c>True</c> 时**不初始化通量读取头**：仅供"克隆"使用
+    ''' （调用方随后必须用 <see cref="MetabolicNetwork.ShareWeights"/> 共享模板的只读常量）。
+    ''' 
+    ''' 通量头的权重与梯度各约 <c>(m+nIn)×r</c>（本项目的 GEM 上约 1.8 GB/份），
+    ''' 而克隆在构造后立刻被共享版本替换，随机初始化纯属浪费；
+    ''' 并行评估时每条 worker 都要克隆一次，这份浪费会被并行度放大约 3.5 GB × N。
+    ''' </param>
     Public Sub New(graph As MetabolicNetworkGraph,
                    Optional mode As LiquidMode = LiquidMode.LTC,
                    Optional solver As String = "rk4",
-                   Optional seed As Integer? = 42)
+                   Optional seed As Integer? = 42,
+                   Optional lightweight As Boolean = False)
         Me.Graph = graph
         Me.MetaboliteCount = graph.MetaboliteCount
         Me.ReactionCount = graph.ReactionCount
@@ -116,10 +125,18 @@ Public Class MetabolicLiquidNetwork : Implements InsilicoPerturbationExperiment
         _OutputMask = CType(identity.Clone(), Tensor)
 
         ' 通量读取头：v = e ⊙ σ(Wv·[h;u] + bv)
-        _FluxWeight = Tensor.XavierInit(m + nIn, r, If(seed.HasValue, seed.Value + 11, Nothing))
-        _FluxBias = Tensor.Zeros({r})
-        _FluxWeightGradient = Tensor.Zeros({m + nIn, r})
-        _FluxBiasGradient = Tensor.Zeros({r})
+        If lightweight Then
+            ' 克隆路径：这些马上由 ShareConstantsFrom 换成模板的只读常量
+            _FluxWeight = Nothing
+            _FluxBias = Nothing
+            _FluxWeightGradient = Nothing
+            _FluxBiasGradient = Nothing
+        Else
+            _FluxWeight = Tensor.XavierInit(m + nIn, r, If(seed.HasValue, seed.Value + 11, Nothing))
+            _FluxBias = Tensor.Zeros({r})
+            _FluxWeightGradient = Tensor.Zeros({m + nIn, r})
+            _FluxBiasGradient = Tensor.Zeros({r})
+        End If
 
         _enzymeLevel = New Double(r - 1) {}
         _boundaryOverride = New Double(graph.BoundaryCount - 1) {}
@@ -627,13 +644,30 @@ Public Class MetabolicLiquidNetwork : Implements InsilicoPerturbationExperiment
                 End If
             End If
 
-            Dim u = BuildInput(RowOf(enzymeSeries, t), RowOf(boundarySeries, t))
-            Dim h = CType(cell.State.Clone(), Tensor)
+            Dim u As Tensor = Nothing
+            Dim h As Tensor = Nothing
+            Dim out As Tensor = Nothing
+            Dim v As Tensor = Nothing
+            Dim sysTau As Tensor = Nothing
+
+            Call MetabolicTelemetry.Timed("ltc.build-input", Sub()
+                                                                u = BuildInput(RowOf(enzymeSeries, t), RowOf(boundarySeries, t))
+                                                                h = CType(cell.State.Clone(), Tensor)
+                                                            End Sub)
+
             ' 浓度必须经输出读出层 ĉ = W_out·h + b_out 才是"浓度空间"的量；
             ' 直接把隐藏状态当作浓度会与训练时的监督目标不一致
-            Dim out = Liquid.ComputeOutputFrom(h)
-            Dim v = ComputeFlux(h, u)
-            Dim sysTau = cell.GetSystemTau(h, u)
+            Call MetabolicTelemetry.Timed("ltc.output", Sub()
+                                                            out = Liquid.ComputeOutputFrom(h)
+                                                        End Sub)
+
+            Call MetabolicTelemetry.Timed("ltc.flux", Sub()
+                                                          v = ComputeFlux(h, u)
+                                                      End Sub)
+
+            Call MetabolicTelemetry.Timed("ltc.tau", Sub()
+                                                         sysTau = cell.GetSystemTau(h, u)
+                                                     End Sub)
 
             For i = 0 To m - 1
                 conc(t, i) = out(i)
@@ -645,7 +679,9 @@ Public Class MetabolicLiquidNetwork : Implements InsilicoPerturbationExperiment
 
             ' 用当前时刻的驱动外推下一时刻（区间内部会按 MaxSubStep 细分积分）
             If t < steps - 1 Then
-                Call StepInterval(u, times(t + 1) - times(t))
+                Call MetabolicTelemetry.Timed("ltc.step-interval", Sub()
+                                                                       Call StepInterval(u, times(t + 1) - times(t))
+                                                                   End Sub)
             End If
         Next
 
