@@ -761,6 +761,230 @@ Public Class MetabolicLiquidNetwork : Implements InsilicoPerturbationExperiment
         End Property
 
         ''' <summary>
+        ''' 按**更大的**拓扑扩展模板：旧权重块按语义搬到新下标，新维度一律置零。
+        ''' </summary>
+        ''' <remarks>
+        ''' 用途：异源反应（给代谢网络插入一条新反应 + 一个新基因）会改变反应维度 r，
+        ''' 而预训练模板的权重形状与 r 绑定，无法原地扩容。这里重建一个同构实例，
+        ''' 把旧参数按块搬过去：
+        ''' <list type="bullet">
+        ''' <item><description>
+        ''' 循环权重 / 偏置 / τ（m 不变）整块复制 —— 因此新反应不改变已有代谢物的动力学。
+        ''' </description></item>
+        ''' <item><description>
+        ''' 输入权重 U 的行是<b>输入通道</b>，布局为 <c>[酶通道(r) | 边界通道(nB)]</c>。
+        ''' r 变大后边界通道整体右移 Δr，因此不能做"左上角块拷贝"，
+        ''' 必须把旧边界行搬到 <c>r_new + k</c>。
+        ''' </description></item>
+        ''' <item><description>
+        ''' 通量头 Wv 的形状是 <c>(m + nIn) × r</c>：行同样按 <c>[h(m) | 酶(r) | 边界(nB)]</c>
+        ''' 排布，需要同时处理"边界行右移"与"新反应列置零"。
+        ''' </description></item>
+        ''' </list>
+        ''' 结果是：**变体基线与原基线逐位一致**（新反应的通量与输入恒为 0），
+        ''' 只有优化器显式开启新反应（提高其基因表达 / kcat）才会产生差异。
+        ''' </remarks>
+        ''' <param name="template">原模板（不会被修改）</param>
+        ''' <param name="graph">新拓扑；代谢物与边界集合必须与原模板一致</param>
+        ''' <param name="mode">动力学模式</param>
+        ''' <param name="solver">ODE 求解器</param>
+        ''' <exception cref="InvalidOperationException">
+        ''' 代谢物数或边界数发生变化时抛出：新增反应只允许使用模型中已存在的代谢物，
+        ''' 且不得引入新的边界代谢物（否则跨膜槽映射需要整体重建，超出本函数的能力范围）。
+        ''' </exception>
+        Public Shared Function GrowFrom(template As MetabolicLiquidNetwork,
+                                        graph As MetabolicNetworkGraph,
+                                        Optional mode As LiquidMode = LiquidMode.LTC,
+                                        Optional solver As String = "rk4") As MetabolicLiquidNetwork
+            If template Is Nothing Then Throw New ArgumentNullException(NameOf(template))
+            If graph Is Nothing Then Throw New ArgumentNullException(NameOf(graph))
+
+            Dim m As Integer = template.MetaboliteCount
+            Dim rSrc As Integer = template.ReactionCount
+            Dim rDst As Integer = graph.ReactionCount
+
+            If graph.MetaboliteCount <> m OrElse graph.BoundaryCount <> template.Graph.BoundaryCount Then
+                Throw New InvalidOperationException(
+                    $"模板维度不可扩展：代谢物 {m}->{graph.MetaboliteCount}、" &
+                    $"边界 {template.Graph.BoundaryCount}->{graph.BoundaryCount}。" &
+                    "新增反应必须只用模型中已存在的代谢物，且不得改变边界集合。")
+            End If
+
+            If rDst < rSrc Then
+                Throw New InvalidOperationException($"新拓扑的反应数 {rDst} 少于模板的 {rSrc}，无法扩展")
+            End If
+
+            Dim dst As New MetabolicLiquidNetwork(graph, mode, solver, Nothing, lightweight:=True)
+            Dim sourceCell As LiquidCell = template.Liquid.LiquidLayer.Cells(0)
+
+            Call dst.SetTauBounds(sourceCell.TauMin, sourceCell.TauMax)
+
+            dst.MaxSubStep = template.MaxSubStep
+
+            If rDst = rSrc Then
+                ' 拓扑不变：整块复制即可（Metaboliq 不能反向依赖 Cella 的 ShareWeights）
+                Call CopyParameters(template, dst)
+
+                Return dst
+            End If
+
+            Dim delta As Integer = rDst - rSrc
+            Dim nInSrc As Integer = template.InputSize
+            Dim nInDst As Integer = dst.InputSize
+            Dim src As LiquidCell = sourceCell
+            Dim target As LiquidCell = dst.Liquid.LiquidLayer.Cells(0)
+
+            ' ---- 1. m 不变：状态侧参数整块复制 ----
+            Call CopyWhole(src.WeightRecurrent, target.WeightRecurrent)
+            Call CopyWhole(src.Bias, target.Bias)
+            Call CopyWhole(src.Tau, target.Tau)
+
+            If src.HasGate Then
+                Call CopyWhole(src.WeightGate, target.WeightGate)
+                Call CopyWhole(src.BiasGate, target.BiasGate)
+                Call CopyWhole(src.WeightGateInput, target.WeightGateInput, rowShift:=delta, rowFence:=rSrc)
+            End If
+
+            ' ---- 2. 输入权重 U(nIn × m)：酶通道原位，边界通道右移 delta ----
+            Call CopyInputRows(src.WeightInput, target.WeightInput, nInSrc, rSrc, delta, m)
+
+            ' ---- 3. 输出读出层（m 不变） ----
+            Call CopyWhole(template.Liquid.OutputWeight, dst.Liquid.OutputWeight)
+            Call CopyWhole(template.Liquid.OutputBias, dst.Liquid.OutputBias)
+
+            ' ---- 4. 通量头 Wv((m+nIn) × r) ----
+            dst.FluxWeight = Tensor.Zeros({m + nInDst, rDst})
+            dst.FluxBias = Tensor.Zeros({rDst})
+
+            ' 源头通量头为空（lightweight 模板）时保持全零：新反应静默，语义仍然正确
+            If template.FluxWeight IsNot Nothing AndAlso template.FluxWeight.Shape.Length > 1 Then
+                ' 4.1 隐藏状态行 [0, m) × 旧反应列 [0, rSrc)
+                For i As Integer = 0 To m - 1
+                    Call CopyRow(template.FluxWeight, i, 0, dst.FluxWeight, i, 0, rSrc)
+                Next
+
+                ' 4.2 输入行：旧行 m+k -> 新行 m + (k < rSrc ? k : k + delta)
+                For k As Integer = 0 To nInSrc - 1
+                    Dim destRow As Integer = m + (If(k < rSrc, k, k + delta))
+
+                    Call CopyRow(template.FluxWeight, m + k, 0, dst.FluxWeight, destRow, 0, rSrc)
+                Next
+            End If
+
+            ' 4.3 偏置：旧列原位
+            If template.FluxBias IsNot Nothing AndAlso template.FluxBias.Length >= rSrc Then
+                Call Array.Copy(template.FluxBias.Data, dst.FluxBias.Data, rSrc)
+                Call dst.FluxBias.MarkHostModified()
+            End If
+
+            Return dst
+        End Function
+
+        ''' <summary>维度完全一致时的整块参数复制（含通量头）</summary>
+        Private Shared Sub CopyParameters(source As MetabolicLiquidNetwork, target As MetabolicLiquidNetwork)
+            If source Is Nothing OrElse target Is Nothing Then
+                Return
+            End If
+
+            Dim src As LiquidCell = source.Liquid.LiquidLayer.Cells(0)
+            Dim dst As LiquidCell = target.Liquid.LiquidLayer.Cells(0)
+
+            Call CopyWhole(src.WeightRecurrent, dst.WeightRecurrent)
+            Call CopyWhole(src.WeightInput, dst.WeightInput)
+            Call CopyWhole(src.Bias, dst.Bias)
+            Call CopyWhole(src.Tau, dst.Tau)
+
+            If src.HasGate Then
+                Call CopyWhole(src.WeightGate, dst.WeightGate)
+                Call CopyWhole(src.WeightGateInput, dst.WeightGateInput)
+                Call CopyWhole(src.BiasGate, dst.BiasGate)
+            End If
+
+            Call CopyWhole(source.Liquid.OutputWeight, target.Liquid.OutputWeight)
+            Call CopyWhole(source.Liquid.OutputBias, target.Liquid.OutputBias)
+
+            If source.FluxWeight IsNot Nothing Then
+                target.FluxWeight = Tensor.Zeros(source.FluxWeight.Shape)
+                Call Array.Copy(source.FluxWeight.Data, target.FluxWeight.Data, source.FluxWeight.Length)
+                Call target.FluxWeight.MarkHostModified()
+            End If
+
+            If source.FluxBias IsNot Nothing Then
+                target.FluxBias = Tensor.Zeros(source.FluxBias.Shape)
+                Call Array.Copy(source.FluxBias.Data, target.FluxBias.Data, source.FluxBias.Length)
+                Call target.FluxBias.MarkHostModified()
+            End If
+        End Sub
+
+        ''' <summary>把源张量的数据整块复制到目标（取两者最小维度，目标其余位置保持原值）</summary>
+        Private Shared Sub CopyWhole(source As Tensor, target As Tensor, Optional rowShift As Integer = 0,
+                                     Optional rowFence As Integer = -1)
+            If source Is Nothing OrElse target Is Nothing Then
+                Return
+            End If
+
+            If source.Shape.Length <= 1 OrElse target.Shape.Length <= 1 Then
+                Dim length As Integer = System.Math.Min(source.Length, target.Length)
+
+                Call Array.Copy(source.Data, target.Data, length)
+                Call target.MarkHostModified()
+
+                Return
+            End If
+
+            Dim rows As Integer = System.Math.Min(source.Shape(0), target.Shape(0))
+            Dim cols As Integer = System.Math.Min(source.Shape(1), target.Shape(1))
+
+            For i As Integer = 0 To rows - 1
+                Dim destRow As Integer = If(rowFence >= 0 AndAlso i >= rowFence, i + rowShift, i)
+
+                If destRow < 0 OrElse destRow >= target.Shape(0) Then
+                    Continue For
+                End If
+
+                Call CopyRow(source, i, 0, target, destRow, 0, cols)
+            Next
+        End Sub
+
+        ''' <summary>复制输入权重矩阵的行：前 <paramref name="fence"/> 行原位，其余行整体右移</summary>
+        Private Shared Sub CopyInputRows(source As Tensor, target As Tensor,
+                                         rows As Integer, fence As Integer,
+                                         shift As Integer, cols As Integer)
+            For k As Integer = 0 To rows - 1
+                Dim destRow As Integer = If(k < fence, k, k + shift)
+
+                If destRow < 0 OrElse destRow >= target.Shape(0) Then
+                    Continue For
+                End If
+
+                Call CopyRow(source, k, 0, target, destRow, 0, cols)
+            Next
+        End Sub
+
+        ''' <summary>把源张量某一行的一段复制到目标张量的某一行（行主序）</summary>
+        Private Shared Sub CopyRow(source As Tensor, sourceRow As Integer, sourceCol As Integer,
+                                   target As Tensor, targetRow As Integer, targetCol As Integer,
+                                   count As Integer)
+            If count <= 0 Then
+                Return
+            End If
+
+            Dim sourceWidth As Integer = source.Shape(1)
+            Dim targetWidth As Integer = target.Shape(1)
+            Dim offset As Integer = sourceRow * sourceWidth + sourceCol
+
+            If offset < 0 OrElse offset + count > source.Data.Length Then
+                Return
+            End If
+            If targetRow * targetWidth + targetCol + count > target.Data.Length Then
+                Return
+            End If
+
+            Call Array.Copy(source.Data, offset, target.Data, targetRow * targetWidth + targetCol, count)
+            Call target.MarkHostModified()
+        End Sub
+
+        ''' <summary>
         ''' 从模板共享只读的常量矩阵：通量读出头的权重、偏置以及可逆掩码。
         ''' </summary>
         ''' <remarks>
