@@ -11,6 +11,7 @@
 ' ============================================================================
 
 Imports System.IO
+Imports Microsoft.VisualBasic.MachineLearning.Bootstrapping.Ensemble.Persistence
 Imports Microsoft.VisualBasic.MachineLearning.SVM
 Imports Microsoft.VisualBasic.MachineLearning.SVM.StorageProcedure
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -168,9 +169,21 @@ Namespace Traitar
 
                 If model.Ensemble IsNot Nothing Then
                     Dim dto As ModelsNS.EnsembleModelDTO = ModelsNS.EnsembleModelDTO.CreateDTO(model.Ensemble)
+                    Dim voting As Object
 
-                    If dto IsNot Nothing Then
+                    If model.Ensemble.Classifier IsNot Nothing Then
+                        voting = model.Ensemble.Classifier
+                    Else
+                        voting = model.Ensemble.Regressor
+                    End If
+
+                    If dto IsNot Nothing AndAlso voting IsNot Nothing Then
                         ensembleFile = SafeFileName(kvp.Key, i, "ensemble")
+
+                        Dim ensembleDir As String = System.IO.Path.GetFileNameWithoutExtension(ensembleFile)
+
+                        Call Modules.ScaledSvmCodecRegistration.EnsureRegistered()
+                        Call EnsembleModelStore.Save(voting, System.IO.Path.Combine(dir, ensembleDir))
                         Call System.IO.File.WriteAllText(
                             System.IO.Path.Combine(dir, ensembleFile), dto.GetJson)
                     End If
@@ -287,14 +300,24 @@ Namespace Traitar
                 Dim trained As Boolean = False
 
                 If item.model_family = "ensemble" AndAlso Not String.IsNullOrEmpty(item.ensembleFile) Then
-                    Dim ensemblePath As String = System.IO.Path.Combine(dir, item.ensembleFile)
+                    Dim metaPath As String = System.IO.Path.Combine(dir, item.ensembleFile)
 
-                    If System.IO.File.Exists(ensemblePath) Then
-                        model.Ensemble = System.IO.File _
-                            .ReadAllText(ensemblePath) _
-                            .LoadJSON(Of ModelsNS.EnsembleModelDTO)() _
-                            .CreateEnsemble()
-                        trained = True
+                    If System.IO.File.Exists(metaPath) Then
+                        Dim dto As ModelsNS.EnsembleModelDTO = System.IO.File _
+                            .ReadAllText(metaPath) _
+                            .LoadJSON(Of ModelsNS.EnsembleModelDTO)()
+                        Dim bundlePath As String = System.IO.Path.Combine(
+                            dir, System.IO.Path.GetFileNameWithoutExtension(item.ensembleFile))
+
+                        Call Modules.ScaledSvmCodecRegistration.EnsureRegistered()
+
+                        If System.IO.Directory.Exists(bundlePath) Then
+                            model.Ensemble = dto.CreateEnsemble(EnsembleModelStore.LoadModel(bundlePath))
+                            trained = True
+                        Else
+                            model.Status = "skipped"
+                            model.ErrorMessage = $"the ensemble model bundle '{bundlePath}' is not found"
+                        End If
                     End If
                 End If
 
