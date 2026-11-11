@@ -168,7 +168,7 @@ Namespace Traitar.Modules
 
             Call voting.Train(x, y)
 
-            Dim members As EnsembleMember() = BuildMembers(specs, weight)
+            Dim members As EnsembleMember() = BuildMembers(specs, weight, x, y)
 
             result.Ensemble = New PhenotypeEnsemble With {
                 .Mode = "voting",
@@ -216,7 +216,7 @@ Namespace Traitar.Modules
 
             Call voting.Train(x, y)
 
-            Dim members As EnsembleMember() = BuildMembers(specs, weight)
+            Dim members As EnsembleMember() = BuildMembers(specs, weight, x, y)
 
             result.Ensemble = New PhenotypeEnsemble With {
                 .Mode = "voting",
@@ -252,12 +252,14 @@ Namespace Traitar.Modules
         End Function
 
         Private Function BuildMembers(specs As EnsembleLearnerSpec(),
-                                      weight As EnsembleWeightResult) As EnsembleMember()
+                                      weight As EnsembleWeightResult,
+                                      x As Double()(),
+                                      y As Double()) As EnsembleMember()
 
             Dim members As EnsembleMember() = New EnsembleMember(specs.Length - 1) {}
 
             For i As Integer = 0 To specs.Length - 1
-                members(i) = New EnsembleMember With {
+                Dim member As New EnsembleMember With {
                     .Algorithm = specs(i).Name,
                     .Kind = If(specs(i).IsClassifier, EnsembleMemberKind.Classifier, EnsembleMemberKind.Regressor),
                     .Weight = If(i < weight.Weights.Length, weight.Weights(i), 0.0R),
@@ -265,6 +267,14 @@ Namespace Traitar.Modules
                     .Parameters = specs(i).Parameters,
                     .Status = "trained"
                 }
+
+                ' 这两个算法的内部状态无法导出，保存训练快照以便加载时重训
+                If specs(i).Algorithm = EnsembleAlgorithm.NaiveBayes OrElse
+                   specs(i).Algorithm = EnsembleAlgorithm.BayesianRegression Then
+                    member.Snapshot = EnsembleTrainingSnapshot.Create(x, y).GetJson
+                End If
+
+                members(i) = member
             Next
 
             Return members
