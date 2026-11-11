@@ -48,11 +48,39 @@ Namespace Traitar.Modules
                 Return
             End If
 
+            For Each pred As TraitPrediction In PredictAll(profile)
+                Yield pred
+            Next
+        End Function
+
+        ''' <summary>
+        ''' 预测全部表型（默认按表型维并行）。
+        ''' </summary>
+        ''' <param name="profile">Pfam 编号 -> 归一化丰度值</param>
+        ''' <param name="parallel">是否并行预测；默认开启</param>
+        Public Function PredictAll(profile As IDictionary(Of String, Double),
+                                   Optional parallel As Boolean = True) As TraitPrediction()
+
+            If Loader Is Nothing OrElse Loader.Embedding Is Nothing Then
+                Return New TraitPrediction() {}
+            End If
+
+            Dim models As Models.PhenotypeModel() = Loader.Models.Values.ToArray()
+            Dim results As TraitPrediction() = New TraitPrediction(models.Length - 1) {}
             Dim nodes As Microsoft.VisualBasic.MachineLearning.SVM.Node() = Loader.Embedding.ToNodes(profile)
 
-            For Each model As Models.PhenotypeModel In Loader.Models.Values
-                Yield model.Predict(nodes)
-            Next
+            If parallel AndAlso models.Length > 1 Then
+                Call System.Threading.Tasks.Parallel.For(0, models.Length,
+                    Sub(i)
+                        results(i) = models(i).Predict(nodes)
+                    End Sub)
+            Else
+                For i As Integer = 0 To models.Length - 1
+                    results(i) = models(i).Predict(nodes)
+                Next
+            End If
+
+            Return results
         End Function
 
         ''' <summary>
@@ -90,7 +118,7 @@ Namespace Traitar.Modules
         ''' 预测全部表型，并按照置信度从高到低排序（回归模型排在最后）
         ''' </summary>
         Public Function PredictSorted(profile As IDictionary(Of String, Double)) As TraitPrediction()
-            Dim list As List(Of TraitPrediction) = PredictGenome(profile).ToList
+            Dim list As List(Of TraitPrediction) = PredictAll(profile).ToList
 
             list.Sort(Function(a, b)
                           If a Is Nothing Then Return 1

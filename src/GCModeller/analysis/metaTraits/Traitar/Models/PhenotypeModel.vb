@@ -24,7 +24,15 @@ Namespace Traitar.Models
         ''' 训练得到的 LibSVM 模型（含支持向量、决策系数、
         ''' RangeTransform 以及类别编码器）
         ''' </summary>
+        ''' <remarks>
+        ''' 集成学习模式下本属性仅作为兼容视图保留（可能为 Nothing）。
+        ''' </remarks>
         Public Property Model As SVMModel
+
+        ''' <summary>
+        ''' 集成学习模型（Voting 加权投票）；与 <see cref="Model"/> 二者至少有一个非空。
+        ''' </summary>
+        Public Property Ensemble As PhenotypeEnsemble
 
         ''' <summary>参与该模型训练的样本数量</summary>
         Public Property SampleCount As Integer
@@ -41,9 +49,9 @@ Namespace Traitar.Models
         ''' <summary>该表型的关键 Pfam 结构域特征</summary>
         Public Property KeyFeatures As Modules.KeyFeature()
 
-        ''' <summary>该模型是否已经训练成功</summary>
+        ''' <summary>该模型是否已经训练成功（SVM 兼容视图或集成模型任一存在）</summary>
         Public Function IsTrained() As Boolean
-            Return Model IsNot Nothing
+            Return Model IsNot Nothing OrElse Ensemble IsNot Nothing
         End Function
 
         ''' <summary>该模型是否是一个回归模型（numeric 型表型）</summary>
@@ -84,6 +92,14 @@ Namespace Traitar.Models
                 Return result
             End If
 
+            ' 集成学习路径：Ensemble 只接受 0-based 稠密向量
+            If Me.Ensemble IsNot Nothing Then
+                Dim vector As Double() = SMRUCC.genomics.Analysis.metaTraits.Traitar.Modules.EnsembleFeatureMatrix _
+                    .FromNodes(features, Me.Ensemble.FeatureCount)
+
+                Return PredictEnsemble(result, vector)
+            End If
+
             ' 预测之前必须应用与训练时完全相同的 range transform
             Dim scaled As Node() = Model.transform.Transform(features)
             Dim pred As SVMPrediction = Microsoft.VisualBasic.MachineLearning.SVM.Prediction.Predict(Model.model, scaled)
@@ -109,6 +125,37 @@ Namespace Traitar.Models
                 Else
                     result.predict = cls.name
                 End If
+            End If
+
+            Return result
+        End Function
+
+        ''' <summary>
+        ''' 集成学习的预测路径：分类输出加权概率与类别标签，回归输出加权值
+        ''' </summary>
+        Private Function PredictEnsemble(result As TraitPrediction, vector As Double()) As TraitPrediction
+            If Me.Ensemble.IsClassifier Then
+                Dim probability As Double() = Me.Ensemble.PredictProbability(vector)
+                Dim best As Integer = Me.Ensemble.ArgMaxClass(probability)
+
+                result.votes = probability
+                result.score = If(best >= 0 AndAlso best < probability.Length, probability(best), 0.0R)
+                result.confidence = result.score
+                result.value = If(Me.Ensemble.Classes IsNot Nothing AndAlso best < Me.Ensemble.Classes.Length,
+                                  Me.Ensemble.Classes(best),
+                                  CDbl(best))
+                result.predict = Me.Ensemble.GetClassLabel(best)
+
+                If result.predict Is Nothing Then
+                    result.predict = result.value.ToString("G6")
+                End If
+            Else
+                Dim value As Double = Me.Ensemble.PredictValue(vector)
+
+                result.value = value
+                result.score = value
+                result.predict = value.ToString("G6")
+                result.confidence = 1.0
             End If
 
             Return result
