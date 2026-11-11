@@ -42,7 +42,10 @@ Friend Module EnsembleTrainingTest
         Try
             Call test()
         Catch ex As Exception
-            Call Assert.Test(False, $"{name}: {ex.GetType.Name}: {ex.Message}")
+            Dim trace As String = If(ex.StackTrace, "")
+            Dim brief As String = trace.Substring(0, Math.Min(600, trace.Length))
+
+            Call Assert.Test(False, $"{name}: {ex.GetType.Name}: {ex.Message} @ {brief}")
         End Try
     End Sub
 
@@ -99,8 +102,11 @@ Friend Module EnsembleTrainingTest
 
         Dim binary As PhenotypeModel = models("demo_binary")
         Dim correct As Integer = 0
+        Dim labeled As SupportVector() = dataset.problems.vectors _
+            .Where(Function(v) v.labels.ContainsKey("demo_binary")) _
+            .ToArray()
 
-        For Each row As SupportVector In dataset.problems.vectors
+        For Each row As SupportVector In labeled
             Dim pred As TraitPrediction = binary.Predict(row.Properties, dataset.embedding)
 
             If String.Equals(pred.predict, row.labels("demo_binary"), StringComparison.OrdinalIgnoreCase) Then
@@ -108,7 +114,7 @@ Friend Module EnsembleTrainingTest
             End If
         Next
 
-        Dim accuracy As Double = correct / dataset.problems.vectors.Length
+        Dim accuracy As Double = correct / Math.Max(1, labeled.Length)
 
         Call Assert.Test(accuracy >= 0.8, $"二分类训练集准确率 {accuracy:F3} >= 0.8")
 
@@ -126,7 +132,7 @@ Friend Module EnsembleTrainingTest
         Dim expected As New List(Of Double)()
         Dim predicted As New List(Of Double)()
 
-        For Each row As SupportVector In dataset.problems.vectors
+        For Each row As SupportVector In dataset.problems.vectors.Where(Function(v) v.labels.ContainsKey("demo_numeric"))
             Dim value As Double = 0
 
             If Double.TryParse(row.labels("demo_numeric"), NumberStyles.Float, CultureInfo.InvariantCulture, value) Then
