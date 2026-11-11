@@ -10,13 +10,27 @@
     <Platform Name="x64" />
   </Configurations>
   <Folder Name="/framework/">
+    <Project Path="../../runtime/sciBASIC#/Data/BinaryData/BinaryData/binarydata-netcore5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
     <Project Path="../../runtime/sciBASIC#/Data/DataFrame/dataframework-netcore5.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
     <Project Path="../../runtime/sciBASIC#/Data_science/DataMining/DataMining/DataMining.NET5.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
+    <Project Path="../../runtime/sciBASIC#/Data_science/MachineLearning/Bootstrapping/Bootstrapping.vbproj">
+      <BuildType Solution="gcmodeller_desktop|*" Project="nuget_release" />
+      <BuildType Solution="mzkit_win32|*" Project="Rsharp_app_release" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
     <Project Path="../../runtime/sciBASIC#/Data_science/MachineLearning/MachineLearning/machine_learning-netcore5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../runtime/sciBASIC#/Data_science/MachineLearning/TensorFlow/TensorFlow.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../runtime/sciBASIC#/Data_science/MachineLearning/xgboost/xgboost.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
     <Project Path="../../runtime/sciBASIC#/Data_science/Mathematica/Math/DataFittings/linear-netcore5.vbproj">
