@@ -40,6 +40,11 @@ Namespace Traitar.Models
         Public Property Parameters As Dictionary(Of String, Double)
         ''' <summary>算法专用的持久化载荷（由 EnsembleModelDTO 写入）</summary>
         Public Property Payload As String
+        ''' <summary>
+        ''' 训练快照（仅用于无法导出内部状态的算法，例如朴素贝叶斯与贝叶斯回归，
+        ''' 加载时用该快照重训该成员）。
+        ''' </summary>
+        Public Property Snapshot As String
 
         Public Overrides Function ToString() As String
             Return $"{Algorithm} w={Weight:F4} cv={CVScore:F4} [{Status}]"

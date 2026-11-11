@@ -87,6 +87,20 @@ Namespace Traitar.Modules
             End Get
         End Property
 
+        ''' <summary>类别标签的索引基（持久化恢复时使用）</summary>
+        Public ReadOnly Property IndexOffset As Integer
+            Get
+                Return labelOffset
+            End Get
+        End Property
+
+        ''' <summary>特征索引基（持久化恢复时使用）</summary>
+        Public ReadOnly Property InputOffset As Integer
+            Get
+                Return featureOffset
+            End Get
+        End Property
+
         Public Function PredictProbability(x As Double()) As Double() Implements IClassifier.PredictProbability
             Dim nodes As Node() = EnsembleFeatureMatrix.ToNodes(x, featureOffset)
             Dim scaled As Node() = If(Fitted.transform Is Nothing,
@@ -173,6 +187,13 @@ Namespace Traitar.Modules
             Me.Fitted = fitted
             Me.featureOffset = featureOffset
         End Sub
+
+        ''' <summary>特征索引基（持久化恢复时使用）</summary>
+        Public ReadOnly Property InputOffset As Integer
+            Get
+                Return featureOffset
+            End Get
+        End Property
 
         Public Function Predict(x As Double()) As Double Implements IRegressor.Predict
             Dim nodes As Node() = EnsembleFeatureMatrix.ToNodes(x, featureOffset)
