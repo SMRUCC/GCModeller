@@ -171,10 +171,12 @@ declare namespace metaTraits {
         * @param verbose 是否输出训练日志
         * 
         * + default value Is ``true``.
+        * @param estimator 
+        * + default value Is ``'ensemble'``.
         * @param env 
         * + default value Is ``null``.
       */
-      function phenotype_models(dataset: object, kernel?: string, nrfold?: object, tune?: string, verbose?: boolean, env?: object): object;
+      function phenotype_models(dataset: object, kernel?: string, nrfold?: object, tune?: string, verbose?: boolean, estimator?: string, env?: object): object;
    }
    module tune {
       /**
