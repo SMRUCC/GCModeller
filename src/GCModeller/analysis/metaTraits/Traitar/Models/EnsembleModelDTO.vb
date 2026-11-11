@@ -252,11 +252,8 @@ Namespace Traitar.Models
                         Return SvmModelJSON.CreateJSONModel(svm.Fitted).GetJson
                     End If
                 Case "logistic"
-                    Dim logistic As LogisticClassifier = TryCast(model, LogisticClassifier)
-
-                    If logistic IsNot Nothing Then
-                        Return logistic.FittedModel.GetJson
-                    End If
+                    ' LogisticFit 的 ErrorTest 是接口数组，无法 JSON 往返，改用训练快照重训
+                    Return Nothing
                 Case "xgboost"
                     Dim xgboost As XGBoostClassifier = TryCast(model, XGBoostClassifier)
 
@@ -278,17 +275,11 @@ Namespace Traitar.Models
                         Return ExportForest(forest.FittedModel).GetJson
                     End If
                 Case "ridge"
-                    Dim ridge As RidgeRegressor = TryCast(model, RidgeRegressor)
-
-                    If ridge IsNot Nothing Then
-                        Return ridge.FittedModel.GetJson
-                    End If
+                    ' RidgeFit 的 ErrorTest 是接口数组，无法 JSON 往返，改用训练快照重训
+                    Return Nothing
                 Case "mlr"
-                    Dim mlr As MlrRegressor = TryCast(model, MlrRegressor)
-
-                    If mlr IsNot Nothing Then
-                        Return mlr.FittedModel.GetJson
-                    End If
+                    ' MLRFit 的 ErrorTest 同样是接口数组，改用训练快照重训
+                    Return Nothing
                 Case "svr"
                     Dim svr As ScaledSvm.ScaledSvmRegressor = TryCast(model, ScaledSvm.ScaledSvmRegressor)
 
@@ -355,11 +346,7 @@ Namespace Traitar.Models
                     Return New ScaledSvm.ScaledSvmClassifier(
                         svm, Classes, GetParameter(member, "indexOffset", 1), GetParameter(member, "inputOffset", 1))
                 Case "logistic"
-                    If String.IsNullOrEmpty(member.Payload) Then
-                        Return Nothing
-                    End If
-
-                    Return New LogisticClassifier(member.Payload.LoadJSON(Of LogisticNS.LogisticFit)(), Classes)
+                    Return RetrainLogistic(member)
                 Case "xgboost"
                     If String.IsNullOrEmpty(member.Payload) Then
                         Return Nothing
@@ -385,17 +372,9 @@ Namespace Traitar.Models
 
                     Return New RandomForestRegressor(RestoreForest(member.Payload.LoadJSON(Of EnsembleForestDTO)()))
                 Case "ridge"
-                    If String.IsNullOrEmpty(member.Payload) Then
-                        Return Nothing
-                    End If
-
-                    Return New RidgeRegressor(member.Payload.LoadJSON(Of RidgeNS.RidgeFit)())
+                    Return RetrainRidge(member)
                 Case "mlr"
-                    If String.IsNullOrEmpty(member.Payload) Then
-                        Return Nothing
-                    End If
-
-                    Return New MlrRegressor(member.Payload.LoadJSON(Of MultivariateNS.MLRFit)())
+                    Return RetrainMlr(member)
                 Case "svr"
                     If String.IsNullOrEmpty(member.Payload) Then
                         Return Nothing
@@ -453,6 +432,49 @@ Namespace Traitar.Models
             Next
 
             Return forest
+        End Function
+
+        ''' <summary>逻辑回归：用训练快照重训（其 ErrorTest 接口数组无法 JSON 往返）</summary>
+        Private Function RetrainLogistic(member As EnsembleMember) As IClassifier
+            If String.IsNullOrEmpty(member.Snapshot) Then
+                Return Nothing
+            End If
+
+            Dim snapshot As EnsembleTrainingSnapshot = member.Snapshot.LoadJSON(Of EnsembleTrainingSnapshot)()
+            Dim learner As New LogisticClassifierLearner With {
+                .Rate = GetParameter(member, "rate", 0.1R),
+                .Iterations = GetParameter(member, "iterations", 2000)
+            }
+            Dim yIndex As Integer() = snapshot.Labels.Select(Function(v) CInt(v)).ToArray()
+
+            Return learner.Fit(snapshot.ToMatrix(), yIndex, Classes)
+        End Function
+
+        ''' <summary>岭回归：用训练快照重训</summary>
+        Private Function RetrainRidge(member As EnsembleMember) As IRegressor
+            If String.IsNullOrEmpty(member.Snapshot) Then
+                Return Nothing
+            End If
+
+            Dim snapshot As EnsembleTrainingSnapshot = member.Snapshot.LoadJSON(Of EnsembleTrainingSnapshot)()
+            Dim learner As New RidgeRegressorLearner With {
+                .NumberOfLambdas = GetParameter(member, "numberOfLambdas", 100),
+                .Standardize = GetParameter(member, "standardize", 1.0R) > 0.5R
+            }
+
+            Return learner.Fit(snapshot.ToMatrix(), snapshot.Labels)
+        End Function
+
+        ''' <summary>多元线性回归：用训练快照重训</summary>
+        Private Function RetrainMlr(member As EnsembleMember) As IRegressor
+            If String.IsNullOrEmpty(member.Snapshot) Then
+                Return Nothing
+            End If
+
+            Dim snapshot As EnsembleTrainingSnapshot = member.Snapshot.LoadJSON(Of EnsembleTrainingSnapshot)()
+            Dim learner As New MlrRegressorLearner()
+
+            Return learner.Fit(snapshot.ToMatrix(), snapshot.Labels)
         End Function
 
         Private Function RetrainClassifier(member As EnsembleMember) As IClassifier

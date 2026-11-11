@@ -6,20 +6,32 @@ Imports Microsoft.VisualBasic.ApplicationServices.Debugging
 Module Program
 
     Sub Main(args As String())
+        Dim stdout As TextWriter = Console.Out
+        Dim stderr As TextWriter = Console.Error
+
         Call DebugAudit.Reset()
         Call Assert.Reset()
         Call DebugAudit.Mark("metaTraits-ensemble", "start")
 
-        Try
-            Call EnsembleTrainingTest.Run()
-        Catch ex As Exception
-            Call Assert.Test(False, $"synthetic suite threw: {ex}")
-        End Try
+        ' 训练期间底层库会对空集合/秩亏矩阵产生大量提示，先抑制 console 噪声
+        Call Console.SetOut(TextWriter.Null)
+        Call Console.SetError(TextWriter.Null)
 
         Try
-            Call RealDataTrainingTest.Run()
-        Catch ex As Exception
-            Call Assert.Test(False, $"real-data suite threw: {ex}")
+            Try
+                Call EnsembleTrainingTest.Run()
+            Catch ex As Exception
+                Call Assert.Test(False, $"synthetic suite threw: {ex.GetType.Name}: {ex.Message}")
+            End Try
+
+            Try
+                Call RealDataTrainingTest.Run()
+            Catch ex As Exception
+                Call Assert.Test(False, $"real-data suite threw: {ex.GetType.Name}: {ex.Message}")
+            End Try
+        Finally
+            Call Console.SetOut(stdout)
+            Call Console.SetError(stderr)
         End Try
 
         Console.WriteLine()

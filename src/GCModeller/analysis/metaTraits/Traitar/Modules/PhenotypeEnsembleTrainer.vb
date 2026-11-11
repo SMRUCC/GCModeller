@@ -308,9 +308,8 @@ Namespace Traitar.Modules
                     .Status = "trained"
                 }
 
-                ' 这两个算法的内部状态无法导出，保存训练快照以便加载时重训
-                If specs(i).Algorithm = EnsembleAlgorithm.NaiveBayes OrElse
-                   specs(i).Algorithm = EnsembleAlgorithm.BayesianRegression Then
+                ' 内部状态无法导出（或接口数组无法 JSON 往返）的算法保存训练快照
+                If IsRetrainAlgorithm(specs(i).Algorithm) Then
                     member.Snapshot = EnsembleTrainingSnapshot.Create(x, y).GetJson
                 End If
 
@@ -318,6 +317,18 @@ Namespace Traitar.Modules
             Next
 
             Return members
+        End Function
+
+        ''' <summary>是否需要保存训练快照（内部状态无法导出的算法）</summary>
+        Private Function IsRetrainAlgorithm(algorithm As EnsembleAlgorithm) As Boolean
+            Select Case algorithm
+                Case EnsembleAlgorithm.NaiveBayes, EnsembleAlgorithm.Logistic,
+                     EnsembleAlgorithm.BayesianRegression, EnsembleAlgorithm.Ridge,
+                     EnsembleAlgorithm.Mlr
+                    Return True
+                Case Else
+                    Return False
+            End Select
         End Function
 
         Private Function AverageScore(members As EnsembleMember()) As Double

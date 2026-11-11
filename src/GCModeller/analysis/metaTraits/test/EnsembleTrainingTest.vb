@@ -28,14 +28,22 @@ Friend Module EnsembleTrainingTest
 
         Dim before As Integer = Assert.Failures
 
-        Call TestTraining(dataset)
-        Call TestPrediction(dataset)
-        Call TestPersistence(dataset)
-        Call TestSvmCompat(dataset)
+        Call RunSafe("training", Sub() TestTraining(dataset))
+        Call RunSafe("prediction", Sub() TestPrediction(dataset))
+        Call RunSafe("persistence", Sub() TestPersistence(dataset))
+        Call RunSafe("svm", Sub() TestSvmCompat(dataset))
 
         Dim delta As Integer = Assert.Failures - before
 
         Call DebugAudit.Mark("case:ensemble-synthetic", If(delta = 0, "PASS", $"FAIL ({delta} assertion(s))"))
+    End Sub
+
+    Private Sub RunSafe(name As String, test As System.Action)
+        Try
+            Call test()
+        Catch ex As Exception
+            Call Assert.Test(False, $"{name}: {ex.GetType.Name}: {ex.Message}")
+        End Try
     End Sub
 
     ''' <summary>训练流程：基学习器数量、权重归一化与集成器创建</summary>
@@ -85,6 +93,10 @@ Friend Module EnsembleTrainingTest
             .Compact = True
         }
         Dim models As Dictionary(Of String, PhenotypeModel) = trainer.TrainAll(dataset)
+
+        Call Assert.AreEqual(3, models.Count, $"模型数量，实际键：{String.Join(",", models.Keys)}")
+        Call Assert.Test(models.ContainsKey("demo_binary"), $"缺少 demo_binary，实际键：{String.Join(",", models.Keys)}")
+
         Dim binary As PhenotypeModel = models("demo_binary")
         Dim correct As Integer = 0
 
