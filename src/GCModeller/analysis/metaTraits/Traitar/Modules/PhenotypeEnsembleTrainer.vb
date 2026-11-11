@@ -13,6 +13,7 @@ Imports System.Collections.Generic
 Imports System.Linq
 Imports Microsoft.VisualBasic.MachineLearning.Bootstrapping.Ensemble
 Imports Microsoft.VisualBasic.MachineLearning.SVM.StorageProcedure
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Analysis.metaTraits.Traitar.Models
 
 Namespace Traitar.Modules
@@ -57,7 +58,7 @@ Namespace Traitar.Modules
                 Throw New ArgumentNullException(NameOf(dataset))
             End If
 
-            Dim traits As PhenotypeTrait() = FilterTraits(dataset.traits)
+            Dim traits As PhenotypeTrait() = FilterTraits(dataset)
             Dim results As New Dictionary(Of String, Models.PhenotypeModel)()
             Dim models As Models.PhenotypeModel() = New Models.PhenotypeModel(traits.Length - 1) {}
 
@@ -161,14 +162,33 @@ Namespace Traitar.Modules
             Dim weight As EnsembleWeightResult = ResolveWeights(
                 learners.Length,
                 Function() EnsembleWeighting.EstimateClassifierWeights(learners, x, yIndex, classes, Folds, Seed))
-            Dim voting As New VotingClassifier(learners, weight.Weights, VotingMode.Soft) With {
-                .Parallel = ParallelLearners
-            }
+            Dim trained As New List(Of IClassifier)()
+            Dim used As New List(Of EnsembleLearnerSpec)()
+            Dim scores As New List(Of Double)()
+
+            ' 逐个训练并在成员维隔离失败（例如 MLR 在秩亏矩阵上会抛异常）
+            For i As Integer = 0 To learners.Length - 1
+                Try
+                    Dim model As IClassifier = learners(i).Fit(x, yIndex, classes)
+
+                    trained.Add(model)
+                    used.Add(specs(i))
+                    scores.Add(If(i < weight.Scores.Length, weight.Scores(i), 0.0R))
+                Catch ex As Exception
+                    ' 单个基学习器失败只剔除该成员，不影响整个集成模型
+                End Try
+            Next
+
+            If trained.Count = 0 Then
+                result.Status = "skipped"
+                result.ErrorMessage = "all base classifiers failed"
+                Return result
+            End If
+
+            Dim finalWeights As Double() = EnsembleWeighting.CreateResult(scores.ToArray()).Weights
+            Dim voting As New VotingClassifier(trained.ToArray(), classes, finalWeights, VotingMode.Soft)
             Dim y As Double() = yIndex.Select(Function(v) CDbl(v)).ToArray()
-
-            Call voting.Train(x, y)
-
-            Dim members As EnsembleMember() = BuildMembers(specs, weight, x, y)
+            Dim members As EnsembleMember() = BuildMembers(used, scores.ToArray(), finalWeights, x, y, EnsembleMemberKind.Classifier)
 
             result.Ensemble = New PhenotypeEnsemble With {
                 .Mode = "voting",
@@ -210,13 +230,31 @@ Namespace Traitar.Modules
             Dim weight As EnsembleWeightResult = ResolveWeights(
                 learners.Length,
                 Function() EnsembleWeighting.EstimateRegressorWeights(learners, x, y, Folds, Seed))
-            Dim voting As New VotingRegressor(learners, weight.Weights) With {
-                .Parallel = ParallelLearners
-            }
+            Dim trained As New List(Of IRegressor)()
+            Dim used As New List(Of EnsembleLearnerSpec)()
+            Dim scores As New List(Of Double)()
 
-            Call voting.Train(x, y)
+            For i As Integer = 0 To learners.Length - 1
+                Try
+                    Dim model As IRegressor = learners(i).Fit(x, y)
 
-            Dim members As EnsembleMember() = BuildMembers(specs, weight, x, y)
+                    trained.Add(model)
+                    used.Add(specs(i))
+                    scores.Add(If(i < weight.Scores.Length, weight.Scores(i), 0.0R))
+                Catch ex As Exception
+                    ' 单个基学习器失败（例如 MLR 秩亏）只剔除该成员
+                End Try
+            Next
+
+            If trained.Count = 0 Then
+                result.Status = "skipped"
+                result.ErrorMessage = "all base regressors failed"
+                Return result
+            End If
+
+            Dim finalWeights As Double() = EnsembleWeighting.CreateResult(scores.ToArray()).Weights
+            Dim voting As New VotingRegressor(trained.ToArray(), finalWeights)
+            Dim members As EnsembleMember() = BuildMembers(used, scores.ToArray(), finalWeights, x, y, EnsembleMemberKind.Regressor)
 
             result.Ensemble = New PhenotypeEnsemble With {
                 .Mode = "voting",
@@ -251,19 +289,21 @@ Namespace Traitar.Modules
             Return EnsembleWeighting.CreateResult(Enumerable.Repeat(0.0R, count).ToArray())
         End Function
 
-        Private Function BuildMembers(specs As EnsembleLearnerSpec(),
-                                      weight As EnsembleWeightResult,
+        Private Function BuildMembers(specs As IList(Of EnsembleLearnerSpec),
+                                      scores As Double(),
+                                      weights As Double(),
                                       x As Double()(),
-                                      y As Double()) As EnsembleMember()
+                                      y As Double(),
+                                      kind As EnsembleMemberKind) As EnsembleMember()
 
-            Dim members As EnsembleMember() = New EnsembleMember(specs.Length - 1) {}
+            Dim members As EnsembleMember() = New EnsembleMember(specs.Count - 1) {}
 
-            For i As Integer = 0 To specs.Length - 1
+            For i As Integer = 0 To specs.Count - 1
                 Dim member As New EnsembleMember With {
                     .Algorithm = specs(i).Name,
-                    .Kind = If(specs(i).IsClassifier, EnsembleMemberKind.Classifier, EnsembleMemberKind.Regressor),
-                    .Weight = If(i < weight.Weights.Length, weight.Weights(i), 0.0R),
-                    .CVScore = If(i < weight.Scores.Length, weight.Scores(i), 0.0R),
+                    .Kind = kind,
+                    .Weight = If(i < weights.Length, weights(i), 0.0R),
+                    .CVScore = If(i < scores.Length, scores(i), 0.0R),
                     .Parameters = specs(i).Parameters,
                     .Status = "trained"
                 }
@@ -288,7 +328,7 @@ Namespace Traitar.Modules
             Return members.Average(Function(m) m.CVScore)
         End Function
 
-        ''' <summary>按 TopN / TraitFilter 过滤本次需要训练的表型</summary>
+        ''' <summary>按 TraitFilter 过滤本次需要训练的表型</summary>
         Public Function FilterTraits(traits As PhenotypeTrait()) As PhenotypeTrait()
             Dim query As IEnumerable(Of PhenotypeTrait) = If(traits, New PhenotypeTrait() {})
 
@@ -298,11 +338,30 @@ Namespace Traitar.Modules
                                 t.trait_name.IndexOf(TraitFilter, StringComparison.OrdinalIgnoreCase) >= 0)
             End If
 
+            Return query.ToArray()
+        End Function
+
+        ''' <summary>
+        ''' 过滤表型并按样本数降序排列（样本充足的优先训练），再应用 TopN。
+        ''' </summary>
+        Public Function FilterTraits(dataset As TraitTrainingSet) As PhenotypeTrait()
+            Dim traits As PhenotypeTrait() = FilterTraits(dataset.traits)
+            Dim counts As New Dictionary(Of String, Integer)(StringComparer.Ordinal)
+
+            For Each trait As PhenotypeTrait In traits
+                counts(trait.trait_name) = dataset.problems.vectors.Count(
+                    Function(v) v.labels IsNot Nothing AndAlso v.labels.ContainsKey(trait.trait_name))
+            Next
+
+            Dim ordered As IEnumerable(Of PhenotypeTrait) = traits _
+                .OrderByDescending(Function(t) If(counts.ContainsKey(t.trait_name), counts(t.trait_name), 0)) _
+                .ThenBy(Function(t) t.trait_name, StringComparer.Ordinal)
+
             If TopN > 0 Then
-                query = query.Take(TopN)
+                ordered = ordered.Take(TopN)
             End If
 
-            Return query.ToArray()
+            Return ordered.ToArray()
         End Function
 
     End Class

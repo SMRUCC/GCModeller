@@ -305,17 +305,34 @@ Module metaTraitsTool
                                            Optional nrfold As Integer = 5,
                                            Optional tune As String = "regression",
                                            Optional verbose As Boolean = True,
+                                           Optional estimator As String = "ensemble",
                                            Optional env As Environment = Nothing) As Object
 
         If dataset Is Nothing Then
             Return RInternal.debug.stop("the required training dataset can not be nothing!", env)
         End If
 
-        Dim trainer As New PhenotypeSVMTrainer With {
-            .verbose = verbose,
-            .nrfold = nrfold,
-            .kernel = getKernel(kernel, env),
-            .autoTune = getTuneMode(tune)
+        ' svm: 旧的单模型路径（保留兼容）；ensemble: 默认的 Voting 集成学习
+        If String.Equals(estimator, "svm", StringComparison.OrdinalIgnoreCase) Then
+            Dim svmTrainer As New PhenotypeSVMTrainer With {
+                .verbose = verbose,
+                .nrfold = nrfold,
+                .kernel = getKernel(kernel, env),
+                .autoTune = getTuneMode(tune)
+            }
+
+            Return New ModelLoader With {
+                .Models = svmTrainer.TrainAll(dataset),
+                .Embedding = dataset.embedding,
+                .Directory = Nothing
+            }
+        End If
+
+        Dim trainer As New PhenotypeEnsembleTrainer With {
+            .Verbose = verbose,
+            .Folds = nrfold,
+            .AutoWeight = True,
+            .Parallel = True
         }
 
         Dim models As Dictionary(Of String, PhenotypeModel) = trainer.TrainAll(dataset)

@@ -158,7 +158,7 @@ Namespace Traitar.Models
         Public Function CreateEnsemble() As PhenotypeEnsemble
             Dim classifiers As New List(Of IClassifier)()
             Dim regressors As New List(Of IRegressor)()
-            Dim weights As New List(Of Double)()
+            Dim weightList As New List(Of Double)()
 
             If Members IsNot Nothing Then
                 For i As Integer = 0 To Members.Length - 1
@@ -178,12 +178,12 @@ Namespace Traitar.Models
                             regressors.Add(DirectCast(model, IRegressor))
                         End If
 
-                        weights.Add(If(Weights IsNot Nothing AndAlso i < Weights.Length, Weights(i), 0.0R))
+                        weightList.Add(If(Weights IsNot Nothing AndAlso i < Weights.Length, Weights(i), 0.0R))
                     End If
                 Next
             End If
 
-            Dim normalized As Double() = Normalize(weights)
+            Dim normalized As Double() = Normalize(weightList)
             Dim ensemble As New PhenotypeEnsemble With {
                 .Mode = Mode,
                 .Voting = Voting,
@@ -428,7 +428,6 @@ Namespace Traitar.Models
                 .mtry = dto.Mtry,
                 .LF_c = CType([Enum].Parse(GetType(LF_c), dto.LossFunction), LF_c)
             }
-            Dim trees As New List(Of Branch())()
 
             For Each rows As RandomForestBranchDTO() In dto.Trees
                 Dim branches As Branch() = New Branch(rows.Length - 1) {}
@@ -449,10 +448,9 @@ Namespace Traitar.Models
                     }
                 Next
 
-                trees.Add(branches)
+                ' RanFog.Trees 使用项目自定义 List 类型，直接向已存在的集合添加避免类型转换
+                Call forest.Trees.Add(branches)
             Next
-
-            forest.Trees = trees
 
             Return forest
         End Function

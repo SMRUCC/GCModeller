@@ -14,6 +14,7 @@ Imports System.IO
 Imports Microsoft.VisualBasic.MachineLearning.SVM
 Imports Microsoft.VisualBasic.MachineLearning.SVM.StorageProcedure
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports ModelsNS = SMRUCC.genomics.Analysis.metaTraits.Traitar.Models
 
 Namespace Traitar
 
@@ -41,6 +42,22 @@ Namespace Traitar
         Public Property errorMessage As String
         ''' <summary>该表型模型所对应的 json 文件名，skipped 时为空</summary>
         Public Property modelFile As String
+        ''' <summary>模型家族：svm / ensemble</summary>
+        Public Property model_family As String
+        ''' <summary>集成模式（voting）</summary>
+        Public Property ensembleMode As String
+        ''' <summary>基模型数量</summary>
+        Public Property baseModelCount As Integer
+        ''' <summary>归一化之后的集成权重</summary>
+        Public Property weights As Double()
+        ''' <summary>集成模型的类别标签值</summary>
+        Public Property classes As Double()
+        ''' <summary>集成模型的类别文本</summary>
+        Public Property classLabels As String()
+        ''' <summary>集成模型 DTO 文件名</summary>
+        Public Property ensembleFile As String
+        ''' <summary>该表型的关键 Pfam 特征（加载时还原）</summary>
+        Public Property keyFeatures As Modules.KeyFeature()
 
     End Class
 
@@ -100,7 +117,8 @@ Namespace Traitar
         ''' <summary>
         ''' 把表型名转换为安全的 json 文件名
         ''' </summary>
-        Public Shared Function SafeFileName(trait_name As String, Optional index As Integer = 0) As String
+        Public Shared Function SafeFileName(trait_name As String, Optional index As Integer = 0,
+                                            Optional suffix As String = Nothing) As String
             Dim name As String = If(trait_name, "")
 
             For Each c As Char In System.IO.Path.GetInvalidFileNameChars()
@@ -116,7 +134,9 @@ Namespace Traitar
                 name = "trait"
             End If
 
-            Return $"{index:D5}_{name}.json"
+            Dim tail As String = If(String.IsNullOrEmpty(suffix), "", "." & suffix)
+
+            Return $"{index:D5}_{name}{tail}.json"
         End Function
 
         ''' <summary>
@@ -143,49 +163,57 @@ Namespace Traitar
                 Dim model As Models.PhenotypeModel = kvp.Value
                 Dim trait As PhenotypeTrait = model.Trait
                 Dim modelFile As String = ""
+                Dim ensembleFile As String = ""
+                Dim family As String = If(model.Ensemble IsNot Nothing, "ensemble", "svm")
 
-                If model.IsTrained() Then
-                    If Not TypeOf model.Model.transform Is RangeTransform Then
-                        ' SvmModelJSON 在还原时要求 rangeTransform 不为空
-                        model.Status = "skipped"
-                        model.ErrorMessage = "the range transform of this model is not a RangeTransform"
-                        model.Model = Nothing
-                    Else
-                        modelFile = SafeFileName(kvp.Key, i)
+                If model.Ensemble IsNot Nothing Then
+                    Dim dto As ModelsNS.EnsembleModelDTO = ModelsNS.EnsembleModelDTO.CreateDTO(model.Ensemble)
 
-                        Dim json As String = SvmModelJSON.CreateJSONModel(model.Model).GetJson
-
-                        Call System.IO.File.WriteAllText(System.IO.Path.Combine(dir, modelFile), json)
+                    If dto IsNot Nothing Then
+                        ensembleFile = SafeFileName(kvp.Key, i, "ensemble")
+                        Call System.IO.File.WriteAllText(
+                            System.IO.Path.Combine(dir, ensembleFile), dto.GetJson)
                     End If
                 End If
 
-                If trait Is Nothing Then
-                    index.Add(New PhenotypeModelIndex With {
-                        .trait_name = kvp.Key,
-                        .status = model.Status,
-                        .sampleCount = model.SampleCount,
-                        .cvScore = model.CVScore,
-                        .c = model.C,
-                        .gamma = model.gamma,
-                        .errorMessage = model.ErrorMessage,
-                        .modelFile = modelFile
-                    })
-                Else
-                    index.Add(New PhenotypeModelIndex With {
-                        .trait_name = trait.trait_name,
-                        .data_type = trait.data_type,
-                        .unit = trait.unit,
-                        .group_1_category = trait.group_1_category,
-                        .group_2_subcategory = trait.group_2_subcategory,
-                        .status = model.Status,
-                        .sampleCount = model.SampleCount,
-                        .cvScore = model.CVScore,
-                        .c = model.C,
-                        .gamma = model.gamma,
-                        .errorMessage = model.ErrorMessage,
-                        .modelFile = modelFile
-                    })
+                If model.Model IsNot Nothing Then
+                    If Not TypeOf model.Model.transform Is RangeTransform Then
+                        ' SvmModelJSON 在还原时要求 rangeTransform 不为空
+                        If model.Ensemble Is Nothing Then
+                            model.Status = "skipped"
+                            model.ErrorMessage = "the range transform of this model is not a RangeTransform"
+                        End If
+                        model.Model = Nothing
+                    Else
+                        modelFile = SafeFileName(kvp.Key, i)
+                        Call System.IO.File.WriteAllText(
+                            System.IO.Path.Combine(dir, modelFile),
+                            SvmModelJSON.CreateJSONModel(model.Model).GetJson)
+                    End If
                 End If
+
+                index.Add(New PhenotypeModelIndex With {
+                    .trait_name = If(trait Is Nothing, kvp.Key, trait.trait_name),
+                    .data_type = If(trait Is Nothing, Nothing, trait.data_type),
+                    .unit = If(trait Is Nothing, Nothing, trait.unit),
+                    .group_1_category = If(trait Is Nothing, Nothing, trait.group_1_category),
+                    .group_2_subcategory = If(trait Is Nothing, Nothing, trait.group_2_subcategory),
+                    .status = model.Status,
+                    .sampleCount = model.SampleCount,
+                    .cvScore = model.CVScore,
+                    .c = model.C,
+                    .gamma = model.gamma,
+                    .errorMessage = model.ErrorMessage,
+                    .modelFile = modelFile,
+                    .model_family = family,
+                    .ensembleMode = If(model.Ensemble Is Nothing, Nothing, model.Ensemble.Mode),
+                    .baseModelCount = If(model.Ensemble Is Nothing, 0, model.Ensemble.BaseModelCount),
+                    .weights = If(model.Ensemble Is Nothing, Nothing, model.Ensemble.Weights),
+                    .classes = If(model.Ensemble Is Nothing, Nothing, model.Ensemble.Classes),
+                    .classLabels = If(model.Ensemble Is Nothing, Nothing, model.Ensemble.ClassLabels),
+                    .ensembleFile = ensembleFile,
+                    .keyFeatures = model.KeyFeatures
+                })
 
                 i += 1
             Next
@@ -256,6 +284,20 @@ Namespace Traitar
                     .ErrorMessage = item.errorMessage
                 }
 
+                Dim trained As Boolean = False
+
+                If item.model_family = "ensemble" AndAlso Not String.IsNullOrEmpty(item.ensembleFile) Then
+                    Dim ensemblePath As String = System.IO.Path.Combine(dir, item.ensembleFile)
+
+                    If System.IO.File.Exists(ensemblePath) Then
+                        model.Ensemble = System.IO.File _
+                            .ReadAllText(ensemblePath) _
+                            .LoadJSON(Of ModelsNS.EnsembleModelDTO)() _
+                            .CreateEnsemble()
+                        trained = True
+                    End If
+                End If
+
                 If item.modelFile IsNot Nothing AndAlso item.modelFile.Length > 0 Then
                     Dim path As String = System.IO.Path.Combine(dir, item.modelFile)
 
@@ -264,9 +306,14 @@ Namespace Traitar
                             .ReadAllText(path) _
                             .LoadJSON(Of SvmModelJSON)() _
                             .CreateSVMModel()
-
-                        n += 1
+                        trained = True
                     End If
+                End If
+
+                model.KeyFeatures = item.keyFeatures
+
+                If trained Then
+                    n += 1
                 End If
 
                 loader.Models(item.trait_name) = model
