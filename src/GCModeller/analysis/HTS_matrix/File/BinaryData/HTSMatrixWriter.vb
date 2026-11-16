@@ -5,6 +5,7 @@ Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization
+Imports Microsoft.VisualBasic.Serialization.BinaryDumping
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports std = System.Math
 
@@ -126,9 +127,9 @@ Public Class HTSMatrixWriter : Implements IDisposable
         End If
 
         Dim requested As Integer = If(blockRows > 0, blockRows, DefaultBlockRows)
-        Dim maxRows As Integer = std.Math.Max(1, MaxBlockBytes \ blockSize)
+        Dim maxRows As Integer = std.Max(1, MaxBlockBytes \ blockSize)
 
-        Me.chunkRows = std.Math.Min(requested, maxRows)
+        Me.chunkRows = std.Min(requested, maxRows)
         Me.writer = New BinaryWriter(stream, Encoding.UTF8, leaveOpen)
 
         If header.FeatureIds.IsNullOrEmpty Then
@@ -165,7 +166,7 @@ Public Class HTSMatrixWriter : Implements IDisposable
 
         Call BinaryMatrixHeader.Write(writer, header)
 
-        Me.buffer = ArrayPool(Of Byte).Shared.Rent(std.Math.Max(blockSize, chunkRows * blockSize))
+        Me.buffer = ArrayPool(Of Byte).Shared.Rent(std.Max(blockSize, chunkRows * blockSize))
     End Sub
 
     ''' <summary>

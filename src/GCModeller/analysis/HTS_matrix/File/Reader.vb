@@ -194,7 +194,34 @@ Module Reader
                                            takeIndex As Integer(),
                                            Optional degreeOfParallelism As Integer = 0) As DataFrameRow()
 
-        Dim rows As New List(Of DataFrameRow)()
+        Return ReadGeneRows(text, takeIndex, degreeOfParallelism).ToArray
+    End Function
+
+    ''' <summary>
+    ''' 惰性流式解析矩阵文本行：批次内并行解析、批次间保持顺序、边解析边输出。
+    ''' </summary>
+    ''' <param name="text">矩阵文本行（惰性流式枚举，头部行需要由调用方跳过）</param>
+    ''' <param name="takeIndex">需要保留的样本（数值列）下标；<c>Nothing</c> 表示保留全部列</param>
+    ''' <param name="degreeOfParallelism">并行度：0 = 使用全部逻辑核心，1 = 串行</param>
+    ''' <returns>按文件顺序惰性输出的矩阵行</returns>
+    ''' <remarks>
+    ''' <para>
+    ''' 与 <see cref="loadGeneMatrixParallel"/> 的区别在于**输出的峰值内存**：后者会把所有行
+    ''' 汇总成一个 <see cref="DataFrameRow"/> 数组，而本函数每批只持有一批（默认 128 行）的
+    ''' 解析结果，用完之后立即可回收。因此在做 CSV → 二进制这类"读到哪写到哪"的转换时，
+    ''' 内存占用与矩阵的总行数无关。
+    ''' </para>
+    ''' <para>
+    ''' 下一批文本在解析当前批的同时于后台读取（<see cref="System.Threading.Tasks.Task"/>），
+    ''' 这样磁盘 I/O 与数字解析重叠，整体耗时接近 max(I/O, 解析) 而不是两者之和。
+    ''' 枚举器始终只有一个线程在推进，所以对惰性流是安全的。
+    ''' </para>
+    ''' </remarks>
+    <Extension>
+    Friend Iterator Function ReadGeneRows(text As IEnumerable(Of String),
+                                          takeIndex As Integer(),
+                                          Optional degreeOfParallelism As Integer = 0) As IEnumerable(Of DataFrameRow)
+
         Dim enumerator As IEnumerator(Of String) = text.GetEnumerator()
         Dim options As New ParallelOptions()
         Dim columns As Integer() = takeIndex
@@ -226,16 +253,16 @@ Module Reader
 
                 batch = reading.Result
 
-                Call rows.AddRange(parsed)
+                For Each row As DataFrameRow In parsed
+                    Yield row
+                Next
             End While
         Finally
             enumerator.Dispose()
         End Try
-
-        Return rows.ToArray()
     End Function
 
-    Private Function ReadBatch(enumerator As IEnumerator(Of String)) As List(Of String)
+    Friend Function ReadBatch(enumerator As IEnumerator(Of String)) As List(Of String)
         Dim batch As New List(Of String)(ParseBatchSize)
 
         While batch.Count < ParseBatchSize

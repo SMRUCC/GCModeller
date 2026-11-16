@@ -54,15 +54,6 @@ Namespace IO
         Public Const FormatVersion As Integer = 3
 
         ''' <summary>
-        ''' 二进制矩阵条目的 magic 头（与 <c>HTS_matrix::BinaryMatrix</c> 保持一致）
-        ''' </summary>
-        Private ReadOnly binaryMagic As Byte() = Encoding.ASCII.GetBytes(BinaryMatrix.MagicHeader)
-        ''' <summary>
-        ''' 网络字节序的 double 编解码器
-        ''' </summary>
-        Private ReadOnly networkByteOrder As New NetworkByteOrderBuffer()
-
-        ''' <summary>
         ''' persists save the fitted model as zip archive file stream
         ''' </summary>
         ''' <param name="model"></param>
@@ -396,44 +387,27 @@ Namespace IO
             Dim entry As ZipArchiveEntry = archive.CreateEntry(name, CompressionLevel.Fastest)
 
             Using stream As Stream = entry.Open()
-                ' BinaryMatrix 的扩展方法：写入 magic 头 + 标签 + 维度 + 行数据，
-                ' 并在结束时关闭这条条目流
-                Call toMatrix(data, names, columns, tag).Save(stream)
+                ' 直接使用流式写入器：写入头部之后逐行编码，
+                ' 不需要为了落盘而先构造一个 DataFrameRow() 视图对象。
+                ' zip 条目流不可 seek，所以特征名与行数必须在创建时就给全。
+                Using writer As HTSMatrixWriter = HTSMatrixWriter.Create(
+                    stream:=stream,
+                    sampleIDs:=columns,
+                    featureIDs:=names,
+                    tag:=tag,
+                    codec:=BinaryMatrixCodec.none,
+                    nfeatures:=data.Length,
+                    leaveOpen:=False
+                )
+
+                    For i As Integer = 0 To data.Length - 1
+                        Call writer.WriteRow(names(i), data(i))
+                    Next
+
+                    Call writer.Complete()
+                End Using
             End Using
         End Sub
-
-        ''' <summary>
-        ''' 把 <c>Double()()</c> 视图包装成 <see cref="SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix"/> 对象
-        ''' </summary>
-        ''' <param name="data"></param>
-        ''' <param name="names"></param>
-        ''' <param name="tag"></param>
-        ''' <returns></returns>
-        ''' <remarks>
-        ''' 只是把每一行包装成 <see cref="DataFrameRow"/>（复用同一个数组引用），
-        ''' 不会复制矩阵数据，因此额外内存只有 n 个小对象。
-        ''' </remarks>
-        Private Function toMatrix(data As Double()(),
-                                  names As String(),
-                                  columns As String(),
-                                  tag As String) As matrix
-            Dim rows As DataFrameRow() = New DataFrameRow(data.Length - 1) {}
-
-            For i As Integer = 0 To data.Length - 1
-                rows(i) = New DataFrameRow With {
-                    .geneID = names(i),
-                    .experiments = data(i)
-                }
-            Next
-
-            ' 注意：sampleID 是**列**标签（G/H 是基因名，表达矩阵是时间点），
-            ' BinaryWriter 会用它的长度作为每一行的元素个数
-            Return New matrix With {
-                .tag = tag,
-                .sampleID = columns,
-                .expression = rows
-            }
-        End Function
 
         ''' <summary>
         ''' 表达矩阵的列标签：时间点
@@ -755,7 +729,7 @@ Namespace IO
         End Function
 
         ''' <summary>
-        ''' 读取 <c>HTS_matrix::BinaryMatrix</c> 格式的二进制矩阵条目。
+        ''' 读取 <c>HTS_matrix</c> 格式的二进制矩阵条目（v1 与 v2 头部都会被自动识别）。
         ''' </summary>
         ''' <param name="entry"></param>
         ''' <param name="name"></param>
@@ -763,10 +737,10 @@ Namespace IO
         ''' <param name="columns"></param>
         ''' <returns></returns>
         ''' <remarks>
-        ''' 不能直接调用 <c>BinaryMatrix.LoadStream</c>：它用
-        ''' <c>buffer.Length &gt; buffer.Position</c> 判断行数，
-        ''' 而 zip 的 deflate 流并不支持 <see cref="Stream.Length"/>。
-        ''' 这里按二进制头之中记录的维度精确读取，适用于任意只进流。
+        ''' 这里直接复用 <see cref="HTSMatrixReader"/>：它按头部记录的维度精确读取，
+        ''' 不依赖 <see cref="Stream.Length"/>（zip 的 deflate 流不支持取长度），
+        ''' 因此可以从任意只进流之中顺序读取。头部解析、magic 校验与部分读的处理
+        ''' 统一收敛在共享实现里，本函数不再手写偏移。
         ''' </remarks>
         Private Function readBinaryMatrix(entry As ZipArchiveEntry,
                                           name As String,
@@ -774,20 +748,9 @@ Namespace IO
                                           columns As Integer) As Double()()
 
             Using stream As Stream = entry.Open()
-                Using reader As New BinaryReader(stream, Encoding.UTF8, leaveOpen:=False)
-                    Dim magicBytes As Byte() = reader.ReadBytes(binaryMagic.Length)
-
-                    If Not sameBytes(magicBytes, binaryMagic) Then
-                        Throw New InvalidDataException($"The binary matrix entry '{name}' has an invalid magic header!")
-                    End If
-
-                    Dim tag As String = reader.ReadString()
-                    Dim samples As Integer = reader.ReadInt32()
-                    Dim features As Integer = reader.ReadInt32()
-
-                    ' 采样编号与基因编号（当前只需要读取并跳过，行/列标签由外部参数给出）
-                    Dim sampleIds As String = reader.ReadString()
-                    Dim featureIds As String = reader.ReadString()
+                Using reader As New HTSMatrixReader(stream)
+                    Dim samples As Integer = reader.Size.nsample
+                    Dim features As Integer = reader.Size.nfeature
 
                     If samples <> columns Then
                         Throw New InvalidDataException(
@@ -799,58 +762,17 @@ Namespace IO
                     End If
 
                     Dim data As Double()() = New Double(features - 1)() {}
-                    Dim buffer As Byte() = New Byte(samples * 8 - 1) {}
+                    Dim i As Integer = 0
 
-                    For i As Integer = 0 To features - 1
-                        If readFully(reader, buffer) <> buffer.Length Then
-                            Throw New InvalidDataException($"The binary matrix entry '{name}' is truncated at row {i + 1}!")
-                        End If
-
-                        data(i) = networkByteOrder.decode(buffer)
+                    ' 只进流只能用顺序枚举（随机访问需要可 seek 的流）
+                    For Each row As DataFrameRow In reader.Rows()
+                        data(i) = row.experiments
+                        i += 1
                     Next
 
                     Return data
                 End Using
             End Using
-        End Function
-
-        ''' <summary>
-        ''' 把 <paramref name="buffer"/> 填满；deflate 流可能分多次返回数据
-        ''' </summary>
-        Private Function readFully(reader As BinaryReader, buffer As Byte()) As Integer
-            Dim total As Integer = 0
-
-            Do While total < buffer.Length
-                Dim n As Integer = reader.Read(buffer, total, buffer.Length - total)
-
-                If n <= 0 Then
-                    Exit Do
-                End If
-
-                total += n
-            Loop
-
-            Return total
-        End Function
-
-        ''' <summary>
-        ''' 逐字节比较两个数组
-        ''' </summary>
-        Private Function sameBytes(a As Byte(), b As Byte()) As Boolean
-            If a Is Nothing OrElse b Is Nothing Then
-                Return False
-            End If
-            If a.Length <> b.Length Then
-                Return False
-            End If
-
-            For i As Integer = 0 To a.Length - 1
-                If a(i) <> b(i) Then
-                    Return False
-                End If
-            Next
-
-            Return True
         End Function
 
         ''' <summary>

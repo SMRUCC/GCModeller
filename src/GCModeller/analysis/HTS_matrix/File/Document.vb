@@ -99,17 +99,7 @@ Public Module Document
     ''' </remarks>
     Public Function LoadMatrixDocument(file As String, excludes As Index(Of String), Optional tqdm As Boolean = False) As Matrix
         Dim sampleIds As String() = file.ReadFirstLine.ParseHeaders
-        Dim takeIndex As Integer()
-
-        If excludes Is Nothing Then
-            takeIndex = sampleIds.Sequence.ToArray
-        Else
-            takeIndex = sampleIds _
-                .Select(Function(name, i) (i, Not name Like excludes)) _
-                .Where(Function(a) a.Item2 = True) _
-                .Select(Function(a) a.i) _
-                .ToArray
-        End If
+        Dim takeIndex As Integer() = parseTakeIndex(sampleIds, excludes)
 
         ' parse matrix data in stream model, the rows are parsed in parallel
         Dim matrix As DataFrameRow() = file _
@@ -170,20 +160,149 @@ Public Module Document
     <Extension>
     Public Function SaveMatrix(mat As Matrix, file As String, Optional idcolName As String = "geneID") As Boolean
         Using table As StreamWriter = file.OpenWriter(Encodings.UTF8WithoutBOM)
-            Dim line As String = {idcolName}.Join(mat.sampleID).JoinBy(",")
-
-            Call table.WriteLine(line)
-
-            For Each gene As DataFrameRow In mat.expression
-                line = New String() {$"""{gene.geneID}"""} _
-                    .Join(gene.experiments.Select(Function(d) d.ToString)) _
-                    .JoinBy(",")
-
-                Call table.WriteLine(line)
-            Next
+            Call WriteCsvHeader(table, mat.sampleID, idcolName)
+            Call WriteCsvRows(table, mat.expression)
         End Using
 
         Return True
+    End Function
+
+    ''' <summary>
+    ''' 写出矩阵文本文件的表头行
+    ''' </summary>
+    ''' <param name="table">输出流</param>
+    ''' <param name="sampleIDs">样本（列）标签</param>
+    ''' <param name="idcolName">第一列（行标签）的列名</param>
+    <Extension>
+    Public Sub WriteCsvHeader(table As TextWriter, sampleIDs As String(), Optional idcolName As String = "geneID")
+        Call table.WriteLine({idcolName}.Join(sampleIDs).JoinBy(","))
+    End Sub
+
+    ''' <summary>
+    ''' 逐行写出矩阵文本数据（流式，不要求整表驻留内存）
+    ''' </summary>
+    ''' <param name="table">输出流</param>
+    ''' <param name="rows">惰性的矩阵行序列</param>
+    <Extension>
+    Public Sub WriteCsvRows(table As TextWriter, rows As IEnumerable(Of DataFrameRow))
+        If rows Is Nothing Then
+            Return
+        End If
+
+        For Each gene As DataFrameRow In rows
+            Call table.WriteLine(formatRow(gene))
+        Next
+    End Sub
+
+    <Extension>
+    Private Function formatRow(gene As DataFrameRow) As String
+        Return New String() {$"""{gene.geneID}"""} _
+            .Join(gene.experiments.Select(Function(d) d.ToString)) _
+            .JoinBy(",")
+    End Function
+
+    ''' <summary>
+    ''' 惰性枚举 CSV/TSV 矩阵文件之中的数据行（自动跳过头部行）
+    ''' </summary>
+    ''' <param name="csvPath">矩阵文本文件</param>
+    ''' <param name="excludes">需要排除的样本列</param>
+    ''' <param name="tqdm">是否显示进度条</param>
+    ''' <param name="degreeOfParallelism">解析并行度，0 = 全部逻辑核心</param>
+    ''' <returns>按文件顺序惰性输出的行</returns>
+    ''' <remarks>
+    ''' 与 <see cref="LoadMatrixDocument(String, Index(Of String), Boolean)"/> 的区别是**不会**
+    ''' 把整张矩阵读进内存：每批只解析 128 行，消费完即可回收。
+    ''' </remarks>
+    <Extension>
+    Public Iterator Function StreamRows(csvPath As String,
+                                        Optional excludes As Index(Of String) = Nothing,
+                                        Optional tqdm As Boolean = False,
+                                        Optional degreeOfParallelism As Integer = 0) As IEnumerable(Of DataFrameRow)
+
+        Dim sampleIds As String() = csvPath.ReadFirstLine.ParseHeaders
+        Dim takeIndex As Integer() = parseTakeIndex(sampleIds, excludes)
+
+        For Each row As DataFrameRow In csvPath _
+            .LineIterators(strictFile:=True, tqdm:=tqdm) _
+            .Skip(1) _
+            .ReadGeneRows(takeIndex, degreeOfParallelism)
+
+            Yield row
+        Next
+    End Function
+
+    ''' <summary>
+    ''' CSV/TSV → 二进制 的流式单遍转换
+    ''' </summary>
+    ''' <param name="csvPath">源矩阵文本文件</param>
+    ''' <param name="binPath">目标二进制文件</param>
+    ''' <param name="excludes">需要排除的样本列</param>
+    ''' <param name="codec">压缩方式</param>
+    ''' <param name="blockRows">压缩分块行数，0 = 默认值</param>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' 峰值内存 = 一个解析批次（约 128 行） + 一个写缓冲（不超过 4 MB），与矩阵总行数无关。
+    ''' 转换中途异常会删除临时文件，不会留下被误认为合法的半成品。
+    ''' </remarks>
+    <Extension>
+    Public Function ToBinary(csvPath As String,
+                             binPath As String,
+                             Optional excludes As Index(Of String) = Nothing,
+                             Optional codec As BinaryMatrixCodec = BinaryMatrixCodec.none,
+                             Optional blockRows As Integer = 0) As Boolean
+
+        Dim sampleIds As String() = csvPath.ReadFirstLine.ParseHeaders
+        Dim takeIndex As Integer() = parseTakeIndex(sampleIds, excludes)
+        Dim samples As String() = takeIndex.Select(Function(i) sampleIds(i)).ToArray
+
+        Using writer As HTSMatrixWriter = HTSMatrixWriter.CreateFile(
+            path:=binPath,
+            sampleIDs:=samples,
+            featureIDs:=Nothing,
+            tag:=csvPath.FileName,
+            codec:=codec,
+            blockRows:=blockRows
+        )
+
+            Call writer.WriteRows(StreamRows(csvPath, excludes))
+            Call writer.Complete()
+        End Using
+
+        Return True
+    End Function
+
+    ''' <summary>
+    ''' 二进制 → CSV 的流式导出
+    ''' </summary>
+    ''' <param name="binPath">源二进制矩阵文件</param>
+    ''' <param name="csvPath">目标矩阵文本文件</param>
+    ''' <param name="idcolName">第一列的列名</param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function ToCsv(binPath As String, csvPath As String, Optional idcolName As String = "geneID") As Boolean
+        Using reader As HTSMatrixReader = BinaryMatrix.Open(binPath)
+            Using table As StreamWriter = csvPath.OpenWriter(Encodings.UTF8WithoutBOM)
+                Call WriteCsvHeader(table, reader.SampleIDs.ToArray, idcolName)
+                Call WriteCsvRows(table, reader.Rows())
+            End Using
+        End Using
+
+        Return True
+    End Function
+
+    ''' <summary>
+    ''' 计算需要保留的数值列下标（与 <see cref="LoadMatrixDocument(String, Index(Of String), Boolean)"/> 一致）
+    ''' </summary>
+    Private Function parseTakeIndex(sampleIds As String(), excludes As Index(Of String)) As Integer()
+        If excludes Is Nothing Then
+            Return sampleIds.Sequence.ToArray
+        Else
+            Return sampleIds _
+                .Select(Function(name, i) (i, Not name Like excludes)) _
+                .Where(Function(a) a.Item2 = True) _
+                .Select(Function(a) a.i) _
+                .ToArray
+        End If
     End Function
 
     ''' <summary>

@@ -1,70 +1,23 @@
-﻿#Region "Microsoft.VisualBasic::bf9fde268fb5eece0c6dd6329eae4dcd, analysis\HTS_matrix\File\BinaryData\BinaryMatrix.vb"
-
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-    ' /********************************************************************************/
-
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 111
-    '    Code Lines: 72 (64.86%)
-    ' Comment Lines: 22 (19.82%)
-    '    - Xml Docs: 40.91%
-    ' 
-    '   Blank Lines: 17 (15.32%)
-    '     File Size: 3.47 KB
-
-
-    ' Module BinaryMatrix
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    ' 
-    '     Function: LoadStream, (+2 Overloads) readMatrix, Save
-    ' 
-    '     Sub: save
-    ' 
-    ' /********************************************************************************/
-
-#End Region
-
-Imports System.IO
+﻿Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
-Imports Microsoft.VisualBasic.Emit.Marshal
 Imports Microsoft.VisualBasic.Serialization.BinaryDumping
-Imports Microsoft.VisualBasic.Serialization.JSON
 
 ''' <summary>
 ''' data encoded in network byte order
 ''' </summary>
+''' <remarks>
+''' <para>
+''' 这一层是二进制矩阵的门面（facade）：<see cref="Save"/> / <see cref="LoadStream"/>
+''' 面向"整表已经在内存里"的调用方，内部转交给流式的 <see cref="HTSMatrixWriter"/>
+''' 与 <see cref="HTSMatrixReader"/>；需要按需读取超大型文件时请直接使用
+''' <see cref="Open(Stream)"/> 拿到惰性读取器。
+''' </para>
+''' <para>
+''' 格式本身（v1/v2 头部）的唯一实现是 <see cref="BinaryMatrixHeader"/>，
+''' 本模块只保留 <see cref="MagicHeader"/> 常量供既有代码（例如 PLAS.NET 的归档读写）引用。
+''' </para>
+''' </remarks>
 Public Module BinaryMatrix
 
     Friend ReadOnly magic As Byte()
@@ -76,95 +29,113 @@ Public Module BinaryMatrix
         magic = Encoding.ASCII.GetBytes(MagicHeader)
     End Sub
 
+    ''' <summary>
+    ''' 把整张二进制矩阵读进内存（v1 与 v2 都会被自动识别）
+    ''' </summary>
+    ''' <param name="file">矩阵文件流；本方法结束时会关闭它</param>
+    ''' <remarks>
+    ''' 超大型矩阵请改用 <see cref="Open(Stream)"/> 返回的 <see cref="HTSMatrixReader"/>，
+    ''' 否则这一步本身就是一次全量内存分配。
+    ''' </remarks>
     Public Function LoadStream(file As Stream) As Matrix
-        Using reader As New BinaryReader(file, Encoding.UTF8)
-            Return reader.readMatrix
+        Using reader As New HTSMatrixReader(file)
+            Return reader.AsMatrix()
         End Using
     End Function
 
-    <Extension>
-    Private Function readMatrix(file As BinaryReader) As Matrix
-        ' read magic
-        Dim bytes As Byte() = file.ReadBytes(magic.Length)
-        Dim str As String
-        Dim mat As New Matrix
-
-        If Not bytes.SequenceEqual(magic) Then
-            Throw New InvalidDataException("invalid magic header string!")
-        Else
-            ' read tag string
-            str = file.ReadString
-            mat.tag = str
-        End If
-
-        ' read nsamples
-        Dim nsamples = file.ReadInt32
-        Dim mfeatures = file.ReadInt32
-        Dim geneIds As Pointer(Of String)
-
-        str = file.ReadString
-        mat.sampleID = str.LoadJSON(Of String())
-        str = file.ReadString
-        geneIds = New Pointer(Of String)(str.LoadJSON(Of String()))
-        mat.expression = readMatrix(geneIds, file, nsamples).ToArray
-
-        Return mat
-    End Function
-
-    Private Iterator Function readMatrix(geneIds As Pointer(Of String), file As BinaryReader, nsamples As Integer) As IEnumerable(Of DataFrameRow)
-        Dim buffer As Stream = file.BaseStream
-        Dim bytes As Byte() = New Byte(nsamples * 8 - 1) {}
-        Dim exp As Double()
-
-        Do While buffer.Length > buffer.Position
-            bytes = file.ReadBytes(bytes.Length)
-            exp = bin.decode(bytes)
-
-            Yield New DataFrameRow With {
-                .experiments = exp,
-                .geneID = ++geneIds
-            }
-        Loop
+    ''' <summary>
+    ''' 打开一个惰性读取器（不加载数据，只读取头部与块索引）
+    ''' </summary>
+    ''' <param name="file">矩阵文件流；读取器释放时该流也会被关闭</param>
+    Public Function Open(file As Stream) As HTSMatrixReader
+        Return New HTSMatrixReader(file)
     End Function
 
     ''' <summary>
-    ''' save the HTS matrix object as binary file
+    ''' 打开一个惰性读取器（随机访问模式）
+    ''' </summary>
+    ''' <param name="path">矩阵文件路径</param>
+    Public Function Open(path As String) As HTSMatrixReader
+        Dim fs As New FileStream(
+            path,
+            FileMode.Open,
+            FileAccess.Read,
+            FileShare.Read,
+            bufferSize:=64 * 1024,
+            options:=FileOptions.RandomAccess
+        )
+
+        Return New HTSMatrixReader(fs)
+    End Function
+
+    ''' <summary>
+    ''' 保存 HTS 矩阵对象为二进制文件（默认写出 v2 格式）
     ''' </summary>
     ''' <param name="mat"></param>
-    ''' <param name="file"></param>
+    ''' <param name="file">输出流；默认在结束时关闭它（保持旧版本语义）</param>
+    ''' <param name="codec">压缩方式</param>
+    ''' <param name="blockRows">压缩分块的行数，0 表示使用默认值</param>
+    ''' <param name="version">格式版本：1 = 旧格式，2 = 当前格式</param>
+    ''' <param name="leaveOpen">结束时是否保持流可用</param>
     ''' <returns></returns>
     <Extension>
-    Public Function Save(mat As Matrix, file As Stream) As Boolean
-        Using writer As New BinaryWriter(file, Encoding.UTF8)
-            Call writer.Write(magic)
-            Call mat.save(writer)
-            Call writer.Flush()
+    Public Function Save(mat As Matrix,
+                         file As Stream,
+                         Optional codec As BinaryMatrixCodec = BinaryMatrixCodec.none,
+                         Optional blockRows As Integer = 0,
+                         Optional version As Integer = 2,
+                         Optional leaveOpen As Boolean = False) As Boolean
+
+        Using writer As HTSMatrixWriter = HTSMatrixWriter.Create(
+            stream:=file,
+            sampleIDs:=mat.sampleID,
+            featureIDs:=mat.rownames,
+            tag:=mat.tag,
+            codec:=codec,
+            blockRows:=blockRows,
+            nfeatures:=mat.size,
+            version:=version,
+            leaveOpen:=leaveOpen
+        )
+
+            Call writer.WriteRows(mat.expression)
+            Call writer.Complete()
         End Using
 
         Return True
     End Function
 
+    ''' <summary>
+    ''' 保存 HTS 矩阵对象为二进制文件（先写临时文件，成功后原子替换）
+    ''' </summary>
+    ''' <param name="mat"></param>
+    ''' <param name="path"></param>
+    ''' <param name="codec"></param>
+    ''' <param name="blockRows"></param>
+    ''' <param name="version"></param>
     <Extension>
-    Private Sub save(mat As Matrix, file As BinaryWriter)
-        ' write matrix tag
-        Call file.Write(If(mat.tag, "NA"))
-        ' n samples
-        Call file.Write(mat.sampleID.Length)
-        ' m features
-        Call file.Write(mat.size)
-        ' write all sample id
-        Call file.Write(mat.sampleID.GetJson)
-        ' write all feature id
-        Call file.Write(mat.rownames.GetJson)
+    Public Function SaveFile(mat As Matrix,
+                             path As String,
+                             Optional codec As BinaryMatrixCodec = BinaryMatrixCodec.none,
+                             Optional blockRows As Integer = 0,
+                             Optional version As Integer = 2) As Boolean
 
-        ' write each feature row data
-        ' data block is fixed size:
-        '
-        '    sizeof(double) * [sampleID length]
-        '
-        For Each feature As DataFrameRow In mat.expression
-            Call file.Write(bin.encode(feature.experiments))
-        Next
-    End Sub
+        Using writer As HTSMatrixWriter = HTSMatrixWriter.CreateFile(
+            path:=path,
+            sampleIDs:=mat.sampleID,
+            featureIDs:=mat.rownames,
+            tag:=mat.tag,
+            codec:=codec,
+            blockRows:=blockRows,
+            nfeatures:=mat.size,
+            version:=version
+        )
+
+            Call writer.WriteRows(mat.expression)
+            Call writer.Complete()
+        End Using
+
+        Return True
+    End Function
 
 End Module

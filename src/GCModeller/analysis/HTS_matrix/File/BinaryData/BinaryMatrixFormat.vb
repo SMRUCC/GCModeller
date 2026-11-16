@@ -188,10 +188,10 @@ Public Class BinaryMatrixHeader
     ''' </summary>
     Public ReadOnly Property Nblocks As Integer
         Get
-            Dim rows As Integer = If(BlockRows > 0, BlockRows, std.Math.Max(Nfeatures, 1))
-            Dim n As Integer = If(Nfeatures <= 0, 0, CInt(std.Math.Ceiling(Nfeatures / CDbl(rows))))
+            Dim rows As Integer = If(BlockRows > 0, BlockRows, std.Max(Nfeatures, 1))
+            Dim n As Integer = If(Nfeatures <= 0, 0, CInt(std.Ceiling(Nfeatures / CDbl(rows))))
 
-            Return std.Math.Max(n, 1)
+            Return std.Max(n, 1)
         End Get
     End Property
 

@@ -493,6 +493,34 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow), INum
     End Function
 
     ''' <summary>
+    ''' 以惰性随机访问模式打开一个超大型二进制矩阵文件（只读头部与块索引，不加载数据）
+    ''' </summary>
+    ''' <param name="file">二进制矩阵文件路径</param>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' 返回的 <see cref="HTSMatrixReader"/> 与内存版矩阵共享 <see cref="MatrixViewer"/> 抽象，
+    ''' 支持按行号 O(1) 取行、按区间取行、按样本取列以及顺序惰性枚举。
+    ''' </remarks>
+    Public Shared Function LoadLazy(file As String) As HTSMatrixReader
+        Return BinaryMatrix.Open(file)
+    End Function
+
+    ''' <summary>
+    ''' 把当前矩阵流式落盘为二进制文件（默认 v2 格式）
+    ''' </summary>
+    ''' <param name="file">目标文件路径</param>
+    ''' <param name="codec">压缩方式</param>
+    ''' <param name="blockRows">压缩分块的行数，0 表示使用默认值</param>
+    ''' <param name="version">格式版本：1 = 旧格式，2 = 当前格式</param>
+    Public Function SaveBinary(file As String,
+                               Optional codec As BinaryMatrixCodec = BinaryMatrixCodec.none,
+                               Optional blockRows As Integer = 0,
+                               Optional version As Integer = 2) As Boolean
+
+        Return BinaryMatrix.SaveFile(Me, file, codec, blockRows, version)
+    End Function
+
+    ''' <summary>
     ''' calculate average value of the gene expression for
     ''' each sample group.
     ''' </summary>
