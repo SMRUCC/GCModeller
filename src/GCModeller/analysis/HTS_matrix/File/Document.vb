@@ -57,6 +57,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.FileIO
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
+Imports BinaryMatrixCodec = Microsoft.VisualBasic.Serialization.BinaryDumping.NetworkByteOrderBuffer.Compression
 
 Public Module Document
 

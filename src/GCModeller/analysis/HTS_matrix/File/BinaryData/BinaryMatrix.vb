@@ -2,6 +2,7 @@
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.Serialization.BinaryDumping
+Imports BinaryMatrixCodec = Microsoft.VisualBasic.Serialization.BinaryDumping.NetworkByteOrderBuffer.Compression
 
 ''' <summary>
 ''' data encoded in network byte order

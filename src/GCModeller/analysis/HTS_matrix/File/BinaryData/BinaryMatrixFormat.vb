@@ -1,22 +1,10 @@
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
-Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports BinaryMatrixCodec = Microsoft.VisualBasic.Serialization.BinaryDumping.NetworkByteOrderBuffer.Compression
 Imports std = System.Math
-
-''' <summary>
-''' 二进制矩阵文件的编解码器类型
-''' </summary>
-Public Enum BinaryMatrixCodec As Integer
-    ''' <summary>
-    ''' 不压缩：数据区是稠密的 double 块，任意行都可以 O(1) 直接定位
-    ''' </summary>
-    none = 0
-    gzip = 1
-    zlib = 2
-End Enum
 
 ''' <summary>
 ''' <c>HTS_matrix</c> 二进制矩阵文件的头部模型，同时是全项目**唯一**的头部编解码实现。

@@ -1,12 +1,11 @@
 Imports System.IO
 Imports System.Text
 Imports System.Threading
-Imports System.Threading.Tasks
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging
-Imports Microsoft.VisualBasic.ApplicationServices.Terminal
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Serialization.BinaryDumping
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports BinaryMatrixCodec = Microsoft.VisualBasic.Serialization.BinaryDumping.NetworkByteOrderBuffer.Compression
 
 ''' <summary>
 ''' 超大型矩阵流式 IO 的回归测试：二进制流式写入、惰性读取、随机访问、压缩、
