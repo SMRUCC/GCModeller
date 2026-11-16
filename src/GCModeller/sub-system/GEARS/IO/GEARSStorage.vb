@@ -389,19 +389,13 @@ Namespace IO
         ''' <param name="zip">zip 归档</param>
         ''' <returns>表达矩阵</returns>
         ''' <remarks>
-        ''' <see cref="BinaryMatrix.LoadStream"/> 内部依赖 <c>Stream.Length</c> 与 <c>Stream.Position</c>
-        ''' 判断数据块是否读完，而 zip 条目的解压流（<c>DeflateStream</c>）不支持取长度，
-        ''' 直接传入会抛 <see cref="NotSupportedException"/>。因此这里先把条目内容缓冲到
-        ''' <see cref="MemoryStream"/> 再解码——这样既复用了既有的二进制格式，又不必改动共享运行时代码。
+        ''' <see cref="BinaryMatrix.LoadStream"/> 按头部记录的维度精确读取，不依赖
+        ''' <c>Stream.Length</c>，因此可以直接从 zip 条目的解压流顺序解码，
+        ''' 不再需要先把整个条目拷贝到 <see cref="MemoryStream"/>（超大矩阵下那次拷贝会让内存翻倍）。
         ''' </remarks>
         Friend Function ReadExpression(zip As ZipArchive) As Matrix
             Using raw As Stream = GetEntry(zip, EntryExpression).Open()
-                Using buffer As New MemoryStream()
-                    Call raw.CopyTo(buffer)
-                    Call buffer.Seek(0, SeekOrigin.Begin)
-
-                    Return BinaryMatrix.LoadStream(buffer)
-                End Using
+                Return BinaryMatrix.LoadStream(raw)
             End Using
         End Function
 
