@@ -112,7 +112,7 @@ Public Module DESeq2Normalization
             Next
         Else
             For j As Integer = 0 To sampleCount - 1
-                Dim ratios As New List(Of Double)(validGeneIndices.Count)
+                Dim logRatios As New List(Of Double)(validGeneIndices.Count)
 
                 ' 遍历所有有效基因
                 For k As Integer = 0 To validGeneIndices.Count - 1
@@ -120,12 +120,15 @@ Public Module DESeq2Normalization
                     Dim countValue As Double = countData.expression(geneIndex).experiments(j)
                     Dim geoMean As Double = pseudoReference(k)
 
-                    ' 计算比例: Count / GeoMean
-                    Call ratios.Add(countValue / geoMean)
+                    ' DESeq2 在**对数空间**取中位数：
+                    '   exp(median(log(count) - log(geoMean)))
+                    ' 这与"先算比值再取中位数"并不等价：偶数个基因时前者是两个中间比值的
+                    ' 几何平均，后者是算术平均，实测会带来 1e-7 量级的偏差。
+                    Call logRatios.Add(std.Log(countValue) - std.Log(geoMean))
                 Next
 
                 ' 取中位数作为该样本的 Size Factor
-                sizeFactors(j) = ratios.Median()
+                sizeFactors(j) = std.Exp(logRatios.Median())
             Next
         End If
 

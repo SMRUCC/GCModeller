@@ -86,14 +86,14 @@ Friend Module MatrixIoTest
     Friend Function Report() As String
         Console.WriteLine(DebugAudit.Dump())
 
-        Dim report As String = IO.Path.Combine("report", "hts_matrix_io.json")
+        Dim path As String = IO.Path.Combine("report", "hts_matrix_io.json")
 
-        Call DebugAudit.SaveReport(report)
+        Call DebugAudit.SaveReport(path)
 
-        Console.WriteLine($"audit report: {IO.Path.GetFullPath(report)}")
+        Console.WriteLine($"audit report: {IO.Path.GetFullPath(path)}")
         Console.WriteLine($"failures: {DebugAudit.FailureCount}")
 
-        Return IO.Path.GetFullPath(report)
+        Return IO.Path.GetFullPath(path)
     End Function
 
     Private Sub runCase(name As String, body As Action)

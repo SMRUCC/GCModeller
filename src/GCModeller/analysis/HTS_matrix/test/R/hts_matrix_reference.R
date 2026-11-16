@@ -134,4 +134,17 @@ fit <- limma::eBayes(fit)
 table <- limma::topTable(fit, number = Inf, sort.by = "none")
 writeCsv(as.matrix(table[, c("logFC", "AveExpr", "t", "P.Value", "adj.P.Val", "B")]), "limma.csv")
 
+# 中间量诊断：便于定位 VB 端 B 统计量的偏差来源
+diagnostics <- c(
+    s2_prior = fit$s2.prior,
+    df_prior = as.numeric(fit$df.prior)[1],
+    df_total = as.numeric(fit$df.total)[1],
+    var_prior = as.numeric(fit$var.prior)[1],
+    lods_gene1 = as.numeric(fit$lods)[1],
+    t_gene1 = as.numeric(fit$t)[1],
+    s2post_gene1 = as.numeric(fit$s2.post)[1]
+)
+
+writeLines(sprintf("%s=%.17g", names(diagnostics), diagnostics), file.path(outputDir, "limma_diag.txt"))
+
 cat("reference generation done\n")

@@ -23,7 +23,12 @@ Imports cephes = Microsoft.VisualBasic.Math.Statistics.SpecialFunctions
 ''' 与 R 的 <c>2 * pt(-abs(t), df)</c> 数值一致。
 ''' </para>
 ''' </remarks>
-Friend Module LimmaStatistics
+''' <remarks>
+''' 这些函数是 limma 算法的高级组成部分（方差收缩与对数后验几率），
+''' 默认只由 <see cref="Limma.LmFit"/> 调用；对外公开是为了让调用方能够复用
+''' 同一套数值实现，或对中间量做诊断。
+''' </remarks>
+Public Module LimmaStatistics
 
     ''' <summary>
     ''' 双伽玛函数 ψ(x) = d/dx lnΓ(x)
@@ -279,6 +284,40 @@ Friend Module LimmaStatistics
     End Function
 
     ''' <summary>
+    ''' 计算 limma 的 <c>var.prior</c>（<c>lods</c> 计算所需的先验方差）
+    ''' </summary>
+    ''' <remarks>
+    ''' 对应 <c>limma:::.ebayes</c> 之中的
+    ''' <c>var.prior.lim &lt;- stdev.coef.lim^2/median(s2.prior)</c>
+    ''' 与 <c>tmixture.matrix(...)</c> 两步。
+    ''' </remarks>
+    Public Function VarPrior(tstat As Double(),
+                             dfTotal As Double,
+                             stdevUnscaled As Double,
+                             s2Prior As Double,
+                             dfPrior As Double,
+                             Optional proportion As Double = 0.01) As Double
+
+        Const stdevCoefLow As Double = 0.1
+        Const stdevCoefHigh As Double = 4.0
+
+        ' 注意: limma 的 var.prior.lim 与 df.prior 是否为无穷无关，
+        ' 始终是 stdev.coef.lim^2 / median(s2.prior)；当成无穷大而放宽到 [0, +∞)
+        ' 会让 tmixture 的截断失效，进而把 B 统计量算成常数。
+        Dim priorLow As Double = If(s2Prior > 0, stdevCoefLow * stdevCoefLow / s2Prior, 0.0)
+        Dim priorHigh As Double = If(s2Prior > 0, stdevCoefHigh * stdevCoefHigh / s2Prior, Double.MaxValue)
+
+        Dim priorVariance As Double = TmixtureVector(tstat, dfTotal, stdevUnscaled, proportion, priorLow, priorHigh)
+
+        If Double.IsNaN(priorVariance) Then
+            ' 目标基因数不足（limma 这里会把 var.prior 设置为 1/s2.prior）
+            priorVariance = If(s2Prior > 0, 1.0 / s2Prior, 0.0)
+        End If
+
+        Return priorVariance
+    End Function
+
+    ''' <summary>
     ''' 移植 <c>limma:::tmixture.vector</c>：估计用于计算 <c>lods</c>（B 统计量）的先验方差
     ''' </summary>
     ''' <param name="tstat">调节后的 t 统计量</param>
@@ -331,6 +370,8 @@ Friend Module LimmaStatistics
                 End If
             End If
 
+            ' limma 在平均之前会对**全部** ntarget 个槽位做截断，
+            ' 因此没有被赋值的槽位（0）会被抬到上界 v0.lim[1] 而不是保持 0
             sum += std.Min(std.Max(v0, v0Low), v0High)
         Next
 
@@ -354,25 +395,8 @@ Friend Module LimmaStatistics
                          dfPrior As Double,
                          Optional proportion As Double = 0.01) As Double()
 
-        Const stdevCoefLow As Double = 0.1
-        Const stdevCoefHigh As Double = 4.0
-
-        Dim priorLow As Double = stdevCoefLow * stdevCoefLow / s2Prior
-        Dim priorHigh As Double = stdevCoefHigh * stdevCoefHigh / s2Prior
-
-        If Double.IsInfinity(dfPrior) OrElse s2Prior <= 0 Then
-            priorLow = 0.0
-            priorHigh = Double.MaxValue
-        End If
-
-        Dim varPrior As Double = TmixtureVector(tstat, dfTotal, stdevUnscaled, proportion, priorLow, priorHigh)
-
-        If Double.IsNaN(varPrior) Then
-            ' 目标基因数不足（limma 这里会把 var.prior 设置为 1/s2.prior）
-            varPrior = 1.0 / s2Prior
-        End If
-
-        Dim r As Double = (stdevUnscaled * stdevUnscaled + varPrior) / (stdevUnscaled * stdevUnscaled)
+        Dim priorVariance As Double = VarPrior(tstat, dfTotal, stdevUnscaled, s2Prior, dfPrior, proportion)
+        Dim r As Double = (stdevUnscaled * stdevUnscaled + priorVariance) / (stdevUnscaled * stdevUnscaled)
         Dim result As Double() = New Double(tstat.Length - 1) {}
         Dim logPriorOdds As Double = std.Log(proportion / (1.0 - proportion))
 

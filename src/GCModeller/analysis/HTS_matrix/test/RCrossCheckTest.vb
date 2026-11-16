@@ -48,14 +48,14 @@ Friend Module RCrossCheckTest
         failed = 0
         cases = 0
 
-        Dim originMute As Boolean = Microsoft.VisualBasic.ApplicationServices.Terminal.VBDebugger.Mute
+        Dim originMute As Boolean = VBDebugger.Mute
 
-        Microsoft.VisualBasic.ApplicationServices.Terminal.VBDebugger.Mute = True
+        VBDebugger.Mute = True
 
         Try
             Return runImpl()
         Finally
-            Microsoft.VisualBasic.ApplicationServices.Terminal.VBDebugger.Mute = originMute
+            VBDebugger.Mute = originMute
         End Try
     End Function
 
@@ -410,11 +410,37 @@ Friend Module RCrossCheckTest
         Next
 
         For k As Integer = 0 To columns.Length - 1
+            Call DebugAudit.Mark($"limma.{columns(k)}.worst", worst(k))
             Call check(
                 mismatches(k) = 0,
                 $"limma {columns(k)} ({mismatches(k)}/{tables.Length} mismatch(es), worst relative deviation {worst(k):R})"
             )
         Next
+
+        ' 中间量诊断：var.prior 是 B 统计量的唯一外部输入，单独比较便于定位偏差
+        Dim diagnostics As Dictionary(Of String, Double) = readKeyValues(Path.Combine(outputDir, "limma_diag.txt"))
+
+        If diagnostics.ContainsKey("var_prior") Then
+            Dim seUnscaled As Double = std.Sqrt(1.0 / 4.0 + 1.0 / 4.0)
+            Dim tstat As Double() = tables.Select(Function(t) t.t).ToArray
+            Dim ourVarPrior As Double = LimmaStatistics.VarPrior(
+                tstat,
+                diagnostics("df_total"),
+                seUnscaled,
+                diagnostics("s2_prior"),
+                diagnostics("df_prior")
+            )
+
+            Call DebugAudit.Mark(
+                "limma.varPrior",
+                $"VB={ourVarPrior:R} R={diagnostics("var_prior"):R} (s2.prior={diagnostics("s2_prior"):R}, df.prior={diagnostics("df_prior"):R})"
+            )
+            ' tmixture 内部要做 4 次 t 分布分位数反解，容差放宽到 1e-6
+            Call check(
+                relativeDeviation(ourVarPrior, diagnostics("var_prior")) < 1.0E-06,
+                $"limma var.prior: VB={ourVarPrior:R} R={diagnostics("var_prior"):R}"
+            )
+        End If
 
         ' 结构一致性：显著基因数量
         Dim significant As Integer = tables.Count(Function(t) t.adj_P_Val < 0.05)
@@ -496,6 +522,8 @@ Friend Module RCrossCheckTest
             Next
         Next
 
+        Call DebugAudit.Mark($"r.{label}.worst", worst)
+
         Call check(mismatches = 0, $"{label} ({mismatches} mismatch(es), worst relative deviation {worst:R} at {sample})")
     End Sub
 
@@ -511,6 +539,43 @@ Friend Module RCrossCheckTest
         End If
 
         Return std.Abs(actual - expected) / std.Max(1.0, std.Abs(expected))
+    End Function
+
+    Private Function readKeyValues(path As String) As Dictionary(Of String, Double)
+        Dim values As New Dictionary(Of String, Double)
+
+        If Not File.Exists(path) Then
+            Return values
+        End If
+
+        For Each line As String In File.ReadAllLines(path)
+            Dim i As Integer = line.IndexOf("="c)
+
+            If i <= 0 Then
+                Continue For
+            End If
+
+            Dim value As Double
+            Dim text As String = line.Substring(i + 1)
+
+            ' R 写出来的 Inf/-Inf/NaN 需要单独处理
+            Select Case text
+                Case "Inf"
+                    value = Double.PositiveInfinity
+                Case "-Inf"
+                    value = Double.NegativeInfinity
+                Case "NaN"
+                    value = Double.NaN
+                Case Else
+                    If Not Double.TryParse(text, Globalization.NumberStyles.Float, Globalization.CultureInfo.InvariantCulture, value) Then
+                        Continue For
+                    End If
+            End Select
+
+            values(line.Substring(0, i)) = value
+        Next
+
+        Return values
     End Function
 
     Private Function readMatrix(path As String) As Matrix
