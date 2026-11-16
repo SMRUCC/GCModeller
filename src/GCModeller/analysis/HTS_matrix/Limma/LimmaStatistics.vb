@@ -22,8 +22,7 @@ Imports cephes = Microsoft.VisualBasic.Math.Statistics.SpecialFunctions
 ''' <c>P(|T| &gt; |t|) = I_x(df/2, 1/2)</c>，其中 <c>x = df / (df + t²)</c>，
 ''' 与 R 的 <c>2 * pt(-abs(t), df)</c> 数值一致。
 ''' </para>
-''' </remarks>
-''' <remarks>
+''' 
 ''' 这些函数是 limma 算法的高级组成部分（方差收缩与对数后验几率），
 ''' 默认只由 <see cref="Limma.LmFit"/> 调用；对外公开是为了让调用方能够复用
 ''' 同一套数值实现，或对中间量做诊断。
