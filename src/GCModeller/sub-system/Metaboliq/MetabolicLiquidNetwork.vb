@@ -635,7 +635,7 @@ Public Class MetabolicLiquidNetwork : Implements InsilicoPerturbationExperiment
         Liquid.ResetState()
         cell.SetState(h0)
 
-        For t = 0 To steps - 1
+        For t As Integer = 0 To steps - 1
             If t > 0 Then
                 Dim dt = times(t) - times(t - 1)
 
@@ -649,11 +649,13 @@ Public Class MetabolicLiquidNetwork : Implements InsilicoPerturbationExperiment
             Dim out As Tensor = Nothing
             Dim v As Tensor = Nothing
             Dim sysTau As Tensor = Nothing
+            Dim ti = t
 
-            Call MetabolicTelemetry.Timed("ltc.build-input", Sub()
-                                                                u = BuildInput(RowOf(enzymeSeries, t), RowOf(boundarySeries, t))
-                                                                h = CType(cell.State.Clone(), Tensor)
-                                                            End Sub)
+            Call MetabolicTelemetry.Timed("ltc.build-input",
+                                          Sub()
+                                              u = BuildInput(RowOf(enzymeSeries, ti), RowOf(boundarySeries, ti))
+                                              h = CType(cell.State.Clone(), Tensor)
+                                          End Sub)
 
             ' 浓度必须经输出读出层 ĉ = W_out·h + b_out 才是"浓度空间"的量；
             ' 直接把隐藏状态当作浓度会与训练时的监督目标不一致
@@ -679,9 +681,10 @@ Public Class MetabolicLiquidNetwork : Implements InsilicoPerturbationExperiment
 
             ' 用当前时刻的驱动外推下一时刻（区间内部会按 MaxSubStep 细分积分）
             If t < steps - 1 Then
-                Call MetabolicTelemetry.Timed("ltc.step-interval", Sub()
-                                                                       Call StepInterval(u, times(t + 1) - times(t))
-                                                                   End Sub)
+                Call MetabolicTelemetry.Timed("ltc.step-interval",
+                                              Sub()
+                                                  Call StepInterval(u, times(ti + 1) - times(ti))
+                                              End Sub)
             End If
         Next
 
