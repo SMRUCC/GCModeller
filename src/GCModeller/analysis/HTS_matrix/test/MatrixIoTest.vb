@@ -4,6 +4,7 @@ Imports System.Threading
 Imports System.Threading.Tasks
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Serialization.BinaryDumping
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 
@@ -23,11 +24,18 @@ Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Friend Module MatrixIoTest
 
     ''' <summary>
+    ''' 已经执行过的用例数量
+    ''' </summary>
+    Private executedCases As Integer = 0
+
+    ''' <summary>
     ''' 执行全部用例
     ''' </summary>
     ''' <returns>失败的断言数量</returns>
     Friend Function Run() As Integer
         Dim originMute As Boolean = VBDebugger.Mute
+
+        executedCases = 0
 
         Call DebugAudit.Reset()
 
@@ -55,6 +63,7 @@ Friend Module MatrixIoTest
             Call testViewerParity(folder)
             Call testCsvRoundTrip(folder)
             Call testRollback(folder)
+            Call testChunkedScan(folder)
         Finally
             VBDebugger.Mute = originMute
 
@@ -65,18 +74,33 @@ Friend Module MatrixIoTest
             End Try
         End Try
 
+        Call DebugAudit.Mark("cases", $"{executedCases} case(s) executed, {DebugAudit.FailureCount} failure(s)")
+
+        Return DebugAudit.FailureCount
+    End Function
+
+    ''' <summary>
+    ''' 输出审计摘要并把 JSON 报告写到 <c>report/hts_matrix_io.json</c>
+    ''' </summary>
+    ''' <returns>报告文件的绝对路径</returns>
+    Friend Function Report() As String
         Console.WriteLine(DebugAudit.Dump())
 
         Dim report As String = IO.Path.Combine("report", "hts_matrix_io.json")
 
         Call DebugAudit.SaveReport(report)
+
         Console.WriteLine($"audit report: {IO.Path.GetFullPath(report)}")
         Console.WriteLine($"failures: {DebugAudit.FailureCount}")
 
-        Return DebugAudit.FailureCount
+        Return IO.Path.GetFullPath(report)
     End Function
 
     Private Sub runCase(name As String, body As Action)
+        executedCases += 1
+
+        Call DebugAudit.Mark($"case::{name}")
+
         Try
             Call body()
         Catch ex As Exception
@@ -248,7 +272,7 @@ Friend Module MatrixIoTest
             End Using
 
             ' 旧读取器（BinaryMatrix.MagicHeader）应当仍然匹配 v1 文件的 magic
-            Dim raw As Byte() = File.ReadAllBytes(file)
+            Dim raw As Byte() = IO.File.ReadAllBytes(file)
             Call DebugAudit.AreEqual(
                 BinaryMatrix.MagicHeader,
                 Encoding.ASCII.GetString(raw, 0, BinaryMatrix.MagicHeader.Length),
@@ -441,7 +465,7 @@ Friend Module MatrixIoTest
 
             Call mat.SaveFile(file)
 
-            Dim raw As Byte() = File.ReadAllBytes(file)
+            Dim raw As Byte() = IO.File.ReadAllBytes(file)
 
             Using ms As New MemoryStream(raw)
                 Using wrapper As New NonSeekableStream(ms)
@@ -481,11 +505,11 @@ Friend Module MatrixIoTest
 
             Call mat.SaveFile(file)
 
-            Dim raw As Byte() = File.ReadAllBytes(file)
+            Dim raw As Byte() = IO.File.ReadAllBytes(file)
             Dim cut As Byte() = New Byte(raw.Length - 65) {}
 
             Call Array.ConstrainedCopy(raw, 0, cut, 0, cut.Length)
-            Call File.WriteAllBytes(broken, cut)
+            Call IO.File.WriteAllBytes(broken, cut)
 
             Dim detected As Boolean = False
 
@@ -505,7 +529,7 @@ Friend Module MatrixIoTest
         Call runCase("invalid magic detection", Sub()
             Dim broken As String = IO.Path.Combine(folder, "bad_magic.bin")
 
-            Call File.WriteAllBytes(broken, Encoding.ASCII.GetBytes(New String("X"c, 128)))
+            Call IO.File.WriteAllBytes(broken, Encoding.ASCII.GetBytes(New String("X"c, 128)))
 
             Dim detected As Boolean = False
 
@@ -528,8 +552,9 @@ Friend Module MatrixIoTest
 
             Call mat.SaveFile(file)
 
-            Using memory As New HTSMatrixViewer(mat)
-                Using disk As HTSMatrixReader = Matrix.LoadLazy(file)
+            Dim memory As New HTSMatrixViewer(mat)
+
+            Using disk As HTSMatrixReader = Matrix.LoadLazy(file)
                     Call DebugAudit.AreEqual(memory.Size, disk.Size, "both viewers should report the same shape")
                     Call DebugAudit.AreEqual(memory.tag, disk.tag, "both viewers should report the same tag")
                     Call DebugAudit.AreEqual(memory.GetSampleOrdinal("sample_4"), disk.GetSampleOrdinal("sample_4"), "GetSampleOrdinal")
@@ -561,7 +586,6 @@ Friend Module MatrixIoTest
                     Dim diskGene As Double() = disk.GetGeneExpression("gene_33")
 
                     Call DebugAudit.Test(memGene.SequenceEqual(diskGene), "GetGeneExpression should be identical")
-                End Using
             End Using
         End Sub)
     End Sub
@@ -578,8 +602,8 @@ Friend Module MatrixIoTest
             Call DebugAudit.Test(csv1.ToBinary(bin), "csv -> binary conversion should succeed")
             Call DebugAudit.Test(bin.ToCsv(csv2), "binary -> csv conversion should succeed")
 
-            Dim origin As Matrix = Document.LoadMatrixDocument(csv1, Nothing)
-            Dim round As Matrix = Document.LoadMatrixDocument(csv2, Nothing)
+            Dim origin As Matrix = Document.LoadMatrixDocument(csv1, DirectCast(Nothing, Index(Of String)))
+            Dim round As Matrix = Document.LoadMatrixDocument(csv2, DirectCast(Nothing, Index(Of String)))
 
             Call DebugAudit.AreEqual(origin.size, round.size, "converted row count")
             Call DebugAudit.AreEqual(origin.sample_count, round.sample_count, "converted column count")
@@ -620,7 +644,7 @@ Friend Module MatrixIoTest
             Dim mat As Matrix = createMatrix(20, 5, seed:=10)
             Dim target As String = IO.Path.Combine(folder, "rollback.bin")
 
-            Call File.WriteAllText(target, "existing-content")
+            Call IO.File.WriteAllText(target, "existing-content")
 
             Using writer As HTSMatrixWriter = HTSMatrixWriter.CreateFile(target, mat.sampleID)
                 Call writer.WriteRow(mat.expression(0))
@@ -628,7 +652,7 @@ Friend Module MatrixIoTest
             End Using
 
             Call DebugAudit.Test(
-                File.Exists(target) AndAlso File.ReadAllText(target) = "existing-content",
+                IO.File.Exists(target) AndAlso IO.File.ReadAllText(target) = "existing-content",
                 "an unfinished writer must not replace the existing target file"
             )
 
@@ -642,6 +666,55 @@ Friend Module MatrixIoTest
 
             Using view As HTSMatrixReader = Matrix.LoadLazy(target)
                 Call DebugAudit.AreEqual(mat.size, view.Size.nfeature, "the completed file should contain every row")
+            End Using
+        End Sub)
+    End Sub
+
+    ''' <summary>
+    ''' 大矩阵（数据区超过单次读取字节预算）的顺序扫描：确保按字节预算分块之后
+    ''' <see cref="HTSMatrixReader.Rows"/> 与 <see cref="HTSMatrixReader.GetSample"/> 仍然正确。
+    ''' </summary>
+    Private Sub testChunkedScan(folder As String)
+        Call runCase("chunked sequential scan", Sub()
+            ' 2600 x 220 x 8B ≈ 4.6 MB，超过 MaxReadBytes(4MB)，因此会跨块读取
+            Dim mat As Matrix = createMatrix(2600, 220, seed:=11, withNaN:=False)
+            Dim file As String = IO.Path.Combine(folder, "chunked.bin")
+
+            Call mat.SaveFile(file)
+
+            Using view As HTSMatrixReader = Matrix.LoadLazy(file)
+                Dim rows As DataFrameRow() = view.Rows().ToArray()
+
+                Call DebugAudit.AreEqual(mat.size, rows.Length, "sequential scan row count")
+
+                Dim mismatches As Integer = 0
+                Dim detail As String = ""
+
+                For i As Integer = 0 To rows.Length - 1
+                    For j As Integer = 0 To mat.sample_count - 1
+                        If rows(i).experiments(j) <> mat.expression(i).experiments(j) Then
+                            mismatches += 1
+
+                            If detail.Length < 160 Then
+                                detail &= $"row {i} col {j}; "
+                            End If
+                        End If
+                    Next
+                Next
+
+                Call DebugAudit.Test(mismatches = 0, $"a chunked sequential scan should reproduce every value ({mismatches} mismatch(es): {detail})")
+
+                Dim lastColumn As Double() = view.GetSample(mat.sample_count - 1)
+                Dim columnMismatches As Integer = 0
+
+                For i As Integer = 0 To lastColumn.Length - 1
+                    If lastColumn(i) <> mat.expression(i).experiments(mat.sample_count - 1) Then
+                        columnMismatches += 1
+                    End If
+                Next
+
+                Call DebugAudit.Test(columnMismatches = 0, $"a chunked column scan should reproduce every value ({columnMismatches} mismatch(es))")
+                Call DebugAudit.AreEqual(mat.sample_count, view.Size.nsample, "the column count should survive the round trip")
             End Using
         End Sub)
     End Sub

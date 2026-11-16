@@ -188,103 +188,138 @@ Public Module Limma
 
     <Extension>
     Public Function LmFit(x As Matrix, design As DataAnalysis) As IEnumerable(Of LimmaTable)
-        Return x.LmFitInternal(design).FDR.OrderBy(Function(i) i.adj_P_Val)
+        Return x.LmFitInternal(design).OrderBy(Function(i) i.adj_P_Val)
     End Function
 
+    ''' <summary>
+    ''' limma 的 <c>lmFit</c> + <c>eBayes</c>（两组比较）。
+    ''' </summary>
+    ''' <param name="x">表达矩阵（基因在行，样本在列）</param>
+    ''' <param name="design">
+    ''' 两组比较的设计：<see cref="DataAnalysis.experiment"/> 为处理组，
+    ''' <see cref="DataAnalysis.control"/> 为对照组，<c>logFC = 处理组 − 对照组</c>
+    ''' </param>
+    ''' <remarks>
+    ''' <para>
+    ''' 计算流程与 R 端 <c>lmFit</c> + <c>contrasts.fit</c> + <c>eBayes</c> 一一对应：
+    ''' </para>
+    ''' <list type="number">
+    ''' <item>表达值先做 log2 变换（与 limma 的 <c>Amean</c> 相同，都是在**变换后**的矩阵上取行均值）；</item>
+    ''' <item><c>logFC = mean(treat) − mean(control)</c>（两组均值差的 OLS 估计）；</item>
+    ''' <item>残差方差 <c>s² = (SSE_control + SSE_treat) / (n − 2)</c>，自由度取设计矩阵的秩 2；</item>
+    ''' <item>经验贝叶斯收缩：<see cref="LimmaStatistics.SqueezeVar"/>（limma 的 <c>fitFDist</c> + <c>squeezeVar</c>）；</item>
+    ''' <item>
+    ''' 标准误必须是**对比**的标准误：<c>se = sqrt(s²_post × (1/n₁ + 1/n₂))</c>。
+    ''' 旧实现用的是 <c>sd / sqrt(n)</c>，在 n₁ = n₂ 时把标准误低估了一半，
+    ''' 于是 |t| 被高估一倍、p 值系统性偏小 —— 这是本次修复的核心数学错误；
+    ''' </item>
+    ''' <item>p 值用正则化不完全贝塔函数精确计算（见 <see cref="LimmaStatistics.TwoSidedPvalue"/>）；</item>
+    ''' <item><c>B</c>（lods）按 limma 的 <c>tmixture</c> + 后验几率公式计算；</item>
+    ''' <item><c>adj.P.Val</c> 使用带单调化的 BH 校正（等价于 R 的 <c>p.adjust(..., "BH")</c>）。</item>
+    ''' </list>
+    ''' </remarks>
     <Extension>
-    Private Iterator Function LmFitInternal(x As Matrix, design As DataAnalysis) As IEnumerable(Of LimmaTable)
+    Private Function LmFitInternal(x As Matrix, design As DataAnalysis) As LimmaTable()
         ' extract of the sample ordinals
-        Dim control As Integer() = x.IndexOf(design.control)  ' 0
-        Dim treat As Integer() = x.IndexOf(design.experiment) ' 1
-        Dim xi As Double() = Replicate(0.0, control.Length) _
-            .JoinIterates(Replicate(1.0, treat.Length)) _
-            .ToArray
-        Dim rawX As Matrix = x
+        Dim control As Integer() = x.IndexOf(design.control)   ' 0
+        Dim treat As Integer() = x.IndexOf(design.experiment)  ' 1
 
-        ' transform the expression data to log2 scale
-        x = x.log(2)
         design.ValidateSampleIDsHelper(control, treat)
 
-        Dim logFC As Double() = New Double(x.size - 1) {}
-        Dim residuals As Double()() = RectangularArray.Matrix(Of Double)(x.size, control.Length + treat.Length)
-        Dim i As Integer = 0
-        Dim mean As Double() = New Double(x.size - 1) {}
-        Dim control_vs_treat As Integer() = control.JoinIterates(treat).ToArray
+        ' transform the expression data to log2 scale
+        Dim logX As Matrix = x.log(2)
+        Dim nControl As Integer = control.Length
+        Dim nTreat As Integer = treat.Length
+        Dim n As Integer = nControl + nTreat
+        ' 两组比较的设计矩阵秩为 2
+        Dim dfResidual As Double = n - 2
+        ' 对比系数为 +1/-1 时，未缩放的标准误是 sqrt(1/n1 + 1/n2)
+        Dim seUnscaled As Double = std.Sqrt(1.0 / nControl + 1.0 / nTreat)
 
-        ' 拟合线性模型（逐基因）
-        For Each gene As DataFrameRow In x.expression
-            Dim y As Double() = gene(control_vs_treat)
-            Dim lm As FitResult = LeastSquares.LinearFit(xi, y)
+        Dim nGene As Integer = logX.size
+        Dim logFC As Double() = New Double(nGene - 1) {}
+        Dim aveExpr As Double() = New Double(nGene - 1) {}
+        Dim geneVars As Double() = New Double(nGene - 1) {}
 
-            mean(i) = rawX(i)(control_vs_treat).Average
-            logFC(i) = lm.Slope
-            residuals(i) = lm.Residuals
+        For i As Integer = 0 To nGene - 1
+            Dim row As Double() = logX.expression(i).experiments
+            Dim yc As Double() = control.Select(Function(c) row(c)).ToArray
+            Dim yt As Double() = treat.Select(Function(c) row(c)).ToArray
+            Dim meanC As Double = yc.Average
+            Dim meanT As Double = yt.Average
 
-            i += 1
+            logFC(i) = meanT - meanC
+            ' limma 的 AveExpr(Amean) 是在**全部样本**的 log 值上取平均
+            aveExpr(i) = row.Average
+            geneVars(i) = (sumOfSquares(yc, meanC) + sumOfSquares(yt, meanT)) / dfResidual
         Next
 
-        ' 经验贝叶斯方差调整
-        ' a vs b
-        ' 假设设计矩阵的秩为2 (截距 + 一组处理)
-        Dim rank_of_design As Integer = design.size
-        Dim n As Integer = control.Length + treat.Length
-        Dim df_residual = n - rank_of_design
-        ' 计算每个基因的残差标准差
-        Dim gene_sd As Vector = residuals _
-            .Select(Function(e) std.Sqrt((New Vector(e) ^ 2).Sum / df_residual)) _
-            .AsVector
-        ' 计算标准误 (Standard Error)，而非方差
-        ' 标准误 = 标准差 / sqrt(n)，这里n为样本量
-        Dim gene_se As Vector = gene_sd / std.Sqrt(n)
+        ' 经验贝叶斯方差收缩（limma: fitFDist -> squeezeVar）
+        Dim prior = LimmaStatistics.SqueezeVar(geneVars, dfResidual)
+        Dim dfPooled As Double = dfResidual * nGene
+        Dim dfTotal As Double = std.Min(dfResidual + prior.dfPrior, dfPooled)
+        Dim tstat As Double() = New Double(nGene - 1) {}
+        Dim pvalue As Double() = New Double(nGene - 1) {}
 
-        ' 极小的正数
-        Const epsilon As Double = 0.0000000001
+        For i As Integer = 0 To nGene - 1
+            Dim s2post As Double
 
-        ' 经验贝叶斯收缩逻辑
-        ' 1. 计算所有基因的原始标准误 (如上一步的 gene_se)
-        ' 2. 计算先验方差（通常使用所有标准误的中位数或拟合一个分布）
-        Dim prior_var As Double = (gene_se ^ 2).Median
-        ' 3. 计算收缩后的标准误
-        ' 简化版：将每个基因的标准误向先验值收缩
-        Dim shrinkage_factor As Double = 0.5 ' 收缩因子，需根据数据调整，或像limma一样估算
-        Dim prior_df = 4  ' limma默认先验自由度
-        ' Dim shrunk_vars = (prior_df * std.Max(prior_var, 0.00001) + df_residual * New Vector(gene_vars)) / (prior_df + df_residual)
-        ' Dim shrunk_se As Vector = Vector.Sqrt(shrunk_vars).Select(Function(se) If(se < epsilon, epsilon, se)).AsVector
-        Dim shrunk_se As Vector = Vector.Sqrt(shrinkage_factor * std.Max(prior_var, 0.00001) + (1 - shrinkage_factor) * (gene_se ^ 2)) _
-            .Select(Function(se) If(se < epsilon, epsilon, se)) _
-            .AsVector
-
-        ' t检验与p值
-        Dim t_stats = logFC / shrunk_se
-        Dim df_total = prior_df + df_residual
-        Dim t As Vector = t_stats.Abs
-        Dim p_values = Hypothesis.t.Pvalue(t, df:=df_total, Hypothesis.Hypothesis.TwoSided)
-
-        Dim p0 As Double = 0.5 ' limma默认先验概率 (p0 = 0.5)
-        Dim BValues As Double() = New Double(logFC.Length - 1) {}
-
-        For offset As Integer = 0 To logFC.Length - 1
-            ' B = log10( (1 - p) / p )
-            ' 其中 p = p0 + (1 - p0) * (1 - p_value) / 2
-            Dim p As Double = p0 + (1 - p0) * (1 - p_values(offset)) / 2
-
-            If p > 0 AndAlso p < 1 Then
-                BValues(offset) = std.Log10((1 - p) / p)
+            If Double.IsInfinity(prior.dfPrior) Then
+                s2post = prior.s2Prior
             Else
-                BValues(offset) = Double.NaN ' 处理边界情况
+                s2post = (dfResidual * geneVars(i) + prior.dfPrior * prior.s2Prior) / (dfResidual + prior.dfPrior)
             End If
+
+            Dim se As Double = std.Sqrt(s2post) * seUnscaled
+
+            If se > 0 Then
+                tstat(i) = logFC(i) / se
+            ElseIf logFC(i) > 0 Then
+                tstat(i) = Double.PositiveInfinity
+            ElseIf logFC(i) < 0 Then
+                tstat(i) = Double.NegativeInfinity
+            Else
+                tstat(i) = 0
+            End If
+
+            pvalue(i) = LimmaStatistics.TwoSidedPvalue(tstat(i), dfTotal)
         Next
 
-        For offset As Integer = 0 To logFC.Length - 1
-            Yield New LimmaTable With {
-                .logFC = logFC(offset),
-                .id = x(offset).geneID,
-                .P_Value = p_values(offset),
-                .[class] = If(.P_Value < 0.05, If(.logFC > 0, "up", "down"), "not sig"),
-                .t = t(offset),
-                .AveExpr = mean(offset),
-                .B = BValues(offset)
+        ' B 统计量（limma 的 lods）与 BH 校正
+        Dim lods As Double() = LimmaStatistics.Lods(tstat, dfTotal, seUnscaled, prior.s2Prior, prior.dfPrior)
+        Dim adjP As Double() = LimmaStatistics.BHAdjust(pvalue)
+
+        Dim tables As LimmaTable() = New LimmaTable(nGene - 1) {}
+
+        For i As Integer = 0 To nGene - 1
+            tables(i) = New LimmaTable With {
+                .logFC = logFC(i),
+                .id = logX.expression(i).geneID,
+                .P_Value = pvalue(i),
+                .adj_P_Val = adjP(i),
+                .t = tstat(i),
+                .AveExpr = aveExpr(i),
+                .B = lods(i)
             }
+
+            With tables(i)
+                .[class] = If(.P_Value < 0.05, If(.logFC > 0, "up", "down"), "not sig")
+            End With
         Next
+
+        Return tables
+    End Function
+
+    ''' <summary>
+    ''' 离差平方和 Σ(x − mean)²
+    ''' </summary>
+    Private Function sumOfSquares(x As Double(), mean As Double) As Double
+        Dim sum As Double = 0
+
+        For i As Integer = 0 To x.Length - 1
+            sum += (x(i) - mean) ^ 2
+        Next
+
+        Return sum
     End Function
 End Module

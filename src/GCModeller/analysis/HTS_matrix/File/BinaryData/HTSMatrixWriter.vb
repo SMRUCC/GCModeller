@@ -136,6 +136,9 @@ Public Class HTSMatrixWriter : Implements IDisposable
             Me.pendingFeatures = New List(Of String)()
         End If
 
+        ' codec 由 flags 的低 4 位承载，必须在写头部之前落到 flags 上
+        header.Flags = (header.Flags And Not BinaryMatrixHeader.CodecMask) Or (CInt(codec) And BinaryMatrixHeader.CodecMask)
+
         If codec <> BinaryMatrixCodec.none Then
             ' 压缩块之间需要记录偏移，因此必须有可 seek 的输出流
             If Not stream.CanSeek Then

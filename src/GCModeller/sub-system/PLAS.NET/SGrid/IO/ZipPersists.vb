@@ -47,11 +47,15 @@ Namespace IO
         ''' 
         ''' + 1：全部条目为文本，矩阵为稠密 CSV；
         ''' + 2：矩阵改为流式写出，G/H 可用稀疏三列 CSV（<c>gene,index,value</c>）；
-        ''' + 3：G/H 与表达矩阵改为 <c>HTS_matrix::BinaryMatrix</c> 二进制条目。
+        ''' + 3：G/H 与表达矩阵改为 <c>HTS_matrix::BinaryMatrix</c> 二进制条目；
+        ''' + 4：二进制矩阵条目升级为 <c>HTS_matrix</c> 的 v2 头部（带版本号与扩展位），
+        '''      写入端改为流式的 <c>HTSMatrixWriter</c>。
         ''' 
-        ''' 读取端支持 1~3；旧版本程序读取更高版本的归档时会被 <c>checkManifest</c> 明确拒绝。
+        ''' 读取端支持 1~4（v1/v2 二进制条目都会被 <c>HTSMatrixReader</c> 自动识别）；
+        ''' 旧版本程序读取更高版本的归档时会被 <c>checkManifest</c> 明确拒绝，
+        ''' 而不是在解析二进制头部时抛出难以理解的错误。
         ''' </remarks>
-        Public Const FormatVersion As Integer = 3
+        Public Const FormatVersion As Integer = 4
 
         ''' <summary>
         ''' persists save the fitted model as zip archive file stream

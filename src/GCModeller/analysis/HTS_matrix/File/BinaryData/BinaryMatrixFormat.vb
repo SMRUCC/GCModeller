@@ -212,7 +212,8 @@ Public Class BinaryMatrixHeader
     ''' <exception cref="InvalidDataException">magic 不匹配，或者版本号不受支持</exception>
     Public Shared Function Read(reader As BinaryReader) As BinaryMatrixHeader
         Dim stream As Stream = reader.BaseStream
-        Dim start As Long = stream.Position
+        ' 只进流（zip 的 deflate 流等）不支持读取当前偏移
+        Dim start As Long = If(stream.CanSeek, stream.Position, -1)
         Dim bytes As Byte() = reader.ReadBytes(MagicSize)
 
         If bytes.Length <> MagicSize Then
@@ -247,7 +248,7 @@ Public Class BinaryMatrixHeader
         mat.Nfeatures = reader.ReadInt32
         mat.SampleIds = readIds(reader.ReadString)
         mat.FeatureIds = readIds(reader.ReadString)
-        mat.DataStart = reader.BaseStream.Position
+        mat.DataStart = dataStartOf(reader.BaseStream)
 
         Return mat
     End Function
@@ -274,9 +275,21 @@ Public Class BinaryMatrixHeader
         mat.BlockRows = reader.ReadInt32
         mat.SampleIds = readIds(reader.ReadString)
         mat.FeatureIds = readIds(reader.ReadString)
-        mat.DataStart = reader.BaseStream.Position
+        mat.DataStart = dataStartOf(reader.BaseStream)
 
         Return mat
+    End Function
+
+    ''' <summary>
+    ''' 数据区起点：只进流无法读取偏移，此时返回 0（该值仅在随机访问时才有意义）
+    ''' </summary>
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Private Shared Function dataStartOf(stream As Stream) As Long
+        If stream.CanSeek Then
+            Return stream.Position
+        Else
+            Return 0
+        End If
     End Function
 
     ''' <summary>
@@ -306,7 +319,7 @@ Public Class BinaryMatrixHeader
         Call writer.Write(header.FeatureIds.GetJson)
         Call writer.Flush()
 
-        header.DataStart = stream.Position
+        header.DataStart = dataStartOf(stream)
         header.NfeaturesFieldPosition = -1
         header.IndexOffsetFieldPosition = -1
     End Sub
@@ -351,7 +364,7 @@ Public Class BinaryMatrixHeader
         Call writer.Write(If(header.FeatureIds.IsNullOrEmpty, "[]", header.FeatureIds.GetJson))
         Call writer.Flush()
 
-        header.DataStart = stream.Position
+        header.DataStart = dataStartOf(stream)
     End Sub
 
     ''' <summary>

@@ -31,8 +31,17 @@ Namespace IO
     ''' </remarks>
     Friend Module GEARSStorage
 
-        ''' <summary>当前 zip 包格式版本号；加载时不一致会直接报错</summary>
-        Friend Const FormatVersion As Integer = 1
+        ''' <summary>当前 zip 包格式版本号；只拒绝比本版本更新的归档</summary>
+        ''' <remarks>
+        ''' 版本历史：
+        ''' 
+        ''' + 1：<c>expression.bin</c> 使用 <c>HTS_matrix</c> 的 v1 头部；
+        ''' + 2：<c>expression.bin</c> 使用 v2 头部（带版本号与扩展位），并可以直接从
+        '''      zip 的解压流顺序读取，不再需要先缓冲到 <see cref="MemoryStream"/>。
+        ''' 
+        ''' 读取端同时兼容 1 与 2（<see cref="HTSMatrixReader"/> 会自动识别头部版本）。
+        ''' </remarks>
+        Friend Const FormatVersion As Integer = 2
 
         ''' <summary>条目名：格式版本与超参清单</summary>
         Friend Const EntryManifest As String = "manifest.json"
@@ -200,9 +209,9 @@ Namespace IO
 
             Dim version As Integer = ReadInt(info, ManifestKeys.formatVersion)
 
-            If version <> FormatVersion Then
+            If version < 1 OrElse version > FormatVersion Then
                 Throw New InvalidDataException(
-                    $"GEARS 模型包格式版本不匹配：文件为 {version}，当前程序支持 {FormatVersion}")
+                    $"GEARS 模型包格式版本不匹配：文件为 {version}，当前程序支持 1 ~ {FormatVersion}")
             End If
 
             Dim configJson As String = ReadString(info, ManifestKeys.config)
