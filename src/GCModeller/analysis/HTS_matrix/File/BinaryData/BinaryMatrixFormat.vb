@@ -418,17 +418,22 @@ Public Class BinaryMatrixHeader
 
             Dim nblocks As Long = reader.ReadInt64
 
-            If nblocks <= 0 OrElse nblocks > Integer.MaxValue \ 8 Then
+            If nblocks < 0 OrElse nblocks > Integer.MaxValue \ 16 Then
                 Throw New InvalidDataException($"Invalid block count {nblocks} in the binary matrix trailer!")
             End If
 
-            Dim offsets(nblocks) As Long
+            If nblocks = 0 Then
+                ' trailer 里只有特征名列表（不压缩但行数未知的文件）
+                Me.BlockOffsets = Nothing
+            Else
+                Dim offsets(nblocks) As Long
 
-            For i As Integer = 0 To offsets.Length - 1
-                offsets(i) = reader.ReadInt64
-            Next
+                For i As Integer = 0 To offsets.Length - 1
+                    offsets(i) = reader.ReadInt64
+                Next
 
-            Me.BlockOffsets = offsets
+                Me.BlockOffsets = offsets
+            End If
 
             If FeatureIdsInTrailer Then
                 Me.FeatureIds = readIds(reader.ReadString)

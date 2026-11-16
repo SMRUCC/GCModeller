@@ -149,12 +149,17 @@ Public Class HTSMatrixWriter : Implements IDisposable
             header.BlockRows = 0
         End If
 
-        If header.FeatureIds.IsNullOrEmpty Then
-            ' 行数未知：头部与索引都需要在 Complete() 时回填
-            If Not stream.CanSeek Then
+        If Not stream.CanSeek Then
+            ' 非 seek 流（例如 zip 条目流）：所有需要回填的内容必须在创建时就已知
+            If header.FeatureIds.IsNullOrEmpty Then
                 Throw New NotSupportedException(
                     "Writing a binary matrix with an unknown feature list requires a seekable output stream: " &
                     "please pass the featureIDs (and the total feature count) while creating the writer.")
+            End If
+            If header.Nfeatures < 0 Then
+                Throw New NotSupportedException(
+                    "Writing a binary matrix with an unknown feature count requires a seekable output stream: " &
+                    "please pass the 'nfeatures' parameter while creating the writer.")
             End If
         End If
 
@@ -196,7 +201,7 @@ Public Class HTSMatrixWriter : Implements IDisposable
             .DataType = 0,
             .tag = If(String.IsNullOrEmpty(tag), "NA", tag),
             .Nsamples = sampleIDs.Length,
-            .Nfeatures = If(featureIDs.IsNullOrEmpty, If(nfeatures, -1), featureIDs.Length),
+            .Nfeatures = If(featureIDs.IsNullOrEmpty, If(nfeatures >= 0, nfeatures, -1), featureIDs.Length),
             .SampleIds = sampleIDs,
             .FeatureIds = featureIDs
         }
@@ -237,7 +242,7 @@ Public Class HTSMatrixWriter : Implements IDisposable
             .DataType = 0,
             .tag = If(String.IsNullOrEmpty(tag), "NA", tag),
             .Nsamples = sampleIDs.Length,
-            .Nfeatures = If(featureIDs.IsNullOrEmpty, If(nfeatures, -1), featureIDs.Length),
+            .Nfeatures = If(featureIDs.IsNullOrEmpty, If(nfeatures >= 0, nfeatures, -1), featureIDs.Length),
             .SampleIds = sampleIDs,
             .FeatureIds = featureIDs
         }
@@ -339,10 +344,6 @@ Public Class HTSMatrixWriter : Implements IDisposable
         Else
             Dim offset As Long = stream.Position - header.DataStart
 
-            If blockOffsets.Count = 0 Then
-                ' 第一个块的相对偏移恒为 0，显式写入以便读取方对齐
-            End If
-
             Using deflate As Stream = openDeflate()
                 Call deflate.Write(buffer, 0, bytes)
             End Using
@@ -406,7 +407,8 @@ Public Class HTSMatrixWriter : Implements IDisposable
 
         Call writer.Flush()
 
-        If header.Version >= 2 Then
+        ' 只有"行数未知"或者"存在 trailer"这两种情况才需要回填头部
+        If header.Version >= 2 AndAlso (needTrailer OrElse initialNfeatures < 0) Then
             Call BinaryMatrixHeader.Patch(writer, header)
         End If
 
@@ -415,12 +417,7 @@ Public Class HTSMatrixWriter : Implements IDisposable
         If path IsNot Nothing Then
             ' 文件模式：关闭临时文件后原子替换目标文件
             Call writer.Dispose()
-
-            If File.Exists(path) Then
-                Call File.Delete(path)
-            End If
-
-            Call File.Move(tempPath, path)
+            Call File.Move(tempPath, path, overwrite:=True)
         ElseIf Not leaveOpen Then
             Call writer.Dispose()
         End If
