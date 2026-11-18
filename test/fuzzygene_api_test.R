@@ -240,7 +240,7 @@ print(diag$summary);
 #   注意这里用的是赋值而不是 let：model 已经在第 1 步声明过了，
 #   fuzzygene_relaxation 返回的就是同一个对象，赋值只是让语义更直观。
 #
-model = FuzzyGene::fuzzygene_relaxation(model, omega = 0.5, steps = 300);
+model = FuzzyGene::fuzzygene_relaxation(model, omega = 0.5, steps = 1200, tolerance = 0.01);
 
 let diag2 = FuzzyGene::fuzzygene_trace_convergence(model, gene, mode = "knockout");
 
@@ -319,6 +319,172 @@ print("--- write mutant matrix through geneExpression::write.expr_matrix ---");
 let ok = geneExpression::write.expr_matrix(trace$mutant, file = "Z:/test/fuzzygene-trace/mutant_from_rsharp.csv", id = "geneID");
 
 print(ok);
+
+# ---------------------------------------------------------------------
+# 8. 多运行自检：ω 不变性 / 步数不变性 / lag 排序稳健性
+# ---------------------------------------------------------------------
+#
+# 前三项分析都必须「同一模型、多次求解」才能做，单次轨迹给不出结论：
+#
+#   ω 扫描      同一扰动在 ω ∈ c(0.5, 1.0) 上各跑一次，比较**终态**。
+#               ω 只改变「走过去的路」，收敛时终点应当一致；
+#               终点不一致 = 没收敛 = 曲线不能当稳态结论。
+#
+#   步数扫描    在 steps ∈ c(30, 60) 上各跑一次，以最长步数为参考。
+#               若多跑几十步终点还在变，说明「平台」是跑满步数被截断的假平台。
+#
+#   lag 稳健性  在每个 ω 下算每个基因「首次偏离野生型并达到自身终态变化量
+#               10% 的帧号」（lag 是调控图上的跳数，不是时间），
+#               再跨 ω 两两算 Spearman 秩相关。
+#               ρ 接近 0 表示排序在两个 ω 下毫无关系 → 这个排序不可信。
+#
+# 返回 list 五个元素：
+#   $omega      data.frame(value, converged, iterations, last_max_delta,
+#                          max_abs_deviation, max_relative_deviation)
+#   $steps      同上形状，value 是步数
+#   $lag        宽表：行 = 基因，列 = omega_0.5 / omega_1，值是帧号
+#   $spearman   宽表：omega × omega 的 rho
+#   $summary    单行：omega_invariant / steps_invariant / reference_* /
+#               responding_genes / mean_rho / 各段 runs 与 elapsed_ms
+#
+# 读法：先看 $summary$omega_invariant。FALSE 时后面的曲线与 lag 排序
+# 都只能当「模型诊断」，不能当生物学结论。
+#
+let sens = FuzzyGene::fuzzygene_sensitivity(model, gene,
+    omegas = c(0.5, 1.0),
+    stepsList = c(30, 60),
+    sweepSteps = 30,
+    tolerance = 0.001,
+    lagRatio = 0.1);
+
+print("--- sensitivity summary ---");
+print(sens$summary);
+
+print("--- omega sweep ---");
+print(sens$omega);
+
+print("--- step sweep ---");
+print(sens$steps);
+
+print("--- spearman between the two omega runs ---");
+print(sens$spearman);
+
+# ---------------------------------------------------------------------
+# 9. 剂量-响应曲线
+# ---------------------------------------------------------------------
+#
+# 剂量 d ∈ [0, 1]，钳制值 = 基线 × (1 − d)：
+#   d = 0 → 靶基因被钉在基线（**不是**「没有扰动」）
+#   d = 1 → 完全敲除（钳制值 = 0）
+#
+# 返回长表，每个 (剂量, 基因) 一行，列：
+#   dose            剂量
+#   clamp_value     施加的钳制值（原始表达量）
+#   gene            基因名
+#   fold_change     突变终态 − 对照基线（原始表达量之差，不是倍数）
+#   percent_change  相对基线的百分比变化
+#   z_score         fold_change / 训练期标准差
+#   significant     |z| > 2 或该基因被钳制
+#
+# 只返回按最大剂量下 |Z| 排序的前 `top` 个基因；
+# 想看全基因组就把 top 设成 0（行数 = 18533 × 剂量数）。
+#
+let dose = FuzzyGene::fuzzygene_dose_response(model, gene,
+    doses = c(0, 0.5, 1),
+    steps = 30,
+    top = 5);
+
+print("--- dose response (top 5 genes) ---");
+print(dose);
+
+# ---------------------------------------------------------------------
+# 10. 剂量-时间曲面
+# ---------------------------------------------------------------------
+#
+# 每个格子是「该剂量的突变轨迹在那一帧 − 同一帧的野生型轨迹」，
+# 也就是**已经减掉系统自身漂移**的扰动效应。
+#
+# 返回长表四列：dose / iteration / gene / delta
+#   iteration 是迭代帧号（0 = 起点），不是时间
+#   delta     该帧的扰动效应（原始表达量）
+#
+# 只保留前 `top` 个基因，行数 = 剂量数 × 帧数 × top，
+# 可以直接画等高线（x = iteration, y = dose, fill = delta）或三维曲面。
+#
+let surf = FuzzyGene::fuzzygene_dose_time_surface(model, gene,
+    doses = c(0, 0.5, 1),
+    steps = 30,
+    top = 5);
+
+print("--- dose time surface long table shape (rows x columns) ---");
+print(dim(surf));
+
+# ---------------------------------------------------------------------
+# 11. 双基因组合的非加性（协同 / 拮抗）
+# ---------------------------------------------------------------------
+#
+# 加性期望 = control + (A − control) + (B − control)
+# 非加性   = joint − additive    正 = 协同，负 = 拮抗
+#
+# 返回 list 四个元素：
+#   $summary     单行：基因名、max_abs_non_additive、runs、elapsed_ms
+#   $table       全基因表：gene / single_a / single_b / joint /
+#                additive / non_additive
+#   $top         按 |non_additive| 排序的前 K 个基因
+#   $trajectory  逐帧口径：iteration / gene / additive / joint /
+#                non_additive —— 能看出偏差是同步出现还是延迟出现
+#
+# 两个基因必须都存在且不同，否则直接报错（不会静默跳过）。
+#
+let gene2 = "TSPAN6";
+
+let combo = FuzzyGene::fuzzygene_combination(model, gene, gene2,
+    steps = 30,
+    top = 5);
+
+print("--- combination summary ---");
+print(combo$summary);
+
+print("--- top non additive genes ---");
+print(combo$top);
+
+# ---------------------------------------------------------------------
+# 12. 一键导出：跑完整套分析并落盘
+# ---------------------------------------------------------------------
+#
+# 这一步把 8~11 的分析再跑一遍，但产物是磁盘上的表格。
+# 目录 Z:/test/fuzzygene-analysis 下会有：
+#
+#   analysis.sensitivity.csv       ω 与步数扫描（kind 列区分两者）
+#   analysis.lag.csv               基因 × ω 的 lag 宽表
+#   analysis.spearman.csv          ρ 矩阵
+#   analysis.dose_response.csv     剂量-响应长表（全基因）
+#   analysis.dose_time_surface.csv 剂量-时间曲面长表（Top-K）
+#   analysis.combination.csv       组合非加性长表（全基因）
+#   analysis.report.json           网格定义 + 两个 invariant 标志 +
+#                                  运行次数 + 耗时 + 文件清单
+#
+# 单次调用比为每个分析分别调用更省：剂量扫描只跑一次。
+# 网格刻意取小以控制耗时；正式分析把 stepsList 提到 c(50, 200, 500)、
+# doses 用 5 个点，整轮约 1~2 分钟。
+#
+let report = FuzzyGene::fuzzygene_analysis_report(model, gene,
+    geneA = gene,
+    geneB = gene2,
+    dir = "Z:/test/fuzzygene-analysis",
+    omegas = c(0.5, 1.0),
+    stepsList = c(30, 60),
+    doses = c(0, 0.5, 1),
+    sweepSteps = 30,
+    doseSteps = 30,
+    combinationSteps = 30,
+    top = 5,
+    surfaceTop = 5,
+    lagRatio = 0.1,
+    tolerance = 0.001);
+
+print("--- analysis artifacts ---");
+print(report);
 
 print("=== done ===");
 
