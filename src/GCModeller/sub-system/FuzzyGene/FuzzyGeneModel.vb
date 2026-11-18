@@ -1,3 +1,4 @@
+Imports System.Diagnostics
 Imports System.IO
 Imports SMRUCC.genomics.Analysis.FuzzyGene.Config
 Imports SMRUCC.genomics.Analysis.FuzzyGene.Data
@@ -584,6 +585,153 @@ Public Class FuzzyGeneModel : Implements InsilicoPerturbationExperiment
         Dim count As Integer = If(steps > 0, steps, _config.PropagationSteps)
 
         Return _engine.SimulateCascade(spec, count)
+    End Function
+
+    ' ==================== 轨迹与候选排序 ====================
+
+    ''' <summary>
+    ''' 单次虚拟扰动的完整稳态求解轨迹（突变型 + 野生型对照）。
+    ''' </summary>
+    ''' <param name="geneName">目标基因</param>
+    ''' <param name="mode">干预模式</param>
+    ''' <param name="steps">最大迭代步数；&lt;= 0 时取配置值</param>
+    ''' <returns>干预结果与两条轨迹</returns>
+    ''' <remarks>
+    ''' 与 <see cref="SimulateCascade"/> 的区别：级联是「无阻尼地反复应用 F」，
+    ''' 不判收敛、步数固定；本方法是带阻尼的稳态求解轨迹，帧号是求解迭代步，
+    ''' 并且带 <see cref="Data.SteadyStateTrace.Converged"/> 诊断。
+    ''' </remarks>
+    Public Function TracePerturbation(geneName As String,
+                                      Optional mode As InterventionMode = InterventionMode.Knockout,
+                                      Optional steps As Integer = 0) As PerturbationTrace
+        Call EnsureTrained()
+
+        Dim spec As New InterventionSpec With {
+            .GeneName = geneName,
+            .GeneIndex = -1,
+            .Mode = mode
+        }
+
+        Return _engine.PredictWithTrace(New InterventionSpec() {spec}, steps)
+    End Function
+
+    ''' <summary>
+    ''' 在有限候选池上评估扰动响应强度，按「未被扰动基因的最大 |Z|」降序返回。
+    ''' </summary>
+    ''' <param name="candidates">候选基因数量；&lt;= 0 表示对全部有模型的基因排序</param>
+    ''' <param name="mode">干预模式</param>
+    ''' <returns>按响应强度降序排列的候选</returns>
+    ''' <remarks>
+    ''' <para>
+    ''' 全基因组逐个扰动在真实规模（约 1.8 万基因）下需要数小时，所以默认只在
+    ''' <paramref name="candidates"/> 个等距抽样的有模型基因上评估。
+    ''' 抽样不带随机数，同一模型与同一候选数总是给出同一批基因，便于复现。
+    ''' </para>
+    ''' <para>
+    ''' 评分刻意排除被扰动基因自身：它的 Z 分数是「施加值相对基线的偏离」，
+    ''' 不是模型推断出来的响应，算进去会让排名退化成「谁的方差最小」。
+    ''' </para>
+    ''' </remarks>
+    Public Function RankPerturbations(Optional candidates As Integer = 24,
+                                      Optional mode As InterventionMode = InterventionMode.Knockout) As PerturbationCandidate()
+        Call EnsureTrained()
+
+        Dim ranked As New List(Of PerturbationCandidate)
+
+        For Each gene As String In SelectCandidates(candidates)
+            Dim watch As Stopwatch = Stopwatch.StartNew()
+            Dim result As InterventionResult
+
+            Try
+                result = PredictOne(gene, mode)
+            Catch ex As MissingMemberException
+                ' 非严格模式下不会走到这里；严格模式也不应该因为单个候选缺失就中断整轮排序
+                Continue For
+            End Try
+
+            watch.Stop()
+
+            If result Is Nothing OrElse result.Undefined OrElse result.ZScores Is Nothing Then
+                Continue For
+            End If
+
+            Call ranked.Add(New PerturbationCandidate With {
+                .GeneName = gene,
+                .MaxAbsZScore = MaxAbsZScoreExcept(result.ZScores, _network.IndexOfGene(gene)),
+                .NAffected = result.NAffected,
+                .ElapsedMs = watch.Elapsed.TotalMilliseconds
+            })
+        Next
+
+        Return ranked _
+            .OrderByDescending(Function(c) c.MaxAbsZScore) _
+            .ThenByDescending(Function(c) c.NAffected) _
+            .ToArray()
+    End Function
+
+    ''' <summary>
+    ''' 选出响应最强的扰动靶基因。
+    ''' </summary>
+    ''' <param name="candidates">候选基因数量</param>
+    ''' <param name="mode">干预模式</param>
+    ''' <returns>最强响应的基因名；没有任何可用候选时返回 <c>Nothing</c></returns>
+    Public Function FindStrongestPerturbation(Optional candidates As Integer = 24,
+                                              Optional mode As InterventionMode = InterventionMode.Knockout) As String
+        Dim ranked As PerturbationCandidate() = RankPerturbations(candidates, mode)
+
+        If ranked.Length = 0 Then
+            Return Nothing
+        End If
+
+        Return ranked(0).GeneName
+    End Function
+
+    ''' <summary>
+    ''' 等距抽样「有调控因子」的基因；数量不足或要求全量时直接全给。
+    ''' </summary>
+    Private Function SelectCandidates(count As Integer) As String()
+        Dim modelled As New List(Of String)
+
+        For i As Integer = 0 To _network.NGene - 1
+            Dim model As GeneRegulationModel = _network.Models(i)
+
+            If model IsNot Nothing AndAlso model.Regulators IsNot Nothing AndAlso model.Regulators.Length > 0 Then
+                Call modelled.Add(_network.GeneNames(i))
+            End If
+        Next
+
+        If count <= 0 OrElse modelled.Count <= count Then
+            Return modelled.ToArray()
+        End If
+
+        ' 不能叫 step —— 那是 VB 的关键字（For ... Step）
+        Dim stride As Double = modelled.Count / count
+        Dim picked(count - 1) As String
+
+        For k As Integer = 0 To count - 1
+            picked(k) = modelled(CInt(System.Math.Floor(k * stride)))
+        Next
+
+        Return picked
+    End Function
+
+    ''' <summary>除 <paramref name="skip"/> 之外的最大绝对 Z 分数。</summary>
+    Private Shared Function MaxAbsZScoreExcept(values As Double(), skip As Integer) As Double
+        Dim max As Double = 0.0
+
+        For i As Integer = 0 To values.Length - 1
+            If i = skip Then
+                Continue For
+            End If
+
+            Dim z As Double = System.Math.Abs(values(i))
+
+            If z > max Then
+                max = z
+            End If
+        Next
+
+        Return max
     End Function
 
     ' ==================== 持久化 ====================

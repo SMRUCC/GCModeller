@@ -1,3 +1,4 @@
+Imports System.Diagnostics
 Imports SMRUCC.genomics.BioSystem.Intervention
 Imports std = System.Math
 
@@ -124,73 +125,101 @@ Namespace Perturbation
         ''' <param name="specs">干预定义；多个元素表示组合扰动</param>
         ''' <returns>标准干预结果</returns>
         Public Function Predict(specs As IEnumerable(Of InterventionSpec)) As InterventionResult
-            Dim list As List(Of InterventionSpec) = If(specs, Enumerable.Empty(Of InterventionSpec)()).ToList()
+            Dim list As List(Of InterventionSpec) = ToSpecList(specs)
+            Dim plan As InterventionPlan = ResolvePlan(list)
 
-            If list.Count = 0 Then
-                Throw New ArgumentException("at least one intervention spec is required", NameOf(specs))
+            If plan.Indices.Count = 0 Then
+                Return CreateUndefinedResult(list(0), plan.Control)
             End If
-
-            Dim indices As New List(Of Integer)
-            Dim names As New List(Of String)
-            Dim resolved As New List(Of InterventionSpec)
-            Dim values As New List(Of Double)
-            Dim missing As New List(Of String)
-
-            ' 干预值以「对照稳态」为参考（而不是训练均值）：这样报告出来的
-            ' WildtypeMeans 与 knockdown/overexpression 的施加值完全自洽
-            ' （敲低后的表达恰好是野生型的 residual 倍）
-            Dim control As Double() = ControlSteadyState()
-
-            For Each spec As InterventionSpec In list
-                Dim idx As Integer = ResolveIndex(spec)
-
-                If idx < 0 Then
-                    Call missing.Add(spec.GeneName)
-                    Continue For
-                End If
-                If indices.Contains(idx) Then
-                    Continue For
-                End If
-
-                Call indices.Add(idx)
-                Call names.Add(_network.GeneNames(idx))
-                Call resolved.Add(spec)
-                Call values.Add(InterventionValueOf(spec, idx, control))
-            Next
-
-            If missing.Count > 0 Then
-                If Strict Then
-                    Throw New MissingMemberException("missing target gene: " & String.Join(", ", missing))
-                End If
-
-                Call ($"[AnfisPerturbationEngine] warning: target gene(s) not found in the fitted network: {String.Join(", ", missing)}. " &
-                      "The virtual perturbation was skipped and the wildtype state is returned.").debug
-            End If
-
-            If indices.Count = 0 Then
-                Return CreateUndefinedResult(list(0), control)
-            End If
-
-            Dim clamps As New Dictionary(Of String, Double)(StringComparer.OrdinalIgnoreCase)
-
-            For k As Integer = 0 To indices.Count - 1
-                clamps(names(k)) = values(k)
-            Next
 
             Dim mutant As Double() = _network.SteadyState(
-                _baseline, clamps,
+                _baseline, plan.Clamps,
                 _network.Config.PropagationSteps,
                 _network.Config.Relaxation,
                 _network.Config.ConvergenceTolerance)
 
             ' 被扰动基因的表达是实验施加的结果，不是模型的推断，直接写回干预值
-            For k As Integer = 0 To indices.Count - 1
-                mutant(indices(k)) = values(k)
-            Next
+            Call ApplyClamps(mutant, plan)
 
-            Dim resultSpec As InterventionSpec = If(resolved.Count = 1, resolved(0), CombineSpec(list, names, indices))
+            Dim resultSpec As InterventionSpec =
+                If(plan.Resolved.Count = 1, plan.Resolved(0), CombineSpec(list, plan.Names, plan.Indices))
 
-            Return BuildResult(resultSpec, control, mutant, New HashSet(Of Integer)(indices))
+            Return BuildResult(resultSpec, plan.Control, mutant, New HashSet(Of Integer)(plan.Indices))
+        End Function
+
+        ''' <summary>
+        ''' 预测干预结果，同时给出突变型与野生型的完整稳态求解轨迹。
+        ''' </summary>
+        ''' <param name="specs">干预定义；多个元素表示组合扰动</param>
+        ''' <param name="steps">最大迭代步数；&lt;= 0 时取配置值</param>
+        ''' <returns>结果 + 两条轨迹</returns>
+        ''' <remarks>
+        ''' <para>
+        ''' <see cref="PerturbationTrace.Result"/> 与 <see cref="Predict"/> 的返回值逐位一致：
+        ''' 两者走同一个 <c>Solve</c>，轨迹记录只读状态、不参与任何浮点运算。
+        ''' </para>
+        ''' <para>
+        ''' <see cref="PerturbationTrace.Control"/> 从基线重新迭代到不动点，
+        ''' 因此可以把它当成「不做扰动时系统自己会漂到哪」的参照线。
+        ''' </para>
+        ''' </remarks>
+        Public Function PredictWithTrace(specs As IEnumerable(Of InterventionSpec),
+                                         Optional steps As Integer = 0) As PerturbationTrace
+
+            Dim list As List(Of InterventionSpec) = ToSpecList(specs)
+            Dim watch As Stopwatch = Stopwatch.StartNew()
+            Dim plan As InterventionPlan = ResolvePlan(list)
+            Dim count As Integer = If(steps > 0, steps, _network.Config.PropagationSteps)
+
+            ' 对照轨迹总是要给：即使目标基因缺失，它也说明了「系统本来的走向」
+            Dim controlTrace As Data.SteadyStateTrace = _network.SteadyStateTraceOf(
+                _baseline, Nothing, count,
+                _network.Config.Relaxation,
+                _network.Config.ConvergenceTolerance)
+
+            If plan.Indices.Count = 0 Then
+                Dim undefined As InterventionResult = CreateUndefinedResult(list(0), plan.Control)
+
+                watch.Stop()
+
+                Return New PerturbationTrace With {
+                    .Result = undefined,
+                    .Mutant = Nothing,
+                    .Control = controlTrace,
+                    .TargetGene = Nothing,
+                    .Mode = list(0).Mode,
+                    .ClampValue = Double.NaN,
+                    .ElapsedMs = watch.Elapsed.TotalMilliseconds
+                }
+            End If
+
+            Dim mutantTrace As Data.SteadyStateTrace = _network.SteadyStateTraceOf(
+                _baseline, plan.Clamps, count,
+                _network.Config.Relaxation,
+                _network.Config.ConvergenceTolerance)
+
+            ' 末帧就是求解器的返回值：就地回写干预值，让曲线终点与报告出来的
+            ' MutantMeans 完全一致（否则二者会差一个 ToZ/ToRaw 往返的舍入）
+            Dim mutant As Double() = mutantTrace.Final
+
+            Call ApplyClamps(mutant, plan)
+
+            Dim resultSpec As InterventionSpec =
+                If(plan.Resolved.Count = 1, plan.Resolved(0), CombineSpec(list, plan.Names, plan.Indices))
+            Dim result As InterventionResult =
+                BuildResult(resultSpec, plan.Control, mutant, New HashSet(Of Integer)(plan.Indices))
+
+            watch.Stop()
+
+            Return New PerturbationTrace With {
+                .Result = result,
+                .Mutant = mutantTrace,
+                .Control = controlTrace,
+                .TargetGene = String.Join("+", plan.Names),
+                .Mode = resultSpec.Mode,
+                .ClampValue = If(plan.Values.Count = 1, plan.Values(0), Double.NaN),
+                .ElapsedMs = watch.Elapsed.TotalMilliseconds
+            }
         End Function
 
         ''' <summary>
@@ -259,6 +288,112 @@ Namespace Perturbation
         End Function
 
         ' ==================== 内部方法 ====================
+
+        ''' <summary>
+        ''' 一次干预解析后的执行计划（<see cref="Predict"/> 与 <see cref="PredictWithTrace"/> 共用）。
+        ''' </summary>
+        ''' <remarks>
+        ''' 把「解析干预 → 去重 → 计算钳制值」这段与「怎么求解」分开，
+        ''' 两个入口才不会因为复制而漂移：约束是同一组 clamps、同一个初始状态。
+        ''' </remarks>
+        Private Class InterventionPlan
+
+            ''' <summary>调用方给的原始干预定义。</summary>
+            Public Property Specs As List(Of InterventionSpec)
+
+            ''' <summary>命中的基因下标（去重后，顺序即施加顺序）。</summary>
+            Public Property Indices As New List(Of Integer)
+
+            ''' <summary>命中基因的规范名（与 <see cref="Indices"/> 一一对应）。</summary>
+            Public Property Names As New List(Of String)
+
+            ''' <summary>命中的干预定义（与 <see cref="Indices"/> 一一对应）。</summary>
+            Public Property Resolved As New List(Of InterventionSpec)
+
+            ''' <summary>钳制值（原始表达量，与 <see cref="Indices"/> 一一对应）。</summary>
+            Public Property Values As New List(Of Double)
+
+            ''' <summary>模型里找不到的目标基因。</summary>
+            Public Property Missing As New List(Of String)
+
+            ''' <summary>对照状态（原始表达量），干预值以它为参考。</summary>
+            Public Property Control As Double()
+
+            ''' <summary>真正交给网络的钳制条件（基因名 → 原始表达量）。</summary>
+            Public ReadOnly Property Clamps As Dictionary(Of String, Double)
+                Get
+                    Dim items As New Dictionary(Of String, Double)(StringComparer.OrdinalIgnoreCase)
+
+                    For k As Integer = 0 To Names.Count - 1
+                        items(Names(k)) = Values(k)
+                    Next
+
+                    Return items
+                End Get
+            End Property
+
+        End Class
+
+        ''' <summary>把调用方给的集合转成列表，并拒绝空集。</summary>
+        Private Shared Function ToSpecList(specs As IEnumerable(Of InterventionSpec)) As List(Of InterventionSpec)
+            Dim list As List(Of InterventionSpec) = If(specs, Enumerable.Empty(Of InterventionSpec)()).ToList()
+
+            If list.Count = 0 Then
+                Throw New ArgumentException("at least one intervention spec is required", NameOf(specs))
+            End If
+
+            Return list
+        End Function
+
+        ''' <summary>
+        ''' 解析干预目标并计算钳制值。
+        ''' </summary>
+        ''' <remarks>
+        ''' 干预值以「对照稳态」为参考（而不是训练均值）：这样报告出来的
+        ''' <c>WildtypeMeans</c> 与 knockdown / overexpression 的施加值完全自洽
+        ''' （敲低后的表达恰好是野生型的 residual 倍）。
+        ''' </remarks>
+        Private Function ResolvePlan(list As List(Of InterventionSpec)) As InterventionPlan
+            Dim plan As New InterventionPlan With {
+                .Specs = list,
+                .Control = ControlSteadyState()
+            }
+
+            For Each spec As InterventionSpec In list
+                Dim idx As Integer = ResolveIndex(spec)
+
+                If idx < 0 Then
+                    Call plan.Missing.Add(spec.GeneName)
+                    Continue For
+                End If
+                If plan.Indices.Contains(idx) Then
+                    Continue For
+                End If
+
+                Call plan.Indices.Add(idx)
+                Call plan.Names.Add(_network.GeneNames(idx))
+                Call plan.Resolved.Add(spec)
+                Call plan.Values.Add(InterventionValueOf(spec, idx, plan.Control))
+            Next
+
+            If plan.Missing.Count > 0 Then
+                If Strict Then
+                    Throw New MissingMemberException("missing target gene: " & String.Join(", ", plan.Missing))
+                End If
+
+                Call ($"[AnfisPerturbationEngine] warning: target gene(s) not found in the fitted network: {String.Join(", ", plan.Missing)}. " &
+                      "The virtual perturbation was skipped and the wildtype state is returned.").debug
+            End If
+
+            Return plan
+        End Function
+
+        ''' <summary>把干预值就地写回状态（被扰动基因的表达由实验施加，不由模型推断）。</summary>
+        Private Shared Sub ApplyClamps(state As Double(), plan As InterventionPlan)
+            For k As Integer = 0 To plan.Indices.Count - 1
+                state(plan.Indices(k)) = plan.Values(k)
+            Next
+        End Sub
 
         ''' <summary>解析干预目标在建模基因集合中的下标；缺失时返回 -1。</summary>
         Private Function ResolveIndex(spec As InterventionSpec) As Integer

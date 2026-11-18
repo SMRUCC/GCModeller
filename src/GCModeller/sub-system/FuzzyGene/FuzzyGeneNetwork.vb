@@ -341,11 +341,72 @@ Public Class FuzzyGeneNetwork
     ''' <param name="relaxation">阻尼系数；<c>NaN</c> 时取配置值</param>
     ''' <param name="tolerance">收敛阈值；<c>NaN</c> 时取配置值</param>
     ''' <returns>稳态（原始表达量）</returns>
+    ''' <remarks>
+    ''' 只要结果不要过程时用这个入口；需要逐帧轨迹请改用
+    ''' <see cref="SteadyStateTraceOf"/>。两者的终态逐位相同。
+    ''' </remarks>
     Public Function SteadyState(initial As Double(),
                                 Optional clamps As Dictionary(Of String, Double) = Nothing,
                                 Optional steps As Integer = 0,
                                 Optional relaxation As Double = Double.NaN,
                                 Optional tolerance As Double = Double.NaN) As Double()
+
+        Return Solve(initial, clamps, steps, relaxation, tolerance, Nothing)
+    End Function
+
+    ''' <summary>
+    ''' 在给定钳制条件下迭代到稳态，并记录每一帧的状态（可视化 / 收敛诊断用）。
+    ''' </summary>
+    ''' <param name="initial">初始状态（原始表达量，长度 = 基因数）</param>
+    ''' <param name="clamps">被钳制的基因 → 固定值（原始表达量）；<c>Nothing</c> 表示不钳制</param>
+    ''' <param name="steps">最大迭代步数；&lt;= 0 时取配置值</param>
+    ''' <param name="relaxation">阻尼系数；<c>NaN</c> 时取配置值</param>
+    ''' <param name="tolerance">收敛阈值；<c>NaN</c> 时取配置值</param>
+    ''' <returns>
+    ''' 轨迹：第 0 帧是起点（已施加钳制），之后每执行一步迭代追加一帧。
+    ''' </returns>
+    ''' <remarks>
+    ''' <para>
+    ''' 第 <c>t</c> 帧的正确语义是「第 t 次阻尼迭代」，<b>不是</b>「第 t 个时间点」：
+    ''' <c>ω</c> 会改变曲线形状而（收敛时）不改变终点。只有滞后路线且 <c>ω = 1</c> 时，
+    ''' 帧号才等价于采样时间步。
+    ''' </para>
+    ''' <para>
+    ''' 记录动作只发生在 <c>trace IsNot Nothing</c> 的分支里、只读取状态，
+    ''' 因此不会影响 <see cref="SteadyState"/> 的数值结果。
+    ''' </para>
+    ''' </remarks>
+    Public Function SteadyStateTraceOf(initial As Double(),
+                                       Optional clamps As Dictionary(Of String, Double) = Nothing,
+                                       Optional steps As Integer = 0,
+                                       Optional relaxation As Double = Double.NaN,
+                                       Optional tolerance As Double = Double.NaN) As Data.SteadyStateTrace
+
+        Dim trace As New Data.SteadyStateTrace With {
+            .GeneNames = CType(GeneNames.Clone(), String())
+        }
+
+        Dim finalState As Double() = Solve(initial, clamps, steps, relaxation, tolerance, trace)
+
+        ' 步数耗尽的极端情形下（例如 maxSteps 被配成 0）末帧可能不是终态，
+        ' 这里补一帧，保证 trace.Final 与 SteadyState 的返回值逐位一致
+        Call trace.Seal(finalState, trace.MaxDeltas.Count)
+
+        Return trace
+    End Function
+
+    ''' <summary>
+    ''' <see cref="SteadyState"/> 与 <see cref="SteadyStateTraceOf"/> 的共用实现。
+    ''' </summary>
+    ''' <param name="trace">
+    ''' 轨迹收集器；<c>Nothing</c> 表示只求稳态、不记录任何中间状态。
+    ''' </param>
+    Private Function Solve(initial As Double(),
+                           clamps As Dictionary(Of String, Double),
+                           steps As Integer,
+                           relaxation As Double,
+                           tolerance As Double,
+                           trace As Data.SteadyStateTrace) As Double()
 
         If initial Is Nothing Then
             Throw New ArgumentNullException(NameOf(initial))
@@ -370,6 +431,15 @@ Public Class FuzzyGeneNetwork
         Dim clampValue As New List(Of Double)
 
         Call ResolveClamps(clamps, z, clampIndex, clampValue)
+
+        If trace IsNot Nothing Then
+            trace.Relaxation = omega
+            trace.Tolerance = tol
+            trace.Lagged = IsLagged
+
+            ' 第 0 帧：钳制已经写进 z，因此被扰动的基因从第一帧起就是施加值
+            Call trace.Push(ToRaw(z), 0.0)
+        End If
 
         Dim n As Integer = NGene
         ' 注意：局部变量不能叫 Workers —— VB 大小写不敏感，
@@ -404,7 +474,17 @@ Public Class FuzzyGeneNetwork
             dirty = nextDirty
             nextDirty = swapDirty
 
+            ' 5) 快照必须取在钳制回写之后：否则被扰动的基因会在曲线上逐帧漂移，
+            '    而不是一条水平线（那是明确错误的生物学解读）
+            If trace IsNot Nothing Then
+                Call trace.Push(ToRaw(z), maxDelta)
+            End If
+
             If maxDelta < tol Then
+                If trace IsNot Nothing Then
+                    trace.Converged = True
+                End If
+
                 Exit For
             End If
         Next

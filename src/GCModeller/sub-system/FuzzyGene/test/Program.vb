@@ -3,6 +3,7 @@ Imports System.Diagnostics
 Imports System.Globalization
 Imports System.IO
 Imports System.IO.Compression
+Imports System.Text.Json
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging
 Imports Microsoft.VisualBasic.DataMining.FuzzyLogic.TSK
 Imports SMRUCC.genomics.Analysis.BNLearn
@@ -38,6 +39,9 @@ Module Program
         End If
         If args.Length > 0 AndAlso String.Equals(args(0), "--bench-steady", StringComparison.OrdinalIgnoreCase) Then
             Return RunSteadyStateBenchmark(args)
+        End If
+        If args.Length > 0 AndAlso String.Equals(args(0), "--trace-model", StringComparison.OrdinalIgnoreCase) Then
+            Return RunTraceModel(args)
         End If
 
         Console.WriteLine("=== FuzzyGene self test ===")
@@ -1641,6 +1645,482 @@ Module Program
 
     Private Function IsFinite(value As Double) As Boolean
         Return Not (Double.IsNaN(value) OrElse Double.IsInfinity(value))
+    End Function
+
+#End Region
+
+#Region "真实模型轨迹导出：--trace-model"
+
+    ''' <summary>
+    ''' 本次真实模型验证实际执行的断言条数。
+    ''' </summary>
+    ''' <remarks>
+    ''' <see cref="DebugAudit.Test"/> 只在条件不成立时记录事件，所以「0 failure」并不能
+    ''' 证明断言跑过；这里自己数一份，才能从报告里确认整条链路都验证到了。
+    ''' </remarks>
+    Private asserts As Integer = 0
+
+    ''' <summary>执行一条断言：交给 <see cref="DebugAudit"/> 记账，同时在控制台留下可读回执。</summary>
+    Private Sub AuditTest(condition As Boolean, message As String)
+        asserts += 1
+
+        Call Microsoft.VisualBasic.ApplicationServices.Debugging.DebugAudit.Test(condition, message)
+
+        Console.WriteLine($"  {(If(condition, "[ok]  ", "[FAIL]"))} {message}")
+    End Sub
+
+    ''' <summary>
+    ''' 用真实模型包跑一次「选靶点 → 记录稳态轨迹 → 导出矩阵 → 回读校验」的端到端验证。
+    ''' </summary>
+    ''' <remarks>
+    ''' <para>
+    ''' 用法：
+    ''' </para>
+    ''' <code>
+    ''' dotnet run -c Debug -p:Platform=x64 -- --trace-model G:\vcc2026\model\model.zip
+    ''' dotnet run -c Debug -p:Platform=x64 -- --trace-model model.zip --gene TP53 --mode Knockdown --steps 30 --out D:\trace
+    ''' </code>
+    ''' <para>
+    ''' 省略 <c>--gene</c> 时，先在 <c>--candidates</c> 个候选基因上做响应强度排序，
+    ''' 再对最强的一个记录轨迹。默认自测流程不会走到这里，因为加载真实模型包很慢。
+    ''' </para>
+    ''' </remarks>
+    Private Function RunTraceModel(args As String()) As Integer
+        Dim package As String = "G:\vcc2026\model\model.zip"
+        Dim gene As String = Nothing
+        Dim mode As InterventionMode = InterventionMode.Knockout
+        Dim steps As Integer = 0
+        Dim candidates As Integer = 24
+        Dim outDir As String = Path.Combine(Path.GetTempPath(), $"fuzzygene-trace-{DateTime.Now:yyyyMMdd-HHmmss}")
+
+        Dim i As Integer = 1
+
+        While i < args.Length
+            Dim key As String = If(args(i), "").ToLowerInvariant()
+
+            Select Case key
+                Case "--gene"
+                    gene = RequireValue(args, i, key) : i += 2
+                Case "--mode"
+                    mode = ParseInterventionMode(RequireValue(args, i, key)) : i += 2
+                Case "--steps"
+                    steps = CInt(RequireValue(args, i, key)) : i += 2
+                Case "--candidates"
+                    candidates = CInt(RequireValue(args, i, key)) : i += 2
+                Case "--out"
+                    outDir = RequireValue(args, i, key) : i += 2
+                Case Else
+                    package = args(i) : i += 1
+            End Select
+        End While
+
+        Call DebugAudit.Reset()
+
+        Console.WriteLine("=== FuzzyGene real-model trace export ===")
+        Console.WriteLine($"package   : {package}")
+        Console.WriteLine($"output    : {outDir}")
+        Console.WriteLine($"mode      : {mode}, steps = {steps} (0 = use config)")
+
+        If Not File.Exists(package) Then
+            Console.WriteLine($"[ERROR] model package not found: {package}")
+
+            Return 2
+        End If
+
+        ' ==================== 1. 加载真实模型 ====================
+        Console.WriteLine()
+        Console.WriteLine("loading model package (manifest + per-gene fuzzy models) ...")
+
+        Dim loadWatch As Stopwatch = Stopwatch.StartNew()
+        Dim model As FuzzyGeneModel = FuzzyGeneModel.Load(package)
+
+        loadWatch.Stop()
+
+        Dim net As FuzzyGeneNetwork = model.Network
+
+        Console.WriteLine($"loaded in {loadWatch.Elapsed.TotalSeconds:F1}s: {net}")
+
+        Call DebugAudit.Mark("load.seconds", loadWatch.Elapsed.TotalSeconds)
+        Call DebugAudit.Mark("network.genes", net.NGene)
+        Call DebugAudit.Mark("network.modelled", net.NModelled)
+
+        ' ==================== 2. 选定靶基因 ====================
+        If String.IsNullOrEmpty(gene) Then
+            Console.WriteLine()
+            Console.WriteLine($"ranking {candidates} candidate perturbation(s) by max |Z| ...")
+
+            Dim rankWatch As Stopwatch = Stopwatch.StartNew()
+            Dim ranked As PerturbationCandidate() = model.RankPerturbations(candidates, mode)
+
+            rankWatch.Stop()
+
+            Call DebugAudit.Mark("rank.seconds", rankWatch.Elapsed.TotalSeconds)
+            Call AuditTest(ranked.Length > 0, $"at least one candidate was evaluated (actual {ranked.Length})")
+
+            For k As Integer = 0 To std.Min(5, ranked.Length) - 1
+                Console.WriteLine($"  {k + 1}. {ranked(k)}")
+            Next
+
+            If ranked.Length = 0 Then
+                Console.WriteLine("[ERROR] no candidate could be evaluated")
+
+                Return 3
+            End If
+
+            Dim descending As Boolean = True
+            Dim modelled As Boolean = True
+
+            For k As Integer = 1 To ranked.Length - 1
+                If ranked(k - 1).MaxAbsZScore < ranked(k).MaxAbsZScore Then
+                    descending = False
+                End If
+            Next
+
+            For k As Integer = 0 To ranked.Length - 1
+                Dim idx As Integer = net.IndexOfGene(ranked(k).GeneName)
+
+                If idx < 0 OrElse net.Models(idx) Is Nothing Then
+                    modelled = False
+                End If
+            Next
+
+            Call AuditTest(descending, "candidates are sorted by max |Z| in descending order")
+            Call AuditTest(modelled, "every candidate is a modelled gene of the network")
+
+            gene = ranked(0).GeneName
+        End If
+
+        Console.WriteLine()
+        Console.WriteLine($"target    : {mode}:{gene}")
+
+        ' ==================== 3. 记录稳态轨迹 ====================
+        Dim traceWatch As Stopwatch = Stopwatch.StartNew()
+        Dim trace As PerturbationTrace = model.TracePerturbation(gene, mode, steps)
+
+        traceWatch.Stop()
+
+        Dim mutant As SteadyStateTrace = trace.Mutant
+        Dim control As SteadyStateTrace = trace.Control
+
+        Call DebugAudit.Mark("trace.seconds", traceWatch.Elapsed.TotalSeconds)
+        Call DebugAudit.Mark("trace.frames", If(mutant Is Nothing, 0, mutant.NFrames))
+        Call DebugAudit.Mark("trace.iterations", If(mutant Is Nothing, 0, mutant.Iterations))
+        Call DebugAudit.Mark("trace.converged", If(mutant IsNot Nothing AndAlso mutant.Converged, 1, 0))
+
+        If mutant Is Nothing Then
+            Call AuditTest(False, "mutant trace is present (target gene missing from the network)")
+
+            Return 4
+        End If
+
+        Console.WriteLine($"  mutant : {mutant}")
+        Console.WriteLine($"  control: {control}")
+
+        If Not mutant.Converged Then
+            Console.WriteLine($"  [note] not converged within {mutant.Iterations} iteration(s) " &
+                              "- the flat tail of the curve is a truncated plateau, not a steady state")
+        End If
+
+        ' ---- 断言 1：帧数与迭代步数自洽 ----
+        Call AuditTest(mutant.States.Count = mutant.Iterations + 1,
+                             $"frame count equals iterations + 1 ({mutant.States.Count} vs {mutant.Iterations + 1})")
+        Call AuditTest(steps <= 0 OrElse mutant.Iterations <= steps,
+                             $"iterations do not exceed the requested steps ({mutant.Iterations} vs {steps})")
+
+        ' ---- 断言 2：记录动作不改变数值（与纯求稳态逐位一致）----
+        Dim geneIndex As Integer = net.IndexOfGene(gene)
+        Dim clamps As New Dictionary(Of String, Double)(StringComparer.OrdinalIgnoreCase) From {
+            {gene, trace.ClampValue}
+        }
+
+        Dim expected As Double() = net.SteadyState(net.BaselineRaw, clamps, steps,
+                                                  net.Config.Relaxation, net.Config.ConvergenceTolerance)
+
+        ' 与 AnafisPerturbationEngine.Predict 同口径：被扰动基因的终值写回施加值
+        expected(geneIndex) = trace.ClampValue
+
+        Call AuditTest(SameArray(expected, mutant.Final),
+                             "trace.Final is bit-identical to the plain steady-state solution")
+
+        ' ---- 断言 3：报告结果与轨迹终点一致 ----
+        Call AuditTest(trace.Result IsNot Nothing AndAlso SameArray(trace.Result.MutantMeans, mutant.Final),
+                             "Result.MutantMeans equals the last trace frame")
+
+        ' ---- 断言 4：被扰动基因在每一帧都是施加值（水平线）----
+        Dim clampedMaxError As Double = 0.0
+
+        For t As Integer = 0 To mutant.NFrames - 1
+            Dim error_ As Double = std.Abs(mutant.States(t)(geneIndex) - trace.ClampValue)
+
+            If error_ > clampedMaxError Then
+                clampedMaxError = error_
+            End If
+        Next
+
+        Call DebugAudit.Mark("trace.clamped.max_error", clampedMaxError)
+        Call AuditTest(clampedMaxError <= 0.000000001,
+                             $"the clamped gene stays at the imposed value in every frame (max error {clampedMaxError:G3})")
+
+        ' ---- 断言 5：对照轨迹从基线迭代到自己的不动点 ----
+        Dim expectedControl As Double() = net.SteadyState(net.BaselineRaw, Nothing, steps,
+                                                          net.Config.Relaxation, net.Config.ConvergenceTolerance)
+
+        Call AuditTest(control IsNot Nothing AndAlso SameArray(expectedControl, control.Final),
+                             "control trace ends at the steady state of the unperturbed baseline")
+
+        Dim baselineDrift As Double = 0.0
+
+        For k As Integer = 0 To net.NGene - 1
+            Dim drift As Double = std.Abs(control.Final(k) - net.BaselineRaw(k))
+
+            If drift > baselineDrift Then
+                baselineDrift = drift
+            End If
+        Next
+
+        Call DebugAudit.Mark("trace.baseline.drift", baselineDrift)
+        Console.WriteLine($"  baseline drift: max |fixed point - baseline| = {baselineDrift:G4}")
+
+        ' ---- 断言 9：PredictWithTrace 的结果与 Predict 逐位一致 ----
+        Dim spec As New InterventionSpec With {
+            .GeneName = gene,
+            .GeneIndex = -1,
+            .Mode = mode
+        }
+        Dim plain As InterventionResult = model.Predict(New InterventionSpec() {spec})
+
+        Call AuditTest(SameArray(plain.FoldChanges, trace.Result.FoldChanges),
+                             "PredictWithTrace().Result.FoldChanges is bit-identical to Predict()")
+
+        ' ==================== 4. 导出矩阵 ====================
+        Console.WriteLine()
+        Console.WriteLine("exporting trajectory matrices ...")
+
+        Dim exportWatch As Stopwatch = Stopwatch.StartNew()
+        Dim files As String() = trace.Export(outDir)
+
+        exportWatch.Stop()
+
+        Call DebugAudit.Mark("export.seconds", exportWatch.Elapsed.TotalSeconds)
+
+        ' 循环变量不能叫 path / file —— VB 大小写不敏感，
+        ' 会分别遮蔽 System.IO.Path 与 System.IO.File 两个类型
+        For Each artifact As String In files
+            Dim exists As Boolean = File.Exists(artifact) AndAlso New FileInfo(artifact).Length > 0
+
+            Call AuditTest(exists, $"artifact written: {Path.GetFileName(artifact)}")
+            Console.WriteLine($"  {(If(exists, "[ok]  ", "[FAIL]"))} {artifact} ({If(exists, New FileInfo(artifact).Length, 0)} bytes)")
+        Next
+
+        ' ==================== 5. 回读校验 ====================
+        Console.WriteLine()
+        Console.WriteLine("reloading the exported matrix ...")
+
+        Dim mutantCsv As String = Path.Combine(outDir, "trace.mutant.csv")
+        Dim mutantInfo As String = Path.Combine(outDir, "trace.mutant.sampleinfo.json")
+
+        If Not File.Exists(mutantCsv) OrElse Not File.Exists(mutantInfo) Then
+            Call AuditTest(False, "the mutant matrix and its sample metadata exist")
+
+            Return 5
+        End If
+
+        Dim reloaded As Matrix = Matrix.LoadData(mutantCsv)
+
+        Call AuditTest(reloaded.size = net.NGene,
+                             $"reloaded matrix has {reloaded.size} rows (expected {net.NGene})")
+        Call AuditTest(reloaded.sample_count = mutant.NFrames,
+                             $"reloaded matrix has {reloaded.sample_count} columns (expected {mutant.NFrames})")
+
+        ' ---- 断言 8：sidecar 与矩阵列严格对齐 ----
+        Dim sidecar As (ID As String, Time As String, Iteration As String, Perturbed As String)() =
+            ReadTraceSidecar(mutantInfo)
+
+        Call AuditTest(sidecar.Length = mutant.NFrames,
+                             $"sample metadata describes {sidecar.Length} sample(s) (expected {mutant.NFrames})")
+
+        Dim idAligned As Boolean = True
+        Dim timeParsable As Boolean = True
+        Dim iterationAligned As Boolean = True
+
+        For t As Integer = 0 To sidecar.Length - 1
+            If t < reloaded.sampleID.Length AndAlso Not String.Equals(sidecar(t).ID, reloaded.sampleID(t), StringComparison.Ordinal) Then
+                idAligned = False
+            End If
+
+            Dim parsed As Double
+
+            If Not Double.TryParse(sidecar(t).Time, NumberStyles.Float, CultureInfo.InvariantCulture, parsed) Then
+                timeParsable = False
+            End If
+            If sidecar(t).Iteration <> t.ToString(CultureInfo.InvariantCulture) Then
+                iterationAligned = False
+            End If
+        Next
+
+        Call AuditTest(idAligned, "sample metadata IDs match the matrix columns in order")
+        Call AuditTest(timeParsable, "every sample metadata carries a parsable numeric 'time'")
+        Call AuditTest(iterationAligned, "sample metadata 'iteration' equals the column index")
+
+        ' ---- 断言：perturbed_genes 能被下游按 JSON 数组解析 ----
+        ' 这是 GEARS 读取扰动定义的方式（metadata_perturbed_genes + LoadJSON(Of String())），
+        ' 写入侧的值里带 \u0022 转义，这里正好验证「转义不影响语义」
+        Dim perturbedGenes As String() = Nothing
+
+        If sidecar.Length > 0 AndAlso Not String.IsNullOrEmpty(sidecar(0).Perturbed) Then
+            Try
+                perturbedGenes = JsonSerializer.Deserialize(Of String())(sidecar(0).Perturbed)
+            Catch ex As Exception
+                perturbedGenes = Nothing
+            End Try
+        End If
+
+        Call AuditTest(SameStringArray(perturbedGenes, New String() {gene}),
+                       $"metadata.perturbed_genes parses back to [{gene}] (downstream GEARS contract)")
+
+        ' ---- 断言 7：数值回读误差 ----
+        Dim maxRelativeError As Double = 0.0
+        Dim checkedCells As Integer = 0
+
+        For Each g As Integer In SpreadIndices(net.NGene, 3)
+            For t As Integer = 0 To mutant.NFrames - 1
+                Dim actual As Double = reloaded.expression(g).experiments(t)
+                Dim error_ As Double = RelativeError(actual, mutant.States(t)(g))
+
+                If error_ > maxRelativeError Then
+                    maxRelativeError = error_
+                End If
+
+                checkedCells += 1
+            Next
+        Next
+
+        Call DebugAudit.Mark("reload.relative.error", maxRelativeError)
+        Call AuditTest(maxRelativeError <= 0.000000001,
+                             $"reloaded values match the in-memory trace ({checkedCells} cells, max relative error {maxRelativeError:G3})")
+
+        ' ==================== 6. 汇总 ====================
+        ' DebugAudit.Test 只在失败时留痕，所以把断言总数也记进报告，
+        ' 否则「0 failure」无法区分「全过」与「一条都没跑」
+        Call DebugAudit.Mark("assertions", asserts)
+
+        Console.WriteLine()
+        Console.WriteLine($"assertions: {asserts}, failures: {DebugAudit.FailureCount}")
+        Console.WriteLine(DebugAudit.Dump())
+
+        Dim reportPath As String = Path.Combine(outDir, $"fuzzygene-trace-report-{DateTime.Now:yyyyMMdd-HHmmss}.json")
+
+        Call DebugAudit.SaveReport(reportPath)
+
+        Console.WriteLine($"report   : {reportPath}")
+        Console.WriteLine($"artifacts: {outDir}")
+
+        Return If(DebugAudit.FailureCount = 0, 0, 1)
+    End Function
+
+    ''' <summary>读取轨迹 sidecar 里校验需要的字段。</summary>
+    ''' <remarks>
+    ''' <c>perturbed_genes</c> 只在突变型样本上存在，读不到时返回 <c>Nothing</c>。
+    ''' </remarks>
+    Private Function ReadTraceSidecar(path As String) As (ID As String, Time As String, Iteration As String, Perturbed As String)()
+        Using doc As JsonDocument = JsonDocument.Parse(File.ReadAllText(path))
+            Dim items As New List(Of (ID As String, Time As String, Iteration As String, Perturbed As String))
+
+            For Each element As JsonElement In doc.RootElement.EnumerateArray()
+                Dim meta As JsonElement = element.GetProperty("metadata")
+                Dim perturbed As JsonElement = Nothing
+
+                Call items.Add((
+                    element.GetProperty("ID").GetString(),
+                    meta.GetProperty("time").GetString(),
+                    meta.GetProperty("iteration").GetString(),
+                    If(meta.TryGetProperty("perturbed_genes", perturbed), perturbed.GetString(), Nothing)))
+            Next
+
+            Return items.ToArray()
+        End Using
+    End Function
+
+    ''' <summary>两个字符串数组逐位相等（不区分大小写，与基因名匹配口径一致）。</summary>
+    Private Function SameStringArray(a As String(), b As String()) As Boolean
+        If a Is Nothing OrElse b Is Nothing Then
+            Return False
+        End If
+        If a.Length <> b.Length Then
+            Return False
+        End If
+
+        For i As Integer = 0 To a.Length - 1
+            If Not String.Equals(a(i), b(i), StringComparison.OrdinalIgnoreCase) Then
+                Return False
+            End If
+        Next
+
+        Return True
+    End Function
+
+    ''' <summary>逐位相等（与测试里其它"必须完全一致"的断言同口径）。</summary>
+    Private Function SameArray(a As Double(), b As Double()) As Boolean
+        If a Is Nothing OrElse b Is Nothing Then
+            Return False
+        End If
+        If a.Length <> b.Length Then
+            Return False
+        End If
+
+        For i As Integer = 0 To a.Length - 1
+            If a(i) <> b(i) Then
+                Return False
+            End If
+        Next
+
+        Return True
+    End Function
+
+    ''' <summary>相对误差，分母至少为 1 以避免接近 0 时的放大。</summary>
+    Private Function RelativeError(actual As Double, expected As Double) As Double
+        Dim scale As Double = std.Max(1.0, std.Max(std.Abs(actual), std.Abs(expected)))
+
+        Return std.Abs(actual - expected) / scale
+    End Function
+
+    ''' <summary>在 <c>[0, total)</c> 上等距取 <paramref name="count"/> 个下标。</summary>
+    Private Function SpreadIndices(total As Integer, count As Integer) As Integer()
+        If total <= count Then
+            Return Enumerable.Range(0, total).ToArray()
+        End If
+
+        Dim stride As Double = total / count
+        Dim picked(count - 1) As Integer
+
+        For k As Integer = 0 To count - 1
+            picked(k) = CInt(std.Floor(k * stride))
+        Next
+
+        Return picked
+    End Function
+
+    ''' <summary>命令行取值（缺失时抛 <see cref="ArgumentException"/>）。</summary>
+    Private Function RequireValue(args As String(), index As Integer, key As String) As String
+        If index + 1 >= args.Length Then
+            Throw New ArgumentException($"missing value for {key}")
+        End If
+
+        Return args(index + 1)
+    End Function
+
+    ''' <summary>解析干预模式名；无法识别时回退到敲除。</summary>
+    Private Function ParseInterventionMode(text As String) As InterventionMode
+        Select Case If(text, "").Trim().ToLowerInvariant()
+            Case "knockout", "ko"
+                Return InterventionMode.Knockout
+            Case "knockdown", "kd"
+                Return InterventionMode.Knockdown
+            Case "overexpression", "oe"
+                Return InterventionMode.Overexpression
+            Case Else
+                Return InterventionMode.Knockout
+        End Select
     End Function
 
 #End Region
