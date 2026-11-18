@@ -64,7 +64,7 @@
 
 
 <pre><code> let round1 = model |&gt; knockouts(c("A"));           # A 失活
- print(fuzzygene::fuzzygene_context_upstream(model, round1[[1]]));
+ print(FuzzyGene::fuzzygene_context_upstream(model, round1[[1]]));
  let round2 = model |&gt; knockouts(c("B"));           # 在 A 失活的背景上敲 B
  </code></pre>
 

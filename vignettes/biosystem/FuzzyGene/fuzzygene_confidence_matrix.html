@@ -66,8 +66,8 @@
 <p>Weight and confidence answer two different questions ("how strong / which direction" vs "how trustworthy"), so exporting both matrices and using weight for the edge width and confidence for the edge opacity or a cutoff is the usual combination:</p>
 
 
-<pre><code> let w = fuzzygene::fuzzygene_regulation_matrix(model, layout = "compact");
- let c = fuzzygene::fuzzygene_confidence_matrix(model, layout = "compact");
+<pre><code> let w = FuzzyGene::fuzzygene_regulation_matrix(model, layout = "compact");
+ let c = FuzzyGene::fuzzygene_confidence_matrix(model, layout = "compact");
  geneExpression::write.expr_matrix(w, file = "/path/weight.csv", id = "geneID");
  geneExpression::write.expr_matrix(c, file = "/path/confidence.csv", id = "geneID");
  </code></pre>

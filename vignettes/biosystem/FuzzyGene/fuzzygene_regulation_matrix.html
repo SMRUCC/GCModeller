@@ -66,7 +66,7 @@
 <p>The result is a standard <code>Matrix</code> object, so it can be written directly with <code>geneExpression::write.expr_matrix()</code> or fed into downstream network analysis:</p>
 
 
-<pre><code> let w = fuzzygene::fuzzygene_regulation_matrix(model, layout = "compact");
+<pre><code> let w = FuzzyGene::fuzzygene_regulation_matrix(model, layout = "compact");
  geneExpression::write.expr_matrix(w, file = "/path/to/network_weight.csv", id = "geneID");
  </code></pre>
 

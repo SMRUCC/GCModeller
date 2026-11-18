@@ -11,7 +11,7 @@ Train the neuro-fuzzy model: one Takagi-Sugeno network per target gene.
 .PP
 .SH OPTIONS
 .PP
-\fBfuzzygene\fB \fR\- the untrained model created by \fBfuzzygene::build_fuzzygene\fR. 
+\fBfuzzygene\fB \fR\- the untrained model created by \fBFuzzyGene::build_fuzzygene\fR. 
 .PP
 .PP
 \fBenv\fB \fR\- the R# runtime environment used to report errors. 
@@ -24,7 +24,7 @@ the trained model object, or an R# error object when training fails
 .PP
 Training is per gene and therefore parallelizable; a gene that cannot be fitted (constant
  expression, no candidate regulator, ill conditioned least squares) is recorded as skipped
- or failed instead of aborting the whole run. Use \fBfuzzygene::fuzzygene_report\fR to inspect
+ or failed instead of aborting the whole run. Use \fBFuzzyGene::fuzzygene_report\fR to inspect
  the per gene diagnostics.
 .PP
 .SH SEE ALSO

@@ -1,0 +1,47 @@
+.\" man page create by R# package system.
+.TH FUZZYGENE 1 2000-1月 "fuzzygene_trace_convergence" "fuzzygene_trace_convergence"
+.SH NAME
+fuzzygene_trace_convergence \- Solver diagnostics of one virtual perturbation, without building the two large matrices.
+.SH SYNOPSIS
+\fIfuzzygene_trace_convergence(\fBfuzzygene\fR as <generic> FuzzyGeneModel, 
+\fBgene\fR as string, 
+\fBmode\fR as string = "knockout", 
+\fBsteps\fR as integer = 0, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Solver diagnostics of one virtual perturbation, without building the two large matrices.
+.PP
+.SH OPTIONS
+.PP
+\fBfuzzygene\fB \fR\- a trained (or restored) model. 
+.PP
+.PP
+\fBgene\fB \fR\- the target gene of the virtual perturbation. 
+.PP
+.PP
+\fBmode\fB \fR\- \fBknockout\fR (default), \fBknockdown\fR or \fBoverexpression\fR. 
+.PP
+.PP
+\fBsteps\fB \fR\- maximum iteration steps; 0 uses the model configuration. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment used to report errors. 
+.PP
+.SH VALUE
+.PP
+a named list with \fBconvergence\fR, \fBcontrol_convergence\fR and \fBsummary\fR
+.PP
+.SH DETAILS
+.PP
+Same solve as \fBfuzzygene_trace_perturbation\fR but only the \fBconvergence\fR /
+ \fBcontrol_convergence\fR / \fBsummary\fR elements are returned. Use it when all you need is the
+ `log10(max_delta)` versus iteration plot: constructing the 18k x 250 matrices is the
+ expensive part.
+.PP
+.SH SEE ALSO
+FuzzyGene
+.SH FILES
+.PP
+biosystem.dll
+.PP

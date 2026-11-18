@@ -105,6 +105,38 @@ table caption {font-size:14px;font-weight:bolder;}
 
 <p>signed regulatory edge table;</p>
 
+
+<ul>
+<li><code>fuzzygene_trace_perturbation</code> / <code>fuzzygene_export_trace</code>: record the whole-genome</li>
+</ul>
+
+
+<p>steady-state trajectory of one virtual perturbation (mutant and wildtype), either as two matrices in memory or as CSV + <code>SampleInfo</code> sidecar files on disk;</p>
+
+
+<ul>
+<li><code>fuzzygene_trace_convergence</code>: the solver diagnostics of that run (iteration vs</li>
+</ul>
+
+
+<p><code>max_delta</code>), which tells whether the flat tail of a curve is a real steady state;</p>
+
+
+<ul>
+<li><code>fuzzygene_rank_perturbations</code> / <code>fuzzygene_strongest_perturbation</code>: rank candidate</li>
+</ul>
+
+
+<p>perturbations by predicted response strength;</p>
+
+
+<ul>
+<li><code>fuzzygene_relaxation</code>: change the damping factor / iteration budget of the solver, which</li>
+</ul>
+
+
+<p>is what you want when a genome scale model keeps oscillating instead of converging;</p>
+
 <p>A trained <a href="cref:T:SMRUCC.genomics.Analysis.FuzzyGene.FuzzyGeneModel">FuzzyGeneModel</a> implements the <code>InsilicoPerturbationExperiment</code> interface, so the <code>knockouts</code>, <code>knockdown</code> and <code>overexpress</code> api of the <code>bnlearn</code> package can be applied to it directly for in silico perturbation experiments (partial knockdown is natively supported because the fuzzy membership functions describe graded regulation). The generic <code>writeBin</code> handler of this module persists a model into a zip based binary stream, and <code>readBin.fuzzygene</code> restores it back to a fully usable model object.</p>
                            </p>
     </blockquote>
@@ -211,6 +243,42 @@ table caption {font-size:14px;font-weight:bolder;}
     <a href="./FuzzyGene/load_fuzzygene.html">load_fuzzygene</a>
   </td>
   <td><p>Load a model from a <code>*.fuzzygene.zip</code> package.</p></td>
+</tr>
+<tr>
+  <td id="fuzzygene_trace_perturbation">
+    <a href="./FuzzyGene/fuzzygene_trace_perturbation.html">fuzzygene_trace_perturbation</a>
+  </td>
+  <td><p>Record the whole-genome steady-state trajectory of one virtual perturbation.</p></td>
+</tr>
+<tr>
+  <td id="fuzzygene_trace_convergence">
+    <a href="./FuzzyGene/fuzzygene_trace_convergence.html">fuzzygene_trace_convergence</a>
+  </td>
+  <td><p>Solver diagnostics of one virtual perturbation, without building the two large matrices.</p></td>
+</tr>
+<tr>
+  <td id="fuzzygene_export_trace">
+    <a href="./FuzzyGene/fuzzygene_export_trace.html">fuzzygene_export_trace</a>
+  </td>
+  <td><p>Export the two trajectory matrices of one virtual perturbation to a folder.</p></td>
+</tr>
+<tr>
+  <td id="fuzzygene_rank_perturbations">
+    <a href="./FuzzyGene/fuzzygene_rank_perturbations.html">fuzzygene_rank_perturbations</a>
+  </td>
+  <td><p>Rank candidate perturbations by their predicted response strength.</p></td>
+</tr>
+<tr>
+  <td id="fuzzygene_strongest_perturbation">
+    <a href="./FuzzyGene/fuzzygene_strongest_perturbation.html">fuzzygene_strongest_perturbation</a>
+  </td>
+  <td><p>The single gene whose perturbation produces the strongest predicted response.</p></td>
+</tr>
+<tr>
+  <td id="fuzzygene_relaxation">
+    <a href="./FuzzyGene/fuzzygene_relaxation.html">fuzzygene_relaxation</a>
+  </td>
+  <td><p>Set the damping factor, the iteration budget and the tolerance used by the steady-state solver.</p></td>
 </tr></tbody>
       </table>
     </div>

@@ -1,0 +1,66 @@
+.\" man page create by R# package system.
+.TH FUZZYGENE 1 2000-1月 "fuzzygene_relaxation" "fuzzygene_relaxation"
+.SH NAME
+fuzzygene_relaxation \- Set the damping factor, the iteration budget and the tolerance used by the steady-state solver.
+.SH SYNOPSIS
+\fIfuzzygene_relaxation(\fBfuzzygene\fR as <generic> FuzzyGeneModel, 
+\fBomega\fR as double = 0.5, 
+\fBsteps\fR as integer = 50, 
+\fBtolerance\fR as double = 1E-06, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Set the damping factor, the iteration budget and the tolerance used by the steady-state solver.
+.PP
+.SH OPTIONS
+.PP
+\fBfuzzygene\fB \fR\- a trained (or restored) model. 
+.PP
+.PP
+\fBomega\fB \fR\- damping factor in (0, 1]; 0.5 is the recommended value. 
+.PP
+.PP
+\fBsteps\fB \fR\- maximum iteration steps, must be positive. 
+.PP
+.PP
+\fBtolerance\fB \fR\- convergence threshold on the per step max change, must be positive. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment used to report errors. 
+.PP
+.SH VALUE
+.PP
+the same model object, so the call can be chained
+.PP
+.SH DETAILS
+.PP
+The trajectory produced by \fBfuzzygene_trace_perturbation\fR is the damped fixed-point
+ iteration `z <- z + omega * (F(z) - z)`. With \fBomega = 1\fR (no damping) the iteration
+ is the plain repeated application of `F`, and on a genome scale model that often keeps
+ oscillating instead of converging; \fBomega = 0.5\fR is the usual compromise between stability
+ and speed.
+ 
+
+
+ 
+
+
+ Always rerun the trajectory after changing these values, and check \fBsummary$converged\fR:
+ a non converged run means the flat tail of the curve is a truncated plateau.
+ 
+
+
+ 
+\fB
+ model = FuzzyGene::fuzzygene_relaxation(model, omega = 0.5, steps = 80);
+ let t = FuzzyGene::fuzzygene_trace_perturbation(model, "TPPP3");
+ print(t$summary);
+ 
+\fR`
+.PP
+.SH SEE ALSO
+FuzzyGene
+.SH FILES
+.PP
+biosystem.dll
+.PP

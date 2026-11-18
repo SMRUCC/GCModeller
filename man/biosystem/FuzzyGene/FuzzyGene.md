@@ -26,6 +26,15 @@ FuzzyGene: the neuro-fuzzy (Wilson/Takagi-Sugeno ANFIS) gene regulatory network 
 >  when the matrix carries multiple time points);
 > - ``fuzzygene_rules`` / ``fuzzygene_edges``: export the interpretable IF-THEN rules and the
 >  signed regulatory edge table;
+> - ``fuzzygene_trace_perturbation`` / ``fuzzygene_export_trace``: record the whole-genome
+>  steady-state trajectory of one virtual perturbation (mutant and wildtype), either as two
+>  matrices in memory or as CSV + ``SampleInfo`` sidecar files on disk;
+> - ``fuzzygene_trace_convergence``: the solver diagnostics of that run (iteration vs
+>  ``max_delta``), which tells whether the flat tail of a curve is a real steady state;
+> - ``fuzzygene_rank_perturbations`` / ``fuzzygene_strongest_perturbation``: rank candidate
+>  perturbations by predicted response strength;
+> - ``fuzzygene_relaxation``: change the damping factor / iteration budget of the solver, which
+>  is what you want when a genome scale model keeps oscillating instead of converging;
 > 
 > 
 >  
@@ -53,3 +62,9 @@ FuzzyGene: the neuro-fuzzy (Wilson/Takagi-Sugeno ANFIS) gene regulatory network 
 + [fuzzygene_report](FuzzyGene/fuzzygene_report.1) Human readable training report of a fitted model.
 + [save_fuzzygene](FuzzyGene/save_fuzzygene.1) Save a trained model into a ``*.fuzzygene.zip`` package.
 + [load_fuzzygene](FuzzyGene/load_fuzzygene.1) Load a model from a ``*.fuzzygene.zip`` package.
++ [fuzzygene_trace_perturbation](FuzzyGene/fuzzygene_trace_perturbation.1) Record the whole-genome steady-state trajectory of one virtual perturbation.
++ [fuzzygene_trace_convergence](FuzzyGene/fuzzygene_trace_convergence.1) Solver diagnostics of one virtual perturbation, without building the two large matrices.
++ [fuzzygene_export_trace](FuzzyGene/fuzzygene_export_trace.1) Export the two trajectory matrices of one virtual perturbation to a folder.
++ [fuzzygene_rank_perturbations](FuzzyGene/fuzzygene_rank_perturbations.1) Rank candidate perturbations by their predicted response strength.
++ [fuzzygene_strongest_perturbation](FuzzyGene/fuzzygene_strongest_perturbation.1) The single gene whose perturbation produces the strongest predicted response.
++ [fuzzygene_relaxation](FuzzyGene/fuzzygene_relaxation.1) Set the damping factor, the iteration budget and the tolerance used by the steady-state solver.

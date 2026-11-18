@@ -32,6 +32,15 @@
  * >  when the matrix carries multiple time points);
  * > - ``fuzzygene_rules`` / ``fuzzygene_edges``: export the interpretable IF-THEN rules and the
  * >  signed regulatory edge table;
+ * > - ``fuzzygene_trace_perturbation`` / ``fuzzygene_export_trace``: record the whole-genome
+ * >  steady-state trajectory of one virtual perturbation (mutant and wildtype), either as two
+ * >  matrices in memory or as CSV + ``SampleInfo`` sidecar files on disk;
+ * > - ``fuzzygene_trace_convergence``: the solver diagnostics of that run (iteration vs
+ * >  ``max_delta``), which tells whether the flat tail of a curve is a real steady state;
+ * > - ``fuzzygene_rank_perturbations`` / ``fuzzygene_strongest_perturbation``: rank candidate
+ * >  perturbations by predicted response strength;
+ * > - ``fuzzygene_relaxation``: change the damping factor / iteration budget of the solver, which
+ * >  is what you want when a genome scale model keeps oscillating instead of converging;
  * > 
  * > 
  * >  
@@ -59,7 +68,7 @@ declare namespace FuzzyGene {
      *  when omitted the candidate regulators are selected by correlation only.
      * 
      * + default value Is ``null``.
-     * @param config the configuration created by ``fuzzygene::fuzzygene_config``; ``Nothing`` uses the defaults.
+     * @param config the configuration created by ``FuzzyGene::fuzzygene_config``; ``Nothing`` uses the defaults.
      * 
      * + default value Is ``null``.
      * @param env the R# runtime environment (unused)
@@ -86,8 +95,8 @@ declare namespace FuzzyGene {
     * >  confidence for the edge opacity or a cutoff is the usual combination:
     * >  
     * > ```
-    * >  let w = fuzzygene::fuzzygene_regulation_matrix(model, layout = "compact");
-    * >  let c = fuzzygene::fuzzygene_confidence_matrix(model, layout = "compact");
+    * >  let w = FuzzyGene::fuzzygene_regulation_matrix(model, layout = "compact");
+    * >  let c = FuzzyGene::fuzzygene_confidence_matrix(model, layout = "compact");
     * >  geneExpression::write.expr_matrix(w, file = "/path/weight.csv", id = "geneID");
     * >  geneExpression::write.expr_matrix(c, file = "/path/confidence.csv", id = "geneID");
     * >  
@@ -113,7 +122,7 @@ declare namespace FuzzyGene {
     * Create a FuzzyGene modelling configuration object.
     * 
     * > The returned object (registered as the ``fuzzygene_config`` R# type) is accepted by the
-    * >  ``config`` argument of ``fuzzygene::build_fuzzygene``. Structure and training options are
+    * >  ``config`` argument of ``FuzzyGene::build_fuzzygene``. Structure and training options are
     * >  inherited from the shared ANFIS configuration; this api exposes the subset that matters for
     * >  gene regulatory network inference.
     * 
@@ -295,7 +304,7 @@ declare namespace FuzzyGene {
     * >  
     * > ```
     * >  let round1 = model |> knockouts(c("A"));           # A 失活
-    * >  print(fuzzygene::fuzzygene_context_upstream(model, round1[[1]]));
+    * >  print(FuzzyGene::fuzzygene_context_upstream(model, round1[[1]]));
     * >  let round2 = model |> knockouts(c("B"));           # 在 A 失活的背景上敲 B
     * >  
     * > ```
@@ -340,6 +349,55 @@ declare namespace FuzzyGene {
    */
    function fuzzygene_edges(fuzzygene: object, env?: object): object;
    /**
+    * Export the two trajectory matrices of one virtual perturbation to a folder.
+    * 
+    * > Writes, into **dir**:
+    * >  
+    * > 
+    * > 
+    * >  
+    * > - ``trace.mutant.csv`` / ``trace.wildtype.csv``: gene x iteration matrices;
+    * > - ``*.sampleinfo.json``: one `SampleInfo` row per column (``time`` / ``iteration``
+    * >  / ``omega`` / ``converged`` / ``perturbed_genes`` ...), ready for the ExperimentDesigner
+    * >  pipeline;
+    * > - ``trace.perturbation.json``: the run summary plus the whole ``max_delta`` sequence.
+    * > 
+    * > 
+    * >  
+    * > 
+    * > 
+    * >  ``dt`` only affects ``metadata$time`` of the sidecar (`time = iteration * dt`); it does
+    * >  not change the matrix. Leave it at 1 unless the model is a lagged (time series) model and
+    * >  the sampling interval is known.
+    * >  
+    * > 
+    * > 
+    * >  
+    * > ```
+    * >  let files = FuzzyGene::fuzzygene_export_trace(model, "TPPP3", "/path/trace", mode = "knockout");
+    * >  print(files);
+    * >  
+    * > ```
+    * 
+     * @param fuzzygene a trained (or restored) model
+     * @param gene the target gene of the virtual perturbation
+     * @param dir the output folder (created when missing)
+     * @param mode ``knockout`` (default), ``knockdown`` or ``overexpression``
+     * 
+     * + default value Is ``'knockout'``.
+     * @param steps maximum iteration steps; 0 uses the model configuration
+     * 
+     * + default value Is ``0``.
+     * @param dt time unit of one iteration frame, used by the sidecar only
+     * 
+     * + default value Is ``1``.
+     * @param env the R# runtime environment used to report errors
+     * 
+     * + default value Is ``null``.
+     * @return a character vector of the written file paths
+   */
+   function fuzzygene_export_trace(fuzzygene: object, gene: string, dir: string, mode?: string, steps?: object, dt?: number, env?: object): string;
+   /**
     * The configuration attached to a model (identical to ``config.json`` inside the package).
     * 
     * > Useful to confirm what the model was actually fitted with, especially the rule budget
@@ -354,6 +412,37 @@ declare namespace FuzzyGene {
      * @return the configuration object
    */
    function fuzzygene_model_config(fuzzygene: object, env?: object): object;
+   /**
+    * Rank candidate perturbations by their predicted response strength.
+    * 
+    * > Running a perturbation for every gene of a genome scale model takes hours, so only
+    * >  **candidates** genes (an evenly spaced sample of the modelled genes, no
+    * >  random numbers involved) are evaluated.
+    * >  
+    * > 
+    * > 
+    * >  
+    * > 
+    * > 
+    * >  The score is the largest `|Z|` among the genes that were not clamped: the Z score
+    * >  of the target itself is the imposed shift, not a model prediction. Note that with
+    * >  ``clampToSupport`` enabled the largest `|Z|` often saturates at the same value for many
+    * >  candidates; the ``affected`` column (number of significant genes) is the tie breaker, and
+    * >  is a better ranking criterion in that case.
+    * 
+     * @param fuzzygene a trained (or restored) model
+     * @param candidates number of candidate genes to evaluate; 0 means all modelled genes
+     * 
+     * + default value Is ``24``.
+     * @param mode ``knockout`` (default), ``knockdown`` or ``overexpression``
+     * 
+     * + default value Is ``'knockout'``.
+     * @param env the R# runtime environment used to report errors
+     * 
+     * + default value Is ``null``.
+     * @return a data.frame ``gene`` / ``max_abs_z`` / ``affected`` / ``elapsed_ms``, best first
+   */
+   function fuzzygene_rank_perturbations(fuzzygene: object, candidates?: object, mode?: string, env?: object): object;
    /**
     * Export the signed regulation weight matrix of a trained model.
     * 
@@ -371,7 +460,7 @@ declare namespace FuzzyGene {
     * >  ``geneExpression::write.expr_matrix()`` or fed into downstream network analysis:
     * >  
     * > ```
-    * >  let w = fuzzygene::fuzzygene_regulation_matrix(model, layout = "compact");
+    * >  let w = FuzzyGene::fuzzygene_regulation_matrix(model, layout = "compact");
     * >  geneExpression::write.expr_matrix(w, file = "/path/to/network_weight.csv", id = "geneID");
     * >  
     * > ```
@@ -405,6 +494,49 @@ declare namespace FuzzyGene {
      * @return a Matrix object (rows = targets, columns = regulators)
    */
    function fuzzygene_regulation_matrix(fuzzygene: object, layout?: string, minWeight?: number, genes?: string, env?: object): object;
+   /**
+    * Set the damping factor, the iteration budget and the tolerance used by the steady-state solver.
+    * 
+    * > The trajectory produced by ``fuzzygene_trace_perturbation`` is the damped fixed-point
+    * >  iteration `z <- z + omega * (F(z) - z)`. With ``omega = 1`` (no damping) the iteration
+    * >  is the plain repeated application of `F`, and on a genome scale model that often keeps
+    * >  oscillating instead of converging; ``omega = 0.5`` is the usual compromise between stability
+    * >  and speed.
+    * >  
+    * > 
+    * > 
+    * >  
+    * > 
+    * > 
+    * >  Always rerun the trajectory after changing these values, and check ``summary$converged``:
+    * >  a non converged run means the flat tail of the curve is a truncated plateau.
+    * >  
+    * > 
+    * > 
+    * >  
+    * > ```
+    * >  model = FuzzyGene::fuzzygene_relaxation(model, omega = 0.5, steps = 80);
+    * >  let t = FuzzyGene::fuzzygene_trace_perturbation(model, "TPPP3");
+    * >  print(t$summary);
+    * >  
+    * > ```
+    * 
+     * @param fuzzygene a trained (or restored) model
+     * @param omega damping factor in (0, 1]; 0.5 is the recommended value
+     * 
+     * + default value Is ``0.5``.
+     * @param steps maximum iteration steps, must be positive
+     * 
+     * + default value Is ``50``.
+     * @param tolerance convergence threshold on the per step max change, must be positive
+     * 
+     * + default value Is ``1E-06``.
+     * @param env the R# runtime environment used to report errors
+     * 
+     * + default value Is ``null``.
+     * @return the same model object, so the call can be chained
+   */
+   function fuzzygene_relaxation(fuzzygene: object, omega?: number, steps?: object, tolerance?: number, env?: object): object;
    /**
     * Human readable training report of a fitted model.
     * 
@@ -443,6 +575,118 @@ declare namespace FuzzyGene {
    */
    function fuzzygene_rules(fuzzygene: object, env?: object): string;
    /**
+    * The single gene whose perturbation produces the strongest predicted response.
+    * 
+    * 
+     * @param fuzzygene a trained (or restored) model
+     * @param candidates number of candidate genes to evaluate; 0 means all modelled genes
+     * 
+     * + default value Is ``24``.
+     * @param mode ``knockout`` (default), ``knockdown`` or ``overexpression``
+     * 
+     * + default value Is ``'knockout'``.
+     * @param env the R# runtime environment used to report errors
+     * 
+     * + default value Is ``null``.
+     * @return the gene name, or an R# error object when nothing could be evaluated
+   */
+   function fuzzygene_strongest_perturbation(fuzzygene: object, candidates?: object, mode?: string, env?: object): string;
+   /**
+    * Solver diagnostics of one virtual perturbation, without building the two large matrices.
+    * 
+    * > Same solve as ``fuzzygene_trace_perturbation`` but only the ``convergence`` /
+    * >  ``control_convergence`` / ``summary`` elements are returned. Use it when all you need is the
+    * >  `log10(max_delta)` versus iteration plot: constructing the 18k x 250 matrices is the
+    * >  expensive part.
+    * 
+     * @param fuzzygene a trained (or restored) model
+     * @param gene the target gene of the virtual perturbation
+     * @param mode ``knockout`` (default), ``knockdown`` or ``overexpression``
+     * 
+     * + default value Is ``'knockout'``.
+     * @param steps maximum iteration steps; 0 uses the model configuration
+     * 
+     * + default value Is ``0``.
+     * @param env the R# runtime environment used to report errors
+     * 
+     * + default value Is ``null``.
+     * @return a named list with ``convergence``, ``control_convergence`` and ``summary``
+   */
+   function fuzzygene_trace_convergence(fuzzygene: object, gene: string, mode?: string, steps?: object, env?: object): object;
+   /**
+    * Record the whole-genome steady-state trajectory of one virtual perturbation.
+    * 
+    * > Returns a named list:
+    * >  
+    * > 
+    * > 
+    * >  
+    * > - ``mutant``: a Matrix (rows = all genes, columns = iteration frames ``mut_t000``...);
+    * > - ``wildtype``: the same shape for the unperturbed baseline;
+    * > - ``convergence``: a data.frame ``iteration`` / ``max_delta`` of the mutant run;
+    * > - ``control_convergence``: the same for the wildtype run;
+    * > - ``changes``: a data.frame ``gene`` / ``fold_change`` / ``percent_change`` / ``z_score`` /
+    * >  ``significant`` of the final state;
+    * > - ``summary``: a one row data.frame with the perturbation definition and the solver diagnostics.
+    * > 
+    * > 
+    * >  
+    * > 
+    * > 
+    * >  ``mutant`` and ``wildtype`` are .NET `HTS.DataFrame.Matrix` objects (rows = genes,
+    * >  columns = frames), not R matrices, so ``dim()`` returns 1 on them. Pass them straight to a
+    * >  downstream consumer instead:
+    * >  
+    * > ```
+    * >  let trace = FuzzyGene::fuzzygene_trace_perturbation(model, "TPPP3");
+    * >  geneExpression::write.expr_matrix(trace$mutant, file = "/path/mutant.csv", id = "geneID");
+    * >  
+    * > ```
+    * > 
+    * >  
+    * > 
+    * > 
+    * >  
+    * > 
+    * > 
+    * >  The column index is a damped iteration step, not biological time: ``omega`` changes
+    * >  the shape of the curve while a converged end point stays the same (see
+    * >  ``fuzzygene_relaxation``). Only a lagged (time series) model with ``omega = 1`` makes one
+    * >  frame equal to one sampling interval.
+    * >  
+    * > 
+    * > 
+    * >  
+    * > 
+    * > 
+    * >  Read ``convergence`` / ``summary$converged`` before interpreting the curve: a flat tail
+    * >  produced by running out of ``steps`` is a truncated plateau, not a steady state.
+    * >  
+    * > 
+    * > 
+    * >  
+    * > 
+    * > 
+    * >  ``wildtype`` is not decoration. The control steady state used by the perturbation engine is
+    * >  the training baseline, which is generally not a fixed point of the network; the
+    * >  wildtype trajectory shows how much the system drifts on its own, so that drift can be told
+    * >  apart from the perturbation effect.
+    * 
+     * @param fuzzygene a trained (or restored) model
+     * @param gene the target gene of the virtual perturbation
+     * @param mode ``knockout`` (default), ``knockdown`` or ``overexpression``
+     * 
+     * + default value Is ``'knockout'``.
+     * @param steps maximum iteration steps; 0 uses the model configuration
+     * 
+     * + default value Is ``0``.
+     * @param env the R# runtime environment used to report errors
+     * 
+     * + default value Is ``null``.
+     * @return a named list of matrices, data.frames and the run summary
+   */
+   function fuzzygene_trace_perturbation(fuzzygene: object, gene: string, mode?: string, steps?: object, env?: object): object;
+   /**
     * Load a model from a ``*.fuzzygene.zip`` package.
     * 
     * 
@@ -472,10 +716,10 @@ declare namespace FuzzyGene {
     * 
     * > Training is per gene and therefore parallelizable; a gene that cannot be fitted (constant
     * >  expression, no candidate regulator, ill conditioned least squares) is recorded as skipped
-    * >  or failed instead of aborting the whole run. Use ``fuzzygene::fuzzygene_report`` to inspect
+    * >  or failed instead of aborting the whole run. Use ``FuzzyGene::fuzzygene_report`` to inspect
     * >  the per gene diagnostics.
     * 
-     * @param fuzzygene the untrained model created by ``fuzzygene::build_fuzzygene``
+     * @param fuzzygene the untrained model created by ``FuzzyGene::build_fuzzygene``
      * @param env the R# runtime environment used to report errors
      * 
      * + default value Is ``null``.

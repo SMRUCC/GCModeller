@@ -40,7 +40,7 @@ After this call the mutant state of the upstream experiment becomes the referenc
  
 \fB
  let round1 = model |> knockouts(c("A"));           # A 失活
- print(fuzzygene::fuzzygene_context_upstream(model, round1[[1]]));
+ print(FuzzyGene::fuzzygene_context_upstream(model, round1[[1]]));
  let round2 = model |> knockouts(c("B"));           # 在 A 失活的背景上敲 B
  
 \fR`

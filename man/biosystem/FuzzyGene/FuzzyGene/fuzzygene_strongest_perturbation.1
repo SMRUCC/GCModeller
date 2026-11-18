@@ -1,0 +1,36 @@
+.\" man page create by R# package system.
+.TH FUZZYGENE 1 2000-1月 "fuzzygene_strongest_perturbation" "fuzzygene_strongest_perturbation"
+.SH NAME
+fuzzygene_strongest_perturbation \- The single gene whose perturbation produces the strongest predicted response.
+.SH SYNOPSIS
+\fIfuzzygene_strongest_perturbation(\fBfuzzygene\fR as <generic> FuzzyGeneModel, 
+\fBcandidates\fR as integer = 24, 
+\fBmode\fR as string = "knockout", 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+The single gene whose perturbation produces the strongest predicted response.
+.PP
+.SH OPTIONS
+.PP
+\fBfuzzygene\fB \fR\- a trained (or restored) model. 
+.PP
+.PP
+\fBcandidates\fB \fR\- number of candidate genes to evaluate; 0 means all modelled genes. 
+.PP
+.PP
+\fBmode\fB \fR\- \fBknockout\fR (default), \fBknockdown\fR or \fBoverexpression\fR. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment used to report errors. 
+.PP
+.SH VALUE
+.PP
+the gene name, or an R# error object when nothing could be evaluated
+.PP
+.SH SEE ALSO
+FuzzyGene
+.SH FILES
+.PP
+biosystem.dll
+.PP

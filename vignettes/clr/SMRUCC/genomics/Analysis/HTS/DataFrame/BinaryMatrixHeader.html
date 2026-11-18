@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.HTS.DataFrame.BinaryMatrixHeader</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>BinaryMatrixHeader {SMRUCC.genomics.Analysis.HTS.DataFrame}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>BinaryMatrixHeader</h2>
+
+        <h3>Description</h3>
+
+        <p><code>HTS_matrix</code> 二进制矩阵文件的头部模型，同时是全项目<strong>唯一</strong>的头部编解码实现。</p>
+
+<p>之所以要把头部收敛到一个类里面：v1 的头部原先分别由 <code>BinaryMatrix.readMatrix</code>、 <code>HTSMatrixReader</code> 的构造函数以及 <code>PLAS.NET/SGrid/ZipPersists.readBinaryMatrix</code> 各自手写解析，三处偏移量稍有不同步就会出现"读出来全是垃圾数据"这类难以定位的问题。</p>
+
+<p><strong>格式版本</strong>：v2 使用了另一个 magic 字符串（<a href="cref:F:SMRUCC.genomics.Analysis.HTS.DataFrame.BinaryMatrixHeader.MagicV2">BinaryMatrixHeader.MagicV2</a>），而不是在原有 magic 之后插入一个版本号字段。原因是 v1 的头部紧接着 magic 的是 <a href="cref:M:System.IO.BinaryWriter.Write(System.String)">BinaryWriter.Write()</a> 的 7-bit 长度前缀，旧读取器会把新的 Int32 版本号当作标签长度继续解析，最终在 JSON 反序列化处抛出难以理解的异常；换 magic 则可以让旧读取器在第一次 21 字节比较时就 <strong>立即 fail-fast</strong>。两个 magic 长度相同（21 字节），因此 <a href="cref:F:SMRUCC.genomics.Analysis.HTS.DataFrame.BinaryMatrix.MagicHeader">BinaryMatrix.MagicHeader</a> 常量与 <code>Encoding.ASCII.GetBytes(BinaryMatrix.MagicHeader)</code> 的既有用法不受影响。</p>
+
+<p><strong>v2 布局</strong>（定长整数一律小端，与 v1 的 nsamples/nfeatures 保持一致； 矩阵数据区仍然是网络字节序/大端的 double —— 这个"头部小端、负载大端"的约定必须原样保留）：</p>
+
+
+<pre><code> [21]  magic  = "GCModeller/HTS_bin/v2"
+ [i32] version = 2
+ [i32] flags   bit0..3 codec(0=none,1=gzip,2=zlib), bit8 hasBlockIndex, bit9 featureIdsInTrailer
+ [1]   dtype   (0 = double, 预留 float32)
+ [3]   reserved = 0
+ [i64] indexOffset  (trailer 的绝对文件偏移；-1 = 无 trailer)
+ [str] tag
+ [i32] nsamples
+ [i32] nfeatures    (-1 = 写入方尚未落定，即文件未完成写入)
+ [i32] blockRows    (压缩分块行数；0 = 不切块)
+ [str] sampleIdsJson
+ [str] featureIdsJson (flags.bit9 置位时写 "[]"，真实列表在 trailer)
+ [data] 按块排列的行数据
+ [trailer at indexOffset]
+     [i64] nblocks
+     [i64] blockOffsets[nblocks + 1]   (相对数据区起点，便于整个文件搬迁)
+     [str] featureIdsJson              (仅 flags.bit9 置位时存在)
+ </code></pre>
+
+
+<p>这样设计之后，<strong>无需回填</strong>的内容全部可以确定性算出（数据区起点、块大小、尾部位置）， 只有 <a href="cref:P:SMRUCC.genomics.Analysis.HTS.DataFrame.BinaryMatrixHeader.Nfeatures">BinaryMatrixHeader.Nfeatures</a> 与 <a href="cref:P:SMRUCC.genomics.Analysis.HTS.DataFrame.BinaryMatrixHeader.IndexOffset">BinaryMatrixHeader.IndexOffset</a> 两个定长字段需要在 <code>Complete()</code> 时 seek 回填，而这两个字段的位置在写入头部时就已经记录下来了。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.HTS.DataFrame
+export class BinaryMatrixHeader {
+   # 块偏移表（相对 <a href="cref:P:SMRUCC.genomics.Analysis.HTS.DataFrame.BinaryMatrixHeader.DataStart">BinaryMatrixHeader.DataStart</a>）；<code>Nothing</code> 表示没有索引
+   BlockOffsets: integer;
+   # 压缩分块的行数；<code>0</code> 或负数表示不切块
+   BlockRows: integer;
+   # 每一行的字节数
+   BlockSize: integer;
+   Codec: <a href="/vignettes/clr/Microsoft/VisualBasic/Serialization/BinaryDumping/Compression.html">Compression</a>;
+   # 数据区起始的绝对文件偏移。由读取方根据自身流位置推算，<strong>不会</strong>写进文件
+   DataStart: integer;
+   # 数据区元素类型：0 = double（当前唯一支持的值）
+   DataType: <a href="/vignettes/clr/System/Byte.html">Byte</a>;
+   FeatureIds: string;
+   FeatureIdsInTrailer: boolean;
+   # 头部标志位，见 <a href="cref:F:SMRUCC.genomics.Analysis.HTS.DataFrame.BinaryMatrixHeader.FlagHasBlockIndex">BinaryMatrixHeader.FlagHasBlockIndex</a> 等常量
+   Flags: integer;
+   HasBlockIndex: boolean;
+   # trailer（块索引所在位置）的绝对文件偏移；<code>-1</code> 表示没有 trailer
+   IndexOffset: integer;
+   IsCompressed: boolean;
+   # 行数是否已经落定？
+   IsFinalized: boolean;
+   # 块数量（<a href="cref:P:SMRUCC.genomics.Analysis.HTS.DataFrame.BinaryMatrixHeader.BlockRows">BinaryMatrixHeader.BlockRows</a> 为 0 时视为单块）
+   Nblocks: integer;
+   # 行数（特征数）；<code>-1</code> 表示写入方尚未落定行数，这样的文件不完整
+   Nfeatures: integer;
+   # 列数（样本数）
+   Nsamples: integer;
+   SampleIds: string;
+   tag: string;
+   # 格式版本：1 = 旧格式，2 = 当前格式
+   Version: integer;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>Codec</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Serialization/BinaryDumping/Compression.html">Compression</a></li>
+<li>use by <i>property</i> member <code>DataType</code>: <a href="/vignettes/clr/System/Byte.html">Byte</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

@@ -22,7 +22,9 @@
 
         <h3>Description</h3>
 
-        
+        <p>内存矩阵的视图实现：随机访问全部走数组下标，不做任何 IO</p>
+
+<p>与 <a href="cref:T:SMRUCC.genomics.Analysis.HTS.DataFrame.HTSMatrixReader">HTSMatrixReader</a> 共享 <a href="cref:T:SMRUCC.genomics.Analysis.HTS.DataFrame.MatrixViewer">MatrixViewer</a> 抽象， 因此上层算法可以在"全内存"与"磁盘按需读取"之间无缝切换。</p>
 
         <h3>Declare</h3>        
 
@@ -30,6 +32,7 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Analysis.HTS.DataFrame
 export class HTSMatrixViewer extends <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/MatrixViewer.html">MatrixViewer</a> {
+   CanRandomAccess: boolean;
    FeatureIDs: <a href="/vignettes/clr/System/String.html">iterates(String)</a>;
    SampleIDs: <a href="/vignettes/clr/System/String.html">iterates(String)</a>;
    Size: tuple[integer, integer];

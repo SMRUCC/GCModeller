@@ -35,7 +35,7 @@
         <table>
             
 <dt>fuzzygene</dt>
-<dd><p>the untrained model created by <code>fuzzygene::build_fuzzygene</code>. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/FuzzyGeneModel.html">FuzzyGeneModel</a>]</p></dd>
+<dd><p>the untrained model created by <code>FuzzyGene::build_fuzzygene</code>. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/FuzzyGeneModel.html">FuzzyGeneModel</a>]</p></dd>
 
 
 <dt>env</dt>
@@ -46,7 +46,7 @@
 
         <h3 style="display: block;">Details</h3>
 
-        <p>Training is per gene and therefore parallelizable; a gene that cannot be fitted (constant expression, no candidate regulator, ill conditioned least squares) is recorded as skipped or failed instead of aborting the whole run. Use <code>fuzzygene::fuzzygene_report</code> to inspect the per gene diagnostics.</p>
+        <p>Training is per gene and therefore parallelizable; a gene that cannot be fitted (constant expression, no candidate regulator, ill conditioned least squares) is recorded as skipped or failed instead of aborting the whole run. Use <code>FuzzyGene::fuzzygene_report</code> to inspect the per gene diagnostics.</p>
 
         <h3 style="display: block">Authors</h3>
 

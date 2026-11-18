@@ -22,7 +22,53 @@
 
         <h3>Description</h3>
 
-        <p>the matrix shape dimension is features in rows and the sample observation in columns</p>
+        <p>超大型矩阵二进制文件的<strong>流式惰性读取器</strong>：按需取行/取块/取列，不需要把整张矩阵读进内存。</p>
+
+<p>矩阵形状约定不变：特征是行（row），样本观测是列（column）。</p>
+
+<p><strong>能力矩阵</strong>：</p>
+
+
+<ul>
+<li><strong>未压缩 + 可 seek</strong> — 行级 O(1) 随机访问，线程安全</li>
+<li><strong>压缩 + 有块索引 + 可 seek</strong> — 块级随机访问（解压一块后切片），带 LRU 块缓存</li>
+<li><strong>不可 seek 的流</strong> — 只能通过 <a href="cref:M:SMRUCC.genomics.Analysis.HTS.DataFrame.HTSMatrixReader.Rows">HTSMatrixReader.Rows()</a> 顺序读取；随机访问会抛出明确的异常</li>
+</ul>
+
+
+<p><strong>与旧版本相比修复的问题</strong>：</p>
+
+
+<ol>
+<li>旧实现的 Read(buffer, scan0, buffer.Length) 把"数据区起始的绝对文件偏移"当成了</li>
+</ol>
+
+
+<p>缓冲区偏移，只要 scan0 &gt; 0 就必然越界抛 ；</p>
+
+
+<ol start="2">
+<li>忽略了  的返回值，遇到部分读会得到脏数据，</li>
+</ol>
+
+
+<p>现在统一使用 ；</p>
+
+
+<ol start="3">
+<li>共享的  在多线程下会互相破坏流位置，</li>
+</ol>
+
+
+<p>现在所有"定位 + 读取"都在 SyncLock 之内完成；</p>
+
+
+<ol start="4">
+<li>按基因名批量取列值时，旧实现每个基因一次 seek + 读 8 字节，</li>
+</ol>
+
+
+<p>现在先排序去重再读取，并对重复行号做缓存。</p>
 
         <h3>Declare</h3>        
 
@@ -30,8 +76,13 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Analysis.HTS.DataFrame
 export class HTSMatrixReader extends <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/MatrixViewer.html">MatrixViewer</a> {
+   CanRandomAccess: boolean;
+   # 当前文件所使用的压缩方式
+   Codec: <a href="/vignettes/clr/Microsoft/VisualBasic/Serialization/BinaryDumping/Compression.html">Compression</a>;
    # gene feature ids in rows
    FeatureIDs: <a href="/vignettes/clr/System/String.html">iterates(String)</a>;
+   # 文件头部的只读视图（供归档读取等场景直接查询维度与标签）
+   FileHeader: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/BinaryMatrixHeader.html">BinaryMatrixHeader</a>;
    # sample data id in columns
    SampleIDs: <a href="/vignettes/clr/System/String.html">iterates(String)</a>;
    # the matrix shape dimension is features in rows and the sample observation in columns:
@@ -43,6 +94,8 @@ export class HTSMatrixReader extends <a href="/vignettes/clr/SMRUCC/genomics/Ana
    # </ol>
    Size: tuple[integer, integer];
    tag: string;
+   # 当前文件所声明的格式版本（1 或 2）
+   Version: integer;
 }
 </code>
         </pre>
@@ -51,7 +104,9 @@ export class HTSMatrixReader extends <a href="/vignettes/clr/SMRUCC/genomics/Ana
 
         <ol>
 <li>this class extends from <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/MatrixViewer.html">MatrixViewer</a> class: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/MatrixViewer.html">MatrixViewer</a></li>
+<li>use by <i>property</i> member <code>Codec</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Serialization/BinaryDumping/Compression.html">Compression</a></li>
 <li>use by <i>property</i> member <code>FeatureIDs</code>: <a href="/vignettes/clr/System/String.html">iterates(String)</a></li>
+<li>use by <i>property</i> member <code>FileHeader</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/BinaryMatrixHeader.html">BinaryMatrixHeader</a></li>
 <li>use by <i>property</i> member <code>SampleIDs</code>: <a href="/vignettes/clr/System/String.html">iterates(String)</a></li>
 <li>use by <i>property</i> member <code>Size</code>: tuple[integer, integer]</li>
 </ol>

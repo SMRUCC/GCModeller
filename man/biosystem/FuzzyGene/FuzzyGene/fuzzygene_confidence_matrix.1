@@ -49,8 +49,8 @@ Rows and columns are exactly the same as in \fBfuzzygene_regulation_matrix\fR (s
  confidence for the edge opacity or a cutoff is the usual combination:
  
 \fB
- let w = fuzzygene::fuzzygene_regulation_matrix(model, layout = "compact");
- let c = fuzzygene::fuzzygene_confidence_matrix(model, layout = "compact");
+ let w = FuzzyGene::fuzzygene_regulation_matrix(model, layout = "compact");
+ let c = FuzzyGene::fuzzygene_confidence_matrix(model, layout = "compact");
  geneExpression::write.expr_matrix(w, file = "/path/weight.csv", id = "geneID");
  geneExpression::write.expr_matrix(c, file = "/path/confidence.csv", id = "geneID");
  

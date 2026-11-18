@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Rank candidate perturbations by their predicted response strength.</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>fuzzygene_rank_perturbations {FuzzyGene}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>Rank candidate perturbations by their predicted response strength.</h2>
+
+        <h3>Description</h3>
+
+        
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>fuzzygene_rank_perturbations</strong>(<i>fuzzygene</i>,
+    <i>candidates</i> = <span style='color: green;'>24</span>,
+    <i>mode</i> = <span style='color: brown;'><strong>"knockout"</strong></span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>fuzzygene</dt>
+<dd><p>a trained (or restored) model. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/FuzzyGeneModel.html">FuzzyGeneModel</a>]</p></dd>
+
+
+<dt>candidates</dt>
+<dd><p>number of candidate genes to evaluate; 0 means all modelled genes. [as integer]</p></dd>
+
+
+<dt>mode</dt>
+<dd><p><code>knockout</code> (default), <code>knockdown</code> or <code>overexpression</code>. [as string]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment used to report errors. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: block;">Details</h3>
+
+        <p>Running a perturbation for every gene of a genome scale model takes hours, so only <strong>candidates</strong> genes (an evenly spaced sample of the modelled genes, no random numbers involved) are evaluated.</p>
+
+<p>The score is the largest <code>|Z|</code> among the genes that were not clamped: the Z score of the target itself is the imposed shift, not a model prediction. Note that with <code>clampToSupport</code> enabled the largest <code>|Z|</code> often saturates at the same value for many candidates; the <code>affected</code> column (number of significant genes) is the tie breaker, and is a better ranking criterion in that case.</p>
+
+        <h3 style="display: block">Authors</h3>
+
+        biosystem
+
+        <h3>Value</h3>
+
+        <p>a data.frame <code>gene</code> / <code>max_abs_z</code> / <code>affected</code> / <code>elapsed_ms</code>, best first</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Internal/Object/dataframe.html">dataframe</a></li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>FuzzyGene</em> version 1.0.0.0 <a
+                href="../FuzzyGene.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>
