@@ -16,6 +16,7 @@ Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports fz = SMRUCC.genomics.Analysis.FuzzyGene
 Imports fzcfg = SMRUCC.genomics.Analysis.FuzzyGene.Config
+Imports fzana = SMRUCC.genomics.Analysis.FuzzyGene.Perturbation.Analysis
 Imports fzdata = SMRUCC.genomics.Analysis.FuzzyGene.Data
 Imports fzpert = SMRUCC.genomics.Analysis.FuzzyGene.Perturbation
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
@@ -1334,6 +1335,614 @@ Module fuzzyGene
         Call table.add("tolerance", New Double() {mutant.Tolerance})
         Call table.add("lagged", New Boolean() {mutant.Lagged})
         Call table.add("elapsed_ms", New Double() {trace.ElapsedMs})
+
+        Return table
+    End Function
+
+#End Region
+
+#Region "多运行自检与剂量分析"
+
+    ''' <summary>
+    ''' Model self-check: omega invariance, step invariance and lag ordering robustness.
+    ''' </summary>
+    ''' <remarks>
+    ''' <para>
+    ''' Returns a named list:
+    ''' </para>
+    ''' <list type="bullet">
+    ''' <item><description>``omega``: data.frame ``value`` / ``converged`` / ``iterations`` /
+    ''' ``last_max_delta`` / ``max_abs_deviation`` / ``max_relative_deviation``; the deviation
+    ''' columns are measured against ``reference_omega`` (see ``summary``);
+    ''' </description></item>
+    ''' <item><description>``steps``: the same shape for the iteration budget sweep, measured
+    ''' against the largest step count;</description></item>
+    ''' <item><description>``lag``: wide table ``gene`` + one column per omega, each cell is the
+    ''' frame index at which that gene first reaches 10% (``lagRatio``) of its own final change;</description></item>
+    ''' <item><description>``spearman``: wide table of pairwise Spearman rho between the omega runs,
+    ''' computed on the genes that respond under <b>every</b> omega;</description></item>
+    ''' <item><description>``summary``: one row data.frame with the two invariant flags, the
+    ''' reference values, the responding gene count, the mean rho and the run count.</description></item>
+    ''' </list>
+    ''' <para>
+    ''' Read ``summary$omega_invariant`` first. ``FALSE`` means the end state still depends on the
+    ''' damping factor, i.e. the iteration has not converged and the trajectory is not a steady
+    ''' state. That is a property of the model, not a bug of this function.
+    ''' </para>
+    ''' <para>
+    ''' Cost: about ``2 x (length(omegas) + length(stepsList) + length(omegas))`` solves. With the
+    ''' default grids on an 18k gene model this takes roughly one minute.
+    ''' </para>
+    ''' </remarks>
+    ''' <param name="fuzzygene">a trained (or restored) model</param>
+    ''' <param name="gene">the target gene of the virtual perturbation</param>
+    ''' <param name="mode">``knockout`` (default), ``knockdown`` or ``overexpression``</param>
+    ''' <param name="omegas">relaxation values to sweep, e.g. ``c(0.2, 0.5, 0.8, 1.0)``</param>
+    ''' <param name="stepsList">iteration budgets to sweep, e.g. ``c(50, 200, 500)``</param>
+    ''' <param name="sweepSteps">fixed iteration budget used by the omega sweep and the lag analysis</param>
+    ''' <param name="referenceOmega">omega used as the comparison baseline; ``NaN`` picks the value closest to 0.5</param>
+    ''' <param name="tolerance">relative deviation threshold of the invariant flags</param>
+    ''' <param name="lagRatio">relative trigger threshold of the lag definition</param>
+    ''' <param name="env">the R# runtime environment used to report errors</param>
+    ''' <returns>a named list of data.frames</returns>
+    <ExportAPI("fuzzygene_sensitivity")>
+    <RApiReturn(GetType(list))>
+    Public Function fuzzygene_sensitivity(fuzzygene As fz.FuzzyGeneModel,
+                                          gene As String,
+                                          Optional mode As String = "knockout",
+                                          Optional omegas As Double() = Nothing,
+                                          Optional stepsList As Double() = Nothing,
+                                          Optional sweepSteps As Integer = 50,
+                                          Optional referenceOmega As Double = Double.NaN,
+                                          Optional tolerance As Double = 0.001,
+                                          Optional lagRatio As Double = 0.1,
+                                          Optional env As Environment = Nothing) As Object
+        If fuzzygene Is Nothing OrElse Not fuzzygene.IsTrained Then
+            Return RInternal.debug.stop("the model has not been trained yet", env)
+        End If
+        If String.IsNullOrEmpty(gene) Then
+            Return RInternal.debug.stop("a target gene is required", env)
+        End If
+
+        Dim intervention As InterventionMode
+
+        If Not parseInterventionMode(mode, intervention) Then
+            Return RInternal.debug.stop($"unknown perturbation mode '{mode}', expected knockout / knockdown / overexpression", env)
+        End If
+
+        Dim budget As Integer() = toIntegerArray(stepsList)
+        Dim omegaSweep As fzana.OmegaSweepResult
+        Dim stepSweep As fzana.StepSweepResult
+        Dim lag As fzana.LagRobustnessResult
+
+        Try
+            omegaSweep = fuzzygene.SweepOmega(gene, intervention, omegas, sweepSteps, referenceOmega, tolerance)
+            stepSweep = fuzzygene.SweepSteps(gene, intervention, budget, Double.NaN, tolerance)
+            lag = fuzzygene.AnalyzeLag(gene, intervention, omegas, sweepSteps, lagRatio)
+        Catch ex As Exception
+            Return RInternal.debug.stop(ex.Message, env)
+        End Try
+
+        Return New list With {
+            .slots = New Dictionary(Of String, Object) From {
+                {"omega", omegaTable(omegaSweep)},
+                {"steps", stepTable(stepSweep)},
+                {"lag", lagTable(lag)},
+                {"spearman", spearmanTable(lag)},
+                {"summary", sensitivitySummary(omegaSweep, stepSweep, lag)}
+            }
+        }
+    End Function
+
+    ''' <summary>
+    ''' Dose-response curve of one virtual perturbation.
+    ''' </summary>
+    ''' <remarks>
+    ''' <para>
+    ''' Dose <c>d</c> runs from 0 (pin the gene at its baseline) to 1 (full knockout); the clamped
+    ''' value is <c>baseline x (1 - d)</c>. Note that <c>d = 0</c> is <b>not</b> the same as "no
+    ''' perturbation": the gene is held fixed while the wildtype trajectory drifts away from the
+    ''' baseline, which is why its own fold change is 0 at <c>d = 0</c> but other genes can still
+    ''' move.
+    ''' </para>
+    ''' <para>
+    ''' Only the top genes are returned (ranked by ``|z|`` at the largest dose) to keep the
+    ''' data.frame small; pass ``top = 0`` for all 18k genes.
+    ''' </para>
+    ''' <code>
+    ''' let r = FuzzyGene::fuzzygene_dose_response(model, "TPPP3", doses = c(0, 0.5, 1));
+    ''' print(r);
+    ''' </code>
+    ''' </remarks>
+    ''' <param name="fuzzygene">a trained (or restored) model</param>
+    ''' <param name="gene">the target gene of the virtual perturbation</param>
+    ''' <param name="doses">dose points in [0, 1]; ``NULL`` uses 5 evenly spaced points</param>
+    ''' <param name="steps">iteration budget of each solve</param>
+    ''' <param name="top">number of genes to return; 0 means all</param>
+    ''' <param name="env">the R# runtime environment used to report errors</param>
+    ''' <returns>a long data.frame ``dose`` / ``clamp_value`` / ``gene`` / ``fold_change`` / ``percent_change`` / ``z_score`` / ``significant``</returns>
+    <ExportAPI("fuzzygene_dose_response")>
+    <RApiReturn(GetType(dataframe))>
+    Public Function fuzzygene_dose_response(fuzzygene As fz.FuzzyGeneModel,
+                                            gene As String,
+                                            Optional doses As Double() = Nothing,
+                                            Optional steps As Integer = 60,
+                                            Optional top As Integer = 50,
+                                            Optional env As Environment = Nothing) As Object
+        If fuzzygene Is Nothing OrElse Not fuzzygene.IsTrained Then
+            Return RInternal.debug.stop("the model has not been trained yet", env)
+        End If
+        If String.IsNullOrEmpty(gene) Then
+            Return RInternal.debug.stop("a target gene is required", env)
+        End If
+
+        Dim result As fzana.DoseResponseResult
+
+        Try
+            result = fuzzygene.AnalyzeDose(gene, doses, steps, Double.NaN, top)
+        Catch ex As Exception
+            Return RInternal.debug.stop(ex.Message, env)
+        End Try
+
+        Return doseTable(result)
+    End Function
+
+    ''' <summary>
+    ''' Dose x iteration response surface of one virtual perturbation.
+    ''' </summary>
+    ''' <remarks>
+    ''' Every cell is <c>mutant(t) - control(t)</c> at the same frame, i.e. the drift of the system
+    ''' itself has already been subtracted. Only the top genes (ranked by ``|z|`` at the largest
+    ''' dose) are kept, so the cube stays small enough to plot as a contour or a 3D surface.
+    ''' </remarks>
+    ''' <param name="fuzzygene">a trained (or restored) model</param>
+    ''' <param name="gene">the target gene of the virtual perturbation</param>
+    ''' <param name="doses">dose points in [0, 1]; ``NULL`` uses 5 evenly spaced points</param>
+    ''' <param name="steps">iteration budget of each solve</param>
+    ''' <param name="top">number of genes to keep</param>
+    ''' <param name="env">the R# runtime environment used to report errors</param>
+    ''' <returns>a long data.frame ``dose`` / ``iteration`` / ``gene`` / ``delta``</returns>
+    <ExportAPI("fuzzygene_dose_time_surface")>
+    <RApiReturn(GetType(dataframe))>
+    Public Function fuzzygene_dose_time_surface(fuzzygene As fz.FuzzyGeneModel,
+                                                gene As String,
+                                                Optional doses As Double() = Nothing,
+                                                Optional steps As Integer = 60,
+                                                Optional top As Integer = 20,
+                                                Optional env As Environment = Nothing) As Object
+        If fuzzygene Is Nothing OrElse Not fuzzygene.IsTrained Then
+            Return RInternal.debug.stop("the model has not been trained yet", env)
+        End If
+        If String.IsNullOrEmpty(gene) Then
+            Return RInternal.debug.stop("a target gene is required", env)
+        End If
+
+        Dim result As fzana.DoseTimeSurfaceResult
+
+        Try
+            result = fuzzygene.AnalyzeDoseTime(gene, doses, steps, Double.NaN, top)
+        Catch ex As Exception
+            Return RInternal.debug.stop(ex.Message, env)
+        End Try
+
+        Return surfaceTable(result)
+    End Function
+
+    ''' <summary>
+    ''' Non-additive (synergy / antagonism) analysis of a two gene combination.
+    ''' </summary>
+    ''' <remarks>
+    ''' <para>
+    ''' Additive expectation is <c>control + (A - control) + (B - control)</c>; the non additive
+    ''' effect is <c>joint - additive</c>. Positive means synergy, negative means antagonism.
+    ''' </para>
+    ''' <para>
+    ''' Returns a named list:
+    ''' </para>
+    ''' <list type="bullet">
+    ''' <item><description>``summary``: one row with the two genes and ``max_abs_non_additive``;</description></item>
+    ''' <item><description>``table``: the full 18k gene table ``gene`` / ``single_a`` / ``single_b`` /
+    ''' ``joint`` / ``additive`` / ``non_additive``;</description></item>
+    ''' <item><description>``top``: the top genes ranked by ``|non_additive|``;</description></item>
+    ''' <item><description>``trajectory``: the frame level version ``iteration`` / ``gene`` /
+    ''' ``additive`` / ``joint`` / ``non_additive``, which shows whether the deviation appears
+    ''' together with the single perturbations or only later.</description></item>
+    ''' </list>
+    ''' </remarks>
+    ''' <param name="fuzzygene">a trained (or restored) model</param>
+    ''' <param name="geneA">the first target gene</param>
+    ''' <param name="geneB">the second target gene; must differ from ``geneA``</param>
+    ''' <param name="mode">``knockout`` (default), ``knockdown`` or ``overexpression``</param>
+    ''' <param name="steps">iteration budget of each solve</param>
+    ''' <param name="top">number of genes kept in ``top`` and ``trajectory``</param>
+    ''' <param name="env">the R# runtime environment used to report errors</param>
+    ''' <returns>a named list of data.frames</returns>
+    <ExportAPI("fuzzygene_combination")>
+    <RApiReturn(GetType(list))>
+    Public Function fuzzygene_combination(fuzzygene As fz.FuzzyGeneModel,
+                                          geneA As String,
+                                          geneB As String,
+                                          Optional mode As String = "knockout",
+                                          Optional steps As Integer = 60,
+                                          Optional top As Integer = 50,
+                                          Optional env As Environment = Nothing) As Object
+        If fuzzygene Is Nothing OrElse Not fuzzygene.IsTrained Then
+            Return RInternal.debug.stop("the model has not been trained yet", env)
+        End If
+        If String.IsNullOrEmpty(geneA) OrElse String.IsNullOrEmpty(geneB) Then
+            Return RInternal.debug.stop("two target genes are required", env)
+        End If
+
+        Dim intervention As InterventionMode
+
+        If Not parseInterventionMode(mode, intervention) Then
+            Return RInternal.debug.stop($"unknown perturbation mode '{mode}', expected knockout / knockdown / overexpression", env)
+        End If
+
+        Dim result As fzana.CombinationTraceResult
+
+        Try
+            result = fuzzygene.AnalyzeCombination(geneA, geneB, intervention, steps, Double.NaN, top)
+        Catch ex As Exception
+            Return RInternal.debug.stop(ex.Message, env)
+        End Try
+
+        Return New list With {
+            .slots = New Dictionary(Of String, Object) From {
+                {"summary", combinationSummary(result)},
+                {"table", combinationTable(result)},
+                {"top", combinationTop(result)},
+                {"trajectory", combinationTrajectory(result)}
+            }
+        }
+    End Function
+
+    ''' <summary>
+    ''' Run every analysis once and write the tables to a folder.
+    ''' </summary>
+    ''' <remarks>
+    ''' <para>
+    ''' Writes into the folder:
+    ''' ``analysis.sensitivity.csv`` (omega + step sweeps),
+    ''' ``analysis.lag.csv``, ``analysis.spearman.csv``,
+    ''' ``analysis.dose_response.csv``, ``analysis.dose_time_surface.csv``,
+    ''' ``analysis.combination.csv`` (when both genes are given) and
+    ''' ``analysis.report.json`` (grid definition, invariant flags, run count, elapsed time).
+    ''' </para>
+    ''' <para>
+    ''' This is the cheap way to get everything: calling the four analysis apis separately would
+    ''' repeat the dose sweep twice. Expect one to two minutes on an 18k gene model with the
+    ''' default grids.
+    ''' </para>
+    ''' <code>
+    ''' let files = FuzzyGene::fuzzygene_analysis_report(
+    '''     model, "TPPP3", geneA = "HSD17B3", geneB = "TPPP3", dir = "/path/analysis");
+    ''' print(files);
+    ''' </code>
+    ''' </remarks>
+    ''' <param name="fuzzygene">a trained (or restored) model</param>
+    ''' <param name="gene">the target gene of the single perturbation analyses</param>
+    ''' <param name="geneA">the first gene of the combination analysis; empty skips that part</param>
+    ''' <param name="geneB">the second gene of the combination analysis; empty skips that part</param>
+    ''' <param name="dir">the output folder (created when missing)</param>
+    ''' <param name="mode">``knockout`` (default), ``knockdown`` or ``overexpression``</param>
+    ''' <param name="omegas">relaxation grid; ``NULL`` uses ``c(0.2, 0.5, 0.8, 1.0)``</param>
+    ''' <param name="stepsList">step grid of the invariance check; ``NULL`` uses ``c(50, 200, 500)``</param>
+    ''' <param name="doses">dose grid; ``NULL`` uses 5 evenly spaced points</param>
+    ''' <param name="sweepSteps">fixed iteration budget of the omega / lag analyses</param>
+    ''' <param name="doseSteps">iteration budget of the dose analyses</param>
+    ''' <param name="combinationSteps">iteration budget of the combination analysis</param>
+    ''' <param name="top">number of genes kept in the dose and combination tables</param>
+    ''' <param name="surfaceTop">number of genes kept in the dose-time surface</param>
+    ''' <param name="lagRatio">relative trigger threshold of the lag definition</param>
+    ''' <param name="tolerance">relative deviation threshold of the invariant flags</param>
+    ''' <param name="env">the R# runtime environment used to report errors</param>
+    ''' <returns>a character vector of the written file paths</returns>
+    <ExportAPI("fuzzygene_analysis_report")>
+    <RApiReturn(TypeCodes.string)>
+    Public Function fuzzygene_analysis_report(fuzzygene As fz.FuzzyGeneModel,
+                                              gene As String,
+                                              Optional geneA As String = Nothing,
+                                              Optional geneB As String = Nothing,
+                                              Optional dir As String = Nothing,
+                                              Optional mode As String = "knockout",
+                                              Optional omegas As Double() = Nothing,
+                                              Optional stepsList As Double() = Nothing,
+                                              Optional doses As Double() = Nothing,
+                                              Optional sweepSteps As Integer = 50,
+                                              Optional doseSteps As Integer = 60,
+                                              Optional combinationSteps As Integer = 60,
+                                              Optional top As Integer = 50,
+                                              Optional surfaceTop As Integer = 20,
+                                              Optional lagRatio As Double = 0.1,
+                                              Optional tolerance As Double = 0.001,
+                                              Optional env As Environment = Nothing) As Object
+        If fuzzygene Is Nothing OrElse Not fuzzygene.IsTrained Then
+            Return RInternal.debug.stop("the model has not been trained yet", env)
+        End If
+        If String.IsNullOrEmpty(gene) Then
+            Return RInternal.debug.stop("a target gene is required", env)
+        End If
+        If String.IsNullOrWhiteSpace(dir) Then
+            Return RInternal.debug.stop("the output folder path is empty", env)
+        End If
+
+        Dim intervention As InterventionMode
+
+        If Not parseInterventionMode(mode, intervention) Then
+            Return RInternal.debug.stop($"unknown perturbation mode '{mode}', expected knockout / knockdown / overexpression", env)
+        End If
+
+        Dim options As New fzana.AnalysisOptions With {
+            .Mode = intervention,
+            .Omegas = omegas,
+            .StepsList = toIntegerArray(stepsList),
+            .SweepSteps = sweepSteps,
+            .Doses = doses,
+            .DoseSteps = doseSteps,
+            .CombinationSteps = combinationSteps,
+            .TopGenes = top,
+            .SurfaceTopGenes = surfaceTop,
+            .LagThresholdRatio = lagRatio,
+            .InvariantTolerance = tolerance
+        }
+
+        Try
+            Return fuzzygene.ExportAnalysisReport(dir, gene, geneA, geneB, options)
+        Catch ex As Exception
+            Return RInternal.debug.stop(ex.Message, env)
+        End Try
+    End Function
+
+    ''' <summary>R# 侧传进来的是 numeric vector，转成整数步数表。</summary>
+    Private Function toIntegerArray(values As Double()) As Integer()
+        If values Is Nothing OrElse values.Length = 0 Then
+            Return Nothing
+        End If
+
+        Return values _
+            .Where(Function(v) Not Double.IsNaN(v)) _
+            .Select(Function(v) CInt(v)) _
+            .ToArray()
+    End Function
+
+    ''' <summary>ω 扫描结果 → data.frame。</summary>
+    Private Function omegaTable(result As fzana.OmegaSweepResult) As dataframe
+        Dim table As New dataframe With {.columns = New Dictionary(Of String, Array)}
+
+        Call table.add("value", result.Omegas)
+        Call table.add("converged", result.Converged)
+        Call table.add("iterations", result.Iterations)
+        Call table.add("last_max_delta", result.LastMaxDelta)
+        Call table.add("max_abs_deviation", result.MaxAbsDeviation)
+        Call table.add("max_relative_deviation", result.MaxRelativeDeviation)
+
+        Return table
+    End Function
+
+    ''' <summary>步数扫描结果 → data.frame。</summary>
+    Private Function stepTable(result As fzana.StepSweepResult) As dataframe
+        Dim table As New dataframe With {.columns = New Dictionary(Of String, Array)}
+
+        Call table.add("value", result.StepsList)
+        Call table.add("converged", result.Converged)
+        Call table.add("iterations", result.ActualIterations)
+        Call table.add("last_max_delta", result.LastMaxDelta)
+        Call table.add("max_abs_deviation", result.MaxAbsDeviation)
+        Call table.add("max_relative_deviation", result.MaxRelativeDeviation)
+
+        Return table
+    End Function
+
+    ''' <summary>lag 矩阵 → 宽表（行 = 基因，列 = ω）。</summary>
+    Private Function lagTable(result As fzana.LagRobustnessResult) As dataframe
+        Dim table As New dataframe With {.columns = New Dictionary(Of String, Array)}
+        Dim genes As Integer = result.GeneNames.Length
+
+        Call table.add("gene", result.GeneNames)
+
+        For k As Integer = 0 To result.Omegas.Length - 1
+            Dim values(genes - 1) As Double
+
+            For j As Integer = 0 To genes - 1
+                values(j) = result.Lag(k, j)
+            Next
+
+            Call table.add($"omega_{result.Omegas(k)}", values)
+        Next
+
+        Return table
+    End Function
+
+    ''' <summary>Spearman 矩阵 → 宽表。</summary>
+    Private Function spearmanTable(result As fzana.LagRobustnessResult) As dataframe
+        Dim table As New dataframe With {.columns = New Dictionary(Of String, Array)}
+        Dim n As Integer = result.Omegas.Length
+
+        Call table.add("omega", result.Omegas)
+
+        For k As Integer = 0 To n - 1
+            Dim values(n - 1) As Double
+
+            For j As Integer = 0 To n - 1
+                values(j) = result.Spearman(k, j)
+            Next
+
+            Call table.add($"omega_{result.Omegas(k)}", values)
+        Next
+
+        Return table
+    End Function
+
+    ''' <summary>三项自检的单行摘要。</summary>
+    Private Function sensitivitySummary(omega As fzana.OmegaSweepResult,
+                                        steps As fzana.StepSweepResult,
+                                        lag As fzana.LagRobustnessResult) As dataframe
+        Dim table As New dataframe With {.columns = New Dictionary(Of String, Array)}
+
+        Call table.add("omega_invariant", New Boolean() {omega.Invariant})
+        Call table.add("reference_omega", New Double() {omega.ReferenceOmega})
+        Call table.add("omega_runs", New Integer() {omega.Runs})
+        Call table.add("steps_invariant", New Boolean() {steps.Invariant})
+        Call table.add("reference_steps", New Integer() {steps.ReferenceSteps})
+        Call table.add("step_runs", New Integer() {steps.Runs})
+        Call table.add("responding_genes", New Integer() {lag.GeneNames.Length})
+        Call table.add("mean_rho", New Double() {lag.MeanRho})
+        Call table.add("lag_runs", New Integer() {lag.Runs})
+        Call table.add("elapsed_ms", New Double() {omega.ElapsedMs + steps.ElapsedMs + lag.ElapsedMs})
+
+        Return table
+    End Function
+
+    ''' <summary>剂量-响应 → 长表（只保留 Top-K 基因）。</summary>
+    Private Function doseTable(result As fzana.DoseResponseResult) As dataframe
+        Dim table As New dataframe With {.columns = New Dictionary(Of String, Array)}
+        Dim genes As Integer() = result.TopGenes
+        Dim count As Integer = result.Doses.Length * genes.Length
+        Dim doses(count - 1) As Double
+        Dim clamps(count - 1) As Double
+        Dim names(count - 1) As String
+        Dim fold(count - 1) As Double
+        Dim percent(count - 1) As Double
+        Dim zscores(count - 1) As Double
+        Dim significant(count - 1) As Boolean
+        Dim cursor As Integer = 0
+
+        For d As Integer = 0 To result.Doses.Length - 1
+            For j As Integer = 0 To genes.Length - 1
+                doses(cursor) = result.Doses(d)
+                clamps(cursor) = result.ClampValues(d)
+                names(cursor) = result.GeneNames(genes(j))
+                fold(cursor) = result.FoldChanges(d, genes(j))
+                percent(cursor) = result.PercentChanges(d, genes(j))
+                zscores(cursor) = result.ZScores(d, genes(j))
+                significant(cursor) = result.Significant(d, genes(j))
+                cursor += 1
+            Next
+        Next
+
+        Call table.add("dose", doses)
+        Call table.add("clamp_value", clamps)
+        Call table.add("gene", names)
+        Call table.add("fold_change", fold)
+        Call table.add("percent_change", percent)
+        Call table.add("z_score", zscores)
+        Call table.add("significant", significant)
+
+        Return table
+    End Function
+
+    ''' <summary>剂量-时间曲面 → 长表。</summary>
+    Private Function surfaceTable(result As fzana.DoseTimeSurfaceResult) As dataframe
+        Dim table As New dataframe With {.columns = New Dictionary(Of String, Array)}
+        Dim doses As Integer = result.Doses.Length
+        Dim genes As Integer = result.GeneNames.Length
+        Dim count As Integer = doses * result.NFrames * genes
+        Dim doseColumn(count - 1) As Double
+        Dim iteration(count - 1) As Integer
+        Dim names(count - 1) As String
+        Dim deltas(count - 1) As Double
+        Dim cursor As Integer = 0
+
+        For d As Integer = 0 To doses - 1
+            For f As Integer = 0 To result.NFrames - 1
+                For j As Integer = 0 To genes - 1
+                    doseColumn(cursor) = result.Doses(d)
+                    iteration(cursor) = f
+                    names(cursor) = result.GeneNames(j)
+                    deltas(cursor) = result.Deltas(d, f, j)
+                    cursor += 1
+                Next
+            Next
+        Next
+
+        Call table.add("dose", doseColumn)
+        Call table.add("iteration", iteration)
+        Call table.add("gene", names)
+        Call table.add("delta", deltas)
+
+        Return table
+    End Function
+
+    ''' <summary>组合分析的单行摘要。</summary>
+    Private Function combinationSummary(result As fzana.CombinationTraceResult) As dataframe
+        Dim table As New dataframe With {.columns = New Dictionary(Of String, Array)}
+
+        Call table.add("gene_a", New String() {result.GeneA})
+        Call table.add("gene_b", New String() {result.GeneB})
+        Call table.add("max_abs_non_additive", New Double() {result.MaxAbsNonAdditive})
+        Call table.add("runs", New Integer() {result.Runs})
+        Call table.add("elapsed_ms", New Double() {result.ElapsedMs})
+
+        Return table
+    End Function
+
+    ''' <summary>组合分析的全基因表。</summary>
+    Private Function combinationTable(result As fzana.CombinationTraceResult) As dataframe
+        Dim table As New dataframe With {.columns = New Dictionary(Of String, Array)}
+
+        Call table.add("gene", result.GeneNames)
+        Call table.add("single_a", result.SingleAMeans)
+        Call table.add("single_b", result.SingleBMeans)
+        Call table.add("joint", result.JointMeans)
+        Call table.add("additive", result.AdditiveMeans)
+        Call table.add("non_additive", result.NonAdditive)
+
+        Return table
+    End Function
+
+    ''' <summary>组合分析的非加性 Top-K 表。</summary>
+    Private Function combinationTop(result As fzana.CombinationTraceResult) As dataframe
+        Dim table As New dataframe With {.columns = New Dictionary(Of String, Array)}
+        Dim genes As Integer() = result.TopGenes
+        Dim names(genes.Length - 1) As String
+        Dim values(genes.Length - 1) As Double
+
+        For j As Integer = 0 To genes.Length - 1
+            names(j) = result.GeneNames(genes(j))
+            values(j) = result.NonAdditive(genes(j))
+        Next
+
+        Call table.add("gene", names)
+        Call table.add("non_additive", values)
+
+        Return table
+    End Function
+
+    ''' <summary>组合分析的逐帧非加性长表。</summary>
+    Private Function combinationTrajectory(result As fzana.CombinationTraceResult) As dataframe
+        Dim table As New dataframe With {.columns = New Dictionary(Of String, Array)}
+        Dim trajectory As fzana.CombinationTrajectory = result.Trajectory
+
+        If trajectory Is Nothing Then
+            Return table
+        End If
+
+        Dim genes As Integer = trajectory.GeneNames.Length
+        Dim count As Integer = trajectory.NFrames * genes
+        Dim iteration(count - 1) As Integer
+        Dim names(count - 1) As String
+        Dim additive(count - 1) As Double
+        Dim joint(count - 1) As Double
+        Dim nonAdditive(count - 1) As Double
+        Dim cursor As Integer = 0
+
+        For t As Integer = 0 To trajectory.NFrames - 1
+            For j As Integer = 0 To genes - 1
+                iteration(cursor) = t
+                names(cursor) = trajectory.GeneNames(j)
+                additive(cursor) = trajectory.Additive(t, j)
+                joint(cursor) = trajectory.Joint(t, j)
+                nonAdditive(cursor) = trajectory.NonAdditive(t, j)
+                cursor += 1
+            Next
+        Next
+
+        Call table.add("iteration", iteration)
+        Call table.add("gene", names)
+        Call table.add("additive", additive)
+        Call table.add("joint", joint)
+        Call table.add("non_additive", nonAdditive)
 
         Return table
     End Function

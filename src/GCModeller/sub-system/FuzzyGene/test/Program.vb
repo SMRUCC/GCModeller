@@ -15,6 +15,7 @@ Imports SMRUCC.genomics.Analysis.FuzzyGene.Data
 Imports SMRUCC.genomics.Analysis.FuzzyGene.Fitting
 Imports SMRUCC.genomics.Analysis.FuzzyGene.IO
 Imports SMRUCC.genomics.Analysis.FuzzyGene.Perturbation
+Imports SMRUCC.genomics.Analysis.FuzzyGene.Perturbation.Analysis
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports std = System.Math
 
@@ -42,6 +43,9 @@ Module Program
         End If
         If args.Length > 0 AndAlso String.Equals(args(0), "--trace-model", StringComparison.OrdinalIgnoreCase) Then
             Return RunTraceModel(args)
+        End If
+        If args.Length > 0 AndAlso String.Equals(args(0), "--analysis", StringComparison.OrdinalIgnoreCase) Then
+            Return RunAnalysis(args)
         End If
 
         Console.WriteLine("=== FuzzyGene self test ===")
@@ -2121,6 +2125,271 @@ Module Program
             Case Else
                 Return InterventionMode.Knockout
         End Select
+    End Function
+
+#End Region
+
+#Region "多运行自检与剂量分析：--analysis"
+
+    ''' <summary>
+    ''' 用真实模型跑一遍「多运行自检 + 剂量分析 + 一键导出」并断言关键不变量。
+    ''' </summary>
+    ''' <remarks>
+    ''' 用法：<c>dotnet run -c Debug -p:Platform=x64 -- --analysis</c>
+    ''' 或 <c>-- --analysis --model model.zip --gene TPPP3 --gene2 HSD17B3 --out D:\analysis</c>。
+    ''' 网格刻意取小（ω 2 个、步数 2 个、剂量 3 个），整轮约一分钟。
+    ''' </remarks>
+    Private Function RunAnalysis(args As String()) As Integer
+        Dim package As String = "G:\vcc2026\model\model.zip"
+        Dim gene As String = "TPPP3"
+        Dim geneB As String = "HSD17B3"
+        Dim outDir As String = Path.Combine(Path.GetTempPath(), $"fuzzygene-analysis-{DateTime.Now:yyyyMMdd-HHmmss}")
+
+        Dim i As Integer = 1
+
+        While i < args.Length
+            Dim key As String = If(args(i), "").ToLowerInvariant()
+
+            Select Case key
+                Case "--model"
+                    package = RequireValue(args, i, key) : i += 2
+                Case "--gene"
+                    gene = RequireValue(args, i, key) : i += 2
+                Case "--gene2"
+                    geneB = RequireValue(args, i, key) : i += 2
+                Case "--out"
+                    outDir = RequireValue(args, i, key) : i += 2
+                Case Else
+                    i += 1
+            End Select
+        End While
+
+        Call DebugAudit.Reset()
+        asserts = 0
+
+        Console.WriteLine("=== FuzzyGene multi-run analysis ===")
+        Console.WriteLine($"package : {package}")
+        Console.WriteLine($"target  : {gene}, combination: {gene} + {geneB}")
+        Console.WriteLine($"output  : {outDir}")
+
+        If Not File.Exists(package) Then
+            Console.WriteLine($"[ERROR] model package not found: {package}")
+
+            Return 2
+        End If
+
+        Dim loadWatch As Stopwatch = Stopwatch.StartNew()
+        Dim model As FuzzyGeneModel = FuzzyGeneModel.Load(package)
+
+        loadWatch.Stop()
+
+        Console.WriteLine($"loaded in {loadWatch.Elapsed.TotalSeconds:F1}s: {model.Network}")
+
+        Call DebugAudit.Mark("load.seconds", loadWatch.Elapsed.TotalSeconds)
+
+        ' ---------------- 小网格 ----------------
+        Dim omegas As Double() = {0.5, 1.0}
+        Dim budgets As Integer() = {20, 40}
+        Dim doses As Double() = {0.0, 0.5, 1.0}
+        Const steps As Integer = 20
+        Const top As Integer = 5
+        Const tolerance As Double = 0.001
+
+        ' ---------------- 1. ω 扫描 ----------------
+        Dim omega As OmegaSweepResult = model.SweepOmega(gene, InterventionMode.Knockout, omegas, steps, 0.5, tolerance)
+
+        Call AuditTest(omega.Omegas.Length = omegas.Length,
+                       $"omega sweep returns one entry per relaxation value ({omega.Omegas.Length})")
+
+        Dim aligned As Boolean = True
+
+        For k As Integer = 0 To omega.FinalStates.Count - 1
+            If omega.FinalStates(k).Length <> model.Network.NGene Then
+                aligned = False
+            End If
+        Next
+
+        Call AuditTest(aligned, "every omega final state matches the gene count")
+
+        Dim referenceIndex As Integer = Array.IndexOf(omega.Omegas, omega.ReferenceOmega)
+        Dim referenceDeviation As Double = If(referenceIndex < 0, Double.NaN, omega.MaxRelativeDeviation(referenceIndex))
+
+        Call AuditTest(referenceIndex >= 0 AndAlso referenceDeviation = 0.0,
+                       $"the reference omega has zero deviation ({referenceDeviation:G3})")
+
+        Dim anyAbove As Boolean = omega.MaxRelativeDeviation.Any(Function(r) r > tolerance)
+
+        Call AuditTest(omega.Invariant = Not anyAbove,
+                       $"the invariant flag agrees with the per run deviations ({omega.Invariant})")
+
+        ' ---------------- 2. 步数扫描 ----------------
+        Dim stepSweep As StepSweepResult = model.SweepSteps(gene, InterventionMode.Knockout, budgets, Double.NaN, tolerance)
+
+        Dim referenceStepDeviation As Double = stepSweep.MaxRelativeDeviation(stepSweep.MaxRelativeDeviation.Length - 1)
+        Dim withinBudget As Boolean = True
+
+        For k As Integer = 0 To stepSweep.ActualIterations.Length - 1
+            If stepSweep.ActualIterations(k) > stepSweep.StepsList(k) Then
+                withinBudget = False
+            End If
+        Next
+
+        Call AuditTest(referenceStepDeviation = 0.0,
+                       $"the reference step count has zero deviation ({referenceStepDeviation:G3})")
+        Call AuditTest(withinBudget, "actual iterations never exceed the requested step count")
+
+        ' ---------------- 3. lag 稳健性 ----------------
+        Dim lag As LagRobustnessResult = model.AnalyzeLag(gene, InterventionMode.Knockout, omegas, steps, 0.1)
+
+        Call AuditTest(Array.IndexOf(lag.GeneNames, gene) < 0,
+                       "the target gene itself is excluded from the lag statistics")
+
+        Dim lagFinite As Boolean = True
+
+        For k As Integer = 0 To lag.Omegas.Length - 1
+            For j As Integer = 0 To lag.GeneNames.Length - 1
+                If Double.IsNaN(lag.Lag(k, j)) Then
+                    lagFinite = False
+                End If
+            Next
+        Next
+
+        Call AuditTest(lagFinite, $"every retained gene has a finite lag ({lag.GeneNames.Length} gene(s))")
+
+        Dim symmetric As Boolean = True
+        Dim bounded As Boolean = True
+        Dim diagonal As Boolean = True
+
+        For k As Integer = 0 To lag.Omegas.Length - 1
+            If lag.Spearman(k, k) <> 1.0 Then
+                diagonal = False
+            End If
+
+            For j As Integer = 0 To lag.Omegas.Length - 1
+                If Double.IsNaN(lag.Spearman(k, j)) Then
+                    Continue For
+                End If
+                If lag.Spearman(k, j) <> lag.Spearman(j, k) Then
+                    symmetric = False
+                End If
+                If std.Abs(lag.Spearman(k, j)) > 1.0 + 0.000000001 Then
+                    bounded = False
+                End If
+            Next
+        Next
+
+        Call AuditTest(diagonal, "the spearman diagonal is 1")
+        Call AuditTest(symmetric AndAlso bounded, "the spearman matrix is symmetric and bounded by 1")
+
+        ' ---------------- 4. 剂量分析 ----------------
+        Dim dose As DoseResponseResult = model.AnalyzeDose(gene, doses, steps, Double.NaN, top)
+        Dim geneIndex As Integer = model.Network.IndexOfGene(gene)
+        Dim baseline As Double = model.Network.BaselineRaw(geneIndex)
+        Dim lastDose As Integer = dose.Doses.Length - 1
+
+        Call AuditTest(dose.ClampValues(lastDose) = 0.0 AndAlso std.Abs(dose.ClampValues(0) - baseline) <= 0.000000001,
+                       $"dose 1 clamps to zero and dose 0 clamps to the baseline ({dose.ClampValues(lastDose):G3} / {dose.ClampValues(0):G3})")
+        Call AuditTest(std.Abs(dose.FoldChanges(0, geneIndex)) <= 0.000000001,
+                       $"the pinned gene reports zero fold change at dose 0 ({dose.FoldChanges(0, geneIndex):G3})")
+
+        Dim surface As DoseTimeSurfaceResult = model.AnalyzeDoseTime(gene, doses, steps, Double.NaN, top)
+
+        Call AuditTest(surface.Deltas.GetLength(0) = doses.Length AndAlso
+                       surface.Deltas.GetLength(1) = surface.NFrames AndAlso
+                       surface.Deltas.GetLength(2) = surface.GeneNames.Length,
+                       $"the surface cube is [dose, frame, gene] ({surface.Deltas.GetLength(0)} x {surface.Deltas.GetLength(1)} x {surface.Deltas.GetLength(2)})")
+
+        ' ---------------- 5. 组合分析 ----------------
+        Dim combination As CombinationTraceResult = model.AnalyzeCombination(gene, geneB, InterventionMode.Knockout, steps, Double.NaN, top)
+        Dim additiveHeld As Boolean = True
+
+        For g As Integer = 0 To combination.NonAdditive.Length - 1
+            If combination.NonAdditive(g) <> combination.JointMeans(g) - combination.AdditiveMeans(g) Then
+                additiveHeld = False
+            End If
+        Next
+
+        Call AuditTest(additiveHeld, "non additive equals joint minus additive for every gene")
+
+        ' ---------------- 6. relaxation 参数确实被尊重 ----------------
+        Const probeOmega As Double = 0.7
+        Dim probe As PerturbationTrace = model.TracePerturbation(gene, InterventionMode.Knockout, steps, probeOmega)
+        Dim fallback As PerturbationTrace = model.TracePerturbation(gene, InterventionMode.Knockout, steps)
+
+        Call AuditTest(probe.Mutant.Relaxation = probeOmega,
+                       $"an explicit relaxation is honoured ({probe.Mutant.Relaxation:G3})")
+        Call AuditTest(fallback.Mutant.Relaxation = model.Config.Relaxation,
+                       $"an omitted relaxation falls back to the config value ({fallback.Mutant.Relaxation:G3})")
+
+        ' ---------------- 7. 一键导出 ----------------
+        Dim options As New AnalysisOptions With {
+            .Mode = InterventionMode.Knockout,
+            .Omegas = omegas,
+            .StepsList = budgets,
+            .SweepSteps = steps,
+            .Doses = doses,
+            .DoseSteps = steps,
+            .CombinationSteps = steps,
+            .TopGenes = top,
+            .SurfaceTopGenes = top,
+            .LagThresholdRatio = 0.1,
+            .InvariantTolerance = tolerance
+        }
+
+        Dim exportWatch As Stopwatch = Stopwatch.StartNew()
+        Dim files As String() = model.ExportAnalysisReport(outDir, gene, gene, geneB, options)
+
+        exportWatch.Stop()
+
+        Call DebugAudit.Mark("export.seconds", exportWatch.Elapsed.TotalSeconds)
+
+        Dim allWritten As Boolean = True
+
+        For Each artifact As String In files
+            If Not File.Exists(artifact) OrElse New FileInfo(artifact).Length = 0 Then
+                allWritten = False
+            End If
+        Next
+
+        Call AuditTest(allWritten AndAlso files.Length >= 6,
+                       $"every analysis artifact was written ({files.Length} file(s))")
+
+        Dim reportPath As String = Path.Combine(outDir, AnalysisExporter.ReportFile)
+        Dim runs As Integer = 0
+        Dim parsed As Boolean = False
+
+        If File.Exists(reportPath) Then
+            Try
+                Using doc As JsonDocument = JsonDocument.Parse(File.ReadAllText(reportPath))
+                    Dim runsElement As JsonElement
+
+                    If doc.RootElement.TryGetProperty("runs", runsElement) Then
+                        runs = runsElement.GetInt32()
+                        parsed = runs > 0
+                    End If
+                End Using
+            Catch ex As Exception
+                parsed = False
+            End Try
+        End If
+
+        Call AuditTest(parsed, $"the report is valid json and records a positive run count ({runs})")
+
+        ' ---------------- 汇总 ----------------
+        Call DebugAudit.Mark("assertions", asserts)
+
+        Console.WriteLine()
+        Console.WriteLine($"assertions: {asserts}, failures: {DebugAudit.FailureCount}")
+        Console.WriteLine(DebugAudit.Dump())
+
+        Dim reportFile As String = Path.Combine(outDir, $"fuzzygene-analysis-report-{DateTime.Now:yyyyMMdd-HHmmss}.json")
+
+        Call DebugAudit.SaveReport(reportFile)
+
+        Console.WriteLine($"report   : {reportFile}")
+        Console.WriteLine($"artifacts: {outDir}")
+
+        Return If(DebugAudit.FailureCount = 0, 0, 1)
     End Function
 
 #End Region

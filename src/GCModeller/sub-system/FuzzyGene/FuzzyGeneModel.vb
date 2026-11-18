@@ -1,5 +1,6 @@
 Imports System.Diagnostics
 Imports System.IO
+Imports ana = SMRUCC.genomics.Analysis.FuzzyGene.Perturbation.Analysis
 Imports SMRUCC.genomics.Analysis.FuzzyGene.Config
 Imports SMRUCC.genomics.Analysis.FuzzyGene.Data
 Imports SMRUCC.genomics.Analysis.FuzzyGene.Fitting
@@ -595,6 +596,11 @@ Public Class FuzzyGeneModel : Implements InsilicoPerturbationExperiment
     ''' <param name="geneName">目标基因</param>
     ''' <param name="mode">干预模式</param>
     ''' <param name="steps">最大迭代步数；&lt;= 0 时取配置值</param>
+    ''' <param name="relaxation">阻尼系数；<c>NaN</c> 时取配置值（ω 扫描靠它按次覆盖）</param>
+    ''' <param name="value">
+    ''' <see cref="InterventionMode.Custom"/> 模式下的钳制值（原始表达量）；
+    ''' 其他模式忽略。剂量扫描用它把 <c>baseline × (1 − dose)</c> 传进来。
+    ''' </param>
     ''' <returns>干预结果与两条轨迹</returns>
     ''' <remarks>
     ''' 与 <see cref="SimulateCascade"/> 的区别：级联是「无阻尼地反复应用 F」，
@@ -603,16 +609,42 @@ Public Class FuzzyGeneModel : Implements InsilicoPerturbationExperiment
     ''' </remarks>
     Public Function TracePerturbation(geneName As String,
                                       Optional mode As InterventionMode = InterventionMode.Knockout,
-                                      Optional steps As Integer = 0) As PerturbationTrace
+                                      Optional steps As Integer = 0,
+                                      Optional relaxation As Double = Double.NaN,
+                                      Optional value As Double = 0.0) As PerturbationTrace
         Call EnsureTrained()
 
         Dim spec As New InterventionSpec With {
             .GeneName = geneName,
             .GeneIndex = -1,
-            .Mode = mode
+            .Mode = mode,
+            .Value = value
         }
 
-        Return _engine.PredictWithTrace(New InterventionSpec() {spec}, steps)
+        Return _engine.PredictWithTrace(New InterventionSpec() {spec}, steps, relaxation)
+    End Function
+
+    ''' <summary>
+    ''' 组合扰动（多个干预定义）的稳态求解轨迹。
+    ''' </summary>
+    ''' <param name="specs">干预定义集合；多个元素表示联合扰动</param>
+    ''' <param name="steps">最大迭代步数；&lt;= 0 时取配置值</param>
+    ''' <param name="relaxation">阻尼系数；<c>NaN</c> 时取配置值</param>
+    ''' <returns>联合结果与两条轨迹</returns>
+    ''' <remarks>
+    ''' 与单基因重载并列存在：第一个参数是基因名时走单扰动，是干预定义集合时走组合。
+    ''' 组合非加性分析（<c>Perturbation.Analysis.CombinationTrace</c>）依赖这个入口。
+    ''' </remarks>
+    Public Function TracePerturbation(specs As IEnumerable(Of InterventionSpec),
+                                      Optional steps As Integer = 0,
+                                      Optional relaxation As Double = Double.NaN) As PerturbationTrace
+        Call EnsureTrained()
+
+        If specs Is Nothing Then
+            Throw New ArgumentNullException(NameOf(specs))
+        End If
+
+        Return _engine.PredictWithTrace(specs, steps, relaxation)
     End Function
 
     ''' <summary>
@@ -732,6 +764,138 @@ Public Class FuzzyGeneModel : Implements InsilicoPerturbationExperiment
         Next
 
         Return max
+    End Function
+
+    ' ==================== 多运行自检与剂量分析 ====================
+
+    ''' <summary>在若干阻尼系数上各求解一次，检查终态是否一致。</summary>
+    ''' <param name="geneName">被扰动的靶基因</param>
+    ''' <param name="mode">干预模式</param>
+    ''' <param name="omegas">被扫描的 ω；<c>Nothing</c> 时取 {0.2, 0.5, 0.8, 1.0}</param>
+    ''' <param name="steps">每次求解的最大迭代步数</param>
+    ''' <param name="referenceOmega">比较基准；<c>NaN</c> 时取最接近 0.5 的那个</param>
+    ''' <param name="tolerance">判定「不变」的相对偏差阈值</param>
+    ''' <returns>扫描结果</returns>
+    Public Function SweepOmega(geneName As String,
+                               Optional mode As InterventionMode = InterventionMode.Knockout,
+                               Optional omegas As Double() = Nothing,
+                               Optional steps As Integer = 50,
+                               Optional referenceOmega As Double = Double.NaN,
+                               Optional tolerance As Double = 0.001) As ana.OmegaSweepResult
+        Call EnsureTrained()
+
+        Return ana.SolverStability.SweepOmega(Me, geneName, mode, omegas, steps, referenceOmega, tolerance)
+    End Function
+
+    ''' <summary>在若干迭代步数上各求解一次，检查终态是否随步数改变。</summary>
+    ''' <param name="geneName">被扰动的靶基因</param>
+    ''' <param name="mode">干预模式</param>
+    ''' <param name="stepsList">被扫描的步数；<c>Nothing</c> 时取 {50, 200, 500}</param>
+    ''' <param name="omega">本次使用的 ω；<c>NaN</c> 取配置值</param>
+    ''' <param name="tolerance">判定「不变」的相对偏差阈值</param>
+    ''' <returns>扫描结果</returns>
+    Public Function SweepSteps(geneName As String,
+                               Optional mode As InterventionMode = InterventionMode.Knockout,
+                               Optional stepsList As Integer() = Nothing,
+                               Optional omega As Double = Double.NaN,
+                               Optional tolerance As Double = 0.001) As ana.StepSweepResult
+        Call EnsureTrained()
+
+        Return ana.SolverStability.SweepSteps(Me, geneName, mode, stepsList, omega, tolerance)
+    End Function
+
+    ''' <summary>跨 ω 比较 lag（首次响应帧号）排序的稳健性。</summary>
+    ''' <param name="geneName">被扰动的靶基因（自身不参与 lag 统计）</param>
+    ''' <param name="mode">干预模式</param>
+    ''' <param name="omegas">被扫描的 ω；<c>Nothing</c> 时取默认网格</param>
+    ''' <param name="steps">每次求解的最大迭代步数</param>
+    ''' <param name="thresholdRatio">触发阈值占该基因终态变化量的比例</param>
+    ''' <returns>lag 矩阵与 Spearman 矩阵</returns>
+    Public Function AnalyzeLag(geneName As String,
+                               Optional mode As InterventionMode = InterventionMode.Knockout,
+                               Optional omegas As Double() = Nothing,
+                               Optional steps As Integer = 50,
+                               Optional thresholdRatio As Double = 0.1) As ana.LagRobustnessResult
+        Call EnsureTrained()
+
+        Return ana.SolverStability.LagRobustness(Me, geneName, mode, omegas, steps, thresholdRatio)
+    End Function
+
+    ''' <summary>对若干剂量点各求解一次，得到全基因的终态剂量响应。</summary>
+    ''' <param name="geneName">被扰动的靶基因</param>
+    ''' <param name="doses">剂量点（0 = 不改变、1 = 完全敲除）；<c>Nothing</c> 时取 5 点网格</param>
+    ''' <param name="steps">每次求解的最大迭代步数</param>
+    ''' <param name="omega">本次使用的 ω；<c>NaN</c> 取配置值</param>
+    ''' <param name="top">保留的 Top-K 基因数</param>
+    ''' <returns>剂量-响应结果</returns>
+    Public Function AnalyzeDose(geneName As String,
+                                Optional doses As Double() = Nothing,
+                                Optional steps As Integer = 60,
+                                Optional omega As Double = Double.NaN,
+                                Optional top As Integer = 50) As ana.DoseResponseResult
+        Call EnsureTrained()
+
+        Return ana.DoseScan.DoseResponse(Me, geneName, doses, steps, omega, top)
+    End Function
+
+    ''' <summary>剂量 × 迭代步的二维响应曲面（只保留 Top-K 基因）。</summary>
+    ''' <param name="geneName">被扰动的靶基因</param>
+    ''' <param name="doses">剂量点；<c>Nothing</c> 时取 5 点网格</param>
+    ''' <param name="steps">每次求解的最大迭代步数</param>
+    ''' <param name="omega">本次使用的 ω；<c>NaN</c> 取配置值</param>
+    ''' <param name="top">保留的基因数</param>
+    ''' <returns>曲面结果</returns>
+    Public Function AnalyzeDoseTime(geneName As String,
+                                    Optional doses As Double() = Nothing,
+                                    Optional steps As Integer = 60,
+                                    Optional omega As Double = Double.NaN,
+                                    Optional top As Integer = 20) As ana.DoseTimeSurfaceResult
+        Call EnsureTrained()
+
+        Return ana.DoseScan.DoseTimeSurface(Me, geneName, doses, steps, omega, top)
+    End Function
+
+    ''' <summary>两个基因联合扰动的非加性分析（终态 + 逐帧）。</summary>
+    ''' <param name="geneA">第一个靶基因</param>
+    ''' <param name="geneB">第二个靶基因</param>
+    ''' <param name="mode">干预模式</param>
+    ''' <param name="steps">每次求解的最大迭代步数</param>
+    ''' <param name="omega">本次使用的 ω；<c>NaN</c> 取配置值</param>
+    ''' <param name="top">逐帧口径保留的基因数</param>
+    ''' <returns>非加性结果</returns>
+    Public Function AnalyzeCombination(geneA As String,
+                                       geneB As String,
+                                       Optional mode As InterventionMode = InterventionMode.Knockout,
+                                       Optional steps As Integer = 60,
+                                       Optional omega As Double = Double.NaN,
+                                       Optional top As Integer = 50) As ana.CombinationTraceResult
+        Call EnsureTrained()
+
+        Return ana.CombinationTrace.Analyze(Me, geneA, geneB, mode, steps, omega, top)
+    End Function
+
+    ''' <summary>
+    ''' 一次跑完 ω / 步数 / lag / 剂量 / 组合五项分析，并把结果写成 CSV 与 JSON。
+    ''' </summary>
+    ''' <param name="dir">输出目录（不存在时自动创建）</param>
+    ''' <param name="gene">单扰动分析的靶基因</param>
+    ''' <param name="geneA">组合分析的第一个基因；为空时跳过组合部分</param>
+    ''' <param name="geneB">组合分析的第二个基因；为空时跳过组合部分</param>
+    ''' <param name="options">网格与开关；<c>Nothing</c> 时用默认值</param>
+    ''' <returns>实际写出的文件路径</returns>
+    ''' <remarks>
+    ''' 每一步求解都会同时产出突变型与野生型轨迹，因此一次编排的总求解次数约为
+    ''' <c>2 × (ω 个数 + 步数个数 + ω 个数 + 剂量点个数 × 2 + 3)</c>。
+    ''' 在 18533 基因的真实模型上，默认网格约需 1~2 分钟。
+    ''' </remarks>
+    Public Function ExportAnalysisReport(dir As String,
+                                         gene As String,
+                                         geneA As String,
+                                         geneB As String,
+                                         Optional options As ana.AnalysisOptions = Nothing) As String()
+        Call EnsureTrained()
+
+        Return ana.AnalysisExporter.ExportAll(Me, gene, geneA, geneB, dir, options)
     End Function
 
     ' ==================== 持久化 ====================

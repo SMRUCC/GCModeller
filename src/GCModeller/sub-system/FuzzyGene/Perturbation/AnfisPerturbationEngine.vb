@@ -152,6 +152,10 @@ Namespace Perturbation
         ''' </summary>
         ''' <param name="specs">干预定义；多个元素表示组合扰动</param>
         ''' <param name="steps">最大迭代步数；&lt;= 0 时取配置值</param>
+        ''' <param name="relaxation">
+        ''' 阻尼系数；<c>NaN</c> 时取配置值。ω 扫描必须能按次覆盖它，
+        ''' 否则就只能靠改全局配置来切换，扫描途中容易被上一次调用改掉。
+        ''' </param>
         ''' <returns>结果 + 两条轨迹</returns>
         ''' <remarks>
         ''' <para>
@@ -164,7 +168,8 @@ Namespace Perturbation
         ''' </para>
         ''' </remarks>
         Public Function PredictWithTrace(specs As IEnumerable(Of InterventionSpec),
-                                         Optional steps As Integer = 0) As PerturbationTrace
+                                         Optional steps As Integer = 0,
+                                         Optional relaxation As Double = Double.NaN) As PerturbationTrace
 
             Dim list As List(Of InterventionSpec) = ToSpecList(specs)
             Dim watch As Stopwatch = Stopwatch.StartNew()
@@ -174,7 +179,7 @@ Namespace Perturbation
             ' 对照轨迹总是要给：即使目标基因缺失，它也说明了「系统本来的走向」
             Dim controlTrace As Data.SteadyStateTrace = _network.SteadyStateTraceOf(
                 _baseline, Nothing, count,
-                _network.Config.Relaxation,
+                relaxation,
                 _network.Config.ConvergenceTolerance)
 
             If plan.Indices.Count = 0 Then
@@ -195,7 +200,7 @@ Namespace Perturbation
 
             Dim mutantTrace As Data.SteadyStateTrace = _network.SteadyStateTraceOf(
                 _baseline, plan.Clamps, count,
-                _network.Config.Relaxation,
+                relaxation,
                 _network.Config.ConvergenceTolerance)
 
             ' 末帧就是求解器的返回值：就地回写干预值，让曲线终点与报告出来的
