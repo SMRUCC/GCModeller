@@ -17,6 +17,7 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 Imports fz = SMRUCC.genomics.Analysis.FuzzyGene
 Imports fzcfg = SMRUCC.genomics.Analysis.FuzzyGene.Config
 Imports fzdata = SMRUCC.genomics.Analysis.FuzzyGene.Data
+Imports fzpert = SMRUCC.genomics.Analysis.FuzzyGene.Perturbation
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
@@ -50,6 +51,23 @@ Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 ''' <item><description>
 ''' ``fuzzygene_rules`` / ``fuzzygene_edges``: export the interpretable IF-THEN rules and the
 ''' signed regulatory edge table;
+''' </description></item>
+''' <item><description>
+''' ``fuzzygene_trace_perturbation`` / ``fuzzygene_export_trace``: record the whole-genome
+''' steady-state trajectory of one virtual perturbation (mutant and wildtype), either as two
+''' matrices in memory or as CSV + ``SampleInfo`` sidecar files on disk;
+''' </description></item>
+''' <item><description>
+''' ``fuzzygene_trace_convergence``: the solver diagnostics of that run (iteration vs
+''' ``max_delta``), which tells whether the flat tail of a curve is a real steady state;
+''' </description></item>
+''' <item><description>
+''' ``fuzzygene_rank_perturbations`` / ``fuzzygene_strongest_perturbation``: rank candidate
+''' perturbations by predicted response strength;
+''' </description></item>
+''' <item><description>
+''' ``fuzzygene_relaxation``: change the damping factor / iteration budget of the solver, which
+''' is what you want when a genome scale model keeps oscillating instead of converging;
 ''' </description></item>
 ''' </list>
 ''' <para>
@@ -854,5 +872,463 @@ Module fuzzyGene
             Return RInternal.debug.stop(ex.Message, env)
         End Try
     End Function
+
+#Region "稳态求解轨迹"
+
+    ''' <summary>
+    ''' Record the whole-genome steady-state trajectory of one virtual perturbation.
+    ''' </summary>
+    ''' <remarks>
+    ''' <para>
+    ''' Returns a named list:
+    ''' </para>
+    ''' <list type="bullet">
+    ''' <item><description>
+    ''' ``mutant``: a Matrix (rows = all genes, columns = iteration frames ``mut_t000``...);
+    ''' </description></item>
+    ''' <item><description>
+    ''' ``wildtype``: the same shape for the unperturbed baseline;
+    ''' </description></item>
+    ''' <item><description>
+    ''' ``convergence``: a data.frame ``iteration`` / ``max_delta`` of the mutant run;
+    ''' </description></item>
+    ''' <item><description>
+    ''' ``control_convergence``: the same for the wildtype run;
+    ''' </description></item>
+    ''' <item><description>
+    ''' ``changes``: a data.frame ``gene`` / ``fold_change`` / ``percent_change`` / ``z_score`` /
+    ''' ``significant`` of the final state;
+    ''' </description></item>
+    ''' <item><description>
+    ''' ``summary``: a one row data.frame with the perturbation definition and the solver diagnostics.
+    ''' </description></item>
+    ''' </list>
+    ''' <para>
+    ''' The column index is a <b>damped iteration step</b>, not biological time: ``omega`` changes
+    ''' the shape of the curve while a converged end point stays the same (see
+    ''' ``fuzzygene_relaxation``). Only a lagged (time series) model with ``omega = 1`` makes one
+    ''' frame equal to one sampling interval.
+    ''' </para>
+    ''' <para>
+    ''' Read ``convergence`` / ``summary$converged`` before interpreting the curve: a flat tail
+    ''' produced by running out of ``steps`` is a truncated plateau, not a steady state.
+    ''' </para>
+    ''' <para>
+    ''' ``wildtype`` is not decoration. The control steady state used by the perturbation engine is
+    ''' the training baseline, which is generally <b>not</b> a fixed point of the network; the
+    ''' wildtype trajectory shows how much the system drifts on its own, so that drift can be told
+    ''' apart from the perturbation effect.
+    ''' </para>
+    ''' </remarks>
+    ''' <param name="fuzzygene">a trained (or restored) model</param>
+    ''' <param name="gene">the target gene of the virtual perturbation</param>
+    ''' <param name="mode">``knockout`` (default), ``knockdown`` or ``overexpression``</param>
+    ''' <param name="steps">maximum iteration steps; 0 uses the model configuration</param>
+    ''' <param name="env">the R# runtime environment used to report errors</param>
+    ''' <returns>a named list of matrices, data.frames and the run summary</returns>
+    <ExportAPI("fuzzygene_trace_perturbation")>
+    <RApiReturn(GetType(list))>
+    Public Function fuzzygene_trace_perturbation(fuzzygene As fz.FuzzyGeneModel,
+                                                 gene As String,
+                                                 Optional mode As String = "knockout",
+                                                 Optional steps As Integer = 0,
+                                                 Optional env As Environment = Nothing) As Object
+        If fuzzygene Is Nothing OrElse Not fuzzygene.IsTrained Then
+            Return RInternal.debug.stop("the model has not been trained yet", env)
+        End If
+        If String.IsNullOrEmpty(gene) Then
+            Return RInternal.debug.stop("a target gene is required", env)
+        End If
+
+        Dim intervention As InterventionMode
+        Dim trace As fzpert.PerturbationTrace
+
+        If Not parseInterventionMode(mode, intervention) Then
+            Return RInternal.debug.stop($"unknown perturbation mode '{mode}', expected knockout / knockdown / overexpression", env)
+        End If
+
+        Try
+            trace = fuzzygene.TracePerturbation(gene, intervention, steps)
+        Catch ex As Exception
+            Return RInternal.debug.stop(ex.Message, env)
+        End Try
+
+        If trace Is Nothing OrElse trace.Mutant Is Nothing OrElse trace.Control Is Nothing Then
+            Return RInternal.debug.stop($"the target gene '{gene}' is not modelled by this network", env)
+        End If
+
+        Return New list With {
+            .slots = New Dictionary(Of String, Object) From {
+                {"mutant", trace.Mutant.ToMatrix("mut_t", $"fuzzygene trace (mutant, {intervention}:{gene})")},
+                {"wildtype", trace.Control.ToMatrix("wt_t", "fuzzygene trace (wildtype)")},
+                {"convergence", convergenceTable(trace.Mutant)},
+                {"control_convergence", convergenceTable(trace.Control)},
+                {"changes", changesTable(trace.Result)},
+                {"summary", summaryTable(trace, gene)}
+            }
+        }
+    End Function
+
+    ''' <summary>
+    ''' Solver diagnostics of one virtual perturbation, without building the two large matrices.
+    ''' </summary>
+    ''' <remarks>
+    ''' Same solve as ``fuzzygene_trace_perturbation`` but only the ``convergence`` /
+    ''' ``control_convergence`` / ``summary`` elements are returned. Use it when all you need is the
+    ''' <c>log10(max_delta)</c> versus iteration plot: constructing the 18k x 250 matrices is the
+    ''' expensive part.
+    ''' </remarks>
+    ''' <param name="fuzzygene">a trained (or restored) model</param>
+    ''' <param name="gene">the target gene of the virtual perturbation</param>
+    ''' <param name="mode">``knockout`` (default), ``knockdown`` or ``overexpression``</param>
+    ''' <param name="steps">maximum iteration steps; 0 uses the model configuration</param>
+    ''' <param name="env">the R# runtime environment used to report errors</param>
+    ''' <returns>a named list with ``convergence``, ``control_convergence`` and ``summary``</returns>
+    <ExportAPI("fuzzygene_trace_convergence")>
+    <RApiReturn(GetType(list))>
+    Public Function fuzzygene_trace_convergence(fuzzygene As fz.FuzzyGeneModel,
+                                                gene As String,
+                                                Optional mode As String = "knockout",
+                                                Optional steps As Integer = 0,
+                                                Optional env As Environment = Nothing) As Object
+        If fuzzygene Is Nothing OrElse Not fuzzygene.IsTrained Then
+            Return RInternal.debug.stop("the model has not been trained yet", env)
+        End If
+        If String.IsNullOrEmpty(gene) Then
+            Return RInternal.debug.stop("a target gene is required", env)
+        End If
+
+        Dim intervention As InterventionMode
+        Dim trace As fzpert.PerturbationTrace
+
+        If Not parseInterventionMode(mode, intervention) Then
+            Return RInternal.debug.stop($"unknown perturbation mode '{mode}', expected knockout / knockdown / overexpression", env)
+        End If
+
+        Try
+            trace = fuzzygene.TracePerturbation(gene, intervention, steps)
+        Catch ex As Exception
+            Return RInternal.debug.stop(ex.Message, env)
+        End Try
+
+        If trace Is Nothing OrElse trace.Mutant Is Nothing Then
+            Return RInternal.debug.stop($"the target gene '{gene}' is not modelled by this network", env)
+        End If
+
+        Return New list With {
+            .slots = New Dictionary(Of String, Object) From {
+                {"convergence", convergenceTable(trace.Mutant)},
+                {"control_convergence", convergenceTable(trace.Control)},
+                {"summary", summaryTable(trace, gene)}
+            }
+        }
+    End Function
+
+    ''' <summary>
+    ''' Export the two trajectory matrices of one virtual perturbation to a folder.
+    ''' </summary>
+    ''' <remarks>
+    ''' <para>
+    ''' Writes, into <paramref name="dir"/>:
+    ''' </para>
+    ''' <list type="bullet">
+    ''' <item><description>``trace.mutant.csv`` / ``trace.wildtype.csv``: gene x iteration matrices;</description></item>
+    ''' <item><description>``*.sampleinfo.json``: one <c>SampleInfo</c> row per column (``time`` / ``iteration``
+    ''' / ``omega`` / ``converged`` / ``perturbed_genes`` ...), ready for the ExperimentDesigner
+    ''' pipeline;</description></item>
+    ''' <item><description>``trace.perturbation.json``: the run summary plus the whole ``max_delta`` sequence.</description></item>
+    ''' </list>
+    ''' <para>
+    ''' ``dt`` only affects ``metadata$time`` of the sidecar (<c>time = iteration * dt</c>); it does
+    ''' not change the matrix. Leave it at 1 unless the model is a lagged (time series) model and
+    ''' the sampling interval is known.
+    ''' </para>
+    ''' <code>
+    ''' let files = fuzzygene::fuzzygene_export_trace(model, "TPPP3", "/path/trace", mode = "knockout");
+    ''' print(files);
+    ''' </code>
+    ''' </remarks>
+    ''' <param name="fuzzygene">a trained (or restored) model</param>
+    ''' <param name="gene">the target gene of the virtual perturbation</param>
+    ''' <param name="dir">the output folder (created when missing)</param>
+    ''' <param name="mode">``knockout`` (default), ``knockdown`` or ``overexpression``</param>
+    ''' <param name="steps">maximum iteration steps; 0 uses the model configuration</param>
+    ''' <param name="dt">time unit of one iteration frame, used by the sidecar only</param>
+    ''' <param name="env">the R# runtime environment used to report errors</param>
+    ''' <returns>a character vector of the written file paths</returns>
+    <ExportAPI("fuzzygene_export_trace")>
+    <RApiReturn(TypeCodes.string)>
+    Public Function fuzzygene_export_trace(fuzzygene As fz.FuzzyGeneModel,
+                                           gene As String,
+                                           dir As String,
+                                           Optional mode As String = "knockout",
+                                           Optional steps As Integer = 0,
+                                           Optional dt As Double = 1,
+                                           Optional env As Environment = Nothing) As Object
+        If fuzzygene Is Nothing OrElse Not fuzzygene.IsTrained Then
+            Return RInternal.debug.stop("the model has not been trained yet", env)
+        End If
+        If String.IsNullOrEmpty(gene) Then
+            Return RInternal.debug.stop("a target gene is required", env)
+        End If
+        If String.IsNullOrWhiteSpace(dir) Then
+            Return RInternal.debug.stop("the output folder path is empty", env)
+        End If
+        If dt <= 0 Then
+            Return RInternal.debug.stop("dt must be positive", env)
+        End If
+
+        Dim intervention As InterventionMode
+        Dim trace As fzpert.PerturbationTrace
+
+        If Not parseInterventionMode(mode, intervention) Then
+            Return RInternal.debug.stop($"unknown perturbation mode '{mode}', expected knockout / knockdown / overexpression", env)
+        End If
+
+        Try
+            trace = fuzzygene.TracePerturbation(gene, intervention, steps)
+        Catch ex As Exception
+            Return RInternal.debug.stop(ex.Message, env)
+        End Try
+
+        If trace Is Nothing OrElse trace.Mutant Is Nothing Then
+            Return RInternal.debug.stop($"the target gene '{gene}' is not modelled by this network", env)
+        End If
+
+        Try
+            Return trace.Export(dir, dt)
+        Catch ex As Exception
+            Return RInternal.debug.stop(ex.Message, env)
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Rank candidate perturbations by their predicted response strength.
+    ''' </summary>
+    ''' <remarks>
+    ''' <para>
+    ''' Running a perturbation for every gene of a genome scale model takes hours, so only
+    ''' <paramref name="candidates"/> genes (an evenly spaced sample of the modelled genes, no
+    ''' random numbers involved) are evaluated.
+    ''' </para>
+    ''' <para>
+    ''' The score is the largest <c>|Z|</c> among the genes that were <b>not</b> clamped: the Z score
+    ''' of the target itself is the imposed shift, not a model prediction. Note that with
+    ''' ``clampToSupport`` enabled the largest <c>|Z|</c> often saturates at the same value for many
+    ''' candidates; the ``affected`` column (number of significant genes) is the tie breaker, and
+    ''' is a better ranking criterion in that case.
+    ''' </para>
+    ''' </remarks>
+    ''' <param name="fuzzygene">a trained (or restored) model</param>
+    ''' <param name="candidates">number of candidate genes to evaluate; 0 means all modelled genes</param>
+    ''' <param name="mode">``knockout`` (default), ``knockdown`` or ``overexpression``</param>
+    ''' <param name="env">the R# runtime environment used to report errors</param>
+    ''' <returns>a data.frame ``gene`` / ``max_abs_z`` / ``affected`` / ``elapsed_ms``, best first</returns>
+    <ExportAPI("fuzzygene_rank_perturbations")>
+    <RApiReturn(GetType(dataframe))>
+    Public Function fuzzygene_rank_perturbations(fuzzygene As fz.FuzzyGeneModel,
+                                                 Optional candidates As Integer = 24,
+                                                 Optional mode As String = "knockout",
+                                                 Optional env As Environment = Nothing) As Object
+        If fuzzygene Is Nothing OrElse Not fuzzygene.IsTrained Then
+            Return RInternal.debug.stop("the model has not been trained yet", env)
+        End If
+
+        Dim intervention As InterventionMode
+        Dim ranked As fzpert.PerturbationCandidate()
+
+        If Not parseInterventionMode(mode, intervention) Then
+            Return RInternal.debug.stop($"unknown perturbation mode '{mode}', expected knockout / knockdown / overexpression", env)
+        End If
+
+        Try
+            ranked = fuzzygene.RankPerturbations(candidates, intervention)
+        Catch ex As Exception
+            Return RInternal.debug.stop(ex.Message, env)
+        End Try
+
+        Dim table As New dataframe With {
+            .columns = New Dictionary(Of String, Array)
+        }
+
+        Call table.add("gene", ranked.Select(Function(c) c.GeneName))
+        Call table.add("max_abs_z", ranked.Select(Function(c) c.MaxAbsZScore))
+        Call table.add("affected", ranked.Select(Function(c) c.NAffected))
+        Call table.add("elapsed_ms", ranked.Select(Function(c) c.ElapsedMs))
+
+        Return table
+    End Function
+
+    ''' <summary>
+    ''' The single gene whose perturbation produces the strongest predicted response.
+    ''' </summary>
+    ''' <param name="fuzzygene">a trained (or restored) model</param>
+    ''' <param name="candidates">number of candidate genes to evaluate; 0 means all modelled genes</param>
+    ''' <param name="mode">``knockout`` (default), ``knockdown`` or ``overexpression``</param>
+    ''' <param name="env">the R# runtime environment used to report errors</param>
+    ''' <returns>the gene name, or an R# error object when nothing could be evaluated</returns>
+    <ExportAPI("fuzzygene_strongest_perturbation")>
+    <RApiReturn(TypeCodes.string)>
+    Public Function fuzzygene_strongest_perturbation(fuzzygene As fz.FuzzyGeneModel,
+                                                     Optional candidates As Integer = 24,
+                                                     Optional mode As String = "knockout",
+                                                     Optional env As Environment = Nothing) As Object
+        If fuzzygene Is Nothing OrElse Not fuzzygene.IsTrained Then
+            Return RInternal.debug.stop("the model has not been trained yet", env)
+        End If
+
+        Dim intervention As InterventionMode
+        Dim gene As String
+
+        If Not parseInterventionMode(mode, intervention) Then
+            Return RInternal.debug.stop($"unknown perturbation mode '{mode}', expected knockout / knockdown / overexpression", env)
+        End If
+
+        Try
+            gene = fuzzygene.FindStrongestPerturbation(candidates, intervention)
+        Catch ex As Exception
+            Return RInternal.debug.stop(ex.Message, env)
+        End Try
+
+        If String.IsNullOrEmpty(gene) Then
+            Return RInternal.debug.stop("no candidate could be evaluated", env)
+        End If
+
+        Return gene
+    End Function
+
+    ''' <summary>
+    ''' Set the damping factor, the iteration budget and the tolerance used by the steady-state solver.
+    ''' </summary>
+    ''' <remarks>
+    ''' <para>
+    ''' The trajectory produced by ``fuzzygene_trace_perturbation`` is the damped fixed-point
+    ''' iteration <c>z &lt;- z + omega * (F(z) - z)</c>. With ``omega = 1`` (no damping) the iteration
+    ''' is the plain repeated application of <c>F</c>, and on a genome scale model that often keeps
+    ''' oscillating instead of converging; ``omega = 0.5`` is the usual compromise between stability
+    ''' and speed.
+    ''' </para>
+    ''' <para>
+    ''' Always rerun the trajectory after changing these values, and check ``summary$converged``:
+    ''' a non converged run means the flat tail of the curve is a truncated plateau.
+    ''' </para>
+    ''' <code>
+    ''' model = fuzzygene::fuzzygene_relaxation(model, omega = 0.5, steps = 80);
+    ''' let t = fuzzygene::fuzzygene_trace_perturbation(model, "TPPP3");
+    ''' print(t$summary);
+    ''' </code>
+    ''' </remarks>
+    ''' <param name="fuzzygene">a trained (or restored) model</param>
+    ''' <param name="omega">damping factor in (0, 1]; 0.5 is the recommended value</param>
+    ''' <param name="steps">maximum iteration steps, must be positive</param>
+    ''' <param name="tolerance">convergence threshold on the per step max change, must be positive</param>
+    ''' <param name="env">the R# runtime environment used to report errors</param>
+    ''' <returns>the same model object, so the call can be chained</returns>
+    <ExportAPI("fuzzygene_relaxation")>
+    <RApiReturn(GetType(FuzzyGeneModel))>
+    Public Function fuzzygene_relaxation(fuzzygene As fz.FuzzyGeneModel,
+                                         Optional omega As Double = 0.5,
+                                         Optional steps As Integer = 50,
+                                         Optional tolerance As Double = 0.000001,
+                                         Optional env As Environment = Nothing) As Object
+        If fuzzygene Is Nothing OrElse Not fuzzygene.IsTrained Then
+            Return RInternal.debug.stop("the model has not been trained yet", env)
+        End If
+        If omega <= 0 OrElse omega > 1 Then
+            Return RInternal.debug.stop("omega must be in (0, 1]", env)
+        End If
+        If steps < 1 Then
+            Return RInternal.debug.stop("steps must be positive", env)
+        End If
+        If tolerance <= 0 Then
+            Return RInternal.debug.stop("tolerance must be positive", env)
+        End If
+
+        fuzzygene.Config.Relaxation = omega
+        fuzzygene.Config.PropagationSteps = steps
+        fuzzygene.Config.ConvergenceTolerance = tolerance
+
+        Return fuzzygene
+    End Function
+
+    ''' <summary>把 R# 侧的扰动模式字符串解析成枚举。</summary>
+    ''' <param name="text">模式名（大小写不敏感，支持 ko / kd / oe 简写）</param>
+    ''' <param name="mode">解析结果</param>
+    ''' <returns>是否识别成功</returns>
+    Private Function parseInterventionMode(text As String, ByRef mode As InterventionMode) As Boolean
+        Select Case If(text, "knockout").Trim().ToLowerInvariant()
+            Case "knockout", "ko"
+                mode = InterventionMode.Knockout
+            Case "knockdown", "kd"
+                mode = InterventionMode.Knockdown
+            Case "overexpression", "overexpress", "oe"
+                mode = InterventionMode.Overexpression
+            Case Else
+                Return False
+        End Select
+
+        Return True
+    End Function
+
+    ''' <summary>求解诊断表：迭代步 → 该步的最大变化量。</summary>
+    Private Function convergenceTable(trace As fzdata.SteadyStateTrace) As dataframe
+        Dim table As New dataframe With {
+            .columns = New Dictionary(Of String, Array)
+        }
+        Dim n As Integer = If(trace Is Nothing, 0, trace.MaxDeltas.Count)
+        Dim iteration(n - 1) As Integer
+        Dim delta(n - 1) As Double
+
+        For i As Integer = 0 To n - 1
+            iteration(i) = i + 1
+            delta(i) = trace.MaxDeltas(i)
+        Next
+
+        Call table.add("iteration", iteration)
+        Call table.add("max_delta", delta)
+
+        Return table
+    End Function
+
+    ''' <summary>终态表达变化表（与 ``knockouts`` 的输出列语义一致）。</summary>
+    Private Function changesTable(result As InterventionResult) As dataframe
+        Dim table As New dataframe With {
+            .columns = New Dictionary(Of String, Array)
+        }
+
+        If result Is Nothing Then
+            Return table
+        End If
+
+        Call table.add("gene", result.GeneNames)
+        Call table.add("fold_change", result.FoldChanges)
+        Call table.add("percent_change", result.PercentChanges)
+        Call table.add("z_score", result.ZScores)
+        Call table.add("significant", result.IsSignificant)
+
+        Return table
+    End Function
+
+    ''' <summary>本次扰动的单行摘要（扰动定义 + 求解参数 + 收敛状态）。</summary>
+    Private Function summaryTable(trace As fzpert.PerturbationTrace, gene As String) As dataframe
+        Dim table As New dataframe With {
+            .columns = New Dictionary(Of String, Array)
+        }
+        Dim mutant As fzdata.SteadyStateTrace = trace.Mutant
+
+        Call table.add("gene", New String() {gene})
+        Call table.add("mode", New String() {trace.Mode.ToString()})
+        Call table.add("clamp_value", New Double() {trace.ClampValue})
+        Call table.add("iterations", New Integer() {mutant.Iterations})
+        Call table.add("converged", New Boolean() {mutant.Converged})
+        Call table.add("omega", New Double() {mutant.Relaxation})
+        Call table.add("tolerance", New Double() {mutant.Tolerance})
+        Call table.add("lagged", New Boolean() {mutant.Lagged})
+        Call table.add("elapsed_ms", New Double() {trace.ElapsedMs})
+
+        Return table
+    End Function
+
+#End Region
 
 End Module
