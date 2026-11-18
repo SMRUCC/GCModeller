@@ -5,11 +5,10 @@ Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Calculus.Dynamics
-Imports Microsoft.VisualBasic.Serialization.BinaryDumping
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.SGrid.GRN
+Imports BinaryMatrixCodec = Microsoft.VisualBasic.Serialization.BinaryDumping.NetworkByteOrderBuffer.Compression
 Imports EffectorRole = SMRUCC.genomics.BioSystem.Core.Effector
-Imports matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 Imports PriorEdge = SMRUCC.genomics.BioSystem.Core.RegulatoryEdge
 Imports PriorNet = SMRUCC.genomics.BioSystem.Core.PriorNetwork
 Imports std = System.Math
