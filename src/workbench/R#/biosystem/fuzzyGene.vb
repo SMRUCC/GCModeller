@@ -153,7 +153,7 @@ Module fuzzyGene
     ''' </summary>
     ''' <remarks>
     ''' The returned object (registered as the ``fuzzygene_config`` R# type) is accepted by the
-    ''' ``config`` argument of ``fuzzygene::build_fuzzygene``. Structure and training options are
+    ''' ``config`` argument of ``FuzzyGene::build_fuzzygene``. Structure and training options are
     ''' inherited from the shared ANFIS configuration; this api exposes the subset that matters for
     ''' gene regulatory network inference.
     ''' </remarks>
@@ -385,7 +385,7 @@ Module fuzzyGene
     ''' when omitted the candidate regulators are selected by correlation only.
     ''' </param>
     ''' <param name="config">
-    ''' the configuration created by ``fuzzygene::fuzzygene_config``; ``Nothing`` uses the defaults.
+    ''' the configuration created by ``FuzzyGene::fuzzygene_config``; ``Nothing`` uses the defaults.
     ''' </param>
     ''' <param name="env">the R# runtime environment (unused)</param>
     ''' <returns>an untrained model object</returns>
@@ -407,10 +407,10 @@ Module fuzzyGene
     ''' <remarks>
     ''' Training is per gene and therefore parallelizable; a gene that cannot be fitted (constant
     ''' expression, no candidate regulator, ill conditioned least squares) is recorded as skipped
-    ''' or failed instead of aborting the whole run. Use ``fuzzygene::fuzzygene_report`` to inspect
+    ''' or failed instead of aborting the whole run. Use ``FuzzyGene::fuzzygene_report`` to inspect
     ''' the per gene diagnostics.
     ''' </remarks>
-    ''' <param name="fuzzygene">the untrained model created by ``fuzzygene::build_fuzzygene``</param>
+    ''' <param name="fuzzygene">the untrained model created by ``FuzzyGene::build_fuzzygene``</param>
     ''' <param name="env">the R# runtime environment used to report errors</param>
     ''' <returns>the trained model object, or an R# error object when training fails</returns>
     <ExportAPI("train")>
@@ -499,7 +499,7 @@ Module fuzzyGene
     ''' The result is a standard ``Matrix`` object, so it can be written directly with
     ''' ``geneExpression::write.expr_matrix()`` or fed into downstream network analysis:
     ''' <code>
-    ''' let w = fuzzygene::fuzzygene_regulation_matrix(model, layout = "compact");
+    ''' let w = FuzzyGene::fuzzygene_regulation_matrix(model, layout = "compact");
     ''' geneExpression::write.expr_matrix(w, file = "/path/to/network_weight.csv", id = "geneID");
     ''' </code>
     ''' </para>
@@ -555,8 +555,8 @@ Module fuzzyGene
     ''' "how trustworthy"), so exporting both matrices and using weight for the edge width and
     ''' confidence for the edge opacity or a cutoff is the usual combination:
     ''' <code>
-    ''' let w = fuzzygene::fuzzygene_regulation_matrix(model, layout = "compact");
-    ''' let c = fuzzygene::fuzzygene_confidence_matrix(model, layout = "compact");
+    ''' let w = FuzzyGene::fuzzygene_regulation_matrix(model, layout = "compact");
+    ''' let c = FuzzyGene::fuzzygene_confidence_matrix(model, layout = "compact");
     ''' geneExpression::write.expr_matrix(w, file = "/path/weight.csv", id = "geneID");
     ''' geneExpression::write.expr_matrix(c, file = "/path/confidence.csv", id = "geneID");
     ''' </code>
@@ -745,7 +745,7 @@ Module fuzzyGene
     ''' instead of "effect of B from the original baseline".
     ''' <code>
     ''' let round1 = model |> knockouts(c("A"));           # A 失活
-    ''' print(fuzzygene::fuzzygene_context_upstream(model, round1[[1]]));
+    ''' print(FuzzyGene::fuzzygene_context_upstream(model, round1[[1]]));
     ''' let round2 = model |> knockouts(c("B"));           # 在 A 失活的背景上敲 B
     ''' </code>
     ''' </para>
@@ -904,6 +904,15 @@ Module fuzzyGene
     ''' </description></item>
     ''' </list>
     ''' <para>
+    ''' ``mutant`` and ``wildtype`` are .NET <c>HTS.DataFrame.Matrix</c> objects (rows = genes,
+    ''' columns = frames), not R matrices, so ``dim()`` returns 1 on them. Pass them straight to a
+    ''' downstream consumer instead:
+    ''' <code>
+    ''' let trace = FuzzyGene::fuzzygene_trace_perturbation(model, "TPPP3");
+    ''' geneExpression::write.expr_matrix(trace$mutant, file = "/path/mutant.csv", id = "geneID");
+    ''' </code>
+    ''' </para>
+    ''' <para>
     ''' The column index is a <b>damped iteration step</b>, not biological time: ``omega`` changes
     ''' the shape of the curve while a converged end point stays the same (see
     ''' ``fuzzygene_relaxation``). Only a lagged (time series) model with ``omega = 1`` makes one
@@ -1044,7 +1053,7 @@ Module fuzzyGene
     ''' the sampling interval is known.
     ''' </para>
     ''' <code>
-    ''' let files = fuzzygene::fuzzygene_export_trace(model, "TPPP3", "/path/trace", mode = "knockout");
+    ''' let files = FuzzyGene::fuzzygene_export_trace(model, "TPPP3", "/path/trace", mode = "knockout");
     ''' print(files);
     ''' </code>
     ''' </remarks>
@@ -1213,8 +1222,8 @@ Module fuzzyGene
     ''' a non converged run means the flat tail of the curve is a truncated plateau.
     ''' </para>
     ''' <code>
-    ''' model = fuzzygene::fuzzygene_relaxation(model, omega = 0.5, steps = 80);
-    ''' let t = fuzzygene::fuzzygene_trace_perturbation(model, "TPPP3");
+    ''' model = FuzzyGene::fuzzygene_relaxation(model, omega = 0.5, steps = 80);
+    ''' let t = FuzzyGene::fuzzygene_trace_perturbation(model, "TPPP3");
     ''' print(t$summary);
     ''' </code>
     ''' </remarks>
