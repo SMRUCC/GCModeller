@@ -240,7 +240,7 @@ print(diag$summary);
 #   注意这里用的是赋值而不是 let：model 已经在第 1 步声明过了，
 #   fuzzygene_relaxation 返回的就是同一个对象，赋值只是让语义更直观。
 #
-model = FuzzyGene::fuzzygene_relaxation(model, omega = 0.5, steps = 60);
+model = FuzzyGene::fuzzygene_relaxation(model, omega = 0.5, steps = 300);
 
 let diag2 = FuzzyGene::fuzzygene_trace_convergence(model, gene, mode = "knockout");
 
