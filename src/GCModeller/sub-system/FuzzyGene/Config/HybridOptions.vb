@@ -120,8 +120,26 @@ Namespace Config
 
         ' ==================== 稳定性校准 ====================
 
-        ''' <summary>全局增益校准方式。</summary>
-        Public Property Calibration As StabilityCalibrationMode = StabilityCalibrationMode.SpectralRadius
+        ''' <summary>
+        ''' 全局增益校准方式；默认关闭。
+        ''' </summary>
+        ''' <remarks>
+        ''' <para>
+        ''' 默认关闭是有意的：默认求解器已经是牛顿/LM 求根，它对 <c>ρ(J) &gt; 1</c> 的映射同样能解
+        ''' （求根不需要压缩性），因此校准不再是收敛的前提。
+        ''' </para>
+        ''' <para>
+        ''' 校准会把环上的斜率整体缩小 <c>γ = (1-ε)/ρ</c>，代价是预测幅度同步缩小；
+        ''' 在「相关补边造出大量反函数环」的网络上，实测平均 R² 会从 0.87 掉到负值。
+        ''' 因此它应当是显式选择：只有在
+        ''' ① 坚持用旧阻尼路径（<see cref="SolverMode.LegacyDamped"/>）、或
+        ''' ② 需要扰动幅度有界、可解释时，才打开。
+        ''' </para>
+        ''' <para>
+        ''' 打开之后训练报告会给出 <c>rho: 校准前 → 校准后</c> 与前后 R²，代价是可见的。
+        ''' </para>
+        ''' </remarks>
+        Public Property Calibration As StabilityCalibrationMode = StabilityCalibrationMode.None
 
         ''' <summary>校准目标：<c>ρ(J) ≤ 1 - Epsilon</c>；取 0.05 留出 5% 的收敛余量。</summary>
         Public Property CalibrationEpsilon As Double = 0.05
@@ -133,11 +151,17 @@ Namespace Config
         ''' 调控因子筛选的共线性上限：已选中的调控因子两两 <c>|Pearson|</c> 超过该值就不再选。
         ''' </summary>
         ''' <remarks>
+        ''' <para>
         ''' 近共线的设计矩阵会让 LSE 给出大数值、反号的系数（沿数据流形的和正常，
         ''' 正交方向梯度极大），这是 <c>ρ(J) ≫ 1</c> 的主要来源。
-        ''' 取 1.0 表示关闭该约束。
+        ''' 取 1.0 表示关闭该约束（默认）。
+        ''' </para>
+        ''' <para>
+        ''' 默认关闭是为了不改变既有的候选筛选结果（共线约束会减少「数据发现的调控因子」数量）；
+        ''' 稳定性敏感的场景建议显式设为 0.95 左右。
+        ''' </para>
         ''' </remarks>
-        Public Property MaxRegulatorCollinearity As Double = 0.95
+        Public Property MaxRegulatorCollinearity As Double = 1.0
 
         ''' <summary>逐属性校验并返回自身。</summary>
         Public Function Validate() As HybridOptions

@@ -295,8 +295,9 @@ Namespace Fitting
 
                 network.SpectralRadius = calibration.PostSpectralRadius
                 network.CalibrationMode = calibration.Mode
-                network.PreCalibrationR2 = report.PreCalibrationR2
-                network.PostCalibrationR2 = report.PostCalibrationR2
+                ' NaN 不能写进 JSON（模型包里 R² 是普通数字字段），未记录时用 0 表示
+                network.PreCalibrationR2 = If(Double.IsNaN(report.PreCalibrationR2), 0.0, report.PreCalibrationR2)
+                network.PostCalibrationR2 = If(Double.IsNaN(report.PostCalibrationR2), 0.0, report.PostCalibrationR2)
             End If
 
             If trained.Length = 0 Then

@@ -13,9 +13,11 @@ Imports SMRUCC.genomics.Analysis.FuzzyGene
 Imports SMRUCC.genomics.Analysis.FuzzyGene.Config
 Imports SMRUCC.genomics.Analysis.FuzzyGene.Data
 Imports SMRUCC.genomics.Analysis.FuzzyGene.Fitting
+Imports SMRUCC.genomics.Analysis.FuzzyGene.Hybrid
 Imports SMRUCC.genomics.Analysis.FuzzyGene.IO
 Imports SMRUCC.genomics.Analysis.FuzzyGene.Perturbation
 Imports SMRUCC.genomics.Analysis.FuzzyGene.Perturbation.Analysis
+Imports SMRUCC.genomics.Analysis.FuzzyGene.Solver
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports std = System.Math
 
@@ -63,6 +65,7 @@ Module Program
         TestContext(staticData, prior)
         TestNovelty(staticData, prior)
         TestScatter(staticData, prior)
+        TestSolverAndHybrid(staticData, prior)
 
         Console.WriteLine()
         Console.WriteLine($"PASS: {passes} assertion(s), {failures} failure(s)")
@@ -1482,6 +1485,262 @@ Module Program
               $"novelty quota introduces data driven regulators ({baseline} -> {discovered} non-prior edges)")
         Check(novelty.Network.Edges.Any(Function(e) e.IsPrior),
               "prior edges are still kept (the quota only reserves part of the slots)")
+    End Sub
+
+#End Region
+
+#Region "求解器诊断与三层融合"
+
+    ''' <summary>
+    ''' 收敛判据、增益校准与 PBN / FCM 融合层的回归测试。
+    ''' </summary>
+    ''' <remarks>
+    ''' 这一组针对的是本轮修复的核心：
+    ''' ① 钳制基因的约束违背量不再污染收敛判据；
+    ''' ② 野生型参考是真正的不动点；
+    ''' ③ 增益校准只作用于调控环、且能真的把谱半径压到 1-ε 以下；
+    ''' ④ PBN 正则 / 采样与 FCM 热启动都不破坏原有的扰动路径。
+    ''' </remarks>
+    Private Sub TestSolverAndHybrid(data As GeneExpressionData, prior As PriorNetwork)
+        Console.WriteLine()
+        Console.WriteLine("--- scenario 8: solver diagnostics, calibration and hybrid layers ---")
+
+        Dim config As New FuzzyGeneConfig With {
+            .Selection = RegulatorSelection.PriorOnly,
+            .MaxRegulators = 3,
+            .MfCount = 3,
+            .MaxEpoch = 40,
+            .TargetMode = FuzzyTargetMode.StaticRoute,
+            .PropagationSteps = 40,
+            .Relaxation = 0.5,
+            .PruneRuleThreshold = 0.0,
+            .DegreeOfParallelism = 1
+        }
+
+        Dim model As New FuzzyGeneModel(data, prior, config)
+
+        Call model.Train()
+
+        ' ---------- 8.1 收敛判据：钳制基因不参与残差 ----------
+        Dim trace As PerturbationTrace = model.TracePerturbation("A", InterventionMode.Knockout, config.PropagationSteps)
+        Dim mutant As SteadyStateTrace = trace.Mutant
+
+        Call AuditTest(mutant IsNot Nothing, "solver: the knockout trace is produced")
+
+        If mutant Is Nothing Then
+            Return
+        End If
+
+        Call AuditTest(mutant.ExitReason = ExitReason.Converged,
+                       $"solver: a knockout converges with the Newton solver (actual {mutant.ExitReason})")
+        Call AuditTest(mutant.FreeResidual <= config.ConvergenceTolerance,
+                       $"solver: the free residual is below the tolerance (actual {mutant.FreeResidual:G3})")
+        ' 目标基因 A 没有拟合模型（PriorOnly 下它是根），因此它的 F 是恒等映射、违背量为 0；
+        ' 换一个有入边的基因才能看出「约束违背量」这一诊断确实在统计
+        Dim hubTrace As PerturbationTrace = model.TracePerturbation("D", InterventionMode.Knockout, config.PropagationSteps)
+
+        Dim zBase As Double() = model.Network.ToZ(model.Network.BaselineRaw)
+        Dim dRow As Double() = {zBase(1), zBase(2)}
+        Dim dPred As Double = model.Network.Models(3).Predict(dRow)
+
+        Console.WriteLine($"  [diag] D modelled={model.Network.Models(3) IsNot Nothing}, " &
+                          $"regulators={String.Join(",", If(model.Network.Models(3)?.Regulators, New String() {}))}, " &
+                          $"clamp={hubTrace.ClampValue:G3}, iterations={hubTrace.Mutant.Iterations}, " &
+                          $"free={hubTrace.Mutant.FreeResidual:G3}, constraint={hubTrace.Mutant.ClampResidual:G3}, " &
+                          $"frame0={hubTrace.Mutant.States(0)(3):G3}, final={hubTrace.Mutant.Final(3):G3}, " &
+                          $"zD={zBase(3):G3}, F_D(baseline)={dPred:G3}, support=[{model.Network.SupportMin(3):G3},{model.Network.SupportMax(3):G3}]")
+
+        Call AuditTest(hubTrace.Mutant IsNot Nothing AndAlso hubTrace.Mutant.ClampResidual > 0.0,
+                       $"solver: the constraint violation is reported separately (actual {If(hubTrace.Mutant Is Nothing, 0, hubTrace.Mutant.ClampResidual):G3})")
+        Call AuditTest(hubTrace.Mutant IsNot Nothing AndAlso hubTrace.Mutant.ExitReason = ExitReason.Converged,
+                       "solver: a knockout on a modelled gene also converges")
+        Call AuditTest(mutant.Iterations < config.PropagationSteps,
+                       $"solver: convergence is not masked by the step budget ({mutant.Iterations}/{config.PropagationSteps})")
+
+        ' 旧实现里这一条必然失败：maxDelta 恒被 ω|F(clamp)-clamp| 顶在高位
+        Call AuditTest(mutant.Converged, "solver: Converged no longer depends on the clamped gene")
+
+        ' ---------- 8.2 Predict 与 Trace 逐位一致 ----------
+        Dim plain As InterventionResult = model.KnockoutGene("A")
+
+        Call AuditTest(SameArray(plain.FoldChanges, trace.Result.FoldChanges),
+                       "solver: Predict() and TracePerturbation() are bit-identical")
+
+        ' ---------- 8.3 野生型参考是不动点 ----------
+        Call AuditTest(trace.Control IsNot Nothing AndAlso trace.Control.ExitReason = ExitReason.Converged,
+                       "solver: the control trajectory also converges")
+
+        Dim controlDrift As Double = 0.0
+
+        If trace.Control IsNot Nothing Then
+            For g As Integer = 0 To model.Network.NGene - 1
+                controlDrift = std.Max(controlDrift, std.Abs(trace.Control.Final(g) - plain.WildtypeMeans(g)))
+            Next
+        End If
+
+        Call AuditTest(controlDrift <= config.ConvergenceTolerance * 10.0,
+                       $"solver: the reported wild type is the control fixed point (max diff {controlDrift:G3})")
+
+        ' 基线本身（训练均值）与不动点的差就是「模型自漂移」，它现在是可见的
+        Dim baselineDrift As Double = 0.0
+
+        If trace.Control IsNot Nothing Then
+            For g As Integer = 0 To model.Network.NGene - 1
+                baselineDrift = std.Max(baselineDrift, std.Abs(trace.Control.Final(g) - model.Network.BaselineRaw(g)))
+            Next
+        End If
+
+        Call DebugAudit.Mark("solver.baseline.drift", baselineDrift)
+
+        ' ---------- 8.4 增益校准 ----------
+        Dim cyclicConfig As New FuzzyGeneConfig With {
+            .Selection = RegulatorSelection.PriorFirst,
+            .MaxRegulators = 4,
+            .MfCount = 3,
+            .MaxEpoch = 40,
+            .TargetMode = FuzzyTargetMode.StaticRoute,
+            .PropagationSteps = 40,
+            .Relaxation = 0.5,
+            .PruneRuleThreshold = 0.0,
+            .DegreeOfParallelism = 1
+        }
+
+        ' 无环网络（PriorOnly）的 ρ 必须为 0，校准不得改动它——否则会白白牺牲 R²
+        Call AuditTest(model.LastTrainingResult.SpectralRadius <= 1.0E-9,
+                       $"calibration: an acyclic network has rho = 0 (actual {model.LastTrainingResult.SpectralRadius:G3})")
+
+        cyclicConfig.Hybrid.Calibration = StabilityCalibrationMode.SpectralRadius
+        cyclicConfig.Hybrid.CalibrationEpsilon = 0.05
+
+        Dim calibrated As New FuzzyGeneModel(data, prior, cyclicConfig)
+        Dim calibratedReport As FuzzyGeneTrainingResult = calibrated.Train()
+        Dim target As Double = 1.0 - cyclicConfig.Hybrid.CalibrationEpsilon
+
+        Call DebugAudit.Mark("calibration.rho", calibratedReport.SpectralRadius)
+        Call DebugAudit.Mark("calibration.gamma", calibratedReport.CalibrationGamma)
+        Call DebugAudit.Mark("calibration.r2.pre", calibratedReport.PreCalibrationR2)
+        Call DebugAudit.Mark("calibration.r2.post", calibratedReport.PostCalibrationR2)
+
+        Call AuditTest(calibrated.Network.CalibrationMode = StabilityCalibrationMode.SpectralRadius,
+                       "calibration: the mode is recorded on the network")
+        Call AuditTest(calibratedReport.PostCalibrationR2 <> 0.0,
+                       "calibration: the post-calibration R2 is reported")
+        Call AuditTest(calibrated.Network.SpectralRadius <= target + 1.0E-6,
+                       $"calibration: rho is pushed below 1-eps (actual {calibrated.Network.SpectralRadius:G3})")
+        Call AuditTest(calibratedReport.CalibratedGenes > 0,
+                       $"calibration: only the cyclic genes are rescaled (actual {calibratedReport.CalibratedGenes})")
+
+        ' ---------- 8.5 PBN 定性正则 ----------
+        Dim pbnConfig As New FuzzyGeneConfig With {
+            .Selection = RegulatorSelection.PriorFirst,
+            .MaxRegulators = 4,
+            .MfCount = 3,
+            .MaxEpoch = 40,
+            .TargetMode = FuzzyTargetMode.StaticRoute,
+            .PropagationSteps = 40,
+            .Relaxation = 0.5,
+            .PruneRuleThreshold = 0.0,
+            .DegreeOfParallelism = 1
+        }
+
+        pbnConfig.Hybrid.PbnRegularization = PbnRegularizationMode.Weighted
+        pbnConfig.Hybrid.PbnWeight = 1.0
+        pbnConfig.Hybrid.EnsembleSamples = 8
+        pbnConfig.Hybrid.ModeBiasWeight = 0.3
+
+        Dim pbnModel As New FuzzyGeneModel(data, prior, pbnConfig)
+        Dim pbnReport As FuzzyGeneTrainingResult = pbnModel.Train()
+
+        Call AuditTest(pbnModel.PbnPrior IsNot Nothing, "pbn: the qualitative layer is built")
+        Call AuditTest(pbnModel.PbnPrior IsNot Nothing AndAlso pbnModel.PbnPrior.TargetsAnalysed > 0,
+                       $"pbn: at least one target gene was analysed (actual {If(pbnModel.PbnPrior Is Nothing, 0, pbnModel.PbnPrior.TargetsAnalysed)})")
+        Call AuditTest(pbnModel.Network.Edges.Any(Function(e) e.IsPrior),
+                       "pbn: the prior edges survive the regularisation")
+        Call AuditTest(pbnReport.NTrained > 0, $"pbn: fitting still succeeds ({pbnReport.NTrained} target gene(s))")
+
+        ' ---------- 8.6 PBN 采样集成 ----------
+        Dim knockouts As InterventionSpec() = {
+            New InterventionSpec With {.GeneName = "A", .GeneIndex = -1, .Mode = InterventionMode.Knockout}
+        }
+        Dim ensemble As EnsemblePerturbationResult = pbnModel.PredictEnsemble(knockouts, 8)
+
+        Call AuditTest(ensemble.Samples = 8, $"ensemble: the requested samples are produced (actual {ensemble.Samples})")
+        Call AuditTest(ensemble.Mean IsNot Nothing AndAlso ensemble.Mean.Length = pbnModel.Network.NGene,
+                       "ensemble: the mean vector matches the gene count")
+        Call AuditTest(ensemble.StandardDeviation IsNot Nothing AndAlso ensemble.StandardDeviation.Length = pbnModel.Network.NGene,
+                       "ensemble: the standard deviation has one entry per gene")
+        Call AuditTest(ensemble.AttractorPeriods.Count > 0,
+                       $"ensemble: boolean attractors are reported ({ensemble.AttractorPeriods.Count} distinct period(s))")
+        Call AuditTest(Not ensemble.Degenerate, "ensemble: the result is not a degenerate single point")
+
+        ' ---------- 8.7 FCM 热启动 ----------
+        Dim fcmConfig As New FuzzyGeneConfig With {
+            .Selection = RegulatorSelection.PriorFirst,
+            .MaxRegulators = 4,
+            .MfCount = 3,
+            .MaxEpoch = 40,
+            .TargetMode = FuzzyTargetMode.StaticRoute,
+            .PropagationSteps = 40,
+            .Relaxation = 0.5,
+            .PruneRuleThreshold = 0.0,
+            .DegreeOfParallelism = 1
+        }
+
+        fcmConfig.Hybrid.FcmWarmStart = True
+        fcmConfig.Hybrid.FcmModuleCount = 2
+        ' 这张网络是环状的（PriorFirst 会补上反函数边），谱半径 > 1；
+        ' 不开校准的话牛顿法会在 20 轮内耗尽预算——这正是校准存在的理由
+        fcmConfig.Hybrid.Calibration = StabilityCalibrationMode.SpectralRadius
+
+        Dim fcmModel As New FuzzyGeneModel(data, prior, fcmConfig)
+
+        Call fcmModel.Train()
+
+        Call AuditTest(fcmModel.Network.Modules IsNot Nothing, "fcm: the module assignment is stored on the network")
+        Call AuditTest(fcmModel.Network.Modules IsNot Nothing AndAlso fcmModel.Network.Modules.Length = fcmModel.Network.NGene,
+                       "fcm: every gene carries a module id")
+
+        Dim layer As New FcmModuleLayer(fcmModel.Network)
+
+        Call AuditTest(layer.Available, "fcm: the module layer is available")
+
+        Dim warm As FcmModuleResult = layer.BuildInitial(fcmModel.Network.BaselineRaw)
+
+        Call AuditTest(warm IsNot Nothing AndAlso warm.GeneInitial IsNot Nothing AndAlso warm.GeneInitial.Length = fcmModel.Network.NGene,
+                       "fcm: the warm start fills every gene")
+
+        Dim fcmWatch As Stopwatch = Stopwatch.StartNew()
+        Dim fcmTrace As PerturbationTrace = fcmModel.TracePerturbation("A", InterventionMode.Knockout, fcmConfig.PropagationSteps)
+
+        fcmWatch.Stop()
+        Call DebugAudit.Mark("fcm.trace.seconds", fcmWatch.Elapsed.TotalSeconds)
+
+        Console.WriteLine($"  fcm trace: {fcmWatch.Elapsed.TotalSeconds:F2}s, " &
+                          $"exit={If(fcmTrace.Mutant Is Nothing, "none", fcmTrace.Mutant.ExitReason.ToString())}, " &
+                          $"free={If(fcmTrace.Mutant Is Nothing, 0, fcmTrace.Mutant.FreeResidual):G3}")
+
+        Call AuditTest(fcmTrace.Mutant IsNot Nothing AndAlso fcmTrace.Mutant.ExitReason = ExitReason.Converged,
+                       "fcm: the warm start does not break the perturbation solver")
+
+        ' ---------- 8.8 新元数据的持久化往返 ----------
+        Dim package As String = IO.Path.Combine(IO.Path.GetTempPath(), "fuzzygene-hybrid-" & Guid.NewGuid().ToString("N") & ".fuzzygene.zip")
+
+        Try
+            Call fcmModel.Save(package)
+
+            Dim restored As FuzzyGeneModel = FuzzyGeneModel.Load(package)
+
+            Call AuditTest(restored.Network.Modules IsNot Nothing AndAlso restored.Network.Modules.Length = fcmModel.Network.NGene,
+                           "package: the module assignment survives the round trip")
+            Call AuditTest(restored.Network.CalibrationMode = fcmModel.Network.CalibrationMode,
+                           "package: the calibration metadata survives the round trip")
+            Call AuditTest(restored.TracePerturbation("A", InterventionMode.Knockout, 40).Mutant IsNot Nothing,
+                           "package: the restored model still runs perturbations")
+        Finally
+            If IO.File.Exists(package) Then
+                Call IO.File.Delete(package)
+            End If
+        End Try
     End Sub
 
 #End Region

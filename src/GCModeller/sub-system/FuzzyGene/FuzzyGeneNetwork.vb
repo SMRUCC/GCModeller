@@ -120,11 +120,15 @@ Public Class FuzzyGeneNetwork
     ''' </remarks>
     Public Property Modules As Integer()
 
-    ''' <summary>校准前的训练集平均 R²（<c>NaN</c> 表示未记录）。</summary>
-    Public Property PreCalibrationR2 As Double = Double.NaN
+    ''' <summary>校准前的训练集平均 R²（<c>0</c> 表示未记录）。</summary>
+    ''' <remarks>
+    ''' 不用 <c>NaN</c> 表示「未记录」：模型包是 JSON，<see cref="System.Text.Json"/>
+    ''' 默认拒绝写出 NaN/Infinity，会让保存直接失败。
+    ''' </remarks>
+    Public Property PreCalibrationR2 As Double
 
-    ''' <summary>校准后的训练集平均 R²（<c>NaN</c> 表示未记录）。</summary>
-    Public Property PostCalibrationR2 As Double = Double.NaN
+    ''' <summary>校准后的训练集平均 R²（<c>0</c> 表示未记录）。</summary>
+    Public Property PostCalibrationR2 As Double
 
     ''' <summary>基因数量。</summary>
     Public ReadOnly Property NGene As Integer
@@ -790,10 +794,14 @@ Public Class FuzzyGeneNetwork
                 Exit For
             End If
 
-            ' 有相当比例的基因被压在支持域边界：结论不可采信（夹断把发散伪装成了饱和）
-            If n > 0 AndAlso residual.Pinned >= n \ 2 AndAlso currentMax > context.Tolerance * 100.0 Then
+            ' 有相当比例的基因被压在支持域边界：结论不可采信（夹断把发散伪装成了饱和）。
+            ' 三条同时成立才算：网络够大、已经跑过几轮、残差显著高于容差——
+            ' 否则小网络的首轮贴界会被误判成饱和
+            If n >= 8 AndAlso stepIndex >= 3 AndAlso residual.Pinned * 4 >= n * 3 AndAlso
+               currentMax > context.Tolerance * 100.0 Then
+
                 report.ExitReason = Solver.ExitReason.SupportSaturated
-                report.AddMessage("more than half of the genes are pinned to the support bounds; the response is an artefact of clamping")
+                report.AddMessage("more than 75% of the genes are pinned to the support bounds; the response is an artefact of clamping")
 
                 Exit For
             End If
@@ -1500,10 +1508,10 @@ Public Class FuzzyGeneNetworkDto
     Public Property spectralRadius As Double
     ''' <summary>全局增益校准方式；旧包为 None。</summary>
     Public Property calibrationMode As StabilityCalibrationMode
-    ''' <summary>校准前训练集平均 R²。</summary>
-    Public Property preCalibrationR2 As Double = Double.NaN
-    ''' <summary>校准后训练集平均 R²。</summary>
-    Public Property postCalibrationR2 As Double = Double.NaN
+    ''' <summary>校准前训练集平均 R²（0 = 未记录；JSON 不能写 NaN）。</summary>
+    Public Property preCalibrationR2 As Double
+    ''' <summary>校准后训练集平均 R²（0 = 未记录）。</summary>
+    Public Property postCalibrationR2 As Double
     ''' <summary>逐基因模块编号（FCM 粗粒度层用）；旧包与未启用时为 Nothing。</summary>
     Public Property modules As Integer()
     ''' <summary>带符号调控边。</summary>

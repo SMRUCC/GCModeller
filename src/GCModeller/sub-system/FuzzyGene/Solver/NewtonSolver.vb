@@ -108,9 +108,13 @@ Namespace Solver
                     Return True
                 End If
 
-                If _n > 0 AndAlso _residual.Pinned >= _n \ 2 AndAlso currentMax > tolerance * 100.0 Then
+                ' 饱和判定要三条同时成立：网络够大（小网络的比例没有统计意义）、
+                ' 已经跑过几轮（首轮的贴界是初值造成的）、残差显著高于容差
+                If _n >= 8 AndAlso iteration >= 3 AndAlso
+                   _residual.Pinned * 4 >= _n * 3 AndAlso currentMax > tolerance * 100.0 Then
+
                     _report.ExitReason = ExitReason.SupportSaturated
-                    _report.AddMessage("more than half of the genes are pinned to the support bounds; the response is an artefact of clamping")
+                    _report.AddMessage("more than 75% of the genes are pinned to the support bounds; the response is an artefact of clamping")
 
                     Return True
                 End If
