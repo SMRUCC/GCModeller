@@ -98,6 +98,11 @@ Namespace Solver
 
             Dim target As Double = 1.0 - options.CalibrationEpsilon
 
+            ' 只有处在调控环里的基因才可能把扰动放大；
+            ' 无环部分再怎么缩放也只是白白削弱拟合（R² 会直接变成负数）
+            Dim cyclic As Boolean() = CyclicGenes(network, MaxCycleDepth)
+            Dim scaled As Integer = 0
+
             For pass As Integer = 1 To MaxPasses
                 Dim rho As Double = Estimate(network, z, options)
 
@@ -115,13 +120,15 @@ Namespace Solver
                 ' 极端情况下（rho 巨大或估计失真）也不要把模型压成 0
                 scale = std.Max(scale, options.CalibrationMinScale)
 
-                Call ScaleAll(network, scale)
+                scaled += ScaleGenes(network, cyclic, scale)
 
                 result.Gamma *= scale
             Next
 
-            ' 防御性兜底：逐行 L1 上界（ρ ≤ ‖J‖∞）
-            result.ScaledGenes = ScaleRows(network, z, target, options)
+            ' 防御性兜底：仍然是环比率的行 L1 上界
+            scaled += ScaleRows(network, z, target, options, cyclic)
+
+            result.ScaledGenes = scaled
             result.PostSpectralRadius = Estimate(network, z, options)
 
             Return result
@@ -150,11 +157,10 @@ Namespace Solver
             Dim iterations As Integer = network.Config.Solver.SpectralPowerIterations
             Dim rho As Double = jacobian.SpectralRadius(iterations)
 
-            ' 幂迭代在复特征值/强非对称下可能收敛到很小的值；差距超过一个量级就信上界
-            If rho <= 0.0 OrElse (bound > 0.0 AndAlso rho < bound * 0.1) Then
-                Return bound
-            End If
-
+            ' 幂迭代给出的就是谱半径：**不能用行范数上界去覆盖它**。
+            ' 无环网络（拓扑序存在）的 J 是严格三角、幂零的，真正的 ρ = 0，
+            ' 而 ‖J‖∞ 仍等于最大单基因灵敏度（可以是 3）。用上界覆盖会把一个
+            ' 本来收敛的网络整体缩小 70%，R² 直接变成负数——第一版就踩了这个坑。
             Return rho
         End Function
 
@@ -167,9 +173,23 @@ Namespace Solver
             Return jacobian.InfinityNorm()
         End Function
 
-        ''' <summary>把全部基因的结论斜率乘以同一个系数。</summary>
-        Private Sub ScaleAll(network As FuzzyGeneNetwork, scale As Double)
-            For Each model As GeneRegulationModel In network.Models
+        ''' <summary>把指定基因的结论斜率乘以同一个系数。</summary>
+        ''' <returns>被缩放的基因数</returns>
+        ''' <remarks>
+        ''' 统一系数就足够：周期 <c>L</c> 的环，其增益 <c>(Πg)^{1/L}</c> 与谱半径同阶，
+        ''' 所有环节点同乘 <c>γ</c> 会让谱半径精确地变成 <c>γ·ρ</c>。
+        ''' 无环节点不参与缩放，因此它们的拟合精度不受影响。
+        ''' </remarks>
+        Private Function ScaleGenes(network As FuzzyGeneNetwork, cyclic As Boolean(), scale As Double) As Integer
+            Dim count As Integer = 0
+
+            For g As Integer = 0 To network.NGene - 1
+                If Not cyclic(g) Then
+                    Continue For
+                End If
+
+                Dim model As GeneRegulationModel = network.Models(g)
+
                 If model Is Nothing OrElse model.Network Is Nothing Then
                     Continue For
                 End If
@@ -177,15 +197,25 @@ Namespace Solver
                 Call ScaleSlopes(model, scale)
 
                 model.GainScale *= scale
+                count += 1
             Next
-        End Sub
+
+            Return count
+        End Function
 
         ''' <summary>
         ''' 对仍然超限的行做逐基因再缩放（把每行 L1 压到 <c>≤ target</c>）。
         ''' </summary>
         ''' <returns>被再次缩放的基因数</returns>
         Private Function ScaleRows(network As FuzzyGeneNetwork, z As Double(),
-                                   target As Double, options As HybridOptions) As Integer
+                                   target As Double, options As HybridOptions,
+                                   cyclic As Boolean()) As Integer
+            ' 全局谱半径已经达标就不必再动：逐行 L1 是**上界**，
+            ' 对无环网络它远大于真实谱半径（后者为 0），照它缩放会把模型整体压扁
+            If Estimate(network, z, options) <= target Then
+                Return 0
+            End If
+
             Dim jacobian As New JacobianOperator(network)
 
             Call jacobian.Build(z, 1)
@@ -197,6 +227,10 @@ Namespace Solver
                 Dim model As GeneRegulationModel = network.Models(g)
 
                 If model Is Nothing OrElse model.Network Is Nothing Then
+                    Continue For
+                End If
+                ' 只有处在调控环里的基因才可能放大扰动：无环部分再怎么缩放也只是削弱拟合
+                If Not cyclic(g) Then
                     Continue For
                 End If
                 If norms(g) <= target OrElse norms(g) <= 0.0 Then
@@ -212,6 +246,83 @@ Namespace Solver
             Next
 
             Return scaled
+        End Function
+
+        ''' <summary>环检测的深度上限（更长的环增益已经很小，不再单独处理）。</summary>
+        Private Const MaxCycleDepth As Integer = 3
+
+        ''' <summary>
+        ''' 标记「处在调控环里」的基因：从它的某个调控因子出发，沿「调控因子 → 靶基因」方向能回到它自己。
+        ''' </summary>
+        ''' <remarks>
+        ''' 用有界深度的前向 BFS 而不是完整 SCC：
+        ''' ① 只有短环（≤ 3 步）能产生接近 1 的闭环增益，长环自然被每条边的增益衰减；
+        ''' ② SCC 需要额外维护正反两张邻接表，而这里只需要在拟合结束后跑一次。
+        ''' </remarks>
+        Private Function CyclicGenes(network As FuzzyGeneNetwork, maxDepth As Integer) As Boolean()
+            Dim n As Integer = network.NGene
+            Dim inputs As Integer()() = network.RegulatorIndexTable
+            Dim targets(n - 1) As List(Of Integer)
+            Dim result(n - 1) As Boolean
+
+            For i As Integer = 0 To n - 1
+                targets(i) = New List(Of Integer)()
+            Next
+
+            For g As Integer = 0 To n - 1
+                For Each j As Integer In inputs(g)
+                    Call targets(j).Add(g)
+                Next
+            Next
+
+            For g As Integer = 0 To n - 1
+                Dim own As Integer() = inputs(g)
+
+                If own.Length = 0 Then
+                    Continue For
+                End If
+
+                Dim reached As New HashSet(Of Integer)()
+
+                For Each source As Integer In own
+                    ' 从调控因子出发，沿前向边搜索；能回到 g 就说明存在环
+                    Dim frontier As New List(Of Integer) From {source}
+
+                    For depth As Integer = 1 To maxDepth
+                        Dim nextFrontier As New List(Of Integer)()
+
+                        For Each node As Integer In frontier
+                            For Each target As Integer In targets(node)
+                                If target = g Then
+                                    result(g) = True
+
+                                    Exit For
+                                End If
+
+                                If reached.Add(target) Then
+                                    Call nextFrontier.Add(target)
+                                End If
+                            Next
+
+                            If result(g) Then
+                                Exit For
+                            End If
+                        Next
+
+                        If result(g) OrElse nextFrontier.Count = 0 Then
+                            Exit For
+                        End If
+
+                        frontier = nextFrontier
+                    Next
+
+                    If result(g) Then
+                        Exit For
+                    End If
+                Next
+            Next
+
+            Return result
         End Function
 
         ''' <summary>缩放单个模型的一阶结论斜率（截距不动）。</summary>
