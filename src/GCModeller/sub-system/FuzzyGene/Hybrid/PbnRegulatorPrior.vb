@@ -426,18 +426,20 @@ Namespace Hybrid
             Dim size As Integer = std.Min(std.Max(0, maxSize), pool.Count)
 
             For k As Integer = 0 To size
+                ' 循环变量不能直接被 lambda 捕获（BC42324）：复制到局部量再闭包
+                Dim subsetSize As Integer = k
                 Dim current(k - 1) As Integer
 
                 Dim build As Action(Of Integer, Integer) = Nothing
 
                 build = Sub(start As Integer, depth As Integer)
-                            If depth = k Then
+                            If depth = subsetSize Then
                                 Call result.Add(CType(current.Clone(), Integer()))
 
                                 Return
                             End If
 
-                            For i As Integer = start To pool.Count - (k - depth)
+                            For i As Integer = start To pool.Count - (subsetSize - depth)
                                 current(depth) = pool(i)
                                 Call build(i + 1, depth + 1)
                             Next

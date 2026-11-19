@@ -54,12 +54,14 @@ Public Class FuzzyGeneNetwork
     ''' 逐线程的计数槽：<c>(0)</c> = 输入被夹断的基因数，<c>(1)</c> = 输出贴界的基因数。
     ''' </summary>
     ''' <remarks>
+    ''' <para>
     ''' 用线程局部而不是共享计数器：稳态迭代每步要为上万个基因做一次判定，
     ''' <c>Interlocked.Increment</c> 会成为热点；每个线程各写自己的槽，最后求和即可。
-    ''' </remarks>
-    ''' <remarks>
+    ''' </para>
+    ''' <para>
     ''' <c>trackAllValues:=True</c> 是必须的：<see cref="ResetForwardDiagnostics"/> 要遍历所有线程的槽位，
     ''' 而 <c>ThreadLocal.Values</c> 只有在构造时显式开启跟踪才可用。
+    ''' </para>
     ''' </remarks>
     Private ReadOnly _diagnostics As New System.Threading.ThreadLocal(Of Integer())(
         Function() New Integer(1) {}, trackAllValues:=True)
