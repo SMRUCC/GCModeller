@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>The qualitative (probabilistic boolean) layer of a trained model: CoD table and rules.</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>fuzzygene_pbn {FuzzyGene}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>The qualitative (probabilistic boolean) layer of a trained model: CoD table and rules.</h2>
+
+        <h3>Description</h3>
+
+        
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>fuzzygene_pbn</strong>(<i>fuzzygene</i>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>fuzzygene</dt>
+<dd><p>a trained model that was built with <code>pbnRegularization != "none"</code>. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/FuzzyGeneModel.html">FuzzyGeneModel</a>]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment used to report errors. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: block;">Details</h3>
+
+        <p>Returns a named list:</p>
+
+
+<ul>
+<li><code>cod</code>: one row per (target, regulator) pair, columns <code>target</code> / <code>regulator</code> /</li>
+</ul>
+
+
+<p><code>cod</code> / <code>rank</code>; <code>cod</code> is the coefficient of determination of that parent set on the binarized matrix, i.e. how much of the boolean state of the target the regulator set explains;</p>
+
+
+<ul>
+<li><code>rules</code>: <code>target</code> / <code>parents</code> / <code>n_parents</code> / <code>cod</code>, the selected rule of each</li>
+</ul>
+
+
+<p>target gene (parents joined by <code>+</code>);</p>
+
+
+<ul>
+<li><code>targets</code>: <code>target</code> / <code>rules</code> / <code>best_cod</code>, one row per analysed gene;</li>
+<li><code>summary</code>: one row with <code>has_pbn</code> / <code>targets_analysed</code> / <code>skipped</code> / <code>genes</code> /</li>
+</ul>
+
+
+<p><code>warnings</code>.</p>
+
+<p>CoD is a <strong>consistency</strong> measure after binarization, not causal evidence: a rule can have a high CoD simply because the target and the parent are both driven by a third gene. Use it to suppress pure correlation edges and to report structure uncertainty, not as a substitute for perturbation data.</p>
+
+        <h3 style="display: block">Authors</h3>
+
+        biosystem
+
+        <h3>Value</h3>
+
+        <p>a named list of data.frames</p><h4>clr value class</h4><ul><li>list</li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>FuzzyGene</em> version 1.0.0.0 <a
+                href="../FuzzyGene.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

@@ -32,6 +32,12 @@
 export class FuzzyGeneTrainingResult {
    # 拟合阶段的总分配字节数（MB）；用于衡量缓冲复用的效果。
    AllocatedMB: double;
+   # 被校准缩放的基因数。
+   CalibratedGenes: integer;
+   # 校准的全局累计缩放系数（1 表示没有改动）。
+   CalibrationGamma: double;
+   # 全局增益校准方式（未校准时为 <a href="cref:F:SMRUCC.genomics.Analysis.FuzzyGene.Config.StabilityCalibrationMode.None">StabilityCalibrationMode.None</a>）。
+   CalibrationMode: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/StabilityCalibrationMode.html">StabilityCalibrationMode</a>;
    # 导出的带符号调控边数量。
    EdgeCount: integer;
    # 耗时。
@@ -62,10 +68,16 @@ export class FuzzyGeneTrainingResult {
    NTrained: integer;
    # 实际使用的并行 worker 线程数（诊断 128 核机器是否真的跑满）。
    ParallelWorkers: integer;
+   # 校准后重新评估的平均 R²（只在被缩放的基因上重算，其余沿用原值）。
+   PostCalibrationR2: double;
+   # 校准前成功基因的平均 R²。
+   PreCalibrationR2: double;
    # 预处理（统计量 + 列构建 + 列统计）耗时。
    PreprocessElapsed: <a href="/vignettes/clr/System/TimeSpan.html">TimeSpan</a>;
    # 候选筛选累计耗时（CPU 时间，跨所有并行线程求和）。
    SelectionElapsed: <a href="/vignettes/clr/System/TimeSpan.html">TimeSpan</a>;
+   # 校准后的谱半径 <code>ρ(J)</code>；未校准时为 0。
+   SpectralRadius: double;
    # 单基因训练累计耗时（CPU 时间，跨所有并行线程求和）。
    TrainingElapsed: <a href="/vignettes/clr/System/TimeSpan.html">TimeSpan</a>;
    # 降级、异常与数据质量告警。
@@ -77,6 +89,7 @@ export class FuzzyGeneTrainingResult {
         <h3>.NET clr type reference tree</h3>
 
         <ol>
+<li>use by <i>property</i> member <code>CalibrationMode</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/StabilityCalibrationMode.html">StabilityCalibrationMode</a></li>
 <li>use by <i>property</i> member <code>Elapsed</code>: <a href="/vignettes/clr/System/TimeSpan.html">TimeSpan</a></li>
 <li>use by <i>property</i> member <code>GeneMetrics</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Fitting/GeneFitMetric.html">GeneFitMetric</a></li>
 <li>use by <i>property</i> member <code>Mode</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/FuzzyTargetMode.html">FuzzyTargetMode</a></li>

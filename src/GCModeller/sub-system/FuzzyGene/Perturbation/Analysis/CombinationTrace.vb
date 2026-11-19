@@ -149,8 +149,11 @@ Namespace Perturbation.Analysis
                                          traceAB As PerturbationTrace,
                                          genes As Integer()) As CombinationTrajectory
 
+            ' 对照轨迹也要参与取最小帧数：收敛步数由各自的起点决定，
+            ' 突变型帧数多于对照时直接索引 Control.States(t) 会越界
             Dim frames As Integer = std.Min(traceA.Mutant.NFrames,
-                                            std.Min(traceB.Mutant.NFrames, traceAB.Mutant.NFrames))
+                                            std.Min(traceB.Mutant.NFrames,
+                                                     std.Min(traceAB.Mutant.NFrames, traceAB.Control.NFrames)))
             Dim k As Integer = genes.Length
             Dim additive(frames - 1, k - 1) As Double
             Dim joint(frames - 1, k - 1) As Double

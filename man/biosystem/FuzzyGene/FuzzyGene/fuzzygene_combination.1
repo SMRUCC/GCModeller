@@ -1,0 +1,71 @@
+.\" man page create by R# package system.
+.TH FUZZYGENE 1 2000-1月 "fuzzygene_combination" "fuzzygene_combination"
+.SH NAME
+fuzzygene_combination \- Non-additive (synergy / antagonism) analysis of a two gene combination.
+.SH SYNOPSIS
+\fIfuzzygene_combination(\fBfuzzygene\fR as <generic> FuzzyGeneModel, 
+\fBgeneA\fR as string, 
+\fBgeneB\fR as string, 
+\fBmode\fR as string = "knockout", 
+\fBsteps\fR as integer = 60, 
+\fBtop\fR as integer = 50, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Non-additive (synergy / antagonism) analysis of a two gene combination.
+.PP
+.SH OPTIONS
+.PP
+\fBfuzzygene\fB \fR\- a trained (or restored) model. 
+.PP
+.PP
+\fBgeneA\fB \fR\- the first target gene. 
+.PP
+.PP
+\fBgeneB\fB \fR\- the second target gene; must differ from \fBgeneA\fR. 
+.PP
+.PP
+\fBmode\fB \fR\- \fBknockout\fR (default), \fBknockdown\fR or \fBoverexpression\fR. 
+.PP
+.PP
+\fBsteps\fB \fR\- iteration budget of each solve. 
+.PP
+.PP
+\fBtop\fB \fR\- number of genes kept in \fBtop\fR and \fBtrajectory\fR. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment used to report errors. 
+.PP
+.SH VALUE
+.PP
+a named list of data.frames
+.PP
+.SH DETAILS
+.PP
+Additive expectation is `control + (A - control) + (B - control)`; the non additive
+ effect is `joint - additive`. Positive means synergy, negative means antagonism.
+ 
+
+
+ 
+
+
+ Returns a named list:
+ 
+
+
+ 
+- \fBsummary\fR: one row with the two genes and \fBmax_abs_non_additive\fR;
+- \fBtable\fR: the full 18k gene table \fBgene\fR / \fBsingle_a\fR / \fBsingle_b\fR /
+ \fBjoint\fR / \fBadditive\fR / \fBnon_additive\fR;
+- \fBtop\fR: the top genes ranked by \fB|non_additive|\fR;
+- \fBtrajectory\fR: the frame level version \fBiteration\fR / \fBgene\fR /
+ \fBadditive\fR / \fBjoint\fR / \fBnon_additive\fR, which shows whether the deviation appears
+ together with the single perturbations or only later.
+.PP
+.SH SEE ALSO
+FuzzyGene
+.SH FILES
+.PP
+biosystem.dll
+.PP

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.FuzzyGene.Config.HybridOptions</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>HybridOptions {SMRUCC.genomics.Analysis.FuzzyGene.Config}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>HybridOptions</h2>
+
+        <h3>Description</h3>
+
+        <p>神经模糊网络与 PBN / FCM 融合的配置。</p>
+
+<p>三层各司其职：PBN 提供<strong>定性</strong>（哪条边真的存在、多大把握）， TSK 提供<strong>定量</strong>（局部线性斜率、连续剂量响应）， FCM 提供<strong>有界粗粒度骨架</strong>（保证有界、给求根一个接近不动点的初值）。 因此这里的默认值全部取向「不改变原有数值结论」： 正则关闭、FCM 热启动关闭、集成为 0 次采样。</p>
+
+<p>规模约束是硬门槛：<a href="cref:P:SMRUCC.genomics.Analysis.FuzzyGene.Config.HybridOptions.PbnMaxGenes">HybridOptions.PbnMaxGenes</a> 与 <a href="cref:P:SMRUCC.genomics.Analysis.FuzzyGene.Config.HybridOptions.PbnMaxParents">HybridOptions.PbnMaxParents</a> 决定了 PBN 候选父集枚举的成本（每基因 <code>C(PbnCandidateSize, k≤PbnMaxParents)</code> 次真值表拟合）， 全基因组两两枚举是不可行的，超限时由 <a href="cref:M:SMRUCC.genomics.Analysis.FuzzyGene.Config.HybridOptions.Validate">HybridOptions.Validate()</a> 直接拒绝并给出可操作提示。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.FuzzyGene.Config
+export class HybridOptions {
+   # 布尔化阈值（按该基因 [-1, 1] 归一化后的分位数）。
+   BinarizeQuantile: double;
+   # 全局增益校准方式；默认关闭。
+   Calibration: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/StabilityCalibrationMode.html">StabilityCalibrationMode</a>;
+   # 校准目标：<code>ρ(J) ≤ 1 - Epsilon</code>；取 0.05 留出 5% 的收敛余量。
+   CalibrationEpsilon: double;
+   # 校准后仍超限时的逐行再缩放下限（防止把某一行压成 0）。
+   CalibrationMinScale: double;
+   # PBN 规则采样的次数；0 表示不做集成（沿用确定性单点结果）。
+   EnsembleSamples: integer;
+   # FCM 的 sigmoid 斜率。
+   FcmAlpha: double;
+   # 求根失败时，是否用 FCM 吸引子的周期均值作为代理结论。
+   FcmFallbackAsSurrogate: boolean;
+   # FCM 传播的最大步数。
+   FcmMaxSteps: integer;
+   # FCM 的模块个数（概念数）；实际值会被 <code>N/50</code> 与 2 夹断。
+   FcmModuleCount: integer;
+   # FCM 收敛容差。
+   FcmTolerance: double;
+   # 是否用模块级 FCM 的稳态作为逐基因求根的热启动初值。
+   FcmWarmStart: boolean;
+   # 调控因子筛选的共线性上限：已选中的调控因子两两 <code>|Pearson|</code> 超过该值就不再选。
+   MaxRegulatorCollinearity: double;
+   # 把布尔采样得到的模式作为软约束注入连续求解的权重；0 表示只统计、不改变数值结论。
+   ModeBiasWeight: double;
+   # 每个靶基因进入 PBN 候选父集的基因个数上限。
+   PbnCandidateSize: integer;
+   # 启用 PBN 的最大基因数（超过则只对先验 TF 与高方差基因做）。
+   PbnMaxGenes: integer;
+   # PBN 父集的组合上限；2 表示只枚举单基因与两基因父集（每基因 ≤ 21 个子集）。
+   PbnMaxParents: integer;
+   # PBN 候选父集的最小 CoD；低于该值的父集不参与拟合。
+   PbnMinCod: double;
+   # PBN 对 TSK 调控因子的作用方式。
+   PbnRegularization: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/PbnRegularizationMode.html">PbnRegularizationMode</a>;
+   # 软加权模式下 CoD 折算成相关性打分的权重（0 = 不影响排序）。
+   PbnWeight: double;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>Calibration</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/StabilityCalibrationMode.html">StabilityCalibrationMode</a></li>
+<li>use by <i>property</i> member <code>PbnRegularization</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/PbnRegularizationMode.html">PbnRegularizationMode</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

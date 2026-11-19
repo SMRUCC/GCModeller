@@ -33,8 +33,20 @@ FuzzyGene: the neuro-fuzzy (Wilson/Takagi-Sugeno ANFIS) gene regulatory network 
 >  ``max_delta``), which tells whether the flat tail of a curve is a real steady state;
 > - ``fuzzygene_rank_perturbations`` / ``fuzzygene_strongest_perturbation``: rank candidate
 >  perturbations by predicted response strength;
-> - ``fuzzygene_relaxation``: change the damping factor / iteration budget of the solver, which
->  is what you want when a genome scale model keeps oscillating instead of converging;
+> - ``fuzzygene_hybrid_config``: chainable mutator of the solver (Newton / Anderson / legacy /
+>  advance) and the hybrid layers (PBN regularisation, ensemble samples, FCM warm start,
+>  spectral radius calibration);
+> - ``fuzzygene_pbn`` / ``fuzzygene_ensemble``: the qualitative probabilistic boolean layer
+>  (CoD table, selected rules) and the structural uncertainty of a perturbation (mean, standard
+>  deviation, confidence interval, sign agreement, boolean attractor periods);
+> - ``fuzzygene_modules``: the coarse grained fuzzy cognitive map layer (module assignment,
+>  bounded module steady state, per gene warm start and surrogate);
+> - ``fuzzygene_solver_report``: exit reason, free residual, constraint violation, saturation
+>  fractions and attractor period of a single perturbation, which separates "converged" from
+>  "ran out of steps" / "oscillates" / "hit the support bounds";
+> - ``fuzzygene_relaxation``: change the damping factor / iteration budget of the damped
+>  fallback, which is what you want when a genome scale model keeps oscillating instead of
+>  converging;
 > 
 > 
 >  
@@ -68,3 +80,13 @@ FuzzyGene: the neuro-fuzzy (Wilson/Takagi-Sugeno ANFIS) gene regulatory network 
 + [fuzzygene_rank_perturbations](FuzzyGene/fuzzygene_rank_perturbations.1) Rank candidate perturbations by their predicted response strength.
 + [fuzzygene_strongest_perturbation](FuzzyGene/fuzzygene_strongest_perturbation.1) The single gene whose perturbation produces the strongest predicted response.
 + [fuzzygene_relaxation](FuzzyGene/fuzzygene_relaxation.1) Set the damping factor, the iteration budget and the tolerance used by the steady-state solver.
++ [fuzzygene_hybrid_config](FuzzyGene/fuzzygene_hybrid_config.1) Chainable mutator of the solver and hybrid layer options.
++ [fuzzygene_pbn](FuzzyGene/fuzzygene_pbn.1) The qualitative (probabilistic boolean) layer of a trained model: CoD table and rules.
++ [fuzzygene_ensemble](FuzzyGene/fuzzygene_ensemble.1) Ensemble (resampled boolean structure) prediction of virtual perturbations.
++ [fuzzygene_modules](FuzzyGene/fuzzygene_modules.1) The coarse grained module layer (FCM): module assignment, bounded steady state and warm start.
++ [fuzzygene_solver_report](FuzzyGene/fuzzygene_solver_report.1) Solver diagnostics of one virtual perturbation (exit reason, residuals, saturation).
++ [fuzzygene_sensitivity](FuzzyGene/fuzzygene_sensitivity.1) Model self-check: omega invariance, step invariance and lag ordering robustness.
++ [fuzzygene_dose_response](FuzzyGene/fuzzygene_dose_response.1) Dose-response curve of one virtual perturbation.
++ [fuzzygene_dose_time_surface](FuzzyGene/fuzzygene_dose_time_surface.1) Dose x iteration response surface of one virtual perturbation.
++ [fuzzygene_combination](FuzzyGene/fuzzygene_combination.1) Non-additive (synergy / antagonism) analysis of a two gene combination.
++ [fuzzygene_analysis_report](FuzzyGene/fuzzygene_analysis_report.1) Run every analysis once and write the tables to a folder.

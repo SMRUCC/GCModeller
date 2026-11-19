@@ -65,6 +65,8 @@ export class FuzzyGeneModel {
    MinContextCoverage: double;
    # 拟合出的调控网络；未训练时为 Nothing。
    Network: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/FuzzyGeneNetwork.html">FuzzyGeneNetwork</a>;
+   # PBN 定性层：拟合期直接用现场构建的对象，从模型包恢复时读网络里持久化的那一份。
+   PbnPrior: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Hybrid/PbnRegulatorPrior.html">PbnRegulatorPrior</a>;
    # 先验调控网络（可能为 Nothing）。
    Prior: <a href="/vignettes/clr/SMRUCC/genomics/BioSystem/Core/PriorNetwork.html">PriorNetwork</a>;
    # 严格模式：目标基因不在模型里时抛 <a href="cref:T:System.MissingMemberException">MissingMemberException</a>； 为 False 时返回 <a href="cref:P:SMRUCC.genomics.BioSystem.Intervention.InterventionResult.Undefined">InterventionResult.Undefined</a> = True 的野生型降级结果。
@@ -83,6 +85,7 @@ export class FuzzyGeneModel {
 <li>use by <i>property</i> member <code>Expression</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/GeneExpressionData.html">GeneExpressionData</a></li>
 <li>use by <i>property</i> member <code>LastTrainingResult</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Fitting/FuzzyGeneTrainingResult.html">FuzzyGeneTrainingResult</a></li>
 <li>use by <i>property</i> member <code>Network</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/FuzzyGeneNetwork.html">FuzzyGeneNetwork</a></li>
+<li>use by <i>property</i> member <code>PbnPrior</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Hybrid/PbnRegulatorPrior.html">PbnRegulatorPrior</a></li>
 <li>use by <i>property</i> member <code>Prior</code>: <a href="/vignettes/clr/SMRUCC/genomics/BioSystem/Core/PriorNetwork.html">PriorNetwork</a></li>
 </ol>
 

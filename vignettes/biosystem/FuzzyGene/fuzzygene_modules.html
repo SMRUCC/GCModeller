@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>The coarse grained module layer (FCM): module assignment, bounded steady state and warm start.</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>fuzzygene_modules {FuzzyGene}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>The coarse grained module layer (FCM): module assignment, bounded steady state and warm start.</h2>
+
+        <h3>Description</h3>
+
+        
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>fuzzygene_modules</strong>(<i>fuzzygene</i>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>fuzzygene</dt>
+<dd><p>a trained model built with <code>fcmWarmStart = TRUE</code>. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/FuzzyGeneModel.html">FuzzyGeneModel</a>]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment used to report errors. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: block;">Details</h3>
+
+        <p>Returns a named list:</p>
+
+
+<ul>
+<li><code>table</code>: <code>gene</code> / <code>module</code> / <code>baseline</code>, the module assignment</li>
+</ul>
+
+
+<p>computed at fit time (only present when <code>fcmWarmStart = TRUE</code>);</p>
+
+
+<ul>
+<li><code>modules</code>: <code>module</code> / <code>n_genes</code> / <code>activation</code>, the bounded</li>
+</ul>
+
+
+<p>activation of the module level fuzzy cognitive map on the training baseline;</p>
+
+
+<ul>
+<li><code>initial</code>: <code>gene</code> / <code>warm_start</code> / <code>surrogate</code>, the per gene</li>
+</ul>
+
+
+<p>initial state derived from the module state (this is what the root finder starts from).</p>
+
+
+<ul>
+<li><code>summary</code>: <code>available</code> / <code>module_count</code> / <code>converged</code> /</li>
+</ul>
+
+
+<p><code>steps</code> / <code>period</code> / <code>notes</code>.</p>
+
+<p>The module layer is bounded by construction, so it always terminates with either a fixed point or a detected limit cycle. It is a <strong>rough</strong> skeleton: the module average erases the individual genes, which is why the default is off and the surrogate must never replace the per gene prediction.</p>
+
+        <h3 style="display: block">Authors</h3>
+
+        biosystem
+
+        <h3>Value</h3>
+
+        <p>a named list of data.frames</p><h4>clr value class</h4><ul><li>list</li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>FuzzyGene</em> version 1.0.0.0 <a
+                href="../FuzzyGene.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

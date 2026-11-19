@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.FuzzyGene.Hybrid.PbnRegulatorPrior</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>PbnRegulatorPrior {SMRUCC.genomics.Analysis.FuzzyGene.Hybrid}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>PbnRegulatorPrior</h2>
+
+        <h3>Description</h3>
+
+        <p>用概率布尔网络给 TSK 的调控因子候选提供<strong>定性</strong>证据（CoD）。</p>
+
+<p>纯表达相关的候选筛选有一个结构性缺陷：它只看「谁和靶基因更相关」， 于是会把<strong>下游基因</strong>选成上游调控因子（A→B 时 B 与 A 的相关性同样高）， 拟合出 <code>A = f(B)</code> 这种反函数。这种边在稳态迭代里是近单位增益的环， 既破坏可解释性，也是谱半径超限的来源之一。</p>
+
+<p>布尔网络的一致性（CoD）给出的是完全不同的证据：它问「给定父节点取值， 靶基因的取值是否被确定」。反函数在布尔化之后依然能拟合得很好， 但<strong>多父集</strong>上的 CoD 增长会揭示「这条边是否真的携带方向信息」： 只与 A 相关而与 A 的父集无关的基因，其 CoD 在多父集下不会增长。 因此把 CoD 作为权重/门槛，能显著抑制纯相关边。</p>
+
+<p>规模闸门：<code>InferenceHelper.Combinations</code> 会枚举全部组合， 全基因组两两枚举是不可能的（<code>C(18532,3)</code>）。这里只对 「先验 TF ∪ 方差最高的 <a href="cref:P:SMRUCC.genomics.Analysis.FuzzyGene.Config.HybridOptions.PbnMaxGenes">HybridOptions.PbnMaxGenes</a> 个基因」建网， 每个靶基因只在「先验调控因子 + top-P 相关基因」这个小子集里枚举 <code>k ≤ PbnMaxParents</code> 的父集（默认每基因 ≤ 21 个子集）。</p>
+
+<p>训练行也会被等间隔抽样到 <a href="cref:F:SMRUCC.genomics.Analysis.FuzzyGene.Hybrid.PbnRegulatorPrior.MaxRows">PbnRegulatorPrior.MaxRows</a>：真值表拟合的成本是 <code>行数 × 子集数</code>，几万行对布尔一致性没有额外信息。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.FuzzyGene.Hybrid
+export class PbnRegulatorPrior {
+   # 参与建模的基因（顺序与二值化矩阵一致）。
+   GeneNames: string;
+   # 被规模闸门跳过的基因数。
+   Skipped: integer;
+   # 成功分析了父集的靶基因数。
+   TargetsAnalysed: integer;
+   # 建模过程中的告警。
+   Warnings: string;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        this clr type has no other .net clr type reference.
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

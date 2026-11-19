@@ -37,7 +37,7 @@
         <table>
             
 <dt>x</dt>
-<dd><p>the gene expression matrix (rows = genes, columns = samples). [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/GeneExpressionData.html">GeneExpressionData</a>]</p></dd>
+<dd><p>the gene expression matrix: either the <code>Matrix</code> object returned by <code>geneExpression::load.expr</code> (rows = genes, columns = samples) or an already converted <code>GeneExpressionData</code>. Both are accepted because the plain <code>load.expr</code> result is a <code>Matrix</code>; the old signature only took <code>GeneExpressionData</code>, so every script that piped <code>load.expr()</code> straight into <code>build_fuzzygene</code> failed with an InvalidCastException.</p></dd>
 
 
 <dt>prior</dt>
@@ -49,7 +49,7 @@
 
 
 <dt>env</dt>
-<dd><p>the R# runtime environment (unused). [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+<dd><p>the R# runtime environment used to report errors. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
 
         </table>
 

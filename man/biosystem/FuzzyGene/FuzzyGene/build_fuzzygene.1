@@ -3,7 +3,7 @@
 .SH NAME
 build_fuzzygene \- Build an untrained neuro-fuzzy gene regulatory network model.
 .SH SYNOPSIS
-\fIbuild_fuzzygene(\fBx\fR as <generic> GeneExpressionData, 
+\fIbuild_fuzzygene(\fBx\fR as any, 
 \fBprior\fR as <generic> PriorNetwork = \fB<NULL>\fR, 
 \fBconfig\fR as <generic> FuzzyGeneConfig = \fB<NULL>\fR, 
 [\fB<Environment>\fR]);\fR
@@ -13,7 +13,13 @@ Build an untrained neuro-fuzzy gene regulatory network model.
 .PP
 .SH OPTIONS
 .PP
-\fBx\fB \fR\- the gene expression matrix (rows = genes, columns = samples). 
+\fBx\fB \fR\- 
+ the gene expression matrix: either the \fBMatrix\fR object returned by
+ \fBgeneExpression::load.expr\fR (rows = genes, columns = samples) or an already converted
+ \fBGeneExpressionData\fR. Both are accepted because the plain \fBload.expr\fR result is a
+ \fBMatrix\fR; the old signature only took \fBGeneExpressionData\fR, so every script that piped
+ \fBload.expr()\fR straight into \fBbuild_fuzzygene\fR failed with an InvalidCastException.
+. 
 .PP
 .PP
 \fBprior\fB \fR\- 
@@ -27,7 +33,7 @@ Build an untrained neuro-fuzzy gene regulatory network model.
 . 
 .PP
 .PP
-\fBenv\fB \fR\- the R# runtime environment (unused). 
+\fBenv\fB \fR\- the R# runtime environment used to report errors. 
 .PP
 .SH VALUE
 .PP

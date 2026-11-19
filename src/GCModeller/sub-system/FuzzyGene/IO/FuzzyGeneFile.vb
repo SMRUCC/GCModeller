@@ -48,6 +48,13 @@ Namespace IO
         ''' <summary>逐基因模型的条目名前缀。</summary>
         Public Const EntryModels As String = "models/"
 
+        ''' <summary>PBN 定性层的条目名（未启用 PBN 时不写该条目）。</summary>
+        ''' <remarks>
+        ''' 单独一个条目而不是塞进 manifest：PBN 规则只与布尔层有关，
+        ''' 而且要保证旧包的 manifest 结构不变（旧读取器忽略未知条目）。
+        ''' </remarks>
+        Public Const EntryPbn As String = "pbn.json"
+
         ''' <summary>格式版本。</summary>
         Public Const FormatVersion As String = "1.0"
 
@@ -104,6 +111,13 @@ Namespace IO
 
                     Call WriteText(archive, $"{EntryModels}{i.ToString("0000")}.json", model.ToJson(indented:=False))
                 Next
+
+                ' PBN 是本轮新增的定性层：没有它，从包恢复的模型无法做集成采样
+                ' （fuzzygene_ensemble / PredictEnsemble 会明确报错）
+                If network.PbnPrior IsNot Nothing Then
+                    Call WriteText(archive, EntryPbn,
+                                   JsonSerializer.Serialize(network.PbnPrior.ToDto(), FuzzyGeneNetwork.JsonOptions(False)))
+                End If
 
                 Call WriteText(archive, "rules.txt", String.Join(Environment.NewLine, network.RulesText()))
                 Call WriteText(archive, "edges.sif", network.EdgesToSif())
@@ -174,6 +188,18 @@ Namespace IO
                 Next
 
                 dto.models = models
+
+                ' PBN 条目可选：旧包里没有它，读出来是 Nothing（集成采样会明确报错）
+                Dim pbnJson As String = ReadText(archive, EntryPbn)
+
+                If Not String.IsNullOrEmpty(pbnJson) Then
+                    Try
+                        dto.pbn = JsonSerializer.Deserialize(Of Hybrid.PbnPriorDto)(
+                            pbnJson, FuzzyGeneNetwork.JsonOptions(False))
+                    Catch ex As Exception
+                        Throw New InvalidDataException("the PBN layer of the model package is corrupted", ex)
+                    End Try
+                End If
 
                 Return FuzzyGeneNetwork.FromDto(dto)
             End Using

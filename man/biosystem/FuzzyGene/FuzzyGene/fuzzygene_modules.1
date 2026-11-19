@@ -1,0 +1,53 @@
+.\" man page create by R# package system.
+.TH FUZZYGENE 1 2000-1月 "fuzzygene_modules" "fuzzygene_modules"
+.SH NAME
+fuzzygene_modules \- The coarse grained module layer (FCM): module assignment, bounded steady state and warm start.
+.SH SYNOPSIS
+\fIfuzzygene_modules(\fBfuzzygene\fR as <generic> FuzzyGeneModel, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+The coarse grained module layer (FCM): module assignment, bounded steady state and warm start.
+.PP
+.SH OPTIONS
+.PP
+\fBfuzzygene\fB \fR\- a trained model built with \fBfcmWarmStart = TRUE\fR. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment used to report errors. 
+.PP
+.SH VALUE
+.PP
+a named list of data.frames
+.PP
+.SH DETAILS
+.PP
+Returns a named list:
+ 
+
+
+ 
+- \fBtable\fR: \fBgene\fR / \fBmodule\fR / \fBbaseline\fR, the module assignment
+ computed at fit time (only present when \fBfcmWarmStart = TRUE\fR);
+- \fBmodules\fR: \fBmodule\fR / \fBn_genes\fR / \fBactivation\fR, the bounded
+ activation of the module level fuzzy cognitive map on the training baseline;
+- \fBinitial\fR: \fBgene\fR / \fBwarm_start\fR / \fBsurrogate\fR, the per gene
+ initial state derived from the module state (this is what the root finder starts from).
+- \fBsummary\fR: \fBavailable\fR / \fBmodule_count\fR / \fBconverged\fR /
+ \fBsteps\fR / \fBperiod\fR / \fBnotes\fR.
+
+
+ 
+
+
+ The module layer is bounded by construction, so it always terminates with either a fixed
+ point or a detected limit cycle. It is a **rough** skeleton: the module average erases the
+ individual genes, which is why the default is off and the surrogate must never replace the
+ per gene prediction.
+.PP
+.SH SEE ALSO
+FuzzyGene
+.SH FILES
+.PP
+biosystem.dll
+.PP

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Chainable mutator of the solver and hybrid layer options.</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>fuzzygene_hybrid_config {FuzzyGene}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>Chainable mutator of the solver and hybrid layer options.</h2>
+
+        <h3>Description</h3>
+
+        
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>fuzzygene_hybrid_config</strong>(<i>config</i>,
+    <i>solver</i> = <span style='color: brown;'><strong>"newton"</strong></span>,
+    <i>maxNewtonIterations</i> = <span style='color: green;'>20</span>,
+    <i>andersonDepth</i> = <span style='color: green;'>5</span>,
+    <i>calibration</i> = <span style='color: brown;'><strong>"none"</strong></span>,
+    <i>calibrationEpsilon</i> = <span style='color: green;'>0.05</span>,
+    <i>calibrationMinScale</i> = <span style='color: green;'>0.05</span>,
+    <i>clampInputToSupport</i> = <span style='color: blue !important;'>TRUE</span>,
+    <i>clampOutputToSupport</i> = <span style='color: blue !important;'>TRUE</span>,
+    <i>maxRegulatorCollinearity</i> = <span style='color: green;'>1</span>,
+    <i>pbnRegularization</i> = <span style='color: brown;'><strong>"none"</strong></span>,
+    <i>pbnMinCod</i> = <span style='color: green;'>0.05</span>,
+    <i>pbnWeight</i> = <span style='color: green;'>1</span>,
+    <i>pbnMaxParents</i> = <span style='color: green;'>2</span>,
+    <i>pbnMaxGenes</i> = <span style='color: green;'>2000</span>,
+    <i>pbnCandidateSize</i> = <span style='color: green;'>5</span>,
+    <i>ensembleSamples</i> = <span style='color: green;'>0</span>,
+    <i>modeBiasWeight</i> = <span style='color: green;'>0</span>,
+    <i>fcmWarmStart</i> = <span style='color: blue !important;'>FALSE</span>,
+    <i>fcmModules</i> = <span style='color: green;'>48</span>,
+    <i>fcmAlpha</i> = <span style='color: green;'>1</span>,
+    <i>fcmMaxSteps</i> = <span style='color: green;'>200</span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>config</dt>
+<dd><p>the configuration created by <code>fuzzygene_config</code>. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/FuzzyGeneConfig.html">FuzzyGeneConfig</a>]</p></dd>
+
+
+<dt>solver</dt>
+<dd><p><code>newton</code> (default), <code>anderson</code>, <code>legacy</code> (the old damped iteration) or <code>advance</code> (lagged/time series only: plain time stepping, no steady state claim). [as string]</p></dd>
+
+
+<dt>calibration</dt>
+<dd><p><code>none</code> (default), <code>spectral</code> (scale the cyclic part until the spectral radius of the assembled Jacobian is below <code>1 - epsilon</code>) or <code>row-l1</code> (the conservative row norm bound). [as string]</p></dd>
+
+
+<dt>calibrationEpsilon</dt>
+<dd><p>target margin <code>1 - epsilon</code> of the spectral radius. Default 0.05. [as double]</p></dd>
+
+
+<dt>calibrationMinScale</dt>
+<dd><p>lower bound of one calibration pass, keeps the model from collapsing. Default 0.05. [as double]</p></dd>
+
+
+<dt>clampInputToSupport</dt>
+<dd><p>clamp the antecedent inputs to the training domain of each regulator. Turning this off re-enables the unbounded extrapolation of the outermost rules. Default TRUE. [as boolean]</p></dd>
+
+
+<dt>clampOutputToSupport</dt>
+<dd><p>clamp the predicted expression to the training support. Default TRUE. [as boolean]</p></dd>
+
+
+<dt>maxRegulatorCollinearity</dt>
+<dd><p>upper bound of the pairwise |Pearson| between the selected regulators; 1 disables the constraint (default). Lowering it to 0.95 improves the conditioning of the least squares step at the price of selecting fewer data driven regulators. [as double]</p></dd>
+
+
+<dt>pbnRegularization</dt>
+<dd><p><code>none</code> (default), <code>filter</code> (drop correlation candidates whose CoD is too low) or <code>weighted</code> (order the candidates by CoD). Enabling it also makes <code>fuzzygene_ensemble</code> available. [as string]</p></dd>
+
+
+<dt>pbnMinCod</dt>
+<dd><p>minimum CoD for a candidate parent set. Default 0.05. [as double]</p></dd>
+
+
+<dt>pbnWeight</dt>
+<dd><p>weight of the CoD term when <code>pbnRegularization = "weighted"</code>. Default 1. [as double]</p></dd>
+
+
+<dt>pbnMaxParents</dt>
+<dd><p>maximum parents enumerated per target gene. Default 2. [as integer]</p></dd>
+
+
+<dt>pbnMaxGenes</dt>
+<dd><p>gene limit of the qualitative layer; above it the PBN layer is skipped. Default 2000. [as integer]</p></dd>
+
+
+<dt>pbnCandidateSize</dt>
+<dd><p>candidate pool size per target gene (prior TFs plus the top correlated genes). Default 5. [as integer]</p></dd>
+
+
+<dt>ensembleSamples</dt>
+<dd><p>default sample count of <code>fuzzygene_ensemble</code>: how many times the PBN rules are resampled. 0 (default) keeps the deterministic single solve. [as integer]</p></dd>
+
+
+<dt>modeBiasWeight</dt>
+<dd><p>how strongly a sampled boolean mode pulls the continuous solve; 0 (default) only reports the boolean consistency without changing the numerical result. [as double]</p></dd>
+
+
+<dt>fcmWarmStart</dt>
+<dd><p>enable the module level fuzzy cognitive map: it provides a bounded warm start for the per gene root finding and a surrogate answer when the solver detects a limit cycle. Default FALSE. [as boolean]</p></dd>
+
+
+<dt>fcmModules</dt>
+<dd><p>number of modules of the coarse grained layer. Default 48. [as integer]</p></dd>
+
+
+<dt>fcmAlpha</dt>
+<dd><p>slope of the sigmoid activation. Default 1. [as double]</p></dd>
+
+
+<dt>fcmMaxSteps</dt>
+<dd><p>propagation budget of the module layer. Default 200. [as integer]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment used to report errors. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: block;">Details</h3>
+
+        <p>The existing <code>fuzzygene_config</code> already carries 30 optional arguments; adding the solver / PBN / FCM knobs there would make it unusable and would break every script that relies on positional arguments. This function mutates a configuration object in place instead, so the whole thing stays readable:</p>
+
+
+<pre><code> let opts = FuzzyGene::fuzzygene_config(maxRegulators = 6, mfCount = 3);
+ opts = FuzzyGene::fuzzygene_hybrid_config(opts,
+     solver = "newton", pbnRegularization = "weighted", ensembleSamples = 16);
+ </code></pre>
+
+
+<p>Defaults are chosen so that calling this function with only <code>config</code> changes nothing important: the Newton root finder is already the default solver, and the stability calibration stays off (the root finder does not need a contractive map, while calibrating a strongly cyclic fit can drop R2 from 0.86 to 0.014 — that has to be an explicit choice).</p>
+
+        <h3 style="display: block">Authors</h3>
+
+        biosystem
+
+        <h3>Value</h3>
+
+        <p>the same configuration object, so the call can be chained</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/FuzzyGeneConfig.html">FuzzyGeneConfig</a></li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>FuzzyGene</em> version 1.0.0.0 <a
+                href="../FuzzyGene.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

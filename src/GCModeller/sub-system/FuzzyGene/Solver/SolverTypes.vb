@@ -102,8 +102,15 @@ Namespace Solver
             End Get
         End Property
 
-        ''' <summary>退出原因。</summary>
-        Public Property ExitReason As ExitReason
+        ''' <summary>
+        ''' 退出原因。
+        ''' </summary>
+        ''' <remarks>
+        ''' 默认值刻意取 <see cref="ExitReason.MaxIterations"/> 而不是枚举的 0 值（Converged）：
+        ''' 求解器如果在某条路径上忘了显式赋值，默认值必须是「成功」以外的哨兵，
+        ''' 否则会静默地把「预算耗尽」报成收敛（阻尼回落路径踩过这个坑）。
+        ''' </remarks>
+        Public Property ExitReason As ExitReason = ExitReason.MaxIterations
 
         ''' <summary>追加一条说明（去重，避免同一句告警刷屏）。</summary>
         Public Sub AddMessage(message As String)

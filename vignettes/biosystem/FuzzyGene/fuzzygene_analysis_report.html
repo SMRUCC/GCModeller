@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Run every analysis once and write the tables to a folder.</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>fuzzygene_analysis_report {FuzzyGene}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>Run every analysis once and write the tables to a folder.</h2>
+
+        <h3>Description</h3>
+
+        
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>fuzzygene_analysis_report</strong>(<i>fuzzygene</i>, <i>gene</i>,
+    <i>geneA</i> = <span style='color: blue !important;'>NULL</span>,
+    <i>geneB</i> = <span style='color: blue !important;'>NULL</span>,
+    <i>dir</i> = <span style='color: blue !important;'>NULL</span>,
+    <i>mode</i> = <span style='color: brown;'><strong>"knockout"</strong></span>,
+    <i>omegas</i> = <span style='color: blue !important;'>NULL</span>,
+    <i>stepsList</i> = <span style='color: blue !important;'>NULL</span>,
+    <i>doses</i> = <span style='color: blue !important;'>NULL</span>,
+    <i>sweepSteps</i> = <span style='color: green;'>50</span>,
+    <i>doseSteps</i> = <span style='color: green;'>60</span>,
+    <i>combinationSteps</i> = <span style='color: green;'>60</span>,
+    <i>top</i> = <span style='color: green;'>50</span>,
+    <i>surfaceTop</i> = <span style='color: green;'>20</span>,
+    <i>lagRatio</i> = <span style='color: green;'>0.1</span>,
+    <i>tolerance</i> = <span style='color: green;'>0.001</span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>fuzzygene</dt>
+<dd><p>a trained (or restored) model. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/FuzzyGeneModel.html">FuzzyGeneModel</a>]</p></dd>
+
+
+<dt>gene</dt>
+<dd><p>the target gene of the single perturbation analyses. [as string]</p></dd>
+
+
+<dt>geneA</dt>
+<dd><p>the first gene of the combination analysis; empty skips that part. [as string]</p></dd>
+
+
+<dt>geneB</dt>
+<dd><p>the second gene of the combination analysis; empty skips that part. [as string]</p></dd>
+
+
+<dt>dir</dt>
+<dd><p>the output folder (created when missing). [as string]</p></dd>
+
+
+<dt>mode</dt>
+<dd><p><code>knockout</code> (default), <code>knockdown</code> or <code>overexpression</code>. [as string]</p></dd>
+
+
+<dt>omegas</dt>
+<dd><p>relaxation grid; <code>NULL</code> uses <code>c(0.2, 0.5, 0.8, 1.0)</code>. [as double]</p></dd>
+
+
+<dt>stepsList</dt>
+<dd><p>step grid of the invariance check; <code>NULL</code> uses <code>c(50, 200, 500)</code>. [as double]</p></dd>
+
+
+<dt>doses</dt>
+<dd><p>dose grid; <code>NULL</code> uses 5 evenly spaced points. [as double]</p></dd>
+
+
+<dt>sweepSteps</dt>
+<dd><p>fixed iteration budget of the omega / lag analyses. [as integer]</p></dd>
+
+
+<dt>doseSteps</dt>
+<dd><p>iteration budget of the dose analyses. [as integer]</p></dd>
+
+
+<dt>combinationSteps</dt>
+<dd><p>iteration budget of the combination analysis. [as integer]</p></dd>
+
+
+<dt>top</dt>
+<dd><p>number of genes kept in the dose and combination tables. [as integer]</p></dd>
+
+
+<dt>surfaceTop</dt>
+<dd><p>number of genes kept in the dose-time surface. [as integer]</p></dd>
+
+
+<dt>lagRatio</dt>
+<dd><p>relative trigger threshold of the lag definition. [as double]</p></dd>
+
+
+<dt>tolerance</dt>
+<dd><p>relative deviation threshold of the invariant flags. [as double]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment used to report errors. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: block;">Details</h3>
+
+        <p>Writes into the folder: <code>analysis.sensitivity.csv</code> (omega + step sweeps), <code>analysis.lag.csv</code>, <code>analysis.spearman.csv</code>, <code>analysis.dose_response.csv</code>, <code>analysis.dose_time_surface.csv</code>, <code>analysis.combination.csv</code> (when both genes are given) and <code>analysis.report.json</code> (grid definition, invariant flags, run count, elapsed time).</p>
+
+<p>This is the cheap way to get everything: calling the four analysis apis separately would repeat the dose sweep twice. Expect one to two minutes on an 18k gene model with the default grids.</p>
+
+
+<pre><code> let files = FuzzyGene::fuzzygene_analysis_report(
+     model, "TPPP3", geneA = "HSD17B3", geneB = "TPPP3", dir = "/path/analysis");
+ print(files);
+ </code></pre>
+
+        <h3 style="display: block">Authors</h3>
+
+        biosystem
+
+        <h3>Value</h3>
+
+        <p>a character vector of the written file paths</p><h4>clr value class</h4><ul><li>string</li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>FuzzyGene</em> version 1.0.0.0 <a
+                href="../FuzzyGene.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

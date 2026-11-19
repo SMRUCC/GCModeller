@@ -34,19 +34,23 @@ the same model object, so the call can be chained
 .PP
 .SH DETAILS
 .PP
-The trajectory produced by \fBfuzzygene_trace_perturbation\fR is the damped fixed-point
- iteration `z <- z + omega * (F(z) - z)`. With \fBomega = 1\fR (no damping) the iteration
- is the plain repeated application of `F`, and on a genome scale model that often keeps
- oscillating instead of converging; \fBomega = 0.5\fR is the usual compromise between stability
- and speed.
+These three values belong to the damped fallback path
+ (`z <- z + omega * (F(z) - z)`). The default solver is a Levenberg-Marquardt root
+ finder for `F(z) - z = 0`, and it is used whenever it can reduce the residual; the
+ damping factor only matters when it falls back (or when
+ \fBsolver = "legacy"\fR / \fB"anderson"\fR is selected through
+ \fBfuzzygene_hybrid_config\fR). With \fBomega = 1\fR the fallback is the plain repeated
+ application of `F`, which on a genome scale model often keeps oscillating instead of
+ converging; \fBomega = 0.5\fR is the usual compromise.
  
 
 
  
 
 
- Always rerun the trajectory after changing these values, and check \fBsummary$converged\fR:
- a non converged run means the flat tail of the curve is a truncated plateau.
+ Always rerun the trajectory after changing these values, and check
+ \fBsummary$exit_reason\fR: only \fBConverged\fR means the flat tail is a real steady state;
+ \fBMaxIterations\fR is a truncated plateau and \fBLimitCycle\fR means the system oscillates.
  
 
 

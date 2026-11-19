@@ -161,9 +161,18 @@ Namespace Solver
                 Call _residual.PublishTo(_report)
             Next
 
+            ' 收敛检查在循环顶部，所以「最后一步刚好降到容差以下」会被预算截断误报成 MaxIterations。
+            ' 这里补一次终态判定：残差确实达标就必须报 Converged。
+            Call _residual.PublishTo(_report)
+
+            If _residual.FreeMax() <= tolerance Then
+                _report.ExitReason = ExitReason.Converged
+
+                Return True
+            End If
+
             _report.ExitReason = ExitReason.MaxIterations
             _report.AddMessage($"the Newton budget ({_options.MaxNewtonIterations}) was exhausted without reaching the tolerance {tolerance:G3}")
-            Call _residual.PublishTo(_report)
 
             Return True
         End Function

@@ -67,8 +67,28 @@ Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 ''' perturbations by predicted response strength;
 ''' </description></item>
 ''' <item><description>
-''' ``fuzzygene_relaxation``: change the damping factor / iteration budget of the solver, which
-''' is what you want when a genome scale model keeps oscillating instead of converging;
+''' ``fuzzygene_hybrid_config``: chainable mutator of the solver (Newton / Anderson / legacy /
+''' advance) and the hybrid layers (PBN regularisation, ensemble samples, FCM warm start,
+''' spectral radius calibration);
+''' </description></item>
+''' <item><description>
+''' ``fuzzygene_pbn`` / ``fuzzygene_ensemble``: the qualitative probabilistic boolean layer
+''' (CoD table, selected rules) and the structural uncertainty of a perturbation (mean, standard
+''' deviation, confidence interval, sign agreement, boolean attractor periods);
+''' </description></item>
+''' <item><description>
+''' ``fuzzygene_modules``: the coarse grained fuzzy cognitive map layer (module assignment,
+''' bounded module steady state, per gene warm start and surrogate);
+''' </description></item>
+''' <item><description>
+''' ``fuzzygene_solver_report``: exit reason, free residual, constraint violation, saturation
+''' fractions and attractor period of a single perturbation, which separates "converged" from
+''' "ran out of steps" / "oscillates" / "hit the support bounds";
+''' </description></item>
+''' <item><description>
+''' ``fuzzygene_relaxation``: change the damping factor / iteration budget of the damped
+''' fallback, which is what you want when a genome scale model keeps oscillating instead of
+''' converging;
 ''' </description></item>
 ''' </list>
 ''' <para>
@@ -380,7 +400,13 @@ Module fuzzyGene
     ''' otherwise it learns the static map <c>x_g = F(regulators)</c>. The prior network supplies
     ''' TF-to-target edges that are used to order (not to force) the candidate inputs.
     ''' </remarks>
-    ''' <param name="x">the gene expression matrix (rows = genes, columns = samples)</param>
+    ''' <param name="x">
+    ''' the gene expression matrix: either the ``Matrix`` object returned by
+    ''' ``geneExpression::load.expr`` (rows = genes, columns = samples) or an already converted
+    ''' ``GeneExpressionData``. Both are accepted because the plain ``load.expr`` result is a
+    ''' ``Matrix``; the old signature only took ``GeneExpressionData``, so every script that piped
+    ''' ``load.expr()`` straight into ``build_fuzzygene`` failed with an InvalidCastException.
+    ''' </param>
     ''' <param name="prior">
     ''' an optional prior regulatory network created by the ``bnlearn`` package (``prior_edges``);
     ''' when omitted the candidate regulators are selected by correlation only.
@@ -388,18 +414,40 @@ Module fuzzyGene
     ''' <param name="config">
     ''' the configuration created by ``FuzzyGene::fuzzygene_config``; ``Nothing`` uses the defaults.
     ''' </param>
-    ''' <param name="env">the R# runtime environment (unused)</param>
+    ''' <param name="env">the R# runtime environment used to report errors</param>
     ''' <returns>an untrained model object</returns>
     <ExportAPI("build_fuzzygene")>
     <RApiReturn(GetType(FuzzyGeneModel))>
-    Public Function build_fuzzygene(x As GeneExpressionData,
+    Public Function build_fuzzygene(x As Object,
                                     Optional prior As PriorNetwork = Nothing,
                                     Optional config As fzcfg.FuzzyGeneConfig = Nothing,
-                                    Optional env As Environment = Nothing) As fz.FuzzyGeneModel
+                                    Optional env As Environment = Nothing) As Object
+
+        If x Is Nothing Then
+            Return RInternal.debug.stop("a gene expression matrix is required", env)
+        End If
+
+        Dim expression As GeneExpressionData
+
+        If TypeOf x Is GeneExpressionData Then
+            expression = DirectCast(x, GeneExpressionData)
+        ElseIf TypeOf x Is SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix Then
+            ' 必须全限定：本模块同时 import 了 HTS 的 Matrix 与 R# 运行时的 Matrix，
+            ' 直接写 Matrix 会报 BC30561 二义性
+            Try
+                expression = HTSDataFrame.ReadGeneExpressionMatrix(
+                    DirectCast(x, SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix))
+            Catch ex As Exception
+                Return RInternal.debug.stop("failed to convert the expression matrix: " & ex.Message, env)
+            End Try
+        Else
+            Return RInternal.debug.stop(
+                $"unsupported expression input type '{x.GetType().FullName}', expected a Matrix or GeneExpressionData", env)
+        End If
 
         Call "start to build fuzzy gene network!".debug
 
-        Return New fz.FuzzyGeneModel(x, prior, config)
+        Return New fz.FuzzyGeneModel(expression, prior, config)
     End Function
 
     ''' <summary>
@@ -914,20 +962,24 @@ Module fuzzyGene
     ''' </code>
     ''' </para>
     ''' <para>
-    ''' The column index is a <b>damped iteration step</b>, not biological time: ``omega`` changes
-    ''' the shape of the curve while a converged end point stays the same (see
-    ''' ``fuzzygene_relaxation``). Only a lagged (time series) model with ``omega = 1`` makes one
-    ''' frame equal to one sampling interval.
+    ''' The column index is a <b>solver iteration</b>, not biological time. The default solver
+    ''' finds the constrained fixed point of ``F(z) - z = 0`` (Levenberg-Marquardt, see
+    ''' ``fuzzygene_hybrid_config(solver = ...)``), so the frames are Newton steps and the number of
+    ''' frames is small (single digit for a well posed network). Only when the solver falls back to
+    ''' the damped iteration does ``omega`` shape the curve (``fuzzygene_relaxation``), and only a
+    ''' lagged (time series) model in ``advance`` mode makes one frame equal to one sampling interval.
     ''' </para>
     ''' <para>
     ''' Read ``convergence`` / ``summary$converged`` before interpreting the curve: a flat tail
     ''' produced by running out of ``steps`` is a truncated plateau, not a steady state.
     ''' </para>
     ''' <para>
-    ''' ``wildtype`` is not decoration. The control steady state used by the perturbation engine is
-    ''' the training baseline, which is generally <b>not</b> a fixed point of the network; the
-    ''' wildtype trajectory shows how much the system drifts on its own, so that drift can be told
-    ''' apart from the perturbation effect.
+    ''' ``wildtype`` is the control run: it starts from the same baseline and is iterated to its own
+    ''' fixed point, so ``foldchange`` is now "mutant fixed point minus wildtype fixed point" instead
+    ''' of "mutant minus the training mean". The training mean is generally <b>not</b> a fixed point
+    ''' of a nonlinear fuzzy map, so the previous definition mixed the perturbation effect with the
+    ''' model's own drift; the wildtype trajectory still exposes that drift, which is worth checking
+    ''' (a large drift means the fit is inconsistent with its own steady state).
     ''' </para>
     ''' </remarks>
     ''' <param name="fuzzygene">a trained (or restored) model</param>
@@ -1212,15 +1264,19 @@ Module fuzzyGene
     ''' </summary>
     ''' <remarks>
     ''' <para>
-    ''' The trajectory produced by ``fuzzygene_trace_perturbation`` is the damped fixed-point
-    ''' iteration <c>z &lt;- z + omega * (F(z) - z)</c>. With ``omega = 1`` (no damping) the iteration
-    ''' is the plain repeated application of <c>F</c>, and on a genome scale model that often keeps
-    ''' oscillating instead of converging; ``omega = 0.5`` is the usual compromise between stability
-    ''' and speed.
+    ''' These three values belong to the <b>damped fallback</b> path
+    ''' (<c>z &lt;- z + omega * (F(z) - z)</c>). The default solver is a Levenberg-Marquardt root
+    ''' finder for <c>F(z) - z = 0</c>, and it is used whenever it can reduce the residual; the
+    ''' damping factor only matters when it falls back (or when
+    ''' ``solver = "legacy"`` / ``"anderson"`` is selected through
+    ''' ``fuzzygene_hybrid_config``). With ``omega = 1`` the fallback is the plain repeated
+    ''' application of <c>F</c>, which on a genome scale model often keeps oscillating instead of
+    ''' converging; ``omega = 0.5`` is the usual compromise.
     ''' </para>
     ''' <para>
-    ''' Always rerun the trajectory after changing these values, and check ``summary$converged``:
-    ''' a non converged run means the flat tail of the curve is a truncated plateau.
+    ''' Always rerun the trajectory after changing these values, and check
+    ''' ``summary$exit_reason``: only ``Converged`` means the flat tail is a real steady state;
+    ''' ``MaxIterations`` is a truncated plateau and ``LimitCycle`` means the system oscillates.
     ''' </para>
     ''' <code>
     ''' model = FuzzyGene::fuzzygene_relaxation(model, omega = 0.5, steps = 80);
@@ -1331,6 +1387,709 @@ Module fuzzyGene
         Call table.add("clamp_value", New Double() {trace.ClampValue})
         Call table.add("iterations", New Integer() {mutant.Iterations})
         Call table.add("converged", New Boolean() {mutant.Converged})
+        ' 退出原因与两个残差是判断「平尾是截断还是真稳态」的唯一依据：
+        ' 只有 exit_reason = Converged 才算稳态；clamp_residual 恒大于 0，不能用来判收敛
+        Call table.add("exit_reason", New String() {mutant.ExitReason.ToString()})
+        Call table.add("free_residual", New Double() {mutant.FreeResidual})
+        Call table.add("clamp_residual", New Double() {mutant.ClampResidual})
+        Call table.add("out_of_support", New Double() {mutant.OutOfSupportFraction})
+        Call table.add("pinned", New Double() {mutant.PinnedFraction})
+        Call table.add("attractor_period", New Integer() {mutant.AttractorPeriod})
+        Call table.add("control_exit_reason", New String() {If(trace.Control Is Nothing, "", trace.Control.ExitReason.ToString())})
+        Call table.add("omega", New Double() {mutant.Relaxation})
+        Call table.add("tolerance", New Double() {mutant.Tolerance})
+        Call table.add("lagged", New Boolean() {mutant.Lagged})
+        Call table.add("elapsed_ms", New Double() {trace.ElapsedMs})
+
+        Return table
+    End Function
+
+#End Region
+
+#Region "PBN / 集成采样 / FCM / 求解器诊断"
+
+    ''' <summary>
+    ''' Chainable mutator of the solver and hybrid layer options.
+    ''' </summary>
+    ''' <remarks>
+    ''' <para>
+    ''' The existing ``fuzzygene_config`` already carries 30 optional arguments; adding the
+    ''' solver / PBN / FCM knobs there would make it unusable and would break every script that
+    ''' relies on positional arguments. This function mutates a configuration object in place
+    ''' instead, so the whole thing stays readable:
+    ''' </para>
+    ''' <code>
+    ''' let opts = FuzzyGene::fuzzygene_config(maxRegulators = 6, mfCount = 3);
+    ''' opts = FuzzyGene::fuzzygene_hybrid_config(opts,
+    '''     solver = "newton", pbnRegularization = "weighted", ensembleSamples = 16);
+    ''' </code>
+    ''' <para>
+    ''' Defaults are chosen so that calling this function with only ``config`` changes nothing
+    ''' important: the Newton root finder is already the default solver, and the stability
+    ''' calibration stays off (the root finder does not need a contractive map, while calibrating
+    ''' a strongly cyclic fit can drop R2 from 0.86 to 0.014 — that has to be an explicit choice).
+    ''' </para>
+    ''' </remarks>
+    ''' <param name="config">the configuration created by ``fuzzygene_config``</param>
+    ''' <param name="solver">
+    ''' ``newton`` (default), ``anderson``, ``legacy`` (the old damped iteration) or ``advance``
+    ''' (lagged/time series only: plain time stepping, no steady state claim)
+    ''' </param>
+    ''' <param name="calibration">
+    ''' ``none`` (default), ``spectral`` (scale the cyclic part until the spectral radius of the
+    ''' assembled Jacobian is below ``1 - epsilon``) or ``row-l1`` (the conservative row norm bound)
+    ''' </param>
+    ''' <param name="calibrationEpsilon">target margin ``1 - epsilon`` of the spectral radius. Default 0.05.</param>
+    ''' <param name="calibrationMinScale">lower bound of one calibration pass, keeps the model from collapsing. Default 0.05.</param>
+    ''' <param name="clampInputToSupport">
+    ''' clamp the antecedent inputs to the training domain of each regulator. Turning this off
+    ''' re-enables the unbounded extrapolation of the outermost rules. Default TRUE.
+    ''' </param>
+    ''' <param name="clampOutputToSupport">clamp the predicted expression to the training support. Default TRUE.</param>
+    ''' <param name="maxRegulatorCollinearity">
+    ''' upper bound of the pairwise |Pearson| between the selected regulators; 1 disables the
+    ''' constraint (default). Lowering it to 0.95 improves the conditioning of the least squares
+    ''' step at the price of selecting fewer data driven regulators.
+    ''' </param>
+    ''' <param name="pbnRegularization">
+    ''' ``none`` (default), ``filter`` (drop correlation candidates whose CoD is too low) or
+    ''' ``weighted`` (order the candidates by CoD). Enabling it also makes
+    ''' ``fuzzygene_ensemble`` available.
+    ''' </param>
+    ''' <param name="pbnMinCod">minimum CoD for a candidate parent set. Default 0.05.</param>
+    ''' <param name="pbnWeight">weight of the CoD term when ``pbnRegularization = "weighted"``. Default 1.</param>
+    ''' <param name="pbnMaxParents">maximum parents enumerated per target gene. Default 2.</param>
+    ''' <param name="pbnMaxGenes">gene limit of the qualitative layer; above it the PBN layer is skipped. Default 2000.</param>
+    ''' <param name="pbnCandidateSize">candidate pool size per target gene (prior TFs plus the top correlated genes). Default 5.</param>
+    ''' <param name="ensembleSamples">
+    ''' default sample count of ``fuzzygene_ensemble``: how many times the PBN rules are resampled.
+    ''' 0 (default) keeps the deterministic single solve.
+    ''' </param>
+    ''' <param name="modeBiasWeight">
+    ''' how strongly a sampled boolean mode pulls the continuous solve; 0 (default) only reports
+    ''' the boolean consistency without changing the numerical result.
+    ''' </param>
+    ''' <param name="fcmWarmStart">
+    ''' enable the module level fuzzy cognitive map: it provides a bounded warm start for the
+    ''' per gene root finding and a surrogate answer when the solver detects a limit cycle.
+    ''' Default FALSE.
+    ''' </param>
+    ''' <param name="fcmModules">number of modules of the coarse grained layer. Default 48.</param>
+    ''' <param name="fcmAlpha">slope of the sigmoid activation. Default 1.</param>
+    ''' <param name="fcmMaxSteps">propagation budget of the module layer. Default 200.</param>
+    ''' <param name="env">the R# runtime environment used to report errors</param>
+    ''' <returns>the same configuration object, so the call can be chained</returns>
+    <ExportAPI("fuzzygene_hybrid_config")>
+    <RApiReturn(GetType(FuzzyGeneConfig))>
+    Public Function fuzzygene_hybrid_config(config As fzcfg.FuzzyGeneConfig,
+                                            Optional solver As String = "newton",
+                                            Optional maxNewtonIterations As Integer = 20,
+                                            Optional andersonDepth As Integer = 5,
+                                            Optional calibration As String = "none",
+                                            Optional calibrationEpsilon As Double = 0.05,
+                                            Optional calibrationMinScale As Double = 0.05,
+                                            Optional clampInputToSupport As Boolean = True,
+                                            Optional clampOutputToSupport As Boolean = True,
+                                            Optional maxRegulatorCollinearity As Double = 1.0,
+                                            Optional pbnRegularization As String = "none",
+                                            Optional pbnMinCod As Double = 0.05,
+                                            Optional pbnWeight As Double = 1.0,
+                                            Optional pbnMaxParents As Integer = 2,
+                                            Optional pbnMaxGenes As Integer = 2000,
+                                            Optional pbnCandidateSize As Integer = 5,
+                                            Optional ensembleSamples As Integer = 0,
+                                            Optional modeBiasWeight As Double = 0.0,
+                                            Optional fcmWarmStart As Boolean = False,
+                                            Optional fcmModules As Integer = 48,
+                                            Optional fcmAlpha As Double = 1.0,
+                                            Optional fcmMaxSteps As Integer = 200,
+                                            Optional env As Environment = Nothing) As Object
+        If config Is Nothing Then
+            Return RInternal.debug.stop("a fuzzygene configuration object is required", env)
+        End If
+
+        Dim solverMode As fzcfg.SolverMode
+
+        If Not parseSolverMode(solver, solverMode) Then
+            Return RInternal.debug.stop($"unknown solver '{solver}', expected newton / anderson / legacy / advance", env)
+        End If
+
+        Dim calibrationMode As fzcfg.StabilityCalibrationMode
+
+        If Not parseCalibration(calibration, calibrationMode) Then
+            Return RInternal.debug.stop($"unknown calibration '{calibration}', expected none / spectral / row-l1", env)
+        End If
+
+        Dim pbnMode As fzcfg.PbnRegularizationMode
+
+        If Not parsePbnRegularization(pbnRegularization, pbnMode) Then
+            Return RInternal.debug.stop($"unknown pbnRegularization '{pbnRegularization}', expected none / filter / weighted", env)
+        End If
+
+        ' 注意：Solver / Hybrid 是惰性新建的嵌套对象，必须先取出来再改，否则改的是副本
+        Dim solverOptions As fzcfg.SolverOptions = config.Solver
+        Dim hybridOptions As fzcfg.HybridOptions = config.Hybrid
+
+        solverOptions.Mode = solverMode
+        solverOptions.MaxNewtonIterations = maxNewtonIterations
+        solverOptions.AndersonDepth = andersonDepth
+        solverOptions.ClampInputToSupport = clampInputToSupport
+        solverOptions.ClampOutputToSupport = clampOutputToSupport
+
+        hybridOptions.Calibration = calibrationMode
+        hybridOptions.CalibrationEpsilon = calibrationEpsilon
+        hybridOptions.CalibrationMinScale = calibrationMinScale
+        hybridOptions.MaxRegulatorCollinearity = maxRegulatorCollinearity
+        hybridOptions.PbnRegularization = pbnMode
+        hybridOptions.PbnMinCod = pbnMinCod
+        hybridOptions.PbnWeight = pbnWeight
+        hybridOptions.PbnMaxParents = pbnMaxParents
+        hybridOptions.PbnMaxGenes = pbnMaxGenes
+        hybridOptions.PbnCandidateSize = pbnCandidateSize
+        hybridOptions.EnsembleSamples = ensembleSamples
+        hybridOptions.ModeBiasWeight = modeBiasWeight
+        hybridOptions.FcmWarmStart = fcmWarmStart
+        hybridOptions.FcmModuleCount = fcmModules
+        hybridOptions.FcmAlpha = fcmAlpha
+        hybridOptions.FcmMaxSteps = fcmMaxSteps
+
+        Try
+            Return config.ValidateGene()
+        Catch ex As Exception
+            Return RInternal.debug.stop(ex.Message, env)
+        End Try
+    End Function
+
+    Private Function parseSolverMode(text As String, ByRef mode As fzcfg.SolverMode) As Boolean
+        Select Case If(text, "newton").Trim().ToLowerInvariant()
+            Case "newton", "lm", "root"
+                mode = fzcfg.SolverMode.Newton
+            Case "anderson", "anderson-damped", "damped"
+                mode = fzcfg.SolverMode.AndersonDamped
+            Case "legacy", "legacy-damped", "fixed"
+                mode = fzcfg.SolverMode.LegacyDamped
+            Case "advance", "time", "steps"
+                mode = fzcfg.SolverMode.Advance
+            Case "auto"
+                mode = fzcfg.SolverMode.Auto
+            Case Else
+                Return False
+        End Select
+
+        Return True
+    End Function
+
+    Private Function parseCalibration(text As String, ByRef mode As fzcfg.StabilityCalibrationMode) As Boolean
+        Select Case If(text, "none").Trim().ToLowerInvariant()
+            Case "none", "off", "false"
+                mode = fzcfg.StabilityCalibrationMode.None
+            Case "spectral", "spectral-radius", "rho"
+                mode = fzcfg.StabilityCalibrationMode.SpectralRadius
+            Case "row-l1", "row", "l1"
+                mode = fzcfg.StabilityCalibrationMode.RowL1
+            Case Else
+                Return False
+        End Select
+
+        Return True
+    End Function
+
+    Private Function parsePbnRegularization(text As String, ByRef mode As fzcfg.PbnRegularizationMode) As Boolean
+        Select Case If(text, "none").Trim().ToLowerInvariant()
+            Case "none", "off", "false"
+                mode = fzcfg.PbnRegularizationMode.None
+            Case "filter", "hard"
+                mode = fzcfg.PbnRegularizationMode.Filter
+            Case "weighted", "weight", "soft"
+                mode = fzcfg.PbnRegularizationMode.Weighted
+            Case Else
+                Return False
+        End Select
+
+        Return True
+    End Function
+
+    ''' <summary>
+    ''' The qualitative (probabilistic boolean) layer of a trained model: CoD table and rules.
+    ''' </summary>
+    ''' <remarks>
+    ''' <para>
+    ''' Returns a named list:
+    ''' </para>
+    ''' <list type="bullet">
+    ''' <item><description>
+    ''' ``cod``: one row per (target, regulator) pair, columns ``target`` / ``regulator`` /
+    ''' ``cod`` / ``rank``; ``cod`` is the coefficient of determination of that parent set on the
+    ''' binarized matrix, i.e. how much of the boolean state of the target the regulator set
+    ''' explains;
+    ''' </description></item>
+    ''' <item><description>
+    ''' ``rules``: ``target`` / ``parents`` / ``n_parents`` / ``cod``, the selected rule of each
+    ''' target gene (parents joined by ``+``);
+    ''' </description></item>
+    ''' <item><description>
+    ''' ``targets``: ``target`` / ``rules`` / ``best_cod``, one row per analysed gene;
+    ''' </description></item>
+    ''' <item><description>
+    ''' ``summary``: one row with ``has_pbn`` / ``targets_analysed`` / ``skipped`` / ``genes`` /
+    ''' ``warnings``.
+    ''' </description></item>
+    ''' </list>
+    ''' <para>
+    ''' CoD is a **consistency** measure after binarization, not causal evidence: a rule can have
+    ''' a high CoD simply because the target and the parent are both driven by a third gene.
+    ''' Use it to suppress pure correlation edges and to report structure uncertainty, not as a
+    ''' substitute for perturbation data.
+    ''' </para>
+    ''' </remarks>
+    ''' <param name="fuzzygene">a trained model that was built with ``pbnRegularization != "none"``</param>
+    ''' <param name="env">the R# runtime environment used to report errors</param>
+    ''' <returns>a named list of data.frames</returns>
+    <ExportAPI("fuzzygene_pbn")>
+    <RApiReturn(GetType(list))>
+    Public Function fuzzygene_pbn(fuzzygene As fz.FuzzyGeneModel, Optional env As Environment = Nothing) As Object
+        If fuzzygene Is Nothing OrElse Not fuzzygene.IsTrained Then
+            Return RInternal.debug.stop("the model has not been trained yet", env)
+        End If
+
+        Dim pbn As fz.Hybrid.PbnRegulatorPrior = fuzzygene.PbnPrior
+
+        If pbn Is Nothing Then
+            Return RInternal.debug.stop(
+                "the PBN layer is not available: enable it before training with " &
+                "FuzzyGene::fuzzygene_hybrid_config(config, pbnRegularization = 'weighted')", env)
+        End If
+
+        Dim codTarget As New List(Of String)
+        Dim codRegulator As New List(Of String)
+        Dim codValue As New List(Of Double)
+        Dim codRank As New List(Of Integer)
+
+        Dim ruleTarget As New List(Of String)
+        Dim ruleParents As New List(Of String)
+        Dim ruleSize As New List(Of Integer)
+        Dim ruleCod As New List(Of Double)
+
+        Dim targetName As New List(Of String)
+        Dim targetRules As New List(Of Integer)
+        Dim targetBest As New List(Of Double)
+
+        For Each gene As String In pbn.GeneNames
+            Dim rules As List(Of fz.Hybrid.PbnRule) = pbn.RulesOf(gene)
+
+            If rules Is Nothing OrElse rules.Count = 0 Then
+                Continue For
+            End If
+
+            Dim best As Double = 0.0
+
+            For k As Integer = 0 To rules.Count - 1
+                Dim rule As fz.Hybrid.PbnRule = rules(k)
+                Dim names As New List(Of String)
+
+                If rule.Parents IsNot Nothing Then
+                    For Each parent As Integer In rule.Parents
+                        If parent >= 0 AndAlso parent < pbn.GeneNames.Length Then
+                            Call names.Add(pbn.GeneNames(parent))
+
+                            Call codTarget.Add(gene)
+                            Call codRegulator.Add(pbn.GeneNames(parent))
+                            Call codValue.Add(rule.Cod)
+                            Call codRank.Add(k + 1)
+                        End If
+                    Next
+                End If
+
+                If rule.Cod > best Then
+                    best = rule.Cod
+                End If
+
+                Call ruleTarget.Add(gene)
+                Call ruleParents.Add(String.Join("+", names))
+                Call ruleSize.Add(names.Count)
+                Call ruleCod.Add(rule.Cod)
+            Next
+
+            Call targetName.Add(gene)
+            Call targetRules.Add(rules.Count)
+            Call targetBest.Add(best)
+        Next
+
+        Dim codTable As New dataframe With {.columns = New Dictionary(Of String, Array)}
+        Call codTable.add("target", codTarget.ToArray())
+        Call codTable.add("regulator", codRegulator.ToArray())
+        Call codTable.add("cod", codValue.ToArray())
+        Call codTable.add("rank", codRank.ToArray())
+
+        Dim ruleTable As New dataframe With {.columns = New Dictionary(Of String, Array)}
+        Call ruleTable.add("target", ruleTarget.ToArray())
+        Call ruleTable.add("parents", ruleParents.ToArray())
+        Call ruleTable.add("n_parents", ruleSize.ToArray())
+        Call ruleTable.add("cod", ruleCod.ToArray())
+
+        Dim targetTable As New dataframe With {.columns = New Dictionary(Of String, Array)}
+        Call targetTable.add("target", targetName.ToArray())
+        Call targetTable.add("rules", targetRules.ToArray())
+        Call targetTable.add("best_cod", targetBest.ToArray())
+
+        Dim summary As New dataframe With {.columns = New Dictionary(Of String, Array)}
+        Call summary.add("has_pbn", New Boolean() {True})
+        Call summary.add("targets_analysed", New Integer() {pbn.TargetsAnalysed})
+        Call summary.add("skipped", New Integer() {pbn.Skipped})
+        Call summary.add("genes", New Integer() {pbn.GeneNames.Length})
+        Call summary.add("warnings", New String() {String.Join(" | ", If(pbn.Warnings, New String() {}))})
+
+        Return New list With {
+            .slots = New Dictionary(Of String, Object) From {
+                {"cod", codTable},
+                {"rules", ruleTable},
+                {"targets", targetTable},
+                {"summary", summary}
+            }
+        }
+    End Function
+
+    ''' <summary>
+    ''' Ensemble (resampled boolean structure) prediction of virtual perturbations.
+    ''' </summary>
+    ''' <remarks>
+    ''' <para>
+    ''' Each sample rebuilds the network by drawing one rule per target gene from the
+    ''' probabilistic boolean network according to its CoD derived probability, and then solves
+    ''' the continuous perturbation again. The spread of the resulting states therefore measures
+    ''' **structural uncertainty** (which regulatory logic the data supports), not numerical noise.
+    ''' </para>
+    ''' <para>
+    ''' Returns a named list:
+    ''' </para>
+    ''' <list type="bullet">
+    ''' <item><description>``table``: one row per (perturbation, gene) with ``mean`` / ``sd`` /
+    ''' ``lower`` (5%) / ``upper`` (95%) / ``sign_agreement`` / ``high_fraction`` / ``reference``;</description></item>
+    ''' <item><description>``summary``: one row per perturbation with ``samples`` /
+    ''' ``converged_fraction`` / ``degenerate`` / ``notes``;</description></item>
+    ''' <item><description>``attractors``: the boolean attractor period distribution
+    ''' (``perturbation`` / ``period`` / ``count``), zero rows when no cycle was detected.</description></item>
+    ''' </list>
+    ''' <para>
+    ''' ``sign_agreement`` is the single most useful column: about 0.5 means the direction of that
+    ''' gene's response is decided by the model noise, so it must not be reported as a finding.
+    ''' </para>
+    ''' </remarks>
+    ''' <param name="fuzzygene">a trained model built with ``pbnRegularization != "none"``</param>
+    ''' <param name="genes">the genes to perturb</param>
+    ''' <param name="mode">``knockout`` (default), ``knockdown`` or ``overexpression``</param>
+    ''' <param name="samples">how many PBN resamples; &lt;= 0 falls back to the configured value</param>
+    ''' <param name="env">the R# runtime environment used to report errors</param>
+    ''' <returns>a named list of data.frames</returns>
+    <ExportAPI("fuzzygene_ensemble")>
+    <RApiReturn(GetType(list))>
+    Public Function fuzzygene_ensemble(fuzzygene As fz.FuzzyGeneModel,
+                                       genes As String(),
+                                       Optional mode As String = "knockout",
+                                       Optional samples As Integer = 16,
+                                       Optional env As Environment = Nothing) As Object
+        If fuzzygene Is Nothing OrElse Not fuzzygene.IsTrained Then
+            Return RInternal.debug.stop("the model has not been trained yet", env)
+        End If
+        If genes Is Nothing OrElse genes.Length = 0 Then
+            Return RInternal.debug.stop("at least one target gene is required", env)
+        End If
+
+        Dim intervention As InterventionMode
+
+        If Not parseInterventionMode(mode, intervention) Then
+            Return RInternal.debug.stop($"unknown perturbation mode '{mode}', expected knockout / knockdown / overexpression", env)
+        End If
+
+        Dim tableGene As New List(Of String)
+        Dim tableTarget As New List(Of String)
+        Dim tableMean As New List(Of Double)
+        Dim tableSd As New List(Of Double)
+        Dim tableLower As New List(Of Double)
+        Dim tableUpper As New List(Of Double)
+        Dim tableSign As New List(Of Double)
+        Dim tableHigh As New List(Of Double)
+        Dim tableReference As New List(Of Double)
+
+        Dim summaryTarget As New List(Of String)
+        Dim summarySamples As New List(Of Integer)
+        Dim summaryConverged As New List(Of Double)
+        Dim summaryDegenerate As New List(Of Boolean)
+        Dim summaryNotes As New List(Of String)
+
+        Dim attractorTarget As New List(Of String)
+        Dim attractorPeriod As New List(Of Integer)
+        Dim attractorCount As New List(Of Integer)
+
+        For Each gene As String In genes
+            Dim spec As New InterventionSpec With {
+                .GeneName = gene,
+                .GeneIndex = -1,
+                .Mode = intervention
+            }
+            Dim result As fz.Hybrid.EnsemblePerturbationResult
+
+            Try
+                result = fuzzygene.PredictEnsemble(New InterventionSpec() {spec}, samples)
+            Catch ex As InvalidOperationException
+                Return RInternal.debug.stop(
+                    $"ensemble prediction is not available: {ex.Message}. " &
+                    "retrain with FuzzyGene::fuzzygene_hybrid_config(config, pbnRegularization = 'weighted')", env)
+            Catch ex As Exception
+                Return RInternal.debug.stop(ex.Message, env)
+            End Try
+
+            If result Is Nothing OrElse result.GeneNames Is Nothing Then
+                Return RInternal.debug.stop($"the target gene '{gene}' is not modelled by this network", env)
+            End If
+
+            For i As Integer = 0 To result.GeneNames.Length - 1
+                Call tableGene.Add(result.GeneNames(i))
+                Call tableTarget.Add(gene)
+                Call tableMean.Add(result.Mean(i))
+                Call tableSd.Add(result.StandardDeviation(i))
+                Call tableLower.Add(result.LowerBound(i))
+                Call tableUpper.Add(result.UpperBound(i))
+                Call tableSign.Add(result.SignAgreement(i))
+                Call tableHigh.Add(result.BooleanHighFraction(i))
+                Call tableReference.Add(result.Reference(i))
+            Next
+
+            Call summaryTarget.Add(gene)
+            Call summarySamples.Add(result.Samples)
+            Call summaryConverged.Add(result.ConvergedFraction)
+            Call summaryDegenerate.Add(result.Degenerate)
+            Call summaryNotes.Add(If(result.Notes, ""))
+
+            For Each item As KeyValuePair(Of Integer, Integer) In result.AttractorPeriods
+                Call attractorTarget.Add(gene)
+                Call attractorPeriod.Add(item.Key)
+                Call attractorCount.Add(item.Value)
+            Next
+        Next
+
+        Dim table As New dataframe With {.columns = New Dictionary(Of String, Array)}
+        Call table.add("perturbation", tableTarget.ToArray())
+        Call table.add("gene", tableGene.ToArray())
+        Call table.add("mean", tableMean.ToArray())
+        Call table.add("sd", tableSd.ToArray())
+        Call table.add("lower", tableLower.ToArray())
+        Call table.add("upper", tableUpper.ToArray())
+        Call table.add("sign_agreement", tableSign.ToArray())
+        Call table.add("high_fraction", tableHigh.ToArray())
+        Call table.add("reference", tableReference.ToArray())
+
+        Dim summary As New dataframe With {.columns = New Dictionary(Of String, Array)}
+        Call summary.add("perturbation", summaryTarget.ToArray())
+        Call summary.add("samples", summarySamples.ToArray())
+        Call summary.add("converged_fraction", summaryConverged.ToArray())
+        Call summary.add("degenerate", summaryDegenerate.ToArray())
+        Call summary.add("notes", summaryNotes.ToArray())
+
+        Dim attractors As New dataframe With {.columns = New Dictionary(Of String, Array)}
+        Call attractors.add("perturbation", attractorTarget.ToArray())
+        Call attractors.add("period", attractorPeriod.ToArray())
+        Call attractors.add("count", attractorCount.ToArray())
+
+        Return New list With {
+            .slots = New Dictionary(Of String, Object) From {
+                {"table", table},
+                {"summary", summary},
+                {"attractors", attractors}
+            }
+        }
+    End Function
+
+    ''' <summary>
+    ''' The coarse grained module layer (FCM): module assignment, bounded steady state and warm start.
+    ''' </summary>
+    ''' <remarks>
+    ''' <para>
+    ''' Returns a named list:
+    ''' </para>
+    ''' <list type="bullet">
+    ''' <item><description>``table``: ``gene`` / ``module`` / ``baseline``, the module assignment
+    ''' computed at fit time (only present when ``fcmWarmStart = TRUE``);</description></item>
+    ''' <item><description>``modules``: ``module`` / ``n_genes`` / ``activation``, the bounded
+    ''' activation of the module level fuzzy cognitive map on the training baseline;</description></item>
+    ''' <item><description>``initial``: ``gene`` / ``warm_start`` / ``surrogate``, the per gene
+    ''' initial state derived from the module state (this is what the root finder starts from).</description></item>
+    ''' <item><description>``summary``: ``available`` / ``module_count`` / ``converged`` /
+    ''' ``steps`` / ``period`` / ``notes``.</description></item>
+    ''' </list>
+    ''' <para>
+    ''' The module layer is bounded by construction, so it always terminates with either a fixed
+    ''' point or a detected limit cycle. It is a **rough** skeleton: the module average erases the
+    ''' individual genes, which is why the default is off and the surrogate must never replace the
+    ''' per gene prediction.
+    ''' </para>
+    ''' </remarks>
+    ''' <param name="fuzzygene">a trained model built with ``fcmWarmStart = TRUE``</param>
+    ''' <param name="env">the R# runtime environment used to report errors</param>
+    ''' <returns>a named list of data.frames</returns>
+    <ExportAPI("fuzzygene_modules")>
+    <RApiReturn(GetType(list))>
+    Public Function fuzzygene_modules(fuzzygene As fz.FuzzyGeneModel, Optional env As Environment = Nothing) As Object
+        If fuzzygene Is Nothing OrElse Not fuzzygene.IsTrained Then
+            Return RInternal.debug.stop("the model has not been trained yet", env)
+        End If
+
+        Dim modules As Integer() = fuzzygene.Network.Modules
+
+        If modules Is Nothing Then
+            Return RInternal.debug.stop(
+                "the model carries no module assignment: enable it before training with " &
+                "FuzzyGene::fuzzygene_hybrid_config(config, fcmWarmStart = TRUE)", env)
+        End If
+
+        Dim layer As New fz.Hybrid.FcmModuleLayer(fuzzygene.Network)
+
+        If Not layer.Available Then
+            Return RInternal.debug.stop(
+                "the module layer needs at least two modules; lower fcmModules or train on more genes", env)
+        End If
+
+        Dim result As fz.Hybrid.FcmModuleResult
+
+        Try
+            result = layer.BuildInitial(fuzzygene.Network.BaselineRaw)
+        Catch ex As Exception
+            Return RInternal.debug.stop(ex.Message, env)
+        End Try
+
+        If result Is Nothing Then
+            Return RInternal.debug.stop("the module layer produced no result", env)
+        End If
+
+        Dim table As New dataframe With {.columns = New Dictionary(Of String, Array)}
+        Call table.add("gene", fuzzygene.Network.GeneNames)
+        Call table.add("module", modules)
+        Call table.add("baseline", fuzzygene.Network.BaselineRaw)
+
+        Dim moduleCount As Integer = result.ModuleActivation.Length
+        Dim counts(moduleCount - 1) As Integer
+        Dim total As Integer = 0
+
+        For i As Integer = 0 To modules.Length - 1
+            If modules(i) >= 0 AndAlso modules(i) < moduleCount Then
+                counts(modules(i)) += 1
+                total += 1
+            End If
+        Next
+
+        Dim moduleIds(moduleCount - 1) As Integer
+        Dim geneCounts(moduleCount - 1) As Integer
+
+        For k As Integer = 0 To moduleIds.Length - 1
+            moduleIds(k) = k
+            geneCounts(k) = counts(k)
+        Next
+
+        Dim moduleTable As New dataframe With {.columns = New Dictionary(Of String, Array)}
+        Call moduleTable.add("module", moduleIds)
+        Call moduleTable.add("n_genes", geneCounts)
+        Call moduleTable.add("activation", result.ModuleActivation)
+
+        Dim initial As New dataframe With {.columns = New Dictionary(Of String, Array)}
+        Call initial.add("gene", fuzzygene.Network.GeneNames)
+        Call initial.add("warm_start", result.GeneInitial)
+        Call initial.add("surrogate", result.Surrogate)
+
+        Dim summary As New dataframe With {.columns = New Dictionary(Of String, Array)}
+        Call summary.add("available", New Boolean() {True})
+        Call summary.add("module_count", New Integer() {result.ModuleActivation.Length})
+        Call summary.add("converged", New Boolean() {result.Converged})
+        Call summary.add("steps", New Integer() {result.Steps})
+        Call summary.add("period", New Integer() {result.Period})
+        Call summary.add("notes", New String() {If(result.Notes, "")})
+        Call summary.add("genes_assigned", New Integer() {total})
+
+        Return New list With {
+            .slots = New Dictionary(Of String, Object) From {
+                {"table", table},
+                {"modules", moduleTable},
+                {"initial", initial},
+                {"summary", summary}
+            }
+        }
+    End Function
+
+    ''' <summary>
+    ''' Solver diagnostics of one virtual perturbation (exit reason, residuals, saturation).
+    ''' </summary>
+    ''' <remarks>
+    ''' <para>
+    ''' One row with both the mutant and the wildtype run:
+    ''' ``exit_reason`` / ``iterations`` / ``free_residual`` / ``clamp_residual`` /
+    ''' ``out_of_support`` / ``pinned`` / ``attractor_period`` / ``omega`` / ``tolerance`` /
+    ''' ``lagged`` / ``elapsed_ms``, plus the same fields prefixed with ``control_``.
+    ''' </para>
+    ''' <para>
+    ''' Read ``exit_reason`` first. Only ``Converged`` means the flat tail of the curve is a real
+    ''' steady state; ``MaxIterations`` is a truncated plateau, ``LimitCycle`` means the system
+    ''' oscillates (the period mean is the honest answer), ``SupportSaturated`` means the support
+    ''' clamp, not the model, produced the numbers, and ``Diverged`` means there is no answer.
+    ''' ``clamp_residual`` is a diagnostic only: the clamped gene is by construction not at a fixed
+    ''' point of the map, so it never goes to zero and must not be used as a convergence test.
+    ''' </para>
+    ''' </remarks>
+    ''' <param name="fuzzygene">a trained (or restored) model</param>
+    ''' <param name="gene">the target gene of the virtual perturbation</param>
+    ''' <param name="mode">``knockout`` (default), ``knockdown`` or ``overexpression``</param>
+    ''' <param name="steps">maximum iteration steps; 0 uses the model configuration</param>
+    ''' <param name="env">the R# runtime environment used to report errors</param>
+    ''' <returns>a one row data.frame</returns>
+    <ExportAPI("fuzzygene_solver_report")>
+    <RApiReturn(GetType(dataframe))>
+    Public Function fuzzygene_solver_report(fuzzygene As fz.FuzzyGeneModel,
+                                            gene As String,
+                                            Optional mode As String = "knockout",
+                                            Optional steps As Integer = 0,
+                                            Optional env As Environment = Nothing) As Object
+        If fuzzygene Is Nothing OrElse Not fuzzygene.IsTrained Then
+            Return RInternal.debug.stop("the model has not been trained yet", env)
+        End If
+        If String.IsNullOrEmpty(gene) Then
+            Return RInternal.debug.stop("a target gene is required", env)
+        End If
+
+        Dim intervention As InterventionMode
+
+        If Not parseInterventionMode(mode, intervention) Then
+            Return RInternal.debug.stop($"unknown perturbation mode '{mode}', expected knockout / knockdown / overexpression", env)
+        End If
+
+        Dim trace As fzpert.PerturbationTrace
+
+        Try
+            trace = fuzzygene.TracePerturbation(gene, intervention, steps)
+        Catch ex As Exception
+            Return RInternal.debug.stop(ex.Message, env)
+        End Try
+
+        If trace Is Nothing OrElse trace.Mutant Is Nothing Then
+            Return RInternal.debug.stop($"the target gene '{gene}' is not modelled by this network", env)
+        End If
+
+        Dim mutant As fzdata.SteadyStateTrace = trace.Mutant
+        Dim control As fzdata.SteadyStateTrace = trace.Control
+
+        Dim table As New dataframe With {.columns = New Dictionary(Of String, Array)}
+
+        Call table.add("gene", New String() {gene})
+        Call table.add("mode", New String() {trace.Mode.ToString()})
+        Call table.add("clamp_value", New Double() {trace.ClampValue})
+        Call table.add("exit_reason", New String() {mutant.ExitReason.ToString()})
+        Call table.add("converged", New Boolean() {mutant.Converged})
+        Call table.add("iterations", New Integer() {mutant.Iterations})
+        Call table.add("free_residual", New Double() {mutant.FreeResidual})
+        Call table.add("clamp_residual", New Double() {mutant.ClampResidual})
+        Call table.add("out_of_support", New Double() {mutant.OutOfSupportFraction})
+        Call table.add("pinned", New Double() {mutant.PinnedFraction})
+        Call table.add("attractor_period", New Integer() {mutant.AttractorPeriod})
+        Call table.add("control_exit_reason", New String() {If(control Is Nothing, "", control.ExitReason.ToString())})
+        Call table.add("control_iterations", New Integer() {If(control Is Nothing, 0, control.Iterations)})
+        Call table.add("control_free_residual", New Double() {If(control Is Nothing, 0.0, control.FreeResidual)})
         Call table.add("omega", New Double() {mutant.Relaxation})
         Call table.add("tolerance", New Double() {mutant.Tolerance})
         Call table.add("lagged", New Boolean() {mutant.Lagged})

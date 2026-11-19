@@ -38,6 +38,8 @@
 export class FuzzyGeneNetwork {
    # 稳态迭代的起始状态（原始尺度）。
    BaselineRaw: double;
+   # 全局增益校准方式；旧包为 <a href="cref:F:SMRUCC.genomics.Analysis.FuzzyGene.Config.StabilityCalibrationMode.None">StabilityCalibrationMode.None</a>。
+   CalibrationMode: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/StabilityCalibrationMode.html">StabilityCalibrationMode</a>;
    # 建模配置（决定传播步数、阻尼、限幅等默认行为）。
    Config: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/FuzzyGeneConfig.html">FuzzyGeneConfig</a>;
    # 带符号调控边（由各靶基因模型的解析灵敏度汇总）。
@@ -52,14 +54,24 @@ export class FuzzyGeneNetwork {
    Mode: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/FuzzyTargetMode.html">FuzzyTargetMode</a>;
    # 逐基因模型，未建模的位置为 <code>Nothing</code>。
    Models: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Fitting/GeneRegulationModel.html">GeneRegulationModel[]</a>;
+   # 逐基因的模块编号（FCM 粗粒度层用）；未做模块划分（或旧包）时为 <code>Nothing</code>。
+   Modules: integer;
    # 基因数量。
    NGene: integer;
    # 参与建模（有模型）的基因数量。
    NModelled: integer;
    # 本次迭代实际使用的并行度（<code>1</code> 表示串行）。
    ParallelDegree: integer;
+   # 拟合期构建的 PBN 定性层；未启用 PBN 或旧包时为 <code>Nothing</code>。
+   PbnPrior: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Hybrid/PbnRegulatorPrior.html">PbnRegulatorPrior</a>;
+   # 校准后的训练集平均 R²（<code>0</code> 表示未记录）。
+   PostCalibrationR2: double;
+   # 校准前的训练集平均 R²（<code>0</code> 表示未记录）。
+   PreCalibrationR2: double;
    # 逐基因原始表达标准差。
    SDs: double;
+   # 全局增益校准后的谱半径 <code>ρ(J)</code>；<code>0</code> 表示未校准（旧包）。
+   SpectralRadius: double;
    # 模型是否在 z 空间训练。
    Standardized: boolean;
    # 逐基因训练支持域上界（z 空间）。
@@ -73,10 +85,12 @@ export class FuzzyGeneNetwork {
         <h3>.NET clr type reference tree</h3>
 
         <ol>
+<li>use by <i>property</i> member <code>CalibrationMode</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/StabilityCalibrationMode.html">StabilityCalibrationMode</a></li>
 <li>use by <i>property</i> member <code>Config</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/FuzzyGeneConfig.html">FuzzyGeneConfig</a></li>
 <li>use by <i>property</i> member <code>Edges</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Data/RegulationEdgeModel.html">RegulationEdgeModel</a></li>
 <li>use by <i>property</i> member <code>Mode</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/FuzzyTargetMode.html">FuzzyTargetMode</a></li>
 <li>use by <i>property</i> member <code>Models</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Fitting/GeneRegulationModel.html">GeneRegulationModel</a></li>
+<li>use by <i>property</i> member <code>PbnPrior</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Hybrid/PbnRegulatorPrior.html">PbnRegulatorPrior</a></li>
 </ol>
 
 

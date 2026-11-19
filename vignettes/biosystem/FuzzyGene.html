@@ -131,11 +131,43 @@ table caption {font-size:14px;font-weight:bolder;}
 
 
 <ul>
-<li><code>fuzzygene_relaxation</code>: change the damping factor / iteration budget of the solver, which</li>
+<li><code>fuzzygene_hybrid_config</code>: chainable mutator of the solver (Newton / Anderson / legacy /</li>
 </ul>
 
 
-<p>is what you want when a genome scale model keeps oscillating instead of converging;</p>
+<p>advance) and the hybrid layers (PBN regularisation, ensemble samples, FCM warm start, spectral radius calibration);</p>
+
+
+<ul>
+<li><code>fuzzygene_pbn</code> / <code>fuzzygene_ensemble</code>: the qualitative probabilistic boolean layer</li>
+</ul>
+
+
+<p>(CoD table, selected rules) and the structural uncertainty of a perturbation (mean, standard deviation, confidence interval, sign agreement, boolean attractor periods);</p>
+
+
+<ul>
+<li><code>fuzzygene_modules</code>: the coarse grained fuzzy cognitive map layer (module assignment,</li>
+</ul>
+
+
+<p>bounded module steady state, per gene warm start and surrogate);</p>
+
+
+<ul>
+<li><code>fuzzygene_solver_report</code>: exit reason, free residual, constraint violation, saturation</li>
+</ul>
+
+
+<p>fractions and attractor period of a single perturbation, which separates "converged" from "ran out of steps" / "oscillates" / "hit the support bounds";</p>
+
+
+<ul>
+<li><code>fuzzygene_relaxation</code>: change the damping factor / iteration budget of the damped</li>
+</ul>
+
+
+<p>fallback, which is what you want when a genome scale model keeps oscillating instead of converging;</p>
 
 <p>A trained <a href="cref:T:SMRUCC.genomics.Analysis.FuzzyGene.FuzzyGeneModel">FuzzyGeneModel</a> implements the <code>InsilicoPerturbationExperiment</code> interface, so the <code>knockouts</code>, <code>knockdown</code> and <code>overexpress</code> api of the <code>bnlearn</code> package can be applied to it directly for in silico perturbation experiments (partial knockdown is natively supported because the fuzzy membership functions describe graded regulation). The generic <code>writeBin</code> handler of this module persists a model into a zip based binary stream, and <code>readBin.fuzzygene</code> restores it back to a fully usable model object.</p>
                            </p>
@@ -279,6 +311,66 @@ table caption {font-size:14px;font-weight:bolder;}
     <a href="./FuzzyGene/fuzzygene_relaxation.html">fuzzygene_relaxation</a>
   </td>
   <td><p>Set the damping factor, the iteration budget and the tolerance used by the steady-state solver.</p></td>
+</tr>
+<tr>
+  <td id="fuzzygene_hybrid_config">
+    <a href="./FuzzyGene/fuzzygene_hybrid_config.html">fuzzygene_hybrid_config</a>
+  </td>
+  <td><p>Chainable mutator of the solver and hybrid layer options.</p></td>
+</tr>
+<tr>
+  <td id="fuzzygene_pbn">
+    <a href="./FuzzyGene/fuzzygene_pbn.html">fuzzygene_pbn</a>
+  </td>
+  <td><p>The qualitative (probabilistic boolean) layer of a trained model: CoD table and rules.</p></td>
+</tr>
+<tr>
+  <td id="fuzzygene_ensemble">
+    <a href="./FuzzyGene/fuzzygene_ensemble.html">fuzzygene_ensemble</a>
+  </td>
+  <td><p>Ensemble (resampled boolean structure) prediction of virtual perturbations.</p></td>
+</tr>
+<tr>
+  <td id="fuzzygene_modules">
+    <a href="./FuzzyGene/fuzzygene_modules.html">fuzzygene_modules</a>
+  </td>
+  <td><p>The coarse grained module layer (FCM): module assignment, bounded steady state and warm start.</p></td>
+</tr>
+<tr>
+  <td id="fuzzygene_solver_report">
+    <a href="./FuzzyGene/fuzzygene_solver_report.html">fuzzygene_solver_report</a>
+  </td>
+  <td><p>Solver diagnostics of one virtual perturbation (exit reason, residuals, saturation).</p></td>
+</tr>
+<tr>
+  <td id="fuzzygene_sensitivity">
+    <a href="./FuzzyGene/fuzzygene_sensitivity.html">fuzzygene_sensitivity</a>
+  </td>
+  <td><p>Model self-check: omega invariance, step invariance and lag ordering robustness.</p></td>
+</tr>
+<tr>
+  <td id="fuzzygene_dose_response">
+    <a href="./FuzzyGene/fuzzygene_dose_response.html">fuzzygene_dose_response</a>
+  </td>
+  <td><p>Dose-response curve of one virtual perturbation.</p></td>
+</tr>
+<tr>
+  <td id="fuzzygene_dose_time_surface">
+    <a href="./FuzzyGene/fuzzygene_dose_time_surface.html">fuzzygene_dose_time_surface</a>
+  </td>
+  <td><p>Dose x iteration response surface of one virtual perturbation.</p></td>
+</tr>
+<tr>
+  <td id="fuzzygene_combination">
+    <a href="./FuzzyGene/fuzzygene_combination.html">fuzzygene_combination</a>
+  </td>
+  <td><p>Non-additive (synergy / antagonism) analysis of a two gene combination.</p></td>
+</tr>
+<tr>
+  <td id="fuzzygene_analysis_report">
+    <a href="./FuzzyGene/fuzzygene_analysis_report.html">fuzzygene_analysis_report</a>
+  </td>
+  <td><p>Run every analysis once and write the tables to a folder.</p></td>
 </tr></tbody>
       </table>
     </div>

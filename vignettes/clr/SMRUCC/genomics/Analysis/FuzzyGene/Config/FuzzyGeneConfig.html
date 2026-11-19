@@ -39,7 +39,7 @@ export class FuzzyGeneConfig extends <a href="/vignettes/clr/Microsoft/VisualBas
    Beta1: double;
    Beta2: double;
    ChunkRows: integer;
-   # 是否把传播过程中的取值限制在训练支持域内（<code>[min−1, max+1]</code>，z 空间）。
+   # 是否把传播过程中的<strong>输出</strong>限制在训练支持域内（<code>[min−1, max+1]</code>，z 空间）。
    ClampToSupport: boolean;
    # 稳态判据：单步最大变化量小于该值即认为收敛。
    ConvergenceTolerance: double;
@@ -50,6 +50,8 @@ export class FuzzyGeneConfig extends <a href="/vignettes/clr/Microsoft/VisualBas
    FreezeConsequent: boolean;
    FreezePremise: boolean;
    GradientClip: double;
+   # PBN / FCM 融合配置（同样惰性新建以兼容旧包）。
+   Hybrid: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/HybridOptions.html">HybridOptions</a>;
    # 虚拟敲低的残余比例：敲低后目标基因保留 <code>KnockdownResidual × 基线表达</code>。
    KnockdownResidual: double;
    LearningMode: <a href="/vignettes/clr/Microsoft/VisualBasic/DeepLearning/ANFIS/AnfisLearningMode.html">AnfisLearningMode</a>;
@@ -109,6 +111,8 @@ export class FuzzyGeneConfig extends <a href="/vignettes/clr/Microsoft/VisualBas
    Selection: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/RegulatorSelection.html">RegulatorSelection</a>;
    # 扰动效应的显著性阈值（Z 分数）：<code>|Δ / SD|</code> 超过该值的基因标记为显著变化。
    SignificanceZScore: double;
+   # 稳态求解器配置（牛顿/Anderson/旧阻尼的选择与预算）。
+   Solver: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/SolverOptions.html">SolverOptions</a>;
    # 训练前是否对表达量做逐基因 z-score 标准化。
    Standardize: boolean;
    # 拟合路线（默认按数据自动判定）。
@@ -123,11 +127,13 @@ export class FuzzyGeneConfig extends <a href="/vignettes/clr/Microsoft/VisualBas
 
         <ol>
 <li>this class extends from <a href="/vignettes/clr/Microsoft/VisualBasic/DeepLearning/ANFIS/AnfisOptions.html">AnfisOptions</a> class: <a href="/vignettes/clr/Microsoft/VisualBasic/DeepLearning/ANFIS/AnfisOptions.html">AnfisOptions</a></li>
+<li>use by <i>property</i> member <code>Hybrid</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/HybridOptions.html">HybridOptions</a></li>
 <li>use by <i>property</i> member <code>LearningMode</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/DeepLearning/ANFIS/AnfisLearningMode.html">AnfisLearningMode</a></li>
 <li>use by <i>property</i> member <code>MfKind</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/DataMining/FuzzyLogic/TSK/MembershipKind.html">MembershipKind</a></li>
 <li>use by <i>property</i> member <code>Optimizer</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/DeepLearning/ANFIS/AnfisOptimizerKind.html">AnfisOptimizerKind</a></li>
 <li>use by <i>property</i> member <code>RulePartition</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/DataMining/FuzzyLogic/TSK/RulePartitionKind.html">RulePartitionKind</a></li>
 <li>use by <i>property</i> member <code>Selection</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/RegulatorSelection.html">RegulatorSelection</a></li>
+<li>use by <i>property</i> member <code>Solver</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/SolverOptions.html">SolverOptions</a></li>
 <li>use by <i>property</i> member <code>TargetMode</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/FuzzyTargetMode.html">FuzzyTargetMode</a></li>
 </ol>
 

@@ -336,6 +336,10 @@ Namespace Fitting
 
             report.Warnings = warnings.ToArray()
 
+            ' PBN 定性层挂到网络上：这样它才会随模型包一起持久化，
+            ' 推理进程（以及部署到 Linux 的生产推理）才能继续用 fuzzygene_ensemble
+            network.PbnPrior = pbn
+
             Return New FuzzyGeneFitOutput With {
                 .Network = network,
                 .Report = report,

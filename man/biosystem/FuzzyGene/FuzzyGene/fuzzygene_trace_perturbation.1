@@ -67,10 +67,12 @@ Returns a named list:
  
 
 
- The column index is a damped iteration step, not biological time: \fBomega\fR changes
- the shape of the curve while a converged end point stays the same (see
- \fBfuzzygene_relaxation\fR). Only a lagged (time series) model with \fBomega = 1\fR makes one
- frame equal to one sampling interval.
+ The column index is a solver iteration, not biological time. The default solver
+ finds the constrained fixed point of \fBF(z) - z = 0\fR (Levenberg-Marquardt, see
+ \fBfuzzygene_hybrid_config(solver = ...)\fR), so the frames are Newton steps and the number of
+ frames is small (single digit for a well posed network). Only when the solver falls back to
+ the damped iteration does \fBomega\fR shape the curve (\fBfuzzygene_relaxation\fR), and only a
+ lagged (time series) model in \fBadvance\fR mode makes one frame equal to one sampling interval.
  
 
 
@@ -85,10 +87,12 @@ Returns a named list:
  
 
 
- \fBwildtype\fR is not decoration. The control steady state used by the perturbation engine is
- the training baseline, which is generally not a fixed point of the network; the
- wildtype trajectory shows how much the system drifts on its own, so that drift can be told
- apart from the perturbation effect.
+ \fBwildtype\fR is the control run: it starts from the same baseline and is iterated to its own
+ fixed point, so \fBfoldchange\fR is now "mutant fixed point minus wildtype fixed point" instead
+ of "mutant minus the training mean". The training mean is generally not a fixed point
+ of a nonlinear fuzzy map, so the previous definition mixed the perturbation effect with the
+ model's own drift; the wildtype trajectory still exposes that drift, which is worth checking
+ (a large drift means the fit is inconsistent with its own steady state).
 .PP
 .SH SEE ALSO
 FuzzyGene

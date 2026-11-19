@@ -149,10 +149,20 @@ Public Class FuzzyGeneModel : Implements InsilicoPerturbationExperiment
         End Get
     End Property
 
-    ''' <summary>拟合期构建的 PBN 定性层；未启用 PBN 或从包恢复时为 <c>Nothing</c>。</summary>
+    ''' <summary>
+    ''' PBN 定性层：拟合期直接用现场构建的对象，从模型包恢复时读网络里持久化的那一份。
+    ''' </summary>
+    ''' <remarks>
+    ''' 两者都存在时以现场对象为准（它带着完整的 CoD 表）。旧包里没有该字段时返回
+    ''' <c>Nothing</c>，<see cref="PredictEnsemble"/> 会明确报错而不是给出标准差全 0 的假结果。
+    ''' </remarks>
     Public ReadOnly Property PbnPrior As Hybrid.PbnRegulatorPrior
         Get
-            Return _pbn
+            If _pbn IsNot Nothing Then
+                Return _pbn
+            End If
+
+            Return _network?.PbnPrior
         End Get
     End Property
 
@@ -179,7 +189,9 @@ Public Class FuzzyGeneModel : Implements InsilicoPerturbationExperiment
 
         Dim count As Integer = If(nSamples > 0, nSamples, _config.Hybrid.EnsembleSamples)
 
-        Return _engine.PredictEnsemble(specs, count, _pbn)
+        ' 必须走 PbnPrior 属性而不是 _pbn 字段：从模型包恢复的模型 _pbn 是 Nothing，
+        ' 但网络里持久化了一份（见 FuzzyGeneFile 的 pbn.json 条目）
+        Return _engine.PredictEnsemble(specs, count, Me.PbnPrior)
     End Function
 
     ''' <summary>当前注入的上下文（对齐之后的原始表达量，长度 = 基因数）；未注入时为 Nothing。</summary>

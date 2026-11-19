@@ -1,0 +1,50 @@
+.\" man page create by R# package system.
+.TH FUZZYGENE 1 2000-1月 "fuzzygene_dose_time_surface" "fuzzygene_dose_time_surface"
+.SH NAME
+fuzzygene_dose_time_surface \- Dose x iteration response surface of one virtual perturbation.
+.SH SYNOPSIS
+\fIfuzzygene_dose_time_surface(\fBfuzzygene\fR as <generic> FuzzyGeneModel, 
+\fBgene\fR as string, 
+\fBdoses\fR as double = \fB<NULL>\fR, 
+\fBsteps\fR as integer = 60, 
+\fBtop\fR as integer = 20, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Dose x iteration response surface of one virtual perturbation.
+.PP
+.SH OPTIONS
+.PP
+\fBfuzzygene\fB \fR\- a trained (or restored) model. 
+.PP
+.PP
+\fBgene\fB \fR\- the target gene of the virtual perturbation. 
+.PP
+.PP
+\fBdoses\fB \fR\- dose points in [0, 1]; \fBNULL\fR uses 5 evenly spaced points. 
+.PP
+.PP
+\fBsteps\fB \fR\- iteration budget of each solve. 
+.PP
+.PP
+\fBtop\fB \fR\- number of genes to keep. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment used to report errors. 
+.PP
+.SH VALUE
+.PP
+a long data.frame \fBdose\fR / \fBiteration\fR / \fBgene\fR / \fBdelta\fR
+.PP
+.SH DETAILS
+.PP
+Every cell is `mutant(t) - control(t)` at the same frame, i.e. the drift of the system
+ itself has already been subtracted. Only the top genes (ranked by \fB|z|\fR at the largest
+ dose) are kept, so the cube stays small enough to plot as a contour or a 3D surface.
+.PP
+.SH SEE ALSO
+FuzzyGene
+.SH FILES
+.PP
+biosystem.dll
+.PP

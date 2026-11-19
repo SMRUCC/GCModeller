@@ -36,6 +36,8 @@
 export class GeneRegulationModel {
    # 是否因早停提前结束。
    Converged: boolean;
+   # 全局增益校准对该模型施加的累计斜率缩放系数（<code>1</code> 表示未校准）。
+   GainScale: double;
    # 该模型是否来自滞后（时序）路线。
    IsLagged: boolean;
    # 实际训练轮数。

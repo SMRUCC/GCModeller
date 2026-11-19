@@ -83,6 +83,19 @@ Namespace Perturbation.Analysis
                 Call states.Add(trace.Mutant.Final)
             Next
 
+            ' 参考值本身没收敛时，拿它做基准是没有意义的（偏差会全部算到别人头上）。
+            ' 优先改用「第一个真正收敛的 ω」，并在结果里如实报告换了哪个。
+            If Not converged(referenceIndex) Then
+                For k As Integer = 0 To runs - 1
+                    If converged(k) Then
+                        referenceIndex = k
+                        reference = values(k)
+
+                        Exit For
+                    End If
+                Next
+            End If
+
             Dim referenceState As Double() = states(referenceIndex)
             Dim scale As Double = 1.0
 
@@ -302,7 +315,11 @@ Namespace Perturbation.Analysis
 
                     threshold(g) = thresholdRatio * magnitude
 
-                    For t As Integer = 1 To trace.Mutant.Iterations
+                    ' 突变型与对照的帧数**不一定相等**：求根/阻尼收敛的步数取决于各自的起点，
+                    ' 直接按 Mutant.Iterations 索引 Control.States 会越界
+                    Dim frames As Integer = std.Min(trace.Mutant.States.Count, trace.Control.States.Count)
+
+                    For t As Integer = 1 To frames - 1
                         Dim delta As Double = std.Abs(trace.Mutant.States(t)(g) - trace.Control.States(t)(g))
 
                         If delta >= threshold(g) Then

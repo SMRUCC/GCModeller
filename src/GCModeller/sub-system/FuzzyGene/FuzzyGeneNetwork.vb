@@ -75,6 +75,16 @@ Public Class FuzzyGeneNetwork
     ''' <summary>带符号调控边（由各靶基因模型的解析灵敏度汇总）。</summary>
     Public Property Edges As RegulationEdgeModel()
 
+    ''' <summary>
+    ''' 拟合期构建的 PBN 定性层；未启用 PBN 或旧包时为 <c>Nothing</c>。
+    ''' </summary>
+    ''' <remarks>
+    ''' 放在网络上而不是模型门面上，是为了能随 <c>*.fuzzygene.zip</c> 一起持久化：
+    ''' PBN 的规则来自训练表达矩阵的二值化，推理期没有矩阵就无法重建，
+    ''' 而生产流程是「训练一次 → 之后反复扰动」（常常还是在另一台机器上）。
+    ''' </remarks>
+    Public Property PbnPrior As Hybrid.PbnRegulatorPrior
+
     ''' <summary>建模配置（决定传播步数、阻尼、限幅等默认行为）。</summary>
     Public ReadOnly Property Config As FuzzyGeneConfig
         Get
@@ -773,6 +783,15 @@ Public Class FuzzyGeneNetwork
             cycle = New Solver.CycleDetector(options.CycleWindow)
         End If
 
+        ' 先写哨兵：循环里只在 Converged / Diverged / LimitCycle / SupportSaturated 时改写它。
+        ' 这样「预算跑完」一定落在 MaxIterations，不会继承 Newton 阶段留下的值
+        ' （Newton 失败时该字段是 MaxIterations，但 Enum 的 0 值恰好是 Converged，
+        ' 早期版本因此把 134 步的截断平台报成了收敛）。
+        report.ExitReason = Solver.ExitReason.MaxIterations
+        ' 阻尼步的迭代数与 Newton 轮数不是同一个口径，回落时重新计数
+        report.Iterations = 0
+        report.JacobianEvaluations = 0
+
         Call residual.Evaluate(forceAll)
 
         Dim initialMax As Double = residual.FreeMax()
@@ -852,7 +871,11 @@ Public Class FuzzyGeneNetwork
             End If
         Next
 
-        If report.Iterations >= context.MaxSteps AndAlso report.ExitReason = Solver.ExitReason.MaxIterations Then
+        ' 收敛检查同样在循环顶部：最后一步刚好降到容差以下时会被预算截断误报成 MaxIterations，
+        ' 这里按终态残差补一次判定
+        If residual.FreeMax() <= context.Tolerance Then
+            report.ExitReason = Solver.ExitReason.Converged
+        ElseIf report.Iterations >= context.MaxSteps AndAlso report.ExitReason = Solver.ExitReason.MaxIterations Then
             report.AddMessage($"the step budget ({context.MaxSteps}) was exhausted without reaching the tolerance {context.Tolerance:G3}")
         End If
 
@@ -1395,6 +1418,7 @@ Public Class FuzzyGeneNetwork
             .preCalibrationR2 = PreCalibrationR2,
             .postCalibrationR2 = PostCalibrationR2,
             .modules = Modules,
+            .pbn = If(PbnPrior Is Nothing, Nothing, PbnPrior.ToDto()),
             .edges = Edges
         }
 
@@ -1452,6 +1476,8 @@ Public Class FuzzyGeneNetwork
         network.PreCalibrationR2 = dto.preCalibrationR2
         network.PostCalibrationR2 = dto.postCalibrationR2
         network.Modules = dto.modules
+        ' PBN 同样是可选的：旧包里没有该字段，读出来是 Nothing，fuzzygene_ensemble 会明确报错
+        network.PbnPrior = Hybrid.PbnRegulatorPrior.FromDto(dto.pbn)
 
         Return network
     End Function
@@ -1516,6 +1542,8 @@ Public Class FuzzyGeneNetworkDto
     Public Property postCalibrationR2 As Double
     ''' <summary>逐基因模块编号（FCM 粗粒度层用）；旧包与未启用时为 Nothing。</summary>
     Public Property modules As Integer()
+    ''' <summary>PBN 定性层；未启用 PBN 时为 Nothing。</summary>
+    Public Property pbn As Hybrid.PbnPriorDto
     ''' <summary>带符号调控边。</summary>
     Public Property edges As RegulationEdgeModel()
     ''' <summary>逐基因模型（未建模的位置为 <c>Nothing</c>）。</summary>

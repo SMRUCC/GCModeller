@@ -1,0 +1,95 @@
+.\" man page create by R# package system.
+.TH FUZZYGENE 1 2000-1月 "fuzzygene_sensitivity" "fuzzygene_sensitivity"
+.SH NAME
+fuzzygene_sensitivity \- Model self-check: omega invariance, step invariance and lag ordering robustness.
+.SH SYNOPSIS
+\fIfuzzygene_sensitivity(\fBfuzzygene\fR as <generic> FuzzyGeneModel, 
+\fBgene\fR as string, 
+\fBmode\fR as string = "knockout", 
+\fBomegas\fR as double = \fB<NULL>\fR, 
+\fBstepsList\fR as double = \fB<NULL>\fR, 
+\fBsweepSteps\fR as integer = 50, 
+\fBreferenceOmega\fR as double = NAN, 
+\fBtolerance\fR as double = 0.001, 
+\fBlagRatio\fR as double = 0.1, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Model self-check: omega invariance, step invariance and lag ordering robustness.
+.PP
+.SH OPTIONS
+.PP
+\fBfuzzygene\fB \fR\- a trained (or restored) model. 
+.PP
+.PP
+\fBgene\fB \fR\- the target gene of the virtual perturbation. 
+.PP
+.PP
+\fBmode\fB \fR\- \fBknockout\fR (default), \fBknockdown\fR or \fBoverexpression\fR. 
+.PP
+.PP
+\fBomegas\fB \fR\- relaxation values to sweep, e.g. \fBc(0.2, 0.5, 0.8, 1.0)\fR. 
+.PP
+.PP
+\fBstepsList\fB \fR\- iteration budgets to sweep, e.g. \fBc(50, 200, 500)\fR. 
+.PP
+.PP
+\fBsweepSteps\fB \fR\- fixed iteration budget used by the omega sweep and the lag analysis. 
+.PP
+.PP
+\fBreferenceOmega\fB \fR\- omega used as the comparison baseline; \fBNaN\fR picks the value closest to 0.5. 
+.PP
+.PP
+\fBtolerance\fB \fR\- relative deviation threshold of the invariant flags. 
+.PP
+.PP
+\fBlagRatio\fB \fR\- relative trigger threshold of the lag definition. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment used to report errors. 
+.PP
+.SH VALUE
+.PP
+a named list of data.frames
+.PP
+.SH DETAILS
+.PP
+Returns a named list:
+ 
+
+
+ 
+- \fBomega\fR: data.frame \fBvalue\fR / \fBconverged\fR / \fBiterations\fR /
+ \fBlast_max_delta\fR / \fBmax_abs_deviation\fR / \fBmax_relative_deviation\fR; the deviation
+ columns are measured against \fBreference_omega\fR (see \fBsummary\fR);
+- \fBsteps\fR: the same shape for the iteration budget sweep, measured
+ against the largest step count;
+- \fBlag\fR: wide table \fBgene\fR + one column per omega, each cell is the
+ frame index at which that gene first reaches 10% (\fBlagRatio\fR) of its own final change;
+- \fBspearman\fR: wide table of pairwise Spearman rho between the omega runs,
+ computed on the genes that respond under every omega;
+- \fBsummary\fR: one row data.frame with the two invariant flags, the
+ reference values, the responding gene count, the mean rho and the run count.
+
+
+ 
+
+
+ Read \fBsummary$omega_invariant\fR first. \fBFALSE\fR means the end state still depends on the
+ damping factor, i.e. the iteration has not converged and the trajectory is not a steady
+ state. That is a property of the model, not a bug of this function.
+ 
+
+
+ 
+
+
+ Cost: about \fB2 x (length(omegas) + length(stepsList) + length(omegas))\fR solves. With the
+ default grids on an 18k gene model this takes roughly one minute.
+.PP
+.SH SEE ALSO
+FuzzyGene
+.SH FILES
+.PP
+biosystem.dll
+.PP

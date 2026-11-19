@@ -1,0 +1,69 @@
+.\" man page create by R# package system.
+.TH FUZZYGENE 1 2000-1月 "fuzzygene_dose_response" "fuzzygene_dose_response"
+.SH NAME
+fuzzygene_dose_response \- Dose-response curve of one virtual perturbation.
+.SH SYNOPSIS
+\fIfuzzygene_dose_response(\fBfuzzygene\fR as <generic> FuzzyGeneModel, 
+\fBgene\fR as string, 
+\fBdoses\fR as double = \fB<NULL>\fR, 
+\fBsteps\fR as integer = 60, 
+\fBtop\fR as integer = 50, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Dose-response curve of one virtual perturbation.
+.PP
+.SH OPTIONS
+.PP
+\fBfuzzygene\fB \fR\- a trained (or restored) model. 
+.PP
+.PP
+\fBgene\fB \fR\- the target gene of the virtual perturbation. 
+.PP
+.PP
+\fBdoses\fB \fR\- dose points in [0, 1]; \fBNULL\fR uses 5 evenly spaced points. 
+.PP
+.PP
+\fBsteps\fB \fR\- iteration budget of each solve. 
+.PP
+.PP
+\fBtop\fB \fR\- number of genes to return; 0 means all. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment used to report errors. 
+.PP
+.SH VALUE
+.PP
+a long data.frame \fBdose\fR / \fBclamp_value\fR / \fBgene\fR / \fBfold_change\fR / \fBpercent_change\fR / \fBz_score\fR / \fBsignificant\fR
+.PP
+.SH DETAILS
+.PP
+Dose `d` runs from 0 (pin the gene at its baseline) to 1 (full knockout); the clamped
+ value is `baseline x (1 - d)`. Note that `d = 0` is not the same as "no
+ perturbation": the gene is held fixed while the wildtype trajectory drifts away from the
+ baseline, which is why its own fold change is 0 at `d = 0` but other genes can still
+ move.
+ 
+
+
+ 
+
+
+ Only the top genes are returned (ranked by \fB|z|\fR at the largest dose) to keep the
+ data.frame small; pass \fBtop = 0\fR for all 18k genes.
+ 
+
+
+ 
+\fB
+ let r = FuzzyGene::fuzzygene_dose_response(model, "TPPP3", doses = c(0, 0.5, 1));
+ print(r);
+ 
+\fR`
+.PP
+.SH SEE ALSO
+FuzzyGene
+.SH FILES
+.PP
+biosystem.dll
+.PP

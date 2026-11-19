@@ -39,8 +39,20 @@
  * >  ``max_delta``), which tells whether the flat tail of a curve is a real steady state;
  * > - ``fuzzygene_rank_perturbations`` / ``fuzzygene_strongest_perturbation``: rank candidate
  * >  perturbations by predicted response strength;
- * > - ``fuzzygene_relaxation``: change the damping factor / iteration budget of the solver, which
- * >  is what you want when a genome scale model keeps oscillating instead of converging;
+ * > - ``fuzzygene_hybrid_config``: chainable mutator of the solver (Newton / Anderson / legacy /
+ * >  advance) and the hybrid layers (PBN regularisation, ensemble samples, FCM warm start,
+ * >  spectral radius calibration);
+ * > - ``fuzzygene_pbn`` / ``fuzzygene_ensemble``: the qualitative probabilistic boolean layer
+ * >  (CoD table, selected rules) and the structural uncertainty of a perturbation (mean, standard
+ * >  deviation, confidence interval, sign agreement, boolean attractor periods);
+ * > - ``fuzzygene_modules``: the coarse grained fuzzy cognitive map layer (module assignment,
+ * >  bounded module steady state, per gene warm start and surrogate);
+ * > - ``fuzzygene_solver_report``: exit reason, free residual, constraint violation, saturation
+ * >  fractions and attractor period of a single perturbation, which separates "converged" from
+ * >  "ran out of steps" / "oscillates" / "hit the support bounds";
+ * > - ``fuzzygene_relaxation``: change the damping factor / iteration budget of the damped
+ * >  fallback, which is what you want when a genome scale model keeps oscillating instead of
+ * >  converging;
  * > 
  * > 
  * >  
@@ -63,7 +75,11 @@ declare namespace FuzzyGene {
     * >  otherwise it learns the static map `x_g = F(regulators)`. The prior network supplies
     * >  TF-to-target edges that are used to order (not to force) the candidate inputs.
     * 
-     * @param x the gene expression matrix (rows = genes, columns = samples)
+     * @param x the gene expression matrix: either the ``Matrix`` object returned by
+     *  ``geneExpression::load.expr`` (rows = genes, columns = samples) or an already converted
+     *  ``GeneExpressionData``. Both are accepted because the plain ``load.expr`` result is a
+     *  ``Matrix``; the old signature only took ``GeneExpressionData``, so every script that piped
+     *  ``load.expr()`` straight into ``build_fuzzygene`` failed with an InvalidCastException.
      * @param prior an optional prior regulatory network created by the ``bnlearn`` package (``prior_edges``);
      *  when omitted the candidate regulators are selected by correlation only.
      * 
@@ -71,12 +87,133 @@ declare namespace FuzzyGene {
      * @param config the configuration created by ``FuzzyGene::fuzzygene_config``; ``Nothing`` uses the defaults.
      * 
      * + default value Is ``null``.
-     * @param env the R# runtime environment (unused)
+     * @param env the R# runtime environment used to report errors
      * 
      * + default value Is ``null``.
      * @return an untrained model object
    */
-   function build_fuzzygene(x: object, prior?: object, config?: object, env?: object): object;
+   function build_fuzzygene(x: any, prior?: object, config?: object, env?: object): object;
+   /**
+    * Run every analysis once and write the tables to a folder.
+    * 
+    * > Writes into the folder:
+    * >  ``analysis.sensitivity.csv`` (omega + step sweeps),
+    * >  ``analysis.lag.csv``, ``analysis.spearman.csv``,
+    * >  ``analysis.dose_response.csv``, ``analysis.dose_time_surface.csv``,
+    * >  ``analysis.combination.csv`` (when both genes are given) and
+    * >  ``analysis.report.json`` (grid definition, invariant flags, run count, elapsed time).
+    * >  
+    * > 
+    * > 
+    * >  
+    * > 
+    * > 
+    * >  This is the cheap way to get everything: calling the four analysis apis separately would
+    * >  repeat the dose sweep twice. Expect one to two minutes on an 18k gene model with the
+    * >  default grids.
+    * >  
+    * > 
+    * > 
+    * >  
+    * > ```
+    * >  let files = FuzzyGene::fuzzygene_analysis_report(
+    * >      model, "TPPP3", geneA = "HSD17B3", geneB = "TPPP3", dir = "/path/analysis");
+    * >  print(files);
+    * >  
+    * > ```
+    * 
+     * @param fuzzygene a trained (or restored) model
+     * @param gene the target gene of the single perturbation analyses
+     * @param geneA the first gene of the combination analysis; empty skips that part
+     * 
+     * + default value Is ``null``.
+     * @param geneB the second gene of the combination analysis; empty skips that part
+     * 
+     * + default value Is ``null``.
+     * @param dir the output folder (created when missing)
+     * 
+     * + default value Is ``null``.
+     * @param mode ``knockout`` (default), ``knockdown`` or ``overexpression``
+     * 
+     * + default value Is ``'knockout'``.
+     * @param omegas relaxation grid; ``NULL`` uses ``c(0.2, 0.5, 0.8, 1.0)``
+     * 
+     * + default value Is ``null``.
+     * @param stepsList step grid of the invariance check; ``NULL`` uses ``c(50, 200, 500)``
+     * 
+     * + default value Is ``null``.
+     * @param doses dose grid; ``NULL`` uses 5 evenly spaced points
+     * 
+     * + default value Is ``null``.
+     * @param sweepSteps fixed iteration budget of the omega / lag analyses
+     * 
+     * + default value Is ``50``.
+     * @param doseSteps iteration budget of the dose analyses
+     * 
+     * + default value Is ``60``.
+     * @param combinationSteps iteration budget of the combination analysis
+     * 
+     * + default value Is ``60``.
+     * @param top number of genes kept in the dose and combination tables
+     * 
+     * + default value Is ``50``.
+     * @param surfaceTop number of genes kept in the dose-time surface
+     * 
+     * + default value Is ``20``.
+     * @param lagRatio relative trigger threshold of the lag definition
+     * 
+     * + default value Is ``0.1``.
+     * @param tolerance relative deviation threshold of the invariant flags
+     * 
+     * + default value Is ``0.001``.
+     * @param env the R# runtime environment used to report errors
+     * 
+     * + default value Is ``null``.
+     * @return a character vector of the written file paths
+   */
+   function fuzzygene_analysis_report(fuzzygene: object, gene: string, geneA?: string, geneB?: string, dir?: string, mode?: string, omegas?: number, stepsList?: number, doses?: number, sweepSteps?: object, doseSteps?: object, combinationSteps?: object, top?: object, surfaceTop?: object, lagRatio?: number, tolerance?: number, env?: object): string;
+   /**
+    * Non-additive (synergy / antagonism) analysis of a two gene combination.
+    * 
+    * > Additive expectation is `control + (A - control) + (B - control)`; the non additive
+    * >  effect is `joint - additive`. Positive means synergy, negative means antagonism.
+    * >  
+    * > 
+    * > 
+    * >  
+    * > 
+    * > 
+    * >  Returns a named list:
+    * >  
+    * > 
+    * > 
+    * >  
+    * > - ``summary``: one row with the two genes and ``max_abs_non_additive``;
+    * > - ``table``: the full 18k gene table ``gene`` / ``single_a`` / ``single_b`` /
+    * >  ``joint`` / ``additive`` / ``non_additive``;
+    * > - ``top``: the top genes ranked by ``|non_additive|``;
+    * > - ``trajectory``: the frame level version ``iteration`` / ``gene`` /
+    * >  ``additive`` / ``joint`` / ``non_additive``, which shows whether the deviation appears
+    * >  together with the single perturbations or only later.
+    * 
+     * @param fuzzygene a trained (or restored) model
+     * @param geneA the first target gene
+     * @param geneB the second target gene; must differ from ``geneA``
+     * @param mode ``knockout`` (default), ``knockdown`` or ``overexpression``
+     * 
+     * + default value Is ``'knockout'``.
+     * @param steps iteration budget of each solve
+     * 
+     * + default value Is ``60``.
+     * @param top number of genes kept in ``top`` and ``trajectory``
+     * 
+     * + default value Is ``50``.
+     * @param env the R# runtime environment used to report errors
+     * 
+     * + default value Is ``null``.
+     * @return a named list of data.frames
+   */
+   function fuzzygene_combination(fuzzygene: object, geneA: string, geneB: string, mode?: string, steps?: object, top?: object, env?: object): object;
    /**
     * Export the confidence matrix of a trained model (same shape as the weight matrix).
     * 
@@ -334,6 +471,73 @@ declare namespace FuzzyGene {
    */
    function fuzzygene_context_upstream(fuzzygene: object, upstream: object, useMutant?: boolean, minCoverage?: number, env?: object): string;
    /**
+    * Dose-response curve of one virtual perturbation.
+    * 
+    * > Dose `d` runs from 0 (pin the gene at its baseline) to 1 (full knockout); the clamped
+    * >  value is `baseline x (1 - d)`. Note that `d = 0` is not the same as "no
+    * >  perturbation": the gene is held fixed while the wildtype trajectory drifts away from the
+    * >  baseline, which is why its own fold change is 0 at `d = 0` but other genes can still
+    * >  move.
+    * >  
+    * > 
+    * > 
+    * >  
+    * > 
+    * > 
+    * >  Only the top genes are returned (ranked by ``|z|`` at the largest dose) to keep the
+    * >  data.frame small; pass ``top = 0`` for all 18k genes.
+    * >  
+    * > 
+    * > 
+    * >  
+    * > ```
+    * >  let r = FuzzyGene::fuzzygene_dose_response(model, "TPPP3", doses = c(0, 0.5, 1));
+    * >  print(r);
+    * >  
+    * > ```
+    * 
+     * @param fuzzygene a trained (or restored) model
+     * @param gene the target gene of the virtual perturbation
+     * @param doses dose points in [0, 1]; ``NULL`` uses 5 evenly spaced points
+     * 
+     * + default value Is ``null``.
+     * @param steps iteration budget of each solve
+     * 
+     * + default value Is ``60``.
+     * @param top number of genes to return; 0 means all
+     * 
+     * + default value Is ``50``.
+     * @param env the R# runtime environment used to report errors
+     * 
+     * + default value Is ``null``.
+     * @return a long data.frame ``dose`` / ``clamp_value`` / ``gene`` / ``fold_change`` / ``percent_change`` / ``z_score`` / ``significant``
+   */
+   function fuzzygene_dose_response(fuzzygene: object, gene: string, doses?: number, steps?: object, top?: object, env?: object): object;
+   /**
+    * Dose x iteration response surface of one virtual perturbation.
+    * 
+    * > Every cell is `mutant(t) - control(t)` at the same frame, i.e. the drift of the system
+    * >  itself has already been subtracted. Only the top genes (ranked by ``|z|`` at the largest
+    * >  dose) are kept, so the cube stays small enough to plot as a contour or a 3D surface.
+    * 
+     * @param fuzzygene a trained (or restored) model
+     * @param gene the target gene of the virtual perturbation
+     * @param doses dose points in [0, 1]; ``NULL`` uses 5 evenly spaced points
+     * 
+     * + default value Is ``null``.
+     * @param steps iteration budget of each solve
+     * 
+     * + default value Is ``60``.
+     * @param top number of genes to keep
+     * 
+     * + default value Is ``20``.
+     * @param env the R# runtime environment used to report errors
+     * 
+     * + default value Is ``null``.
+     * @return a long data.frame ``dose`` / ``iteration`` / ``gene`` / ``delta``
+   */
+   function fuzzygene_dose_time_surface(fuzzygene: object, gene: string, doses?: number, steps?: object, top?: object, env?: object): object;
+   /**
     * Export the signed regulatory edge table of a trained model.
     * 
     * > The edge weight is the average analytic partial derivative
@@ -348,6 +552,52 @@ declare namespace FuzzyGene {
      * @return a data.frame with columns source, target, weight, regulation, confidence and prior
    */
    function fuzzygene_edges(fuzzygene: object, env?: object): object;
+   /**
+    * Ensemble (resampled boolean structure) prediction of virtual perturbations.
+    * 
+    * > Each sample rebuilds the network by drawing one rule per target gene from the
+    * >  probabilistic boolean network according to its CoD derived probability, and then solves
+    * >  the continuous perturbation again. The spread of the resulting states therefore measures
+    * >  **structural uncertainty** (which regulatory logic the data supports), not numerical noise.
+    * >  
+    * > 
+    * > 
+    * >  
+    * > 
+    * > 
+    * >  Returns a named list:
+    * >  
+    * > 
+    * > 
+    * >  
+    * > - ``table``: one row per (perturbation, gene) with ``mean`` / ``sd`` /
+    * >  ``lower`` (5%) / ``upper`` (95%) / ``sign_agreement`` / ``high_fraction`` / ``reference``;
+    * > - ``summary``: one row per perturbation with ``samples`` /
+    * >  ``converged_fraction`` / ``degenerate`` / ``notes``;
+    * > - ``attractors``: the boolean attractor period distribution
+    * >  (``perturbation`` / ``period`` / ``count``), zero rows when no cycle was detected.
+    * > 
+    * > 
+    * >  
+    * > 
+    * > 
+    * >  ``sign_agreement`` is the single most useful column: about 0.5 means the direction of that
+    * >  gene's response is decided by the model noise, so it must not be reported as a finding.
+    * 
+     * @param fuzzygene a trained model built with ``pbnRegularization != "none"``
+     * @param genes the genes to perturb
+     * @param mode ``knockout`` (default), ``knockdown`` or ``overexpression``
+     * 
+     * + default value Is ``'knockout'``.
+     * @param samples how many PBN resamples; <= 0 falls back to the configured value
+     * 
+     * + default value Is ``16``.
+     * @param env the R# runtime environment used to report errors
+     * 
+     * + default value Is ``null``.
+     * @return a named list of data.frames
+   */
+   function fuzzygene_ensemble(fuzzygene: object, genes: string, mode?: string, samples?: object, env?: object): object;
    /**
     * Export the two trajectory matrices of one virtual perturbation to a folder.
     * 
@@ -398,6 +648,111 @@ declare namespace FuzzyGene {
    */
    function fuzzygene_export_trace(fuzzygene: object, gene: string, dir: string, mode?: string, steps?: object, dt?: number, env?: object): string;
    /**
+    * Chainable mutator of the solver and hybrid layer options.
+    * 
+    * > The existing ``fuzzygene_config`` already carries 30 optional arguments; adding the
+    * >  solver / PBN / FCM knobs there would make it unusable and would break every script that
+    * >  relies on positional arguments. This function mutates a configuration object in place
+    * >  instead, so the whole thing stays readable:
+    * >  
+    * > 
+    * > 
+    * >  
+    * > ```
+    * >  let opts = FuzzyGene::fuzzygene_config(maxRegulators = 6, mfCount = 3);
+    * >  opts = FuzzyGene::fuzzygene_hybrid_config(opts,
+    * >      solver = "newton", pbnRegularization = "weighted", ensembleSamples = 16);
+    * >  
+    * > ```
+    * > 
+    * >  
+    * > 
+    * > 
+    * >  Defaults are chosen so that calling this function with only ``config`` changes nothing
+    * >  important: the Newton root finder is already the default solver, and the stability
+    * >  calibration stays off (the root finder does not need a contractive map, while calibrating
+    * >  a strongly cyclic fit can drop R2 from 0.86 to 0.014 — that has to be an explicit choice).
+    * 
+     * @param config the configuration created by ``fuzzygene_config``
+     * @param solver ``newton`` (default), ``anderson``, ``legacy`` (the old damped iteration) or ``advance``
+     *  (lagged/time series only: plain time stepping, no steady state claim)
+     * 
+     * + default value Is ``'newton'``.
+     * @param maxNewtonIterations 
+     * + default value Is ``20``.
+     * @param andersonDepth 
+     * + default value Is ``5``.
+     * @param calibration ``none`` (default), ``spectral`` (scale the cyclic part until the spectral radius of the
+     *  assembled Jacobian is below ``1 - epsilon``) or ``row-l1`` (the conservative row norm bound)
+     * 
+     * + default value Is ``'none'``.
+     * @param calibrationEpsilon target margin ``1 - epsilon`` of the spectral radius. Default 0.05.
+     * 
+     * + default value Is ``0.05``.
+     * @param calibrationMinScale lower bound of one calibration pass, keeps the model from collapsing. Default 0.05.
+     * 
+     * + default value Is ``0.05``.
+     * @param clampInputToSupport clamp the antecedent inputs to the training domain of each regulator. Turning this off
+     *  re-enables the unbounded extrapolation of the outermost rules. Default TRUE.
+     * 
+     * + default value Is ``true``.
+     * @param clampOutputToSupport clamp the predicted expression to the training support. Default TRUE.
+     * 
+     * + default value Is ``true``.
+     * @param maxRegulatorCollinearity upper bound of the pairwise |Pearson| between the selected regulators; 1 disables the
+     *  constraint (default). Lowering it to 0.95 improves the conditioning of the least squares
+     *  step at the price of selecting fewer data driven regulators.
+     * 
+     * + default value Is ``1``.
+     * @param pbnRegularization ``none`` (default), ``filter`` (drop correlation candidates whose CoD is too low) or
+     *  ``weighted`` (order the candidates by CoD). Enabling it also makes
+     *  ``fuzzygene_ensemble`` available.
+     * 
+     * + default value Is ``'none'``.
+     * @param pbnMinCod minimum CoD for a candidate parent set. Default 0.05.
+     * 
+     * + default value Is ``0.05``.
+     * @param pbnWeight weight of the CoD term when ``pbnRegularization = "weighted"``. Default 1.
+     * 
+     * + default value Is ``1``.
+     * @param pbnMaxParents maximum parents enumerated per target gene. Default 2.
+     * 
+     * + default value Is ``2``.
+     * @param pbnMaxGenes gene limit of the qualitative layer; above it the PBN layer is skipped. Default 2000.
+     * 
+     * + default value Is ``2000``.
+     * @param pbnCandidateSize candidate pool size per target gene (prior TFs plus the top correlated genes). Default 5.
+     * 
+     * + default value Is ``5``.
+     * @param ensembleSamples default sample count of ``fuzzygene_ensemble``: how many times the PBN rules are resampled.
+     *  0 (default) keeps the deterministic single solve.
+     * 
+     * + default value Is ``0``.
+     * @param modeBiasWeight how strongly a sampled boolean mode pulls the continuous solve; 0 (default) only reports
+     *  the boolean consistency without changing the numerical result.
+     * 
+     * + default value Is ``0``.
+     * @param fcmWarmStart enable the module level fuzzy cognitive map: it provides a bounded warm start for the
+     *  per gene root finding and a surrogate answer when the solver detects a limit cycle.
+     *  Default FALSE.
+     * 
+     * + default value Is ``false``.
+     * @param fcmModules number of modules of the coarse grained layer. Default 48.
+     * 
+     * + default value Is ``48``.
+     * @param fcmAlpha slope of the sigmoid activation. Default 1.
+     * 
+     * + default value Is ``1``.
+     * @param fcmMaxSteps propagation budget of the module layer. Default 200.
+     * 
+     * + default value Is ``200``.
+     * @param env the R# runtime environment used to report errors
+     * 
+     * + default value Is ``null``.
+     * @return the same configuration object, so the call can be chained
+   */
+   function fuzzygene_hybrid_config(config: object, solver?: string, maxNewtonIterations?: object, andersonDepth?: object, calibration?: string, calibrationEpsilon?: number, calibrationMinScale?: number, clampInputToSupport?: boolean, clampOutputToSupport?: boolean, maxRegulatorCollinearity?: number, pbnRegularization?: string, pbnMinCod?: number, pbnWeight?: number, pbnMaxParents?: object, pbnMaxGenes?: object, pbnCandidateSize?: object, ensembleSamples?: object, modeBiasWeight?: number, fcmWarmStart?: boolean, fcmModules?: object, fcmAlpha?: number, fcmMaxSteps?: object, env?: object): object;
+   /**
     * The configuration attached to a model (identical to ``config.json`` inside the package).
     * 
     * > Useful to confirm what the model was actually fitted with, especially the rule budget
@@ -412,6 +767,73 @@ declare namespace FuzzyGene {
      * @return the configuration object
    */
    function fuzzygene_model_config(fuzzygene: object, env?: object): object;
+   /**
+    * The coarse grained module layer (FCM): module assignment, bounded steady state and warm start.
+    * 
+    * > Returns a named list:
+    * >  
+    * > 
+    * > 
+    * >  
+    * > - ``table``: ``gene`` / ``module`` / ``baseline``, the module assignment
+    * >  computed at fit time (only present when ``fcmWarmStart = TRUE``);
+    * > - ``modules``: ``module`` / ``n_genes`` / ``activation``, the bounded
+    * >  activation of the module level fuzzy cognitive map on the training baseline;
+    * > - ``initial``: ``gene`` / ``warm_start`` / ``surrogate``, the per gene
+    * >  initial state derived from the module state (this is what the root finder starts from).
+    * > - ``summary``: ``available`` / ``module_count`` / ``converged`` /
+    * >  ``steps`` / ``period`` / ``notes``.
+    * > 
+    * > 
+    * >  
+    * > 
+    * > 
+    * >  The module layer is bounded by construction, so it always terminates with either a fixed
+    * >  point or a detected limit cycle. It is a **rough** skeleton: the module average erases the
+    * >  individual genes, which is why the default is off and the surrogate must never replace the
+    * >  per gene prediction.
+    * 
+     * @param fuzzygene a trained model built with ``fcmWarmStart = TRUE``
+     * @param env the R# runtime environment used to report errors
+     * 
+     * + default value Is ``null``.
+     * @return a named list of data.frames
+   */
+   function fuzzygene_modules(fuzzygene: object, env?: object): object;
+   /**
+    * The qualitative (probabilistic boolean) layer of a trained model: CoD table and rules.
+    * 
+    * > Returns a named list:
+    * >  
+    * > 
+    * > 
+    * >  
+    * > - ``cod``: one row per (target, regulator) pair, columns ``target`` / ``regulator`` /
+    * >  ``cod`` / ``rank``; ``cod`` is the coefficient of determination of that parent set on the
+    * >  binarized matrix, i.e. how much of the boolean state of the target the regulator set
+    * >  explains;
+    * > - ``rules``: ``target`` / ``parents`` / ``n_parents`` / ``cod``, the selected rule of each
+    * >  target gene (parents joined by ``+``);
+    * > - ``targets``: ``target`` / ``rules`` / ``best_cod``, one row per analysed gene;
+    * > - ``summary``: one row with ``has_pbn`` / ``targets_analysed`` / ``skipped`` / ``genes`` /
+    * >  ``warnings``.
+    * > 
+    * > 
+    * >  
+    * > 
+    * > 
+    * >  CoD is a **consistency** measure after binarization, not causal evidence: a rule can have
+    * >  a high CoD simply because the target and the parent are both driven by a third gene.
+    * >  Use it to suppress pure correlation edges and to report structure uncertainty, not as a
+    * >  substitute for perturbation data.
+    * 
+     * @param fuzzygene a trained model that was built with ``pbnRegularization != "none"``
+     * @param env the R# runtime environment used to report errors
+     * 
+     * + default value Is ``null``.
+     * @return a named list of data.frames
+   */
+   function fuzzygene_pbn(fuzzygene: object, env?: object): object;
    /**
     * Rank candidate perturbations by their predicted response strength.
     * 
@@ -497,19 +919,23 @@ declare namespace FuzzyGene {
    /**
     * Set the damping factor, the iteration budget and the tolerance used by the steady-state solver.
     * 
-    * > The trajectory produced by ``fuzzygene_trace_perturbation`` is the damped fixed-point
-    * >  iteration `z <- z + omega * (F(z) - z)`. With ``omega = 1`` (no damping) the iteration
-    * >  is the plain repeated application of `F`, and on a genome scale model that often keeps
-    * >  oscillating instead of converging; ``omega = 0.5`` is the usual compromise between stability
-    * >  and speed.
+    * > These three values belong to the damped fallback path
+    * >  (`z <- z + omega * (F(z) - z)`). The default solver is a Levenberg-Marquardt root
+    * >  finder for `F(z) - z = 0`, and it is used whenever it can reduce the residual; the
+    * >  damping factor only matters when it falls back (or when
+    * >  ``solver = "legacy"`` / ``"anderson"`` is selected through
+    * >  ``fuzzygene_hybrid_config``). With ``omega = 1`` the fallback is the plain repeated
+    * >  application of `F`, which on a genome scale model often keeps oscillating instead of
+    * >  converging; ``omega = 0.5`` is the usual compromise.
     * >  
     * > 
     * > 
     * >  
     * > 
     * > 
-    * >  Always rerun the trajectory after changing these values, and check ``summary$converged``:
-    * >  a non converged run means the flat tail of the curve is a truncated plateau.
+    * >  Always rerun the trajectory after changing these values, and check
+    * >  ``summary$exit_reason``: only ``Converged`` means the flat tail is a real steady state;
+    * >  ``MaxIterations`` is a truncated plateau and ``LimitCycle`` means the system oscillates.
     * >  
     * > 
     * > 
@@ -574,6 +1000,105 @@ declare namespace FuzzyGene {
      * @return a character vector, one element per rule (with per gene section headers)
    */
    function fuzzygene_rules(fuzzygene: object, env?: object): string;
+   /**
+    * Model self-check: omega invariance, step invariance and lag ordering robustness.
+    * 
+    * > Returns a named list:
+    * >  
+    * > 
+    * > 
+    * >  
+    * > - ``omega``: data.frame ``value`` / ``converged`` / ``iterations`` /
+    * >  ``last_max_delta`` / ``max_abs_deviation`` / ``max_relative_deviation``; the deviation
+    * >  columns are measured against ``reference_omega`` (see ``summary``);
+    * > - ``steps``: the same shape for the iteration budget sweep, measured
+    * >  against the largest step count;
+    * > - ``lag``: wide table ``gene`` + one column per omega, each cell is the
+    * >  frame index at which that gene first reaches 10% (``lagRatio``) of its own final change;
+    * > - ``spearman``: wide table of pairwise Spearman rho between the omega runs,
+    * >  computed on the genes that respond under every omega;
+    * > - ``summary``: one row data.frame with the two invariant flags, the
+    * >  reference values, the responding gene count, the mean rho and the run count.
+    * > 
+    * > 
+    * >  
+    * > 
+    * > 
+    * >  Read ``summary$omega_invariant`` first. ``FALSE`` means the end state still depends on the
+    * >  damping factor, i.e. the iteration has not converged and the trajectory is not a steady
+    * >  state. That is a property of the model, not a bug of this function.
+    * >  
+    * > 
+    * > 
+    * >  
+    * > 
+    * > 
+    * >  Cost: about ``2 x (length(omegas) + length(stepsList) + length(omegas))`` solves. With the
+    * >  default grids on an 18k gene model this takes roughly one minute.
+    * 
+     * @param fuzzygene a trained (or restored) model
+     * @param gene the target gene of the virtual perturbation
+     * @param mode ``knockout`` (default), ``knockdown`` or ``overexpression``
+     * 
+     * + default value Is ``'knockout'``.
+     * @param omegas relaxation values to sweep, e.g. ``c(0.2, 0.5, 0.8, 1.0)``
+     * 
+     * + default value Is ``null``.
+     * @param stepsList iteration budgets to sweep, e.g. ``c(50, 200, 500)``
+     * 
+     * + default value Is ``null``.
+     * @param sweepSteps fixed iteration budget used by the omega sweep and the lag analysis
+     * 
+     * + default value Is ``50``.
+     * @param referenceOmega omega used as the comparison baseline; ``NaN`` picks the value closest to 0.5
+     * 
+     * + default value Is ``NaN``.
+     * @param tolerance relative deviation threshold of the invariant flags
+     * 
+     * + default value Is ``0.001``.
+     * @param lagRatio relative trigger threshold of the lag definition
+     * 
+     * + default value Is ``0.1``.
+     * @param env the R# runtime environment used to report errors
+     * 
+     * + default value Is ``null``.
+     * @return a named list of data.frames
+   */
+   function fuzzygene_sensitivity(fuzzygene: object, gene: string, mode?: string, omegas?: number, stepsList?: number, sweepSteps?: object, referenceOmega?: number, tolerance?: number, lagRatio?: number, env?: object): object;
+   /**
+    * Solver diagnostics of one virtual perturbation (exit reason, residuals, saturation).
+    * 
+    * > One row with both the mutant and the wildtype run:
+    * >  ``exit_reason`` / ``iterations`` / ``free_residual`` / ``clamp_residual`` /
+    * >  ``out_of_support`` / ``pinned`` / ``attractor_period`` / ``omega`` / ``tolerance`` /
+    * >  ``lagged`` / ``elapsed_ms``, plus the same fields prefixed with ``control_``.
+    * >  
+    * > 
+    * > 
+    * >  
+    * > 
+    * > 
+    * >  Read ``exit_reason`` first. Only ``Converged`` means the flat tail of the curve is a real
+    * >  steady state; ``MaxIterations`` is a truncated plateau, ``LimitCycle`` means the system
+    * >  oscillates (the period mean is the honest answer), ``SupportSaturated`` means the support
+    * >  clamp, not the model, produced the numbers, and ``Diverged`` means there is no answer.
+    * >  ``clamp_residual`` is a diagnostic only: the clamped gene is by construction not at a fixed
+    * >  point of the map, so it never goes to zero and must not be used as a convergence test.
+    * 
+     * @param fuzzygene a trained (or restored) model
+     * @param gene the target gene of the virtual perturbation
+     * @param mode ``knockout`` (default), ``knockdown`` or ``overexpression``
+     * 
+     * + default value Is ``'knockout'``.
+     * @param steps maximum iteration steps; 0 uses the model configuration
+     * 
+     * + default value Is ``0``.
+     * @param env the R# runtime environment used to report errors
+     * 
+     * + default value Is ``null``.
+     * @return a one row data.frame
+   */
+   function fuzzygene_solver_report(fuzzygene: object, gene: string, mode?: string, steps?: object, env?: object): object;
    /**
     * The single gene whose perturbation produces the strongest predicted response.
     * 
@@ -649,10 +1174,12 @@ declare namespace FuzzyGene {
     * >  
     * > 
     * > 
-    * >  The column index is a damped iteration step, not biological time: ``omega`` changes
-    * >  the shape of the curve while a converged end point stays the same (see
-    * >  ``fuzzygene_relaxation``). Only a lagged (time series) model with ``omega = 1`` makes one
-    * >  frame equal to one sampling interval.
+    * >  The column index is a solver iteration, not biological time. The default solver
+    * >  finds the constrained fixed point of ``F(z) - z = 0`` (Levenberg-Marquardt, see
+    * >  ``fuzzygene_hybrid_config(solver = ...)``), so the frames are Newton steps and the number of
+    * >  frames is small (single digit for a well posed network). Only when the solver falls back to
+    * >  the damped iteration does ``omega`` shape the curve (``fuzzygene_relaxation``), and only a
+    * >  lagged (time series) model in ``advance`` mode makes one frame equal to one sampling interval.
     * >  
     * > 
     * > 
@@ -667,10 +1194,12 @@ declare namespace FuzzyGene {
     * >  
     * > 
     * > 
-    * >  ``wildtype`` is not decoration. The control steady state used by the perturbation engine is
-    * >  the training baseline, which is generally not a fixed point of the network; the
-    * >  wildtype trajectory shows how much the system drifts on its own, so that drift can be told
-    * >  apart from the perturbation effect.
+    * >  ``wildtype`` is the control run: it starts from the same baseline and is iterated to its own
+    * >  fixed point, so ``foldchange`` is now "mutant fixed point minus wildtype fixed point" instead
+    * >  of "mutant minus the training mean". The training mean is generally not a fixed point
+    * >  of a nonlinear fuzzy map, so the previous definition mixed the perturbation effect with the
+    * >  model's own drift; the wildtype trajectory still exposes that drift, which is worth checking
+    * >  (a large drift means the fit is inconsistent with its own steady state).
     * 
      * @param fuzzygene a trained (or restored) model
      * @param gene the target gene of the virtual perturbation

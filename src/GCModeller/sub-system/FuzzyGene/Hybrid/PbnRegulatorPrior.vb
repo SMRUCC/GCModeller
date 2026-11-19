@@ -489,6 +489,106 @@ Namespace Hybrid
             Return values(pos)
         End Function
 
+        ''' <summary>导出为传输对象（随模型包一起持久化）。</summary>
+        Public Function ToDto() As PbnPriorDto
+            Dim rules As New List(Of PbnRuleDto)
+
+            For Each item As KeyValuePair(Of String, List(Of PbnRule)) In _rules
+                For Each rule As PbnRule In item.Value
+                    Call rules.Add(New PbnRuleDto With {
+                        .target = rule.Target,
+                        .parents = CType(rule.Parents.Clone(), Integer()),
+                        .truth = CType(rule.Truth.Clone(), Boolean()),
+                        .cod = rule.Cod
+                    })
+                Next
+            Next
+
+            Return New PbnPriorDto With {
+                .mode = _mode,
+                .geneNames = GeneNames,
+                .targetsAnalysed = TargetsAnalysed,
+                .skipped = Skipped,
+                .warnings = Warnings,
+                .rules = rules.ToArray()
+            }
+        End Function
+
+        ''' <summary>
+        ''' 由传输对象还原（模型包读取路径）。
+        ''' </summary>
+        ''' <remarks>
+        ''' <c>_cod</c> 表不随包保存，而是由规则重建：同一个调控因子出现在多条规则里时取最大的 CoD。
+        ''' 这与拟合期「按候选子集累计」的口径略有差异（拟合期保留的是每条子集的 CoD），
+        ''' 但 <see cref="CoDOf"/> 的用途是排序与门槛，取最大值是最保守的选择。
+        ''' </remarks>
+        Public Shared Function FromDto(dto As PbnPriorDto) As PbnRegulatorPrior
+            If dto Is Nothing OrElse dto.geneNames Is Nothing Then
+                Return Nothing
+            End If
+
+            Dim result As New PbnRegulatorPrior(dto.mode) With {
+                .GeneNames = dto.geneNames,
+                .TargetsAnalysed = dto.targetsAnalysed,
+                .Skipped = dto.skipped,
+                .Warnings = dto.warnings
+            }
+
+            For c As Integer = 0 To dto.geneNames.Length - 1
+                result._index(dto.geneNames(c)) = c
+            Next
+
+            If dto.rules Is Nothing Then
+                Return result
+            End If
+
+            For Each item As PbnRuleDto In dto.rules
+                If String.IsNullOrEmpty(item.target) Then
+                    Continue For
+                End If
+
+                Dim bucket As List(Of PbnRule) = Nothing
+
+                If Not result._rules.TryGetValue(item.target, bucket) Then
+                    bucket = New List(Of PbnRule)
+                    result._rules(item.target) = bucket
+                End If
+
+                Call bucket.Add(New PbnRule With {
+                    .Target = item.target,
+                    .Parents = item.parents,
+                    .Truth = item.truth,
+                    .Cod = item.cod
+                })
+
+                Dim table As Dictionary(Of String, Double) = Nothing
+
+                If Not result._cod.TryGetValue(item.target, table) Then
+                    table = New Dictionary(Of String, Double)(StringComparer.OrdinalIgnoreCase)
+                    result._cod(item.target) = table
+                End If
+
+                If item.parents Is Nothing Then
+                    Continue For
+                End If
+
+                For Each parent As Integer In item.parents
+                    If parent >= 0 AndAlso parent < dto.geneNames.Length Then
+                        Dim name As String = dto.geneNames(parent)
+                        Dim previous As Double = 0.0
+
+                        Call table.TryGetValue(name, previous)
+
+                        If item.cod > previous Then
+                            table(name) = item.cod
+                        End If
+                    End If
+                Next
+            Next
+
+            Return result
+        End Function
+
     End Class
 
     ''' <summary>
@@ -530,6 +630,57 @@ Namespace Hybrid
         Public Overrides Function ToString() As String
             Return $"{Target} <- {Parents.Length} parent(s), CoD={Cod:G3}"
         End Function
+
+    End Class
+
+    ''' <summary>PBN 定性层的传输对象（随模型包一起持久化）。</summary>
+    ''' <remarks>
+    ''' <para>
+    ''' 之所以要持久化：PBN 是「拟合期从表达矩阵二值化得到的规则」，推理期没有表达矩阵，
+    ''' 无法重建。而生产流程恰恰是「训练一次 → 之后反复做虚拟扰动」（甚至在另一台机器上），
+    ''' 所以不存进包里的话，<c>fuzzygene_ensemble</c> 只能在训练进程内使用。
+    ''' </para>
+    ''' <para>
+    ''' 只存规则（target / parents / truth / cod）：<c>_cod</c> 表可以由规则重建，
+    ''' 重复存一份会让 manifest 大一倍。
+    ''' </para>
+    ''' </remarks>
+    Public Class PbnPriorDto
+
+        ''' <summary>格式版本。</summary>
+        Public Property formatVersion As String = "1.0"
+
+        ''' <summary>正则化方式（Filter / Weighted；None 不会产生该对象）。</summary>
+        Public Property mode As PbnRegularizationMode
+
+        ''' <summary>PBN 内部基因名（顺序即 <c>Parents</c> 的下标空间）。</summary>
+        Public Property geneNames As String()
+
+        ''' <summary>成功分析了父集的靶基因数。</summary>
+        Public Property targetsAnalysed As Integer
+
+        ''' <summary>被规模闸门跳过的基因数。</summary>
+        Public Property skipped As Integer
+
+        ''' <summary>建模过程中的告警。</summary>
+        Public Property warnings As String()
+
+        ''' <summary>逐靶基因的候选规则。</summary>
+        Public Property rules As PbnRuleDto()
+
+    End Class
+
+    ''' <summary>单条布尔规则的传输对象。</summary>
+    Public Class PbnRuleDto
+
+        ''' <summary>靶基因名。</summary>
+        Public Property target As String
+        ''' <summary>父节点下标（PBN 内部下标）。</summary>
+        Public Property parents As Integer()
+        ''' <summary>真值表（长度 = <c>2^Parents.Length</c>）。</summary>
+        Public Property truth As Boolean()
+        ''' <summary>一致性。</summary>
+        Public Property cod As Double
 
     End Class
 

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Model self-check: omega invariance, step invariance and lag ordering robustness.</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>fuzzygene_sensitivity {FuzzyGene}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>Model self-check: omega invariance, step invariance and lag ordering robustness.</h2>
+
+        <h3>Description</h3>
+
+        
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>fuzzygene_sensitivity</strong>(<i>fuzzygene</i>, <i>gene</i>,
+    <i>mode</i> = <span style='color: brown;'><strong>"knockout"</strong></span>,
+    <i>omegas</i> = <span style='color: blue !important;'>NULL</span>,
+    <i>stepsList</i> = <span style='color: blue !important;'>NULL</span>,
+    <i>sweepSteps</i> = <span style='color: green;'>50</span>,
+    <i>referenceOmega</i> = <span style='color: green;'>NaN</span>,
+    <i>tolerance</i> = <span style='color: green;'>0.001</span>,
+    <i>lagRatio</i> = <span style='color: green;'>0.1</span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>fuzzygene</dt>
+<dd><p>a trained (or restored) model. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/FuzzyGeneModel.html">FuzzyGeneModel</a>]</p></dd>
+
+
+<dt>gene</dt>
+<dd><p>the target gene of the virtual perturbation. [as string]</p></dd>
+
+
+<dt>mode</dt>
+<dd><p><code>knockout</code> (default), <code>knockdown</code> or <code>overexpression</code>. [as string]</p></dd>
+
+
+<dt>omegas</dt>
+<dd><p>relaxation values to sweep, e.g. <code>c(0.2, 0.5, 0.8, 1.0)</code>. [as double]</p></dd>
+
+
+<dt>stepsList</dt>
+<dd><p>iteration budgets to sweep, e.g. <code>c(50, 200, 500)</code>. [as double]</p></dd>
+
+
+<dt>sweepSteps</dt>
+<dd><p>fixed iteration budget used by the omega sweep and the lag analysis. [as integer]</p></dd>
+
+
+<dt>referenceOmega</dt>
+<dd><p>omega used as the comparison baseline; <code>NaN</code> picks the value closest to 0.5. [as double]</p></dd>
+
+
+<dt>tolerance</dt>
+<dd><p>relative deviation threshold of the invariant flags. [as double]</p></dd>
+
+
+<dt>lagRatio</dt>
+<dd><p>relative trigger threshold of the lag definition. [as double]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment used to report errors. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: block;">Details</h3>
+
+        <p>Returns a named list:</p>
+
+
+<ul>
+<li><code>omega</code>: data.frame <code>value</code> / <code>converged</code> / <code>iterations</code> /</li>
+</ul>
+
+
+<p><code>last_max_delta</code> / <code>max_abs_deviation</code> / <code>max_relative_deviation</code>; the deviation columns are measured against <code>reference_omega</code> (see <code>summary</code>);</p>
+
+
+<ul>
+<li><code>steps</code>: the same shape for the iteration budget sweep, measured</li>
+</ul>
+
+
+<p>against the largest step count;</p>
+
+
+<ul>
+<li><code>lag</code>: wide table <code>gene</code> + one column per omega, each cell is the</li>
+</ul>
+
+
+<p>frame index at which that gene first reaches 10% (<code>lagRatio</code>) of its own final change;</p>
+
+
+<ul>
+<li><code>spearman</code>: wide table of pairwise Spearman rho between the omega runs,</li>
+</ul>
+
+
+<p>computed on the genes that respond under every omega;</p>
+
+
+<ul>
+<li><code>summary</code>: one row data.frame with the two invariant flags, the</li>
+</ul>
+
+
+<p>reference values, the responding gene count, the mean rho and the run count.</p>
+
+<p>Read <code>summary$omega_invariant</code> first. <code>FALSE</code> means the end state still depends on the damping factor, i.e. the iteration has not converged and the trajectory is not a steady state. That is a property of the model, not a bug of this function.</p>
+
+<p>Cost: about <code>2 x (length(omegas) + length(stepsList) + length(omegas))</code> solves. With the default grids on an 18k gene model this takes roughly one minute.</p>
+
+        <h3 style="display: block">Authors</h3>
+
+        biosystem
+
+        <h3>Value</h3>
+
+        <p>a named list of data.frames</p><h4>clr value class</h4><ul><li>list</li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>FuzzyGene</em> version 1.0.0.0 <a
+                href="../FuzzyGene.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

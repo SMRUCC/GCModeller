@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Dose x iteration response surface of one virtual perturbation.</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>fuzzygene_dose_time_surface {FuzzyGene}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>Dose x iteration response surface of one virtual perturbation.</h2>
+
+        <h3>Description</h3>
+
+        
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>fuzzygene_dose_time_surface</strong>(<i>fuzzygene</i>, <i>gene</i>,
+    <i>doses</i> = <span style='color: blue !important;'>NULL</span>,
+    <i>steps</i> = <span style='color: green;'>60</span>,
+    <i>top</i> = <span style='color: green;'>20</span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>fuzzygene</dt>
+<dd><p>a trained (or restored) model. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/FuzzyGeneModel.html">FuzzyGeneModel</a>]</p></dd>
+
+
+<dt>gene</dt>
+<dd><p>the target gene of the virtual perturbation. [as string]</p></dd>
+
+
+<dt>doses</dt>
+<dd><p>dose points in [0, 1]; <code>NULL</code> uses 5 evenly spaced points. [as double]</p></dd>
+
+
+<dt>steps</dt>
+<dd><p>iteration budget of each solve. [as integer]</p></dd>
+
+
+<dt>top</dt>
+<dd><p>number of genes to keep. [as integer]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment used to report errors. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: block;">Details</h3>
+
+        <p>Every cell is <code>mutant(t) - control(t)</code> at the same frame, i.e. the drift of the system itself has already been subtracted. Only the top genes (ranked by <code>|z|</code> at the largest dose) are kept, so the cube stays small enough to plot as a contour or a 3D surface.</p>
+
+        <h3 style="display: block">Authors</h3>
+
+        biosystem
+
+        <h3>Value</h3>
+
+        <p>a long data.frame <code>dose</code> / <code>iteration</code> / <code>gene</code> / <code>delta</code></p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Internal/Object/dataframe.html">dataframe</a></li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>FuzzyGene</em> version 1.0.0.0 <a
+                href="../FuzzyGene.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>
