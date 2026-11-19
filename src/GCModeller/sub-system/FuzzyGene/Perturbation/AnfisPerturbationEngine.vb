@@ -26,6 +26,7 @@ Namespace Perturbation
         Private _control As Double()
         Private _controlReport As Solver.SteadyStateReport
         Private _lastReport As Solver.SteadyStateReport
+        Private _fcmResult As Hybrid.FcmModuleResult
 
         ''' <summary>
         ''' 严格模式：目标基因不在建模基因集合中时抛 <see cref="MissingMemberException"/>；
@@ -173,13 +174,42 @@ Namespace Perturbation
                 Return CreateUndefinedResult(list(0), plan.Control)
             End If
 
+            ' ---- FCM 热启动：模块级有界传播给出一个全局自洽的起点 ----
+            ' 它只影响「落到哪个吸引子」，不改变方程的根（牛顿法在同一个不动点上收敛）
+            _fcmResult = Nothing
+
+            Dim initial As Double() = _baseline
+
+            If _network.Modules IsNot Nothing AndAlso _network.Config.Hybrid.FcmWarmStart Then
+                Try
+                    Dim layer As New Hybrid.FcmModuleLayer(_network)
+                    Dim warm As Hybrid.FcmModuleResult = layer.BuildInitial(_baseline, plan.Clamps)
+
+                    If warm IsNot Nothing AndAlso warm.GeneInitial IsNot Nothing Then
+                        initial = warm.GeneInitial
+                        _fcmResult = warm
+                    End If
+                Catch ex As Exception
+                    ' 粗粒度层失败只意味着「没有热启动」，主路径必须继续
+                End Try
+            End If
+
             Dim report As Solver.SteadyStateReport = _network.SteadyStateWithReport(
-                _baseline, plan.Clamps,
+                initial, plan.Clamps,
                 _network.Config.PropagationSteps,
                 _network.Config.Relaxation,
                 _network.Config.ConvergenceTolerance)
 
             _lastReport = report
+
+            ' 既没有不动点、也没有检出极限环时，用 FCM 模块稳态作为代理结论并显式标注；
+            ' 绝不悄悄替换 MutantMeans——那会让「代理」被当成定量预测
+            If Not report.Converged AndAlso report.AttractorMean Is Nothing AndAlso
+               _fcmResult IsNot Nothing AndAlso _network.Config.Hybrid.FcmFallbackAsSurrogate Then
+
+                report.AttractorMean = _fcmResult.Surrogate
+                report.AddMessage("the continuous solver did not reach a fixed point; the FCM module steady state is attached as a surrogate (AttractorMean)")
+            End If
 
             Dim mutant As Double() = report.FinalState
 

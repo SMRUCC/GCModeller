@@ -106,6 +106,15 @@ Public Class FuzzyGeneNetwork
     ''' <summary>全局增益校准方式；旧包为 <see cref="StabilityCalibrationMode.None"/>。</summary>
     Public Property CalibrationMode As StabilityCalibrationMode
 
+    ''' <summary>
+    ''' 逐基因的模块编号（FCM 粗粒度层用）；未做模块划分（或旧包）时为 <c>Nothing</c>。
+    ''' </summary>
+    ''' <remarks>
+    ''' 模块划分必须在拟合期算好并随模型保存：扰动期只剩模型、没有表达矩阵，
+    ''' 现场聚类是做不到的（这也是本字段唯一需要持久化的融合元数据）。
+    ''' </remarks>
+    Public Property Modules As Integer()
+
     ''' <summary>校准前的训练集平均 R²（<c>NaN</c> 表示未记录）。</summary>
     Public Property PreCalibrationR2 As Double = Double.NaN
 
@@ -1370,6 +1379,7 @@ Public Class FuzzyGeneNetwork
             .calibrationMode = CalibrationMode,
             .preCalibrationR2 = PreCalibrationR2,
             .postCalibrationR2 = PostCalibrationR2,
+            .modules = Modules,
             .edges = Edges
         }
 
@@ -1426,6 +1436,7 @@ Public Class FuzzyGeneNetwork
         network.CalibrationMode = dto.calibrationMode
         network.PreCalibrationR2 = dto.preCalibrationR2
         network.PostCalibrationR2 = dto.postCalibrationR2
+        network.Modules = dto.modules
 
         Return network
     End Function
@@ -1488,6 +1499,8 @@ Public Class FuzzyGeneNetworkDto
     Public Property preCalibrationR2 As Double = Double.NaN
     ''' <summary>校准后训练集平均 R²。</summary>
     Public Property postCalibrationR2 As Double = Double.NaN
+    ''' <summary>逐基因模块编号（FCM 粗粒度层用）；旧包与未启用时为 Nothing。</summary>
+    Public Property modules As Integer()
     ''' <summary>带符号调控边。</summary>
     Public Property edges As RegulationEdgeModel()
     ''' <summary>逐基因模型（未建模的位置为 <c>Nothing</c>）。</summary>

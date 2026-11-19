@@ -230,6 +230,16 @@ Namespace Fitting
 
             network.Edges = edges.ToArray()
 
+            ' ---- 模块划分：FCM 粗粒度层的输入 ----
+            ' 必须在这里算：扰动期只剩模型，没有表达矩阵可供聚类
+            If cfg.Hybrid.FcmWarmStart Then
+                Try
+                    network.Modules = Hybrid.FcmModuleLayer.AssignModules(view, cfg.Hybrid.FcmModuleCount)
+                Catch ex As Exception
+                    Call warnings.Add($"module assignment failed ({ex.Message}); the FCM warm start is disabled for this model")
+                End Try
+            End If
+
             ' ---- 汇总诊断 ----
             Dim report As New FuzzyGeneTrainingResult With {
                 .Mode = view.Mode,
