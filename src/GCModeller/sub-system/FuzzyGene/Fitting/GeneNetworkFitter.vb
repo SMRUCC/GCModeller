@@ -68,6 +68,17 @@ Namespace Fitting
 
             ' 候选池只构建一次（全基因组规模下每一对基因的相关性扫描都是 O(行数)）
             Dim pool As Integer() = RegulatorSelector.BuildCandidatePool(view, prior, cfg)
+
+            ' PBN 定性先验也只构建一次：它的作用是给候选排序提供「方向是否可信」的证据，
+            ' 单基因训练时只做 O(1) 的查表
+            Dim pbn As Hybrid.PbnRegulatorPrior = Nothing
+
+            Try
+                pbn = Hybrid.PbnRegulatorPrior.Build(view, cfg, prior)
+            Catch ex As Exception
+                ' 布尔化/真值表拟合失败不应阻断 TSK 拟合：退回纯相关筛选（旧行为）
+                Call $"[FuzzyGene] PBN prior could not be built ({ex.Message}); falling back to the correlation screening only".debug
+            End Try
             ' [0] = 候选筛选耗时（Stopwatch tick），[1] = 训练耗时
             Dim phaseTicks As Long() = New Long(1) {}
 
@@ -82,7 +93,7 @@ Namespace Fitting
             ' 否则调用方在整段训练期间完全看不到进展
             Dim work As Action(Of Integer) =
                 Sub(g)
-                    Call FitOneGene(g, view, prior, cfg, pool, models, metrics, usedPicks, weights, phaseTicks)
+                    Call FitOneGene(g, view, prior, cfg, pool, pbn, models, metrics, usedPicks, weights, phaseTicks)
 
                     Dim done As Integer = Interlocked.Increment(completed)
 
@@ -143,6 +154,48 @@ Namespace Fitting
 
             Dim workersUsed As Integer = workers
 
+            ' ---- 先组装网络：全局增益校准需要整张 Jacobian ----
+            ' 边表稍后再回填（Edges 是可写属性），因为校准会改变斜率、进而改变边权重
+            Dim sds As Double() = view.SDs
+            Dim supportMin As Double() = New Double(n - 1) {}
+            Dim supportMax As Double() = New Double(n - 1) {}
+
+            For g As Integer = 0 To n - 1
+                If models(g) IsNot Nothing Then
+                    supportMin(g) = models(g).SupportMin
+                    supportMax(g) = models(g).SupportMax
+                Else
+                    supportMin(g) = -1.0
+                    supportMax(g) = 1.0
+                End If
+            Next
+
+            Dim network As New FuzzyGeneNetwork(
+                view.GeneNames,
+                models,
+                New RegulationEdgeModel() {},
+                cfg,
+                view.Means,
+                sds,
+                view.BaselineRaw,
+                supportMin,
+                supportMax,
+                view.Mode,
+                view.Standardized)
+
+            Dim warnings As New List(Of String)
+
+            ' ---- 全局增益校准：把 ρ(J) 拉进 1-ε 的收敛域 ----
+            Dim calibration As Solver.CalibrationResult = Nothing
+
+            Try
+                calibration = Solver.GainCalibration.Apply(network, cfg)
+            Catch ex As Exception
+                ' 校准失败不该让整次拟合作废：退回「未校准」也就是旧行为，
+                ' 但必须显式告警，否则用户会以为拿到的模型是收敛的
+                Call warnings.Add($"global gain calibration failed ({ex.Message}); the network keeps the raw least squares slopes")
+            End Try
+
             ' ---- 汇总边表（顺序遍历，保证输出可复现） ----
             Dim edges As New List(Of RegulationEdgeModel)
 
@@ -157,19 +210,25 @@ Namespace Fitting
                 Dim picks As RegulatorPick() = usedPicks(g)
 
                 For j As Integer = 0 To picks.Length - 1
-                    If std.Abs(sensitivity(j)) < cfg.MinEdgeWeight Then
+                    ' 边权重与最终模型保持一致：校准把斜率整体缩小了，边也必须同步缩小，
+                    ' 否则「导出的网络」与「实际用于推理的网络」会对不上
+                    Dim weight As Double = sensitivity(j) * model.GainScale
+
+                    If std.Abs(weight) < cfg.MinEdgeWeight Then
                         Continue For
                     End If
 
                     Call edges.Add(New RegulationEdgeModel With {
                         .Source = picks(j).Gene,
                         .Target = model.TargetGene,
-                        .Weight = sensitivity(j),
+                        .Weight = weight,
                         .Confidence = picks(j).Confidence,
                         .IsPrior = picks(j).IsPrior
                     })
                 Next
             Next
+
+            network.Edges = edges.ToArray()
 
             ' ---- 汇总诊断 ----
             Dim report As New FuzzyGeneTrainingResult With {
@@ -196,8 +255,39 @@ Namespace Fitting
             report.NFailed = metrics.Count(Function(m) m IsNot Nothing AndAlso m.Status = "failed")
             report.MeanR2 = If(trained.Length > 0, trained.Average(Function(m) m.R2), Double.NaN)
             report.MeanRmse = If(trained.Length > 0, trained.Average(Function(m) m.RMSE), Double.NaN)
+            report.PreCalibrationR2 = report.MeanR2
 
-            Dim warnings As New List(Of String)
+            ' ---- 校准后的精度：只重算被缩放的基因，其余沿用拟合时的值 ----
+            ' 校准会缩小斜率，R² 必然下降；不把这件事显式报出来，
+            ' 用户就会在「收敛了但预测变弱」时无从判断代价有多大
+            If calibration IsNot Nothing Then
+                report.CalibrationMode = calibration.Mode
+                report.SpectralRadius = calibration.PostSpectralRadius
+                report.CalibrationGamma = calibration.Gamma
+                report.CalibratedGenes = calibration.ScaledGenes
+
+                If calibration.Applied Then
+                    report.PostCalibrationR2 = ReevaluateCalibration(view, models, metrics)
+
+                    Call warnings.Add(
+                        $"global gain calibration: rho {calibration.SpectralRadius:G4} -> {calibration.PostSpectralRadius:G4}, " &
+                        $"gamma={calibration.Gamma:G4}, mean R2 {report.PreCalibrationR2:G4} -> {report.PostCalibrationR2:G4}. " &
+                        "This is the price paid for a solvable fixed point; raise CalibrationEpsilon to trade convergence for accuracy")
+                Else
+                    report.PostCalibrationR2 = report.PreCalibrationR2
+                End If
+
+                If calibration.PostSpectralRadius > 1.0 Then
+                    Call warnings.Add(
+                        $"the calibrated spectral radius is still {calibration.PostSpectralRadius:G4} (> 1); " &
+                        "the fixed point iteration may not contract. Lower Ridge / MaxRegulatorCollinearity first")
+                End If
+
+                network.SpectralRadius = calibration.PostSpectralRadius
+                network.CalibrationMode = calibration.Mode
+                network.PreCalibrationR2 = report.PreCalibrationR2
+                network.PostCalibrationR2 = report.PostCalibrationR2
+            End If
 
             If trained.Length = 0 Then
                 Call warnings.Add("no target gene could be fitted, check MinCorrelation / Selection / MaxRegulators")
@@ -235,37 +325,104 @@ Namespace Fitting
 
             report.Warnings = warnings.ToArray()
 
-            Dim sds As Double() = view.SDs
-            Dim supportMin As Double() = New Double(n - 1) {}
-            Dim supportMax As Double() = New Double(n - 1) {}
-
-            For g As Integer = 0 To n - 1
-                If models(g) IsNot Nothing Then
-                    supportMin(g) = models(g).SupportMin
-                    supportMax(g) = models(g).SupportMax
-                Else
-                    supportMin(g) = -1.0
-                    supportMax(g) = 1.0
-                End If
-            Next
-
-            Dim network As New FuzzyGeneNetwork(
-                view.GeneNames,
-                models,
-                edges.ToArray(),
-                cfg,
-                view.Means,
-                sds,
-                view.BaselineRaw,
-                supportMin,
-                supportMax,
-                view.Mode,
-                view.Standardized)
-
             Return New FuzzyGeneFitOutput With {
                 .Network = network,
-                .Report = report
+                .Report = report,
+                .PbnPrior = pbn
             }
+        End Function
+
+        ''' <summary>
+        ''' 校准之后重算被缩放基因的训练 R²（未缩放的基因沿用拟合时的值），返回平均。
+        ''' </summary>
+        ''' <remarks>
+        ''' 只对 <see cref="GeneRegulationModel.GainScale"/> &lt; 1 的基因重算：
+        ''' 通常只是「谱半径超限」的那一小部分，成本与一次评估同阶，
+        ''' 不会把训练时间翻倍。
+        ''' </remarks>
+        Private Function ReevaluateCalibration(view As GeneExpressionView,
+                                               models As GeneRegulationModel(),
+                                               metrics As GeneFitMetric()) As Double
+            Dim sum As Double = 0.0
+            Dim count As Integer = 0
+
+            For g As Integer = 0 To models.Length - 1
+                Dim model As GeneRegulationModel = models(g)
+                Dim metric As GeneFitMetric = metrics(g)
+
+                If model Is Nothing OrElse metric Is Nothing OrElse metric.Status <> "ok" Then
+                    Continue For
+                End If
+
+                If model.GainScale >= 1.0 - 1.0E-12 Then
+                    sum += model.R2
+                    count += 1
+
+                    Continue For
+                End If
+
+                Dim updated As Double = EvaluateTrainingR2(view, model, g)
+
+                If Not Double.IsNaN(updated) Then
+                    model.R2 = updated
+                    metric.R2 = updated
+                    sum += updated
+                Else
+                    sum += model.R2
+                End If
+
+                count += 1
+            Next
+
+            Return If(count = 0, Double.NaN, sum / count)
+        End Function
+
+        ''' <summary>在训练行上重新评估单个基因模型的 R²。</summary>
+        Private Function EvaluateTrainingR2(view As GeneExpressionView,
+                                            model As GeneRegulationModel,
+                                            gene As Integer) As Double
+            Dim rows As Integer = view.NRows
+
+            If rows = 0 OrElse model.Regulators Is Nothing OrElse model.Network Is Nothing Then
+                Return Double.NaN
+            End If
+
+            Dim columns(model.Regulators.Length - 1)() As Double
+
+            For j As Integer = 0 To model.Regulators.Length - 1
+                Dim idx As Integer = view.IndexOf(model.Regulators(j))
+
+                If idx < 0 Then
+                    Return Double.NaN
+                End If
+
+                columns(j) = view.Columns(idx)
+            Next
+
+            Dim x(rows - 1)() As Double
+
+            For r As Integer = 0 To rows - 1
+                Dim row(columns.Length - 1) As Double
+
+                For j As Integer = 0 To columns.Length - 1
+                    row(j) = columns(j)(r)
+                Next
+
+                x(r) = row
+            Next
+
+            Dim target As Double() = view.Targets(gene)
+            Dim y(rows - 1)() As Double
+
+            For r As Integer = 0 To rows - 1
+                y(r) = New Double() {target(r)}
+            Next
+
+            Try
+                Return AnfisFitting.Evaluate(model.Network, x, y).R2
+            Catch ex As Exception
+                Return Double.NaN
+            End Try
         End Function
 
         ''' <summary>
@@ -276,6 +433,7 @@ Namespace Fitting
                                prior As PriorNetwork,
                                cfg As FuzzyGeneConfig,
                                pool As Integer(),
+                               pbn As Hybrid.PbnRegulatorPrior,
                                models As GeneRegulationModel(),
                                metrics As GeneFitMetric(),
                                usedPicks As RegulatorPick()(),
@@ -307,7 +465,7 @@ Namespace Fitting
                 Return
             End If
 
-            Dim picks As RegulatorPick() = RegulatorSelector.SelectRegulators(view, prior, cfg, g, pool, plan.inputs)
+            Dim picks As RegulatorPick() = RegulatorSelector.SelectRegulators(view, prior, cfg, g, pool, plan.inputs, pbn)
 
             Call Interlocked.Add(phaseTicks(0), clock.ElapsedTicks)
             Call clock.Restart()

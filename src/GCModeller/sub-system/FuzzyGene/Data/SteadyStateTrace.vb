@@ -43,13 +43,41 @@ Namespace Data
         Public Property Tolerance As Double
 
         ''' <summary>
-        ''' 是否为「<c>maxDelta &lt; tolerance</c>」退出。
+        ''' 求解退出原因（唯一的收敛口径，见 <see cref="Solver.ExitReason"/>）。
         ''' </summary>
         ''' <remarks>
-        ''' 为 <c>False</c> 表示步数耗尽仍未收敛：轨迹后半段的平台是截断造成的，
-        ''' 不能当成稳态。
+        ''' 原来只有一个 <c>Converged</c> 布尔值，把「步数耗尽」「发散」「极限环」
+        ''' 「贴在支持域边界」压成同一个 <c>False</c>；现在这些结局各有名字。
         ''' </remarks>
-        Public Property Converged As Boolean
+        Public Property ExitReason As Solver.ExitReason = Solver.ExitReason.MaxIterations
+
+        ''' <summary>
+        ''' 是否为「自由基因残差 &lt; tolerance」退出。
+        ''' </summary>
+        ''' <remarks>
+        ''' 为 <c>False</c> 表示未找到不动点：轨迹后半段的平台是截断造成的，不能当成稳态。
+        ''' <b>注意</b>：被钳制基因的约束违背量不参与本判定（<see cref="ClampResidual"/> 只作诊断）。
+        ''' </remarks>
+        Public ReadOnly Property Converged As Boolean
+            Get
+                Return ExitReason = Solver.ExitReason.Converged
+            End Get
+        End Property
+
+        ''' <summary>自由基因的最大残差（z 空间，终态）。</summary>
+        Public Property FreeResidual As Double
+
+        ''' <summary>被钳制基因的约束违背量（z 空间，终态，仅诊断）。</summary>
+        Public Property ClampResidual As Double
+
+        ''' <summary>轨迹中出现过「输入被夹到支持域边界」的基因比例的最大值。</summary>
+        Public Property OutOfSupportFraction As Double
+
+        ''' <summary>轨迹中出现过「输出贴在支持域上下界」的基因比例的最大值。</summary>
+        Public Property PinnedFraction As Double
+
+        ''' <summary>检出极限环时的周期；0 表示没有检出。</summary>
+        Public Property AttractorPeriod As Integer
 
         ''' <summary>是否为滞后（时序）路线；只有它为 <c>True</c> 且 ω = 1 时帧号才等于时间步。</summary>
         Public Property Lagged As Boolean
@@ -119,12 +147,28 @@ Namespace Data
         ''' </summary>
         ''' <param name="finalState">求解器返回的终态（原始表达量）</param>
         ''' <param name="iterations">实际执行的迭代步数</param>
+        ''' <param name="report">
+        ''' 求解器诊断；给定时把退出原因、残差、贴界比例一并写进轨迹，
+        ''' 使「一份轨迹」自带它是否可信的元数据
+        ''' </param>
         ''' <remarks>
         ''' 末帧与终态不一致只可能出现在「一次迭代都没执行」或记录点被裁剪的情况下；
         ''' 这里补一帧而不是覆盖，避免改动已经记录下来的历史。
         ''' </remarks>
-        Friend Sub Seal(finalState As Double(), iterations As Integer)
+        Friend Sub Seal(finalState As Double(), iterations As Integer, Optional report As Solver.SteadyStateReport = Nothing)
             _iterations = std.Max(0, iterations)
+
+            If report IsNot Nothing Then
+                ExitReason = report.ExitReason
+                FreeResidual = report.FreeResidual
+                ClampResidual = report.ClampResidual
+                AttractorPeriod = report.AttractorPeriod
+
+                If report.FinalState IsNot Nothing AndAlso NGene > 0 Then
+                    OutOfSupportFraction = report.OutOfSupportCount / CDbl(NGene)
+                    PinnedFraction = report.PinnedToBoundCount / CDbl(NGene)
+                End If
+            End If
 
             If finalState Is Nothing Then
                 Return

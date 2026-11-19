@@ -111,6 +111,24 @@ Namespace Fitting
         ''' <summary>逐基因诊断记录。</summary>
         Public Property GeneMetrics As GeneFitMetric()
 
+        ''' <summary>全局增益校准方式（未校准时为 <see cref="StabilityCalibrationMode.None"/>）。</summary>
+        Public Property CalibrationMode As StabilityCalibrationMode
+
+        ''' <summary>校准后的谱半径 <c>ρ(J)</c>；未校准时为 0。</summary>
+        Public Property SpectralRadius As Double
+
+        ''' <summary>校准的全局累计缩放系数（1 表示没有改动）。</summary>
+        Public Property CalibrationGamma As Double = 1.0
+
+        ''' <summary>校准前成功基因的平均 R²。</summary>
+        Public Property PreCalibrationR2 As Double = Double.NaN
+
+        ''' <summary>校准后重新评估的平均 R²（只在被缩放的基因上重算，其余沿用原值）。</summary>
+        Public Property PostCalibrationR2 As Double = Double.NaN
+
+        ''' <summary>被校准缩放的基因数。</summary>
+        Public Property CalibratedGenes As Integer
+
         ''' <summary>降级、异常与数据质量告警。</summary>
         Public Property Warnings As String()
 
@@ -140,6 +158,11 @@ Namespace Fitting
                                $"selection={SelectionElapsed.TotalSeconds:F1}s (cpu), " &
                                $"per-gene training={TrainingElapsed.TotalSeconds:F1}s (cpu)")
             Call sb.AppendLine($"  runtime: workers={ParallelWorkers}, allocated={AllocatedMB:F0} MB, gen2={Gen2Collections}")
+
+            If CalibrationMode <> StabilityCalibrationMode.None Then
+                Call sb.AppendLine($"  calibration: {CalibrationMode}, rho={SpectralRadius:G4}, gamma={CalibrationGamma:G4}, " &
+                                   $"scaled={CalibratedGenes}, R2 {PreCalibrationR2:G4} -> {PostCalibrationR2:G4}")
+            End If
 
             ' 注意：局部变量不能叫 structure —— Structure 是 VB 关键字
             Dim effectiveStructure As String = DescribeStructure()
@@ -198,6 +221,17 @@ Namespace Fitting
 
         ''' <summary>训练诊断。</summary>
         Public Property Report As FuzzyGeneTrainingResult
+
+        ''' <summary>
+        ''' 拟合期构建的 PBN 定性层；未启用 PBN 时为 <c>Nothing</c>。
+        ''' </summary>
+        ''' <remarks>
+        ''' 它是**过程产物**而不是模型的一部分：规则/CoD 只在本次进程内有用
+        ''' （集成预测需要它）。因此不写进 <c>*.fuzzygene.zip</c>——
+        ''' 从包文件恢复的模型只能做确定性推理，这是有意的取舍：
+        ''' 把 3×N 条真值表塞进包会让包体积翻倍，而集成预测本来就是「重新拟合之后」的分析。
+        ''' </remarks>
+        Public Property PbnPrior As Hybrid.PbnRegulatorPrior
 
     End Class
 

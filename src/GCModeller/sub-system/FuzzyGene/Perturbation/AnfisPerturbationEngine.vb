@@ -24,6 +24,8 @@ Namespace Perturbation
         Private ReadOnly _network As FuzzyGeneNetwork
         Private _baseline As Double()
         Private _control As Double()
+        Private _controlReport As Solver.SteadyStateReport
+        Private _lastReport As Solver.SteadyStateReport
 
         ''' <summary>
         ''' 严格模式：目标基因不在建模基因集合中时抛 <see cref="MissingMemberException"/>；
@@ -101,23 +103,62 @@ Namespace Perturbation
 
             _baseline = CType(state.Clone(), Double())
             _control = Nothing
+            _controlReport = Nothing
         End Sub
 
         ''' <summary>恢复训练数据推导出的对照基线。</summary>
         Public Sub ResetBaseline()
             _baseline = CType(_network.BaselineRaw.Clone(), Double())
             _control = Nothing
+            _controlReport = Nothing
         End Sub
 
-        ''' <summary>未扰动时的稳态（缓存；基线变化时自动失效）。</summary>
+        ''' <summary>
+        ''' 未扰动时的稳态（真正迭代到不动点，缓存；基线/配置变化时自动失效）。
+        ''' </summary>
+        ''' <remarks>
+        ''' <para>
+        ''' 这里必须真的迭代：<c>F</c> 是非线性且带输出夹断的，<c>F(均值) ≠ 均值</c>，
+        ''' 直接把训练基线当作野生型会让 <see cref="InterventionResult.FoldChanges"/>
+        ''' 混进「模型自己会漂到哪」的系统性偏移（<c>test</c> 里的 <c>baseline.drift</c>）。
+        ''' </para>
+        ''' <para>
+        ''' 旧实现把这个迭代注释掉了，等于「突变型迭代到不动点、野生型停在初始点」，
+        ''' 两者口径不一致。恢复迭代后，<c>FoldChanges</c> 才是「同一模型下的两个稳态之差」。
+        ''' </para>
+        ''' <para>
+        ''' 返回的是缓存数组本身，调用方不得就地修改（需要改写请先 <c>Clone</c>）。
+        ''' </para>
+        ''' </remarks>
         Public Function ControlSteadyState() As Double()
-            'If _control Is Nothing Then
-            '    _control = _network.SteadyState(_baseline)
-            'End If
+            If _control Is Nothing Then
+                Dim report As Solver.SteadyStateReport = _network.SteadyStateWithReport(_baseline)
 
-            'Return _control
-            Return _baseline
+                _control = report.FinalState
+                _controlReport = report
+            End If
+
+            Return _control
         End Function
+
+        ''' <summary>最近一次野生型稳态求解的诊断（未求解时为 <c>Nothing</c>）。</summary>
+        Public ReadOnly Property ControlReport As Solver.SteadyStateReport
+            Get
+                Return _controlReport
+            End Get
+        End Property
+
+        ''' <summary>最近一次突变型稳态求解的诊断（未求解时为 <c>Nothing</c>）。</summary>
+        ''' <remarks>
+        ''' 这是「这次扰动到底解没解出来」的唯一可靠来源：
+        ''' <see cref="ControlSteadyState"/> 的野生型与这里的突变型走同一个求解器，
+        ''' 因此可以直接比较两者的 <c>ExitReason</c>。
+        ''' </remarks>
+        Public ReadOnly Property LastSolveReport As Solver.SteadyStateReport
+            Get
+                Return _lastReport
+            End Get
+        End Property
 
         ''' <summary>
         ''' 预测（可组合的）干预结果。
@@ -132,11 +173,15 @@ Namespace Perturbation
                 Return CreateUndefinedResult(list(0), plan.Control)
             End If
 
-            Dim mutant As Double() = _network.SteadyState(
+            Dim report As Solver.SteadyStateReport = _network.SteadyStateWithReport(
                 _baseline, plan.Clamps,
                 _network.Config.PropagationSteps,
                 _network.Config.Relaxation,
                 _network.Config.ConvergenceTolerance)
+
+            _lastReport = report
+
+            Dim mutant As Double() = report.FinalState
 
             ' 被扰动基因的表达是实验施加的结果，不是模型的推断，直接写回干预值
             Call ApplyClamps(mutant, plan)
@@ -225,6 +270,43 @@ Namespace Perturbation
                 .ClampValue = If(plan.Values.Count = 1, plan.Values(0), Double.NaN),
                 .ElapsedMs = watch.Elapsed.TotalMilliseconds
             }
+        End Function
+
+        ''' <summary>
+        ''' 集成预测：按 PBN 规则概率重建网络多次，把结构不确定性传播到扰动结果上。
+        ''' </summary>
+        ''' <param name="specs">干预定义</param>
+        ''' <param name="nSamples">采样次数；&lt;= 1 时退化为确定性单点结果</param>
+        ''' <param name="pbn">拟合期构建的 PBN 定性层</param>
+        ''' <returns>逐基因均值/标准差/置信区间/符号一致率与吸引子周期分布</returns>
+        ''' <remarks>
+        ''' 确定性参考解只求一次（<see cref="Predict"/>），各样本共用；
+        ''' 只有 <see cref="Config.HybridOptions.ModeBiasWeight"/> &gt; 0 时才会逐样本重新求解，
+        ''' 因此默认配置下的额外成本几乎全在布尔层。
+        ''' </remarks>
+        Public Function PredictEnsemble(specs As IEnumerable(Of InterventionSpec),
+                                        nSamples As Integer,
+                                        pbn As Hybrid.PbnRegulatorPrior) As Hybrid.EnsemblePerturbationResult
+            Dim list As List(Of InterventionSpec) = ToSpecList(specs)
+
+            If pbn Is Nothing Then
+                Throw New InvalidOperationException(
+                    "the PBN layer is not available for this model (either PBN regularization was disabled at fit time " &
+                    "or the model was restored from a package); retrain with Hybrid.PbnRegularization = Filter/Weighted")
+            End If
+
+            Dim plan As InterventionPlan = ResolvePlan(list)
+            Dim reference As Double() = Nothing
+            Dim converged As Boolean = False
+
+            If plan.Indices.Count > 0 Then
+                reference = Predict(list).MutantMeans
+                converged = _lastReport IsNot Nothing AndAlso _lastReport.Converged
+            End If
+
+            Dim ensemble As New Hybrid.PbnEnsemble(_network, pbn, _network.Config)
+
+            Return ensemble.Predict(_baseline, plan.Clamps, reference, nSamples, converged)
         End Function
 
         ''' <summary>

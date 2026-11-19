@@ -46,6 +46,15 @@ Public Class FuzzyGeneModel : Implements InsilicoPerturbationExperiment
     Private _lastResult As FuzzyGeneTrainingResult
     Private _strict As Boolean = True
 
+    ''' <summary>
+    ''' 拟合期构建的 PBN 定性层（集成预测用）。
+    ''' </summary>
+    ''' <remarks>
+    ''' 它不随包文件持久化：从 <c>*.fuzzygene.zip</c> 恢复的模型没有这一层，
+    ''' 因此 <see cref="PredictEnsemble"/> 会明确报错而不是悄悄退化成单点结果。
+    ''' </remarks>
+    Private _pbn As Hybrid.PbnRegulatorPrior
+
     ''' <summary>上下文状态（原始值 + 对齐结果 + 诊断）。</summary>
     Private m_context As ContextAlignmentState
     ''' <summary>对齐之后的完整基线向量（原始表达量，长度 = 基因数）；未注入时为 Nothing。</summary>
@@ -140,6 +149,39 @@ Public Class FuzzyGeneModel : Implements InsilicoPerturbationExperiment
         End Get
     End Property
 
+    ''' <summary>拟合期构建的 PBN 定性层；未启用 PBN 或从包恢复时为 <c>Nothing</c>。</summary>
+    Public ReadOnly Property PbnPrior As Hybrid.PbnRegulatorPrior
+        Get
+            Return _pbn
+        End Get
+    End Property
+
+    ''' <summary>
+    ''' 集成预测：按 PBN 规则概率采样多次，给出逐基因的均值、标准差、置信区间与符号一致率。
+    ''' </summary>
+    ''' <param name="specs">干预定义（与 <see cref="Predict"/> 相同）</param>
+    ''' <param name="nSamples">采样次数；&lt;= 0 时取 <see cref="Config.HybridOptions.EnsembleSamples"/></param>
+    ''' <returns>集成结果</returns>
+    ''' <remarks>
+    ''' <para>
+    ''' 这里的 <paramref name="nSamples"/> 正是 <c>InsilicoPerturbationExperiment</c> 里
+    ''' 一直被忽略的那个参数：以前它是「仅为接口兼容保留」，现在它真的驱动采样次数。
+    ''' </para>
+    ''' <para>
+    ''' 前提是拟合时启用了 PBN（<see cref="Config.HybridOptions.PbnRegularization"/>）；
+    ''' 否则抛 <see cref="InvalidOperationException"/>，而不是返回一个看上去有置信区间、
+    ''' 实际上标准差全为 0 的假结果。
+    ''' </para>
+    ''' </remarks>
+    Public Function PredictEnsemble(specs As IEnumerable(Of InterventionSpec),
+                                    Optional nSamples As Integer = 0) As Hybrid.EnsemblePerturbationResult
+        Call EnsureTrained()
+
+        Dim count As Integer = If(nSamples > 0, nSamples, _config.Hybrid.EnsembleSamples)
+
+        Return _engine.PredictEnsemble(specs, count, _pbn)
+    End Function
+
     ''' <summary>当前注入的上下文（对齐之后的原始表达量，长度 = 基因数）；未注入时为 Nothing。</summary>
     Public ReadOnly Property Context As Double()
         Get
@@ -204,6 +246,7 @@ Public Class FuzzyGeneModel : Implements InsilicoPerturbationExperiment
 
         _network = output.Network
         _lastResult = output.Report
+        _pbn = output.PbnPrior
         _engine = New AnfisPerturbationEngine(_network) With {.Strict = _strict}
         ' 重新训练后扰动引擎换了实例，之前注入的上下文不再适用
         Call ContextState.Clear()

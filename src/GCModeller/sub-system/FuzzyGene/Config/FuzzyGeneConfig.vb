@@ -114,13 +114,27 @@ Namespace Config
         Public Property Standardize As Boolean = True
 
         ''' <summary>
-        ''' 是否把传播过程中的取值限制在训练支持域内（<c>[min−1, max+1]</c>，z 空间）。
+        ''' 是否把传播过程中的**输出**限制在训练支持域内（<c>[min−1, max+1]</c>，z 空间）。
         ''' </summary>
         ''' <remarks>
+        ''' <para>
         ''' 虚拟扰动是分布外外推，高斯隶属函数在支持域外会饱和、结论的局部线性模型会给出
         ''' 失控斜率；限幅是防御性措施，代价是极大扰动下的非线性响应被压平。
+        ''' </para>
+        ''' <para>
+        ''' 保留这个属性名是为了兼容旧代码与旧包，实际存储下沉到
+        ''' <see cref="SolverOptions.ClampOutputToSupport"/>；
+        ''' 输入侧另由 <see cref="SolverOptions.ClampInputToSupport"/> 控制（默认打开）。
+        ''' </para>
         ''' </remarks>
-        Public Property ClampToSupport As Boolean = True
+        Public Property ClampToSupport As Boolean
+            Get
+                Return Me.Solver.ClampOutputToSupport
+            End Get
+            Set(value As Boolean)
+                Me.Solver.ClampOutputToSupport = value
+            End Set
+        End Property
 
         ''' <summary>逐基因训练的并行度；0 表示自动（使用全部逻辑核心），1 表示串行。</summary>
         Public Property DegreeOfParallelism As Integer = 0
@@ -200,6 +214,44 @@ Namespace Config
         ''' </remarks>
         Public Property NoveltyQuota As Double = 0.0
 
+        ''' <summary>
+        ''' 稳态求解器配置（牛顿/Anderson/旧阻尼的选择与预算）。
+        ''' </summary>
+        ''' <remarks>
+        ''' 惰性新建：旧包（<c>*.fuzzygene.zip</c>）的 JSON 里没有这两个字段，
+        ''' 反序列化后是 <c>Nothing</c>，此时必须回落到默认值而不是抛空引用。
+        ''' </remarks>
+        Public Property Solver As SolverOptions
+            Get
+                If _solver Is Nothing Then
+                    _solver = New SolverOptions()
+                End If
+
+                Return _solver
+            End Get
+            Set(value As SolverOptions)
+                _solver = value
+            End Set
+        End Property
+
+        Private _solver As SolverOptions
+
+        ''' <summary>PBN / FCM 融合配置（同样惰性新建以兼容旧包）。</summary>
+        Public Property Hybrid As HybridOptions
+            Get
+                If _hybrid Is Nothing Then
+                    _hybrid = New HybridOptions()
+                End If
+
+                Return _hybrid
+            End Get
+            Set(value As HybridOptions)
+                _hybrid = value
+            End Set
+        End Property
+
+        Private _hybrid As HybridOptions
+
         ''' <summary>默认配置（同时把规则预算下调到 GRN 场景的合理量级）。</summary>
         Public Sub New()
             MyBase.MaxRules = 128
@@ -269,14 +321,23 @@ Namespace Config
                 Throw New ArgumentOutOfRangeException(NameOf(NoveltyQuota), NoveltyQuota, "the novelty quota must be in [0, 1]")
             End If
 
+            ' 新增的两组子配置同样要校验：它们内部的互斥关系（例如 PBN 父集上限）
+            ' 在构造时无法拦住，只能在最终生效点检查
+            Call Me.Solver.Validate()
+            Call Me.Hybrid.Validate()
+
             Return Me
         End Function
 
-        ''' <summary>浅拷贝（数组字段按基类的规则单独复制）。</summary>
+        ''' <summary>浅拷贝（数组字段按基类的规则单独复制，子配置对象深拷贝）。</summary>
         Public Shadows Function Clone() As FuzzyGeneConfig
             Dim copy As FuzzyGeneConfig = DirectCast(Me.MemberwiseClone(), FuzzyGeneConfig)
 
             Call CopyStructureArraysTo(copy)
+
+            ' 子配置是引用类型：不复制的话，对副本改 Solver.Mode 会串回原对象
+            copy.Solver = Me.Solver.Clone()
+            copy.Hybrid = Me.Hybrid.Clone()
 
             Return copy
         End Function
@@ -287,7 +348,8 @@ Namespace Config
                    $"rows<={If(MaxTrainRows <= 0, "all", MaxTrainRows.ToString)}, " &
                    $"pool<={If(MaxCandidateGenes <= 0, "all", MaxCandidateGenes.ToString)}, " &
                    $"novelty={NoveltyQuota:P0}, " &
-                   $"{MyBase.ToString()}, steps={PropagationSteps}, omega={Relaxation:G3}"
+                   $"{MyBase.ToString()}, steps={PropagationSteps}, omega={Relaxation:G3}, " &
+                   $"solver=[{Me.Solver}], hybrid=[{Me.Hybrid}]"
         End Function
 
     End Class

@@ -21,6 +21,16 @@ Namespace Data
         ''' <summary>与靶基因表达的 Pearson 相关系数（先验因子也可能被补齐步骤顺带计算）。</summary>
         Public Property Correlation As Double
 
+        ''' <summary>
+        ''' 该因子在预处理视图中的下标（<c>-1</c> 表示未记录）。
+        ''' </summary>
+        ''' <remarks>
+        ''' 共线性检查需要「已选因子 × 候选因子」的相关系数，
+        ''' 每次都按基因名做一次 <c>IndexOf</c> 会退化成 O(基因数) 的字符串扫描，
+        ''' 因此在下标还拿在手上时就记下来。
+        ''' </remarks>
+        Public Property Index As Integer = -1
+
         ''' <summary>边的置信度：先验优先取先验置信度，否则取相关性的绝对值。</summary>
         Public ReadOnly Property Confidence As Double
             Get
@@ -144,7 +154,8 @@ Namespace Data
                                          config As FuzzyGeneConfig,
                                          targetIndex As Integer,
                                          Optional pool As Integer() = Nothing,
-                                         Optional limit As Integer = 0) As RegulatorPick()
+                                         Optional limit As Integer = 0,
+                                         Optional pbn As Hybrid.PbnRegulatorPrior = Nothing) As RegulatorPick()
 
             If view Is Nothing Then
                 Throw New ArgumentNullException(NameOf(view))
@@ -155,6 +166,14 @@ Namespace Data
             Dim slots As Integer = If(limit > 0, std.Min(limit, cfg.MaxRegulators), cfg.MaxRegulators)
             Dim priorPicks As New List(Of RegulatorPick)
             Dim taken As New HashSet(Of Integer)
+
+            ' 共线性上限：近共线的调控因子会让 LSE 给出大数值、反号的系数，
+            ' 沿数据流形的和正常、正交方向梯度极大——这是谱半径超限的主要来源。
+            ' 上限取 1 表示关闭约束。
+            Dim collinearCap As Double = cfg.Hybrid.MaxRegulatorCollinearity
+
+            ' 已选中的下标集合（先验与数据候选共用一个集合，才能做两两相关检查）
+            Dim selected As New List(Of Integer)()
 
             ' ---- 1. 先验候选（按置信度降序） ----
             If cfg.Selection <> RegulatorSelection.CorrelationOnly AndAlso prior IsNot Nothing Then
@@ -173,13 +192,19 @@ Namespace Data
                         If Not taken.Add(idx) Then
                             Continue For
                         End If
+                        If Collinear(view, selected, idx, collinearCap) Then
+                            Continue For
+                        End If
 
                         Call priorPicks.Add(New RegulatorPick With {
                             .Gene = view.GeneNames(idx),
+                            .Index = idx,
                             .IsPrior = True,
                             .PriorConfidence = edge.Confidence,
                             .Correlation = Pearson(view, targetIndex, idx)
                         })
+
+                        Call selected.Add(idx)
 
                         If priorPicks.Count >= slots Then
                             Exit For
@@ -197,9 +222,11 @@ Namespace Data
             Dim dataPicks As New List(Of RegulatorPick)
 
             If needData Then
-                Dim scored As New List(Of (index As Integer, correlation As Double))
-                Dim strong As New List(Of (index As Integer, correlation As Double))
+                Dim scored As New List(Of (index As Integer, correlation As Double, score As Double))
+                Dim strong As New List(Of (index As Integer, correlation As Double, score As Double))
                 Dim bestAbs As Double = 0.0
+                Dim pbnMode As PbnRegularizationMode = cfg.Hybrid.PbnRegularization
+                Dim pbnActive As Boolean = pbn IsNot Nothing AndAlso pbn.HasTarget(targetGene)
 
                 For Each j As Integer In CandidateIndices(view, pool)
                     If j = targetIndex OrElse view.Constant(j) OrElse taken.Contains(j) Then
@@ -208,14 +235,28 @@ Namespace Data
 
                     Dim r As Double = Pearson(view, targetIndex, j)
                     Dim strength As Double = std.Abs(r)
+                    Dim cod As Double = If(pbn Is Nothing, 0.0, pbn.CoDOf(targetGene, view.GeneNames(j)))
 
-                    Call scored.Add((j, r))
+                    ' 硬过滤：PBN 认为这条边在布尔一致性上没有方向信息（CoD 过低）
+                    If pbnActive AndAlso pbnMode = PbnRegularizationMode.Filter AndAlso cod < cfg.Hybrid.PbnMinCod Then
+                        Continue For
+                    End If
+
+                    ' 软加权：CoD 折算成相关性打分的加成，只影响排序、不删除候选
+                    Dim score As Double = strength
+
+                    If pbnActive AndAlso pbnMode = PbnRegularizationMode.Weighted Then
+                        score += pbn.PriorWeight(targetGene, view.GeneNames(j), cfg.Hybrid.PbnWeight)
+                    End If
+
+                    Call scored.Add((j, r, score))
 
                     If strength > bestAbs Then
                         bestAbs = strength
                     End If
+                    ' 阈值判定仍然用纯相关性：PBN 加成不应该让弱相关边绕过"偏好"门槛
                     If strength >= cfg.MinCorrelation Then
-                        Call strong.Add((j, r))
+                        Call strong.Add((j, r, score))
                     End If
                 Next
 
@@ -228,7 +269,7 @@ Namespace Data
                 ' MinCorrelation 是“偏好”而不是硬门槛：单细胞/元细胞表达矩阵里大量低丰度基因
                 ' 的 |r| 普遍偏低，若把它当硬门槛，这些基因会整条被丢掉。因此当没有任何候选达到
                 ' 阈值时，退化为「取相关性最强的 K 个」，只在相关性数值上确实为 0 时才放弃。
-                Dim candidates As List(Of (index As Integer, correlation As Double))
+                Dim candidates As List(Of (index As Integer, correlation As Double, score As Double))
 
                 If strong.Count > 0 Then
                     candidates = strong
@@ -236,7 +277,8 @@ Namespace Data
                     candidates = scored.Where(Function(x) std.Abs(x.correlation) > 0.000001).ToList()
                 End If
 
-                candidates.Sort(Function(a, b) std.Abs(b.correlation).CompareTo(std.Abs(a.correlation)))
+                ' 按「相关性 + PBN 加权」排序：纯相关模式下 score 就是 |r|，行为与旧版本一致
+                candidates.Sort(Function(a, b) b.score.CompareTo(a.score))
 
                 For Each item In candidates
                     If dataPicks.Count >= slots Then
@@ -245,6 +287,7 @@ Namespace Data
 
                     Call dataPicks.Add(New RegulatorPick With {
                         .Gene = view.GeneNames(item.index),
+                        .Index = item.index,
                         .IsPrior = False,
                         .PriorConfidence = 0.0,
                         .Correlation = item.correlation
@@ -267,9 +310,9 @@ Namespace Data
 
             ' 先放预留的数据发现槽位
             For i As Integer = 0 To reserved - 1
-                Call picks.Add(dataPicks(i))
+                Call TryAdd(view, picks, dataPicks(i), slots, selected, collinearCap)
             Next
-            ' 再用先验填（保持"先验提供因果方向"的原有优先级）
+            ' 再用先验填（保持"先验提供因果方向"的原有优先级；它们已经做过共线性检查）
             For Each item As RegulatorPick In priorPicks
                 If picks.Count >= slots Then
                     Exit For
@@ -279,14 +322,67 @@ Namespace Data
             Next
             ' 剩下的位置继续用相关性候选补齐
             For i As Integer = reserved To dataPicks.Count - 1
-                If picks.Count >= slots Then
-                    Exit For
-                End If
-
-                Call picks.Add(dataPicks(i))
+                Call TryAdd(view, picks, dataPicks(i), slots, selected, collinearCap)
             Next
 
+            ' 兜底：共线性约束不能把模型逼成常数——一个都没选上时给出打分最高的那个
+            If picks.Count = 0 Then
+                If dataPicks.Count > 0 Then
+                    Call picks.Add(dataPicks(0))
+                ElseIf priorPicks.Count > 0 Then
+                    Call picks.Add(priorPicks(0))
+                End If
+            End If
+
             Return picks.ToArray()
+        End Function
+
+        ''' <summary>尝试把候选加入选择集（受槽位数与共线性约束）。</summary>
+        Private Sub TryAdd(view As GeneExpressionView,
+                           picks As List(Of RegulatorPick),
+                           item As RegulatorPick,
+                           slots As Integer,
+                           selected As List(Of Integer),
+                           cap As Double)
+            If picks.Count >= slots Then
+                Return
+            End If
+            If Collinear(view, selected, item.Index, cap) Then
+                Return
+            End If
+
+            Call picks.Add(item)
+
+            If item.Index >= 0 Then
+                Call selected.Add(item.Index)
+            End If
+        End Sub
+
+        ''' <summary>
+        ''' 候选是否与已选调控因子近共线（<c>|Pearson| &gt; cap</c>）。
+        ''' </summary>
+        ''' <param name="view">预处理视图</param>
+        ''' <param name="selected">已选中的下标</param>
+        ''' <param name="candidate">候选下标；<c>-1</c> 表示未知（不做检查）</param>
+        ''' <param name="cap">共线性上限；&gt;= 1 表示关闭该约束</param>
+        Private Function Collinear(view As GeneExpressionView,
+                                   selected As List(Of Integer),
+                                   candidate As Integer,
+                                   cap As Double) As Boolean
+            If cap >= 1.0 OrElse candidate < 0 OrElse selected.Count = 0 Then
+                Return False
+            End If
+
+            For Each idx As Integer In selected
+                If idx = candidate Then
+                    Continue For
+                End If
+                If std.Abs(Pearson(view, idx, candidate)) > cap Then
+                    Return True
+                End If
+            Next
+
+            Return False
         End Function
 
         Private Iterator Function CandidateIndices(view As GeneExpressionView, pool As Integer()) As IEnumerable(Of Integer)

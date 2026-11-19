@@ -70,6 +70,15 @@ Namespace Fitting
         ''' <summary>训练行数（诊断用）。</summary>
         Public Property SampleCount As Integer
 
+        ''' <summary>
+        ''' 全局增益校准对该模型施加的累计斜率缩放系数（<c>1</c> 表示未校准）。
+        ''' </summary>
+        ''' <remarks>
+        ''' 校准只缩放一阶结论的斜率列、不动截距，因此规则的符号与结构不变；
+        ''' 这个字段是「模型被改了多少」的可查记录，旧包缺省视为 1（未校准）。
+        ''' </remarks>
+        Public Property GainScale As Double = 1.0
+
         ''' <summary>规则数量。</summary>
         Public ReadOnly Property RuleCount As Integer
             Get
@@ -196,6 +205,9 @@ Namespace Fitting
 
         ''' <summary>由传输对象还原。</summary>
         Public Shared Function FromDto(dto As GeneModelDto) As GeneRegulationModel
+            ' 旧包没有 gainScale（默认 0），按「未校准」处理：0 会把斜率乘成 0，必须回落到 1
+            Dim gain As Double = If(dto.gainScale <= 0.0, 1.0, dto.gainScale)
+
             Dim model As New GeneRegulationModel With {
                 .TargetGene = dto.targetGene,
                 .Regulators = dto.regulators,
@@ -211,7 +223,8 @@ Namespace Fitting
                 .SupportMin = dto.supportMin,
                 .SupportMax = dto.supportMax,
                 .IsLagged = dto.isLagged,
-                .SampleCount = dto.sampleCount
+                .SampleCount = dto.sampleCount,
+                .GainScale = gain
             }
 
             If Not dto.model Is Nothing Then
@@ -239,6 +252,7 @@ Namespace Fitting
                 .supportMax = SupportMax,
                 .isLagged = IsLagged,
                 .sampleCount = SampleCount,
+                .gainScale = GainScale,
                 .model = If(Network Is Nothing, Nothing, Network.ToJsonDto)
             }
         End Function
@@ -289,6 +303,8 @@ Namespace Fitting
         Public Property isLagged As Boolean
         ''' <summary>训练行数。</summary>
         Public Property sampleCount As Integer
+        ''' <summary>全局增益校准的累计斜率缩放系数（旧包缺省为 0，读取时按 1 处理）。</summary>
+        Public Property gainScale As Double
         ''' <summary>TSK 网络的 JSON 文本。</summary>
         Public Property model As TskModelDto
 
