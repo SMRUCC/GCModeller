@@ -277,7 +277,7 @@ Namespace Fitting
                 report.CalibratedGenes = calibration.ScaledGenes
 
                 If calibration.Applied Then
-                    report.PostCalibrationR2 = ReevaluateCalibration(view, models, metrics)
+                    report.PostCalibrationR2 = ApplyShrinkageR2(models, metrics)
 
                     Call warnings.Add(
                         $"global gain calibration: rho {calibration.SpectralRadius:G4} -> {calibration.PostSpectralRadius:G4}, " &
@@ -343,17 +343,15 @@ Namespace Fitting
             }
         End Function
 
-        ''' <summary>
-        ''' 校准之后重算被缩放基因的训练 R²（未缩放的基因沿用拟合时的值），返回平均。
-        ''' </summary>
+        ''' <summary>把校准的收缩折算进逐基因 R²，并返回校准后的平均 R²。</summary>
         ''' <remarks>
-        ''' 只对 <see cref="GeneRegulationModel.GainScale"/> &lt; 1 的基因重算：
-        ''' 通常只是「谱半径超限」的那一小部分，成本与一次评估同阶，
-        ''' 不会把训练时间翻倍。
+        ''' 不再逐步重算：一阶 Sugeno 的结论对输入线性，把斜率整体乘 <c>γ</c> 等价于
+        ''' <c>pred' - E[pred'] = γ·(pred - E[pred])</c>（截距与规则激活都不变），
+        ''' 因此 <c>R²' = γ²·R²</c> 是精确结果，不需要再跑一遍前向。
+        ''' 第一版用「重建矩阵 + 重新评估」得到过负十几的 R²，那是重建口径与训练口径不一致的假象。
         ''' </remarks>
-        Private Function ReevaluateCalibration(view As GeneExpressionView,
-                                               models As GeneRegulationModel(),
-                                               metrics As GeneFitMetric()) As Double
+        Private Function ApplyShrinkageR2(models As GeneRegulationModel(),
+                                          metrics As GeneFitMetric()) As Double
             Dim sum As Double = 0.0
             Dim count As Integer = 0
 
@@ -365,75 +363,17 @@ Namespace Fitting
                     Continue For
                 End If
 
-                If model.GainScale >= 1.0 - 1.0E-12 Then
-                    sum += model.R2
-                    count += 1
+                Dim scale As Double = model.GainScale
+                Dim updated As Double = model.R2 * scale * scale
 
-                    Continue For
-                End If
+                model.R2 = updated
+                metric.R2 = updated
 
-                Dim updated As Double = EvaluateTrainingR2(view, model, g)
-
-                If Not Double.IsNaN(updated) Then
-                    model.R2 = updated
-                    metric.R2 = updated
-                    sum += updated
-                Else
-                    sum += model.R2
-                End If
-
+                sum += updated
                 count += 1
             Next
 
             Return If(count = 0, Double.NaN, sum / count)
-        End Function
-
-        ''' <summary>在训练行上重新评估单个基因模型的 R²。</summary>
-        Private Function EvaluateTrainingR2(view As GeneExpressionView,
-                                            model As GeneRegulationModel,
-                                            gene As Integer) As Double
-            Dim rows As Integer = view.NRows
-
-            If rows = 0 OrElse model.Regulators Is Nothing OrElse model.Network Is Nothing Then
-                Return Double.NaN
-            End If
-
-            Dim columns(model.Regulators.Length - 1)() As Double
-
-            For j As Integer = 0 To model.Regulators.Length - 1
-                Dim idx As Integer = view.IndexOf(model.Regulators(j))
-
-                If idx < 0 Then
-                    Return Double.NaN
-                End If
-
-                columns(j) = view.Columns(idx)
-            Next
-
-            Dim x(rows - 1)() As Double
-
-            For r As Integer = 0 To rows - 1
-                Dim row(columns.Length - 1) As Double
-
-                For j As Integer = 0 To columns.Length - 1
-                    row(j) = columns(j)(r)
-                Next
-
-                x(r) = row
-            Next
-
-            Dim target As Double() = view.Targets(gene)
-            Dim y(rows - 1)() As Double
-
-            For r As Integer = 0 To rows - 1
-                y(r) = New Double() {target(r)}
-            Next
-
-            Try
-                Return AnfisFitting.Evaluate(model.Network, x, y).R2
-            Catch ex As Exception
-                Return Double.NaN
-            End Try
         End Function
 
         ''' <summary>

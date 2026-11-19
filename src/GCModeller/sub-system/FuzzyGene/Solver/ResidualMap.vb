@@ -157,7 +157,9 @@ Namespace Solver
             Call _net.ResetForwardDiagnostics()
             Call _net.StepZInto(_context.Z, _dirty, forceAll, _nextZ, workers)
 
-            Dim clampResidual As Double = 0.0
+            ' 注意：局部变量不能叫 clampResidual —— VB 大小写不敏感，
+            ' 那会让 `ClampResidual = clampResidual` 变成局部变量自赋值（属性永远是 0）
+            Dim violationMax As Double = 0.0
             Dim diag = _net.ForwardDiagnostics()
 
             For g As Integer = 0 To _n - 1
@@ -166,15 +168,15 @@ Namespace Solver
 
                     Dim violation As Double = std.Abs(_nextZ(g) - _clampValue(g))
 
-                    If violation > clampResidual Then
-                        clampResidual = violation
+                    If violation > violationMax Then
+                        violationMax = violation
                     End If
                 Else
                     _residual(g) = _nextZ(g) - _context.Z(g)
                 End If
             Next
 
-            ClampResidual = clampResidual
+            Me.ClampResidual = violationMax
             OutOfSupport = diag.outOfSupport
             Pinned = diag.pinned
         End Sub
@@ -325,7 +327,8 @@ Namespace Solver
 
         ''' <summary>把试探步的结果写回当前状态，并刷新残差与诊断。</summary>
         Private Sub AdoptTrial()
-            Dim clampResidual As Double = 0.0
+            ' 同样不能叫 clampResidual：VB 大小写不敏感，会与属性自赋值而静默失效
+            Dim violationMax As Double = 0.0
             Dim diag = _net.ForwardDiagnostics()
 
             For g As Integer = 0 To _n - 1
@@ -340,8 +343,8 @@ Namespace Solver
 
                     Dim violation As Double = std.Abs(_trialF(g) - _clampValue(g))
 
-                    If violation > clampResidual Then
-                        clampResidual = violation
+                    If violation > violationMax Then
+                        violationMax = violation
                     End If
                 Else
                     _residual(g) = _trialF(g) - _trialZ(g)
@@ -350,7 +353,7 @@ Namespace Solver
 
             Call Array.Copy(_trialF, _nextZ, _n)
 
-            ClampResidual = clampResidual
+            Me.ClampResidual = violationMax
             OutOfSupport = diag.outOfSupport
             Pinned = diag.pinned
         End Sub

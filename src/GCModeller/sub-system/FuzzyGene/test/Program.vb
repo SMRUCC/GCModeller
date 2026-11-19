@@ -1539,17 +1539,6 @@ Module Program
         ' 换一个有入边的基因才能看出「约束违背量」这一诊断确实在统计
         Dim hubTrace As PerturbationTrace = model.TracePerturbation("D", InterventionMode.Knockout, config.PropagationSteps)
 
-        Dim zBase As Double() = model.Network.ToZ(model.Network.BaselineRaw)
-        Dim dRow As Double() = {zBase(1), zBase(2)}
-        Dim dPred As Double = model.Network.Models(3).Predict(dRow)
-
-        Console.WriteLine($"  [diag] D modelled={model.Network.Models(3) IsNot Nothing}, " &
-                          $"regulators={String.Join(",", If(model.Network.Models(3)?.Regulators, New String() {}))}, " &
-                          $"clamp={hubTrace.ClampValue:G3}, iterations={hubTrace.Mutant.Iterations}, " &
-                          $"free={hubTrace.Mutant.FreeResidual:G3}, constraint={hubTrace.Mutant.ClampResidual:G3}, " &
-                          $"frame0={hubTrace.Mutant.States(0)(3):G3}, final={hubTrace.Mutant.Final(3):G3}, " &
-                          $"zD={zBase(3):G3}, F_D(baseline)={dPred:G3}, support=[{model.Network.SupportMin(3):G3},{model.Network.SupportMax(3):G3}]")
-
         Call AuditTest(hubTrace.Mutant IsNot Nothing AndAlso hubTrace.Mutant.ClampResidual > 0.0,
                        $"solver: the constraint violation is reported separately (actual {If(hubTrace.Mutant Is Nothing, 0, hubTrace.Mutant.ClampResidual):G3})")
         Call AuditTest(hubTrace.Mutant IsNot Nothing AndAlso hubTrace.Mutant.ExitReason = ExitReason.Converged,
@@ -1595,9 +1584,9 @@ Module Program
         ' ---------- 8.4 增益校准 ----------
         Dim cyclicConfig As New FuzzyGeneConfig With {
             .Selection = RegulatorSelection.PriorFirst,
-            .MaxRegulators = 4,
+            .MaxRegulators = 3,
             .MfCount = 3,
-            .MaxEpoch = 40,
+            .MaxEpoch = 20,
             .TargetMode = FuzzyTargetMode.StaticRoute,
             .PropagationSteps = 40,
             .Relaxation = 0.5,
