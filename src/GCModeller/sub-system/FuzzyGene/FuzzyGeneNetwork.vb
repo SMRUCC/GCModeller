@@ -725,6 +725,25 @@ Public Class FuzzyGeneNetwork
         report.ElapsedMs = clock.Elapsed.TotalMilliseconds
         report.FinalState = ToRaw(z)
 
+        ' 既没有不动点也没有精确周期：用轨迹尾段均值做「时间平均」兜底。
+        ' FCM 模块稳态由调用方（PerturbationEngine）覆盖，所以这里只填手头有的东西
+        If report.ExitReason <> Solver.ExitReason.Converged AndAlso report.AttractorMean Is Nothing AndAlso
+           trace IsNot Nothing AndAlso trace.States IsNot Nothing AndAlso trace.States.Count >= 4 Then
+
+            report.AttractorMean = TraceTailMean(trace, 8)
+            report.StabilizedBy = "tail mean"
+            report.AddMessage("no fixed point and no exact cycle; the mean of the last frames is attached as a time-average surrogate")
+        End If
+
+        ' 统一在这里标注"终态是怎么稳定下来的"：只有 fixed point 是真正的不动点，
+        ' limit cycle 是周期均值；其余情况（预算耗尽）留给调用方去挂 FCM/尾段代理
+        Select Case report.ExitReason
+            Case Solver.ExitReason.Converged
+                report.StabilizedBy = "fixed point"
+            Case Solver.ExitReason.LimitCycle
+                report.StabilizedBy = "limit cycle"
+        End Select
+
         Return report.FinalState
     End Function
 
@@ -780,7 +799,9 @@ Public Class FuzzyGeneNetwork
         Dim cycle As Solver.CycleDetector = Nothing
 
         If options.CycleWindow > 0 Then
-            cycle = New Solver.CycleDetector(options.CycleWindow)
+            ' 容差取收敛阈值的 100 倍：真实振荡极少逐位重复（实测同相位相差 1e-2），
+            ' 用精确比对会让「系统性振荡」被误报成「没跑够」
+            cycle = New Solver.CycleDetector(options.CycleWindow, context.Tolerance * 100.0)
         End If
 
         ' 先写哨兵：循环里只在 Converged / Diverged / LimitCycle / SupportSaturated 时改写它。
@@ -833,7 +854,7 @@ Public Class FuzzyGeneNetwork
                 If period > 0 Then
                     report.ExitReason = Solver.ExitReason.LimitCycle
                     report.AttractorPeriod = period
-                    Call AttachAttractorMean(report, context.Trace, period)
+                    Call AttachAttractorMean(report, context.Trace, period, cycle)
                     report.AddMessage($"a limit cycle of period {period} was detected; the steady state is replaced by the cycle mean")
 
                     Exit For
@@ -888,11 +909,65 @@ Public Class FuzzyGeneNetwork
         Call residual.PublishTo(report)
     End Sub
 
+    ''' <summary>
+    ''' 轨迹最后若干帧的均值（原始表达量）：预算耗尽又检不出精确周期时的兜底代理。
+    ''' </summary>
+    ''' <param name="trace">轨迹</param>
+    ''' <param name="frames">参与平均的帧数上限</param>
+    ''' <remarks>
+    ''' 取「最后 frames 帧」而不是所有帧：前面那段还在收敛，混进去会系统性地偏大。
+    ''' 跳过第 0 帧（起点是施加钳制后的基线，不代表任何轨道位置）。
+    ''' </remarks>
+    Private Shared Function TraceTailMean(trace As Data.SteadyStateTrace,
+                                          Optional frames As Integer = 8) As Double()
+        If trace Is Nothing OrElse trace.States Is Nothing OrElse trace.States.Count < 4 Then
+            Return Nothing
+        End If
+
+        Dim count As Integer = std.Min(frames, trace.States.Count - 1)
+
+        If count < 2 Then
+            Return Nothing
+        End If
+
+        Dim genes As Integer = trace.States(0).Length
+        Dim mean(genes - 1) As Double
+        Dim start As Integer = trace.States.Count - count
+
+        For i As Integer = start To trace.States.Count - 1
+            Dim frame As Double() = trace.States(i)
+
+            For g As Integer = 0 To genes - 1
+                mean(g) += frame(g)
+            Next
+        Next
+
+        For g As Integer = 0 To genes - 1
+            mean(g) /= count
+        Next
+
+        Return mean
+    End Function
+
     ''' <summary>检出极限环时，用轨迹最后 <paramref name="period"/> 帧的均值作为稳态代理。</summary>
+    ''' <param name="report">求解报告</param>
+    ''' <param name="trace">轨迹快照；<c>Nothing</c> 时回退到检测器自己保留的状态</param>
+    ''' <param name="period">检出的周期</param>
+    ''' <param name="cycle">极限环检测器（无轨迹时的兜底来源）</param>
     Private Shared Sub AttachAttractorMean(report As Solver.SteadyStateReport,
                                            trace As Data.SteadyStateTrace,
-                                           period As Integer)
-        If trace Is Nothing OrElse trace.States.Count < period OrElse period <= 0 Then
+                                           period As Integer,
+                                           Optional cycle As Solver.CycleDetector = Nothing)
+        If period <= 0 Then
+            Return
+        End If
+
+        ' 没有轨迹快照（Predict 不建 trace）时用检测器自己的最近帧，否则永远拿不到周期均值
+        If trace Is Nothing OrElse trace.States.Count < period Then
+            If cycle IsNot Nothing Then
+                report.AttractorMean = cycle.MeanOfLast(period)
+            End If
+
             Return
         End If
 

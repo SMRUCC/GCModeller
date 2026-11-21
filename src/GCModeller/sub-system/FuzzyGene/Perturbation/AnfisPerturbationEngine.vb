@@ -176,23 +176,7 @@ Namespace Perturbation
 
             ' ---- FCM 热启动：模块级有界传播给出一个全局自洽的起点 ----
             ' 它只影响「落到哪个吸引子」，不改变方程的根（牛顿法在同一个不动点上收敛）
-            _fcmResult = Nothing
-
-            Dim initial As Double() = _baseline
-
-            If _network.Modules IsNot Nothing AndAlso _network.Config.Hybrid.FcmWarmStart Then
-                Try
-                    Dim layer As New Hybrid.FcmModuleLayer(_network)
-                    Dim warm As Hybrid.FcmModuleResult = layer.BuildInitial(_baseline, plan.Clamps)
-
-                    If warm IsNot Nothing AndAlso warm.GeneInitial IsNot Nothing Then
-                        initial = warm.GeneInitial
-                        _fcmResult = warm
-                    End If
-                Catch ex As Exception
-                    ' 粗粒度层失败只意味着「没有热启动」，主路径必须继续
-                End Try
-            End If
+            Dim initial As Double() = PrepareInitial(plan)
 
             Dim report As Solver.SteadyStateReport = _network.SteadyStateWithReport(
                 initial, plan.Clamps,
@@ -200,18 +184,27 @@ Namespace Perturbation
                 _network.Config.Relaxation,
                 _network.Config.ConvergenceTolerance)
 
-            _lastReport = report
+            ' 热启动只是加速器：它把求解带偏（落到无不动点的分支）时必须退回基线重解，
+            ' 否则「打开 FCM」会变成一个降低收敛率的开关。只有热启动真的失败才付这份代价。
+            If Not report.Converged AndAlso _fcmResult IsNot Nothing Then
+                Dim fallback As Solver.SteadyStateReport = _network.SteadyStateWithReport(
+                    _baseline, plan.Clamps,
+                    _network.Config.PropagationSteps,
+                    _network.Config.Relaxation,
+                    _network.Config.ConvergenceTolerance)
 
-            ' 既没有不动点、也没有检出极限环时，用 FCM 模块稳态作为代理结论并显式标注；
-            ' 绝不悄悄替换 MutantMeans——那会让「代理」被当成定量预测
-            If Not report.Converged AndAlso report.AttractorMean Is Nothing AndAlso
-               _fcmResult IsNot Nothing AndAlso _network.Config.Hybrid.FcmFallbackAsSurrogate Then
-
-                report.AttractorMean = _fcmResult.Surrogate
-                report.AddMessage("the continuous solver did not reach a fixed point; the FCM module steady state is attached as a surrogate (AttractorMean)")
+                If fallback.Converged Then
+                    report = fallback
+                End If
             End If
 
-            Dim mutant As Double() = report.FinalState
+            _lastReport = report
+
+            Call AttachStabilizer(report, Nothing)
+
+            ' 终态优先级：不动点 > 极限环周期均值 > FCM 模块稳态 > 尾段均值 > 最后一帧。
+            ' 绝不悄悄把代理值当成定量预测——StabilizedBy 会如实写明是哪种
+            Dim mutant As Double() = ResolveReportedState(report)
 
             ' 被扰动基因的表达是实验施加的结果，不是模型的推断，直接写回干预值
             Call ApplyClamps(mutant, plan)
@@ -273,14 +266,28 @@ Namespace Perturbation
                 }
             End If
 
+            ' 与 Predict 走同一套热启动：否则两条路径的起点不同，结果无法逐位一致
+            Dim initial As Double() = PrepareInitial(plan)
+
             Dim mutantTrace As Data.SteadyStateTrace = _network.SteadyStateTraceOf(
-                _baseline, plan.Clamps, count,
+                initial, plan.Clamps, count,
                 relaxation,
                 _network.Config.ConvergenceTolerance)
 
-            ' 末帧就是求解器的返回值：就地回写干预值，让曲线终点与报告出来的
-            ' MutantMeans 完全一致（否则二者会差一个 ToZ/ToRaw 往返的舍入）
-            Dim mutant As Double() = mutantTrace.Final
+            ' 与 Predict 一致：热启动把求解带偏时退回基线重解，取收敛的那一次
+            If Not mutantTrace.Converged AndAlso _fcmResult IsNot Nothing Then
+                Dim retry As Data.SteadyStateTrace = _network.SteadyStateTraceOf(
+                    _baseline, plan.Clamps, count,
+                    relaxation,
+                    _network.Config.ConvergenceTolerance)
+
+                If retry.Converged Then
+                    mutantTrace = retry
+                End If
+            End If
+
+            ' 与 Predict 同一套终态判据（不动点 > 周期均值 > FCM 代理 > 尾段均值）
+            Dim mutant As Double() = ResolveTraceState(mutantTrace)
 
             Call ApplyClamps(mutant, plan)
 
@@ -300,6 +307,145 @@ Namespace Perturbation
                 .ClampValue = If(plan.Values.Count = 1, plan.Values(0), Double.NaN),
                 .ElapsedMs = watch.Elapsed.TotalMilliseconds
             }
+        End Function
+
+        ''' <summary>FCM 热启动：模块级有界传播给出一个全局自洽的起点。</summary>
+        ''' <remarks>
+        ''' 只影响「落到哪个吸引子」，不改变方程的根；模块层失败时静默退回训练基线，
+        ''' 因为粗粒度层只是加速器，不是主路径。
+        ''' </remarks>
+        Private Function PrepareInitial(plan As InterventionPlan) As Double()
+            _fcmResult = Nothing
+
+            If _network.Modules Is Nothing OrElse Not _network.Config.Hybrid.FcmWarmStart Then
+                Return _baseline
+            End If
+
+            Try
+                Dim layer As New Hybrid.FcmModuleLayer(_network)
+                Dim warm As Hybrid.FcmModuleResult = layer.BuildInitial(_baseline, plan.Clamps)
+
+                If warm IsNot Nothing AndAlso warm.GeneInitial IsNot Nothing Then
+                    _fcmResult = warm
+
+                    Return warm.GeneInitial
+                End If
+            Catch ex As Exception
+                ' 粗粒度层失败只意味着「没有热启动」，主路径必须继续
+            End Try
+
+            Return _baseline
+        End Function
+
+        ''' <summary>
+        ''' 没有不动点也没有周期时挂上代理值：先 FCM 模块稳态，再轨迹尾段均值。
+        ''' </summary>
+        ''' <remarks>
+        ''' 优先级刻意是「真实周期均值 &gt; FCM &gt; 尾段均值」：前两者都有明确语义，
+        ''' 尾段均值只是「跑完预算还没收敛」时的最后兜底。三者都会写进
+        ''' <see cref="Solver.SteadyStateReport.StabilizedBy"/>，下游可据此决定要不要采信。
+        ''' </remarks>
+        Private Sub AttachStabilizer(report As Solver.SteadyStateReport, trace As Data.SteadyStateTrace)
+            If report Is Nothing OrElse report.Converged Then
+                Return
+            End If
+            ' 已经有真实周期均值就不再覆盖
+            If report.AttractorMean IsNot Nothing AndAlso
+               Not String.Equals(report.StabilizedBy, "tail mean", StringComparison.OrdinalIgnoreCase) Then
+                Return
+            End If
+
+            If _fcmResult IsNot Nothing AndAlso _network.Config.Hybrid.FcmFallbackAsSurrogate Then
+                report.AttractorMean = _fcmResult.Surrogate
+                report.StabilizedBy = "fcm surrogate"
+                report.AddMessage("the continuous solver did not reach a fixed point; the FCM module steady state is attached as a surrogate (AttractorMean)")
+
+                Return
+            End If
+
+            If trace Is Nothing Then
+                Return
+            End If
+
+            Dim mean As Double() = TailMean(trace)
+
+            If mean IsNot Nothing Then
+                report.AttractorMean = mean
+                report.StabilizedBy = "tail mean"
+                report.AddMessage("no fixed point and no exact cycle; the mean of the last frames is attached as a time-average surrogate")
+            End If
+        End Sub
+
+        ''' <summary>求解报告 → 应当汇报的终态。</summary>
+        Private Shared Function ResolveReportedState(report As Solver.SteadyStateReport) As Double()
+            If report Is Nothing Then
+                Return Nothing
+            End If
+            If report.AttractorMean IsNot Nothing Then
+                Return CType(report.AttractorMean.Clone(), Double())
+            End If
+
+            Return CType(report.FinalState.Clone(), Double())
+        End Function
+
+        ''' <summary>轨迹 → 应当汇报的终态（与 <see cref="ResolveReportedState"/> 同一套优先级）。</summary>
+        Private Function ResolveTraceState(trace As Data.SteadyStateTrace) As Double()
+            If trace Is Nothing Then
+                Return CType(_baseline.Clone(), Double())
+            End If
+            If trace.Converged Then
+                Return CType(trace.Final.Clone(), Double())
+            End If
+
+            ' 没有真实周期均值时，FCM 代理优先于尾段均值
+            If trace.AttractorMean Is Nothing OrElse
+               String.Equals(trace.StabilizedBy, "tail mean", StringComparison.OrdinalIgnoreCase) Then
+
+                If _fcmResult IsNot Nothing AndAlso _network.Config.Hybrid.FcmFallbackAsSurrogate Then
+                    trace.AttractorMean = _fcmResult.Surrogate
+                    trace.StabilizedBy = "fcm surrogate"
+
+                    Return CType(_fcmResult.Surrogate.Clone(), Double())
+                End If
+            End If
+
+            If trace.AttractorMean IsNot Nothing Then
+                Return CType(trace.AttractorMean.Clone(), Double())
+            End If
+
+            Return CType(trace.Final.Clone(), Double())
+        End Function
+
+        ''' <summary>轨迹最后若干帧的均值（帧数不足时返回 <c>Nothing</c>）。</summary>
+        Private Shared Function TailMean(trace As Data.SteadyStateTrace,
+                                         Optional frames As Integer = 8) As Double()
+            If trace Is Nothing OrElse trace.States Is Nothing OrElse trace.States.Count < 4 Then
+                Return Nothing
+            End If
+
+            Dim count As Integer = System.Math.Min(frames, trace.States.Count - 1)
+
+            If count < 2 Then
+                Return Nothing
+            End If
+
+            Dim genes As Integer = trace.States(0).Length
+            Dim mean(genes - 1) As Double
+            Dim start As Integer = trace.States.Count - count
+
+            For i As Integer = start To trace.States.Count - 1
+                Dim frame As Double() = trace.States(i)
+
+                For g As Integer = 0 To genes - 1
+                    mean(g) += frame(g)
+                Next
+            Next
+
+            For g As Integer = 0 To genes - 1
+                mean(g) /= count
+            Next
+
+            Return mean
         End Function
 
         ''' <summary>

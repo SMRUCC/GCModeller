@@ -83,6 +83,16 @@ Namespace Solver
         ''' <summary>极限环的周期均值（原始表达量）；没有检出时为 Nothing。</summary>
         Public Property AttractorMean As Double()
 
+        ''' <summary>
+        ''' 终态是怎么"稳定下来"的：<c>fixed point</c> / <c>limit cycle</c> /
+        ''' <c>fcm surrogate</c> / <c>tail mean</c>（空串 = 没有稳定下来）。
+        ''' </summary>
+        ''' <remarks>
+        ''' 这个字段是给下游判断"能不能把这个数当稳态用"的唯一开关：
+        ''' 只有 <c>fixed point</c> 是真正的不动点，其余三种都是代理值。
+        ''' </remarks>
+        Public Property StabilizedBy As String
+
         ''' <summary>逐轮的自由残差历史（长度 = <see cref="Iterations"/>）。</summary>
         Public Property ResidualHistory As List(Of Double) = New List(Of Double)()
 

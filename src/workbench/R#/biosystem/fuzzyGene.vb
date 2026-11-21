@@ -1395,6 +1395,8 @@ Module fuzzyGene
         Call table.add("out_of_support", New Double() {mutant.OutOfSupportFraction})
         Call table.add("pinned", New Double() {mutant.PinnedFraction})
         Call table.add("attractor_period", New Integer() {mutant.AttractorPeriod})
+        ' 终态是怎么稳定下来的：fixed point / limit cycle / fcm surrogate / tail mean
+        Call table.add("stabilized_by", New String() {If(mutant.StabilizedBy, "")})
         Call table.add("control_exit_reason", New String() {If(trace.Control Is Nothing, "", trace.Control.ExitReason.ToString())})
         Call table.add("omega", New Double() {mutant.Relaxation})
         Call table.add("tolerance", New Double() {mutant.Tolerance})
@@ -2087,6 +2089,7 @@ Module fuzzyGene
         Call table.add("out_of_support", New Double() {mutant.OutOfSupportFraction})
         Call table.add("pinned", New Double() {mutant.PinnedFraction})
         Call table.add("attractor_period", New Integer() {mutant.AttractorPeriod})
+        Call table.add("stabilized_by", New String() {If(mutant.StabilizedBy, "")})
         Call table.add("control_exit_reason", New String() {If(control Is Nothing, "", control.ExitReason.ToString())})
         Call table.add("control_iterations", New Integer() {If(control Is Nothing, 0, control.Iterations)})
         Call table.add("control_free_residual", New Double() {If(control Is Nothing, 0.0, control.FreeResidual)})

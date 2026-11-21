@@ -157,14 +157,22 @@ Namespace IO
                 {"n_genes", If(mutant Is Nothing, 0, mutant.NGene)},
                 {"mutant_iterations", If(mutant Is Nothing, 0, mutant.Iterations)},
                 {"mutant_converged", mutant IsNot Nothing AndAlso mutant.Converged},
+                {"mutant_exit_reason", If(mutant Is Nothing, "", mutant.ExitReason.ToString())},
+                {"mutant_free_residual", If(mutant Is Nothing, Double.NaN, mutant.FreeResidual)},
+                {"mutant_clamp_residual", If(mutant Is Nothing, Double.NaN, mutant.ClampResidual)},
+                {"mutant_attractor_period", If(mutant Is Nothing, 0, mutant.AttractorPeriod)},
+                {"mutant_stabilized_by", If(mutant Is Nothing, "", mutant.StabilizedBy)},
                 {"mutant_max_deltas", If(mutant Is Nothing, New Double() {}, mutant.MaxDeltas.ToArray())},
                 {"wildtype_iterations", If(wildtype Is Nothing, 0, wildtype.Iterations)},
                 {"wildtype_converged", wildtype IsNot Nothing AndAlso wildtype.Converged},
+                {"wildtype_exit_reason", If(wildtype Is Nothing, "", wildtype.ExitReason.ToString())},
+                {"wildtype_free_residual", If(wildtype Is Nothing, Double.NaN, wildtype.FreeResidual)},
+                {"wildtype_stabilized_by", If(wildtype Is Nothing, "", wildtype.StabilizedBy)},
                 {"wildtype_max_deltas", If(wildtype Is Nothing, New Double() {}, wildtype.MaxDeltas.ToArray())},
                 {"omega", If(mutant Is Nothing, Double.NaN, mutant.Relaxation)},
                 {"tolerance", If(mutant Is Nothing, Double.NaN, mutant.Tolerance)},
                 {"lagged", mutant IsNot Nothing AndAlso mutant.Lagged},
-                {"note", "frame index is a damped-iteration step, not biological time"},
+                {"note", "frame index is a solver iteration, not biological time; read exit_reason / stabilized_by before using the end state"},
                 {"files", If(files, New String() {})}
             }
 

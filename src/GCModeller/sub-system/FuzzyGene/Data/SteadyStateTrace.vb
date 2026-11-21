@@ -79,6 +79,20 @@ Namespace Data
         ''' <summary>检出极限环时的周期；0 表示没有检出。</summary>
         Public Property AttractorPeriod As Integer
 
+        ''' <summary>
+        ''' 终态代理值（原始表达量）：周期均值 / FCM 模块稳态 / 尾段均值；
+        ''' 没有代理时为 <c>Nothing</c>。
+        ''' </summary>
+        ''' <remarks>
+        ''' 与 <see cref="Final"/> 的区别：<c>Final</c> 永远等于最后一帧的状态，
+        ''' 而 <c>AttractorMean</c> 是"把这个系统当成振荡/无不动点之后，最合理的汇报值"。
+        ''' 存在代理值时，预测结果用的是它，不是 <c>Final</c>。
+        ''' </remarks>
+        Public Property AttractorMean As Double()
+
+        ''' <summary>终态是怎么稳定下来的（见 <c>Solver.SteadyStateReport.StabilizedBy</c>）。</summary>
+        Public Property StabilizedBy As String
+
         ''' <summary>是否为滞后（时序）路线；只有它为 <c>True</c> 且 ω = 1 时帧号才等于时间步。</summary>
         Public Property Lagged As Boolean
 
@@ -163,6 +177,8 @@ Namespace Data
                 FreeResidual = report.FreeResidual
                 ClampResidual = report.ClampResidual
                 AttractorPeriod = report.AttractorPeriod
+                AttractorMean = report.AttractorMean
+                StabilizedBy = report.StabilizedBy
 
                 If report.FinalState IsNot Nothing AndAlso NGene > 0 Then
                     OutOfSupportFraction = report.OutOfSupportCount / CDbl(NGene)
