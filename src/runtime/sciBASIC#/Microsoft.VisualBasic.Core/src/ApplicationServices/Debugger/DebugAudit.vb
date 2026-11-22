@@ -1,9 +1,12 @@
 ﻿Imports System.Globalization
 Imports System.Runtime.CompilerServices
 Imports System.Text
+Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Diagnostics
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.TablePrinter
+Imports Microsoft.VisualBasic.Imaging.Math2D
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON.Formatter
 
 Namespace ApplicationServices.Debugging
@@ -125,6 +128,19 @@ Namespace ApplicationServices.Debugging
             End SyncLock
         End Function
 
+        ' 20261122 请注意，<Conditional("DEBUG")>标记的函数在release模式下，由于编译的时候没有#DEBUG条件的常数定义
+        ' 所以对应的方法调用是会自动被编译器移除的
+        ' 这个时候，在代码中针对<Conditional("DEBUG")>标记的测试方法进行调用是永远不会发生的
+        ' <Conditional("DEBUG")>这个特性对于普通的vb.net程序的测试非常有用
+        ' 但是无法用于创建公开的测试函数api给脚本解释器之类的特殊用途的程序
+        ' 所以在这里还会定义一些与<Conditional("DEBUG")>标记的函数所同名的函数，用于公开对应的api给脚本解释器，用于构建出脚本测试用的工具
+
+        Public Sub Capture(name As String, val As Object)
+            SyncLock sync
+                captures(name) = val
+            End SyncLock
+        End Sub
+
         ''' <summary>
         ''' 以增量的方式记录一个变量的值到全局的变量快照之中(与 <see cref="Snapshot"/> 的整体替换行为相反)
         ''' </summary>
@@ -235,6 +251,16 @@ Namespace ApplicationServices.Debugging
 
             If failure IsNot Nothing Then
                 Throw failure
+            End If
+        End Sub
+
+        Public Sub Check(condition As Boolean, msg As String, expr As String, frame As StackFrame)
+            If Not condition Then
+                Dim sourceFile As String = frame.File
+                Dim line As String = frame.Line
+                Dim callee As String = frame.Method.ToString
+
+                Call RecordFailure(FailureOf(expr, msg, sourceFile, Line, callee), throwNow:=False)
             End If
         End Sub
 
@@ -545,13 +571,13 @@ Namespace ApplicationServices.Debugging
             End If
 
             Try
-                Dim folder As String = System.IO.Path.GetDirectoryName(path)
+                Dim folder As String = path.ParentPath
 
                 If Not String.IsNullOrEmpty(folder) AndAlso Not System.IO.Directory.Exists(folder) Then
                     Call System.IO.Directory.CreateDirectory(folder)
                 End If
 
-                Call System.IO.File.WriteAllText(path, ToJson(indent:=True), Encoding.UTF8)
+                Call ToJson(indent:=True).SaveTo(path, Encoding.UTF8)
             Catch ex As Exception
                 ' 调试报告写盘失败不应该影响到业务代码的执行
                 Call VBDebugger.log($"DebugAudit.SaveReport({path}) -> {ex.Message}",

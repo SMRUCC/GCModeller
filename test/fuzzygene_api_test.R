@@ -198,8 +198,8 @@ imports "geneExpression" from "phenotype_kit";
 
 print("=== FuzzyGene R# api test ===");
 
-let trace_dir = "G:/GCModeller/test/fuzzygene-trace";
-let analysis_dir = "G:/GCModeller/test/fuzzygene-analysis";
+let trace_dir = "Z:\vcc/fuzzygene-trace";
+let analysis_dir = "Z:\vcc/fuzzygene-analysis";
 
 let passes = 0;
 let failures = 0;
@@ -573,9 +573,9 @@ print(sens$spearman);
 print("--- dose response (top 5 genes) ---");
 
 let dose = FuzzyGene::fuzzygene_dose_response(model, gene,
-    doses = c(0, 0.5, 1),
+    doses = seq(0,1,by=0.1),
     steps = 30,
-    top = 5);
+    top = 6);
 
 print(dose);
 
@@ -590,7 +590,7 @@ print(dose);
 print("--- dose time surface long table shape (rows x columns) ---");
 
 let surf = FuzzyGene::fuzzygene_dose_time_surface(model, gene,
-    doses = c(0, 0.5, 1),
+    doses = seq(0,1,by=0.1),
     steps = 30,
     top = 5);
 
@@ -634,7 +634,7 @@ let analysis = FuzzyGene::fuzzygene_analysis_report(model, gene,
     dir = analysis_dir,
     omegas = c(0.5, 1.0),
     stepsList = c(30, 60),
-    doses = c(0, 0.5, 1),
+    doses = seq(0,1,by=0.1),
     sweepSteps = 30,
     doseSteps = 30,
     combinationSteps = 30,
