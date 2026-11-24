@@ -82,7 +82,7 @@ Public Module VectorStream
 
     Public Sub WriteVector(w As BinaryDataWriter, v As Array, code As TypeCode)
         Select Case code
-            Case TypeCode.Boolean : w.Write(DirectCast(v, Boolean()).Select(Function(f) CByte(If(f, 1, 0))).ToArray)
+            Case TypeCode.Boolean : Call WriteBooleanVector(w, DirectCast(v, Boolean()))
             Case TypeCode.Byte : w.Write(DirectCast(v, Byte()))
             Case TypeCode.Char : w.Write(DirectCast(v, Char()).Select(AddressOf AscW).ToArray)
             Case TypeCode.DateTime : w.Write(DirectCast(v, Date()).Select(Function(d) d.UnixTimeStamp).ToArray)
@@ -91,7 +91,7 @@ Public Module VectorStream
             Case TypeCode.Int16 : w.Write(DirectCast(v, Int16()))
             Case TypeCode.Int32 : w.Write(DirectCast(v, Int32()))
             Case TypeCode.Int64 : w.Write(DirectCast(v, Int64()))
-            Case TypeCode.SByte : w.Write(DirectCast(v, SByte()).Select(Function(b) CByte(b)).ToArray)
+            Case TypeCode.SByte : Call WriteSByteVector(w, DirectCast(v, SByte()))
             Case TypeCode.Single : w.Write(DirectCast(v, Single()))
             Case TypeCode.UInt16 : w.Write(DirectCast(v, UInt16()))
             Case TypeCode.UInt32 : w.Write(DirectCast(v, UInt32()))
@@ -105,6 +105,56 @@ Public Module VectorStream
             Case Else
                 Throw New NotImplementedException(code.ToString)
         End Select
+    End Sub
+
+    ''' <summary>
+    ''' 布尔向量按 1 字节/元素写出。
+    ''' </summary>
+    ''' <remarks>
+    ''' 旧实现使用 <c>Select(...).ToArray</c> 先构造一整条临时字节数组再写出，
+    ''' 百万元素级别的布尔列会产生 1 MB 的中间数组。这里改用池化缓冲。
+    ''' </remarks>
+    Private Sub WriteBooleanVector(w As BinaryDataWriter, values As Boolean())
+        Dim count As Integer = values.Length
+
+        If count = 0 Then
+            Return
+        End If
+
+        Dim buffer As Byte() = BufferPool.RentBytes(count)
+
+        Try
+            For i As Integer = 0 To count - 1
+                buffer(i) = CByte(If(values(i), 1, 0))
+            Next
+
+            w.Write(buffer, 0, count)
+        Finally
+            BufferPool.ReturnBytes(buffer)
+        End Try
+    End Sub
+
+    ''' <summary>
+    ''' 有符号字节向量按原始字节写出（与 <c>CByte</c> 转换的位模式一致）。
+    ''' </summary>
+    Private Sub WriteSByteVector(w As BinaryDataWriter, values As SByte())
+        Dim count As Integer = values.Length
+
+        If count = 0 Then
+            Return
+        End If
+
+        Dim buffer As Byte() = BufferPool.RentBytes(count)
+
+        Try
+            For i As Integer = 0 To count - 1
+                buffer(i) = CByte(values(i))
+            Next
+
+            w.Write(buffer, 0, count)
+        Finally
+            BufferPool.ReturnBytes(buffer)
+        End Try
     End Sub
 
     Public Function ReadVector(r As BinaryDataReader, type As TypeCode, len As Integer) As Array

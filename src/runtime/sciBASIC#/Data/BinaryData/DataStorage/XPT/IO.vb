@@ -92,10 +92,19 @@ Namespace Xpt
         End Function
 
         Public Shared Function readString(buffer As Byte(), off As Integer, len As Integer) As String
-            Dim subset = readBytes(buffer, off, len)
+            If len <= 0 Then
+                Return String.Empty
+            End If
+            If buffer.Length < off + len Then
+                Throw New Exception("readString failed! data.length: " & buffer.Length.ToString() & ", off: " & off.ToString() & ", len: " & len.ToString())
+            End If
 
-            Dim str As String = getString(subset, CHARSET_NAME).Trim()
-            Return str
+            ' 旧实现会依次产生：readBytes 的复制数组、Select().ToArray 的二次复制、
+            ' StreamReader 实例、按 2 倍长度分配的 Char 数组以及 CopyOf 的再复制。
+            ' 这里直接在原始缓冲上前解码，只有最终的字符串一次分配。
+            Dim encoder As Encoding = CHARSET_NAME.ParseEncodingsName().CodePage()
+
+            Return encoder.GetString(buffer, off, len).Trim()
         End Function
 
         Private Shared Function getString(bytes As Byte(), encoding As String) As String

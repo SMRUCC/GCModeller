@@ -311,6 +311,40 @@ Public Class BinaryDataReader : Inherits BinaryReader
     End Function
 
     ''' <summary>
+    ''' 把最多 <paramref name="count"/> 个字节读入调用方提供的缓冲区，不产生新的数组分配。
+    ''' </summary>
+    ''' <param name="count">需要读取的字节数。</param>
+    ''' <param name="buffer">目标缓冲区。</param>
+    ''' <param name="offset">目标缓冲区中的写入起始位置。</param>
+    ''' <returns>实际读取到的字节数；仅在流结束时会小于 <paramref name="count"/>。</returns>
+    ''' <remarks>
+    ''' 该重载不做所有权转移：缓冲区的生命周期由调用方管理。
+    ''' 典型用法是从 <see cref="BufferPool.RentBytes"/> 租用缓冲，用完后归还。
+    ''' </remarks>
+    Public Function ReadBytes(count As Integer, buffer As Byte(), offset As Integer) As Integer
+        If buffer Is Nothing Then
+            Throw New ArgumentNullException(NameOf(buffer))
+        End If
+        If count < 0 OrElse offset < 0 OrElse offset > buffer.Length OrElse count > buffer.Length - offset Then
+            Throw New ArgumentOutOfRangeException("offset/count 超出了缓冲区范围。")
+        End If
+
+        Dim done As Integer = 0
+
+        While done < count
+            Dim n As Integer = MyBase.Read(buffer, offset + done, count - done)
+
+            If n <= 0 Then
+                Exit While
+            End If
+
+            done += n
+        End While
+
+        Return done
+    End Function
+
+    ''' <summary>
     ''' Reads an 16-byte floating point value from the current stream and advances the current position of the
     ''' stream by sixteen bytes.
     ''' </summary>
@@ -557,12 +591,12 @@ Public Class BinaryDataReader : Inherits BinaryReader
     ''' 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Overloads Function ReadString(length%, encoding As Encoding) As String
-        Return encoding.GetString(ReadBytes(length))
+        Return ReadStringCore(length, encoding)
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Overloads Function ReadString(length As UInteger, encoding As Encoding) As String
-        Return encoding.GetString(ReadBytes(CInt(length)))
+        Return ReadStringCore(CInt(length), encoding)
     End Function
 
     ''' <summary>
@@ -741,13 +775,41 @@ Public Class BinaryDataReader : Inherits BinaryReader
         Return values
     End Function
 
+    ''' <summary>
+    ''' 读取指定字节数的字符串：使用池化缓冲承载中间字节。
+    ''' </summary>
+    ''' <remarks>
+    ''' 旧实现为 <c>encoding.GetString(ReadBytes(length))</c>，每读取一个定长字符串字段
+    ''' 都会分配一个字节数组；对于定长字符串列（每一行都要读取），这条路径的分配量非常大。
+    ''' </remarks>
+    Private Function ReadStringCore(length As Integer, encoding As Encoding) As String
+        If length <= 0 Then
+            Return String.Empty
+        End If
+
+        Dim buffer As Byte() = BufferPool.RentBytes(length)
+
+        Try
+            ' 只解码实际读取到的字节数，绝不使用 buffer.Length
+            Dim read As Integer = ReadBytes(length, buffer, 0)
+
+            If read <= 0 Then
+                Return String.Empty
+            End If
+
+            Return encoding.GetString(buffer, 0, read)
+        Finally
+            BufferPool.ReturnBytes(buffer)
+        End Try
+    End Function
+
     Private Function ReadByteLengthPrefixString(encoding As Encoding) As String
         Dim length As Integer = ReadByte()
 
         ' This will not work for strings with differently sized characters depending on their code.
         Dim charSize As Integer = encoding.GetByteCount("a")
 
-        Return encoding.GetString(ReadBytes(length * charSize))
+        Return ReadStringCore(length * charSize, encoding)
     End Function
 
     Private Function ReadWordLengthPrefixString(encoding As Encoding) As String
@@ -756,7 +818,7 @@ Public Class BinaryDataReader : Inherits BinaryReader
         ' This will not work for strings with differently sized characters depending on their code.
         Dim charSize As Integer = encoding.GetByteCount("a")
 
-        Return encoding.GetString(ReadBytes(length * charSize))
+        Return ReadStringCore(length * charSize, encoding)
     End Function
 
     Private Function ReadDwordLengthPrefixString(encoding As Encoding) As String
@@ -765,7 +827,7 @@ Public Class BinaryDataReader : Inherits BinaryReader
         ' This will not work for strings with differently sized characters depending on their code.
         Dim charSize As Integer = encoding.GetByteCount("a")
 
-        Return encoding.GetString(ReadBytes(length * charSize))
+        Return ReadStringCore(length * charSize, encoding)
     End Function
 
     Private Function ReadZeroTerminatedString(encoding As Encoding) As String

@@ -394,12 +394,12 @@ Namespace Pickle
                     Case SHORT_BINUNICODE
                         ' 协议4：1字节长度前缀的UTF-8字符串 (最长255字节)
                         Dim len = reader.ReadByte()
-                        stack.Push(Encoding.UTF8.GetString(reader.ReadBytes(len)))
+                        stack.Push(ReadString(reader, len, Encoding.UTF8))
 
                     Case BINUNICODE
                         ' 协议1：4字节长度前缀的UTF-8字符串 (最长2GB)
                         Dim len = reader.ReadInt32()
-                        stack.Push(Encoding.UTF8.GetString(reader.ReadBytes(len)))
+                        stack.Push(ReadString(reader, len, Encoding.UTF8))
 
                     Case UNICODE
                         ' 协议0：raw-unicode-escape编码字符串（以换行符结尾）
@@ -413,12 +413,12 @@ Namespace Pickle
                     Case SHORT_BINSTRING
                         ' 1字节长度前缀的字节字符串，按 Latin-1 解码
                         Dim len = reader.ReadByte()
-                        stack.Push(Encoding.GetEncoding("Latin1").GetString(reader.ReadBytes(len)))
+                        stack.Push(ReadString(reader, len, Encoding.GetEncoding("Latin1")))
 
                     Case BINSTRING
                         ' 4字节长度前缀的字节字符串，按 Latin-1 解码
                         Dim len = reader.ReadInt32()
-                        stack.Push(Encoding.GetEncoding("Latin1").GetString(reader.ReadBytes(len)))
+                        stack.Push(ReadString(reader, len, Encoding.GetEncoding("Latin1")))
 
                     Case [STRING]
                         ' 引号包围的字符串，支持转义序列
@@ -619,6 +619,51 @@ Namespace Pickle
         ' ===== 私有辅助方法 =====
 
         ''' <summary>
+        ''' 读取指定长度的字节并直接解码为字符串：使用池化缓冲承载中间字节。
+        ''' </summary>
+        ''' <remarks>
+        ''' 旧实现为 <c>Encoding.GetString(reader.ReadBytes(len))</c>，每个字符串操作码都会
+        ''' 分配一个临时字节数组；反序列化 numpy / bytes 数据时这条路径会被高频调用。
+        ''' </remarks>
+        Private Shared Function ReadString(reader As BinaryReader, length As Integer, encoding As Encoding) As String
+            If length <= 0 Then
+                Return String.Empty
+            End If
+
+            Dim buffer As Byte() = BufferPool.RentBytes(length)
+
+            Try
+                Dim read As Integer = FillBuffer(reader, buffer, length)
+
+                If read <= 0 Then
+                    Return String.Empty
+                End If
+
+                Return encoding.GetString(buffer, 0, read)
+            Finally
+                BufferPool.ReturnBytes(buffer)
+            End Try
+        End Function
+
+        ''' <summary>
+        ''' 从流中尽量读满 <paramref name="count"/> 个字节，返回实际读到的字节数。
+        ''' </summary>
+        Private Shared Function FillBuffer(reader As BinaryReader, buffer As Byte(), count As Integer) As Integer
+            Dim done As Integer = 0
+
+            While done < count
+                Dim n As Integer = reader.Read(buffer, done, count - done)
+
+                If n <= 0 Then
+                    Exit While
+                End If
+
+                done += n
+            End While
+
+            Return done
+        End Function
+
         ''' 读取一行文本（以 LF 换行符结尾）。协议0使用换行符作为分隔符。
         ''' </summary>
         Private Shared Function ReadLine(reader As BinaryReader) As String

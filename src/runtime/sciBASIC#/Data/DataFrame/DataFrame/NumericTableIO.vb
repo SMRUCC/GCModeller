@@ -56,6 +56,7 @@
 
 #End Region
 
+Imports System.Buffers
 Imports System.Globalization
 Imports System.IO
 Imports System.Runtime.CompilerServices
@@ -169,9 +170,20 @@ Public Module NumericTableIO
             Call text.AppendLine(RowObject.ToString(cells, sep))
         Next
 
-        Dim data As Byte() = New UTF8Encoding(encoderShouldEmitUTF8Identifier:=False).GetBytes(text.ToString())
+        ' 整表文本一次性编码会直接产生一个与文本等长的字节数组（数千行即进入大对象堆）。
+        ' 这里从共享池中租用输出缓冲，用完归还，避免每次导出都在 LOH 上申请大块内存。
+        Dim encoding As New UTF8Encoding(encoderShouldEmitUTF8Identifier:=False)
+        Dim content As String = text.ToString()
+        Dim byteCount As Integer = encoding.GetByteCount(content)
+        Dim pool As ArrayPool(Of Byte) = ArrayPool(Of Byte).Shared
+        Dim buffer As Byte() = pool.Rent(byteCount)
 
-        Call stream.Write(data, 0, data.Length)
+        Try
+            Call encoding.GetBytes(content, 0, content.Length, buffer, 0)
+            Call stream.Write(buffer, 0, byteCount)
+        Finally
+            Call pool.Return(buffer)
+        End Try
     End Sub
 
     ''' <summary>

@@ -628,10 +628,17 @@ Public Class BinaryDataWriter : Inherits BinaryWriter
     ''' <param name="encoding"></param>
     ''' <returns></returns>
     Private Function WriteByteLengthPrefixString(value As String, encoding As Encoding) As Integer
-        Dim buffer = encoding.GetBytes(value)
-        Write(CByte(value.Length))
-        Write(buffer)
-        Return 1 + buffer.Length
+        Dim byteCount As Integer = encoding.GetByteCount(value)
+        Dim buffer As Byte() = BufferPool.RentBytes(byteCount)
+
+        Try
+            Call encoding.GetBytes(value, 0, value.Length, buffer, 0)
+            Write(CByte(value.Length))
+            MyBase.Write(buffer, 0, byteCount)
+            Return 1 + byteCount
+        Finally
+            BufferPool.ReturnBytes(buffer)
+        End Try
     End Function
 
     ''' <summary>
@@ -641,10 +648,17 @@ Public Class BinaryDataWriter : Inherits BinaryWriter
     ''' <param name="encoding"></param>
     ''' <returns></returns>
     Private Function WriteWordLengthPrefixString(value As String, encoding As Encoding) As Integer
-        Dim buffer = encoding.GetBytes(value)
-        Write(CShort(value.Length))
-        Write(buffer)
-        Return 2 + buffer.Length
+        Dim byteCount As Integer = encoding.GetByteCount(value)
+        Dim buffer As Byte() = BufferPool.RentBytes(byteCount)
+
+        Try
+            Call encoding.GetBytes(value, 0, value.Length, buffer, 0)
+            Write(CShort(value.Length))
+            MyBase.Write(buffer, 0, byteCount)
+            Return 2 + byteCount
+        Finally
+            BufferPool.ReturnBytes(buffer)
+        End Try
     End Function
 
     ''' <summary>
@@ -654,10 +668,17 @@ Public Class BinaryDataWriter : Inherits BinaryWriter
     ''' <param name="encoding"></param>
     ''' <returns></returns>
     Private Function WriteDwordLengthPrefixString(value As String, encoding As Encoding) As Integer
-        Dim buffer = encoding.GetBytes(value)
-        Write(value.Length)
-        Write(buffer)
-        Return 4 + buffer.Length
+        Dim byteCount As Integer = encoding.GetByteCount(value)
+        Dim buffer As Byte() = BufferPool.RentBytes(byteCount)
+
+        Try
+            Call encoding.GetBytes(value, 0, value.Length, buffer, 0)
+            Write(value.Length)
+            MyBase.Write(buffer, 0, byteCount)
+            Return 4 + byteCount
+        Finally
+            BufferPool.ReturnBytes(buffer)
+        End Try
     End Function
 
     ''' <summary>
@@ -667,10 +688,17 @@ Public Class BinaryDataWriter : Inherits BinaryWriter
     ''' <param name="encoding"></param>
     ''' <returns></returns>
     Private Function WriteZeroTerminatedString(value As String, encoding As Encoding) As Integer
-        Dim buffer = encoding.GetBytes(value)
-        Write(buffer)
-        Write(CByte(0))
-        Return buffer.Length + 1
+        Dim byteCount As Integer = encoding.GetByteCount(value)
+        Dim buffer As Byte() = BufferPool.RentBytes(byteCount)
+
+        Try
+            Call encoding.GetBytes(value, 0, value.Length, buffer, 0)
+            MyBase.Write(buffer, 0, byteCount)
+            Write(CByte(0))
+            Return byteCount + 1
+        Finally
+            BufferPool.ReturnBytes(buffer)
+        End Try
     End Function
 
     ''' <summary>
@@ -681,9 +709,16 @@ Public Class BinaryDataWriter : Inherits BinaryWriter
     ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Private Function WriteNoPrefixOrTerminationString(value As String, encoding As Encoding) As Integer
-        Dim buffer = encoding.GetBytes(value)
-        Call Write(buffer)
-        Return buffer.Length
+        Dim byteCount As Integer = encoding.GetByteCount(value)
+        Dim buffer As Byte() = BufferPool.RentBytes(byteCount)
+
+        Try
+            Call encoding.GetBytes(value, 0, value.Length, buffer, 0)
+            MyBase.Write(buffer, 0, byteCount)
+            Return byteCount
+        Finally
+            BufferPool.ReturnBytes(buffer)
+        End Try
     End Function
 
     Private Function DecimalToBytes(value As Decimal) As Byte()

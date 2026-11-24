@@ -87,12 +87,13 @@ Namespace Xpt
         Public Shared DATE11_FORMAT As SimpleDateFormat = New SimpleDateFormat("dd-MMM-YYYY")
 
         Public Shared Function getString(line As Byte(), offset As Integer, len As Integer) As String
+            If len <= 0 Then
+                Return String.Empty
+            End If
 
-            Dim data = New Byte(len - 1) {}
-            For i = 0 To len - 1
-                data(i) = line(offset + i)
-            Next
-            Return Encoding.UTF8.GetString(data).Trim()
+            ' 直接从原始行缓冲解码：旧实现先逐字节复制出一个临时数组再解码，
+            ' 而该函数会被每一条记录的每一个字段调用，累计分配量非常大。
+            Return Encoding.UTF8.GetString(line, offset, len).Trim()
         End Function
 
         Public Shared Function getInteger(line As Byte(), offset As Integer, len As Integer) As Integer
