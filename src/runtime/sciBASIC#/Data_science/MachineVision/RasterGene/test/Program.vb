@@ -346,6 +346,14 @@ Module Program
                 Throw New ArgumentException($"--latent 必须为正数，实际 {settings.LatentDim}")
             End If
 
+            If settings.LearningRate <= 0 Then
+                Throw New ArgumentException($"--lr 必须为正数，实际 {settings.LearningRate}")
+            End If
+
+            If settings.Beta < 0 Then
+                Throw New ArgumentException($"--beta 不能为负数，实际 {settings.Beta}")
+            End If
+
             Return settings
         End Function
 
@@ -378,8 +386,9 @@ Module Program
         End Function
 
         Public Shared Sub PrintUsage()
-            Console.WriteLine("用法: test [--epochs N] [--batch N] [--samples N] [--size N] [--latent N] [--seed N] [--out DIR] [--skip-train]")
+            Console.WriteLine("用法: test [--epochs N] [--batch N] [--samples N] [--size N] [--latent N] [--seed N] [--lr X] [--beta X] [--out DIR] [--skip-train]")
             Console.WriteLine("  --size 必须是 4 的倍数（模型中包含两级 stride-2 卷积）")
+            Console.WriteLine("  --beta 为 KL 项权重，取 1 时容易出现后验坍塌（默认 0.2）")
         End Sub
 
     End Class

@@ -185,7 +185,7 @@ Namespace Global.Microsoft.VisualBasic.MachineVision.RasterGenerative
                             Optional epochs As Integer = 80,
                             Optional batchSize As Integer = 32,
                             Optional learningRate As Double = 0.002,
-                            Optional beta As Double = 1.0,
+                            Optional beta As Double = 0.2,
                             Optional verbose As Boolean = False) As RgbGenerativeVae
 
             Dim options As New TrainingOptions With {
@@ -201,14 +201,20 @@ Namespace Global.Microsoft.VisualBasic.MachineVision.RasterGenerative
         End Function
 
         ''' <summary>
-        ''' 训练用的默认超参数：80 轮、批大小 32、学习率 0.002，并带有 KL 退火。
+        ''' 训练用的默认超参数：80 轮、批大小 32、学习率 0.002、KL 权重 0.2。
         ''' </summary>
+        ''' <remarks>
+        ''' 为什么 KL 权重默认取 0.2 而不是 1：<see cref="ConvVAE"/> 的 KL 梯度按潜变量维度
+        ''' 归一化，而重构梯度按像素总数归一化，两者相差几个数量级；beta 取 1 时编码器会在
+        ''' 几十轮内收敛到先验（后验坍塌），解码器只能输出数据集均值图像。弱化 KL 后潜变量
+        ''' 才能保留结构信息，生成样本才有意义。
+        ''' </remarks>
         Public Shared Function CreateDefaultOptions() As TrainingOptions
             Dim options As New TrainingOptions With {
                 .Epochs = 80,
                 .BatchSize = 32,
                 .LearningRate = 0.002,
-                .Beta = 1.0,
+                .Beta = 0.2,
                 .Verbose = False
             }
 
