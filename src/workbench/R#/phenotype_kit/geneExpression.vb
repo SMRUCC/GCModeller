@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9cd2aa8733dacb8a443cdbbae4ba8a7e, R#\phenotype_kit\geneExpression.vb"
+#Region "Microsoft.VisualBasic::9cd2aa8733dacb8a443cdbbae4ba8a7e, R#\phenotype_kit\geneExpression.vb"
 
 ' Author:
 ' 
@@ -1687,6 +1687,82 @@ Module geneExpression
     ''' <remarks>
     ''' apply for the metabolomics data usually
     ''' </remarks>
+    ''' <summary>
+    ''' log2(CPM + prior) normalization of the HTS hits matrix
+    ''' </summary>
+    ''' 
+    ''' <param name="mat">A raw hits count expression matrix object.</param>
+    ''' <param name="scale">The CPM scale factor, default is 1e6.</param>
+    ''' <param name="prior">The pseudo count that added to the CPM value before the log transform, default is 1.</param>
+    ''' <param name="base">The logarithm base, default is 2.</param>
+    ''' 
+    ''' <returns>
+    ''' A new expression matrix object of the log scaled CPM data. This form of data is
+    ''' required by the GSVA kernel density estimation(kcdf = Gaussian) for the RNA-seq
+    ''' count matrix.
+    ''' </returns>
+    ''' 
+    ''' <example>
+    ''' ```r
+    ''' let logcpm = geneExpression::log_cpm(total);
+    ''' let scores = GSVA::gsva(logcpm, background, kcdf = "Gaussian");
+    ''' ```
+    ''' </example>
+    <ExportAPI("log_cpm")>
+    <RApiReturn(GetType(Matrix))>
+    Public Function logCpmNormalize(mat As Matrix,
+                                    Optional scale As Double = 1000000,
+                                    Optional prior As Double = 1,
+                                    Optional base As Double = 2) As Matrix
+
+        If mat Is Nothing Then
+            Return Nothing
+        End If
+
+        Dim n As Integer = mat.sample_count
+        Dim librarySize As Double() = New Double(n - 1) {}
+
+        For Each gene As DataFrameRow In mat.expression
+            For j As Integer = 0 To n - 1
+                librarySize(j) += gene.experiments(j)
+            Next
+        Next
+
+        For j As Integer = 0 To n - 1
+            If librarySize(j) <= 0 Then
+                librarySize(j) = 1
+            End If
+        Next
+
+        Dim rows As DataFrameRow() = New DataFrameRow(mat.size - 1) {}
+
+        For i As Integer = 0 To mat.size - 1
+            Dim source As DataFrameRow = mat.expression(i)
+            Dim values As Double() = New Double(n - 1) {}
+
+            For j As Integer = 0 To n - 1
+                Dim value As Double = source.experiments(j) / librarySize(j) * scale + prior
+
+                If value < prior Then
+                    value = prior
+                End If
+
+                values(j) = std.Log(value, base)
+            Next
+
+            rows(i) = New DataFrameRow With {
+                .geneID = source.geneID,
+                .experiments = values
+            }
+        Next
+
+        Return New Matrix With {
+            .sampleID = mat.sampleID.ToArray,
+            .expression = rows,
+            .tag = $"log{base}(cpm({mat.tag}))"
+        }
+    End Function
+
     <ExportAPI("totalSumNorm")>
     Public Function totalSumNorm(matrix As Matrix, Optional scale As Double = 10000) As Matrix
         Return TPM.Normalize(matrix, scale)

@@ -273,8 +273,8 @@ Module Program
         Public Property Size As Integer = 32
         Public Property LatentDim As Integer = 16
         Public Property Seed As Integer = 2026
-        Public Property LearningRate As Double = 0.002
-        Public Property Beta As Double = 0.2
+        Public Property LearningRate As Double = 0.005
+        Public Property Beta As Double = 0.01
         Public Property SkipTraining As Boolean = False
         Public Property Help As Boolean = False
         Public Property OutputDirectory As String = Path.Combine(AppContext.BaseDirectory, "rastergene-output")

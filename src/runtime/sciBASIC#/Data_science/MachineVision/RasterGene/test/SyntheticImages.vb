@@ -129,10 +129,12 @@ Public Module SyntheticImages
     End Sub
 
     Private Sub DrawCircles(g As Graphics, size As Integer, rng As Random)
-        Dim count As Integer = rng.Next(2, 5)
+        ' 只放 1~2 个大圆：32x32 的图上，小图案是高频细节，卷积 VAE 很难重建，
+        ' 训练后只能看到模糊色块，无法判断"到底学到没有"。
+        Dim count As Integer = rng.Next(1, 3)
 
         For i As Integer = 0 To count - 1
-            Dim radius As Single = CSng(size * (0.14 + rng.NextDouble() * 0.22))
+            Dim radius As Single = CSng(size * (0.22 + rng.NextDouble() * 0.18))
             Dim centerX As Single = CSng(rng.Next(0, size))
             Dim centerY As Single = CSng(rng.Next(0, size))
 
@@ -145,7 +147,7 @@ Public Module SyntheticImages
     End Sub
 
     Private Sub DrawStripes(g As Graphics, size As Integer, rng As Random)
-        Dim bands As Integer = rng.Next(3, 7)
+        Dim bands As Integer = rng.Next(2, 4)
         Dim vertical As Boolean = rng.Next(2) = 0
         Dim width As Single = CSng(size) / bands
 
@@ -165,7 +167,7 @@ Public Module SyntheticImages
     End Sub
 
     Private Sub DrawCheckerboard(g As Graphics, size As Integer, rng As Random)
-        Dim cell As Integer = rng.Next(4, 9)
+        Dim cell As Integer = rng.Next(8, 15)
         Dim first As Color = Vivid(rng)
         Dim second As Color = Vivid(rng)
 
@@ -181,9 +183,9 @@ Public Module SyntheticImages
     End Sub
 
     Private Sub DrawRings(g As Graphics, size As Integer, rng As Random)
-        Dim rings As Integer = rng.Next(3, 6)
+        Dim rings As Integer = rng.Next(2, 4)
         Dim center As Single = CSng(size) / 2.0F
-        Dim outer As Single = CSng(size) * 0.62F
+        Dim outer As Single = CSng(size) * 0.55F
         Dim stepWidth As Single = outer / rings
 
         For i As Integer = 0 To rings - 1
