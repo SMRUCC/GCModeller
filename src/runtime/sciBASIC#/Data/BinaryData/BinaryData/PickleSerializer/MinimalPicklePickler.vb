@@ -750,9 +750,27 @@ Namespace Pickle
         '''   - 使用补码表示负数
         '''   - 如果最高字节的最高位与符号不一致，需要额外的符号字节
         ''' </summary>
+        ''' <summary>
+        ''' 每个线程复用的 8 字节暂存区。
+        ''' </summary>
+        <ThreadStatic>
+        Private Shared _tlsScratch As Byte()
+
+        Private Shared Function ScratchOf8() As Byte()
+            If _tlsScratch Is Nothing OrElse _tlsScratch.Length < 8 Then
+                _tlsScratch = New Byte(7) {}
+            End If
+
+            Return _tlsScratch
+        End Function
+
         Private Shared Function EncodeLong(value As Long) As Byte()
-            ' BitConverter 给出的是 8 字节小端补码，正是 Python LONG1/LONG4 使用的编码
-            Dim buffer As Byte() = BitConverter.GetBytes(value)
+            ' 宿主字节序的 8 字节补码，正是 Python LONG1/LONG4 使用的编码。
+            ' 复用线程静态暂存区，避免每编码一个整数都分配一个 8 字节数组。
+            Dim buffer As Byte() = ScratchOf8()
+
+            Call BitConverter.TryWriteBytes(buffer.AsSpan(0, 8), value)
+
             Dim last As Integer = 7
 
             If value >= 0 Then

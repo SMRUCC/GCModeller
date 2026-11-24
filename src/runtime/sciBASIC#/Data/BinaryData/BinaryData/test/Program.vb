@@ -32,6 +32,7 @@ Module Program
             Call RunSuite("suite:raw-errors", AddressOf SnappyRawTests.Errors)
             Call RunSuite("suite:framed", AddressOf SnappyFramedTests.RoundTripAndChunks)
             Call RunSuite("suite:framed-errors", AddressOf SnappyFramedTests.Errors)
+            Call RunSuite("suite:alloc-bench", AddressOf AllocBench.Run)
         Catch ex As Exception
             Call DebugAudit.Mark("fatal", ex.ToString())
             Call Console.WriteLine(ex.ToString())

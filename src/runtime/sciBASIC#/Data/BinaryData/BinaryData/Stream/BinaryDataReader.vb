@@ -321,7 +321,7 @@ Public Class BinaryDataReader : Inherits BinaryReader
     ''' 该重载不做所有权转移：缓冲区的生命周期由调用方管理。
     ''' 典型用法是从 <see cref="BufferPool.RentBytes"/> 租用缓冲，用完后归还。
     ''' </remarks>
-    Public Function ReadBytes(count As Integer, buffer As Byte(), offset As Integer) As Integer
+    Public Overloads Function ReadBytes(count As Integer, buffer As Byte(), offset As Integer) As Integer
         If buffer Is Nothing Then
             Throw New ArgumentNullException(NameOf(buffer))
         End If

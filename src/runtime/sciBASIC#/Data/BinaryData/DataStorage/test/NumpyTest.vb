@@ -23,6 +23,11 @@ Module NumpyTest
             Return PickleRoundTripTest.Run()
         End If
 
+        ' --pool 进入 ArrayPool 池化改造的 numpy 写出路径回归自测
+        If args IsNot Nothing AndAlso args.Length > 0 AndAlso args(0).StartsWith("--pool", StringComparison.OrdinalIgnoreCase) Then
+            Return ArrayPoolRegressionTest.Run()
+        End If
+
         Dim file As String = If(args IsNot Nothing AndAlso args.Length > 0, args(0), DefaultDataFile)
         Dim workDir As String = Path.Combine(AppContext.BaseDirectory, "numpy-demo")
 

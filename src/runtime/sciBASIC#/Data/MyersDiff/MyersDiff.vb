@@ -59,6 +59,7 @@
 
 #End Region
 
+Imports System.Buffers
 Imports System.Text
 
 ' ============================================================================
@@ -297,77 +298,92 @@ Public Class MyersDiff
             maxD = MaxEditDistance
         End If
 
-        ' V 数组：V(k) 表示对角线 k 上能到达的最远 x 坐标
-        ' 对角线 k 的范围是 [-maxD, maxD]，使用偏移量 maxD 来映射到数组索引
-        Dim V As Integer() = New Integer(2 * maxD) {}
         Dim NEG_INF As Integer = Integer.MinValue
 
-        ' 初始化：在 d = -1 时，对角线 k = 1 上 x = 0
-        ' 这相当于从 (0, -1) 开始，第一步向下走（插入）
-        For i As Integer = 0 To 2 * maxD
-            V(i) = NEG_INF
-        Next
-        V(maxD + 1) = 0  ' V[1] = 0，即对角线 k=1 上 x=0
+        ' V 数组与 trace 快照都从 ArrayPool 租用：
+        ' 旧实现每次 Compare 都会新分配 (D+1) 个长度递增的整数数组，默认上限 D=5000 时
+        ' 累计约 100 MB 的短命分配（单个快照 40 KB，直接进入大对象堆），
+        ' 而池化之后这些数组可以在连续的调用之间复用。
+        Dim pool As ArrayPool(Of Integer) = ArrayPool(Of Integer).Shared
+
+        ' V 数组：V(k) 表示对角线 k 上能到达的最远 x 坐标
+        ' 对角线 k 的范围是 [-maxD, maxD]，使用偏移量 maxD 来映射到数组索引
+        Dim V As Integer() = pool.Rent(2 * maxD + 1)
 
         ' trace 数组：记录每一轮开始前（即上一轮结束后）的 V 状态，用于回溯。
         ' 第 d 轮只需要 k ∈ [-d, d] 的窗口，所以快照长度取 2d+1（偏移量 d），
         ' 相比保存完整的 2*maxD+1 可节省大量内存。
         Dim trace As New List(Of Integer())()
-
         Dim found As Boolean = False
 
-        ' 外层循环：编辑距离 d 从 0 递增
-        For d As Integer = 0 To maxD
-            Dim snapshot As Integer() = New Integer(2 * d) {}
+        Try
+            ' 初始化：在 d = -1 时，对角线 k = 1 上 x = 0
+            ' 这相当于从 (0, -1) 开始，第一步向下走（插入）
+            ' 注意：ArrayPool 不清零返还的数组，因此这里必须显式填充
+            For i As Integer = 0 To 2 * maxD
+                V(i) = NEG_INF
+            Next
+            V(maxD + 1) = 0  ' V[1] = 0，即对角线 k=1 上 x=0
 
-            For k As Integer = -d To d
-                snapshot(k + d) = V(k + maxD)
+            ' 外层循环：编辑距离 d 从 0 递增
+            For d As Integer = 0 To maxD
+                Dim snapshot As Integer() = pool.Rent(2 * d + 1)
+
+                For k As Integer = -d To d
+                    snapshot(k + d) = V(k + maxD)
+                Next
+
+                trace.Add(snapshot)
+
+                ' 内层循环：对角线 k 从 -d 到 d，步长 2
+                For k As Integer = -d To d Step 2
+                    ' 确定是向下走（插入）还是向右走（删除）
+                    Dim x As Integer
+                    Dim kIdx As Integer = k + maxD
+
+                    If k = -d OrElse (k <> d AndAlso V(kIdx - 1) < V(kIdx + 1)) Then
+                        ' 向下走：从对角线 k+1 的最远点向下移动（插入操作）
+                        x = V(kIdx + 1)
+                    Else
+                        ' 向右走：从对角线 k-1 的最远点向右移动（删除操作）
+                        x = V(kIdx - 1) + 1
+                    End If
+
+                    Dim y As Integer = x - k
+
+                    ' 沿对角线前进（跳过相同元素）
+                    While x < N AndAlso y < M AndAlso String.Equals(oldSeq(x), newSeq(y), StringComparison.Ordinal)
+                        x += 1
+                        y += 1
+                    End While
+
+                    ' 更新对角线 k 上的最远 x 坐标
+                    V(kIdx) = x
+
+                    ' 检查是否到达终点 (N, M)
+                    If x >= N AndAlso y >= M Then
+                        found = True
+                        Exit For
+                    End If
+                Next
+
+                If found Then Exit For
             Next
 
-            trace.Add(snapshot)
+            If Not found Then
+                ' 编辑距离超过上界，交由调用方做降级处理
+                Return Nothing
+            End If
 
-            ' 内层循环：对角线 k 从 -d 到 d，步长 2
-            For k As Integer = -d To d Step 2
-                ' 确定是向下走（插入）还是向右走（删除）
-                Dim x As Integer
-                Dim kIdx As Integer = k + maxD
-
-                If k = -d OrElse (k <> d AndAlso V(kIdx - 1) < V(kIdx + 1)) Then
-                    ' 向下走：从对角线 k+1 的最远点向下移动（插入操作）
-                    x = V(kIdx + 1)
-                Else
-                    ' 向右走：从对角线 k-1 的最远点向右移动（删除操作）
-                    x = V(kIdx - 1) + 1
-                End If
-
-                Dim y As Integer = x - k
-
-                ' 沿对角线前进（跳过相同元素）
-                While x < N AndAlso y < M AndAlso String.Equals(oldSeq(x), newSeq(y), StringComparison.Ordinal)
-                    x += 1
-                    y += 1
-                End While
-
-                ' 更新对角线 k 上的最远 x 坐标
-                V(kIdx) = x
-
-                ' 检查是否到达终点 (N, M)
-                If x >= N AndAlso y >= M Then
-                    found = True
-                    Exit For
-                End If
+            ' 回溯编辑路径（回溯期间仍然需要完整的 trace 快照）
+            Return Backtrack(trace, oldSeq, newSeq)
+        Finally
+            For Each snapshot As Integer() In trace
+                pool.Return(snapshot)
             Next
 
-            If found Then Exit For
-        Next
-
-        If Not found Then
-            ' 编辑距离超过上界，交由调用方做降级处理
-            Return Nothing
-        End If
-
-        ' 回溯编辑路径
-        Return Backtrack(trace, oldSeq, newSeq)
+            pool.Return(V)
+        End Try
     End Function
 
     ' ================================================================
@@ -392,6 +408,10 @@ Public Class MyersDiff
 
         Dim x As Integer = N
         Dim y As Integer = M
+
+        ' 注意：trace 中的快照是从 ArrayPool 租用的数组，其长度可能大于 2d+1。
+        ' 下面的下标访问已经由 `k = -d` 与 `k <> d` 的短路判断限制在 [0, 2d] 区间内，
+        ' 因此不依赖数组的实际长度。
 
         ' 从最后一个 trace 开始逆向回溯
         For d As Integer = trace.Count - 1 To 1 Step -1
