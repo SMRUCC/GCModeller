@@ -182,7 +182,13 @@ Public Module OnnxRoundTripAudit
         Dim evaluator As New OnnxGraphEvaluator(onnxModel)
         Dim nchw As OnnxTensor = ToOnnxNchw(images)
 
-        Console.WriteLine($"  probe reshape: [{String.Join(", ", OnnxTensor.Zeros(count, 1024).Reshape({0, 8, 8, 16}).Dims)}]")
+        Console.WriteLine($"  probe assembly: {GetType(OnnxTensor).Assembly.Location} ({GetType(OnnxTensor).Assembly.GetName().Version})")
+
+        Try
+            Console.WriteLine($"  probe resolvedims: [{String.Join(", ", OnnxTensor.ResolveDims({32, 1024}, 32768, {0, 8, 8, 16}))}]")
+        Catch ex As Exception
+            Console.WriteLine($"  probe resolvedims 失败: {ex.Message}")
+        End Try
 
         ' ---- 1) 编码器 + 生成器端到端：图像 → mu → 图像 ----
         Dim zeros As OnnxTensor = OnnxTensor.Zeros(count, model.LatentDim)
