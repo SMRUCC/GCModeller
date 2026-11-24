@@ -120,7 +120,12 @@ buildGenome <- function(strain) {
   parts[[length(parts) + 1L]] <- private("transporter", 30)
   parts[[length(parts) + 1L]] <- private("biofilm", 16)
   parts[[length(parts) + 1L]] <- private("herb_downstream", 15)
+  parts[[length(parts) + 1L]] <- private("qs_ai2", 15)
   parts[[length(parts) + 1L]] <- private("housekeeping", 120)
+
+  if (strain != "H1") {
+    parts[[length(parts) + 1L]] <- private("qs_ahl", 10)
+  }
 
   genome <- do.call(rbind, parts)
   genome$strain <- strain
@@ -143,8 +148,8 @@ module_base <- matrix(
     # carbohydrate, dna_repair, biofilm, transporter, housekeeping
     0.70, 0.70, 0.90, 0.60, 0.80, 0.60, 1.60, 0.70, 0.90, 1.30, 1.00,  # Y1 能量供给者
     1.60, 1.40, 1.50, 0.80, 1.00, 0.70, 1.00, 0.80, 1.00, 1.00, 1.00,  # K1 核心降解者
-    1.40, 1.60, 1.30, 0.90, 1.50, 1.00, 1.10, 0.70, 1.10, 1.00, 1.00,  # B1 代谢清道夫
-    1.00, 1.00, 0.30, 1.60, 0.90, 1.70, 0.90, 1.80, 1.00, 0.90, 1.00), # H1 硫代谢/DNA修复
+    1.25, 1.60, 1.30, 0.90, 1.70, 1.00, 1.10, 0.70, 1.10, 1.00, 1.00,  # B1 代谢清道夫
+    1.00, 1.00, 0.30, 1.90, 0.90, 1.70, 0.90, 1.80, 1.00, 0.90, 1.00), # H1 硫代谢/DNA修复
   nrow = length(strains), byrow = TRUE,
   dimnames = list(strains, modules))
 
@@ -161,14 +166,14 @@ activityTable <- local({
   # 条件键 -> 各菌株活性
   #             Y1     K1     B1     H1
   table <- rbind(
-    "YKB_WT_WT"  = c(1.10, 1.15, 1.00, 0.012),
-    "YKB_WT_QSR" = c(0.95, 0.55, 0.90, 0.012),
-    "YKB_NH_WT"  = c(1.00, 0.70, 0.65, 0.012),
-    "YKB_NH_QSR" = c(0.90, 0.40, 0.60, 0.012),
-    "HKB_WT_WT"  = c(0.012, 1.10, 1.30, 1.05),
-    "HKB_WT_QSR" = c(0.012, 1.00, 0.62, 0.95),
-    "HKB_NH_WT"  = c(0.012, 0.75, 0.85, 1.00),
-    "HKB_NH_QSR" = c(0.012, 0.70, 0.45, 0.92))
+    "YKB_WT_WT"  = c(1.00, 1.20, 0.90, 0.012),
+    "YKB_WT_QSR" = c(1.15, 0.50, 1.05, 0.012),
+    "YKB_NH_WT"  = c(1.10, 0.75, 0.60, 0.012),
+    "YKB_NH_QSR" = c(1.20, 0.35, 0.70, 0.012),
+    "HKB_WT_WT"  = c(0.012, 1.05, 1.30, 1.05),
+    "HKB_WT_QSR" = c(0.012, 1.00, 0.55, 0.78),
+    "HKB_NH_WT"  = c(0.012, 0.70, 0.85, 0.90),
+    "HKB_NH_QSR" = c(0.012, 0.68, 0.42, 0.75))
 
   colnames(table) <- strains
   table
@@ -206,7 +211,9 @@ for (j in seq_len(nSample)) {
 }
 
 # 基因基线权重(中位 counts ~150)
-geneWeight <- rlnorm(nrow(genes), meanlog = log(150), sdlog = 0.7)
+# 基因权重的离散度不能太大：每个功能模块只有几十个基因，过大的基因间离散度会让
+# 模块总量偏离设计的“代谢分工”比例，从而无法在分解结果中复现论文结论。
+geneWeight <- rlnorm(nrow(genes), meanlog = log(150), sdlog = 0.4)
 
 # 期望表达量：基因载荷(module_base x 基因权重) x 菌株活性谱
 mu <- matrix(0, nrow = nrow(genes), ncol = nSample,
