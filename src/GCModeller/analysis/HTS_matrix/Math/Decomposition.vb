@@ -1687,9 +1687,9 @@ Public Class Decomposition
             For i As Integer = 0 To totalGenes.Length - 1
                 Dim gene As String = totalGenes(i)
 
-                If Not String.Equals(community.GetStrainOf(gene), strain, StringComparison.Ordinal) Then
-                    Continue For
-                End If
+                'If Not String.Equals(community.GetStrainOf(gene), strain, StringComparison.Ordinal) Then
+                '    Continue For
+                'End If
 
                 Dim r As Integer
 
