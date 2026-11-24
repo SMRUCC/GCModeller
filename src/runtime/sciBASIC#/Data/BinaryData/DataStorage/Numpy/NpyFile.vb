@@ -121,13 +121,38 @@ Namespace Numpy
             Dim header As NpyHeader = NpyHeader.Create(array.DType, array.Shape, array.FortranOrder)
             Dim preamble As Byte() = header.ToPreamble()
             Dim data As Byte() = If(array.RawData, New Byte() {})
+            Dim dataLength As Integer = If(data Is Nothing, 0, data.Length)
+            Dim logical As Long = LogicalDataLength(array)
+
+            ' 数据区缓冲可能来自 ArrayPool（长度大于逻辑长度），此时只能写出头部声明的长度，
+            ' 否则会把池中残留的字节一并写入文件。
+            If logical > 0 AndAlso logical < dataLength Then
+                dataLength = CInt(logical)
+            End If
 
             Call stream.Write(preamble, 0, preamble.Length)
 
-            If data.Length > 0 Then
-                Call stream.Write(data, 0, data.Length)
+            If dataLength > 0 Then
+                Call stream.Write(data, 0, dataLength)
             End If
         End Sub
+
+        ''' <summary>
+        ''' 根据 shape 与 dtype 计算数据区的逻辑字节数；数组没有 shape 时返回 0（表示无法推断）。
+        ''' </summary>
+        Private Function LogicalDataLength(array As NpyArray) As Long
+            If array.Shape Is Nothing OrElse array.Shape.Length = 0 Then
+                Return 0
+            End If
+
+            Dim total As Long = array.DType.ItemSize
+
+            For Each axis As Integer In array.Shape
+                total *= axis
+            Next
+
+            Return total
+        End Function
 
         ''' <summary>
         ''' 写出 <see cref="Double"/> 数组（dtype <c>&lt;f8</c>）。
@@ -252,7 +277,7 @@ Namespace Numpy
         ''' 按小端序、C 序的原始字节写出数组（字符串类型等自定义宽度的元素也走这个入口）。
         ''' </summary>
         Private Sub SaveBuffer(path As String, raw As Byte(), dtype As NpyDType, shape As Integer(), fortranOrder As Boolean, itemSize As Integer, elementCount As Integer)
-            Call SaveCore(path, raw, If(raw Is Nothing, 0, raw.Length), dtype, shape, fortranOrder, itemSize, elementCount)
+            Call SaveCore(path, raw, If(raw Is Nothing, 0, raw.Length), dtype, shape, fortranOrder, itemSize, elementCount, ownBuffer:=False)
         End Sub
 
         ''' <summary>
@@ -262,42 +287,69 @@ Namespace Numpy
         Private Sub SaveRentedBuffer(path As String, raw As Byte(), rawLength As Integer,
                                      dtype As NpyDType, shape As Integer(), fortranOrder As Boolean,
                                      itemSize As Integer, elementCount As Integer)
+            Call SaveCore(path, raw, rawLength, dtype, shape, fortranOrder, itemSize, elementCount, ownBuffer:=True)
+        End Sub
+
+        ''' <param name="ownBuffer">
+        ''' <c>True</c> 表示 <paramref name="raw"/> 是从池中租用的，函数返回时必须归还；
+        ''' <c>False</c> 表示缓冲由调用方持有（例如 <see cref="Write(String, Byte(), Integer(), Boolean)"/> 的用户数组）。
+        ''' </param>
+        Private Sub SaveCore(path As String, raw As Byte(), rawLength As Integer,
+                             dtype As NpyDType, shape As Integer(), fortranOrder As Boolean,
+                             itemSize As Integer, elementCount As Integer, ownBuffer As Boolean)
             Try
-                Call SaveCore(path, raw, rawLength, dtype, shape, fortranOrder, itemSize, elementCount)
+                If raw Is Nothing Then
+                    Throw New ArgumentNullException(NameOf(raw))
+                End If
+                If elementCount <= 0 Then
+                    Throw New ArgumentException("can not write an empty numpy array: at least one element is required!")
+                End If
+                If rawLength <> elementCount * itemSize Then
+                    Throw New ArgumentException($"numpy array buffer size mismatch: {rawLength} bytes for {elementCount} elements of {itemSize} bytes!")
+                End If
+
+                Dim resolved As Integer() = ResolveShape(shape, elementCount)
+                Dim payload As Byte() = raw
+                Dim payloadLength As Integer = rawLength
+
+                If fortranOrder AndAlso resolved.Length > 1 Then
+                    ' ReorderToFortran 依赖精确长度的输入缓冲，因此只在 Fortran 序（少见的显式选项）下复制一份
+                    Dim exact As Byte() = New Byte(rawLength - 1) {}
+
+                    Call System.Buffer.BlockCopy(raw, 0, exact, 0, rawLength)
+
+                    payload = NpyArray.ReorderToFortran(exact, elementCount, itemSize, resolved)
+                    payloadLength = payload.Length
+                End If
+
+                Call WritePayload(path, payload, payloadLength, dtype, resolved, fortranOrder)
             Finally
-                BufferPool.ReturnBytes(raw)
+                If ownBuffer Then
+                    BufferPool.ReturnBytes(raw)
+                End If
             End Try
         End Sub
 
-        Private Sub SaveCore(path As String, raw As Byte(), rawLength As Integer,
-                             dtype As NpyDType, shape As Integer(), fortranOrder As Boolean,
-                             itemSize As Integer, elementCount As Integer)
-            If raw Is Nothing Then
-                Throw New ArgumentNullException(NameOf(raw))
-            End If
-            If elementCount <= 0 Then
-                Throw New ArgumentException("can not write an empty numpy array: at least one element is required!")
-            End If
-            If rawLength <> elementCount * itemSize Then
-                Throw New ArgumentException($"numpy array buffer size mismatch: {rawLength} bytes for {elementCount} elements of {itemSize} bytes!")
-            End If
+        ''' <summary>
+        ''' 写出 npy 文件。
+        ''' </summary>
+        ''' <param name="payload">数据区缓冲。</param>
+        ''' <param name="payloadLength">
+        ''' 数据区的<b>逻辑</b>字节数。池化缓冲的实际长度可能大于该值，
+        ''' 因此这里绝不使用 <c>payload.Length</c> 界定数据边界。
+        ''' </param>
+        Private Sub WritePayload(path As String, payload As Byte(), payloadLength As Integer,
+                                 dtype As NpyDType, shape As Integer(), fortranOrder As Boolean)
+            Dim header As NpyHeader = NpyHeader.Create(dtype, shape, fortranOrder)
+            Dim preamble As Byte() = header.ToPreamble()
 
-            Dim resolved As Integer() = ResolveShape(shape, elementCount)
+            Using stream As Stream = New FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None)
+                Call stream.Write(preamble, 0, preamble.Length)
 
-            If fortranOrder AndAlso resolved.Length > 1 Then
-                ' ReorderToFortran 依赖精确长度的输入缓冲，因此只在 Fortran 序（少见的显式选项）下复制一份
-                Dim exact As Byte() = New Byte(rawLength - 1) {}
-
-                Call System.Buffer.BlockCopy(raw, 0, exact, 0, rawLength)
-                raw = NpyArray.ReorderToFortran(exact, elementCount, itemSize, resolved)
-            End If
-
-            Call Save(path, New NpyArray With {
-                .DType = dtype,
-                .Shape = resolved,
-                .FortranOrder = fortranOrder,
-                .RawData = raw
-            })
+                If payloadLength > 0 Then
+                    Call stream.Write(payload, 0, payloadLength)
+                End If
+            End Using
         End Sub
 
         Private Function ResolveShape(shape As Integer(), size As Integer) As Integer()

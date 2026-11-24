@@ -60,6 +60,26 @@ Module ArrayPoolRegressionTest
 
         Call DebugAudit.AreEqual(expected.Length, raw.Length, "f8：数据区长度")
         Call DebugAudit.Check(BytesEqual(expected, raw), "f8：数据区逐字节一致")
+
+        ' 文件总长度必须恰好等于「头部 + 逻辑数据长度」，
+        ' 否则说明池化缓冲的尾部残留被写进了文件
+        Call AssertFileLength(file, expected.Length, "f8")
+    End Sub
+
+    ''' <summary>
+    ''' 断言 npy 文件的总长度等于「头部长度 + 逻辑数据区长度」。
+    ''' </summary>
+    Private Sub AssertFileLength(file As String, payloadLength As Integer, tag As String)
+        Dim bytes As Byte() = IO.File.ReadAllBytes(file)
+        Dim dataOffset As Integer
+
+        If bytes(6) = 1 Then
+            dataOffset = 10 + (bytes(8) Or (bytes(9) << 8))
+        Else
+            dataOffset = 12 + BitConverter.ToInt32(bytes, 8)
+        End If
+
+        Call DebugAudit.AreEqual(dataOffset + payloadLength, bytes.Length, $"{tag}：文件总长度（头部 + 数据区）")
     End Sub
 
     ''' <summary>|b1 数组的往返一致性（池化缓冲必须被显式清零后再写入）。</summary>
@@ -77,6 +97,8 @@ Module ArrayPoolRegressionTest
         For i As Integer = 0 To values.Length - 1
             Call DebugAudit.AreEqual(If(values(i), CByte(1), CByte(0)), raw(i), $"b1：第 {i} 个元素")
         Next
+
+        Call AssertFileLength(file, values.Length, "b1")
     End Sub
 
     ''' <summary>&lt;U[n] 字符串数组的往返一致性（尾部必须是零填充）。</summary>
@@ -100,6 +122,8 @@ Module ArrayPoolRegressionTest
 
         Call DebugAudit.AreEqual(expected.Length, raw.Length, "U3：数据区长度")
         Call DebugAudit.Check(BytesEqual(expected, raw), "U3：数据区逐字节一致（含零填充）")
+
+        Call AssertFileLength(file, expected.Length, "U3")
     End Sub
 
     ''' <summary>按 numpy &lt;U 的定长 UTF-32 规则编码一个字符串。</summary>

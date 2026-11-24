@@ -185,8 +185,10 @@ Public Module BufferPool
                 If length = rented.Length Then
                     Dim nextSize As Long = CLng(rented.Length) * 2L
 
-                    If nextSize > MaxLargeArrayLength Then
-                        Throw New InvalidOperationException($"读取的数据量超过了单个缓冲的上限 {MaxLargeArrayLength} 字节。")
+                    ' 超过 64 MiB 之后大块池仍然会分配（只是在归还时被丢弃，池化失效），
+                    ' 因此这里不设置人为上限，只防御数组长度本身的整数上限。
+                    If nextSize > Integer.MaxValue Then
+                        Throw New InvalidOperationException($"读取的数据量超过了单个数组的上限（{Integer.MaxValue} 字节）。")
                     End If
 
                     Dim larger As Byte() = RentBytes(CInt(nextSize))
@@ -209,10 +211,21 @@ Public Module BufferPool
             Throw
         End Try
 
-        Dim result As Byte() = New Byte(length - 1) {}
+        If length = 0 Then
+            Call ReturnBytes(rented)
 
-        Call Buffer.BlockCopy(rented, 0, result, 0, length)
-        Call ReturnBytes(rented)
+            Return New Byte() {}
+        End If
+
+        Dim result As Byte() = Nothing
+
+        Try
+            result = New Byte(length - 1) {}
+            Call Buffer.BlockCopy(rented, 0, result, 0, length)
+        Finally
+            ' 结果缓冲的分配或复制即使失败也必须归还租用的数组
+            Call ReturnBytes(rented)
+        End Try
 
         Return result
     End Function

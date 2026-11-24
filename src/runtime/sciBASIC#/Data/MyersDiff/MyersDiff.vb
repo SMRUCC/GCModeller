@@ -307,8 +307,10 @@ Public Class MyersDiff
         Dim pool As ArrayPool(Of Integer) = ArrayPool(Of Integer).Shared
 
         ' V 数组：V(k) 表示对角线 k 上能到达的最远 x 坐标
-        ' 对角线 k 的范围是 [-maxD, maxD]，使用偏移量 maxD 来映射到数组索引
-        Dim V As Integer() = pool.Rent(2 * maxD + 1)
+        ' 对角线 k 的范围是 [-maxD, maxD]，使用偏移量 maxD 来映射到数组索引。
+        ' 下界的 3 用于保证 maxD = 0（两侧序列都为空）时 V(maxD + 1) 仍然落在逻辑长度之内，
+        ' 即不依赖 ArrayPool 返回的实际数组长度。
+        Dim V As Integer() = pool.Rent(System.Math.Max(3, 2 * maxD + 1))
 
         ' trace 数组：记录每一轮开始前（即上一轮结束后）的 V 状态，用于回溯。
         ' 第 d 轮只需要 k ∈ [-d, d] 的窗口，所以快照长度取 2d+1（偏移量 d），
@@ -329,11 +331,12 @@ Public Class MyersDiff
             For d As Integer = 0 To maxD
                 Dim snapshot As Integer() = pool.Rent(2 * d + 1)
 
+                ' 先登记再填充：填充过程中即使抛异常，Finally 里的遍历也能归还该数组
+                trace.Add(snapshot)
+
                 For k As Integer = -d To d
                     snapshot(k + d) = V(k + maxD)
                 Next
-
-                trace.Add(snapshot)
 
                 ' 内层循环：对角线 k 从 -d 到 d，步长 2
                 For k As Integer = -d To d Step 2

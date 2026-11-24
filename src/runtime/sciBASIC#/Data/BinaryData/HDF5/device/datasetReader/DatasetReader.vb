@@ -201,7 +201,7 @@ Namespace device
         ''' <remarks>
         ''' 旧实现使用 <c>buffer.Split(width).Select(...)</c>，会为每一个元素分配一个 Byte()
         ''' 并在元素上直接 <see cref="Array.Reverse(Array)"/>；对于百万元素级别的 dataset，
-        ''' 这意味着百万次小数组分配。这里改为复用单个 <paramref name="scratch"/> 缓冲，
+        ''' 这意味着百万次小数组分配。这里改为复用单个局部暂存缓冲，
         ''' 分配次数从 O(n) 降为 O(1)。
         ''' </remarks>
         <Extension>

@@ -295,13 +295,29 @@ Namespace Encodings
         ''' 否则会溢出成负数导致解码结果错误。
         ''' </remarks>
         Public Function UnpackValue(buffer As Byte(), bitOffset As Integer, bitWidth As Integer) As Long
+            Return UnpackValue(buffer, If(buffer Is Nothing, 0, buffer.Length), bitOffset, bitWidth)
+        End Function
+
+        ''' <summary>
+        ''' 从 bit-packed 缓冲区中解出指定偏移处的无符号数值，并显式指定缓冲区的<b>有效</b>长度。
+        ''' </summary>
+        ''' <param name="buffer">位打包数据。</param>
+        ''' <param name="bufferLength">有效字节数；超过该长度的内容不应被读取。</param>
+        ''' <param name="bitOffset">起始位偏移。</param>
+        ''' <param name="bitWidth">每个数值的位宽。</param>
+        ''' <remarks>
+        ''' 池化缓冲的实际长度可能大于有效数据长度，此时必须使用 <paramref name="bufferLength"/>
+        ''' 界定读取边界，否则会读到上一次使用者留下的字节而产生错误的解码结果。
+        ''' </remarks>
+        Public Function UnpackValue(buffer As Byte(), bufferLength As Integer,
+                                    bitOffset As Integer, bitWidth As Integer) As Long
             Dim value As Long = 0L
 
             For b As Integer = 0 To bitWidth - 1
                 Dim position As Integer = bitOffset + b
                 Dim index As Integer = position >> 3
 
-                If index >= buffer.Length Then
+                If index >= bufferLength Then
                     Exit For
                 End If
 

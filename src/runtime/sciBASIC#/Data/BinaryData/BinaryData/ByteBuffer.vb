@@ -106,10 +106,17 @@ Public Class ByteBuffer : Inherits DataView
 
     Protected Overrides Sub Finalize()
         Try
-            reader.Close()
-            writer.Close()
-            stream.Close()
-            stream.Dispose()
+            ' reader / writer 只在流可读 / 可写时创建，终结器中的未捕获异常会直接终止进程，
+            ' 因此这里必须逐个判空。
+            If reader IsNot Nothing Then
+                Call reader.Close()
+            End If
+            If writer IsNot Nothing Then
+                Call writer.Close()
+            End If
+            If stream IsNot Nothing Then
+                Call stream.Dispose()
+            End If
         Finally
             MyBase.Finalize()
         End Try

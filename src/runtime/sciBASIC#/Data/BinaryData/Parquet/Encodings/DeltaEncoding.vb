@@ -90,7 +90,8 @@ Namespace Encodings
                             Call reader.ReadBytes(bytes, buffer, 0)
 
                             For k As Integer = 0 To countInMiniBlock - 1
-                                Dim delta As Long = BitPacking.UnpackValue(buffer, k * width, width)
+                                ' 显式传入有效字节数：池化缓冲的长度可能大于 bytes
+                                Dim delta As Long = BitPacking.UnpackValue(buffer, bytes, k * width, width)
 
                                 previous = previous + minDelta + delta
                                 result(index) = previous
