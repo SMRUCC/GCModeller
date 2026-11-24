@@ -4,7 +4,15 @@
     <RootNamespace>SMRUCC.genomics.Analysis.VAGene</RootNamespace>
     <TargetFramework>net10.0</TargetFramework>
     <AssemblyName>SMRUCC.genomics.Analysis.VAGene</AssemblyName>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
+
+  <ItemGroup>
+    <!-- 测试工程是独立项目，不能把它的源码与 obj 生成文件编入库项目 -->
+    <Compile Remove="test\**" />
+    <EmbeddedResource Remove="test\**" />
+    <None Remove="test\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\DataMining\DataMining\DataMining.NET5.vbproj" />

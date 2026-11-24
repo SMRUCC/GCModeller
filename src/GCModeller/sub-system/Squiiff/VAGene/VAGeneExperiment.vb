@@ -386,9 +386,11 @@ Public Class VAGeneExperiment
             fold(i) = mutantValues(i) - controlValues(i)
 
             If std.Abs(controlValues(i)) > 1.0E-10 Then
-                percent(i) = fold(i) / std.Abs(controlValues(i)) * 100.0R
+                percent(i) = fold(i) / std.Abs(controlValues(i)) * 100.0
             End If
 
+            ' 与 Squiiff 的约定一致：ZScores 目前存放计数空间的绝对变化量（delta），
+            ' 而不是除以标准差的标准化 z 分数。
             z(i) = fold(i)
             significant(i) = std.Abs(fold(i)) > 1.0E-09
         Next

@@ -57,5 +57,10 @@
   <Project Path="test/test.vbproj" Id="e26b690b-6027-431e-bd41-e4a90c3b4b17">
     <Platform Solution="*|x64" Project="x64" />
   </Project>
-  <Project Path="VAGene/VAGene.vbproj" Id="2772b2cd-868c-4361-b9ec-81e79c2ecd35" />
+  <Project Path="VAGene/VAGene.vbproj" Id="2772b2cd-868c-4361-b9ec-81e79c2ecd35">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
+  <Project Path="VAGene/test/test.vbproj" Id="b3f1c2d4-5e6f-4a7b-8c9d-0e1f2a3b4c5d">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
 </Solution>

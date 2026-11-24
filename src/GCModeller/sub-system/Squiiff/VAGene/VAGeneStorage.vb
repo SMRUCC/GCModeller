@@ -4,7 +4,6 @@ Imports System.IO.Compression
 Imports System.Linq
 Imports System.Text
 Imports SMRUCC.genomics.BioSystem
-Imports SMRUCC.genomics.BioSystem.Intervention
 
 ''' <summary>门面存档解析结果。</summary>
 Friend Class VAGeneArchive
@@ -120,6 +119,13 @@ Public Module VAGeneStorage
             Dim geneCount As Integer = parseInt(manifest, "geneCount", genes.Length)
             Dim conditionCount As Integer = parseInt(manifest, "conditionCount", conditions.Length)
             Dim latentDim As Integer = parseInt(manifest, "latentDim", 16)
+
+            If geneCount <> genes.Length Then
+                Throw New InvalidDataException($"存档基因数 {geneCount} 与基因名清单长度 {genes.Length} 不一致")
+            End If
+            If conditionCount <> conditions.Length Then
+                Throw New InvalidDataException($"存档条件数 {conditionCount} 与条件名清单长度 {conditions.Length} 不一致")
+            End If
             Dim hiddenDim As Integer = parseInt(manifest, "hiddenDim", 64)
             Dim controlCondition As Integer = parseInt(manifest, "controlCondition", 0)
             Dim mode As ContextAlignmentMode = parseMode(manifestValue(manifest, "alignmentMode", Nothing))

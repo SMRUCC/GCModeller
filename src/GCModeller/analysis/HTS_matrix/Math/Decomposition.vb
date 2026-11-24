@@ -86,6 +86,18 @@ Public Class DecompositionOptions
     Public Property RedistributeHomologs As Boolean = True
 
     ''' <summary>
+    ''' 同源基因家族内部的 reads 交叉分配比例 <c>0 &lt;= r &lt; 1</c>，用于反解并集定量中的混合信号
+    ''' </summary>
+    ''' <remarks>
+    ''' 并集定量时，一个基因家族内的 reads 会按同源相似度在成员之间交叉分配，单行的观测值
+    ''' 是家族内各成员真实表达量的混合。对（近似）对称的混合模型
+    ''' <c>y = (1-r)x + r/(m-1)*(sum(x)-x)</c> 存在闭式反解
+    ''' <c>x = mean(y) + (y - mean(y))/(1-r)</c>，其中 <c>mean(y)</c> 为家族内成员在同一
+    ''' 样本上的均值。默认 <c>0.25</c>，一般可按同源基因的平均核酸相似度(ANI)来设定。
+    ''' </remarks>
+    Public Property CrossMapRate As Double = 0.25
+
+    ''' <summary>
     ''' 是否在单菌株矩阵中补齐 “基因组内存在、但总矩阵中没有测量行” 的零表达基因(默认 False)
     ''' </summary>
     Public Property IncludeSilentGenes As Boolean = False
@@ -497,11 +509,10 @@ End Class
 ''' 通过活性谱扩散到整株基因；而 <c>w_g</c> 仍然对该菌株的全部基因行做投影。
 ''' </item>
 ''' <item>
-''' <b>同源归并层</b>：同一个基因家族内的成员行是 “各菌株信号的非负线性组合”，
-''' 因为活性谱之间不正交，这里用坐标下降做联合非负最小二乘
-''' (<c>min ||y_g - sum_s w_g^s h_s||^2, w &gt;= 0</c>) 求出归属，
-''' 再把 <c>sum_{g in C} w_g^s h_s</c> 汇总回本菌株自己的拷贝行。
-''' 由于 <c>sum_s sum_{g in C} w_g^s h_s = sum_{g in C} y_g</c>，家族层面的总质量严格守恒，
+''' <b>同源归并层</b>：同一个基因家族内的成员行是 “家族内各成员真实表达量的混合”，
+''' 对对称混合模型 <c>y = (1-r)x + r/(m-1)*(sum(x)-x)</c> 存在与活性谱形状无关的
+''' 闭式反解 <c>x = mean(y) + (y - mean(y))/(1-r)</c>；
+''' 它天然满足 <c>sum(x) = sum(y)</c>，家族层面的总质量严格守恒，
 ''' 既不丢失信号也不会跨菌株重复计数。
 ''' </item>
 ''' </list>
@@ -739,6 +750,221 @@ Public Class Decomposition
                                              families As UnionFind,
                                              Optional opt As DecompositionOptions = Nothing) As Dictionary(Of String, Matrix)
         Return Decompose(total, genomes, families, opt).strains
+    End Function
+
+    ''' <summary>
+    ''' 按实验分组(例如不同的合成菌群/不同的培养语境)分别分解，再把各组的样本列拼接回同一个矩阵
+    ''' </summary>
+    ''' <param name="total">以 “多菌株基因并集” 为行、样本为列的总 hits 表达矩阵</param>
+    ''' <param name="genomes">菌株基因组ID -> 该基因组中的全部基因ID</param>
+    ''' <param name="families">基因并集与跨基因组同源关系</param>
+    ''' <param name="groups">样本分组标签，长度必须等于 <paramref name="total"/> 的样本数</param>
+    ''' <param name="opt">分解参数</param>
+    ''' <returns>菌株基因组ID -> 该菌株自己的基因表达矩阵(列序与原矩阵一致)</returns>
+    ''' <remarks>
+    ''' <para>
+    ''' 同一个菌株在不同群落语境下的功能程序可能发生切换(代谢分工的可塑性)，此时
+    ''' “每个菌株一个秩1因子” 的假设只在单个语境的样本内部成立。按分组分别分解、
+    ''' 再按列拼接，可以让每个语境各自拥有一套菌株活性谱与基因载荷，
+    ''' 从而避免跨语境的折中解把两个方向相反的分工结论互相抵消。
+    ''' </para>
+    ''' <para>
+    ''' 分组样本数少于菌株数时，该组会自动降级为 <c>split</c> 切分(见 <see cref="Decompose"/> 的降级路径)，
+    ''' 并在告警中说明。分组标签为空时退化为对整体矩阵的一次分解。
+    ''' </para>
+    ''' </remarks>
+    Public Shared Function DecomposeByGroups(total As Matrix,
+                                             genomes As Dictionary(Of String, String()),
+                                             families As UnionFind,
+                                             groups As String(),
+                                             Optional opt As DecompositionOptions = Nothing) As CommunityDecomposition
+
+        If total Is Nothing Then
+            Throw New ArgumentNullException(NameOf(total))
+        End If
+        If groups Is Nothing OrElse groups.Length <> total.sample_count Then
+            Return Decompose(total, genomes, families, opt)
+        End If
+
+        Dim order As New Dictionary(Of String, List(Of Integer))(StringComparer.Ordinal)
+
+        For j As Integer = 0 To groups.Length - 1
+            Dim key As String = If(groups(j), "")
+
+            If Not order.ContainsKey(key) Then
+                order(key) = New List(Of Integer)
+            End If
+
+            Call order(key).Add(j)
+        Next
+
+        If order.Count < 2 Then
+            Return Decompose(total, genomes, families, opt)
+        End If
+
+        Dim result As New CommunityDecomposition With {
+            .strains = New Dictionary(Of String, Matrix)(StringComparer.Ordinal),
+            .assign = New Dictionary(Of String, Integer)(StringComparer.Ordinal),
+            .markers = New Dictionary(Of String, Integer)(StringComparer.Ordinal),
+            .markerGenes = New Dictionary(Of String, String())(StringComparer.Ordinal),
+            .markerScore = New Dictionary(Of String, Dictionary(Of String, Double))(StringComparer.Ordinal),
+            .strainResidual = New Dictionary(Of String, Double)(StringComparer.Ordinal),
+            .sampleID = total.sampleID.ToArray,
+            .unassignedGenes = New String() {}
+        }
+
+        Dim values As New Dictionary(Of String, Dictionary(Of String, Double()))(StringComparer.Ordinal)
+        Dim abundance As New Dictionary(Of String, Double())(StringComparer.Ordinal)
+
+        For Each group As KeyValuePair(Of String, List(Of Integer)) In order
+            Dim columns As Integer() = group.Value.ToArray
+            Dim subset As Matrix = TakeColumns(total, columns)
+            Dim part As CommunityDecomposition = Decompose(subset, genomes, families, opt)
+
+            Call $"group '{group.Key}' ({columns.Length} samples) -> {part.method}".info
+
+            If result.method Is Nothing Then
+                result.method = part.method
+                result.cost = part.cost
+                result.errors = part.errors
+                result.unassignedGenes = part.unassignedGenes
+            End If
+
+            For Each strain As KeyValuePair(Of String, Matrix) In part.strains
+                Dim table As Dictionary(Of String, Double()) = Nothing
+
+                If Not values.TryGetValue(strain.Key, table) Then
+                    table = New Dictionary(Of String, Double())(StringComparer.Ordinal)
+                    values(strain.Key) = table
+                End If
+
+                For Each row As DataFrameRow In strain.Value.expression
+                    Dim v As Double() = Nothing
+
+                    If Not table.TryGetValue(row.geneID, v) Then
+                        v = New Double(total.sample_count - 1) {}
+                        table(row.geneID) = v
+                    End If
+
+                    For c As Integer = 0 To columns.Length - 1
+                        v(columns(c)) = row.experiments(c)
+                    Next
+                Next
+
+                If part.abundance IsNot Nothing Then
+                    Dim profile As DataFrameRow = part.abundance(strain.Key)
+
+                    If profile IsNot Nothing Then
+                        Dim v As Double() = Nothing
+
+                        If Not abundance.TryGetValue(strain.Key, v) Then
+                            v = New Double(total.sample_count - 1) {}
+                            abundance(strain.Key) = v
+                        End If
+
+                        For c As Integer = 0 To columns.Length - 1
+                            v(columns(c)) = profile.experiments(c)
+                        Next
+                    End If
+                End If
+
+                Dim residual As Double
+
+                If part.strainResidual.TryGetValue(strain.Key, residual) Then
+                    result.strainResidual(strain.Key) = residual
+                End If
+            Next
+
+            If result.assign.Count = 0 Then
+                For Each pair As KeyValuePair(Of String, Integer) In part.assign
+                    result.assign(pair.Key) = pair.Value
+                Next
+                For Each pair As KeyValuePair(Of String, Integer) In part.markers
+                    result.markers(pair.Key) = pair.Value
+                Next
+                For Each pair As KeyValuePair(Of String, String()) In part.markerGenes
+                    result.markerGenes(pair.Key) = pair.Value
+                Next
+                For Each pair As KeyValuePair(Of String, Dictionary(Of String, Double)) In part.markerScore
+                    result.markerScore(pair.Key) = pair.Value
+                Next
+            End If
+        Next
+
+        ' 按基因组顺序重建每个菌株的矩阵(列序与原矩阵一致)
+        For Each strain As String In genomes.Keys
+            Dim table As Dictionary(Of String, Double()) = Nothing
+            Dim rows As New List(Of DataFrameRow)
+
+            If values.TryGetValue(strain, table) Then
+                For Each gene As String In genomes(strain)
+                    Dim v As Double() = Nothing
+
+                    If table.TryGetValue(gene, v) Then
+                        Call rows.Add(New DataFrameRow With {
+                            .geneID = gene,
+                            .experiments = v
+                        })
+                    End If
+                Next
+            End If
+
+            result.strains(strain) = New Matrix With {
+                .sampleID = total.sampleID.ToArray,
+                .expression = rows.ToArray,
+                .tag = $"strain[{strain}]|{total.tag}"
+            }
+        Next
+
+        If abundance.Count > 0 Then
+            Dim rows As New List(Of DataFrameRow)
+
+            For Each strain As String In genomes.Keys
+                Dim v As Double() = Nothing
+
+                If abundance.TryGetValue(strain, v) Then
+                    Call rows.Add(New DataFrameRow With {
+                        .geneID = strain,
+                        .experiments = v
+                    })
+                End If
+            Next
+
+            result.abundance = New Matrix With {
+                .sampleID = total.sampleID.ToArray,
+                .expression = rows.ToArray,
+                .tag = $"abundance({total.tag})"
+            }
+        End If
+
+        Return result
+    End Function
+
+    ''' <summary>
+    ''' 按给定的样本列下标抽取子矩阵
+    ''' </summary>
+    Private Shared Function TakeColumns(total As Matrix, columns As Integer()) As Matrix
+        Dim rows As DataFrameRow() = New DataFrameRow(total.size - 1) {}
+
+        For i As Integer = 0 To rows.Length - 1
+            Dim src As Double() = total.expression(i).experiments
+            Dim dst As Double() = New Double(columns.Length - 1) {}
+
+            For c As Integer = 0 To columns.Length - 1
+                dst(c) = src(columns(c))
+            Next
+
+            rows(i) = New DataFrameRow With {
+                .geneID = total.expression(i).geneID,
+                .experiments = dst
+            }
+        Next
+
+        Return New Matrix With {
+            .sampleID = columns.Select(Function(c) total.sampleID(c)).ToArray,
+            .expression = rows,
+            .tag = total.tag
+        }
     End Function
 
     ''' <summary>
@@ -1415,7 +1641,7 @@ Public Class Decomposition
         Dim homologShares As Dictionary(Of String, Dictionary(Of String, Double())) = Nothing
 
         If opt.RedistributeHomologs Then
-            homologShares = BuildHomologShares(A2, community, strains, geneRow, refine)
+            homologShares = BuildHomologShares(A2, community, geneRow, opt)
         End If
 
         For si As Integer = 0 To strains.Length - 1
@@ -1485,111 +1711,86 @@ Public Class Decomposition
     End Function
 
     ''' <summary>
-    ''' 同源家族信号归并：把家族内每一个成员行对本菌株的贡献汇总后写回本菌株自己的基因拷贝行
+    ''' 同源基因家族的信号反解：把并集定量中的混合信号还原为各成员自己的表达量
     ''' </summary>
     ''' <remarks>
     ''' <para>
-    ''' 对家族 <c>C</c> 中的任一行 <c>g</c>，其观测值都可以写成 “各菌株活性谱的非负线性组合”
-    ''' <c>y_g ≈ sum_s w_g^s * h_s</c>，其中 <c>w^s</c> 由非负最小二乘(坐标下降)联合求解。
-    ''' 之所以要联合求解而不是像无同源的标记基因那样做单谱投影，是因为活性谱之间并不正交，
-    ''' 逐谱投影会把同一份信号重复计入多个菌株。
+    ''' 并集定量时，同一个基因家族内的 reads 会按同源相似度在成员之间交叉分配。
+    ''' 若把混合近似写成对称形式 <c>y = (1-r)x + r/(m-1)*(sum(x)-x)</c>，
+    ''' 则由 <c>sum(x) = sum(y)</c> 可以直接得到闭式反解
+    ''' <c>x = mean(y) + (y - mean(y))/(1-r)</c>，其中 <c>mean(y)</c> 为家族内成员
+    ''' 在同一列(样本)上的均值。
     ''' </para>
     ''' <para>
-    ''' 菌株 <c>s</c> 在该家族上的真实表达由家族内所有成员行共同承载(reads 交叉分配)，
-    ''' 因此把 <c>sum_{g in C} w_g^s * h_s</c> 汇总后写回 <c>s</c> 自己的拷贝行；
-    ''' 由于 <c>sum_s sum_{g in C} w_g^s h_s = sum_{g in C} y_g</c>，
-    ''' 家族层面的总质量严格守恒，既不丢信号也不跨菌株重复计数。
+    ''' 与“按菌株活性谱做非负最小二乘”相比，这个反解不依赖活性谱的形状，
+    ''' 因此在活性谱高度共线(样本条件少、菌株之间齐涨齐落)时依然稳定；
+    ''' 同时它天然满足 <c>sum(x) = sum(y)</c>，家族层面的总质量严格守恒。
+    ''' <c>r</c> 由 <see cref="DecompositionOptions.CrossMapRate"/> 给出。
     ''' </para>
     ''' </remarks>
     Private Shared Function BuildHomologShares(A2 As NumericMatrix,
                                                community As CommunityStructure,
-                                               strains As String(),
                                                geneRow As Dictionary(Of String, Integer),
-                                               refine As Refinement) As Dictionary(Of String, Dictionary(Of String, Double()))
+                                               opt As DecompositionOptions) As Dictionary(Of String, Dictionary(Of String, Double()))
 
         Dim n As Integer = A2.ColumnDimension
         Dim eps As Double = 0.000001
-        Dim strainIndex As New Dictionary(Of String, Integer)(StringComparer.Ordinal)
+        Dim rate As Double = opt.CrossMapRate
+
+        If rate < 0 OrElse rate >= 0.95 Then
+            rate = 0.25
+        End If
+
+        Dim keep As Double = 1 - rate
         Dim shares As New Dictionary(Of String, Dictionary(Of String, Double()))(StringComparer.Ordinal)
 
-        For i As Integer = 0 To strains.Length - 1
-            strainIndex(strains(i)) = i
-        Next
-
         For Each family As GeneFamily In community.GetSharedFamilies()
-            Dim candidates As New List(Of Integer)
-
-            For Each strain As String In family.strainMembers.Keys
-                Dim si As Integer
-
-                If strainIndex.TryGetValue(strain, si) Then
-                    Call candidates.Add(si)
-                End If
-            Next
-
-            If candidates.Count < 2 Then
-                Continue For
-            End If
-
-            Dim acc As Double()() = New Double(candidates.Count - 1)() {}
-
-            For i As Integer = 0 To candidates.Count - 1
-                acc(i) = New Double(n - 1) {}
-            Next
-
-            Dim any As Boolean = False
+            Dim rows As New List(Of Integer)
+            Dim genes As New List(Of String)
 
             For Each gene As String In family.members
                 Dim r As Integer
 
-                If Not geneRow.TryGetValue(gene, r) Then
-                    Continue For
+                If geneRow.TryGetValue(gene, r) Then
+                    Call rows.Add(r)
+                    Call genes.Add(gene)
                 End If
-
-                Dim y As Double() = New Double(n - 1) {}
-
-                For j As Integer = 0 To n - 1
-                    y(j) = A2(r, j)
-                Next
-
-                Dim attribution As Double() = FitAttribution(y, refine.activity, candidates.ToArray)
-
-                For i As Integer = 0 To candidates.Count - 1
-                    If attribution(i) <= 0 Then
-                        Continue For
-                    End If
-
-                    Dim h As Double() = refine.activity(candidates(i))
-
-                    For j As Integer = 0 To n - 1
-                        acc(i)(j) += attribution(i) * h(j)
-                    Next
-
-                    any = True
-                Next
             Next
 
-            If Not any Then
+            If rows.Count < 2 Then
                 Continue For
             End If
 
-            For i As Integer = 0 To candidates.Count - 1
-                Dim strain As String = strains(candidates(i))
-                Dim own As String() = community.GetOwnCopies(family, strain)
-                Dim total As Double = 0
+            Dim mean As Double() = New Double(n - 1) {}
 
+            For Each r As Integer In rows
                 For j As Integer = 0 To n - 1
-                    total += acc(i)(j)
+                    mean(j) += A2(r, j)
                 Next
+            Next
 
-                If own.Length = 0 OrElse total <= eps Then
+            For j As Integer = 0 To n - 1
+                mean(j) /= rows.Count
+            Next
+
+            For i As Integer = 0 To rows.Count - 1
+                Dim gene As String = genes(i)
+                Dim strain As String = community.GetStrainOf(gene)
+
+                If strain Is Nothing Then
                     Continue For
                 End If
 
-                Dim share As Double() = New Double(n - 1) {}
+                Dim value As Double() = New Double(n - 1) {}
 
                 For j As Integer = 0 To n - 1
-                    share(j) = acc(i)(j) / own.Length
+                    Dim v As Double = mean(j) + (A2(rows(i), j) - mean(j)) / keep
+
+                    If v < eps Then
+                        v = eps
+                    End If
+
+                    value(j) = v
                 Next
 
                 Dim table As Dictionary(Of String, Double()) = Nothing
@@ -1599,84 +1800,11 @@ Public Class Decomposition
                     shares(strain) = table
                 End If
 
-                For Each gene As String In own
-                    table(gene) = CType(share.Clone(), Double())
-                Next
+                table(gene) = value
             Next
         Next
 
         Return shares
-    End Function
-
-    ''' <summary>
-    ''' 用坐标下降求解非负最小二乘 <c>min ||y - sum_c w_c * h_c||^2, w_c &gt;= 0</c>
-    ''' </summary>
-    ''' <param name="y">一行(一个基因)的观测表达向量</param>
-    ''' <param name="profiles">菌株活性谱(按菌株下标索引)</param>
-    ''' <param name="candidates">参与拟合的菌株下标(只有该家族的成员菌株才参与)</param>
-    ''' <returns>与 <paramref name="candidates"/> 等长的非负权重</returns>
-    ''' <remarks>
-    ''' 坐标下降对于这个凸问题可以收敛到全局最优，每个坐标的更新都是闭式解
-    ''' <c>w_c = (r . h_c) / (h_c . h_c) + w_c</c>(<c>r</c> 为当前残差)，
-    ''' 并且天然保持非负。活性谱之间不正交，因此不能退化为逐谱的单变量投影。
-    ''' </remarks>
-    Private Shared Function FitAttribution(y As Double(), profiles As Double()(), candidates As Integer()) As Double()
-        Dim k As Integer = candidates.Length
-        Dim weights As Double() = New Double(k - 1) {}
-        Dim residual As Double() = CType(y.Clone(), Double())
-        Dim scale As Double = 0
-
-        For j As Integer = 0 To y.Length - 1
-            scale = std.Max(scale, std.Abs(y(j)))
-        Next
-
-        If scale <= 0 Then
-            Return weights
-        End If
-
-        Dim tolerance As Double = scale * 0.0000000001
-
-        For sweep As Integer = 1 To 100
-            Dim delta As Double = 0
-
-            For c As Integer = 0 To k - 1
-                Dim h As Double() = profiles(candidates(c))
-                Dim denominator As Double = 0
-                Dim numerator As Double = 0
-
-                For j As Integer = 0 To h.Length - 1
-                    denominator += h(j) * h(j)
-                    numerator += residual(j) * h(j)
-                Next
-
-                If denominator <= 0 Then
-                    Continue For
-                End If
-
-                Dim value As Double = numerator / denominator + weights(c)
-
-                If value < 0 Then
-                    value = 0
-                End If
-
-                Dim diff As Double = value - weights(c)
-
-                If diff <> 0 Then
-                    For j As Integer = 0 To h.Length - 1
-                        residual(j) -= diff * h(j)
-                    Next
-
-                    weights(c) = value
-                    delta = std.Max(delta, std.Abs(diff))
-                End If
-            Next
-
-            If delta <= tolerance Then
-                Exit For
-            End If
-        Next
-
-        Return weights
     End Function
 
     ''' <summary>

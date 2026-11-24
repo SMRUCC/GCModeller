@@ -16,13 +16,13 @@
     "marker.relative_error.strain5": "2.765164326266396E-16",
     "homolog.rows": "40",
     "homolog.mean_relative_error.observed": "0.3707072569760111",
-    "homolog.mean_relative_error.decomposed": "0.0006203373978552254",
-    "mass_conservation.worst_relative_error": "0.004879648569477653"
+    "homolog.mean_relative_error.decomposed": "0.21183271827200634",
+    "mass_conservation.worst_relative_error": "0.004869657991569438"
   },
   "failureCount": 0,
   "records": [
     {
-      "time": "2026-11-24T16:46:07.852",
+      "time": "2026-11-24T17:06:13.584",
       "kind": "Mark",
       "level": "infom",
       "expression": null,
@@ -35,7 +35,7 @@
       "succeeded": true
     },
     {
-      "time": "2026-11-24T16:46:08.184",
+      "time": "2026-11-24T17:06:13.857",
       "kind": "Mark",
       "level": "infom",
       "expression": null,
@@ -48,7 +48,7 @@
       "succeeded": true
     },
     {
-      "time": "2026-11-24T16:46:08.184",
+      "time": "2026-11-24T17:06:13.857",
       "kind": "Mark",
       "level": "infom",
       "expression": null,
@@ -61,7 +61,7 @@
       "succeeded": true
     },
     {
-      "time": "2026-11-24T16:46:08.184",
+      "time": "2026-11-24T17:06:13.857",
       "kind": "Mark",
       "level": "infom",
       "expression": null,
@@ -74,7 +74,7 @@
       "succeeded": true
     },
     {
-      "time": "2026-11-24T16:46:08.184",
+      "time": "2026-11-24T17:06:13.857",
       "kind": "Mark",
       "level": "infom",
       "expression": null,
@@ -87,7 +87,7 @@
       "succeeded": true
     },
     {
-      "time": "2026-11-24T16:46:08.187",
+      "time": "2026-11-24T17:06:13.860",
       "kind": "Mark",
       "level": "infom",
       "expression": null,
@@ -100,7 +100,7 @@
       "succeeded": true
     },
     {
-      "time": "2026-11-24T16:46:08.187",
+      "time": "2026-11-24T17:06:13.860",
       "kind": "Mark",
       "level": "infom",
       "expression": null,
@@ -113,7 +113,7 @@
       "succeeded": true
     },
     {
-      "time": "2026-11-24T16:46:08.187",
+      "time": "2026-11-24T17:06:13.860",
       "kind": "Mark",
       "level": "infom",
       "expression": null,
@@ -126,7 +126,7 @@
       "succeeded": true
     },
     {
-      "time": "2026-11-24T16:46:08.187",
+      "time": "2026-11-24T17:06:13.860",
       "kind": "Mark",
       "level": "infom",
       "expression": null,
@@ -139,7 +139,7 @@
       "succeeded": true
     },
     {
-      "time": "2026-11-24T16:46:08.187",
+      "time": "2026-11-24T17:06:13.860",
       "kind": "Mark",
       "level": "infom",
       "expression": null,
@@ -152,7 +152,7 @@
       "succeeded": true
     },
     {
-      "time": "2026-11-24T16:46:08.187",
+      "time": "2026-11-24T17:06:13.860",
       "kind": "Mark",
       "level": "infom",
       "expression": null,
@@ -165,7 +165,7 @@
       "succeeded": true
     },
     {
-      "time": "2026-11-24T16:46:08.187",
+      "time": "2026-11-24T17:06:13.860",
       "kind": "Mark",
       "level": "infom",
       "expression": null,
@@ -178,7 +178,7 @@
       "succeeded": true
     },
     {
-      "time": "2026-11-24T16:46:08.187",
+      "time": "2026-11-24T17:06:13.860",
       "kind": "Mark",
       "level": "infom",
       "expression": null,
@@ -191,7 +191,7 @@
       "succeeded": true
     },
     {
-      "time": "2026-11-24T16:46:08.187",
+      "time": "2026-11-24T17:06:13.860",
       "kind": "Mark",
       "level": "infom",
       "expression": null,
@@ -204,7 +204,7 @@
       "succeeded": true
     },
     {
-      "time": "2026-11-24T16:46:08.187",
+      "time": "2026-11-24T17:06:13.860",
       "kind": "Mark",
       "level": "infom",
       "expression": null,
@@ -217,7 +217,7 @@
       "succeeded": true
     },
     {
-      "time": "2026-11-24T16:46:08.188",
+      "time": "2026-11-24T17:06:13.861",
       "kind": "Mark",
       "level": "infom",
       "expression": null,
@@ -230,7 +230,7 @@
       "succeeded": true
     },
     {
-      "time": "2026-11-24T16:46:08.188",
+      "time": "2026-11-24T17:06:13.861",
       "kind": "Mark",
       "level": "infom",
       "expression": null,
@@ -243,11 +243,11 @@
       "succeeded": true
     },
     {
-      "time": "2026-11-24T16:46:08.188",
+      "time": "2026-11-24T17:06:13.861",
       "kind": "Mark",
       "level": "infom",
       "expression": null,
-      "message": "homolog.mean_relative_error.decomposed = 0.0006203373978552254",
+      "message": "homolog.mean_relative_error.decomposed = 0.21183271827200634",
       "sourceFile": "E:\\codebuddy\\GCModeller\\src\\GCModeller\\analysis\\HTS_matrix\\test\\DecompositionTest.vb",
       "line": 291,
       "member": "testHomologImprovement",
@@ -256,11 +256,11 @@
       "succeeded": true
     },
     {
-      "time": "2026-11-24T16:46:08.189",
+      "time": "2026-11-24T17:06:13.862",
       "kind": "Mark",
       "level": "infom",
       "expression": null,
-      "message": "mass_conservation.worst_relative_error = 0.004879648569477653",
+      "message": "mass_conservation.worst_relative_error = 0.004869657991569438",
       "sourceFile": "E:\\codebuddy\\GCModeller\\src\\GCModeller\\analysis\\HTS_matrix\\test\\DecompositionTest.vb",
       "line": 330,
       "member": "testMassConservation",

@@ -24,7 +24,22 @@
 # 分析流程：
 #   并集表达矩阵 -> limma(差异表达) + GSVA(KEGG 通路打分)
 #   -> 与论文结论逐条比对 -> 不满足时自动微调 module_base 并重新模拟(校准循环)
-#   -> 收敛后写出 CSV(总矩阵、真值矩阵、基因组、家族、注释、设计、通路、GSVA、DE、结论)
+#   -> 收敛后写出 CSV
+#
+# 输出文件(数据 + 分析结果)：
+#   total.csv               并集定量的总表达矩阵(分解流程的输入)
+#   truth/<strain>.csv      真实的单菌株表达矩阵(评估分解精度)
+#   genomes.csv             菌株 -> 基因(含 KO / KEGG 通路注释)
+#   families.csv            跨菌株同源基因家族(含共享 KO)
+#   annotation.csv          基因注释(模块 / 家族 / KO / 通路)
+#   pathways.csv            KEGG 通路表(基因数 + KO 列表)
+#   design.csv              实验设计
+#   module_base.csv         校准后的各菌群模块组成(可复现性)
+#   gsva_community.csv      群落水平的 GSVA 通路得分(通路 x 样本)
+#   gsva_strain.csv         菌株水平的 GSVA 通路得分(按分组取均值)
+#   gsva_conclusions.csv    GSVA 结论表(是否复现论文机制)
+#   limma_summary.csv       limma 差异表达汇总
+#   limma_de_hits.csv       limma 差异表达显著基因(|log2FC| >= 1, adj.P < 0.05)
 #
 # 用法:
 #   Rscript syncom_demo_data.R [outputDir]
@@ -222,16 +237,34 @@ rownames(genes) <- NULL
 # 3. 表达模型：菌株活性谱 x 模块基线(代谢分工) x 基因权重
 # ---------------------------------------------------------------------------
 
-# 每个菌株对各功能模块的基线投入(体现生态位与分工的"底盘"差异)
-module_base <- matrix(
-  c(# herb_initial, herb_downstream, qs_ahl, qs_ai2, tryptophan, sulfur,
-    # carbohydrate, dna_repair, biofilm, transporter, housekeeping
-    0.70, 0.70, 0.90, 0.60, 0.80, 0.60, 1.60, 0.70, 0.90, 1.30, 1.00,  # Y1 能量供给者
-    1.60, 1.40, 1.50, 0.80, 1.00, 0.70, 1.00, 0.80, 1.00, 1.00, 1.00,  # K1 核心降解者
-    1.25, 1.60, 1.30, 0.90, 1.70, 1.00, 1.00, 0.70, 1.10, 1.00, 1.00,  # B1 代谢清道夫
-    1.00, 1.00, 0.30, 1.90, 0.90, 1.70, 0.70, 1.80, 1.00, 0.90, 1.00), # H1 硫代谢/DNA修复
-  nrow = length(strains), byrow = TRUE,
-  dimnames = list(strains, modules))
+# 每个菌株对各功能模块的基线投入(体现生态位与分工的"底盘"差异)。
+#
+# 两个合成菌群各自维护一套模块组成：K1 与 B1 是共享成员，但它们的功能程序会随
+# 群落语境切换(论文中的 functional plasticity):
+#   YKB -> K1 主导起始步骤酶与 AHL、B1 负责色氨酸与下游处理
+#   HKB -> B1 成为核心降解者、K1 转向色氨酸/协同降解
+buildModuleBase <- function() {
+  make <- function(values) {
+    matrix(values, nrow = length(strains), byrow = TRUE,
+           dimnames = list(strains, modules))
+  }
+
+  list(
+    YKB = make(c(# herb_initial, herb_downstream, qs_ahl, qs_ai2, tryptophan, sulfur,
+      # carbohydrate, dna_repair, biofilm, transporter, housekeeping
+      0.70, 0.70, 0.90, 0.60, 0.80, 0.60, 1.60, 0.70, 0.90, 1.30, 1.00,  # Y1 能量供给者
+      1.55, 1.40, 1.50, 0.80, 1.00, 0.70, 1.00, 0.80, 1.00, 1.00, 1.00,  # K1 主降解者
+      1.20, 1.50, 1.30, 0.90, 1.70, 1.00, 1.00, 0.70, 1.10, 1.00, 1.00,  # B1 代谢清道夫
+      1.00, 1.00, 0.30, 1.90, 0.90, 1.20, 0.70, 1.80, 1.00, 0.90, 1.00)),# H1 (缺失)
+    HKB = make(c(
+      0.70, 0.70, 0.90, 0.60, 0.80, 0.60, 1.60, 0.70, 0.90, 1.30, 1.00,  # Y1 (缺失)
+      1.30, 1.25, 1.20, 0.80, 1.35, 0.70, 1.00, 0.80, 1.00, 1.00, 1.00,  # K1 协同降解
+      1.75, 1.85, 1.30, 0.90, 1.35, 1.00, 1.00, 0.70, 1.10, 1.00, 1.00,  # B1 核心降解者
+      1.00, 1.00, 0.30, 1.90, 0.90, 1.70, 0.70, 1.80, 1.00, 0.90, 1.00)) # H1 硫代谢/DNA修复
+  )
+}
+
+moduleBase <- buildModuleBase()
 
 # 条件调控：把“样本水平”的调控(除草剂诱导、QS 抑制、群落成员)编码为菌株活性谱；
 # 菌株内部的代谢分工由上面的 module_base 表达。
@@ -284,12 +317,13 @@ simulateCommunity <- function(base, activity, seed) {
 
   # 基因权重：模块内部离散度不宜过大，否则模块总量会偏离设计的分工比例
   geneWeight <- rlnorm(nrow(genes), meanlog = log(150), sdlog = 0.4)
-  geneLoad <- base[cbind(geneStrain, geneModule)] * geneWeight
 
   mu <- matrix(0, nrow = nrow(genes), ncol = nSample,
                dimnames = list(NULL, samples))
   for (j in seq_len(nSample)) {
-    mu[, j] <- depth[j] * activityMat[geneStrain, j] * geneLoad
+    # 每个菌群各自一套模块组成(功能可塑性)
+    load <- base[[design$consortium[j]]][cbind(geneStrain, geneModule)] * geneWeight
+    mu[, j] <- depth[j] * activityMat[geneStrain, j] * load
   }
 
   # 计数噪声：Poisson 采样 + 基因水平的生物学波动
@@ -393,65 +427,65 @@ strainMean <- function(strainScores, strain, pathway, pattern) {
 # 5. 论文结论清单(基于 GSVA 通路得分)与校准
 # ---------------------------------------------------------------------------
 
-# 每条结论: id / 描述 / 评估函数 / 失败时用于校准的 (菌株, 模块, 方向)
+# 每条结论: id / 描述 / 评估函数 / 失败时用于校准的 (菌群, 菌株, 模块, 方向)
 conclusions <- list(
-  list(id = "C1_YKB_herbicide_induction", target = c("K1", "herb_initial", "up"),
+  list(id = "C1_YKB_herbicide_induction", target = c("YKB", "K1", "herb_initial", "up"),
        text = "herbicide exposure induces atrazine degradation (map00791) in SynCom YKB",
        check = function(s) groupMean(s$community, "map00791", "YKB_WT_WT") >
                               groupMean(s$community, "map00791", "YKB_NH_WT")),
-  list(id = "C2_HKB_herbicide_induction", target = c("B1", "herb_downstream", "up"),
+  list(id = "C2_HKB_herbicide_induction", target = c("HKB", "B1", "herb_downstream", "up"),
        text = "herbicide exposure induces atrazine degradation (map00791) in SynCom HKB",
        check = function(s) groupMean(s$community, "map00791", "HKB_WT_WT") >
                               groupMean(s$community, "map00791", "HKB_NH_WT")),
-  list(id = "C3_YKB_AHL_inhibition", target = c("K1", "qs_ahl", "up"),
+  list(id = "C3_YKB_AHL_inhibition", target = c("YKB", "K1", "qs_ahl", "up"),
        text = "AHL inhibition (luxI RNAi) suppresses quorum sensing (map02024) in YKB",
        check = function(s) groupMean(s$community, "map02024", "YKB_WT_WT") >
                               groupMean(s$community, "map02024", "YKB_WT_QSR")),
-  list(id = "C4_HKB_AI2_inhibition", target = c("B1", "qs_ai2", "up"),
+  list(id = "C4_HKB_AI2_inhibition", target = c("HKB", "B1", "qs_ai2", "up"),
        text = "AI-2 inhibition (luxS RNAi) suppresses quorum sensing (map02024) in HKB",
        check = function(s) groupMean(s$community, "map02024", "HKB_WT_WT") >
                               groupMean(s$community, "map02024", "HKB_WT_QSR")),
-  list(id = "C5_YKB_energy_supply", target = c("Y1", "carbohydrate", "up"),
+  list(id = "C5_YKB_energy_supply", target = c("YKB", "Y1", "carbohydrate", "up"),
        text = "YKB invests more in carbohydrate/energy metabolism (map00010) than HKB",
        check = function(s) groupMean(s$community, "map00010", "YKB_WT_WT") >
                               groupMean(s$community, "map00010", "HKB_WT_WT")),
-  list(id = "C6_HKB_sulfur_metabolism", target = c("H1", "sulfur", "up"),
+  list(id = "C6_HKB_sulfur_metabolism", target = c("HKB", "H1", "sulfur", "up"),
        text = "HKB invests more in sulfur metabolism (map00920) than YKB",
        check = function(s) groupMean(s$community, "map00920", "HKB_WT_WT") >
                               groupMean(s$community, "map00920", "YKB_WT_WT")),
-  list(id = "C7_YKB_degrades_more", target = c("K1", "herb_initial", "up"),
-       text = "in YKB, K1 dominates the initial-step herbicide enzymes (map00791 GSVA)",
+  list(id = "C7_YKB_K1_degrader", target = c("YKB", "K1", "herb_initial", "up"),
+       text = "in YKB, K1 dominates herbicide degradation (map00791 GSVA)",
        check = function(s) strainMean(s$strain, "K1", "map00791", "YKB_WT_WT") >
                               strainMean(s$strain, "B1", "map00791", "YKB_WT_WT")),
-  list(id = "C8_YKB_B1_janitor", target = c("B1", "tryptophan", "up"),
+  list(id = "C8_YKB_B1_janitor", target = c("YKB", "B1", "tryptophan", "up"),
        text = "in YKB, B1 dominates tryptophan metabolism (map00380 GSVA)",
        check = function(s) strainMean(s$strain, "B1", "map00380", "YKB_WT_WT") >
                               strainMean(s$strain, "K1", "map00380", "YKB_WT_WT")),
-  list(id = "C9_YKB_Y1_energy", target = c("Y1", "carbohydrate", "up"),
+  list(id = "C9_YKB_Y1_energy", target = c("YKB", "Y1", "carbohydrate", "up"),
        text = "in YKB, Y1 dominates carbohydrate/energy metabolism (map00010 GSVA)",
        check = function(s) strainMean(s$strain, "Y1", "map00010", "YKB_WT_WT") >
                               strainMean(s$strain, "K1", "map00010", "YKB_WT_WT")),
-  list(id = "C10_HKB_B1_core_degrader", target = c("B1", "herb_downstream", "up"),
+  list(id = "C10_HKB_B1_core_degrader", target = c("HKB", "B1", "herb_downstream", "up"),
        text = "in HKB, B1 dominates herbicide degradation (map00791 GSVA)",
        check = function(s) strainMean(s$strain, "B1", "map00791", "HKB_WT_WT") >
                               strainMean(s$strain, "K1", "map00791", "HKB_WT_WT")),
-  list(id = "C11_HKB_H1_sulfur", target = c("H1", "sulfur", "up"),
+  list(id = "C11_HKB_H1_sulfur", target = c("HKB", "H1", "sulfur", "up"),
        text = "in HKB, H1 dominates sulfur metabolism (map00920 GSVA)",
        check = function(s) strainMean(s$strain, "H1", "map00920", "HKB_WT_WT") >
                               strainMean(s$strain, "B1", "map00920", "HKB_WT_WT")),
-  list(id = "C12_HKB_H1_repair", target = c("H1", "dna_repair", "up"),
+  list(id = "C12_HKB_H1_repair", target = c("HKB", "H1", "dna_repair", "up"),
        text = "in HKB, H1 dominates DNA repair (map03440 GSVA)",
        check = function(s) strainMean(s$strain, "H1", "map03440", "HKB_WT_WT") >
                               strainMean(s$strain, "B1", "map03440", "HKB_WT_WT")),
-  list(id = "C13_HKB_H1_AI2", target = c("H1", "qs_ai2", "up"),
+  list(id = "C13_HKB_H1_AI2", target = c("HKB", "H1", "qs_ai2", "up"),
        text = "in HKB, H1 dominates AI-2 signalling (map02024 GSVA)",
        check = function(s) strainMean(s$strain, "H1", "map02024", "HKB_WT_WT") >
                               strainMean(s$strain, "B1", "map02024", "HKB_WT_WT")),
-  list(id = "C14_YKB_K1_QS_shift", target = c("K1", "herb_initial", "up"),
+  list(id = "C14_YKB_K1_QS_shift", target = c("YKB", "K1", "herb_initial", "up"),
        text = "AHL inhibition suppresses K1 herbicide degradation in YKB",
        check = function(s) strainMean(s$strain, "K1", "map00791", "YKB_WT_WT") >
                               strainMean(s$strain, "K1", "map00791", "YKB_WT_QSR")),
-  list(id = "C15_HKB_B1_QS_shift", target = c("B1", "herb_downstream", "up"),
+  list(id = "C15_HKB_B1_QS_shift", target = c("HKB", "B1", "herb_downstream", "up"),
        text = "AI-2 inhibition suppresses B1 herbicide degradation in HKB",
        check = function(s) strainMean(s$strain, "B1", "map00791", "HKB_WT_WT") >
                               strainMean(s$strain, "B1", "map00791", "HKB_WT_QSR")))
@@ -467,18 +501,22 @@ analyse <- function(sim) {
        limma = runLimma(expr, design))
 }
 
-# 校准循环：GSVA 结论不满足时，按结论给出的 (菌株, 模块, 方向) 微调 module_base
-calibrate <- function(maxRounds = 5L, step = 1.10) {
-  base <- module_base
+# 校准循环：GSVA 结论不满足时，按结论给出的 (菌群, 菌株, 模块, 方向) 微调模块组成
+calibrate <- function(maxRounds = 6L, step = 1.12) {
+  base <- moduleBase
   history <- list()
+  sim <- NULL
+  scores <- NULL
+  pass <- NULL
 
   for (round in seq_len(maxRounds)) {
     sim <- simulateCommunity(base, activityTable, SEED + round)
     scores <- analyse(sim)
     pass <- vapply(conclusions, function(cl) isTRUE(cl$check(scores)), logical(1))
 
-    history[[length(history) + 1L]] <- list(round = round,
-                                            failed = vapply(conclusions, `[[`, "", "id")[!pass])
+    history[[length(history) + 1L]] <- list(
+      round = round,
+      failed = vapply(conclusions, `[[`, "", "id")[!pass])
 
     cat(sprintf("[calibration] round %d: %d/%d conclusions passed\n",
                 round, sum(pass), length(pass)))
@@ -490,13 +528,16 @@ calibrate <- function(maxRounds = 5L, step = 1.10) {
 
     for (i in seq_along(conclusions)) {
       if (pass[i]) next
+
       target <- conclusions[[i]]$target
-      strain <- target[1]
-      module <- target[2]
-      direction <- target[3]
+      consortium <- target[1]
+      strain <- target[2]
+      module <- target[3]
+      direction <- target[4]
       factor <- if (identical(direction, "up")) step else 1 / step
-      base[strain, module] <- base[strain, module] * factor
-      cat(sprintf("   adjust %s/%s x %.3f\n", strain, module, factor))
+
+      base[[consortium]][strain, module] <- base[[consortium]][strain, module] * factor
+      cat(sprintf("   adjust %s: %s/%s x %.3f\n", consortium, strain, module, factor))
     }
   }
 
@@ -513,8 +554,8 @@ cat(sprintf("genome size: %d genes x %d samples, %d shared families\n",
 
 fit <- calibrate()
 
-# 校准后的模块基线(记录在案，保证数据可复现)
-module_base <- fit$base
+# 校准后的模块组成(记录在案，保证数据可复现)
+moduleBase <- fit$base
 sim <- fit$sim
 scores <- fit$scores
 
@@ -594,17 +635,20 @@ annotation <- data.frame(gene_id = genes$gene_id, strain = geneStrain,
                          stringsAsFactors = FALSE)
 limmaTable <- merge(limmaTable, annotation, by = "gene_id", all.x = TRUE)
 
-significant <- limmaTable[!is.na(limmaTable$adj.P.Val) & limmaTable$adj.P.Val < 0.05, ]
+# 参考论文的差异表达阈值: |log2FC| >= 1 且 adj.P < 0.05
+significant <- limmaTable[!is.na(limmaTable$adj.P.Val) & limmaTable$adj.P.Val < 0.05 &
+                            abs(limmaTable$logFC) >= 1, ]
 write.csv(significant[, c("contrast", "gene_id", "strain", "module", "KO", "pathway",
                           "logFC", "AveExpr", "t", "P.Value", "adj.P.Val")],
           file.path(outDir, "limma_de_hits.csv"), row.names = FALSE, quote = FALSE)
 
 limmaSummary <- do.call(rbind, lapply(split(limmaTable, limmaTable$contrast), function(d) {
+  hit <- !is.na(d$adj.P.Val) & d$adj.P.Val < 0.05 & abs(d$logFC) >= 1
   data.frame(contrast = d$contrast[1],
              tested = nrow(d),
-             significant = sum(d$adj.P.Val < 0.05, na.rm = TRUE),
-             up = sum(d$adj.P.Val < 0.05 & d$logFC > 0, na.rm = TRUE),
-             down = sum(d$adj.P.Val < 0.05 & d$logFC < 0, na.rm = TRUE),
+             significant = sum(hit),
+             up = sum(hit & d$logFC > 0),
+             down = sum(hit & d$logFC < 0),
              stringsAsFactors = FALSE)
 }))
 write.csv(limmaSummary, file.path(outDir, "limma_summary.csv"),
@@ -617,12 +661,16 @@ conclusionRows <- lapply(seq_along(conclusions), function(i) {
              passed = isTRUE(fit$pass[i]), stringsAsFactors = FALSE)
 })
 conclusionTable <- do.call(rbind, conclusionRows)
+# 结论的描述文本含有逗号，必须加引号，否则下游解析会错列
 write.csv(conclusionTable, file.path(outDir, "gsva_conclusions.csv"),
-          row.names = FALSE, quote = FALSE)
+          row.names = FALSE, quote = TRUE)
 
-# 校准后的模块基线(便于复现与审阅)
-base <- as.data.frame(module_base)
-base <- data.frame(strain = rownames(module_base), base, check.names = FALSE)
+# 校准后的模块组成(便于复现与审阅)
+base <- do.call(rbind, lapply(names(moduleBase), function(consortium) {
+  table <- as.data.frame(moduleBase[[consortium]])
+  data.frame(consortium = consortium, strain = rownames(moduleBase[[consortium]]),
+             table, check.names = FALSE)
+}))
 write.csv(base, file.path(outDir, "module_base.csv"), row.names = FALSE, quote = FALSE)
 
 cat(sprintf("calibration rounds: %d, conclusions passed: %d/%d\n",

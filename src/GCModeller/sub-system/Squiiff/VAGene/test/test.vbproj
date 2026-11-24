@@ -9,9 +9,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\VAGene.vbproj" />
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\MachineLearning\TensorFlow\TensorFlow.vbproj" />
-    <ProjectReference Include="..\..\..\core\Bio.InteractionModel\InteractionModel.vbproj" />
+    <ProjectReference Include="..\..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\..\..\..\..\runtime\sciBASIC#\Data_science\MachineLearning\TensorFlow\TensorFlow.vbproj" />
+    <ProjectReference Include="..\..\..\..\core\Bio.InteractionModel\InteractionModel.vbproj" />
   </ItemGroup>
 
 </Project>

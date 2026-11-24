@@ -88,6 +88,7 @@ Friend Module SynComDemoTest
             Dim total As Matrix = Matrix.LoadData(Path.Combine(dataDir, "total.csv"))
             Dim genomes As Dictionary(Of String, String()) = LoadGenomes(Path.Combine(dataDir, "genomes.csv"))
             Dim geneModule As Dictionary(Of String, String) = LoadAnnotation(Path.Combine(dataDir, "annotation.csv"))
+            Dim geneKO As Dictionary(Of String, String) = LoadColumn(Path.Combine(dataDir, "annotation.csv"), "KO", 0)
             Dim families As UnionFind = LoadFamilies(Path.Combine(dataDir, "families.csv"), genomes)
             Dim familyGenes As Dictionary(Of String, List(Of String)) = LoadFamilyGenes(Path.Combine(dataDir, "families.csv"))
             Dim design As Dictionary(Of String, SampleDesign) = LoadDesign(Path.Combine(dataDir, "design.csv"))
@@ -95,8 +96,22 @@ Friend Module SynComDemoTest
 
             Call DebugAudit.AreEqual(4, genomes.Count, "the demo community should contain 4 strains")
             Call DebugAudit.AreEqual(24, total.sample_count, "the demo design should contain 24 samples")
+            Call DebugAudit.Test(total.size > 4000,
+                                 $"the demo gene set should be expanded to a genome-scale union, got {total.size} rows")
+
+            ' KEGG 直系同源(KO)映射：并集里的每个基因都要有 KO 注释
+            Call testKoAnnotation(total, geneKO, familyGenes, dataDir)
 
             ' ---- 分解 ----
+            ' 两个合成菌群的功能组成不同(论文中的功能可塑性)，因此按菌群分组分别分解再拼接样本列
+            Dim groups As String() = New String(total.sample_count - 1) {}
+
+            For j As Integer = 0 To total.sample_count - 1
+                Dim sample As SampleDesign = Nothing
+
+                groups(j) = If(design.TryGetValue(total.sampleID(j), sample), sample.consortium, "")
+            Next
+
             Dim opt As New DecompositionOptions With {
                 .Method = DecompositionMethod.DNMF,
                 .RandomSeed = 20261124,
@@ -104,7 +119,7 @@ Friend Module SynComDemoTest
                 .RefineIterations = 80,
                 .Tqdm = False
             }
-            Dim result As CommunityDecomposition = Decomposition.Decompose(total, genomes, families, opt)
+            Dim result As CommunityDecomposition = Decomposition.DecomposeByGroups(total, genomes, families, groups, opt)
 
             Call DebugAudit.Mark("syncom.method", result.method)
             Call DebugAudit.Mark("syncom.assign", result.assign)
@@ -117,6 +132,9 @@ Friend Module SynComDemoTest
             Call testHerbicideInduction(result, genomes, geneModule, design)
             Call testAbsentMembers(result, genomes, design)
             Call testAccuracy(result, genomes, geneModule, truth, familyGenes, total)
+
+            ' R 脚本中的 limma + GSVA 分析结论(必须与论文机制一致)
+            Call testGsvaConclusions(dataDir)
         Catch ex As Exception
             Call DebugAudit.Mark("crash", ex.ToString())
             Call DebugAudit.Test(False, $"the syncom demo audit should not throw: {ex.Message}")
@@ -385,8 +403,13 @@ Friend Module SynComDemoTest
     End Sub
 
     ''' <summary>
-    ''' 缺失成员：YKB 中没有 H1、HKB 中没有 Y1，活性谱应被正确压低
+    ''' 缺失成员：YKB 中没有 H1、HKB 中没有 Y1，其重构表达量应被正确压低
     ''' </summary>
+    ''' <remarks>
+    ''' 这里用“标记基因的平均重构表达量”而不是活性谱 h 本身来衡量菌株的存在量：
+    ''' 活性谱与基因载荷 <c>w</c> 的绝对尺度互相耦合(可观测量是二者的乘积)，
+    ''' 因此不能拿 h 的绝对值跨菌株比较。
+    ''' </remarks>
     Private Sub testAbsentMembers(result As CommunityDecomposition,
                                   genomes As Dictionary(Of String, String()),
                                   design As Dictionary(Of String, SampleDesign))
@@ -397,13 +420,14 @@ Friend Module SynComDemoTest
             Return
         End If
 
-        Dim ykb As Boolean() = MaskOf(result.abundance, design, ConsortiumYKB, Nothing, Nothing)
-        Dim hkb As Boolean() = MaskOf(result.abundance, design, ConsortiumHKB, Nothing, Nothing)
+        Dim reference As Matrix = result.strains(StrainY1)
+        Dim ykb As Boolean() = MaskOf(reference, design, ConsortiumYKB, Nothing, Nothing)
+        Dim hkb As Boolean() = MaskOf(reference, design, ConsortiumHKB, Nothing, Nothing)
 
-        Dim h1Ykb As Double = MeanAbundance(result.abundance, StrainH1, ykb)
-        Dim h1Hkb As Double = MeanAbundance(result.abundance, StrainH1, hkb)
-        Dim y1Ykb As Double = MeanAbundance(result.abundance, StrainY1, ykb)
-        Dim y1Hkb As Double = MeanAbundance(result.abundance, StrainY1, hkb)
+        Dim h1Ykb As Double = MarkerMean(result, StrainH1, ykb)
+        Dim h1Hkb As Double = MarkerMean(result, StrainH1, hkb)
+        Dim y1Ykb As Double = MarkerMean(result, StrainY1, ykb)
+        Dim y1Hkb As Double = MarkerMean(result, StrainY1, hkb)
 
         Call DebugAudit.Mark("absent.H1.YKB", h1Ykb)
         Call DebugAudit.Mark("absent.H1.HKB", h1Hkb)
@@ -411,10 +435,53 @@ Friend Module SynComDemoTest
         Call DebugAudit.Mark("absent.Y1.HKB", y1Hkb)
 
         Call DebugAudit.Test(h1Hkb > h1Ykb * 5,
-                             $"H1 is absent from YKB, its activity should drop accordingly (YKB={h1Ykb:G3}, HKB={h1Hkb:G3})")
+                             $"H1 is absent from YKB, its expression should drop accordingly (YKB={h1Ykb:G3}, HKB={h1Hkb:G3})")
         Call DebugAudit.Test(y1Ykb > y1Hkb * 5,
-                             $"Y1 is absent from HKB, its activity should drop accordingly (YKB={y1Ykb:G3}, HKB={y1Hkb:G3})")
+                             $"Y1 is absent from HKB, its expression should drop accordingly (YKB={y1Ykb:G3}, HKB={y1Hkb:G3})")
     End Sub
+
+    ''' <summary>
+    ''' 某个菌株的标记基因在指定样本组上的平均重构表达量
+    ''' </summary>
+    Private Function MarkerMean(result As CommunityDecomposition, strain As String, mask As Boolean()) As Double
+        Dim mat As Matrix = Nothing
+
+        If Not result.strains.TryGetValue(strain, mat) Then
+            Return 0
+        End If
+
+        Dim genes As String() = Nothing
+
+        If result.markerGenes Is Nothing OrElse Not result.markerGenes.TryGetValue(strain, genes) Then
+            genes = mat.rownames
+        End If
+
+        Dim rows As Dictionary(Of String, Integer) = RowIndex(mat)
+        Dim sum As Double = 0
+        Dim used As Integer = 0
+
+        For j As Integer = 0 To mat.sample_count - 1
+            If Not mask(j) Then
+                Continue For
+            End If
+
+            used += 1
+
+            For Each gene As String In genes
+                Dim r As Integer
+
+                If rows.TryGetValue(gene, r) Then
+                    sum += mat.expression(r).experiments(j)
+                End If
+            Next
+        Next
+
+        If used = 0 Then
+            Return 0
+        Else
+            Return sum / used
+        End If
+    End Function
 
     ''' <summary>
     ''' 重构精度：与真实单菌株矩阵的相关性、同源基因的改善与整体质量守恒
@@ -748,6 +815,131 @@ Friend Module SynComDemoTest
         Public Property herbicide As String
         Public Property qs As String
     End Class
+
+    ''' <summary>
+    ''' KEGG 直系同源(KO)映射检查：每个基因都要有 KO，且同源家族成员共享同一个 KO
+    ''' </summary>
+    Private Sub testKoAnnotation(total As Matrix,
+                                 geneKO As Dictionary(Of String, String),
+                                 familyGenes As Dictionary(Of String, List(Of String)),
+                                 dataDir As String)
+
+        Dim missing As Integer = 0
+
+        For Each row As DataFrameRow In total.expression
+            Dim ko As String = Nothing
+
+            If Not geneKO.TryGetValue(row.geneID, ko) OrElse String.IsNullOrEmpty(ko) Then
+                missing += 1
+            End If
+        Next
+
+        Call DebugAudit.Mark("ko.mapped", total.size - missing)
+        Call DebugAudit.AreEqual(0, missing,
+                                 "every gene in the union matrix should carry a KEGG ortholog (KO) id")
+
+        Dim familyKO As Dictionary(Of String, String) =
+            LoadColumn(Path.Combine(dataDir, "families.csv"), "KO", 1)
+        Dim inconsistent As Integer = 0
+
+        For Each family As KeyValuePair(Of String, List(Of String)) In familyGenes
+            Dim kos As New HashSet(Of String)(StringComparer.Ordinal)
+
+            For Each gene As String In family.Value
+                Dim ko As String = Nothing
+
+                If familyKO.TryGetValue(gene, ko) Then
+                    Call kos.Add(ko)
+                End If
+            Next
+
+            If kos.Count > 1 Then
+                inconsistent += 1
+            End If
+        Next
+
+        Call DebugAudit.AreEqual(0, inconsistent,
+                                 "the members of one gene family should share the same KO assignment")
+    End Sub
+
+    ''' <summary>
+    ''' R 脚本(limma + GSVA)输出的 KEGG 通路结论表：全部结论都必须成立
+    ''' </summary>
+    Private Sub testGsvaConclusions(dataDir As String)
+        Dim conclusionFile As String = Path.Combine(dataDir, "gsva_conclusions.csv")
+
+        If Not File.Exists(conclusionFile) Then
+            Call DebugAudit.Mark("gsva.conclusions", "skipped: gsva_conclusions.csv not found")
+            Return
+        End If
+
+        Dim rows As List(Of String()) = ReadTable(conclusionFile)
+        Dim header As String() = rows(0)
+        Dim idCol As Integer = Array.IndexOf(header, "id")
+        Dim descriptionCol As Integer = Array.IndexOf(header, "description")
+        Dim passedCol As Integer = Array.IndexOf(header, "passed")
+
+        Call DebugAudit.Test(idCol >= 0 AndAlso passedCol >= 0,
+                             "gsva_conclusions.csv should contain the id/passed columns")
+
+        Dim total As Integer = 0
+        Dim failed As Integer = 0
+
+        For Each row As String() In rows.Skip(1)
+            If row.Length <= std.Max(idCol, passedCol) Then
+                Continue For
+            End If
+
+            total += 1
+
+            If String.Equals(row(passedCol).Trim, "TRUE", StringComparison.OrdinalIgnoreCase) Then
+                Continue For
+            End If
+
+            failed += 1
+
+            Dim description As String = If(descriptionCol >= 0 AndAlso row.Length > descriptionCol,
+                                           row(descriptionCol),
+                                           "")
+
+            Call DebugAudit.Test(False,
+                                 $"the GSVA-based KEGG conclusion '{row(idCol).Trim()}' should match the paper: {description}")
+        Next
+
+        Call DebugAudit.Mark("gsva.conclusions.total", total)
+        Call DebugAudit.Mark("gsva.conclusions.failed", failed)
+
+        Call DebugAudit.Test(total >= 10, "the analysis should report the full list of GSVA-based KEGG conclusions")
+        Call DebugAudit.Test(failed = 0,
+                             $"every GSVA-based KEGG pathway conclusion should be satisfied, {failed}/{total} failed")
+    End Sub
+
+    ''' <summary>
+    ''' 读取 CSV 的某一列并建立 “键 -> 值” 映射
+    ''' </summary>
+    ''' <param name="path">CSV 文件</param>
+    ''' <param name="columnName">值列的表头</param>
+    ''' <param name="keyColumn">作为键的列下标</param>
+    Private Function LoadColumn(path As String, columnName As String, keyColumn As Integer) As Dictionary(Of String, String)
+        Dim table As New Dictionary(Of String, String)(StringComparer.Ordinal)
+        Dim rows As List(Of String()) = ReadTable(path)
+        Dim header As String() = rows(0)
+        Dim valueCol As Integer = Array.IndexOf(header, columnName)
+
+        If valueCol < 0 Then
+            Return table
+        End If
+
+        For Each row As String() In rows.Skip(1)
+            If row.Length <= std.Max(valueCol, keyColumn) Then
+                Continue For
+            End If
+
+            table(row(keyColumn).Trim) = row(valueCol).Trim
+        Next
+
+        Return table
+    End Function
 
     ''' <summary>
     ''' 从程序目录向上查找 <c>data/syncom/total.csv</c>
