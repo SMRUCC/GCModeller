@@ -343,8 +343,8 @@ Public Class BinaryDataWriter : Inherits BinaryWriter
     ''' <param name="value">The value to write.</param>
     Public Overrides Sub Write(value As Double)
         If _needsReversion Then
-            Dim bytes As Byte() = BitConverter.GetBytes(value)
-            WriteReversed(bytes)
+            Call BitConverter.TryWriteBytes(_endianScratch.AsSpan(0, 8), value)
+            Call WriteReversedScratch(8)
         Else
             MyBase.Write(value)
         End If
@@ -367,8 +367,8 @@ Public Class BinaryDataWriter : Inherits BinaryWriter
     ''' <param name="value">The value to write.</param>
     Public Overrides Sub Write(value As Int16)
         If _needsReversion Then
-            Dim bytes As Byte() = BitConverter.GetBytes(value)
-            WriteReversed(bytes)
+            Call BitConverter.TryWriteBytes(_endianScratch.AsSpan(0, 2), value)
+            Call WriteReversedScratch(2)
         Else
             MyBase.Write(value)
         End If
@@ -392,8 +392,8 @@ Public Class BinaryDataWriter : Inherits BinaryWriter
     ''' <param name="value">The value to write.</param>
     Public Overrides Sub Write(value As Int32)
         If _needsReversion Then
-            Dim bytes As Byte() = BitConverter.GetBytes(value)
-            WriteReversed(bytes)
+            Call BitConverter.TryWriteBytes(_endianScratch.AsSpan(0, 4), value)
+            Call WriteReversedScratch(4)
         ElseIf RerouteInt32ToUnsigned Then
             MyBase.Write(CUInt(value))
         Else
@@ -419,8 +419,8 @@ Public Class BinaryDataWriter : Inherits BinaryWriter
     ''' <param name="value">The value to write.</param>
     Public Overrides Sub Write(value As Int64)
         If _needsReversion Then
-            Dim bytes As Byte() = BitConverter.GetBytes(value)
-            WriteReversed(bytes)
+            Call BitConverter.TryWriteBytes(_endianScratch.AsSpan(0, 8), value)
+            Call WriteReversedScratch(8)
         Else
             MyBase.Write(value)
         End If
@@ -444,8 +444,8 @@ Public Class BinaryDataWriter : Inherits BinaryWriter
     ''' <param name="value">The value to write.</param>
     Public Overrides Sub Write(value As Single)
         If _needsReversion Then
-            Dim bytes As Byte() = BitConverter.GetBytes(value)
-            WriteReversed(bytes)
+            Call BitConverter.TryWriteBytes(_endianScratch.AsSpan(0, 4), value)
+            Call WriteReversedScratch(4)
         Else
             MyBase.Write(value)
         End If
@@ -515,8 +515,8 @@ Public Class BinaryDataWriter : Inherits BinaryWriter
     ''' <param name="value">The value to write.</param>
     Public Overrides Sub Write(value As UInt16)
         If _needsReversion Then
-            Dim bytes As Byte() = BitConverter.GetBytes(value)
-            WriteReversed(bytes)
+            Call BitConverter.TryWriteBytes(_endianScratch.AsSpan(0, 2), value)
+            Call WriteReversedScratch(2)
         Else
             MyBase.Write(value)
         End If
@@ -540,8 +540,8 @@ Public Class BinaryDataWriter : Inherits BinaryWriter
     ''' <param name="value">The value to write.</param>
     Public Overrides Sub Write(value As UInt32)
         If _needsReversion Then
-            Dim bytes As Byte() = BitConverter.GetBytes(value)
-            WriteReversed(bytes)
+            Call BitConverter.TryWriteBytes(_endianScratch.AsSpan(0, 4), value)
+            Call WriteReversedScratch(4)
         Else
             MyBase.Write(value)
         End If
@@ -565,8 +565,8 @@ Public Class BinaryDataWriter : Inherits BinaryWriter
     ''' <param name="value">The value to write.</param>
     Public Overrides Sub Write(value As UInt64)
         If _needsReversion Then
-            Dim bytes As Byte() = BitConverter.GetBytes(value)
-            WriteReversed(bytes)
+            Call BitConverter.TryWriteBytes(_endianScratch.AsSpan(0, 8), value)
+            Call WriteReversedScratch(8)
         Else
             MyBase.Write(value)
         End If
@@ -592,6 +592,33 @@ Public Class BinaryDataWriter : Inherits BinaryWriter
     Private Sub WriteReversed(bytes As Byte())
         Array.Reverse(bytes)
         MyBase.Write(bytes)
+    End Sub
+
+    ''' <summary>
+    ''' 系统字节序暂存区（最多 8 字节）。
+    ''' </summary>
+    Private ReadOnly _endianScratch As Byte() = New Byte(7) {}
+
+    ''' <summary>
+    ''' 反转后的字节序暂存区（最多 8 字节）。
+    ''' </summary>
+    Private ReadOnly _endianReversed As Byte() = New Byte(7) {}
+
+    ''' <summary>
+    ''' 把暂存区中的前 <paramref name="count"/> 个字节按反转顺序写入底层流。
+    ''' </summary>
+    ''' <remarks>
+    ''' 旧实现使用 <c>BitConverter.GetBytes(value)</c> 创建一个临时数组后再原地反转，
+    ''' 批量写入数值（例如导出数值列）时每个标量都会产生一次托管堆分配。
+    ''' 此处改用实例级暂存区，使 2/4/8 字节标量的写入完全无分配。
+    ''' <see cref="BinaryDataWriter"/> 本身不是线程安全的，实例级暂存区不会引入额外的并发风险。
+    ''' </remarks>
+    Private Sub WriteReversedScratch(count As Integer)
+        For i As Integer = 0 To count - 1
+            _endianReversed(i) = _endianScratch(count - 1 - i)
+        Next
+
+        MyBase.Write(_endianReversed, 0, count)
     End Sub
 
     ''' <summary>

@@ -180,55 +180,110 @@ Namespace device
                     fillFixedLengthStringData(newArray, dims.Skip(1).ToArray, buffer, stringLength)
                 Next
             Else
-                Dim chunks = buffer.Split(stringLength).ToArray
-
+                ' 逐元素直接按偏移量解码：原来的 buffer.Split(stringLength) 会为每个元素分配一个 Byte()，
+                ' 百万行级别的字符串 dataset 会产生同样数量的短命数组。
                 For i As Integer = 0 To dims(0) - 1
-                    Dim elementBuffer = chunks(i)
+                    Dim start As Integer = i * stringLength
+                    Dim count As Integer = System.Math.Min(stringLength, buffer.Length - start)
 
-                    Call data.SetValue(Encoding.ASCII.GetString(elementBuffer).Trim(), i)
+                    If count > 0 Then
+                        Call data.SetValue(Encoding.ASCII.GetString(buffer, start, count).Trim(), i)
+                    Else
+                        Call data.SetValue(String.Empty, i)
+                    End If
                 Next
             End If
         End Sub
 
+        ''' <summary>
+        ''' 把字节缓冲按照指定元素宽度解码为数值数组。
+        ''' </summary>
+        ''' <remarks>
+        ''' 旧实现使用 <c>buffer.Split(width).Select(...)</c>，会为每一个元素分配一个 Byte()
+        ''' 并在元素上直接 <see cref="Array.Reverse(Array)"/>；对于百万元素级别的 dataset，
+        ''' 这意味着百万次小数组分配。这里改为复用单个 <paramref name="scratch"/> 缓冲，
+        ''' 分配次数从 O(n) 降为 O(1)。
+        ''' </remarks>
         <Extension>
         Private Function asFloatBuffer(buffer As Byte(), byteOrder As ByteOrder) As Single()
-            Return buffer.Split(4) _
-                .Select(Function(chunk)
-                            If NeedsReversion(byteOrder) Then
-                                Call Array.Reverse(chunk)
-                            End If
+            Dim n As Integer = buffer.Length \ 4
+            Dim values As Single() = New Single(n - 1) {}
+            Dim reversed As Boolean = NeedsReversion(byteOrder)
+            Dim scratch As Byte() = New Byte(3) {}
 
-                            Return BitConverter.ToSingle(chunk, Scan0)
-                        End Function) _
-                .ToArray
+            For i As Integer = 0 To n - 1
+                Call System.Buffer.BlockCopy(buffer, i * 4, scratch, 0, 4)
+
+                If reversed Then
+                    Call Array.Reverse(scratch)
+                End If
+
+                values(i) = BitConverter.ToSingle(scratch, Scan0)
+            Next
+
+            Return values
         End Function
 
         <Extension>
         Private Function asDoubleBuffer(buffer As Byte(), byteOrder As ByteOrder) As Double()
-            Return buffer.Split(8) _
-                .Select(Function(chunk)
-                            If NeedsReversion(byteOrder) Then
-                                Call Array.Reverse(chunk)
-                            End If
+            Dim n As Integer = buffer.Length \ 8
+            Dim values As Double() = New Double(n - 1) {}
+            Dim reversed As Boolean = NeedsReversion(byteOrder)
+            Dim scratch As Byte() = New Byte(7) {}
 
-                            Return BitConverter.ToDouble(chunk, Scan0)
-                        End Function) _
-                .ToArray
+            For i As Integer = 0 To n - 1
+                Call System.Buffer.BlockCopy(buffer, i * 8, scratch, 0, 8)
+
+                If reversed Then
+                    Call Array.Reverse(scratch)
+                End If
+
+                values(i) = BitConverter.ToDouble(scratch, Scan0)
+            Next
+
+            Return values
         End Function
 
         <Extension>
         Private Function asIntBuffer(buffer As Byte(), byteOrder As ByteOrder) As Integer()
-            Return buffer.Split(4).Select(Function(chunk) BinaryReader.ToInteger(chunk, byteOrder)).ToArray
+            Dim n As Integer = buffer.Length \ 4
+            Dim values As Integer() = New Integer(n - 1) {}
+            Dim scratch As Byte() = New Byte(3) {}
+
+            For i As Integer = 0 To n - 1
+                Call System.Buffer.BlockCopy(buffer, i * 4, scratch, 0, 4)
+                values(i) = BinaryReader.ToInteger(scratch, byteOrder)
+            Next
+
+            Return values
         End Function
 
         <Extension>
         Private Function asLongBuffer(buffer As Byte(), byteOrder As ByteOrder) As Long()
-            Return buffer.Split(8).Select(Function(chunk) BinaryReader.ToLong(chunk, byteOrder)).ToArray
+            Dim n As Integer = buffer.Length \ 8
+            Dim values As Long() = New Long(n - 1) {}
+            Dim scratch As Byte() = New Byte(7) {}
+
+            For i As Integer = 0 To n - 1
+                Call System.Buffer.BlockCopy(buffer, i * 8, scratch, 0, 8)
+                values(i) = BinaryReader.ToLong(scratch, byteOrder)
+            Next
+
+            Return values
         End Function
 
         <Extension>
         Private Function asShortBuffer(buffer As Byte(), byteOrder As ByteOrder) As Short()
-            Return buffer.Split(2).Select(Function(chunk) BinaryReader.ToShort(chunk, byteOrder)).ToArray
+            Dim n As Integer = buffer.Length \ 2
+            Dim values As Short() = New Short(n - 1) {}
+            Dim scratch As Byte() = New Byte(1) {}
+
+            For i As Integer = 0 To n - 1
+                Call System.Buffer.BlockCopy(buffer, i * 2, scratch, 0, 2)
+                values(i) = BinaryReader.ToShort(scratch, byteOrder)
+            Next
+
+            Return values
         End Function
 
         Private Sub fillData(Of T)(data As Array, dims As Integer(), buffer As T())

@@ -159,9 +159,27 @@ Public Class ByteBuffer : Inherits DataView
     End Function
 
     Public Function compact() As ByteBuffer
-        Dim newStream As New MemoryStream(capacity)
+        Dim capacityHint As Integer = capacity()
+        Dim remainingBytes As Integer = CInt(stream.Length - stream.Position)
+
+        If remainingBytes < 0 Then
+            remainingBytes = 0
+        End If
+
+        Dim newStream As New MemoryStream(capacityHint)
         mode = IOWorkModes.Write
-        stream.CopyTo(newStream)
+
+        Dim ms As MemoryStream = TryCast(stream, MemoryStream)
+        Dim view As ArraySegment(Of Byte)
+
+        ' Stream.CopyTo 每次调用都会租用约 80 KB 的内部临时数组，并且之后再拷贝一次到目标流。
+        ' 这里直接访问 MemoryStream 的底层缓冲区完成零拷贝搬运，避免该临时数组分配。
+        If ms IsNot Nothing AndAlso ms.TryGetBuffer(view) Then
+            Call newStream.Write(view.Array, view.Offset + CInt(stream.Position), remainingBytes)
+        Else
+            Call stream.CopyTo(newStream)
+        End If
+
         stream = newStream
         Return Me
     End Function

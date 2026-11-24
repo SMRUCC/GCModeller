@@ -55,6 +55,7 @@
 
 #End Region
 
+Imports System.Buffers.Binary
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
@@ -347,31 +348,34 @@ Module Utils
         Select Case type
             Case CDFDataTypes.NC_BYTE, CDFDataTypes.NC_UBYTE : Return DirectCast(data, Byte())
             Case CDFDataTypes.BOOLEAN : Return DirectCast(data, Boolean()).Select(Function(b) CByte(If(b, 1, 0))).ToArray
-            Case CDFDataTypes.NC_CHAR, CDFDataTypes.NC_STRING : Return encoding.GetBytes(New String(DirectCast(data, Char())))
-            Case CDFDataTypes.NC_SHORT : Return toBE(DirectCast(data, Short()), 2, AddressOf BitConverter.GetBytes)
-            Case CDFDataTypes.NC_USHORT : Return toBE(DirectCast(data, UShort()), 2, AddressOf BitConverter.GetBytes)
-            Case CDFDataTypes.NC_INT : Return toBE(DirectCast(data, Integer()), 4, AddressOf BitConverter.GetBytes)
-            Case CDFDataTypes.NC_UINT : Return toBE(DirectCast(data, UInteger()), 4, AddressOf BitConverter.GetBytes)
-            Case CDFDataTypes.NC_INT64 : Return toBE(DirectCast(data, Long()), 8, AddressOf BitConverter.GetBytes)
-            Case CDFDataTypes.NC_UINT64 : Return toBE(DirectCast(data, ULong()), 8, AddressOf BitConverter.GetBytes)
-            Case CDFDataTypes.NC_FLOAT : Return toBE(DirectCast(data, Single()), 4, AddressOf BitConverter.GetBytes)
-            Case CDFDataTypes.NC_DOUBLE : Return toBE(DirectCast(data, Double()), 8, AddressOf BitConverter.GetBytes)
+            Case CDFDataTypes.NC_CHAR, CDFDataTypes.NC_STRING : Return encoding.GetBytes(DirectCast(data, Char()))
+            Case CDFDataTypes.NC_SHORT : Return toBE(DirectCast(data, Short()), 2, Sub(v, buf, off) Call BinaryPrimitives.WriteInt16BigEndian(buf.AsSpan(off, 2), v))
+            Case CDFDataTypes.NC_USHORT : Return toBE(DirectCast(data, UShort()), 2, Sub(v, buf, off) Call BinaryPrimitives.WriteUInt16BigEndian(buf.AsSpan(off, 2), v))
+            Case CDFDataTypes.NC_INT : Return toBE(DirectCast(data, Integer()), 4, Sub(v, buf, off) Call BinaryPrimitives.WriteInt32BigEndian(buf.AsSpan(off, 4), v))
+            Case CDFDataTypes.NC_UINT : Return toBE(DirectCast(data, UInteger()), 4, Sub(v, buf, off) Call BinaryPrimitives.WriteUInt32BigEndian(buf.AsSpan(off, 4), v))
+            Case CDFDataTypes.NC_INT64 : Return toBE(DirectCast(data, Long()), 8, Sub(v, buf, off) Call BinaryPrimitives.WriteInt64BigEndian(buf.AsSpan(off, 8), v))
+            Case CDFDataTypes.NC_UINT64 : Return toBE(DirectCast(data, ULong()), 8, Sub(v, buf, off) Call BinaryPrimitives.WriteUInt64BigEndian(buf.AsSpan(off, 8), v))
+            Case CDFDataTypes.NC_FLOAT : Return toBE(DirectCast(data, Single()), 4, Sub(v, buf, off) Call BinaryPrimitives.WriteSingleBigEndian(buf.AsSpan(off, 4), v))
+            Case CDFDataTypes.NC_DOUBLE : Return toBE(DirectCast(data, Double()), 8, Sub(v, buf, off) Call BinaryPrimitives.WriteDoubleBigEndian(buf.AsSpan(off, 8), v))
             Case Else : Return notNetcdf(True, $"non valid type {type}")
         End Select
     End Function
 
-    Private Function toBE(Of T)(values As T(), elemSize As Integer, getBytes As Func(Of T, Byte())) As Byte()
+    ''' <summary>
+    ''' 把数值数组按照大端字节序写入新分配的字节缓冲。
+    ''' </summary>
+    ''' <param name="writeBytes">把单个元素写入目标缓冲指定偏移处的委托。</param>
+    ''' <remarks>
+    ''' 旧实现对每个元素调用一次 <see cref="BitConverter.GetBytes(Short)"/>（新数组）再
+    ''' <see cref="Array.Reverse(Array)"/>（原地），并且 <c>BitConverter.GetBytes</c> 返回的
+    ''' 数组还会被丢弃。改用直接写入目标缓冲后，分配次数从 O(n) 降为 O(1)。
+    ''' </remarks>
+    Private Function toBE(Of T)(values As T(), elemSize As Integer,
+                                writeBytes As Action(Of T, Byte(), Integer)) As Byte()
         Dim out As Byte() = New Byte(values.Length * elemSize - 1) {}
-        Dim tmp As Byte()
 
         For i As Integer = 0 To values.Length - 1
-            tmp = getBytes(values(i))
-
-            If BitConverter.IsLittleEndian Then
-                Call Array.Reverse(tmp)
-            End If
-
-            Call Array.Copy(tmp, 0, out, i * elemSize, elemSize)
+            Call writeBytes(values(i), out, i * elemSize)
         Next
 
         Return out

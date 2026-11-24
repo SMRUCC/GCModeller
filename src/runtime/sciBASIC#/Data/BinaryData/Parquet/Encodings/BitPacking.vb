@@ -2,6 +2,7 @@ Option Strict On
 Option Explicit On
 Option Infer On
 
+Imports System.Buffers.Binary
 Imports System.IO
 
 Namespace Encodings
@@ -206,27 +207,44 @@ Namespace Encodings
 
         Private Sub WriteRunValue(stream As Stream, value As Integer, bitWidth As Integer)
             Dim bytes As Integer = (bitWidth + 7) \ 8
-            Dim buffer As Byte() = BitConverter.GetBytes(value)
 
-            If Not BitConverter.IsLittleEndian Then
-                Array.Reverse(buffer)
+            If bytes <= 0 Then
+                Return
             End If
 
-            Call stream.Write(buffer, 0, bytes)
+            ' 复用线程静态暂存区写入小端字节序，再按有效字节数输出，
+            ' 避免 BitConverter.GetBytes 的数组分配（VB 没有 stackalloc 关键字）
+            Dim buffer As Byte() = ByteWriter.ScratchOf(4)
+
+            BinaryPrimitives.WriteInt32LittleEndian(buffer.AsSpan(0, 4), value)
+            stream.Write(buffer, 0, System.Math.Min(bytes, 4))
         End Sub
 
         Private Function ReadRunValue(reader As ByteReader, bitWidth As Integer) As Integer
             Dim bytes As Integer = (bitWidth + 7) \ 8
-            Dim buffer As Byte() = reader.ReadBytes(bytes)
-            Dim full As Byte() = New Byte(3) {}
 
-            System.Buffer.BlockCopy(buffer, 0, full, 0, bytes)
-
-            If Not BitConverter.IsLittleEndian Then
-                Array.Reverse(full)
+            If bytes <= 0 Then
+                Return 0
             End If
 
-            Return BitConverter.ToInt32(full, 0)
+            ' 直接从页缓冲的目标位置读取：不再经过 ReadBytes 的临时数组，也不再补齐出一份 4 字节数组
+            Dim start As Integer = reader.Position
+            Call reader.Skip(bytes)
+
+            Dim data As Byte() = reader.Data
+            Dim value As Integer = 0
+
+            If BitConverter.IsLittleEndian Then
+                For b As Integer = 0 To bytes - 1
+                    value = value Or (CInt(data(start + b)) << (b * 8))
+                Next
+            Else
+                For b As Integer = 0 To bytes - 1
+                    value = (value << 8) Or CInt(data(start + b))
+                Next
+            End If
+
+            Return value
         End Function
 
         Private Sub WriteBitPackedRun(stream As Stream, values As Integer(), start As Integer, count As Integer, bitWidth As Integer)

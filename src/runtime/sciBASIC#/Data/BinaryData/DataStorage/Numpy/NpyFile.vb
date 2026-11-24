@@ -360,9 +360,9 @@ Namespace Numpy
                     i += 1
                 End If
 
-                Dim chunk As Byte() = BitConverter.GetBytes(codePoint)
-
-                Call Array.Copy(chunk, 0, buffer, offset + [index] * 4, 4)
+                ' 直接写入目标缓冲：BitConverter.GetBytes 会为每个码点分配一个 4 字节数组，
+                ' TryWriteBytes 的字节序语义与 GetBytes 完全一致，但不产生分配。
+                Call BitConverter.TryWriteBytes(buffer.AsSpan(offset + [index] * 4, 4), codePoint)
 
                 [index] += 1
             End While

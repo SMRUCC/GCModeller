@@ -188,16 +188,16 @@ Namespace device
         End Function
 
         Private Function readVariableSizeN([in] As BinaryReader, nbytes As Integer) As Long
-            Dim ch As Integer() = New Integer(nbytes - 1) {}
-            For i As Integer = 0 To nbytes - 1
-                ch(i) = [in].readByte()
-            Next
+            If nbytes <= 0 Then
+                Return 0
+            End If
 
-            Dim result As Long = ch(nbytes - 1)
+            ' 旧实现先把 nbytes 个字节读进一个 Integer 数组再回填，HDF5 中所有变长整数
+            ' （address / length / offset）都会走到这里。直接累加即可，无需任何数组分配。
+            Dim result As Long = [in].readByte()
 
-            For i As Integer = nbytes - 2 To 0 Step -1
-                result = result << 8
-                result += ch(i)
+            For i As Integer = 1 To nbytes - 1
+                result = result Or (CLng([in].readByte()) << (i * 8))
             Next
 
             Return result

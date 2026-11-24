@@ -2,6 +2,7 @@ Option Strict On
 Option Explicit On
 Option Infer On
 
+Imports System.Buffers.Binary
 Imports System.IO
 
 Namespace Encodings
@@ -87,7 +88,7 @@ Namespace Encodings
         Public Function ReadInt16() As Short
             Call Ensure(2)
 
-            Dim value As Short = BitConverter.ToInt16(ToLittleEndian(_data, _position, 2), 0)
+            Dim value As Short = BinaryPrimitives.ReadInt16LittleEndian(_data.AsSpan(_position, 2))
             _position += 2
 
             Return value
@@ -96,7 +97,7 @@ Namespace Encodings
         Public Function ReadInt32() As Integer
             Call Ensure(4)
 
-            Dim value As Integer = BitConverter.ToInt32(ToLittleEndian(_data, _position, 4), 0)
+            Dim value As Integer = BinaryPrimitives.ReadInt32LittleEndian(_data.AsSpan(_position, 4))
             _position += 4
 
             Return value
@@ -105,7 +106,7 @@ Namespace Encodings
         Public Function ReadInt64() As Long
             Call Ensure(8)
 
-            Dim value As Long = BitConverter.ToInt64(ToLittleEndian(_data, _position, 8), 0)
+            Dim value As Long = BinaryPrimitives.ReadInt64LittleEndian(_data.AsSpan(_position, 8))
             _position += 8
 
             Return value
@@ -114,7 +115,7 @@ Namespace Encodings
         Public Function ReadSingle() As Single
             Call Ensure(4)
 
-            Dim value As Single = BitConverter.ToSingle(ToLittleEndian(_data, _position, 4), 0)
+            Dim value As Single = BinaryPrimitives.ReadSingleLittleEndian(_data.AsSpan(_position, 4))
             _position += 4
 
             Return value
@@ -123,25 +124,35 @@ Namespace Encodings
         Public Function ReadDouble() As Double
             Call Ensure(8)
 
-            Dim value As Double = BitConverter.ToDouble(ToLittleEndian(_data, _position, 8), 0)
+            Dim value As Double = BinaryPrimitives.ReadDoubleLittleEndian(_data.AsSpan(_position, 8))
             _position += 8
 
             Return value
         End Function
 
         Public Function ReadBytes(count As Integer) As Byte()
-            Call Ensure(count)
-
             Dim buffer As Byte() = New Byte(count - 1) {}
 
-            If count > 0 Then
-                System.Buffer.BlockCopy(_data, _position, buffer, 0, count)
-            End If
-
-            _position += count
+            Call ReadBytes(count, buffer, 0)
 
             Return buffer
         End Function
+
+        ''' <summary>
+        ''' 把 <paramref name="count"/> 个字节读入调用方提供的缓冲区，不产生新的数组分配。
+        ''' </summary>
+        ''' <remarks>
+        ''' 该重载不做所有权转移：缓冲区的生命周期由调用方管理。
+        ''' </remarks>
+        Public Sub ReadBytes(count As Integer, buffer As Byte(), offset As Integer)
+            Call Ensure(count)
+
+            If count > 0 Then
+                System.Buffer.BlockCopy(_data, _position, buffer, offset, count)
+            End If
+
+            _position += count
+        End Sub
 
         Public Function ReadVarint() As ULong
             Dim result As ULong = 0UL
@@ -168,25 +179,15 @@ Namespace Encodings
 
         Public Function ReadZigZag() As Long
             Dim value As ULong = ReadVarint()
-            Dim raw As Long = BitConverter.ToInt64(BitConverter.GetBytes(value >> 1), 0)
+            ' value >> 1 的最高位必然为 0，CLng 与 BitConverter.ToInt64(GetBytes(...)) 的位模式完全一致，
+            ' 但无需再分配一个 8 字节的临时数组。
+            Dim raw As Long = CLng(value >> 1)
 
             If (value And 1UL) <> 0UL Then
                 raw = Not raw
             End If
 
             Return raw
-        End Function
-
-        Private Shared Function ToLittleEndian(data As Byte(), offset As Integer, size As Integer) As Byte()
-            Dim buffer As Byte() = New Byte(size - 1) {}
-
-            System.Buffer.BlockCopy(data, offset, buffer, 0, size)
-
-            If Not BitConverter.IsLittleEndian Then
-                Array.Reverse(buffer)
-            End If
-
-            Return buffer
         End Function
 
     End Class
@@ -196,44 +197,54 @@ Namespace Encodings
     ''' </summary>
     Public Module ByteWriter
 
-        Public Sub WriteInt32LE(stream As Stream, value As Integer)
-            Dim bytes As Byte() = BitConverter.GetBytes(value)
+        ''' <summary>
+        ''' 每个线程复用的 8 字节暂存区。
+        ''' </summary>
+        ''' <remarks>
+        ''' VB.NET 没有 <c>stackalloc</c> 关键字，因此这里使用线程静态暂存区来消除
+        ''' <see cref="BitConverter.GetBytes(Integer)"/> 带来的每次调用分配。
+        ''' 暂存区只在首次使用时分配，之后按线程复用。
+        ''' </remarks>
+        <ThreadStatic>
+        Private _tlsScratch As Byte()
 
-            If Not BitConverter.IsLittleEndian Then
-                Array.Reverse(bytes)
+        ''' <summary>
+        ''' 取得线程静态暂存区中长度不小于 <paramref name="minimumLength"/> 的缓冲。
+        ''' </summary>
+        Friend Function ScratchOf(minimumLength As Integer) As Byte()
+            If _tlsScratch Is Nothing OrElse _tlsScratch.Length < minimumLength Then
+                _tlsScratch = New Byte(minimumLength - 1) {}
             End If
 
-            stream.Write(bytes, 0, 4)
+            Return _tlsScratch
+        End Function
+
+        Public Sub WriteInt32LE(stream As Stream, value As Integer)
+            Dim buffer As Byte() = ScratchOf(4)
+
+            BinaryPrimitives.WriteInt32LittleEndian(buffer.AsSpan(0, 4), value)
+            stream.Write(buffer, 0, 4)
         End Sub
 
         Public Sub WriteInt64LE(stream As Stream, value As Long)
-            Dim bytes As Byte() = BitConverter.GetBytes(value)
+            Dim buffer As Byte() = ScratchOf(8)
 
-            If Not BitConverter.IsLittleEndian Then
-                Array.Reverse(bytes)
-            End If
-
-            stream.Write(bytes, 0, 8)
+            BinaryPrimitives.WriteInt64LittleEndian(buffer.AsSpan(0, 8), value)
+            stream.Write(buffer, 0, 8)
         End Sub
 
         Public Sub WriteSingleLE(stream As Stream, value As Single)
-            Dim bytes As Byte() = BitConverter.GetBytes(value)
+            Dim buffer As Byte() = ScratchOf(4)
 
-            If Not BitConverter.IsLittleEndian Then
-                Array.Reverse(bytes)
-            End If
-
-            stream.Write(bytes, 0, 4)
+            BinaryPrimitives.WriteSingleLittleEndian(buffer.AsSpan(0, 4), value)
+            stream.Write(buffer, 0, 4)
         End Sub
 
         Public Sub WriteDoubleLE(stream As Stream, value As Double)
-            Dim bytes As Byte() = BitConverter.GetBytes(value)
+            Dim buffer As Byte() = ScratchOf(8)
 
-            If Not BitConverter.IsLittleEndian Then
-                Array.Reverse(bytes)
-            End If
-
-            stream.Write(bytes, 0, 8)
+            BinaryPrimitives.WriteDoubleLittleEndian(buffer.AsSpan(0, 8), value)
+            stream.Write(buffer, 0, 8)
         End Sub
 
         Public Sub WriteVarint(stream As Stream, value As ULong)
@@ -255,7 +266,8 @@ Namespace Encodings
         Public Sub WriteZigZag(stream As Stream, value As Long)
             Dim zz As Long = (value << 1) Xor (value >> 63)
 
-            Call WriteVarint(stream, BitConverter.ToUInt64(BitConverter.GetBytes(zz), 0))
+            ' CULng 与 BitConverter.ToUInt64(BitConverter.GetBytes(zz)) 的位模式一致，但不再分配数组。
+            Call WriteVarint(stream, CULng(zz))
         End Sub
 
     End Module
