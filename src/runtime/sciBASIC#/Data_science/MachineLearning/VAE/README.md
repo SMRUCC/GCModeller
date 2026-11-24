@@ -146,8 +146,6 @@ Dim metrics = vae.Evaluate(images)   ' (每像素 BCE, 每像素 MSE, KL 均值)
   `SparseAdjacency` 降到 O(E)。
 - **卷积 VAE 的转置卷积**：最近邻上采样 ×2 等价于「2×2 单位核 + 步长 2」的转置卷积，而转置卷积
   正是 `Conv2D` 的伴随算子，直接复用仓库已有的 `Conv2DBackwardInput`，无需新内核。
-- **计数数据**：单细胞表达量是过度离散的非负整数，高斯 + MSE 会把稀有基因平滑掉。
-  `CountLikelihood` 提供 Gaussian / Poisson / NegativeBinomial / ZeroInflatedNegativeBinomial。
 
 ## 质量审计
 
@@ -174,7 +172,6 @@ dotnet run -c Debug -- --audit
 | `gmm` | 四种协方差结构、BIC 选 K、持久化、全协方差采样相关性、空簇、输入校验 |
 | `gmvae` | 纯自编码器重构能力、同种子可复现、持久化、条件生成、伯努利有界性 |
 | `graphvae` | 持久化、变长图掩码、稀疏/稠密等价、输入校验、KL 退火与早停 |
-| `cells` | NB/ZINB 闭式似然、似然梯度与差分一致、文库大小归一化、反事实方向性、持久化 |
 | `convvae` | 上采样与转置卷积算子等价、重构误差下降、输出有界、持久化 |
 | `compatibility` | **只用重构前就存在的签名**逐个调用三个模型，验证公开 API 零破坏 |
 | `regression` | 已确认缺陷的回归用例（GMM 权重初始化、LogDeterminant 符号、GMVAE 类别信号、GraphVAE 评估确定性） |
