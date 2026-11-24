@@ -192,7 +192,8 @@ Public Module CompatibilityAudit
         Call DebugAudit.Test(predictedWithFeatures.Item2.Shape(0) = nodes, "Predict 特征形状不符")
         Call DebugAudit.Test(generated.Item1.Shape(0) = nodes, "Generate 邻接形状不符")
         Call DebugAudit.Test(AuditSupport.IsFinite(evaluation.Item1), "Evaluate 损失必须有限")
-        Call DebugAudit.Test(model.ToString().StartsWith("GraphVAE("), "ToString 前缀不符")
+        ' 重构前 GraphVAE 没有重写 ToString，这里只验证它仍然可调用
+        Call DebugAudit.Test(Not String.IsNullOrEmpty(model.ToString()), "ToString 必须可调用")
     End Sub
 
 #End Region
