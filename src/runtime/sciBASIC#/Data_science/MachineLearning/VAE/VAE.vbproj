@@ -19,7 +19,7 @@
     <Company>sciBASIC.NET Foundation</Company>
     <Copyright>Copyright (c) sciBASIC.NET Foundation</Copyright>
     <PackageTags>scibasic;variational-autoencoder;gmm;generative-model;clustering</PackageTags>
-    <PackageReleaseNotes>Package maintenance release: build and packaging configuration updates only, no functional changes in this cycle.</PackageReleaseNotes>
+    <PackageReleaseNotes>Removed the Cells namespace (ConditionalVAE, PerturbationDataset, CountLikelihood); the single-cell perturbation model now lives in SMRUCC.genomics.Analysis.VAGene. This package is a general-purpose generative model library.</PackageReleaseNotes>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <PackageIcon>logo-knot.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>

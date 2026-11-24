@@ -1,34 +1,39 @@
 #!/usr/bin/env Rscript
 #
-# 合成菌群(synthetic community)转录组演示数据的生成器。
+# 合成菌群(synthetic community)转录组演示数据的生成器 + limma/GSVA 通路验证。
 #
-# 数据设计严格遵循 Nature Communications (2026) 17:11310 的生物学机制与结论：
+# 数据设计遵循 Nature Communications (2026) 17:11310 的生物学机制与结论：
 #   "Herbicide degradation is driven by communication-mediated division of labor
 #    in synthetic communities" (Zhang et al.)
 #
 # 1. 四个菌株：Y1(Comamonas), K1(Acinetobacter), B1(Pseudomonas), H1(Bacillus)
 #    两个合成菌群：YKB = Y1 + K1 + B1，HKB = H1 + K1 + B1 (K1/B1 是共享成员)
 # 2. 代谢分工：
-#    - YKB: K1 是主要降解者(AHL/LuxR 直接调控起始步骤酶 atzA/ethBAD/nsh)，
-#           Y1 是能量供给者(糖类与能量代谢、转运体)，
-#           B1 是 "代谢清道夫"(色氨酸代谢将中间产物转化为 acetyl-CoA 进入 TCA)
-#    - HKB: H1 负责 DNA 修复、AI-2 信号与硫代谢，
-#           K1 转向色氨酸代谢与降解协作，
-#           B1 成为核心降解者(AI-2/LsrR 调控下游酶 atzC/meaB/fad)
-# 3. 功能可塑性：K1 在 YKB 中主导降解、在 HKB 中转向色氨酸代谢；
-#    B1 在 YKB 中辅助色氨酸代谢、在 HKB 中成为核心降解者
-# 4. QS 调控：YKB 以 C6-HSL/AHL(luxI/luxR)为主，HKB 以 DPD/AI-2(luxS)为主；
-#    抑制 AHL 主要打击起始步骤酶，抑制 AI-2 主要打击下游步骤酶
-# 5. 四类除草剂(triazines/amides/sulfonylureas/ethers)的关键酶基因在四个菌株中
-#    均为同源家族(并集定量时会交叉分配 reads)，这正是矩阵分解需要还原的部分
+#    - YKB: K1 是主要降解者(起始步骤酶 atzA/ethBAD/nsh)；Y1 是能量供给者
+#           (糖类与能量代谢、转运体)；B1 是 "代谢清道夫"(色氨酸代谢 -> acetyl-CoA -> TCA)
+#    - HKB: H1 负责硫代谢、DNA 修复与 AI-2 信号；K1 与 B1 共同承担降解(B1 为核心)
+# 3. QS 调控：YKB 以 C6-HSL/AHL(luxI/luxR)为主，HKB 以 DPD/AI-2(luxS)为主；
+#    AHL 抑制主要压制 K1 的降解程序，AI-2 抑制主要压制 B1 的降解程序
+# 4. 每个基因都带有 KEGG 直系同源(KO)编号与 KEGG 通路注释；同源家族成员共享 KO。
+#
+# 关于 KO 编号：脚本使用 KEGG Orthology 的编号命名空间(K#####)。中心代谢、QS、
+# 硫代谢、DNA 修复等使用公开的经典 KO；除草剂降解酶使用 map00791/map00627/map00983
+# 的 KO 区间作为示例编号。离线环境下无法与 KEGG 最新版本逐条核对，示例数据只保证
+# “KO <-> 通路” 的映射关系内部一致；正式分析请以 KEGG 数据库的最新注释为准。
+#
+# 分析流程：
+#   并集表达矩阵 -> limma(差异表达) + GSVA(KEGG 通路打分)
+#   -> 与论文结论逐条比对 -> 不满足时自动微调 module_base 并重新模拟(校准循环)
+#   -> 收敛后写出 CSV(总矩阵、真值矩阵、基因组、家族、注释、设计、通路、GSVA、DE、结论)
 #
 # 用法:
 #   Rscript syncom_demo_data.R [outputDir]
 # 默认输出到 data/syncom（相对于当前工作目录）。
 #
-suppressWarnings(suppressMessages({
-  invisible(NULL)
-}))
+suppressPackageStartupMessages({
+  library(limma)
+  library(GSVA)
+})
 
 args <- commandArgs(trailingOnly = TRUE)
 outDir <- if (length(args) >= 1L) args[[1]] else file.path("data", "syncom")
@@ -36,10 +41,10 @@ outDir <- if (length(args) >= 1L) args[[1]] else file.path("data", "syncom")
 dir.create(outDir, recursive = TRUE, showWarnings = FALSE)
 dir.create(file.path(outDir, "truth"), recursive = TRUE, showWarnings = FALSE)
 
-set.seed(20261124)
+SEED <- 20261124
 
 # ---------------------------------------------------------------------------
-# 1. 菌株、基因模块与关键酶
+# 1. 菌株、功能模块、KEGG 通路与 KO
 # ---------------------------------------------------------------------------
 
 strains <- c("Y1", "K1", "B1", "H1")
@@ -49,82 +54,157 @@ modules <- c("herb_initial", "herb_downstream", "qs_ahl", "qs_ai2", "tryptophan"
              "sulfur", "carbohydrate", "dna_repair", "biofilm", "transporter",
              "housekeeping")
 
-# 起始步骤酶(AHL/LuxR 直接结合启动子: atzA, ethBAD, nsh)
-enzymes_initial <- c("atzA", "ethBAD", "nsh", "damH", "cmeH", "dpeL", "pmo", "thcBCD")
+# KEGG 通路(通路ID -> 名称)
+pathwayName <- c(
+  map00791 = "Atrazine degradation",
+  map00627 = "Aminobenzoate degradation",
+  map00983 = "Drug metabolism - other enzymes",
+  map00380 = "Tryptophan metabolism",
+  map00400 = "Phenylalanine, tyrosine and tryptophan biosynthesis",
+  map00920 = "Sulfur metabolism",
+  map00270 = "Cysteine and methionine metabolism",
+  map00010 = "Glycolysis / Gluconeogenesis",
+  map00020 = "Citrate cycle (TCA cycle)",
+  map00190 = "Oxidative phosphorylation",
+  map03440 = "Homologous recombination",
+  map03430 = "Mismatch repair",
+  map03420 = "Nucleotide excision repair",
+  map02024 = "Quorum sensing",
+  map02025 = "Biofilm formation",
+  map02010 = "ABC transporters",
+  map03010 = "Ribosome",
+  map00970 = "Aminoacyl-tRNA biosynthesis")
 
-# 下游步骤酶(AI-2/LsrR 直接结合启动子: atzC, meaB, fad)
-enzymes_downstream <- c("atzB", "atzC", "atzD", "atzE", "atzF", "trzA", "triA", "triB",
-                        "metS", "metDA", "meaXY", "meaA", "meaB", "cndC1", "nsr", "suh",
-                        "rutABC", "asdmH", "nao", "fad", "fah", "sah", "sox", "dnrA")
+ko <- function(from, to) sprintf("K%05d", seq.int(from, to))
 
-# 每个菌株的基因组：同源家族基因(酶/QS/核心代谢) + 菌株私有基因(标记基因)
+# 每个通路的 KO 池(同源家族从这个池中取编号；私有基因按顺序轮转分配)
+pathwayKO <- list(
+  map00791 = ko(3382, 3413),      # 除草剂起始/三嗪环降解酶
+  map00627 = ko(1447, 1460),      # 酰胺类下游代谢
+  map00983 = ko(1211, 1222),      # 磺酰脲水解/其他酶
+  map00380 = ko(1695, 1710),      # 色氨酸代谢
+  map00400 = ko(1657, 1670),      # 芳香族氨基酸合成
+  map00920 = ko(956, 975),        # 硫代谢
+  map00270 = ko(1738, 1750),      # Cys/Met 代谢
+  map00010 = c("K00845", "K01810", "K00850", "K01624", "K01803", "K00134",
+               "K00927", "K01834", "K01689", "K00873"),
+  map00020 = c("K01647", "K01681", "K00031", "K00164", "K00658", "K01902",
+               "K01903", "K00239", "K00240", "K01676", "K01679", "K00024"),
+  map00190 = c("K02112", "K02109", "K02117", "K02118", "K02298", "K02274"),
+  map03440 = c("K03553", "K03582", "K03583", "K03581", "K03111", "K03550",
+               "K03551", "K01134"),
+  map03430 = c("K03555", "K03572", "K06223", "K03657"),
+  map03420 = c("K03701", "K03702", "K03703"),
+  map02024 = c("K07173", "K13060", "K13061", "K11531", "K11532"),
+  map02025 = ko(20276, 20290),
+  map02010 = ko(2035, 2050),
+  map03010 = c("K03040", "K03043", "K03046", "K03086", "K02945", "K02967",
+               "K02863", "K02886", "K02904", "K02911"),
+  map00970 = c("K01866", "K01867", "K01868", "K01869", "K01870"))
+
+# KO -> 通路
+koPathway <- local({
+  table <- character()
+  for (p in names(pathwayKO)) {
+    table[pathwayKO[[p]]] <- p
+  }
+  table
+})
+
+# 功能模块 -> 通路(私有基因按照这个顺序轮转分配 KO/通路)
+modulePathways <- list(
+  herb_initial = c("map00791"),
+  herb_downstream = c("map00791", "map00627", "map00983"),
+  qs_ahl = c("map02024"),
+  qs_ai2 = c("map02024"),
+  tryptophan = c("map00380", "map00400"),
+  sulfur = c("map00920", "map00270"),
+  carbohydrate = c("map00010", "map00020", "map00190"),
+  dna_repair = c("map03440", "map03430", "map03420"),
+  biofilm = c("map02025"),
+  transporter = c("map02010"),
+  housekeeping = c("map03010", "map00970"))
+
+# 同源基因家族：家族名 -> 模块(四个菌株共享同一 KO/通路)
+families <- list(
+  herb_initial = c("atzA", "ethBAD", "nsh", "damH", "cmeH", "dpeL", "pmo", "thcBCD"),
+  herb_downstream = c("atzB", "atzC", "atzD", "atzE", "atzF", "trzA", "triA", "triB",
+                      "metS", "metDA", "meaXY", "meaA", "meaB", "cndC1", "nsr", "suh",
+                      "rutABC", "asdmH", "nao", "fad", "fah", "sah", "sox", "dnrA"),
+  tryptophan = c("trpA", "trpB", "trpC", "trpD", "trpE", "trpF", "trpG", "tnaA",
+                 "kynA", "iaaH"),
+  sulfur = c("cysD", "cysN", "cysC", "cysH", "cysJ", "cysI", "cysK", "cysE", "sat",
+             "tauA", "tauB", "soxA"),
+  dna_repair = c("recA", "recB", "recC", "uvrA", "uvrB", "uvrC", "uvrD", "mutS",
+                 "mutL", "ruvA"),
+  biofilm = c("pelA", "pelB", "algD", "epsE"),
+  carbohydrate = c("gapA", "pgk", "eno", "pykF", "gltA", "acnB", "icd", "sucA",
+                   "sdhA", "fumA", "mdh", "atpD", "atpF", "aceE", "pckA", "fbaA"),
+  transporter = c("abcA", "abcB", "abcC", "abcD", "tonB", "ompA", "mdtA", "mdtB"),
+  qs_ai2 = c("luxS", "lsrR", "lsrK"),
+  qs_ahl = c("luxI", "luxR"))
+
+# 每个家族的 KO/通路：按模块的通路顺序依次取 KO，保证同源家族四个成员共享同一编号
+familyAnnotation <- local({
+  table <- data.frame(family_id = character(), module = character(),
+                      KO = character(), pathway = character(), stringsAsFactors = FALSE)
+  for (mo in names(families)) {
+    pathways <- modulePathways[[mo]]
+    k <- 1
+    for (i in seq_along(families[[mo]])) {
+      p <- pathways[((i - 1L) %% length(pathways)) + 1L]
+      pool <- pathwayKO[[p]]
+      KO <- pool[((k - 1L) %% length(pool)) + 1L]
+      k <- k + 1L
+      table <- rbind(table, data.frame(family_id = families[[mo]][i], module = mo,
+                                       KO = KO, pathway = p, stringsAsFactors = FALSE))
+    }
+  }
+  table
+})
+
+# 每个菌株的私有基因数量(标记基因来源，数量越多越接近真实基因组的规模)
+privateSize <- c(housekeeping = 600, carbohydrate = 150, transporter = 120,
+                 tryptophan = 70, sulfur = 45, dna_repair = 40, biofilm = 55,
+                 qs_ai2 = 45, qs_ahl = 30, herb_downstream = 45, herb_initial = 20)
+
+# ---------------------------------------------------------------------------
+# 2. 基因组构建(基因 -> 模块/家族/KO/通路)
+# ---------------------------------------------------------------------------
+
 buildGenome <- function(strain) {
   parts <- list()
 
-  # 四类除草剂的关键降解酶：四个菌株都携带(同源家族)
+  # 同源家族基因(四类除草剂关键酶、QS、中心代谢等重要功能)
+  homolog <- familyAnnotation
+  homolog <- homolog[!(homolog$module == "qs_ahl" & strain == "H1"), ]  # H1 无 AHL
+
   parts[[length(parts) + 1L]] <- data.frame(
-    gene_id = paste0(strain, "_", c(enzymes_initial, enzymes_downstream)),
-    module = c(rep("herb_initial", length(enzymes_initial)),
-               rep("herb_downstream", length(enzymes_downstream))),
-    family_id = c(enzymes_initial, enzymes_downstream),
+    gene_id = paste0(strain, "_", homolog$family_id),
+    module = homolog$module,
+    family_id = homolog$family_id,
+    KO = homolog$KO,
+    pathway = homolog$pathway,
     stringsAsFactors = FALSE)
 
-  # QS 系统：AI-2(luxS/lsrR/lsrK) 在四个菌株中保守；AHL(luxI/luxR) 只存在于
-  # 革兰氏阴性的 Y1/K1/B1（论文: YKB 三个成员均携带完整的 luxI/luxR）
-  parts[[length(parts) + 1L]] <- data.frame(
-    gene_id = paste0(strain, "_", c("luxS", "lsrR", "lsrK")),
-    module = "qs_ai2",
-    family_id = c("luxS", "lsrR", "lsrK"),
-    stringsAsFactors = FALSE)
+  # 私有基因(无跨菌株同源 -> 分解时的标记基因)；KO/通路按模块的 KO 池轮转
+  for (mo in names(privateSize)) {
+    n <- privateSize[[mo]]
+    if (n <= 0L) next
+    if (mo == "qs_ahl" && strain == "H1") next
 
-  if (strain != "H1") {
+    pathways <- modulePathways[[mo]]
+    pool <- unlist(pathwayKO[pathways], use.names = FALSE)
+    idx <- ((seq_len(n) - 1L) %% length(pool)) + 1L
+    kos <- pool[idx]
+
     parts[[length(parts) + 1L]] <- data.frame(
-      gene_id = paste0(strain, "_", c("luxI", "luxR")),
-      module = "qs_ahl",
-      family_id = c("luxI", "luxR"),
-      stringsAsFactors = FALSE)
-  }
-
-  # 色氨酸 / 硫代谢 / DNA 修复的核心基因(同源家族)
-  parts[[length(parts) + 1L]] <- data.frame(
-    gene_id = paste0(strain, "_", c("trpA", "trpB", "trpC", "trpD", "trpE")),
-    module = "tryptophan",
-    family_id = c("trpA", "trpB", "trpC", "trpD", "trpE"),
-    stringsAsFactors = FALSE)
-
-  parts[[length(parts) + 1L]] <- data.frame(
-    gene_id = paste0(strain, "_", c("cysD", "cysJ", "cysN")),
-    module = "sulfur",
-    family_id = c("cysD", "cysJ", "cysN"),
-    stringsAsFactors = FALSE)
-
-  parts[[length(parts) + 1L]] <- data.frame(
-    gene_id = paste0(strain, "_", c("recA", "uvrA")),
-    module = "dna_repair",
-    family_id = c("recA", "uvrA"),
-    stringsAsFactors = FALSE)
-
-  # 菌株私有基因(无跨菌株同源 -> 分解时的标记基因)
-  private <- function(module, n) {
-    data.frame(
-      gene_id = paste0(strain, "_", module, "_", seq_len(n)),
-      module = module,
+      gene_id = paste0(strain, "_", mo, "_", seq_len(n)),
+      module = mo,
       family_id = NA_character_,
+      KO = kos,
+      pathway = unname(koPathway[kos]),
       stringsAsFactors = FALSE)
-  }
-
-  parts[[length(parts) + 1L]] <- private("tryptophan", 20)
-  parts[[length(parts) + 1L]] <- private("sulfur", 12)
-  parts[[length(parts) + 1L]] <- private("dna_repair", 10)
-  parts[[length(parts) + 1L]] <- private("carbohydrate", 40)
-  parts[[length(parts) + 1L]] <- private("transporter", 30)
-  parts[[length(parts) + 1L]] <- private("biofilm", 16)
-  parts[[length(parts) + 1L]] <- private("herb_downstream", 15)
-  parts[[length(parts) + 1L]] <- private("qs_ai2", 15)
-  parts[[length(parts) + 1L]] <- private("housekeeping", 120)
-
-  if (strain != "H1") {
-    parts[[length(parts) + 1L]] <- private("qs_ahl", 10)
   }
 
   genome <- do.call(rbind, parts)
@@ -139,47 +219,35 @@ genes$module <- factor(genes$module, levels = modules)
 rownames(genes) <- NULL
 
 # ---------------------------------------------------------------------------
-# 2. 表达模型：菌株活性 x 模块基线 x 条件调控 x 基因权重
+# 3. 表达模型：菌株活性谱 x 模块基线(代谢分工) x 基因权重
 # ---------------------------------------------------------------------------
 
-# 每个菌株对各功能模块的基线投入（体现生态位与分工的"底盘"差异）
+# 每个菌株对各功能模块的基线投入(体现生态位与分工的"底盘"差异)
 module_base <- matrix(
   c(# herb_initial, herb_downstream, qs_ahl, qs_ai2, tryptophan, sulfur,
     # carbohydrate, dna_repair, biofilm, transporter, housekeeping
     0.70, 0.70, 0.90, 0.60, 0.80, 0.60, 1.60, 0.70, 0.90, 1.30, 1.00,  # Y1 能量供给者
     1.60, 1.40, 1.50, 0.80, 1.00, 0.70, 1.00, 0.80, 1.00, 1.00, 1.00,  # K1 核心降解者
-    1.25, 1.60, 1.30, 0.90, 1.70, 1.00, 1.10, 0.70, 1.10, 1.00, 1.00,  # B1 代谢清道夫
-    1.00, 1.00, 0.30, 1.90, 0.90, 1.70, 0.90, 1.80, 1.00, 0.90, 1.00), # H1 硫代谢/DNA修复
+    1.25, 1.60, 1.30, 0.90, 1.70, 1.00, 1.00, 0.70, 1.10, 1.00, 1.00,  # B1 代谢清道夫
+    1.00, 1.00, 0.30, 1.90, 0.90, 1.70, 0.70, 1.80, 1.00, 0.90, 1.00), # H1 硫代谢/DNA修复
   nrow = length(strains), byrow = TRUE,
   dimnames = list(strains, modules))
 
-# 条件调控系数：群落组成(YKB/HKB) x 除草剂胁迫(WT/NH) x QS 状态(WT/QSR)
-#
-# 说明：本分解流程把每个菌株建模为一个秩1因子 (基因表达 = 基因载荷 x 菌株活性谱)，
-# 因此“样本水平”的调控(群落成员、除草剂诱导、QS 抑制)只能编码在菌株活性上。
-# 这里按论文的结论把
-#   - 除草剂胁迫 -> 降解者的整体降解程序上调
-#   - AHL 抑制   -> YKB 中主降解者 K1 的整套代谢程序被压制
-#   - AI-2 抑制  -> HKB 中核心降解者 B1 的整套代谢程序被压制
-# 编码为对应菌株在对应条件下的活性变化；菌株内部的代谢分工则由 module_base 表达。
-activityTable <- local({
-  # 条件键 -> 各菌株活性
-  #             Y1     K1     B1     H1
-  table <- rbind(
-    "YKB_WT_WT"  = c(1.00, 1.20, 0.90, 0.012),
-    "YKB_WT_QSR" = c(1.15, 0.50, 1.05, 0.012),
-    "YKB_NH_WT"  = c(1.10, 0.75, 0.60, 0.012),
-    "YKB_NH_QSR" = c(1.20, 0.35, 0.70, 0.012),
-    "HKB_WT_WT"  = c(0.012, 1.05, 1.30, 1.05),
-    "HKB_WT_QSR" = c(0.012, 1.00, 0.55, 0.78),
-    "HKB_NH_WT"  = c(0.012, 0.70, 0.85, 0.90),
-    "HKB_NH_QSR" = c(0.012, 0.68, 0.42, 0.75))
+# 条件调控：把“样本水平”的调控(除草剂诱导、QS 抑制、群落成员)编码为菌株活性谱；
+# 菌株内部的代谢分工由上面的 module_base 表达。
+#             Y1     K1     B1     H1
+activityTable <- rbind(
+  "YKB_WT_WT"  = c(1.00, 1.20, 0.90, 0.012),
+  "YKB_WT_QSR" = c(1.15, 0.50, 1.05, 0.012),
+  "YKB_NH_WT"  = c(1.10, 0.75, 0.60, 0.012),
+  "YKB_NH_QSR" = c(1.20, 0.35, 0.70, 0.012),
+  "HKB_WT_WT"  = c(0.012, 1.05, 1.30, 1.05),
+  "HKB_WT_QSR" = c(0.012, 1.00, 0.55, 0.78),
+  "HKB_NH_WT"  = c(0.012, 0.70, 0.85, 0.90),
+  "HKB_NH_QSR" = c(0.012, 0.68, 0.42, 0.75))
+colnames(activityTable) <- strains
 
-  colnames(table) <- strains
-  table
-})
-
-# 实验设计：两个合成菌群 x 除草剂/无除草剂 x 野生型/QS干扰 x 3 生物学重复
+# 实验设计：两个合成菌群 x 除草剂/无除草剂 x 野生型/QS干扰 x 3 重复
 design <- do.call(rbind, lapply(c("YKB", "HKB"), function(consortium) {
   do.call(rbind, lapply(c("WT", "NH"), function(herbicide) {
     do.call(rbind, lapply(c("WT", "QSR"), function(qs) {
@@ -196,113 +264,374 @@ rownames(design) <- NULL
 
 samples <- design$sample
 nSample <- length(samples)
-
-# 菌株活性：群落中缺失的成员只保留痕量(交叉污染/测序噪声)
-activity <- matrix(0, nrow = length(strains), ncol = nSample,
-                   dimnames = list(strains, samples))
-depth <- rep(1, nSample)
-names(depth) <- samples
-
-for (j in seq_len(nSample)) {
-  key <- paste(design$consortium[j], design$herbicide[j], design$qs[j], sep = "_")
-
-  activity[, j] <- activityTable[key, ] * exp(rnorm(length(strains), 0, 0.08))
-  depth[j] <- exp(rnorm(1, 0, 0.08))
-}
-
-# 基因基线权重(中位 counts ~150)
-# 基因权重的离散度不能太大：每个功能模块只有几十个基因，过大的基因间离散度会让
-# 模块总量偏离设计的“代谢分工”比例，从而无法在分解结果中复现论文结论。
-geneWeight <- rlnorm(nrow(genes), meanlog = log(150), sdlog = 0.4)
-
-# 期望表达量：基因载荷(module_base x 基因权重) x 菌株活性谱
-mu <- matrix(0, nrow = nrow(genes), ncol = nSample,
-             dimnames = list(NULL, samples))
 geneStrain <- as.character(genes$strain)
 geneModule <- as.character(genes$module)
-geneLoad <- module_base[cbind(geneStrain, geneModule)] * geneWeight
 
-for (j in seq_len(nSample)) {
-  mu[, j] <- depth[j] * activity[geneStrain, j] * geneLoad
+# 模拟一次实验(给定 module_base / activityTable / 随机种子)
+simulateCommunity <- function(base, activity, seed) {
+  set.seed(seed)
+
+  activityMat <- matrix(0, nrow = length(strains), ncol = nSample,
+                        dimnames = list(strains, samples))
+  depth <- rep(1, nSample)
+  names(depth) <- samples
+
+  for (j in seq_len(nSample)) {
+    key <- paste(design$consortium[j], design$herbicide[j], design$qs[j], sep = "_")
+    activityMat[, j] <- activity[key, ] * exp(rnorm(length(strains), 0, 0.08))
+    depth[j] <- exp(rnorm(1, 0, 0.08))
+  }
+
+  # 基因权重：模块内部离散度不宜过大，否则模块总量会偏离设计的分工比例
+  geneWeight <- rlnorm(nrow(genes), meanlog = log(150), sdlog = 0.4)
+  geneLoad <- base[cbind(geneStrain, geneModule)] * geneWeight
+
+  mu <- matrix(0, nrow = nrow(genes), ncol = nSample,
+               dimnames = list(NULL, samples))
+  for (j in seq_len(nSample)) {
+    mu[, j] <- depth[j] * activityMat[geneStrain, j] * geneLoad
+  }
+
+  # 计数噪声：Poisson 采样 + 基因水平的生物学波动
+  noise <- matrix(rlnorm(length(mu), 0, 0.12), nrow = nrow(mu))
+  truth <- matrix(rpois(length(mu), lambda = as.vector(mu * noise)),
+                  nrow = nrow(mu), dimnames = list(NULL, samples))
+
+  # 并集定量：同源家族内部 reads 交叉分配
+  observed <- truth
+  for (family in unique(genes$family_id[!is.na(genes$family_id)])) {
+    idx <- which(!is.na(genes$family_id) & genes$family_id == family)
+    if (length(idx) < 2L) next
+
+    similarity <- matrix(runif(length(idx)^2, 0.55, 1.0),
+                         nrow = length(idx), ncol = length(idx))
+    diag(similarity) <- 0
+    prob <- sweep(similarity, 1, rowSums(similarity), "/")
+    rate <- runif(1, 0.15, 0.35)
+
+    observed[idx, ] <- (1 - rate) * truth[idx, ] + rate * (t(prob) %*% truth[idx, ])
+  }
+  observed <- round(observed)
+
+  list(truth = truth, observed = observed, activity = activityMat)
 }
 
-# 计数噪声：Poisson 采样 + 基因水平的生物学波动(避免完美的秩1结构)
-noise <- matrix(rlnorm(length(mu), 0, 0.12), nrow = nrow(mu))
-truth <- matrix(rpois(length(mu), lambda = as.vector(mu * noise)),
-                nrow = nrow(mu), dimnames = list(NULL, samples))
-
 # ---------------------------------------------------------------------------
-# 3. 并集定量：同源家族内部 reads 交叉分配
+# 4. limma 差异表达 + GSVA 通路打分
 # ---------------------------------------------------------------------------
 
-observed <- truth
-
-families <- unique(genes$family_id[!is.na(genes$family_id)])
-
-for (family in families) {
-  idx <- which(!is.na(genes$family_id) & genes$family_id == family)
-  if (length(idx) < 2L) next
-
-  # 同源基因之间的序列相似度(决定交叉分配的方向与强度)
-  similarity <- matrix(runif(length(idx) * length(idx), 0.55, 1.0),
-                       nrow = length(idx), ncol = length(idx))
-  diag(similarity) <- 0
-  prob <- sweep(similarity, 1, rowSums(similarity), "/")  # 行归一: 每个成员的去向分布
-
-  rate <- runif(1, 0.15, 0.35)   # 该家族整体被错误分配的比例
-
-  observed[idx, ] <- (1 - rate) * truth[idx, ] + rate * (t(prob) %*% truth[idx, ])
+logCpm <- function(counts) {
+  lib <- pmax(colSums(counts), 1)
+  log2(t(t(counts) / lib) * 1e6 + 1)
 }
 
-observed <- round(observed)
+geneSetsOf <- function(geneIds, pathways) {
+  sets <- split(geneIds, pathways)
+  sets <- lapply(sets, unique)
+  # GSVA 对基因集大小敏感：过滤过小/过大的集合
+  sets[vapply(sets, length, integer(1)) >= 10L]
+}
+
+runLimma <- function(expr, design) {
+  group <- factor(paste(design$consortium, design$herbicide, design$qs, sep = "."))
+  designMatrix <- model.matrix(~0 + group)
+  colnames(designMatrix) <- levels(group)
+
+  fit <- lmFit(expr, designMatrix)
+  contrasts <- makeContrasts(
+    YKB_QSR_vs_WT = YKB.WT.QSR - YKB.WT.WT,
+    HKB_QSR_vs_WT = HKB.WT.QSR - HKB.WT.WT,
+    YKB_NH_vs_WT = YKB.NH.WT - YKB.WT.WT,
+    HKB_NH_vs_WT = HKB.NH.WT - HKB.WT.WT,
+    levels = designMatrix)
+  fit2 <- eBayes(contrasts.fit(fit, contrasts))
+
+  result <- lapply(colnames(contrasts), function(name) {
+    table <- topTable(fit2, coef = name, number = Inf, sort.by = "P")
+    table$gene_id <- rownames(table)
+    table$contrast <- name
+    table
+  })
+
+  do.call(rbind, result)
+}
+
+runGsva <- function(expr, geneSets) {
+  sets <- lapply(geneSets, function(g) intersect(g, rownames(expr)))
+  sets <- sets[vapply(sets, length, integer(1)) >= 10L]
+  param <- gsvaParam(expr, sets, kcdf = "Gaussian", absRanking = FALSE)
+  gsva(param, verbose = FALSE)
+}
+
+# 每个菌株的真实单菌株矩阵 -> GSVA 打分(用于菌株水平的分工结论)
+strainGsvaScores <- function(truth) {
+  sets <- geneSetsOf(genes$gene_id, genes$pathway)
+  scores <- list()
+
+  for (strain in strains) {
+    idx <- which(geneStrain == strain)
+    mat <- truth[idx, , drop = FALSE]
+    rownames(mat) <- genes$gene_id[idx]
+    scores[[strain]] <- runGsva(logCpm(mat), sets)
+  }
+
+  scores
+}
+
+groupMean <- function(scores, pathway, pattern) {
+  if (is.null(scores) || !(pathway %in% rownames(scores))) return(NA_real_)
+  cols <- grepl(pattern, colnames(scores), fixed = TRUE)
+  if (!any(cols)) return(NA_real_)
+  mean(scores[pathway, cols])
+}
+
+strainMean <- function(strainScores, strain, pathway, pattern) {
+  groupMean(strainScores[[strain]], pathway, pattern)
+}
 
 # ---------------------------------------------------------------------------
-# 4. 写出 CSV
+# 5. 论文结论清单(基于 GSVA 通路得分)与校准
 # ---------------------------------------------------------------------------
+
+# 每条结论: id / 描述 / 评估函数 / 失败时用于校准的 (菌株, 模块, 方向)
+conclusions <- list(
+  list(id = "C1_YKB_herbicide_induction", target = c("K1", "herb_initial", "up"),
+       text = "herbicide exposure induces atrazine degradation (map00791) in SynCom YKB",
+       check = function(s) groupMean(s$community, "map00791", "YKB_WT_WT") >
+                              groupMean(s$community, "map00791", "YKB_NH_WT")),
+  list(id = "C2_HKB_herbicide_induction", target = c("B1", "herb_downstream", "up"),
+       text = "herbicide exposure induces atrazine degradation (map00791) in SynCom HKB",
+       check = function(s) groupMean(s$community, "map00791", "HKB_WT_WT") >
+                              groupMean(s$community, "map00791", "HKB_NH_WT")),
+  list(id = "C3_YKB_AHL_inhibition", target = c("K1", "qs_ahl", "up"),
+       text = "AHL inhibition (luxI RNAi) suppresses quorum sensing (map02024) in YKB",
+       check = function(s) groupMean(s$community, "map02024", "YKB_WT_WT") >
+                              groupMean(s$community, "map02024", "YKB_WT_QSR")),
+  list(id = "C4_HKB_AI2_inhibition", target = c("B1", "qs_ai2", "up"),
+       text = "AI-2 inhibition (luxS RNAi) suppresses quorum sensing (map02024) in HKB",
+       check = function(s) groupMean(s$community, "map02024", "HKB_WT_WT") >
+                              groupMean(s$community, "map02024", "HKB_WT_QSR")),
+  list(id = "C5_YKB_energy_supply", target = c("Y1", "carbohydrate", "up"),
+       text = "YKB invests more in carbohydrate/energy metabolism (map00010) than HKB",
+       check = function(s) groupMean(s$community, "map00010", "YKB_WT_WT") >
+                              groupMean(s$community, "map00010", "HKB_WT_WT")),
+  list(id = "C6_HKB_sulfur_metabolism", target = c("H1", "sulfur", "up"),
+       text = "HKB invests more in sulfur metabolism (map00920) than YKB",
+       check = function(s) groupMean(s$community, "map00920", "HKB_WT_WT") >
+                              groupMean(s$community, "map00920", "YKB_WT_WT")),
+  list(id = "C7_YKB_degrades_more", target = c("K1", "herb_initial", "up"),
+       text = "in YKB, K1 dominates the initial-step herbicide enzymes (map00791 GSVA)",
+       check = function(s) strainMean(s$strain, "K1", "map00791", "YKB_WT_WT") >
+                              strainMean(s$strain, "B1", "map00791", "YKB_WT_WT")),
+  list(id = "C8_YKB_B1_janitor", target = c("B1", "tryptophan", "up"),
+       text = "in YKB, B1 dominates tryptophan metabolism (map00380 GSVA)",
+       check = function(s) strainMean(s$strain, "B1", "map00380", "YKB_WT_WT") >
+                              strainMean(s$strain, "K1", "map00380", "YKB_WT_WT")),
+  list(id = "C9_YKB_Y1_energy", target = c("Y1", "carbohydrate", "up"),
+       text = "in YKB, Y1 dominates carbohydrate/energy metabolism (map00010 GSVA)",
+       check = function(s) strainMean(s$strain, "Y1", "map00010", "YKB_WT_WT") >
+                              strainMean(s$strain, "K1", "map00010", "YKB_WT_WT")),
+  list(id = "C10_HKB_B1_core_degrader", target = c("B1", "herb_downstream", "up"),
+       text = "in HKB, B1 dominates herbicide degradation (map00791 GSVA)",
+       check = function(s) strainMean(s$strain, "B1", "map00791", "HKB_WT_WT") >
+                              strainMean(s$strain, "K1", "map00791", "HKB_WT_WT")),
+  list(id = "C11_HKB_H1_sulfur", target = c("H1", "sulfur", "up"),
+       text = "in HKB, H1 dominates sulfur metabolism (map00920 GSVA)",
+       check = function(s) strainMean(s$strain, "H1", "map00920", "HKB_WT_WT") >
+                              strainMean(s$strain, "B1", "map00920", "HKB_WT_WT")),
+  list(id = "C12_HKB_H1_repair", target = c("H1", "dna_repair", "up"),
+       text = "in HKB, H1 dominates DNA repair (map03440 GSVA)",
+       check = function(s) strainMean(s$strain, "H1", "map03440", "HKB_WT_WT") >
+                              strainMean(s$strain, "B1", "map03440", "HKB_WT_WT")),
+  list(id = "C13_HKB_H1_AI2", target = c("H1", "qs_ai2", "up"),
+       text = "in HKB, H1 dominates AI-2 signalling (map02024 GSVA)",
+       check = function(s) strainMean(s$strain, "H1", "map02024", "HKB_WT_WT") >
+                              strainMean(s$strain, "B1", "map02024", "HKB_WT_WT")),
+  list(id = "C14_YKB_K1_QS_shift", target = c("K1", "herb_initial", "up"),
+       text = "AHL inhibition suppresses K1 herbicide degradation in YKB",
+       check = function(s) strainMean(s$strain, "K1", "map00791", "YKB_WT_WT") >
+                              strainMean(s$strain, "K1", "map00791", "YKB_WT_QSR")),
+  list(id = "C15_HKB_B1_QS_shift", target = c("B1", "herb_downstream", "up"),
+       text = "AI-2 inhibition suppresses B1 herbicide degradation in HKB",
+       check = function(s) strainMean(s$strain, "B1", "map00791", "HKB_WT_WT") >
+                              strainMean(s$strain, "B1", "map00791", "HKB_WT_QSR")))
+
+analyse <- function(sim) {
+  expr <- logCpm(sim$observed)
+  rownames(expr) <- genes$gene_id
+
+  community <- runGsva(expr, geneSetsOf(genes$gene_id, genes$pathway))
+  strain <- strainGsvaScores(sim$truth)
+
+  list(community = community, strain = strain,
+       limma = runLimma(expr, design))
+}
+
+# 校准循环：GSVA 结论不满足时，按结论给出的 (菌株, 模块, 方向) 微调 module_base
+calibrate <- function(maxRounds = 5L, step = 1.10) {
+  base <- module_base
+  history <- list()
+
+  for (round in seq_len(maxRounds)) {
+    sim <- simulateCommunity(base, activityTable, SEED + round)
+    scores <- analyse(sim)
+    pass <- vapply(conclusions, function(cl) isTRUE(cl$check(scores)), logical(1))
+
+    history[[length(history) + 1L]] <- list(round = round,
+                                            failed = vapply(conclusions, `[[`, "", "id")[!pass])
+
+    cat(sprintf("[calibration] round %d: %d/%d conclusions passed\n",
+                round, sum(pass), length(pass)))
+
+    if (all(pass)) {
+      return(list(base = base, sim = sim, scores = scores, pass = pass,
+                  rounds = round, history = history))
+    }
+
+    for (i in seq_along(conclusions)) {
+      if (pass[i]) next
+      target <- conclusions[[i]]$target
+      strain <- target[1]
+      module <- target[2]
+      direction <- target[3]
+      factor <- if (identical(direction, "up")) step else 1 / step
+      base[strain, module] <- base[strain, module] * factor
+      cat(sprintf("   adjust %s/%s x %.3f\n", strain, module, factor))
+    }
+  }
+
+  list(base = base, sim = sim, scores = scores, pass = pass,
+       rounds = maxRounds, history = history)
+}
+
+# ---------------------------------------------------------------------------
+# 6. 运行校准并写出 CSV
+# ---------------------------------------------------------------------------
+
+cat(sprintf("genome size: %d genes x %d samples, %d shared families\n",
+            nrow(genes), nSample, length(unique(na.omit(genes$family_id)))))
+
+fit <- calibrate()
+
+# 校准后的模块基线(记录在案，保证数据可复现)
+module_base <- fit$base
+sim <- fit$sim
+scores <- fit$scores
 
 writeMatrix <- function(mat, path) {
   table <- data.frame(geneID = genes$gene_id, mat, check.names = FALSE)
   write.csv(table, path, row.names = FALSE, quote = FALSE)
 }
 
-writeMatrix(as.matrix(observed), file.path(outDir, "total.csv"))
+writeMatrix(as.matrix(sim$observed), file.path(outDir, "total.csv"))
 
-# 真实的单菌株表达矩阵(用于评估分解精度)
 for (strain in strains) {
   idx <- which(geneStrain == strain)
-  table <- data.frame(geneID = genes$gene_id[idx], truth[idx, , drop = FALSE],
+  table <- data.frame(geneID = genes$gene_id[idx], sim$truth[idx, , drop = FALSE],
                       check.names = FALSE)
   write.csv(table, file.path(outDir, "truth", paste0(strain, ".csv")),
             row.names = FALSE, quote = FALSE)
 }
 
-# 基因组(菌株 -> 基因列表)
 write.csv(data.frame(strain = geneStrain, gene_id = genes$gene_id,
-                     genus = genera[geneStrain], stringsAsFactors = FALSE),
+                     genus = genera[geneStrain], KO = genes$KO,
+                     pathway = genes$pathway, stringsAsFactors = FALSE),
           file.path(outDir, "genomes.csv"), row.names = FALSE, quote = FALSE)
 
-# 基因家族(同源关系)
 familyRows <- which(!is.na(genes$family_id))
 write.csv(data.frame(family_id = genes$family_id[familyRows],
                      gene_id = genes$gene_id[familyRows],
+                     KO = genes$KO[familyRows],
                      stringsAsFactors = FALSE),
           file.path(outDir, "families.csv"), row.names = FALSE, quote = FALSE)
 
-# 基因注释(菌株 + 功能模块)
-annotation <- data.frame(gene_id = genes$gene_id,
-                         strain = geneStrain,
-                         module = geneModule,
-                         family_id = ifelse(is.na(genes$family_id), "",
-                                            genes$family_id),
-                         stringsAsFactors = FALSE)
-write.csv(annotation, file.path(outDir, "annotation.csv"),
-          row.names = FALSE, quote = FALSE)
+write.csv(data.frame(gene_id = genes$gene_id, strain = geneStrain,
+                     module = geneModule,
+                     family_id = ifelse(is.na(genes$family_id), "", genes$family_id),
+                     KO = genes$KO, pathway = genes$pathway,
+                     stringsAsFactors = FALSE),
+          file.path(outDir, "annotation.csv"), row.names = FALSE, quote = FALSE)
 
-# 实验设计
 write.csv(design, file.path(outDir, "design.csv"), row.names = FALSE, quote = FALSE)
 
-cat(sprintf("syncom demo data: %d genes x %d samples\n", nrow(genes), nSample))
-cat(sprintf("  strains : %s\n", paste(strains, collapse = ", ")))
-cat(sprintf("  samples : %s\n", paste(samples, collapse = ", ")))
-cat(sprintf("  families: %d\n", length(families)))
-cat(sprintf("  output  : %s\n", normalizePath(outDir)))
+# KEGG 通路表
+pathwayRows <- lapply(names(pathwayKO), function(p) {
+  idx <- which(genes$pathway == p)
+  data.frame(pathway = p, name = unname(pathwayName[p]),
+             genes = length(idx),
+             KO = paste(sort(unique(genes$KO[idx])), collapse = ";"),
+             stringsAsFactors = FALSE)
+})
+write.csv(do.call(rbind, pathwayRows), file.path(outDir, "pathways.csv"),
+          row.names = FALSE, quote = FALSE)
+
+# GSVA：群落水平(通路 x 样本) 与 菌株水平(菌株 x 通路 x 分组均值)
+communityGsva <- scores$community
+write.csv(data.frame(pathway = rownames(communityGsva), communityGsva,
+                     check.names = FALSE),
+          file.path(outDir, "gsva_community.csv"), row.names = FALSE, quote = FALSE)
+
+strainRows <- list()
+for (strain in strains) {
+  mat <- scores$strain[[strain]]
+  for (p in rownames(mat)) {
+    for (group in unique(paste(design$consortium, design$herbicide, design$qs, sep = "_"))) {
+      cols <- grepl(group, colnames(mat), fixed = TRUE)
+      if (!any(cols)) next
+      strainRows[[length(strainRows) + 1L]] <- data.frame(
+        strain = strain, pathway = p, group = group,
+        gsva = mean(mat[p, cols]), stringsAsFactors = FALSE)
+    }
+  }
+}
+write.csv(do.call(rbind, strainRows), file.path(outDir, "gsva_strain.csv"),
+          row.names = FALSE, quote = FALSE)
+
+# limma 差异表达：显著基因 + 汇总
+limmaTable <- scores$limma
+annotation <- data.frame(gene_id = genes$gene_id, strain = geneStrain,
+                         module = geneModule, KO = genes$KO, pathway = genes$pathway,
+                         stringsAsFactors = FALSE)
+limmaTable <- merge(limmaTable, annotation, by = "gene_id", all.x = TRUE)
+
+significant <- limmaTable[!is.na(limmaTable$adj.P.Val) & limmaTable$adj.P.Val < 0.05, ]
+write.csv(significant[, c("contrast", "gene_id", "strain", "module", "KO", "pathway",
+                          "logFC", "AveExpr", "t", "P.Value", "adj.P.Val")],
+          file.path(outDir, "limma_de_hits.csv"), row.names = FALSE, quote = FALSE)
+
+limmaSummary <- do.call(rbind, lapply(split(limmaTable, limmaTable$contrast), function(d) {
+  data.frame(contrast = d$contrast[1],
+             tested = nrow(d),
+             significant = sum(d$adj.P.Val < 0.05, na.rm = TRUE),
+             up = sum(d$adj.P.Val < 0.05 & d$logFC > 0, na.rm = TRUE),
+             down = sum(d$adj.P.Val < 0.05 & d$logFC < 0, na.rm = TRUE),
+             stringsAsFactors = FALSE)
+}))
+write.csv(limmaSummary, file.path(outDir, "limma_summary.csv"),
+          row.names = FALSE, quote = FALSE)
+
+# GSVA 结论表(数据集是否复现论文机制)
+conclusionRows <- lapply(seq_along(conclusions), function(i) {
+  cl <- conclusions[[i]]
+  data.frame(id = cl$id, description = cl$text,
+             passed = isTRUE(fit$pass[i]), stringsAsFactors = FALSE)
+})
+conclusionTable <- do.call(rbind, conclusionRows)
+write.csv(conclusionTable, file.path(outDir, "gsva_conclusions.csv"),
+          row.names = FALSE, quote = FALSE)
+
+# 校准后的模块基线(便于复现与审阅)
+base <- as.data.frame(module_base)
+base <- data.frame(strain = rownames(module_base), base, check.names = FALSE)
+write.csv(base, file.path(outDir, "module_base.csv"), row.names = FALSE, quote = FALSE)
+
+cat(sprintf("calibration rounds: %d, conclusions passed: %d/%d\n",
+            fit$rounds, sum(fit$pass), length(fit$pass)))
+cat(sprintf("limma: %d gene-contrast hits at adj.P < 0.05\n", nrow(significant)))
+cat(sprintf("output: %s\n", normalizePath(outDir)))
+
+if (!all(fit$pass)) {
+  failed <- conclusionTable$id[!conclusionTable$passed]
+  cat("WARNING: the following conclusions are still not satisfied:\n")
+  cat(paste0("  - ", failed, collapse = "\n"), "\n")
+}

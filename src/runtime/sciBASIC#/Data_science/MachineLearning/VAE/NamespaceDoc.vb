@@ -6,7 +6,7 @@
 ' ============================================================================
 
 ''' <summary>
-''' Variational autoencoders: the graph VAE model and its math utilities.
+''' Variational autoencoders, Gaussian mixtures and related generative models.
 ''' </summary>
 ''' <remarks>
 ''' <para>
@@ -42,8 +42,6 @@
 ''' <item><description><c>Core.Numerics</c>：稳定的对数域运算、成对 Box-Muller、
 ''' 可复现随机数服务、线性代数门面、梯度校验。</description></item>
 ''' <item><description><c>Core.Layers</c>：全连接层与统一 Adam 优化器。</description></item>
-''' <item><description><c>Cells</c>：条件变分自编码器、计数似然（NB/ZINB）、
-''' 扰动实验数据集。</description></item>
 ''' <item><description><c>Imaging</c>：卷积变分自编码器。</description></item>
 ''' </list>
 ''' </para>
