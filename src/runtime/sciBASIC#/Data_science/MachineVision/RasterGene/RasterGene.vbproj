@@ -5,7 +5,14 @@
     <TargetFramework>net10.0</TargetFramework>
     <AssemblyTitle>Raster Image Generative Model</AssemblyTitle>
     <AssemblyName>Microsoft.VisualBasic.MachineVision.RasterGene</AssemblyName>
+    <UseSystemDrawing>true</UseSystemDrawing>
   </PropertyGroup>
+
+  <ItemGroup>
+    <!-- 位图 ⇄ 图像张量的适配层需要 GDI+ 位图（GDI+ 本身只在 Windows 上可用，
+         与 MachineVision/WorldMaker 的做法一致） -->
+    <PackageReference Include="System.Drawing.Common" Version="11.0.0" />
+  </ItemGroup>
 
   <ItemGroup>
     <Compile Remove="test\**" />
@@ -18,6 +25,7 @@
     <ProjectReference Include="..\..\DataMining\DataMining\DataMining.NET5.vbproj" />
     <ProjectReference Include="..\..\MachineLearning\DeepLearning\DeepLearning.NET6.vbproj" />
     <ProjectReference Include="..\..\MachineLearning\MachineLearning\machine_learning-netcore5.vbproj" />
+    <ProjectReference Include="..\..\MachineLearning\MLDataStorage\MLDataStorage.vbproj" />
     <ProjectReference Include="..\..\MachineLearning\TensorFlow\TensorFlow.vbproj" />
     <ProjectReference Include="..\..\MachineLearning\VAE\VAE.vbproj" />
     <ProjectReference Include="..\..\Mathematica\Math\Math.Statistics\stats-netcore5.vbproj" />

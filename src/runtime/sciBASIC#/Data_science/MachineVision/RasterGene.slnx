@@ -12,6 +12,7 @@
     <Project Path="../Mathematica/Math/Math.Statistics/stats-netcore5.vbproj" />
     <Project Path="../Mathematica/Math/Math/Math.NET5.vbproj" />
   </Folder>
+  <Project Path="../MachineLearning/MLDataStorage/MLDataStorage.vbproj" />
   <Project Path="RasterGene/RasterGene.vbproj" />
   <Project Path="RasterGene/test/test.vbproj" />
 </Solution>

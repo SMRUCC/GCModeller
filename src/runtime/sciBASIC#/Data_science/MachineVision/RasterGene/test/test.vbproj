@@ -14,6 +14,7 @@
     <ProjectReference Include="..\..\..\DataMining\DataMining\DataMining.NET5.vbproj" />
     <ProjectReference Include="..\..\..\MachineLearning\DeepLearning\DeepLearning.NET6.vbproj" />
     <ProjectReference Include="..\..\..\MachineLearning\MachineLearning\machine_learning-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\MachineLearning\MLDataStorage\MLDataStorage.vbproj" />
     <ProjectReference Include="..\..\..\MachineLearning\TensorFlow\TensorFlow.vbproj" />
     <ProjectReference Include="..\..\..\MachineLearning\VAE\VAE.vbproj" />
     <ProjectReference Include="..\..\..\Mathematica\Math\Math.Statistics\stats-netcore5.vbproj" />

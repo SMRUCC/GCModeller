@@ -30,7 +30,7 @@ Namespace Imaging
     ''' <summary>
     ''' 卷积变分自编码器：输入为 channel-last 的图像张量 [N, H, W, C]。
     ''' </summary>
-    Public Class ConvVAE
+    Partial Public Class ConvVAE
         Implements IModelPersistable
 
         ''' <summary>模型文件的数据结构版本。</summary>
