@@ -61,7 +61,6 @@ Module Program
     Dim dbfile As String = "D:\biodeep\bionovogene_health\metacolon\ko_13_5_precalculated.PICRUSt"
 
     Sub Main(args As String())
-        Call TraitarVB.Program.Main2({})
         Call metaTraitsTest.readFiles()
         Call testWrite()
         Call testRead()

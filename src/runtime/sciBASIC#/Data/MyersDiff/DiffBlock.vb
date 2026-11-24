@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c9de9404f97ff8851bcab5f620b5df8f, Data\MyersDiff\DiffBlock.vb"
+﻿#Region "Microsoft.VisualBasic::d40deb7de9d4d7d9d22fd1480b99d1c1, Data\MyersDiff\DiffBlock.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 30
-    '    Code Lines: 14 (46.67%)
-    ' Comment Lines: 11 (36.67%)
+    '   Total Lines: 37
+    '    Code Lines: 18 (48.65%)
+    ' Comment Lines: 11 (29.73%)
     '    - Xml Docs: 72.73%
     ' 
-    '   Blank Lines: 5 (16.67%)
-    '     File Size: 1.24 KB
+    '   Blank Lines: 8 (21.62%)
+    '     File Size: 1.39 KB
 
 
     ' Class DiffBlock
@@ -48,14 +48,18 @@
     '     Properties: Items, NewCount, NewStart, OldCount, OldStart
     ' 
     '     Constructor: (+1 Overloads) Sub New
+    '     Function: ToString
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports Microsoft.VisualBasic.Serialization.JSON
+
 ' -----------------------------------------------------------------------
 ' 差异块：连续相同类型差异项的分组，用于统一差异格式输出
 ' -----------------------------------------------------------------------
+
 ''' <summary>
 ''' 表示一个差异块，即连续相同类型差异项的分组。
 ''' </summary>
@@ -82,4 +86,8 @@ Public Class DiffBlock
         Me.NewStart = newStart
         Me.NewCount = newCount
     End Sub
+
+    Public Overrides Function ToString() As String
+        Return Me.GetJson
+    End Function
 End Class

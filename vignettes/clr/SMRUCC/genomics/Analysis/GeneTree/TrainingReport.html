@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.GeneTree.TrainingReport</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>TrainingReport {SMRUCC.genomics.Analysis.GeneTree}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>TrainingReport</h2>
+
+        <h3>Description</h3>
+
+        <p>逐基因拟合的训练报告：既可以在控制台打印摘要，也可以写成两张可读的表格文件 （<code>report.tsv</code> 与 <code>importance.tsv</code>），用于人工核查调控网络是否合理。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.GeneTree
+export class TrainingReport {
+   # 成功训练出梯度提升树的基因数量
+   BoostedModels: integer;
+   # 参与训练的细胞数量
+   Cells: integer;
+   # 本次训练使用的配置
+   Config: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GeneTree/GeneTreeConfig.html">GeneTreeConfig</a>;
+   # 退化为常数模型的基因数量
+   ConstantModels: integer;
+   # 被接受的新调控边数量
+   DiscoveredEdges: integer;
+   # 结构发现的汇总结果；未开启发现时为 <code>Nothing</code>
+   Discovery: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GeneTree/DiscoveryReport.html">DiscoveryReport</a>;
+   # R² 大于 0.05（说明该靶基因确实受到其调控者的非线性影响）的模型数量
+   InformativeModels: integer;
+   # 所有梯度提升树模型在验证集上的 R² 均值
+   MeanR2: double;
+   # 所有梯度提升树模型在验证集上的 R² 中位数
+   MedianR2: double;
+   # 每个基因的模型（下标与表达矩阵的行一致，可能包含 <code>Nothing</code>）
+   Models: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GeneTree/GeneModel.html">GeneModel[]</a>;
+   # 没有任何调控者的源节点数量
+   SourceNodes: integer;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>Config</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GeneTree/GeneTreeConfig.html">GeneTreeConfig</a></li>
+<li>use by <i>property</i> member <code>Discovery</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GeneTree/DiscoveryReport.html">DiscoveryReport</a></li>
+<li>use by <i>property</i> member <code>Models</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GeneTree/GeneModel.html">GeneModel</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

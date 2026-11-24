@@ -91,8 +91,11 @@ Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics
+Imports SMRUCC.genomics.Analysis.BNLearn.IO
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame.Formats
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
+Imports SMRUCC.genomics.Analysis.HTS.WGCNA
 Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 Imports SMRUCC.genomics.Visualize
@@ -158,15 +161,15 @@ Module geneExpression
     '''    expression pattern object.
     ''' </remarks>
     Friend Sub Main()
-        REnv.Internal.ConsolePrinter.AttachConsoleFormatter(Of ExpressionPattern)(Function(a) DirectCast(a, ExpressionPattern).ToSummaryText)
-        REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(DEP_iTraq()), AddressOf depDataTable)
-        REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(Matrix), AddressOf expDataTable)
-        REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(DEGModel()), AddressOf degTable)
-        REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(LimmaTable()), AddressOf limma_df)
-        REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(ImpactResult()), AddressOf impact_table)
-        REnv.Internal.ConsolePrinter.AttachConsoleFormatter(Of DEGModel)(Function(a) a.ToString)
+        RInternal.ConsolePrinter.AttachConsoleFormatter(Of ExpressionPattern)(Function(a) DirectCast(a, ExpressionPattern).ToSummaryText)
+        RInternal.Object.Converts.makeDataframe.addHandler(GetType(DEP_iTraq()), AddressOf depDataTable)
+        RInternal.Object.Converts.makeDataframe.addHandler(GetType(Matrix), AddressOf expDataTable)
+        RInternal.Object.Converts.makeDataframe.addHandler(GetType(DEGModel()), AddressOf degTable)
+        RInternal.Object.Converts.makeDataframe.addHandler(GetType(LimmaTable()), AddressOf limma_df)
+        RInternal.Object.Converts.makeDataframe.addHandler(GetType(ImpactResult()), AddressOf impact_table)
+        RInternal.ConsolePrinter.AttachConsoleFormatter(Of DEGModel)(Function(a) a.ToString)
 
-        Call REnv.Internal.generic.add(
+        Call RInternal.generic.add(
             name:="as.list",
             x:=GetType(ExpressionPattern),
             [overloads]:=AddressOf getFuzzyPatternMembers
@@ -782,6 +785,97 @@ Module geneExpression
     End Function
 
     ''' <summary>
+    ''' remove the technical batch effects from a merged multi-dataset gene expression matrix.
+    ''' </summary>
+    ''' <param name="x">
+    ''' the merged gene expression matrix (genes in rows, samples in columns) that is
+    ''' assembled from multiple public datasets. Different datasets usually carry
+    ''' platform/library/pre-processing specific technical effects; without this step
+    ''' the downstream co-expression analysis will produce many spurious correlations
+    ''' between samples of the same batch.
+    ''' </param>
+    ''' <param name="batch">
+    ''' the batch grouping information. Accepts either a <c>list</c> object of
+    ''' (dataset name => sample id vector) slots, or a stream of
+    ''' <see cref="SampleInfo"/> objects (the batch label is taken from the
+    ''' <c>batch</c> slot of each sample info record). When Nothing, all samples
+    ''' are treated as one single batch and a global z-score normalization is applied.
+    ''' </param>
+    ''' <param name="center_batch">
+    ''' TRUE (default) -> per-gene, per-batch z-score: subtract the batch mean and
+    ''' divide by the batch standard deviation, which removes both the additive and
+    ''' the scale batch effects; FALSE -> per-gene, per-batch mean centering only
+    ''' (subtract the batch mean, keep the between-batch amplitude differences).
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a new batch-normalized gene expression matrix. The row order and the sample
+    ''' order are identical to the input matrix; the input matrix object is not
+    ''' modified in place. Missing values (NaN) are imputed with the corresponding
+    ''' batch mean (which is zero after the centering).
+    ''' </returns>
+    ''' <remarks>
+    ''' this function processes each gene row independently, so it does not change
+    ''' the relative relationships between genes. Run it before the co-expression /
+    ''' WGCNA analysis and after the multi-dataset merging.
+    ''' </remarks>
+    <ExportAPI("batch_normalize")>
+    <RApiReturn(GetType(Matrix))>
+    Public Function batch_normalize(x As Matrix,
+                                    <RRawVectorArgument>
+                                    Optional batch As Object = Nothing,
+                                    Optional center_batch As Boolean = True,
+                                    Optional env As Environment = Nothing) As Object
+
+        Dim batch_groups As Dictionary(Of String, String()) = Nothing
+
+        If TypeOf batch Is list Then
+            batch_groups = DirectCast(batch, list).asGeneric(Function(a) CLRVector.asCharacter(a))
+        Else
+            Dim pull As PipeIterator(Of SampleInfo) = pipeline.Stream(Of SampleInfo)(batch, env)
+
+            If Not pull.isError Then
+                batch_groups = pull _
+                    .GroupBy(Function(a) a.batch) _
+                    .ToDictionary(Function(a) $"batch_{a.Key}",
+                                  Function(a)
+                                      Return a.Select(Function(i) i.ID).ToArray
+                                  End Function)
+            End If
+        End If
+
+        Return BatchNormalizer.Normalize(x, batch_groups, centerBatch:=center_batch)
+    End Function
+
+    ''' <summary>
+    ''' keep only the top-N most variable gene feature rows of the expression matrix
+    ''' </summary>
+    ''' <param name="x">
+    ''' a gene expression matrix (genes in rows, samples in columns). Low variance
+    ''' rows (constant or nearly constant expression) carry no information for the
+    ''' downstream co-expression network analysis, but they do inflate the O(n^2)
+    ''' correlation matrix computation and memory cost.
+    ''' </param>
+    ''' <param name="n">
+    ''' the number of the top variance genes to keep. The rows are ranked by the
+    ''' sample variance (denominator n-1) of the expression values, and only the
+    ''' <c>n</c> highest ranked rows are kept.
+    ''' </param>
+    ''' <returns>
+    ''' a new expression matrix that contains only the top-N most variable gene
+    ''' feature rows (the original row order is preserved among the kept rows).
+    ''' </returns>
+    ''' <remarks>
+    ''' this is the standard quality filter step of the R WGCNA workflow, usually
+    ''' applied after the batch normalization and before the co-expression network
+    ''' construction (for example before <c>write_bicor</c> or <c>build_grn</c>).
+    ''' </remarks>
+    <ExportAPI("top_variance")>
+    Public Function top_variance(x As Matrix, n As Integer) As Matrix
+        Return GeneFilter.ByVariance(x, topN:=n)
+    End Function
+
+    ''' <summary>
     ''' check that the given expression matrix object is empty or not
     ''' </summary>
     ''' <param name="x">a gene expression matrix object</param>
@@ -793,6 +887,16 @@ Module geneExpression
     <ExportAPI("is_empty")>
     Public Function is_empty(x As Matrix) As Boolean
         Return x.IsNullOrEmpty
+    End Function
+
+    <ExportAPI("read_gct")>
+    <RApiReturn(GetType(Gct), GetType(Matrix))>
+    Public Function readGct(file As String, Optional as_matrix As Boolean = False) As Object
+        If as_matrix Then
+            Return Gct.LoadFile(file).AsMatrix
+        Else
+            Return Gct.LoadFile(file)
+        End If
     End Function
 
     ''' <summary>
@@ -862,6 +966,69 @@ Module geneExpression
         Else
             Return x
         End If
+    End Function
+
+    ''' <summary>
+    ''' 从表达矩阵之中按照表达值的分布特征拆分出每一个品种的基因组基因集合
+    ''' </summary>
+    ''' <param name="x">基因在行，样本在列的表达矩阵</param>
+    ''' <param name="sampleinfo">样本的元数据信息</param>
+    ''' <param name="group">用于进行样本分组的元数据键名，例如"line"</param>
+    ''' <param name="raw_count">
+    ''' 输入的数据模式：TRUE表示原始count矩阵，FALSE表示已经归一化之后的矩阵，
+    ''' 默认为空值，即自动检测。
+    ''' </param>
+    ''' <param name="presence_quantile">
+    ''' 品种内部的生物学重复的汇总分位数，默认取中位数；0为最严格(所有的重复都要检出)，
+    ''' 1为最宽松(只要有一个重复检出即可)。
+    ''' </param>
+    ''' <param name="kMAD">判定阈值相对于低表达本底的MAD的倍数</param>
+    ''' <param name="logBase">表达值分布变换所使用的对数底数</param>
+    ''' <param name="minAbsentFraction">双峰检验之中的最小缺失组分占比</param>
+    ''' <param name="minGap">双峰检验之中的最小峰间分离度</param>
+    ''' <param name="absFloor">判定为存在所要求的原始表达量下限</param>
+    ''' <param name="verbose">是否输出阈值诊断信息？</param>
+    ''' <param name="env"></param>
+    ''' <returns>a key-value tuple list of key name is the group or <see cref="SampleInfo.sample_info"/> and the value is the geneset of the corresponding group.</returns>
+    <ExportAPI("expression_groups")>
+    <RApiReturn(TypeCodes.string)>
+    Public Function expressionGroups(x As Matrix,
+                                     <RRawVectorArgument(GetType(SampleInfo))> sampleinfo As Object,
+                                     Optional group As String = Nothing,
+                                     Optional raw_count As Object = Nothing,
+                                     Optional presence_quantile As Double = 0.5,
+                                     Optional kMAD As Double = 3,
+                                     Optional logBase As Double = 2,
+                                     Optional minAbsentFraction As Double = 0.01,
+                                     Optional minGap As Double = 1.5,
+                                     Optional absFloor As Double = 0,
+                                     Optional verbose As Boolean = True,
+                                     Optional env As Environment = Nothing) As Object
+
+        Dim metadata As PipeIterator(Of SampleInfo) = pipeline.Stream(Of SampleInfo)(sampleinfo, env)
+
+        If metadata.isError Then
+            Return metadata.getError
+        End If
+
+        Dim counts As Boolean? = Nothing
+
+        If Not raw_count Is Nothing Then
+            counts = CBool(raw_count)
+        End If
+
+        Return New list(x.ExpressionGroups(
+            sampleinfo:=metadata.ToArray,
+            group:=group,
+            rawCounts:=counts,
+            logBase:=logBase,
+            kMAD:=kMAD,
+            presenceQuantile:=presence_quantile,
+            minAbsentFraction:=minAbsentFraction,
+            minGap:=minGap,
+            absFloor:=absFloor,
+            verbose:=verbose
+        ))
     End Function
 
     ''' <summary>
@@ -1080,7 +1247,7 @@ Module geneExpression
                            Optional env As Environment = Nothing) As Object
 
         If geneId.IsNullOrEmpty AndAlso instr.StringEmpty Then
-            Call env.AddMessage("no gene content was filtered due to the reason of no gene id list or title search text was provided!", MSG_TYPES.WRN)
+            Call env.AddMessage("no gene content was filtered due to the reason of no gene id list Or title search text was provided!", MSG_TYPES.WRN)
             Return HTS
         End If
 
@@ -1401,7 +1568,7 @@ Module geneExpression
 
         If sampleinfo.IsNullOrEmpty Then
             If Not sampleinfo Is Nothing Then
-                Call "the provided sample information is not nothing, but collection is empty. numeric vector of average for each gene expression will be returns.".warning
+                Call "the provided sample information Is Not nothing, but collection Is empty. numeric vector of average for each gene expression will be returns.".warning
             End If
             Return matrix.expression.Select(Function(v) v.Average).ToArray
         Else
@@ -1982,7 +2149,7 @@ Module geneExpression
         Dim padStr As String = InteropArgumentHelper.getPadding(margin, default:="padding:100px 100px 300px 100px;", env:=env)
 
         If matrix.IsNullOrEmpty Then
-            Call env.AddMessage("The given expression matrix is empty!")
+            Call env.AddMessage("The given expression matrix Is empty!")
             Return Nothing
         End If
 
@@ -2019,7 +2186,7 @@ Module geneExpression
                        )
                    End Function
 
-        Call println($"membership cutoff for the cmeans patterns is: {memberCutoff}")
+        Call println($"membership cutoff for the cmeans patterns Is: {memberCutoff}")
         Call println(patterns.ToSummaryText(memberCutoff))
 
         Call output.add("image", plot(Drivers.GDI))
@@ -2832,5 +2999,27 @@ Module geneExpression
         End If
 
         Return MatrixBuilder.BuildAndNormalizeAbundanceMatrix(sampleList.ToArray, normalized)
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <param name="sampleinfo">
+    ''' time points is all set to zero if the given sampleinfo metadata is missing
+    ''' </param>
+    ''' <param name="time_label"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("as.time_serials")>
+    <RApiReturn(GetType(GeneExpressionData))>
+    Public Function as_timeMatrix(x As Matrix, <RRawVectorArgument(GetType(SampleInfo))> Optional sampleinfo As Object = Nothing, Optional time_label As String = "time", Optional env As Environment = Nothing) As Object
+        Dim samples As PipeIterator(Of SampleInfo) = pipeline.Stream(Of SampleInfo)(sampleinfo, env)
+
+        If samples.isError Then
+            Return samples.getError
+        Else
+            Return x.ReadGeneExpressionMatrix(samples.getData, time_label)
+        End If
     End Function
 End Module

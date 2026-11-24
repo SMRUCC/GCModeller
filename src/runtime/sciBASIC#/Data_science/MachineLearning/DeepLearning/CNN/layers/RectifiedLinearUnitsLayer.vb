@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aaa6b8510e12e20ff05d982a051d88f4, Data_science\MachineLearning\DeepLearning\CNN\Layers\RectifiedLinearUnitsLayer.vb"
+﻿#Region "Microsoft.VisualBasic::9c6e8554472a92d234a92218c01de7c9, Data_science\MachineLearning\DeepLearning\CNN\Layers\RectifiedLinearUnitsLayer.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 80
-    '    Code Lines: 47 (58.75%)
-    ' Comment Lines: 18 (22.50%)
-    '    - Xml Docs: 55.56%
+    '   Total Lines: 115
+    '    Code Lines: 60 (52.17%)
+    ' Comment Lines: 34 (29.57%)
+    '    - Xml Docs: 76.47%
     ' 
-    '   Blank Lines: 15 (18.75%)
-    '     File Size: 2.72 KB
+    '   Blank Lines: 21 (18.26%)
+    '     File Size: 4.75 KB
 
 
     '     Class RectifiedLinearUnitsLayer
@@ -94,6 +94,13 @@ Namespace CNN.layers
         ''' <summary>Values below this threshold are clamped; zero gives the standard ReLU behaviour.</summary>
         Protected threshold As Double = 0.0
 
+        ''' <summary>Gets the activation threshold (serialization helper).</summary>
+        Public ReadOnly Property ThresholdValue As Double
+            Get
+                Return threshold
+            End Get
+        End Property
+
         ''' <summary>Creates a rectified linear unit layer.</summary>
         Sub New()
         End Sub
@@ -140,8 +147,13 @@ Namespace CNN.layers
         ''' </summary>
         Public Overridable Sub backward() Implements Layer.backward
             ' zero out gradient wrt data
-            Dim V = in_act.clearGradient() ' we need to set dw of this
+            ' (图模式下由计算图执行器统一清零, 这里不能再清, 否则会抹掉其它消费者的贡献)
+            Dim V = in_act ' we need to set dw of this
             Dim V2 = out_act
+
+            If Not AccumulateGradient Then
+                Call V.clearGradient()
+            End If
 
             If threshold = 0.0 Then
                 ' 反向的掩码 (x > 0) 由后端的 Heaviside 算子给出, 再与上游梯度逐元素相乘;
@@ -149,20 +161,24 @@ Namespace CNN.layers
                 Dim mask = Tensor.computeKernel.Heaviside(V.Value)
                 Dim dx = Tensor.computeKernel.Multiply(V2.Grad, mask)
 
-                Call V.setGradient(dx.Data)
+                Call WriteInputGradient(V, dx.Data)
                 Return
             End If
 
             Dim N = V.Weights.Length
             Dim Vw = V.Weights ' 获取前向传播的输入值
+            Dim upstream = V2.Gradients
+            Dim masked(N - 1) As Double
 
             For i As Integer = 0 To N - 1
                 If Vw(i) <= 0 Then ' 如果原始输入 <= 0
-                    V.setGradient(i, 0.0) ' 则梯度为 0
+                    masked(i) = 0.0 ' 则梯度为 0
                 Else
-                    V.setGradient(i, V2.getGradient(i)) ' 如果原始输入 > 0，则梯度 = 上游传来的梯度
+                    masked(i) = upstream(i) ' 如果原始输入 > 0，则梯度 = 上游传来的梯度
                 End If
             Next
+
+            Call WriteInputGradient(V, masked)
         End Sub
 
         ''' <summary>Returns a short description of this layer.</summary>

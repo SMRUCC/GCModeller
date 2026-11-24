@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8d5642bbd24407c07e711b6e91ec64cd, vs_solutions\PkgVersionUpgrade\VersionUpgrader.vb"
+﻿#Region "Microsoft.VisualBasic::0febc3524350af8257fcbe3e2c7be020, vs_solutions\PkgVersionUpgrade\src\VersionUpgrader.vb"
 
     ' Author:
     ' 
@@ -34,32 +34,24 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 177
-    '    Code Lines: 89 (50.28%)
-    ' Comment Lines: 57 (32.20%)
-    '    - Xml Docs: 92.98%
+    '   Total Lines: 149
+    '    Code Lines: 73 (48.99%)
+    ' Comment Lines: 50 (33.56%)
+    '    - Xml Docs: 92.00%
     ' 
-    '   Blank Lines: 31 (17.51%)
-    '     File Size: 7.57 KB
+    '   Blank Lines: 26 (17.45%)
+    '     File Size: 6.40 KB
 
 
     ' Module VersionUpgrader
     ' 
     '     Function: Apply, ParseMajorMinor, ResolveAssemblyVersion, ResolveNuGetVersion, SetProperty
     '               StampVersion
-    '     Class VersionChange
-    ' 
-    '         Properties: Changed, Inserted, Name, NewValue, OldValue
-    ' 
-    '         Function: ToString
-    ' 
-    ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Imports System.Xml.Linq
 Imports Microsoft.VisualBasic.ApplicationServices.Development
 
 ''' <summary>
@@ -70,33 +62,6 @@ Imports Microsoft.VisualBasic.ApplicationServices.Development
 ''' 本模块只负责决定 major.minor 基准值，以及将结果写回到 vbproj 的 XML 文档中。
 ''' </remarks>
 Module VersionUpgrader
-
-    ''' <summary>
-    ''' 单个版本元素的变更记录，用于 dry-run 预览以及最终的统计汇总
-    ''' </summary>
-    Public Class VersionChange
-
-        ''' <summary>版本元素的名称，例如 Version / AssemblyVersion / FileVersion</summary>
-        Public Property Name As String
-        ''' <summary>写入之前的值，元素原本不存在时为空字符串</summary>
-        Public Property OldValue As String
-        ''' <summary>本次计算出的新值</summary>
-        Public Property NewValue As String
-        ''' <summary>该元素是否是本次新建出来的</summary>
-        Public Property Inserted As Boolean
-
-        Public ReadOnly Property Changed As Boolean
-            Get
-                Return Inserted OrElse Not String.Equals(OldValue, NewValue, StringComparison.Ordinal)
-            End Get
-        End Property
-
-        Public Overrides Function ToString() As String
-            Dim from As String = If(Inserted, "<none>", If(String.IsNullOrEmpty(OldValue), "<empty>", OldValue))
-            Return $"{Name}: {from} -> {NewValue}"
-        End Function
-
-    End Class
 
     ''' <summary>
     ''' 容错解析版本号中的 major.minor 片段

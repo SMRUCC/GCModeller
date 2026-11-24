@@ -1,0 +1,46 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!-- 命名空间统一由 RootNamespace 提供，源文件之中不要再声明 Namespace 块：
+         否则类型会被放到 SMRUCC.genomics.Analysis.GeneTree.SMRUCC.genomics.Analysis.GeneTree.* 之下，
+         导致 R# 包与外部调用方都找不到这些类型 -->
+    <RootNamespace>SMRUCC.genomics.Analysis.GeneTree</RootNamespace>
+    <TargetFramework>net10.0</TargetFramework>
+    <AssemblyName>SMRUCC.genomics.Analysis.GeneTree</AssemblyName>
+    <AssemblyTitle>Xgboost based GRN simulator</AssemblyTitle>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Platforms>AnyCPU;x64</Platforms>
+    <Configurations>Debug;Release;Rsharp_app_release</Configurations>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="test\**" />
+    <EmbeddedResource Remove="test\**" />
+    <None Remove="test\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="XGBoostInfoLogging0d041099840ed974f9620c5ffceb0901.log" />
+    <None Remove="XGBoostInfoLogging20f5fe9d925257d6c619de53bb223679.log" />
+    <None Remove="XGBoostInfoLogging4c52d413349c0a0c572295371f0dd3d4.log" />
+    <None Remove="XGBoostInfoLogging8ebbc1ea4b0ad4e6623637964614388e.log" />
+    <None Remove="XGBoostInfoLogginga206a3932ddd8a671c4d3d469cd4d69d.log" />
+    <None Remove="XGBoostInfoLoggingbbaa80d5fda77838227993f845506d22.log" />
+    <None Remove="XGBoostInfoLoggingf5d5613cd707c381d6277672cea6ab5f.log" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\DataMining\DataMining\DataMining.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Graph\graph-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\MachineLearning\MachineLearning\machine_learning-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\MachineLearning\XGBoostDataSet\XGBoostDataSet.vbproj" />
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\MachineLearning\xgboost\xgboost.vbproj" />
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\..\analysis\HTS_matrix\HTS_matrix-netcore5.vbproj" />
+    <ProjectReference Include="..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
+    <ProjectReference Include="..\..\core\Bio.InteractionModel\InteractionModel.vbproj" />
+    <ProjectReference Include="..\..\models\Networks\Network.Regulons\Network.Regulons.vbproj" />
+  </ItemGroup>
+
+</Project>

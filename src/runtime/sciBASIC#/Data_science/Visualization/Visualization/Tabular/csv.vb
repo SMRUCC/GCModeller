@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::28dc58cb86743d00520bbd8ace6fe22a, Data_science\Visualization\Visualization\Tabular\csv.vb"
+﻿#Region "Microsoft.VisualBasic::0bbd12fb83a014219df5e8a44e2ccf66, Data_science\Visualization\Visualization\Tabular\csv.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 33.33%
     ' 
     '   Blank Lines: 17 (11.18%)
-    '     File Size: 5.63 KB
+    '     File Size: 5.62 KB
 
 
     '     Module BarDataTableExtensions
@@ -55,7 +55,7 @@
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.ChartPlots.BarPlot.Data
+Imports Microsoft.VisualBasic.Data.Plots
 Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Data.Framework.StorageProvider
@@ -118,7 +118,7 @@ Namespace TabularRender
 
             Dim colors As Color() = Designer.GetColors(schema, serialsName.Length)
             Dim out As New BarDataGroup With {
-                .Samples = samples,
+                .Samples = samples.ToArray,
                 .Serials = serialsName _
                     .SeqIterator _
                     .Select(Function(i)

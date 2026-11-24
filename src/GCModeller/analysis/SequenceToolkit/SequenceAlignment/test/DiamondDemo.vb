@@ -82,7 +82,7 @@ Module DiamondDemo
             Dim hits = diamond.Search(query, db).ToArray
 
             For Each h In hits
-                Console.WriteLine($"  {h.SubjectTitle,-14} id={h.PercentIdentity:F1}% len={h.AlignmentLength} score={h.RawScore:F0} q[{h.QueryStart}-{h.QueryEnd}] s[{h.SubjectStart}-{h.SubjectEnd}]")
+                Console.WriteLine($"  {h.SseqId,-14} id={h.Pident:F1}% len={h.Length} score={h.RawScore:F0} q[{h.QStart}-{h.QEnd}] s[{h.SStart}-{h.SEnd}]")
             Next
 
             If hits.Length = 0 Then
@@ -98,13 +98,13 @@ Module DiamondDemo
 
         Dim d As New DiamondBlastp(SensitivityMode.UltraSensitive)
         Dim dh = d.Search(query, db).ToArray
-        Dim top = dh.FirstOrDefault(Function(x) x.SubjectTitle.Contains("R1_exact"))
+        Dim top = dh.FirstOrDefault(Function(x) x.SseqId.Contains("R1_exact"))
 
         If top Is Nothing Then
             Console.WriteLine("FAIL: Diamond did not report R1 as a hit.")
         Else
-            Console.WriteLine($"Diamond R1 score = {top.RawScore:F0}, coords q[{top.QueryStart}-{top.QueryEnd}] s[{top.SubjectStart}-{top.SubjectEnd}]")
-            Console.WriteLine($"PASS: R1 detected, identity={top.PercentIdentity:F1}%")
+            Console.WriteLine($"Diamond R1 score = {top.RawScore:F0}, coords q[{top.QStart}-{top.QEnd}] s[{top.SStart}-{top.SEnd}]")
+            Console.WriteLine($"PASS: R1 detected, identity={top.Pident:F1}%")
         End If
 
         Console.WriteLine(vbCrLf & "DONE.")

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>query the id synonyms of the given id list from the id mapping solver</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>synonym {annotation.terms}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>query the id synonyms of the given id list from the id mapping solver</h2>
+
+        <h3>Description</h3>
+
+        <p>object</p>
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>synonym</strong>(<i>idlist</i>, <i>idmap</i>,
+    <i>excludeNull</i> = <span style='color: blue !important;'>FALSE</span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>idlist</dt>
+<dd><p>a character vector of the query id for get its synonyms. [as string]</p></dd>
+
+
+<dt>idmap</dt>
+<dd><p>a <a href="cref:T:SMRUCC.genomics.ComponentModel.DBLinkBuilder.SecondaryIDSolver">SecondaryIDSolver</a> id mapping solver object, which is created by the <code>read.id_maps</code> api. [as <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/DBLinkBuilder/SecondaryIDSolver.html">SecondaryIDSolver</a>]</p></dd>
+
+
+<dt>excludeNull</dt>
+<dd><p>remove the query id which has no synonym data from the result?. [as boolean]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: none;">Details</h3>
+
+        
+
+        <h3 style="display: block">Authors</h3>
+
+        seqtoolkit
+
+        <h3>Value</h3>
+
+        <p>a vector of the <a href="cref:T:SMRUCC.genomics.ComponentModel.DBLinkBuilder.Synonym">Synonym</a> id synonym query result object.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/DBLinkBuilder/Synonym.html">Synonym[]</a></li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>annotation.terms</em> version 1.0.0.0 <a
+                href="../annotation.terms.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f7caf246e67c7722866ef17cec7bb4b3, Data_science\Mathematica\Math\DataFrame\NamedSparseMatrix.vb"
+﻿#Region "Microsoft.VisualBasic::191b596ca48d96ffd2d0b2ea5f1dd9c0, Data_science\Mathematica\Math\DataFrame\NamedSparseMatrix.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 88
-    '    Code Lines: 55 (62.50%)
-    ' Comment Lines: 21 (23.86%)
-    '    - Xml Docs: 85.71%
+    '   Total Lines: 99
+    '    Code Lines: 63 (63.64%)
+    ' Comment Lines: 23 (23.23%)
+    '    - Xml Docs: 78.26%
     ' 
-    '   Blank Lines: 12 (13.64%)
-    '     File Size: 2.64 KB
+    '   Blank Lines: 13 (13.13%)
+    '     File Size: 3.11 KB
 
 
     ' Class NamedSparseMatrix
@@ -54,6 +54,8 @@
     ' /********************************************************************************/
 
 #End Region
+
+Imports System.Runtime.CompilerServices
 
 Public Class NamedSparseMatrix
 
@@ -71,24 +73,29 @@ Public Class NamedSparseMatrix
     ReadOnly hash As New HashSet(Of String)
 
     Default Public Property Value(i As String, j As String) As Double
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
             Return GetDirectedValue(i, j)
         End Get
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Set
             Call SetValue(i, j, Value)
         End Set
     End Property
 
     Default Public Property Value(i As Integer, j As Integer) As Double
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
             Return Me(names(i), names(j))
         End Get
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Set
             Me(names(i), names(j)) = Value
         End Set
     End Property
 
     Public ReadOnly Property [Dim] As Integer
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
             Return names.Count
         End Get
@@ -97,6 +104,8 @@ Public Class NamedSparseMatrix
     ''' <summary>
     ''' 检查指定的节点ID是否存在于矩阵维度中
     ''' </summary>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function ContainsNode(nodeId As String) As Boolean
         Return hash.Contains(nodeId)
     End Function
@@ -107,6 +116,8 @@ Public Class NamedSparseMatrix
     ''' <param name="i"></param>
     ''' <param name="j"></param>
     ''' <returns>检查指定的边 (i -> j) 是否显式定义（非零值或在字典中存在键）</returns>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function CheckElement(i As String, j As String) As Boolean
         Return hash.Contains(i) AndAlso hash.Contains(j)
     End Function

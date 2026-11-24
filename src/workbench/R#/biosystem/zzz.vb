@@ -60,5 +60,8 @@ Public Class zzz
     Public Shared Sub onLoad()
         Call bnlearn.Main()
         Call FBA.Main()
+        Call ssGrid.Main()
+        Call gpsTools.Main()
+        Call geneTreeTools.Main()
     End Sub
 End Class

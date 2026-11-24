@@ -1,0 +1,53 @@
+.\" man page create by R# package system.
+.TH BACKGROUND 2 2000-1月 "metpa" "metpa"
+.SH NAME
+metpa \- Create the gsea background model for metabolism analysis
+.SH SYNOPSIS
+\fImetpa(\fBkegg\fR as any, 
+\fBreactions\fR as any, 
+\fBorg_name\fR as string = \fB<NULL>\fR, 
+\fBis_ko_ref\fR as boolean = FALSE, 
+\fBmultipleOmics\fR as boolean = FALSE, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Create the gsea background model for metabolism analysis
+.PP
+.SH OPTIONS
+.PP
+\fBkegg\fB \fR\- the kegg [Pathway](cref:T:SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Pathway) model collection of current organism or 
+ the KEGG [Map](cref:T:SMRUCC.genomics.Assembly.KEGG.WebServices.XML.Map) data collection.
+ andalso could be a tuple list of the idset.
+. 
+.PP
+.PP
+\fBreactions\fB \fR\- A collection of the reference [ReactionTable](cref:T:SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork.ReactionTable) model 
+ data for build the metabolism network. 
+.PP
+.PP
+\fBorg_name\fB \fR\- the KEGG organism code (or the organism name) of the target model, default \fBNULL\fR.. 
+.PP
+.PP
+\fBis_ko_ref\fB \fR\- 
+ treats the given KEGG pathway model as the KO reference model? Default \fBFALSE\fR means
+ the pathway model of a specific organism.
+. 
+.PP
+.PP
+\fBmultipleOmics\fB \fR\- 
+ creates the background model for the multiple omics data analysis? Default \fBFALSE\fR.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment.. 
+.PP
+.SH VALUE
+.PP
+a [metpa](cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.KnowledgeBase.Metabolism.Metpa.metpa) background model for the metabolism enrichment analysis.
+.PP
+.SH SEE ALSO
+background
+.SH FILES
+.PP
+gseakit.dll
+.PP

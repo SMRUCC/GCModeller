@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9e3cd53772c32f14472c066f9802ddbf, mime\text%html\Render\InitialContainer.vb"
+﻿#Region "Microsoft.VisualBasic::8f740505b71ed496f2ff2d7865cdd4ac, mime\text%html\Render\InitialContainer.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 423
-    '    Code Lines: 230 (54.37%)
-    ' Comment Lines: 103 (24.35%)
-    '    - Xml Docs: 62.14%
+    '   Total Lines: 491
+    '    Code Lines: 266 (54.18%)
+    ' Comment Lines: 129 (26.27%)
+    '    - Xml Docs: 69.77%
     ' 
-    '   Blank Lines: 90 (21.28%)
-    '     File Size: 15.85 KB
+    '   Blank Lines: 96 (19.55%)
+    '     File Size: 18.60 KB
 
 
     '     Class InitialContainer
@@ -48,9 +48,9 @@
     '         Properties: AvoidGeometryAntialias, AvoidTextAntialias, DocumentSource, LinkRegions, MaximumSize
     '                     MediaBlocks, ScrollOffset
     ' 
-    '         Constructor: (+2 Overloads) Sub New
+    '         Constructor: (+3 Overloads) Sub New
     ' 
-    '         Function: BlockCorrection_GetInlineGroups, FindParent
+    '         Function: BlockCorrection_GetInlineGroups, EscapeTagClosures, FindParent
     ' 
     '         Sub: BlockCorrection, CascadeStyles, FeedStyleBlock, FeedStyleSheet, MeasureBounds
     '              ParseDocument
@@ -61,12 +61,13 @@
 #End Region
 
 Imports System.Drawing
+Imports System.Text
 Imports System.Text.RegularExpressions
+Imports System.Xml.Linq
+Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.MIME.Html.Render.CSS
 
 Namespace Render
-
-#If NET48 Then
 
     ''' <summary>
     ''' HTML rendering
@@ -87,6 +88,10 @@ Namespace Render
             FeedStyleSheet(CssDefaults.DefaultStyleSheet)
         End Sub
 
+        ''' <summary>
+        ''' Create the layout container from the html document source text.
+        ''' </summary>
+        ''' <param name="documentSource"></param>
         Public Sub New(documentSource As String)
             Me.New()
             _DocumentSource = documentSource
@@ -94,6 +99,70 @@ Namespace Render
             CascadeStyles(Me)
             BlockCorrection(Me)
         End Sub
+
+        ''' <summary>
+        ''' Create the layout container from a xml literal (or any other 
+        ''' <see cref="XElement"/> object) that declares the user interface.
+        ''' </summary>
+        ''' <param name="xml">
+        ''' the ui declaration, example as:
+        ''' <code>
+        ''' &lt;form style="background-color: gray;">
+        '''     &lt;button style="left:50%;top:50%;width:200px;height:60px">hello&lt;/button>
+        ''' &lt;/form>
+        ''' </code>
+        ''' </param>
+        Public Sub New(xml As XElement)
+            Me.New(If(xml Is Nothing, "", EscapeTagClosures(xml.ToString())))
+        End Sub
+
+        ''' <summary>
+        ''' The xml serializer escapes the ``&lt;`` character of an attribute
+        ''' value but leaves the ``&gt;`` one as it is, and such a character
+        ''' terminates the html tag early: a rich text value like
+        ''' ``tooltip="&lt;b&gt;title&lt;/b&gt;"`` is read back as
+        ''' ``tooltip="&amp;lt;b&amp;gt;title"``. the ``&gt;`` characters that
+        ''' are located inside of an attribute value are escaped again at here.
+        ''' </summary>
+        ''' <param name="html"></param>
+        ''' <returns></returns>
+        Private Shared Function EscapeTagClosures(html As String) As String
+            Dim buffer As New StringBuilder(html.Length)
+            Dim inTag As Boolean = False
+            Dim quote As Char = ControlChars.NullChar
+
+            For Each c As Char In html
+                If Not inTag Then
+                    If c = "<"c Then
+                        inTag = True
+                    End If
+
+                    Call buffer.Append(c)
+                    Continue For
+                End If
+
+                If quote <> ControlChars.NullChar Then
+                    If c = quote Then
+                        quote = ControlChars.NullChar
+                    ElseIf c = ">"c Then
+                        Call buffer.Append("&gt;")
+                        Continue For
+                    End If
+
+                    Call buffer.Append(c)
+                ElseIf c = """"c OrElse c = "'"c Then
+                    quote = c
+                    Call buffer.Append(c)
+                ElseIf c = ">"c Then
+                    inTag = False
+                    Call buffer.Append(c)
+                Else
+                    Call buffer.Append(c)
+                End If
+            Next
+
+            Return buffer.ToString()
+        End Function
 
 #End Region
 
@@ -473,7 +542,7 @@ Namespace Render
             Return result
         End Function
 
-        Public Overrides Sub MeasureBounds(g As Graphics)
+        Public Overrides Sub MeasureBounds(g As IGraphics)
             LinkRegions.Clear()
 
             MyBase.MeasureBounds(g)
@@ -481,5 +550,4 @@ Namespace Render
 
 #End Region
     End Class
-#End If
 End Namespace

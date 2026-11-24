@@ -90,6 +90,42 @@ Namespace v2
         <XmlAttribute> Public Property operonId As String
         Public Property note As String
 
+        ''' <summary>
+        ''' 调控的分子机制，例如 ``binding``、``phosphorylation``
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property mechanism As String
+
+        ''' <summary>
+        ''' 抑制常数Ki
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property ki As Double
+
+        ''' <summary>
+        ''' 调控过程所需要的辅助蛋白质编号
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlElement("accessory")> Public Property accessoryProteins As String()
+
+        ''' <summary>
+        ''' 当前调控关系所属的调控组的编号
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property regulonId As String
+
+        ''' <summary>
+        ''' 调控因子所结合的具体DNA位点
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlElement("bindingSite")> Public Property bindingSite As BindingSite
+
+        ''' <summary>
+        ''' 该调控关系所关联的文献证据编号
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlElement("evidence")> Public Property evidence As String()
+
     End Class
 
     ''' <summary>

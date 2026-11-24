@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Model.Network.Regulons.LinearRegression.ICorrelationScreener</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>ICorrelationScreener {SMRUCC.genomics.Model.Network.Regulons.LinearRegression}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>ICorrelationScreener</h2>
+
+        <h3>Description</h3>
+
+        <p>候选调控因子的相关性筛选后端。</p>
+
+<p>拟合基因调控网络的时候，每一个目标基因都需要从全体基因之中挑出与它 相关性最强的若干个候选调控因子。逐基因扫描的复杂度是 <code>O(基因数^2 * 样本数)</code> 的内存流量，实现这个接口之后可以把这一步换成一次分块矩阵乘法 （CPU 的 <a href="cref:T:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.BlockCorrelationScreener">BlockCorrelationScreener</a>，或者 GPU 上的浮点矩阵乘）。</p>
+
+<p>生命周期：<a href="cref:M:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.ICorrelationScreener.Initialize(System.Int32[],System.Double[][],System.Int32,System.Double)">ICorrelationScreener.Initialize()</a> 在 <a href="cref:M:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GeneRegulatoryNetwork.Fit">GeneRegulatoryNetwork.Fit()</a> 开始之前被调用一次，随后 <a href="cref:M:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.ICorrelationScreener.Query(System.Int32)">ICorrelationScreener.Query()</a> 会被并行拟合过程并发调用， 因此实现必须是"初始化之后只读"的线程安全对象。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Model.Network.Regulons.LinearRegression
+export class ICorrelationScreener {
+   # 为负相关候选保留的名额；小于等于 0 表示不启用符号配额。
+   # 
+   # 共表达网络里负相关的边很少，强制留出名额可以让扰动响应同时有升有降。
+   NegativeQuota: integer;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        this clr type has no other .net clr type reference.
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

@@ -55,7 +55,9 @@
 #End Region
 
 Imports System.IO
+Imports System.Reflection
 Imports System.Runtime.CompilerServices
+Imports System.Text
 Imports Microsoft.VisualBasic.Linq
 
 Public Class AttrDataCollection(Of T As Model) : Implements Enumeration(Of T)
@@ -103,16 +105,95 @@ Public Class AttrDataCollection(Of T As Model) : Implements Enumeration(Of T)
                           End Function)
     End Sub
 
+    ''' <summary>
+    ''' 合并重复定义的数据库对象：数组属性取并集，标量属性取第一个非空的值。
+    ''' </summary>
+    ''' <param name="group"></param>
+    ''' <returns></returns>
     Private Shared Function MakeUnion(group As IGrouping(Of String, T)) As T
         If group.Count = 1 Then
             Return group.First
         End If
 
-        Call $"found duplicated object definition: '{group.Key}'!".warning
+        Call $"found duplicated object definition: '{group.Key}', merging slots...".warning
 
-        ' 20250903
-        ' how to merge data?
-        Return group.First
+        Dim items As T() = group.ToArray
+        Dim first As T = items(Scan0)
+        Dim props As PropertyInfo() = GetType(T) _
+            .GetProperties(BindingFlags.Public Or BindingFlags.Instance) _
+            .Where(Function(p) p.CanRead AndAlso p.CanWrite) _
+            .ToArray
+
+        For Each [property] As PropertyInfo In props
+            Try
+                MergeProperty(items, first, [property])
+            Catch ex As Exception
+                Call $"failed to merge the property '{[property].Name}' of object '{group.Key}': {ex.Message}".Warning
+            End Try
+        Next
+
+        Return first
+    End Function
+
+    Private Shared Sub MergeProperty(items As T(), first As T, [property] As PropertyInfo)
+        Dim values As Object() = items _
+            .Select(Function(o) [property].GetValue(o)) _
+            .ToArray
+
+        If [property].PropertyType.IsArray Then
+            Dim elementType As Type = [property].PropertyType.GetElementType
+            Dim merged As New List(Of Object)
+
+            For Each arrayValue As Object In values
+                If arrayValue Is Nothing Then
+                    Continue For
+                End If
+
+                For Each item As Object In DirectCast(arrayValue, Array)
+                    If item Is Nothing Then
+                        Continue For
+                    End If
+                    If Not merged.Any(Function(x) Equals(x, item)) Then
+                        Call merged.Add(item)
+                    End If
+                Next
+            Next
+
+            Dim vector As Array = Array.CreateInstance(elementType, merged.Count)
+
+            For i As Integer = 0 To merged.Count - 1
+                vector.SetValue(merged(i), i)
+            Next
+
+            Call [property].SetValue(first, vector)
+        Else
+            Dim current As Object = [property].GetValue(first)
+
+            If Not IsEmptyValue(current) Then
+                Return
+            End If
+
+            Dim alternative As Object = values.FirstOrDefault(AddressOf IsNotEmptyValue)
+
+            If alternative IsNot Nothing Then
+                Call [property].SetValue(first, alternative)
+            End If
+        End If
+    End Sub
+
+    Private Shared Function IsEmptyValue(value As Object) As Boolean
+        If value Is Nothing Then
+            Return True
+        End If
+        If TypeOf value Is String Then
+            Return DirectCast(value, String).StringEmpty(, True)
+        End If
+
+        Return False
+    End Function
+
+    Private Shared Function IsNotEmptyValue(value As Object) As Boolean
+        Return Not IsEmptyValue(value)
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -120,9 +201,15 @@ Public Class AttrDataCollection(Of T As Model) : Implements Enumeration(Of T)
         Return fileMeta.ToString
     End Function
 
+    ''' <summary>
+    ''' BioCyc 的 .dat 文件之中混杂有少量非 UTF-8 编码的字节(例如人名或者化学符号)，
+    ''' 这里使用容错的 UTF-8 解码器进行读取，避免因为个别非法字节导致整行解析偏移
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function LoadFile(file As Stream) As AttrDataCollection(Of T)
-        Return LoadFile(New StreamReader(file))
+        Return LoadFile(New StreamReader(file, New UTF8Encoding(encoderShouldEmitUTF8Identifier:=False, throwOnInvalidBytes:=False)))
     End Function
 
     Public Shared Function LoadFile(file As TextReader) As AttrDataCollection(Of T)

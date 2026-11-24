@@ -1,3 +1,57 @@
+﻿#Region "Microsoft.VisualBasic::075b1316d8ea9fc6b07be5fada478354, Data_science\Mathematica\Math\Math\Algebra\MILP\MilpHeuristics.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 258
+    '    Code Lines: 142 (55.04%)
+    ' Comment Lines: 51 (19.77%)
+    '    - Xml Docs: 52.94%
+    ' 
+    '   Blank Lines: 65 (25.19%)
+    '     File Size: 10.94 KB
+
+
+    '     Module MilpHeuristics
+    ' 
+    '         Function: Diving, Feasible, FirstFractionalWorkColumn, PickFractionalWorkColumn, Rounding
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 ' ============================================================================
 ' MilpHeuristics.vb — 整数原启发式（舍入 + 潜水 diving）
 ' ----------------------------------------------------------------------------
@@ -17,8 +71,6 @@
 ' Copyright (c) 2018 GPL3 Licensed — sciBASIC.NET Foundation
 ' ============================================================================
 
-Imports System
-Imports System.Collections.Generic
 Imports std = System.Math
 
 Namespace LinearAlgebra.LinearProgramming.MILP
@@ -77,13 +129,28 @@ Namespace LinearAlgebra.LinearProgramming.MILP
         ''' <summary>
         ''' 检查工作解是否满足全部等式约束与变量界（整数性由调用方保证）。
         ''' </summary>
+        ''' <remarks>
+        ''' 行点积走 <see cref="MilpLpForm.RowCache"/> 的连续 jagged 行：
+        ''' 稠密行（非零占比 ≥ 50%）用 SIMD 点积，稀疏行保持跳零标量循环。
+        ''' </remarks>
         Public Function Feasible(form As MilpLpForm, x As Double(), tol As Double) As Boolean
-            For i As Integer = 0 To form.Rows - 1
-                Dim s As Double = 0.0
+            Dim rows As Double()() = form.RowCache()
+            Dim nnz As Integer() = form.RowNonZero()
+            Dim m As Integer = form.Rows
 
-                For k As Integer = 0 To form.Cols - 1
-                    If form.A(i, k) <> 0.0 Then s += form.A(i, k) * x(k)
-                Next
+            For i As Integer = 0 To m - 1
+                Dim s As Double
+                Dim row As Double() = rows(i)
+
+                If nnz(i) * 2 >= row.Length Then
+                    s = MilpKernels.Dot(row, x)
+                Else
+                    s = 0.0
+
+                    For k As Integer = 0 To row.Length - 1
+                        If row(k) <> 0.0 Then s += row(k) * x(k)
+                    Next
+                End If
 
                 If std.Abs(s - form.b(i)) > tol * (1.0 + std.Abs(form.b(i))) Then Return False
             Next
@@ -145,7 +212,8 @@ Namespace LinearAlgebra.LinearProgramming.MILP
             Dim u As Double() = CType(form.u.Clone(), Double())
             Dim simplex As New BoundedSimplex(form.A, form.b, form.c, l, u,
                                              options.FeasibilityTolerance,
-                                             options.FeasibilityTolerance)
+                                             options.FeasibilityTolerance,
+                                             luOptions:=options.ToLuUpdateOptions())
 
             Dim res As BsResult = simplex.Solve(startBasis, startAtUpper, options.LpIterationLimit)
 

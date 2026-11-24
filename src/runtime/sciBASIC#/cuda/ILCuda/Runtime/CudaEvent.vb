@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::13222d241700e6f139c16e0ba264a21e, cuda\ILCuda\Runtime\CudaEvent.vb"
+﻿#Region "Microsoft.VisualBasic::ac1d9bfb8e95111d4cc6524e8bbb6635, cuda\ILCuda\Runtime\CudaEvent.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 111
-    '    Code Lines: 68 (61.26%)
-    ' Comment Lines: 18 (16.22%)
+    '   Total Lines: 117
+    '    Code Lines: 72 (61.54%)
+    ' Comment Lines: 18 (15.38%)
     '    - Xml Docs: 55.56%
     ' 
-    '   Blank Lines: 25 (22.52%)
-    '     File Size: 4.12 KB
+    '   Blank Lines: 27 (23.08%)
+    '     File Size: 4.29 KB
 
 
     '     Enum CudaEventFlags
@@ -96,6 +96,8 @@ Namespace Runtime
         Public Sub New(Optional flags As CudaEventFlags = CudaEventFlags.DefaultEvent)
             Dim handle As IntPtr = IntPtr.Zero
 
+            CudaRuntime.EnsureCurrent()
+
             CudaDriverApi.Check(
                 CudaDriverApi.cuEventCreate(handle, CUInt(flags)), "cuEventCreate")
 
@@ -115,6 +117,8 @@ Namespace Runtime
 
             Dim streamHandle = If(stream Is Nothing, IntPtr.Zero, stream.Handle)
 
+            CudaRuntime.EnsureCurrent()
+
             CudaDriverApi.Check(
                 CudaDriverApi.cuEventRecord(_handle, streamHandle), "cuEventRecord")
         End Sub
@@ -122,12 +126,14 @@ Namespace Runtime
         ''' <summary>阻塞等待该事件完成</summary>
         Public Sub Synchronize()
             ThrowIfDisposed()
+            CudaRuntime.EnsureCurrent()
             CudaDriverApi.Check(CudaDriverApi.cuEventSynchronize(_handle), "cuEventSynchronize")
         End Sub
 
         ''' <summary>查询该事件是否已完成（未完成返回 False，其它错误照常抛出）</summary>
         Public Function Query() As Boolean
             ThrowIfDisposed()
+            CudaRuntime.EnsureCurrent()
 
             Dim status = CudaDriverApi.cuEventQuery(_handle)
 

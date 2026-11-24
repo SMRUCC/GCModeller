@@ -12,7 +12,6 @@
 ' 构造期一次性完成装配，之后每次 FindPathway 只是对已装配的 Netwalk 发起一次搜索。
 ' ============================================================================
 
-Imports System.Diagnostics
 Imports System.Runtime.CompilerServices
 Imports SMRUCC.genomics.Analysis.RetroPath
 Imports SMRUCC.genomics.Analysis.RetroPath.Chem
@@ -116,8 +115,11 @@ Public Class MetabolicAdapter : Implements IRouter
         Dim seeds As New List(Of CompoundSeed)()
 
         For Each cpd As MetabolicCompound In compoundList
-            If cpd Is Nothing OrElse String.IsNullOrEmpty(cpd.id) Then Continue For
-            seeds.Add(CompoundSeed.Create(cpd.id, cpd.smiles, name:=cpd.name, synonyms:=cpd.synonym))
+            If cpd Is Nothing OrElse String.IsNullOrEmpty(cpd.id) Then
+                Continue For
+            End If
+
+            Call seeds.Add(CompoundSeed.Create(cpd.id, cpd.smiles, name:=cpd.name, synonyms:=cpd.synonym))
         Next
 
         Dim index As CompoundIndexResult = CompoundIndex.Build(seeds, maxMoleculeAtoms)
@@ -221,6 +223,14 @@ Public Class MetabolicAdapter : Implements IRouter
     ''' <param name="targetSmiles">目标分子的 SMILES。</param>
     ''' <returns>含参数快照、统计与候选通路的报告。</returns>
     Public Function FindPathway(targetSmiles As String) As PathReport Implements IRouter.FindPathway
+        Return FindPathwayImpl(targetSmiles, Nothing)
+    End Function
+
+    ''' <summary>
+    ''' <see cref="FindPathway"/> 的内部实现：<paramref name="targetId"/> 非空时，
+    ''' 结果报告中的目标代谢物标注会使用该 id（否则在汇集合中按分子指纹反查）。
+    ''' </summary>
+    Private Function FindPathwayImpl(targetSmiles As String, targetId As String) As PathReport
         Dim walker As Netwalk = netwalk
         Dim key As String = Nothing
 
@@ -236,9 +246,19 @@ Public Class MetabolicAdapter : Implements IRouter
                 If e.key <> key Then sink.Add((e.id, e.smiles))
             Next
             walker = New Netwalk(ruleList, sink, opts, w)
+
+            ' 目标 id 未显式给出时，在汇条目中按分子指纹反查化合物 id
+            If String.IsNullOrEmpty(targetId) Then
+                For Each e In sinkEntries
+                    If e.key = key Then
+                        targetId = e.id
+                        Exit For
+                    End If
+                Next
+            End If
         End If
 
-        Return walker.Search(targetSmiles)
+        Return walker.Search(targetSmiles, targetId)
     End Function
 
     ''' <summary>
@@ -259,6 +279,11 @@ Public Class MetabolicAdapter : Implements IRouter
                                    Optional allowedExtra As IEnumerable(Of (String, String)) = Nothing,
                                    Optional maxRoutes As Integer = 0,
                                    Optional escalate As Boolean = True) As RouteReport Implements IRouter.SynthesisRoute
+
+        If sourceSmiles Is Nothing OrElse targetSmiles Is Nothing Then
+            Return Nothing
+        End If
+
         Return netwalk.SynthesisRoute(sourceSmiles, targetSmiles, role, strict, allowedExtra, maxRoutes, escalate)
     End Function
 
@@ -266,12 +291,16 @@ Public Class MetabolicAdapter : Implements IRouter
     ''' 以代谢模型的化合物 id 指定起点与目标（如 "CHORISMATE" → "ENTEROBACTIN"）。
     ''' </summary>
     ''' <param name="allowedExtraIds">strict 模式下额外放行的化合物 id（如 ATP / NADH）。</param>
+    ''' <remarks>
+    ''' may returns nothing if the smiles data is missing and running in non-strict mode
+    ''' </remarks>
     Public Function SynthesisRouteById(sourceId As String, targetId As String,
                                        Optional role As SourceRoles = SourceRoles.Source,
                                        Optional strict As Boolean = False,
                                        Optional allowedExtraIds As IEnumerable(Of String) = Nothing,
                                        Optional maxRoutes As Integer = 0,
                                        Optional escalate As Boolean = True) As RouteReport
+
         Dim extra As List(Of (String, String)) = Nothing
 
         If allowedExtraIds IsNot Nothing Then
@@ -288,7 +317,7 @@ Public Class MetabolicAdapter : Implements IRouter
             Next
         End If
 
-        Return SynthesisRoute(SmilesOf(sourceId), SmilesOf(targetId), role, strict, extra, maxRoutes, escalate)
+        Return SynthesisRoute(SmilesOf(sourceId, strict), SmilesOf(targetId, strict), role, strict, extra, maxRoutes, escalate)
     End Function
 
     ''' <summary>
@@ -306,27 +335,47 @@ Public Class MetabolicAdapter : Implements IRouter
     End Function
 
     ''' <summary>按 compound id 取净化后的 SMILES（无结构时抛异常）</summary>
-    Private Function SmilesOf(compoundId As String) As String
+    Private Function SmilesOf(compoundId As String, strict As Boolean) As String
         Dim st As CompoundStructure = GetCompound(compoundId)
 
         If st Is Nothing Then
-            Throw New ArgumentException($"化合物 {compoundId} 在当前代谢模型中没有可用结构（缺失 SMILES 或含不支持的元素）")
+            Dim msg As String = MissingSMILES(compoundId)
+
+            If strict Then
+                Throw New ArgumentException(msg)
+            Else
+                Call msg.warning
+                Return Nothing
+            End If
         End If
 
         Return st.Smiles
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Private Shared Function MissingSMILES(compoundId As String) As String
+        Return $"化合物 {compoundId} 在当前代谢模型中没有可用结构（缺失 SMILES 或含不支持的元素）"
+    End Function
+
     ''' <summary>以内部模型的化合物 id 为目标做搜索（如 "ENTEROBACTIN"）</summary>
     ''' <param name="compoundId">化合物 id（即 <see cref="MetabolicCompound.id"/>）。</param>
     ''' <exception cref="ArgumentException">该化合物没有可用结构（缺失 SMILES 或含不支持元素）。</exception>
-    Public Function FindPathwayById(compoundId As String) As PathReport
+    ''' <returns>报告中的 <c>TargetMetabolite</c> 标注为 <paramref name="compoundId"/>。</returns>
+    Public Function FindPathwayById(compoundId As String, Optional strict As Boolean = True) As PathReport
         Dim st As CompoundStructure = GetCompound(compoundId)
 
         If st Is Nothing Then
-            Throw New ArgumentException($"化合物 {compoundId} 在当前代谢模型中没有可用结构（缺失 SMILES 或含不支持的元素）")
+            Dim msg As String = MissingSMILES(compoundId)
+
+            If strict Then
+                Throw New ArgumentException(msg)
+            Else
+                Call msg.warning
+                Return Nothing
+            End If
         End If
 
-        Return FindPathway(st.Smiles)
+        Return FindPathwayImpl(st.Smiles, compoundId)
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>

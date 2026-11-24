@@ -1,0 +1,257 @@
+# Data_science/Mathematica/Math/DataFittings/linear-netcore5.vbproj
+
+- RootNamespace : Microsoft.VisualBasic.Data.Bootstrapping
+- AssemblyName  : Microsoft.VisualBasic.Data.Bootstrapping.Fittings
+- TargetFramework: net10.0
+- Source files  : 68
+- Existing Title: Curve Fitting and Regression Toolkit with LASSO and Levenberg-Marquardt
+- Existing Desc : A curve fitting and regression toolkit for sciBASIC#: linear, polynomial, weighted and non-negative least squares, MLR, LOESS/LOWESS local regression, logistic, Poisson count regression with log link, exposure offsets, incidence rate ratios and overdispersion diagnostics, multi-response Gaussian (mgaussian) group-lasso, Cox proportional hazards survival regression with elastic-net partial likelihood, Breslow/Efron ties, hazard ratios, Harrell C-index, baseline survival curves and K-fold cross validation, LASSO and ridge fits with GCV lambda selection, plus Bayesian and Levenberg-Marquardt nonlinear solvers with unified numeric table input.
+- Existing Tags : scibasic;regression;curve-fitting;least-squares;ridge;lasso;levenberg-marquardt;loess;poisson;glm;count-regression;mgaussian;group-lasso;multi-task;cox;survival;proportional-hazards;cross-validation
+
+## Namespaces
+- Cox  [files: 5]
+- LASSO  [files: 4]
+- LevenbergMarquardt  [files: 9]
+- Logistic  [files: 5]
+- MGaussian  [files: 6]
+- Multivariate  [files: 5]
+- Poisson  [files: 4]
+- Ridge  [files: 4]
+
+## Public types
+- Module CoxAudit (_smoketest\CoxAudit.vb) - Cox 比例危险模型的正确性审计：偏似然、Breslow/Efron 平局、弹性网路径、 penalty.factor、风险比与 C 指数、生存曲线、K 折交叉验证、二维表入口与异常输入防护。 所有断言经 <see cref="DebugAudit"/> 记录，结束时生成 JSON 测试报告。
+- Module LogisticAudit (_smoketest\LogisticAudit.vb) - 逻辑回归的正确性审计、标量 / SIMD / SIMD+Parallel 三路数值对拍与性能基准。 这是一个 console 类型的测试程序：所有断言与耗时都经由 <see cref="DebugAudit"/> 记录，结束时由 <see cref="DebugAudit.SaveReport(String)"/>
+- Module MGaussianAudit (_smoketest\MGaussianAudit.vb) - 多响应高斯模型（mgaussian）的正确性审计：组稀疏、系数恢复、alpha 混合、 standardize.response、lambda 路径、多 lambda 预测、K 折交叉验证、二维表入口与异常输入防护。 这是一个 console 类型的测试程序：所有断言都经由
+- Module PoissonAudit (_smoketest\PoissonAudit.vb) - 泊松回归的正确性审计：系数恢复、offset 标准化、统计推断、过度离散诊断、 二维表入口与异常输入防护。 这是一个 console 类型的测试程序：所有断言都经由
+- Module Program (_smoketest\Program.vb) - DataFittings 回归算法统一 NumericTable 入口的自检程序。
+- Class BayesianCurveFitting (BayesianCurveFitting.vb)
+- Enum CoxCVMeasure (COX\CoxCV.vb)
+- Module CoxCV (COX\CoxCV.vb) - Cox 模型的 K 折交叉验证（对应 ``cv.glmnet(..., family="cox")``）。 先在完整数据上生成统一 lambda 网格，逐折用训练子集拟合同一网格（每折只用自己的 训练集统计量做标准化）。CIndex 记录留出集上的 Harrell C 指数（越大越好）；
+- Class CoxCVFit (COX\CoxCVFit.vb) - Cox 模型的 K 折交叉验证结果：在完整数据的 lambda 路径之上，附带每折的 折外指标、逐 lambda 的均值与标准误，以及 ``lambda.min`` / ``lambda.1se``。 <see cref="cvMean"/> 的方向取决于 <see cref="measure"/>：
+- Class SurvivalCurve (COX\CoxFit.vb) - 一条（个体化）生存曲线：各事件时刻的基线/个体累积风险与生存概率。 与 glmnet 的 ``survfit`` 一样，本实现不提供置信带。
+- Class CoxFit (COX\CoxFit.vb) - 模型**没有截距**：``getCoefficients`` 返回长度 p 的系数向量， ``hazardRatios(step)(j) = exp(beta_j)`` 即风险比 HR。 ``deviance = -2*l(beta)/n``（部分似然偏差，可相差一个常数），
+- Class CoxRiskModel (COX\CoxFit.vb) - 指定 lambda 步骤的 <see cref="IFitted"/> 风险得分视图， 便于把 Cox 的风险得分写回二维表或复用既有的单响应链路。
+- Enum CoxTies (COX\CoxFitting.vb)
+- Module CoxFitting (COX\CoxFitting.vb) - <para> 记风险集 ``R(t)`` 上的和为 ``S0 = sum r_j``、``S1_j = sum r_j*x_j``、 ``S2_j = sum r_j*x_j^2``，则对坐标 j（Breslow）：
+- Module NamespaceDoc (COX\NamespaceDoc.vb) - Cox 比例风险模型（glmnet 的 ``family = "cox"``），面向右删失生存数据。 响应为 ``N x 2`` 矩阵：第 0 列 ``time``（观测时间）、第 1 列 ``status`` （1 = 事件、0 = 删失）。模型假设 ``h_i(t) = h0(t) * exp(x_i'beta)``，
+- Class Evaluation (Evaluation.vb) - Data fitting result evaluation.
+- Class GaussNewtonSolver (GaussNewtonSolver.vb) - least squares fitting for general curve functions
+- Class LassoFit (LASSO\LassoFit.vb)
+- Class LassoFitGenerator (LASSO\LassoFitGenerator.vb) - This implemenation is based on: Friedman, J., Hastie, T. and Tibshirani, R. (2008) Regularization Paths for Generalized Linear Models via Coordinate Descent. http://www-stat.stanford.edu/~hastie/Papers/glmnet.pdf
+- Class MathUtil (LASSO\MathUtil.vb) - Utility Math functions that are used by other classes. @author Yasser Ganjisaffar (http://www.ics.uci.edu/~yganjisa/)
+- Module NamespaceDoc (LASSO\NamespaceDoc.vb) - LASSO (L1 regularized) regression.
+- Class JamaHelper (Levenberg-Marquardt\JamaHelper.vb) - Created by duy on 31/1/15.
+- Interface LmParamHandler (Levenberg-Marquardt\LmParamHandler.vb) - Created by duy on 18/3/15.
+- Interface LmScalarModel (Levenberg-Marquardt\LmScalarModel.vb) - LmScalarModel is an interface for models (functions) whose ranges are single real-valued numbers
+- Class LmSolver (Levenberg-Marquardt\LmSolver.vb) - + g is the gradient (Jacobian) vector of the chi-squared error function + u is the damping value ### Adjusting damping value
+- Class LmSumError (Levenberg-Marquardt\LmSumError.vb) - Created by duy on 1/4/15.
+- Class LmSumSquaresError (Levenberg-Marquardt\LmSumSquaresError.vb) - Created by duy on 27/1/15.
+- Module NamespaceDoc (Levenberg-Marquardt\NamespaceDoc.vb) - The Levenberg-Marquardt non-linear least squares fitting algorithm.
+- Module DoubleLinear (Linear\DoubleLinear.vb)
+- Module Extensions (Linear\Extensions.vb)
+- Module FeatureProjection (Linear\FeatureProjection.vb)
+- Class FitResult (Linear\FitResult.vb) - 在讨论模型时，所谓“线性”并不意味就是直线。回归模型相对于参数是线性的，但是相对于解释变量可以是非线性关系。 比如以下这些常见形式都是线性回归模型： |模型名称 |表达式 |
+- Interface IFitted (Linear\IFitted.vb) - a unify interface model of linear fitting result
+- Module LeastSquares (Linear\LeastSquares.vb) - Linear interpolator 曲线拟合类，只适用于线性拟合： + ``y = a*x + b``
+- Module LinearFittingAlgorithm (Linear\MLR\LinearFitting.vb) - 多元线性回归拟合算法模块，提供拟合入口、特征曲线升维以及回归系数置信区间的计算。 (Multiple linear regression fitting algorithms: fit entry points, feature curve scaling, and confidence interval computation.)
+- Class MLRFit (Linear\MLR\MLRFit.vb) - Multiple linear regression.(多元线性回归) Problem of predicting appropriate values of given feature set as inputvector using supervised linear regression with multiple dimensional sample input
+- Module NamespaceDoc (Linear\MLR\NamespaceDoc.vb) - Multivariate linear regression (MLR).
+- Module NormalEquation (Linear\MLR\NormalEquation.vb)
+- Module NonNegativeLeastSquares (Linear\NonNegativeLeastSquares.vb) - NNLS Non-Negative Least-Squares algorithm
+- Class WeightedFit (Linear\Weighted\WeightedFit.vb) - 加权拟合的结果
+- Module WeightedLinearRegression (Linear\Weighted\WeightedLinearRegression.vb) - ## An Algorithm for Weighted Linear Regression > https://www.codeproject.com/Articles/25335/An-Algorithm-for-Weighted-Linear-Regression
+- Module LMA (LMA.vb) - 本模块提供了三种拟合入口： 1. 不给出模型的入口，拟合幂律（Cobb-Douglas / 异速生长）模型 ``y = p0 * x1^p1 * x2^p2 * ...``；
+- Class LmFitModel (LMA.vb) - 驱动既有 <see cref="LmSolver"/> 内核的非线性模型桥。 任意一个 <see cref="NonLinearModel"/> 委托经由这个桥包装之后，就满足了 <see cref="LmScalarModel"/> 所要求的「逐样本给出模型值、一阶导数与二阶
+- Class LmResidualError (LMA.vb) - E(p) = 1/2 * sum(r^2) g = -J' * r H ~= J' * J
+- Class NonLinearFitResult (LMA.vb) - 非线性最小二乘拟合的结果 这个类型保存了拟合出来的参数、拟合优度、残差与预测模型，与线性拟合的 <see cref="FitResult"/> 风格一致。注意：非线性模型没有多项式形式，
+- Structure FitInput (LMA.vb)
+- Module LOESS (LOESS\LOESS.vb) - ======================================================================== LOESS回归实现 ========================================================================
+- Class LOESSModel (LOESS\LOESSModel.vb) - LOESS模型，存储训练数据和参数
+- Structure Standardization (Logistic\Instance.vb) - 按列标准化参数。训练与推理必须共用同一份参数，否则模型系数与输入 不在同一个空间，预测结果会静默失真。
+- Class Instance (Logistic\Instance.vb) - classify training model
+- Class Logistic (Logistic\Logistic.vb) - 全部返回同一个量：正类概率 <c>P(y=1|x)</c>。历史上 <c>predict</c> 返回 <c>1 - p</c> 而 <c>GetY</c> 返回 <c>p</c>，导致误差记录整体反向，现已统一。 </para>
+- Class LogisticFit (Logistic\LogisticFit.vb) - <para> <c>GetY</c>、<c>Logistic.predict</c> 与 <c>ErrorTest.Yfit</c> 全部经由 同一个 <c>PredictProbability</c> 实现计算，返回同一个正类概率
+- Module NamespaceDoc (Logistic\NamespaceDoc.vb) - <c>SIMDConfiguration.disable</c> 与 <c>SimdParallel.Enable</c> 做标量 / SIMD / SIMD+Parallel 三路对拍。 </description>
+- Module LowessFittings (Lowess\LowessFittings.vb)
+- Enum CVMeasure (MGaussian\MGaussianCV.vb)
+- Module MGaussianCV (MGaussian\MGaussianCV.vb) - <para> 先在完整数据上生成统一的 lambda 网格，再对每一折用**该折自己的训练集统计量** 重新做标准化并拟合同一网格的路径，避免把留出集信息泄漏进预处理；
+- Class MGaussianCVFit (MGaussian\MGaussianCVFit.vb) - 多响应高斯模型的 K 折交叉验证结果：在完整数据的 lambda 路径之上， 附带每一折的折外误差、逐 lambda 的均值与标准误，以及 glmnet 语义的 ``lambda.min`` / ``lambda.1se``。
+- Class MGaussianFit (MGaussian\MGaussianFit.vb) - <para> 每一步的系数都是 ``p x K`` 矩阵，且已经还原到输入数据的原始量纲： <see cref="getCoefficients"/> 返回 ``(p+1) x K``（第 0 行是各响应的截距），
+- Module MGaussianFitting (MGaussian\MGaussianFitting.vb) - </para> <para> 记标准化空间中的残差矩阵为 ``R``，对变量 j 令
+- Class MGaussianResponseModel (MGaussian\MGaussianResponseModel.vb) - 某一个响应在某一个 lambda 步骤上的 <see cref="IFitted"/> 轻量视图。 多响应模型本身不是单响应契约，但把 ``(截距, 该响应的系数向量)`` 包装成 一个普通多元线性模型之后，就可以复用
+- Module NamespaceDoc (MGaussian\NamespaceDoc.vb) - 把 ``N x K`` 的响应矩阵与共享的特征矩阵联合拟合，对每个自变量的 K 维系数向量 施加组-lasso（``l2``）惩罚，使变量在全部响应上「同进同出」（shared sparsity / 多任务学习）。 本命名空间提供：组-lasso 块坐标下降求解器、自动 lambda 正则化路径（warm start）、
+- Class NamespaceDoc (NamespaceDoc.vb) - Curve fitting and regression: linear, polynomial and non-linear data fitting models.
+- Module NumericTablePrediction (NumericTablePrediction.vb) - 将回归模型的预测结果写回到统一二维表 <see cref="NumericTable"/> 的标签矩阵之中， 从而可以方便地把预测值与原始的观测值放在同一张表里面进行对比。
+- Module NumericTableRegressions (NumericTableRegressions.vb) - 4. 计数回归（<see cref="PoissonRegression"/>）使用全部特征列，响应变量必须是 非负整数计数；截距自动拟合，暴露量 offset 由 ``exposure`` 列名指定 5. 多响应回归（<see cref="MGaussianRegression"/>、<see cref="MGaussianCV"/>）
+- Module NamespaceDoc (Poisson\NamespaceDoc.vb) - 泊松回归（Poisson regression）：面向非负整数计数型响应变量的广义线性模型。 模型使用对数链接函数 ``log(mu) = b0 + b1*x1 + ... + bp*xp + log(exposure)``， 通过极大似然估计（IRLS / Newton-Raphson）迭代求解系数，并提供发生率比
+- Class PoissonFit (Poisson\PoissonFit.vb) - 的长度都是待估参数的个数，顺序为「截距（若拟合）→ 各个特征」。 </para> <para>
+- Module PoissonFitting (Poisson\PoissonFitting.vb) - <para> 对数似然 ``l(beta) = sum(y_i * eta_i - exp(eta_i) - log(y_i!))`` 是凸函数但没有解析解。 对数链接是泊松分布的规范链接，因此 Fisher scoring 与 Newton-Raphson 等价：
+- Class PoissonPolynomial (Poisson\PoissonPolynomial.vb) - 泊松回归模型的对数链接多项式：``mu = exp(c + b1*x1 + ... + bp*xp)``。 与 <see cref="Ridge.RidgePolynomial"/> 等线性多项式不同，这里的 <see cref="Evaluate"/> 返回的是期望计数（单位暴露量之下的事件率），
+- Module NamespaceDoc (Ridge\NamespaceDoc.vb) - Ridge (L2 regularized) regression.
+- Class RidgeFit (Ridge\RidgeFit.vb) - 岭回归的拟合结果，其中保存了 lambda 正则化路径上面的全部解（岭迹）。 路径上面的每一步都由 <see cref="lambdas"/> 之中的一个 lambda 值、 <see cref="intercepts"/> 之中的一个截距与 <see cref="coefficients"/>
+- Module RidgeFitting (Ridge\RidgeFitting.vb) - ### 为什么要标准化 L2 惩罚对各个系数是同等对待的，自变量的量纲不同会让惩罚的效果完全不一样， 因此标准做法是先对每一列做中心化与标准化再拟合，最后把系数还原回原始量纲；
+- Class RidgePolynomial (Ridge\RidgePolynomial.vb) - 岭回归模型的多项式形式：``y = c + b1*x1 + b2*x2 + ...`` 既有的 <see cref="MultivariatePolynomial"/> 只计算 ``sum(x * b)`` 而没有 截距项，而岭回归的截距是不施加惩罚的独立参数，因此这里单独给出一个
+- Class StockPredict (stockpredict.vb) - Bayesian Curve Fitting
+- Interface IFitError (TestPoint.vb)
+- Class TestPoint (TestPoint.vb)
+
+## Notable public members
+- Public Function Run() As Integer
+- Public Function Run() As Integer
+- Public Function Run() As Integer
+- Public Function Run() As Integer
+- Public Sub New(x As Double(), t As Double(), m As Integer)
+- Public Overridable Function getS2X(x As Double) As Double
+- Public Overridable Function getMx(x As Double) As Double
+- Public Const DefaultFolds As Integer = 10
+- Public Const DefaultSeed As Integer = 1
+- Public Function CrossValidate(x As Double()(),
+- Public Property Model As CoxFit
+- Public Property nfolds As Integer
+- Public Property measure As CoxCVMeasure
+- Public Property grouped As Boolean
+- Public Property cvMean As Double()
+- Public Property cvSe As Double()
+- Public Property foldErrors As Double()()
+- Public Property foldId As Integer()
+- Public Property BestIndex As Integer
+- Public Property BestIndex1se As Integer
+- Public ReadOnly Property Maximize As Boolean
+- Public ReadOnly Property lambdas As Double()
+- Public ReadOnly Property lambdaMin As Double
+- Public ReadOnly Property lambda1se As Double
+- Public ReadOnly Property BestScore As Double
+- Public Function Predict(newx As Double()(), Optional use1se As Boolean = False) As Double()
+- Public Function PredictSurvival(newx As Double()(), Optional use1se As Boolean = False) As SurvivalCurve()
+- Public Function GetRiskModel(Optional use1se As Boolean = False) As IFitted
+- Public Function toNumericTable() As NumericTable
+- Public Overrides Function ToString() As String
+- Public Property Time As Double()
+- Public Property Survival As Double()
+- Public Property CumulativeHazard As Double()
+- Public Property BaselineSurvival As Double()
+- Public Property RiskScore As Double
+- Public Property SampleIndex As Integer
+- Public Function SurvivalAt(t As Double) As Double
+- Public Overrides Function ToString() As String
+- Public Property lambdas As Double()
+- Public Property coefficients As Double()()
+- Public Property hazardRatios As Double()()
+- Public Property df As Integer()
+- Public Property deviance As Double()
+- Public Property devRatio As Double()
+- Public Property cIndex As Double()
+- Public Property logPL As Double()
+- Public Property converged As Boolean()
+- Public Property iterations As Integer()
+- Public Property alpha As Double
+- Public Property standardize As Boolean
+- Public Property ties As CoxTies
+- Public Property penaltyFactor As Double()
+- Public Property featureNames As String()
+- Public Property eventCount As Integer
+- Public Property censoredCount As Integer
+- Public Property nullLogLikelihood As Double
+- Public Property TrainingX As Double()()
+- Public Property Time As Double()
+- Public Property Status As Double()
+- Public Property RawY As Double()()
+- ... and 476 more
+
+## Imports
+- CholeskyDecomposition = Microsoft.VisualBasic.Math.LinearAlgebra.Matrix.CholeskyDecomposition
+- CoxNS = Microsoft.VisualBasic.Data.Bootstrapping.Cox
+- FeatureProjectionNS = Microsoft.VisualBasic.Data.Bootstrapping.FeatureProjection
+- FittingExtensions = Microsoft.VisualBasic.Data.Bootstrapping.Extensions
+- LassoNS = Microsoft.VisualBasic.Data.Bootstrapping.LASSO
+- LogisticNS = Microsoft.VisualBasic.Data.Bootstrapping.Logistic
+- Matrix = Microsoft.VisualBasic.Math.LinearAlgebra.Matrix.NumericMatrix
+- MGaussianNS = Microsoft.VisualBasic.Data.Bootstrapping.MGaussian
+- Microsoft.VisualBasic.ApplicationServices.Debugging
+- Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
+- Microsoft.VisualBasic.ComponentModel.Collection
+- Microsoft.VisualBasic.ComponentModel.DataSourceModel
+- Microsoft.VisualBasic.ComponentModel.Ranges.Model
+- Microsoft.VisualBasic.Data
+- Microsoft.VisualBasic.Data.Bootstrapping
+- Microsoft.VisualBasic.Data.Bootstrapping.Cox
+- Microsoft.VisualBasic.Data.Bootstrapping.LevenbergMarquardt
+- Microsoft.VisualBasic.Data.Bootstrapping.Logistic
+- Microsoft.VisualBasic.Data.Bootstrapping.MGaussian
+- Microsoft.VisualBasic.Data.Bootstrapping.Multivariate
+- Microsoft.VisualBasic.Data.Bootstrapping.Poisson
+- Microsoft.VisualBasic.Language
+- Microsoft.VisualBasic.Linq
+- Microsoft.VisualBasic.Math
+- Microsoft.VisualBasic.Math.LinearAlgebra
+
+## File tree
+- _smoketest\CoxAudit.vb
+- _smoketest\LogisticAudit.vb
+- _smoketest\MGaussianAudit.vb
+- _smoketest\PoissonAudit.vb
+- _smoketest\Program.vb
+- BayesianCurveFitting.vb
+- COX\CoxCV.vb
+- COX\CoxCVFit.vb
+- COX\CoxFit.vb
+- COX\CoxFitting.vb
+- COX\NamespaceDoc.vb
+- Evaluation.vb
+- GaussNewtonSolver.vb
+- LASSO\LassoFit.vb
+- LASSO\LassoFitGenerator.vb
+- LASSO\MathUtil.vb
+- LASSO\NamespaceDoc.vb
+- Levenberg-Marquardt\JamaHelper.vb
+- Levenberg-Marquardt\LmDatumError.vb
+- Levenberg-Marquardt\LmModelError.vb
+- Levenberg-Marquardt\LmParamHandler.vb
+- Levenberg-Marquardt\LmScalarModel.vb
+- Levenberg-Marquardt\LmSolver.vb
+- Levenberg-Marquardt\LmSumError.vb
+- Levenberg-Marquardt\LmSumSquaresError.vb
+- Levenberg-Marquardt\NamespaceDoc.vb
+- Linear\DoubleLinear.vb
+- Linear\Extensions.vb
+- Linear\FeatureProjection.vb
+- Linear\FitResult.vb
+- Linear\IFitted.vb
+- Linear\LeastSquares.vb
+- Linear\MLR\Error.vb
+- Linear\MLR\LinearFitting.vb
+- Linear\MLR\MLRFit.vb
+- Linear\MLR\NamespaceDoc.vb
+- Linear\MLR\NormalEquation.vb
+- Linear\NonNegativeLeastSquares.vb
+- Linear\Weighted\WeightedFit.vb
+- Linear\Weighted\WeightedLinearRegression.vb
+- LMA.vb
+- LOESS\LOESS.vb
+- LOESS\LOESSModel.vb
+- Logistic\Instance.vb
+- Logistic\Logistic.vb
+- Logistic\LogisticFit.vb
+- Logistic\LogisticKernels.vb
+- Logistic\NamespaceDoc.vb
+- Lowess\LowessFittings.vb
+- MGaussian\MGaussianCV.vb
+- MGaussian\MGaussianCVFit.vb
+- MGaussian\MGaussianFit.vb
+- MGaussian\MGaussianFitting.vb
+- MGaussian\MGaussianResponseModel.vb
+- MGaussian\NamespaceDoc.vb
+- NamespaceDoc.vb
+- NumericTablePrediction.vb
+- NumericTableRegressions.vb
+- Poisson\NamespaceDoc.vb
+- Poisson\PoissonFit.vb
+- Poisson\PoissonFitting.vb
+- Poisson\PoissonPolynomial.vb
+- Ridge\NamespaceDoc.vb
+- Ridge\RidgeFit.vb
+- Ridge\RidgeFitting.vb
+- Ridge\RidgePolynomial.vb
+- stockpredict.vb
+- TestPoint.vb
+

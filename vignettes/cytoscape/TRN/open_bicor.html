@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>re-open the persisted bicor correlation store that was written by `write_bicor`</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>open_bicor {TRN}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>re-open the persisted bicor correlation store that was written by `write_bicor`</h2>
+
+        <h3>Description</h3>
+
+        
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>open_bicor</strong>(<i>repo</i>,
+    <i>cache</i> = <span style='color: green;'>2048</span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>repo</dt>
+<dd><p>the data repository directory that was passed to <code>write_bicor</code> (reads <code>{repo}/bicor.dat</code>, or <code>{repo}/pearson.dat</code> when the store was written with <code>corKind = "pearson"</code>, and <code>{repo}/index.dat</code>). [as string]</p></dd>
+
+
+<dt>cache</dt>
+<dd><p>the hot-row LRU cache capacity in rows. Each cached row of a N = 50,000 matrix costs about 200 KB of memory. The default value 2048 means at most about 400 MB of the hot row cache. [as integer]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: block;">Details</h3>
+
+        <p>the returned store supports fast point queries (gene1, gene2 -&gt; correlation and p-value), neighborhood queries (gene + threshold -&gt; all correlated genes) and full-library streaming edge filters, all without loading the matrix into memory.</p>
+
+        <h3 style="display: block">Authors</h3>
+
+        cytoscape
+
+        <h3>Value</h3>
+
+        <p>an opened <a href="cref:T:Microsoft.VisualBasic.Math.Matrix.CorrelationMatrixStore">CorrelationMatrixStore</a> object. Pass it to <code>build_grn</code> via the <code>bicor</code> parameter to skip the expensive correlation matrix re-computation.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/Microsoft/VisualBasic/Math/Matrix/CorrelationMatrixStore.html">CorrelationMatrixStore</a></li></ul>
+
+        <h3 style="display: block;">Examples</h3>
+
+        <pre><code id="example_r"> let bicor = open_bicor("Z:/hsa_mat");</code></pre>
+
+        <hr />
+        <div style="text-align: center;">[Package <em>TRN</em> version 1.0.0.0 <a
+                href="../TRN.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

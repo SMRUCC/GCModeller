@@ -1,0 +1,31 @@
+.\" man page create by R# package system.
+.TH GPS 1 2000-1月 "gene_names" "gene_names"
+.SH NAME
+gene_names \- Get the gene ids of the trained GPS model, in the modelling order.
+.SH SYNOPSIS
+\fIgene_names(\fBgps\fR as <generic> GPSModel);\fR
+.SH DESCRIPTION
+.PP
+Get the gene ids of the trained GPS model, in the modelling order.
+.PP
+.SH OPTIONS
+.PP
+\fBgps\fB \fR\- the trained model object created by \fBGPS::build_gps\fR or restored by \fBreadBin\fR.. 
+.PP
+.SH VALUE
+.PP
+a character vector of the gene id (Ensembl gene id for the human model), the order of
+ this vector is the row order of every expression profile produced by the model.
+.PP
+.SH DETAILS
+.PP
+The gene order of the model is not necessarily the same as the order of the input
+ expression matrix, so any external profile must be aligned against this vector instead of
+ against the raw input file.
+.PP
+.SH SEE ALSO
+GPS
+.SH FILES
+.PP
+biosystem.dll
+.PP

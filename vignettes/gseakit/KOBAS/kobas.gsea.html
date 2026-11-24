@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Run the KOBAS style GSEA analysis</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>kobas.gsea {KOBAS}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>Run the KOBAS style GSEA analysis</h2>
+
+        <h3>Description</h3>
+
+        <p>&lt;br /&gt; Gene Set Enrichment Analysis with the KOBAS ranking and permutation scheme: the&lt;br /&gt; genes are ranked by the signal-to-noise ratio or the t statistics between the&lt;br /&gt; two phenotype groups, then a weighted Kolmogorov-Smirnov like running sum is&lt;br /&gt; evaluated for each gene set. The significance of the enrichment score is&lt;br /&gt; estimated by permuting the phenotype class labels.</p>
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>kobas.gsea</strong>(<i>expr</i>, <i>cls</i>, <i>gmt</i>,
+    <i>method</i> = <span style='color: brown;'><strong>"snr"</strong></span>,
+    <i>weight</i> = <span style='color: green;'>1</span>,
+    <i>permutations</i> = <span style='color: green;'>1000</span>,
+    <i>min.size</i> = <span style='color: green;'>15</span>,
+    <i>max.size</i> = <span style='color: green;'>500</span>,
+    <i>seed</i> = <span style='color: green;'>20261026</span>,
+    <i>keep.running.sum</i> = <span style='color: blue !important;'>FALSE</span>,
+    <i>verbose</i> = <span style='color: blue !important;'>TRUE</span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>expr</dt>
+<dd><p>the expression matrix, rows are genes and columns are samples. The value could be a matrix object, a <code>dataframe</code> object (rows are genes and columns are samples), or a file path of the <code>gct</code> / KOBAS plain text expression matrix.</p></dd>
+
+
+<dt>cls</dt>
+<dd><p>the phenotype class labels: could be a <code>phenotype</code> object, a <code>CLS</code> file path, an integer vector (<code>0</code> for the first phenotype group and <code>1</code> for the second group), or a character vector with exactly two distinct class labels.</p></dd>
+
+
+<dt>gmt</dt>
+<dd><p>the gene set collection: a <a href="cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.Background">Background</a> model or a GMT file path.</p></dd>
+
+
+<dt>method</dt>
+<dd><p>the gene ranking method: <code>snr</code> (signal to noise ratio, default) or <code>ttest</code>. [as string]</p></dd>
+
+
+<dt>weight</dt>
+<dd><p>the weight of the enrichment score, <code>0</code> for the unweighted Kolmogorov-Smirnov statistic, <code>1</code> (default) for the classic GSEA weighting and <code>2</code> for the over-weighted score. Any other positive value <code>p</code> will use <code>|rank|^p</code>. [as double]</p></dd>
+
+
+<dt>permutations</dt>
+<dd><p>the number of the phenotype label permutations, default <code>1000</code>. Set to <code>0</code> for skipping the significance estimation (then the <code>pvalue</code> and <code>FDR</code> columns of the result table will be <code>NA</code> and <code>NES</code> equals to <code>ES</code>). [as integer]</p></dd>
+
+
+<dt>min.size</dt>
+<dd><p>the minimum number of the mapped members of a gene set, default <code>15</code>. [as integer]</p></dd>
+
+
+<dt>max.size</dt>
+<dd><p>the maximum number of the mapped members of a gene set, default <code>500</code>. [as integer]</p></dd>
+
+
+<dt>seed</dt>
+<dd><p>the random seed of the permutation, default <code>20261026</code>. [as integer]</p></dd>
+
+
+<dt>keep.running.sum</dt>
+<dd><p>keeps the running sum of each gene set in the result objects? Default <code>FALSE</code> because the running sum occupies a lot of memory for large gene set collections. [as boolean]</p></dd>
+
+
+<dt>verbose</dt>
+<dd><p>prints the progress message? Default <code>TRUE</code>. [as boolean]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: block;">Details</h3>
+
+        <p>A positive ES means that the gene set is enriched in the first phenotype group (the samples labeled with <code>0</code>) because the KOBAS ranking score is <code>mean(group0) - mean(group1)</code>.</p>
+
+        <h3 style="display: block">Authors</h3>
+
+        gseakit
+
+        <h3>Value</h3>
+
+        <p>a <code>dataframe</code> with the gene set id as the row names and the columns: <code>name</code>, <code>description</code>, <code>size</code>, <code>ES</code>, <code>NES</code>, <code>pvalue</code>, <code>FDR</code>, <code>es_index</code>, <code>leading_edge</code> (the hit genes before/after the enrichment score position, joined by <code>;</code>) and <code>hit_genes</code>.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Internal/Object/dataframe.html">dataframe</a></li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>KOBAS</em> version 1.0.0.0 <a
+                href="../KOBAS.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

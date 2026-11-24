@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::058868afd6ef0b53252c8ec3760c0105, Data_science\Visualization\DataPlot\Advanced\ViolinPlot.vb"
+#Region "Microsoft.VisualBasic::b8fa8e3f7d4886faf1ea39d9deb2f739, Data_science\Visualization\DataPlot\Advanced\ViolinPlot.vb"
 
     ' Author:
     ' 
@@ -34,20 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 110
-    '    Code Lines: 91 (82.73%)
-    ' Comment Lines: 5 (4.55%)
-    '    - Xml Docs: 20.00%
+    '   Total Lines: 115
+    '    Code Lines: 94 (81.74%)
+    ' Comment Lines: 6 (5.22%)
+    '    - Xml Docs: 33.33%
     ' 
-    '   Blank Lines: 14 (12.73%)
-    '     File Size: 4.50 KB
+    '   Blank Lines: 15 (13.04%)
+    '     File Size: 4.87 KB
 
 
     ' Class ViolinPlot
     ' 
     '     Properties: Groups, ShowBoxInside
     ' 
-    '     Constructor: (+1 Overloads) Sub New
+    '     Constructor: (+2 Overloads) Sub New
     ' 
     '     Function: Quantile
     ' 
@@ -59,6 +59,7 @@
 
 Imports System.Drawing
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports std = System.Math
 
 ''' <summary>小提琴图（Violin Plot）</summary>
@@ -68,18 +69,23 @@ Public Class ViolinPlot
     Public Property Groups As New List(Of BoxGroup)()
     Public Property ShowBoxInside As Boolean = True
 
-    Public Sub New(width As Integer, height As Integer, Optional theme As PlotTheme = Nothing)
-        MyBase.New(width, height, theme)
+    Public Sub New(width As Integer, height As Integer, Optional theme As PlotTheme = Nothing, Optional driver As Microsoft.VisualBasic.Imaging.Driver.Drivers = Microsoft.VisualBasic.Imaging.Driver.Drivers.Default)
+        MyBase.New(width, height, theme, driver)
     End Sub
 
-    Public Sub Plot()
+    ''' <summary>直接在外部提供的绘图设备上绘制（图层叠加模式 / 宿主画布）。</summary>
+    Public Sub New(g As IGraphics, Optional theme As PlotTheme = Nothing)
+        MyBase.New(g, theme)
+    End Sub
+
+    Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
         DrawBackground()
         ComputePlotArea()
         DrawPlotArea()
         DrawTitle()
 
         Dim nGrp = Groups.Count
-        Dim allData = Groups.SelectMany(Function(g) g.Data).ToList()
+        Dim allData = Groups.SelectMany(Function(x) x.Data).ToList()
         Dim ymin = If(Me.YMin, allData.Min())
         Dim ymax = If(Me.YMax, allData.Max())
         Dim pad = (ymax - ymin) * 0.05
@@ -88,15 +94,15 @@ Public Class ViolinPlot
         Dim xTicks = Enumerable.Range(0, nGrp).Select(Function(i) CDbl(i)).ToArray()
         Dim yTicks = GenerateTicks(ymin, ymax)
         DrawAxisAndGrid(-0.5, nGrp - 0.5, ymin, ymax, xTicks, yTicks,
-                        Groups.Select(Function(g) g.Name).ToArray(), Nothing)
+                        Groups.Select(Function(x) x.Name).ToArray(), Nothing)
 
         Dim groupWidth = _plotArea.Width / nGrp
         Dim maxViolinWidth = groupWidth * 0.4
 
         For i = 0 To nGrp - 1
-            Dim g = Groups(i)
-            Dim color = If(g.Color, Theme.Palette(i Mod Theme.Palette.Length))
-            Dim sorted = g.Data.OrderBy(Function(v) v).ToArray()
+            Dim grp = Groups(i)
+            Dim color = If(grp.Color, Theme.Palette(i Mod Theme.Palette.Length))
+            Dim sorted = grp.Data.OrderBy(Function(v) v).ToArray()
             If sorted.Length < 2 Then Continue For
 
             ' KDE：用直方图密度估计

@@ -1,0 +1,32 @@
+.\" man page create by R# package system.
+.TH SSGRID 1 2000-1月 "sgrid_save" "sgrid_save"
+.SH NAME
+sgrid_save \- export the model tables and the generated \fB.plas\fR model script into a directory
+.SH SYNOPSIS
+\fIsgrid_save(\fBnetwork\fR as <generic> SSystemNetwork, 
+\fBdir\fR as string);\fR
+.SH DESCRIPTION
+.PP
+export the model tables and the generated \fB.plas\fR model script into a directory
+.PP
+.SH OPTIONS
+.PP
+\fBnetwork\fB \fR\- -. 
+.PP
+.PP
+\fBdir\fB \fR\- the output directory, it will be created if not exists.. 
+.PP
+.SH VALUE
+.PP
+TRUE if the model data has been saved successfully.
+.PP
+.SH EXAMPLES
+.PP
+sgrid_save(network, "/tmp/network");
+.PP
+.SH SEE ALSO
+ssGrid
+.SH FILES
+.PP
+biosystem.dll
+.PP

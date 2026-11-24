@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e19a28f6114891b6790724a26cb9c220, Data_science\Visualization\DataPlot\Advanced\SankeyPlot\SankeyPlot.vb"
+#Region "Microsoft.VisualBasic::0159c3515607128dfaf26cc45af073c0, Data_science\Visualization\DataPlot\Advanced\SankeyPlot\SankeyPlot.vb"
 
     ' Author:
     ' 
@@ -34,20 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 124
-    '    Code Lines: 99 (79.84%)
-    ' Comment Lines: 11 (8.87%)
-    '    - Xml Docs: 9.09%
+    '   Total Lines: 129
+    '    Code Lines: 102 (79.07%)
+    ' Comment Lines: 12 (9.30%)
+    '    - Xml Docs: 16.67%
     ' 
-    '   Blank Lines: 14 (11.29%)
-    '     File Size: 5.27 KB
+    '   Blank Lines: 15 (11.63%)
+    '     File Size: 5.64 KB
 
 
     ' Class SankeyPlot
     ' 
     '     Properties: Links, Nodes
     ' 
-    '     Constructor: (+1 Overloads) Sub New
+    '     Constructor: (+2 Overloads) Sub New
     '     Sub: Plot
     ' 
     ' /********************************************************************************/
@@ -56,6 +56,7 @@
 
 Imports System.Drawing
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports stdf = System.Math
 
 ' ============================================================================
@@ -69,11 +70,16 @@ Public Class SankeyPlot
     Public Property Nodes As New List(Of SankeyNode)()
     Public Property Links As New List(Of SankeyLink)()
 
-    Public Sub New(width As Integer, height As Integer, Optional theme As PlotTheme = Nothing)
-        MyBase.New(width, height, theme)
+    Public Sub New(width As Integer, height As Integer, Optional theme As PlotTheme = Nothing, Optional driver As Microsoft.VisualBasic.Imaging.Driver.Drivers = Microsoft.VisualBasic.Imaging.Driver.Drivers.Default)
+        MyBase.New(width, height, theme, driver)
     End Sub
 
-    Public Sub Plot()
+    ''' <summary>直接在外部提供的绘图设备上绘制（图层叠加模式 / 宿主画布）。</summary>
+    Public Sub New(g As IGraphics, Optional theme As PlotTheme = Nothing)
+        MyBase.New(g, theme)
+    End Sub
+
+    Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
         DrawBackground()
         DrawTitle()
 

@@ -1,0 +1,93 @@
+==========================================================
+ moGSVA 多组学 GSVA 测试
+==========================================================
+data dir     : G:\GCModeller\src\GCModeller\annotations\GSEA\data\TCGA_COAD
+permutations : 15
+
+--- A. 合成可控信号数据（融合逻辑正答） ---
+  [PASS] 合成数据: 3 个组学层 / 40 个样本  (3 omics layer(s), 2400 features x 40 samples)
+  [PASS] 合成数据: 4 条通路全部得到分数  (setA, setB, setC, setD)
+  [PASS] 合成数据: 融合分数无 NaN / Inf  (0 个异常值 / 160)
+  [PASS] 合成数据: GSVA 融合分数落在 [-1, 1]  (range = [-0.487814, 0.494126])
+  [PASS] 合成数据: 每个组学层都产出了分数矩阵  (mRNA, protein, methylation)
+  [PASS] 合成数据: λ=0 时融合分数等于加权平均 (Scores = RawScores)  (max|diff| = 0.000E+000)
+  [PASS] 等权融合 == 逐层分数的算术平均  (max|diff| = 1.110E-016)
+  [PASS] 融合权重逐通路归一化 (Σw = 1)  (max|1-Σw| = 0.000E+000)
+  [PASS] 贡献分解可加性 (Σ c_k = ES_raw)  (max|diff| = 0.000E+000)
+  [PASS] 贡献占比绝对值和为 1  (0 个样本违反)
+  [PASS] 主导组学标签落在已知组学集合内  (dominant omics ∈ {mRNA, protein, methylation})
+[info] group2-group1 shift: setA=0.8610, setB=0.1006, setD=0.0300
+  [PASS] 植入信号: setA 融合分数组间差为正  (shift = 0.8610)
+  [PASS] 植入信号: 三层一致的 setA 强于仅单组学的 setB  (setA=0.8610, setB=0.1006)
+  [PASS] 植入信号: setD(methylation 方向相反) 的融合移位弱于 setA  (setA=0.8610, setD=0.0300)
+[info] mean consistency: setA=1.0000, setD=-0.3333
+  [PASS] 一致性奖励: 一致性向量落在 [-1, 1]  (setA=1.0000, setD=-0.3333)
+  [PASS] 一致性奖励: 三层同向的 setA 一致度高于方向矛盾的 setD  (setA=1.0000, setD=-0.3333)
+[info] 一致性奖励的相对压缩率: setA=1.0000, setD=0.5556
+  [PASS] 一致性奖励: 矛盾通路被压缩得比一致通路更狠  (setA=1.0000, setD=0.5556)
+  [PASS] 一致性奖励: 压缩不会放大分数  (setA=1.0000, setD=0.5556)
+  [PASS] 方差加权: 噪声小的组学获得更大权重  (steady=1.0000, noisy=0.0000)
+  [PASS] 特征数平衡: 成员少的组学获得更大权重  (steady=0.6599, noisy=0.3401)
+  [PASS] 特征数平衡项 1/log2(2+n) 单调递减  (n=10 -> 0.278943, n=100 -> 0.149871)
+  [PASS] 熵: 常数向量的熵为 0  (0.000000)
+  [PASS] 熵: 分散向量的熵为正  (1.386294)
+  [PASS] 互信息: 自身互信息大于与粗糙变量的互信息  (MI(x,x)=2.0794, MI(x,y)=0.6931)
+  [PASS] 融合策略 Equal: 权重归一化且分数有限  (4 条通路)
+  [PASS] 融合策略 Variance: 权重归一化且分数有限  (4 条通路)
+  [PASS] 融合策略 Entropy: 权重归一化且分数有限  (4 条通路)
+  [PASS] 融合策略 MutualInformation: 权重归一化且分数有限  (4 条通路)
+  [PASS] 融合策略 Balanced: 权重归一化且分数有限  (4 条通路)
+  [PASS] 消融对照: 拼接矩阵单组学 GSVA 可运行  (pooled baseline: 4 pathway(s), mean|diff| vs fusion = 2.587E-001)
+  [PASS] 消融对照: 与分组学融合结果存在差异  (mean|diff| = 2.587E-001)
+  [PASS] 置换检验: 产生 p 值表  (2 条通路)
+  [PASS] 置换检验: p 值落在 (0, 1]  (setA=0.0625, setB=1.0000)
+  [PASS] 置换检验: 植入信号 setA 被检出  (p(setA) = 0.0625)
+  [PASS] 置换检验: q >= p (BH 校正)  (min q = 0.1250)
+  [PASS] 置换检验: 零分布均值接近 0  (mean null statistic = 0.5899 (observed = 0.6859))
+  [PASS] 确定性: 同配置复跑逐位一致  (max|diff| = 0.000E+000)
+  [PASS] 确定性: 固定种子重建合成数据逐位一致  (800 行)
+
+--- B. TCGA COAD（真实 mRNA + 确定性派生 protein / methylation） ---
+[info] 中间产物目录: G:\GCModeller\src\GCModeller\annotations\GSEA\GSVA\test\bin\Debug\net10.0\mogsva_run
+[moGSVA] GMT: 337 pathway(s), 33970 unique gene symbol(s)
+[moGSVA] expression matrix: 14464 features x 160 samples, dtype=f8
+[moGSVA] feature id sample: F1, F2, F3, F4, F5
+[moGSVA] sample id sample : TCGA-D5-6928, TCGA-CK-6746, TCGA-CK-5916, TCGA-D5-6931, TCGA-D5-6930
+[moGSVA] npy objects      : (3,160) f8; (14464,160) f8; (234,160) f8
+[moGSVA] npy string arrays: 
+warning, 98 ms - [moGSVA] only 14 feature id(s) can be matched to the GMT gene symbols, deterministic re-labeling is applied.
+[moGSVA] feature filter: 14464 of 14464 feature(s) belong to at least one pathway.
+[moGSVA] derived layers: mRNA: 14464 features x 160 samples / protein: 8693 features x 160 samples / methylation: 7965 features x 160 samples
+  [PASS] 真实数据: 样本数 = 160  (160 个样本)
+  [PASS] 真实数据: 特征过滤后仍有足够特征  (14464 个特征（原始 14464）)
+  [PASS] 真实数据: 三个组学层样本轴一致  (3 层 × 160 样本)
+  [PASS] 真实数据: 蛋白层 / 甲基化层为基因子集  (mRNA=14464, protein=8693, methylation=7965)
+  [PASS] 真实数据: 派生组学层可复现  (固定种子重建后首行逐位一致)
+info, 740 ms - [moGSVA] 3 omics layer(s), 31122 features x 160 samples
+info, 740 ms - [moGSVA] 337 gene set(s), score method=gsva, fusion=Equal, lambda=0
+debug[393.12 MB, 38 threads], 1.1 seconds - Estimating GSVA scores for 336 gene sets.
+debug[392.95 MB, 38 threads], 1.1 seconds - Estimating ECDFs with Gaussian kernels
+debug[393.22 MB, 38 threads], 1.9 seconds - [GSVA] kernel density: 712 ms
+debug[400.02 MB, 38 threads], 2.1 seconds - [GSVA] column ranks: 241 ms
+debug[864.03 MB, 38 threads], 2.8 seconds - [GSVA] 336 gene set(s) random walk: 652 ms
+info, 2.8 seconds - [moGSVA] mRNA: 336 pathways x 160 samples (1981 ms)
+debug[864.09 MB, 38 threads], 2.9 seconds - Estimating GSVA scores for 336 gene sets.
+debug[864.09 MB, 38 threads], 2.9 seconds - Estimating ECDFs with Gaussian kernels
+debug[830.37 MB, 38 threads], 3.1 seconds - [GSVA] kernel density: 247 ms
+debug[830.39 MB, 38 threads], 3.2 seconds - [GSVA] column ranks: 40 ms
+debug[838.58 MB, 38 threads], 3.5 seconds - [GSVA] 336 gene set(s) random walk: 366 ms
+info, 3.5 seconds - [moGSVA] protein: 336 pathways x 160 samples (780 ms)
+debug[838.46 MB, 38 threads], 3.6 seconds - Estimating GSVA scores for 335 gene sets.
+debug[838.55 MB, 38 threads], 3.6 seconds - Estimating ECDFs with Gaussian kernels
+debug[838.57 MB, 38 threads], 3.9 seconds - [GSVA] kernel density: 217 ms
+debug[843.68 MB, 38 threads], 3.9 seconds - [GSVA] column ranks: 19 ms
+debug[867.23 MB, 38 threads], 4.2 seconds - [GSVA] 335 gene set(s) random walk: 336 ms
+info, 4.2 seconds - [moGSVA] methylation: 335 pathways x 160 samples (688 ms)
+info, 7.1 seconds - [moGSVA] pooled baseline: 336 pathway(s), mean|diff| vs fusion = 5.737E-002
+info, 7.1 seconds - [moGSVA] done in 6354 ms: 336 pathway(s) x 160 sample(s)
+  [PASS] 真实数据: 得到通路分数矩阵  (336 条通路)
+  [PASS] 真实数据: 融合分数无 NaN / Inf  (53760 个分数)
+  [PASS] 真实数据: λ=0 时融合分数等于逐层平均  (max|diff| = 0.000E+000)
+
+--- B1. R 基线（逐组学 GSVA + 平均） ---
+[baseline] Rscript "G:\GCModeller\src\GCModeller\annotations\GSEA\GSVA\test\reference\mogsva_reference.R" "G:\GCModeller\src\GCModeller\annotations\GSEA\GSVA\test\bin\Debug\net10.0\mogsva_run"

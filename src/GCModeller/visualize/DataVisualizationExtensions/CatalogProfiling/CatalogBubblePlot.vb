@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a718e0b1f9aa9ad619a4c62100a200c3, visualize\DataVisualizationExtensions\CatalogProfiling\CatalogBubblePlot.vb"
+#Region "Microsoft.VisualBasic::a718e0b1f9aa9ad619a4c62100a200c3, visualize\DataVisualizationExtensions\CatalogProfiling\CatalogBubblePlot.vb"
 
     ' Author:
     ' 
@@ -62,10 +62,9 @@ Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
-Imports Microsoft.VisualBasic.Data.ChartPlots
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
+Imports Microsoft.VisualBasic.Data.Plots
+Imports Microsoft.VisualBasic.Data.Plots.Canvas
+Imports Microsoft.VisualBasic.Data.Plots.Plot3D.Legend
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
@@ -264,13 +263,20 @@ Namespace CatalogProfiling
 
             theme.drawLegend = False
 
-            Dim bubbles As New Bubble(serials, False, True, theme) With {
-                .xlabel = xlabel,
-                .ylabel = ylabel,
-                .main = main
-            }
+            Dim css0 As CSSEnvirnment = g.LoadEnvironment
+            Dim bubblePen As Pen = If(
+                showBubbleBorder,
+                css0.GetPen(Stroke.TryParse(theme.shapeStroke)),
+                Nothing)
 
-            Call bubbles.Plot(g, region)
+            Call g.DrawBubbles(
+                rect:=region,
+                theme:=theme,
+                serials:=serials,
+                xlabel:=xlabel,
+                ylabel:=ylabel,
+                bubblePen:=bubblePen,
+                showGrid:=theme.drawGrid)
 
             Call DrawBubbleLegends(g, serials, region)
 

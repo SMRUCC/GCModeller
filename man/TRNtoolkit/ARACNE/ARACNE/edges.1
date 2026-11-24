@@ -1,0 +1,26 @@
+.\" man page create by R# package system.
+.TH ARACNE 1 2000-1月 "edges" "edges"
+.SH NAME
+edges \- Get the regulation edges of the inferred network as a data frame.
+.SH SYNOPSIS
+\fIedges(\fBnet\fR as <generic> AracneNetwork);\fR
+.SH DESCRIPTION
+.PP
+Get the regulation edges of the inferred network as a data frame.
+.PP
+.SH OPTIONS
+.PP
+\fBnet\fB \fR\- the network that is created via the \fBaracne\fR api. 
+.PP
+.SH VALUE
+.PP
+a data frame with the columns: \fBregulator\fR, \fBtarget\fR, \fBmi\fR, \fBcorrelation\fR,
+ \fBinteraction\fR, \fBis_tf_source\fR, \fBis_tf_target\fR, \fBprior\fR and \fBregulation\fR.
+ The rows are sorted by the mutual information in the descending order.
+.PP
+.SH SEE ALSO
+ARACNE
+.SH FILES
+.PP
+TRNtoolkit.dll
+.PP

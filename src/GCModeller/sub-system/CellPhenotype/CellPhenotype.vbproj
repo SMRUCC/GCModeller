@@ -30,8 +30,8 @@
     <PackageIcon>logo.png</PackageIcon>
     <PackageTags>gcmodeller;bioinformatics;genomics;phenotype;metabolic-network;wgcna</PackageTags>
     <PackageReleaseNotes>Simulates cellular metabolic phenotypes by bridging expression networks and metabolic network solving.</PackageReleaseNotes>
-    <Version>1.0.9753.40023</Version>
-    <AssemblyVersion>1.0.9753.40023</AssemblyVersion>
+    <Version>10.5.9775.36927</Version>
+    <AssemblyVersion>1.0.9775.36927</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -56,6 +56,8 @@
     <DefineTrace>True</DefineTrace>
     <DebugType>full</DebugType>
     <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <OutputPath>../../../../.nuget/</OutputPath>
+    <Optimize>true</Optimize>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -79,16 +81,23 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\runtime\Darwinism\src\data\BucketDb\BucketDb.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\dataframework-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Graph\graph-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\ElasticNet\ElasticNet.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math.Statistics\stats-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\DataFrame\dataframeUtils-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\gr\network-visualization\Datavisualization.Network\network_graph-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
     <ProjectReference Include="..\..\..\workbench\modules\ExperimentDesigner\designer-netcore5.vbproj" />
     <ProjectReference Include="..\..\analysis\HTS_matrix\HTS_matrix-netcore5.vbproj" />
+    <ProjectReference Include="..\..\analysis\RNA-Seq\WGCNA\WGCNA.vbproj" />
+    <ProjectReference Include="..\..\annotations\WGCNA\WGCNA\WGCNA.vbproj" />
     <ProjectReference Include="..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
-    <ProjectReference Include="..\..\core\Bio.InteractionModel\InteractionModel.NET5.vbproj" />
+    <ProjectReference Include="..\..\core\Bio.InteractionModel\InteractionModel.vbproj" />
+    <ProjectReference Include="..\..\data\STRING\STRING-db.vbproj" />
+    <ProjectReference Include="..\..\models\Networks\Network.Regulons\Network.Regulons.vbproj" />
     <ProjectReference Include="..\BNLearn\BNLearn.vbproj" />
   </ItemGroup>
 

@@ -1,0 +1,30 @@
+.\" man page create by R# package system.
+.TH SIGMA_DIFFERENCE 1 2000-1月 "replication_origin.predict" "replication_origin.predict"
+.SH NAME
+replication_origin.predict \- Locate the candidate replication origin (oriC) and terminus positions from
+.SH SYNOPSIS
+\fIreplication_origin.predict(\fBskew\fR as <generic> StrandSkew[]);\fR
+.SH DESCRIPTION
+.PP
+Locate the candidate replication origin (oriC) and terminus positions from
+ the GC skew profile: the sign-flip sites of the cumulative skew curve.
+ A single bidirectional replication origin produces one sign flip at oriC;
+ genomes with many origins (e.g. some archaea) show no significant
+ asymmetry at all.
+.PP
+.SH OPTIONS
+.PP
+\fBskew\fB \fR\- the GC skew profile of [SigmaDifference.GenomeGcSkew()](cref:M:comparative_toolkit.SigmaDifference.GenomeGcSkew(SMRUCC.genomics.SequenceModel.FASTA.FastaSeq,System.Int32,System.Int32)). 
+.PP
+.SH VALUE
+.PP
+the window site positions where the skew changes sign
+.PP
+.SH SEE ALSO
+sigma_difference
+.SH FILES
+.PP
+comparative_toolkit.dll
+.PP
+.SH AUTHOR
+Written by \fBxie.guigang@gcmodeller.org\fR

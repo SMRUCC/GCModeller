@@ -1,75 +1,73 @@
 ﻿#Region "Microsoft.VisualBasic::3fde3df0c5ca3c0d7089847e91d6c5b2, analysis\SequenceToolkit\DNA_Comparative\GCOutlier.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 104
-    '    Code Lines: 76 (73.08%)
-    ' Comment Lines: 13 (12.50%)
-    '    - Xml Docs: 100.00%
-    ' 
-    '   Blank Lines: 15 (14.42%)
-    '     File Size: 3.80 KB
+' Summaries:
 
 
-    ' Module GCOutlier
-    ' 
-    '     Function: GetMethod, OutlierAnalysis
-    '     Class lociX
-    ' 
-    '         Properties: loci, qLevel, right, Title, value
-    ' 
-    '         Function: ToString
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 104
+'    Code Lines: 76 (73.08%)
+' Comment Lines: 13 (12.50%)
+'    - Xml Docs: 100.00%
+' 
+'   Blank Lines: 15 (14.42%)
+'     File Size: 3.80 KB
+
+
+' Module GCOutlier
+' 
+'     Function: GetMethod, OutlierAnalysis
+'     Class lociX
+' 
+'         Properties: loci, qLevel, right, Title, value
+' 
+'         Function: ToString
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.ComponentModel.TagData
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic
-Imports SMRUCC.genomics.ComponentModel.Loci
-Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcidStaticsProperty
 Imports Microsoft.VisualBasic.Math.Quantile
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcidStaticsProperty
 
 ''' <summary>
 ''' ``GC%``异常点分析
@@ -104,16 +102,16 @@ Public Module GCOutlier
                                      Optional slideSize As Integer = 5,
                                      Optional method As NtProperty = Nothing) As IEnumerable(Of lociX)
 
-        Dim data As NamedValue(Of Double())() = GCData(mla, winsize, steps, method)
-        Dim iSeq As Integer() = data(Scan0).Value.Sequence.ToArray
+        Dim data As NamedCollection(Of Double)() = GCData(mla, winsize, steps, method).ToArray
+        Dim iSeq As Integer() = data(Scan0).value.Sequence.ToArray
         Dim seq As lociX()() = New lociX(slideSize - 1)() {}
 
         For i As Integer = 0 To slideSize - 1
             Dim a As lociX() = New lociX(data.Length - 1) {}
 
-            For Each x In data.SeqIterator
+            For Each x As SeqValue(Of NamedCollection(Of Double)) In data.SeqIterator
                 a(x.i) = New lociX With {
-                    .Title = x.value.Name
+                    .Title = x.value.name
                 }
             Next
 
@@ -127,7 +125,7 @@ Public Module GCOutlier
                 Dim a As lociX() = seq(i.i)
 
                 For Each x In data.SeqIterator
-                    a(x.i).value = x.value.Value(i.value)
+                    a(x.i).value = x.value.value(i.value)
                     a(x.i).loci = i.value
                 Next
 
@@ -136,8 +134,8 @@ Public Module GCOutlier
 
             Dim result = tmp.SelectByQuantile(Function(x) x.value * 1000, quantiles,,).ToArray
 
-            For Each lv In result
-                For Each x As lociX In lv.value
+            For Each lv As DoubleTagged(Of lociX()) In result
+                For Each x As lociX In lv.Value
                     Yield New lociX With {
                         .value = x.value,
                         .loci = x.loci * steps + 1,

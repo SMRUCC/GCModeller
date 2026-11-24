@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9e53ed8beaab66db07dc60aedd34ad29, Data_science\Visualization\Visualization\Embedding\EmbeddingRenderExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::77cb6672aa402dcb2c2db1f8fc26e848, Data_science\Visualization\Visualization\Embedding\EmbeddingRenderExtensions.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 97.22%
     ' 
     '   Blank Lines: 9 (6.12%)
-    '     File Size: 6.08 KB
+    '     File Size: 6.06 KB
 
 
     ' Module EmbeddingRenderExtensions
@@ -53,7 +53,7 @@
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
+Imports Microsoft.VisualBasic.Data.Plots.Canvas
 Imports Microsoft.VisualBasic.DataMining.ComponentModel
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing3D

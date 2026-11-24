@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f56971ce54ab15c3dbe1457ac758d57e, R#\visualkit\upsetPlot.vb"
+#Region "Microsoft.VisualBasic::f56971ce54ab15c3dbe1457ac758d57e, R#\visualkit\upsetPlot.vb"
 
     ' Author:
     ' 
@@ -56,7 +56,7 @@
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
+Imports Microsoft.VisualBasic.Data.Plots.Canvas
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Visualize.CollectionSet

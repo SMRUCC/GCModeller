@@ -1,0 +1,667 @@
+﻿#Region "Microsoft.VisualBasic::101c8919755ef2585f2a31fcc52037f7, physics\Engine\PhysicsWorld3D.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 447
+    '    Code Lines: 261 (58.39%)
+    ' Comment Lines: 84 (18.79%)
+    '    - Xml Docs: 82.14%
+    ' 
+    '   Blank Lines: 102 (22.82%)
+    '     File Size: 16.95 KB
+
+
+    ' Class PhysicsWorld3D
+    ' 
+    '     Properties: AllowSleep, Baumgarte, Contacts, Hooks, SleepAngularTolerance
+    '                 SleepLinearTolerance, SleepTimeRequired, Slop, WarmStarting, WarmStartRadius
+    ' 
+    '     Function: Box, Capsule, Convex, Find, GroundPlane
+    '               PairKey, (+2 Overloads) Remove, Sphere, StaticBox, StaticConvex
+    '               StaticPlane
+    ' 
+    '     Sub: [Step], (+5 Overloads) Add, ApplyWarmStart, Clear, ClearVelocities
+    '          MaybeWake, RemoveMotorsOf, StepInternal, StepSub, UpdateSleep
+    '          WakeNear
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports Microsoft.VisualBasic.Engine.Physics.Collision3D
+Imports Microsoft.VisualBasic.Engine.Physics.ForceFields3D
+Imports Microsoft.VisualBasic.Engine.Physics.Joints3D
+Imports Microsoft.VisualBasic.Engine.Physics.Math3D
+
+''' <summary>
+''' 3D 物理世界。以 <see cref="PhysicsWorld3D.Step"/> 固定步长驱动，内部按子步执行：
+''' 施加马达扭矩 → 重力与力场 → 由力积分速度 → 宽相位 → 窄相位 →
+''' 顺序冲量求解（接触 + 关节）→ 由速度积分位置 → 关节位置修正 → 清除累加器。
+''' 可直接接入游戏主循环（每帧调用一次 <see cref="PhysicsWorld3D.Step"/> 传入真实 dt）。
+''' </summary>
+''' <remarks>
+''' 坐标系约定：Y 轴向上，默认重力 (0, -9.81, 0)。
+''' </remarks>
+Public Class PhysicsWorld3D
+
+    ''' <summary>所有刚体。</summary>
+    Public Bodies As New List(Of RigidBody3D)
+
+    ''' <summary>所有几何约束 / 关节。</summary>
+    Public Constraints As New List(Of IConstraint3D)
+
+    ''' <summary>所有角度马达（每子步开始时自动施力）。</summary>
+    Public Motors As New List(Of AngularMotor3D)
+
+    ''' <summary>所有力场。</summary>
+    Public ForceFields As New List(Of ForceField3D)
+
+    ''' <summary>全局重力。</summary>
+    Public Gravity As Vector3 = New Vector3(0, -9.81, 0)
+
+    ''' <summary>速度 / 位置约束求解迭代次数。</summary>
+    Public Iterations As Integer = 16
+
+    ''' <summary>固定时间步长（秒）。</summary>
+    Public FixedDt As Double = 1.0 / 60.0
+
+    ''' <summary>每个固定步长内的子步数（越多越稳定、越慢）。</summary>
+    Public Substeps As Integer = 4
+
+    ''' <summary>接触位置修正强度（Baumgarte）。</summary>
+    Public Property Baumgarte As Double = 0.2
+
+    ''' <summary>允许的穿透容差，避免接触抖动。</summary>
+    Public Property Slop As Double = 0.01
+
+    ''' <summary>
+    ''' 软接触的时间常数（秒），等价于 mujoco ``solref`` 的第一个参数。
+    ''' </summary>
+    ''' <remarks>
+    ''' 大于 0 时接触按"刚度 + 阻尼"求解（见 <see cref="Manifold3D.InitSolver(Double, Double, Double, Double, Double)"/>），
+    ''' 位置误差只以有限的力被推回；为 0 时退回原来的刚性 Baumgarte 行为。
+    ''' 小尺度机器人（单节 6 g、惯量 1e-6 量级）只有软接触才能站稳：刚性接触把
+    ''' 1 cm 的穿透换算成 3 m/s 的弹开速度，接触一发生就把整机弹飞。
+    ''' </remarks>
+    Public Property ContactTimeConstant As Double = 0.0
+
+    ''' <summary>
+    ''' 软接触的阻尼比（``solref`` 的第二个参数），1 = 临界阻尼。
+    ''' </summary>
+    Public Property ContactDampingRatio As Double = 1.0
+
+    ''' <summary>
+    ''' 跨帧热启动：把上一子步同一接触点上累积的法向/摩擦冲量继承下来并立即施加。
+    ''' 堆叠与静止接触的收敛速度完全依赖它，关闭后物体会持续抖动。
+    ''' </summary>
+    Public Property WarmStarting As Boolean = True
+
+    ''' <summary>
+    ''' 丢弃上一子步的接触流形缓存。
+    ''' </summary>
+    ''' <remarks>
+    ''' 热启动会按刚体对和接触点位置把上一帧的累积冲量重新施加到速度上。谁把
+    ''' 刚体瞬移了（复位、重新生成、切换形态），谁就必须把它清掉：否则一落地的
+    ''' 机器人被"传送"回起始位姿时，上一帧那份支撑冲量会原样作用在新位置上，
+    ''' 连重力都还没参与，整机就凭空获得速度和角动量飞出去。
+    ''' </remarks>
+    Public Sub ClearContactCache()
+        contactCache.Clear()
+    End Sub
+
+    ''' <summary>热启动时匹配上一帧接触点的位置容差（米）。</summary>
+    Public Property WarmStartRadius As Double = 0.08
+
+    ''' <summary>
+    ''' run the sub step hooks after the gravity and the force fields instead of
+    ''' before them
+    ''' </summary>
+    ''' <remarks>
+    ''' The reference solver evaluates the actuators in the same acceleration
+    ''' equation as the bias force, so a controller that writes a velocity has to see
+    ''' the gravity of that sub step already applied. Off by default: the old order
+    ''' is what every existing scene of this library was tuned on.
+    ''' </remarks>
+    Public Property HooksAfterGravity As Boolean = False
+
+    ''' <summary>
+    ''' stop the constraint iterations once the largest velocity change of a body
+    ''' between two rounds is below this value
+    ''' </summary>
+    ''' <remarks>
+    ''' 0 keeps the old behaviour of a fixed number of iterations. The reference solver
+    ''' reports the state of every constraint after each round; this is the cheap
+    ''' equivalent: a fixed point iteration that no longer changes any velocity has
+    ''' converged, and the number of rounds it needed is the number that says whether
+    ''' the scene is well conditioned.
+    ''' </remarks>
+    ''' <summary>
+    ''' keep a plane contact that is still entirely inside the margin
+    ''' </summary>
+    ''' <remarks>
+    ''' The manifold carries no force in that case (every point has a negative depth,
+    ''' see Manifold3D.InitSolver), it only describes the patch before the first
+    ''' vertex touches. Off by default: enabling it changed nothing in the bench until
+    ''' the force of a margin point ramps with its depth, which is not implemented.
+    ''' </remarks>
+    Public Property MarginOnlyContacts As Boolean = False
+
+    Public Property SolverTolerance As Double = 0.0
+
+    ''' <summary>the rounds the last sub step actually used</summary>
+    Public Property SolverIterations As Integer = 0
+
+    ''' <summary>the residual of the last round of the last sub step</summary>
+    Public Property LastResidual As Double = 0
+
+    ''' <summary>是否允许刚体休眠（低速持续一段时间后冻结，既防抖又省 CPU）。</summary>
+    Public Property AllowSleep As Boolean = True
+
+    ''' <summary>进入休眠的线速度阈值（m/s）。</summary>
+    Public Property SleepLinearTolerance As Double = 0.08
+    ''' <summary>进入休眠的角速度阈值（rad/s）。</summary>
+    Public Property SleepAngularTolerance As Double = 0.15
+    ''' <summary>低速需持续的时间（秒）。</summary>
+    Public Property SleepTimeRequired As Double = 0.6
+
+    ''' <summary>
+    ''' 子步钩子：每个子步都会被调用一次，用于施加"持续存在"的外部力
+    ''' （平衡反射、步态驱动等）。见 <see cref="IStepHook"/>。
+    ''' </summary>
+    Public ReadOnly Property Hooks As New List(Of IStepHook)()
+
+    ''' <summary>最近一次求解得到的接触流形（供上层查询"脚是否踩到地面"）。</summary>
+    Public ReadOnly Property Contacts As New List(Of Manifold3D)()
+
+    Private accumulator As Double = 0.0
+
+    ''' <summary>上一子步的接触流形，按刚体对索引，供热启动继承冲量。</summary>
+    Private ReadOnly contactCache As New Dictionary(Of String, Manifold3D)()
+
+    ''' <summary>添加刚体，并唤醒它附近休眠的物体（例如新物体落在已入睡的堆上）。</summary>
+    Public Sub Add(b As RigidBody3D)
+        Bodies.Add(b)
+        Call WakeNear(b)
+    End Sub
+
+    ''' <summary>移除刚体（同时移除引用它的角度马达）。</summary>
+    Public Function Remove(b As RigidBody3D) As Boolean
+        If b Is Nothing Then Return False
+
+        Dim ok As Boolean = Bodies.Remove(b)
+
+        If ok Then
+            Call RemoveMotorsOf(b)
+            Call contactCache.Clear()
+        End If
+
+        Return ok
+    End Function
+
+    ''' <summary>按 <see cref="RigidBody3D.ID"/> 或 <see cref="RigidBody3D.Label"/> 移除刚体。</summary>
+    Public Function Remove(idOrLabel As String) As Boolean
+        Dim b As RigidBody3D = Find(idOrLabel)
+
+        If b Is Nothing Then Return False
+
+        Return Remove(b)
+    End Function
+
+    ''' <summary>按 <see cref="RigidBody3D.ID"/> 或 <see cref="RigidBody3D.Label"/> 查找刚体。</summary>
+    Public Function Find(idOrLabel As String) As RigidBody3D
+        If String.IsNullOrEmpty(idOrLabel) Then Return Nothing
+
+        For Each b In Bodies
+            If b.ID = idOrLabel OrElse b.Label = idOrLabel Then Return b
+        Next
+
+        Return Nothing
+    End Function
+
+    ''' <summary>清空世界中的全部动态内容（刚体、约束、马达、力场、接触缓存）。</summary>
+    Public Sub Clear()
+        Call Bodies.Clear()
+        Call Constraints.Clear()
+        Call Motors.Clear()
+        Call ForceFields.Clear()
+        Call Contacts.Clear()
+        Call contactCache.Clear()
+
+        accumulator = 0.0
+    End Sub
+
+    Private Sub RemoveMotorsOf(b As RigidBody3D)
+        For i As Integer = Motors.Count - 1 To 0 Step -1
+            Dim m As AngularMotor3D = Motors(i)
+
+            If m.A Is b OrElse m.B Is b Then Call Motors.RemoveAt(i)
+        Next
+    End Sub
+
+    Private Sub WakeNear(b As RigidBody3D)
+        Dim box As AABB3D = b.GetAABB()
+
+        For Each other As RigidBody3D In Bodies
+            If other Is b OrElse other.IsStatic OrElse Not other.IsSleeping Then Continue For
+
+            If other.GetAABB().Overlaps(box) Then Call other.Wake()
+        Next
+    End Sub
+
+    ''' <summary>添加约束 / 关节。</summary>
+    Public Sub Add(j As IConstraint3D)
+        Constraints.Add(j)
+    End Sub
+
+    ''' <summary>添加角度马达。</summary>
+    Public Sub Add(m As AngularMotor3D)
+        Motors.Add(m)
+    End Sub
+
+    ''' <summary>添加力场。</summary>
+    Public Sub Add(f As ForceField3D)
+        ForceFields.Add(f)
+    End Sub
+
+    ''' <summary>注册一个子步钩子。</summary>
+    Public Sub Add(h As IStepHook)
+        Hooks.Add(h)
+    End Sub
+
+    ''' <summary>
+    ''' 固定步长推进。传入真实帧间隔 <paramref name="frameDt"/>（秒），
+    ''' 内部用累加器以 <see cref="FixedDt"/> 为单位执行若干子步，避免可变步长不稳定。
+    ''' </summary>
+    Public Sub [Step](frameDt As Double)
+        accumulator += frameDt
+
+        Dim steps As Integer = 0
+
+        While accumulator >= FixedDt AndAlso steps < 4
+            Call StepInternal(FixedDt)
+
+            accumulator -= FixedDt
+            steps += 1
+        End While
+
+        ' 防止"死亡螺旋"：连续滞后时丢弃积压时间
+        If steps >= 4 Then accumulator = 0.0
+    End Sub
+
+    Private Sub StepInternal(dt As Double)
+        For Each b In Bodies
+            b.HadContact = False
+        Next
+
+        Dim sub_dt As Double = dt / Substeps
+
+        For s As Integer = 1 To Substeps
+            Call StepSub(sub_dt)
+        Next
+
+        If AllowSleep Then
+            Call UpdateSleep(dt)
+        End If
+    End Sub
+
+    Private Sub StepSub(dt As Double)
+        ' 1. 角度马达（必须在力场之前，否则会被本子步末尾的清力操作吞掉）
+        For Each m In Motors
+            Call m.ApplyTorques(dt)
+        Next
+
+        ' 1.5 子步钩子：外部控制器补充持续力
+        '
+        ' 参考实现里执行器写在 qfrc_actuator 上，与重力一起进入同一个加速度方程
+        ' （engine_forward.c: mj_fwdActuation 在 mj_fwdAcceleration 之前）。钩子放在
+        ' 重力之前时，控制器对速度的修正会被随后的重力再改一次，顺序与参考不一致；
+        ' HooksAfterGravity 把钩子移到重力之后，默认关闭以保持旧行为。
+        If Not HooksAfterGravity Then
+            For Each h In Hooks
+                Call h.BeforeSubstep(dt)
+            Next
+        End If
+
+        ' 2. 全局重力 + 力场
+        For Each b In Bodies
+            If b.IsStatic Then Continue For
+            Call b.ApplyForce(Gravity * b.Mass)
+        Next
+        For Each ff In ForceFields
+            Call ff.Apply(Bodies)
+        Next
+
+        ' 3. 由力积分速度
+        For Each b In Bodies
+            Call b.IntegrateVelocity(dt)
+        Next
+
+        ' 3.5 速度层控制器：放在积分之后，重力已经进入速度，此时设定的速度才不会被
+        ' 下一步的重力覆盖。放在重力之前时，一个写入关节速度的伺服每个子步都会被
+        ' 它刚摆好的连杆的重力改回来（实测髋俯仰在十步内从 0.02 漂到 0.78 rad，
+        ' 增益提到 300 也一样，因为漂移与增益无关）
+        If HooksAfterGravity Then
+            For Each h In Hooks
+                Call h.BeforeSubstep(dt)
+            Next
+        End If
+
+        ' 4. 宽相位
+        Dim pairs = BroadPhase3D.ComputePairs(Bodies)
+
+        ' 5. 窄相位 → 流形
+        Contacts.Clear()
+
+        For Each pr In pairs
+            Dim m = NarrowPhase3D.Collide(pr.A, pr.B)
+
+            ' a manifold whose points are all inside the margin (no penetration yet) is
+            ' still worth keeping when it comes from a plane: the solver gives those
+            ' points no force, but the patch they describe is what lets the body land on
+            ' the whole sole instead of on the single edge that happens to be the deepest
+            If m IsNot Nothing AndAlso m.HasContacts AndAlso
+               (m.Penetration > 0 OrElse (m.AllowMarginOnly AndAlso MarginOnlyContacts)) Then
+                ' 运动物体会撞醒与之接触的休眠物体：必须在热启动之前唤醒，
+                ' 否则继承下来的冲量施加到一个不参与积分的物体上没有意义
+                If pr.A.IsSleeping AndAlso Not pr.B.IsSleeping Then Call MaybeWake(pr.A, pr.B)
+                If pr.B.IsSleeping AndAlso Not pr.A.IsSleeping Then Call MaybeWake(pr.B, pr.A)
+
+                Call m.InitSolver(dt, Baumgarte, Slop, ContactTimeConstant, ContactDampingRatio)
+
+                If WarmStarting Then
+                    Call ApplyWarmStart(m)
+                End If
+
+                Contacts.Add(m)
+
+                pr.A.HadContact = True
+                pr.B.HadContact = True
+            End If
+        Next
+
+        If WarmStarting Then
+            Call contactCache.Clear()
+
+            For Each m In Contacts
+                contactCache(PairKey(m.A, m.B)) = m
+            Next
+        End If
+
+        ' 6. 速度约束求解（接触 + 关节），多次迭代
+        '
+        ' 参考实现把约束分轮求解并检查残差（mj_projectConstraint 之后的
+        ' mj_constraintUpdate 给出 efc_state），而这里原来是固定轮数、看不到收敛。
+        ' SolverTolerance > 0 时按"相邻两轮之间刚体速度的最大变化"早停，
+        ' LastResidual / SolverIterations 把收敛情况暴露给上层诊断；默认 0 保持旧行为。
+        Dim watched As Double() = Nothing
+
+        If SolverTolerance > 0 Then
+            watched = New Double(Bodies.Count * 6 - 1) {}
+            Call CaptureSpeeds(watched)
+        End If
+
+        SolverIterations = 0
+        LastResidual = 0
+
+        For i As Integer = 1 To Iterations
+            For Each m In Contacts
+                Call ContactSolver3D.Solve(m, dt)
+            Next
+            For Each j In Constraints
+                Call j.SolveVelocity(dt)
+            Next
+
+            SolverIterations = i
+
+            If watched IsNot Nothing Then
+                Dim residual As Double = SpeedChange(watched)
+
+                LastResidual = residual
+                Call CaptureSpeeds(watched)
+
+                If residual < SolverTolerance Then
+                    Exit For
+                End If
+            End If
+        Next
+
+        ' 7. 由速度积分位置
+        For Each b In Bodies
+            Call b.IntegratePosition(dt)
+        Next
+
+        ' 8. 关节位置修正（消除漂移）
+        For Each j In Constraints
+            Call j.SolvePosition(dt)
+        Next
+
+        ' 9. 清除力 / 扭矩累加器
+        For Each b In Bodies
+            Call b.ClearForces()
+        Next
+    End Sub
+
+    ''' <summary>
+    ''' copy the velocities of every body into a flat buffer
+    ''' </summary>
+    Private Function CaptureSpeeds(buffer As Double()) As Integer
+        Dim index As Integer = 0
+
+        For Each b In Bodies
+            buffer(index) = b.Velocity.x
+            buffer(index + 1) = b.Velocity.y
+            buffer(index + 2) = b.Velocity.z
+            buffer(index + 3) = b.AngularVelocity.x
+            buffer(index + 4) = b.AngularVelocity.y
+            buffer(index + 5) = b.AngularVelocity.z
+            index += 6
+        Next
+
+        Return index
+    End Function
+
+    ''' <summary>the largest change of any velocity component since the snapshot</summary>
+    Private Function SpeedChange(buffer As Double()) As Double
+        Dim index As Integer = 0
+        Dim worst As Double = 0
+
+        For Each b In Bodies
+            worst = System.Math.Max(worst, System.Math.Abs(b.Velocity.x - buffer(index)))
+            worst = System.Math.Max(worst, System.Math.Abs(b.Velocity.y - buffer(index + 1)))
+            worst = System.Math.Max(worst, System.Math.Abs(b.Velocity.z - buffer(index + 2)))
+            worst = System.Math.Max(worst, System.Math.Abs(b.AngularVelocity.x - buffer(index + 3)))
+            worst = System.Math.Max(worst, System.Math.Abs(b.AngularVelocity.y - buffer(index + 4)))
+            worst = System.Math.Max(worst, System.Math.Abs(b.AngularVelocity.z - buffer(index + 5)))
+            index += 6
+        Next
+
+        Return worst
+    End Function
+
+    ' ---------------- 热启动与休眠 ----------------
+
+    Private Shared Function PairKey(a As RigidBody3D, b As RigidBody3D) As String
+        Return a.ID & "|" & b.ID
+    End Function
+
+    ''' <summary>
+    ''' 继承上一子步同一接触点上的法向累积冲量并立即施加到速度上。
+    ''' 只继承位置足够接近、且法向没有大幅翻转的接触点。
+    ''' </summary>
+    ''' <remarks>
+    ''' 这里刻意<b>不</b>继承摩擦冲量：摩擦是"有方向记忆"的冲量，一旦继承，
+    ''' 求解器在切向速度已接近 0 时几乎不再修正，于是上一子步的摩擦方向会被
+    ''' 原样反复施加，物体沿该方向被持续加速（实测球体落在斜面上会被"推"上坡）。
+    ''' 法向冲量没有这个问题：过量时求解器会在同一子步内用负冲量把它扣回去。
+    ''' </remarks>
+    Private Sub ApplyWarmStart(m As Manifold3D)
+        Dim prev As Manifold3D = Nothing
+
+        If Not contactCache.TryGetValue(PairKey(m.A, m.B), prev) Then Return
+        If Vector3Math.Dot(prev.Normal, m.Normal) < 0.9 Then Return
+
+        Dim r2 As Double = WarmStartRadius * WarmStartRadius
+
+        For Each c In m.Contacts
+            Dim best As ContactPoint3D = Nothing
+            Dim bestD2 As Double = r2
+
+            For Each pc In prev.Contacts
+                Dim d2 As Double = Vector3Math.DistanceSquared(pc.Position, c.Position)
+
+                If d2 < bestD2 Then
+                    bestD2 = d2
+                    best = pc
+                End If
+            Next
+
+            If best Is Nothing Then Continue For
+
+            c.NormalImpulse = best.NormalImpulse
+
+            Dim P As Vector3 = m.Normal * c.NormalImpulse
+
+            Call m.A.ApplyImpulse(P * -1.0, c.rA)
+            Call m.B.ApplyImpulse(P, c.rB)
+        Next
+    End Sub
+
+    Private Sub MaybeWake(sleeper As RigidBody3D, other As RigidBody3D)
+        Dim v As Double = Vector3Math.Length(other.Velocity)
+        Dim w As Double = Vector3Math.Length(other.AngularVelocity)
+
+        If v > SleepLinearTolerance OrElse w > SleepAngularTolerance Then
+            Call sleeper.Wake()
+        End If
+    End Sub
+
+    Private Sub UpdateSleep(dt As Double)
+        For Each b In Bodies
+            If b.IsStatic Then Continue For
+
+            Dim v As Double = Vector3Math.Length(b.Velocity)
+            Dim w As Double = Vector3Math.Length(b.AngularVelocity)
+
+            If v < SleepLinearTolerance AndAlso w < SleepAngularTolerance Then
+                b.SleepTimer += dt
+
+                If b.SleepTimer >= SleepTimeRequired AndAlso Not b.IsSleeping Then
+                    b.IsSleeping = True
+                    b.Velocity = New Vector3(0, 0, 0)
+                    b.AngularVelocity = New Vector3(0, 0, 0)
+                End If
+            Else
+                b.SleepTimer = 0.0
+                b.IsSleeping = False
+            End If
+        Next
+    End Sub
+
+    ' ---------------- 工厂方法 ----------------
+
+    ''' <summary>创建一个长方体刚体。</summary>
+    Public Shared Function Box(width As Double, height As Double, depth As Double,
+                               mass As Double, Optional material As PhysicsMaterial = Nothing) As RigidBody3D
+        Return New RigidBody3D(New BoxCollider3D(width, height, depth), mass, material)
+    End Function
+
+    ''' <summary>创建一个球体刚体。</summary>
+    Public Shared Function Sphere(radius As Double, mass As Double,
+                                  Optional material As PhysicsMaterial = Nothing) As RigidBody3D
+        Return New RigidBody3D(New SphereCollider3D(radius), mass, material)
+    End Function
+
+    ''' <summary>创建一个胶囊刚体（局部 Y 轴为轴向）。</summary>
+    Public Shared Function Capsule(radius As Double, height As Double, mass As Double,
+                                   Optional material As PhysicsMaterial = Nothing) As RigidBody3D
+        Return New RigidBody3D(New CapsuleCollider3D(radius, height), mass, material)
+    End Function
+
+    ''' <summary>创建一个静态无限平面，平面方程 <c>dot(normal, p) = constant</c>。</summary>
+    Public Shared Function StaticPlane(normal As Vector3, constant As Double,
+                                       Optional material As PhysicsMaterial = Nothing) As RigidBody3D
+        Dim body As RigidBody3D = New RigidBody3D(New PlaneCollider3D(normal, constant), 0.0, material)
+
+        Call body.SetStatic()
+
+        Return body
+    End Function
+
+    ''' <summary>
+    ''' 创建一个凸多面体刚体（四面体、圆锥、圆柱、楔形斜坡、任意凸壳）。
+    ''' 惯量由网格的四面体分解解析积分得到。
+    ''' </summary>
+    Public Shared Function Convex(mesh As ConvexMesh3D, mass As Double,
+                                  Optional material As PhysicsMaterial = Nothing) As RigidBody3D
+        Return New RigidBody3D(New ConvexPolyhedronCollider3D(mesh), mass, material)
+    End Function
+
+    ''' <summary>创建一个静态凸多面体（关卡几何：斜坡、楔形平台、异形障碍）。</summary>
+    Public Shared Function StaticConvex(mesh As ConvexMesh3D, position As Vector3,
+                                        Optional material As PhysicsMaterial = Nothing) As RigidBody3D
+        Dim body As RigidBody3D = Convex(mesh, 1.0, material)
+
+        body.Position = position
+        Call body.SetStatic()
+
+        Return body
+    End Function
+
+    ''' <summary>创建一个静态长方体（关卡几何：台阶、障碍、墙）。</summary>
+    Public Shared Function StaticBox(width As Double, height As Double, depth As Double,
+                                     position As Vector3,
+                                     Optional material As PhysicsMaterial = Nothing) As RigidBody3D
+        Dim body As RigidBody3D = Box(width, height, depth, 1.0, material)
+
+        body.Position = position
+        Call body.SetStatic()
+
+        Return body
+    End Function
+
+    ''' <summary>水平地面：<c>y = height</c>，法向朝上。</summary>
+    Public Shared Function GroundPlane(height As Double, Optional material As PhysicsMaterial = Nothing) As RigidBody3D
+        Return StaticPlane(New Vector3(0, 1, 0), height, material)
+    End Function
+
+    ''' <summary>把所有刚体的速度清零（用于复位）。</summary>
+    Public Sub ClearVelocities()
+        For Each b In Bodies
+            b.Velocity = New Vector3(0, 0, 0)
+            b.AngularVelocity = New Vector3(0, 0, 0)
+            Call b.ClearForces()
+        Next
+    End Sub
+End Class

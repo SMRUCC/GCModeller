@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.GeneTree.EdgeDiscoveryMode</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>EdgeDiscoveryMode {SMRUCC.genomics.Analysis.GeneTree}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>EdgeDiscoveryMode</h2>
+
+        <h3>Description</h3>
+
+        <p>调控边的结构发现模式</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.GeneTree
+export class EdgeDiscoveryMode extends <a href="/vignettes/clr/System/Enum.html">Enum</a> {
+   # 只使用 ARACNE 给出的拓扑（默认）。梯度提升树的重要性只用于排序与剪枝参考， 不会新增任何调控边，行为与历史版本完全一致。
+   AracneOnly: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GeneTree/EdgeDiscoveryMode.html">EdgeDiscoveryMode</a> = 0;
+
+   # 残差二阶段发现：先只用 ARACNE 边拟合，再在残差上对候选基因集合做相关筛选， 候选逐个增量重拟合并以验证集 ΔR² 决定是否接受为新调控边。
+   ResidualTwoStage: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GeneTree/EdgeDiscoveryMode.html">EdgeDiscoveryMode</a> = 1;
+
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>this class extends from <a href="/vignettes/clr/System/Enum.html">Enum</a> class: <a href="/vignettes/clr/System/Enum.html">Enum</a></li>
+<li>use by <i>field</i> member <code>AracneOnly</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GeneTree/EdgeDiscoveryMode.html">EdgeDiscoveryMode</a></li>
+<li>use by <i>field</i> member <code>ResidualTwoStage</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GeneTree/EdgeDiscoveryMode.html">EdgeDiscoveryMode</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

@@ -1,0 +1,43 @@
+.\" man page create by R# package system.
+.TH SIGMA_DIFFERENCE 1 2000-1月 "rendering_merge.delta_source" "rendering_merge.delta_source"
+.SH NAME
+rendering_merge.delta_source \- Merge the exported partition-level \fBdelta*\fR profile csv files with the
+.SH SYNOPSIS
+\fIrendering_merge.delta_source(\fBsource\fR as string, 
+\fBquery\fR as <generic> IEnumerable`1, 
+\fBrender_source\fR as string, 
+\fBsaveto\fR as string, 
+\fBsamples\fR as integer = 1);\fR
+.SH DESCRIPTION
+.PP
+Merge the exported partition-level \fBdelta*\fR profile csv files with the
+ two-way BLAST best hit rendering data.
+.PP
+.SH OPTIONS
+.PP
+\fBsource\fB \fR\- the source directory that contains the profile csv files. 
+.PP
+.PP
+\fBquery\fB \fR\- the gene objects of the query genome. 
+.PP
+.PP
+\fBrender_source\fB \fR\- the xml file of the [SpeciesBesthit](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.Tasks.Models.SpeciesBesthit) rendering data. 
+.PP
+.PP
+\fBsaveto\fB \fR\- the merged csv output file path. 
+.PP
+.PP
+\fBsamples\fB \fR\- the row sampling step (1 = keep every row). 
+.PP
+.SH VALUE
+.PP
+true when the merged csv document has been saved
+.PP
+.SH SEE ALSO
+sigma_difference
+.SH FILES
+.PP
+comparative_toolkit.dll
+.PP
+.SH AUTHOR
+Written by \fBxie.guigang@gcmodeller.org\fR

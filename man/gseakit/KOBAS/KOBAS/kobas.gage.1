@@ -1,0 +1,66 @@
+.\" man page create by R# package system.
+.TH KOBAS 1 2000-1月 "kobas.gage" "kobas.gage"
+.SH NAME
+kobas.gage \- GAGE style gene set enrichment analysis (KOBAS SNBEA)
+.SH SYNOPSIS
+\fIkobas.gage(\fBexpr\fR as any, 
+\fBcls\fR as any, 
+\fBgmt\fR as any, 
+\fBmin_size\fR as integer = 5, 
+\fBmax_size\fR as integer = 500, 
+\fBfdr\fR as string = "BH", 
+\fBdata_type\fR as string = "rseq", 
+\fBnormalize\fR as boolean = TRUE, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+GAGE style gene set enrichment analysis (KOBAS SNBEA)
+ 
+ Aggregate the gene level t statistics of each gene set into a gene set level
+ z-score (\fBsum(t) / sqrt(n)\fR) and estimate the significance from the upper tail
+ of the standard normal distribution.
+.PP
+.SH OPTIONS
+.PP
+\fBexpr\fB \fR\- the expression matrix (matrix object, \fBdataframe\fR or expression matrix file path).. 
+.PP
+.PP
+\fBcls\fB \fR\- the phenotype class labels, same as the \fBcls\fR parameter of \fBkobas.gsea\fR.. 
+.PP
+.PP
+\fBgmt\fB \fR\- the gene set collection: a [Background](cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.Background) model or a GMT file path.. 
+.PP
+.PP
+\fBmin_size\fB \fR\- the minimum number of the mapped members of a gene set, default \fB5\fR.. 
+.PP
+.PP
+\fBmax_size\fB \fR\- the maximum number of the mapped members of a gene set, default \fB500\fR.. 
+.PP
+.PP
+\fBfdr\fB \fR\- the multiple testing correction method, default \fBBH\fR.. 
+.PP
+.PP
+\fBdata_type\fB \fR\- the data type of the expression matrix: \fBrseq\fR (default) or \fBma\fR.. 
+.PP
+.PP
+\fBnormalize\fB \fR\- performs the data normalization before the analysis? Default \fBTRUE\fR.. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment.. 
+.PP
+.SH VALUE
+.PP
+a \fBdataframe\fR with the gene set id as the row names and the columns: \fBname\fR,
+ \fBdescription\fR, \fBsize\fR, \fBstatistic\fR, \fBpvalue\fR, \fBp_adjust\fR and \fBgenes\fR.
+.PP
+.SH DETAILS
+.PP
+The returned p-value is the upper tail probability, that means the gene set is
+ enriched in the second phenotype group (the samples labeled with \fB1\fR).
+.PP
+.SH SEE ALSO
+KOBAS
+.SH FILES
+.PP
+gseakit.dll
+.PP

@@ -1,0 +1,39 @@
+.\" man page create by R# package system.
+.TH GENOMICS_CONTEXT 2 2000-1月 "location" "location"
+.SH NAME
+location \- create a new nucleotide location object
+.SH SYNOPSIS
+\fIlocation(\fBleft\fR as integer, 
+\fBright\fR as integer, 
+\fBstrand\fR as any = \fB<NULL>\fR);\fR
+.SH DESCRIPTION
+.PP
+create a new nucleotide location object
+.PP
+.SH OPTIONS
+.PP
+\fBleft\fB \fR\- 
+ the left/start position of the location region.
+. 
+.PP
+.PP
+\fBright\fB \fR\- 
+ the right/end position of the location region.
+. 
+.PP
+.PP
+\fBstrand\fB \fR\- 
+ the strand direction of the location region, value could be \fB+\fR, 
+ \fB-\fR, \fBforward\fR or \fBreverse\fR.
+. 
+.PP
+.SH VALUE
+.PP
+a [NucleotideLocation](cref:T:SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation) nucleotide location object.
+.PP
+.SH SEE ALSO
+genomics_context
+.SH FILES
+.PP
+seqtoolkit.dll
+.PP

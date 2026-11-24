@@ -11,7 +11,7 @@
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageProjectUrl>https://gcmodeller.org</PackageProjectUrl>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <OutputPath>../../pkg/assembly/</OutputPath>
+    <OutputPath>../../../../assembly/</OutputPath>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
@@ -75,6 +75,10 @@
     <DebugType>full</DebugType>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\..\..\GCModeller\analysis\HTS_matrix\HTS_matrix-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\analysis\Microarray\Microarray.NET5.vbproj" />
@@ -87,6 +91,7 @@
     <ProjectReference Include="..\..\..\GCModeller\annotations\Proteomics\Proteomics.NET5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\annotations\WGCNA\WGCNA\WGCNA.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\sub-system\BNLearn\BNLearn.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\visualize\DataVisualizationTools\DataVisualizationTools.vbproj" />
     <ProjectReference Include="..\..\..\R-sharp\Library\shares\graphics.common_runtime\R_graphics.common_runtime.vbproj" />
     <ProjectReference Include="..\..\..\R-sharp\R#\Rsharp-netcore5.vbproj" />

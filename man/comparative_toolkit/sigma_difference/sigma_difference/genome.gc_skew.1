@@ -1,0 +1,36 @@
+.\" man page create by R# package system.
+.TH SIGMA_DIFFERENCE 1 2000-1月 "genome.gc_skew" "genome.gc_skew"
+.SH NAME
+genome.gc_skew \- The \fB(C - G) / (C + G)\fR sliding window profile of the genome strand
+.SH SYNOPSIS
+\fIgenome.gc_skew(\fBgenome\fR as <generic> FastaSeq, 
+\fBwindowSize\fR as integer = 10000, 
+\fBstepSize\fR as integer = 1000);\fR
+.SH DESCRIPTION
+.PP
+The \fB(C - G) / (C + G)\fR sliding window profile of the genome strand
+ composition asymmetry: the leading strand favors purines (G > C), so the
+ curve flips its sign at the replication origin oriC.
+.PP
+.SH OPTIONS
+.PP
+\fBgenome\fB \fR\- the genome nucleotide sequence. 
+.PP
+.PP
+\fBwindowSize\fB \fR\- the sliding window size in bp, default 10kb. 
+.PP
+.PP
+\fBstepSize\fB \fR\- the sampling step in bp, default 1kb. 
+.PP
+.SH VALUE
+.PP
+the skew profile rows ordered by the site position
+.PP
+.SH SEE ALSO
+sigma_difference
+.SH FILES
+.PP
+comparative_toolkit.dll
+.PP
+.SH AUTHOR
+Written by \fBxie.guigang@gcmodeller.org\fR

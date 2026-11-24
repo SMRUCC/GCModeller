@@ -1,3 +1,84 @@
+﻿#Region "Microsoft.VisualBasic::f81e060e3c1742dd833fbff6282f6c8d, Data_science\Mathematica\Math\Math\Algebra\MILP\BoundedSimplex.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 1067
+    '    Code Lines: 636 (59.61%)
+    ' Comment Lines: 196 (18.37%)
+    '    - Xml Docs: 58.16%
+    ' 
+    '   Blank Lines: 235 (22.02%)
+    '     File Size: 42.64 KB
+
+
+    '     Enum BsStatus
+    ' 
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    '     Class BsResult
+    ' 
+    '         Properties: AtUpper, Basis, IsOptimal, Iters, Objective
+    '                     ReducedCosts, Status, StatusText, X, Y
+    ' 
+    '     Class BoundedSimplex
+    ' 
+    '         Properties: Factorization, Updater
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '         Function: ArtCost, BasicLower, BasicUpper, BasisColumn, BasisRows
+    '                   CurrentX, EnsureFactorization, LoadWarmStart, MakeResult, NonbasicBoundValue
+    '                   NonbasicValue, ObjectiveValue, Phase1, RefactorNow, Refresh
+    '                   RunDual, RunPrimal, Solve, SolveBasis, SolveBasisT
+    '                   SolveWithBasis, StatusMessage, UnitVector, WorkCost
+    ' 
+    '         Sub: ApplyBasisChange, BasicBounds, InitializeArtificialSigns, ResetState, SetBounds
+    '         Class DualCandidate
+    ' 
+    '             Properties: dist, g, j, ratio, sigma
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 ' ============================================================================
 ' BoundedSimplex.vb — 有界变量修订单纯形（MILP 节点 LP 引擎）
 ' ----------------------------------------------------------------------------
@@ -26,10 +107,8 @@
 ' Copyright (c) 2018 GPL3 Licensed — sciBASIC.NET Foundation
 ' ============================================================================
 
-Imports System
-Imports System.Collections.Generic
-Imports std = System.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.LinearProgramming.IPMCrossover
+Imports std = System.Math
 
 Namespace LinearAlgebra.LinearProgramming.MILP
 
@@ -79,11 +158,17 @@ Namespace LinearAlgebra.LinearProgramming.MILP
 
         Private ReadOnly m As Integer
         Private ReadOnly n As Integer
-        Private ReadOnly A As Double(,)
+        ''' <summary>行主序缓存（每行连续，行点积 / 矩阵-向量乘 SIMD 友好）</summary>
+        Private ReadOnly Arows As Double()()
+        ''' <summary>列主序缓存（第 j 行 = A 第 j 列；列提取与 wᵀA_j 点积变为连续访存）</summary>
+        Private ReadOnly Acols As Double()()
+        ''' <summary>全 1 向量（长度 m），把 "xB += 常数" 形式的更新统一走 AXPY 内核</summary>
+        Private ReadOnly xOnes As Double()
         Private ReadOnly b As Double()
         Private ReadOnly c As Double()
-        Private ReadOnly l As Double()
-        Private ReadOnly u As Double()
+        ''' <summary>界数组可被 <see cref="SetBounds"/> 替换（并行 worker 复用同一实例）</summary>
+        Private l As Double()
+        Private u As Double()
 
         Private ReadOnly tolP As Double
         Private ReadOnly tolD As Double
@@ -100,18 +185,36 @@ Namespace LinearAlgebra.LinearProgramming.MILP
         Private xB As Double()
         Private d As Double()
         Private y As Double()
-        Private fac As LuFactorization
         Private phaseOne As Boolean
         Private iters As Integer
         Private diagnostic As String = ""
+
+        ' ---------- LU 增量更新状态 ----------
+        ''' <summary>
+        ''' 基矩阵的产品形式更新器。Refresh 不再每次迭代做 O(m³) 全量分解，
+        ''' 而是「换基时 O(m²) 秩 1 修正 + 达到上限/闸门触发时完整重构」。
+        ''' </summary>
+        Private ReadOnly _lu As LuUpdater
+        ''' <summary>建立当前基分解时的基快照；为空表示必须完整重构。</summary>
+        Private _factorBasis As Integer()
+        ''' <summary>
+        ''' 自上次完整重构以来的换基次数。与 <c>_lu.PendingUpdates</c> 比对即可
+        ''' 防御式地发现「漏掉某个换基点」：一旦不等就强制完整重构，
+        ''' 最坏情况退化为优化前的行为，而不会静默算错。
+        ''' </summary>
+        Private _basisEdits As Integer = 0
 
         Public Sub New(A As Double(,), b As Double(), c As Double(), l As Double(), u As Double(),
                        Optional tolP As Double = 0.0000001,
                        Optional tolD As Double = 0.0000001,
                        Optional pivotEps As Double = 0.000000001,
-                       Optional rangeEps As Double = 0.000000001)
+                       Optional rangeEps As Double = 0.000000001,
+                       Optional luOptions As LuUpdateOptions = Nothing)
 
-            Me.A = A
+            Me._lu = New LuUpdater(luOptions)
+
+            Me.Arows = MilpKernels.ToRows(A)
+            Me.Acols = MilpKernels.TransposeRows(A)
             Me.b = b
             Me.c = c
             Me.l = l
@@ -122,6 +225,12 @@ Namespace LinearAlgebra.LinearProgramming.MILP
             Me.tolD = tolD
             Me.pivotEps = pivotEps
             Me.rangeEps = rangeEps
+
+            Me.xOnes = New Double(m - 1) {}
+
+            For i As Integer = 0 To m - 1
+                xOnes(i) = 1.0
+            Next
 
             Me.artSign = New Double(Me.m - 1) {}
             InitializeArtificialSigns()
@@ -143,22 +252,41 @@ Namespace LinearAlgebra.LinearProgramming.MILP
         End Sub
 
         ''' <summary>
+        ''' 替换界数组并重置可变状态（A/b/c 与行/列缓存不变）。
+        ''' 供并行 worker 在同一 <see cref="BoundedSimplex"/> 实例上跨节点复用，
+        ''' 避免每节点重新做 O(m·n) 的行/列缓存与人工列符号构造。
+        ''' 与串行路径一致：artSign 等派生量保持构造时的语义（界数组以引用方式读取）。
+        ''' </summary>
+        Friend Sub SetBounds(newL As Double(), newU As Double())
+            l = newL
+            u = newU
+            Call ResetState()
+
+            ' 界数组被替换：跨节点复用同一实例，热启动基来自别的节点，
+            ' LU 增量状态必须整体作废（下一次求解前完整重构）
+            _lu.Invalidate()
+            _factorBasis = Nothing
+            _basisEdits = 0
+        End Sub
+
+        ''' <summary>
         ''' 计算人工列符号：artSign(i) = sign(b_i − A_i·v)，v 取非基本变量的界值。
         ''' 保证初始人工变量 a_i = artSign(i)·(b_i − A_i·v) ≥ 0，从而人工基原始可行。
         ''' </summary>
         Private Sub InitializeArtificialSigns()
+            ' artSign(i) = sign(b_i − (A·v)_i)，v 为非基本变量的初始界值
+            ' （行主序矩阵-向量乘，SIMD/缓存友好，替代原来的逐元素列扫描）
+            Dim v(n - 1) As Double
+            Dim av(m - 1) As Double
+
+            For j As Integer = 0 To n - 1
+                v(j) = NonbasicBoundValue(j)
+            Next
+
+            Call MilpKernels.MatVecRows(Arows, v, av)
+
             For i As Integer = 0 To m - 1
-                Dim s As Double = b(i)
-
-                For j As Integer = 0 To n - 1
-                    Dim aij As Double = A(i, j)
-
-                    If aij = 0.0 Then Continue For
-
-                    s -= aij * NonbasicBoundValue(j)
-                Next
-
-                artSign(i) = If(s < -tolP, -1.0, 1.0)
+                artSign(i) = If(b(i) - av(i) < -tolP, -1.0, 1.0)
             Next
         End Sub
 
@@ -212,9 +340,8 @@ Namespace LinearAlgebra.LinearProgramming.MILP
             Dim col(m - 1) As Double
 
             If bj >= 0 Then
-                For i As Integer = 0 To m - 1
-                    col(i) = A(i, bj)
-                Next
+                ' 列主序缓存下第 bj 列是连续行，直接块拷贝
+                Call Array.Copy(Acols(bj), col, m)
             Else
                 Dim art As Integer = -1 - bj
                 col(art) = artSign(art)
@@ -248,11 +375,45 @@ Namespace LinearAlgebra.LinearProgramming.MILP
         ''' 当前基的 LU 分解（在 <see cref="Solve"/> 返回后有效）。
         ''' 割平面推导需要 B⁻ᵀe_i（tableau 行），直接复用该分解，避免重复计算。
         ''' </summary>
+        ''' <remarks>
+        ''' 引入 LU 增量更新后，内部因子 = 完整分解 + 若干 η 修正，
+        ''' 无法用单个 <see cref="LuFactorization"/> 精确表达。因此本属性在
+        ''' 存在待应用 η 时<b>强制做一次完整重构</b>，保证返回值恒为当前基的精确分解。
+        ''' 内部代码请改用 <see cref="SolveBasisT"/> / <see cref="SolveBasis"/>（纯读），
+        ''' 本属性仅保留给外部既有调用方，兼容旧的并行只读语义。
+        ''' </remarks>
         Public ReadOnly Property Factorization As LuFactorization
             Get
-                Return fac
+                If _lu.BaseFactorization Is Nothing OrElse _lu.PendingUpdates > 0 Then
+                    If Not RefactorNow() Then Return Nothing
+                End If
+
+                Return _lu.BaseFactorization
             End Get
         End Property
+
+        ''' <summary>LU 增量更新器（统计与诊断用；求解路径请勿直接改写其状态）。</summary>
+        Friend ReadOnly Property Updater As LuUpdater
+            Get
+                Return _lu
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' B⁻ᵀ·rhs（tableau 行推导，w = B⁻ᵀe_i）。纯读，可并发调用。
+        ''' 语义与优化前的 <c>LinAlg.LuSolveT(fac, rhs)</c> 完全一致。
+        ''' </summary>
+        Friend Function SolveBasisT(rhs As Double()) As Double()
+            Return _lu.SolveT(rhs)
+        End Function
+
+        ''' <summary>
+        ''' B⁻¹·rhs。纯读，可并发调用。
+        ''' 语义与优化前的 <c>LinAlg.LuSolve(fac, rhs)</c> 完全一致。
+        ''' </summary>
+        Friend Function SolveBasis(rhs As Double()) As Double()
+            Return _lu.Solve(rhs)
+        End Function
 
         ''' <summary>内部 min 方向目标值。</summary>
         Private Function ObjectiveValue() As Double
@@ -376,58 +537,77 @@ Namespace LinearAlgebra.LinearProgramming.MILP
                 If inBasis(j) Then atUpper(j) = False
             Next
 
-            ' 基矩阵必须非奇异
-            Dim Bm = BasisMatrix()
+            ' 基矩阵必须非奇异。这里的分解结果不再丢弃，而是直接播种 LU 更新器：
+            ' 原实现为探测奇异性白做一次 O(m³) 后立刻在 Refresh 里再做一次。
+            Dim fresh As LuFactorization = MilpKernels.LuFactorRows(BasisRows())
 
-            If LinAlg.LuFactor(Bm) Is Nothing Then Return False
+            If fresh Is Nothing Then Return False
+
+            If Not _lu.SetBase(fresh) Then Return False
+
+            _factorBasis = CType(basis.Clone(), Integer())
+            _basisEdits = 0
 
             Return True
         End Function
 
-        Private Function BasisMatrix() As Double(,)
-            Dim Bm(m - 1, m - 1) As Double
+        ''' <summary>
+        ''' 当前基矩阵（jagged 行形式，供 <see cref="MilpKernels.LuFactorRows"/> 就地消元）。
+        ''' 工作列直接从 Arows 行连续取元素，人工列为符号单位列。
+        ''' </summary>
+        Private Function BasisRows() As Double()()
+            Dim rows As Double()() = New Double(m - 1)() {}
+
+            For i As Integer = 0 To m - 1
+                rows(i) = New Double(m - 1) {}
+            Next
 
             For k As Integer = 0 To m - 1
                 Dim bj As Integer = basis(k)
 
                 If bj >= 0 Then
                     For i As Integer = 0 To m - 1
-                        Bm(i, k) = A(i, bj)
+                        rows(i)(k) = Arows(i)(bj)
                     Next
                 Else
                     Dim art As Integer = -1 - bj
-                    Bm(art, k) = artSign(art)
+                    rows(art)(k) = artSign(art)
                 End If
             Next
 
-            Return Bm
+            Return rows
         End Function
 
         ''' <summary>
         ''' 刷新分解、基本解、对偶值与约简成本。返回 False 表示数值失败。
         ''' </summary>
+        ''' <remarks>
+        ''' 三个 O(m·n) 数值段全部改为行主序连续访存 + SIMD：
+        '''   1. rhs 修正：rhs = b − A·v（v 为非基本变量的界值，基本列置 0）；
+        '''   2. 对偶值 y = B⁻ᵀc_B（LU 转置求解，保持 LinAlg 语义）；
+        '''   3. 约简成本 d = c_work − Aᵀy（列主序缓存的行批量点积）。
+        ''' 基分解本身由 <see cref="EnsureFactorization"/> 按需提供：
+        ''' 换基时 O(m²) 秩 1 修正，翻界/常规迭代直接复用，不再每次 O(m³)。
+        ''' </remarks>
         Private Function Refresh() As Boolean
-            fac = LinAlg.LuFactor(BasisMatrix())
+            If Not EnsureFactorization() Then Return False
 
-            If fac Is Nothing Then Return False
-
-            ' ---- xB = B⁻¹(b − Σ_{nonbasic} A_j v_j) ----
+            ' ---- xB = B⁻¹(b − A·v_nonbasic) ----
+            Dim v(n - 1) As Double
             Dim rhs(m - 1) As Double
-            Array.Copy(b, rhs, m)
+            Dim av(m - 1) As Double
 
             For j As Integer = 0 To n - 1
-                If inBasis(j) Then Continue For
-
-                Dim vj As Double = NonbasicValue(j)
-
-                If vj = 0.0 Then Continue For
-
-                For i As Integer = 0 To m - 1
-                    rhs(i) -= A(i, j) * vj
-                Next
+                v(j) = If(inBasis(j), 0.0, NonbasicValue(j))
             Next
 
-            xB = LinAlg.LuSolve(fac, rhs)
+            Call MilpKernels.MatVecRows(Arows, v, av)
+
+            For i As Integer = 0 To m - 1
+                rhs(i) = b(i) - av(i)
+            Next
+
+            xB = _lu.Solve(rhs)
 
             If xB Is Nothing Then Return False
 
@@ -439,27 +619,87 @@ Namespace LinearAlgebra.LinearProgramming.MILP
                 cB(k) = If(bj >= 0, WorkCost(bj), ArtCost(bj))
             Next
 
-            y = LinAlg.LuSolveT(fac, cB)
+            y = _lu.SolveT(cB)
 
             If y Is Nothing Then Return False
 
-            ' ---- d_j = c_j − yᵀA_j ----
+            ' ---- d = c_work − Aᵀy ----
+            Dim ay(n - 1) As Double
+
+            Call MilpKernels.MatVecRows(Acols, y, ay)
+
             For j As Integer = 0 To n - 1
-                Dim s As Double = WorkCost(j)
-
-                For i As Integer = 0 To m - 1
-                    s -= A(i, j) * y(i)
-                Next
-
-                d(j) = s
+                d(j) = WorkCost(j) - ay(j)
             Next
 
             Return True
         End Function
 
+        ''' <summary>
+        ''' 保证 <see cref="_lu"/> 精确对应于当前 <c>basis</c>。
+        ''' </summary>
+        ''' <remarks>
+        ''' 基分解只依赖 <c>basis</c> 与 A，与 l/u 无关，因此：
+        '''   · 翻界（bound flip）不换基 → 完全复用，无需任何 O(m) 工作；
+        '''   · 换基 → 换基点已通过 <see cref="ApplyBasisChange"/> 追加 η（O(m²)）；
+        '''   · 出现以下任一情况则完整重构（O(m³)）：
+        '''       - 尚无基分解（冷启动 / SetBounds 后 / 割平面追加行列）；
+        '''       - 闸门拒绝（主元分母过小、η 范数过大、条数达上限）；
+        '''       - 换基计数与 η 条数不一致 —— 防御式兜底，说明有换基点绕过了
+        '''         <see cref="ApplyBasisChange"/>，此时宁可退化成优化前行为也不算错。
+        ''' </remarks>
+        Private Function EnsureFactorization() As Boolean
+            Dim stale As Boolean =
+                _factorBasis Is Nothing OrElse
+                _factorBasis.Length <> m OrElse
+                _basisEdits <> _lu.PendingUpdates OrElse
+                _lu.NeedsRefactor
+
+            If Not stale Then Return True
+
+            Dim fresh As LuFactorization = MilpKernels.LuFactorRows(BasisRows())
+
+            If fresh Is Nothing Then Return False
+
+            If Not _lu.SetBase(fresh) Then Return False
+
+            _factorBasis = CType(basis.Clone(), Integer())
+            _basisEdits = 0
+
+            Return True
+        End Function
+
+        ''' <summary>
+        ''' 做一次强制完整重构并同步内部状态（<see cref="Factorization"/> getter 与诊断用）。
+        ''' </summary>
+        Friend Function RefactorNow() As Boolean
+            Dim fresh As LuFactorization = MilpKernels.LuFactorRows(BasisRows())
+
+            If fresh Is Nothing Then Return False
+
+            If Not _lu.SetBase(fresh) Then Return False
+
+            _factorBasis = CType(basis.Clone(), Integer())
+            _basisEdits = 0
+
+            Return True
+        End Function
+
+        ''' <summary>
+        ''' 换基点统一入口：登记换基计数并尝试 O(m²) 秩 1 修正。
+        ''' 修正被闸门拒绝（返回 False）时不必处理 —— <see cref="EnsureFactorization"/>
+        ''' 会通过「计数不一致」检测到并自动完整重构。
+        ''' </summary>
+        ''' <param name="leavePos">离开列在基中的位置。</param>
+        ''' <param name="enteringCol">进入列向量（A 的第 enter 列，长度 = m）。</param>
+        Private Sub ApplyBasisChange(leavePos As Integer, enteringCol As Double())
+            _basisEdits += 1
+            Call _lu.ApplyUpdate(leavePos, enteringCol)
+        End Sub
+
         ''' <summary>B⁻¹·col。</summary>
         Private Function SolveWithBasis(col As Double()) As Double()
-            Return LinAlg.LuSolve(fac, col)
+            Return _lu.Solve(col)
         End Function
 
         ' ====================================================================
@@ -478,6 +718,11 @@ Namespace LinearAlgebra.LinearProgramming.MILP
                 inBasis(j) = False
                 atUpper(j) = Double.IsNegativeInfinity(l(j))
             Next
+
+            ' 冷启动：基被整体替换，此前的任何增量状态都失效
+            _lu.Invalidate()
+            _factorBasis = Nothing
+            _basisEdits = 0
 
             Dim st = RunPrimal(maxIter)
 
@@ -535,10 +780,14 @@ Namespace LinearAlgebra.LinearProgramming.MILP
                     If basis(k) >= 0 Then Continue For
                     If std.Abs(xB(k)) > tolP * bNorm Then Continue For
 
-                    ' tableau 行：w = B⁻ᵀ e_k ⇒ α_j = wᵀA_j
-                    Dim w = LinAlg.LuSolveT(fac, UnitVector(k))
+                    ' tableau 行：w = B⁻ᵀ e_k ⇒ α = Aᵀw（列主序行批量点积，一次算全行）
+                    Dim w = _lu.SolveT(UnitVector(k))
 
                     If w Is Nothing Then Return BsStatus.NumericFail
+
+                    Dim alphaAll(n - 1) As Double
+
+                    Call MilpKernels.MatVecRows(Acols, w, alphaAll)
 
                     Dim bestJ As Integer = -1
                     Dim bestAlpha As Double = pivotEps
@@ -547,11 +796,7 @@ Namespace LinearAlgebra.LinearProgramming.MILP
                         If inBasis(j) Then Continue For
                         If u(j) - l(j) <= rangeEps Then Continue For
 
-                        Dim alpha As Double = 0.0
-
-                        For i As Integer = 0 To m - 1
-                            alpha += w(i) * A(i, j)
-                        Next
+                        Dim alpha As Double = alphaAll(j)
 
                         If std.Abs(alpha) > bestAlpha Then
                             bestAlpha = std.Abs(alpha)
@@ -564,6 +809,10 @@ Namespace LinearAlgebra.LinearProgramming.MILP
                         inBasis(bestJ) = True
                         atUpper(bestJ) = False
                         moved = True
+
+                        ' 换基：第 k 列被换为 A 的第 bestJ 列
+                        Call ApplyBasisChange(k, Acols(bestJ))
+
                         Exit For
                     End If
                     ' 否则：该行为冗余行，人工变量留在基中（固定为 0，永不阻塞）
@@ -622,9 +871,7 @@ Namespace LinearAlgebra.LinearProgramming.MILP
                 ' ---------- 方向 α = B⁻¹A_enter ----------
                 Dim colEnter(m - 1) As Double
 
-                For i As Integer = 0 To m - 1
-                    colEnter(i) = A(i, enter)
-                Next
+                Call Array.Copy(Acols(enter), colEnter, m)
 
                 Dim alpha = SolveWithBasis(colEnter)
 
@@ -680,10 +927,8 @@ Namespace LinearAlgebra.LinearProgramming.MILP
 
                 If theta < 0.0 Then theta = 0.0
 
-                ' ---------- 更新基本解 ----------
-                For i As Integer = 0 To m - 1
-                    xB(i) += (-sigma * alpha(i)) * theta
-                Next
+                ' ---------- 更新基本解（xB += (−sigma·theta)·alpha，FMA AXPY） ----------
+                Call MilpKernels.AxpyInPlace(xB, -sigma * theta, alpha)
 
                 If pivot Then
                     Dim leavingVar As Integer = basis(leave)
@@ -700,7 +945,13 @@ Namespace LinearAlgebra.LinearProgramming.MILP
                     atUpper(enter) = False
                     basis(leave) = enter
                     xB(leave) = newVal
+
+                    ' 换基：第 leave 列被换为 A 的第 enter 列
+                    ' （alpha 已是 B⁻¹a_enter，可与后续修正共用，但为保持 updater
+                    '  内部语义单一仍走标准 ApplyUpdate 入口）
+                    Call ApplyBasisChange(leave, Acols(enter))
                 Else
+                    ' 翻界不换基：无需任何 LU 工作
                     atUpper(enter) = Not atUpper(enter)
                 End If
 
@@ -779,10 +1030,14 @@ Namespace LinearAlgebra.LinearProgramming.MILP
                 Dim need As Double = If(tooLow, 1.0, -1.0)
                 Dim delta As Double = If(tooLow, loL - xB(leave), xB(leave) - hiL)
 
-                ' ---------- tableau 行：w = B⁻ᵀ e_leave ⇒ α_j = wᵀA_j ----------
-                Dim w = LinAlg.LuSolveT(fac, UnitVector(leave))
+                ' ---------- tableau 行：w = B⁻ᵀ e_leave ⇒ α = Aᵀw（一次批量点积） ----------
+                Dim w = _lu.SolveT(UnitVector(leave))
 
                 If w Is Nothing Then Return BsStatus.NumericFail
+
+                Dim alphaAll(n - 1) As Double
+
+                Call MilpKernels.MatVecRows(Acols, w, alphaAll)
 
                 Dim cand As New List(Of DualCandidate)()
 
@@ -793,11 +1048,7 @@ Namespace LinearAlgebra.LinearProgramming.MILP
 
                     If dist <= rangeEps Then Continue For
 
-                    Dim alpha As Double = 0.0
-
-                    For i As Integer = 0 To m - 1
-                        alpha += w(i) * A(i, j)
-                    Next
+                    Dim alpha As Double = alphaAll(j)
 
                     If std.Abs(alpha) <= pivotEps Then Continue For
 
@@ -835,9 +1086,7 @@ Namespace LinearAlgebra.LinearProgramming.MILP
                     If contribution >= delta - 1.0E-12 Then
                         Dim theta As Double = delta / std.Abs(cd.g)
 
-                        For i As Integer = 0 To m - 1
-                            xB(i) += cd.g * theta
-                        Next
+                        Call MilpKernels.AxpyInPlace(xB, cd.g * theta, xOnes)
 
                         atUpper(basis(leave)) = Not tooLow
                         inBasis(basis(leave)) = False
@@ -850,12 +1099,14 @@ Namespace LinearAlgebra.LinearProgramming.MILP
                         xB(leave) = newVal
                         delta = 0.0
                         pivoted = True
+
+                        ' 换基：第 leave 列被换为 A 的第 cd.j 列
+                        Call ApplyBasisChange(leave, Acols(cd.j))
+
                         Exit For
                     Else
-                        ' 翻界：变量移到对侧界
-                        For i As Integer = 0 To m - 1
-                            xB(i) += cd.g * cd.dist
-                        Next
+                        ' 翻界：变量移到对侧界（xB += (g·dist)·1，FMA AXPY）
+                        Call MilpKernels.AxpyInPlace(xB, cd.g * cd.dist, xOnes)
 
                         atUpper(cd.j) = Not atUpper(cd.j)
                         delta -= contribution

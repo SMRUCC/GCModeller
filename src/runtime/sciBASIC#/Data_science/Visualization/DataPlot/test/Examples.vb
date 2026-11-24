@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6b1a4207a8d6f472acd56415c5d30f04, Data_science\Visualization\DataPlot\test\Examples.vb"
+﻿#Region "Microsoft.VisualBasic::d7fc855701a8498abf636e9a40f3ae85, Data_science\Visualization\DataPlot\test\Examples.vb"
 
     ' Author:
     ' 
@@ -236,7 +236,7 @@ Public Class Examples
             plt.Matrix = mat
             plt.RowLabels = Enumerable.Range(1, 10).Select(Function(i) "R" & i).ToArray()
             plt.ColLabels = Enumerable.Range(1, 12).Select(Function(i) "C" & i).ToArray()
-            plt.ColorMap = HeatmapPlot.ColorMapType.Viridis
+            plt.ColorMap = Microsoft.VisualBasic.Imaging.Drawing2D.Colors.ScalerPalette.viridis
             plt.ShowValues = False
             plt.Plot()
             plt.SavePng(Path.Combine(dir, "heatmap.png"), 300)

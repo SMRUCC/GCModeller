@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cbdd3e19c0fe58b125803dae4b3935e9, Data_science\MachineLearning\DeepLearning\CNN\LayerTypes.vb"
+﻿#Region "Microsoft.VisualBasic::61b0813f85630b41b9a27e49208c940f, Data_science\MachineLearning\DeepLearning\CNN\LayerTypes.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 45
-    '    Code Lines: 24 (53.33%)
-    ' Comment Lines: 15 (33.33%)
+    '   Total Lines: 60
+    '    Code Lines: 24 (40.00%)
+    ' Comment Lines: 30 (50.00%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 6 (13.33%)
-    '     File Size: 1.63 KB
+    '   Blank Lines: 6 (10.00%)
+    '     File Size: 2.96 KB
 
 
     '     Enum LayerTypes
@@ -104,12 +104,28 @@ Namespace CNN
         <Description("svm")> SVM
         ''' <summary>Transposed (de)convolution layer (<c>conv_transpose</c>).</summary>
         <Description("conv_transpose")> Conv2DTranspose
+        ''' <summary>
+        ''' Skip connection concat layer (<c>concat</c>).
+        ''' </summary>
+        ''' <remarks>
+        ''' 沿通道维把跳跃连接的特征图与本层输入拼接起来（U-Net 的 "copy and crop"）。
+        ''' 本层只在**计算图**里有意义：串行网络里没有第二个输入可拼。
+        ''' </remarks>
+        <Description("concat")> Concat
         ''' <summary>Fourier feature mapping layer (<c>fourier_feature</c>).</summary>
         <Description("fourier_feature")> FourierFeature
         ''' <summary>Leaky ReLU activation (<c>leaky_relu</c>).</summary>
         <Description("leaky_relu")> LeakyReLU
         ''' <summary>Gaussian activation (<c>gaussian</c>).</summary>
         <Description("gaussian")> Gaussian
+
+        ''' <summary>
+        ''' Exponential linear unit activation (<c>elu</c>).
+        ''' </summary>
+        ''' <remarks>
+        ''' 追加在枚举末尾并显式赋值，保证既有模型文件里的层类型数值不变。
+        ''' </remarks>
+        <Description("elu")> Elu = 19
 
         ''' <summary>Alias of <see cref="FullyConnected"/> (<c>linear</c>).</summary>
         <Description("linear")> Linear = FullyConnected

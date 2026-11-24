@@ -1,0 +1,37 @@
+.\" man page create by R# package system.
+.TH SIGMA_DIFFERENCE 1 2000-1月 "cai_bias_dataset" "cai_bias_dataset"
+.SH NAME
+cai_bias_dataset \- Compile the codon usage table of every species gene collection.
+.SH SYNOPSIS
+\fIcai_bias_dataset(\fBgenes\fR as string);\fR
+.SH DESCRIPTION
+.PP
+Compile the codon usage table of every species gene collection.
+ The reference set of each species is its own gene collection
+ (for a real high-expression reference set use
+ [ToolsAPI.BuildCAIReference()](cref:M:SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.ToolsAPI.BuildCAIReference(SMRUCC.genomics.SequenceModel.FASTA.FastaFile,SMRUCC.genomics.SequenceModel.NucleotideModels.Translation.GeneticCodes,System.String)) with the ribosomal protein genes).
+.PP
+.SH OPTIONS
+.PP
+\fBgenes\fB \fR\- the directory of the \fB*.fasta\fR / \fB*.fsa\fR species gene collections. 
+.PP
+.SH VALUE
+.PP
+the compiled codon usage csv document
+.PP
+.SH DETAILS
+.PP
+Output layout:
+
+ SpeciesID, CAI, CUBIAS_LIST
+ src1 ...
+ src2 ...
+.PP
+.SH SEE ALSO
+sigma_difference
+.SH FILES
+.PP
+comparative_toolkit.dll
+.PP
+.SH AUTHOR
+Written by \fBxie.guigang@gcmodeller.org\fR

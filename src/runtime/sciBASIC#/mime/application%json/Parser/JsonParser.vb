@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6fbc1c1b1c3e89094a5c0b0f8e50c998, mime\application%json\Parser\JsonParser.vb"
+﻿#Region "Microsoft.VisualBasic::ea2414db13f2061a4e3d638b26bb0ef6, mime\application%json\Parser\JsonParser.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 419
-    '    Code Lines: 265 (63.25%)
-    ' Comment Lines: 92 (21.96%)
-    '    - Xml Docs: 50.00%
+    '   Total Lines: 437
+    '    Code Lines: 277 (63.39%)
+    ' Comment Lines: 96 (21.97%)
+    '    - Xml Docs: 47.92%
     ' 
-    '   Blank Lines: 62 (14.80%)
-    '     File Size: 16.56 KB
+    '   Blank Lines: 64 (14.65%)
+    '     File Size: 17.41 KB
 
 
     ' Class JsonParser
@@ -227,6 +227,7 @@ Public Class JsonParser
 
     Private Function PullObject(pull As IEnumerator(Of Token)) As JsonObject
         Dim obj As New JsonObject
+        Dim closed As Boolean = False
         Dim t As Token
         Dim key As String
         Dim val As JsonElement
@@ -239,6 +240,7 @@ Public Class JsonParser
                 Throw New InvalidDataException("key should not be nothing")
             ElseIf t = (Token.JSONElements.Close, "}") Then
                 ' empty json object {}
+                closed = True
                 Exit Do
             Else
                 Dim rawKey As String = t.text
@@ -278,6 +280,7 @@ Public Class JsonParser
             End If
             If t.name <> Token.JSONElements.Delimiter Then
                 If t = (Token.JSONElements.Close, "}") Then
+                    closed = True
                     Exit Do
                 Else
                     Throw New InvalidDataException($"a comma delimiter or json object close symbol should be follow the end of key:value tuple! (json_document_line: {t.span.line}, in-complete_json_obj: {obj.BuildJsonString})")
@@ -285,11 +288,18 @@ Public Class JsonParser
             End If
         Loop
 
+        If Not closed AndAlso strictVectorSyntax Then
+            ' strict mode: the document stream was exhausted before the
+            ' closing '}' was seen (e.g. the input is just "{")
+            Throw New InvalidDataException("in-complete json object document! (json_document_line: end of stream)")
+        End If
+
         Return obj
     End Function
 
     Private Function PullArray(pull As IEnumerator(Of Token)) As JsonArray
         Dim array As New JsonArray
+        Dim closed As Boolean = False
         Dim t As Token
         Dim back As Boolean = False
 
@@ -301,6 +311,7 @@ Public Class JsonParser
                 Throw New InvalidDataException($"in-complete json array! (json_document_line: {t.span.line})")
             ElseIf t = (Token.JSONElements.Close, "]") Then
                 ' empty json array []
+                closed = True
                 Exit Do
             End If
 
@@ -329,6 +340,7 @@ Public Class JsonParser
             ElseIf t.name <> Token.JSONElements.Delimiter Then
                 If t = (Token.JSONElements.Close, "]") Then
                     ' end of current vector
+                    closed = True
                     Exit Do
                 ElseIf strictVectorSyntax Then
                     Throw New SyntaxErrorException($"the json element value should be follow a comma delimiter or close symbol of the array! (json_document_line: {t.span.line})")
@@ -347,6 +359,12 @@ Public Class JsonParser
                 End If
             End If
         Loop
+
+        If Not closed AndAlso strictVectorSyntax Then
+            ' strict mode: the document stream was exhausted before the
+            ' closing ']' was seen (e.g. the input is just "[")
+            Throw New InvalidDataException("in-complete json array! (json_document_line: end of stream)")
+        End If
 
         Return array
     End Function

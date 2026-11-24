@@ -1,7 +1,7 @@
 Imports System.IO
-Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
 Imports SMRUCC.genomics.Analysis.GEARS.Graph
 Imports SMRUCC.genomics.Analysis.GEARS.Training
+Imports SMRUCC.genomics.BioSystem.Intervention
 
 Namespace IO
 

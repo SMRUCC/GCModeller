@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6ac7ede7013e967e8a487efe8f1dda83, mime\text%html\Render\CSS\CssDefaults.vb"
+﻿#Region "Microsoft.VisualBasic::ff73c9229d8c97b7f40e973bd6f47531, mime\text%html\Render\CSS\CssDefaults.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 188
-    '    Code Lines: 147 (78.19%)
-    ' Comment Lines: 30 (15.96%)
+    '   Total Lines: 190
+    '    Code Lines: 148 (77.89%)
+    ' Comment Lines: 30 (15.79%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 11 (5.85%)
-    '     File Size: 11.07 KB
+    '   Blank Lines: 12 (6.32%)
+    '     File Size: 11.11 KB
 
 
     '     Class CssDefaults
@@ -51,6 +51,8 @@
     ' /********************************************************************************/
 
 #End Region
+
+Imports Microsoft.VisualBasic.Imaging
 
 Namespace Render.CSS
 

@@ -1,0 +1,36 @@
+.\" man page create by R# package system.
+.TH GENETREE 1 2000-1月 "load_topology" "load_topology"
+.SH NAME
+load_topology \- Build the regulation graph model from the ARACNE inferred network.
+.SH SYNOPSIS
+\fIload_topology(\fBaracne\fR as <generic> AracneNetwork, 
+\fBconfig\fR as <generic> GeneTreeConfig = \fB<NULL>\fR, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Build the regulation graph model from the ARACNE inferred network.
+.PP
+.SH OPTIONS
+.PP
+\fBaracne\fB \fR\- 
+ the ARACNE network object, which could be created by the \fBaracne\fR package
+ module or loaded from the model zip archive via \fBreadBin\fR.
+. 
+.PP
+.PP
+\fBconfig\fB \fR\- 
+ the configuration object created by the \fBmake_profile\fR api; the
+ \fBmax_regulators\fR and \fBinclude_undirected_edges\fR options determine the
+ structure of the graph.
+. 
+.PP
+.SH VALUE
+.PP
+the [GeneRegulationGraph](cref:T:SMRUCC.genomics.Analysis.GeneTree.GeneRegulationGraph) object: target gene -> regulators.
+.PP
+.SH SEE ALSO
+geneTree
+.SH FILES
+.PP
+biosystem.dll
+.PP

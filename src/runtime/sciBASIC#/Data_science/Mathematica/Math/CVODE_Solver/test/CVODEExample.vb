@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5075cf4b2f04cb5a1d9ab689f7f2905a, Data_science\Mathematica\Math\CVODE_Solver\test\CVODEExample.vb"
+﻿#Region "Microsoft.VisualBasic::186ad2370d7636fbdac70b1d8a36ab74, Data_science\Mathematica\Math\CVODE_Solver\test\CVODEExample.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 383
-    '    Code Lines: 238 (62.14%)
-    ' Comment Lines: 74 (19.32%)
+    '   Total Lines: 384
+    '    Code Lines: 239 (62.24%)
+    ' Comment Lines: 74 (19.27%)
     '    - Xml Docs: 50.00%
     ' 
-    '   Blank Lines: 71 (18.54%)
-    '     File Size: 15.67 KB
+    '   Blank Lines: 71 (18.49%)
+    '     File Size: 15.70 KB
 
 
     '     Class CVODEExample
@@ -57,7 +57,12 @@
 ' 包含多个常微分方程组的求解示例
 ' ============================================================================
 
+Imports System.Linq
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.Calculus.Dynamics.Data
 Imports Microsoft.VisualBasic.Math.Sundials.CVODE
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 
 Namespace CVODEExamples
 
@@ -68,8 +73,23 @@ Namespace CVODEExamples
 
         ''' <summary>
         ''' 主入口
+        ''' 
+        ''' ``--register``：只运行「CVODE 注册到 ODEs 求解框架」的集成自检，并以退出码返回结果；
+        ''' ``--matrix``：只运行 NumericMatrix 就地赋值/矩形数组互转的自检，并生成审计报告；
+        ''' 其余情况运行全部示例。
         ''' </summary>
-        Public Shared Sub Main()
+        Public Shared Sub Main(args As String())
+            If args IsNot Nothing AndAlso args.Any(Function(arg) String.Equals(arg, "--register", StringComparison.OrdinalIgnoreCase)) Then
+                Environment.ExitCode = SolverRegistrationTest.Run()
+                Return
+            End If
+
+            If args IsNot Nothing AndAlso args.Any(Function(arg) String.Equals(arg, "--matrix", StringComparison.OrdinalIgnoreCase)) Then
+                Environment.ExitCode = MatrixBridgeTest.Run(
+                    IO.Path.Combine(Environment.CurrentDirectory, "matrix_bridge_audit.json"))
+                Return
+            End If
+
             Console.WriteLine("="c, 60)
             Console.WriteLine("Sundials CVODE 求解器示例程序")
             Console.WriteLine("基于VB.NET实现，不依赖第三方库")
@@ -88,11 +108,41 @@ Namespace CVODEExamples
             ' 示例4：Van der Pol振子
             Example4_VanDerPolOscillator()
 
+            ' 示例5：统一输出模型 ODEsOut
+            Example5_UnifiedOutput()
+
             Console.WriteLine()
             Console.WriteLine("所有示例运行完成！")
             If Not Console.IsInputRedirected Then
                 Console.ReadKey()
             End If
+        End Sub
+
+        ''' <summary>
+        ''' 示例5：统一输出模型 —— 求解结果直接输出为 ODEsOut（原来的 ODESolution 已经删除）
+        ''' </summary>
+        Public Shared Sub Example5_UnifiedOutput()
+            Console.WriteLine("-"c, 60)
+            Console.WriteLine("示例5：统一输出模型 ODEsOut")
+            Console.WriteLine("方程：y' = -y, y(0) = 1, 解析解 y = exp(-t)")
+            Console.WriteLine("-"c, 60)
+
+            Dim rhsFunc As RHSFunction = Sub(t As Double, y As Vector, ydot As Vector)
+                                             ydot(0) = -y(0)
+                                         End Sub
+            Dim result As ODESolution = New CVODEBuilder() _
+                .UseMethod(CVODEMethod.Adams) _
+                .WithRHS(rhsFunc, 1) _
+                .WithRelativeTolerance(1.0E-8) _
+                .Solve(0.0, 5.0, New Vector(New Double() {1.0}), 10)
+
+            Console.WriteLine($"采样点个数: {result.Count}")
+            Console.WriteLine($"最后一点的数值解: {result.GetComponent(0)(result.Count - 1):E6}")
+            Console.WriteLine($"最后一点的解析解: {System.Math.Exp(-5.0):E6}")
+            Console.WriteLine()
+            Console.WriteLine("csv 预览:")
+            Console.WriteLine(result.ToCSV().Split({vbCrLf}, StringSplitOptions.RemoveEmptyEntries).Take(4).JoinBy(vbCrLf))
+            Console.WriteLine()
         End Sub
 
 #Region "示例1：简谐振子"
@@ -114,7 +164,7 @@ Namespace CVODEExamples
             Console.WriteLine("-"c, 60)
 
             ' 定义右端函数
-            Dim rhsFunc As RHSFunction = Sub(t As Double, y As NVector, ydot As NVector)
+            Dim rhsFunc As RHSFunction = Sub(t As Double, y As Vector, ydot As Vector)
                                              ydot(0) = y(1)          ' y1' = y2
                                              ydot(1) = -y(0)         ' y2' = -y1
                                          End Sub
@@ -129,7 +179,7 @@ Namespace CVODEExamples
 
             Using solver As New CVODESolver(CVODEMethod.Adams, rhsFunc, 2, options)
                 ' 初始化
-                Dim y0 As New NVector(New Double() {1.0, 0.0})
+                Dim y0 As New Vector(New Double() {1.0, 0.0})
                 Dim status As CVODEStatus = solver.Initialize(0.0, y0)
 
                 If status <> CVODEStatus.Success Then
@@ -146,7 +196,7 @@ Namespace CVODEExamples
 
                 ' 积分
                 Dim tOut As Double = 0.0
-                Dim y As New NVector(2)
+                Dim y As New Vector(2)
                 For i As Integer = 1 To 10
                     tOut = i * 0.5
                     status = solver.Integrate(tOut, y)
@@ -198,7 +248,7 @@ Namespace CVODEExamples
             Const beta As Double = 8.0 / 3.0
 
             ' 定义右端函数
-            Dim rhsFunc As RHSFunction = Sub(t As Double, y As NVector, ydot As NVector)
+            Dim rhsFunc As RHSFunction = Sub(t As Double, y As Vector, ydot As Vector)
                                              ydot(0) = sigma * (y(1) - y(0))
                                              ydot(1) = y(0) * (rho - y(2)) - y(1)
                                              ydot(2) = y(0) * y(1) - beta * y(2)
@@ -213,7 +263,7 @@ Namespace CVODEExamples
 
             Using solver As New CVODESolver(CVODEMethod.BDF, rhsFunc, 3, options)
                 ' 初始条件
-                Dim y0 As New NVector(New Double() {1.0, 1.0, 1.0})
+                Dim y0 As New Vector(New Double() {1.0, 1.0, 1.0})
                 Dim status As CVODEStatus = solver.Initialize(0.0, y0)
 
                 If status <> CVODEStatus.Success Then
@@ -230,7 +280,7 @@ Namespace CVODEExamples
 
                 ' 积分
                 Dim tOut As Double = 0.0
-                Dim y As New NVector(3)
+                Dim y As New Vector(3)
                 For i As Integer = 1 To 20
                     tOut = i * 0.5
                     status = solver.Integrate(tOut, y)
@@ -273,7 +323,7 @@ Namespace CVODEExamples
             Console.WriteLine("-"c, 60)
 
             ' 定义右端函数
-            Dim rhsFunc As RHSFunction = Sub(t As Double, y As NVector, ydot As NVector)
+            Dim rhsFunc As RHSFunction = Sub(t As Double, y As Vector, ydot As Vector)
                                              Dim y1 As Double = y(0)
                                              Dim y2 As Double = y(1)
                                              Dim y3 As Double = y(2)
@@ -293,10 +343,10 @@ Namespace CVODEExamples
 
             Using solver As New CVODESolver(CVODEMethod.BDF, rhsFunc, 3, options)
                 ' 设置分量绝对误差（y2需要更小的容差）
-                solver.SetAbsoluteTolerance(New NVector(New Double() {0.000001, 0.0000000001, 0.000001}))
+                solver.SetAbsoluteTolerance(New Vector(New Double() {0.000001, 0.0000000001, 0.000001}))
 
                 ' 初始条件
-                Dim y0 As New NVector(New Double() {1.0, 0.0, 0.0})
+                Dim y0 As New Vector(New Double() {1.0, 0.0, 0.0})
                 Dim status As CVODEStatus = solver.Initialize(0.0, y0)
 
                 If status <> CVODEStatus.Success Then
@@ -312,7 +362,7 @@ Namespace CVODEExamples
                     0.0, y0(0), y0(1), y0(2), 0)
 
                 ' 积分（使用对数时间步）
-                Dim y As New NVector(3)
+                Dim y As New Vector(3)
                 Dim tValues As Double() = {0.0, 0.4, 4.0, 40.0, 400.0, 4000.0, 40000.0, 400000.0, 4000000.0, 40000000.0, 400000000.0, 4000000000.0, 40000000000.0}
 
                 For i As Integer = 1 To tValues.Length - 1
@@ -361,13 +411,13 @@ Namespace CVODEExamples
             Const mu As Double = 1000.0
 
             ' 定义右端函数
-            Dim rhsFunc As RHSFunction = Sub(t As Double, y As NVector, ydot As NVector)
+            Dim rhsFunc As RHSFunction = Sub(t As Double, y As Vector, ydot As Vector)
                                              ydot(0) = y(1)
                                              ydot(1) = mu * (1.0 - y(0) * y(0)) * y(1) - y(0)
                                          End Sub
 
             ' 定义Jacobian函数（可选，提高效率）
-            Dim jacFunc As JacobianFunction = Sub(t As Double, y As NVector, fy As NVector, J As DenseMatrix)
+            Dim jacFunc As JacobianFunction = Sub(t As Double, y As Vector, fy As Vector, J As NumericMatrix)
                                                   J(0, 0) = 0.0
                                                   J(0, 1) = 1.0
                                                   J(1, 0) = -2.0 * mu * y(0) * y(1) - 1.0
@@ -387,7 +437,7 @@ Namespace CVODEExamples
                 solver.SetJacobianFunction(jacFunc)
 
                 ' 初始条件
-                Dim y0 As New NVector(New Double() {2.0, 0.0})
+                Dim y0 As New Vector(New Double() {2.0, 0.0})
                 Dim status As CVODEStatus = solver.Initialize(0.0, y0)
 
                 If status <> CVODEStatus.Success Then
@@ -403,7 +453,7 @@ Namespace CVODEExamples
                     0.0, y0(0), y0(1), 0)
 
                 ' 积分
-                Dim y As New NVector(2)
+                Dim y As New Vector(2)
                 Dim tOut As Double = 0.0
                 For i As Integer = 1 To 10
                     tOut = i * 300.0

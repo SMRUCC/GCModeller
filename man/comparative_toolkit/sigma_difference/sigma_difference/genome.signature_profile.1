@@ -1,0 +1,30 @@
+.\" man page create by R# package system.
+.TH SIGMA_DIFFERENCE 1 2000-1月 "genome.signature_profile" "genome.signature_profile"
+.SH NAME
+genome.signature_profile \- The \fBrho*\fR genome signature profile: the double-strand symmetrized
+.SH SYNOPSIS
+\fIgenome.signature_profile(\fBnt\fR as <generic> FastaSeq);\fR
+.SH DESCRIPTION
+.PP
+The \fBrho*\fR genome signature profile: the double-strand symmetrized
+ dinucleotide relative abundance \fBrho*XY = fXY / (fX fY)\fR of all 16
+ dinucleotides, each reported with its six-level significance symbol
+ (\fB---\fR / \fB--\fR / \fB-\fR / \fB+\fR / \fB++\fR / \fB+++\fR, thresholds 0.50 / 0.70 /
+ 0.78 / 1.23 / 1.30 / 1.50).
+.PP
+.SH OPTIONS
+.PP
+\fBnt\fB \fR\- the genome nucleotide sequence. 
+.PP
+.SH VALUE
+.PP
+the \fB{XY, rho* [symbol]}\fR profile table
+.PP
+.SH SEE ALSO
+sigma_difference
+.SH FILES
+.PP
+comparative_toolkit.dll
+.PP
+.SH AUTHOR
+Written by \fBxie.guigang@gcmodeller.org\fR

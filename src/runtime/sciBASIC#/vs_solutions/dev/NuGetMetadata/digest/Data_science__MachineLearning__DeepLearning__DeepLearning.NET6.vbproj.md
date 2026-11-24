@@ -1,0 +1,337 @@
+# Data_science/MachineLearning/DeepLearning/DeepLearning.NET6.vbproj
+
+- RootNamespace : Microsoft.VisualBasic.MachineLearning
+- AssemblyName  : Microsoft.VisualBasic.DeepLearning
+- TargetFramework: net10.0
+- Source files  : 109
+- Existing Title: Deep Learning Framework: CNN, RNN, Transformer and ANN Models
+- Existing Desc : A deep learning toolkit for sciBASIC#: trainable convolutional networks with SGD, AdaGrad and Adam trainers, a CeNiN CNN reader for image inference, character-level RNNs, a hand-written Transformer encoder-decoder with explicit backward passes, and general feed-forward neural networks.
+- Existing Tags : scibasic;deep-learning;cnn;rnn;transformer;attention;neural-network
+
+## Namespaces
+- CNN  [files: 13]
+- CNN.data  [files: 5]
+- CNN.layers  [files: 18]
+- CNN.losslayers  [files: 5]
+- CNN.trainers  [files: 8]
+- Convolutional  [files: 12]
+- NeuralNetwork  [files: 5]
+- RNN  [files: 20]
+- Transformer  [files: 20]
+
+## Public types
+- Module Program (_smoketest\Program.vb)
+- Class CeNiN (CeNiN\CeNiN.vb) - CeNiN (means "fetus" in Turkish) is a minimal implementation of feed-forward phase of deep Convolutional Neural Networks https://github.com/atasoyhus/CeNiN
+- Class ImageProcessor (CeNiN\ImageProcessor.vb) - Provides the bitmap resizing strategies used to fit an arbitrary input image into the fixed spatial size expected by the network's input layer.
+- Enum ResizingMethod (CeNiN\ImageProcessor.vb) - Specifies how a source bitmap is mapped onto the network input size.
+- Class Convolution (CeNiN\Layers\Convolution.vb) - Convolutional layer of a CeNiN network: it slides a bank of filters over the padded input and produces one output feature map per filter. The filter bank is stored as a tensor with dimensions <c>[filterHeight, filterWidth, channels, filterCount]</c>.
+- Class Input (CeNiN\Layers\Input.vb) - the layer for image inputs
+- Class Output (CeNiN\Layers\Output.vb) - Terminal layer of a CeNiN network. It does not compute activations; it exposes the class labels together with the probabilities produced by the preceding softmax layer.
+- Class Pool (CeNiN\Layers\Pool.vb) - Max pooling layer of a CeNiN network: each output value is the maximum activation inside a <c>pool x pool</c> window of the input feature map. Pooling reduces the spatial resolution while keeping the strongest responses, which makes the
+- Class ReLU (CeNiN\Layers\ReLU.vb) - Rectified linear unit layer: applies <c>f(x) = max(0, x)</c> element wise.
+- Class SoftMax (CeNiN\Layers\SoftMax.vb) - Softmax output layer that converts the incoming activations into a probability distribution. The implementation subtracts the maximum activation before exponentiation (<c>exp(x - max) / sum(exp(x - max))</c>) so the exponentials cannot overflow for large logits.
+- Class NamespaceDoc (CeNiN\NamespaceDoc.vb) - feed-forward phase of deep Convolutional Neural Networks > https://github.com/atasoyhus/CeNiN
+- Module SaveModel (CeNiN\SaveModel.vb) - Serializes a <see cref="CeNiN"/> model back into the CeNiN binary file format, the reverse of loading a model with <c>LoadFile</c>.
+- Module Solver (CeNiN\Solver.vb) - High level inference helpers that run a loaded <see cref="CeNiN"/> network over an image and return the ranked class predictions.
+- Class CNNLayerArguments (CNN\CNNLayerArguments.vb) - <para> Deferred creation is necessary because a layer needs the <see cref="data.OutputDefinition"/> of the previous layer at construction time (to derive its own input size), and that object is internal state of the
+- Module CNNLayers (CNN\CNNLayers.vb) - leaky_relu_layer() + softmax_layer() </code>
+- Class ConvolutionalNN (CNN\ConvolutionalNN.vb) - Convolutional neural network (CNN) is a regularized type of feed-forward neural network that learns feature engineering by itself via filters (or kernel) optimization. Vanishing gradients and exploding gradients,
+- Class BackPropResult (CNN\data\BackPropResult.vb) - When we have done a back propagation of the network we will receive a result of weight adjustments required to learn. This result set will contain the data used by the trainer.
+- Class DataBlock (CNN\data\DataBlock.vb) - Holding all the data handled by the network. So a layer will receive this class and return a similar block as a output that will be used by the next layer in the chain.
+- Module NamespaceDoc (CNN\data\NamespaceDoc.vb) - Data containers for the convolutional neural network.
+- Class OutputDefinition (CNN\data\OutputDefinition.vb) - This class will hold the definitions that bridge two layers. So you can set values in one layer and use them in the next layer. @author Daniel Persson (mailto.woden@gmail.com)
+- Class TrainResult (CNN\data\TrainResult.vb) - Created by danielp on 1/27/17.
+- Class Dimension (CNN\Dimension.vb) - The layer dimension data width and height
+- Class LayerBuilder (CNN\LayerBuilder.vb) - Builder that assembles the ordered layer list of a <see cref="ConvolutionalNN"/>. <para> Layers are appended either through the fluent <c>+</c> operator (see <see cref="CNNLayers"/>) or through the
+- Class ConcatLayer (CNN\Layers\ConcatLayer.vb) - 跳跃连接拼接层：把编码器特征图（必要时先中心裁剪）与本层输入沿**通道维**拼接起来。 布局与 <see cref="DataBlock"/> 一致，索引公式为 <c>(SX*y + x)*Depth + depth</c>， 因此拼接是"逐像素把两段通道并排写入"，不涉及任何跨行搬运。
+- Class Conv2DTransposeLayer (CNN\Layers\Conv2DTransposeLayer.vb) - Transposed (de)convolution layer: it upsamples a feature map back to a larger spatial size, with a learnable kernel (U-Net decoder). 参数布局与 <see cref="ConvolutionLayer"/> 完全同构（每个输出通道一个 <see cref="DataBlock"/>
+- Class ConvolutionLayer (CNN\Layers\ConvolutionLayer.vb) - This layer uses different filters to find attributes of the data that affects the result. As an example there could be a filter to find horizontal edges in an image.
+- Class DropoutLayer (CNN\Layers\DropoutLayer.vb) - This layer will remove some random activations in order to defeat over-fitting. @author Daniel Persson (mailto.woden@gmail.com)
+- Class EluLayer (CNN\Layers\EluLayer.vb) - Exponential linear unit activation layer. 本层没有可训练参数，只做逐元素的非线性映射与梯度回传。
+- Class FourierFeatureLayer (CNN\Layers\FourierFeatureLayer.vb) - Based on the paper "Fourier Features Let Networks Learn High Frequency Functions in Low Dimensional Domains" (2020) presented at NeurIPS (https://bmild.github.io/fourfeat/index.html)
+- Class FullyConnectedLayer (CNN\Layers\FullyConnectedLayer.vb) - Neurons in a fully connected layer have full connections to all activations in the previous layer, as seen in regular Neural Networks. Their activations can hence be computed with a matrix multiplication
+- Class GaussianLayer (CNN\Layers\GaussianLayer.vb) - Gaussian activation layer. Each element is transformed by the normal probability density function with a learnable mean and standard deviation, plus a bias: <c>y = N(x; mu, sigma) + b</c>.
+- Class InputLayer (CNN\Layers\InputLayer.vb)
+- Interface Layer (CNN\Layers\Layer.vb) - A convolution neural network is built of layers that the data traverses back and forth in order to predict what the network sees in the data. @author Daniel Persson (mailto.woden@gmail.com)
+- Class LeakyReluLayer (CNN\Layers\LeakyReluLayer.vb) - Leaky rectified linear unit activation: <c>f(x) = x</c> for <c>x &gt; 0</c> and <c>f(x) = leakySlope * x</c> otherwise. The small negative slope keeps the gradient non zero for negative inputs and avoids dead neurons.
+- Class LocalResponseNormalizationLayer (CNN\Layers\LocalResponseNormalizationLayer.vb) - Because ReLU neurons have unbounded activations and we need LRN to normalize that. We want to detect high frequency features with a large response. If we normalize around the local neighborhood of the excited neuron, it becomes even
+- Module NamespaceDoc (CNN\Layers\losslayers\NamespaceDoc.vb) - Loss layers of the convolutional neural network.
+- Class RegressionLayer (CNN\Layers\losslayers\RegressionLayer.vb) - Regression layer is used when your output is an area of data. When you don't have a single class that is the correct activation but you try to find a result set near to your training area.
+- Class SoftMaxLayer (CNN\Layers\losslayers\SoftMaxLayer.vb) - This layer will squash the result of the activations in the fully connected layer and give you a value of 0 to 1 for all output activations. @author Daniel Persson (mailto.woden@gmail.com)
+- Class SVMLayer (CNN\Layers\losslayers\SVMLayer.vb) - This layer uses the input area trying to find a line to separate the correct activation from the incorrect ones. @author Daniel Persson (mailto.woden@gmail.com)
+- Class MaxoutLayer (CNN\Layers\MaxoutLayer.vb)
+- Module NamespaceDoc (CNN\Layers\NamespaceDoc.vb) - Convolutional neural network layer implementations.
+- Class PoolingLayer (CNN\Layers\PoolingLayer.vb) - This layer will reduce the dataset by creating a smaller zoomed out version. In essence you take a cluster of pixels take the sum of them and put the result in the reduced position of the new image.
+- Class RectifiedLinearUnitsLayer (CNN\Layers\RectifiedLinearUnitsLayer.vb) - This is a layer of neurons that applies the non-saturating activation function f(x)=max(0,x). It increases the nonlinear properties of the decision function and of the overall network without affecting the
+- Class SigmoidLayer (CNN\Layers\SigmoidLayer.vb)
+- Class TanhLayer (CNN\Layers\TanhLayer.vb) - Implements Tanh nonlinearity elementwise x to tanh(x) so the output is between -1 and 1. @author Daniel Persson (mailto.woden@gmail.com)
+- Enum LayerTypes (CNN\LayerTypes.vb) - Identifies the kind of a CNN layer; the <see cref="DescriptionAttribute"/> value is the tag persisted in the model file.
+- Module NamespaceDoc (CNN\NamespaceDoc.vb) - The convolutional neural network: the network model together with its data containers, layers, loss layers and trainers.
+- Module PrecisionRouter (CNN\PrecisionRouter.vb) - 卷积族算子在双精度(fp64)与单精度(fp32)之间的路由。 判据完全复用 <see cref="MixedPrecisionPolicy"/>：规模用 <see cref="MixedPrecisionPolicy.Decide"/> 判定，数值安全性用
+- Module ReadModelCNN (CNN\ReadModelCNN.vb) - Deserializes a <see cref="ConvolutionalNN"/> from the CNN binary model format produced by <see cref="SaveModelCNN"/>.
+- Module SaveModelCNN (CNN\SaveModelCNN.vb) - Serializes a <see cref="ConvolutionalNN"/> into the CNN binary model format that is read back by <see cref="ReadModelCNN"/>.
+- Class Trainer (CNN\Trainer.vb)
+- Class AdaDeltaTrainer (CNN\trainers\AdaDeltaTrainer.vb) - Adaptive delta will look at the differences between the expected result and the current result to train the network. @author Daniel Persson (mailto.woden@gmail.com)
+- Class AdaGradTrainer (CNN\trainers\AdaGradTrainer.vb) - The adaptive gradient trainer will over time sum up the square of the gradient and use it to change the weights. @author Daniel Persson (mailto.woden@gmail.com)
+- Class AdamTrainer (CNN\trainers\AdamTrainer.vb)
+- Module NamespaceDoc (CNN\trainers\NamespaceDoc.vb) - Trainers for the convolutional neural network.
+- Class NesterovTrainer (CNN\trainers\NesterovTrainer.vb)
+- Class SGDTrainer (CNN\trainers\SGDTrainer.vb)
+- Class WindowGradTrainer (CNN\trainers\WindowGradTrainer.vb)
+- Module Util (CNN\Util.vb)
+- Class NamespaceDoc (NamespaceDoc.vb) - The deep learning namespace root of the sciBASIC# machine learning framework.
+- Class Network (NeuralNetwork\Models\Network.vb) - Object model for artificial neural network computation. The class uses a fully connected <see cref="ConvolutionalNN"/> as its unified internal compute kernel: forward and backward propagation (including parameter updates) are performed by the CNN kernel. The
+- Module NamespaceDoc (NeuralNetwork\NamespaceDoc.vb) - Feed forward neural network models.
+- Module NetworkKernel (NeuralNetwork\NetworkKernel.vb) - Uses a fully connected <see cref="ConvolutionalNN"/> as the single compute kernel of the NeuralNetwork namespace. The module builds an equivalent fully connected CNN through <see cref="LayerBuilder"/> so that
+- Class NetworkLayerView (NeuralNetwork\NetworkViews.vb) - Read-only view of a single neural network layer (input, hidden or output). The view does not depend on any legacy compute type (Layer/Neuron/Synapse). Its size (<see cref="Count"/>) and last activation vector (<see cref="Output"/>) are derived from the CNN
+- Class HiddenLayersView (NeuralNetwork\NetworkViews.vb) - Read-only view over all hidden layers of a network. The legacy <c>HiddenLayers</c> interface is preserved through <see cref="Count"/> and the indexer, but the view no longer maintains a Layer/Neuron/Synapse data graph internally.
+- Class Netz (NeuralNetwork\Netz.vb) - Feed forward neural network used for regression analysis. This class is a facade over a fully connected <see cref="ConvolutionalNN"/>: forward and backward propagation are both performed by the CNN kernel while the public API of the legacy Netz type is kept
+- Class CharRNN (RNN\CharRNN.vb) - Command line helpers for training, sampling and snapshotting a character level recurrent network. https://github.com/garstka/char-rnn-java
+- Class Math (RNN\math\Math.vb) - Math helper functions
+- Class Random (RNN\math\Random.vb) - Helper functions for randomness.
+- Module NamespaceDoc (RNN\NamespaceDoc.vb) - Recurrent neural networks: the recurrent layers, cells and training helpers.
+- Class Alphabet (RNN\net\Alphabet.vb) - Immutable set of symbols mapped indices.
+- Interface CharacterSampleable (RNN\net\interfaces\CharacterSampleable.vb) - Network that can be sampled for a sequence of characters.
+- Interface IntegerSampleable (RNN\net\interfaces\IntegerSampleable.vb) - Network that can be sampled for a sequence of integer indices.
+- Interface Trainable (RNN\net\interfaces\Trainable.vb) - Trainable neural network.
+- Interface TrainingSet (RNN\net\interfaces\TrainingSet.vb) - Training set for sequences.
+- Class MultiLayerCharLevelRNN (RNN\net\MultiLayerCharLevelRNN.vb)
+- Class MultiLayerRNN (RNN\net\MultiLayerRNN.vb)
+- Class RNNLayer (RNN\net\RNNLayer.vb)
+- Class RNNTrainer (RNN\net\RNNTrainer.vb)
+- Class SingleLayerCharLevelRNN (RNN\net\SingleLayerCharLevelRNN.vb)
+- Class SingleLayerRNN (RNN\net\SingleLayerRNN.vb)
+- Class StringTrainingSet (RNN\net\StringTrainingSet.vb) - Immutable training set for a character level RNN: a block of text together with the alphabet extracted from it.
+- Class Options (RNN\Options.vb) - Application options.
+- Class DecoderLayer (Transformer\DecoderLayer.vb) - One decoder layer: masked self attention, cross attention and a position wise feed forward network, each wrapped in a residual connection and layer normalization. Every sub layer caches its AddNorm statistics and its forward output for the backward pass. Because decoding proceeds
+- Class Cache (Transformer\DecoderLayer.vb) - Forward intermediates of one decode step, required by the backward pass.
+- Class DecoderStack (Transformer\DecoderStack.vb) - A stack of <see cref="DecoderLayer"/> instances, applied one after another. Decoding proceeds token by token and every step overwrites the forward caches of the layers, so <see cref="Decode"/> stores a snapshot of each layer's cache in <see cref="LastCaches"/> for the following backward pass.
+- Class Embedding (Transformer\Embedding.vb) - Use a learned embedding layer to reduce the size of the word embedding space.
+- Class EncoderLayer (Transformer\EncoderLayer.vb) - One encoder layer: multi head self attention followed by a position wise feed forward network, each wrapped in a residual connection and layer normalization. The forward pass caches the AddNorm statistics (mean and inverse standard deviation) of both sub layers and their
+- Class Cache (Transformer\EncoderLayer.vb) - Forward intermediates of one encode pass, required by the backward pass.
+- Class EncoderStack (Transformer\EncoderStack.vb) - A stack of <see cref="EncoderLayer"/> instances, applied one after another. The encoder runs only once per translation, so the forward cache of every layer can be kept on the layer object and the backward pass simply walks the layers in reverse order.
+- Enum FeedForwardActivation (Transformer\FeedForwardNetwork.vb) - 前馈网络的中间层激活类型。
+- Class FeedForwardNetwork (Transformer\FeedForwardNetwork.vb) - Position wise feed forward network: two fully connected layers with an activation in between. Because the tensor runtime has no automatic differentiation, the forward pass caches the pre-activation (the source of the activation mask) and the activation (needed for the W2 gradient); the backward pass accumulates the W1, W2, b1 and b2
+- Class Cache (Transformer\FeedForwardNetwork.vb)
+- Class LayerNormAffine (Transformer\LayerNormAffine.vb) - 可训练的仿射 LayerNorm：<c>y = γ·(x−μ)/sqrt(σ²+eps) + β</c>。 前向缓存均值与 <c>1/sqrt(σ²+eps)</c>；反向按标准公式 <c>dx = invStd·(dx̂ − mean(dx̂) − x̂·mean(dx̂⊙x̂))</c> 回传，
+- Class Cache (Transformer\LayerNormAffine.vb)
+- Class MultiHeadAttention (Transformer\MultiHeadAttention.vb) - Scaled dot product multi head attention, implemented with the hand written operators of <see cref="TensorOps"/> and an explicit backward pass. The forward pass caches the projected Q/K/V tensors, the per head softmax probabilities and the concatenated heads; the
+- Class Cache (Transformer\MultiHeadAttention.vb) - Forward intermediates of the attention computation, required by the backward pass.
+- Module NamespaceDoc (Transformer\NamespaceDoc.vb) - The transformer architecture: attention layers, positional encodings and the transformer model.
+- Class Optimizer (Transformer\Optimizer.vb) - 实现 Adam 优化器（参数 + 同形梯度累加器）。
+- Class OutputLayer (Transformer\OutputLayer.vb) - Produce a flat array with the same dimension as the number of words in the dictionary
+- Class Cache (Transformer\OutputLayer.vb) - Forward intermediates of the output projection, required by the backward pass.
+- Class SequenceDecoderLayer (Transformer\SequenceDecoderLayer.vb) - 序列解码器单层：自注意力 + 交叉注意力 + 前馈网络，三个子层各自「残差 + 仿射 LayerNorm」。
+- Class Cache (Transformer\SequenceDecoderLayer.vb)
+- Class SequenceEncoderLayer (Transformer\SequenceEncoderLayer.vb) - 序列编码器单层：多头自注意力 + 位置前馈网络，两个子层各自「残差 + 仿射 LayerNorm」（post-LN）。
+- Class Cache (Transformer\SequenceEncoderLayer.vb)
+- Class SequenceTransformer (Transformer\SequenceTransformer.vb) - 自编码式序列 Transformer：编码器-解码器共享同一份输入，逐位置输出词表分布。 <para> 前向输入 <c>ids(batch, time)</c>；所有中间张量形状为 <c>[batch, time, hidden]</c>。
+- Module TensorOps (Transformer\TensorOps.vb) - Transformer 迁移辅助算子集合：补齐 <see cref="Tensor"/> 相对旧 AD 张量缺失的 N 维算子，并为每个算子提供显式反向传播实现。
+- Module TensorOpsEx (Transformer\TensorOpsEx.vb) - 面向序列模型的补充算子：GELU、仿射 LayerNorm、逐位置线性层、NLL 损失与多项式采样。
+- Class TokenEmbedding (Transformer\TokenEmbedding.vb) - 词嵌入 + 正弦位置编码。 前向：<c>y[b,t,:] = W[ids[b,t],:] + pe[t,:]</c>，训练时再叠加 dropout。 反向：穿过 dropout 后按 <c>(b,t)</c> 把梯度散射累加回 <c>W</c> 的对应行
+- Class TransformerModel (Transformer\TransformerModel.vb) - Transformer architecture as described in "Attention is all you need" https://github.com/jaksc00p/Transformer/tree/master
+- Class TransformerLoadReport (Transformer\TransformerStateDict.vb) - 一次权重加载的结果：缺失键与多余键。
+- Class TransformerStateDict (Transformer\TransformerStateDict.vb) - <see cref="SequenceTransformer"/> 与 PyTorch <c>state_dict</c> 的互转。 严格模式下缺失键与多余键都会抛异常（与 <c>load_state_dict(strict=True)</c> 一致）； 非严格模式只记录到 <see cref="TransformerLoadReport"/>。
+- Module TextProcessing (Transformer\Utils\TextProcessing.vb) - Text preprocessing helpers used by the translation demo: loading parallel sentence pairs, tokenizing sentences, computing sequence lengths and adding the start / stop markers.
+
+## Notable public members
+- Friend Const CeNiN_FILE_HEADER As String = "CeNiN NEURAL NETWORK FILE"
+- Public ReadOnly Property inputSize As Integer()
+- Public Sub New(path As String)
+- Public Shared Function LoadFile(file As Stream) As CeNiN
+- Public Shared Function LoadFile(br As BinaryReader) As CeNiN
+- Public Overrides Function ToString() As String
+- Friend Shared Function resizeBitmap(b As Bitmap, resizingMethod As ResizingMethod, inputSize As Integer()) As Bitmap
+- Public Overrides ReadOnly Property type As CNN.LayerTypes
+- Public Sub New(inputTensorDims As Integer(), pad As Integer())
+- Public Overloads Sub setOutputDims()
+- Protected Overrides Function layerFeedNext() As Layer
+- Public Overrides ReadOnly Property type As CNN.LayerTypes
+- Public ReadOnly Property resizedInputBmp As Bitmap
+- Public Sub New(inputTensorDims As Integer())
+- Public Overloads Sub setOutputDims()
+- Public Function setInput(input As Bitmap, resizingMethod As ResizingMethod) As Input
+- Protected Overrides Function layerFeedNext() As Layer
+- Public Overrides Function feedNext() As Layer
+- Public MustOverride ReadOnly Property type As CNN.LayerTypes
+- Public ReadOnly Property inputTensorDims As Integer()
+- Public Sub writeNextLayerInput(indexes As Integer(), value As Single)
+- Public Sub New(inputTensorDims As Integer())
+- Public Sub New(inputTensorDims As Integer(), pad As Integer())
+- Public Sub setOutputDims()
+- Public Overrides Function ToString() As String
+- Protected MustOverride Function layerFeedNext() As Layer
+- Public Overridable Function feedNext() As Layer
+- Public Sub inputTensorMemAlloc()
+- Public Sub outputTensorMemAlloc()
+- Protected Sub disposeInputTensor()
+- Public Sub appendNext(nextLayer As Layer)
+- Protected Overridable Sub Dispose(disposing As Boolean)
+- Public Sub Dispose() Implements IDisposable.Dispose
+- Public ReadOnly Property sortedClasses As String()
+- Public ReadOnly Property probabilities As Single()
+- Public Overrides ReadOnly Property type As CNN.LayerTypes
+- Public Sub New(inputTensorDims As Integer(), classes As String())
+- Public Function getDecision() As String
+- Protected Overrides Function layerFeedNext() As Layer
+- Public Overrides Function feedNext() As Layer
+- Public Overrides Function ToString() As String
+- Public Overrides ReadOnly Property type As CNN.LayerTypes
+- Public Sub New(inputTensorDims As Integer(), pad As Integer())
+- Public Overloads Sub setOutputDims()
+- Protected Overrides Function layerFeedNext() As Layer
+- Public Overrides ReadOnly Property type As CNN.LayerTypes
+- Public Sub New(inputTensorDims As Integer())
+- Protected Overrides Function layerFeedNext() As Layer
+- Public Overrides ReadOnly Property type As CNN.LayerTypes
+- Public Sub New(inputTensorDims As Integer())
+- Protected Overrides Function layerFeedNext() As Layer
+- Public Function Save(model As CeNiN, file As Stream) As Boolean
+- Public Function DetectObject(cnn As CeNiN,
+- Public ReadOnly Property Name As String
+- Friend Sub New(name As String, factory As Func(Of LayerBuilder, LayerBuilder))
+- Public Function CreateLayer(builder As LayerBuilder) As LayerBuilder
+- Public Overrides Function ToString() As String
+- Public Function input_layer(size As Integer(), Optional depth As Integer = 1) As CNNLayerArguments
+- Public Function input_layer(dims As Dimension, Optional depth As Integer = 1) As CNNLayerArguments
+- Public Function conv_layer(sx As Integer,
+- ... and 685 more
+
+## Imports
+- Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+- Bitmap = System.Drawing.Bitmap
+- Brush = Microsoft.VisualBasic.Imaging.Brush
+- Brush = System.Drawing.Brush
+- Brushes = Microsoft.VisualBasic.Imaging.Brushes
+- Brushes = System.Drawing.Brushes
+- DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+- DashStyle = System.Drawing.Drawing2D.DashStyle
+- Font = Microsoft.VisualBasic.Imaging.Font
+- Font = System.Drawing.Font
+- FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+- FontStyle = System.Drawing.FontStyle
+- GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+- GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+- Image = Microsoft.VisualBasic.Imaging.Image
+- Image = System.Drawing.Image
+- Layer = Microsoft.VisualBasic.MachineLearning.CNN.layers.Layer
+- Microsoft.VisualBasic.ApplicationServices
+- Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
+- Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
+- Microsoft.VisualBasic.ComponentModel.DataSourceModel
+- Microsoft.VisualBasic.Imaging
+- Microsoft.VisualBasic.Imaging.BitmapImage
+- Microsoft.VisualBasic.Imaging.Driver
+- Microsoft.VisualBasic.Language
+
+## File tree
+- _smoketest\Program.vb
+- CeNiN\CeNiN.vb
+- CeNiN\ImageProcessor.vb
+- CeNiN\Layers\Convolution.vb
+- CeNiN\Layers\Input.vb
+- CeNiN\Layers\Layer.vb
+- CeNiN\Layers\Output.vb
+- CeNiN\Layers\Pool.vb
+- CeNiN\Layers\ReLU.vb
+- CeNiN\Layers\SoftMax.vb
+- CeNiN\NamespaceDoc.vb
+- CeNiN\SaveModel.vb
+- CeNiN\Solver.vb
+- CNN\CNNLayerArguments.vb
+- CNN\CNNLayers.vb
+- CNN\ConvolutionalNN.vb
+- CNN\data\BackPropResult.vb
+- CNN\data\DataBlock.vb
+- CNN\data\NamespaceDoc.vb
+- CNN\data\OutputDefinition.vb
+- CNN\data\TrainResult.vb
+- CNN\DataLink.vb
+- CNN\Dimension.vb
+- CNN\LayerBuilder.vb
+- CNN\Layers\ConcatLayer.vb
+- CNN\Layers\Conv2DTransposeLayer.vb
+- CNN\Layers\ConvolutionLayer.vb
+- CNN\Layers\DropoutLayer.vb
+- CNN\Layers\EluLayer.vb
+- CNN\Layers\FourierFeatureLayer.vb
+- CNN\Layers\FullyConnectedLayer.vb
+- CNN\Layers\GaussianLayer.vb
+- CNN\Layers\InputLayer.vb
+- CNN\Layers\Layer.vb
+- CNN\Layers\LeakyReluLayer.vb
+- CNN\Layers\LocalResponseNormalizationLayer.vb
+- CNN\Layers\losslayers\LossLayer.vb
+- CNN\Layers\losslayers\NamespaceDoc.vb
+- CNN\Layers\losslayers\RegressionLayer.vb
+- CNN\Layers\losslayers\SoftMaxLayer.vb
+- CNN\Layers\losslayers\SVMLayer.vb
+- CNN\Layers\MaxoutLayer.vb
+- CNN\Layers\NamespaceDoc.vb
+- CNN\Layers\PoolingLayer.vb
+- CNN\Layers\RectifiedLinearUnitsLayer.vb
+- CNN\Layers\SigmoidLayer.vb
+- CNN\Layers\TanhLayer.vb
+- CNN\LayerTypes.vb
+- CNN\NamespaceDoc.vb
+- CNN\PrecisionRouter.vb
+- CNN\ReadModelCNN.vb
+- CNN\SaveModelCNN.vb
+- CNN\Trainer.vb
+- CNN\trainers\AdaDeltaTrainer.vb
+- CNN\trainers\AdaGradTrainer.vb
+- CNN\trainers\AdamTrainer.vb
+- CNN\trainers\NamespaceDoc.vb
+- CNN\trainers\NesterovTrainer.vb
+- CNN\trainers\SGDTrainer.vb
+- CNN\trainers\TrainerAlgorithm.vb
+- CNN\trainers\WindowGradTrainer.vb
+- CNN\Util.vb
+- Extensions.vb
+- NamespaceDoc.vb
+- NeuralNetwork\Models\Network.vb
+- NeuralNetwork\NamespaceDoc.vb
+- NeuralNetwork\NetworkKernel.vb
+- NeuralNetwork\NetworkViews.vb
+- NeuralNetwork\Netz.vb
+- RNN\CharRNN.vb
+- RNN\math\Math.vb
+- RNN\math\Random.vb
+- RNN\NamespaceDoc.vb
+- RNN\net\Alphabet.vb
+- RNN\net\BasicRNN.vb
+- RNN\net\CharLevelRNN.vb
+- RNN\net\interfaces\CharacterSampleable.vb
+- RNN\net\interfaces\IntegerSampleable.vb
+- RNN\net\interfaces\Trainable.vb
+- RNN\net\interfaces\TrainingSet.vb
+- RNN\net\MultiLayerCharLevelRNN.vb
+- RNN\net\MultiLayerRNN.vb
+- RNN\net\RNN.vb
+- RNN\net\RNNLayer.vb
+- RNN\net\RNNTrainer.vb
+- RNN\net\SingleLayerCharLevelRNN.vb
+- RNN\net\SingleLayerRNN.vb
+- RNN\net\StringTrainingSet.vb
+- RNN\Options.vb
+- Transformer\DecoderLayer.vb
+- Transformer\DecoderStack.vb
+- Transformer\Embedding.vb
+- Transformer\EncoderLayer.vb
+- Transformer\EncoderStack.vb
+- Transformer\FeedForwardNetwork.vb
+- Transformer\LayerNormAffine.vb
+- Transformer\MultiHeadAttention.vb
+- Transformer\NamespaceDoc.vb
+- Transformer\Optimizer.vb
+- Transformer\OutputLayer.vb
+- Transformer\SequenceDecoderLayer.vb
+- Transformer\SequenceEncoderLayer.vb
+- Transformer\SequenceTransformer.vb
+- Transformer\TensorOps.vb
+- Transformer\TensorOpsEx.vb
+- Transformer\TokenEmbedding.vb
+- Transformer\TransformerModel.vb
+- Transformer\TransformerStateDict.vb
+- Transformer\Utils\TextProcessing.vb
+

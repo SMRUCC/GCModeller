@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Data.BioCyc.compounds</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>compounds {SMRUCC.genomics.Data.BioCyc}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>compounds</h2>
+
+        <h3>Description</h3>
+
+        <p>the compound metabolite data model from the metacyc/biocyc database</p>
+
+<p>The Class Compounds describe small-molecular-weight chemical compounds — typically, compounds that are substrates of metabolic reactions or compounds that activate or inhibit metabolic enzymes.</p>
+
+<p>One of the component in the Class ProtLigandCplxe (Protein-Small-Molecule-Complexes) with class protein</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Data.BioCyc
+export class compounds extends <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/Model.html">Model</a> {
+   abbrevName: string;
+   accession1: string;
+   atomCharges: string;
+   # the net electric charge of current metabolite at the physiological pH
+   charge: double;
+   chemicalFormula: string;
+   citations: string;
+   comment: string;
+   commonName: string;
+   componentCoefficients: string;
+   componentOf: string;
+   # 当前化合物作为聚合物的时候的组成单体列表
+   components: string;
+   credits: string;
+   # cross reference to the external database of current metabolite model
+   dbLinks: string;
+   exactMass: double;
+   Gibbs0: double;
+   goTerms: string;
+   InChI: string;
+   InChIKey: string;
+   inMixture: string;
+   instanceNameTemplate: string;
+   locations: string;
+   logP: double;
+   modifiedForm: string;
+   molecularWeight: double;
+   molecularWeightExp: double;
+   molecularWeightKD: double;
+   molecularWeightSeq: double;
+   nonStandardInChI: string;
+   # the isoelectric point of current metabolite
+   pi: double;
+   pKa1: double;
+   pKa2: double;
+   pKa3: double;
+   regulatedBy: string;
+   regulates: string;
+   SMILES: string;
+   # atom group class
+   superAtoms: string;
+   symmetry: string;
+   synonyms: string;
+   tautomers: string;
+   types: string;
+   uniqueId: string;
+   # the unmodified form of current compound, for the modified compound
+   unmodifiedForm: string;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>this class extends from <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/Model.html">Model</a> class: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/Model.html">Model</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

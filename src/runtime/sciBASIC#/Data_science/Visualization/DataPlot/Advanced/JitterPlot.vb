@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::14a654661fcc1db5e6bd835423c76050, Data_science\Visualization\DataPlot\Advanced\JitterPlot.vb"
+#Region "Microsoft.VisualBasic::2215f8ed850fd536d3b0e2098ad1a450, Data_science\Visualization\DataPlot\Advanced\JitterPlot.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 123
-    '    Code Lines: 98 (79.67%)
-    ' Comment Lines: 14 (11.38%)
-    '    - Xml Docs: 57.14%
+    '   Total Lines: 128
+    '    Code Lines: 101 (78.91%)
+    ' Comment Lines: 15 (11.72%)
+    '    - Xml Docs: 60.00%
     ' 
-    '   Blank Lines: 11 (8.94%)
-    '     File Size: 5.39 KB
+    '   Blank Lines: 12 (9.38%)
+    '     File Size: 5.76 KB
 
 
     ' Class JitterPlot
@@ -48,7 +48,7 @@
     '     Properties: Groups, Horizontal, JitterWidth, MarkerAlpha, MarkerShape
     '                 MarkerSize, RandomSeed
     ' 
-    '     Constructor: (+1 Overloads) Sub New
+    '     Constructor: (+2 Overloads) Sub New
     '     Sub: DrawMarkerAlpha, Plot
     ' 
     ' /********************************************************************************/
@@ -57,6 +57,7 @@
 
 Imports System.Drawing
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
 
 ''' <summary>Jitter 散点图（分组数据在 X 方向随机抖动以避免遮挡）</summary>
 Public Class JitterPlot
@@ -76,11 +77,16 @@ Public Class JitterPlot
     Public Property MarkerAlpha As Integer = 180
     Public Property Horizontal As Boolean = False
 
-    Public Sub New(width As Integer, height As Integer, Optional theme As PlotTheme = Nothing)
-        MyBase.New(width, height, theme)
+    Public Sub New(width As Integer, height As Integer, Optional theme As PlotTheme = Nothing, Optional driver As Microsoft.VisualBasic.Imaging.Driver.Drivers = Microsoft.VisualBasic.Imaging.Driver.Drivers.Default)
+        MyBase.New(width, height, theme, driver)
     End Sub
 
-    Public Sub Plot()
+    ''' <summary>直接在外部提供的绘图设备上绘制（图层叠加模式 / 宿主画布）。</summary>
+    Public Sub New(g As IGraphics, Optional theme As PlotTheme = Nothing)
+        MyBase.New(g, theme)
+    End Sub
+
+    Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
         DrawBackground()
         ComputePlotArea()
         DrawPlotArea()
@@ -88,7 +94,7 @@ Public Class JitterPlot
 
         Dim nGrp = Groups.Count
         ' ---- 全局 Y 范围 ----
-        Dim allData = Groups.SelectMany(Function(g) g.Data).ToArray()
+        Dim allData = Groups.SelectMany(Function(x) x.Data).ToArray()
         Dim ymin = If(Me.YMin, allData.Min())
         Dim ymax = If(Me.YMax, allData.Max())
         Dim pad = (ymax - ymin) * 0.08
@@ -99,7 +105,7 @@ Public Class JitterPlot
 
         ' ---- 坐标轴 ----
         Dim xTicks = Enumerable.Range(0, nGrp).Select(Function(i) CDbl(i)).ToArray()
-        Dim groupNames = Groups.Select(Function(g) g.Name).ToArray()
+        Dim groupNames = Groups.Select(Function(x) x.Name).ToArray()
         If Horizontal Then
             Dim yTicks = Enumerable.Range(0, nGrp).Select(Function(i) CDbl(i)).ToArray()
             DrawAxisAndGrid(ymin, ymax, -0.5, nGrp - 0.5,
@@ -114,9 +120,9 @@ Public Class JitterPlot
         Dim jitterPx = groupWidth * JitterWidth
 
         For i = 0 To nGrp - 1
-            Dim g = Groups(i)
-            Dim color = If(g.Color, Theme.Palette(i Mod Theme.Palette.Length))
-            For Each v In g.Data
+            Dim grp = Groups(i)
+            Dim color = If(grp.Color, Theme.Palette(i Mod Theme.Palette.Length))
+            For Each v In grp.Data
                 Dim offset = (rnd.NextDouble() * 2 - 1) * jitterPx
                 If Horizontal Then
                     ' X=数值, Y=组中心+抖动

@@ -90,6 +90,42 @@ Namespace v2
 
         Public Property note As String
 
+        ''' <summary>
+        ''' 当前代谢通路所属的功能分类
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property category As String
+
+        ''' <summary>
+        ''' 当前代谢通路的上级通路编号
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlElement("superPathway")> Public Property superPathways As String()
+
+        ''' <summary>
+        ''' 当前代谢通路的下级通路编号
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlElement("subPathway")> Public Property subPathways As String()
+
+        ''' <summary>
+        ''' 当前代谢通路的交叉引用编号列表
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlElement("db_xref")> Public Property dbLinks As String()
+
+        ''' <summary>
+        ''' 推断属于当前通路但是实际上并不参与的酶
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlElement("enzymeNotUsed")> Public Property enzymesNotUsed As String()
+
+        ''' <summary>
+        ''' 当前代谢通路所属的BioCyc类的编号
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property classId As String
+
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToString() As String
             Return $"[{ID}] {name} with {reactions.Length} reactions"

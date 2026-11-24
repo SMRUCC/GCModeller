@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::47ce05ab7d1f0d93d6141c042f8d2245, mime\text%html\Render\CSS\CssPropertyAttribute.vb"
+﻿#Region "Microsoft.VisualBasic::dc03f34a575b40b9c8f7182d82292ab7, mime\text%html\Render\CSS\CssPropertyAttribute.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 26
-    '    Code Lines: 11 (42.31%)
-    ' Comment Lines: 11 (42.31%)
+    '   Total Lines: 28
+    '    Code Lines: 12 (42.86%)
+    ' Comment Lines: 11 (39.29%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 4 (15.38%)
-    '     File Size: 782 B
+    '   Blank Lines: 5 (17.86%)
+    '     File Size: 823 B
 
 
     '     Class CssPropertyAttribute
@@ -54,6 +54,8 @@
     ' /********************************************************************************/
 
 #End Region
+
+Imports Microsoft.VisualBasic.Imaging
 
 Namespace Render.CSS
 

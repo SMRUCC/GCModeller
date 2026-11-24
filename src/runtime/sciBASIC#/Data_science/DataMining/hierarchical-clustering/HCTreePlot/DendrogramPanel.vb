@@ -1,66 +1,66 @@
-﻿#Region "Microsoft.VisualBasic::cb5de02a0583d1861dc728c32b9abddf, Data_science\DataMining\hierarchical-clustering\HCTreePlot\DendrogramPanel.vb"
+﻿#Region "Microsoft.VisualBasic::090c7c32291450074749722c7bc9b634, Data_science\DataMining\hierarchical-clustering\HCTreePlot\DendrogramPanel.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-    ' /********************************************************************************/
-
-    ' Summaries:
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-    ' Code Statistics:
 
-    '   Total Lines: 62
-    '    Code Lines: 45 (72.58%)
-    ' Comment Lines: 8 (12.90%)
-    '    - Xml Docs: 100.00%
-    ' 
-    '   Blank Lines: 9 (14.52%)
-    '     File Size: 2.32 KB
+' /********************************************************************************/
+
+' Summaries:
 
 
-    ' Class DendrogramPanel
-    ' 
-    '     Properties: classinfo
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: GetColor
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 62
+'    Code Lines: 45 (72.58%)
+' Comment Lines: 8 (12.90%)
+'    - Xml Docs: 100.00%
+' 
+'   Blank Lines: 9 (14.52%)
+'     File Size: 2.30 KB
+
+
+' Class DendrogramPanel
+' 
+'     Properties: classinfo
+' 
+'     Constructor: (+1 Overloads) Sub New
+'     Function: GetColor
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Drawing
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
-Imports Microsoft.VisualBasic.DataMining.ComponentModel.Encoder
+Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.Data.Plots.Canvas
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Html.CSS
-Imports Chart = Microsoft.VisualBasic.Data.ChartPlots.Graphic.Plot
+Imports Chart = Microsoft.VisualBasic.Data.Plots.Canvas.Plot
 
 Public MustInherit Class DendrogramPanel : Inherits Chart
 

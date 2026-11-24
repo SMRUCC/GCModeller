@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.HTS.DataFrame.MatrixViewer</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>MatrixViewer {SMRUCC.genomics.Analysis.HTS.DataFrame}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>MatrixViewer</h2>
+
+        <h3>Description</h3>
+
+        <p>the abstract viewer model of the in-memory matrix object and the huge binary matrix file</p>
+
+<p>这里定义了"矩阵视图"的最小契约：既可以被内存之中的 <a href="cref:T:SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix">Matrix</a> 实现 （<a href="cref:T:SMRUCC.genomics.Analysis.HTS.DataFrame.HTSMatrixViewer">HTSMatrixViewer</a>），也可以被磁盘上的超大型二进制文件实现 （<a href="cref:T:SMRUCC.genomics.Analysis.HTS.DataFrame.HTSMatrixReader">HTSMatrixReader</a>），上层算法只依赖本抽象即可在"全内存"与 "按需读取"之间自由切换。</p>
+
+<p>新增的 <a href="cref:M:SMRUCC.genomics.Analysis.HTS.DataFrame.MatrixViewer.GetRow(System.Int32)">MatrixViewer.GetRow()</a>、<a href="cref:M:SMRUCC.genomics.Analysis.HTS.DataFrame.MatrixViewer.GetRows(System.Int32,System.Int32)">MatrixViewer.GetRows()</a>、 <a href="cref:M:SMRUCC.genomics.Analysis.HTS.DataFrame.MatrixViewer.Rows">MatrixViewer.Rows()</a>、<a href="cref:M:SMRUCC.genomics.Analysis.HTS.DataFrame.MatrixViewer.GetSample(System.Int32)">MatrixViewer.GetSample()</a> 都以可覆盖的默认实现提供 （默认实现退化为逐基因查询），因此既有的子类不会被破坏， 而随机访问型的实现可以覆盖它们拿到 O(1) 或 O(块) 的性能。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.HTS.DataFrame
+export class MatrixViewer {
+   # 当前视图是否支持按行号随机访问？
+   CanRandomAccess: boolean;
+   # get gene row features name
+   FeatureIDs: <a href="/vignettes/clr/System/String.html">iterates(String)</a>;
+   SampleIDs: <a href="/vignettes/clr/System/String.html">iterates(String)</a>;
+   Size: tuple[integer, integer];
+   tag: string;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>FeatureIDs</code>: <a href="/vignettes/clr/System/String.html">iterates(String)</a></li>
+<li>use by <i>property</i> member <code>SampleIDs</code>: <a href="/vignettes/clr/System/String.html">iterates(String)</a></li>
+<li>use by <i>property</i> member <code>Size</code>: tuple[integer, integer]</li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

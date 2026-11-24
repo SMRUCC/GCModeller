@@ -5,7 +5,7 @@
     <TargetFrameworks>net10.0</TargetFrameworks>
     <Platforms>AnyCPU;x64</Platforms>
     <Configurations>Debug;Release;Rsharp_app_release;nuget_release</Configurations>
-    <OutputPath>../../pkg/assembly/</OutputPath>
+    <OutputPath>../../../../assembly/</OutputPath>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <Title>GCModeller knowledgebase toolkit</Title>
     <Authors>xieguigang</Authors>
@@ -62,6 +62,7 @@
     <RemoveIntegerChecks>True</RemoveIntegerChecks>
     <DebugType>full</DebugType>
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <Optimize>true</Optimize>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-windows|AnyCPU'">

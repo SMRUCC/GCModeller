@@ -63,6 +63,8 @@
 #End Region
 
 Imports Microsoft.VisualBasic.MachineLearning.XGBoost.util
+Imports Microsoft.VisualBasic.MachineLearning.XGBoost.train.kernels
+Imports sysmath = System.Math
 
 Namespace gbm
 
@@ -88,12 +90,12 @@ Namespace gbm
 
         Public Overrides Function predict(feat As FVec, ntree_limit As Integer) As Double()
             Dim preds = New Double(mparam.num_output_group - 1) {}
-            Dim gid = 0
 
-            While gid < mparam.num_output_group
+            ' 旧实现在自增局部变量时使用 Interlocked.Increment：每特征一次完整内存屏障，
+            ' 直接把线性 booster 的评分成本抬高一个量级。
+            For gid As Integer = 0 To preds.Length - 1
                 preds(gid) = pred(feat, gid)
-                Threading.Interlocked.Increment(gid)
-            End While
+            Next
 
             Return preds
         End Function
@@ -107,25 +109,44 @@ Namespace gbm
         End Function
 
         Friend Overridable Function pred(feat As FVec, gid As Integer) As Double
+            ' 稠密 Single 向量 + 单输出组：权重按 fid 连续存放，可整段 SIMD 点积
+            Dim dense As Single() = denseValues(feat)
+
+            If dense IsNot Nothing AndAlso mparam.num_output_group = 1 AndAlso gid = 0 Then
+                Dim n As Integer = sysmath.Min(mparam.num_feature, dense.Length)
+
+                Return bias(0) + SimdOps.DotSingle(dense, weights, n)
+            End If
+
             Dim psum As Double = bias(gid)
             Dim featValue As Double
-            Dim fid = 0
 
-            While fid < mparam.num_feature
+            For fid As Integer = 0 To mparam.num_feature - 1
                 featValue = feat.fvalue(fid)
 
                 If Not Double.IsNaN(featValue) Then
                     psum += featValue * weight(fid, gid)
                 End If
-
-                Threading.Interlocked.Increment(fid)
-            End While
+            Next
 
             Return psum
         End Function
 
         Public Overrides Function predictLeaf(feat As FVec, ntree_limit As Integer) As Integer()
             Throw New NotSupportedException("gblinear does not support predict leaf index")
+        End Function
+
+        ''' <summary>
+        ''' 取稠密向量实现背后的原始数组（稀疏映射实现返回 <c>Nothing</c>）
+        ''' </summary>
+        Private Shared Function denseValues(feat As FVec) As Single()
+            Dim impl = TryCast(feat, FVecArray.FVecFloatArrayImpl)
+
+            If impl Is Nothing Then
+                Return Nothing
+            End If
+
+            Return impl.values
         End Function
 
         Friend Overridable Function weight(fid As Integer, gid As Integer) As Single

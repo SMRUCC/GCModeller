@@ -8,24 +8,40 @@ Namespace Model
     ''' <summary>
     ''' 语义编码器 <c>Enc(x_0) → z_sem</c>（VAE 形式）。
     '''
-    ''' 结构：<c>Linear → Act → [BatchNorm → Act → Linear] × blocks</c> 组成的共享主干，
-    ''' 末端分出两个线性头分别预测 <c>μ</c> 与 <c>log σ²</c>。
+    ''' 结构（对应 README 第四节"采用条件批归一化 + 残差连接结构的 MLP"）：
+    ''' <code>
+    ''' h    = Act(Linear_in(x_0))              ' geneCount → hidden
+    ''' h    = EncoderResidualBlock₁(h[, cond]) ' 残差块，块内为（条件）批归一化
+    ''' ...
+    ''' h    = EncoderResidualBlockₙ(h[, cond])
+    ''' μ     = Linear_mu(h)                    ' hidden → SemanticDim
+    ''' logσ² = Linear_logVar(h)                ' hidden → SemanticDim
+    ''' </code>
+    '''
     ''' 训练时按 <c>z = μ + σ ⊙ ε</c> 重参数化采样，推理时取 <c>μ</c>（确定性），
     ''' 从而让 <c>Δz_sem = z_sem^pert − z_sem^ctrl</c> 的向量算术稳定可复现。
     '''
     ''' <c>z_sem</c> 携带细胞类型 / 状态 / 扰动等**高层语义**，作为条件去噪网络的显式条件
     ''' （经条件批归一化注入），决定生成的"内容"。
+    '''
+    ''' 关于 <see cref="SquiiffConfig.EncoderConditioned"/>：默认 False，即编码侧用普通批归一化。
+    ''' 若编码侧也以扰动标签为条件，<c>Δz</c> 会出现标签泄漏、破坏隐空间向量算术的可解释性；
+    ''' 该开关仅用于对比实验（置 True 后需通过 <see cref="Forward(Tensor, Boolean, Tensor)"/>
+    ''' 传入 <c>[B, EncoderConditionDim]</c> 的条件向量）。
     ''' </summary>
     Public Class SemanticEncoder
         Implements IParameterized
 
         Private ReadOnly _config As SquiiffConfig
-        Private ReadOnly _body As Sequential
+        Private ReadOnly _fcIn As Linear
+        Private ReadOnly _blocks As EncoderResidualBlock()
         Private ReadOnly _muHead As Linear
         Private ReadOnly _logVarHead As Linear
         Private ReadOnly _params As Parameter()
         Private ReadOnly _rng As Random
+        Private ReadOnly _activation As ActivationKind
 
+        Private _preActivationIn As Tensor
         Private _bodyOutput As Tensor
         Private _mu As Tensor
         Private _logVar As Tensor
@@ -37,24 +53,33 @@ Namespace Model
 
             Me._config = config
             Me._rng = rng
+            Me._activation = config.Activation
 
             Dim hidden = config.EncoderHiddenDim
+            Dim conditionDim = If(config.EncoderConditioned, config.EncoderConditionDim, 0)
 
-            Me._body = New Sequential("encoder.body")
-            Call Me._body.Add(New Linear("encoder.fcIn", geneCount, hidden))
-            Call Me._body.Add(New ActivationLayer("encoder.actIn", config.Activation))
+            Me._fcIn = New Linear("encoder.fcIn", geneCount, hidden)
 
-            For i As Integer = 0 To config.EncoderBlocks - 1
-                Call Me._body.Add(New BatchNorm($"encoder.bn{i}", hidden))
-                Call Me._body.Add(New ActivationLayer($"encoder.act{i}", config.Activation))
-                Call Me._body.Add(New Linear($"encoder.fc{i}", hidden, hidden))
+            ReDim Me._blocks(config.EncoderBlocks - 1)
+            For i As Integer = 0 To Me._blocks.Length - 1
+                Me._blocks(i) = New EncoderResidualBlock(
+                    $"encoder.block{i}", hidden, hidden,
+                    activation:=config.Activation,
+                    conditioned:=config.EncoderConditioned,
+                    conditionDim:=conditionDim)
             Next
 
             Me._muHead = New Linear("encoder.mu", hidden, config.SemanticDim)
             Me._logVarHead = New Linear("encoder.logVar", hidden, config.SemanticDim)
 
-            Me._params = ParameterGroups.FlattenMany(
-                New IParameterized() {Me._body, Me._muHead, Me._logVarHead})
+            Dim items As New List(Of IParameterized) From {Me._fcIn}
+            items.AddRange(Me._blocks)
+            items.Add(Me._muHead)
+            items.Add(Me._logVarHead)
+
+            Me._params = ParameterGroups.FlattenMany(items)
+
+            Call ApplyInferenceNormalizationMode()
         End Sub
 
         Public ReadOnly Property Parameters As IEnumerable(Of Parameter) Implements IParameterized.Parameters
@@ -62,6 +87,31 @@ Namespace Model
                 Return _params
             End Get
         End Property
+
+        ''' <summary>残差块个数。</summary>
+        Public ReadOnly Property BlockCount As Integer
+            Get
+                Return _blocks.Length
+            End Get
+        End Property
+
+        ''' <summary>全部残差块内的归一化层（存档滑动统计量用，层名全局唯一）。</summary>
+        Public ReadOnly Property Normalizations As IReadOnlyList(Of IRunningStatistics)
+            Get
+                Dim bag As New List(Of IRunningStatistics)
+                For Each block In _blocks
+                    bag.AddRange(block.Normalizations)
+                Next
+                Return bag
+            End Get
+        End Property
+
+        ''' <summary>把 <see cref="SquiiffConfig.UseBatchStatsAtInference"/> 同步到全部残差块的归一化层。</summary>
+        Public Sub ApplyInferenceNormalizationMode()
+            For Each block In _blocks
+                Call block.SetUseBatchStatsAtInference(_config.UseBatchStatsAtInference)
+            Next
+        End Sub
 
         ''' <summary>最近一次前向得到的 <c>μ</c>（<c>[B,dz]</c>）。</summary>
         Public ReadOnly Property LastMean As Tensor
@@ -82,9 +132,24 @@ Namespace Model
         ''' <paramref name="training"/> 为 False 时忽略重参数化，直接返回 <c>μ</c>。
         ''' </summary>
         Public Function Forward(x0 As Tensor, training As Boolean) As Tensor
-            Me._bodyOutput = Me._body.Forward(x0, training)
-            Me._mu = Me._muHead.Forward(Me._bodyOutput, training)
-            Me._logVar = Me._logVarHead.Forward(Me._bodyOutput, training)
+            Return Forward(x0, training, Nothing)
+        End Function
+
+        ''' <summary>
+        ''' 带条件向量的前向（<see cref="SquiiffConfig.EncoderConditioned"/> 为 True 时才有意义）。
+        ''' </summary>
+        ''' <param name="cond">条件向量 <c>[B, EncoderConditionDim]</c>；为 Nothing 时取全零（退化为非条件）。</param>
+        Public Function Forward(x0 As Tensor, training As Boolean, cond As Tensor) As Tensor
+            Me._preActivationIn = Me._fcIn.Forward(x0, training)
+            Dim h = Activations.Forward(_activation, Me._preActivationIn)
+
+            For Each block In _blocks
+                h = block.Forward(h, cond, training)
+            Next
+
+            Me._bodyOutput = h
+            Me._mu = Me._muHead.Forward(h, training)
+            Me._logVar = Me._logVarHead.Forward(h, training)
 
             If _config.UseReparameterization AndAlso training Then
                 Me._eps = TensorUtil.StandardNormal(Me._mu.Shape, _rng)
@@ -142,8 +207,17 @@ Namespace Model
             End If
 
             ' 3) 经两个线性头回到共享主干
-            Dim dBody = Me._muHead.Backward(dMu) + Me._logVarHead.Backward(dLogVar)
-            Call Me._body.Backward(dBody)
+            Dim d = Me._muHead.Backward(dMu) + Me._logVarHead.Backward(dLogVar)
+
+            ' 4) 逆序穿过残差块
+            For i As Integer = Me._blocks.Length - 1 To 0 Step -1
+                Dim dCond As Tensor = Nothing
+                d = Me._blocks(i).Backward(d, dCond)
+                ' 编码侧的条件向量由调用方以元数据形式提供（不可训练），梯度到此终止
+            Next
+
+            d = Activations.Backward(_activation, Me._preActivationIn, d)
+            Call Me._fcIn.Backward(d)
         End Sub
     End Class
 End Namespace

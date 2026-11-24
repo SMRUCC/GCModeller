@@ -1,0 +1,506 @@
+Imports System.Globalization
+Imports System.IO
+Imports System.Text
+Imports Microsoft.VisualBasic.Linq
+
+Namespace GRNDemo
+
+    ''' <summary>
+    ''' The command line options of the SGrid GRN demo.
+    ''' (SGrid 基因调控网络演示程序的命令行参数)
+    ''' </summary>
+    Public Class DemoOptions
+
+        ''' <summary>
+        ''' pseudotime 排序之后的基因表达矩阵（行是基因、列是细胞）
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property MatrixFile As String = "K:\hsa_grn\20261025\outputs\pseudotime_ordered_expression_matrix.csv"
+        ''' <summary>
+        ''' 细胞到 pseudotime 的映射表
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property MappingFile As String = "K:\hsa_grn\20261025\outputs\cell_pseudotime_mapping.csv"
+        ''' <summary>
+        ''' 先验调控网络表
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property PriorFile As String = "G:\vcc2026\data\TF_target_prior_curated.csv"
+        ''' <summary>
+        ''' 全部产物的输出文件夹
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property OutDir As String = "K:\hsa_grn\20261025\outputs\sgrid_demo"
+
+        ''' <summary>
+        ''' 子集矩阵之中需要提取的基因数量
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property ExtractGenes As Integer = 200
+        ''' <summary>
+        ''' 最终参与拟合的基因数量
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property FitGenes As Integer = 30
+        ''' <summary>
+        ''' pseudotime 的分箱数量
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Bins As Integer = 60
+
+        ''' <summary>
+        ''' 表达矩阵的归一化方法：none / log2 / zscore / quantile
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Normalize As String = "log2"
+        ''' <summary>
+        ''' 稀疏化阈值
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' 真实的单细胞 pseudotime 数据经过分箱与对数变换之后动态范围被压缩，
+        ''' 净调控弹性的量级通常在 1E-2 附近（而非合成的金标准数据上的 0.5），
+        ''' 故这里的缺省阈值取得比库的缺省值（0.2）小很多。
+        ''' </remarks>
+        Public Property Sparsity As Double = 0.01R
+        ''' <summary>
+        ''' 每一个靶基因最多保留的调控边数量
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property MaxEdgesPerGene As Integer = 4
+        ''' <summary>
+        ''' 数值微分之前的滑动平均窗口（奇数）
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Smooth As Integer = 9
+        ''' <summary>
+        ''' 动力学阶的 L1 稀疏惩罚权重
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property L1Penalty As Double = 0
+        ''' <summary>
+        ''' 稳定性的自环惩罚权重
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property StabilityPenalty As Double = 0.05R
+        ''' <summary>
+        ''' 每一个靶基因预筛选的候选调控因子数量（按相关性挑选）；零表示使用全部基因
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property MaxRegulators As Integer = 0
+        ''' <summary>
+        ''' 差分进化的种群大小
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' 与 <see cref="DEStagnation"/> 一起决定了差分进化的评估次数：
+        ''' 实测种群 80、停滞阈值 300 代时，600 基因 × 80 箱的拟合从 108s 降到 29s，
+        ''' 而 R² 中位数不降（0.703 → 0.707）
+        ''' </remarks>
+        Public Property DEPopulation As Integer = 80
+        ''' <summary>
+        ''' 差分进化的最大迭代次数
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property DEIterations As Integer = 2000
+        ''' <summary>
+        ''' 差分进化的停滞代数上限（连续多少代没有实质改进就提前结束；零表示跑满迭代数）
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property DEStagnation As Integer = 300
+        ''' <summary>
+        ''' 先验知识对非先验交互的软惩罚强度
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' 在这批数据之上取 1.0 时先验支持率与方向一致率都比较理想；
+        ''' 该系数越大则网络越贴近先验，但斜率残差也会随之上升
+        ''' （实测 1.5 时先验支持率不再提升，而 mean slope RMSE 由 0.10 升到 0.105）
+        ''' </remarks>
+        Public Property PriorPenalty As Double = 0.2R
+        ''' <summary>
+        ''' 先验知识对调控方向冲突的惩罚强度
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property PriorSignPenalty As Double = 0.2R
+        ''' <summary>
+        ''' 稀疏化阶段对先验支持边的排序加权系数
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property PriorRankBoost As Double = 1.0R
+        ''' <summary>
+        ''' 是否输出拟合过程的性能剖析信息
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Profile As Boolean = False
+        ''' <summary>
+        ''' 是否直接从原始表达矩阵流式分箱（不落盘子集 CSV，也不把整个矩阵载入内存）
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Stream As Boolean = False
+        ''' <summary>
+        ''' 随机数种子
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Seed As Integer = 1234567
+        ''' <summary>
+        ''' 仿真积分的步长
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Precise As Double = 0.1R
+        ''' <summary>
+        ''' 虚拟扰动实验之中需要检验的枢纽基因数量
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Hubs As Integer = 5
+        ''' <summary>
+        ''' 并行计算的线程上限；零表示使用运行时的默认值（逻辑核数）。
+        ''' 同时作用于数值微分与逐基因参数拟合
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Threads As Integer = 0
+        ''' <summary>
+        ''' slope-bench 命令所使用的合成基因数量（默认与完整的表达矩阵一致）
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property BenchGenes As Integer = 18179
+        ''' <summary>
+        ''' slope-bench 命令所使用的合成时间点数量
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property BenchPoints As Integer = 121
+        ''' <summary>
+        ''' zip-bench 命令所合成的每一行候选调控因子数量
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property BenchCandidates As Integer = 8
+        ''' <summary>
+        ''' 必须被包含进子网的基因清单（例如敲降实验的目标基因列表，每行一个基因符号）
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property MustIncludeFile As String = ""
+        ''' <summary>
+        ''' 作为 ODE 积分初值的 pseudobulk context 表格（列：gene_name,gene_id,mean_counts）；
+        ''' 可以是单个文件，也可以是包含多个 panel 的文件夹（每个 csv 视为一个 panel）
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property ContextFile As String = ""
+        ''' <summary>
+        ''' 敲降实验的目标基因清单（每行一个基因符号）；为空的时候使用 <see cref="MustIncludeFile"/>
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property PertFile As String = ""
+        ''' <summary>
+        ''' 敲降幅度：0.8 表示把目标基因的表达活性降低 80%（剩余 20%）
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Knockdown As Double = 0.8R
+        ''' <summary>
+        ''' 扰动开始的时间点占仿真总时长的比例
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property ContextStart As Double = 0.1R
+        ''' <summary>
+        ''' context 仿真所使用的积分步长（为了在几百个敲降目标之上快速跑完，通常比拟合时更粗）
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property ContextPrecise As Double = 0.5R
+        ''' <summary>
+        ''' context 仿真之中最多处理的敲降目标数量；零表示全部处理
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property ContextTargets As Integer = 0
+        ''' <summary>
+        ''' context 仿真的积分时长（pseudotime 单位）；零表示使用时间轴的终点。
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' 由 pseudotime 拟合出来的 S-system 只在训练轨迹的邻域之内有效，
+        ''' 换到差异很大的样本环境之下时，某些基因的正反馈会让积分在几个时间单位之内发散
+        ''' （实测 control 在 t≈8 就溢出了），故这里使用一个较短的仿真窗口
+        ''' </remarks>
+        Public Property ContextTime As Double = 5.0R
+        ''' <summary>
+        ''' context 仿真结果的有效上界：超过该数值的状态视为积分发散的记录，直接丢弃
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property ContextMaxLevel As Double = 100.0R
+        ''' <summary>
+        ''' 是否是并行执行拟合
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Parallel As Boolean = True
+        ''' <summary>
+        ''' 是否静默执行
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Quiet As Boolean = False
+        ''' <summary>
+        ''' 是否忽略子集矩阵与基因清单的缓存，强制重新扫描表达矩阵
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Force As Boolean = False
+        ''' <summary>
+        ''' 需要执行的子命令
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Command As String = "all"
+
+        ''' <summary>
+        ''' 子集矩阵文件的路径
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property SubsetFile As String
+            Get
+                Return Path.Combine(OutDir, "subset_expression_matrix.csv")
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' 子集基因清单文件的路径
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property SubsetGeneFile As String
+            Get
+                Return Path.Combine(OutDir, "subset_genes.txt")
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' 表达矩阵基因清单的缓存文件路径
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property MatrixGeneFile As String
+            Get
+                Return Path.Combine(OutDir, "matrix_genes.txt")
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' 分箱之后的表达矩阵文件路径
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property BinnedFile As String
+            Get
+                Return Path.Combine(OutDir, "binned_expression_matrix.csv")
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' 拟合模型压缩包的路径
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property ModelZipFile As String
+            Get
+                Return Path.Combine(OutDir, "sgrid_network.zip")
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' 虚拟扰动实验的产物文件夹
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property PerturbDir As String
+            Get
+                Return Path.Combine(OutDir, "perturb")
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' 拟合产物（表格与模型脚本）的文件夹
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property FitDir As String
+            Get
+                Return Path.Combine(OutDir, "fit")
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' 解析命令行参数
+        ''' </summary>
+        ''' <param name="args"></param>
+        ''' <returns></returns>
+        Public Shared Function Parse(args As String()) As DemoOptions
+            Dim options As New DemoOptions()
+            Dim values As New Dictionary(Of String, String)(StringComparer.OrdinalIgnoreCase)
+            Dim flags As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)
+            Dim i As Integer = 0
+
+            If args.IsNullOrEmpty Then
+                Return options
+            End If
+
+            While i < args.Length
+                Dim arg As String = If(args(i), "").Trim()
+
+                If String.IsNullOrEmpty(arg) Then
+                    i += 1
+                    Continue While
+                End If
+
+                If arg.StartsWith("--", StringComparison.Ordinal) Then
+                    Dim key As String = arg.Substring(2)
+
+                    If i + 1 < args.Length AndAlso Not If(args(i + 1), "").StartsWith("--", StringComparison.Ordinal) Then
+                        values(key) = args(i + 1)
+                        i += 2
+                    Else
+                        Call flags.Add(key)
+                        i += 1
+                    End If
+                ElseIf arg.StartsWith("-", StringComparison.Ordinal) AndAlso arg.Length = 2 Then
+                    Call flags.Add(arg.Substring(1))
+                    i += 1
+                Else
+                    options.Command = arg.ToLowerInvariant()
+                    i += 1
+                End If
+            End While
+
+            options.MatrixFile = textOf(values, "matrix", options.MatrixFile)
+            options.MappingFile = textOf(values, "mapping", options.MappingFile)
+            options.PriorFile = textOf(values, "prior", options.PriorFile)
+            options.OutDir = textOf(values, "out", options.OutDir)
+            options.ExtractGenes = integerOf(values, "extract-genes", options.ExtractGenes)
+            options.FitGenes = integerOf(values, "fit-genes", options.FitGenes)
+            options.Bins = integerOf(values, "bins", options.Bins)
+            options.Normalize = textOf(values, "normalize", options.Normalize)
+            options.Sparsity = doubleOf(values, "sparsity", options.Sparsity)
+            options.MaxEdgesPerGene = integerOf(values, "max-edges", options.MaxEdgesPerGene)
+            options.MaxRegulators = integerOf(values, "max-regulators", options.MaxRegulators)
+            options.Smooth = integerOf(values, "smooth", options.Smooth)
+            options.L1Penalty = doubleOf(values, "l1", options.L1Penalty)
+            options.StabilityPenalty = doubleOf(values, "stability", options.StabilityPenalty)
+            options.DEPopulation = integerOf(values, "de-pop", options.DEPopulation)
+            options.DEIterations = integerOf(values, "de-iters", options.DEIterations)
+            options.DEStagnation = integerOf(values, "de-stagnation", options.DEStagnation)
+            options.PriorPenalty = doubleOf(values, "prior-penalty", options.PriorPenalty)
+            options.PriorSignPenalty = doubleOf(values, "prior-sign-penalty", options.PriorSignPenalty)
+            options.PriorRankBoost = doubleOf(values, "prior-rank-boost", options.PriorRankBoost)
+            options.Profile = flags.Contains("profile")
+            options.Stream = flags.Contains("stream")
+            options.Seed = integerOf(values, "seed", options.Seed)
+            options.Precise = doubleOf(values, "precise", options.Precise)
+            options.Hubs = integerOf(values, "hubs", options.Hubs)
+            options.Threads = integerOf(values, "threads", options.Threads)
+            options.BenchGenes = integerOf(values, "bench-genes", options.BenchGenes)
+            options.BenchPoints = integerOf(values, "bench-points", options.BenchPoints)
+            options.BenchCandidates = integerOf(values, "bench-candidates", options.BenchCandidates)
+            options.MustIncludeFile = textOf(values, "must-include", options.MustIncludeFile)
+            options.ContextFile = textOf(values, "context", options.ContextFile)
+            options.PertFile = textOf(values, "pert", options.PertFile)
+            options.Knockdown = doubleOf(values, "knockdown", options.Knockdown)
+            options.ContextStart = doubleOf(values, "context-start", options.ContextStart)
+            options.ContextPrecise = doubleOf(values, "context-precise", options.ContextPrecise)
+            options.ContextTargets = integerOf(values, "context-targets", options.ContextTargets)
+            options.ContextTime = doubleOf(values, "context-time", options.ContextTime)
+            options.ContextMaxLevel = doubleOf(values, "context-max-level", options.ContextMaxLevel)
+            options.Parallel = Not flags.Contains("serial")
+            options.Quiet = flags.Contains("quiet") OrElse flags.Contains("q")
+            options.Force = flags.Contains("force")
+
+            Return options
+        End Function
+
+        ''' <summary>
+        ''' 命令行的用法说明
+        ''' </summary>
+        ''' <returns></returns>
+        Public Shared ReadOnly Property Usage As String
+            Get
+                Dim sb As New StringBuilder()
+
+                Call sb.AppendLine("SGrid gene regulatory network demo")
+                Call sb.AppendLine()
+                Call sb.AppendLine("usage: test [command] [options]")
+                Call sb.AppendLine()
+                Call sb.AppendLine("commands:")
+                Call sb.AppendLine("  all       extract -> fit -> persist -> perturb (default)")
+                Call sb.AppendLine("  extract   only export the gene subset matrix from the huge expression matrix")
+                Call sb.AppendLine("  fit       extract (if needed), fit the network and persist the model zip archive")
+                Call sb.AppendLine("  persist   reload the model zip archive and verify it round trip")
+                Call sb.AppendLine("  perturb   run the virtual perturbation screening on the saved model")
+                Call sb.AppendLine("  selftest  run the built in 3 genes golden standard self test")
+                Call sb.AppendLine("  help      show this message")
+                Call sb.AppendLine()
+                Call sb.AppendLine("options:")
+                Call sb.AppendLine("  --matrix <file>          pseudotime ordered expression matrix")
+                Call sb.AppendLine("  --mapping <file>         cell id to pseudotime mapping table")
+                Call sb.AppendLine("  --prior <file>           curated TF to target prior knowledge table")
+                Call sb.AppendLine("  --out <dir>              output directory")
+                Call sb.AppendLine("  --extract-genes <n>      number of genes exported into the subset matrix (default 200)")
+                Call sb.AppendLine("  --fit-genes <n>          number of genes used by the fitting (default 30)")
+                Call sb.AppendLine("  --bins <n>               number of pseudotime bins (default 60)")
+                Call sb.AppendLine("  --normalize <method>     none | log2 | zscore | quantile (default log2)")
+                Call sb.AppendLine("  --sparsity <x>           sparsity threshold of the network topology (default 0.01)")
+                Call sb.AppendLine("  --max-edges <n>          max edges per target gene (default 4)")
+                Call sb.AppendLine("  --max-regulators <n>     candidate regulators per target, by correlation (0 = all genes)")
+                Call sb.AppendLine("  --smooth <n>             moving average window before differentiation (default 9)")
+                Call sb.AppendLine("  --threads <n>            max degree of parallelism (0 = all logical cores)")
+                Call sb.AppendLine("  --bench-genes <n>        gene count of the slope-bench command (default 18179)")
+                Call sb.AppendLine("  --bench-points <n>       time point count of the slope-bench command (default 121)")
+                Call sb.AppendLine("  --bench-candidates <n>   candidate count per gene of the zip-bench command (default 8)")
+                Call sb.AppendLine("  --l1 <x>                 L1 penalty weight of the kinetic orders (default 0)")
+                Call sb.AppendLine("  --stability <x>          penalty weight of a positive self loop (default 0.05)")
+                Call sb.AppendLine("  --de-pop <n>             differential evolution population size (default 40)")
+                Call sb.AppendLine("  --de-iters <n>           differential evolution iterations (default 1200)")
+                Call sb.AppendLine("  --de-stagnation <n>      stop the differential evolution after n stagnant generations (0 = off, default 100)")
+                Call sb.AppendLine("  --prior-penalty <x>      soft penalty for the interactions which are not supported by the prior (default 0.2)")
+                Call sb.AppendLine("  --prior-sign-penalty <x> penalty for the direction conflict against the prior (default 0.2)")
+                Call sb.AppendLine("  --prior-rank-boost <x>   ranking boost of the prior supported edges (default 1.0)")
+                Call sb.AppendLine("  --profile                print the objective evaluation count and the phase timings")
+                Call sb.AppendLine("  --stream                 bin directly from the original csv without loading the full matrix")
+                Call sb.AppendLine("  --seed <n>               random seed (default 1234567)")
+                Call sb.AppendLine("  --precise <x>            integration step of the simulation (default 0.1)")
+                Call sb.AppendLine("  --hubs <n>               number of hub genes used by the perturbation (default 5)")
+                Call sb.AppendLine("  --must-include <file>    gene list which must be kept in the fitted sub network")
+                Call sb.AppendLine("  --context <path>         pseudobulk context csv (or a folder of panels) used as the ODE initial state")
+                Call sb.AppendLine("  --pert <file>            knockdown target list (default: the --must-include list)")
+                Call sb.AppendLine("  --knockdown <x>          knockdown magnitude, 0.8 = lose 80% of the activity (default 0.8)")
+                Call sb.AppendLine("  --context-start <x>      perturbation start as a fraction of the simulation time (default 0.1)")
+                Call sb.AppendLine("  --context-precise <x>    integration step of the context simulation (default 0.5)")
+                Call sb.AppendLine("  --context-targets <n>    limit the number of knockdown targets in the context run (0 = all)")
+                Call sb.AppendLine("  --context-time <x>       integration horizon of the context run, pseudotime units (default 5, 0 = full axis)")
+                Call sb.AppendLine("  --context-max-level <x>  states above this value are treated as diverged and dropped (default 100)")
+                Call sb.AppendLine("  --serial                 disable the parallel fitting")
+                Call sb.AppendLine("  --force                  ignore the cached subset matrix and gene list")
+                Call sb.AppendLine("  --quiet                  only print the stage summaries")
+
+                Return sb.ToString()
+            End Get
+        End Property
+
+        Private Shared Function textOf(values As Dictionary(Of String, String), key As String, fallback As String) As String
+            Dim value As String = Nothing
+
+            If values.TryGetValue(key, value) AndAlso Not String.IsNullOrEmpty(value) Then
+                Return value
+            Else
+                Return fallback
+            End If
+        End Function
+
+        Private Shared Function integerOf(values As Dictionary(Of String, String), key As String, fallback As Integer) As Integer
+            Dim value As String = Nothing
+            Dim parsed As Integer
+
+            If values.TryGetValue(key, value) AndAlso Integer.TryParse(value, parsed) Then
+                Return parsed
+            Else
+                Return fallback
+            End If
+        End Function
+
+        Private Shared Function doubleOf(values As Dictionary(Of String, String), key As String, fallback As Double) As Double
+            Dim value As String = Nothing
+            Dim parsed As Double
+
+            If values.TryGetValue(key, value) AndAlso Double.TryParse(value, NumberStyles.Float, CultureInfo.InvariantCulture, parsed) Then
+                Return parsed
+            Else
+                Return fallback
+            End If
+        End Function
+    End Class
+End Namespace

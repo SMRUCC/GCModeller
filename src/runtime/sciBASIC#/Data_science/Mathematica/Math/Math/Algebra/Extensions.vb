@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b6cbdc1747b73b5991671a5b704ab4bb, Data_science\Mathematica\Math\Math\Algebra\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::2ac38ab2a6c48f5245376d3b3048a85c, Data_science\Mathematica\Math\Math\Algebra\Extensions.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 249
-    '    Code Lines: 134 (53.82%)
-    ' Comment Lines: 79 (31.73%)
-    '    - Xml Docs: 70.89%
+    '   Total Lines: 261
+    '    Code Lines: 142 (54.41%)
+    ' Comment Lines: 81 (31.03%)
+    '    - Xml Docs: 71.60%
     ' 
-    '   Blank Lines: 36 (14.46%)
-    '     File Size: 9.83 KB
+    '   Blank Lines: 38 (14.56%)
+    '     File Size: 10.30 KB
 
 
     '     Delegate Function
@@ -49,7 +49,8 @@
     '     Module HelperExtensions
     ' 
     '         Function: AsMatrix, GetColumn, IsNaNImaginary, (+2 Overloads) jaccard_coeff, jaccard_coeff_parallel
-    '                   jaccard_row, JaccardIndex, NAremove, PrimitiveLinearEquation, Tangent
+    '                   jaccard_row, JaccardIndex, Lerp, NAremove, PrimitiveLinearEquation
+    '                   SmoothStep, Tangent
     '         Class JaccardTask
     ' 
     '             Constructor: (+1 Overloads) Sub New
@@ -74,6 +75,7 @@ Imports Microsoft.VisualBasic.Language.Vectorization
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 Imports Microsoft.VisualBasic.Parallel
+Imports stdf = System.Math
 
 Namespace LinearAlgebra
 
@@ -308,11 +310,24 @@ Namespace LinearAlgebra
                 End If
             Next
         End Function
+
+        ''' <summary>Linear interpolation.</summary>
+        Public Function Lerp(a As Double, b As Double, t As Double) As Double
+            Return a + (b - a) * t
+        End Function
+
+        ''' <summary>Hermite smoothstep, 0 at t=0 and 1 at t=1.</summary>
+        Public Function SmoothStep(t As Double) As Double
+            t = stdf.Clamp(t, 0.0, 1.0)
+            Return t * t * (3.0 - 2.0 * t)
+        End Function
     End Module
 
-    Public Enum ApplyOnAxis As Integer
+    Public Enum AxisMargins As Integer
         Any = -1
         Column = 0
         Row = 1
+        Both
+        None
     End Enum
 End Namespace

@@ -12,6 +12,7 @@
     <PackageProjectUrl>https://gcmodeller.org</PackageProjectUrl>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <UseApplicationFramework>True</UseApplicationFramework>
+	<OutputPath>../../../../assembly/</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -37,84 +38,11 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
     <DocumentationFile>visualkit.xml</DocumentationFile>
     <DefineConstants>MATH_DATASET=1</DefineConstants>
-    <OutputPath>../../pkg/assembly/</OutputPath>
+    <OutputPath>../../../../assembly/</OutputPath>
+    <Optimize>true</Optimize>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-windows|AnyCPU'">
-    <RemoveIntegerChecks>True</RemoveIntegerChecks>
-    <DebugType>full</DebugType>
-    <DefineConstants>MATH_DATASET=1</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0|AnyCPU'">
-    <RemoveIntegerChecks>True</RemoveIntegerChecks>
-    <DebugType>full</DebugType>
-    <DefineConstants>MATH_DATASET=1</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-windows|x64'">
-    <RemoveIntegerChecks>True</RemoveIntegerChecks>
-    <DebugType>full</DebugType>
-    <DefineConstants>MATH_DATASET=1</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0|x64'">
-    <RemoveIntegerChecks>True</RemoveIntegerChecks>
-    <DebugType>full</DebugType>
-    <DefineConstants>MATH_DATASET=1</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-windows|AnyCPU'">
-    <RemoveIntegerChecks>True</RemoveIntegerChecks>
-    <Optimize>False</Optimize>
-    <DebugType>full</DebugType>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0|AnyCPU'">
-    <RemoveIntegerChecks>True</RemoveIntegerChecks>
-    <Optimize>False</Optimize>
-    <DebugType>full</DebugType>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-windows|x64'">
-    <RemoveIntegerChecks>True</RemoveIntegerChecks>
-    <Optimize>False</Optimize>
-    <DebugType>full</DebugType>
-    <DefineConstants>MATH_DATASET=1</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0|x64'">
-    <RemoveIntegerChecks>True</RemoveIntegerChecks>
-    <Optimize>False</Optimize>
-    <DebugType>full</DebugType>
-    <DefineConstants>MATH_DATASET=1</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net8.0-windows|AnyCPU'">
-    <RemoveIntegerChecks>True</RemoveIntegerChecks>
-    <DebugType>full</DebugType>
-    <DefineTrace>True</DefineTrace>
-    <DefineConstants>MATH_DATASET=1</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net8.0|AnyCPU'">
-    <RemoveIntegerChecks>True</RemoveIntegerChecks>
-    <DebugType>full</DebugType>
-    <DefineTrace>True</DefineTrace>
-    <DefineConstants>MATH_DATASET=1</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net8.0-windows|x64'">
-    <RemoveIntegerChecks>True</RemoveIntegerChecks>
-    <DebugType>full</DebugType>
-    <DefineTrace>True</DefineTrace>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net8.0|x64'">
-    <RemoveIntegerChecks>True</RemoveIntegerChecks>
-    <DebugType>full</DebugType>
-    <DefineTrace>True</DefineTrace>
-  </PropertyGroup>
+  
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\GCModeller\analysis\Microarray\Microarray.NET5.vbproj" />
@@ -133,7 +61,7 @@
     <ProjectReference Include="..\..\..\R-sharp\R#\Rsharp-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Graph\graph-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj" />
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Visualization\Plots\plots-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Visualization\DataPlot\DataPlot.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Visualization\Visualization\data_visualize-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\imaging.NET5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\gr\network-visualization\Datavisualization.Network\network_graph-netcore5.vbproj" />

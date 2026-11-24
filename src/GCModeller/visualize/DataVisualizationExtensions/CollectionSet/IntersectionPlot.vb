@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1871fe8aa19f3b163e71ba20bdc0a149, visualize\DataVisualizationExtensions\CollectionSet\IntersectionPlot.vb"
+#Region "Microsoft.VisualBasic::1871fe8aa19f3b163e71ba20bdc0a149, visualize\DataVisualizationExtensions\CollectionSet\IntersectionPlot.vb"
 
     ' Author:
     ' 
@@ -58,10 +58,9 @@ Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
+Imports Microsoft.VisualBasic.Data.Plots
+Imports Microsoft.VisualBasic.Data.Plots.Canvas
+Imports Microsoft.VisualBasic.Data.Plots.Plot3D.Legend
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors

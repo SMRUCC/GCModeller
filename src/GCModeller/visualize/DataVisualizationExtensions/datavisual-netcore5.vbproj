@@ -24,8 +24,8 @@
     <Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
     <PackageTags>gcmodeller;bioinformatics;genomics;data-visualization;plots;enrichment-analysis</PackageTags>
     <PackageReleaseNotes>Adds a broad set of genomics visualisations including volcano, enrichment bubble/heatmap and Upset plots.</PackageReleaseNotes>
-    <Version>1.0.9753.40023</Version>
-    <AssemblyVersion>1.0.9753.40023</AssemblyVersion>
+    <Version>10.5.9775.36927</Version>
+    <AssemblyVersion>1.0.9775.36927</AssemblyVersion>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
@@ -70,12 +70,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
     <DocumentationFile>SMRUCC.genomics.Visualize.Extensions.xml</DocumentationFile>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
-    <Optimize>false</Optimize>
+    <Optimize>true</Optimize>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <DefineDebug>false</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <DefineConstants>netcore5=1,UNIX=1</DefineConstants>
+    <OutputPath>../../../../.nuget/</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='mzkit_win32|x64'">
@@ -112,13 +113,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Composition" Version="10.0.12" />
-    <PackageReference Include="System.Resources.Extensions" Version="10.0.12" />
+    <PackageReference Include="System.Composition" Version="11.0.0" />
+    <PackageReference Include="System.Resources.Extensions" Version="11.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj" />
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Visualization\Plots\plots-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Visualization\DataPlot\DataPlot.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\imaging.NET5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\mime\text%html\html_netcore5.vbproj" />

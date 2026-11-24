@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.GCModeller.ModellingEngine.IO.vcXML.Reader</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>Reader {SMRUCC.genomics.GCModeller.ModellingEngine.IO.vcXML}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>Reader</h2>
+
+        <h3>Description</h3>
+
+        <p>vcXML 2.0 读取器</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.GCModeller.ModellingEngine.IO.vcXML
+export class Reader {
+   # 全部帧索引（跨物种、跨组学、跨时间）
+   allFrames: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/IO/vcXML/XML/offset.html">offset[]</a>;
+   basename: string;
+   # 文件校验和
+   Checksum: string;
+   # 培养基
+   CultureMedium: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/IO/vcXML/vcMedium.html">vcMedium</a>;
+   # 词表声明
+   CVList: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/IO/vcXML/vcCVList.html">vcCVList</a>;
+   # 实体索引（诊断用）
+   EntityOffsets: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/IO/vcXML/XML/offset.html">offset[]</a>;
+   # 实验级元数据
+   Experiment: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/IO/vcXML/vcExperiment.html">vcExperiment</a>;
+   # 生长空间
+   GrowthSpace: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/IO/vcXML/vcGrowthSpace.html">vcGrowthSpace</a>;
+   # 索引起始位置
+   IndexOffset: integer;
+   # 时空布局
+   Layout: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/IO/vcXML/vcLayout.html">vcLayout</a>;
+   # 扰动数组（无 perturbations 块时返回空数组）
+   Perturbations: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/IO/vcXML/vcPerturbation.html">vcPerturbation[]</a>;
+   # 虚拟扰动
+   PerturbationsList: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/IO/vcXML/vcPerturbationList.html">vcPerturbationList</a>;
+   # 运行标识与命令行参数
+   RunInfo: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/IO/vcXML/XML/run.html">run</a>;
+   # 物种数组（无 speciesList 时返回空数组）
+   Species: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/IO/vcXML/vcSpecies.html">vcSpecies[]</a>;
+   # 物种清单
+   SpeciesList: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/IO/vcXML/vcSpeciesList.html">vcSpeciesList</a>;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>allFrames</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/IO/vcXML/XML/offset.html">offset</a></li>
+<li>use by <i>property</i> member <code>CultureMedium</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/IO/vcXML/vcMedium.html">vcMedium</a></li>
+<li>use by <i>property</i> member <code>CVList</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/IO/vcXML/vcCVList.html">vcCVList</a></li>
+<li>use by <i>property</i> member <code>EntityOffsets</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/IO/vcXML/XML/offset.html">offset</a></li>
+<li>use by <i>property</i> member <code>Experiment</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/IO/vcXML/vcExperiment.html">vcExperiment</a></li>
+<li>use by <i>property</i> member <code>GrowthSpace</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/IO/vcXML/vcGrowthSpace.html">vcGrowthSpace</a></li>
+<li>use by <i>property</i> member <code>Layout</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/IO/vcXML/vcLayout.html">vcLayout</a></li>
+<li>use by <i>property</i> member <code>Perturbations</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/IO/vcXML/vcPerturbation.html">vcPerturbation</a></li>
+<li>use by <i>property</i> member <code>PerturbationsList</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/IO/vcXML/vcPerturbationList.html">vcPerturbationList</a></li>
+<li>use by <i>property</i> member <code>RunInfo</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/IO/vcXML/XML/run.html">run</a></li>
+<li>use by <i>property</i> member <code>Species</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/IO/vcXML/vcSpecies.html">vcSpecies</a></li>
+<li>use by <i>property</i> member <code>SpeciesList</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/IO/vcXML/vcSpeciesList.html">vcSpeciesList</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

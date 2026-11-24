@@ -60,5 +60,7 @@ Public Class zzz
     Public Shared Sub onLoad()
         Call MotifsTool.Main()
         Call miRNA.Main()
+        Call Linear.Main()
+        Call ARACNETools.Main()
     End Sub
 End Class

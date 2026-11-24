@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c077f12078326b6b7df8ba56c0fb5348, visualize\DataVisualizationExtensions\CatalogProfiling\CatalogProfiling.vb"
+#Region "Microsoft.VisualBasic::c077f12078326b6b7df8ba56c0fb5348, visualize\DataVisualizationExtensions\CatalogProfiling\CatalogProfiling.vb"
 
     ' Author:
     ' 
@@ -58,8 +58,9 @@ Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
+Imports Microsoft.VisualBasic.Data.Plots
+Imports Microsoft.VisualBasic.Data.Plots.Canvas
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors.Scaler
@@ -216,13 +217,23 @@ Namespace CatalogProfiling
                     If mapperValues.IsNullOrEmpty Then
                         ' just do nothing?
                     Else
-                        Dim mapper As New Scaling(mapperValues, horizontal:=True)
+                        ' 与旧 Scaling(values, horizontal:=True) 语义一致：
+                        ' x 值域为正数域时从 0 起，y 值域未使用（保持 0）
+                        Dim xmin As Double = mapperValues.Min
+
+                        If xmin > 0 Then
+                            xmin = 0
+                        End If
+
+                        Dim mapper As New Mapper(
+                            New DoubleRange(xmin, mapperValues.Max),
+                            New DoubleRange(0, 0))
 
                         Call g.internalPlotImpl(
                            region, profile, title,
                            colors,
                            titleFontStyle, catalogFontStyle, classFontStyle, valueFontStyle,
-                           New Mapper(mapper, ignoreAxis:=True),
+                           mapper,
                            tickFontStyle, tick,
                            axisTitle,
                            gray:=gray,
@@ -508,10 +519,10 @@ Namespace CatalogProfiling
             If tick <= 0 Then
                 ' 自动生成
                 Call "Ticks created from auto axis ticking...".info
-                Return AxisScalling.CreateAxisTicks({0, max}.AsEnumerable, ticks:=5)
+                Return CreateAxisTicks({0, max}.AsEnumerable, ticks:=5)
             Else
                 Call "Ticks created from tick sequence...".info
-                Return AxisScalling.GetAxisByTick(max, tick)
+                Return GetAxisByTick(max, tick).ToArray
             End If
         End Function
     End Module

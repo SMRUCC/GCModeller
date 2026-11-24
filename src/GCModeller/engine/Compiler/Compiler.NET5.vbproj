@@ -25,8 +25,8 @@
     <Product>GCModeller</Product>
     <PackageTags>gcmodeller;bioinformatics;genomics;model-compiler;biocyc;kegg</PackageTags>
     <PackageReleaseNotes>Delivered the virtual cell model compiler that assembles genome, metabolism and regulation data into model and assembly files.</PackageReleaseNotes>
-    <Version>1.0.9753.40023</Version>
-    <AssemblyVersion>1.0.9753.40023</AssemblyVersion>
+    <Version>10.5.9775.36927</Version>
+    <AssemblyVersion>1.0.9775.36927</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -84,13 +84,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
     <DocumentationFile>SMRUCC.genomics.GCModeller.Compiler.xml</DocumentationFile>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
-    <Optimize>false</Optimize>
+    <Optimize>true</Optimize>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <DefineDebug>false</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <DefineConstants>netcore5=1,UNIX=1</DefineConstants>
-    <OutputPath>../../../workbench/pkg/assembly\</OutputPath>
+    <OutputPath>../../../../.nuget/</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='NPSearch|x64'">
@@ -141,18 +141,19 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\repository\Bio.Repository\repository.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\dataframework-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Graph\graph-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\ODE\odes-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\gr\network-visualization\Datavisualization.Network\network_graph-netcore5.vbproj" />
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\gr\network-visualization\Network.IO.Extensions\network_io-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\mime\application%vnd.openxmlformats-officedocument.spreadsheetml.sheet\Excel\xlsx-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\mime\application%rdf+xml\rdf_xml-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\mime\application%xml\xml-netcore5.vbproj" />
     <ProjectReference Include="..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
     <ProjectReference Include="..\..\data\RegulonDatabase\RegulonDatabase.NET5.vbproj" />
     <ProjectReference Include="..\..\data\SABIO-RK\SABIO-RK.NET.vbproj" />
     <ProjectReference Include="..\..\models\BioCyc\BioCyc.vbproj" />
     <ProjectReference Include="..\..\models\SBML\SBML\sbml-netcore5.vbproj" />
-    <ProjectReference Include="..\BootstrapLoader\BootstrapLoader.NET5.vbproj" />
     <ProjectReference Include="..\CompilerServices\CompilerServices.NET5.vbproj" />
     <ProjectReference Include="..\Dynamics\Dynamics.NET5.vbproj" />
     <ProjectReference Include="..\IO\GCMarkupLanguage\GCMarkupXML.NET5.vbproj" />

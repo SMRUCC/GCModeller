@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::43105dec5c7c2a3fdfd431bb4f4dc53b, visualize\Cytoscape\CLI_tool\CLI\Analysis.vb"
+#Region "Microsoft.VisualBasic::43105dec5c7c2a3fdfd431bb4f4dc53b, visualize\Cytoscape\CLI_tool\CLI\Analysis.vb"
 
     ' Author:
     ' 
@@ -43,8 +43,8 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.ChartPlots.Fractions
-Imports Microsoft.VisualBasic.Data.ChartPlots.Statistics.Heatmap
+Imports Microsoft.VisualBasic.Data.Plots.Canvas
+Imports Microsoft.VisualBasic.Data.Plots.Statistics.Heatmap
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.visualize.Network

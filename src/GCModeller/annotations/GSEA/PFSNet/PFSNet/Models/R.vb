@@ -58,7 +58,7 @@ Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 
 Namespace R
 
-    Module Base
+    Public Module Base
 
         <Extension> Public Function [Select](data As DataFrameRow(), names As String()) As DataFrameRow()
             Dim LQuery = (From item In data Where Array.IndexOf(names, item.geneID) > -1 Select item).ToArray
@@ -78,35 +78,64 @@ Namespace R
         ''' <param name="size"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function Sample(Of T)(x As T(), size As Integer) As T()
-            Dim rndCollection = x.Shuffles
-            Return rndCollection.Take(size).ToArray
+        Public Function Sample(Of T)(x As T(), size As Integer, Optional rng As Random = Nothing) As T()
+            If x Is Nothing Then
+                Throw New ArgumentNullException(NameOf(x))
+            ElseIf size < 0 OrElse size > x.Length Then
+                Throw New ArgumentOutOfRangeException(NameOf(size), "Sample size must be between zero and the population size.")
+            End If
+
+            If rng Is Nothing Then
+                Return x.Shuffles.Take(size).ToArray
+            End If
+
+            Dim shuffled As T() = x.ToArray
+
+            For i As Integer = 0 To size - 1
+                Dim selected As Integer = rng.Next(i, shuffled.Length)
+                Dim value As T = shuffled(i)
+                shuffled(i) = shuffled(selected)
+                shuffled(selected) = value
+            Next
+
+            Return shuffled.Take(size).ToArray
         End Function
 
-        Public Function Sample(n As Integer, size As Integer) As Integer()
-            Return Sample(Of Integer)(x:=n.Sequence.ToArray, size:=size)
+        Public Function Sample(n As Integer, size As Integer, Optional rng As Random = Nothing) As Integer()
+            If n < 0 Then
+                Throw New ArgumentOutOfRangeException(NameOf(n))
+            End If
+
+            Return Sample(Of Integer)(x:=n.Sequence.ToArray, size:=size, rng:=rng)
         End Function
 
         Public Iterator Function cbind(d1 As DataFrameRow(), d2 As DataFrameRow()) As IEnumerable(Of DataFrameRow)
-            Dim appendLookup = d2.ToDictionary(Function(d) d.geneID)
-            Dim append As DataFrameRow
-            Dim samplesN2 As Integer = d2(Scan0).samples
-            Dim vec As Double()
+            If d1 Is Nothing Then
+                Throw New ArgumentNullException(NameOf(d1))
+            ElseIf d2 Is Nothing Then
+                Throw New ArgumentNullException(NameOf(d2))
+            ElseIf d1.Length = 0 Then
+                Return
+            End If
+
+            Dim appendLookup As Dictionary(Of String, DataFrameRow) = d2.ToDictionary(Function(d) d.geneID)
+            Dim samplesN2 As Integer = If(d2.Length = 0, 0, d2(0).samples)
 
             For Each gene As DataFrameRow In d1
-                append = appendLookup.TryGetValue(gene.geneID)
+                Dim append As DataFrameRow = Nothing
+                Dim appendedValues As Double()
 
-                If append Is Nothing Then
-                    vec = 0#.Repeats(samplesN2)
+                If appendLookup.TryGetValue(gene.geneID, append) Then
+                    appendedValues = append.experiments
+                ElseIf samplesN2 = 0 Then
+                    appendedValues = Array.Empty(Of Double)()
                 Else
-                    vec = append.experiments
+                    appendedValues = New Double(samplesN2 - 1) {}
                 End If
-
-                vec = gene.experiments.Join(vec).ToArray
 
                 Yield New DataFrameRow With {
                     .geneID = gene.geneID,
-                    .experiments = vec
+                    .experiments = gene.experiments.Join(appendedValues).ToArray
                 }
             Next
         End Function

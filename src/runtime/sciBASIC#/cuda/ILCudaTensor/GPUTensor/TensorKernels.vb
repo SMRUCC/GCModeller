@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bcb5f2f07118e8e50c04db0f82336bfc, cuda\ILCudaTensor\GPUTensor\TensorKernels.vb"
+﻿#Region "Microsoft.VisualBasic::87bfadcf2c8ca58078a2e3daa33acfce, cuda\ILCudaTensor\GPUTensor\TensorKernels.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 47
-    '    Code Lines: 19 (40.43%)
-    ' Comment Lines: 22 (46.81%)
-    '    - Xml Docs: 68.18%
+    '   Total Lines: 120
+    '    Code Lines: 47 (39.17%)
+    ' Comment Lines: 60 (50.00%)
+    '    - Xml Docs: 71.67%
     ' 
-    '   Blank Lines: 6 (12.77%)
-    '     File Size: 2.47 KB
+    '   Blank Lines: 13 (10.83%)
+    '     File Size: 7.92 KB
 
 
     '     Module TensorKernelNames
@@ -108,6 +108,79 @@ Namespace GPUTensor
         ''' <summary>融合掩码交叉熵：softmax + NLL + <c>d(logits) = (softmax − onehot) / count</c></summary>
         Public Const TrainMaskedCrossEntropy As String = "tensorMaskedCrossEntropyFp32Kernel"
 
+        ' ---- 脉冲网络融合内核（Kernels\lif.cu）----
+        ''' <summary>融合的递归 LIF 单步（双精度状态，就地更新 H / S / counts）</summary>
+        Public Const LifUpdateDouble As String = "tensorLifUpdateDoubleKernel"
+        ''' <summary>融合的递归 LIF 单步（单精度 H / counts，脉冲仍为双精度）</summary>
+        Public Const LifUpdateFp32 As String = "tensorLifUpdateFp32Kernel"
+
+        ' ---- Cella 批量细胞管线融合内核（Kernels\cellaccel.cu）----
+        ''' <summary>液态时间常数网络（LNN）批量 RK4 积分：状态 [B, m] 就地推进若干子步</summary>
+        Public Const CellLtcRk4 As String = "tcCellLtcRk4DoubleKernel"
+        ''' <summary>图卷积批量层：自身分支 + CSR 邻居聚合 + 偏置 + 激活（decoder 复用空 CSR 形态）</summary>
+        Public Const CellGraphLayer As String = "tcCellGraphLayerDoubleKernel"
+        ''' <summary>节点特征拼装：[B·n, 2+2d] ← [x̄ ‖ p ‖ e_i ‖ z_pert]</summary>
+        Public Const CellGraphFeature As String = "tcCellGraphFeatureDoubleKernel"
+        ''' <summary>通量读取头批量计算：v = e ⊙ gsat([h ‖ u]·Wv + bv)（含可逆开关）</summary>
+        Public Const CellFluxHead As String = "tcCellFluxHeadDoubleKernel"
+        ''' <summary>系统时间常数批量计算：τ^sys = 1/(1/τ_eff + σ(h·Wg + u·Wgi + bg))</summary>
+        Public Const CellSysTau As String = "tcCellSysTauDoubleKernel"
+
+        ' ---- 单精度栈（Kernels\tensor_f32.cu，float32）----
+        '
+        ' 单精度栈的逐元素 / 标量算子走 FloatKernels.vb 的 IL2Cuda 自动生成内核
+        ' （名字前缀 il_tensorf_），这里只登记手写内核。
+        ' 矩阵乘不在内：直接复用 ILCuda 自带的 gemmKernel（本来就是单精度）。
+
+        ''' <summary>单精度全局求和 - 阶段一（double 累加，float 输入）</summary>
+        Public Const PartialSumF32 As String = "tensorF32ReducePartialSumKernel"
+        ''' <summary>单精度全局求和 - 阶段二</summary>
+        Public Const FinalSumF32 As String = "tensorF32ReduceFinalSumKernel"
+        ''' <summary>单精度全局最大值 - 阶段一</summary>
+        Public Const PartialMaxF32 As String = "tensorF32ReducePartialMaxKernel"
+        ''' <summary>单精度全局最大值 - 阶段二</summary>
+        Public Const FinalMaxF32 As String = "tensorF32ReduceFinalMaxKernel"
+        ''' <summary>单精度全局最小值 - 阶段一</summary>
+        Public Const PartialMinF32 As String = "tensorF32ReducePartialMinKernel"
+        ''' <summary>单精度全局最小值 - 阶段二</summary>
+        Public Const FinalMinF32 As String = "tensorF32ReduceFinalMinKernel"
+
+        ' ---- CFD 扩展原语（Kernels\tensor_f32.cu，单精度）----
+        ''' <summary>七点拉普拉斯 stencil（带固体掩膜）</summary>
+        Public Const Laplacian7F32 As String = "tensorLaplacian7Fp32Kernel"
+        ''' <summary>带掩膜的七点 Jacobi 迭代<b>一步</b>（读 prev 写 cur，主机侧负责 ping-pong）</summary>
+        Public Const Jacobi7F32 As String = "tensorJacobi7Fp32Kernel"
+        ''' <summary>半拉格朗日平流 + 三线性插值（纯 gather）</summary>
+        Public Const AdvectTrilinearF32 As String = "tensorAdvectTrilinearFp32Kernel"
+        ''' <summary>按掩膜把固体单元置零（就地）</summary>
+        Public Const ApplyMaskF32 As String = "tensorApplyMaskFp32Kernel"
+
+        ' ---- 神经网络 / 训练 / 卷积（Kernels\*_f32.cu，单精度）----
+        '
+        ' 这一组是为混合精度改造新加的：上层要用 tensorF 端到端跑训练步，
+        ' 就必须把注意力 / 损失 / 卷积 / 稀疏传播这几类热点也放到 FP32 上。
+        ' 它们的双精度版本早已存在于 tensor.cu / conv.cu / pool.cu / spmm.cu，
+        ' 这里是同名 sandwich 的单精度对位实现。
+
+        ''' <summary>沿指定轴的 softmax（Kernels\tensor_f32.cu）</summary>
+        Public Const RowSoftmaxF32 As String = "tensorRowSoftmaxFp32Kernel"
+        ''' <summary>沿指定轴的 log-softmax（Kernels\tensor_f32.cu）</summary>
+        Public Const RowLogSoftmaxF32 As String = "tensorRowLogSoftmaxFp32Kernel"
+        ''' <summary>二维卷积正向（Kernels\conv_f32.cu）</summary>
+        Public Const Conv2DF32 As String = "tensorConv2DFp32Kernel"
+        ''' <summary>卷积反向：对输入的梯度（Kernels\conv_f32.cu）</summary>
+        Public Const Conv2DBackwardInputF32 As String = "tensorConv2DBackwardInputFp32Kernel"
+        ''' <summary>卷积反向：对卷积核的梯度（Kernels\conv_f32.cu）</summary>
+        Public Const Conv2DBackwardFilterF32 As String = "tensorConv2DBackwardFilterFp32Kernel"
+        ''' <summary>卷积反向：对偏置的梯度（Kernels\conv_f32.cu）</summary>
+        Public Const Conv2DBackwardBiasF32 As String = "tensorConv2DBackwardBiasFp32Kernel"
+        ''' <summary>二维最大池化正向（同时产出 argMax，Kernels\pool_f32.cu）</summary>
+        Public Const MaxPool2DF32 As String = "tensorMaxPool2DFp32Kernel"
+        ''' <summary>二维最大池化反向（Kernels\pool_f32.cu）</summary>
+        Public Const MaxPool2DBackwardF32 As String = "tensorMaxPool2DBackwardFp32Kernel"
+        ''' <summary>CSR 稀疏 × 稠密（Kernels\spmm_f32.cu）</summary>
+        Public Const SpmmF32 As String = "tensorCsrSpmmFp32Kernel"
+
         ' ---- 两段式全局归约 ----
         ''' <summary>全局求和 - 阶段一（部分结果）</summary>
         Public Const PartialSum As String = "tensorReducePartialSumKernel"
@@ -125,4 +198,3 @@ Namespace GPUTensor
     End Module
 
 End Namespace
-

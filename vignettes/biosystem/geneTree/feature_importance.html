@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Get the split importance of the regulators, this table is the data driven</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>feature_importance {geneTree}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>Get the split importance of the regulators, this table is the data driven</h2>
+
+        <h3>Description</h3>
+
+        <p>"sign and weight" of the ARACNE network edges.</p>
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>feature_importance</strong>(<i>tree</i>,
+    <i>top.n</i> = <span style='color: green;'>20</span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>tree</dt>
+<dd><p>the trained <a href="cref:T:SMRUCC.genomics.Analysis.GeneTree.XGBoostGRN">XGBoostGRN</a> model object. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GeneTree/XGBoostGRN.html">XGBoostGRN</a>]</p></dd>
+
+
+<dt>top.n</dt>
+<dd><p>the number of the regulator records that are ordered by the sensitivity in descending order, <code>0</code> returns all of them. [as integer]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: none;">Details</h3>
+
+        
+
+        <h3 style="display: block">Authors</h3>
+
+        biosystem
+
+        <h3>Value</h3>
+
+        <p>a dataframe whose columns are <code>gene</code>, <code>regulator</code>, <code>rank</code>, <code>mi</code>, <code>correlation</code>, <code>splits</code> and <code>sensitivity</code>.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Internal/Object/dataframe.html">dataframe</a></li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>geneTree</em> version 1.0.0.0 <a
+                href="../geneTree.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

@@ -56,7 +56,9 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports rng = Microsoft.VisualBasic.Math.RandomExtensions
+Imports std = System.Math
 
 ' ============================================================
 ' Inference.vb - 概率推断引擎
@@ -118,11 +120,11 @@ Namespace Inference
         ''' <summary>
         ''' 采样并返回 GeneExpressionData 格式
         ''' </summary>
-        Public Function SampleAsGeneData(nSamples As Integer, Optional seed As Integer = 0) As Core.GeneExpressionData
+        Public Function SampleAsGeneData(nSamples As Integer, Optional seed As Integer = 0) As GeneExpressionData
             Dim matrix As Double(,) = Sample(nSamples, seed)
             Dim sampleNames As String() = Enumerable.Range(0, nSamples).Select(Function(i) "Sample_" & i).ToArray()
 
-            Return New Core.GeneExpressionData() With {
+            Return New GeneExpressionData() With {
                 .GeneNames = _network.Nodes.Select(Function(n) n.Name).ToArray(),
                 .SampleNames = sampleNames,
                 .Matrix = matrix,
@@ -225,7 +227,7 @@ Namespace Inference
                         sum -= sigmaQE(i, k) * invSigmaEE(k, j) * sigmaQE(i, j)  ' 简化
                     Next
                 Next
-                condVars(i) = Math.Max(0.0000000001, sum)
+                condVars(i) = std.Max(0.0000000001, sum)
             Next
 
             Return (condMeans, condVars)
@@ -390,7 +392,7 @@ Namespace Inference
                 For s = 0 To nSamples - 1
                     ss += (sampleValues(s)(i) - means(i)) ^ 2
                 Next
-                sds(i) = Math.Sqrt(ss / Math.Max(1, nSamples - 1))
+                sds(i) = std.Sqrt(ss / std.Max(1, nSamples - 1))
             Next
 
             Return (means, sds)

@@ -1,0 +1,28 @@
+.\" man page create by R# package system.
+.TH SSGRID 1 2000-1月 "sgrid_parameters" "sgrid_parameters"
+.SH NAME
+sgrid_parameters \- get the fitted kinetic parameters of each gene as a data.frame
+.SH SYNOPSIS
+\fIsgrid_parameters(\fBnetwork\fR as <generic> SSystemNetwork);\fR
+.SH DESCRIPTION
+.PP
+get the fitted kinetic parameters of each gene as a data.frame
+.PP
+.SH OPTIONS
+.PP
+\fBnetwork\fB \fR\- -. 
+.PP
+.SH VALUE
+.PP
+a dataframe with the columns: \fBgene,original,alpha,beta,rmse,r2,converged\fR
+.PP
+.SH EXAMPLES
+.PP
+let params = sgrid_parameters(network);
+.PP
+.SH SEE ALSO
+ssGrid
+.SH FILES
+.PP
+biosystem.dll
+.PP

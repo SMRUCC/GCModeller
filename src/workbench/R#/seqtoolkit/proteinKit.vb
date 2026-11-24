@@ -1,70 +1,66 @@
 ﻿#Region "Microsoft.VisualBasic::71dc737daf3dc00c68335f993aa383de, R#\seqtoolkit\proteinKit.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 377
-    '    Code Lines: 193 (51.19%)
-    ' Comment Lines: 145 (38.46%)
-    '    - Xml Docs: 91.03%
-    ' 
-    '   Blank Lines: 39 (10.34%)
-    '     File Size: 16.67 KB
+' Summaries:
 
 
-    ' Module proteinKit
-    ' 
-    '     Function: analysis_domains, (+2 Overloads) ChouFasman, enzymeBuilder, kmer_fingerprint, kmer_graph
-    '               ligands, parsePdb, pdb_centroid, pdbModels, predict_sequence
-    '               readPdb
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 377
+'    Code Lines: 193 (51.19%)
+' Comment Lines: 145 (38.46%)
+'    - Xml Docs: 91.03%
+' 
+'   Blank Lines: 39 (10.34%)
+'     File Size: 16.67 KB
+
+
+' Module proteinKit
+' 
+'     Function: analysis_domains, (+2 Overloads) ChouFasman, enzymeBuilder, kmer_fingerprint, kmer_graph
+'               ligands, parsePdb, pdb_centroid, pdbModels, predict_sequence
+'               readPdb
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MachineLearning.Transformer
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports SMRUCC.genomics.Data
-Imports SMRUCC.genomics.Data.RCSB.PDB
-Imports SMRUCC.genomics.Data.RCSB.PDB.Keywords
-Imports SMRUCC.genomics.Data.Xfam.Pfam.PfamString
 Imports SMRUCC.genomics.Data.Xfam.Pfam.Pipeline.LocalBlast
 Imports SMRUCC.genomics.Interops.NCBI.Extensions
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
@@ -117,10 +113,10 @@ Imports SMRUCC.Rsharp.Runtime.Vectorization
 ''' </example>
 ''' <seealso cref="ChouFasmanRules"/> Class implementing core prediction logic
 ''' <seealso cref="KMerGraph"/> Data structure for k-mer adjacency relationships
-''' <seealso cref="PDB"/> Protein Data Bank object model
 ''' <author type="copyright">SMRUCC genomics Institute</author>
 ''' <version>1.6.0</version>
 <Package("proteinKit")>
+<RTypeExport("pfam-string", GetType(PfamString))>
 Module proteinKit
 
     ''' <summary>
@@ -162,8 +158,14 @@ Module proteinKit
     ''' returns <see cref="StructuralAnnotation"/> clr object model if this parameter is set TRUE, otherwise returns 
     ''' the string representitive of the chou-fasman structure information.
     ''' </param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' the chou-fasman secondary structure prediction result of the input 
+    ''' protein sequence: a character value of the structure annotation string 
+    ''' or a <see cref="StructuralAnnotation"/> clr object when there is only 
+    ''' one sequence in the input collection, or a named list of the 
+    ''' prediction result of each sequence in the input collection.
+    ''' </returns>
     ''' <example>
     ''' print(chou_fasman("AAABAAGKKKJLLMMMMMM"));
     ''' </example>
@@ -204,111 +206,6 @@ Module proteinKit
             }
         Else
             Return ChouFasmanRules.ToString(aa)
-        End If
-    End Function
-
-    ''' <summary>
-    ''' parse the pdb struct data from a given document text data
-    ''' </summary>
-    ''' <param name="pdb_txt"></param>
-    ''' <param name="safe"></param>
-    ''' <returns></returns>
-    <ExportAPI("parse_pdb")>
-    <RApiReturn(GetType(PDB))>
-    Public Function parsePdb(pdb_txt As String, Optional safe As Boolean = False, Optional verbose As Boolean = False) As Object
-        If safe Then
-            Try
-                Return PDB.Parse(pdb_txt, verbose)
-            Catch ex As Exception
-                Call App.LogException(ex)
-                Call ex.Message.warning
-
-                Return Nothing
-            End Try
-        Else
-            Return PDB.Parse(pdb_txt, verbose)
-        End If
-    End Function
-
-    ''' <summary>
-    ''' Reads a Protein Data Bank (PDB) file and parses it into a PDB object model.
-    ''' </summary>
-    ''' <param name="file">A file path string or Stream object representing the PDB file to read.</param>
-    ''' <param name="env">The R runtime environment for error handling and resource management.</param>
-    ''' <returns>Returns a parsed <see cref="PDB"/> object if successful. Returns a <see cref="Message"/> 
-    ''' error object if file loading fails due to invalid path or format issues.</returns>
-    ''' <example>
-    ''' let pdb = read.pdb("1abc.pdb");
-    ''' </example>
-    <ExportAPI("read.pdb")>
-    <RApiReturn(GetType(PDB))>
-    Public Function readPdb(<RRawVectorArgument>
-                            file As Object,
-                            Optional safe As Boolean = False,
-                            Optional env As Environment = Nothing) As Object
-
-        Dim is_path As Boolean = False
-        Dim s = SMRUCC.Rsharp.GetFileStream(file, FileAccess.Read, env, is_filepath:=is_path)
-
-        If s Like GetType(Message) Then
-            Return s.TryCast(Of Message)
-        End If
-
-        Dim pdb As PDB() = Nothing
-
-        If safe Then
-            Try
-                pdb = RCSB.PDB.PDB.Load(s.TryCast(Of Stream)).ToArray
-            Catch ex As Exception
-                Call ex.Message.warning
-                Call App.LogException(ex)
-            End Try
-        Else
-            pdb = RCSB.PDB.PDB.Load(s.TryCast(Of Stream)).ToArray
-        End If
-        If is_path Then
-            Call s.TryCast(Of Stream).Dispose()
-        End If
-
-        Return pdb
-    End Function
-
-    ''' <summary>
-    ''' get structure models inside the given pdb object
-    ''' </summary>
-    ''' <param name="pdb"></param>
-    ''' <returns></returns>
-    <ExportAPI("pdb_models")>
-    <RApiReturn(GetType(Atom))>
-    Public Function pdbModels(pdb As PDB) As Object
-        Return pdb.AsEnumerable.ToArray
-    End Function
-
-    <ExportAPI("pdb_centroid")>
-    <RApiReturn(GetType(Point3D), GetType(Double))>
-    Public Function pdb_centroid(pdb As PDB, Optional as_vector As Boolean = False) As Object
-        If as_vector Then
-            With pdb.ModelCentroid
-                Return New Double() { .X, .Y, .Z}
-            End With
-        Else
-            Return pdb.ModelCentroid
-        End If
-    End Function
-
-    <ExportAPI("ligands")>
-    <RApiReturn(GetType(Het.HETRecord))>
-    Public Function ligands(pdb As PDB, Optional key As String = Nothing, Optional number As Integer = -1)
-        If key.StringEmpty(, True) OrElse number <= 0 Then
-            ' get all 
-            Return pdb.ListLigands.Values.ToArray
-        Else
-            Return pdb.ListLigands _
-                .Where(Function(li)
-                           Return li.Name = key AndAlso
-                               li.Value.SequenceNumber = number
-                       End Function) _
-                .FirstOrDefault
         End If
     End Function
 
@@ -380,6 +277,25 @@ Module proteinKit
         Return graph.GetFingerprint(radius, len)
     End Function
 
+    ''' <summary>
+    ''' build the enzyme protein sequence transformer model from a given enzyme 
+    ''' protein sequence collection
+    ''' </summary>
+    ''' <param name="enzymes">
+    ''' a protein fasta sequence collection for build the transformer model, 
+    ''' which can be a <see cref="FastaFile"/> object, a collection of the 
+    ''' <see cref="FastaSeq"/> object, or a character vector of the raw 
+    ''' sequence data.
+    ''' </param>
+    ''' <param name="kmer">
+    ''' the k-mer size for tokenize the protein sequence data.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a <see cref="TransformerModel"/> protein sequence model that trained 
+    ''' from the given enzyme sequence collection, which can be used for 
+    ''' generate the new protein sequence via the ``predict_sequence`` api.
+    ''' </returns>
     <ExportAPI("enzyme_builder")>
     <RApiReturn(GetType(TransformerModel))>
     Public Function enzymeBuilder(<RRawVectorArgument> enzymes As Object,
@@ -395,6 +311,23 @@ Module proteinKit
         Return seq.MakeModel(kmer)
     End Function
 
+    ''' <summary>
+    ''' generate the protein sequence data from the given EC number via the 
+    ''' enzyme transformer model
+    ''' </summary>
+    ''' <param name="model">
+    ''' a <see cref="TransformerModel"/> enzyme protein sequence model, which 
+    ''' is created by the ``enzyme_builder`` api.
+    ''' </param>
+    ''' <param name="ec_number">
+    ''' a character vector of the enzyme commission(EC) number for generate 
+    ''' the corresponding protein sequence data.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a vector of the generated <see cref="FastaSeq"/> protein sequence 
+    ''' object, one sequence element for each of the given EC number.
+    ''' </returns>
     <ExportAPI("predict_sequence")>
     <RApiReturn(GetType(FastaSeq))>
     Public Function predict_sequence(model As TransformerModel, <RRawVectorArgument> ec_number As Object, Optional env As Environment = Nothing) As Object
@@ -404,23 +337,29 @@ Module proteinKit
     ''' <summary>
     ''' analysis the functional domain on the protein sequence
     ''' </summary>
-    ''' <param name="blastp"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="blastp">
+    ''' the diamond blastp annotation result data for extract the protein 
+    ''' domain information.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a vector of the <see cref="PfamString"/> protein domain annotation 
+    ''' result, one result element for each of the protein sequence in the 
+    ''' input annotation result data.
+    ''' </returns>
     <ExportAPI("analysis_domains")>
     <RApiReturn(GetType(PfamString))>
-    Public Function analysis_domains(<RRawVectorArgument> blastp As Object, Optional env As Environment = Nothing)
+    Public Function analysis_domains(<RRawVectorArgument> blastp As Object, Optional env As Environment = Nothing) As Object
         If TypeOf blastp Is v228 Then
             Throw New NotImplementedException
         Else
-            Dim pull As pipeline = pipeline.TryCreatePipeline(Of DiamondAnnotation)(blastp, env)
+            Dim pull As PipeIterator(Of DiamondAnnotation) = pipeline.Stream(Of DiamondAnnotation)(blastp, env)
 
             If pull.isError Then
                 Return pull.getError
             End If
 
-            Dim proteins = pull.populates(Of DiamondAnnotation)(env) _
-                .Parse _
+            Dim proteins As PfamString() = pull.Parse _
                 .GroupBy(Function(a) a.QueryName) _
                 .Select(Function(a) New NamedCollection(Of PfamHit)(a.Key, a)) _
                 .CreateAnnotations(evalue:=1, coverage:=0, identities:=30) _
@@ -428,5 +367,21 @@ Module proteinKit
 
             Return proteins
         End If
+    End Function
+
+    ''' <summary>
+    ''' read the table file of pfam protein domain annotation data, and return the <see cref="PfamString"/> object model
+    ''' </summary>
+    ''' <param name="file">
+    ''' the file path of the pfam protein domain annotation csv table file.
+    ''' </param>
+    ''' <returns>
+    ''' a vector of the <see cref="PfamString"/> protein domain annotation 
+    ''' object that loaded from the given table file.
+    ''' </returns>
+    <ExportAPI("read.pfam_string")>
+    <RApiReturn(GetType(PfamString))>
+    Public Function readPfamString(file As String) As Object
+        Return file.LoadCsv(Of PfamString)(mute:=True).ToArray
     End Function
 End Module

@@ -1,0 +1,39 @@
+.\" man page create by R# package system.
+.TH PROFILES 1 2000-1月 "category_labels" "category_labels"
+.SH NAME
+category_labels \- Get the category labels for a given id set.
+.SH SYNOPSIS
+\fIcategory_labels(\fBcategory\fR as <generic> ClassProfiles, 
+\fBidSet\fR as string, 
+\fBlevel\fR as integer = 1, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Get the category labels for a given id set.
+.PP
+.SH OPTIONS
+.PP
+\fBcategory\fB \fR\- the KEGG category class model that is created by the \fBkegg_category\fR function.. 
+.PP
+.PP
+\fBidSet\fB \fR\- 
+ a character vector of the target id set
+. 
+.PP
+.PP
+\fBlevel\fB \fR\- the category level that will be returns: \fB1\fR (default) for the level 1 class, \fB2\fR for the level 2 category.. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment.. 
+.PP
+.SH VALUE
+.PP
+a character vector of the category label of each input id, a \fBNULL\fR value will be
+ returned for the id that is not found in the category model.
+.PP
+.SH SEE ALSO
+profiles
+.SH FILES
+.PP
+gseakit.dll
+.PP

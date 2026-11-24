@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::744c60c922d2547ffce6b9c84fca024b, Data_science\Visualization\DataPlot\Advanced\RadarPlot.vb"
+#Region "Microsoft.VisualBasic::4a957b7c829a425c22ec5c6d6cbad0a7, Data_science\Visualization\DataPlot\Advanced\RadarPlot.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 143
-    '    Code Lines: 113 (79.02%)
-    ' Comment Lines: 16 (11.19%)
-    '    - Xml Docs: 37.50%
+    '   Total Lines: 148
+    '    Code Lines: 116 (78.38%)
+    ' Comment Lines: 17 (11.49%)
+    '    - Xml Docs: 41.18%
     ' 
-    '   Blank Lines: 14 (9.79%)
-    '     File Size: 5.65 KB
+    '   Blank Lines: 15 (10.14%)
+    '     File Size: 6.02 KB
 
 
     ' Class RadarPlot
@@ -48,7 +48,7 @@
     '     Properties: Categories, FillAlpha, GridLevels, MaxValue, MultiValues
     '                 SeriesNames, ShowScale
     ' 
-    '     Constructor: (+1 Overloads) Sub New
+    '     Constructor: (+2 Overloads) Sub New
     '     Sub: Plot
     ' 
     ' /********************************************************************************/
@@ -57,6 +57,7 @@
 
 Imports System.Drawing
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports std = System.Math
 
 ''' <summary>雷达图（蛛网图，多维度多系列叠加）</summary>
@@ -76,11 +77,16 @@ Public Class RadarPlot
     ''' <summary>显示数值刻度</summary>
     Public Property ShowScale As Boolean = False
 
-    Public Sub New(width As Integer, height As Integer, Optional theme As PlotTheme = Nothing)
-        MyBase.New(width, height, theme)
+    Public Sub New(width As Integer, height As Integer, Optional theme As PlotTheme = Nothing, Optional driver As Microsoft.VisualBasic.Imaging.Driver.Drivers = Microsoft.VisualBasic.Imaging.Driver.Drivers.Default)
+        MyBase.New(width, height, theme, driver)
     End Sub
 
-    Public Sub Plot()
+    ''' <summary>直接在外部提供的绘图设备上绘制（图层叠加模式 / 宿主画布）。</summary>
+    Public Sub New(g As IGraphics, Optional theme As PlotTheme = Nothing)
+        MyBase.New(g, theme)
+    End Sub
+
+    Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
         DrawBackground()
         DrawTitle()
 
@@ -115,8 +121,8 @@ Public Class RadarPlot
         ' ---- 同心多边形网格 ----
         If Theme.ShowGrid Then
             Using pen As New Pen(Theme.GridColor, Theme.GridLineWidth)
-                For g = 1 To GridLevels
-                    Dim rr = R * g / GridLevels
+                For level = 1 To GridLevels
+                    Dim rr = R * level / GridLevels
                     Dim pts = New PointF(nCat - 1) {}
                     For j = 0 To nCat - 1
                         pts(j) = New PointF(cx + CSng(std.Cos(angles(j))) * rr,
@@ -142,9 +148,9 @@ Public Class RadarPlot
                   sf As New StringFormat()
                 sf.Alignment = StringAlignment.Near
                 sf.LineAlignment = StringAlignment.Center
-                For g = 1 To GridLevels
-                    Dim rr = R * g / GridLevels
-                    Dim v = vmax * g / GridLevels
+                For level = 1 To GridLevels
+                    Dim rr = R * level / GridLevels
+                    Dim v = vmax * level / GridLevels
                     _g.DrawString(FormatNumber(v), Theme.TickLabelFont, br, cx + 2, cy - rr)
                 Next
             End Using

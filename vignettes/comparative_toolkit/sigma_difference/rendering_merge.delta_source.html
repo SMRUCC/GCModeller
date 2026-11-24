@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Merge the exported partition-level ``delta*`` profile csv files with the</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>rendering_merge.delta_source {sigma_difference}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>Merge the exported partition-level ``delta*`` profile csv files with the</h2>
+
+        <h3>Description</h3>
+
+        <p>two-way BLAST best hit rendering data.</p>
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>rendering_merge.delta_source</strong>(<i>source</i>, <i>query</i>, <i>render.source</i>, <i>saveto</i>,
+    <i>samples</i> = <span style='color: green;'>1</span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>source</dt>
+<dd><p>the source directory that contains the profile csv files. [as string]</p></dd>
+
+
+<dt>query</dt>
+<dd><p>the gene objects of the query genome. [as <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Annotation/IGeneBrief.html">iterates(IGeneBrief)</a>]</p></dd>
+
+
+<dt>render.source</dt>
+<dd><p>the xml file of the <a href="cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.Tasks.Models.SpeciesBesthit">SpeciesBesthit</a> rendering data. [as string]</p></dd>
+
+
+<dt>saveto</dt>
+<dd><p>the merged csv output file path. [as string]</p></dd>
+
+
+<dt>samples</dt>
+<dd><p>the row sampling step (1 = keep every row). [as integer]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: none;">Details</h3>
+
+        
+
+        <h3 style="display: block">Authors</h3>
+
+        comparative_toolkit
+
+        <h3>Value</h3>
+
+        <p>true when the merged csv document has been saved</p><h4>clr value class</h4><ul><li>boolean</li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>sigma_difference</em> version 1.0.0.0 <a
+                href="../sigma_difference.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

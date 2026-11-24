@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3332d80e51aee121a26a9510b8f6e23c, Data\BinaryData\Feather\test\Program.vb"
+﻿#Region "Microsoft.VisualBasic::ff3b03c376a5e6fe2a88e9ea41cd43de, Data\BinaryData\Feather\test\Program.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 130
-    '    Code Lines: 112 (86.15%)
-    ' Comment Lines: 8 (6.15%)
+    '   Total Lines: 128
+    '    Code Lines: 110 (85.94%)
+    ' Comment Lines: 8 (6.25%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 10 (7.69%)
-    '     File Size: 7.25 KB
+    '   Blank Lines: 10 (7.81%)
+    '     File Size: 7.21 KB
 
 
     ' Module Program
@@ -53,8 +53,6 @@
 
 #End Region
 
-Imports System
-Imports System.Linq
 Imports Microsoft.VisualBasic.DataStorage.FeatherFormat
 
 Module Program

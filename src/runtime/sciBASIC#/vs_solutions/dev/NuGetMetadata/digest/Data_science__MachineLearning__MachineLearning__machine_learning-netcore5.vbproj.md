@@ -1,0 +1,359 @@
+# Data_science/MachineLearning/MachineLearning/machine_learning-netcore5.vbproj
+
+- RootNamespace : Microsoft.VisualBasic.MachineLearning
+- AssemblyName  : Microsoft.VisualBasic.MachineLearning
+- TargetFramework: net10.0
+- Source files  : 116
+- Existing Title: Classical Machine Learning: Random Forest, SVM, GA and Q-Learning
+- Existing Desc : A classical machine learning library for sciBASIC#: random forests, a LibSVM support vector machine port with grid parameter selection, genetic algorithm and differential evolution engines, tabular Q-learning, activation functions and normalized sample training datasets.
+- Existing Tags : scibasic;machine-learning;random-forest;svm;genetic-algorithm;q-learning;activation-functions
+
+## Namespaces
+- BayesianRegression  [files: 4]
+- ComponentModel  [files: 2]
+- ComponentModel.Activations  [files: 14]
+- ComponentModel.StoreProcedure  [files: 7]
+- Darwinism  [files: 2]
+- Darwinism.GAF  [files: 4]
+- Darwinism.GAF.Helper  [files: 4]
+- Darwinism.GAF.Population  [files: 6]
+- Darwinism.GAF.Population.SubstitutionStrategy  [files: 4]
+- Darwinism.Models  [files: 4]
+- MultilayerPerceptron  [files: 6]
+- QLearning  [files: 5]
+- QLearning.DataModel  [files: 2]
+- RandomForests  [files: 5]
+- SVM  [files: 37]
+- SVM.StorageProcedure  [files: 4]
+
+## Public types
+- Enum BayesFeatureMode (BayesianRegression\BayesianRegression.vb) - 特征似然的两种计算路径。
+- Class BayesianRegression (BayesianRegression\BayesianRegression.vb) - <para> 朴素贝叶斯是分类器，本模型通过「目标分箱 + 后验期望」把它用于回归： 训练时把连续目标 y 离散成 K 个等宽区间，以区间编号作为类别标签拟合
+- Class GaussianBayes (BayesianRegression\GaussianBayes.vb) - 与 <see cref="Bayesian"/> 的离散频率表路径相对，本类对每个类别、每个维度 独立估计均值与方差，使用高斯密度计算 log P(x|Y)。两条路径共享 <see cref="NaiveBayesModel"/> 的类别先验、log 域累加和 log-sum-exp 归一化，
+- Module NamespaceDoc (BayesianRegression\NamespaceDoc.vb) - Naive bayes regression: turns the naive bayes classifier into a continuous predictor by binning the target and taking the posterior expectation of the bin representatives. Both the discrete feature path (frequency tables) and
+- Class TargetBinning (BayesianRegression\TargetBinning.vb) - 连续目标的等宽分箱器。 朴素贝叶斯本身是分类器，回归的做法是把连续目标 y 离散为 K 个等宽区间， 用区间编号作为类别标签拟合分类器，预测时再以各区间的后验概率对
+- Class ActiveFunction (ComponentModel\ActiveFunctions\ActiveFunctionXml.vb) - 激活函数的存储于XML文档之中的数据模型
+- Class BipolarSigmoid (ComponentModel\ActiveFunctions\Functions\BipolarSigmoid.vb)
+- Class Elu (ComponentModel\ActiveFunctions\Functions\Elu.vb)
+- Class HyperbolicTangent (ComponentModel\ActiveFunctions\Functions\HyperbolicTangent.vb)
+- Class ReLU (ComponentModel\ActiveFunctions\Functions\ReLU.vb) - The rectified linear unit (ReLU) activation function: the input value which is less than the threshold will be clipped as the threshold value. ReLU is the default activation function of the modern neural network
+- Class Sigmoid (ComponentModel\ActiveFunctions\Functions\Sigmoid.vb)
+- Class Sinc (ComponentModel\ActiveFunctions\Functions\Sinc.vb) - The sinc (cardinal sine) activation function: <i>f(x) = sin(x) / x</i>. The function value at the origin point <i>x = 0</i> is defined as ``1``, which is the limit value of <i>sin(x) / x</i> when <i>x</i> tends to zero.
+- Class Softplus (ComponentModel\ActiveFunctions\Functions\Softplus.vb) - The softplus activation function: <i>f(x) = ln(1 + e ^ x)</i>. Softplus is a smooth approximation of the <see cref="ReLU"/> function, and its derivative is the standard logistic sigmoid function.
+- Class Threshold (ComponentModel\ActiveFunctions\Functions\Threshold.vb)
+- Module NamespaceDoc (ComponentModel\ActiveFunctions\NamespaceDoc.vb) - Activation functions for the neural network models.
+- Class Identical (ComponentModel\ActiveFunctions\Regression\Identical.vb) - The identity activation function: <i>f(x) = x</i>. This activation function is usually used by the regression model, in which the output of the neuron node should not be transformed.
+- Class QLinear (ComponentModel\ActiveFunctions\Regression\QLinear.vb) - A quadratic-linear activation function: <i>f(x) = ln(x ^ 2)</i> when <i>x &gt;= 1</i>, otherwise zero. The output of this function is flat (zero) on the interval
+- Class DataSet (ComponentModel\DataSet\DataSet.vb) - A training dataset that stored in XML file. 一般只需要生成这个数据对象, 之后就可以直接使用这个对象来进行统一的训练代码调用即可
+- Module Diagnostics (ComponentModel\DataSet\Diagnostics.vb) - The diagnostic helpers of the training <see cref="DataSet"/> object.
+- Module NamespaceDoc (ComponentModel\DataSet\NamespaceDoc.vb) - A common dataset for machine learnings
+- Class NormalizeMatrix (ComponentModel\DataSet\NormalizeMatrix.vb) - A matrix for make the sample input normalized.(进行所输入的样本数据的归一化的矩阵)
+- Class MLDataFrame (ComponentModel\DataSet\Sample.vb) - a collection of the samples data
+- Class SampleData (ComponentModel\DataSet\Sample.vb) - the in-memory sample data object
+- Class Sample (ComponentModel\DataSet\Sample.vb) - The training dataset, a data point with known label
+- Module SampleHelper (ComponentModel\DataSet\SampleHelper.vb)
+- Class SampleList (ComponentModel\DataSet\SampleList.vb) - the <see cref="Sample"/> collection
+- Module NamespaceDoc (ComponentModel\NamespaceDoc.vb) - The machine learning component model: the shared interfaces implemented by the learning algorithms.
+- Class ConstantStatus0 (ComponentModel\Status0.vb) - A constant value as the initial value generator: the <see cref="C"/> value will always be generated. This initial value strategy is usually used for generate the initial
+- Class RandomStatus0 (ComponentModel\Status0.vb) - Generate the initial value from a uniform random distribution: the value is sampled from the interval between <see cref="Min"/> and <see cref="Max"/>. Random initialization is essential for breaking the symmetry of the neuron
+- Interface IIndividual (Darwinism\DifferentialEvolution.vb) - The individual model of the differential evolution: a chromosome which exposes its gene values as a indexable real valued vector.
+- Module DifferentialEvolution (Darwinism\DifferentialEvolution.vb) - change over time, etc.[1] DE optimizes a problem by maintaining a population Of candidate solutions And creating New candidate solutions by combining existing ones according To its simple formulae, And Then keeping whichever
+- Class EnvironmentDriver (Darwinism\GeneticAlgorithm\EnvironmentDriver.vb) - 发生种群进化所需要的环境压力产生器 <typeparam name="Chr"></typeparam>
+- Structure outPrint (Darwinism\GeneticAlgorithm\EnvironmentDriver.vb) - One iteration report record of the genetic algorithm evolution process.
+- Interface Fitness (Darwinism\GeneticAlgorithm\Fitness.vb) - A function wrapper for calculate genome fitness in current environment. (描述了如何从将目标染色体计算为fitness，从而能够量化突变带来的的优点) <typeparam name="Chr">
+- Class GeneticAlgorithm (Darwinism\GeneticAlgorithm\GeneticAlgorithm.vb) - The GA engine core <typeparam name="Chr"></typeparam>
+- Module GeneticHelper (Darwinism\GeneticAlgorithm\Helper\GeneticHelper.vb) - 在这个模块之中,涉及到<see cref="SparseVector"/>的所有函数都是应用于处理非常大的系统而构建的
+- Module InitializationHelper (Darwinism\GeneticAlgorithm\Helper\InitializationHelper.vb) - The helper module for creates the initial population of a genetic algorithm.
+- Class Memory (Darwinism\GeneticAlgorithm\Helper\MemoryDump.vb) - Dump the genetic algorithm evolution process into a text table file, so that the optimization procedure can be reviewed afterwards. The output file is a tabular delimited text file which contains the
+- Module NamespaceDoc (Darwinism\GeneticAlgorithm\Helper\NamespaceDoc.vb) - Helper types of the genetic algorithm framework.
+- Module NamespaceDoc (Darwinism\GeneticAlgorithm\NamespaceDoc.vb) - The genetic algorithm framework (GAF): genomes, populations and the evolution engine.
+- Module NamespaceDoc (Darwinism\GeneticAlgorithm\Population\NamespaceDoc.vb) - Population models of the genetic algorithm framework.
+- Class ParallelPopulationCompute (Darwinism\GeneticAlgorithm\Population\ParallelCompute.vb) - A parallel compute implementation which distributes the population individuals onto all of the available cpu cores. <typeparam name="chr">The chromosome type of the genetic algorithm.</typeparam>
+- Class ParallelDataSetCompute (Darwinism\GeneticAlgorithm\Population\ParallelCompute.vb) - A compute implementation for the case that the parallelism is already handled inside the fitness calculation function itself, so that the individuals of the population are evaluated in sequence.
+- Class Population (Darwinism\GeneticAlgorithm\Population\Population.vb) - The default genetic algorithm population model. <typeparam name="Chr">The chromosome type of the genetic algorithm.</typeparam>
+- Class PopulationList (Darwinism\GeneticAlgorithm\Population\PopulationList.vb) - A <see cref="PopulationCollection(Of Chr)"/> implementation which is based on the <see cref="List(Of T)"/> object. <typeparam name="Chr">The chromosome type of the genetic algorithm.</typeparam>
+- Class EliteReplacement (Darwinism\GeneticAlgorithm\Population\Substitution\EliteReplacement.vb) - 种群的精英杂交更替策略 <typeparam name="Chr"></typeparam>
+- Module NamespaceDoc (Darwinism\GeneticAlgorithm\Population\Substitution\NamespaceDoc.vb) - Substitution strategies used when evolving genetic algorithm populations.
+- Interface IStrategy (Darwinism\GeneticAlgorithm\Population\Substitution\ReplacementStrategy.vb) - The interface of the population substitution strategies: it decides how the new individuals replace the old ones and therefore controls the convergence speed and the diversity of the genetic algorithm.
+- Enum Strategies (Darwinism\GeneticAlgorithm\Population\Substitution\ReplacementStrategy.vb) - enums of the population substitution strategies
+- Structure SimpleReplacement (Darwinism\GeneticAlgorithm\Population\Substitution\SimpleReplacement.vb) - 最简单的种群更替策略 <typeparam name="Chr"></typeparam>
+- Interface Chromosome (Darwinism\Models\Chromosome.vb) - Genetic programming(GP) pioneered tree-Like representations And developed genetic operators suitable For such representations. Tree-Like representations are used In GP To represent And evolve functional programs With desired
+- Class FitnessPool (Darwinism\Models\FitnessPool.vb) - Compute fitness and cache the result data in this pool. <typeparam name="Individual"></typeparam> this fitness calculation pool is works for the genetic algorithm module
+- Class GeneralFitnessPool (Darwinism\Models\GeneralFitnessPool.vb) - Compute fitness and cache the result data in this pool. <typeparam name="Individual"></typeparam> works for genetic algorithm and <see cref="DifferentialEvolution"/>
+- Module NamespaceDoc (Darwinism\Models\NamespaceDoc.vb) - Model definitions of the Darwinism framework.
+- Module NamespaceDoc (Darwinism\NamespaceDoc.vb) - The Darwinism genetic algorithm framework root.
+- Module DataSetAdapter (MultilayerPerceptron\DataSetAdapter.vb) - 多层感知机与项目现有归一化数据集抽象之间的适配层。
+- Class DenseLayer (MultilayerPerceptron\DenseLayer.vb) - 多层感知机中的一个全连接层。权重矩阵的形状为 [输入维度, 输出维度]， 偏置向量的长度为输出维度；这种布局使前向计算可以直接调用 <c>NumericMatrix.DotProduct</c> 完成批量矩阵乘法。
+- Module LossFunctions (MultilayerPerceptron\LossFunctions.vb)
+- Class MultilayerPerceptron (MultilayerPerceptron\MultilayerPerceptron.vb) - 基于 <see cref="LinearAlgebra.Vector"/> 与 <see cref="NumericMatrix"/> 构建的多层感知机。 支持分类（Softmax + 交叉熵）与回归（恒等输出 + 均方误差）两类任务， 训练可采用带动量的 SGD 或 Adam 优化器。
+- Class NamespaceDoc (MultilayerPerceptron\NamespaceDoc.vb) - A classical multilayer perceptron implemented on top of <c>LinearAlgebra.Vector</c> and <c>NumericMatrix</c>, with classification and regression support.
+- Enum MlpTask (MultilayerPerceptron\TrainingOptions.vb)
+- Enum OptimizerKind (MultilayerPerceptron\TrainingOptions.vb)
+- Class TrainingOptions (MultilayerPerceptron\TrainingOptions.vb)
+- Class NamespaceDoc (NamespaceDoc.vb) - The machine learning framework root: the core learning abstractions and the shared data preprocessing models.
+- Class Action (QLearning\Action.vb) - One specific environment state have some possible actions, but there is just one best action on the current environment state based on the accumulate q-values
+- Class Map (QLearning\Maze-Q-Learning\Map.vb)
+- Class Maze (QLearning\Maze-Q-Learning\Maze.vb)
+- Module Program (QLearning\Maze-Q-Learning\Program.vb)
+- Class QTable (QLearning\Maze-Q-Learning\QTable.vb)
+- Interface IQTable (QLearning\Model.vb) - The common interface of the tabular Q-learning models.
+- Class QModel (QLearning\Model.vb) - Data model of the <see cref="QTable(Of T)"/>, you can using this object to stores the trained QL_AI into a file.
+- Class IndexCurve (QLearning\Model.vb) - 属性是时间 The property keys of this dynamic property object are the time index and the property values are the curve values at the corresponding time.
+- Module NamespaceDoc (QLearning\NamespaceDoc.vb) - The Q-Learning reinforcement learning algorithm.
+- Module NamespaceDoc (QLearning\NamespaceDoc.vb) - Data models of the Q-Learning implementation.
+- Interface IQStateFeatureSet (QLearning\QState.vb) - The feature set description of the Q-learning state objects, this interface is a helper for writing the cdf model file.
+- Class Branch (RandomForests\Branch.vb) - One node (branch) of a random forest decision tree. Each branch holds the sample indices which are falling into it, the splitting feature with its splitting threshold, and the indices of its
+- Enum LF_c (RandomForests\File.vb) - Loss function used for continuous features
+- Class Data (RandomForests\File.vb) - the training dataset
+- Class File (RandomForests\File.vb) - The legacy parameter file reader of the RanFog program. This type is kept for reading the original RanFoG parameter/training file format, the file streams are declared but not assigned, so this
+- Class LossFunction (RandomForests\LossFunction.vb) - This class provides a method to calculate the Loss function of a given attribute. The method implements two sort of loss functions: Info Gain (type=1) for classified covariates
+- Module NamespaceDoc (RandomForests\NamespaceDoc.vb) - + Prototypes are computed that give information about the relation between the variables And the classification. + It computes proximities between pairs Of cases that can be used In clustering, locating outliers, Or (by scaling) give interesting views Of the data. + The capabilities Of the above can be extended To unlabeled data, leading To unsupervised clustering, data views And outlier detection.
+- Class RanFog (RandomForests\RanFog.vb) - Random Forest for classified and regression problems https://github.com/ogrecio/RanFog
+- Class Result (RandomForests\RanFog.vb) - The result object of the random forest training procedure.
+- Class Cache (SVM\Cache\Cache.vb)
+- Interface IQMatrix (SVM\Kernel\IQMatrix.vb)
+- Class PrecomputedKernel (SVM\Kernel\PrecomputedKernel.vb)
+- Class Logging (SVM\Logging.vb) - The console logging helper of the LibSVM port.
+- Class Model (SVM\Models\Model.vb) - Encapsulates an SVM Model.
+- Module NamespaceDoc (SVM\NamespaceDoc.vb) - Support vector machines: kernels, solvers and the SVM model.
+- Class Node (SVM\Node.vb) - Encapsulates a node in a Problem vector, with an index and a value (for more efficient representation of sparse data.
+- Class GridSquare (SVM\Parameter\GridSquare.vb) - Class representing a grid square result.
+- Enum KernelType (SVM\Parameter\KernelType.vb) - Contains the various kernel types this library can use.
+- Class Parameter (SVM\Parameter\Parameter.vb) - This class contains the various parameters which can affect the way in which an SVM is learned. Unless you know what you are doing, chances are you are best off using the default values.
+- Module ParameterSelection (SVM\Parameter\ParameterSelection.vb) - This class contains routines which perform parameter selection for a model which uses C-SVC and an RBF kernel.
+- Enum SvmType (SVM\Parameter\SvmType.vb) - Contains all of the types of SVM this library can model.
+- Module Prediction (SVM\Prediction.vb) - Class containing the routines to perform class membership prediction using a trained SVM.
+- Module Procedures (SVM\Procedures.vb)
+- Class GaussianTransform (SVM\RangeTransform\GaussianTransform.vb) - A transform which learns the mean and variance of a sample set and uses these to transform new data so that it has zero mean and unit variance.
+- Interface IRangeTransform (SVM\RangeTransform\IRangeTransform.vb) - Interface implemented by range transforms.
+- Class RangeTransform (SVM\RangeTransform\RangeTransform.vb) - Class which encapsulates a range transformation.
+- Module Scaling (SVM\Scaling.vb) - Deals with the scaling of Problems so they have uniform ranges across all dimensions in order to result in better SVM performance.
+- Class ONE_CLASS_Q (SVM\Solver\ONE_CLASS_Q.vb) - The one-class SVM formulation of the kernel matrix.
+- Class SolutionInfo (SVM\Solver\SolutionInfo.vb) - The solution information of the support vector machine solver, which contains everything of the solution except the alpha coefficients.
+- Class Solver (SVM\Solver\Solver.vb) - 0 &lt;= alpha_i &lt;= Cp for y_i = 1 0 &lt;= alpha_i &lt;= Cn for y_i = -1 ```
+- Class SVC_Q (SVM\Solver\SVC_Q.vb) - Q matrices for various formulations
+- Class SVR_Q (SVM\Solver\SVR_Q.vb) - The epsilon-SVR / nu-SVR formulation of the kernel matrix: the kernel matrix is expanded to twice of the sample size so that the two slack variables of each sample can be handled at the same time.
+- Class RangeTransformModel (SVM\StorageProcedure\Models\Model.vb) - The JSON serializable data model of a <see cref="RangeTransform"/> object.
+- Class GaussianTransformModel (SVM\StorageProcedure\Models\Model.vb) - The JSON serializable data model of a <see cref="GaussianTransform"/> object.
+- Module NamespaceDoc (SVM\StorageProcedure\Models\NamespaceDoc.vb) - Storage procedures of the support vector machine model.
+- Class SupportVector (SVM\StorageProcedure\Models\ProblemTable.vb) - data -> labels
+- Class ProblemTable (SVM\StorageProcedure\Models\ProblemTable.vb) - A tabular training data model: each <see cref="SupportVector"/> row contains the feature values and the class labels of multiple topics.
+- Class supportNodeVector (SVM\StorageProcedure\Models\SvmModelJSON.vb) - The JSON serializable data model of a support vector: the sparse <see cref="Node"/> array is stored as two separated index/value arrays.
+- Class Model (SVM\StorageProcedure\Models\SvmModelJSON.vb) - The JSON serializable data model of a trained LibSVM model.
+- Class SvmModelJSON (SVM\StorageProcedure\Models\SvmModelJSON.vb) - The JSON serializable storage model of a complete <see cref="SVMModel"/> object, which contains the inner model, the range transform and the class label factors.
+- Class SVMMultipleSetJSON (SVM\StorageProcedure\Models\SvmModelJSON.vb) - The JSON serializable storage model of a <see cref="SVMMultipleSet"/> object.
+- Module GaussianTransformText (SVM\StorageProcedure\TextWriter\GaussianTransformText.vb)
+- Module ModelText (SVM\StorageProcedure\TextWriter\ModelText.vb)
+- Module ProblemText (SVM\StorageProcedure\TextWriter\ProblemText.vb)
+- Module TransformText (SVM\StorageProcedure\TextWriter\TransformText.vb)
+- Module SVMExtensions (SVM\SVMExtensions.vb)
+- ... and 5 more
+
+## Notable public members
+- Public Const DefaultPredictionColumn As String = "bayes_prediction"
+- Public ReadOnly Property IsTrained As Boolean
+- Public ReadOnly Property Mode As BayesFeatureMode
+- Public ReadOnly Property Bins As Integer
+- Public ReadOnly Property Smoothing As Double
+- Public ReadOnly Property VarianceFloor As Double
+- Public ReadOnly Property Binning As TargetBinning
+- Public ReadOnly Property PosteriorModel As NaiveBayesModel
+- Public ReadOnly Property FeatureWidth As Integer
+- Public ReadOnly Property Classes As Integer()
+- Public ReadOnly Property Representatives As Double()
+- Public Shared Function Restore(mode As BayesFeatureMode,
+- Public Sub Train(table As NumericTable,
+- Public Sub Train(table As NumericTable,
+- Public Sub Train(x As Double()(),
+- Public Function PredictPosterior(x As Double()) As Double()
+- Public Function Predict(x As Double()) As Double
+- Public Function Predict(X As Double()()) As Double()
+- Public Function Predict(table As NumericTable) As Double()
+- Public Function Apply(table As NumericTable,
+- Public Overrides Function ToString() As String
+- Public Const DefaultVarianceFloor As Double = 0.000000001
+- Public Shared Function Restore(classes As Integer(),
+- Public ReadOnly Property VarianceFloor As Double
+- Public ReadOnly Property Means As Double()()
+- Public ReadOnly Property Variances As Double()()
+- Protected Overrides Function LogLikelihood(x As Double(), classIndex As Integer) As Double
+- Public Shared Function Load(table As NumericTable,
+- Public Shared Function Load(table As NumericTable,
+- Public Shared Function Load(x As Double()(),
+- Public Overrides Function ToString() As String
+- Public Const DefaultBins As Integer = 10
+- Public Shared Function Fit(y As Double(), Optional bins As Integer = DefaultBins) As TargetBinning
+- Public Shared Function Restore(minimum As Double, maximum As Double, interval As Double,
+- Public ReadOnly Property BinCount As Integer
+- Public ReadOnly Property Minimum As Double
+- Public ReadOnly Property Maximum As Double
+- Public ReadOnly Property Interval As Double
+- Public ReadOnly Property Representatives As Double()
+- Public Function BinIndex(value As Double) As Integer
+- Public Function RepresentativeAt(index As Integer) As Double
+- Public Function LowerEdge(index As Integer) As Double
+- Public Function Encode(y As Double()) As Integer()
+- Public Overrides Function ToString() As String
+- Public Property name As String
+- Public Property Arguments As NamedValue()
+- Public Function CreateFunction() As IActivationFunction
+- Public Function HasKey(name As String) As Boolean
+- Public Overrides Function ToString() As String
+- Public Shared ReadOnly Property ReLU As [Default](Of String) = "ReLU()"
+- Public Shared ReadOnly Property Threshold As [Default](Of String) = "Threshold()"
+- Public Shared ReadOnly Property Sigmoid As [Default](Of String) = "Sigmoid(alpha:=2.0)"
+- Public Shared ReadOnly Property BipolarSigmoid As [Default](Of String) = "BipolarSigmoid(alpha:=2.0)"
+- Public Shared Function Parse(expression As String) As ActiveFunction
+- Public Property Alpha As Double = 2.0R
+- Public Overrides ReadOnly Property Store As ActiveFunction
+- Public Sub New()
+- Public Sub New(alpha As Double)
+- Protected Overrides Function Derivative(x As Double) As Double
+- Public Overrides Function ToString() As String
+- ... and 567 more
+
+## Imports
+- ASCII = Microsoft.VisualBasic.Text.ASCII
+- Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
+- Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
+- Microsoft.VisualBasic.ComponentModel
+- Microsoft.VisualBasic.ComponentModel.Collection
+- Microsoft.VisualBasic.ComponentModel.Collection.Generic
+- Microsoft.VisualBasic.ComponentModel.DataSourceModel
+- Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
+- Microsoft.VisualBasic.ComponentModel.TagData
+- Microsoft.VisualBasic.Data
+- Microsoft.VisualBasic.Data.csv
+- Microsoft.VisualBasic.DataMining.ComponentModel
+- Microsoft.VisualBasic.DataMining.ComponentModel.Encoder
+- Microsoft.VisualBasic.DataMining.Kernel.Classifier
+- Microsoft.VisualBasic.Language
+- Microsoft.VisualBasic.Language.Default
+- Microsoft.VisualBasic.Language.Java
+- Microsoft.VisualBasic.Linq
+- Microsoft.VisualBasic.MachineLearning.ComponentModel.Activations
+- Microsoft.VisualBasic.MachineLearning.ComponentModel.StoreProcedure
+- Microsoft.VisualBasic.MachineLearning.Darwinism
+- Microsoft.VisualBasic.MachineLearning.Darwinism.GAF
+- Microsoft.VisualBasic.MachineLearning.Darwinism.GAF.Helper
+- Microsoft.VisualBasic.MachineLearning.Darwinism.GAF.Population
+- Microsoft.VisualBasic.MachineLearning.Darwinism.GAF.Population.SubstitutionStrategy
+
+## File tree
+- BayesianRegression\BayesianRegression.vb
+- BayesianRegression\GaussianBayes.vb
+- BayesianRegression\NamespaceDoc.vb
+- BayesianRegression\TargetBinning.vb
+- ComponentModel\ActiveFunctions\ActiveFunctionXml.vb
+- ComponentModel\ActiveFunctions\Functions\BipolarSigmoid.vb
+- ComponentModel\ActiveFunctions\Functions\Elu.vb
+- ComponentModel\ActiveFunctions\Functions\HyperbolicTangent.vb
+- ComponentModel\ActiveFunctions\Functions\ReLU.vb
+- ComponentModel\ActiveFunctions\Functions\Sigmoid.vb
+- ComponentModel\ActiveFunctions\Functions\SigmoidFunction.vb
+- ComponentModel\ActiveFunctions\Functions\Sinc.vb
+- ComponentModel\ActiveFunctions\Functions\Softplus.vb
+- ComponentModel\ActiveFunctions\Functions\Threshold.vb
+- ComponentModel\ActiveFunctions\IActivationFunction.vb
+- ComponentModel\ActiveFunctions\NamespaceDoc.vb
+- ComponentModel\ActiveFunctions\Regression\Identical.vb
+- ComponentModel\ActiveFunctions\Regression\QLinear.vb
+- ComponentModel\DataSet\DataSet.vb
+- ComponentModel\DataSet\Diagnostics.vb
+- ComponentModel\DataSet\NamespaceDoc.vb
+- ComponentModel\DataSet\NormalizeMatrix.vb
+- ComponentModel\DataSet\Sample.vb
+- ComponentModel\DataSet\SampleHelper.vb
+- ComponentModel\DataSet\SampleList.vb
+- ComponentModel\NamespaceDoc.vb
+- ComponentModel\Status0.vb
+- Darwinism\DifferentialEvolution.vb
+- Darwinism\GeneticAlgorithm\EnvironmentDriver.vb
+- Darwinism\GeneticAlgorithm\Fitness.vb
+- Darwinism\GeneticAlgorithm\GeneticAlgorithm.vb
+- Darwinism\GeneticAlgorithm\Helper\GeneticHelper.vb
+- Darwinism\GeneticAlgorithm\Helper\InitializationHelper.vb
+- Darwinism\GeneticAlgorithm\Helper\MemoryDump.vb
+- Darwinism\GeneticAlgorithm\Helper\NamespaceDoc.vb
+- Darwinism\GeneticAlgorithm\NamespaceDoc.vb
+- Darwinism\GeneticAlgorithm\Population\Collection.vb
+- Darwinism\GeneticAlgorithm\Population\Delegates.vb
+- Darwinism\GeneticAlgorithm\Population\NamespaceDoc.vb
+- Darwinism\GeneticAlgorithm\Population\ParallelCompute.vb
+- Darwinism\GeneticAlgorithm\Population\Population.vb
+- Darwinism\GeneticAlgorithm\Population\PopulationList.vb
+- Darwinism\GeneticAlgorithm\Population\Substitution\EliteReplacement.vb
+- Darwinism\GeneticAlgorithm\Population\Substitution\NamespaceDoc.vb
+- Darwinism\GeneticAlgorithm\Population\Substitution\ReplacementStrategy.vb
+- Darwinism\GeneticAlgorithm\Population\Substitution\SimpleReplacement.vb
+- Darwinism\Models\Chromosome.vb
+- Darwinism\Models\FitnessPool.vb
+- Darwinism\Models\GeneralFitnessPool.vb
+- Darwinism\Models\NamespaceDoc.vb
+- Darwinism\NamespaceDoc.vb
+- Extensions.vb
+- IterationReporter.vb
+- MultilayerPerceptron\DataSetAdapter.vb
+- MultilayerPerceptron\DenseLayer.vb
+- MultilayerPerceptron\LossFunctions.vb
+- MultilayerPerceptron\MultilayerPerceptron.vb
+- MultilayerPerceptron\NamespaceDoc.vb
+- MultilayerPerceptron\TrainingOptions.vb
+- NamespaceDoc.vb
+- QLearning\Action.vb
+- QLearning\Maze-Q-Learning\Map.vb
+- QLearning\Maze-Q-Learning\Maze.vb
+- QLearning\Maze-Q-Learning\Program.vb
+- QLearning\Maze-Q-Learning\QTable.vb
+- QLearning\Model.vb
+- QLearning\NamespaceDoc.vb
+- QLearning\QLearning.vb
+- QLearning\QState.vb
+- QLearning\QTable.vb
+- RandomForests\Branch.vb
+- RandomForests\File.vb
+- RandomForests\LossFunction.vb
+- RandomForests\NamespaceDoc.vb
+- RandomForests\RanFog.vb
+- SVM\Cache\Cache.vb
+- SVM\Cache\head_t.vb
+- SVM\Kernel\IQMatrix.vb
+- SVM\Kernel\Kernel.vb
+- SVM\Kernel\PrecomputedKernel.vb
+- SVM\LibSVM.vb
+- SVM\Logging.vb
+- SVM\Models\Model.vb
+- SVM\Models\Problem.vb
+- SVM\NamespaceDoc.vb
+- SVM\Node.vb
+- SVM\Parameter\GridSquare.vb
+- SVM\Parameter\KernelType.vb
+- SVM\Parameter\Parameter.vb
+- SVM\Parameter\ParameterSelection.vb
+- SVM\Parameter\SvmType.vb
+- SVM\Prediction.vb
+- SVM\Procedures.vb
+- SVM\RangeTransform\GaussianTransform.vb
+- SVM\RangeTransform\IRangeTransform.vb
+- SVM\RangeTransform\RangeTransform.vb
+- SVM\Scaling.vb
+- SVM\Solver\ONE_CLASS_Q.vb
+- SVM\Solver\SolutionInfo.vb
+- SVM\Solver\Solver.vb
+- SVM\Solver\Solver_NU.vb
+- SVM\Solver\SVC_Q.vb
+- SVM\Solver\SVR_Q.vb
+- SVM\StorageProcedure\Models\Model.vb
+- SVM\StorageProcedure\Models\NamespaceDoc.vb
+- SVM\StorageProcedure\Models\ProblemTable.vb
+- SVM\StorageProcedure\Models\SvmModelJSON.vb
+- SVM\StorageProcedure\TextWriter\GaussianTransformText.vb
+- SVM\StorageProcedure\TextWriter\ModelText.vb
+- SVM\StorageProcedure\TextWriter\ProblemText.vb
+- SVM\StorageProcedure\TextWriter\TransformText.vb
+- SVM\SVMExtensions.vb
+- SVM\SVMModel.vb
+- SVM\SVMPrediction.vb
+- SVM\SVMUtilities.vb
+- SVM\Training.vb
+

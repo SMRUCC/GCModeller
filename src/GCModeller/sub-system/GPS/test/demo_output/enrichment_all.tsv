@@ -1,0 +1,21 @@
+term	name	score	enriched	cluster	pvalue	FDR	IDs
+P15	氧化应激响应通路 (Oxidative Stress Response)	0.105263	2	19	0.00688811	0.137762	groES;sodC
+P04	萜类合成通路 (Terpenoid Biosynthesis)	0.6875	11	16	0.0336744	0.336744	pinS;idi;ispB;ispG;ispF;gerA;linalS;ispH;dxr;ispE;crtE
+P13	嘌呤/嘧啶代谢通路 (Purine/Pyrimidine Metabolism)	0.666667	10	15	0.0563263	0.375508	purC;pyrC;purD;purH;pyrB;purF;pyrR;purR;purB;purA
+P02	脂肪酸β-氧化通路 (Fatty Acid β-Oxidation)	0.571429	16	28	0.0714912	0.357456	sucA;cls;fadE;paaG;paaH;echA;sdhA;icd;paaF;fadB;atoD;fadA;paaJ;atoA;yqeA;acdh
+P20	蛋白水解系统 (Proteolytic System)	0.611111	11	18	0.0842314	0.336926	mpr;bpr;oppB;pepC;pepA;pepQ;pepB;nprB;pepX;pepF;degS
+P17	丙酮酸代谢枢纽 (Pyruvate Metabolism Hub)	0.551724	16	29	0.114024	0.380081	fbaA;gapA;lpd;aceE;atpD;pykF;glcP;pdhC;pdhA;ilvN;budA;aceF;ptsG;pdhR;alsD;pykA
+P16	氨基酸生物合成通路 (Amino Acid Biosynthesis)	0.222222	4	18	0.140591	0.401688	thrA;argC;argH;thrC
+P06	硫代谢通路 (Sulfur Metabolism)	0.238095	5	21	0.167919	0.419797	cysI;cysD;mglB;cysR;ssuA
+P19	细胞壁降解通路 (Cell Wall Degradation)	0.214286	3	14	0.172436	0.383191	lytE;tagO;lytF
+P14	铁载体合成通路 (Siderophore Biosynthesis)	0.571429	8	14	0.266286	0.532571	sidK;sidH;sidF;sidD;sidB;sidG;sidC;sidI
+P07	乳酸代谢通路 (Lactate Metabolism)	0.25	3	12	0.374423	0.680769	ldhB;lldR;lctP
+P12	全局调控网络 (Global Regulatory Network)	0.32	8	25	0.408212	0.680353	rocR;glnR;sigA;ccpA;resE;fur;resD;sigH
+P10	细菌素合成通路 (Bacteriocin Biosynthesis)	0.285714	4	14	0.418104	0.643237	bacA;nisK;bacT;bacB
+P08	聚酮合酶通路 (Polyketide Synthase Pathway)	0.333333	8	24	0.525083	0.750118	pksF;dfnB;pksJ;pksA;baeC;acpA;pksM;pksE
+P05	苯丙氨酸代谢通路 (Phenylalanine Metabolism)	0.357143	5	14	0.788338	1.05112	pdcA;aroB;hpaC;feaB;aroA
+P18	维生素/辅因子合成通路 (Vitamin/Cofactor Biosynthesis)	0.4375	7	16	0.798723	0.998403	panD;ribC;panC;bioB;panB;thiB;thiC
+P11	群体感应通路 (Quorum Sensing)	0.352941	6	17	0.802245	0.943818	phrA;luxR;yydA;comP;luxI;abrB
+P01	支链氨基酸降解通路 (Branched-Chain Amino Acid Degradation)	0.444444	8	18	0.806765	0.896406	bkdR;lpdA;brnQ;ivdA;bkdA2;bcatA;hmgA;hmgL
+P09	非核糖体肽合成通路 (NRPS Pathway)	0.368421	7	19	0.814586	0.857459	nrpB;srfAA;nrpF;nrpH;bacilysinA;bacilysinB;nrpM
+P03	酯类合成通路 (Ester Biosynthesis)	0.375	6	16	1	1	adhB;estB;eeb1;aldB;adhA;atfB

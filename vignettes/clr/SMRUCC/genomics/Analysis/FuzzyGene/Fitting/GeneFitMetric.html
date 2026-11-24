@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.FuzzyGene.Fitting.GeneFitMetric</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>GeneFitMetric {SMRUCC.genomics.Analysis.FuzzyGene.Fitting}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>GeneFitMetric</h2>
+
+        <h3>Description</h3>
+
+        <p>单个靶基因的拟合诊断记录。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.FuzzyGene.Fitting
+export class GeneFitMetric {
+   # 靶基因名称。
+   Gene: string;
+   # 训练轮数。
+   Iterations: integer;
+   # 跳过或失败的原因。
+   Message: string;
+   # 实际使用的模糊划分数（降级后可能小于配置值）。
+   MfCount: integer;
+   # 实际使用的规则划分方式：<code>grid</code> 或 <code>scatter</code>。
+   Partition: string;
+   # 训练集决定系数。
+   R2: double;
+   # 实际使用的调控因子（规则预算降级之后）。
+   Regulators: string;
+   # 训练集均方根误差（z 空间）。
+   RMSE: double;
+   # 最终规则数量。
+   RuleCount: integer;
+   # 训练行数。
+   SampleCount: integer;
+   # 状态：<code>ok</code> / <code>skipped</code> / <code>failed</code>。
+   Status: string;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        this clr type has no other .net clr type reference.
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

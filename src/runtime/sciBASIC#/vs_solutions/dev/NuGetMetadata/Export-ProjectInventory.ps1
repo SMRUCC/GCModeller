@@ -74,7 +74,7 @@ Write-Host "Repository root : $Root" -ForegroundColor Cyan
 
 $allProjects = Get-ChildItem -Path $Root -Filter '*.vbproj' -Recurse -File | Where-Object {
     $rel = $_.FullName.Substring($Root.Length + 1)
-    $rel -notmatch '(^|[\\/])(obj|bin|\.git|packages)([\\/]|$)'
+    $rel -notmatch '(^|[\\/])(obj|bin|\.git|\.vs|packages)([\\/]|$)'
 }
 Write-Host "Discovered      : $($allProjects.Count) *.vbproj" -ForegroundColor Cyan
 
@@ -97,13 +97,32 @@ foreach ($file in $allProjects) {
     $projectNode = $doc.DocumentElement
     $isLegacy    = [string]::IsNullOrEmpty($projectNode.GetAttribute('Sdk'))
 
+    # Prefer unconditional PropertyGroups so the inventory matches the group
+    # the Apply script actually writes into.
     $rootNs = $null
+    foreach ($pg in $projectNode.ChildNodes) {
+        if ($pg.LocalName -ne 'PropertyGroup') { continue }
+        if ($pg.GetAttribute('Condition')) { continue }
+        $v = Get-NodeText $pg 'RootNamespace'
+        if ($v) { $rootNs = $v; break }
+    }
+    if (-not $rootNs) {
+        foreach ($pg in $projectNode.ChildNodes) {
+            if ($pg.LocalName -ne 'PropertyGroup') { continue }
+            $v = Get-NodeText $pg 'RootNamespace'
+            if ($v) { $rootNs = $v; break }
+        }
+    }
+
     $firstGroup = $null
     foreach ($pg in $projectNode.ChildNodes) {
         if ($pg.LocalName -ne 'PropertyGroup') { continue }
-        if ($null -eq $firstGroup) { $firstGroup = $pg }
-        $v = Get-NodeText $pg 'RootNamespace'
-        if ($v -and -not $rootNs) { $rootNs = $v }
+        if (-not $pg.GetAttribute('Condition')) { $firstGroup = $pg; break }
+    }
+    if ($null -eq $firstGroup) {
+        foreach ($pg in $projectNode.ChildNodes) {
+            if ($pg.LocalName -eq 'PropertyGroup') { $firstGroup = $pg; break }
+        }
     }
 
     if (-not $rootNs) { $skipped.Add([ordered]@{ path = $relUnix; reason = 'no RootNamespace' }); continue }
@@ -161,7 +180,7 @@ foreach ($file in $allProjects) {
         iconRelPath      = $iconRelPath
         existingIconItem = $existingIcon
         hasPackageIcon   = [bool]$props['PackageIcon']
-        needsIconFix     = ([bool]$props['PackageIcon']) -and (-not $existingIcon)
+        needsIconFix     = ([bool]$props['PackageIcon']) -and (-not $existingIcon) -and (-not $isLegacy)
         needsIconAdd     = $isLibrary -and (-not $existingIcon) -and (-not $isLegacy)
         title            = ''
         description      = ''
@@ -172,9 +191,22 @@ foreach ($file in $allProjects) {
     })
 }
 
+# Preserve the timestamp of the previous run: the release-note generator uses it
+# as the lower bound of the git history window.
+$previousGeneratedAt = $null
+if (Test-Path -LiteralPath $OutFile) {
+    try {
+        $previous = Get-Content $OutFile -Encoding UTF8 -Raw | ConvertFrom-Json
+        $previousGeneratedAt = $previous.generatedAt
+    }
+    catch { Write-Warning "Cannot read previous inventory ($OutFile): $($_.Exception.Message)" }
+}
+
 $payload = [ordered]@{
-    generatedAt    = (Get-Date).ToString('o')
-    root           = $Root
+    generatedAt       = (Get-Date).ToString('o')
+    previousGeneratedAt = $previousGeneratedAt
+    gitBaseline       = $previousGeneratedAt
+    root              = $Root
     totalVbproj    = $allProjects.Count
     matchedCount   = $matchCount
     libraryCount   = @($records | Where-Object { $_.isLibrary }).Count

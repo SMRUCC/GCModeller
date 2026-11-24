@@ -34,6 +34,13 @@ Namespace IO
         Private Const GeneEntry As String = "genes.tsv"
         Private Const ParameterEntry As String = "parameters.tsv"
 
+        ''' <summary>
+        ''' 批归一化滑动统计量条目。
+        ''' 推理默认走滑动统计量，若只存档可训练参数，Load 回来的模型会给出不同的输出。
+        ''' 该条目为**可选**：旧存档中没有它时静默跳过（沿用初始 mean=0 / var=1）。
+        ''' </summary>
+        Private Const StatisticsEntry As String = "statistics.tsv"
+
         ''' <summary>保存模型与基因名清单。</summary>
         Public Sub Save(model As DiffusionAutoEncoder, geneNames As String(), path As String)
             If model Is Nothing Then Throw New ArgumentNullException(NameOf(model))
@@ -49,6 +56,7 @@ Namespace IO
                 Call WriteEntry(archive, ConfigEntry, SerializeConfig(model.Config))
                 Call WriteEntry(archive, GeneEntry, If(geneNames, New String() {}))
                 Call WriteEntry(archive, ParameterEntry, SerializeParameters(model))
+                Call WriteEntry(archive, StatisticsEntry, SerializeStatistics(model))
             End Using
         End Sub
 
@@ -59,6 +67,7 @@ Namespace IO
             Dim config As New SquiiffConfig()
             Dim geneNames As String() = Nothing
             Dim parameterLines As String() = Nothing
+            Dim statisticsLines As String() = Nothing
 
             Using archive As ZipArchive = ZipFile.OpenRead(path)
                 Dim configLines = ReadEntry(archive, ConfigEntry)
@@ -66,6 +75,7 @@ Namespace IO
 
                 geneNames = ReadEntry(archive, GeneEntry)
                 parameterLines = ReadEntry(archive, ParameterEntry)
+                statisticsLines = ReadEntry(archive, StatisticsEntry)
             End Using
 
             If geneNames Is Nothing OrElse geneNames.Length = 0 Then
@@ -74,6 +84,7 @@ Namespace IO
 
             Dim model As New DiffusionAutoEncoder(config, geneNames.Length, config.Seed)
             Call RestoreParameters(model, parameterLines)
+            Call RestoreStatistics(model, statisticsLines)
 
             Return New SquiiffArchive With {
                 .Model = model,
@@ -187,6 +198,81 @@ Namespace IO
             If restored <> map.Count Then
                 Throw New InvalidDataException($"参数还原不完整：存档 {restored} 个，模型 {map.Count} 个")
             End If
+        End Sub
+
+#End Region
+
+#Region "滑动统计量序列化"
+
+        ''' <summary>
+        ''' 每行一条：层名 + 均值元素数 + 均值数值 + 方差元素数 + 方差数值。
+        ''' 均值与方差形状必然一致，但仍各自记录元素数以便校验。
+        ''' </summary>
+        Private Function SerializeStatistics(model As DiffusionAutoEncoder) As String()
+            Dim lines As New List(Of String)
+
+            For Each norm In model.Normalizations
+                Dim meanData = norm.RunningMean.Data
+                Dim varData = norm.RunningVariance.Data
+                Dim cells As New List(Of String)(meanData.Length + varData.Length + 3)
+
+                cells.Add(norm.Name)
+                cells.Add(meanData.Length.ToString(CultureInfo.InvariantCulture))
+                For i As Integer = 0 To meanData.Length - 1
+                    cells.Add(meanData(i).ToString("R", CultureInfo.InvariantCulture))
+                Next
+
+                cells.Add(varData.Length.ToString(CultureInfo.InvariantCulture))
+                For i As Integer = 0 To varData.Length - 1
+                    cells.Add(varData(i).ToString("R", CultureInfo.InvariantCulture))
+                Next
+
+                lines.Add(String.Join(ControlChars.Tab, cells))
+            Next
+
+            Return lines.ToArray()
+        End Function
+
+        ''' <summary>
+        ''' 还原滑动统计量。按层名匹配；条目缺失（旧存档）或个别层缺失时静默跳过，
+        ''' 沿用初始的 mean=0 / var=1，不影响其余部分的还原。
+        ''' </summary>
+        Private Sub RestoreStatistics(model As DiffusionAutoEncoder, lines As String())
+            If lines Is Nothing Then Return
+
+            Dim map = model.Normalizations.ToDictionary(Function(n) n.Name, Function(n) n, StringComparer.Ordinal)
+
+            For Each line In lines
+                If String.IsNullOrWhiteSpace(line) Then Continue For
+
+                Dim parts = line.Split(ControlChars.Tab)
+                If parts.Length < 3 Then Continue For
+
+                Dim target As IRunningStatistics = Nothing
+                If Not map.TryGetValue(parts(0), target) Then Continue For
+
+                Dim meanCount As Integer
+                If Not Integer.TryParse(parts(1), meanCount) Then Continue For
+                If parts.Length < meanCount + 4 Then Continue For
+
+                Dim varCount As Integer
+                If Not Integer.TryParse(parts(2 + meanCount), varCount) Then Continue For
+                If parts.Length <> meanCount + varCount + 3 Then Continue For
+
+                Dim meanData = target.RunningMean.Data
+                Dim varData = target.RunningVariance.Data
+                If meanData.Length <> meanCount OrElse varData.Length <> varCount Then Continue For
+
+                For i As Integer = 0 To meanCount - 1
+                    meanData(i) = Double.Parse(parts(2 + i), CultureInfo.InvariantCulture)
+                Next
+                For i As Integer = 0 To varCount - 1
+                    varData(i) = Double.Parse(parts(3 + meanCount + i), CultureInfo.InvariantCulture)
+                Next
+
+                Call target.RunningMean.MarkHostModified()
+                Call target.RunningVariance.MarkHostModified()
+            Next
         End Sub
 
 #End Region

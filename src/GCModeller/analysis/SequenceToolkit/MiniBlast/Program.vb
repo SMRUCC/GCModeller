@@ -16,9 +16,6 @@
 ' ============================================================================
 
 Imports System.IO
-Imports System.Text.Json
-Imports System.Text.Json.Serialization
-Imports MiniBlast.Core
 Imports MiniBlast.Model
 Imports MiniBlast.Options
 Imports SMRUCC.genomics.SequenceModel.FASTA

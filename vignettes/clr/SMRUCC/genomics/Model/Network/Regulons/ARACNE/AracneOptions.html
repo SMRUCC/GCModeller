@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Model.Network.Regulons.ARACNE.AracneOptions</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>AracneOptions {SMRUCC.genomics.Model.Network.Regulons.ARACNE}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>AracneOptions</h2>
+
+        <h3>Description</h3>
+
+        <p>ARACNE 网络推断的参数配置。</p>
+
+<p>所有的参数都带有合理的默认值，无参构造即可跑通完整的流程：</p>
+
+
+<pre><code> MI(高斯 copula) -&gt; 置换阈值(tau) -&gt; DPI 去间接边 -&gt; TF 定向</code></pre>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Model.Network.Regulons.ARACNE
+export class AracneOptions {
+   # <a href="cref:F:SMRUCC.genomics.Model.Network.Regulons.ARACNE.MiEstimator.AdaptivePartitioning">MiEstimator.AdaptivePartitioning</a> 所使用的 bin 数量上限， 小于或者等于零的时候按照样本数量自动推算 <code>round(sqrt(n))</code> (结果被限制在 <code>[4, 64]</code> 之内)。
+   adaptiveMaxBins: integer;
+   # <a href="cref:F:SMRUCC.genomics.Model.Network.Regulons.ARACNE.MiEstimator.AdaptivePartitioning">MiEstimator.AdaptivePartitioning</a> 之中每个 bin 的最小点数， 小于或者等于零的时候自动推算。
+   adaptiveMinPoints: integer;
+   # 边的方向赋予策略，默认 <a href="cref:F:SMRUCC.genomics.Model.Network.Regulons.ARACNE.DirectionMode.TfDirected">DirectionMode.TfDirected</a>。
+   directionMode: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/ARACNE/DirectionMode.html">DirectionMode</a>;
+   # DPI 最多迭代多少轮，默认 5 轮。
+   # 
+   # 每一轮内部都是基于当轮开始时的邻接关系做判定(与参考实现一致的“单轮判定”语义)， 被剔除的边会在该轮结束之后统一生效；如果某一轮没有任何边被剔除， 或者已经达到轮数上限，则停止迭代。
+   dpiMaxPasses: integer;
+   # DPI 的执行策略。
+   # 
+   # 为空(默认)的时候根据是否提供了 TF 列表自动选择： 提供了 TF 列表则使用 <a href="cref:F:SMRUCC.genomics.Model.Network.Regulons.ARACNE.DpiMode.TfGuided">DpiMode.TfGuided</a>，否则使用 <a href="cref:F:SMRUCC.genomics.Model.Network.Regulons.ARACNE.DpiMode.Standard">DpiMode.Standard</a>。
+   dpiMode: <a href="/vignettes/clr/System/Nullable`1.html">Nullable`1</a>;
+   # <a href="cref:F:SMRUCC.genomics.Model.Network.Regulons.ARACNE.MiEstimator.EqualFrequencyHistogram">MiEstimator.EqualFrequencyHistogram</a> 所使用的等频 bin 数量，默认 4。
+   histogramBins: integer;
+   # <a href="cref:F:SMRUCC.genomics.Model.Network.Regulons.ARACNE.MiEstimator.KernelDensity">MiEstimator.KernelDensity</a> 的高斯核带宽， 小于或者等于零的时候使用 Silverman 经验公式自动推算。
+   kernelBandwidth: double;
+   # <a href="cref:F:SMRUCC.genomics.Model.Network.Regulons.ARACNE.MiEstimator.KernelDensity">MiEstimator.KernelDensity</a> 允许的最大样本数量(默认 2000)。
+   # 
+   # 核密度估计的计算量是 <code>O(n^2)</code>，超过这个数量的时候会随机抽取样本 (固定随机种子，结果可复现)或者退回 <a href="cref:F:SMRUCC.genomics.Model.Network.Regulons.ARACNE.MiEstimator.GaussianCopula">MiEstimator.GaussianCopula</a>。
+   kernelMaxSamples: integer;
+   # 是否对表达量做 <code>log2(x + 1)</code> 变换，默认关闭 (从 <a href="cref:T:SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix">Matrix</a> 读入的数据通常已经是 log 尺度)。
+   log2Transform: boolean;
+   # 并行计算互信息的最大并发度，小于或者等于零的时候由运行时决定。
+   maxDegreeOfParallelism: integer;
+   # 按照方差保留变化最剧烈的若干个基因，默认 0(保留全部)。
+   # 
+   # 真实的单细胞表达矩阵动辄两万个基因，全部纳入推断既慢又没有意义， 建议取 1000 ~ 3000。
+   # 
+   # 注意：<a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.ARACNE.AracneOptions.transcriptionFactors">AracneOptions.transcriptionFactors</a> 之中列出的基因不受这个上限的 截断(转录因子是调控网络的起点，即使方差排名靠后也必须保留)， 因此最终保留的基因数量可能略多于本参数。
+   maxGenes: integer;
+   # 每一个调控因子最多保留多少条最强的边(top-K 剪枝)，默认 0(不剪枝)。
+   # 
+   # 剪枝可以显著压低 DPI 三元组的数量以及内存占用， 建议在大规模数据之上取 100 ~ 500。
+   maxNeighbors: integer;
+   # 互信息的估计方法，默认为 <a href="cref:F:SMRUCC.genomics.Model.Network.Regulons.ARACNE.MiEstimator.GaussianCopula">MiEstimator.GaussianCopula</a>。
+   miEstimator: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/ARACNE/MiEstimator.html">MiEstimator</a>;
+   # 只保留在至少这个比例的样本之中有表达的基因，默认 0(不做过滤)。
+   minNonZeroRatio: double;
+   # 有效的最小样本数量要求，样本数少于这个数值的时候直接抛出异常。
+   minSamples: integer;
+   # <a href="cref:F:SMRUCC.genomics.Model.Network.Regulons.ARACNE.MiThresholdMode.Fixed">MiThresholdMode.Fixed</a> 模式之下的互信息阈值，默认 0(不做过滤)。
+   miThreshold: double;
+   # 置换零分布所采样的基因对数量，小于或者等于零的时候自动推算。
+   permutationPairs: integer;
+   # 置换零分布所取的分位数，默认 0.95(readme 建议 95% 或者 99%)。
+   permutationQuantile: double;
+   # 置换零分布之中每个基因对的打乱次数，默认 1。
+   # 
+   # 每一次打乱都会对基因对的两个表达向量分别独立洗牌， 因此即使取 1 也已经完全破坏了基因之间的依赖结构。
+   permutationReplicates: integer;
+   # 参与推断的最低先验置信度(资格门槛)，默认 0.45(即 Low 及以上)。
+   # 
+   # 低于这个门槛的先验关系会被完全忽略(既不放宽阈值，也不保护)； 达到门槛之后，保护的强度仍然与置信度成正比，见 <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.ARACNE.AracneOptions.priorProtectionMode">AracneOptions.priorProtectionMode</a>。
+   priorMinConfidence: double;
+   # curated 数据库之中的 <code>TF -&gt; TargetGene</code> 调控关系先验(可选)。
+   # 
+   # 提供之后会启用四项基于先验的算法优化(readme 第四章的进一步工程化)：
+   # 
+   # 
+   # <ol>
+   # <li>计算空间补全：先验之中出现、但是转录因子列表没有覆盖的调控因子 会被自动补充进 TF 集合(由 <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.ARACNE.AracneOptions.priorTfAugment">AracneOptions.priorTfAugment</a> 控制)， 避免因为 TF 注释不全而漏掉真实的调控因子；</li>
+   # <li>阈值放宽：先验支持的基因对即使互信息低于置换阈值 <code>tau</code>， 只要高于 <code>tau * priorThresholdFactor</code> 也会被保留下来， 用于召回被严格阈值切掉的弱调控关系；</li>
+   # <li>top-K 保护：先验支持的边不受 <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.ARACNE.AracneOptions.maxNeighbors">AracneOptions.maxNeighbors</a> 剪枝的影响；</li>
+   # <li>DPI 保护：先验支持的边不会被 DPI 判定为间接边而剔除， 这正是 ARACNE 的一个已知缺陷(反馈环路或者协同调控之中， 真实的直接边可能弱于传递边)。</li>
+   # </ol>
+   # 
+   # 
+   # 另外，先验的因果符号(激活 / 抑制)会被写入输出边的 <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.ARACNE.AracneEdge.regulation">AracneEdge.regulation</a> 字段。
+   # 
+   # 需要强调的是：上述保护与放宽的强度是按先验的置信度分级的 (见 <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.ARACNE.AracneOptions.priorProtectionMode">AracneOptions.priorProtectionMode</a> 与 <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.ARACNE.AracneOptions.priorProtectionStrength">AracneOptions.priorProtectionStrength</a>)， 高置信度的边享有更大范围的保护窗口，低置信度的边只享有很窄的窗口， 数据证据明显不足的时候仍然会被 DPI 剔除。
+   priorNetwork: <a href="/vignettes/clr/SMRUCC/genomics/BioSystem/Core/RegulatoryEdge.html">RegulatoryEdge[]</a>;
+   # 先验边在 DPI 判定之中所受保护的分级方式，默认 <a href="cref:F:SMRUCC.genomics.Model.Network.Regulons.ARACNE.PriorProtectionMode.Graded">PriorProtectionMode.Graded</a>。
+   priorProtectionMode: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/ARACNE/PriorProtectionMode.html">PriorProtectionMode</a>;
+   # 分级保护的强度，取值 0~1，默认 0.5。
+   # 
+   # 定义 DPI 的“保护窗口”：记标准容差为 <code>eps</code>、先验置信度为 <code>c</code>，则
+   # 
+   # 
+   # <pre><code> 标准容差      : eps
+   #  保护后的容差  : eps + (1 - eps) * priorProtectionStrength * c</code></pre>
+   # 
+   # 
+   # 一条先验边只有在“比另外两条边弱超过这个容差”的时候才会被 DPI 剔除， 也就是说置信度越高，允许它偏离直接关系证据的幅度越大：
+   # 
+   # 
+   # <ul>
+   # <li><code>c = 0.95</code> (High)、<code>strength = 0.5</code>：容差从 0.10 放宽到约 0.53；</li>
+   # <li><code>c = 0.70</code> (Medium)：容差放宽到约 0.42；</li>
+   # <li><code>c = 0.45</code> (Low)：容差放宽到约 0.30。</li>
+   # </ul>
+   # 
+   # 
+   # 取 1 表示满置信度的先验边永远不会被 DPI 剔除(二值保护)， 取 0 表示只按标准容差判定(等价于不保护)。
+   priorProtectionStrength: double;
+   # 是否把先验之中的调控因子自动补充进 TF 集合，默认开启。
+   # 
+   # 转录因子注释(TF 列表)本身也可能不完整，而 curated 先验之中的调控因子 从定义上就是转录因子，因此把它们并入 TF 集合可以同时改善 计算空间的覆盖度与 DPI/定向的语义。
+   priorTfAugment: boolean;
+   # 先验支持的边所使用的放宽阈值系数(置信度取满时的值)，默认 0.5。
+   # 
+   # 置信度为 <code>c</code> 的先验边，其实际阈值是
+   # 
+   # 
+   # <pre><code> tau_prior(c) = tau * (1 - (1 - priorThresholdFactor) * c)</code></pre>
+   # 
+   # 
+   # 也就是说：<code>c = 1</code> 的时候门槛降到 <code>tau * priorThresholdFactor</code>， 而置信度很低的先验几乎享受不到放宽(<code>tau_prior ~ tau</code>)。 取 1 表示完全不放宽，取 0 表示满置信度的先验只要互信息为正就保留。
+   priorThresholdFactor: double;
+   # 是否保护先验支持的边不被 DPI 剔除，默认开启。
+   # 
+   # 关闭等价于 <a href="cref:F:SMRUCC.genomics.Model.Network.Regulons.ARACNE.PriorProtectionMode.Off">PriorProtectionMode.Off</a>。
+   protectPriorEdges: boolean;
+   # 置换抽样与核密度抽样所使用的随机种子，固定种子保证结果可以复现。
+   randomSeed: integer;
+   # 是否把表达量转换成秩(rank)之后再计算互信息，默认关闭。
+   # 
+   # 开启之后 copula 估计器等于计算 spearman 相关，对表达量的单调变换 与离群值更加稳健(单细胞数据的零膨胀会让 pearson 相关明显偏低)。
+   rankTransform: boolean;
+   # 是否关闭推断过程之中的进度与阶段统计输出。
+   silent: boolean;
+   # 是否在计算互信息之前把每一个基因的表达向量标准化(z-score)，默认关闭。
+   # 
+   # 高斯 copula 估计器内部总是会做中心化与标准化(等价于计算 pearson 相关)， 因此这个开关主要影响离散化/核密度估计器。
+   standardize: boolean;
+   # 互信息显著性阈值 <code>tau</code> 的确定方式，默认 <a href="cref:F:SMRUCC.genomics.Model.Network.Regulons.ARACNE.MiThresholdMode.Permutation">MiThresholdMode.Permutation</a>。
+   thresholdMode: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/ARACNE/MiThresholdMode.html">MiThresholdMode</a>;
+   # DPI 的容差比例 <code>epsilon</code>，默认 0.1(与 ARACNE 论文一致)： 最弱的边必须比另外两条边都低超过 10% 才会被判定为间接边， 接近平局的三元组会保留下来。
+   tolerance: double;
+   # 转录因子列表(基因编号，大小写不敏感)。
+   # 
+   # 提供之后会启用三项优化(readme 第四章)：
+   # 
+   # 
+   # <ol>
+   # <li>计算空间缩减：互信息只需要计算 <code>TF x All</code> 与 <code>TF-TF</code>， 计算量由 <code>O(N^2)</code> 降为 <code>O(T * N)</code>；</li>
+   # <li>TF 导向的 DPI：见 <a href="cref:F:SMRUCC.genomics.Model.Network.Regulons.ARACNE.DpiMode.TfGuided">DpiMode.TfGuided</a>；</li>
+   # <li>方向赋予：见 <a href="cref:F:SMRUCC.genomics.Model.Network.Regulons.ARACNE.DirectionMode.TfDirected">DirectionMode.TfDirected</a>。</li>
+   # </ol>
+   # 
+   # 
+   # 为空或者为空数组的时候按全基因 <code>N x N</code> 的上三角计算。
+   transcriptionFactors: string;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>directionMode</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/ARACNE/DirectionMode.html">DirectionMode</a></li>
+<li>use by <i>property</i> member <code>dpiMode</code>: <a href="/vignettes/clr/System/Nullable`1.html">Nullable`1</a></li>
+<li>use by <i>property</i> member <code>miEstimator</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/ARACNE/MiEstimator.html">MiEstimator</a></li>
+<li>use by <i>property</i> member <code>priorNetwork</code>: <a href="/vignettes/clr/SMRUCC/genomics/BioSystem/Core/RegulatoryEdge.html">RegulatoryEdge</a></li>
+<li>use by <i>property</i> member <code>priorProtectionMode</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/ARACNE/PriorProtectionMode.html">PriorProtectionMode</a></li>
+<li>use by <i>property</i> member <code>thresholdMode</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/ARACNE/MiThresholdMode.html">MiThresholdMode</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

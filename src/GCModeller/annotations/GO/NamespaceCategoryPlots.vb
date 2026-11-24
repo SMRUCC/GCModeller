@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::de5bdc57394c3696cbf719083dda1444, annotations\GO\NamespaceCategoryPlots.vb"
+#Region "Microsoft.VisualBasic::de5bdc57394c3696cbf719083dda1444, annotations\GO\NamespaceCategoryPlots.vb"
 
     ' Author:
     ' 
@@ -54,7 +54,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.ChartPlots.BarPlot
+Imports Microsoft.VisualBasic.Data.Plots
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Linq
@@ -107,18 +107,17 @@ Public Module NamespaceCategoryPlots
 
     <Extension>
     Private Function doSingleBarplot(profiles As NamedValue(Of Double)(), namespace$, size$, tick#, colorSchema$, nolabelTrim As Boolean) As GraphicsData
-        Return LevelBarplot.Plot(
+        Return Bar.LevelPlot(
             data:=profiles,
             size:=size,
             title:=[namespace],
-            levelColorSchema:=colorSchema,
+            colorSchema:=colorSchema,
             legendTitle:="p.adjust",
             valueTitle:="-log10(p.value)",
-            labelFontCSS:=CSSFont.PlotTitle,
-            titleFontCSS:=CSSFont.Win7VeryVeryLargeNormal,
-            tickFontCSS:=CSSFont.Win7VeryLarge,
-            valueTitleFontCSS:="font-style: normal; font-size: 48; font-family: " & FontFace.MicrosoftYaHei & ";",
-            nolabelTrim:=nolabelTrim
+            trimLabel:=Not nolabelTrim,
+            dpi:=100,
+            driver:=Drivers.Default,
+            theme:=PlotTheme.Light()
         )
     End Function
 

@@ -1,0 +1,39 @@
+.\" man page create by R# package system.
+.TH LINEAR 1 2000-1月 "remove_principal_components" "remove_principal_components"
+.SH NAME
+remove_principal_components \- 去掉表达矩阵的前若干个主成分(比"减去跨基因均值"更强的去全局因子)。
+.SH SYNOPSIS
+\fIremove_principal_components(\fBx\fR as <generic> Matrix, 
+\fBcomponents\fR as integer = 3, 
+\fBmaxGenes\fR as integer = 2000);\fR
+.SH DESCRIPTION
+.PP
+去掉表达矩阵的前若干个主成分(比"减去跨基因均值"更强的去全局因子)。
+ 
+ 做法：在基因抽样的子矩阵上用块幂迭代求出前 **components** 个
+ 右奇异向量(样本空间的全局方向)，然后把每个基因的表达向量投影到这些方向上
+ 并减掉。等于把"细胞组成 / 测序质量 / 全局调控程序"这类共同因子从数据里移除。
+ 
+ 与只减跨基因均值相比，这一步能真正削弱残留的全局共表达，
+ 从而让网络里出现更多负相关(抑制型)的边。
+.PP
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- 表达矩阵(行 = 基因、列 = 样本). 
+.PP
+.PP
+\fBcomponents\fB \fR\- 要移除的主成分个数，默认 3；小于等于 0 时原样返回. 
+.PP
+.PP
+\fBmaxGenes\fB \fR\- 估计主成分时使用的基因抽样上限，默认 2000. 
+.PP
+.SH VALUE
+.PP
+变换之后的新矩阵
+.PP
+.SH SEE ALSO
+linear
+.SH FILES
+.PP
+TRNtoolkit.dll
+.PP

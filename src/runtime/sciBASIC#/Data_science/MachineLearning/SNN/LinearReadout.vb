@@ -1,3 +1,63 @@
+﻿#Region "Microsoft.VisualBasic::f7af78b46169f474f61e7b53ee34d159, Data_science\MachineLearning\SNN\LinearReadout.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 211
+    '    Code Lines: 108 (51.18%)
+    ' Comment Lines: 65 (30.81%)
+    '    - Xml Docs: 55.38%
+    ' 
+    '   Blank Lines: 38 (18.01%)
+    '     File Size: 8.15 KB
+
+
+    ' Class LinearReadout
+    ' 
+    '     Properties: Bias, BiasGrad, InputSize, Name, Trainable
+    '                 Units, Weight, WeightGrad
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
+    '     Function: BackwardTime, Forward, IdentityReadout, ToString
+    ' 
+    '     Sub: ZeroGrad
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 ' ============================================================================
 ' LinearReadout.vb — 线性回归解码头（可训练）
 '
@@ -24,6 +84,7 @@
 ' ============================================================================
 
 Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
+Imports Microsoft.VisualBasic.MachineLearning.TensorFlow.Compute
 Imports std = System.Math
 
 ''' <summary>
@@ -143,7 +204,8 @@ Public Class LinearReadout
         End If
 
         Dim batch = u.Shape(0)
-        Dim y = u.MatMul(Weight)
+        ' 读出层的主力 GEMM（O(batch·units·out)），规模达标时走单精度
+        Dim y = MixedPrecisionOps.MatMulOr(u, Weight)
         Dim b = Bias.Data
         Dim yd = y.Data
 
@@ -184,7 +246,7 @@ Public Class LinearReadout
 
         If Trainable Then
             ' dWout += uᵀ·dY
-            WeightGrad = WeightGrad + _u.Transpose().MatMul(dY)
+            WeightGrad = WeightGrad + MixedPrecisionOps.MatMulOr(_u.Transpose(), dY)
 
             ' db += Σ_batch dY（就地累加）
             Dim bgd = BiasGrad.Data
@@ -199,7 +261,7 @@ Public Class LinearReadout
         End If
 
         ' du = dY·Woutᵀ
-        Return dY.MatMul(Weight.Transpose())
+        Return MixedPrecisionOps.MatMulOr(dY, Weight.Transpose())
     End Function
 
 #End Region

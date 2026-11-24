@@ -6,7 +6,7 @@
 		<AssemblyName>Microsoft.VisualBasic.Math.ODEsSolver</AssemblyName>
 		<Authors>xieguigang &lt;I@xieguigang.me&gt;</Authors>
 		<Company>sciBASIC.NET Foundation</Company>
-		<Version>5.0.9758.20045</Version>
+		<Version>10.8.9818.14504</Version>
 		<Copyright>Copyright (c) sciBASIC.NET Foundation</Copyright>
 		<PackageProjectUrl>http://scibasic.net/</PackageProjectUrl>
 		<PackageIcon>logo-knot.png</PackageIcon>
@@ -14,16 +14,16 @@
 		<Platforms>AnyCPU;x64</Platforms>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<Description>Integrates systems of ordinary differential equations with Euler, RK2, RK4, Gill and trapezoidal solvers over a declarative model of variables, parameters and initial values. Part of sciBASIC#.</Description>
+		<Description>Integrates systems of ordinary differential equations for sciBASIC#: a shared solver core providing Euler, RK2, Gill, RK4, Runge-Kutta 23/45, Dormand-Prince, symplectic, implicit, BDF2 and Rosenbrock methods, with Jacobian and dense LU support, declarative variable/parameter models and tabular or gridded result output.</Description>
 		<Configurations>Debug;Release;Rsharp_app_release;LipidSearch;mzkit;gcmodeller_desktop;nuget_release;CellaLAB-Desktop</Configurations>
 		<RepositoryType>git</RepositoryType>
 		<AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
-		<AssemblyVersion>1.0.9758.20045</AssemblyVersion>
+		<AssemblyVersion>1.0.9818.14504</AssemblyVersion>
 		<Title>Ordinary Differential Equation Solver Core for Dynamic Models</Title>
 		<AssemblyTitle>Microsoft.VisualBasic.Math.ODEsSolver</AssemblyTitle>
-		<PackageTags>scibasic;ode;runge-kutta;euler-method;dynamical-system;numerical-integration;simulation</PackageTags>
-    <PackageReleaseNotes>Ordinary differential equation solving for sciBASIC#. The package integrates systems of ODEs with the Euler, RK2, RK4, Gill and trapezoidal solvers, so both the inexpensive first order methods and the classical fourth order Runge-Kutta family are available. Models are declared explicitly through the Dynamics namespace - variables, parameters and initial values - and the Data namespace holds the supporting data models, which means a dynamic system can be specified as data rather than as hand written derivative code. Together with the managed CVODE package (Sundials.CVODE), this forms the ODE solving layer of the sciBASIC# mathematics stack.</PackageReleaseNotes>
+		<PackageTags>scibasic;ode;differential-equations;runge-kutta;dormand-prince;bdf2;solver;simulation</PackageTags>
+    <PackageReleaseNotes>This cycle: Symbol renames; Implemented the sundials CVODE solver registry; Added unify ODEs system solver.</PackageReleaseNotes>
 		<PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<IncludeSymbols>True</IncludeSymbols>
@@ -86,7 +86,7 @@
 	  <DocumentationFile>Microsoft.VisualBasic.Math.ODEsSolver.xml</DocumentationFile>
 	  <DefineConstants>netcore5=1,UNIX=1</DefineConstants>
 	  <RemoveIntegerChecks>true</RemoveIntegerChecks>
-	  <Optimize>false</Optimize>
+	  <Optimize>true</Optimize>
 	  <DebugSymbols>true</DebugSymbols>
 	  <DebugType>full</DebugType>
 	  <DefineDebug>false</DefineDebug>
@@ -149,6 +149,9 @@
 	  <Compile Remove="Test\**" />
 	  <EmbeddedResource Remove="Test\**" />
 	  <None Remove="Test\**" />
+	  <Compile Remove="_smoketest\**" />
+	  <EmbeddedResource Remove="_smoketest\**" />
+	  <None Remove="_smoketest\**" />
 	  <None Include="..\..\..\..\LICENSE">
 	    <Pack>True</Pack>
 	    <PackagePath></PackagePath>
@@ -167,10 +170,6 @@
     <Import Include="System.Data" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="System.Composition" Version="10.0.12" />
-    <PackageReference Include="System.Resources.Extensions" Version="10.0.12" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Microsoft.VisualBasic.Core\src\Core.vbproj" />

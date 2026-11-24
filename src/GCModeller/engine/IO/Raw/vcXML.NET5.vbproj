@@ -6,7 +6,7 @@
 		<AssemblyName>SMRUCC.genomics.GCModeller.ModellingEngine.IO.Raw</AssemblyName>
 		<Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
 		<Company>SMRUCC genomics institute</Company>
-		<Version>5.0.9753.40023</Version>
+		<Version>10.5.9775.36927</Version>
 
 		<Deterministic>false</Deterministic>
 
@@ -30,7 +30,7 @@
     <Product>GCModeller</Product>
     <PackageTags>gcmodeller;bioinformatics;genomics;data-io;binary-format;simulation</PackageTags>
     <PackageReleaseNotes>Released the vcXML, HDS raw and VCell matrix readers and writers for virtual cell simulation data.</PackageReleaseNotes>
-		<AssemblyVersion>1.0.9753.40023</AssemblyVersion>
+		<AssemblyVersion>1.0.9775.36927</AssemblyVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -126,13 +126,13 @@
 		<DocumentationFile>SMRUCC.genomics.GCModeller.ModellingEngine.IO.Raw.xml</DocumentationFile>
 		<DefineConstants>netcore5=1,UNIX=1,FRAMEWORD_CORE=1</DefineConstants>
 		<RemoveIntegerChecks>true</RemoveIntegerChecks>
-		<Optimize>false</Optimize>
+		<Optimize>true</Optimize>
 		<BaseAddress>4194304</BaseAddress>
 		<DebugSymbols>true</DebugSymbols>
 		<DebugType>full</DebugType>
 		<DefineDebug>false</DefineDebug>
 		<DefineTrace>true</DefineTrace>
-		<OutputPath>../../../../workbench/pkg/assembly\</OutputPath>
+		<OutputPath>../../../../../.nuget/</OutputPath>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='PlantMAT|x64'">
@@ -270,18 +270,21 @@
 	  <DebugType>full</DebugType>
 	  <BaseAddress />
 	  <DefineTrace>True</DefineTrace>
+	  <OutputPath>../../../../../.nuget/</OutputPath>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net8.0|x64'">
 	  <DebugType>full</DebugType>
 	  <BaseAddress />
 	  <DefineTrace>True</DefineTrace>
+	  <OutputPath>../../../../../.nuget/</OutputPath>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net48|x64'">
 	  <DebugType>full</DebugType>
 	  <BaseAddress />
 	  <DefineTrace>True</DefineTrace>
+	  <OutputPath>../../../../../.nuget/</OutputPath>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='LipidSearch|net8.0-windows|AnyCPU'">
@@ -519,8 +522,15 @@
 
 
 	<ItemGroup>
-		<PackageReference Include="System.Composition" Version="10.0.12" />
-		<PackageReference Include="System.Resources.Extensions" Version="10.0.12" />
+		<!-- 测试工程位于 vcXML\test，其 obj 下的 AssemblyInfo 不能被主工程重复编译 -->
+		<Compile Remove="vcXML\test\**" />
+		<EmbeddedResource Remove="vcXML\test\**" />
+		<None Remove="vcXML\test\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="System.Composition" Version="11.0.0" />
+		<PackageReference Include="System.Resources.Extensions" Version="11.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -1,0 +1,33 @@
+.\" man page create by R# package system.
+.TH BACKGROUND 2 2000-1月 "background_summary" "background_summary"
+.SH NAME
+background_summary \- summary of the background model as dataframe
+.SH SYNOPSIS
+\fIbackground_summary(\fBbackground\fR as <generic> Background, 
+\fBgene_names\fR as boolean = TRUE);\fR
+.SH DESCRIPTION
+.PP
+summary of the background model as dataframe
+.PP
+.SH OPTIONS
+.PP
+\fBbackground\fB \fR\- the GSEA background model object.. 
+.PP
+.PP
+\fBgene_names\fB \fR\- 
+ writes the gene names in the \fBfactors\fR column when \fBTRUE\fR (default), otherwise
+ writes the gene accession ids.
+. 
+.PP
+.SH VALUE
+.PP
+a \fBdataframe\fR of the cluster information, the row names are the cluster ids and
+ the columns are \fBclass\fR, \fBcategory\fR, \fBname\fR, \fBdescription\fR,
+ \fBcluster_size\fR and \fBfactors\fR (the member gene ids joined by \fB;\fR).
+.PP
+.SH SEE ALSO
+background
+.SH FILES
+.PP
+gseakit.dll
+.PP

@@ -1,59 +1,60 @@
 ﻿#Region "Microsoft.VisualBasic::9a43f7d2646994f8514927f159c70c53, annotations\GSEA\GSVA\C\kernel_estimation.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 148
-    '    Code Lines: 97 (65.54%)
-    ' Comment Lines: 19 (12.84%)
-    '    - Xml Docs: 84.21%
-    ' 
-    '   Blank Lines: 32 (21.62%)
-    '     File Size: 5.08 KB
+' Summaries:
 
 
-    '     Module kernel_estimation
-    ' 
-    '         Function: _precomputed_cdf, matrix_density_R, ppois, row_d, sd1
-    ' 
-    '         Sub: initCdfs
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 148
+'    Code Lines: 97 (65.54%)
+' Comment Lines: 19 (12.84%)
+'    - Xml Docs: 84.21%
+' 
+'   Blank Lines: 32 (21.62%)
+'     File Size: 5.08 KB
+
+
+'     Module kernel_estimation
+' 
+'         Function: _precomputed_cdf, matrix_density_R, ppois, row_d, sd1
+' 
+'         Sub: initCdfs
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Threading.Tasks
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Math.Distributions
 Imports std = System.Math
@@ -62,6 +63,21 @@ Namespace C
 
     Module kernel_estimation
 
+        ''' <summary>
+        ''' 逐基因估计核密度（每个基因独立，按基因并行）。
+        ''' </summary>
+        ''' <param name="X">表达矩阵，行是基因、列是样本。</param>
+        ''' <param name="Y">用于估计密度取值的矩阵，通常与 <paramref name="X"/> 相同。</param>
+        ''' <param name="dims">矩阵维度 <c>(m, n)</c>。</param>
+        ''' <param name="n_density_samples">用于估计核密度的样本数。</param>
+        ''' <param name="n_test_samples">需要求值的目标样本数。</param>
+        ''' <param name="n_genes">基因（特征）总数。</param>
+        ''' <param name="rnaseq">是否使用泊松核（RNA-seq 计数数据）。</param>
+        ''' <returns>密度矩阵，行是基因、列是样本。</returns>
+        ''' <remarks>
+        ''' 并行只在<b>基因</b>维度上进行：每个基因的核密度只写入自己的输出行，
+        ''' 因此并行不会改变任何求和顺序，结果与串行实现逐位一致。
+        ''' </remarks>
         Public Function matrix_density_R(X As Double()(),
                                          Y As Double()(),
                                          dims As (m%, n%),
@@ -72,13 +88,20 @@ Namespace C
 
             Dim R As Double()() = RectangularArray.Matrix(Of Double)(dims.n, dims.m)
 
-            For j As Integer = 0 To n_genes - 1
-                'Dim offset_density = j * n_density_samples
-                'Dim offset_test = j * n_test_samples
+            ' 高斯核路径会在 row_d 内部惰性初始化查表，必须先于并行完成，
+            ' 否则多线程会竞争 is_precomputed 标志并可能读到半初始化的表
+            If Not rnaseq Then
+                Call EnsureCdfs()
+            End If
 
-                ' row_d(X(offset_density), Y(offset_test), R(offset_test), n_density_samples, n_test_samples, rnaseq)
-                row_d(X(j), Y(j), R(j), n_density_samples, n_test_samples, rnaseq)
-            Next
+            Dim options As New ParallelOptions With {
+                .MaxDegreeOfParallelism = Environment.ProcessorCount
+            }
+
+            Call Parallel.For(0, n_genes, options,
+                Sub(j)
+                    Call row_d(X(j), Y(j), R(j), n_density_samples, n_test_samples, rnaseq)
+                End Sub)
 
             Return R
         End Function
@@ -86,6 +109,11 @@ Namespace C
         Const SIGMA_FACTOR = 4.0
         Const PRECOMPUTE_RESOLUTION = 10000
         Const MAX_PRECOMPUTE = 10.0
+
+        ' 2 / sqrt(pi)，erf 幂级数所用的归一化常数
+        Const TWO_OVER_SQRTPI As Double = 1.1283791670955126
+        ' sqrt(2)
+        Const SQRT2 As Double = 1.4142135623730951
 
         Dim is_precomputed As Integer = 0
         Dim precomputed_cdf As Double() = New Double(PRECOMPUTE_RESOLUTION) {}
@@ -110,21 +138,39 @@ Namespace C
             Dim bw As Double = If(rnaseq, 0.5, (sd1(x, size_density_n) / SIGMA_FACTOR))
             Dim left_tail As Double
 
-            If Not rnaseq AndAlso is_precomputed = 0 Then
-                initCdfs()
-                is_precomputed = 1
+            ' 与官方 C 实现保持一致：带宽为 0 或者非数值时兜底为一个极小值，
+            ' 否则后续核估计会退化为阶跃函数或者产生除零
+            If Double.IsNaN(bw) OrElse bw = 0 Then
+                bw = 0.001
             End If
 
-            For j As Integer = 0 To size_test_n - 1
-                left_tail = 0
+            ' 高斯核与泊松核的内层循环拆成两份：避免在每个格点上做一次分支判断，
+            ' 两条路径的算术表达式与拆分前完全一致，因此结果逐位不变
+            If rnaseq Then
+                For j As Integer = 0 To size_test_n - 1
+                    left_tail = 0
 
-                For i As Integer = 0 To size_density_n - 1
-                    left_tail += If(rnaseq, ppois(y(j), x(i) + bw, True, False), _precomputed_cdf(y(j) - x(i), bw))
+                    For i As Integer = 0 To size_density_n - 1
+                        left_tail += ppois(y(j), x(i) + bw, True, False)
+                    Next
+
+                    left_tail = left_tail / size_density_n
+                    r(j) = -1 * std.Log((1 - left_tail) / left_tail)
                 Next
+            Else
+                Call EnsureCdfs()
 
-                left_tail = left_tail / size_density_n
-                r(j) = -1 * std.Log((1 - left_tail) / left_tail)
-            Next
+                For j As Integer = 0 To size_test_n - 1
+                    left_tail = 0
+
+                    For i As Integer = 0 To size_density_n - 1
+                        left_tail += _precomputed_cdf(y(j) - x(i), bw)
+                    Next
+
+                    left_tail = left_tail / size_density_n
+                    r(j) = -1 * std.Log((1 - left_tail) / left_tail)
+                Next
+            End If
 
             Return r
         End Function
@@ -137,7 +183,11 @@ Namespace C
             ElseIf v > MAX_PRECOMPUTE Then
                 Return 1
             Else
-                Dim i As Integer = std.Abs(v) / MAX_PRECOMPUTE * PRECOMPUTE_RESOLUTION
+                ' 注意：VB 里 Double 到 Integer 的隐式转换与 CInt 一样都是「四舍五入」，
+                ' 而 C 的 (int) 强制转换是「向零截断」。官方 C 实现用的是截断，
+                ' 这里必须显式 Floor，否则约有半数的查表会偏差一个格点，
+                ' 会使秩发生大规模错乱，进而让富集分数出现明显偏差。
+                Dim i As Integer = CInt(std.Floor(std.Abs(v) / MAX_PRECOMPUTE * PRECOMPUTE_RESOLUTION))
                 Dim cdf As Double = precomputed_cdf(i)
 
                 If v < 0 Then
@@ -148,17 +198,191 @@ Namespace C
             End If
         End Function
 
+        ''' <summary>
+        ''' 泊松分布的累积分布函数，对应 R 的 ``ppois(q, lambda, lower.tail, log.p)``
+        ''' </summary>
+        ''' <param name="y">观测计数 q</param>
+        ''' <param name="x">泊松分布的期望 lambda</param>
+        ''' <param name="f1">lower.tail，TRUE 时返回 P(X &lt;= q)</param>
+        ''' <param name="f2">log.p，TRUE 时返回概率的对数值</param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' 泊松分布的累积分布函数可以经由正则化的上不完全 Gamma 函数表示：
+        ''' 
+        '''   P(X &lt;= q) = Q(floor(q) + 1, lambda)
+        ''' 
+        ''' 其中 Q(a, x) = Γ(a, x) / Γ(a) 即为 <see cref="RegularizedGammaQ"/>。
+        ''' 这与 R 的 ``ppois()`` 内部实现（src/nmath/ppois.c）完全一致。
+        ''' </remarks>
         Private Function ppois(y As Double, x As Double, f1 As Boolean, f2 As Boolean) As Double
-            Throw New NotImplementedException
+            Dim p As Double
+
+            If y < 0 Then
+                p = 0.0
+            ElseIf x < 0 Then
+                p = Double.NaN
+            Else
+                p = RegularizedGammaQ(std.Floor(y) + 1.0, x)
+            End If
+
+            If Not f1 Then
+                p = 1 - p
+            End If
+            If f2 Then
+                p = std.Log(p)
+            End If
+
+            Return p
         End Function
+
+        ''' <summary>
+        ''' 高斯核查表的初始化锁，保证并行调用时只初始化一次。
+        ''' </summary>
+        Private ReadOnly cdf_lock As New Object
+
+        ''' <summary>
+        ''' 保证查表已经初始化（可在并行上下文中调用）。
+        ''' </summary>
+        Private Sub EnsureCdfs()
+            If is_precomputed = 0 Then
+                SyncLock cdf_lock
+                    If is_precomputed = 0 Then
+                        Call initCdfs()
+                        is_precomputed = 1
+                    End If
+                End SyncLock
+            End If
+        End Sub
 
         Private Sub initCdfs()
             Dim divisor = PRECOMPUTE_RESOLUTION * 1.0
 
             For i As Integer = 0 To PRECOMPUTE_RESOLUTION
-                precomputed_cdf(i) = pnorm.eval(MAX_PRECOMPUTE * i / divisor, 0.0, 1.0, lower_tail:=True, logP:=False)
+                precomputed_cdf(i) = pnorm5(MAX_PRECOMPUTE * i / divisor)
             Next
         End Sub
+
+        ''' <summary>
+        ''' 标准正态分布的累积分布函数，对应 R 的 ``pnorm(q, 0, 1, lower.tail = TRUE, log.p = FALSE)``
+        ''' </summary>
+        ''' <param name="q">分位数</param>
+        ''' <remarks>
+        ''' 经由误差函数实现：
+        ''' 
+        '''   Phi(q) = 0.5 * (1 + erf(q / sqrt(2)))    q &gt;= 0
+        '''   Phi(q) = 0.5 * erfc(-q / sqrt(2))        q &lt; 0
+        ''' 
+        ''' 下尾统一用互补误差函数计算，以保证小概率尾部的相对精度。
+        ''' 本实现自成一体，不依赖运行时库里的 <see cref="pnorm"/>（其基于梯形积分
+        ''' 并在 4.1 倍标准差处截断，存在约 2e-5 量级的系统性误差），
+        ''' 也不依赖不完全 Gamma 函数中的对数 Gamma 近似。
+        ''' 
+        ''' 之所以对精度如此敏感，是因为 GSVA 只使用密度值的秩：
+        ''' 当表达矩阵中存在大量取值并列的行时，密度值之间的间隔本身就在 1e-5 量级上，
+        ''' 任何超出 1e-12 的误差都会打乱秩，进而使富集分数产生显著偏差。
+        ''' </remarks>
+        Friend Function pnorm5(q As Double) As Double
+            If Double.IsNaN(q) Then
+                Return Double.NaN
+            End If
+            If q = 0 Then
+                Return 0.5
+            End If
+
+            ' erfc 的自变量取绝对值，保证落在 [0, +inf)
+            Dim u As Double = std.Abs(q) / SQRT2
+            Dim p As Double
+
+            If u < 1.0 Then
+                ' |q| < sqrt(2)：erfc(u) = 1 - erf(u)，用幂级数计算 erf
+                p = 0.5 + 0.5 * erfSeries(u)
+                Return If(q > 0, p, 1.0 - p)
+            Else
+                ' |q| >= sqrt(2)：尾部概率用连分式计算，保持相对精度
+                Dim tail As Double = 0.5 * erfcCF(u)
+                Return If(q > 0, 1.0 - tail, tail)
+            End If
+        End Function
+
+        ''' <summary>
+        ''' 误差函数 erf(x) 的幂级数实现，适用于 |x| &lt; 1
+        ''' </summary>
+        ''' <remarks>
+        ''' ``erf(x) = (2 / sqrt(pi)) * sum_{n&gt;=0} (-1)^n x^(2n+1) / (n! (2n+1))``
+        ''' </remarks>
+        Private Function erfSeries(x As Double) As Double
+            Dim term As Double = x
+            Dim sum As Double = x
+            Dim n As Integer = 0
+
+            Do While n < 1000
+                n += 1
+                term *= -x * x / n
+                Dim add As Double = term / (2 * n + 1)
+
+                sum += add
+
+                If std.Abs(add) <= std.Abs(sum) * 1.0E-18 Then
+                    Exit Do
+                End If
+            Loop
+
+            Return TWO_OVER_SQRTPI * sum
+        End Function
+
+        ''' <summary>
+        ''' 互补误差函数 erfc(x) 的连分式实现（修正 Lentz 算法），适用于 x &gt;= 1
+        ''' </summary>
+        ''' <remarks>
+        ''' ``erfc(x) = Q(1/2, x^2)``，即形状参数为 1/2 的正则化上不完全 Gamma 函数。
+        ''' 连分式部分与 ``RegularizedGammaQ`` 相同，但归一化常数直接使用解析值
+        ''' ``ln Gamma(1/2) = 0.5 * ln(pi)``，避免引入对数 Gamma 近似的误差。
+        ''' </remarks>
+        Private Function erfcCF(x As Double) As Double
+            Const a As Double = 0.5
+            Const tiny As Double = 1.0E-300
+
+            Dim u As Double = x * x
+            Dim b As Double = u + 1.0 - a
+            Dim c As Double = 1.0 / tiny
+            Dim d As Double = 1.0 / b
+            Dim h As Double = d
+            Dim i As Integer = 1
+
+            Do While i < 1000000
+                Dim an As Double = -i * (i - a)
+
+                b += 2.0
+                d = an * d + b
+
+                If std.Abs(d) < tiny Then
+                    d = tiny
+                End If
+
+                c = b + an / c
+
+                If std.Abs(c) < tiny Then
+                    c = tiny
+                End If
+
+                d = 1.0 / d
+
+                Dim del As Double = d * c
+
+                h *= del
+
+                If std.Abs(del - 1.0) < 1.0E-17 Then
+                    Exit Do
+                End If
+
+                i += 1
+            Loop
+
+            ' ln Gamma(1/2) = 0.5 * ln(pi)
+            Dim logNorm As Double = -u + a * std.Log(u) - 0.5 * std.Log(std.PI)
+
+            Return h * std.Exp(logNorm)
+        End Function
 
         ''' <summary>
         ''' calculates standard deviation, largely borrowed from C code in R's src/main/cov.c */
@@ -171,6 +395,12 @@ Namespace C
             Dim mean, sd As Double
             Dim sum As Double = 0.0
             Dim tmp As Double
+
+            ' 少于两个观测值时样本标准差没有定义，与 R 的 sd() 一致返回 NA，
+            ' 避免 n - 1 = 0 造成的除零
+            If n < 2 Then
+                Return Double.NaN
+            End If
 
             For i As Integer = 0 To n - 1
                 sum += x(i)

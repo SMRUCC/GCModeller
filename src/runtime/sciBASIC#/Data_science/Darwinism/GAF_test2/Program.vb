@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e6609e03cabe28b8d657fb97c8198c6f, sciBASIC#\Data_science\Darwinism\GAF_test2\Program.vb"
+﻿#Region "Microsoft.VisualBasic::a9cbfafe3fdf200ab1927c78bb408e2b, Data_science\Darwinism\GAF_test2\Program.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 124
-    '    Code Lines: 105
-    ' Comment Lines: 0
-    '   Blank Lines: 19
-    '     File Size: 5.06 KB
+    '   Total Lines: 123
+    '    Code Lines: 104 (84.55%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 19 (15.45%)
+    '     File Size: 5.14 KB
 
 
     ' Module Program
@@ -51,15 +53,13 @@
 
 Imports System.Drawing
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.Bootstrapping
-Imports Microsoft.VisualBasic.Data.ChartPlots
-Imports Microsoft.VisualBasic.Data.csv.DocumentExtensions
-Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MachineLearning.Darwinism.GAF
-Imports Microsoft.VisualBasic.Math.Calculus
+Imports Microsoft.VisualBasic.Math.Calculus.Dynamics
+Imports Microsoft.VisualBasic.Math.Calculus.Dynamics.Data
 Imports Microsoft.VisualBasic.Math.Interpolation
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
@@ -68,108 +68,102 @@ Imports ODEsDataFrame = Microsoft.VisualBasic.Math.Calculus
 Module Program
 
     Sub Main()
-        Call ODEsSolverTest()
-        Call BuildFakeObservationForTest()
-        Call GAF_estimates()
 
-        Pause()
-
-        Call App.Exit()
     End Sub
 
-    Public Sub ODEsSolverTest()
-        Dim model As New Kinetics_of_influenza_A_virus_infection_in_humans
-        Dim result As ODEsOut = model.Solve(10000, 0, 10)
+    'Public Sub ODEsSolverTest()
+    '    Dim model As New Kinetics_of_influenza_A_virus_infection_in_humans
+    '    Dim result As ODEsOut = model.Solve(10000, 0, 10)
 
-        Call result.DataFrame("#TIME") _
-            .Save("./Kinetics_of_influenza_A_virus_infection_in_humans.csv", Encodings.ASCII)
+    '    Call result.DataFrame("#TIME") _
+    '        .Save("./Kinetics_of_influenza_A_virus_infection_in_humans.csv", Encodings.ASCII)
 
-        Dim sT = result.y("T").value.SeqIterator.Select(Function(i) New PointF(result.x(i), +i)).ToArray
-        Dim sI = result.y("I").value.SeqIterator.Select(Function(i) New PointF(result.x(i), +i)).ToArray
-        Dim sV = result.y("V").value.SeqIterator.Select(Function(i) New PointF(result.x(i), +i)).ToArray
+    '    Dim sT = result.y("T").value.SeqIterator.Select(Function(i) New PointF(result.x(i), +i)).ToArray
+    '    Dim sI = result.y("I").value.SeqIterator.Select(Function(i) New PointF(result.x(i), +i)).ToArray
+    '    Dim sV = result.y("V").value.SeqIterator.Select(Function(i) New PointF(result.x(i), +i)).ToArray
 
-        Call {
-            Scatter.FromPoints(sT, "red", "Susceptible Cells"),
-            Scatter.FromPoints(sI, "lime", "Infected Cells")
-        }.Plot(fill:=False) _
-         .Save("./Kinetics_of_influenza_A_virus_infection_in_humans-TI.png")
+    '    Call {
+    '        Scatter.FromPoints(sT, "red", "Susceptible Cells"),
+    '        Scatter.FromPoints(sI, "lime", "Infected Cells")
+    '    }.Plot(fill:=False) _
+    '     .Save("./Kinetics_of_influenza_A_virus_infection_in_humans-TI.png")
 
-        Call {
-            Scatter.FromPoints(sV, "skyblue", "Virus Load")
-        }.Plot(fill:=False) _
-         .Save("./Kinetics_of_influenza_A_virus_infection_in_humans-V.png")
-    End Sub
+    '    Call {
+    '        Scatter.FromPoints(sV, "skyblue", "Virus Load")
+    '    }.Plot(fill:=False) _
+    '     .Save("./Kinetics_of_influenza_A_virus_infection_in_humans-V.png")
+    'End Sub
 
-    Public Sub BuildFakeObservationForTest()
-        Dim result As ODEsOut = ODEsDataFrame _
-            .LoadFromDataFrame("./Kinetics_of_influenza_A_virus_infection_in_humans.csv")
-        Dim sampleSize% = 100
-        Dim xlabels#() = result.x.Split(sampleSize).Select(Function(block) block.Average).ToArray
-        Dim samples As NamedValue(Of Double())() =
-            LinqAPI.Exec(Of NamedValue(Of Double())) <=
- _
-            From y As NamedValue(Of Double())
-            In result.y.Values
-            Let sample As Double() = y.Value _
-                .Split(sampleSize) _
-                .Select(Function(block) block.Average) _
-                .ToArray
-            Select New NamedValue(Of Double()) With {
-                .Name = y.Name,
-                .Value = sample
-            }
+    'Public Sub BuildFakeObservationForTest()
+    '    Dim result As ODEsOut = ODEsDataFrame _
+    '        .LoadFromDataFrame("./Kinetics_of_influenza_A_virus_infection_in_humans.csv")
+    '    Dim sampleSize% = 100
+    '    Dim xlabels#() = result.x.Split(sampleSize).Select(Function(block) block.Average).ToArray
+    '    Dim samples As NamedValue(Of Double())() =
+    '        LinqAPI.Exec(Of NamedValue(Of Double())) <=
+    '                                                   _
+    '        From y As NamedCollection(Of Double)
+    '        In result.y.Values
+    '        Let sample As Double() = y.value _
+    '            .Split(sampleSize) _
+    '            .Select(Function(block) block.Average) _
+    '            .ToArray
+    '        Select New NamedValue(Of Double()) With {
+    '            .Name = y.name,
+    '            .Value = sample
+    '        }
 
-        Call samples.SaveTo(
-            path:="./Kinetics_of_influenza_A_virus_infection_in_humans-fake-observation.csv",
-            xlabels:=xlabels)
-    End Sub
+    '    Call samples.SaveTo(
+    '        path:="./Kinetics_of_influenza_A_virus_infection_in_humans-fake-observation.csv",
+    '        xlabels:=xlabels)
+    'End Sub
 
-    Public Sub GAF_estimates()
-        Dim samples = "./Kinetics_of_influenza_A_virus_infection_in_humans-fake-observation.csv".LoadData.ToDictionary
-        Dim x As Double() = samples("X").Value
+    'Public Sub GAF_estimates()
+    '    Dim samples = "./Kinetics_of_influenza_A_virus_infection_in_humans-fake-observation.csv".LoadData.ToDictionary(distinct:=False)
+    '    Dim x As Double() = samples("X").Value
 
-        Call samples.Remove("X")
+    '    Call samples.Remove("X")
 
-        Dim observations As NamedValue(Of Double())() =
-            LinqAPI.Exec(Of NamedValue(Of Double())) <=
- _
-            From sample As NamedValue(Of Double())
-            In samples.Values
-            Let raw As PointF() = x _
-                .SeqIterator _
-                .Select(Function(xi) New PointF(+xi, y:=sample.Value(xi))) _
-                .ToArray
-            Let cubicInterplots = CubicSpline.RecalcSpline(raw, 50).ToArray
-            Let newData As Double() = cubicInterplots _
-                .Select(Function(pt) CDbl(pt.Y)) _
-                .ToArray
-            Select New NamedValue(Of Double()) With {
-                .Name = sample.Name,
-                .Value = newData,
-                .Description = cubicInterplots _
-                    .Select(Function(pt) pt.X) _
-                    .ToArray _
-                    .GetJson  ' just needs the x value for the test
-            }
+    '    Dim observations As NamedValue(Of Double())() =
+    '        LinqAPI.Exec(Of NamedValue(Of Double())) <=
+    '                                                   _
+    '        From sample As NamedValue(Of Double())
+    '        In samples.Values
+    '        Let raw As PointF() = x _
+    '            .SeqIterator _
+    '            .Select(Function(xi) New PointF(+xi, y:=sample.Value(xi))) _
+    '            .ToArray
+    '        Let cubicInterplots = CubicSpline.RecalcSpline(raw, 50).ToArray
+    '        Let newData As Double() = cubicInterplots _
+    '            .Select(Function(pt) CDbl(pt.Y)) _
+    '            .ToArray
+    '        Select New NamedValue(Of Double()) With {
+    '            .Name = sample.Name,
+    '            .Value = newData,
+    '            .Description = cubicInterplots _
+    '                .Select(Function(pt) pt.X) _
+    '                .ToArray _
+    '                .GetJson  ' just needs the x value for the test
+    '        }
 
-        Call observations.SaveTo("./Kinetics_of_influenza_A_virus_infection_in_humans-samples.csv")
+    '    Call observations.SaveTo("./Kinetics_of_influenza_A_virus_infection_in_humans-samples.csv")
 
-        Dim prints As List(Of outPrint) = Nothing
-        Dim estimates As var() = observations _
-            .Fitting(Of Kinetics_of_influenza_A_virus_infection_in_humans_Model)(
-            x#:=observations.First.Description.LoadObject(Of Double()),
-            popSize:=500,
-            outPrint:=prints)
+    '    Dim prints As List(Of outPrint) = Nothing
+    '    Dim estimates As var() = observations _
+    '        .Fitting(Of Kinetics_of_influenza_A_virus_infection_in_humans_Model)(
+    '        x#:=observations.First.Description.LoadObject(Of Double()),
+    '        popSize:=500,
+    '        outPrint:=prints)
 
-        Call prints.SaveTo("./Kinetics_of_influenza_A_virus_infection_in_humans-iterations.csv")
+    '    Call prints.SaveTo("./Kinetics_of_influenza_A_virus_infection_in_humans-iterations.csv")
 
-        Dim result = MonteCarlo.Model.RunTest(
-            GetType(Kinetics_of_influenza_A_virus_infection_in_humans_Model),
-            observations.y0,
-            estimates,
-            10000, 0, 10)
+    '    Dim result = MonteCarlo.Model.RunTest(
+    '        GetType(Kinetics_of_influenza_A_virus_infection_in_humans_Model),
+    '        observations.y0,
+    '        estimates,
+    '        10000, 0, 10)
 
-        Call result.DataFrame("#TIME") _
-            .Save("./Kinetics_of_influenza_A_virus_infection_in_humans-GAF_estimates.csv", Encodings.ASCII)
-    End Sub
+    '    Call result.DataFrame("#TIME") _
+    '        .Save("./Kinetics_of_influenza_A_virus_infection_in_humans-GAF_estimates.csv", Encodings.ASCII)
+    'End Sub
 End Module

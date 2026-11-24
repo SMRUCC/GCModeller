@@ -69,6 +69,19 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
+''' <summary>
+''' PCR primer design tools
+''' </summary>
+''' 
+''' <remarks>
+''' This R# package module provides the api for find the candidate PCR primer 
+''' design regions from the blastn web search hits:
+''' 
+''' + ``primer_regions``: find the candidate PCR primer design regions from a 
+'''   given set of the blastn hit records, and then annotate the gene context 
+'''   information of each candidate region via a given genomics feature 
+'''   annotation table(GFF).
+''' </remarks>
 <Package("primers")>
 Module primers
 
@@ -123,6 +136,41 @@ Module primers
         Return df
     End Function
 
+    ''' <summary>
+    ''' find the candidate PCR primer design regions from a set of the blastn hits
+    ''' </summary>
+    ''' <param name="blastHits">
+    ''' a collection of the blastn hit records for find the candidate primer 
+    ''' design regions, which can be a pipeline object or a vector of the 
+    ''' <see cref="HitRecord"/> object.
+    ''' </param>
+    ''' <param name="maxCoreSpan">
+    ''' the maximum span size in nucleotide of the core primer region.
+    ''' </param>
+    ''' <param name="eval_cutoff">
+    ''' the maximum e-value threshold of the accepted blastn hit records.
+    ''' </param>
+    ''' <param name="primerIds">
+    ''' a character vector of the primer id for filter the input blastn hits. 
+    ''' If this parameter is not specified, then all of the input blastn hits 
+    ''' will be used for find the candidate regions.
+    ''' </param>
+    ''' <param name="genome">
+    ''' a <see cref="GFFTable"/> genomics feature annotation table, which is 
+    ''' used for annotate the gene context information of the candidate primer 
+    ''' regions. If this parameter is not specified, then no gene context 
+    ''' information will be calculated.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a vector of the <see cref="CandidateRegion"/> object, each element in 
+    ''' the returned vector is one candidate PCR primer design region with its 
+    ''' gene context information;
+    ''' 
+    ''' this function returns a R# error message object if the input blastn hits 
+    ''' data can not be cast to a collection of the <see cref="HitRecord"/> 
+    ''' object.
+    ''' </returns>
     <ExportAPI("primer_regions")>
     <RApiReturn(GetType(CandidateRegion))>
     Public Function find_primers_region(<RRawVectorArgument>

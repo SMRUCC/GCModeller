@@ -1,0 +1,208 @@
+.\" man page create by R# package system.
+.TH FUZZYGENE 1 2000-1月 "fuzzygene_config" "fuzzygene_config"
+.SH NAME
+fuzzygene_config \- Create a FuzzyGene modelling configuration object.
+.SH SYNOPSIS
+\fIfuzzygene_config(\fBmaxRegulators\fR as integer = 4, 
+\fBselection\fR as string = "prior-first", 
+\fBminCorrelation\fR as double = 0.3, 
+\fBmode\fR as string = "auto", 
+\fBmfCount\fR as integer = 3, 
+\fBmfKind\fR as string = "gaussian", 
+\fBmaxEpoch\fR as integer = 100, 
+\fBlearningRate\fR as double = 0.02, 
+\fBpruneThreshold\fR as double = 0.01, 
+\fBmaxGenes\fR as integer = 2000, 
+\fBmaxTrainRows\fR as integer = 0, 
+\fBmaxCandidateGenes\fR as integer = 0, 
+\fBminBestCorrelation\fR as double = 0, 
+\fBnoveltyQuota\fR as double = 0, 
+\fBrulePartition\fR as string = "auto", 
+\fBscatterRules\fR as integer = 48, 
+\fBscatterInputs\fR as integer = 8, 
+\fBscatterMinInputs\fR as integer = 2, 
+\fBscatterZThreshold\fR as double = 1, 
+\fBscatterSeed\fR as integer = 0, 
+\fBmaxRules\fR as integer = 128, 
+\fBmaxConsequentParams\fR as integer = 512, 
+\fBstandardize\fR as boolean = TRUE, 
+\fBpropagationSteps\fR as integer = 50, 
+\fBrelaxation\fR as double = 0.5, 
+\fBknockdownResidual\fR as double = 0.2, 
+\fBoverexpressionSigmas\fR as double = 3, 
+\fBsignificanceZScore\fR as double = 2, 
+\fBdegreeOfParallelism\fR as integer = 0, 
+\fBminTimePoints\fR as integer = 3, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Create a FuzzyGene modelling configuration object.
+.PP
+.SH OPTIONS
+.PP
+\fBmaxRegulators\fB \fR\- 
+ how many candidate regulators (ANFIS inputs) are kept per target gene. The rule count of a
+ grid partition is `m^n`, so this is the primary guard against the rule explosion;
+ 3-6 is the practically useful range. Default 4.
+. 
+.PP
+.PP
+\fBselection\fB \fR\- 
+ regulator selection strategy: \fBprior-first\fR (default, prior edges by confidence then
+ correlation), \fBcorrelation\fR (data driven only) or \fBprior\fR (prior edges only).
+. 
+.PP
+.PP
+\fBminCorrelation\fB \fR\- 
+ minimum |Pearson| for a gene to be taken as a correlation based regulator. Default 0.3.
+. 
+.PP
+.PP
+\fBmode\fB \fR\- 
+ fit route: \fBauto\fR (default, lagged when the matrix has at least \fBminTimePoints\fR distinct
+ time points), \fBstatic\fR or \fBlagged\fR.
+. 
+.PP
+.PP
+\fBmfCount\fB \fR\- number of membership functions per input. Default 3.. 
+.PP
+.PP
+\fBmfKind\fB \fR\- 
+ membership function shape: \fBgaussian\fR, \fBbell\fR, \fBsigmoid\fR, \fBtriangular\fR or
+ \fBtrapezoidal\fR. Default \fBgaussian\fR.
+. 
+.PP
+.PP
+\fBmaxEpoch\fB \fR\- maximum training epochs per target gene. Default 100.. 
+.PP
+.PP
+\fBlearningRate\fB \fR\- learning rate of the premise parameter optimizer. Default 0.02.. 
+.PP
+.PP
+\fBpruneThreshold\fB \fR\- 
+ rules whose average normalized firing strength falls below this value are pruned after
+ training; 0 disables pruning. Default 0.01.
+. 
+.PP
+.PP
+\fBmaxGenes\fB \fR\- 
+ upper bound on the number of modelled genes (highest variance first, prior TFs always kept);
+ 0 keeps everything. Default 2000.
+. 
+.PP
+.PP
+\fBmaxTrainRows\fB \fR\- 
+ maximum number of training rows per target gene; 0 uses every row. The dominant cost of the
+ hybrid learning is the least squares normal equations, which scale as
+ `rows x P^2`, so capping the rows is the cheapest large speedup: a few thousand rows
+ are already far more than the few hundred consequent parameters need.
+ Default 0 (all rows); 3000-5000 is the recommended setting for genome scale data.
+. 
+.PP
+.PP
+\fBmaxCandidateGenes\fB \fR\- 
+ size limit of the candidate pool used by the correlation screening
+ (prior TFs plus the highest variance genes); 0 screens every gene. The screening cost is
+ `O(genes^2 x rows)`, which at genome scale becomes comparable with the training itself.
+ Default 0; 2000-4000 is the recommended setting for genome scale data.
+. 
+.PP
+.PP
+\fBminBestCorrelation\fB \fR\- 
+ skip a target gene when it has no prior regulator and its best |Pearson| against the
+ candidates is below this value (such models have R2 close to 0). 0 disables the filter.
+. 
+.PP
+.PP
+\fBnoveltyQuota\fB \fR\- 
+ fraction (0-1) of the regulator slots reserved for genes that are **not** in the prior
+ network of that target, i.e. for links discovered from the expression data.
+ \fB0\fR (default) keeps the old "prior first" behaviour, where prior TFs can occupy every
+ slot and the model can only repeat the prior. \fB0.2\fR-\fB0.4\fR is a sensible range:
+ with K = 6 and \fB0.34\fR two slots are always given to data driven regulators.
+ Ignored when \fBselection = "prior-only"\fR.
+. 
+.PP
+.PP
+\fBrulePartition\fB \fR\- 
+ rule generation strategy: \fBauto\fR (default), \fBgrid\fR or \fBscatter\fR.
+ \fBgrid\fR places m membership functions per input and enumerates `m^K` rules, so the rule
+ count explodes with the input count. \fBscatter\fR clusters the training samples (kmeans) and
+ creates one rule per cluster, each with its own gaussian center/width per input - the number of
+ rules no longer depends on K, which is what makes \fBmaxRegulators = 18\fR feasible.
+ \fBauto\fR keeps \fBgrid\fR while `m^K <= maxRules` and `m^K*(K+1) <= maxConsequentParams`,
+ otherwise it switches to \fBscatter\fR.
+. 
+.PP
+.PP
+\fBscatterRules\fB \fR\- number of clusters (= rules) of the scatter partition. Default 48.. 
+.PP
+.PP
+\fBscatterInputs\fB \fR\- maximum number of antecedents per scatter rule. Default 8.. 
+.PP
+.PP
+\fBscatterMinInputs\fB \fR\- minimum number of antecedents per scatter rule. Default 2.. 
+.PP
+.PP
+\fBscatterZThreshold\fB \fR\- 
+ an input joins a cluster rule when the cluster center deviates from the global mean by at
+ least this many standard deviations. Default 1.
+. 
+.PP
+.PP
+\fBscatterSeed\fB \fR\- random seed of the clustering, keeps the structure reproducible. Default 0.. 
+.PP
+.PP
+\fBmaxRules\fB \fR\- rule budget per target gene. Default 128.. 
+.PP
+.PP
+\fBmaxConsequentParams\fB \fR\- consequent parameter budget per target gene. Default 512.. 
+.PP
+.PP
+\fBstandardize\fB \fR\- z-score the expression matrix before fitting. Default TRUE.. 
+.PP
+.PP
+\fBpropagationSteps\fB \fR\- maximum fixed point iterations of a perturbation. Default 50.. 
+.PP
+.PP
+\fBrelaxation\fB \fR\- damping factor of the fixed point iteration. Default 0.5.. 
+.PP
+.PP
+\fBknockdownResidual\fB \fR\- 
+ fraction of the baseline expression retained after a virtual knockdown. Default 0.2.
+. 
+.PP
+.PP
+\fBoverexpressionSigmas\fB \fR\- 
+ overexpression level in training standard deviations above the baseline. Default 3.
+. 
+.PP
+.PP
+\fBsignificanceZScore\fB \fR\- |z| threshold used to flag a gene as significantly changed. Default 2.. 
+.PP
+.PP
+\fBdegreeOfParallelism\fB \fR\- per-gene training parallelism; 0 = all cores, 1 = serial.. 
+.PP
+.PP
+\fBminTimePoints\fB \fR\- distinct time points required to switch to the lagged route. Default 3.. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment (unused, kept for error reporting symmetry). 
+.PP
+.SH VALUE
+.PP
+a validated configuration object
+.PP
+.SH DETAILS
+.PP
+The returned object (registered as the \fBfuzzygene_config\fR R# type) is accepted by the
+ \fBconfig\fR argument of \fBFuzzyGene::build_fuzzygene\fR. Structure and training options are
+ inherited from the shared ANFIS configuration; this api exposes the subset that matters for
+ gene regulatory network inference.
+.PP
+.SH SEE ALSO
+FuzzyGene
+.SH FILES
+.PP
+biosystem.dll
+.PP

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GeneRegressionModel</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>GeneRegressionModel {SMRUCC.genomics.Model.Network.Regulons.LinearRegression}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>GeneRegressionModel</h2>
+
+        <h3>Description</h3>
+
+        <p>单个目标基因的线性拟合模型</p>
+
+
+<pre><code> target = intercept + beta_1 * regulator_1 + beta_2 * regulator_2 + ...</code></pre>
+
+
+<p>其中 <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GeneRegressionModel.regulators">GeneRegressionModel.regulators</a> 与 <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GeneRegressionModel.weights">GeneRegressionModel.weights</a> 是一一对应的， 第 i 个回归系数描述第 i 个调控因子对当前目标基因的表达贡献。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Model.Network.Regulons.LinearRegression
+export class GeneRegressionModel {
+   # 弹性网络所选用的总正则化强度，其它求解方法之下这个数值为零。
+   alpha: double;
+   # 残差的自由度，即 <code>样本数量 - 自变量个数</code>
+   df: integer;
+   # 拟合失败的时候的异常信息，求解成功的时候为空字符串
+   errorMessage: string;
+   # 模型的常数项(截距)，即用户在公式之中写出来的 <code>const</code>。
+   # 
+   # LASSO 求解器自身给出了标准化还原之后的截距，因此两种方法之下都有常数项。
+   intercept: double;
+   # 截距项的显著性 p 值
+   interceptPvalue: double;
+   # 截距项的 t 值
+   interceptT: double;
+   # 当前模型是否求解成功
+   IsValid: boolean;
+   # 弹性网络所选用的 L1 混合比例，其它求解方法之下这个数值为零。
+   l1Ratio: double;
+   # LASSO 模型在正则化路径上面所处的位置对应的 lambda 值， 其它求解方法之下这个数值为零。
+   lambda: double;
+   # 当前模型所使用的求解方法
+   method: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/FittingMethod.html">FittingMethod</a>;
+   # 参与拟合的样本数量
+   N: integer;
+   # 模型之中非零或者显著的调控因子的数量
+   nonZeroWeights: integer;
+   # 每一个回归系数对应的显著性 p 值，无法计算的时候为空
+   pvalues: double;
+   # 拟合优度 R^2
+   r2: double;
+   # 参与拟合的调控因子基因编号，顺序与 <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GeneRegressionModel.weights">GeneRegressionModel.weights</a> 一致。
+   regulators: string;
+   # 拟合的均方根误差
+   rmse: double;
+   # 残差平方和
+   sse: double;
+   # 总平方和
+   sst: double;
+   # 目标基因的编号
+   target: string;
+   # 每一个回归系数对应的 t 值，无法计算的时候为空
+   tvalues: double;
+   # 每一个调控因子的回归系数
+   weights: double;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>method</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/FittingMethod.html">FittingMethod</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

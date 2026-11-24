@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Molecule.SMILES.Graph.MoleculeGraph</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>MoleculeGraph {SMRUCC.genomics.Molecule.SMILES.Graph}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>MoleculeGraph</h2>
+
+        <h3>Description</h3>
+
+        <p>统一的分子图对象：SMILES 与 InChI 两种结构式字符串解析之后都汇入此类型。</p>
+
+
+<ul>
+<li>原子以 0 基下标标识， 与键表  共同构成分子；</li>
+<li>氢以"记号声明的氢"（）与"按价态反推的隐式氢"</li>
+</ul>
+
+
+<p>（）两段表示，二者之和由  给出；</p>
+
+
+<ul>
+<li>芳香性同时以  /  与</li>
+</ul>
+
+
+<p>Kekulé 化之后的 1/2/3 键级两种形式保留，供化学计算与结构绘图各取所需；</p>
+
+
+<ul>
+<li>坐标只有一份，写入 /（2D）与</li>
+</ul>
+
+
+<p>（3D），由  /  生成。</p>
+
+<p>化学上无法判定的情形不会抛异常，而是追加到 <a href="cref:P:SMRUCC.genomics.Molecule.SMILES.Graph.MoleculeGraph.Warnings">MoleculeGraph.Warnings</a>。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Molecule.SMILES.Graph
+export class MoleculeGraph {
+   # 原子总数。
+   AtomCount: integer;
+   # 分子内的全部原子，下标即 <a href="cref:P:SMRUCC.genomics.Molecule.SMILES.Graph.Atom.Index">Atom.Index</a>。
+   Atoms: <a href="/vignettes/clr/SMRUCC/genomics/Molecule/SMILES/Graph/Atom.html">iterates(Atom)</a>;
+   # 化学键总数。
+   BondCount: integer;
+   # 分子内的全部化学键。
+   Bonds: <a href="/vignettes/clr/SMRUCC/genomics/Molecule/SMILES/Graph/Bond.html">iterates(Bond)</a>;
+   # 结构式字符串的原始格式。
+   Format: <a href="/vignettes/clr/SMRUCC/genomics/Molecule/SMILES/Graph/MoleculeFormat.html">MoleculeFormat</a>;
+   # 是否不含任何原子。
+   IsEmpty: boolean;
+   # 解析时所使用的原始字符串。
+   SourceText: string;
+   # 解析或坐标重建过程中的非致命问题（芳香性无法 Kekulé 化、价态无法满足等）。
+   Warnings: <a href="/vignettes/clr/System/String.html">iterates(String)</a>;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>Atoms</code>: <a href="/vignettes/clr/SMRUCC/genomics/Molecule/SMILES/Graph/Atom.html">iterates(Atom)</a></li>
+<li>use by <i>property</i> member <code>Bonds</code>: <a href="/vignettes/clr/SMRUCC/genomics/Molecule/SMILES/Graph/Bond.html">iterates(Bond)</a></li>
+<li>use by <i>property</i> member <code>Format</code>: <a href="/vignettes/clr/SMRUCC/genomics/Molecule/SMILES/Graph/MoleculeFormat.html">MoleculeFormat</a></li>
+<li>use by <i>property</i> member <code>Warnings</code>: <a href="/vignettes/clr/System/String.html">iterates(String)</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

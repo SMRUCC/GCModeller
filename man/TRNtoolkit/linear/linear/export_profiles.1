@@ -1,0 +1,45 @@
+.\" man page create by R# package system.
+.TH LINEAR 1 2000-1月 "export_profiles" "export_profiles"
+.SH NAME
+export_profiles \- Run the perturbation experiment for a set of genes and save the profiles as a csv file.
+.SH SYNOPSIS
+\fIexport_profiles(\fBmodel\fR as <generic> ElasticNet, 
+\fBgenes\fR as any, 
+\fBfile\fR as string, 
+\fBmode\fR as string = "knockdown", 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Run the perturbation experiment for a set of genes and save the profiles as a csv file.
+.PP
+.SH OPTIONS
+.PP
+\fBmodel\fB \fR\- the perturbation engine that is created via \fBelastic_model\fR. 
+.PP
+.PP
+\fBgenes\fB \fR\- the target gene ids. 
+.PP
+.PP
+\fBfile\fB \fR\- the output csv file, its folder will be created automatically. 
+.PP
+.PP
+\fBmode\fB \fR\- \fBknockout\fR, \fBknockdown\fR (default) or \fBoverexpress\fR. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object. 
+.PP
+.SH VALUE
+.PP
+TRUE when the file has been written successfully
+.PP
+.SH DETAILS
+.PP
+The first column is the gene id, the second column is the control (wildtype) profile,
+ and the following columns are the mutant profiles of the given perturbations.
+.PP
+.SH SEE ALSO
+linear
+.SH FILES
+.PP
+TRNtoolkit.dll
+.PP

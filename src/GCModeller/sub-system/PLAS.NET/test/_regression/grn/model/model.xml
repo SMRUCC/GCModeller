@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:vcellkit="https://bioCAD.gcmodeller.org/vcellkit/">
+   <!--
+     model:     SMRUCC.genomics.Analysis.SSystem.Script.Model
+     assembly:  SMRUCC.genomics.Analysis.SSystem, Version=1.0.9775.36927, Culture=neutral, PublicKeyToken=null
+     version:   1.0.9775.36927
+     built:     2026-10-05 08:06:22
+     md5:       184b23a407d7b0a8f31c74b32daf3d97
+     timestamp: 2026-10-21 22:56:20
+  -->
+   <Vars>
+      <var title="X1">
+         <Value>0.2630344058337938</Value>
+         <Id>X1</Id>
+      </var>
+      <var title="X2">
+         <Value>2</Value>
+         <Id>X2</Id>
+      </var>
+      <var title="X3">
+         <Value>0.37851162325372983</Value>
+         <Id>X3</Id>
+      </var>
+   </Vars>
+   <sEquations>
+      <SEquation x="X1">0.272651049*X1^0.695809505*X2^1.781617798*X3^-3-0.129977124*X1^3*X2^1.073524225*X3^3</SEquation>
+      <SEquation x="X2">0.420730382*X1^2.058695247*X2^-1.783938249-1.131608053*X1^0.092031072*X2^0.543490899</SEquation>
+      <SEquation x="X3">0.502459584*X2^0.949483924*X3^-1.206162685-0.306565897*X2^-0.213182569*X3^2.021327382</SEquation>
+   </sEquations>
+   <Title>S-system GRN model</Title>
+   <Comment>The network may be unstable: the Gershgorin upper bound of the maximal eigenvalue real part is 4.404 (&gt;= 0).</Comment>
+   <FinalTime>15</FinalTime>
+</Model>

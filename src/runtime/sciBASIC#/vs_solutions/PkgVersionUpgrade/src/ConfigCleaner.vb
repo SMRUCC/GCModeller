@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8b139c12d957b60e028b85bc20e73aa7, vs_solutions\PkgVersionUpgrade\ConfigCleaner.vb"
+﻿#Region "Microsoft.VisualBasic::73f46d02a32e6e5db574a3b950560de8, vs_solutions\PkgVersionUpgrade\src\ConfigCleaner.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 135
-    '    Code Lines: 56 (41.48%)
-    ' Comment Lines: 59 (43.70%)
+    '   Total Lines: 134
+    '    Code Lines: 55 (41.04%)
+    ' Comment Lines: 59 (44.03%)
     '    - Xml Docs: 86.44%
     ' 
-    '   Blank Lines: 20 (14.81%)
-    '     File Size: 5.53 KB
+    '   Blank Lines: 20 (14.93%)
+    '     File Size: 5.50 KB
 
 
     ' Module ConfigCleaner
@@ -51,7 +51,6 @@
 
 #End Region
 
-Imports System.Xml.Linq
 Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.VBProj
 
 ''' <summary>

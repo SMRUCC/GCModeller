@@ -1,0 +1,51 @@
+.\" man page create by R# package system.
+.TH BIOSEQ.PATTERNS 2 2000-1月 "gibbs_scan" "gibbs_scan"
+.SH NAME
+gibbs_scan \- make a motif scan from the given sequence collection
+.SH SYNOPSIS
+\fIgibbs_scan(\fBseqs\fR as any, 
+\fBwidth\fR as <generic> Int32 = \fB<NULL>\fR, 
+\fBmaxitr\fR as integer = 1000, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+make a motif scan from the given sequence collection
+.PP
+.SH OPTIONS
+.PP
+\fBseqs\fB \fR\- 
+ a fasta sequence collection for run the gibbs sampler motif discovery, 
+ which can be a [FastaFile](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile) object, a collection of the 
+ [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) object, or a character vector of the raw 
+ sequence data.
+. 
+.PP
+.PP
+\fBwidth\fB \fR\- 
+ the motif width of the gibbs sampler. If this parameter is not 
+ specified, then the motif width will be evaluated from the input 
+ sequence data automatically as the 60% of the average sequence length.
+. 
+.PP
+.PP
+\fBmaxitr\fB \fR\- 
+ the maximum iteration number of the gibbs sampler.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a [MSAMotif](cref:T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.MSAMotif) motif object that discovered from the given 
+ sequence collection by the gibbs sampler;
+ 
+ this function returns NULL if the input sequence data can not be cast 
+ to a fasta sequence collection.
+.PP
+.SH SEE ALSO
+bioseq.patterns
+.SH FILES
+.PP
+seqtoolkit.dll
+.PP

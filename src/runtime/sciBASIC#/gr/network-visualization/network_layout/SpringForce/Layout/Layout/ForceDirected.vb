@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b127ed11eba825fa3cfc5e5dd88cf748, gr\network-visualization\network_layout\SpringForce\Layout\Layout\ForceDirected.vb"
+﻿#Region "Microsoft.VisualBasic::5b86f3259727f8d2ccef23e713654030, gr\network-visualization\network_layout\SpringForce\Layout\Layout\ForceDirected.vb"
 
     ' Author:
     ' 
@@ -103,7 +103,7 @@
 Imports Microsoft.VisualBasic.Data.GraphTheory.GridGraph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.SpringForce.Interfaces
-Imports Microsoft.VisualBasic.Imaging.Physics
+Imports Microsoft.VisualBasic.Engine.Particles
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 Imports std = System.Math
 

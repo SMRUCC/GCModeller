@@ -76,7 +76,7 @@ Namespace Kernel
                 Call kernel.mathEngine.SetFunction(declares.Declaration)
             Next
             For Each __const__ In script.Constant.SafeQuery
-                Call kernel.mathEngine.SetSymbol(__const__.Name, __const__.Value)
+                Call kernel.mathEngine.SetSymbol(__const__.name, __const__.text)
             Next
 
             vars = LinqAPI.Exec(Of var) _

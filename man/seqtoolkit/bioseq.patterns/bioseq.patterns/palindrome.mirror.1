@@ -1,0 +1,34 @@
+.\" man page create by R# package system.
+.TH BIOSEQ.PATTERNS 2 2000-1月 "palindrome.mirror" "palindrome.mirror"
+.SH NAME
+palindrome.mirror \- Search mirror palindrome sites for a given seed sequence
+.SH SYNOPSIS
+\fIpalindrome.mirror(\fBsequence\fR as string, 
+\fBseed\fR as string);\fR
+.SH DESCRIPTION
+.PP
+Search mirror palindrome sites for a given seed sequence
+.PP
+.SH OPTIONS
+.PP
+\fBsequence\fB \fR\- 
+ the raw nucleotide sequence text for search the mirror palindrome 
+ sites.
+. 
+.PP
+.PP
+\fBseed\fB \fR\- 
+ the seed sequence fragment text for search its mirror palindrome sites.
+. 
+.PP
+.SH VALUE
+.PP
+a vector of the [PalindromeLoci](cref:T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.PalindromeLoci) mirror palindrome site 
+ loci object that found in the given sequence data.
+.PP
+.SH SEE ALSO
+bioseq.patterns
+.SH FILES
+.PP
+seqtoolkit.dll
+.PP

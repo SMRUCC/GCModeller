@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::80474b4a6b2df5134c63cf594bb17cc3, Data_science\Visualization\DataPlot\Advanced\ChordPlot.vb"
+#Region "Microsoft.VisualBasic::a6bf8f3068916f15a210dc243d2d9b7a, Data_science\Visualization\DataPlot\Advanced\ChordPlot.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 181
-    '    Code Lines: 138 (76.24%)
-    ' Comment Lines: 22 (12.15%)
-    '    - Xml Docs: 54.55%
+    '   Total Lines: 186
+    '    Code Lines: 141 (75.81%)
+    ' Comment Lines: 23 (12.37%)
+    '    - Xml Docs: 56.52%
     ' 
-    '   Blank Lines: 21 (11.60%)
-    '     File Size: 7.68 KB
+    '   Blank Lines: 22 (11.83%)
+    '     File Size: 8.04 KB
 
 
     ' Class ChordLink
@@ -52,7 +52,7 @@
     '     Properties: ChordAlpha, GapAngle, Links, Matrix, NodeColors
     '                 NodeLabels, ShowSelfLoops, StartAngle, Symmetric
     ' 
-    '     Constructor: (+1 Overloads) Sub New
+    '     Constructor: (+2 Overloads) Sub New
     '     Sub: DrawArcBand, Plot
     ' 
     ' /********************************************************************************/
@@ -61,6 +61,7 @@
 
 Imports System.Drawing
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports std = System.Math
 
 ''' <summary>和弦图连接（可选辅助结构，用于显式指定连接而非矩阵）</summary>
@@ -94,11 +95,16 @@ Public Class ChordPlot
     ''' <summary>节点弧段间隙（度）</summary>
     Public Property GapAngle As Single = 1.5F
 
-    Public Sub New(width As Integer, height As Integer, Optional theme As PlotTheme = Nothing)
-        MyBase.New(width, height, theme)
+    Public Sub New(width As Integer, height As Integer, Optional theme As PlotTheme = Nothing, Optional driver As Microsoft.VisualBasic.Imaging.Driver.Drivers = Microsoft.VisualBasic.Imaging.Driver.Drivers.Default)
+        MyBase.New(width, height, theme, driver)
     End Sub
 
-    Public Sub Plot()
+    ''' <summary>直接在外部提供的绘图设备上绘制（图层叠加模式 / 宿主画布）。</summary>
+    Public Sub New(g As IGraphics, Optional theme As PlotTheme = Nothing)
+        MyBase.New(g, theme)
+    End Sub
+
+    Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
         DrawBackground()
         DrawTitle()
 

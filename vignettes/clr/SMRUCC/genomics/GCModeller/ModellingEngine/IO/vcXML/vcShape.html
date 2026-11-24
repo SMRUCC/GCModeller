@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.GCModeller.ModellingEngine.IO.vcXML.vcShape</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>vcShape {SMRUCC.genomics.GCModeller.ModellingEngine.IO.vcXML}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>vcShape</h2>
+
+        <h3>Description</h3>
+
+        <p>空间形状：网格尺寸、体素体积与占用统计。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.GCModeller.ModellingEngine.IO.vcXML
+export class vcShape {
+   depth: integer;
+   height: integer;
+   # 可选的占用掩码（按 (x<em>height+y)</em>depth+z 展平的 bool）
+   mask: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/IO/vcXML/vcBinaryBlock.html">vcBinaryBlock</a>;
+   # 被形状覆盖的体素数
+   occupied: integer;
+   # 网格体素总数（width × height × depth）
+   total: integer;
+   # 体素边长（立方体假设），单位见 <a href="cref:P:SMRUCC.genomics.GCModeller.ModellingEngine.IO.vcXML.vcShape.voxelSizeUnit">vcShape.voxelSizeUnit</a>
+   voxelSize: double;
+   voxelSizeUnit: string;
+   voxelSizeUnitName: string;
+   width: integer;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>mask</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/IO/vcXML/vcBinaryBlock.html">vcBinaryBlock</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

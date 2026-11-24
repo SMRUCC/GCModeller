@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f7de8d6d257d46e4c3bb0b8ab1f1882f, Data_science\MachineLearning\DeepLearning\CNN\Layers\LocalResponseNormalizationLayer.vb"
+﻿#Region "Microsoft.VisualBasic::9767e664977e1dc29c2783a9bf61fc4c, Data_science\MachineLearning\DeepLearning\CNN\Layers\LocalResponseNormalizationLayer.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 132
-    '    Code Lines: 81 (61.36%)
-    ' Comment Lines: 28 (21.21%)
-    '    - Xml Docs: 46.43%
+    '   Total Lines: 150
+    '    Code Lines: 81 (54.00%)
+    ' Comment Lines: 46 (30.67%)
+    '    - Xml Docs: 67.39%
     ' 
-    '   Blank Lines: 23 (17.42%)
-    '     File Size: 5.09 KB
+    '   Blank Lines: 23 (15.33%)
+    '     File Size: 6.27 KB
 
 
     '     Class LocalResponseNormalizationLayer
@@ -107,6 +107,34 @@ Namespace CNN.layers
         Public ReadOnly Property Type As LayerTypes Implements Layer.Type
             Get
                 Return LayerTypes.LRN
+            End Get
+        End Property
+
+        ''' <summary>Gets the size of the normalization neighborhood (serialization helper).</summary>
+        Public ReadOnly Property Size As Integer
+            Get
+                Return CInt(n)
+            End Get
+        End Property
+
+        ''' <summary>Gets the <c>alpha</c> hyper parameter (serialization helper).</summary>
+        Public ReadOnly Property AlphaValue As Double
+            Get
+                Return alpha
+            End Get
+        End Property
+
+        ''' <summary>Gets the <c>beta</c> hyper parameter (serialization helper).</summary>
+        Public ReadOnly Property BetaValue As Double
+            Get
+                Return beta
+            End Get
+        End Property
+
+        ''' <summary>Gets the <c>k</c> hyper parameter (serialization helper).</summary>
+        Public ReadOnly Property BiasValue As Double
+            Get
+                Return k
             End Get
         End Property
 

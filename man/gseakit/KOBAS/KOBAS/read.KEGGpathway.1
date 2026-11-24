@@ -1,0 +1,25 @@
+.\" man page create by R# package system.
+.TH KOBAS 1 2000-1月 "read.KEGGpathway" "read.KEGGpathway"
+.SH NAME
+read.KEGGpathway \- Read KOBAS enrichment output result table file
+.SH SYNOPSIS
+\fIread.KEGGpathway(\fBfile\fR as string);\fR
+.SH DESCRIPTION
+.PP
+Read KOBAS enrichment output result table file
+.PP
+.SH OPTIONS
+.PP
+\fBfile\fB \fR\- the KOBAS enrichment result file path, the file may contains more than one database section.. 
+.PP
+.SH VALUE
+.PP
+the enrichment terms that are read from the \fBKEGG PATHWAY\fR section of the given file,
+ an empty array will be returned when that section is missing.
+.PP
+.SH SEE ALSO
+KOBAS
+.SH FILES
+.PP
+gseakit.dll
+.PP

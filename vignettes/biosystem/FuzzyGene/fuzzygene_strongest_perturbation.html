@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>The single gene whose perturbation produces the strongest predicted response.</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>fuzzygene_strongest_perturbation {FuzzyGene}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>The single gene whose perturbation produces the strongest predicted response.</h2>
+
+        <h3>Description</h3>
+
+        
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>fuzzygene_strongest_perturbation</strong>(<i>fuzzygene</i>,
+    <i>candidates</i> = <span style='color: green;'>24</span>,
+    <i>mode</i> = <span style='color: brown;'><strong>"knockout"</strong></span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>fuzzygene</dt>
+<dd><p>a trained (or restored) model. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/FuzzyGeneModel.html">FuzzyGeneModel</a>]</p></dd>
+
+
+<dt>candidates</dt>
+<dd><p>number of candidate genes to evaluate; 0 means all modelled genes. [as integer]</p></dd>
+
+
+<dt>mode</dt>
+<dd><p><code>knockout</code> (default), <code>knockdown</code> or <code>overexpression</code>. [as string]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment used to report errors. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: none;">Details</h3>
+
+        
+
+        <h3 style="display: block">Authors</h3>
+
+        biosystem
+
+        <h3>Value</h3>
+
+        <p>the gene name, or an R# error object when nothing could be evaluated</p><h4>clr value class</h4><ul><li>string</li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>FuzzyGene</em> version 1.0.0.0 <a
+                href="../FuzzyGene.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

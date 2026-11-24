@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.HTS.GSVA.Omics.MultiOmicsDataset</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>MultiOmicsDataset {SMRUCC.genomics.Analysis.HTS.GSVA.Omics}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>MultiOmicsDataset</h2>
+
+        <h3>Description</h3>
+
+        <p>K 个组学层的容器：统一样本轴 + 特征三元索引 + 拼接视图。</p>
+
+<p>对应 method.md 步骤1：输入为拼接矩阵 X ∈ R^{(N1+N2+...+NK)×M}， 特征标签表保留 (feature_id, omics_source, gene)； 但主流程不会真的把矩阵拼接后做一次 GSVA（见 <a href="cref:T:SMRUCC.genomics.Analysis.HTS.GSVA.Ablation.PooledBaseline">PooledBaseline</a> 的消融对照）， 拼接视图只用于对外导出特征表与消融实验。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.HTS.GSVA.Omics
+export class MultiOmicsDataset {
+   # 因为并非所有层都含有而被丢弃的样本
+   DroppedSamples: string;
+   # 所有层特征数之和（即拼接矩阵的行数）
+   FeatureCount: integer;
+   # 拼接矩阵的特征表
+   FeatureTable: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSVA/Omics/OmicsFeature.html">OmicsFeature[]</a>;
+   LayerCount: integer;
+   # 已按统一样本轴对齐的组学层
+   Layers: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/MultipleOmics/OmicsLayer.html">OmicsLayer[]</a>;
+   OmicsNames: string;
+   # 样本数量
+   SampleCount: integer;
+   # 跨组学共享的样本轴（按第一个层的原始顺序）
+   SampleID: string;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>FeatureTable</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSVA/Omics/OmicsFeature.html">OmicsFeature</a></li>
+<li>use by <i>property</i> member <code>Layers</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/MultipleOmics/OmicsLayer.html">OmicsLayer</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

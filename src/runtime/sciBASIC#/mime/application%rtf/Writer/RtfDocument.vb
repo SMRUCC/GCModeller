@@ -1,3 +1,82 @@
+﻿#Region "Microsoft.VisualBasic::5deae7a2a6a69445d62f3cd0bf5af4a5, mime\application%rtf\Writer\RtfDocument.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+' /********************************************************************************/
+
+' Summaries:
+
+
+' Code Statistics:
+
+'   Total Lines: 735
+'    Code Lines: 503 (68.44%)
+' Comment Lines: 113 (15.37%)
+'    - Xml Docs: 61.95%
+' 
+'   Blank Lines: 119 (16.19%)
+'     File Size: 34.69 KB
+
+
+' Class RtfDocument
+' 
+'     Properties: ApplicationName, Author, Description, Subject, Tags
+'                 Title
+' 
+'     Constructor: (+1 Overloads) Sub New
+' 
+'     Function: AddBlock, AddTableBlock, Blockquote, BlockquoteStyle, CloneRow
+'               CloneRows, CodeBlock, CodeStyle, DefaultStyle, DefinitionList
+'               DocTitle, H1, H2, H3, H4
+'               H5, H6, Heading, HeadingStyle, Hr
+'               IDW_Blockquote, IDW_BlockquoteStyle, IDW_CodeBlock, IDW_CodeStyle, IDW_DefaultStyle
+'               IDW_DefinitionList, IDW_DocTitle, IDW_H1, IDW_H2, IDW_H3
+'               IDW_H4, IDW_H5, IDW_H6, IDW_Heading, IDW_HeadingStyle
+'               IDW_Hr, IDW_Image, IDW_List, IDW_PageBreak, IDW_PageSetup
+'               IDW_PageSetupA4, IDW_PageSetupLetter, IDW_Paragraph1, IDW_Paragraph2, IDW_ParagraphStyle
+'               IDW_Table1, IDW_Table2, IDW_Table3, IDW_TableAutoFitContents1, IDW_TableAutoFitContents2
+'               IDW_TableAutoFitWindow1, IDW_TableAutoFitWindow2, IDW_TableStyle, IDW_TaskList, IDW_TitleStyle
+'               IDW_Toc, IDW_WriteBlocks, Image, List, PageBreak
+'               PageSetup, PageSetupA4, PageSetupLetter, (+2 Overloads) Paragraph, ParagraphStyle
+'               (+3 Overloads) Table, (+2 Overloads) TableAutoFitContents, (+2 Overloads) TableAutoFitWindow, TableStyle, TaskList
+'               TitleStyle, Toc, ToJaggedHeaders, ToJaggedRows, WriteBlocks
+' 
+'     Sub: Save, WriteBlock
+' 
+' Class RtfWriteMeta
+' 
+'     Properties: Author, Creator, Description, Keywords, Subject
+'                 Title
+' 
+' /********************************************************************************/
+
+#End Region
+
 ' ============================================================================
 ' RtfDocument.vb - RTF 文档生成器主类
 '
@@ -12,8 +91,8 @@
 ' 图片文件缺失时走 [警告] 日志并跳过，不影响其余内容生成。
 ' ============================================================================
 
-Imports Microsoft.VisualBasic.MIME.Office.WordDocument
-Imports Microsoft.VisualBasic.MIME.text.markdown
+Imports Microsoft.VisualBasic.ApplicationServices.Report
+Imports Microsoft.VisualBasic.Imaging.BitmapImage
 
 ''' <summary>
 ''' RTF 文档生成器。实现 <see cref="IDocumentWriter"/>，对外提供与
@@ -400,10 +479,10 @@ Public Class RtfDocument : Implements IDocumentWriter
     End Function
 
     ''' <summary>将一组 Markdown 内容块写入文档。</summary>
-    Public Function WriteBlocks(blocksInput As IEnumerable(Of JSONSchema.Block)) As RtfDocument
+    Public Function WriteBlocks(blocksInput As IEnumerable(Of Block)) As RtfDocument
         If blocksInput Is Nothing Then Return Me
 
-        For Each blk As JSONSchema.Block In blocksInput
+        For Each blk As Block In blocksInput
             If blk Is Nothing Then Continue For
             Call WriteBlock(blk)
         Next
@@ -415,7 +494,7 @@ Public Class RtfDocument : Implements IDocumentWriter
     ''' 将单个 Markdown 内容块映射为等价的写入调用。映射语义与
     ''' <c>WordDocument.WriteBlock</c> / <c>PdfDocument.WriteBlock</c> 保持一致。
     ''' </summary>
-    Private Sub WriteBlock(blk As JSONSchema.Block)
+    Private Sub WriteBlock(blk As Block)
         If blk.type Is Nothing Then
             If Not String.IsNullOrEmpty(blk.content) Then
                 Call Paragraph(blk.content)
@@ -476,9 +555,30 @@ Public Class RtfDocument : Implements IDocumentWriter
     ' 保存
     ' ========================================================================
 
+    ''' <summary>
+    ''' 将当前已写入的内容序列化为 RTF 文档文本（不落盘）。RTF 输出是纯 ASCII 文本，
+    ''' 非 ASCII 字符已全部转义为 ``\uN?``。
+    ''' </summary>
+    ''' <returns>RTF 1.x 文档文本。</returns>
+    Public Function ToRtfText() As String
+        Dim serializer As New RtfSerializer(blocks,
+                                            _pageWidth, _pageHeight,
+                                            _marginTop, _marginRight, _marginBottom, _marginLeft,
+                                            _headingStyles, _paragraphStyle, _defaultStyle,
+                                            _codeStyle, _blockquoteStyle, _titleStyle, _tableStyle,
+                                            GetWriteMeta())
+
+        Return serializer.ToText()
+    End Function
+
     ''' <summary>将文档保存到指定文件路径。</summary>
     Public Sub Save(filePath As String) Implements IDocumentWriter.Save
-        Dim meta As New RtfWriteMeta() With {
+        Call RtfSerializer.SaveText(filePath, ToRtfText())
+    End Sub
+
+    ''' <summary>收集写入 \info 分组的文档元数据。</summary>
+    Private Function GetWriteMeta() As RtfWriteMeta
+        Return New RtfWriteMeta() With {
             .Author = Author,
             .Title = Title,
             .Subject = Subject,
@@ -486,14 +586,7 @@ Public Class RtfDocument : Implements IDocumentWriter
             .Keywords = If(Tags Is Nothing, "", String.Join(", ", Tags)),
             .Creator = ApplicationName
         }
-
-        Call RtfSerializer.Save(filePath, blocks,
-                                _pageWidth, _pageHeight,
-                                _marginTop, _marginRight, _marginBottom, _marginLeft,
-                                _headingStyles, _paragraphStyle, _defaultStyle,
-                                _codeStyle, _blockquoteStyle, _titleStyle, _tableStyle,
-                                meta)
-    End Sub
+    End Function
 
     ' ========================================================================
     ' IDocumentWriter 显式接口实现（与公开方法同形，返回接口自身）
@@ -661,7 +754,7 @@ Public Class RtfDocument : Implements IDocumentWriter
         Return Image(file, width, height, caption)
     End Function
 
-    Private Function IDW_WriteBlocks(blocksInput As IEnumerable(Of JSONSchema.Block)) As IDocumentWriter Implements IDocumentWriter.WriteBlocks
+    Private Function IDW_WriteBlocks(blocksInput As IEnumerable(Of Block)) As IDocumentWriter Implements IDocumentWriter.WriteBlocks
         Return WriteBlocks(blocksInput)
     End Function
 

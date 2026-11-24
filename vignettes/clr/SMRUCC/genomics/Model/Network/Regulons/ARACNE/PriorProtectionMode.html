@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Model.Network.Regulons.ARACNE.PriorProtectionMode</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>PriorProtectionMode {SMRUCC.genomics.Model.Network.Regulons.ARACNE}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>PriorProtectionMode</h2>
+
+        <h3>Description</h3>
+
+        <p>curated 先验边在 DPI 判定之中所受保护的分级方式。</p>
+
+<p>三种模式都只影响“保护强度”，先验边的阈值放宽 (<a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.ARACNE.AracneOptions.priorThresholdFactor">AracneOptions.priorThresholdFactor</a>)与 top-K 保护是独立的。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Model.Network.Regulons.ARACNE
+export class PriorProtectionMode extends <a href="/vignettes/clr/System/Enum.html">Enum</a> {
+   # 不做 DPI 保护：先验边与普通边一样，只按容差 <code>epsilon</code> 判定。
+   Off: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/ARACNE/PriorProtectionMode.html">PriorProtectionMode</a> = 0;
+
+   # 置信度分级保护(默认，确定性、可复现)。
+   # 
+   # 置信度 <code>c</code> 的先验边获得的 DPI 容差为
+   # 
+   # 
+   # <pre><code> eps_c = eps + (1 - eps) * priorProtectionStrength * c</code></pre>
+   # 
+   # 
+   # 也就是置信度越高，允许它“比另外两条边弱”的幅度越大： High 的边很难被 DPI 删掉，Medium 次之，Low 只在证据几乎持平的时候才被保护。 由于没有随机性，同一份数据多次运行的结果完全一致。
+   Graded: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/ARACNE/PriorProtectionMode.html">PriorProtectionMode</a> = 1;
+
+   # 按置信度做概率保护：每条先验边以 <code>p = c</code> 的概率获得完全保护 (被抽中的边永远不被 DPI 删除)，以 <code>1 - p</code> 的概率按标准容差判定。
+   # 
+   # 即：High(0.95) 几乎总被保护、Medium(0.70) 约七成概率被保护、 Low(0.45) 只有不到一半的概率被保护。
+   # 
+   # 抽样使用 <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.ARACNE.AracneOptions.randomSeed">AracneOptions.randomSeed</a> 驱动的伪随机数， 因此结果可复现，而不是每次运行都不同。
+   Sampled: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/ARACNE/PriorProtectionMode.html">PriorProtectionMode</a> = 2;
+
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>this class extends from <a href="/vignettes/clr/System/Enum.html">Enum</a> class: <a href="/vignettes/clr/System/Enum.html">Enum</a></li>
+<li>use by <i>field</i> member <code>Off</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/ARACNE/PriorProtectionMode.html">PriorProtectionMode</a></li>
+<li>use by <i>field</i> member <code>Graded</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/ARACNE/PriorProtectionMode.html">PriorProtectionMode</a></li>
+<li>use by <i>field</i> member <code>Sampled</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/ARACNE/PriorProtectionMode.html">PriorProtectionMode</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

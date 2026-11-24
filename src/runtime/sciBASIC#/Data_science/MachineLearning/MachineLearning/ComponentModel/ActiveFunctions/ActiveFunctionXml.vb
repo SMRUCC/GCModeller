@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::798d3dedbb3a082d232688c0d66a904b, Data_science\MachineLearning\MachineLearning\ComponentModel\ActiveFunctions\ActiveFunctionXml.vb"
+﻿#Region "Microsoft.VisualBasic::6454e483bb6d9710bef256201ddd9939, Data_science\MachineLearning\MachineLearning\ComponentModel\ActiveFunctions\ActiveFunctionXml.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 145
-    '    Code Lines: 105 (72.41%)
-    ' Comment Lines: 28 (19.31%)
+    '   Total Lines: 208
+    '    Code Lines: 105 (50.48%)
+    ' Comment Lines: 91 (43.75%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 12 (8.28%)
-    '     File Size: 5.91 KB
+    '   Blank Lines: 12 (5.77%)
+    '     File Size: 9.29 KB
 
 
     '     Class ActiveFunction
@@ -55,10 +55,13 @@
 
 #End Region
 
+Imports System.Globalization
 Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language.Default
+Imports Microsoft.VisualBasic.Math.Scripting
+Imports Microsoft.VisualBasic.Math.Scripting.MathExpression.Impl
 Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace ComponentModel.Activations
@@ -153,6 +156,12 @@ Namespace ComponentModel.Activations
                         Return New Threshold
                     Case NameOf(Activations.ReLU)
                         Return New ReLU
+                    Case NameOf(Activations.Elu)
+                        If HasKey("alpha") Then
+                            Return New Elu(!alpha)
+                        Else
+                            Return New Elu
+                        End If
                     Case NameOf(Activations.HyperbolicTangent)
                         Return New HyperbolicTangent
                     Case NameOf(Activations.Sinc)
@@ -244,22 +253,47 @@ Namespace ComponentModel.Activations
         ''' given text <paramref name="expression"/>.
         ''' </returns>
         Public Shared Function Parse(expression As String) As ActiveFunction
-            Dim func As NamedValue(Of String) = expression.GetTagValue("(", trim:=True)
+            Dim model As Expression = ScriptEngine.ParseExpression(expression, throwEx:=False)
+            Dim func As FunctionInvoke = TryCast(model, FunctionInvoke)
+
+            If func Is Nothing Then
+                Throw New ArgumentException($"Invalid activation function expression: {expression}", NameOf(expression))
+            End If
+
+            Dim arguments As New List(Of NamedValue)
+
+            If func.parameters IsNot Nothing Then
+                For Each parameter As Expression In func.parameters
+                    Dim named As NamedArgument = TryCast(parameter, NamedArgument)
+
+                    If named Is Nothing Then
+                        Throw New ArgumentException(
+                            $"Activation function arguments must be named arguments: {expression}",
+                            NameOf(expression))
+                    End If
+
+                    Call arguments.Add(New NamedValue With {
+                        .name = named.name,
+                        .text = ValueText(named.value)
+                    })
+                Next
+            End If
 
             Return New ActiveFunction With {
-                .name = func.Name,
-                .Arguments = func.Value _
-                    .Trim(")"c) _
-                    .StringSplit("\s*,\s*") _
-                    .Select(Function(a) a.GetTagValue(":=")) _
-                    .Select(Function(a)
-                                Return New NamedValue With {
-                                    .name = a.Name,
-                                    .text = a.Value
-                                }
-                            End Function) _
-                    .ToArray
+                .name = func.funcName,
+                .Arguments = arguments.ToArray
             }
+        End Function
+
+        ''' <summary>
+        ''' Get the invariant text of a named argument value expression.
+        ''' </summary>
+        Private Shared Function ValueText(value As Expression) As String
+            If TypeOf value Is Literal Then
+                Return DirectCast(value, Literal).number.ToString(CultureInfo.InvariantCulture)
+            Else
+                Return If(value Is Nothing, "", value.ToString)
+            End If
         End Function
     End Class
 End Namespace

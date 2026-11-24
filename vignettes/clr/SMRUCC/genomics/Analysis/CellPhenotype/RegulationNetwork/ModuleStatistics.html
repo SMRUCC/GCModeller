@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.CellPhenotype.RegulationNetwork.ModuleStatistics</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>ModuleStatistics {SMRUCC.genomics.Analysis.CellPhenotype.RegulationNetwork}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>ModuleStatistics</h2>
+
+        <h3>Description</h3>
+
+        <p>单个 WGCNA 模块在构建过程中的统计信息</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.CellPhenotype.RegulationNetwork
+export class ModuleStatistics {
+   # 通过 |cor| 阈值的候选边数
+   candidateEdges: integer;
+   # 由 TF 注释成功定向的边数
+   directedEdges: integer;
+   # 被 DPI 判定为间接而去除的边数
+   dpiRemovedEdges: integer;
+   # 该模块的耗时（毫秒）
+   elapsedMilliseconds: double;
+   # 通过 FDR 阈值的边数
+   fdrPassedEdges: integer;
+   # 模块基因数（规模控制截断前的原始基因数）
+   geneCount: integer;
+   # WGCNA 模块名称（通常为模块颜色）
+   moduleName: string;
+   # 被偏相关判定为间接而去除的边数
+   partialRemovedEdges: integer;
+   # 仅由 STRING 新增的边数
+   stringOnlyEdges: integer;
+   # 得到 STRING 证据支持的边数
+   stringSupportedEdges: integer;
+   # 无法定向、作为候选保留的边数（TF-TF / 非 TF-非 TF）
+   undirectedEdges: integer;
+   # 实际参与计算的基因数（规模控制截断后）
+   usedGenes: integer;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        this clr type has no other .net clr type reference.
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

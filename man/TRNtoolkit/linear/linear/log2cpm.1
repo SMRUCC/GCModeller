@@ -1,0 +1,38 @@
+.\" man page create by R# package system.
+.TH LINEAR 1 2000-1月 "log2cpm" "log2cpm"
+.SH NAME
+log2cpm \- 把原始 counts 矩阵变换成 \fBlog2(CPM + 1)\fR。
+.SH SYNOPSIS
+\fIlog2cpm(\fBx\fR as <generic> Matrix, 
+\fBpseudo\fR as double = 1, 
+\fBscale\fR as double = 1000000);\fR
+.SH DESCRIPTION
+.PP
+把原始 counts 矩阵变换成 \fBlog2(CPM + 1)\fR。
+ 
+ 逐样本按总计数归一化到 **scale**（默认 1e6，即 CPM），
+ 再取 \fBlog2(x + pseudo)\fR。这个变换消除了样本之间测序深度的差异：
+ 未取对数的 counts 矩阵上，任意两个基因的相关系数都会被共同的深度因子
+ 拉到 0.6 以上且彼此接近，弹性网络的 L1 路径因此不存在稀疏的中间解，
+ 拟合出来的模型会退化成 r2 ~ 0 的常数模型。
+.PP
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- 原始表达矩阵（行 = 基因、列 = 样本）. 
+.PP
+.PP
+\fBpseudo\fB \fR\- 伪计数偏移，默认 1，即 \fBlog2(CPM + 1)\fR. 
+.PP
+.PP
+\fBscale\fB \fR\- 每个样本的归一化目标总量，默认 1e6（CPM）. 
+.PP
+.SH VALUE
+.PP
+变换之后的新矩阵；基因顺序与样本顺序保持不变
+.PP
+.SH SEE ALSO
+linear
+.SH FILES
+.PP
+TRNtoolkit.dll
+.PP

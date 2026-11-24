@@ -1,0 +1,44 @@
+.\" man page create by R# package system.
+.TH KOBAS 1 2000-1月 "kobas.term_similarity" "kobas.term_similarity"
+.SH NAME
+kobas.term_similarity \- Compute the pairwise similarity matrix of the given term list.
+.SH SYNOPSIS
+\fIkobas.term_similarity(\fBterms\fR as list, 
+\fBmethod\fR as string = "kappa", 
+\fBuniverse\fR as integer = -1, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Compute the pairwise similarity matrix of the given term list.
+.PP
+.SH OPTIONS
+.PP
+\fBterms\fB \fR\- 
+ a named \fBlist\fR of the character vectors, the name of each slot is the term id
+ and the value is the member gene id vector of that term (for example the result
+ of \fBas.geneSet\fR of a gsea background model).
+. 
+.PP
+.PP
+\fBmethod\fB \fR\- the similarity method: \fBkappa\fR (Cohen's kappa, default) or \fBjaccard\fR.. 
+.PP
+.PP
+\fBuniverse\fB \fR\- 
+ the size of the gene universe that is used by the kappa method. Default \fB-1\fR
+ means the union size of all of the given terms.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment.. 
+.PP
+.SH VALUE
+.PP
+a \fBdataframe\fR of the similarity matrix, both the row names and the column names
+ are the term ids and the diagonal values are \fB1\fR.
+.PP
+.SH SEE ALSO
+KOBAS
+.SH FILES
+.PP
+gseakit.dll
+.PP

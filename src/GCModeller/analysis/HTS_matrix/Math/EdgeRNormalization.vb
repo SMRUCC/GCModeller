@@ -1,234 +1,322 @@
-﻿#Region "Microsoft.VisualBasic::507f3f0fce3fac452052e4182d55d359, analysis\HTS_matrix\Math\EdgeRNormalization.vb"
-
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-    ' /********************************************************************************/
-
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 270
-    '    Code Lines: 174 (64.44%)
-    ' Comment Lines: 50 (18.52%)
-    '    - Xml Docs: 28.00%
-    ' 
-    '   Blank Lines: 46 (17.04%)
-    '     File Size: 11.41 KB
-
-
-    ' Module EdgeRTMMNormalization
-    ' 
-    '     Function: ApplyTMMNormalization, CalcTMMFactors, EdgeRTMMNormalize, EdgeRTMMNormalizeSimple, NormalizeFactors
-    '               Quantile
-    ' 
-    ' /********************************************************************************/
-
-#End Region
-
-Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Math.Statistics.Linq
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Linq
 Imports std = System.Math
 
+''' <summary>
+''' edgeR 的 TMM（trimmed mean of M-values）归一化
+''' </summary>
+''' <remarks>
+''' <para>
+''' 这里的实现是对 <c>edgeR::calcNormFactors(method="TMM")</c> 的逐行移植，
+''' 目的是让结果能够与 R 端对拍（见 <c>test/R/hts_matrix_reference.R</c>）。
+''' </para>
+''' <para>
+''' **旧实现存在的数学错误**：
+''' </para>
+''' <list type="number">
+''' <item>
+''' 计算 M 值之前没有按文库大小缩放。edgeR 的定义是
+''' <c>M = log2((obs/nO) / (ref/nR))</c>、<c>A = (log2(obs/nO) + log2(ref/nR))/2</c>；
+''' 旧实现直接用原始 counts 计算，于是 M 里混入了文库深度比例，
+''' 归一化因子实际上变成了"文库比例 × 组成偏差"。当这个因子再被用于
+''' <c>libSize × factor</c> 的有效文库大小时，文库深度就被除了两次。
+''' </item>
+''' <item>
+''' 权重用错了：edgeR 用 <c>v = (nO−obs)/nO/obs + (nR−ref)/nR/ref</c> 的倒数做权重，
+''' 旧实现用的是 <c>(obs×ref)/(obs+ref)</c>。
+''' </item>
+''' <item>
+''' 裁剪方式不一致：edgeR 对 M 与 A 都用**秩**做双侧裁剪
+''' （<c>loL = floor(n×logratioTrim)+1</c>、<c>hiL = n+1−loL</c>，
+''' A 侧同理用 <c>sumTrim</c>），旧实现用分位数插值、并且把 A 只裁剪了 2.5%。
+''' </item>
+''' <item>
+''' 缺少 <c>max|M| &lt; 1e-6</c> 时直接返回 1 的短路，也缺少参考样本的正确回传
+''' （旧实现总是返回 0）。
+''' </item>
+''' </list>
+''' </remarks>
 Public Module EdgeRTMMNormalization
 
     ''' <summary>
     ''' 计算 edgeR 的 TMM 归一化因子
     ''' </summary>
+    ''' <param name="countData">原始 counts 矩阵（基因在行，样本在列）</param>
+    ''' <param name="trimFractionM">
+    ''' M 值两侧各自裁剪的比例，对应 edgeR 的 <c>logratioTrim</c>（默认 0.3）
+    ''' </param>
+    ''' <param name="trimFractionA">
+    ''' A 值两侧各自裁剪的比例，对应 edgeR 的 <c>sumTrim</c>（默认 0.05）
+    ''' </param>
+    ''' <param name="doWeighting">是否使用按方差倒数的加权平均（edgeR 默认开启）</param>
+    ''' <param name="Acutoff">A 值的下限过滤器（edgeR 默认 -1e10，即不过滤）</param>
+    ''' <returns>
+    ''' <c>normFactors</c>：几何平均为 1 的归一化因子；
+    ''' <c>referenceSampleIndex</c>：被选作参考的样本列号
+    ''' </returns>
     <Extension>
-    Public Function CalcTMMFactors(countData As Matrix, Optional trimFractionM As Double = 0.3, Optional trimFractionA As Double = 0.05) As (normFactors As Double(), referenceSampleIndex As Integer)
-        Dim sampleCount As Integer = countData.sampleID.Length
-        Dim geneCount As Integer = countData.expression.Length
+    Public Function CalcTMMFactors(countData As Matrix,
+                                   Optional trimFractionM As Double = 0.3,
+                                   Optional trimFractionA As Double = 0.05,
+                                   Optional doWeighting As Boolean = True,
+                                   Optional Acutoff As Double = -1.0E+10) As (normFactors As Double(), referenceSampleIndex As Integer)
 
-        ' 1. 计算每个样本的总计数（库大小）
-        Dim libSizes(sampleCount - 1) As Double
-        For j As Integer = 0 To sampleCount - 1
-            Dim total As Double = 0
-            For i As Integer = 0 To geneCount - 1
-                total += countData.expression(i).experiments(j)
-            Next
-            libSizes(j) = total
-        Next
+        Dim nSample As Integer = countData.sampleID.Length
+        Dim nGene As Integer = countData.expression.Length
 
-        ' 2. 选择参考样本（库大小中位数）
-        ' 在 edgeR 中，通常选择库大小中位数的样本作为参考
-        Dim medianLibSize As Double = libSizes.Median()
-        Dim referenceIndex As Integer = 0
-        Dim minDiff As Double = Double.MaxValue
-
-        For j As Integer = 0 To sampleCount - 1
-            Dim diff As Double = std.Abs(libSizes(j) - medianLibSize)
-            If diff < minDiff Then
-                minDiff = diff
-                referenceIndex = j
-            End If
-        Next
-
-        ' 3. 计算归一化因子
-        ' 计算每个样本相对于参考样本的归一化因子
-        Dim normFactors(sampleCount - 1) As Double
-        normFactors(referenceIndex) = 1.0
-
-        ' 为每个样本计算TMM因子
-        For j As Integer = 0 To sampleCount - 1
-            If j = referenceIndex Then Continue For
-
-            Dim mValues As New List(Of Double)
-            Dim aValues As New List(Of Double)
-            Dim weights As New List(Of Double)
-
-            ' 遍历所有基因
-            For i As Integer = 0 To geneCount - 1
-                Dim countRef As Double = countData.expression(i).experiments(referenceIndex)
-                Dim countSample As Double = countData.expression(i).experiments(j)
-
-                ' 跳过在两样本中均为零的基因
-                If countRef = 0 AndAlso countSample = 0 Then Continue For
-
-                ' 添加伪计数（仅用于对数计算）
-                Dim pseudoRef As Double = countRef + 0.5
-                Dim pseudoSample As Double = countSample + 0.5
-
-                ' 计算M值和A值
-                Dim m As Double = std.Log(pseudoSample / pseudoRef) / std.Log(2)
-                Dim a As Double = 0.5 * (std.Log(pseudoSample) / std.Log(2) + std.Log(pseudoRef) / std.Log(2))
-
-                ' 权重计算（使用原始计数）
-                ' edgeR权重公式: w = (n1 * n2) / (n1 + n2)
-                Dim weight As Double = 0
-                If countSample + countRef > 0 Then
-                    weight = (countSample * countRef) / (countSample + countRef)
-                End If
-
-                mValues.Add(m)
-                aValues.Add(a)
-                weights.Add(weight)
-            Next
-
-            If mValues.Count = 0 Then
-                normFactors(j) = 1.0
-                Continue For
-            End If
-
-            ' 4. 修剪：基于分位数
-
-            ' 对A值，edgeR通常只移除高表达的5%（防止高表达基因主导）
-            ' 这里我们实现为：移除A值最高的5%和最低的5%
-            Dim sortedM = mValues.OrderBy(Function(x) x).ToList()
-            Dim sortedA = aValues.OrderBy(Function(x) x).ToList()
-
-            ' 计算分位数索引（type=7分位数，与R的quantile()默认相同）
-            Dim lowMIndex As Double = (mValues.Count - 1) * (trimFractionM / 2)
-            Dim highMIndex As Double = (mValues.Count - 1) * (1 - trimFractionM / 2)
-
-            Dim lowAIndex As Double = (aValues.Count - 1) * (trimFractionA / 2)
-            Dim highAIndex As Double = (aValues.Count - 1) * (1 - trimFractionA / 2)
-
-            ' 线性插值计算分位数值
-            Dim lowMVal As Double = Quantile(sortedM, lowMIndex)
-            Dim highMVal As Double = Quantile(sortedM, highMIndex)
-            Dim lowAVal As Double = Quantile(sortedA, lowAIndex)
-            Dim highAVal As Double = Quantile(sortedA, highAIndex)
-
-            ' 5. 计算加权平均M值
-            Dim sumWeightedM As Double = 0
-            Dim sumWeights As Double = 0
-            Dim countIncluded As Integer = 0
-
-            For k As Integer = 0 To mValues.Count - 1
-                ' 检查是否在修剪范围内
-                If mValues(k) >= lowMVal AndAlso mValues(k) <= highMVal AndAlso
-               aValues(k) >= lowAVal AndAlso aValues(k) <= highAVal Then
-
-                    Dim weightVal As Double = weights(k)
-                    ' 跳过权重为0的基因
-                    If weightVal > 0 Then
-                        sumWeightedM += mValues(k) * weightVal
-                        sumWeights += weightVal
-                        countIncluded += 1
-                    End If
-                End If
-            Next
-
-            Dim weightedMeanM As Double = 0
-            If sumWeights > 0 AndAlso countIncluded > 0 Then
-                weightedMeanM = sumWeightedM / sumWeights
-            End If
-
-            ' 6. 计算归一化因子
-            normFactors(j) = std.Pow(2, weightedMeanM)
-        Next
-
-        ' 7. 调整归一化因子，使其几何平均为1
-        Return NormalizeFactors(normFactors)
-    End Function
-
-    ' 辅助函数：计算分位数（线性插值，type=7）
-    Private Function Quantile(sortedData As List(Of Double), index As Double) As Double
-        Dim idx1 As Integer = CInt(std.Floor(index))
-        Dim idx2 As Integer = CInt(std.Ceiling(index))
-
-        If idx1 = idx2 Then
-            Return sortedData(idx1)
-        Else
-            Dim frac As Double = index - idx1
-            Return sortedData(idx1) * (1 - frac) + sortedData(idx2) * frac
+        If nSample = 0 OrElse nGene = 0 Then
+            Return (New Double() {}, 0)
         End If
-    End Function
 
-    ' 辅助函数：归一化因子调整
-    Private Function NormalizeFactors(factors As Double()) As (normFactors As Double(), referenceIndex As Integer)
-        Dim logSum As Double = 0
-        Dim validCount As Integer = 0
+        Dim columns As Double()() = New Double(nSample - 1)() {}
+        Dim libSizes(nSample - 1) As Double
+        Dim hasPositive(nGene - 1) As Boolean
 
-        For Each factor In factors
-            If factor > 0 Then
-                logSum += std.Log(factor)
-                validCount += 1
+        For j As Integer = 0 To nSample - 1
+            Dim column As Double() = New Double(nGene - 1) {}
+
+            For i As Integer = 0 To nGene - 1
+                Dim v As Double = countData.expression(i).experiments(j)
+
+                column(i) = v
+                libSizes(j) += v
+
+                If v > 0 Then
+                    hasPositive(i) = True
+                End If
+            Next
+
+            columns(j) = column
+        Next
+
+        ' edgeR 会先把"在所有样本里都是 0"的基因整行删除
+        Dim keep As Integer() = Enumerable.Range(0, nGene) _
+            .Where(Function(i) hasPositive(i)) _
+            .ToArray
+
+        If keep.Length = 0 OrElse nSample < 2 Then
+            Return (Enumerable.Repeat(1.0, nSample).ToArray, 0)
+        End If
+
+        ' 参考样本：按 upper-quartile 因子挑选（edgeR 的默认策略）
+        Dim f75 As Double() = calcFactorQuantile(columns, libSizes, keep, 0.75)
+        Dim gm75 As Double = geometricMean(f75)
+
+        If gm75 > 0 Then
+            For j As Integer = 0 To f75.Length - 1
+                f75(j) /= gm75
+            Next
+        End If
+
+        Dim referenceIndex As Integer
+
+        If f75.MedianOf < 1.0E-20 Then
+            referenceIndex = 0
+
+            Dim best As Double = -1
+
+            For j As Integer = 0 To nSample - 1
+                Dim s As Double = 0
+
+                For Each i As Integer In keep
+                    s += std.Sqrt(columns(j)(i))
+                Next
+
+                If s > best Then
+                    best = s
+                    referenceIndex = j
+                End If
+            Next
+        Else
+            Dim mean75 As Double = f75.Average
+
+            referenceIndex = 0
+
+            Dim best As Double = Double.MaxValue
+
+            For j As Integer = 0 To f75.Length - 1
+                Dim diff As Double = std.Abs(f75(j) - mean75)
+
+                If diff < best Then
+                    best = diff
+                    referenceIndex = j
+                End If
+            Next
+        End If
+
+        Dim factors(nSample - 1) As Double
+
+        For j As Integer = 0 To nSample - 1
+            If j = referenceIndex Then
+                factors(j) = 1.0
+            Else
+                factors(j) = calcFactorTMM(
+                    columns(j),
+                    columns(referenceIndex),
+                    libSizes(j),
+                    libSizes(referenceIndex),
+                    trimFractionM,
+                    trimFractionA,
+                    doWeighting,
+                    Acutoff
+                )
             End If
         Next
 
-        If validCount > 0 Then
-            Dim geoMean As Double = std.Exp(logSum / validCount)
-            Dim normalizedFactors(factors.Length - 1) As Double
+        ' edgeR：f <- f/exp(mean(log(f)))
+        Dim geometric As Double = geometricMean(factors)
 
-            For i As Integer = 0 To factors.Length - 1
-                normalizedFactors(i) = If(geoMean > 0, factors(i) / geoMean, 1.0)
+        If geometric > 0 Then
+            For j As Integer = 0 To factors.Length - 1
+                factors(j) = factors(j) / geometric
             Next
+        End If
 
-            Return (normalizedFactors, 0) ' 注意：这里referenceIndex需要外部传入
+        Return (factors, referenceIndex)
+    End Function
+
+    ''' <summary>
+    ''' 移植 <c>edgeR:::.calcFactorTMM</c>：单个样本相对于参考样本的缩放因子
+    ''' </summary>
+    Private Function calcFactorTMM(obs As Double(),
+                                   ref As Double(),
+                                   nO As Double,
+                                   nR As Double,
+                                   logratioTrim As Double,
+                                   sumTrim As Double,
+                                   doWeighting As Boolean,
+                                   Acutoff As Double) As Double
+
+        Dim nGene As Integer = obs.Length
+        Dim logR As New List(Of Double)(nGene)
+        Dim absE As New List(Of Double)(nGene)
+        Dim variance As New List(Of Double)(nGene)
+
+        For i As Integer = 0 To nGene - 1
+            Dim o As Double = obs(i) / nO
+            Dim r As Double = ref(i) / nR
+            Dim lr As Double = log2(o) - log2(r)
+            Dim ae As Double = (log2(o) + log2(r)) / 2.0
+            Dim v As Double = (nO - obs(i)) / nO / obs(i) + (nR - ref(i)) / nR / ref(i)
+
+            If Not Double.IsNaN(lr) AndAlso Not Double.IsInfinity(lr) AndAlso
+               Not Double.IsNaN(ae) AndAlso Not Double.IsInfinity(ae) AndAlso
+               ae > Acutoff Then
+
+                Call logR.Add(lr)
+                Call absE.Add(ae)
+                Call variance.Add(v)
+            End If
+        Next
+
+        If logR.Count = 0 Then
+            Return 1.0
+        End If
+
+        Dim maxAbsR As Double = 0
+
+        For Each x As Double In logR
+            If std.Abs(x) > maxAbsR Then
+                maxAbsR = std.Abs(x)
+            End If
+        Next
+
+        If maxAbsR < 0.000001 Then
+            Return 1.0
+        End If
+
+        Dim n As Integer = logR.Count
+        Dim rankR As Double() = RankStatistics.AverageRanks(logR.ToArray)
+        Dim rankA As Double() = RankStatistics.AverageRanks(absE.ToArray)
+
+        Dim loL As Integer = CInt(std.Floor(n * logratioTrim)) + 1
+        Dim hiL As Integer = n + 1 - loL
+        Dim loS As Integer = CInt(std.Floor(n * sumTrim)) + 1
+        Dim hiS As Integer = n + 1 - loS
+
+        Dim sumLogR As Double = 0
+        Dim sumWeight As Double = 0
+        Dim sumR As Double = 0
+        Dim count As Integer = 0
+
+        For k As Integer = 0 To n - 1
+            If rankR(k) >= loL AndAlso rankR(k) <= hiL AndAlso rankA(k) >= loS AndAlso rankA(k) <= hiS Then
+                If doWeighting Then
+                    Dim weight As Double = 1.0 / variance(k)
+
+                    sumLogR += logR(k) * weight
+                    sumWeight += weight
+                Else
+                    sumR += logR(k)
+                End If
+
+                count += 1
+            End If
+        Next
+
+        Dim f As Double
+
+        If doWeighting Then
+            f = If(sumWeight > 0, sumLogR / sumWeight, 0)
         Else
-            ' 所有因子都为0或无效，返回1.0
-            For i As Integer = 0 To factors.Length - 1
-                factors(i) = 1.0
+            f = If(count > 0, sumR / count, 0)
+        End If
+
+        If Double.IsNaN(f) Then
+            f = 0
+        End If
+
+        Return std.Pow(2.0, f)
+    End Function
+
+    ''' <summary>
+    ''' 移植 <c>edgeR:::.calcFactorQuantile</c>：上四分位因子，用于挑选参考样本
+    ''' </summary>
+    Private Function calcFactorQuantile(columns As Double()(),
+                                        libSizes As Double(),
+                                        keep As Integer(),
+                                        p As Double) As Double()
+
+        Dim nSample As Integer = columns.Length
+        Dim f As Double() = New Double(nSample - 1) {}
+
+        For j As Integer = 0 To nSample - 1
+            Dim values As New List(Of Double)(keep.Length)
+
+            For Each i As Integer In keep
+                Dim y As Double = columns(j)(i) / libSizes(j)
+
+                If y > 0 Then
+                    Call values.Add(y)
+                End If
             Next
-            Return (factors, 0)
+
+            f(j) = RankStatistics.QuantileType7(values.ToArray.SortedAscending, p)
+        Next
+
+        Return f
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Private Function log2(x As Double) As Double
+        Return std.Log(x) / std.Log(2.0)
+    End Function
+
+    Private Function geometricMean(values As Double()) As Double
+        Dim sum As Double = 0
+        Dim n As Integer = 0
+
+        For Each x As Double In values
+            If x > 0 Then
+                sum += std.Log(x)
+                n += 1
+            End If
+        Next
+
+        If n = 0 Then
+            Return 0
+        Else
+            Return std.Exp(sum / n)
         End If
     End Function
 
@@ -265,19 +353,17 @@ Public Module EdgeRTMMNormalization
                 Dim normalizedValue As Double
 
                 If useEffectiveLibSize Then
-                    ' edgeR 风格：使用有效库大小（原始库大小 * 归一化因子）
+                    ' edgeR 风格：cpm(y, normalized.lib.sizes = TRUE)
+                    '   有效库大小 = 原始库大小 × 归一化因子
                     Dim effectiveLibSize As Double = libSizes(j) * normFactors(j)
 
-                    ' 计算 CPM (Counts Per Million)
-                    ' 注意：这里乘以 1e6 是为了得到每百万计数
                     If effectiveLibSize > 0 Then
                         normalizedValue = rawCount * 1_000_000.0 / effectiveLibSize
                     Else
                         normalizedValue = 0
                     End If
                 Else
-                    ' 简单归一化：直接除以归一化因子
-                    ' 类似于 DESeq2 的做法，但不是 edgeR 的推荐方式
+                    ' 简单归一化：直接除以归一化因子（类似 DESeq2 的输出格式）
                     If normFactors(j) > 0 Then
                         normalizedValue = rawCount / normFactors(j)
                     Else

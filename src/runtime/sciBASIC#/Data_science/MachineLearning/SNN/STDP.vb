@@ -1,3 +1,63 @@
+﻿#Region "Microsoft.VisualBasic::7d96ae7abc5f9c3c82416bcf5d52150a, Data_science\MachineLearning\SNN\STDP.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 183
+    '    Code Lines: 100 (54.64%)
+    ' Comment Lines: 60 (32.79%)
+    '    - Xml Docs: 55.00%
+    ' 
+    '   Blank Lines: 23 (12.57%)
+    '     File Size: 7.58 KB
+
+
+    ' Class STDPLayer
+    ' 
+    '     Properties: AdaptDecay, AdaptRate, AMinus, APlus, Beta
+    '                 NormalizeSum, Threshold, TraceDecay, Weight, WMax
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
+    '     Function: [Step]
+    ' 
+    '     Sub: NormalizeWeights, Reset
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 ' ============================================================================
 ' STDP.vb — 脉冲时序依赖可塑性（Spike-Timing-Dependent Plasticity）
 '
@@ -19,6 +79,7 @@
 ' ============================================================================
 
 Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
+Imports Microsoft.VisualBasic.MachineLearning.TensorFlow.Compute
 Imports std = System.Math
 
 
@@ -117,12 +178,21 @@ Public Class STDPLayer
         End If
 
         ' 1. 积分 + 泄漏：U = β·U + x·W
+        '
+        ' 这是本方法里**唯一**可以降精度的部分：它是一个货真价实的矩阵乘
+        ' x(1,in) × W(in,out)。规模达标（in·out 足够大）时走单精度内核。
+        '
+        ' 下面第 2~4 步刻意保持标量与双精度，原因不是惰性：
+        '   * 第 2 步是 WTA 的 argmax + 自适应阈值，属于**比较与状态**运算，
+        '     单精度会移动"谁发放"的判定边界；
+        '   * 第 3 步的 LTP/LTD 虽然是 rank-1 外积的形状，但每项都带
+        '     std.Min(WMax, ...) / std.Max(0.0, ...) 的逐元素钳位，
+        '     且 LTD 读取的是 LTP **更新之后**的权重 —— 是次序依赖的非线性更新，
+        '     无法表达成一次 GEMM（硬凑会改变语义）。
+        Dim drive = MixedPrecisionOps.MatMulOr(x, Weight)   ' (1, _out)
+
         For j = 0 To _out - 1
-            Dim s = 0.0
-            For i = 0 To _in - 1
-                s += x.Data(i) * Weight(i, j)
-            Next
-            _U(j) = Beta * _U(j) + s
+            _U(j) = Beta * _U(j) + drive.Data(j)
         Next
 
         ' 2. WTA 触发：有效阈值 θ_j = Threshold + 自适应分量；
@@ -181,4 +251,3 @@ Public Class STDPLayer
     End Function
 
 End Class
-

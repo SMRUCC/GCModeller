@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::183561ec5d88c677c66346173913dc83, Data_science\Visualization\DataPlot\Advanced\BubblePlot.vb"
+#Region "Microsoft.VisualBasic::04e834e9134aef1fc1778844fba2861a, Data_science\Visualization\DataPlot\Advanced\BubblePlot.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 129
-    '    Code Lines: 99 (76.74%)
-    ' Comment Lines: 15 (11.63%)
-    '    - Xml Docs: 66.67%
+    '   Total Lines: 134
+    '    Code Lines: 102 (76.12%)
+    ' Comment Lines: 16 (11.94%)
+    '    - Xml Docs: 68.75%
     ' 
-    '   Blank Lines: 15 (11.63%)
-    '     File Size: 5.55 KB
+    '   Blank Lines: 16 (11.94%)
+    '     File Size: 5.91 KB
 
 
     ' Class BubbleSeries
@@ -51,7 +51,7 @@
     ' 
     '     Properties: FillAlpha, MaxBubbleSize, MinBubbleSize, ShowSizeLegend, SizeLegendCount
     ' 
-    '     Constructor: (+1 Overloads) Sub New
+    '     Constructor: (+2 Overloads) Sub New
     ' 
     '     Function: SizeToRadius
     ' 
@@ -63,6 +63,8 @@
 
 Imports System.Drawing
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports std = System.Math
 
 ''' <summary>气泡图数据系列（X/Y 定位，Sizes 映射第三维）</summary>
@@ -87,20 +89,64 @@ Public Class BubblePlot
     ''' <summary>大小图例示例值个数</summary>
     Public Property SizeLegendCount As Integer = 3
 
-    Public Sub New(width As Integer, height As Integer, Optional theme As PlotTheme = Nothing)
-        MyBase.New(width, height, theme)
+    ''' <summary>
+    ''' 当前正在绘制的气泡数据系列，由 <see cref="Plot(IList(Of BubbleSeries))"/> 与带画布尺寸的导出重载写入。
+    ''' </summary>
+    ''' <returns></returns>
+    Protected Property SeriesList As IList(Of BubbleSeries) = Nothing
+
+    Public Sub New(width As Integer, height As Integer, Optional theme As PlotTheme = Nothing, Optional driver As Microsoft.VisualBasic.Imaging.Driver.Drivers = Microsoft.VisualBasic.Imaging.Driver.Drivers.Default)
+        MyBase.New(width, height, theme, driver)
     End Sub
 
-    Public Sub Plot(seriesList As IList(Of BubbleSeries))
+    ''' <summary>直接在外部提供的绘图设备上绘制（图层叠加模式 / 宿主画布）。</summary>
+    Public Sub New(g As IGraphics, Optional theme As PlotTheme = Nothing)
+        MyBase.New(g, theme)
+    End Sub
+
+    ''' <summary>把给定的气泡系列绘制到当前画布之上</summary>
+    ''' <param name="seriesList">气泡数据系列</param>
+    Public Overloads Sub Plot(seriesList As IList(Of BubbleSeries))
+        Me.SeriesList = seriesList
+        Call Plot()
+    End Sub
+
+    ''' <summary>一次性渲染并按 <paramref name="driver"/> 指定的驱动导出绘图数据</summary>
+    ''' <param name="seriesList">气泡数据系列</param>
+    ''' <param name="size">画布尺寸</param>
+    ''' <param name="dpi">分辨率</param>
+    ''' <param name="driver">绘图驱动，决定输出格式（png/svg/pdf/ps）</param>
+    ''' <returns>可直接 <c>Save(path)</c> 落盘的绘图数据对象</returns>
+    Public Overloads Function Plot(seriesList As IList(Of BubbleSeries), size As Size,
+                                   Optional dpi As Integer = 300,
+                                   Optional driver As Microsoft.VisualBasic.Imaging.Driver.Drivers = Microsoft.VisualBasic.Imaging.Driver.Drivers.Default) As GraphicsData
+        Me.SeriesList = seriesList
+        Return Plot(size, dpi, driver)
+    End Function
+
+    ''' <summary>一次性渲染并按 <paramref name="driver"/> 指定的驱动导出绘图数据</summary>
+    ''' <param name="seriesList">气泡数据系列</param>
+    ''' <param name="size">画布尺寸，``width,height``格式的字符串</param>
+    ''' <param name="ppi">分辨率</param>
+    ''' <param name="driver">绘图驱动，决定输出格式（png/svg/pdf/ps）</param>
+    ''' <returns>可直接 <c>Save(path)</c> 落盘的绘图数据对象</returns>
+    Public Overloads Function Plot(seriesList As IList(Of BubbleSeries), size As String,
+                                   Optional ppi As Integer = 300,
+                                   Optional driver As Microsoft.VisualBasic.Imaging.Driver.Drivers = Microsoft.VisualBasic.Imaging.Driver.Drivers.Default) As GraphicsData
+        Me.SeriesList = seriesList
+        Return Plot(size, ppi, driver)
+    End Function
+
+    Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
         DrawBackground()
         ComputePlotArea()
         DrawPlotArea()
         DrawTitle()
 
         ' ---- 坐标范围 ----
-        Dim allX = seriesList.SelectMany(Function(s) s.X).ToArray()
-        Dim allY = seriesList.SelectMany(Function(s) s.Y).ToArray()
-        Dim allS = seriesList.SelectMany(Function(s) s.Sizes).ToArray()
+        Dim allX = SeriesList.SelectMany(Function(s) s.X).ToArray()
+        Dim allY = SeriesList.SelectMany(Function(s) s.Y).ToArray()
+        Dim allS = SeriesList.SelectMany(Function(s) s.Sizes).ToArray()
 
         Dim xmin = If(Me.XMin, allX.Min())
         Dim xmax = If(Me.XMax, allX.Max())
@@ -124,8 +170,8 @@ Public Class BubblePlot
         DrawAxisAndGrid(xmin, xmax, ymin, ymax)
 
         ' ---- 绘制气泡 ----
-        For i = 0 To seriesList.Count - 1
-            Dim s = seriesList(i)
+        For i = 0 To SeriesList.Count - 1
+            Dim s = SeriesList(i)
             If Not s.Visible Then Continue For
             Dim color = If(s.Color, Theme.Palette(i Mod Theme.Palette.Length))
             For j = 0 To s.X.Length - 1
@@ -142,7 +188,7 @@ Public Class BubblePlot
         Next
 
         ' ---- 颜色图例 ----
-        DrawLegend(seriesList.Cast(Of Series)().ToList())
+        DrawLegend(SeriesList.Cast(Of Series)().ToList())
 
         ' ---- 大小图例 ----
         If ShowSizeLegend AndAlso allS.Length > 0 Then

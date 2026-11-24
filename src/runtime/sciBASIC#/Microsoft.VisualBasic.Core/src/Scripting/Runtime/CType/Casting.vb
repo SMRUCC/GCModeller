@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c2addc1c5bb9440bc46acea5ebe5635f, Microsoft.VisualBasic.Core\src\Scripting\Runtime\CType\Casting.vb"
+﻿#Region "Microsoft.VisualBasic::32319135ccc1322314d01ffaba92c84a, Microsoft.VisualBasic.Core\src\Scripting\Runtime\CType\Casting.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 415
-    '    Code Lines: 246 (59.28%)
-    ' Comment Lines: 126 (30.36%)
-    '    - Xml Docs: 86.51%
+    '   Total Lines: 441
+    '    Code Lines: 256 (58.05%)
+    ' Comment Lines: 139 (31.52%)
+    '    - Xml Docs: 86.33%
     ' 
-    '   Blank Lines: 43 (10.36%)
-    '     File Size: 15.92 KB
+    '   Blank Lines: 46 (10.43%)
+    '     File Size: 17.11 KB
 
 
     '     Module Casting
@@ -58,6 +58,7 @@
 #End Region
 
 Imports System.Drawing
+Imports System.Globalization
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
@@ -355,9 +356,34 @@ Namespace Scripting.Runtime
             Return CInt(ParseNumeric(obj))
         End Function
 
+        ''' <summary>
+        ''' 字符串转换为 Int64 数值。
+        ''' 
+        ''' 20260923: 优先按照原始的整数文本进行解析，因为 <see cref="ParseNumeric"/> 会先把文本转换为
+        ''' <see cref="Double"/>，而 <see cref="Double"/> 只能够精确表示 2^53 以内的整数，所以对于大于
+        ''' 2^53 的 Int64 数值 (例如 FlyWire 的 root_id ``720575940599457990``) 会发生精度丢失
+        ''' (会被读成 ``720575940599458048``)。
+        ''' 
+        ''' 无法按照整数文本解析的文本 (百分比、分数、科学计数法、NaN 等) 则回退到 <see cref="ParseNumeric"/>，
+        ''' 从而保持原有的解析行为不变。
+        ''' </summary>
+        ''' <param name="obj"></param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function CastLong(obj As String) As Long
-            Return CLng(ParseNumeric(obj))
+            Dim s As String = Strings.Trim(obj)
+
+            If s.StringEmpty(, True) Then
+                Return 0L
+            End If
+
+            Dim value As Long
+
+            If Long.TryParse(s, NumberStyles.Integer, CultureInfo.InvariantCulture, value) Then
+                Return value
+            Else
+                Return CLng(ParseNumeric(s))
+            End If
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

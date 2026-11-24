@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.SGrid.GRN.SSystemParameters</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>SSystemParameters {SMRUCC.genomics.Analysis.SGrid.GRN}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>SSystemParameters</h2>
+
+        <h3>Description</h3>
+
+        <p>The fitted parameter set of the S-system model. (拟合得到的S-system参数集合：alpha / beta / G / H)</p>
+
+<p>其中 <a href="cref:P:SMRUCC.genomics.Analysis.SGrid.GRN.SSystemParameters.G">SSystemParameters.G</a>(i)(j) 为合成项之中基因 j 对基因 i 的调控弹性 g_ij， <a href="cref:P:SMRUCC.genomics.Analysis.SGrid.GRN.SSystemParameters.H">SSystemParameters.H</a>(i)(j) 为降解项之中的 h_ij；净调控弹性取 g_ij - h_ij。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.SGrid.GRN
+export class SSystemParameters {
+   # 每一个基因的合成速率常数 alpha
+   alpha: double;
+   # 每一个基因的降解速率常数 beta
+   beta: double;
+   # 每一个基因的候选调控因子（矩阵行号）；为空表示该基因使用了全部基因作为候选
+   Candidates: <a href="/vignettes/clr/System/Int32[].html">Int32[][]</a>;
+   # 每一个基因的参数求解是否收敛
+   Converged: boolean;
+   # 合成项的动力学阶矩阵，第一维是靶基因、第二维是调控因子
+   G: <a href="/vignettes/clr/System/Double[].html">Double[][]</a>;
+   # 规整化之后的基因编号
+   GeneNames: string;
+   # 降解项的动力学阶矩阵，第一维是靶基因、第二维是调控因子
+   H: <a href="/vignettes/clr/System/Double[].html">Double[][]</a>;
+   # 全部基因的平均拟合均方根误差
+   MeanRMSE: double;
+   # 基因的数量
+   nGenes: integer;
+   # 原始的基因编号
+   OriginalNames: string;
+   # 每一个基因的斜率拟合均方根误差
+   SlopeRMSE: double;
+   # 每一个基因的斜率拟合残差平方和
+   SlopeSSE: double;
+   # 每一个基因的观测斜率的总平方和（用于计算拟合的 R²）
+   SlopeSST: double;
+   # 是否执行过第二阶段的轨迹精修
+   TrajectoryRefined: boolean;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>Candidates</code>: <a href="/vignettes/clr/System/Int32[].html">Int32[]</a></li>
+<li>use by <i>property</i> member <code>G</code>: <a href="/vignettes/clr/System/Double[].html">Double[]</a></li>
+<li>use by <i>property</i> member <code>H</code>: <a href="/vignettes/clr/System/Double[].html">Double[]</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

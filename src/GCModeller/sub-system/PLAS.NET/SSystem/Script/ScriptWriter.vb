@@ -92,6 +92,10 @@ Namespace Script
             Next
             Call sb.WriteLine()
             Call sb.WriteLine("FINALTIME " & model.FinalTime)
+
+            ' 必须先刷新 StreamWriter 自身的缓冲区：直接刷新底层的流对象是无效的，
+            ' 否则写出来的脚本文件会是空文件
+            Call sb.Flush()
             Call s.Flush()
 
             Return True

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e38a4aceb5269e421a1dbd6d2074ac1f, mime\text%html\Render\HtmlTag.vb"
+﻿#Region "Microsoft.VisualBasic::521f87170180bbf31aacadc59cac9a85, mime\text%html\Render\HtmlTag.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 250
-    '    Code Lines: 159 (63.60%)
-    ' Comment Lines: 37 (14.80%)
-    '    - Xml Docs: 89.19%
+    '   Total Lines: 252
+    '    Code Lines: 158 (62.70%)
+    ' Comment Lines: 39 (15.48%)
+    '    - Xml Docs: 84.62%
     ' 
-    '   Blank Lines: 54 (21.60%)
-    '     File Size: 8.46 KB
+    '   Blank Lines: 55 (21.83%)
+    '     File Size: 8.71 KB
 
 
     '     Class HtmlTag
@@ -62,7 +62,6 @@ Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.MIME.Html.Render.CSS
 
 Namespace Render
-#If NET48 Then
     Public Class HtmlTag
 #Region "Fields"
 
@@ -103,23 +102,27 @@ Namespace Render
             Dim atts As MatchCollection = Parser.Match(Parser.HmlTagAttributes, tag)
 
             For Each att As Match In atts
-                'Extract attribute and value
-                Dim chunks As String() = att.Value.Split("="c)
+                'Extract attribute and value: only the first ``=`` character
+                'separates the name from the value, the value itself may contain
+                'the ``=`` sign, e.g. a rich text tooltip value
+                Dim sep As Integer = att.Value.IndexOf("="c)
 
-                If chunks.Length = 1 Then
-                    If Not Attributes.ContainsKey(chunks(0)) Then
-                        Attributes.Add(chunks(0).ToLower(), String.Empty)
+                If sep < 0 Then
+                    Dim flag As String = att.Value.Trim()
+
+                    If flag.Length > 0 AndAlso Not Attributes.ContainsKey(flag.ToLower()) Then
+                        Call Attributes.Add(flag.ToLower(), String.Empty)
                     End If
-                ElseIf chunks.Length = 2 Then
-                    Dim attname As String = chunks(0).Trim()
-                    Dim attvalue As String = chunks(1).Trim()
+                Else
+                    Dim attname As String = att.Value.Substring(0, sep).Trim()
+                    Dim attvalue As String = att.Value.Substring(sep + 1).Trim()
 
-                    If attvalue.StartsWith("""") AndAlso attvalue.EndsWith("""") AndAlso attvalue.Length > 2 Then
+                    If attvalue.Length > 2 AndAlso attvalue.StartsWith("""") AndAlso attvalue.EndsWith("""") Then
                         attvalue = attvalue.Substring(1, attvalue.Length - 2)
                     End If
 
                     If Not Attributes.ContainsKey(attname) Then
-                        Attributes.Add(attname, attvalue)
+                        Call Attributes.Add(attname, attvalue)
                     End If
                 End If
             Next
@@ -306,5 +309,4 @@ Namespace Render
         End Function
 #End Region
     End Class
-#End If
 End Namespace

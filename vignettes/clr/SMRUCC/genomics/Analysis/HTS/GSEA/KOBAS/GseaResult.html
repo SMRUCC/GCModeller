@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.HTS.GSEA.KOBAS.GseaResult</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>GseaResult {SMRUCC.genomics.Analysis.HTS.GSEA.KOBAS}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>GseaResult</h2>
+
+        <h3>Description</h3>
+
+        <p>一个基因集的 GSEA 分析结果。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.HTS.GSEA.KOBAS
+export class GseaResult {
+   # 核心富集基因（峰前或峰后的命中基因）。
+   CoreGenes: string;
+   # 基因集描述。
+   Description: string;
+   # 观测到的富集分数。
+   ES: double;
+   # 富集分数在 running sum 序列之中的位置。
+   ESIndex: integer;
+   # 错误发现率；跳过置换检验时为 <a href="cref:T:System.Double">Double</a>。
+   FDR: double;
+   # 该基因集在排序列表之中的全部命中基因。
+   HitGenes: string;
+   # 基因集编号（GMT 第一列）。
+   ID: string;
+   # 基因集名称（GMT 第二列）。
+   Names: string;
+   # 归一化富集分数；跳过置换检验时等于 <a href="cref:P:SMRUCC.genomics.Analysis.HTS.GSEA.KOBAS.GseaResult.ES">GseaResult.ES</a>。
+   NES: double;
+   # 名义 p 值；跳过置换检验时为 <a href="cref:T:System.Double">Double</a>。
+   PValue: double;
+   # running sum 序列；当关闭 <a href="cref:P:SMRUCC.genomics.Analysis.HTS.GSEA.KOBAS.GseaOptions.KeepRunningSum">GseaOptions.KeepRunningSum</a> 时为 <code>Nothing</code>。
+   RES: double;
+   # 该基因集在排序列表之中的命中数量。
+   Size: integer;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        this clr type has no other .net clr type reference.
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

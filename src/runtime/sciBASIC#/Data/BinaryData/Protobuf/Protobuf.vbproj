@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Microsoft.VisualBasic.Data.IO.Protobuf</RootNamespace>
+    <TargetFramework>net10.0</TargetFramework>
+    <AssemblyName>Microsoft.VisualBasic.Data.IO.Protobuf</AssemblyName>
+    <Platforms>AnyCPU;x64</Platforms>
+    <Version>10.8.9818.14504</Version>
+    <AssemblyVersion>1.0.9818.14504</AssemblyVersion>
+    <Configurations>Debug;Release;nuget_release</Configurations>
+    <Title>Pure-Managed Protocol Buffers Toolkit with .proto Parser and Code Generator</Title>
+    <Description>A managed protobuf toolchain for sciBASIC# covering the wire format, a proto2/proto3 .proto parser, attribute-driven CLR object serialization with a cached reflection model, unknown-field preservation, and entity class generation in both Visual Basic .NET and C#.</Description>
+    <AssemblyTitle>Microsoft.VisualBasic.Data.IO.Protobuf</AssemblyTitle>
+    <Authors>xieguigang &lt;I@xieguigang.me&gt;</Authors>
+    <Company>sciBASIC.NET Foundation</Company>
+    <Copyright>Copyright (c) sciBASIC.NET Foundation</Copyright>
+    <PackageProjectUrl>http://scibasic.net/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/xieguigang/sciBASIC</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>scibasic;protobuf;protocol-buffers;serialization;proto-parser;code-generation</PackageTags>
+    <PackageReleaseNotes>This cycle: Check of the file i/o; Fixed the compiler error; Added code generator.</PackageReleaseNotes>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <PackageIcon>logo-knot.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='nuget_release|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>../../../.nuget/</OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="test\**" />
+    <EmbeddedResource Remove="test\**" />
+    <None Remove="test\**" />
+    <None Include="..\..\..\vs_solutions\logo-knot.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\BinaryData\binarydata-netcore5.vbproj" />
+  </ItemGroup>
+
+</Project>

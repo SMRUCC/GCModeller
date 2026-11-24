@@ -1,0 +1,49 @@
+.\" man page create by R# package system.
+.TH UNIPROT 4 2000-1月 "open.uniprot" "open.uniprot"
+.SH NAME
+open.uniprot \- open a uniprot database file
+.SH SYNOPSIS
+\fIopen.uniprot(\fBfiles\fR as any, 
+\fBisUniParc\fR as boolean = FALSE, 
+\fBignoreError\fR as boolean = TRUE, 
+\fBtqdm\fR as boolean = TRUE, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+open a uniprot database file
+.PP
+.SH OPTIONS
+.PP
+\fBfiles\fB \fR\- 
+ a character vector of the uniprot xml format database document file 
+ paths for load the protein entries.
+. 
+.PP
+.PP
+\fBisUniParc\fB \fR\- 
+ the target uniprot database document is the UniParc database?
+. 
+.PP
+.PP
+\fBignoreError\fB \fR\- 
+ ignore the parse error message of the invalid uniprot xml entry data?
+. 
+.PP
+.PP
+\fBtqdm\fB \fR\- 
+ show the progress bar of the entries parsing progress?
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+this function returns a pipeline stream of the uniprot protein entries.
+.PP
+.SH SEE ALSO
+uniprot
+.SH FILES
+.PP
+seqtoolkit.dll
+.PP

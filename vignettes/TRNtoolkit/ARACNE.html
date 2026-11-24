@@ -1,0 +1,232 @@
+<!DOCTYPE html><html lang="zh-CN">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>ARACNE</title>
+    <meta name="author" content="xie.guigang@gcmodeller.org" />
+    <meta name="copyright" content="SMRUCC genomics Copyright (c) 2022" />
+    <meta name="keywords" content="R#; ARACNE; TRNtoolkit" />
+    <meta name="generator" content="https://github.com/rsharp-lang" />
+    <meta name="theme-color" content="#333" />
+    <meta name="description" content="ARACNE (Algorithm for the Reconstruction of Accurate Cellular Ne..." />
+    <meta class="foundation-data-attribute-namespace" />
+    <meta class="foundation-mq-xxlarge" />
+    <meta class="foundation-mq-xlarge" />
+    <meta class="foundation-mq-large" />
+    <meta class="foundation-mq-medium" />
+    <meta class="foundation-mq-small" />
+    <meta class="foundation-mq-topbar" />
+    <style>
+
+.table-three-line {
+border-collapse:collapse; /* 关键属性：合并表格内外边框(其实表格边框有2px，外面1px，里面还有1px哦) */
+border:solid #000000; /* 设置边框属性；样式(solid=实线)、颜色(#999=灰) */
+border-width:2px 0 2px 0px; /* 设置边框状粗细：上 右 下 左 = 对应：1px 0 0 1px */
+}
+.left-1{
+    border:solid #000000;border-width:1px 1px 2px 0px;padding:2px;
+    font-weight:bolder;
+}
+.right-1{
+    border:solid #000000;border-width:1px 0px 2px 1px;padding:2px;
+    font-weight:bolder;
+}
+.mid-1{
+    border:solid #000000;border-width:1px 1px 2px 1px;padding:2px;
+    font-weight:bolder;
+}
+.left{
+    border:solid #000000;border-width:1px 1px 1px 0px;padding:2px;
+}
+.right{
+    border:solid #000000;border-width:1px 0px 1px 1px;padding:2px;
+}
+.mid{
+    border:solid #000000;border-width:1px 1px 1px 1px;padding:2px;
+}
+table caption {font-size:14px;font-weight:bolder;}
+</style>
+  </head>
+  <body>
+    <table width="100%" summary="page for {ARACNE}">
+      <tbody>
+        <tr>
+          <td>{ARACNE}</td>
+          <td style="text-align: right;">R# Documentation</td>
+        </tr>
+      </tbody>
+    </table>
+    <h1>ARACNE</h1>
+    <hr />
+    <p style="     font-size: 1.125em;     line-height: .8em;     margin-left: 0.5%;     background-color: #fbfbfb;     padding: 24px; ">
+      <code>
+        <span style="color: blue;">require</span>(<span style="color: black; font-weight: bold;">GCModeller</span>);
+                               <br /><br /><span style="color: green;">#' ARACNE (Algorithm for the Reconstruction of Accurate Cellular Networks) gene regulatory network inference.</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "ARACNE"</span><span style="color: blue;"> from</span><span style="color: brown"> "TRNtoolkit"</span>;
+                           </code>
+    </p>
+    <p><p>ARACNE (Algorithm for the Reconstruction of Accurate Cellular Networks) gene regulatory network inference.</p></p>
+    <blockquote>
+      <p style="font-style: italic; font-size: 0.9em;">
+                           <p>The pipeline is: <code>mi -&gt; threshold -&gt; DPI -&gt; direction</code>, and the transcription factor (TF) prior knowledge is used in four places:</p>
+
+
+<ul>
+<li>the computation space is reduced from <code>N x N</code> to <code>TF x N</code>;</li>
+<li>the <code>TF -&gt; target</code> direction is assigned from the TF list;</li>
+<li>the curated <code>TF -&gt; target</code> evidence relaxes the MI threshold and protects the supported edges from the top-K pruning;</li>
+<li>the curated evidence also protects the supported edges from the DPI filtering, and the protection strength is graded by the prior confidence.</li>
+</ul>
+
+
+<p>The api groups:</p>
+
+
+<ul>
+<li><code>read_tf</code> / <code>read_prior</code>: load the prior knowledge (the TF annotation table and the curated <code>TF -&gt; target</code> table) directly from the data files;</li>
+<li><code>aracne</code>: run the whole inference from an expression matrix;</li>
+<li><code>aracne_options</code> / <code>infer</code>: build the options object, then run the inference in two steps (useful when the same options are reused for several matrices);</li>
+<li><code>edges</code> / <code>regulons</code> / <code>summary</code> / <code>threshold</code> / <code>dpi_stats</code> / <code>mi_matrix</code> / <code>as_graph</code> / <code>write_edges</code>: inspect and export the network.</li>
+</ul>
+                           </p>
+    </blockquote>
+    <div id="main-wrapper">
+      <table class="table-three-line" style="display: block">
+        <caption>.NET clr type export</caption>
+        <tbody><tr>
+  <td id="aracne.options">
+    <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/ARACNE/AracneOptions.html">aracne.options: AracneOptions</a>
+  </td>
+  <td><p>ARACNE 网络推断的参数配置。</p>
+
+<p>所有的参数都带有合理的默认值，无参构造即可跑通完整的流程：</p>
+
+
+<pre><code> MI(高斯 copula) -&gt; 置换阈值(tau) -&gt; DPI 去间接边 -&gt; TF 定向</code></pre></td>
+</tr>
+<tr>
+  <td id="aracne_network">
+    <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/ARACNE/AracneNetwork.html">aracne_network: AracneNetwork</a>
+  </td>
+  <td><p>ARACNE(Algorithm for the Reconstruction of Accurate Cellular Networks) 基因表达调控网络的推断。</p>
+
+<p>整体的执行流程与 readme 之中的伪代码一一对应：</p>
+
+
+<pre><code> 1. 预处理      : log2 变换 / 标准化 / 秩转换 / 零表达与零方差基因过滤
+ 2. 互信息矩阵  : 高斯 copula(默认) / 自适应分区 / 等频分箱 / 核密度
+ 3. 显著性阈值  : 置换零分布的分位数(默认 95%) 或者固定阈值
+ 4. DPI 过滤    : 剔除三元组之中明显最弱的间接边
+ 5. 方向赋予    : TF 指向靶基因 / TF 与 TF 的双向关系 / 非 TF 的无向候选边</code></pre>
+
+
+<p>提供转录因子列表的时候，计算空间会由 <code>N x N</code> 缩减为 <code>T x N</code> (只计算 TF-TF 与 TF-Target 的互信息)，这正是 readme 第四章所推荐的 “结合 TF 先验知识”的工程化流程，可以把计算量降低几个数量级。</p></td>
+</tr></tbody>
+      </table>
+      <br />
+      <br />
+      <table class="table-three-line">
+        <caption>.NET clr function exports</caption>
+        <tbody><tr>
+  <td id="aracne_options">
+    <a href="./ARACNE/aracne_options.html">aracne_options</a>
+  </td>
+  <td><p>Create an <a href="cref:T:SMRUCC.genomics.Model.Network.Regulons.ARACNE.AracneOptions">AracneOptions</a> object from the scalar arguments.</p></td>
+</tr>
+<tr>
+  <td id="aracne">
+    <a href="./ARACNE/aracne.html">aracne</a>
+  </td>
+  <td><p>Infer the ARACNE gene regulatory network from the expression matrix.</p></td>
+</tr>
+<tr>
+  <td id="infer">
+    <a href="./ARACNE/infer.html">infer</a>
+  </td>
+  <td><p>Run the inference with a pre-built <a href="cref:T:SMRUCC.genomics.Model.Network.Regulons.ARACNE.AracneOptions">AracneOptions</a> object.</p></td>
+</tr>
+<tr>
+  <td id="edges">
+    <a href="./ARACNE/edges.html">edges</a>
+  </td>
+  <td><p>Get the regulation edges of the inferred network as a data frame.</p></td>
+</tr>
+<tr>
+  <td id="regulons">
+    <a href="./ARACNE/regulons.html">regulons</a>
+  </td>
+  <td><p>Get the regulons (the target gene count of each regulator) of the network.</p></td>
+</tr>
+<tr>
+  <td id="gene_names">
+    <a href="./ARACNE/gene_names.html">gene_names</a>
+  </td>
+  <td><p>Get the gene ids of the network, in the row order of the internal expression vectors.</p></td>
+</tr>
+<tr>
+  <td id="tf_ids">
+    <a href="./ARACNE/tf_ids.html">tf_ids</a>
+  </td>
+  <td><p>Get the transcription factors that are matched by the network (the regulators).</p></td>
+</tr>
+<tr>
+  <td id="mi_matrix">
+    <a href="./ARACNE/mi_matrix.html">mi_matrix</a>
+  </td>
+  <td><p>Get the mutual information matrix of the inferred network.</p></td>
+</tr>
+<tr>
+  <td id="coef">
+    <a href="./ARACNE/coef.html">coef</a>
+  </td>
+  <td><p>Get the mutual information matrix of the inferred network (the alias of <code>mi_matrix</code>).</p></td>
+</tr>
+<tr>
+  <td id="summary">
+    <a href="./ARACNE/summary.html">summary</a>
+  </td>
+  <td><p>Get the inference statistics of the network.</p></td>
+</tr>
+<tr>
+  <td id="threshold">
+    <a href="./ARACNE/threshold.html">threshold</a>
+  </td>
+  <td><p>Get the significance threshold (<code>tau</code>) information of the network.</p></td>
+</tr>
+<tr>
+  <td id="dpi_stats">
+    <a href="./ARACNE/dpi_stats.html">dpi_stats</a>
+  </td>
+  <td><p>Get the DPI (data processing inequality) filtering statistics of the network.</p></td>
+</tr>
+<tr>
+  <td id="as_graph">
+    <a href="./ARACNE/as_graph.html">as_graph</a>
+  </td>
+  <td><p>Convert the inferred network into a graph model, so that it can be exported as a network file or be visualized by the <code>igraph</code> package.</p></td>
+</tr>
+<tr>
+  <td id="write_edges">
+    <a href="./ARACNE/write_edges.html">write_edges</a>
+  </td>
+  <td><p>Export the regulation edges of the network into a csv file.</p></td>
+</tr>
+<tr>
+  <td id="read_tf">
+    <a href="./ARACNE/read_tf.html">read_tf</a>
+  </td>
+  <td><p>Load the transcription factor gene symbols from a TF annotation table (for example the <code>Homo_sapiens_TF.txt</code> of the AnimalTFDB style).</p></td>
+</tr>
+<tr>
+  <td id="read_prior">
+    <a href="./ARACNE/read_prior.html">read_prior</a>
+  </td>
+  <td><p>Load the curated <code>TF -&gt; target</code> prior network from a csv table.</p></td>
+</tr></tbody>
+      </table>
+    </div>
+    <hr />
+    <div style="text-align: center;">[<a href="../index.html">Document Index</a>]</div>
+  </body>
+</html>

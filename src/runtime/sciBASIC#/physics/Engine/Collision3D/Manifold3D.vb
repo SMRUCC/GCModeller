@@ -1,0 +1,330 @@
+﻿#Region "Microsoft.VisualBasic::de9b9b6503fe2a59227e3c976042d36f, physics\Engine\Collision3D\Manifold3D.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 162
+    '    Code Lines: 88 (54.32%)
+    ' Comment Lines: 47 (29.01%)
+    '    - Xml Docs: 93.62%
+    ' 
+    '   Blank Lines: 27 (16.67%)
+    '     File Size: 7.26 KB
+
+
+    '     Class ContactPoint3D
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '     Class Manifold3D
+    ' 
+    '         Properties: HasContacts, Penetration
+    ' 
+    '         Function: EffectiveMass, RelativeVelocity
+    ' 
+    '         Sub: InitSolver
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports Microsoft.VisualBasic.Engine.Physics.Math3D
+Imports std = System.Math
+
+Namespace Collision3D
+
+    ''' <summary>
+    ''' 单个接触点。除位置与穿透深度外，还缓存求解所需的力臂、有效质量与累积冲量
+    ''' （顺序冲量法需要跨迭代累积冲量以收敛）。
+    ''' </summary>
+    Public Class ContactPoint3D
+
+        ''' <summary>世界坐标下的接触点。</summary>
+        Public Position As Vector3
+        ''' <summary>穿透深度（正值表示互相侵入）。</summary>
+        Public Penetration As Double
+
+        ''' <summary>法向累积冲量（≥ 0）。</summary>
+        Public NormalImpulse As Double = 0.0
+        ''' <summary>第一条切线方向的累积摩擦冲量。</summary>
+        Public TangentImpulse1 As Double = 0.0
+        ''' <summary>第二条切线方向的累积摩擦冲量。</summary>
+        Public TangentImpulse2 As Double = 0.0
+
+        ''' <summary>接触点相对 A 质心的力臂。</summary>
+        Friend rA As Vector3
+        ''' <summary>接触点相对 B 质心的力臂。</summary>
+        Friend rB As Vector3
+
+        ''' <summary>法向有效质量的倒数。</summary>
+        Friend normalMass As Double
+        ''' <summary>两条切线有效质量的倒数。</summary>
+        Friend tangentMass1 As Double
+        ''' <summary>第二条切线有效质量的倒数。</summary>
+        Friend tangentMass2 As Double
+        ''' <summary>Baumgarte 位置修正偏置速度。</summary>
+        Friend bias As Double
+        ''' <summary>恢复（弹性）目标速度。</summary>
+        Friend restitutionBias As Double
+
+        ''' <summary>
+        ''' 软约束的软化项（1/秒²量纲的等效质量补偿）。
+        ''' </summary>
+        ''' <remarks>
+        ''' 刚性接触把"位置误差"直接换算成目标分离速度，穿透 1 cm 就能要求 3 m/s
+        ''' 的弹开速度；对一只 737 g、单节连杆 6 g 的机器人，这个冲量是支撑冲量的
+        ''' 好几倍，接触一发生就把整机弹飞。软化之后约束按"接触刚度 + 接触阻尼"
+        ''' 求解（mujoco 的 solref/solimp、box2d 的 soft constraint），位置误差只以
+        ''' 有限的力被慢慢推回，行程中的能量不再凭空增加。
+        ''' </remarks>
+        Friend gamma As Double
+        ''' <summary>软化之后用于求解的有效质量（已含 <see cref="gamma"/>）。</summary>
+        Friend softMass As Double
+
+        ''' <summary>
+        ''' Baumgarte 位置修正速度的上限（m/s）。
+        ''' 子步很小时 <c>β/dt·穿透</c> 会给出极大的弹开速度，必须夹住。
+        ''' </summary>
+        Friend Const MaxBiasSpeed As Double = 3.0
+
+        ''' <summary>
+        ''' 接触刚度随穿透深度上升的过渡宽度（米），mujoco ``solimp`` 的 width
+        ''' </summary>
+        ''' <remarks>
+        ''' 深度为 0 时取全刚度，深度为 -width 时刚度降为 0。没有这条斜坡时，一个
+        ''' 仍在平面上方的顶点（在容差内、但并没有接触）会拿到满刚度冲量，产生一个
+        ''' 抬起脚掌的力矩：实测把脚底四个角都保留成接触面，策略站立从 250/250
+        ''' 掉到 48/250。
+        ''' </remarks>
+        Friend Const SolImpWidth As Double = 0.002
+
+        ''' <summary>接触处的两条切线（与法向构成正交基）。</summary>
+        Friend tangent1 As Vector3
+        ''' <summary>接触处的第二条切线。</summary>
+        Friend tangent2 As Vector3
+
+        Sub New(position As Vector3, penetration As Double)
+            Me.Position = position
+            Me.Penetration = penetration
+        End Sub
+    End Class
+
+    ''' <summary>
+    ''' 接触流形：一对刚体之间的一批接触点，法向由 A 指向 B。
+    ''' </summary>
+    Public Class Manifold3D
+
+        ''' <summary>参与碰撞的第一个刚体。</summary>
+        Public A As RigidBody3D
+        ''' <summary>参与碰撞的第二个刚体。</summary>
+        Public B As RigidBody3D
+        ''' <summary>接触法向（单位向量，由 A 指向 B）。</summary>
+        Public Normal As Vector3
+        ''' <summary>接触点列表。</summary>
+        Public Contacts As New List(Of ContactPoint3D)()
+        ''' <summary>恢复系数（由双方材质组合而来）。</summary>
+        Public Restitution As Double = 0.0
+        ''' <summary>
+        ''' 允许整个流形都只有 margin（还没有真正穿透）时仍然进入求解
+        ''' </summary>
+        ''' <remarks>
+        ''' 只有平面接触需要这个：脚掌贴着地面时，四个角里常常只有一两个真正穿透，
+        ''' 另外几个还在容差内。丢掉这些点，支撑面就退化成一条边，重心投影立刻跑到
+        ''' 支撑多边形之外。凸-凸的接触仍然要求 <c>Penetration &gt; 0</c>，否则大量
+        ''' 只是"接近"的物体对都会进入求解。
+        ''' </remarks>
+        Public Property AllowMarginOnly As Boolean = False
+
+        ''' <summary>摩擦系数（由双方材质组合而来）。</summary>
+        Public Friction As Double = 0.4
+
+        ''' <summary>
+        ''' 椭圆摩擦锥的各向异性比（mujoco 的 ``impratio``）
+        ''' </summary>
+        ''' <remarks>
+        ''' 1 表示圆形锥（与两轴独立裁剪等价）；大于 1 时第二条切线方向的摩擦上限
+        ''' 按比例收紧，这与 mujoco 在 ``mj_makeConstraint`` 里对锥维度做
+        ''' <c>R[i+1] = R[i]/impratio</c> 的处理是同一个几何。
+        ''' </remarks>
+        Public Property Impratio As Double = 1.0
+
+        ''' <summary>是否存在有效接触。</summary>
+        Public ReadOnly Property HasContacts As Boolean
+            Get
+                Return Contacts IsNot Nothing AndAlso Contacts.Count > 0
+            End Get
+        End Property
+
+        ''' <summary>最大穿透深度。</summary>
+        Public ReadOnly Property Penetration As Double
+            Get
+                Dim maxPen As Double = 0.0
+
+                For Each c In Contacts
+                    If c.Penetration > maxPen Then maxPen = c.Penetration
+                Next
+
+                Return maxPen
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' 在求解开始前预计算每个接触点的力臂、有效质量与偏置速度。
+        ''' </summary>
+        ''' <param name="dt">子步长，用于 Baumgarte 系数换算。</param>
+        ''' <param name="baumgarte">位置修正强度（0.2 左右）。</param>
+        ''' <param name="slop">允许的穿透容差，避免抖动。</param>
+        ''' <param name="contactTimeConstant">
+        ''' 软接触的时间常数（秒），mujoco 的 ``solref`` 第一个参数。大于 0 时走软
+        ''' 约束分支，0 表示保持原来的刚性 Baumgarte 行为（向后兼容）。
+        ''' </param>
+        ''' <param name="contactDampingRatio">
+        ''' 软接触的阻尼比，mujoco 的 ``solref`` 第二个参数，1 = 临界阻尼。
+        ''' </param>
+        Public Sub InitSolver(Optional dt As Double = 1.0 / 60.0,
+                              Optional baumgarte As Double = 0.2,
+                              Optional slop As Double = 0.01,
+                              Optional contactTimeConstant As Double = 0.0,
+                              Optional contactDampingRatio As Double = 1.0)
+            Dim n As Vector3 = Normal
+            Dim invIA As Matrix3x3 = A.InvInertiaWorld()
+            Dim invIB As Matrix3x3 = B.InvInertiaWorld()
+            Dim t1 As Vector3 = Vector3Math.OrthogonalOf(n)
+            Dim t2 As Vector3 = Vector3Math.Cross(n, t1)
+
+            ' 软约束的刚度与阻尼，只算一次
+            Dim soft As Boolean = contactTimeConstant > 0 AndAlso dt > 0
+            Dim omega As Double = 0
+            Dim stiffness As Double = 0
+            Dim damping As Double = 0
+
+            If soft Then
+                Dim zeta As Double = std.Max(0.01, contactDampingRatio)
+
+                ' solref 的时间常数就是临界阻尼下的固有周期尺度：ω = 1 / tc
+                omega = 1.0 / std.Max(contactTimeConstant * zeta, 1.0E-06)
+                stiffness = omega * omega
+                damping = 2.0 * zeta * omega
+            End If
+
+            For Each c In Contacts
+                c.rA = c.Position - A.Position
+                c.rB = c.Position - B.Position
+                c.tangent1 = t1
+                c.tangent2 = t2
+
+                c.normalMass = 1.0 / EffectiveMass(A, B, invIA, invIB, c.rA, c.rB, n)
+                c.tangentMass1 = 1.0 / EffectiveMass(A, B, invIA, invIB, c.rA, c.rB, t1)
+                c.tangentMass2 = 1.0 / EffectiveMass(A, B, invIA, invIB, c.rA, c.rB, t2)
+
+                Dim excess As Double = std.Max(0.0, c.Penetration - slop)
+
+                If soft Then
+                    ' solimp: the impedance of a contact ramps with the depth instead of
+                    ' switching on the moment a vertex crosses the plane. A vertex that
+                    ' is still above the floor (negative depth = gap) keeps its place in
+                    ' the patch, so the patch spans the whole sole, but it only carries a
+                    ' fraction of the force: full force at the plane, none at the far edge
+                    ' of the margin. Both extremes were measured and both are wrong - the
+                    ' full force gives the corner a torque that lifts the sole it should
+                    ' press down (250/250 -> 48/250 standing), no force at all leaves the
+                    ' patch with only the deepest edge carrying load (250/250 -> 40/250).
+                    Dim weight As Double = 1.0
+
+                    If c.Penetration < 0 Then
+                        weight = std.Max(0.0, 1.0 + c.Penetration / ContactPoint3D.SolImpWidth)
+                    End If
+
+                    If weight <= 0 Then
+                        c.gamma = 0
+                        c.softMass = 0
+                        c.bias = 0
+                    Else
+                        ' box2d 的软约束：把 C 换算成"有限力"的偏置，而不是目标速度
+                        Dim kk As Double = stiffness * weight
+                        Dim dd As Double = damping * weight
+
+                        c.gamma = 1.0 / std.Max(dt * (dd + dt * kk), 1.0E-12)
+                        c.softMass = 1.0 / (1.0 / c.normalMass + c.gamma)
+                        c.bias = excess * dt * kk * c.gamma
+                    End If
+                Else
+                    c.gamma = 0.0
+                    c.softMass = c.normalMass
+
+                    ' 位置修正速度同时受"最大修正速度"限制，避免深穿透时产生爆炸式冲量
+                    c.bias = std.Min(ContactPoint3D.MaxBiasSpeed, baumgarte / dt * excess)
+                End If
+
+                ' 恢复只在接近速度足够大时才生效，避免静止物体的持续抖动
+                Dim rv As Vector3 = RelativeVelocity(c.rA, c.rB)
+                Dim vn As Double = Vector3Math.Dot(rv, n)
+
+                c.restitutionBias = If(vn < -1.0, -Restitution * vn, 0.0)
+
+                ' 冲量累积在新的一帧开始时清零，随后由热启动按接触点匹配回填
+                c.NormalImpulse = 0.0
+                c.TangentImpulse1 = 0.0
+                c.TangentImpulse2 = 0.0
+            Next
+        End Sub
+
+        ''' <summary>接触点的相对速度（B 相对 A）。</summary>
+        Public Function RelativeVelocity(rA As Vector3, rB As Vector3) As Vector3
+            Dim va As Vector3 = A.Velocity + Vector3Math.Cross(A.AngularVelocity, rA)
+            Dim vb As Vector3 = B.Velocity + Vector3Math.Cross(B.AngularVelocity, rB)
+
+            Return vb - va
+        End Function
+
+        ''' <summary>
+        ''' 沿方向 <paramref name="dir"/> 的有效质量：
+        ''' <c>k = invMassA + invMassB + (rA×dir)·invIA·(rA×dir) + (rB×dir)·invIB·(rB×dir)</c>。
+        ''' </summary>
+        Private Shared Function EffectiveMass(a As RigidBody3D, b As RigidBody3D,
+                                              invIA As Matrix3x3, invIB As Matrix3x3,
+                                              rA As Vector3, rB As Vector3,
+                                              dir As Vector3) As Double
+            Dim rnA As Vector3 = Vector3Math.Cross(rA, dir)
+            Dim rnB As Vector3 = Vector3Math.Cross(rB, dir)
+            Dim k As Double = a.InvMass + b.InvMass
+
+            k += Vector3Math.Dot(rnA, invIA.MultiplyLeft(rnA))
+            k += Vector3Math.Dot(rnB, invIB.MultiplyLeft(rnB))
+
+            Return std.Max(k, 1.0E-12)
+        End Function
+    End Class
+End Namespace

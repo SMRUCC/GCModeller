@@ -1,0 +1,692 @@
+Imports System.Globalization
+Imports System.Text
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports SMRUCC.genomics.Analysis.SGrid.Perturbation
+Imports SMRUCC.genomics.Analysis.SSystem.Runner
+Imports SMRUCC.genomics.BioSystem
+Imports SMRUCC.genomics.BioSystem.Intervention
+Imports PriorNet = SMRUCC.genomics.BioSystem.Core.PriorNetwork
+Imports SSExperiment = SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels.Experiment
+Imports SSModel = SMRUCC.genomics.Analysis.SSystem.Script.Model
+Imports SSVar = SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels.var
+Imports std = System.Math
+
+Namespace GRN
+
+    ''' <summary>
+    ''' The fitted S-system gene regulatory network model.
+    ''' (拟合得到的基因表达调控网络模型)
+    ''' </summary>
+    ''' <remarks>
+    ''' 本对象是 SGrid 的门面类型：它同时持有
+    ''' 1. 预处理之后的时序数据 <see cref="Series"/>
+    ''' 2. 动力学参数 <see cref="Parameters"/>
+    ''' 3. 稀疏化之后的调控拓扑 <see cref="Edges"/>
+    ''' 并且可以生成可以直接被 PLAS 运行的 S-system 模型对象。
+    ''' </remarks>
+    Public Class SSystemNetwork : Implements InsilicoPerturbationExperiment
+
+        ''' <summary>
+        ''' 预处理之后的基因表达时序数据
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Series As ExpressionTimeSeries
+        ''' <summary>
+        ''' 拟合得到的动力学参数
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Parameters As SSystemParameters
+        ''' <summary>
+        ''' 稀疏化之后的有向调控边集合
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Edges As RegulatoryEdge()
+        ''' <summary>
+        ''' 本次拟合所使用的配置
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Options As FittingOptions
+        ''' <summary>
+        ''' 本次拟合所使用的先验知识网络（基因符号已经映射到规整化之后的编号）
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Prior As PriorNet
+        ''' <summary>
+        ''' 先验知识与拟合拓扑之间的对照指标；没有启用先验的时候为空
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property PriorStatistics As PriorMetrics
+        ''' <summary>
+        ''' 拟合过程的诊断信息
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Warnings As New List(Of String)
+
+        ''' <summary>
+        ''' 从基因表达矩阵之中反演出基因表达调控网络的S-system模型
+        ''' </summary>
+        ''' <param name="matrix">行是基因、列是时间点的表达矩阵</param>
+        ''' <param name="options"></param>
+        ''' <returns></returns>
+        Public Shared Function Fit(matrix As Matrix, Optional options As FittingOptions = Nothing) As SSystemNetwork
+            If matrix Is Nothing Then
+                Throw New ArgumentNullException(NameOf(matrix))
+            End If
+            If options Is Nothing Then
+                options = New FittingOptions()
+            End If
+
+            Call options.Validate()
+
+            Dim series As ExpressionTimeSeries = ExpressionTimeSeries.FromMatrix(matrix, options)
+            Dim fitOptions As FittingOptions = options.Clone()
+            Dim prior As PriorNet = Nothing
+
+            If options.UsePrior AndAlso Not options.Prior Is Nothing Then
+                prior = options.Prior.Remap(geneNameMap(series))
+                fitOptions.Prior = prior
+
+                If options.Verbose Then
+                    Call Console.WriteLine($"[INFO] prior knowledge: {options.Prior.EdgeCount()} edge(s) loaded, {prior.EdgeCount()} edge(s) matched to the expression matrix.")
+                End If
+
+                If prior.EdgeCount() = 0 Then
+                    Call series.Warnings.Add("None of the prior knowledge edges was matched to the expression matrix, the prior constraint is disabled.")
+                    fitOptions.Prior = Nothing
+                    prior = Nothing
+                End If
+            End If
+
+            If options.Verbose Then
+                Call Console.WriteLine($"[INFO] {series.ToString}")
+                Call Console.WriteLine($"[INFO] normalization={options.Normalize.ToString}, log-pseudo={options.PseudoCount}")
+
+                For Each warn As String In series.Warnings
+                    Call Console.WriteLine($"[WARN] {warn}")
+                Next
+            End If
+
+            ' 数值微分是拟合流程之中的第一个重计算阶段，且与后续的逐基因拟合完全独立，
+            ' 故单独计时并从配置透传并行开关与线程上限
+            Dim slopeWatch As New Stopwatch()
+
+            Call slopeWatch.Start()
+
+            Dim slopes As Double()() = SlopeEstimator.Estimate(
+                series,
+                denoise:=options.Denoise,
+                smoothWindow:=fitOptions.SmoothWindow,
+                parallel:=options.Parallel,
+                threads:=fitOptions.MaxDegreeOfParallelism)
+
+            Call slopeWatch.Stop()
+
+            If options.Verbose Then
+                Call Console.WriteLine(
+                    $"[INFO] slope estimation: {series.nGenes} gene(s) x {series.nTimePoints} point(s) in {slopeWatch.Elapsed.TotalSeconds.ToString("F2")}s " &
+                    $"({If(options.Parallel, If(fitOptions.MaxDegreeOfParallelism > 0, $"{fitOptions.MaxDegreeOfParallelism} thread(s)", "auto"), "serial")})")
+            End If
+
+            Dim fitter As New DecoupledFitter(series, slopes, fitOptions)
+            Dim parameters As SSystemParameters = fitter.Fit()
+            Dim edges As RegulatoryEdge() = NetworkTopology.Sparsify(parameters, fitOptions, prior)
+
+            If options.Verbose Then
+                Call Console.WriteLine($"[INFO] {edges.Length} regulatory edge(s) was recovered by the sparsity threshold {options.Sparsity}.")
+            End If
+
+            If options.RefineTrajectory Then
+                If options.Verbose Then
+                    Call Console.WriteLine("[INFO] phase 2: refining the parameters by the trajectory fitting...")
+                End If
+
+                parameters = TrajectoryRefiner.Refine(series, parameters, fitOptions)
+                parameters.TrajectoryRefined = True
+                edges = NetworkTopology.Sparsify(parameters, fitOptions, prior)
+            End If
+
+            Return New SSystemNetwork With {
+                .Series = series,
+                .Parameters = parameters,
+                .Edges = edges,
+                .Options = fitOptions,
+                .Prior = prior,
+                .PriorStatistics = NetworkTopology.PriorMetrics(edges, prior),
+                .Warnings = series.Warnings
+            }
+        End Function
+
+        ''' <summary>
+        ''' 构造「表达矩阵原始基因符号 → 规整化基因编号」的映射表，
+        ''' 用于把先验知识网络映射到拟合过程所使用的编号空间之上
+        ''' </summary>
+        ''' <param name="series"></param>
+        ''' <returns></returns>
+        Private Shared Function geneNameMap(series As ExpressionTimeSeries) As System.Collections.Generic.IDictionary(Of String, String)
+            Dim map As New System.Collections.Generic.Dictionary(Of String, String)(StringComparer.OrdinalIgnoreCase)
+
+            For i As Integer = 0 To series.nGenes - 1
+                Dim original As String = series.OriginalNames(i)
+                Dim sanitized As String = series.GeneNames(i)
+
+                If String.IsNullOrEmpty(original) Then
+                    Continue For
+                End If
+                If Not map.ContainsKey(original) Then
+                    Call map.Add(original, sanitized)
+                End If
+                ' 同时接受规整化之后的编号作为键，方便调用方直接使用规整化编号构建先验
+                If Not map.ContainsKey(sanitized) Then
+                    Call map.Add(sanitized, sanitized)
+                End If
+            Next
+
+            Return map
+        End Function
+
+        ''' <summary>
+        ''' 生成一个可以直接被 PLAS 运行的 S-system 模型对象
+        ''' </summary>
+        ''' <param name="experiments">挂载到模型之上的扰动实验</param>
+        ''' <param name="finalTime">仿真的终止时间，非正数表示使用时间轴的终点</param>
+        ''' <param name="initial">
+        ''' 可选的状态初值表（键可以是原始基因符号或者规整化之后的编号）。
+        ''' 非空的时候用它来代替「时间序列的第一个采样点」作为 ODE 积分的初值，
+        ''' 这是把模型放到某个具体样本环境（pseudobulk context）之下仿真的关键参数
+        ''' </param>
+        ''' <returns></returns>
+        Public Function CreateModel(Optional experiments As SSExperiment() = Nothing,
+                                    Optional finalTime As Double = 0,
+                                    Optional initial As System.Collections.Generic.IDictionary(Of String, Double) = Nothing) As SSModel
+
+            Dim t As Double = If(finalTime > 0, finalTime, Series.TimeEnd)
+            Dim equations As New System.Collections.Generic.List(Of SMRUCC.genomics.Analysis.SSystem.Script.SEquation)
+            Dim vars As New System.Collections.Generic.List(Of SSVar)
+
+            For i As Integer = 0 To Parameters.nGenes - 1
+                Call equations.Add(New SMRUCC.genomics.Analysis.SSystem.Script.SEquation(
+                    Parameters.GeneNames(i),
+                    BuildExpression(Parameters, i)))
+
+                Call vars.Add(New SSVar With {
+                    .Id = Parameters.GeneNames(i),
+                    .title = Parameters.OriginalNames(i),
+                    .Value = initialStateOf(initial, i)
+                })
+            Next
+
+            Dim model As New SSModel With {
+                .Title = "S-system GRN model",
+                .Comment = NetworkTopology.StabilityReport(Parameters),
+                .FinalTime = t,
+                .sEquations = equations.ToArray,
+                .Vars = vars.ToArray,
+                .Experiments = experiments
+            }
+
+            Return model
+        End Function
+
+        ' 说明：把一个外部表达谱映射到模型状态空间的工作已经迁移到公共组件
+        ' （SMRUCC.genomics.BioSystem.Intervention.ContextAligner，LogAffine 模式），
+        ' 通过 InsilicoPerturbationExperiment.SetContext 调用，本类不再自行实现换算。
+
+
+        ''' <summary>
+        ''' 取出某一个基因的状态初值：优先使用外部给定的 context，否则回落到时间序列的第一个采样点
+        ''' </summary>
+        ''' <param name="initial"></param>
+        ''' <param name="i"></param>
+        ''' <returns></returns>
+        Private Function initialStateOf(initial As System.Collections.Generic.IDictionary(Of String, Double), i As Integer) As Double
+            Dim value As Double
+
+            If Not initial Is Nothing Then
+                If initial.TryGetValue(Parameters.GeneNames(i), value) Then
+                    Return value
+                End If
+                If Not String.IsNullOrEmpty(Parameters.OriginalNames(i)) AndAlso initial.TryGetValue(Parameters.OriginalNames(i), value) Then
+                    Return value
+                End If
+            End If
+
+            Return Series.X(i)(0)
+        End Function
+
+        ' ==================== 上下文与虚拟扰动（InsilicoPerturbationExperiment） ====================
+
+        Private m_context As ContextAlignmentState
+        Private m_contextValues As Dictionary(Of String, Double)
+
+        Private ReadOnly Property ContextState As ContextAlignmentState
+            Get
+                If m_context Is Nothing Then
+                    m_context = New ContextAlignmentState(ContextAlignmentMode.LogAffine)
+                End If
+
+                Return m_context
+            End Get
+        End Property
+
+        ''' <summary>当前生效的上下文对齐模式（默认为 <see cref="ContextAlignmentMode.LogAffine"/>）。</summary>
+        Public ReadOnly Property ContextAlignmentMode As ContextAlignmentMode
+            Get
+                Return ContextState.Mode
+            End Get
+        End Property
+
+        ''' <summary>最近一次上下文注入的诊断。</summary>
+        Public ReadOnly Property ContextDiagnostics As ContextAlignmentDiagnostics
+            Get
+                Return ContextState.Diagnostics
+            End Get
+        End Property
+
+        ''' <summary>是否已经注入了上下文。</summary>
+        Public ReadOnly Property HasContext As Boolean
+            Get
+                Return m_contextValues IsNot Nothing AndAlso m_contextValues.Count > 0
+            End Get
+        End Property
+
+        ''' <summary>对齐之后的上下文取值（模型状态空间；键为规整化之后的基因编号）。</summary>
+        Public ReadOnly Property ContextValues As IReadOnlyDictionary(Of String, Double)
+            Get
+                If m_contextValues Is Nothing Then
+                    Return Nothing
+                Else
+                    Return m_contextValues
+                End If
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' 把外部表达谱注入为 ODE 积分的初始状态。
+        ''' </summary>
+        ''' <param name="context">基因名 → 原始表达量（原始基因符号与规整化编号都可接受）</param>
+        ''' <returns>当前对象（便于链式调用）</returns>
+        ''' <remarks>
+        ''' <para>
+        ''' 模型的状态不是原始 counts，而是 <c>X = log2(max(raw,0) + pseudo) + δ</c>
+        ''' （见 <see cref="ExpressionTimeSeries.Offsets"/>），因此默认用
+        ''' <see cref="ContextAlignmentMode.LogAffine"/> 做与训练完全一致的换算。
+        ''' </para>
+        ''' <para>
+        ''' 数值对齐由公共组件完成；本类不再自行实现换算逻辑。
+        ''' </para>
+        ''' </remarks>
+        Public Function SetContext(context As Dictionary(Of String, Double)) As InsilicoPerturbationExperiment Implements InsilicoPerturbationExperiment.SetContext
+            If context Is Nothing OrElse context.Count = 0 Then
+                Call ClearContext()
+
+                Return Me
+            End If
+
+            ' 外部表可能用原始基因符号：先折算到规整化编号，再交给公共组件做数值对齐
+            Dim map As IDictionary(Of String, String) = geneNameMap(Series)
+            Dim normalized As New Dictionary(Of String, Double)(StringComparer.OrdinalIgnoreCase)
+
+            For Each item As KeyValuePair(Of String, Double) In context
+                Dim name As String = If(item.Key, "").Trim()
+                Dim key As String = Nothing
+
+                If name.Length = 0 Then
+                    Continue For
+                End If
+
+                If map.TryGetValue(name, key) Then
+                    normalized(key) = item.Value
+                Else
+                    normalized(name) = item.Value
+                End If
+            Next
+
+            Dim aligned As ContextAlignmentResult = ContextState.SetContext(normalized, buildContextReference())
+
+            If aligned.Diagnostics.Matched = 0 Then
+                Throw New InvalidOperationException("上下文中没有任何基因能够映射到拟合的 S-system 模型上")
+            End If
+
+            m_contextValues = aligned.Values
+
+            Return Me
+        End Function
+
+        ''' <summary>切换上下文对齐模式；已注入上下文时会立即重新对齐。</summary>
+        ''' <param name="mode">新的对齐模式</param>
+        ''' <returns>当前对象（便于链式调用）</returns>
+        Public Function SetContextAlignmentMode(mode As ContextAlignmentMode) As InsilicoPerturbationExperiment Implements InsilicoPerturbationExperiment.SetContextAlignmentMode
+            Call ContextState.SetMode(mode)
+
+            If ContextState.HasContext Then
+                m_contextValues = ContextState.Values
+            End If
+
+            Return Me
+        End Function
+
+        ''' <summary>撤销上下文，回到时间序列的第一个采样点作为积分初值。</summary>
+        Public Sub ClearContext()
+            Call ContextState.Clear()
+
+            m_contextValues = Nothing
+        End Sub
+
+        ''' <summary>虚拟敲除：把目标基因的表达压到 0 后重新积分。</summary>
+        Public Function KnockoutGene(geneName As String, Optional nSamples As Integer = 0) As InterventionResult Implements InsilicoPerturbationExperiment.KnockoutGene
+            Return perturb(geneName, InterventionMode.Knockout, 1.0R)
+        End Function
+
+        ''' <summary>虚拟过表达：把目标基因的表达提升到当前值的 2 倍。</summary>
+        Public Function OverexpressGene(geneName As String, Optional nSamples As Integer = 0) As InterventionResult Implements InsilicoPerturbationExperiment.OverexpressGene
+            Return perturb(geneName, InterventionMode.Overexpression, 2.0R)
+        End Function
+
+        ''' <summary>虚拟敲低：把目标基因的表达降低到当前值的 20%。</summary>
+        Public Function KnockDownGene(geneName As String, Optional nSamples As Integer = 0) As InterventionResult Implements InsilicoPerturbationExperiment.KnockDownGene
+            Return perturb(geneName, InterventionMode.Knockdown, 0.8R)
+        End Function
+
+        ''' <summary>执行一次扰动并积分到仿真终点，把终末值转成标准的干预结果。</summary>
+        Private Function perturb(geneName As String, mode As InterventionMode, magnitude As Double) As InterventionResult
+            Dim index As Integer = Array.FindIndex(
+                Parameters.GeneNames,
+                Function(g) String.Equals(g, geneName, StringComparison.OrdinalIgnoreCase))
+
+            If index < 0 AndAlso Parameters.OriginalNames IsNot Nothing Then
+                index = Array.FindIndex(
+                    Parameters.OriginalNames,
+                    Function(g) String.Equals(g, geneName, StringComparison.OrdinalIgnoreCase))
+            End If
+
+            If index < 0 Then
+                Return undefinedResult(geneName, mode)
+            End If
+
+            Dim target As String = Parameters.GeneNames(index)
+            Dim design As New PerturbationDesign With {
+                .TargetGene = target,
+                .Type = mode,
+                .Magnitude = magnitude,
+                .Start = 0,
+                .Interval = 1,
+                .Kicks = 1
+            }
+            Dim screening As ScreeningResult = VirtualScreening.Run(Me, New PerturbationDesign() {design}, context:=m_contextValues)
+
+            If screening Is Nothing OrElse screening.Records Is Nothing OrElse screening.Records.Length = 0 Then
+                Return undefinedResult(geneName, mode)
+            End If
+
+            Dim n As Integer = Parameters.nGenes
+            Dim control(n - 1) As Double
+            Dim mutant(n - 1) As Double
+            Dim fold(n - 1) As Double
+            Dim percent(n - 1) As Double
+            Dim z(n - 1) As Double
+            Dim significant(n - 1) As Boolean
+
+            For Each record As ScreeningRecord In screening.Records
+                Dim i As Integer = Array.FindIndex(
+                    Parameters.GeneNames,
+                    Function(g) String.Equals(g, record.Gene, StringComparison.OrdinalIgnoreCase))
+
+                If i < 0 Then
+                    Continue For
+                End If
+
+                control(i) = record.ControlLevel
+                mutant(i) = record.PerturbedLevel
+                fold(i) = record.PerturbedLevel - record.ControlLevel
+
+                If std.Abs(control(i)) > 1.0E-10 Then
+                    percent(i) = fold(i) / std.Abs(control(i)) * 100.0R
+                End If
+
+                significant(i) = record.IsTarget OrElse std.Abs(fold(i)) > 1.0E-09
+            Next
+
+            Return New InterventionResult With {
+                .Spec = New InterventionSpec With {.GeneName = target, .GeneIndex = index, .Mode = mode},
+                .GeneNames = CType(Parameters.GeneNames.Clone(), String()),
+                .WildtypeMeans = control,
+                .MutantMeans = mutant,
+                .FoldChanges = fold,
+                .PercentChanges = percent,
+                .ZScores = z,
+                .IsSignificant = significant,
+                .Undefined = False
+            }
+        End Function
+
+        ''' <summary>目标基因不在模型里时的降级结果（不抛异常，标记 Undefined）。</summary>
+        Private Function undefinedResult(geneName As String, mode As InterventionMode) As InterventionResult
+            Dim n As Integer = Parameters.nGenes
+
+            Return New InterventionResult With {
+                .Spec = New InterventionSpec With {.GeneName = geneName, .GeneIndex = -1, .Mode = mode},
+                .GeneNames = CType(Parameters.GeneNames.Clone(), String()),
+                .WildtypeMeans = New Double(n - 1) {},
+                .MutantMeans = New Double(n - 1) {},
+                .FoldChanges = New Double(n - 1) {},
+                .PercentChanges = New Double(n - 1) {},
+                .ZScores = New Double(n - 1) {},
+                .IsSignificant = New Boolean(n - 1) {},
+                .Undefined = True
+            }
+        End Function
+
+        ''' <summary>构造公共对齐组件所需的训练侧统计量。</summary>
+        Private Function buildContextReference() As ContextAlignmentReference
+            Dim n As Integer = Parameters.nGenes
+            Dim means(n - 1) As Double
+            Dim sds(n - 1) As Double
+            Dim population(n - 1)() As Double
+
+            For i As Integer = 0 To n - 1
+                Dim values As Double() = Series.X(i)
+
+                population(i) = values
+
+                If values Is Nothing OrElse values.Length = 0 Then
+                    Continue For
+                End If
+
+                Dim sum As Double = 0
+
+                For Each v As Double In values
+                    sum += v
+                Next
+
+                Dim mean As Double = sum / values.Length
+                Dim ss As Double = 0
+
+                For Each v As Double In values
+                    ss += (v - mean) ^ 2
+                Next
+
+                means(i) = mean
+                sds(i) = If(values.Length > 1, std.Sqrt(ss / (values.Length - 1)), 0.0R)
+            Next
+
+            Return New ContextAlignmentReference With {
+                .GeneNames = Parameters.GeneNames,
+                .Means = means,
+                .StandardDeviations = sds,
+                .Population = population,
+                .Offsets = Series.Offsets,
+                .PseudoCount = Series.PseudoCount
+            }
+        End Function
+
+        ''' <summary>
+        ''' 创建用于本模型的仿真求解配置
+        ''' </summary>
+        ''' <param name="finalTime"></param>
+        ''' <returns></returns>
+        Public Function CreateRunOptions(Optional finalTime As Double = 0) As RunOptions
+            Dim t As Double = If(finalTime > 0, finalTime, If(Options.FinalTime > 0, Options.FinalTime, Series.TimeEnd))
+
+            Return Options.CreateRunOptions(t)
+        End Function
+
+        ''' <summary>
+        ''' 生成目标基因的 S-system 幂律方程表达式
+        ''' </summary>
+        ''' <param name="parameters"></param>
+        ''' <param name="i">靶基因在矩阵之中的行号</param>
+        ''' <returns></returns>
+        Public Shared Function BuildExpression(parameters As SSystemParameters, i As Integer) As String
+            Dim sb As New StringBuilder()
+
+            If parameters.alpha(i) > 0 Then
+                Call sb.Append(FormatNumber(parameters.alpha(i)))
+
+                For j As Integer = 0 To parameters.nGenes - 1
+                    If parameters.G(i)(j) <> 0 Then
+                        Call sb.Append("*")
+                        Call sb.Append(parameters.GeneNames(j))
+                        Call sb.Append("^")
+                        Call sb.Append(FormatNumber(parameters.G(i)(j)))
+                    End If
+                Next
+            End If
+
+            If parameters.beta(i) > 0 Then
+                If sb.Length > 0 Then
+                    Call sb.Append("-")
+                End If
+
+                Call sb.Append(FormatNumber(parameters.beta(i)))
+
+                For j As Integer = 0 To parameters.nGenes - 1
+                    If parameters.H(i)(j) <> 0 Then
+                        Call sb.Append("*")
+                        Call sb.Append(parameters.GeneNames(j))
+                        Call sb.Append("^")
+                        Call sb.Append(FormatNumber(parameters.H(i)(j)))
+                    End If
+                Next
+            End If
+
+            If sb.Length = 0 Then
+                Call sb.Append("0")
+            End If
+
+            Return sb.ToString
+        End Function
+
+        ''' <summary>
+        ''' 把数值格式化为数学表达式引擎可以解析的文本形式
+        ''' </summary>
+        ''' <param name="x"></param>
+        ''' <returns></returns>
+        Public Shared Function FormatNumber(x As Double) As String
+            If Double.IsNaN(x) OrElse Double.IsInfinity(x) Then
+                Return "0"
+            End If
+
+            Dim s As String = x.ToString("0.#########", CultureInfo.InvariantCulture)
+
+            If String.IsNullOrEmpty(s) Then
+                Return "0"
+            End If
+
+            Return s
+        End Function
+
+        ''' <summary>
+        ''' 生成拟合报告
+        ''' </summary>
+        ''' <returns></returns>
+        Public Function Report() As String
+            Dim sb As New StringBuilder()
+
+            Call sb.AppendLine($"S-system GRN fitting report")
+            Call sb.AppendLine($"time series     : {Series.ToString}")
+            Call sb.AppendLine($"normalization   : {Options.Normalize.ToString} (pseudo={Options.PseudoCount})")
+            Call sb.AppendLine($"sparsity        : {Options.Sparsity}")
+            Call sb.AppendLine($"max edges/gene  : {Options.MaxEdgesPerGene}")
+            Call sb.AppendLine($"mean slope RMSE : {Parameters.MeanRMSE.ToString("G6")}")
+            Call sb.AppendLine($"regulatory edges: {Edges.Length}")
+            Call sb.AppendLine($"trajectory refit: {Parameters.TrajectoryRefined}")
+            Call sb.AppendLine(NetworkTopology.StabilityReport(Parameters))
+
+            If Not Prior Is Nothing Then
+                Call sb.AppendLine()
+                Call sb.AppendLine($"prior knowledge : {Prior.EdgeCount()} edge(s) mapped, {Prior.TypeStatistic()}")
+
+                If Not PriorStatistics Is Nothing Then
+                    Call sb.Append(PriorStatistics.Summary())
+                End If
+            End If
+
+            If Not Warnings.IsNullOrEmpty Then
+                Call sb.AppendLine()
+                Call sb.AppendLine("warnings:")
+
+                For Each warn As String In Warnings
+                    Call sb.AppendLine($"  {warn}")
+                Next
+            End If
+
+            Call sb.AppendLine()
+            Call sb.Append(Parameters.Summary())
+
+            Return sb.ToString
+        End Function
+
+        ''' <summary>
+        ''' 把拟合结果的全部产物保存到指定的文件夹
+        ''' </summary>
+        ''' <param name="dir"></param>
+        ''' <returns></returns>
+        Public Function SaveAll(dir As String) As Boolean
+            Return IO.NetworkWriter.SaveAll(Me, dir)
+        End Function
+
+        ''' <summary>
+        ''' 导出拟合得到的系数矩阵（净调控弹性）：行为目标基因、列为调控因子
+        ''' </summary>
+        ''' <param name="file"></param>
+        ''' <param name="useOriginal">是否使用原始基因符号（面向 GO/KEGG 富集与先验比对）</param>
+        ''' <returns></returns>
+        Public Function ExportCoefficientMatrix(file As String, Optional useOriginal As Boolean = False) As Boolean
+            Return IO.CoefficientMatrix.SaveCoefficientMatrix(Me, file, useOriginal)
+        End Function
+
+        ''' <summary>
+        ''' 导出与弹性网络模型格式一致的系数表（每个靶基因一行）
+        ''' </summary>
+        ''' <param name="file"></param>
+        ''' <param name="useOriginal">是否使用原始基因符号（面向 GO/KEGG 富集与先验比对）</param>
+        ''' <returns></returns>
+        Public Function ExportFormulaTable(file As String, Optional useOriginal As Boolean = False) As Boolean
+            Return IO.CoefficientMatrix.SaveFormulaTable(Me, file, useOriginal)
+        End Function
+
+        ''' <summary>
+        ''' 把整个模型对象持久化保存为一个压缩包文件
+        ''' </summary>
+        ''' <param name="zipFile"></param>
+        ''' <returns></returns>
+        Public Function SaveZip(zipFile As String) As Boolean
+            Call IO.ZipPersists.Save(Me, zipFile)
+
+            Return True
+        End Function
+
+        ''' <summary>
+        ''' 从压缩包文件之中重新加载模型对象
+        ''' </summary>
+        ''' <param name="zipFile"></param>
+        ''' <returns></returns>
+        Public Shared Function LoadZip(zipFile As String) As SSystemNetwork
+            Return IO.ZipPersists.Load(zipFile)
+        End Function
+
+        Public Overrides Function ToString() As String
+            Return $"S-system GRN: {Parameters.nGenes} genes, {Edges.Length} edges, mean RMSE={Parameters.MeanRMSE.ToString("G4")}"
+        End Function
+    End Class
+End Namespace

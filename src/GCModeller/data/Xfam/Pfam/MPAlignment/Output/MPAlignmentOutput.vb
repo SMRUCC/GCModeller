@@ -1,62 +1,63 @@
 ﻿#Region "Microsoft.VisualBasic::e0a4f955fe0ee3a3530a097343525162, data\Xfam\Pfam\MPAlignment\Output\MPAlignmentOutput.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 93
-    '    Code Lines: 54 (58.06%)
-    ' Comment Lines: 27 (29.03%)
-    '    - Xml Docs: 96.30%
-    ' 
-    '   Blank Lines: 12 (12.90%)
-    '     File Size: 4.66 KB
+' Summaries:
 
 
-    '     Class AlignmentOutput
-    ' 
-    '         Properties: AlignmentResult, DeltaScore, FullScore, LengthDelta, ProteinQuery
-    '                     ProteinSbjct, Score, Similarity
-    ' 
-    '         Function: FormatAlignmentDomains, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 93
+'    Code Lines: 54 (58.06%)
+' Comment Lines: 27 (29.03%)
+'    - Xml Docs: 96.30%
+' 
+'   Blank Lines: 12 (12.90%)
+'     File Size: 4.66 KB
+
+
+'     Class AlignmentOutput
+' 
+'         Properties: AlignmentResult, DeltaScore, FullScore, LengthDelta, ProteinQuery
+'                     ProteinSbjct, Score, Similarity
+' 
+'         Function: FormatAlignmentDomains, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Text
 Imports System.Xml.Serialization
+Imports SMRUCC.genomics.ProteinModel
 Imports std = System.Math
 
 Namespace ProteinDomainArchitecture.MPAlignment
@@ -96,8 +97,8 @@ Namespace ProteinDomainArchitecture.MPAlignment
             End Get
         End Property
 
-        Public Property ProteinQuery As PfamString.PfamString
-        Public Property ProteinSbjct As PfamString.PfamString
+        Public Property ProteinQuery As PfamString
+        Public Property ProteinSbjct As PfamString
         Public Property AlignmentResult As DomainAlignment()
         <XmlAttribute("delta")> Public Property LengthDelta As Double
         <XmlAttribute("delta.score")> Public Property DeltaScore As Double
@@ -130,9 +131,9 @@ Namespace ProteinDomainArchitecture.MPAlignment
             Dim sBuilder As StringBuilder = New StringBuilder(String.Format("Domain alignment for {0} and {1}" & vbCrLf & vbCrLf, ProteinQuery.ProteinId, ProteinSbjct.ProteinId))
             Call sBuilder.AppendLine("Pfam-string brief information:" & vbCrLf)
             Call sBuilder.AppendLine("Query=")
-            Call sBuilder.AppendLine(ProteinQuery.get_PlantTextOutput)
+            Call sBuilder.AppendLine(ProteinQuery.PlantTextOutput)
             Call sBuilder.AppendLine("Subject=")
-            Call sBuilder.AppendLine(ProteinSbjct.get_PlantTextOutput)
+            Call sBuilder.AppendLine(ProteinSbjct.PlantTextOutput)
             Call sBuilder.AppendLine()
             Call sBuilder.AppendLine(String.Format("Structure Compared Score: {0}", Score))
             Call sBuilder.AppendLine(String.Format("Structure Similarity:     {1}%", Score, Similarity * 100))

@@ -5,13 +5,58 @@
     <TargetFrameworks>net10.0</TargetFrameworks>
     <Platforms>AnyCPU;x64</Platforms>
     <Configurations>Debug;Release;Rsharp_app_release;nuget_release</Configurations>
-    <OutputPath>../../pkg/assembly/</OutputPath>
+    <OutputPath>../../../../assembly/</OutputPath>
    
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
     <Optimize>false</Optimize>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net10.0|AnyCPU'">
+    <DebugType>portable</DebugType>
+    <DefineTrace>True</DefineTrace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net10.0|x64'">
+    <DebugType>portable</DebugType>
+    <DefineTrace>True</DefineTrace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net10.0|AnyCPU'">
+    <DebugType>portable</DebugType>
+    <DefineTrace>True</DefineTrace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net10.0|x64'">
+    <DebugType>portable</DebugType>
+    <DefineTrace>True</DefineTrace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net10.0|AnyCPU'">
+    <DebugType>portable</DebugType>
+    <DefineTrace>True</DefineTrace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net10.0|x64'">
+    <DebugType>portable</DebugType>
+    <DefineTrace>True</DefineTrace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='nuget_release|net10.0|AnyCPU'">
+    <DebugType>portable</DebugType>
+    <DefineTrace>True</DefineTrace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='nuget_release|net10.0|x64'">
+    <DebugType>portable</DebugType>
+    <DefineTrace>True</DefineTrace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,10 +66,17 @@
     <ProjectReference Include="..\..\..\GCModeller\engine\IO\GCMarkupLanguage\GCMarkupXML.NET5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\models\SBML\SBML\sbml-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\sub-system\BNLearn\BNLearn.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\sub-system\CellPhenotype\CellPhenotype.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\sub-system\FBA\FBA.Core\FBA.Core.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\sub-system\FuzzyGene\FuzzyGene.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\sub-system\GEARS\GEARS.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\sub-system\GeneTree\GeneTree.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\sub-system\GPS\GPS.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\sub-system\Metaboliq\Metaboliq.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\sub-system\PLAS.NET\SGrid\SGrid.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\sub-system\PLAS.NET\SSystem\SSystem.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\sub-system\SpikingLoop\SpikingLoop.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\sub-system\Squiiff\Squiiff\Squiiff.vbproj" />
     <ProjectReference Include="..\..\..\R-sharp\R#\Rsharp-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\repository\Bio.Repository\repository.NET5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\MachineLearning\GNN\GNN.vbproj" />

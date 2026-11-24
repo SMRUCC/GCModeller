@@ -75,8 +75,21 @@
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <Platform Solution="*|x64" Project="x64" />
     </Project>
+    <Project Path="../../annotations/GSEA/FisherCore/Fisher.NET5.vbproj">
+      <BuildType Solution="mzkit|*" Project="Debug" />
+      <BuildType Solution="NPSearch|*" Project="LipidSearch" />
+      <BuildType Solution="PlantMAT|*" Project="LipidSearch" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
     <Project Path="../../core/Bio.Assembly/biocore-netcore5.vbproj">
       <BuildType Solution="PlantMAT|*" Project="Debug" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../data/Xfam/Pfam/Pfam.vbproj">
+      <BuildType Solution="LipidSearch|*" Project="nuget_release" />
+      <BuildType Solution="mzkit|*" Project="Debug" />
+      <BuildType Solution="NPSearch|*" Project="Rsharp_app_release" />
+      <BuildType Solution="PlantMAT|*" Project="Rsharp_app_release" />
       <Platform Solution="*|x64" Project="x64" />
     </Project>
     <Project Path="../../foundation/OBO_Foundry/obo_foundry-netcore5.vbproj">
@@ -89,6 +102,13 @@
       <BuildType Solution="mzkit|*" Project="Debug" />
       <BuildType Solution="NPSearch|*" Project="Debug" />
       <BuildType Solution="PlantMAT|*" Project="Debug" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../SequenceToolkit/Pfam-HMM/PfamHMMScan/HMMER3.vbproj">
+      <BuildType Solution="LipidSearch|*" Project="nuget_release" />
+      <BuildType Solution="mzkit|*" Project="Debug" />
+      <BuildType Solution="NPSearch|*" Project="Rsharp_app_release" />
+      <BuildType Solution="PlantMAT|*" Project="Rsharp_app_release" />
       <Platform Solution="*|x64" Project="x64" />
     </Project>
   </Folder>

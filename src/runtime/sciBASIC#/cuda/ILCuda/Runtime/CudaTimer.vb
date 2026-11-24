@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3744505969714b2fbbfec83087208d04, cuda\ILCuda\Runtime\CudaTimer.vb"
+﻿#Region "Microsoft.VisualBasic::2c3f55e23b18602c2a2b272ed8bafa69, cuda\ILCuda\Runtime\CudaTimer.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 56
-    '    Code Lines: 38 (67.86%)
-    ' Comment Lines: 7 (12.50%)
+    '   Total Lines: 66
+    '    Code Lines: 43 (65.15%)
+    ' Comment Lines: 7 (10.61%)
     '    - Xml Docs: 57.14%
     ' 
-    '   Blank Lines: 11 (19.64%)
-    '     File Size: 2.05 KB
+    '   Blank Lines: 16 (24.24%)
+    '     File Size: 2.27 KB
 
 
     '     Class CudaTimer
@@ -76,6 +76,8 @@ Namespace Runtime
             Dim a As IntPtr = IntPtr.Zero
             Dim b As IntPtr = IntPtr.Zero
 
+            CudaRuntime.EnsureCurrent()
+
             CudaDriverApi.Check(CudaDriverApi.cuEventCreate(a, 0UI), "cuEventCreate")
             CudaDriverApi.Check(CudaDriverApi.cuEventCreate(b, 0UI), "cuEventCreate")
 
@@ -84,11 +86,15 @@ Namespace Runtime
         End Sub
 
         Public Sub Start()
+            CudaRuntime.EnsureCurrent()
+
             CudaDriverApi.Check(CudaDriverApi.cuEventRecord(_start, IntPtr.Zero), "cuEventRecord")
         End Sub
 
         ''' <summary>记录结束事件并等待其完成，返回毫秒数</summary>
         Public Function Finish() As Double
+            CudaRuntime.EnsureCurrent()
+
             CudaDriverApi.Check(CudaDriverApi.cuEventRecord(_end, IntPtr.Zero), "cuEventRecord")
             CudaDriverApi.Check(CudaDriverApi.cuEventSynchronize(_end), "cuEventSynchronize")
 
@@ -102,10 +108,14 @@ Namespace Runtime
             _disposed = True
 
             Try
+                CudaRuntime.EnsureCurrent()
+
                 CudaDriverApi.Check(CudaDriverApi.cuEventDestroy_v2(_start), "cuEventDestroy_v2")
             Catch
             End Try
             Try
+                CudaRuntime.EnsureCurrent()
+
                 CudaDriverApi.Check(CudaDriverApi.cuEventDestroy_v2(_end), "cuEventDestroy_v2")
             Catch
             End Try

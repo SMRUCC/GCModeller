@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a23bdd20f98864b1c10d5a631f9222e4, visualize\DataVisualizationExtensions\CategoryImpactBox\ImpactBoxPlot.vb"
+#Region "Microsoft.VisualBasic::a23bdd20f98864b1c10d5a631f9222e4, visualize\DataVisualizationExtensions\CategoryImpactBox\ImpactBoxPlot.vb"
 
     ' Author:
     ' 
@@ -51,9 +51,7 @@
     ' /********************************************************************************/
 
 #End Region
-
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
+Imports Microsoft.VisualBasic.Data.Plots.Canvas
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 

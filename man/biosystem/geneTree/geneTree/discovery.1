@@ -1,0 +1,116 @@
+.\" man page create by R# package system.
+.TH GENETREE 1 2000-1月 "discovery" "discovery"
+.SH NAME
+discovery \- Enable the residual two-stage structure discovery on a GeneTree configuration.
+.SH SYNOPSIS
+\fIdiscovery(\fBconfig\fR as <generic> GeneTreeConfig, 
+\fBcandidates\fR as any, 
+\fBmax_per_gene\fR as integer = 2, 
+\fBmax_candidates\fR as integer = 5, 
+\fBmin_correlation\fR as double = 0.1, 
+\fBmin_delta_r2\fR as double = 0.002, 
+\fBsample_size\fR as integer = 1000, 
+\fBmax_genes\fR as integer = 0, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Enable the residual two-stage structure discovery on a GeneTree configuration.
+.PP
+.SH OPTIONS
+.PP
+\fBconfig\fB \fR\- 
+ the configuration object created by the \fBmake_profile\fR api (it is modified in
+ place and returned, so it can be chained).
+. 
+.PP
+.PP
+\fBcandidates\fB \fR\- 
+ a character vector of the candidate regulator gene id; the discovery only searches
+ inside this set, it never guesses the candidate space by itself.
+ 
+ to make a non-transcription-factor perturbation target able to propagate to its
+ downstream genes, the target gene itself must be included in this candidate set.
+. 
+.PP
+.PP
+\fBmax_per_gene\fB \fR\- 
+ the maximum number of the new edges that could be accepted for each target gene,
+ default is 2.
+. 
+.PP
+.PP
+\fBmax_candidates\fB \fR\- 
+ the maximum number of the candidates that are tried for each target gene (each try
+ costs one more model fitting), default is 5.
+. 
+.PP
+.PP
+\fBmin_correlation\fB \fR\- 
+ the minimal |pearson r| between the target gene residual and the candidate gene
+ expression, default is 0.1.
+. 
+.PP
+.PP
+\fBmin_delta_r2\fB \fR\- 
+ the minimal validation R² gain that is required for accepting one new edge,
+ default is 0.002.
+. 
+.PP
+.PP
+\fBsample_size\fB \fR\- 
+ the number of the cells that are used by the residual correlation screening,
+ default is 1000, \fB0\fR uses all of the training cells.
+. 
+.PP
+.PP
+\fBmax_genes\fB \fR\- 
+ only the first n target genes run the discovery, \fB0\fR means all of them (useful for
+ a quick trial).
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+the input configuration object with \fBEdgeDiscovery = ResidualTwoStage\fR; an R#
+ error message object is returned when the candidate set is empty or the resulting
+ configuration is invalid.
+.PP
+.SH DETAILS
+.PP
+The discovery runs in two stages:
+ 
+
+
+ 
+1. only the ARACNE edges are used to fit the target gene model, and the residual
+ (label - prediction) is computed;
+2. the candidates are ranked by the correlation with the residual, then they are added
+ into the feature set one by one; a candidate is accepted as a new regulation edge
+ only when the validation R² gain is above \fBmin_delta_r2\fR and the feature is
+ actually used by the trees.
+
+
+ 
+
+
+ the ARACNE edges are always kept, the accepted edges are appended after them, so the
+ topology of a discovery model is still comparable with the previous models.
+.PP
+.SH EXAMPLES
+.PP
+imports ["geneTree"] from "biosystem";
+ 
+ let tfs = read.csv("./tfs.csv");
+ let opts = geneTree::make_profile("fast", population = 100, max_regulators = 10)
+          |> geneTree::discovery(tfs$gene_id, max_per_gene = 2);
+ let grn = geneTree::new(aracne, expr, opts) |> fit_tree();
+ geneTree::discovered_edges(grn, top_n = 100) |> print();
+.PP
+.SH SEE ALSO
+geneTree
+.SH FILES
+.PP
+biosystem.dll
+.PP

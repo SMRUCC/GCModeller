@@ -120,7 +120,7 @@ Namespace SequenceModel.NucleotideModels
         ''' 用户定义的标签数据，有时候用于在不同的序列之间唯一的标记当前的这条序列
         ''' </summary>
         ''' <returns></returns>
-        Public Property UserTag As String
+        Public Property tag As String
 
         ''' <summary>
         ''' 字符串形式的序列数据
@@ -133,7 +133,7 @@ Namespace SequenceModel.NucleotideModels
                 Return _innerSeqCache
             End Get
             Set(value As String)
-                _innerSeqModel = NucleicAcid.Enums(value).AsList
+                _innerSeqModel = NucleicAcid.Enums(value).ToArray
                 MyBase.SequenceData = value
                 _innerSeqCache = value
             End Set

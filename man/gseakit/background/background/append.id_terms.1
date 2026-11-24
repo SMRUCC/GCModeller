@@ -1,0 +1,39 @@
+.\" man page create by R# package system.
+.TH BACKGROUND 2 2000-1月 "append.id_terms" "append.id_terms"
+.SH NAME
+append.id_terms \- Append id terms to a given gsea background
+.SH SYNOPSIS
+\fIappend.id_terms(\fBbackground\fR as <generic> Background, 
+\fBterm_name\fR as string, 
+\fBterms\fR as list, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Append id terms to a given gsea background
+.PP
+.SH OPTIONS
+.PP
+\fBbackground\fB \fR\- the GSEA background model object, this model will be modified in place.. 
+.PP
+.PP
+\fBterm_name\fB \fR\- the term name that will be written into the \fBname\fR field of the :class:\fBBackgroundGene.term_id\fR.. 
+.PP
+.PP
+\fBterms\fB \fR\- 
+ a named list of the term id vector, the name of each slot is the gene id and the
+ value is the term id vector of that gene.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment.. 
+.PP
+.SH VALUE
+.PP
+the given background model with the new term id information appended.
+.PP
+.SH SEE ALSO
+background
+.SH FILES
+.PP
+gseakit.dll
+.PP

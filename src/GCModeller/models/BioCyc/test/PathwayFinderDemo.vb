@@ -208,6 +208,8 @@ Module PathwayFinderDemo
         For Each p As PathDto In report.Paths
             Console.WriteLine($"   -- {p.Id}: 全局分 {p.GlobalScore:F3}（热力学 {p.ThermoScore:F2}，" &
                               $"酶可得性 {p.EnzymeScore:F2}，长度 {p.LengthScore:F2}），ΔG 合计 {p.DeltaGTotal}，{p.NumSteps} 步")
+            Console.WriteLine($"      起始代谢物: {p.StartMetabolite}")
+            Console.WriteLine($"      目标化合物: {p.TargetMetabolite}")
 
             Dim i As Integer = 1
             For Each s As ForwardStepDto In p.Steps

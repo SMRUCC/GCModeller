@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.GCModeller.ModellingEngine.IO.vcXML.vcPerturbation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>vcPerturbation {SMRUCC.genomics.GCModeller.ModellingEngine.IO.vcXML}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>vcPerturbation</h2>
+
+        <h3>Description</h3>
+
+        <p>虚拟扰动：基因敲除/过表达、培养基切换、温度切换等。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.GCModeller.ModellingEngine.IO.vcXML
+export class vcPerturbation {
+   cvParams: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/IO/vcXML/cvParam.html">cvParam[]</a>;
+   # 结束帧号（含）；0 表示持续到结束
+   endTick: integer;
+   id: string;
+   # 起始帧号（含）
+   startTick: integer;
+   targets: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/IO/vcXML/vcPerturbationTarget.html">vcPerturbationTarget[]</a>;
+   # gene-knockout / overexpression / medium-shift / temperature-shift / custom
+   type: string;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>cvParams</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/IO/vcXML/cvParam.html">cvParam</a></li>
+<li>use by <i>property</i> member <code>targets</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/IO/vcXML/vcPerturbationTarget.html">vcPerturbationTarget</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

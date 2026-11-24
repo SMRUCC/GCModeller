@@ -1,0 +1,32 @@
+.\" man page create by R# package system.
+.TH GENETREE 1 2000-1月 "write_report" "write_report"
+.SH NAME
+write_report \- Export the training report as two readable table files.
+.SH SYNOPSIS
+\fIwrite_report(\fBreport\fR as <generic> TrainingReport, 
+\fBfolder\fR as string);\fR
+.SH DESCRIPTION
+.PP
+Export the training report as two readable table files.
+.PP
+.SH OPTIONS
+.PP
+\fBreport\fB \fR\- the [TrainingReport](cref:T:SMRUCC.genomics.Analysis.GeneTree.TrainingReport) object returned by the \fBfit_tree\fR api.. 
+.PP
+.PP
+\fBfolder\fB \fR\- 
+ the output directory: the \fBreport.tsv\fR(fitting quality of each gene model) and
+ the \fBimportance.tsv\fR(split importance of each regulator) files are written
+ into this directory, it will be created if it is not exists.
+. 
+.PP
+.SH VALUE
+.PP
+TRUE when the table files have been written.
+.PP
+.SH SEE ALSO
+geneTree
+.SH FILES
+.PP
+biosystem.dll
+.PP

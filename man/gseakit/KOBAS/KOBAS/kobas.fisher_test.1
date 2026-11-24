@@ -1,0 +1,36 @@
+.\" man page create by R# package system.
+.TH KOBAS 1 2000-1月 "kobas.fisher_test" "kobas.fisher_test"
+.SH NAME
+kobas.fisher_test \- The Fisher exact test (greater / enrichment tail) of a 2x2 contingency table.
+.SH SYNOPSIS
+\fIkobas.fisher_test(\fBa\fR as integer, 
+\fBb\fR as integer, 
+\fBc\fR as integer, 
+\fBd\fR as integer);\fR
+.SH DESCRIPTION
+.PP
+The Fisher exact test (greater / enrichment tail) of a 2x2 contingency table.
+.PP
+.SH OPTIONS
+.PP
+\fBa\fB \fR\- the upper left cell: the members of the term in the foreground list.. 
+.PP
+.PP
+\fBb\fB \fR\- the upper right cell: the foreground members that are not in the term.. 
+.PP
+.PP
+\fBc\fB \fR\- the lower left cell: the term members that are not in the foreground.. 
+.PP
+.PP
+\fBd\fB \fR\- the lower right cell: the members that are neither in the term nor in the foreground.. 
+.PP
+.SH VALUE
+.PP
+the p-value.
+.PP
+.SH SEE ALSO
+KOBAS
+.SH FILES
+.PP
+gseakit.dll
+.PP

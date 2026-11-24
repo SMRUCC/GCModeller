@@ -1,64 +1,65 @@
 ﻿#Region "Microsoft.VisualBasic::0d9155ec74751b1e78aec7d4667796fc, analysis\Microarray\CausalModeling\Statistics.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 394
-    '    Code Lines: 304 (77.16%)
-    ' Comment Lines: 48 (12.18%)
-    '    - Xml Docs: 75.00%
-    ' 
-    '   Blank Lines: 42 (10.66%)
-    '     File Size: 13.62 KB
+' Summaries:
 
 
-    ' Module Statistics
-    ' 
-    '     Function: AddIntercept, BetaCF, BootstrapSample, ColMean, ColStd
-    '               ColVar, CorrelationMatrix, CovarianceMatrix, IncompleteBeta, LogGamma
-    '               Mean, NormalCDF, OLSRegression, Pearson, PearsonMat
-    '               Quantile, Standardize, TDistTwoTail
-    ' 
-    ' Class OLSResult
-    ' 
-    '     Properties: AdjR2, Coefficients, NumPredictors, PValues, R2
-    '                 Residuals, SampleSize, StdErrors, TValues
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 394
+'    Code Lines: 304 (77.16%)
+' Comment Lines: 48 (12.18%)
+'    - Xml Docs: 75.00%
+' 
+'   Blank Lines: 42 (10.66%)
+'     File Size: 13.62 KB
+
+
+' Module Statistics
+' 
+'     Function: AddIntercept, BetaCF, BootstrapSample, ColMean, ColStd
+'               ColVar, CorrelationMatrix, CovarianceMatrix, IncompleteBeta, LogGamma
+'               Mean, NormalCDF, OLSRegression, Pearson, PearsonMat
+'               Quantile, Standardize, TDistTwoTail
+' 
+' Class OLSResult
+' 
+'     Properties: AdjR2, Coefficients, NumPredictors, PValues, R2
+'                 Residuals, SampleSize, StdErrors, TValues
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports Microsoft.VisualBasic.Math.Correlations
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis
 
@@ -95,28 +96,6 @@ Public Module Statistics
         Return s * s
     End Function
 
-    ''' <summary>计算两列的 Pearson 相关系数</summary>
-    Public Function Pearson(x As Double(), y As Double()) As Double
-        Dim n = x.Length
-        Dim mx = 0.0, my = 0.0
-        For i = 0 To n - 1
-            mx += x(i) : my += y(i)
-        Next
-        mx /= n : my /= n
-
-        Dim sxy = 0.0, sxx = 0.0, syy = 0.0
-        For i = 0 To n - 1
-            Dim dx = x(i) - mx
-            Dim dy = y(i) - my
-            sxy += dx * dy
-            sxx += dx * dx
-            syy += dy * dy
-        Next
-
-        If sxx < 1.0E-30 OrElse syy < 1.0E-30 Then Return 0.0
-        Return sxy / Math.Sqrt(sxx * syy)
-    End Function
-
     ''' <summary>计算两列的 Pearson 相关系数（矩阵版）</summary>
     Public Function PearsonMat(data As Double(,), col1 As Integer, col2 As Integer) As Double
         Dim n = data.GetLength(0)
@@ -126,7 +105,7 @@ Public Module Statistics
             x(i) = data(i, col1)
             y(i) = data(i, col2)
         Next
-        Return Pearson(x, y)
+        Return Correlations.GetPearson(x, y)
     End Function
 
     ''' <summary>计算相关系数矩阵</summary>
@@ -385,14 +364,14 @@ Public Module Statistics
 
     ''' <summary>Log Gamma 函数（Lanczos 近似）</summary>
     Public Function LogGamma(x As Double) As Double
-        Dim cof() As Double = {76.18009172947146, -86.50532032941677,
-                                24.01409824083091, -1.231739572450155,
-                                0.1208650973866179E-2, -0.5395239384953E-5}
-        Dim stp = 2.5066282746310005
+        Dim cof() As Double = {76.180091729471457, -86.505320329416776,
+                                24.014098240830911, -1.231739572450155,
+                                0.001208650973866179, -0.000005395239384953}
+        Dim stp = 2.5066282746310007
         Dim x1 = x + 1.0
         Dim tmp = x + 5.5
         tmp -= (x + 0.5) * Math.Log(tmp)
-        Dim ser = 1.000000000190015
+        Dim ser = 1.0000000001900149
         For j = 0 To 5
             ser += cof(j) / x1
             x1 += 1.0
@@ -415,28 +394,6 @@ Public Module Statistics
             Next
         Next
         Return sample
-    End Function
-
-    ''' <summary>计算均值</summary>
-    Public Function Mean(x As Double()) As Double
-        Dim sum = 0.0
-        For Each v In x
-            sum += v
-        Next
-        Return sum / x.Length
-    End Function
-
-    ''' <summary>计算分位数（线性插值法）</summary>
-    Public Function Quantile(x As Double(), q As Double) As Double
-        Dim sorted(x.Length - 1) As Double
-        Array.Copy(x, sorted, x.Length)
-        Array.Sort(sorted)
-        Dim pos = q * (sorted.Length - 1)
-        Dim lower = CInt(Math.Floor(pos))
-        Dim upper = CInt(Math.Ceiling(pos))
-        If lower = upper Then Return sorted(lower)
-        Dim frac = pos - lower
-        Return sorted(lower) * (1 - frac) + sorted(upper) * frac
     End Function
 
 End Module

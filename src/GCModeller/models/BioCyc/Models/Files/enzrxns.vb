@@ -92,7 +92,7 @@ Public Class enzrxns : Inherits Model
     ''' 而对于每一个Reaction对象而言，其EnzymaticReaction也为一个列表，即某一个反应可以被几个酶分子进行催化
     ''' </remarks>
     <AttributeField("REACTION")>
-    Public Property reaction As String
+    Public Property reaction As String()
 
     ''' <summary>
     ''' This slot specifies the directionality of a reaction. This slot is used in slightly different 
@@ -151,6 +151,13 @@ Public Class enzrxns : Inherits Model
     Public Property EC_number As ECNumber
     <AttributeField("VMAX")>
     Public Property Vmax As Double
+
+    <AttributeField("ENZRXN-IN-PATHWAY")> Public Property inPathway As String()
+    <AttributeField("ALTERNATIVE-COFACTORS")> Public Property alternativeCofactors As String()
+    <AttributeField("BASIS-FOR-ASSIGNMENT")> Public Property basisForAssignment As String()
+    <AttributeField("REQUIRED-PROTEIN-COMPLEX")> Public Property requiredProteinComplex As String()
+    <AttributeField("COFACTOR-BINDING-COMMENT")> Public Property cofactorBindingComment As String
+    <AttributeField("DBLINKS")> Public Property dbLinks As String()
 
 End Class
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::919e452450838cfe27a252cd8313eb23, mime\text%html\Test\MarkdownTranslate.vb"
+﻿#Region "Microsoft.VisualBasic::1e0ae7f7625d64473edd8fdd8ec1458f, mime\text%html\Test\MarkdownTranslate.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 27 (40.30%)
-    '     File Size: 954 B
+    '     File Size: 958 B
 
 
     ' Module MarkdownTranslate
@@ -109,10 +109,10 @@ Dim a$ = "12345"
 
     Sub Main()
 
-        Dim codeTest = New MarkdownHTML().Transform(codeBlockTest)
+        Dim codeTest = New MarkdownRender().Transform(codeBlockTest)
 
 
-        Dim html = New MarkdownHTML().Transform(testMarkdown)
+        Dim html = New MarkdownRender().Transform(testMarkdown)
 
 
         Pause()

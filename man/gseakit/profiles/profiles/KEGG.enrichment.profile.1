@@ -1,0 +1,34 @@
+.\" man page create by R# package system.
+.TH PROFILES 1 2000-1月 "KEGG.enrichment.profile" "KEGG.enrichment.profile"
+.SH NAME
+KEGG.enrichment.profile \- A method for cast the kegg enrichment result to the
+.SH SYNOPSIS
+\fIKEGG.enrichment.profile(\fBenrichments\fR as any, 
+\fBtop\fR as integer = 10, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+A method for cast the kegg enrichment result to the 
+ category profiles for run data visualization
+.PP
+.SH OPTIONS
+.PP
+\fBenrichments\fB \fR\- the kobas [EnrichmentTerm](cref:T:SMRUCC.genomics.Analysis.Microarray.KOBAS.EnrichmentTerm) or gcmodeller [EnrichmentResult](cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.EnrichmentResult).. 
+.PP
+.PP
+\fBtop\fB \fR\- display the top n enriched pathway terms of each KEGG category.. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment.. 
+.PP
+.SH VALUE
+.PP
+a [CatalogProfiles](cref:T:SMRUCC.genomics.ComponentModel.Annotation.CatalogProfiles) object, the name of each catalog is the KEGG category
+ and the value is the top enriched pathway terms of that category.
+.PP
+.SH SEE ALSO
+profiles
+.SH FILES
+.PP
+gseakit.dll
+.PP

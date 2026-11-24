@@ -1,27 +1,27 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <RootNamespace>Microsoft.VisualBasic.Data.Plots</RootNamespace>
     <TargetFramework>net10.0</TargetFramework>
     <Platforms>AnyCPU;x64</Platforms>
-    <Version>1.0.9758.20045</Version>
-    <AssemblyVersion>1.0.9758.20045</AssemblyVersion>
+    <Version>10.8.9818.14504</Version>
+    <AssemblyVersion>1.0.9818.14504</AssemblyVersion>
     <AssemblyName>Microsoft.VisualBasic.Data.DataPlot</AssemblyName>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <OutputPath>../../../.nuget</OutputPath>
-    <Configurations>Debug;Release;nuget_release</Configurations>
-    <Title>DataPlot: GDI+ Chart Engine with ggplot2-Style Theme Units</Title>
-    <Description>Standalone GDI+ charting engine for sciBASIC#: scatter, line, bar, histogram, box, violin, jitter, bubble, pie, radar, rose, heatmap, chord, Sankey and treemap plots rendered onto a bitmap with ggplot2-style theme units and automatic pixel layout.</Description>
-    <AssemblyTitle>Microsoft.VisualBasic.Data.DataPlot</AssemblyTitle>
+    <Configurations>Debug;Release;nuget_release;Rsharp_app_release</Configurations>
+    <Title>GDI+ Chart Engine with ggplot2-Style Themes and 3D Plots</Title>
+    <Description>A standalone GDI+ charting engine for sciBASIC#: scatter, line, bar, box, violin, heatmap, contour, Sankey, chord, treemap and venn plots plus statistics charts such as ROC, QQ, forest, PCA and Manhattan, rendered with ggplot2-style theme units and automatic pixel layout.</Description>
+    <AssemblyTitle>Microsoft.VisualBasic.Data.Plots</AssemblyTitle>
     <Authors>xieguigang &lt;I@xieguigang.me&gt;</Authors>
     <Company>sciBASIC.NET Foundation</Company>
     <Copyright>Copyright (c) sciBASIC.NET Foundation</Copyright>
     <PackageProjectUrl>http://scibasic.net/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/xieguigang/sciBASIC</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageTags>scibasic;dataplot;chart;plotting;gdi-plus;ggplot-theme;data-visualization;boxplot;violin-plot;heatmap;sankey;treemap</PackageTags>
-    <PackageReleaseNotes>DataPlot is a standalone GDI+ charting engine for sciBASIC#. It renders scatter, line, bar, histogram, box, violin, jitter, bubble, pie, radar, rose, heatmap, chord, Sankey and treemap plots onto a bitmap using ggplot2 style theme units - theme elements such as axis, plot background, grid and legend are described as composable units and combined into a theme - with automatic pixel layout so that axes, labels and legends are positioned without manual coordinates. The GgplotTheme namespace holds the theme definitions, and because the engine is independent of the other plotting packages it works both as a general charting library and as the rendering backend for higher level statistics oriented plot packages.</PackageReleaseNotes>
+    <PackageTags>scibasic;chart;plotting;ggplot-theme;gdi-plus;heatmap;sankey</PackageTags>
+    <PackageReleaseNotes>This cycle: Added code style improvments; Added missing component project; Enable optimization.</PackageReleaseNotes>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <PackageIcon>logo-knot.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
@@ -33,6 +33,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='nuget_release|x64'">
     <PlatformTarget>x64</PlatformTarget>
     <OutputPath>../../../.nuget/</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>../../../.nuget/</OutputPath>
+    <Optimize>true</Optimize>
   </PropertyGroup>
 
   <ItemGroup>

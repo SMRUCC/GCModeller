@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4781baf8d1c0e4246eb5cd33fca020fc, Data_science\MachineLearning\DeepLearning\CNN\Layers\ConvolutionLayer.vb"
+﻿#Region "Microsoft.VisualBasic::dcebd11c5b16796e57c65b8aafdc535c, Data_science\MachineLearning\DeepLearning\CNN\Layers\ConvolutionLayer.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 217
-    '    Code Lines: 156 (71.89%)
-    ' Comment Lines: 20 (9.22%)
-    '    - Xml Docs: 30.00%
+    '   Total Lines: 249
+    '    Code Lines: 134 (53.82%)
+    ' Comment Lines: 73 (29.32%)
+    '    - Xml Docs: 71.23%
     ' 
-    '   Blank Lines: 41 (18.89%)
-    '     File Size: 8.76 KB
+    '   Blank Lines: 42 (16.87%)
+    '     File Size: 11.42 KB
 
 
     '     Class ConvolutionLayer
@@ -49,20 +49,9 @@
     ' 
     '         Constructor: (+2 Overloads) Sub New
     ' 
-    '         Function: forward, ToString
+    '         Function: forward, PackFilters, ToString
     ' 
-    '         Sub: backward
-    '         Class ForwardTask
-    ' 
-    '             Constructor: (+1 Overloads) Sub New
-    '             Sub: Solve
-    ' 
-    '         Class BackwardTask
-    ' 
-    '             Constructor: (+1 Overloads) Sub New
-    '             Sub: Solve
-    ' 
-    ' 
+    '         Sub: backward, UnpackFilterGradients
     ' 
     ' 
     ' /********************************************************************************/
@@ -72,7 +61,9 @@
 Imports System.Runtime.Serialization
 Imports Microsoft.VisualBasic.MachineLearning.CNN.data
 Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
+Imports Microsoft.VisualBasic.MachineLearning.TensorFlow.Compute
 Imports Microsoft.VisualBasic.Parallel
+Imports tpl = System.Threading.Tasks
 Imports std = System.Math
 
 Namespace CNN.layers
@@ -122,6 +113,46 @@ Namespace CNN.layers
         Public ReadOnly Property Type As LayerTypes Implements Layer.Type
             Get
                 Return LayerTypes.Convolution
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' Gets the input geometry (width, height, channels) recorded when this layer was created.
+        ''' </summary>
+        ''' <remarks>供模型序列化（例如 ONNX 导出）使用，避免外部程序集反射私有字段。</remarks>
+        ''' <returns>A snapshot of the input size.</returns>
+        Public ReadOnly Property InputShape As OutputDefinition
+            Get
+                Return New OutputDefinition(in_sx, in_sy, in_depth)
+            End Get
+        End Property
+
+        ''' <summary>Gets the output geometry (width, height, channels) of this layer.</summary>
+        ''' <returns>A snapshot of the output size.</returns>
+        Public ReadOnly Property OutputShape As OutputDefinition
+            Get
+                Return New OutputDefinition(out_sx, out_sy, out_depth)
+            End Get
+        End Property
+
+        ''' <summary>Gets the side length of the (square) convolution kernel.</summary>
+        Public ReadOnly Property KernelSize As Integer
+            Get
+                Return sx
+            End Get
+        End Property
+
+        ''' <summary>Gets the stride of the convolution window.</summary>
+        Public ReadOnly Property StrideSize As Integer
+            Get
+                Return stride
+            End Get
+        End Property
+
+        ''' <summary>Gets the width of the zero padding applied around the input.</summary>
+        Public ReadOnly Property PaddingSize As Integer
+            Get
+                Return padding
             End Get
         End Property
 
@@ -201,7 +232,16 @@ Namespace CNN.layers
             ' 因此输入只需要一次零拷贝的形状重解释, 算完把结果整块拷回即可
             Dim x4 As Tensor = db.Value4D
             Dim packed As Tensor = PackFilters()
-            Dim y = Tensor.computeKernel.Conv2D(x4, packed, biases.Value, stride, padding)
+            Dim bias As Tensor = biases.Value
+
+            ' 卷积是典型的算力密集算子：规模达标时降到单精度计算再升回双精度。
+            ' MixedPrecisionOps 返回 Nothing 表示判据不成立（或数据里有非有限值），
+            ' 此时保持原来的双精度路径。
+            Dim y = MixedPrecisionOps.Conv2D(x4, packed, bias, stride, padding)
+
+            If y Is Nothing Then
+                y = Tensor.computeKernel.Conv2D(x4, packed, bias, stride, padding)
+            End If
 
             Call lA.SetValues(y.Data)
 
@@ -222,17 +262,22 @@ Namespace CNN.layers
             Dim dst As Tensor = Tensor.Zeros(New Integer() {sy, sx, inDepth, OutC})
             Dim w = dst.Data
 
-            For d As Integer = 0 To OutC - 1
-                Dim src = filters(d).w
+            ' 按输出通道并行：第 d 个通道只写 w 里"步长 OutC、偏移 d"的那一列，
+            ' 各通道写入位置互不相交，因此不需要锁。
+            ' 这是纯数据重排（带宽受限），搬 GPU 不会有收益，
+            ' 并行是这个四重循环唯一真实的加速来源。
+            tpl.Parallel.For(0, OutC,
+                Sub(d As Integer)
+                    Dim src = filters(d).w
 
-                For kh As Integer = 0 To sy - 1
-                    For kw As Integer = 0 To sx - 1
-                        For c As Integer = 0 To inDepth - 1
-                            w(((kh * sx + kw) * inDepth + c) * OutC + d) = src((sx * kh + kw) * inDepth + c)
+                    For kh As Integer = 0 To sy - 1
+                        For kw As Integer = 0 To sx - 1
+                            For c As Integer = 0 To inDepth - 1
+                                w(((kh * sx + kw) * inDepth + c) * OutC + d) = src((sx * kh + kw) * inDepth + c)
+                            Next
                         Next
                     Next
-                Next
-            Next
+                End Sub)
 
             Return dst
         End Function
@@ -251,19 +296,22 @@ Namespace CNN.layers
             Dim OutC = out_depth
             Dim src = packedGrad.Data
 
-            For d As Integer = 0 To OutC - 1
-                Dim dst = filters(d).dw
+            ' 同样按输出通道并行：每个通道只写自己的 filters(d).dw，互不重叠。
+            ' 循环体是**累加**而不是赋值（见上文说明），并行化不改变这一语义。
+            tpl.Parallel.For(0, OutC,
+                Sub(d As Integer)
+                    Dim dst = filters(d).dw
 
-                For kh As Integer = 0 To sy - 1
-                    For kw As Integer = 0 To sx - 1
-                        For c As Integer = 0 To inDepth - 1
-                            dst((sx * kh + kw) * inDepth + c) += src(((kh * sx + kw) * inDepth + c) * OutC + d)
+                    For kh As Integer = 0 To sy - 1
+                        For kw As Integer = 0 To sx - 1
+                            For c As Integer = 0 To inDepth - 1
+                                dst((sx * kh + kw) * inDepth + c) += src(((kh * sx + kw) * inDepth + c) * OutC + d)
+                            Next
                         Next
                     Next
-                Next
 
-                Call filters(d).MarkGradientModified()
-            Next
+                    Call filters(d).MarkGradientModified()
+                End Sub)
         End Sub
 
         ''' <summary>
@@ -271,7 +319,13 @@ Namespace CNN.layers
         ''' </summary>
         Public Overridable Sub backward() Implements Layer.backward
             ' zero out gradient wrt bottom data, we're about to fill it
-            Dim db As DataBlock = in_act.clearGradient()
+            ' (图的执行器会置 AccumulateGradient=True 并事先统一清零, 此时不能清零, 否则会丢掉
+            '  其它消费者(例如跳跃连接)已经写入本块的梯度)
+            Dim db As DataBlock = in_act
+
+            If Not AccumulateGradient Then
+                Call db.clearGradient()
+            End If
 
             Dim x4 As Tensor = db.Value4D
             Dim gradOut As Tensor = out_act.Grad4D
@@ -307,7 +361,7 @@ Namespace CNN.layers
             Dim gradInput = Tensor.computeKernel.Conv2DBackwardInput(
                 gradOut, filtersPacked, db.TensorShape4D, stride, padding)
 
-            Call db.SetGradients(gradInput.Data)
+            Call WriteInputGradient(db, gradInput.Data)
         End Sub
 
         ''' <summary>Returns a short description of this layer.</summary>

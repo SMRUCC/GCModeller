@@ -1,0 +1,45 @@
+.\" man page create by R# package system.
+.TH ANNOTATION.WORKFLOW 2 2000-1月 "read.outfmt6" "read.outfmt6"
+.SH NAME
+read.outfmt6 \- read ncbi blast output format 6 (tabular) file for blastn result mapping to genome sequence
+.SH SYNOPSIS
+\fIread.outfmt6(\fBfile\fR as any, 
+\fBmake_query_group\fR as boolean = FALSE, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+read ncbi blast output format 6 (tabular) file for blastn result mapping to genome sequence
+.PP
+.SH OPTIONS
+.PP
+\fBfile\fB \fR\- 
+ the input source: a file path of the blast output format 6 tabular 
+ table file, or a file stream object of the target table file.
+. 
+.PP
+.PP
+\fBmake_query_group\fB \fR\- 
+ group the hits result by the query id? if this parameter is TRUE, then 
+ a named list of the hits result group will be returned.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a vector of the [HitRecord](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult.WebBlast.HitRecord) blast hits result object, or a 
+ named list of the hits result group when the \fBmake_query_group\fR 
+ parameter is TRUE;
+ 
+ this function returns a R# error message object if the given file can 
+ not be opened for read.
+.PP
+.SH SEE ALSO
+annotation.workflow
+.SH FILES
+.PP
+seqtoolkit.dll
+.PP
+.SH AUTHOR
+Written by \fBxie.guigang@gcmodeller.org\fR

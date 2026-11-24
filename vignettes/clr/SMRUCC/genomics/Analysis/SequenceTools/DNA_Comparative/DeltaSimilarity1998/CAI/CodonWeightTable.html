@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.DeltaSimilarity1998.CAI.CodonWeightTable</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>CodonWeightTable {SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.DeltaSimilarity1998.CAI}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>CodonWeightTable</h2>
+
+        <h3>Description</h3>
+
+        <p>CODON ADAPTATION INDEX (CAI, Sharp &amp; Li) weight table.</p>
+
+<p>This specifies a reference set of genes, <code>H</code>, chosen from among "highly expressed genes". Defining</p>
+
+
+<pre><code>    w(codon) = f^H(codon) / max_{synonyms} f^H(.)</code></pre>
+
+
+<p>as the ratio of the frequency of the codon to the maximal codon frequency in <code>H</code> for the same amino acid, the CAI of a gene of length L is taken as</p>
+
+
+<pre><code>    CAI(gene) = (w1 * w2 * ... * wL)^(1/L)</code></pre>
+
+
+<p>(the geometric mean, computed numerically through the log-average).</p>
+
+<p>This is a two-step API: first build the w table from the reference gene set <code>H</code> (this class), then evaluate the target genes (see <a href="cref:M:SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.DeltaSimilarity1998.CAI.CodonAdaptationIndexEvaluation.CAI(SMRUCC.genomics.SequenceModel.FASTA.FastaSeq,SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.DeltaSimilarity1998.CAI.CodonWeightTable)">CodonAdaptationIndexEvaluation.CAI()</a>).</p>
+
+<p>(compatible rename of the legacy <code>RelativeCodonBiases</code> class, which mistakenly used each single ORF as its own reference set and thus always produced CAI values close to 1)</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.DeltaSimilarity1998.CAI
+export class CodonWeightTable {
+   GeneticCode: <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/NucleotideModels/Translation/GeneticCodes.html">GeneticCodes</a>;
+   # the display name of the reference gene set H
+   Name: string;
+   # Pseudocount assigned to the codons which are absent in the reference set H, expressed as an absolute count. Prevents the geometric mean from being zeroed out by a single unused codon.
+   PseudoCount: double;
+   # Total number of sense codons counted in the reference set H.
+   TotalCodons: integer;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>GeneticCode</code>: <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/NucleotideModels/Translation/GeneticCodes.html">GeneticCodes</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

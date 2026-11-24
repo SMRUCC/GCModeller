@@ -1,0 +1,71 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>Microsoft.VisualBasic.ApplicationServices.VM.JavaScript</RootNamespace>
+    <AssemblyName>Microsoft.VisualBasic.ApplicationServices.VM.JavaScript</AssemblyName>
+    <LangVersion>latest</LangVersion>
+    <Version>10.8.9818.14504</Version>
+    <Description>A lightweight JavaScript engine for sciBASIC#: lexes and parses JS source into an AST, runs it on a tree-walking interpreter with classes, promises, generators, async functions and source level stack traces, provides console, filesystem, path, buffer and process modules plus CLR interop, ships an interactive REPL and transpiles programs into standalone VB.NET classes.</Description>
+    <OptionStrict>On</OptionStrict>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionInfer>On</OptionInfer>
+    <Platforms>AnyCPU;x64</Platforms>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Configurations>Debug;Release;nuget_release</Configurations>
+    <Title>JavaScript Parser, Interpreter and VB.NET Code Generator</Title>
+    <AssemblyTitle>Microsoft.VisualBasic.ApplicationServices.VM.JavaScript</AssemblyTitle>
+    <Authors>xieguigang &lt;I@xieguigang.me&gt;</Authors>
+    <Company>sciBASIC.NET Foundation</Company>
+    <Copyright>Copyright (c) sciBASIC.NET Foundation</Copyright>
+    <PackageProjectUrl>http://scibasic.net/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/xieguigang/sciBASIC</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>scibasic;javascript;interpreter;parser;ast;code-generator;repl;nodejs;clr-interop;stack-trace</PackageTags>
+    <PackageReleaseNotes>This cycle: Improved handling of the js vm invoke clr function error; Fixed the vbs/js demo script; Added AST cuda kernel compiler for the javascript VM.</PackageReleaseNotes>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <PackageIcon>logo-knot.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <AssemblyVersion>1.0.9818.14504</AssemblyVersion>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <IncludeSymbols>True</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='nuget_release|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>../../.nuget/</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Runtime\Error\**" />
+    <Compile Remove="test\**" />
+    <EmbeddedResource Remove="Runtime\Error\**" />
+    <EmbeddedResource Remove="test\**" />
+    <None Remove="Runtime\Error\**" />
+    <None Remove="test\**" />
+    <Compile Remove="LiteJs.Runner\**" />
+    <EmbeddedResource Remove="LiteJs.Runner\**" />
+    <None Remove="LiteJs.Runner\**" />
+    <None Include="..\..\vs_solutions\logo-knot.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\..\mime\application%json\JSON-netcore5.vbproj" />
+    <ProjectReference Include="..\dev\VisualStudio\VisualStudio.NET5.vbproj" />
+  </ItemGroup>
+
+</Project>

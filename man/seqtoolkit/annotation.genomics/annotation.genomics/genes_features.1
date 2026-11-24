@@ -1,0 +1,37 @@
+.\" man page create by R# package system.
+.TH ANNOTATION.GENOMICS 2 2000-1月 "genes_features" "genes_features"
+.SH NAME
+genes_features \- Extract all gene features from a given genomics context assembly data
+.SH SYNOPSIS
+\fIgenes_features(\fBgenome\fR as any, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Extract all gene features from a given genomics context assembly data
+.PP
+.SH OPTIONS
+.PP
+\fBgenome\fB \fR\- 
+ the genomics context assembly data for extract its gene features, 
+ which can be a [PTT](cref:T:SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT) tabular table object or a 
+ [File](cref:T:SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.File) ncbi genbank database file object.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a vector of the [GeneBrief](cref:T:SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief) gene annotation object;
+ 
+ this function returns a R# error message object if the given genomics 
+ context data is not a supported data model.
+.PP
+.SH SEE ALSO
+annotation.genomics
+.SH FILES
+.PP
+seqtoolkit.dll
+.PP
+.SH AUTHOR
+Written by \fBxie.guigang@gcmodeller.org\fR

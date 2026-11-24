@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c59ae33089d607e89bd64816b3891bd6, Microsoft.VisualBasic.Core\src\Extensions\Math\Correlations\DistanceMethods.vb"
+﻿#Region "Microsoft.VisualBasic::def88a0e30f7b2aa1d5f08d3099ac562, Microsoft.VisualBasic.Core\src\Math\Correlations\DistanceMethods.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 319
-    '    Code Lines: 160 (50.16%)
-    ' Comment Lines: 118 (36.99%)
-    '    - Xml Docs: 89.83%
+    '   Total Lines: 321
+    '    Code Lines: 157 (48.91%)
+    ' Comment Lines: 124 (38.63%)
+    '    - Xml Docs: 85.48%
     ' 
-    '   Blank Lines: 41 (12.85%)
-    '     File Size: 11.95 KB
+    '   Blank Lines: 40 (12.46%)
+    '     File Size: 12.32 KB
 
 
     '     Module DistanceMethods
@@ -171,7 +171,14 @@ Namespace Math.Correlations
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function EuclideanDistance(a As IEnumerable(Of Double), b As IEnumerable(Of Double)) As Double
-            Return EuclideanDistance(a.ToArray, b.ToArray)
+            ' 已经是数组时直接走零分配的 Double() 重载，避免不必要的整表拷贝
+            Dim x As Double() = TryCast(a, Double())
+            Dim y As Double() = TryCast(b, Double())
+
+            If x Is Nothing Then x = a.ToArray
+            If y Is Nothing Then y = b.ToArray
+
+            Return EuclideanDistance(x, y)
         End Function
 
         ''' <summary>
@@ -207,11 +214,13 @@ Namespace Math.Correlations
             If X.Length <> Y.Length Then
                 Throw New ArgumentException(DimNotAgree)
             Else
-                Dim v = SIMD.Exponent.f64_op_exponent_f64_scalar(SIMD.Subtract.f64_op_subtract_f64(X, Y), 2)
-                Dim sum As Double = v.Sum
-                Dim distance As Double = std.Sqrt(sum)
-
-                Return distance
+                ' 使用 Math.SIMD 引擎的单趟零分配距离平方内核 SimdReduce.DistanceSquared。
+                '
+                ' 旧实现（SIMD.Subtract + SIMD.Exponent）会为每一对向量分配两个临时数组，
+                ' 在 n^2 量级的成对距离计算（例如层次聚类的距离矩阵构建，调用次数为 O(n^2)）
+                ' 中带来巨大的 GC 压力与多余的内存带宽开销；新内核单趟完成计算，
+                ' 使用 4 路累加器向量化，无任何堆分配
+                Return std.Sqrt(SIMD.SimdReduce.DistanceSquared(X, Y))
             End If
         End Function
 
@@ -289,7 +298,14 @@ Namespace Math.Correlations
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function SquareDistance(x As Double(), v As Double()) As Double
-            Return SIMD.Exponent.f64_op_exponent_f64_scalar(SIMD.Subtract.f64_op_subtract_f64(x, v), 2).Sum
+            ' 单趟、零分配：旧实现 Subtract → Exponent → Sum 会为每对向量分配两个临时数组，
+            ' 在 O(n^2) 量级的成对距离计算（fuzzy c-means / canopy / bisecting k-means）
+            ' 中是纯 GC 压力，这里直接调用 SIMD 单趟内核。
+            If x.Length <> v.Length Then
+                Throw New ArgumentException(DimNotAgree)
+            End If
+
+            Return SIMD.SimdReduce.DistanceSquared(x, v)
         End Function
 
         ''' <summary>
@@ -301,7 +317,13 @@ Namespace Math.Correlations
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function SquareDistance(a As IVector, v As Double()) As Double
-            Return SIMD.Exponent.f64_op_exponent_f64_scalar(SIMD.Subtract.f64_op_subtract_f64(a.Data, v), 2).Sum
+            Dim data As Double() = a.Data
+
+            If data.Length <> v.Length Then
+                Throw New ArgumentException(DimNotAgree)
+            End If
+
+            Return SIMD.SimdReduce.DistanceSquared(data, v)
         End Function
 
         ''' <summary>
@@ -314,13 +336,52 @@ Namespace Math.Correlations
         <Extension>
         Public Function SquareDistance(x As Span(Of Double), y As Span(Of Double)) As Double
             Dim len As Integer = x.Length
-            Dim v As Double() = New Double(len - 1) {}
 
-            For i As Integer = 0 To len - 1
-                v(i) = x(i) - y(i)
+            If len <> y.Length Then
+                Throw New ArgumentException(DimNotAgree)
+            End If
+            If len = 0 Then Return 0.0
+
+            ' Span 无法直接交给 Vector(Of T) 的数组构造器，但 .NET 8+ 提供了
+            ' 从 ReadOnlySpan 构造向量的重载；这里按 4 路累加器保持与数组版本一致的吞吐。
+            Dim count As Integer = System.Numerics.Vector(Of Double).Count
+            Dim step4 As Integer = count * 4
+            Dim ones As New System.Numerics.Vector(Of Double)(1.0)
+            Dim acc0 As System.Numerics.Vector(Of Double) = System.Numerics.Vector(Of Double).Zero
+            Dim acc1 As System.Numerics.Vector(Of Double) = System.Numerics.Vector(Of Double).Zero
+            Dim acc2 As System.Numerics.Vector(Of Double) = System.Numerics.Vector(Of Double).Zero
+            Dim acc3 As System.Numerics.Vector(Of Double) = System.Numerics.Vector(Of Double).Zero
+            Dim i As Integer = 0
+            Dim total As Double = 0
+
+            If SIMD.SIMDEnvironment.IsEnabled AndAlso len >= step4 Then
+                Dim last4 As Integer = len - step4
+
+                Do While i <= last4
+                    Dim d0 As System.Numerics.Vector(Of Double) = System.Numerics.Vector.Subtract(Of Double)(New System.Numerics.Vector(Of Double)(x.Slice(i, count)), New System.Numerics.Vector(Of Double)(y.Slice(i, count)))
+                    Dim d1 As System.Numerics.Vector(Of Double) = System.Numerics.Vector.Subtract(Of Double)(New System.Numerics.Vector(Of Double)(x.Slice(i + count, count)), New System.Numerics.Vector(Of Double)(y.Slice(i + count, count)))
+                    Dim d2 As System.Numerics.Vector(Of Double) = System.Numerics.Vector.Subtract(Of Double)(New System.Numerics.Vector(Of Double)(x.Slice(i + count * 2, count)), New System.Numerics.Vector(Of Double)(y.Slice(i + count * 2, count)))
+                    Dim d3 As System.Numerics.Vector(Of Double) = System.Numerics.Vector.Subtract(Of Double)(New System.Numerics.Vector(Of Double)(x.Slice(i + count * 3, count)), New System.Numerics.Vector(Of Double)(y.Slice(i + count * 3, count)))
+
+                    acc0 = System.Numerics.Vector.Add(Of Double)(acc0, System.Numerics.Vector.Multiply(Of Double)(d0, d0))
+                    acc1 = System.Numerics.Vector.Add(Of Double)(acc1, System.Numerics.Vector.Multiply(Of Double)(d1, d1))
+                    acc2 = System.Numerics.Vector.Add(Of Double)(acc2, System.Numerics.Vector.Multiply(Of Double)(d2, d2))
+                    acc3 = System.Numerics.Vector.Add(Of Double)(acc3, System.Numerics.Vector.Multiply(Of Double)(d3, d3))
+
+                    i += step4
+                Loop
+
+                acc0 = System.Numerics.Vector.Add(Of Double)(System.Numerics.Vector.Add(Of Double)(acc0, acc1),
+                                                             System.Numerics.Vector.Add(Of Double)(acc2, acc3))
+                total = System.Numerics.Vector.Dot(Of Double)(acc0, ones)
+            End If
+
+            For k As Integer = i To len - 1
+                Dim d As Double = x(k) - y(k)
+                total += d * d
             Next
 
-            Return SIMD.Exponent.f64_op_exponent_f64_scalar(v, 2).Sum
+            Return total
         End Function
 
         ''' <summary>

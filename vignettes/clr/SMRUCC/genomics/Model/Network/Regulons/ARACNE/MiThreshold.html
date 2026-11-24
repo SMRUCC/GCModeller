@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Model.Network.Regulons.ARACNE.MiThreshold</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>MiThreshold {SMRUCC.genomics.Model.Network.Regulons.ARACNE}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>MiThreshold</h2>
+
+        <h3>Description</h3>
+
+        <p>互信息显著性阈值 <code>tau</code> 的估计结果</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Model.Network.Regulons.ARACNE
+export class MiThreshold {
+   # 零分布所使用的互信息估计器
+   estimator: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/ARACNE/MiEstimator.html">MiEstimator</a>;
+   # 阈值的确定方式
+   mode: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/ARACNE/MiThresholdMode.html">MiThresholdMode</a>;
+   # 置换零分布的最大互信息
+   nullMax: double;
+   # 置换零分布的平均互信息(也就是“没有任何调控关系”时的估计偏置)
+   nullMean: double;
+   # 置换零分布的标准差
+   nullSD: double;
+   # 零分布所取的分位数(<a href="cref:F:SMRUCC.genomics.Model.Network.Regulons.ARACNE.MiThresholdMode.Fixed">MiThresholdMode.Fixed</a> 模式之下没有意义)
+   quantile: double;
+   # 每一个基因对被洗牌的次数
+   replicates: integer;
+   # 参与零分布估计的基因对数量
+   samples: integer;
+   # 显著性倍率：真实边所要求的互信息至少是零分布平均值的多少倍。
+   # 
+   # 这个数值用于判断阈值是否“过于宽松”(接近零分布的噪声水平)， 小于 1 说明当前的阈值完全落在噪声区间之内。
+   SignalRatio: double;
+   # 最终使用的互信息阈值：互信息低于这个数值的边会被过滤掉
+   value: double;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>estimator</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/ARACNE/MiEstimator.html">MiEstimator</a></li>
+<li>use by <i>property</i> member <code>mode</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/ARACNE/MiThresholdMode.html">MiThresholdMode</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

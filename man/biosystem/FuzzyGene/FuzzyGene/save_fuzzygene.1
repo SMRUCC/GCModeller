@@ -1,0 +1,37 @@
+.\" man page create by R# package system.
+.TH FUZZYGENE 1 2000-1月 "save_fuzzygene" "save_fuzzygene"
+.SH NAME
+save_fuzzygene \- Save a trained model into a \fB*.fuzzygene.zip\fR package.
+.SH SYNOPSIS
+\fIsave_fuzzygene(\fBfuzzygene\fR as <generic> FuzzyGeneModel, 
+\fBfile\fR as string, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Save a trained model into a \fB*.fuzzygene.zip\fR package.
+.PP
+.SH OPTIONS
+.PP
+\fBfuzzygene\fB \fR\- a trained model. 
+.PP
+.PP
+\fBfile\fB \fR\- the output package path. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment used to report errors. 
+.PP
+.SH VALUE
+.PP
+`True` when the package has been written
+.PP
+.SH DETAILS
+.PP
+\fBwriteBin\fR is the generic R# way to do the same thing on a connection; this api is a
+ convenience wrapper for scripts that already have a file path.
+.PP
+.SH SEE ALSO
+FuzzyGene
+.SH FILES
+.PP
+biosystem.dll
+.PP

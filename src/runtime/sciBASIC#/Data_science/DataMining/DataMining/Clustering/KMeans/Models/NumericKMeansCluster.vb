@@ -1,4 +1,4 @@
-#Region "Microsoft.VisualBasic::NumericKMeansCluster, Data_science\DataMining\DataMining\Clustering\KMeans\Models\NumericKMeansCluster.vb"
+﻿#Region "Microsoft.VisualBasic::b0e557e75aa2f2dfce12eded1f1f5316, Data_science\DataMining\DataMining\Clustering\KMeans\Models\NumericKMeansCluster.vb"
 
     ' Author:
     ' 
@@ -23,7 +23,36 @@
     ' GNU General Public License for more details.
     ' 
     ' You should have received a copy of the GNU General Public License
-    ' along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 111
+    '    Code Lines: 74 (66.67%)
+    ' Comment Lines: 18 (16.22%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 19 (17.12%)
+    '     File Size: 3.63 KB
+
+
+    '     Class NumericKMeansCluster
+    ' 
+    '         Properties: Center, ClusterMean, ClusterSum, NumOfEntity
+    ' 
+    '         Function: CalculateKMeansCost, EnumerateAll, GetEnumerator
+    ' 
+    '         Sub: Add, refresh
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -46,6 +75,11 @@ Namespace KMeans
         Private _sum As Double()
 
         ''' <summary>
+        ''' 均值中心的惰性缓存（<see cref="Add"/> / <see cref="refresh"/> 时失效）
+        ''' </summary>
+        Private _meanCache As Double()
+
+        ''' <summary>
         ''' 簇内所有样本的数值向量之和
         ''' </summary>
         Public ReadOnly Property ClusterSum As Double()
@@ -63,15 +97,24 @@ Namespace KMeans
         ''' <summary>
         ''' 簇内所有样本的均值中心点
         ''' </summary>
+        ''' <remarks>
+        ''' 结果会被缓存：旧实现每次读取该属性都会执行一次
+        ''' <c>Divide.f64_op_divide_f64_scalar</c>（新建长度 d 的数组），
+        ''' 在"每轮 × 每样本 × 每簇"的调用频率下会制造大量短命数组。
+        ''' </remarks>
         Public ReadOnly Property ClusterMean As Double()
             Get
                 Dim n As Integer = m_innerList.Count
 
                 If n = 0 OrElse _sum Is Nothing Then
-                    Return New Double() {}
+                    Return Array.Empty(Of Double)()
                 End If
 
-                Return Divide.f64_op_divide_f64_scalar(_sum, n)
+                If _meanCache Is Nothing Then
+                    _meanCache = Divide.f64_op_divide_f64_scalar(_sum, n)
+                End If
+
+                Return _meanCache
             End Get
         End Property
 
@@ -90,12 +133,19 @@ Namespace KMeans
         ''' 计算当前簇的 KMeans 代价（簇内样本到中心的平方距离之和）
         ''' </summary>
         Public Function CalculateKMeansCost() As Double
-            Dim cost As Double = 0
-            Dim distance As Double
+            ' 注意：局部变量不能叫 center —— VB 大小写不敏感，会遮蔽 Center 属性
+            Dim clusterCenter As Double() = Center
 
+            If clusterCenter Is Nothing Then
+                clusterCenter = ClusterMean
+            End If
+
+            Dim cost As Double = 0
+
+            ' 代价本身是平方距离之和：直接累加 SIMD 平方距离，
+            ' 省掉每点的 Sqrt + Pow（旧实现 std.Pow(d, 2) 比 d*d 慢一个数量级）
             For i As Integer = 0 To m_innerList.Count - 1
-                distance = m_innerList(i).EuclideanDistance(Center)
-                cost += std.Pow(distance, 2)
+                cost += SimdReduce.DistanceSquared(m_innerList(i), clusterCenter)
             Next
 
             Return cost
@@ -103,6 +153,8 @@ Namespace KMeans
 
         Public Overrides Sub Add(row As Double(), Optional index As Integer = -1, Optional id As String = Nothing)
             Call MyBase.Add(row, index, id)
+
+            _meanCache = Nothing
 
             If m_innerList.Count = 1 Then
                 _sum = row.ToArray
@@ -124,6 +176,7 @@ Namespace KMeans
                 Call m_indices.Clear()
                 Call m_rowIds.Clear()
                 _sum = Nothing
+                _meanCache = Nothing
             End If
         End Sub
 

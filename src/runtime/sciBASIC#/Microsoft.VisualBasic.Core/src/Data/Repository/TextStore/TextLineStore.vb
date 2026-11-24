@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::54a667fb841dace8d3136fc88929393b, Microsoft.VisualBasic.Core\src\Data\Repository\TextStore\TextLineStore.vb"
+﻿#Region "Microsoft.VisualBasic::050e0f08cdf53412397c468ba15c388b, Microsoft.VisualBasic.Core\src\Data\Repository\TextStore\TextLineStore.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 1126
-    '    Code Lines: 956 (84.90%)
-    ' Comment Lines: 61 (5.42%)
-    '    - Xml Docs: 42.62%
+    '   Total Lines: 1237
+    '    Code Lines: 1015 (82.05%)
+    ' Comment Lines: 93 (7.52%)
+    '    - Xml Docs: 51.61%
     ' 
-    '   Blank Lines: 109 (9.68%)
-    '     File Size: 50.53 KB
+    '   Blank Lines: 129 (10.43%)
+    '     File Size: 56.05 KB
 
 
     '     Class TextLineStore
@@ -58,12 +58,14 @@
     '  
     ' 
     '     Properties: BaseLineCount, DataFilePath, FileNewLine, HasPendingChanges, IndexFilePath
-    '                 IndexGranularity, LogFilePath, PendingBufferedLineCount, PendingOperationCount, TotalLines
+    '                 IndexGranularity, IsReadOnlyMode, LogFilePath, PendingBufferedLineCount, PendingOperationCount
+    '                 TotalLines
     ' 
     '     Constructor: (+1 Overloads) Sub New
     ' 
-    '     Function: FindLastNewlineOffset, IsAppendOnlyLayout, Materialize, ReadAndRecoverLog, ReadLine
-    '               (+2 Overloads) ReadLines, ReadOriginalLines, SnapshotPieces, TryLoadIndexFile, WriteLineBytes
+    '     Function: AcquireLock, FindLastNewlineOffset, IsAppendOnlyLayout, Materialize, ReadAndRecoverLog
+    '               ReadLine, (+2 Overloads) ReadLines, ReadOriginalLines, SnapshotPieces, TryLoadIndexFile
+    '               TryMerge, WriteLineBytes
     ' 
     '     Sub: AppendLine, AppendLines, ApplySplice, CleanupTempFiles, CloseReader
     '          CoalesceOriginalPieces, DeleteLine, DeleteLines, DetectBomAndNewLine, Dispose
@@ -616,7 +618,10 @@ Namespace Data.Repository
 
         Private Function IsAppendOnlyLayout() As Boolean
             If _baseLineCount = 0 Then Return True
-            If _pieces.Count = 0 Then Return True
+            ' 当全部原始行都被删除（片段表为空）时，数据文件必须被完全重写截断，
+            ' 否则被删除的行会在下一次打开时复活。此处的快速追加合并只处理
+            ' 「所有修改都发生在文件末尾」的布局，删除操作不属于这一情形。
+            If _pieces.Count = 0 Then Return False
             Dim p0 As Piece = _pieces(0)
             Return p0.Kind = PieceKind.OriginalFile AndAlso p0.Start = 1 AndAlso p0.Count = _baseLineCount
         End Function
@@ -1313,4 +1318,3 @@ Namespace Data.Repository
     End Class
 
 End Namespace
-

@@ -1,0 +1,57 @@
+.\" man page create by R# package system.
+.TH SSGRID 1 2000-1月 "sgrid_context" "sgrid_context"
+.SH NAME
+sgrid_context \- map a pseudobulk context(the raw expression counts) onto the model state space
+.SH SYNOPSIS
+\fIsgrid_context(\fBnetwork\fR as <generic> SSystemNetwork, 
+\fBx\fR as any, 
+\fBmissing\fR as string = "baseline", 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+map a pseudobulk context(the raw expression counts) onto the model state space
+.PP
+.SH OPTIONS
+.PP
+\fBnetwork\fB \fR\- -. 
+.PP
+.PP
+\fBx\fB \fR\- 
+ the pseudobulk context data, could be a csv file path, a data.frame(the 
+ columns are \fBgene\fR and \fBmean_counts\fR), or a named numeric vector/list 
+ (the names are the gene symbols, the values are the raw counts).
+. 
+.PP
+.PP
+\fBmissing\fB \fR\- 
+ the value that used for the genes which is missing in the given context: 
+ \fBbaseline\fR(default) means the minimal value of that gene in the training 
+ matrix, \fBzero\fR means the zero expression.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- -. 
+.PP
+.SH VALUE
+.PP
+a named list of the model state space value, which can be used as the 
+ \fBcontext\fR parameter of the \fBperturb\fR and \fBsgrid_simulate\fR api.
+.PP
+.SH DETAILS
+.PP
+the model state is not the raw counts, but \fBlog2(max(counts,0)+pseudo) + delta\fR, 
+ the per gene offset \fBdelta\fR was generated in the model fitting step. So the 
+ pseudobulk context data must be transformed by this function before it can be 
+ used as the ODE initial state.
+.PP
+.SH EXAMPLES
+.PP
+let ctx = sgrid_context(network, "/data/pseudobulk_context_A.csv");
+ let resp = perturb(network, genes, context = ctx);
+.PP
+.SH SEE ALSO
+ssGrid
+.SH FILES
+.PP
+biosystem.dll
+.PP

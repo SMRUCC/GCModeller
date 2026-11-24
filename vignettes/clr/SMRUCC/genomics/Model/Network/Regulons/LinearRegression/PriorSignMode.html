@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Model.Network.Regulons.LinearRegression.PriorSignMode</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>PriorSignMode {SMRUCC.genomics.Model.Network.Regulons.LinearRegression}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>PriorSignMode</h2>
+
+        <h3>Description</h3>
+
+        <p>先验因果符号的使用方式。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Model.Network.Regulons.LinearRegression
+export class PriorSignMode extends <a href="/vignettes/clr/System/Enum.html">Enum</a> {
+   # 不使用符号，只保留"候选注入 + 惩罚放松"(方案 A + B)。
+   Off: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/PriorSignMode.html">PriorSignMode</a> = 0;
+
+   # 符号约束(signed lasso)：把先验边的系数限制在半空间内 (激活 β ≥ 0、抑制 β ≤ 0)。
+   # 
+   # 数据与先验冲突时系数会被压到 0 —— 即"宁可不要这条边，也不保留错误方向"。 行为最保守，但不会产生上调。
+   Constrain: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/PriorSignMode.html">PriorSignMode</a> = 1;
+
+   # 保幅翻号：先自由拟合(幅度来自数据)，再把先验边的系数符号翻正/翻负， 幅度不变。
+   # 
+   # 与 <a href="cref:F:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.PriorSignMode.Constrain">PriorSignMode.Constrain</a> 的区别是关键性的：共表达数据里抑制边同样是正相关， 约束只会把它压成 0，而翻号能保留 |β| 并输出正确的因果方向 (敲降抑制因子 → 靶基因上调)。
+   Flip: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/PriorSignMode.html">PriorSignMode</a> = 2;
+
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>this class extends from <a href="/vignettes/clr/System/Enum.html">Enum</a> class: <a href="/vignettes/clr/System/Enum.html">Enum</a></li>
+<li>use by <i>field</i> member <code>Off</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/PriorSignMode.html">PriorSignMode</a></li>
+<li>use by <i>field</i> member <code>Constrain</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/PriorSignMode.html">PriorSignMode</a></li>
+<li>use by <i>field</i> member <code>Flip</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/PriorSignMode.html">PriorSignMode</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

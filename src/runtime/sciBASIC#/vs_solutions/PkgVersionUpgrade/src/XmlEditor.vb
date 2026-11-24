@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f3b883acfe481c64e9ef0df28f21337f, vs_solutions\PkgVersionUpgrade\XmlEditor.vb"
+﻿#Region "Microsoft.VisualBasic::885e520a4e80866b4aff63fbd75ecf93, vs_solutions\PkgVersionUpgrade\src\XmlEditor.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 186
-    '    Code Lines: 98 (52.69%)
-    ' Comment Lines: 56 (30.11%)
+    '   Total Lines: 184
+    '    Code Lines: 97 (52.72%)
+    ' Comment Lines: 56 (30.43%)
     '    - Xml Docs: 89.29%
     ' 
-    '   Blank Lines: 32 (17.20%)
-    '     File Size: 7.47 KB
+    '   Blank Lines: 31 (16.85%)
+    '     File Size: 7.44 KB
 
 
     ' Module XmlEditor
@@ -52,8 +52,6 @@
     ' /********************************************************************************/
 
 #End Region
-
-Imports System.Xml.Linq
 
 ''' <summary>
 ''' vbproj XML 文档的原地编辑原语

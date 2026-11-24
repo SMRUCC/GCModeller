@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9aa95ad49be33060aa13eb97c24bf8ca, visualize\DataVisualizationExtensions\DEGPlot\ClassChanges.vb"
+#Region "Microsoft.VisualBasic::9aa95ad49be33060aa13eb97c24bf8ca, visualize\DataVisualizationExtensions\DEGPlot\ClassChanges.vb"
 
     ' Author:
     ' 
@@ -56,9 +56,8 @@ Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
+Imports Microsoft.VisualBasic.Data.Plots
+Imports Microsoft.VisualBasic.Data.Plots.Canvas
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors

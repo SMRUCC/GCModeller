@@ -8,19 +8,49 @@
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	  <Configurations>Debug;Release;LipidSearch;Rsharp_app_release;mzkit;mzkit_win32;gcmodeller_desktop;nuget_release</Configurations>
-    <Title>SHAP Model Interpretation for sciBASIC# Machine Learning</Title>
-    <Description>SHAP (SHapley Additive exPlanations) analysis facade for sciBASIC# machine learning: runs any IShapExplainer over a ShapDataset to produce per sample contribution matrices and global feature importance.</Description>
-    <PackageTags>scibasic;shap;shapley-value;model-interpretation;explainable-ai;feature-importance;machine-learning</PackageTags>
-    <PackageReleaseNotes>ML_SHAP provides the analysis facade that turns Shapley value attribution into report ready model interpretation for sciBASIC# machine learning workflows. ShapAnalyzer.Analyze takes any IShapExplainer together with a ShapDataset and produces a ShapAnalysisResult containing the per sample contributions and additive values (ShapExplanation), the explainer baseline / expected value, and two global aggregates - MeanAbsShap (mean absolute contribution, used as feature importance) and MeanShap (mean signed contribution, indicating the direction of each feature effect); GlobalImportance() returns the features ordered by descending mean absolute SHAP value. The facade covers both regression and classification models, supports a sample cap through maxSamples for fast exploratory runs, and optionally accepts a raw model output delegate so the reported output can be the true model prediction instead of the additive approximation. Missing feature names fall back to F1, F2 placeholders. The explainers themselves live in Microsoft.VisualBasic.Math.Statistics.ShapleyValue (including TreeSHAP for tree ensembles) and in the XGBoost integration, keeping this package free of any model specific dependency.</PackageReleaseNotes>
+    <Title>SHAP Model Interpretation and Feature Importance Analysis</Title>
+    <Description>A SHAP (SHapley Additive exPlanations) analysis facade for sciBASIC# machine learning: runs linear, random forest and XGBoost explainers over sample datasets to produce per-sample contribution matrices, global feature importance rankings and CSV report export.</Description>
+    <PackageTags>scibasic;shap;shapley-value;model-interpretation;explainable-ai;feature-importance</PackageTags>
+    <PackageReleaseNotes>This cycle: Move ShapAnalysisResult to the base project; Updated README.md; Improved the ShapDataset model.</PackageReleaseNotes>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <Version>1.0.9758.20045</Version>
-    <AssemblyVersion>1.0.9758.20045</AssemblyVersion>
+    <Version>10.8.9818.14504</Version>
+    <AssemblyVersion>1.0.9818.14504</AssemblyVersion>
+    <AssemblyTitle>Microsoft.VisualBasic.MachineLearning.SHAP</AssemblyTitle>
+    <Authors>xieguigang &lt;I@xieguigang.me&gt;</Authors>
+    <Company>sciBASIC.NET Foundation</Company>
+    <Copyright>Copyright (c) sciBASIC.NET Foundation</Copyright>
+    <PackageProjectUrl>http://scibasic.net/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/xieguigang/sciBASIC</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <PackageIcon>logo-knot.png</PackageIcon>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <IncludeSymbols>True</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='nuget_release|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>../../../.nuget/</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
+    <Optimize>true</Optimize>
   </PropertyGroup>
 
   <ItemGroup>
     <Compile Remove="test\**" />
     <EmbeddedResource Remove="test\**" />
     <None Remove="test\**" />
+    <None Remove="XGBoostInfoLogging505d9d397cedc9fd2819edc9b12a9fef.log" />
+    <None Remove="XGBoostInfoLogging5e0421b21327381ad81c0861bb49062b.log" />
+    <None Remove="XGBoostInfoLogging83d7337829144d001c36de7814570cc3.log" />
+    <None Remove="XGBoostInfoLogging9f890800ceca0d165e116d1ae87b9600.log" />
+    <None Remove="XGBoostInfoLoggingdad46e6eeb3ff4e36329e6b6ba200f22.log" />
+    <None Include="..\..\..\vs_solutions\logo-knot.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
@@ -34,9 +64,11 @@
     <ProjectReference Include="..\..\..\Microsoft.VisualBasic.Core\src\Core.vbproj" />
     <ProjectReference Include="..\..\..\Data\BinaryData\BinaryData\binarydata-netcore5.vbproj" />
     <ProjectReference Include="..\..\DataMining\DataMining\DataMining.NET5.vbproj" />
+    <ProjectReference Include="..\..\Mathematica\Math\ElasticNet\ElasticNet.vbproj" />
     <ProjectReference Include="..\..\Mathematica\Math\Math.Statistics\stats-netcore5.vbproj" />
     <ProjectReference Include="..\..\Mathematica\Math\Math\Math.NET5.vbproj" />
     <ProjectReference Include="..\..\Mathematica\Math\DataFittings\linear-netcore5.vbproj" />
+    <ProjectReference Include="..\GLMNet\GLMNet.vbproj" />
     <ProjectReference Include="..\MachineLearning\machine_learning-netcore5.vbproj" />
     <ProjectReference Include="..\XGBoostDataSet\XGBoostDataSet.vbproj" />
     <ProjectReference Include="..\xgboost\xgboost.vbproj" />

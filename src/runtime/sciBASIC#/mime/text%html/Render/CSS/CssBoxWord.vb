@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8222ec55fdd68c2676ba1ff4e5d675a9, mime\text%html\Render\CSS\CssBoxWord.vb"
+﻿#Region "Microsoft.VisualBasic::d52c67034c52cef87ad2942d13026cec, mime\text%html\Render\CSS\CssBoxWord.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 196
-    '    Code Lines: 108 (55.10%)
-    ' Comment Lines: 56 (28.57%)
+    '   Total Lines: 195
+    '    Code Lines: 107 (54.87%)
+    ' Comment Lines: 56 (28.72%)
     '    - Xml Docs: 96.43%
     ' 
-    '   Blank Lines: 32 (16.33%)
-    '     File Size: 5.91 KB
+    '   Blank Lines: 32 (16.41%)
+    '     File Size: 5.90 KB
 
 
     '     Class CssBoxWord
@@ -61,9 +61,9 @@
 
 Imports System.Drawing
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.Imaging
 
 Namespace Render.CSS
-#If NET48 Then
     ''' <summary>
     ''' Represents a word inside an inline box
     ''' </summary>
@@ -86,7 +86,7 @@ Namespace Render.CSS
         Private _breakAfter As Boolean
         Private _spacesBefore As Integer
         Private _breakBefore As Boolean
-        Private _image As Drawing.Image
+        Private _image As Image
 
 
 #End Region
@@ -103,7 +103,7 @@ Namespace Render.CSS
         ''' </summary>
         ''' <param name="owner"></param>
         ''' <param name="image"></param>
-        Public Sub New(owner As CssBox, image As Drawing.Image)
+        Public Sub New(owner As CssBox, image As Image)
             Me.New(owner)
             Me.Image = image
         End Sub
@@ -125,7 +125,7 @@ Namespace Render.CSS
         ''' <summary>
         ''' Gets the image this words represents (if one)
         ''' </summary>
-        Public Property Image() As Drawing.Image
+        Public Property Image() As Image
             Get
                 Return _image
             End Get
@@ -253,5 +253,4 @@ Namespace Render.CSS
 
 #End Region
     End Class
-#End If
 End Namespace

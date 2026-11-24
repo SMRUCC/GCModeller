@@ -1,56 +1,131 @@
 ﻿#Region "Microsoft.VisualBasic::bf9230e532f5f595249044f5f3945653, sub-system\PLAS.NET\PLAS\CLI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: Compile, Run
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: Compile, Run
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.ComponentModel
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Math.Calculus.Dynamics
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.SSystem
+Imports SMRUCC.genomics.Analysis.SSystem.Runner
 
 <Package("PLAS.CLI", Category:=APICategories.CLI_MAN, Publisher:="xie.guigang@gmail.com")>
 Public Module CLI
 
+    ''' <summary>
+    ''' 命令行到仿真配置对象的适配层：算法库之内不依赖于命令行参数对象，
+    ''' 所有的命令行开关都在这个函数之中被翻译为<see cref="RunOptions"/>配置对象
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    Private Function ParseOptions(args As CommandLine) As RunOptions
+        Dim options As New RunOptions With {
+            .Input = args("-i"),
+            .Output = args("-o"),
+            .FinalTime = Val(optStr(args, "/time", "0")),
+            .UseODEs = args("/ODEs"),
+            .AutoFix = optBool(args, "/auto-fix", False),
+            .Chart = optBool(args, "-chart", False),
+            .Strict = optBool(args, "/strict", False),
+            .NonNegative = Not optBool(args, "/allow-negative", False),
+            .Steps = CInt(Val(optStr(args, "/steps", "0"))),
+            .InitialAmountFallback = If(Val(optStr(args, "/initial", "0")) > 0, Val(optStr(args, "/initial", "0")), 1.0R),
+            .InitialJitter = If(Val(optStr(args, "/jitter", "0.01")) >= 0, Val(optStr(args, "/jitter", "0.01")), 0.01R),
+            .SolverName = optStr(args, "/solver", "")
+        }
+
+        If Val(optStr(args, "/precise", "0")) > 0 Then
+            options.Precise = Val(optStr(args, "/precise", "0"))
+        End If
+
+        options.Solver = SolverRegistry.ParseSolver(options.SolverName, ODESolverMethod.RK4)
+
+        If Val(optStr(args, "/atol", "0")) > 0 Then
+            options.SolverTuning.Atol = Val(optStr(args, "/atol", "0"))
+        End If
+        If Val(optStr(args, "/rtol", "0")) > 0 Then
+            options.SolverTuning.Rtol = Val(optStr(args, "/rtol", "0"))
+        End If
+        If Val(optStr(args, "/initial-step", "0")) > 0 Then
+            options.SolverTuning.InitialStep = Val(optStr(args, "/initial-step", "0"))
+        End If
+        If Val(optStr(args, "/max-steps", "0")) > 0 Then
+            options.SolverTuning.MaxSteps = CInt(Val(optStr(args, "/max-steps", "0")))
+        End If
+
+        Return options
+    End Function
+
+    ''' <summary>
+    ''' 读取一个可选的命令行开关值，缺失的时候返回默认值
+    ''' </summary>
+    Private Function optStr(args As CommandLine, name As String, Optional def As String = "") As String
+        Dim value As String = args.GetValue(name, def)
+
+        If value Is Nothing Then
+            Return def
+        Else
+            Return value.Trim
+        End If
+    End Function
+
+    ''' <summary>
+    ''' 读取一个可选的布尔开关值，支持 T/F、true/false、1/0 的写法
+    ''' </summary>
+    Private Function optBool(args As CommandLine, name As String, Optional def As Boolean = False) As Boolean
+        Dim value As String = optStr(args, name, If(def, "T", "F"))
+
+        Select Case value.ToLower
+            Case "t", "true", "1", "yes", "y"
+                Return True
+            Case "f", "false", "0", "no", "n", ""
+                Return False
+            Case Else
+                Return def
+        End Select
+    End Function
+
     <ExportAPI("Run")>
     <Description("run a model file of the biochemical network system.")>
-    <Usage("run -i <model_file> -f <script/model/sbml> [-o <output_csv> /time <-1> /ODEs]")>
+    <Usage("run -i <model_file> -f <script/model/sbml> [-o <output_csv> /time <-1> /ODEs /solver <solver_name>]")>
     <Example("run -i ""/home/xieguigang/proj/xcc8004.sbml"" -f sbml -chart T -o ""/home/xieguigang/Desktop/xcc8004.csv""")>
     <ArgumentAttribute("-i", False, Description:="The file path of the input model file that will be run on the PLAS program.")>
     <ArgumentAttribute("-f", True,
@@ -63,8 +138,24 @@ Public Module CLI
                      " T - (True) display a chart window after the calculation," & vbCrLf &
                      " F - (False) not display a chart window after the calculation.")>
     <ArgumentAttribute("-o", False, Description:="The file path of the output data file for the calculation.")>
+    <ArgumentAttribute("/ODEs", True, Description:="Optional, using the ODEs solver for the simulation instead of the discrete iteration kernel.")>
+    <ArgumentAttribute("/time", True, Description:="Optional, the final time value of the simulation, value <= 0 means using the FINALTIME config in the model.")>
+    <ArgumentAttribute("/precise", True, Description:="Optional, the integration step size of the simulation, the default value is 0.1.")>
+    <ArgumentAttribute("/steps", True, Description:="Optional, force the sampling point count of the ODEs integration, zero means auto derive from /time and /precise.")>
+    <ArgumentAttribute("/solver", True,
+        Description:="Optional, the ODEs integration solver engine, the available solver engines are: " &
+                     "euler, rk2, gill, rk4, abm4, backwardeuler, trapezoidal, bdf2, rosenbrockros2, rk23, rk45. The default engine is rk4.")>
+    <ArgumentAttribute("/atol", True, Description:="Optional, the absolute tolerance of the adaptive solvers.")>
+    <ArgumentAttribute("/rtol", True, Description:="Optional, the relative tolerance of the adaptive solvers.")>
+    <ArgumentAttribute("/initial", True, Description:="Optional, the default initial amount value of the sbml species that was missing the initialAmount attribute, the default value is 1.")>
+    <ArgumentAttribute("/jitter", True, Description:="Optional, the deterministic jitter ratio of the fallback initial amount value, the default value is 0.01.")>
     Public Function Run(args As CommandLine) As Integer
-        Return RunModel.RunMethods(args <= "-f")(args)
+        Dim options As RunOptions = ParseOptions(args)
+
+        Call options.Validate()
+        Call Console.WriteLine(options.ToString)
+
+        Return RunModel.RunMethods(args <= "-f")(options)
     End Function
 
     <ExportAPI("Compile")>
@@ -72,6 +163,50 @@ Public Module CLI
     <Usage("compile -i <file> -f <script/sbml> -o <output_file> [/auto-fix]")>
     <Example("compile -i ""/home/xieguigang/proj/metacyc/xcc8004/17.0/data/metabolic-reactions.sbml"" -f sbml -o ""/home/xieguigang/Desktop/xcc8004.xml""")>
     Public Function Compile(args As CommandLine) As Integer
-        Return Compilers(args <= "-f")(args <= "-i", args <= "-o", CBool(args("/auto-fix"))).CLICode
+        Dim options As RunOptions = ParseOptions(args)
+
+        Return Compilers(args <= "-f")(options.Input, options.Output, options.AutoFix).CLICode
+    End Function
+
+    <ExportAPI("Solvers")>
+    <Description("List all of the available ODEs integration solver engines of the PLAS S-system simulation.")>
+    <Usage("solvers")>
+    Public Function Solvers(args As CommandLine) As Integer
+        Call Console.WriteLine($"Available ODEs solver engines: {SolverRegistry.AvailableList()}")
+
+        Return 0
+    End Function
+
+    <ExportAPI("grn-fit")>
+    <Description("Infer the gene expression regulatory network from a gene expression matrix by the S-system inverse method.")>
+    <Usage("grn-fit -i <expression_matrix.csv> -o <outDir> [/normalize log2] [/sparsity 0.2] [/max-edges 3] [/refine]")>
+    <ArgumentAttribute("-i", False, Description:="The file path of the gene expression matrix, the first column is the gene id and the first row is the sample/time name.")>
+    <ArgumentAttribute("-o", False, Description:="The output directory of the fitted model and the fitting report.")>
+    <ArgumentAttribute("/normalize", True, Description:="Optional, the normalization method of the expression matrix: none, log2, zscore, quantile. The default value is log2.")>
+    <ArgumentAttribute("/sparsity", True, Description:="Optional, the sparsity threshold of the regulatory interactions, the default value is 0.2.")>
+    <ArgumentAttribute("/max-edges", True, Description:="Optional, the maximal number of the regulators per target gene, the default value is 3.")>
+    <ArgumentAttribute("/refine", True, Description:="Optional, enables the phase 2 trajectory refinement, it requires lots of ODE integration and is slow.")>
+    Public Function GRNFit(args As CommandLine) As Integer
+        Return GRN.Fit(args)
+    End Function
+
+    <ExportAPI("grn-perturb")>
+    <Description("Run the virtual perturbation experiments against a fitted S-system model.")>
+    <Usage("grn-perturb -i <model.plas/model.xml> -o <outDir> [/genes X1,X2] [/type knockdown] [/magnitude 0.8]")>
+    <ArgumentAttribute("-i", False, Description:="The file path of the S-system model, it can be a PLAS script or a compiled xml model.")>
+    <ArgumentAttribute("-o", False, Description:="The output directory of the perturbation trajectory files.")>
+    <ArgumentAttribute("/genes", True, Description:="Optional, the comma separated target genes; all of the model variables will be used when this parameter is empty.")>
+    <ArgumentAttribute("/type", True, Description:="Optional, the perturbation type: knockdown, knockout, overexpress, custom. The default value is knockdown.")>
+    <ArgumentAttribute("/magnitude", True, Description:="Optional, the perturbation magnitude, the default value is 0.8 for the knock down.")>
+    Public Function GRNPerturb(args As CommandLine) As Integer
+        Return GRN.Perturb(args)
+    End Function
+
+    <ExportAPI("grn-info")>
+    <Description("Show the summary information of a S-system model.")>
+    <Usage("grn-info -i <model.plas/model.xml>")>
+    <ArgumentAttribute("-i", False, Description:="The file path of the S-system model, it can be a PLAS script or a compiled xml model.")>
+    Public Function GRNInfo(args As CommandLine) As Integer
+        Return GRN.Info(args)
     End Function
 End Module

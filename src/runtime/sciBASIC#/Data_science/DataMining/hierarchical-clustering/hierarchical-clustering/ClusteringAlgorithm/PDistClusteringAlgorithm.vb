@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::94915dd5e0a7cd007f320757ae6b6134, Data_science\DataMining\hierarchical-clustering\hierarchical-clustering\ClusteringAlgorithm\PDistClusteringAlgorithm.vb"
+﻿#Region "Microsoft.VisualBasic::04e39681dd9fe21ff44710ec90d4fe36, Data_science\DataMining\hierarchical-clustering\hierarchical-clustering\ClusteringAlgorithm\PDistClusteringAlgorithm.vb"
 
     ' Author:
     ' 
@@ -34,25 +34,27 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 106
-    '    Code Lines: 55 (51.89%)
-    ' Comment Lines: 31 (29.25%)
-    '    - Xml Docs: 25.81%
+    '   Total Lines: 151
+    '    Code Lines: 78 (51.66%)
+    ' Comment Lines: 48 (31.79%)
+    '    - Xml Docs: 41.67%
     ' 
-    '   Blank Lines: 20 (18.87%)
-    '     File Size: 4.82 KB
+    '   Blank Lines: 25 (16.56%)
+    '     File Size: 7.34 KB
 
 
     ' Class PDistClusteringAlgorithm
     ' 
-    '     Function: accessFunction, createClusters, createLinkages, performClustering, performFlatClustering
-    '               performWeightedClustering
+    '     Function: accessFunction, alignRow, createClusters, createLinkages, performClustering
+    '               performFlatClustering, performWeightedClustering
     ' 
     ' /********************************************************************************/
 
 #End Region
 
 Imports Microsoft.VisualBasic.DataMining.HierarchicalClustering.Hierarchy
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 
 '
 '*****************************************************************************
@@ -116,24 +118,64 @@ Public Class PDistClusteringAlgorithm
     End Function
 
     Private Function createLinkages(distances As Double()(), clusters As IList(Of Cluster)) As DistanceMap
-        ' 批量构建全部链接后一次性建堆，避免逐条 Add 触发的全量排序
-        Dim linkages As New List(Of HierarchyTreeNode)
+        Dim n As Integer = clusters.Count
 
-        For col As Integer = 0 To clusters.Count - 1
-            Dim cluster_col As Cluster = clusters(col)
-            For row As Integer = col + 1 To clusters.Count - 1
-                Dim d As Double = distances(0)(accessFunction(row, col, clusters.Count))
-                Dim link As New HierarchyTreeNode With {
-                    .LinkageDistance = d,
-                    .Left = cluster_col,
-                    .Right = clusters(row)
-                }
+        If n < 100 Then
+            ' 批量构建全部链接后一次性建堆（O(m)），避免逐条 Add 触发的全量排序
+            Dim linkages As New List(Of HierarchyTreeNode)
 
-                Call linkages.Add(link)
+            For col As Integer = 0 To n - 1
+                Dim cluster_col As Cluster = clusters(col)
+
+                For row As Integer = col + 1 To n - 1
+                    Dim d As Double = distances(0)(accessFunction(row, col, n))
+                    Dim link As New HierarchyTreeNode With {
+                        .LinkageDistance = d,
+                        .Left = cluster_col,
+                        .Right = clusters(row)
+                    }
+
+                    Call linkages.Add(link)
+                Next
             Next
-        Next
 
-        Return New DistanceMap(linkages)
+            Return New DistanceMap(linkages)
+        Else
+            ' 与 DefaultClusteringAlgorithm.createLinkages 相同的策略：
+            ' 大规模数据下按列并行展开压缩距离矩阵
+            ' （accessFunction 只依赖 row/col/n，无共享可变状态，可以安全并行）
+            Dim copy As Cluster() = clusters.ToArray
+            Dim LQuery = From c As SeqValue(Of Cluster) In clusters.SeqIterator.AsParallel
+                         Let col As Integer = c.i
+                         Let lCluster As Cluster = c.value
+                         Let list = alignRow(lCluster, col, n, distances(0), copy)
+                         Select list.ToArray
+            Dim links = LQuery.IteratesALL.ToArray
+
+            Return New DistanceMap(links)
+        End If
+    End Function
+
+    ''' <summary>
+    ''' Iterator that generates a sequence of <see cref="HierarchyTreeNode"/>  linkages for a single
+    ''' column of the condensed distance matrix against all subsequent clusters.
+    ''' Used as a helper by <see cref="createLinkages"/>  during parallel linkage construction.
+    ''' </summary>
+    ''' <param name="lCluster">The left (source) cluster for the linkage.</param>
+    ''' <param name="col">The column/index of the left cluster in the condensed distance matrix.</param>
+    ''' <param name="n">The total number of clusters.</param>
+    ''' <param name="condensed">The condensed (pdist style) distance vector.</param>
+    ''' <param name="clusters">The array of all cluster objects.</param>
+    ''' <returns>An enumerable sequence of <see cref="HierarchyTreeNode"/>  linkages connecting
+    ''' the left cluster to each subsequent right cluster.</returns>
+    Private Iterator Function alignRow(lCluster As Cluster, col As Integer, n As Integer, condensed As Double(), clusters As Cluster()) As IEnumerable(Of HierarchyTreeNode)
+        For row As Integer = col + 1 To n - 1
+            Yield New HierarchyTreeNode With {
+                .LinkageDistance = condensed(accessFunction(row, col, n)),
+                .Left = lCluster,
+                .Right = clusters(row)
+            }
+        Next
     End Function
 
     Private Function createClusters(clusterNames As String()) As IList(Of Cluster)

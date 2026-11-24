@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9d131bf08d4d73ff1f9f529a760560f8, Data_science\MachineLearning\DeepLearning\RNN\net\MultiLayerRNN.vb"
+#Region "Microsoft.VisualBasic::497ecc20e571fb0b8d38b2d52cfd187d, Data_science\MachineLearning\DeepLearning\RNN\net\MultiLayerRNN.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 203
-    '    Code Lines: 113 (55.67%)
-    ' Comment Lines: 50 (24.63%)
-    '    - Xml Docs: 34.00%
+    '   Total Lines: 213
+    '    Code Lines: 113 (53.05%)
+    ' Comment Lines: 61 (28.64%)
+    '    - Xml Docs: 78.69%
     ' 
-    '   Blank Lines: 40 (19.70%)
-    '     File Size: 5.22 KB
+    '   Blank Lines: 39 (18.31%)
+    '     File Size: 6.55 KB
 
 
     ' 	Class MultiLayerRNN
@@ -57,6 +57,8 @@
     ' /********************************************************************************/
 
 #End Region
+
+Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
 
 Namespace RNN
 
@@ -207,10 +209,10 @@ Namespace RNN
 		''' <param name="advance">When <c>True</c> the hidden states are advanced while consuming the seed.</param>
 		''' <returns>The sampled indices.</returns>
 		Public Overloads Overrides Function sampleIndices(n As Integer, seed As Integer(), temp As Double, advance As Boolean) As Integer()
-			Dim savedState As Matrix() = Nothing
+			Dim savedState As Tensor() = Nothing
 
 			If Not advance Then
-				savedState = New Matrix(layer.Length - 1) {}
+				savedState = New Tensor(layer.Length - 1) {}
 				For i = 0 To layer.Length - 1
 					savedState(i) = layer(i).saveHiddenState()
 				Next

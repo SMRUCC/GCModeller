@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7ff4296b2ce6639b7cba2c3db47e5eb2, Data_science\DataMining\DataMining\Clustering\HDBSCAN\Runner\HdbscanRunner.vb"
+﻿#Region "Microsoft.VisualBasic::06a6a7802c8a0d98880f0414cd9ef0b9, Data_science\DataMining\DataMining\Clustering\HDBSCAN\Runner\HdbscanRunner.vb"
 
     ' Author:
     ' 
@@ -56,6 +56,7 @@
 
 Imports Microsoft.VisualBasic.DataMining.HDBSCAN.Distance
 Imports Microsoft.VisualBasic.DataMining.HDBSCAN.Hdbscanstar
+Imports Microsoft.VisualBasic.Math.SIMD
 Imports Parallel0 = System.Threading.Tasks.Parallel
 Imports std = System.Math
 
@@ -106,8 +107,8 @@ Namespace HDBSCAN.Runner
                                                             Return If(sparseDistance.ContainsKey(b * numPoints + a), sparseDistance(b * numPoints + a), 1)
                                                         End Function
 
-            ' Normal matrix with caching.
-            If parameters.CacheDistance Then Return Function(a, b) parameters.Distances(a)(b)
+            ' Normal matrix with caching（要求矩阵确实已经物化，否则回退到按需计算）
+            If parameters.Distances IsNot Nothing Then Return Function(a, b) parameters.Distances(a)(b)
 
             ' No cache
             Return Function(a, b) parameters.DistanceFunction.ComputeDistance(a, b, parameters.DataSet(a), parameters.DataSet(b))
@@ -115,7 +116,10 @@ Namespace HDBSCAN.Runner
 
         Private Shared Function PrecomputeSparseMatrixDistancesIfApplicable(Of T)(parameters As HdbscanParameters(Of T), numPoints As Integer) As Dictionary(Of Integer, Double)
             Dim sparseDistance As Dictionary(Of Integer, Double) = Nothing
-            If parameters.Distances Is Nothing AndAlso parameters.CacheDistance AndAlso TypeOf parameters.DataSet Is Dictionary(Of Integer, Integer)() Then
+
+            ' 稀疏矩阵的缓存规模由"非默认值条目数"决定，而不是 n²，
+            ' 因此不受 MaxCachedPoints / DistanceCacheMode 的限制（默认仍然启用，保持既有行为）。
+            If parameters.Distances Is Nothing AndAlso TypeOf parameters.DataSet Is Dictionary(Of Integer, Integer)() Then
                 sparseDistance = New Dictionary(Of Integer, Double)()
                 If parameters.DistanceFunction.GetType() IsNot GetType(ISparseMatrixSupport) Then
                     Throw New NotSupportedException("The distance function used does not support sparse matrix.")
@@ -173,44 +177,50 @@ Namespace HDBSCAN.Runner
         End Function
 
         Private Shared Sub PrecomputeNormalMatrixDistancesIfApplicable(Of T)(parameters As HdbscanParameters(Of T), numPoints As Integer)
-            If parameters.Distances Is Nothing AndAlso parameters.CacheDistance AndAlso TypeOf parameters.DataSet Is Double()() Then
-                Dim distances = New Double(numPoints - 1)() {}
-                For i = 0 To distances.Length - 1
-                    distances(i) = New Double(numPoints - 1) {}
-                Next
+            If parameters.Distances IsNot Nothing OrElse parameters.DistanceCacheMode = DistanceCacheMode.None Then
+                Return
+            End If
+            If Not (TypeOf parameters.DataSet Is Double()()) Then
+                Return
+            End If
 
-                If parameters.MaxDegreeOfParallelism = 0 OrElse parameters.MaxDegreeOfParallelism > 1 Then
-                    Dim size = numPoints * numPoints
+            ' 大样本下 n×n 物化会直接 OOM（n=20000 → 3.2 GB），显式要求缓存也要受上限保护
+            If numPoints > parameters.MaxCachedPoints Then
+                Call Microsoft.VisualBasic.VBDebugger.EchoLine($"HDBSCAN: {numPoints} points exceeds MaxCachedPoints({parameters.MaxCachedPoints}), distance cache is disabled.")
 
-                    Dim maxDegreeOfParallelism = parameters.MaxDegreeOfParallelism
-                    If maxDegreeOfParallelism = 0 Then
-                        ' Not specified. Use all threads.
-                        maxDegreeOfParallelism = Environment.ProcessorCount
-                    End If
+                parameters.DistanceCacheMode = DistanceCacheMode.None
 
-                    Dim [option] = New ParallelOptions With {.MaxDegreeOfParallelism = std.Max(1, maxDegreeOfParallelism)}
+                Return
+            End If
 
-                    Parallel0.For(0, size, [option], Sub(index)
-                                                         Dim i = index Mod numPoints
-                                                         Dim j = index \ numPoints
-                                                         If i < j Then
-                                                             Dim distance = parameters.DistanceFunction.ComputeDistance(i, j, parameters.DataSet(i), parameters.DataSet(j))
-                                                             distances(i)(j) = distance
-                                                             distances(j)(i) = distance
-                                                         End If
-                                                     End Sub)
-                Else
-                    For i = 0 To numPoints - 1
-                        For j = 0 To i - 1
-                            Dim distance = parameters.DistanceFunction.ComputeDistance(i, j, parameters.DataSet(i), parameters.DataSet(j))
-                            distances(i)(j) = distance
-                            distances(j)(i) = distance
+            Dim dataSet As T() = parameters.DataSet
+            Dim distances As Double()() = New Double(numPoints - 1)() {}
+
+            For i As Integer = 0 To distances.Length - 1
+                distances(i) = New Double(numPoints - 1) {}
+            Next
+
+            ' 按"行块"并行：每行只与 j > i 计算一次距离并对称写回，
+            ' 相比旧实现（Parallel.For 遍历 n² 个下标、用 index Mod n / index \ n 反解行号）
+            ' 少掉了整除运算与跨行随机写入，且距离计算量减半。
+            Dim distanceFunc = parameters.DistanceFunction
+
+            Call SimdParallel.ForRange(numPoints,
+                Sub(start, ends)
+                    For i As Integer = start To ends - 1
+                        Dim row As Double() = distances(i)
+                        Dim xi As T = dataSet(i)
+
+                        For j As Integer = i + 1 To numPoints - 1
+                            Dim d As Double = distanceFunc.ComputeDistance(i, j, xi, dataSet(j))
+
+                            row(j) = d
+                            distances(j)(i) = d
                         Next
                     Next
-                End If
+                End Sub, 8)
 
-                parameters.Distances = distances
-            End If
+            parameters.Distances = distances
         End Sub
     End Class
 End Namespace

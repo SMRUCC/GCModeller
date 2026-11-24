@@ -1,0 +1,36 @@
+.\" man page create by R# package system.
+.TH GPS 1 2000-1月 "perturbation_channel_coregulation" "perturbation_channel_coregulation"
+.SH NAME
+perturbation_channel_coregulation \- Get or set the co-regulation fallback of the perturbation channel.
+.SH SYNOPSIS
+\fIperturbation_channel_coregulation(\fBgps\fR as <generic> GPSModel, 
+\fBenabled\fR as integer = -1, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Get or set the co-regulation fallback of the perturbation channel.
+.PP
+.SH OPTIONS
+.PP
+\fBgps\fB \fR\- the trained model object.. 
+.PP
+.PP
+\fBenabled\fB \fR\- 
+ \fB1\fR enables, \fB0\fR disables; a negative value (the default) only reads the current state.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment.. 
+.PP
+.SH VALUE
+.PP
+the currently effective flag. When enabled, perturbed genes without outgoing edges
+ (all non transcription factors in a TF to target prior) spread their change to the genes
+ that share the same upstream regulators.
+.PP
+.SH SEE ALSO
+GPS
+.SH FILES
+.PP
+biosystem.dll
+.PP

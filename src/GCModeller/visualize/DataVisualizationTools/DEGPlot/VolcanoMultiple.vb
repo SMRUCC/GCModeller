@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b11a0bc1f4519acd05e2c746d9d69d6c, visualize\DataVisualizationExtensions\DEGPlot\VolcanoMultiple.vb"
+#Region "Microsoft.VisualBasic::b11a0bc1f4519acd05e2c746d9d69d6c, visualize\DataVisualizationExtensions\DEGPlot\VolcanoMultiple.vb"
 
     ' Author:
     ' 
@@ -56,9 +56,8 @@ Imports System.Drawing
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
+Imports Microsoft.VisualBasic.Data.Plots
+Imports Microsoft.VisualBasic.Data.Plots.Canvas
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.MIME.Html.CSS
@@ -66,7 +65,7 @@ Imports Microsoft.VisualBasic.MIME.Html.Render
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 Imports std = System.Math
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
+Imports Microsoft.VisualBasic.Data.Plots.Plot3D.Legend
 
 
 #If NET48 Then

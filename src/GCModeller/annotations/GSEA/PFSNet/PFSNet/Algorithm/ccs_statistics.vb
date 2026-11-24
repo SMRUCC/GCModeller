@@ -79,13 +79,29 @@ Imports SMRUCC.genomics.Analysis.PFSNet.DataStructure
                               nscore As Double()(),
                               tdist As Vector) As PFSNetGraph()
 
-        For i As Integer = 0 To ccs.Length - 1
-            Dim ccs_node = ccs(i)
-            Dim x = pscore(i), y = nscore(i)
+        Dim nullValues As Double() = tdist _
+            .ToArray _
+            .Where(Function(value) Double.IsFinite(value)) _
+            .ToArray
 
-            ccs_node.statistics = t.Test(pscore(i), nscore(i)).TestValue
-            ccs_node.pvalue = (tdist.Abs > Math.Abs(ccs_node.statistics)).Sum / tdist.Length
-            ccs_node.masked = ccs_node.pvalue < 0.05
+        For i As Integer = 0 To ccs.Length - 1
+            Dim ccsNode As PFSNetGraph = ccs(i)
+            Dim statistic As Double = PFSNetStatistics.PairedTTest(pscore(i), nscore(i))
+
+            ccsNode.statistics = statistic
+
+            If Not Double.IsFinite(statistic) OrElse nullValues.Length = 0 Then
+                ccsNode.pvalue = 1
+                ccsNode.masked = False
+                Continue For
+            End If
+
+            Dim exceedances As Integer = nullValues _
+                .Where(Function(value) Math.Abs(value) > Math.Abs(statistic)) _
+                .Count
+
+            ccsNode.pvalue = exceedances / CDbl(nullValues.Length)
+            ccsNode.masked = ccsNode.pvalue < 0.05
         Next
 
         Return ccs

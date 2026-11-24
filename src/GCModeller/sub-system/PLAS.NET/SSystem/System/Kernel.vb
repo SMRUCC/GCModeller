@@ -68,6 +68,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Framework
 Imports Microsoft.VisualBasic.Math.Scripting.MathExpression
 Imports SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels
+Imports SMRUCC.genomics.Analysis.SSystem.Runner
 
 Namespace Kernel
 
@@ -89,7 +90,13 @@ Namespace Kernel
         ''' <remarks></remarks>
         Friend kicks As Kicks
 
-        Public Property strict As Boolean = True
+        ''' <summary>
+        ''' 严格模式之下，所有的变量都必须显式的申明其通量值的上下区间；
+        ''' 由于 PLAS 脚本并没有提供申明通量区间的语法，故这里默认为非严格模式，
+        ''' 缺失上下区间的变量会自动回落到默认的 ``-5..5`` 区间之上
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property strict As Boolean = False
 
         ''' <summary>
         ''' Store the system state.(变量，也就是生化反应底物)
@@ -124,7 +131,11 @@ Namespace Kernel
         ''' <remarks></remarks>
         Public ReadOnly Property RuntimeTicks As Long
 
-        Public Property finalTime As Integer
+        ''' <summary>
+        ''' 仿真的终止时间，FINALTIME 允许为浮点数值
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property finalTime As Double
         ''' <summary>
         ''' 整个引擎的计算精度
         ''' </summary>
@@ -188,7 +199,7 @@ Namespace Kernel
         ''' </summary>
         ''' <returns></returns>
         Public Overrides Function Run() As Integer
-            For Each ti As Long In Tqdm.Range(0, CLng(finalTime * (1 / precision)))
+            For Each ti As Long In Tqdm.Range(0, TickCount(finalTime, precision))
                 If is_terminated Then
                     Exit For
                 Else
@@ -219,6 +230,26 @@ Namespace Kernel
         End Sub
 
         ''' <summary>
+        ''' 依据仿真终止时间与步长计算出整个仿真过程所需要的迭代次数
+        ''' </summary>
+        ''' <param name="finalTime"></param>
+        ''' <param name="precise"></param>
+        ''' <returns></returns>
+        Public Shared Function TickCount(finalTime As Double, precise As Double) As Long
+            If Not (precise > 0) Then
+                precise = 0.1
+            End If
+
+            Dim ticks As Long = CLng(System.Math.Ceiling(finalTime / precise))
+
+            If ticks < 1 Then
+                ticks = 1
+            End If
+
+            Return ticks
+        End Function
+
+        ''' <summary>
         ''' The file path of the compiled xml model. 
         ''' </summary>
         ''' <param name="Path">The file path of the compiled xml model.</param>
@@ -235,11 +266,36 @@ Namespace Kernel
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Overloads Shared Function Run(model As Script.Model, precise As Double) As List(Of DataSet)
+            Return Kernel.Run(model, New RunOptions With {.Precise = precise})
+        End Function
+
+        ''' <summary>
+        ''' Run a compiled model by using the given simulation configuration.
+        ''' (使用给定的仿真配置对象运行一个已经编译好的模型)
+        ''' </summary>
+        ''' <param name="model"></param>
+        ''' <param name="options"></param>
+        ''' <returns></returns>
+        Public Overloads Shared Function Run(model As Script.Model, options As RunOptions) As List(Of DataSet)
+            If options Is Nothing Then
+                options = New RunOptions()
+            End If
+
             Dim snapshot As New MemoryCacheSnapshot
             Dim kernel As New Kernel(model, AddressOf snapshot.Cache) With {
-                .precision = precise
+                .precision = options.Precise,
+                .strict = options.Strict,
+                .finalTime = options.GetFinalTime(model)
             }
+
+            If Not options.Bounds Is Nothing Then
+                For Each bound As KeyValuePair(Of String, DoubleRange) In options.Bounds
+                    Call kernel.SetBounds(bound.Key, bound.Value)
+                Next
+            End If
+
             Call kernel.loadModel(model).Run()
+
             Return snapshot.data
         End Function
     End Class

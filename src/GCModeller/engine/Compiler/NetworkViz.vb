@@ -53,7 +53,8 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
@@ -87,6 +88,52 @@ Public Module NetworkViz
         End If
     End Function
 
+    <Extension>
+    Private Sub CreateGeneNodes(cell As VirtualCell, ByRef g As NetworkGraph)
+        For Each genome As replicon In cell.genome.replicons
+            For Each gene In genome.GetGeneList
+                If g.GetElementByID(gene.locus_tag) Is Nothing Then
+                    Call g.CreateNode(gene.locus_tag, New NodeData With {
+                        .label = gene.product,
+                        .origID = gene.locus_tag,
+                        .Properties = New Dictionary(Of String, String) From {
+                            {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, "gene"},
+                            {"recplicon", genome.genomeName}
+                        }
+                    })
+                End If
+            Next
+        Next
+    End Sub
+
+    <Extension>
+    Private Iterator Function CreateReactionNodes(cell As VirtualCell, g As NetworkGraph, pathwayEnzymes As Index(Of String)) As IEnumerable(Of Node)
+        Dim rIds As New List(Of String)
+
+        For Each enzyme In cell.metabolismStructure.enzymes
+            ' 在这里做代谢途径的酶列表的筛选
+            If Not (enzyme.proteinID Like pathwayEnzymes) Then
+                Continue For
+            End If
+
+            Call rIds.AddRange(enzyme.catalysis.Select(Function(catalysis) catalysis.reaction))
+        Next
+
+        For Each rId As String In rIds.Distinct
+            If g.GetElementByID(rId) Is Nothing Then
+                Call g.CreateNode(rId, New NodeData With {
+                    .label = rId,
+                    .origID = rId,
+                    .Properties = New Dictionary(Of String, String) From {
+                        {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, "reaction"}
+                    }
+                })
+
+                Yield g.GetElementByID(rId)
+            End If
+        Next
+    End Function
+
     ''' <summary>
     ''' 
     ''' </summary>
@@ -99,126 +146,90 @@ Public Module NetworkViz
     ''' 转换为Xml格式对象之后再调用这个方法产生网络可视化的模型
     ''' </remarks>
     <Extension>
-    Public Function CreateGraph(cell As VirtualCell, Optional pathways$() = Nothing) As NetworkTables
-        Dim geneNodes As Dictionary(Of Node) = cell.genome _
-            .replicons _
-            .Select(Function(genome)
-                        Return genome _
-                            .GetGeneList _
-                            .Select(Function(gene)
-                                        ' 因为还会包含有转录调控因子，所以不在这里进行基因的pathway筛选
-                                        Return New Node With {
-                                            .ID = gene.locus_tag,
-                                            .NodeType = "gene",
-                                            .Properties = New Dictionary(Of String, String) From {
-                                                {"replicon", genome.genomeName}
-                                            }
-                                        }
-                                    End Function)
-                    End Function) _
-            .IteratesALL _
-            .ToDictionary()
+    Public Function CreateGraph(cell As VirtualCell, Optional pathways$() = Nothing) As NetworkGraph
+        Dim g As New NetworkGraph With {
+            .id = cell.cellular_id,
+            .name = cell.taxonomy.ToString
+        }
+
+        Call cell.CreateGeneNodes(g)
         ' 为了简化模型，在这里仅将存在酶的代谢过程取出来
-        Dim pathwayEnzymes = cell.GetPathwayEnzymes(pathways).Indexing
-        Dim reactionNodes = cell.metabolismStructure _
-            .enzymes _
+        Dim pathwayEnzymes As Index(Of String) = cell.GetPathwayEnzymes(pathways).Indexing
+
+        Dim reactionnodes As Node() = cell.CreateReactionNodes(g, pathwayEnzymes).ToArray
+
+        ' 产生酶分子的网络节点
+        For Each enzyme In cell.metabolismStructure.enzymes
+            ' enzyme的基因肯定存在于所有的基因节点之中
+            ' 在这里只需要做属性的替换就行了
+            Dim gene = g.GetElementByID(enzyme.proteinID)
+            Dim nodeType As String = gene(NamesOf.REFLECTION_ID_MAPPING_NODETYPE)
+
+            nodeType &= "|enzyme"
+            gene.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE) = nodeType
+        Next
+
+        ' 产生调控因子的网络节点
+        For Each reg In cell.genome.regulations.GroupBy(Function(regl) regl.regulator)
+            ' 调控因子只有一个家族
+            Dim gene = g.GetElementByID(reg.Key)
+            Dim nodeType As String = gene(NamesOf.REFLECTION_ID_MAPPING_NODETYPE)
+
+            nodeType &= "|TF"
+            gene.data.Add("family", reg.First.motif.family)
+            gene.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE) = nodeType
+        Next
+
+        Call cell.metabolismStructure.enzymes _
             .Where(Function(enzyme)
                        ' 在这里做代谢途径的酶列表的筛选
                        Return enzyme.proteinID Like pathwayEnzymes
                    End Function) _
-            .Select(Function(enzyme)
-                        Return enzyme _
-                            .catalysis _
-                            .Select(Function(catalysis) catalysis.reaction)
-                    End Function) _
-            .IteratesALL _
-            .Distinct _
-            .Select(Function(rId)
-                        Return New Node With {
-                            .ID = rId,
-                            .NodeType = "reaction"
-                        }
-                    End Function) _
-            .ToArray
-        ' 产生酶分子的网络节点
-        Call cell.metabolismStructure _
-            .enzymes _
-            .ForEach(Sub(enzyme, i)
-                         ' enzyme的基因肯定存在于所有的基因节点之中
-                         ' 在这里只需要做属性的替换就行了
-                         geneNodes(enzyme.proteinID).NodeType &= "|enzyme"
-                     End Sub)
-        ' 产生调控因子的网络节点
-        Call cell.genome _
-            .regulations _
-            .GroupBy(Function(reg) reg.regulator) _
-            .ForEach(Sub(reg, i)
-                         ' 调控因子只有一个家族
-                         geneNodes(reg.Key).NodeType &= "|TF"
-                         geneNodes(reg.Key).Properties.Add("family", reg.First.motif.family)
+            .ForEach(Sub(enzyme)
+                         For Each catalysis In enzyme.catalysis
+                             Call g.CreateEdge(enzyme.proteinID, catalysis.reaction, data:=New EdgeData With {
+                                   .Properties = New Dictionary(Of String, String) From {
+                                       {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, "metabolic_catalysis"}
+                                   }
+                             })
+                         Next
                      End Sub)
 
-        Dim enzymeCatalysisEdges = cell.metabolismStructure _
-            .enzymes _
-            .Where(Function(enzyme)
-                       ' 在这里做代谢途径的酶列表的筛选
-                       Return enzyme.proteinID Like pathwayEnzymes
-                   End Function) _
-            .Select(Function(enzyme)
-                        Return enzyme.catalysis _
-                            .Select(Function(catalysis)
-                                        Return New NetworkEdge With {
-                                            .fromNode = enzyme.proteinID,
-                                            .toNode = catalysis.reaction,
-                                            .interaction = "metabolic_catalysis"
-                                        }
-                                    End Function)
-                    End Function) _
-            .IteratesALL _
-            .AsList
+        Dim geneNodes As New Dictionary(Of String, Node)
 
         ' 如果进行代谢途径筛选的话，则删除剩余的gene节点，这些基因节点都不是目标代谢途径的相关的基因
         If Not pathways.IsNullOrEmpty Then
-            geneNodes = geneNodes.Values _
-                .Where(Function(gene) gene.ID Like pathwayEnzymes) _
+            geneNodes = g.vertex _
+                .Where(Function(gene) gene.label Like pathwayEnzymes) _
                 .ToDictionary
         End If
 
-        Dim transcriptRegulationEdges = cell.genome _
-            .regulations _
+        Call cell.genome.regulations _
             .Where(Function(reg)
                        ' 再上面做了所有基因的代谢途径筛选，在这里将剩余的基因的调控关系挑选出来
                        Return reg.centralDogma.Any(Function(id) geneNodes.ContainsKey(id))
                    End Function) _
-            .Select(Iterator Function(reg) As IEnumerable(Of NetworkEdge)
-                        For Each id As String In reg.centralDogma
-                            Yield New NetworkEdge With {
-                                .fromNode = reg.regulator,
-                                .toNode = id,
-                                .interaction = "transcript_regulation"
-                            }
-                        Next
-                    End Function) _
-            .IteratesALL _
-            .ToArray
+            .ForEach(Sub(reg)
+                         For Each id As String In reg.centralDogma
+                             Call g.CreateEdge(reg.regulator, id, data:=New EdgeData With {
+                                .Properties = New Dictionary(Of String, String) From {
+                                    {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, "transcript_regulation"}
+                                }
+                             })
+                         Next
+                     End Sub)
 
         ' 生成代谢网络的上下游链接关系
-        Dim reactionLinks = cell.metabolismStructure _
+        Call cell.metabolismStructure _
             .reactions _
             .AsEnumerable _
             .ToDictionary(Function(r) r.ID,
                           Function(r)
                               Return Equation.TryParse(r.equation)
                           End Function) _
-            .populateReactionLinks(reactionNodes) _
-            .ToArray
+            .populateReactionLinks(g, reactionnodes)
 
-        Return New NetworkTables With {
-            .nodes = geneNodes.Values.AsList + reactionNodes,
-            .edges = enzymeCatalysisEdges +
-                transcriptRegulationEdges +
-                reactionLinks
-        }
+        Return g
     End Function
 
     ''' <summary>
@@ -228,9 +239,8 @@ Public Module NetworkViz
     ''' <param name="reactionnodes">
     ''' 这个列表是已经通过代谢途径筛选的列表，如果不在这个列表之中，则这个函数就不会给出边连接
     ''' </param>
-    ''' <returns></returns>
     <Extension>
-    Private Iterator Function populateReactionLinks(equationTable As Dictionary(Of String, Equation), reactionnodes As Node()) As IEnumerable(Of NetworkEdge)
+    Private Sub populateReactionLinks(equationTable As Dictionary(Of String, Equation), g As NetworkGraph, reactionnodes As Node())
         For Each i As Node In reactionnodes
             Dim iEquation As Equation = equationTable(i.ID)
 
@@ -240,29 +250,17 @@ Public Module NetworkViz
 
                 If iEquation.Products.Any(Function(compound) jEquation.Consume(compound)) Then
                     ' j 消耗 i 的产物
-                    Yield New NetworkEdge With {
-                        .fromNode = i.ID,
-                        .interaction = "metabolic_link",
-                        .toNode = j.ID
-                    }
+                    Call g.CreateEdge(i.ID, j.ID, data:=New EdgeData With {.Properties = New Dictionary(Of String, String) From {{NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, "metabolic_link"}}})
                 ElseIf jEquation.Products.Any(Function(compound) iEquation.Consume(compound)) Then
                     ' i 消耗 j 的产物
-                    Yield New NetworkEdge With {
-                        .fromNode = j.ID,
-                        .interaction = "metabolic_link",
-                        .toNode = i.ID
-                    }
+                    Call g.CreateEdge(j.ID, i.ID, data:=New EdgeData With {.Properties = New Dictionary(Of String, String) From {{NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, "metabolic_link"}}})
                 ElseIf iEquation.GetMetabolites.Keys.Intersect(jEquation.GetMetabolites.Keys).Any Then
                     ' 未知
-                    Yield New NetworkEdge With {
-                        .fromNode = i.ID,
-                        .toNode = j.ID,
-                        .interaction = "metabolic_link"
-                    }
+                    Call g.CreateEdge(i.ID, j.ID, data:=New EdgeData With {.Properties = New Dictionary(Of String, String) From {{NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, "metabolic_link"}}})
                 Else
                     ' no links
                 End If
             Next
         Next
-    End Function
+    End Sub
 End Module

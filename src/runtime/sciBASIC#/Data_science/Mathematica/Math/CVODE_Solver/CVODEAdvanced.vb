@@ -1,60 +1,61 @@
-﻿#Region "Microsoft.VisualBasic::8d5d7037ca240813422057a864521a4a, Data_science\Mathematica\Math\CVODE_Solver\CVODEAdvanced.vb"
+﻿#Region "Microsoft.VisualBasic::b2e188fe63f212f2823fc7d9529c50fb, Data_science\Mathematica\Math\CVODE_Solver\CVODEAdvanced.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-    ' /********************************************************************************/
-
-    ' Summaries:
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-    ' Code Statistics:
 
-    '   Total Lines: 176
-    '    Code Lines: 98 (55.68%)
-    ' Comment Lines: 43 (24.43%)
-    '    - Xml Docs: 58.14%
-    ' 
-    '   Blank Lines: 35 (19.89%)
-    '     File Size: 5.67 KB
+' /********************************************************************************/
+
+' Summaries:
 
 
-    ' Class CVODESolverEx
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    ' 
-    '     Function: CheckRoot, IntegrateWithRootFinding, RefineRoot
-    ' 
-    '     Sub: SetRootFunction
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 177
+'    Code Lines: 99 (55.93%)
+' Comment Lines: 43 (24.29%)
+'    - Xml Docs: 58.14%
+' 
+'   Blank Lines: 35 (19.77%)
+'     File Size: 5.72 KB
+
+
+' Class CVODESolverEx
+' 
+'     Constructor: (+1 Overloads) Sub New
+' 
+'     Function: CheckRoot, IntegrateWithRootFinding, RefineRoot
+' 
+'     Sub: SetRootFunction
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports std = System.Math
 
 ' ============================================================================
@@ -112,7 +113,7 @@ Public Class CVODESolverEx : Inherits CVODESolver
     ''' <param name="tOut">目标时间</param>
     ''' <param name="yOut">输出状态</param>
     ''' <returns>根查找结果</returns>
-    Public Function IntegrateWithRootFinding(tOut As Double, yOut As NVector) As RootFindingResult
+    Public Function IntegrateWithRootFinding(tOut As Double, yOut As Vector) As RootFindingResult
         Dim result As New RootFindingResult()
 
         If _rootFunc Is Nothing Then
@@ -152,7 +153,7 @@ Public Class CVODESolverEx : Inherits CVODESolver
                     result.Found = True
                     result.RootTime = rootTime
                     result.RootIndex = i
-                    result.State = New NVector(CurrentState)
+                    result.State = New Vector(CurrentState)
 
                     ' 更新输出
                     If yOut IsNot Nothing Then
@@ -201,7 +202,7 @@ Public Class CVODESolverEx : Inherits CVODESolver
         Const MAX_ITER As Integer = 20
         Const TOL As Double = 0.0000000001
 
-        Dim yTemp As New NVector(CurrentState.Length)
+        Dim yTemp As New Vector(CurrentState.Length)
         Dim gTemp As Double() = New Double(_nRoots - 1) {}
 
         For iter As Integer = 0 To MAX_ITER - 1

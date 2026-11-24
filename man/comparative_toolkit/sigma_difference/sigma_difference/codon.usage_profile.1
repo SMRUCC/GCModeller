@@ -1,0 +1,35 @@
+.\" man page create by R# package system.
+.TH SIGMA_DIFFERENCE 1 2000-1月 "codon.usage_profile" "codon.usage_profile"
+.SH NAME
+codon.usage_profile \- Build the codon usage frequency profile c(x, y, z) of a gene collection
+.SH SYNOPSIS
+\fIcodon.usage_profile(\fBgenes\fR as <generic> FastaFile, 
+\fBname\fR as string = \fB<NULL>\fR, 
+\fBexcludeStopCodons\fR as boolean = TRUE);\fR
+.SH DESCRIPTION
+.PP
+Build the codon usage frequency profile c(x, y, z) of a gene collection
+ (the reference class C of the \fBB(F|C)\fR codon bias measurement).
+.PP
+.SH OPTIONS
+.PP
+\fBgenes\fB \fR\- the CDS gene sequences of the gene collection. 
+.PP
+.PP
+\fBname\fB \fR\- the profile name. 
+.PP
+.PP
+\fBexcludeStopCodons\fB \fR\- exclude the stop codons from the frequency total. 
+.PP
+.SH VALUE
+.PP
+the codon usage profile
+.PP
+.SH SEE ALSO
+sigma_difference
+.SH FILES
+.PP
+comparative_toolkit.dll
+.PP
+.SH AUTHOR
+Written by \fBxie.guigang@gcmodeller.org\fR

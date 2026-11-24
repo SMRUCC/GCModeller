@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Create the catalog profiles data of the GO enrichment result by the GO DAG term</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>dag_enrichment_profile {profiles}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>Create the catalog profiles data of the GO enrichment result by the GO DAG term</h2>
+
+        <h3>Description</h3>
+
+        <p>hierarchy, the terms are grouped by the child node of the given root term.</p>
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>dag_enrichment_profile</strong>(<i>enrichments</i>, <i>obo</i>, <i>root</i>,
+    <i>top</i> = <span style='color: green;'>10</span>,
+    <i>pvalue.cut</i> = <span style='color: green;'>1</span>,
+    <i>sort</i> = <span style='color: blue !important;'>TRUE</span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>enrichments</dt>
+<dd><p>the kobas <a href="cref:T:SMRUCC.genomics.Analysis.Microarray.KOBAS.EnrichmentTerm">EnrichmentTerm</a> or gcmodeller <a href="cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.EnrichmentResult">EnrichmentResult</a>.</p></dd>
+
+
+<dt>obo</dt>
+<dd><p>the GO obo database that is used for creating the DAG graph. [as <a href="/vignettes/clr/SMRUCC/genomics/Data/GeneOntology/OBO/GO_OBO.html">GO_OBO</a>]</p></dd>
+
+
+<dt>root</dt>
+<dd><p>the root term id. [as string]</p></dd>
+
+
+<dt>top</dt>
+<dd><p>display the top n enriched GO terms of each catalog. [as integer]</p></dd>
+
+
+<dt>pvalue.cut</dt>
+<dd><p>the p-value cutoff of the enrichment terms. Default <code>1</code> means no filtering. [as double]</p></dd>
+
+
+<dt>sort</dt>
+<dd><p>sorts the terms of each catalog by the <code>-log10(p)</code> score? Default <code>TRUE</code>. [as boolean]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: none;">Details</h3>
+
+        
+
+        <h3 style="display: block">Authors</h3>
+
+        gseakit
+
+        <h3>Value</h3>
+
+        <p>a <a href="cref:T:SMRUCC.genomics.ComponentModel.Annotation.CatalogProfiles">CatalogProfiles</a> object, the name of each catalog is the child term of the given <strong>root</strong> and the value is the enriched GO terms of that branch.</p><h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>profiles</em> version 1.0.0.0 <a
+                href="../profiles.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

@@ -80,9 +80,9 @@ Public Class ProteinInteractionNetwork
         End Function
     End Class
 
-    Public Shared Sub ExportNetwork(Network As Interaction(), SavedFile As String)
+    Public Shared Sub ExportNetwork(network As Interaction(), SavedFile As String)
         Dim InteractionList As List(Of KeyValuePair(Of String, String)) = New List(Of KeyValuePair(Of String, String))
-        For Each Node In Network
+        For Each Node In network
             For Each Edge In Node.InteractionWith
                 Call InteractionList.Add(New KeyValuePair(Of String, String)(Node.Protein, Edge)) '
             Next

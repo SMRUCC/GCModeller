@@ -94,7 +94,6 @@ Imports std = System.Math
 
 #End Region
 
-
 ''' <summary>
 ''' A YAML document parser that converts YAML text into JsonElement model objects.
 ''' The parser supports block mappings, block sequences, multi-line strings,
@@ -111,17 +110,18 @@ Public Class YamlParser
     ''' </summary>
     ''' <param name="yamlText">The YAML document text.</param>
     ''' <returns>The root JsonElement (typically a JsonObject).</returns>
-    Public Function Parse(yamlText As String) As JsonElement
+    Public Shared Function Parse(yamlText As String) As JsonElement
         If String.IsNullOrEmpty(yamlText) Then
             Return New JsonObject()
         End If
 
         ' Phase 1: Pre-process the raw YAML text into logical lines
-        Dim lines As List(Of YamlLine) = PreProcess(yamlText)
+        Dim yaml As New YamlParser
+        Dim lines As List(Of YamlLine) = yaml.PreProcess(yamlText)
 
         ' Phase 2: Parse the logical lines into the JsonElement model
         Dim index As Integer = 0
-        Return ParseValue(lines, index, 0)
+        Return yaml.ParseValue(lines, index, 0)
     End Function
 
     ''' <summary>
@@ -129,7 +129,7 @@ Public Class YamlParser
     ''' </summary>
     ''' <param name="filePath">The path to the YAML file.</param>
     ''' <returns>The root JsonElement (typically a JsonObject).</returns>
-    Public Function ParseFile(filePath As String) As JsonElement
+    Public Shared Function ParseFile(filePath As String) As JsonElement
         Dim yamlText As String = System.IO.File.ReadAllText(filePath, Encoding.UTF8)
         Return Parse(yamlText)
     End Function
@@ -181,7 +181,7 @@ Public Class YamlParser
                 ' - Empty/whitespace-only
                 ' - Indented more than the key line's indentation
                 ' We determine the base indentation from the first content line.
-                If content.Length = 0 OrElse indent > mlState.BaseIndent Then
+                If content.Length = 0 OrElse indent >= mlState.BaseIndent Then
                     If mlState.BaseIndent < 0 AndAlso content.Length > 0 Then
                         ' First content line determines base indentation
                         mlState.BaseIndent = indent
@@ -202,9 +202,11 @@ Public Class YamlParser
                 Else
                     ' Block scalar has ended; finalize it
                     Dim blockValue As String = FinalizeBlockScalar(mlState)
+                    ' Keep a colon between key and value so the recursive
+                    ' descent mapping parser can still locate the key.
                     result.Add(New YamlLine With {
                         .Indent = indent,
-                        .Content = mlState.Key & " " & blockValue,
+                        .Content = mlState.Key & ": " & blockValue,
                         .LineNumber = mlState.StartLineNumber
                     })
                     mlState = Nothing
@@ -322,7 +324,7 @@ Public Class YamlParser
             Dim blockValue As String = FinalizeBlockScalar(mlState)
             result.Add(New YamlLine With {
                 .Indent = 0,
-                .Content = mlState.Key & " " & blockValue,
+                .Content = mlState.Key & ": " & blockValue,
                 .LineNumber = mlState.StartLineNumber
             })
         End If
@@ -636,8 +638,12 @@ Public Class YamlParser
             ' Extract the value part (after the colon)
             Dim valueStr As String = line.Content.Substring(colonPos + 1).Trim()
 
-            ' Remove inline comment from value
-            valueStr = StripComment(valueStr)
+            ' Block scalars already carry their raw (verbatim) content; stripping
+            ' a trailing comment here would corrupt any '#' that legitimately
+            ' appears inside the scalar, so only strip comments for other values.
+            If Not (valueStr.StartsWith("|"c) OrElse valueStr.StartsWith(">"c)) Then
+                valueStr = StripComment(valueStr)
+            End If
 
             ' Parse the value
             Dim value As JsonElement

@@ -1,0 +1,52 @@
+WGCNA benchmark summary
+=======================
+file      : K:\hsa\Homo_sapiens_expr_advanced_all_conditions.csv
+mode      : blockwise
+genes     : 60273
+samples   : 1888
+backend   : CUDA
+treeCut   : dynamic
+maxBlock  : 5000
+topN      : 20000
+parallel  : 1
+seed      : 54321
+
+soft power: 6
+modules   : 57
+assigned  : 6609
+  M1: 668
+  M2: 553
+  M3: 391
+  M4: 282
+  M5: 191
+  M6: 180
+  M7: 174
+  M8: 173
+  M9: 171
+  M10: 169
+  M11: 162
+  M12: 161
+  M13: 148
+  M14: 145
+  M15: 139
+  M16: 139
+  M17: 137
+  M18: 135
+  M19: 131
+  M20: 131
+
+load       : 17.9 s
+wall clock : 52.6 s
+peak RSS   : 3913 MB
+managed heap: 2365 MB
+
+stage timings (ms):
+  backend: 1698
+  filter: 350
+  precluster: 786
+  beta: 3
+  blocks: 31352
+  collect: 1
+  merge: 313
+  eigengene: 138
+  total: 34651

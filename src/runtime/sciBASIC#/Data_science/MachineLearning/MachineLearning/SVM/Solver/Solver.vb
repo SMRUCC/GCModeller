@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::049f5119a6c621ef7ab8c67e280d38c4, Data_science\MachineLearning\MachineLearning\SVM\Solver\Solver.vb"
+﻿#Region "Microsoft.VisualBasic::4828d2e1bac20c1e3dbee6b5b3a97582, Data_science\MachineLearning\MachineLearning\SVM\Solver\Solver.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 656
-    '    Code Lines: 461 (70.27%)
-    ' Comment Lines: 70 (10.67%)
-    '    - Xml Docs: 28.57%
+    '   Total Lines: 672
+    '    Code Lines: 461 (68.60%)
+    ' Comment Lines: 86 (12.80%)
+    '    - Xml Docs: 41.86%
     ' 
-    '   Blank Lines: 125 (19.05%)
-    '     File Size: 21.49 KB
+    '   Blank Lines: 125 (18.60%)
+    '     File Size: 22.89 KB
 
 
     '     Class Solver
@@ -491,7 +491,7 @@ Namespace SVM
                     active_size = l
                 End If
 
-                Console.Error.Write(ASCII.LF & "WARNING: reaching max number of iterations" & ASCII.LF)
+                Console.Error.Write(ASCII.LF & $"WARNING: reaching max number of iterations [max_iter={max_iter}]" & ASCII.LF)
             End If
 
             ' calculate rho

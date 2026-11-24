@@ -1,3 +1,71 @@
+﻿#Region "Microsoft.VisualBasic::c4058ae86b95573878891696988dced7, Data_science\MachineLearning\SNN\SparseMatrix.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 353
+    '    Code Lines: 224 (63.46%)
+    ' Comment Lines: 87 (24.65%)
+    '    - Xml Docs: 68.97%
+    ' 
+    '   Blank Lines: 42 (11.90%)
+    '     File Size: 13.85 KB
+
+
+    ' Enum SparseNormalization
+    ' 
+    '     FanIn, FanOut, GlobalMax, None
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    ' Class SparseMatrix
+    ' 
+    '     Properties: ColumnIndices, Columns, Csr, NonZeros, RowPointers
+    '                 Rows, Values
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
+    '     Function: FromTriplets, SpMM, ToDense, ToString
+    ' 
+    '     Sub: MarkModified, Normalize
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 ' ============================================================================
 ' SparseMatrix.vb — 稀疏突触连接矩阵（CSR：Compressed Sparse Row）
 '
@@ -94,6 +162,37 @@ Public Class SparseMatrix
             Return _values
         End Get
     End Property
+
+    ''' <summary>
+    ''' CSR 计算载体（零拷贝包装 <c>RowPointers/ColumnIndices/Values</c>）。
+    ''' </summary>
+    ''' <remarks>
+    ''' <c>SparseLIFLayer</c> 用它把稀疏结构直接交给 <c>ITensorCompute.LifStep</c>；
+    ''' 需要自行编写稀疏算子（或做性能分解）的调用方也可以直接用：
+    ''' <code>
+    '''   Tensor.computeKernel.LifStep(matrix.Csr, sPrev, ext, h, s, counts, beta, threshold, False)
+    ''' </code>
+    ''' 注意它包装的就是本类的三个数组，因此 <see cref="MarkModified"/> 的契约同样适用。
+    ''' </remarks>
+    Public ReadOnly Property Csr As SparseCsr
+        Get
+            Return _csr
+        End Get
+    End Property
+
+    ''' <summary>
+    ''' 声明 <see cref="Values"/> 已被就地修改，使设备端（GPU）缓存的 CSR 副本失效。
+    ''' </summary>
+    ''' <remarks>
+    ''' 凡是在本类之外就地改过 <see cref="Values"/> 的调用方（典型例子：连接组的增益标定
+    ''' <c>SynapseTriplets.ApplyGain</c>）都必须调用本方法。
+    ''' 不调用的话，GPU 会继续复用显存里的旧权重 —— 表现为「CPU 与 GPU 结果不同，
+    ''' 且差异无法从数据上解释」这类最难定位的伪 bug。
+    ''' <see cref="Normalize"/> 内部已自行调用。
+    ''' </remarks>
+    Public Sub MarkModified()
+        _csr.MarkModified()
+    End Sub
 
     Private Sub New(rows As Integer, columns As Integer,
                     rowPtr As Integer(), colIdx As Integer(), values As Double())

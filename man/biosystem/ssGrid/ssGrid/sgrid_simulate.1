@@ -1,0 +1,53 @@
+.\" man page create by R# package system.
+.TH SSGRID 1 2000-1月 "sgrid_simulate" "sgrid_simulate"
+.SH NAME
+sgrid_simulate \- integrate the fitted S-system model and return the trajectory
+.SH SYNOPSIS
+\fIsgrid_simulate(\fBnetwork\fR as <generic> SSystemNetwork, 
+\fBfinal_time\fR as double = 0, 
+\fBcontext\fR as list = \fB<NULL>\fR, 
+\fBgenes\fR as any = \fB<NULL>\fR, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+integrate the fitted S-system model and return the trajectory
+.PP
+.SH OPTIONS
+.PP
+\fBnetwork\fB \fR\- -. 
+.PP
+.PP
+\fBfinal_time\fB \fR\- 
+ the final time of the integration, zero means the end of the fitted time axis.
+. 
+.PP
+.PP
+\fBcontext\fB \fR\- 
+ the optional initial state of the ODE integration, this value should be in 
+ the model state space(see also: [ssGrid.sgridContext()](cref:M:biosystem.ssGrid.sgridContext(SMRUCC.genomics.Analysis.SGrid.GRN.SSystemNetwork,System.Object,System.String,SMRUCC.Rsharp.Runtime.Environment))), the first 
+ sample point of the fitted time series will be used if this parameter is 
+ not provided.
+. 
+.PP
+.PP
+\fBgenes\fB \fR\- 
+ the optional gene list that returns in the trajectory table.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- -. 
+.PP
+.SH VALUE
+.PP
+a dataframe, the first column \fB#Time\fR is the time axis.
+.PP
+.SH EXAMPLES
+.PP
+let baseline = sgrid_simulate(network, context = sgrid_context(network, counts));
+.PP
+.SH SEE ALSO
+ssGrid
+.SH FILES
+.PP
+biosystem.dll
+.PP

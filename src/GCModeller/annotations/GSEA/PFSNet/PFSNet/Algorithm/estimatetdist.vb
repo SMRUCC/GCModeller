@@ -68,17 +68,22 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
                                   b As Double,
                                   t1 As Double,
                                   t2 As Double,
-                                  n As Integer) As Double()
+                                  n As Integer,
+                                  Optional rng As Random = Nothing) As Double()
         ' total<-cbind(d1,d2)
         Dim total As DataFrameRow() = cbind(d1, d2).ToArray
         ' tdistribution<-c()
-        Dim tdistribution As New List(Of Double)
+        Dim tdistribution As New System.Collections.Generic.List(Of Double)
 
         For i As Integer = 0 To n - 1
-            cat(".")
-            tdistribution += total.estimatetdistLoop(ggi, d1, d2, t1, t2, b)
+            If (i + 1) Mod 10 = 0 Then
+                cat(".")
+            End If
 
-            If tdistribution > 1000 Then
+            Dim iteration As Double() = total.estimatetdistLoop(ggi, d1, d2, t1, t2, b, rng)
+            tdistribution.AddRange(iteration.Where(Function(value) Double.IsFinite(value)))
+
+            If tdistribution.Count > 1000 Then
                 Exit For
             End If
         Next
@@ -87,8 +92,16 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
     End Function
 
     <Extension>
-    Private Function estimatetdistLoop(total As DataFrameRow(), ggi As GraphEdge(), d1 As DataFrameRow(), d2 As DataFrameRow(), t1#, t2#, b#) As Double()
-        Dim samplevector = Sample(total.First.samples - 1, d1.First.samples - 1)
+    Private Function estimatetdistLoop(total As DataFrameRow(),
+                                       ggi As GraphEdge(),
+                                       d1 As DataFrameRow(),
+                                       d2 As DataFrameRow(),
+                                       t1 As Double,
+                                       t2 As Double,
+                                       b As Double,
+                                       rng As Random) As Double()
+
+        Dim samplevector As Integer() = Sample(total.First.samples, d1.First.samples, rng)
         Dim expr1o = Matrix.TakeSamples(total, samplevector, False).ToArray
         Dim expr2o = Matrix.TakeSamples(total, samplevector, True).ToArray
         Dim w1matrix1 = computew1(expr1o, theta1:=t1, theta2:=t2)
@@ -111,15 +124,16 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
         Dim pscore = sapply_pscore(ccs, w1matrix1)
         Dim nscore = sapply_nscore(ccs, w1matrix1)
 
-        Dim statistics As Double() = rep(False, ccs.Length)
+        Dim statistics As New System.Collections.Generic.List(Of Double)(ccs.Length)
 
         For p As Integer = 0 To ccs.Length - 1
-            Dim x = pscore(p), y = nscore(p)
-            Dim ttest = t.Test(x, y)
+            Dim statistic As Double = PFSNetStatistics.PairedTTest(pscore(p), nscore(p))
 
-            statistics(p) = ttest.TestValue
+            If Double.IsFinite(statistic) Then
+                statistics.Add(statistic)
+            End If
         Next
 
-        Return statistics
+        Return statistics.ToArray
     End Function
 End Module

@@ -154,6 +154,12 @@ Public Class pathways : Inherits Model
     <AttributeField("ENZYMES-NOT-USED")>
     Public Property enzymesNotUsed As String()
 
+    <AttributeField("DBLINKS")> Public Property dbLinks As String()
+    <AttributeField("DATA-SOURCE")> Public Property dataSource As String()
+    <AttributeField("DOCUMENTATION")> Public Property documentation As String()
+    <AttributeField("PATHOLOGIC-NAME-MATCHER-EVIDENCE")> Public Property pathologicNameMatcherEvidence As String()
+    <AttributeField("PATHOLOGIC-PWY-EVIDENCE")> Public Property pathologicPathwayEvidence As String()
+
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Overrides Function ToString() As String
         Return If(commonName, uniqueId)

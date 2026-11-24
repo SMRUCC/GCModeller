@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0fa6a2c3906cfeaf6ceb8927e9174b2f, Data_science\Mathematica\Math\Math\Algebra\LP\IPMCrossover\SparseCholesky.vb"
+﻿#Region "Microsoft.VisualBasic::05290584b1cfb215a8b8ecc15b083a20, Data_science\Mathematica\Math\Math\Algebra\LP\IPMCrossover\SparseCholesky.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 493
-    '    Code Lines: 322 (65.31%)
-    ' Comment Lines: 35 (7.10%)
+    '   Total Lines: 491
+    '    Code Lines: 320 (65.17%)
+    ' Comment Lines: 35 (7.13%)
     '    - Xml Docs: 22.86%
     ' 
-    '   Blank Lines: 136 (27.59%)
-    '     File Size: 15.77 KB
+    '   Blank Lines: 136 (27.70%)
+    '     File Size: 15.71 KB
 
 
     '     Class SparseChol
@@ -99,8 +99,6 @@
 '    （基因组规模 GEM 的正规方程图接近随机图，L 的 fill-in 可能失控）。
 ' ============================================================================
 
-Imports System
-Imports System.Collections.Generic
 Imports std = System.Math
 
 Namespace LinearAlgebra.LinearProgramming.IPMCrossover

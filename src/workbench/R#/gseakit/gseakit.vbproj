@@ -11,6 +11,8 @@
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Title>GSEA/GSVA data analysis toolkit</Title>
+	<OutputPath>../../../../assembly/</OutputPath>
+	<GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -34,10 +36,10 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
-    <DocumentationFile>gseakit.xml</DocumentationFile>
-    <DefineConstants>netcore5=1</DefineConstants>
-    <OutputPath>../../pkg/assembly/</OutputPath>
+    <Optimize>true</Optimize>
   </PropertyGroup>
+
+
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\GCModeller\analysis\Microarray\Microarray.NET5.vbproj" />
@@ -46,6 +48,7 @@
     <ProjectReference Include="..\..\..\GCModeller\annotations\GSEA\GSEA.KnowledgeBase.Extensions\GSEA.KB.NET5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\annotations\GSEA\GSEA\gsea-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\annotations\GSEA\GSVA\GSVA.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\annotations\GSEA\moGSVA\moGSVA.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\data\GO_gene-ontology\GeneOntology\go_owl-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\data\GO_gene-ontology\obographs\obographs\obographs.NET5.vbproj" />

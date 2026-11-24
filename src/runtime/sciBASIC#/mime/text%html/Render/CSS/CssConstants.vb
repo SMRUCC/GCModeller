@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4375f4fce26ff91f7486b0103e911132, mime\text%html\Render\CSS\CssConstants.vb"
+﻿#Region "Microsoft.VisualBasic::e1223eaa4052b9361e8be1e64c5bb145, mime\text%html\Render\CSS\CssConstants.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 142
-    '    Code Lines: 101 (71.13%)
-    ' Comment Lines: 27 (19.01%)
+    '   Total Lines: 154
+    '    Code Lines: 104 (67.53%)
+    ' Comment Lines: 35 (22.73%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 14 (9.86%)
-    '     File Size: 5.57 KB
+    '   Blank Lines: 15 (9.74%)
+    '     File Size: 6.12 KB
 
 
     '     Class CssConstants
@@ -51,6 +51,8 @@
     ' /********************************************************************************/
 
 #End Region
+
+Imports Microsoft.VisualBasic.Imaging
 
 Namespace Render.CSS
 
@@ -75,7 +77,17 @@ Namespace Render.CSS
         Public Const Hide As String = "hide"
         Public Const Inherit As String = "inherit"
         Public Const Inline As String = "inline"
+        ''' <summary>
+        ''' the ``inline-block`` display mode: the box itself is laid out as an
+        ''' inline level box, but its content is laid out as a block box.
+        ''' </summary>
+        Public Const InlineBlock As String = "inline-block"
         Public Const InlineTable As String = "inline-table"
+        ''' <summary>
+        ''' the ``fixed`` position mode: the box is removed from the normal flow
+        ''' and is placed against the edges of its containing block.
+        ''' </summary>
+        Public Const Fixed As String = "fixed"
         Public Const Inset As String = "inset"
         Public Const Italic As String = "italic"
         Public Const Justify As String = "justify"

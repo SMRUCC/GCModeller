@@ -1,0 +1,1328 @@
+Imports System.Text
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.MachineLearning.Darwinism
+Imports Microsoft.VisualBasic.Math
+Imports Microsoft.VisualBasic.Math.Framework.Optimization.LBFGSB
+Imports PriorEdge = SMRUCC.genomics.BioSystem.Core.RegulatoryEdge
+Imports PriorNet = SMRUCC.genomics.BioSystem.Core.PriorNetwork
+Imports std = System.Math
+
+Namespace GRN
+
+    ''' <summary>
+    ''' The objective function of the decoupled S-system inference for one single gene.
+    ''' (单个基因的解耦拟合目标函数)
+    ''' </summary>
+    ''' <remarks>
+    ''' 目标函数取「斜率残差平方和」，即：
+    ''' f = sum_k (alpha*prod(X^g) - beta*prod(X^h) - S_ik)^2 / scale + L1 * sum(|g| + |h|)
+    ''' 其中所有的幂律项都通过对数域求和之后再取指数来计算，避免逐点调用 Pow 成为性能瓶颈。
+    ''' </remarks>
+    Public Class SlopeProblem
+
+        ''' <summary>
+        ''' 候选调控因子的对数表达量，第一维是候选因子、第二维是时间点
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property LnX As Double()()
+        ''' <summary>
+        ''' 目标基因的观测斜率
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Observed As Double()
+        ''' <summary>
+        ''' 残差的归一化系数
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Scale As Double
+        ''' <summary>
+        ''' L1 稀疏惩罚的权重
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property L1 As Double
+        ''' <summary>
+        ''' 自环在候选调控因子之中的下标，负数表示当前基因不包含自环
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property SelfIndex As Integer = -1
+        ''' <summary>
+        ''' 稳定性惩罚的权重：稳态的渐近稳定要求对数增益矩阵的对角元为负数，
+        ''' 故这里会对正的自环净弹性施加惩罚
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property StabilityWeight As Double = 1.0R
+
+        ''' <summary>
+        ''' 候选调控因子是否被先验知识所支持；为空的时候不启用先验软约束
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property PriorMask As Boolean()
+        ''' <summary>
+        ''' 先验知识所给出的调控方向（+1 激活 / -1 抑制 / 0 未知）；为空的时候不启用符号约束
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property PriorSign As Integer()
+        ''' <summary>
+        ''' 非先验交互的软惩罚强度
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property PriorPenalty As Double = 0
+        ''' <summary>
+        ''' 符号违背的惩罚强度
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property PriorSignPenalty As Double = 0
+
+        ''' <summary>
+        ''' 目标函数被调用的次数（性能剖析用）
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Evaluations As Long = 0
+
+        ''' <summary>
+        ''' 复用的工作区：<c>etaG/etaH</c>（合成/降解项的对数和）、<c>residual</c>（残差）
+        ''' 以及解析梯度用的 <c>u/v</c>。这五个数组在一次拟合的生命周期之内只分配一次，
+        ''' 从而让热循环保持零分配。
+        ''' </summary>
+        Private etaG As Double()
+        Private etaH As Double()
+        Private residual As Double()
+        Private gradU As Double()
+        Private gradV As Double()
+        ''' <summary>
+        ''' <see cref="LnX"/> 的转置（按时间点一行），用于让目标函数的内层循环连续访问
+        ''' </summary>
+        Private lnXT As Double()()
+
+        ''' <summary>
+        ''' 按照时间点数量准备（或者复用）工作区
+        ''' </summary>
+        ''' <param name="m"></param>
+        Private Sub ensureWorkspace(m As Integer)
+            If etaG Is Nothing OrElse etaG.Length <> m Then
+                etaG = New Double(m - 1) {}
+                etaH = New Double(m - 1) {}
+                residual = New Double(m - 1) {}
+                gradU = New Double(m - 1) {}
+                gradV = New Double(m - 1) {}
+            End If
+        End Sub
+
+        ''' <summary>
+        ''' 把 <see cref="LnX"/> 转置成「按时间点一行、候选因子连续」的布局。
+        ''' </summary>
+        ''' <param name="m">时间点数量</param>
+        ''' <param name="k">候选因子数量</param>
+        ''' <remarks>
+        ''' 目标函数的内层循环是「固定 t、求和 c」，转置之后这段内层访问完全连续，
+        ''' 避免了 <c>LnX(c)(t)</c> 的两次间接寻址与跨行跳跃（实测这一步的收益远大于
+        ''' 把内层循环向量化：k 只有 20 余个元素，而 m 可以到几百）。
+        ''' </remarks>
+        Private Sub ensureTransposed(m As Integer, k As Integer)
+            If lnXT Is Nothing OrElse lnXT.Length <> m OrElse (m > 0 AndAlso lnXT(0).Length <> k) Then
+                lnXT = New Double(m - 1)() {}
+
+                For t As Integer = 0 To m - 1
+                    Dim col As Double() = New Double(k - 1) {}
+
+                    For c As Integer = 0 To k - 1
+                        col(c) = LnX(c)(t)
+                    Next
+
+                    lnXT(t) = col
+                Next
+            End If
+        End Sub
+
+        ''' <summary>
+        ''' 计算归一化的目标函数值（越小越好）
+        ''' </summary>
+        ''' <param name="p">参数向量 [ln(alpha), ln(beta), g(0..k-1), h(0..k-1)]</param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' 目标函数取「相对均方根斜率误差」再乘以一个无量纲的惩罚因子：
+        ''' 相对误差项保证了目标函数的量级与表达尺度无关，
+        ''' 而乘性的惩罚因子（稀疏 + 稳定性）则保证了惩罚项不会压过残差项。
+        ''' </remarks>
+        Public Function Objective(p As Double()) As Double
+            Return evaluate(p, Nothing)
+        End Function
+
+        ''' <summary>
+        ''' 计算目标函数值；当 <paramref name="grad"/> 非空的时候同时写入**解析梯度**
+        ''' </summary>
+        ''' <param name="p">参数向量</param>
+        ''' <param name="grad">梯度输出（长度与 <paramref name="p"/> 一致）；Nothing 表示不需要梯度</param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' 与旧实现的差别只在于**计算方式**（SIMD 向量化 + 一次遍历），
+        ''' 公式本身没有改变：仍然是对数域求和之后取指数。
+        ''' </remarks>
+        Public Function evaluate(p As Double(), grad As Double()) As Double
+            Dim err As Double = 0
+
+            Return evaluateCore(p, grad, err)
+        End Function
+
+        ''' <summary>
+        ''' 目标函数的 SIMD 内核：<c>eta = ln α + Σ g_c·lnX_c</c>（AXPY），
+        ''' 向量化 exp，残差平方和归约，最后乘上惩罚因子。
+        ''' </summary>
+        Private Function evaluateCore(p As Double(), grad As Double(), ByRef err As Double) As Double
+            Dim m As Integer = Observed.Length
+            Dim k As Integer = (p.Length - 2) \ 2
+
+            If m <= 0 Then
+                err = 0
+                Return 1000000000000.0
+            End If
+
+            Call ensureWorkspace(m)
+            Call ensureTransposed(m, k)
+
+            Evaluations += 1
+
+            Dim wantGrad As Boolean = Not grad Is Nothing AndAlso grad.Length >= p.Length
+            Dim p0 As Double = p(0)
+            Dim p1 As Double = p(1)
+            Dim sumU As Double = 0
+            Dim sumV As Double = 0
+
+            If wantGrad Then
+                Array.Clear(grad, 0, 2 + 2 * k)
+            End If
+
+            ' 融合的单遍内核：内层循环沿「时间点」展开、候选因子连续存放，
+            ' 一次遍历同时得到 etaG/etaH、残差平方和以及（可选的）梯度累加
+            For t As Integer = 0 To m - 1
+                Dim col As Double() = lnXT(t)
+                Dim la As Double = p0
+                Dim lb As Double = p1
+
+                For c As Integer = 0 To k - 1
+                    Dim lx As Double = col(c)
+
+                    la += p(2 + c) * lx
+                    lb += p(2 + k + c) * lx
+                Next
+
+                ' 内联的溢出保护（避免每步两次方法调用的开销）
+                Dim a As Double = std.Exp(std.Max(std.Min(la, 700.0R), -700.0R))
+                Dim b As Double = std.Exp(std.Max(std.Min(lb, 700.0R), -700.0R))
+                Dim r As Double = (a - b) - Observed(t)
+
+                err += r * r
+
+                If wantGrad Then
+                    Dim u As Double = 2.0R * r * a
+                    Dim v As Double = -2.0R * r * b
+
+                    sumU += u
+                    sumV += v
+
+                    For c As Integer = 0 To k - 1
+                        Dim lx As Double = col(c)
+
+                        grad(2 + c) += u * lx
+                        grad(2 + k + c) += v * lx
+                    Next
+                End If
+            Next
+
+            Dim relative As Double = std.Sqrt(err / m) / Scale
+
+            Dim mass As Double = 0
+            Dim unsupported As Double = 0
+            Dim violations As Double = 0
+            Dim nSign As Integer = 0
+            Dim penalty As Double = penaltyOf(p, k, mass, unsupported, violations, nSign)
+
+            If wantGrad Then
+                Dim relFactor As Double = 0
+
+                If err > 1.0E-300 AndAlso Scale > 0 Then
+                    relFactor = 1.0R / (2.0R * Scale * std.Sqrt(err * m))
+                End If
+
+                Dim w As Double = penalty * relFactor
+
+                For i As Integer = 2 To 2 + 2 * k - 1
+                    grad(i) *= w
+                Next
+
+                grad(0) = w * sumU
+                grad(1) = w * sumV
+
+                Call addPenaltyGradient(p, k, relative, grad, mass, unsupported, violations, nSign)
+            End If
+
+            Dim f As Double = relative * penalty
+
+            If Double.IsNaN(f) OrElse Double.IsInfinity(f) Then
+                Return 1000000000000.0
+            End If
+
+            Return f
+        End Function
+
+        ''' <summary>
+        ''' 标量指数（带溢出保护）；本机实测比多项式 SIMD 版本更快
+        ''' </summary>
+        ''' <param name="v"></param>
+        ''' <param name="count"></param>
+        Private Shared Sub expScalar(v As Double(), count As Integer)
+            For i As Integer = 0 To count - 1
+                v(i) = std.Exp(clampExp(v(i)))
+            Next
+        End Sub
+
+        ''' <summary>
+        ''' 计算乘性惩罚因子，同时回传先验惩罚所需要的中间统计量（供解析梯度复用）
+        ''' </summary>
+        Private Function penaltyOf(p As Double(), k As Integer,
+                                   ByRef mass As Double, ByRef unsupported As Double,
+                                   ByRef violations As Double, ByRef nSign As Integer) As Double
+
+            mass = 0
+            unsupported = 0
+            violations = 0
+            nSign = 0
+
+            For c As Integer = 0 To k - 1
+                Dim g As Double = p(2 + c)
+                Dim h As Double = p(2 + k + c)
+                Dim w As Double = std.Abs(g) + std.Abs(h)
+
+                mass += w
+
+                If Not PriorMask Is Nothing AndAlso Not PriorMask(c) Then
+                    unsupported += w
+                End If
+
+                If Not PriorSign Is Nothing AndAlso PriorSign(c) <> 0 Then
+                    Dim violation As Double = -PriorSign(c) * (g - h)
+
+                    nSign += 1
+
+                    If violation > 0 Then
+                        violations += violation
+                    End If
+                End If
+            Next
+
+            Dim penalty As Double = 1.0R
+
+            If L1 > 0 Then
+                penalty += L1 * mass
+            End If
+            If SelfIndex >= 0 AndAlso StabilityWeight > 0 Then
+                Dim netSelf As Double = p(2 + SelfIndex) - p(2 + k + SelfIndex)
+
+                If netSelf > 0 Then
+                    penalty += StabilityWeight * netSelf
+                End If
+            End If
+            If mass > 0.000000000001 AndAlso PriorPenalty > 0 Then
+                penalty += PriorPenalty * (unsupported / mass)
+            End If
+            If nSign > 0 AndAlso PriorSignPenalty > 0 Then
+                penalty += PriorSignPenalty * (violations / nSign)
+            End If
+
+            Return penalty
+        End Function
+
+        ''' <summary>
+        ''' 惩罚项对参数的导数（L1 / 自环稳定性 / 先验）
+        ''' </summary>
+        Private Sub addPenaltyGradient(p As Double(), k As Integer, relative As Double, grad As Double(),
+                                       mass As Double, unsupported As Double,
+                                       violations As Double, nSign As Integer)
+
+            If L1 > 0 Then
+                For c As Integer = 0 To k - 1
+                    grad(2 + c) += relative * L1 * std.Sign(p(2 + c))
+                    grad(2 + k + c) += relative * L1 * std.Sign(p(2 + k + c))
+                Next
+            End If
+
+            If SelfIndex >= 0 AndAlso StabilityWeight > 0 Then
+                Dim netSelf As Double = p(2 + SelfIndex) - p(2 + k + SelfIndex)
+
+                If netSelf > 0 Then
+                    grad(2 + SelfIndex) += relative * StabilityWeight
+                    grad(2 + k + SelfIndex) -= relative * StabilityWeight
+                End If
+            End If
+
+            If Not PriorMask Is Nothing AndAlso PriorPenalty > 0 AndAlso mass > 0.000000000001 Then
+                Dim scale As Double = relative * PriorPenalty / (mass * mass)
+
+                For c As Integer = 0 To k - 1
+                    Dim signG As Double = std.Sign(p(2 + c))
+                    Dim signH As Double = std.Sign(p(2 + k + c))
+                    Dim dUg As Double = If(PriorMask(c), 0, signG)
+                    Dim dUh As Double = If(PriorMask(c), 0, signH)
+
+                    grad(2 + c) += scale * (dUg * mass - unsupported * signG)
+                    grad(2 + k + c) += scale * (dUh * mass - unsupported * signH)
+                Next
+            End If
+
+            If Not PriorSign Is Nothing AndAlso PriorSignPenalty > 0 AndAlso nSign > 0 Then
+                Dim scale As Double = relative * PriorSignPenalty / nSign
+
+                For c As Integer = 0 To k - 1
+                    Dim sign As Integer = PriorSign(c)
+
+                    If sign = 0 Then
+                        Continue For
+                    End If
+                    If (-sign * (p(2 + c) - p(2 + k + c))) <= 0 Then
+                        Continue For
+                    End If
+
+                    grad(2 + c) += scale * (-sign)
+                    grad(2 + k + c) += scale * sign
+                Next
+            End If
+        End Sub
+
+        ''' <summary>
+        ''' 计算先验知识的乘性惩罚因子：非先验交互的质量占比 + 方向违背量
+        ''' </summary>
+        ''' <param name="p">参数向量</param>
+        ''' <param name="k">候选调控因子的数量</param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' 惩罚量全部采用**相对量**（质量占比与平均值）而不是绝对值，
+        ''' 这样惩罚强度与候选因子数量无关，也不会随着动力学阶的绝对大小而失控；
+        ''' 这一点与本目标函数的「相对误差 × 乘性惩罚」设计是一致的。
+        ''' 
+        ''' 自环（<c>j = i</c>）总是被视为先验支持：
+        ''' 它在 S-system 之中主要承担降解项的自我衰减作用（h_ii &gt; 0），
+        ''' 而整理过的转录因子-靶基因数据库一般不会收录这类自我降解关系。
+        ''' </remarks>
+        Private Function priorPenaltyFactor(p As Double(), k As Integer) As Double
+            If PriorMask Is Nothing Then
+                Return 0
+            End If
+            If PriorPenalty <= 0 AndAlso (PriorSign Is Nothing OrElse PriorSignPenalty <= 0) Then
+                Return 0
+            End If
+
+            Dim mass As Double = 0
+            Dim unsupported As Double = 0
+            Dim violations As Double = 0
+            Dim nSign As Integer = 0
+
+            For c As Integer = 0 To k - 1
+                Dim g As Double = p(2 + c)
+                Dim h As Double = p(2 + k + c)
+                Dim w As Double = std.Abs(g) + std.Abs(h)
+
+                mass += w
+
+                If Not PriorMask(c) Then
+                    unsupported += w
+                End If
+
+                If Not PriorSign Is Nothing AndAlso PriorSign(c) <> 0 Then
+                    Dim net As Double = g - h
+                    Dim violation As Double = -PriorSign(c) * net
+
+                    nSign += 1
+
+                    If violation > 0 Then
+                        violations += violation
+                    End If
+                End If
+            Next
+
+            Dim factor As Double = 0
+
+            If mass > 0.000000000001 AndAlso PriorPenalty > 0 Then
+                factor += PriorPenalty * (unsupported / mass)
+            End If
+            If nSign > 0 AndAlso PriorSignPenalty > 0 Then
+                factor += PriorSignPenalty * (violations / nSign)
+            End If
+
+            Return factor
+        End Function
+
+        ''' <summary>
+        ''' 计算未归一化的斜率残差平方和
+        ''' </summary>
+        ''' <param name="p"></param>
+        ''' <returns></returns>
+        Public Function RawSSE(p As Double()) As Double
+            Dim err As Double = 0
+
+            Call evaluateCore(p, Nothing, err)
+
+            Return err
+        End Function
+
+        ''' <summary>
+        ''' 指数运算的溢出保护
+        ''' </summary>
+        Public Shared Function clampExp(x As Double) As Double
+            If Double.IsNaN(x) Then
+                Return -700
+            ElseIf x > 700 Then
+                Return 700
+            ElseIf x < -700 Then
+                Return -700
+            Else
+                Return x
+            End If
+        End Function
+    End Class
+
+    ''' <summary>
+    ''' The candidate solution of the differential evolution: a real valued parameter vector with box bounds.
+    ''' </summary>
+    Friend Class ParameterIndividual : Implements IIndividual
+
+        ''' <summary>
+        ''' 参数向量
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Genes As Double()
+        ''' <summary>
+        ''' 参数下界
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Lower As Double()
+        ''' <summary>
+        ''' 参数上界
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Upper As Double()
+        ''' <summary>
+        ''' 目标函数
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Problem As SlopeProblem
+
+        Private rnd As Random
+
+        Public Property MutationRate As Double Implements IIndividual.MutationRate
+
+        Public Function Yield(i As Integer) As Double Implements IIndividual.Yield
+            Return Genes(i)
+        End Function
+
+        Public Sub Put(i As Integer, value As Double) Implements IIndividual.Put
+            Genes(i) = clamp(value, Lower(i), Upper(i))
+        End Sub
+
+        Public Function Clone() As Object Implements System.ICloneable.Clone
+            Return New ParameterIndividual With {
+                .Genes = CType(Genes.Clone(), Double()),
+                .Lower = Lower,
+                .Upper = Upper,
+                .Problem = Problem,
+                .MutationRate = MutationRate,
+                .rnd = rnd
+            }
+        End Function
+
+        Private ReadOnly Property Identity As String Implements IIndividual.Identity
+            Get
+                Dim sb As New StringBuilder()
+                Dim stepSize As Integer = std.Max(1, Genes.Length \ 8)
+
+                For i As Integer = 0 To Genes.Length - 1 Step stepSize
+                    Call sb.Append(Genes(i).ToString("G6"))
+                Next
+
+                Return sb.ToString
+            End Get
+        End Property
+
+        Public Function Crossover(another As IIndividual) As System.Collections.Generic.IEnumerable(Of IIndividual) Implements IIndividual.Crossover
+            Dim b As ParameterIndividual = TryCast(another, ParameterIndividual)
+
+            If b Is Nothing Then
+                Return New IIndividual() {}
+            End If
+
+            Dim alpha As Double = rnd.NextDouble
+            Dim c1 As Double() = New Double(Genes.Length - 1) {}
+            Dim c2 As Double() = New Double(Genes.Length - 1) {}
+
+            For i As Integer = 0 To Genes.Length - 1
+                Dim x As Double = Genes(i) * alpha + b.Genes(i) * (1 - alpha)
+                Dim y As Double = b.Genes(i) * alpha + Genes(i) * (1 - alpha)
+
+                c1(i) = clamp(x, Lower(i), Upper(i))
+                c2(i) = clamp(y, Lower(i), Upper(i))
+            Next
+
+            Return New IIndividual() {
+                newChild(c1), newChild(c2)
+            }
+        End Function
+
+        Public Function Mutate() As IIndividual Implements IIndividual.Mutate
+            Dim g As Double() = CType(Genes.Clone(), Double())
+
+            For i As Integer = 0 To g.Length - 1
+                If rnd.NextDouble < MutationRate Then
+                    Dim span As Double = Upper(i) - Lower(i)
+                    Dim u1 As Double = std.Max(rnd.NextDouble, 0.000000000001)
+                    Dim u2 As Double = rnd.NextDouble
+                    Dim gauss As Double = std.Sqrt(-2 * std.Log(u1)) * std.Cos(2 * std.PI * u2)
+
+                    g(i) = clamp(g(i) + gauss * span * 0.1, Lower(i), Upper(i))
+                End If
+            Next
+
+            Return newChild(g)
+        End Function
+
+        Private Function newChild(genes As Double()) As ParameterIndividual
+            Return New ParameterIndividual With {
+                .Genes = genes,
+                .Lower = Lower,
+                .Upper = Upper,
+                .Problem = Problem,
+                .MutationRate = MutationRate,
+                .rnd = rnd
+            }
+        End Function
+
+        Private Shared Function clamp(x As Double, lo As Double, hi As Double) As Double
+            If Double.IsNaN(x) Then
+                Return (lo + hi) / 2
+            End If
+
+            Return std.Max(std.Min(x, hi), lo)
+        End Function
+
+        ''' <summary>
+        ''' 依据上下界创建一个随机的个体
+        ''' </summary>
+        Public Shared Function Random(lower As Double(), upper As Double(), problem As SlopeProblem, seed As Random) As ParameterIndividual
+            Dim g As Double() = New Double(lower.Length - 1) {}
+
+            For i As Integer = 0 To g.Length - 1
+                g(i) = lower(i) + (upper(i) - lower(i)) * seed.NextDouble
+            Next
+
+            Return New ParameterIndividual With {
+                .Genes = g,
+                .Lower = lower,
+                .Upper = upper,
+                .Problem = problem,
+                .MutationRate = 0.3,
+                .rnd = seed
+            }
+        End Function
+
+        ''' <summary>
+        ''' 依据给定的参数向量创建一个个体（用于继承历史最优解）
+        ''' </summary>
+        Public Shared Function FromVector(genes As Double(), lower As Double(), upper As Double(), problem As SlopeProblem, seed As Random) As ParameterIndividual
+            Dim g As Double() = CType(genes.Clone(), Double())
+
+            For i As Integer = 0 To g.Length - 1
+                g(i) = clamp(g(i), lower(i), upper(i))
+            Next
+
+            Return New ParameterIndividual With {
+                .Genes = g,
+                .Lower = lower,
+                .Upper = upper,
+                .Problem = problem,
+                .MutationRate = 0.3,
+                .rnd = seed
+            }
+        End Function
+    End Class
+
+    ''' <summary>
+    ''' The L-BFGS-B objective adapter of the <see cref="SlopeProblem"/>
+    ''' </summary>
+    Friend Class SlopeObjective : Inherits IGradFunction
+
+        Public Property Problem As SlopeProblem
+
+        Public Overrides Function evaluate(x As Double()) As Double
+            Return Problem.Objective(x)
+        End Function
+
+        ''' <summary>
+        ''' 声明当前目标函数可以在一次求值之中同时给出梯度，
+        ''' 从而让 L-BFGS-B 跳过有限差分（每次梯度约 <c>2·dims</c> 次目标函数调用）
+        ''' </summary>
+        ''' <returns></returns>
+        Public Overrides Function in_place_gradient() As Boolean
+            Return True
+        End Function
+
+        ''' <summary>
+        ''' 目标函数值与解析梯度（一次 SIMD 遍历）
+        ''' </summary>
+        ''' <param name="x"></param>
+        ''' <param name="grad"></param>
+        ''' <returns></returns>
+        Public Overrides Function evaluate(x As Double(), grad As Double()) As Double
+            Return Problem.evaluate(x, grad)
+        End Function
+    End Class
+
+    ''' <summary>
+    ''' The decoupled S-system parameter estimator: solve the parameters of each gene independently.
+    ''' (逐基因解耦的S-system参数估计器)
+    ''' </summary>
+    ''' <remarks>
+    ''' 参看 method.md 的步骤2：每一个基因只含有 2(n+1) 个参数，可以独立于其它基因求解，
+    ''' 从而把 O(n^2) 的联合反演问题降解为 n 个低维子问题。
+    ''' </remarks>
+    Public Class DecoupledFitter
+
+        ReadOnly series As ExpressionTimeSeries
+        ReadOnly slopes As Double()()
+        ReadOnly options As FittingOptions
+        ReadOnly n As Integer
+        ReadOnly m As Integer
+        ''' <summary>
+        ''' 本次拟合所使用的先验知识网络（已经过基因符号映射），为空表示不启用先验约束
+        ''' </summary>
+        ReadOnly prior As PriorNet
+
+        ''' <summary>
+        ''' 全部基因累计的目标函数调用次数（性能剖析用）
+        ''' </summary>
+        Public Property totalEvaluations As Long = 0
+        ''' <summary>
+        ''' 全部基因累计的差分进化耗时（毫秒，性能剖析用）
+        ''' </summary>
+        Public Property totalEvolutionMs As Long = 0
+        ''' <summary>
+        ''' 全部基因累计的 L-BFGS-B 精修耗时（毫秒，性能剖析用）
+        ''' </summary>
+        Public Property totalRefineMs As Long = 0
+
+        ''' <summary>
+        ''' 创建一个逐基因解耦的拟合器
+        ''' </summary>
+        ''' <param name="series"></param>
+        ''' <param name="slopes">斜率矩阵，由 <see cref="SlopeEstimator"/> 计算得到</param>
+        ''' <param name="options"></param>
+        Sub New(series As ExpressionTimeSeries, slopes As Double()(), Optional options As FittingOptions = Nothing)
+            Me.series = series
+            Me.slopes = slopes
+
+            If options Is Nothing Then
+                options = New FittingOptions()
+            End If
+
+            Me.options = options
+            Me.n = series.nGenes
+            Me.m = series.nTimePoints
+
+            If options.UsePrior Then
+                Me.prior = options.Prior
+            End If
+        End Sub
+
+        ''' <summary>
+        ''' 执行逐基因的参数拟合
+        ''' </summary>
+        ''' <returns></returns>
+        Public Function Fit() As SSystemParameters
+            Dim result As New SSystemParameters With {
+                .GeneNames = series.GeneNames,
+                .OriginalNames = series.OriginalNames,
+                .alpha = New Double(n - 1) {},
+                .beta = New Double(n - 1) {},
+                .G = New Double(n - 1)() {},
+                .H = New Double(n - 1)() {},
+                .SlopeSSE = New Double(n - 1) {},
+                .SlopeRMSE = New Double(n - 1) {},
+                .SlopeSST = New Double(n - 1) {},
+                .Candidates = New Integer(n - 1)() {},
+                .Converged = New Boolean(n - 1) {}
+            }
+
+            For i As Integer = 0 To n - 1
+                result.G(i) = New Double(n - 1) {}
+                result.H(i) = New Double(n - 1) {}
+            Next
+
+            Dim indices As Integer() = Enumerable.Range(0, n).ToArray
+
+            ' 随机数种子必须在并行之前**串行**地一次性生成：
+            ' 这样各个基因所得到的随机流与基因的先后顺序一一对应，
+            ' 既不会因为线程调度而改变（结果可复现），也不需要在线程之间共享 Random 实例
+            Dim seeds As New Random(If(options.Seed > 0, options.Seed, Environment.TickCount))
+            Dim geneSeeds As Integer() = New Integer(n - 1) {}
+
+            For i As Integer = 0 To n - 1
+                geneSeeds(i) = seeds.Next()
+            Next
+
+            Call "start to make s-system network fit!".info
+
+            If options.Parallel AndAlso n > 1 Then
+                Dim parallelOptions As New ParallelOptions()
+                Dim offset As i32 = 1
+
+                If options.MaxDegreeOfParallelism > 0 Then
+                    parallelOptions.MaxDegreeOfParallelism = options.MaxDegreeOfParallelism
+                End If
+
+                Call $"fit with {  parallelOptions.MaxDegreeOfParallelism} task threads!".info
+                Call System.Threading.Tasks.Parallel.ForEach(indices, parallelOptions,
+                     Sub(i)
+                         Dim msg As String = fitGene(i, result, geneSeeds(i))
+
+                         If msg = "" Then
+                             SyncLock offset
+                                 Call $"[fit-s-system #{++offset}] {series.OriginalNames(i)}".debug
+                             End SyncLock
+                         Else
+                             Call msg.debug
+                         End If
+                     End Sub)
+            Else
+                Dim bar As ProgressBar = Nothing
+
+                For Each i As Integer In TqdmWrapper.Wrap(indices, bar:=bar)
+                    Call bar.SetLabel(fitGene(i, result, geneSeeds(i)))
+                Next
+            End If
+
+            If options.Profile Then
+                Call Console.WriteLine(
+                    $"[PROFILE] genes={n}, objective evaluations={totalEvaluations} " &
+                    $"({(totalEvaluations / std.Max(n, 1))} per gene), " &
+                    $"differential evolution={(totalEvolutionMs / 1000.0R).ToString("F1")}s, " &
+                    $"L-BFGS-B={(totalRefineMs / 1000.0R).ToString("F1")}s")
+            End If
+
+            Return result
+        End Function
+
+        ''' <summary>
+        ''' 筛选出目标基因的候选调控因子；未开启筛选的时候返回全部的基因
+        ''' </summary>
+        ''' <remarks>
+        ''' 默认是软约束模式：保留全部基因作为候选（保留发现新调控关系的可能），
+        ''' 先验知识只通过目标函数之中的惩罚项起作用。
+        ''' 当 <see cref="FittingOptions.PriorCandidateRestriction"/> 打开的时候才退化为硬约束模式，
+        ''' 此时候选因子只允许来自先验知识（并补上自环）；先验为空的时候仍然回退到全部基因。
+        ''' </remarks>
+        Private Function selectCandidates(i As Integer) As Integer()
+            If options.PriorCandidateRestriction AndAlso Not prior Is Nothing Then
+                Dim restricted As New System.Collections.Generic.List(Of Integer)
+
+                For Each edge As PriorEdge In prior.RegulatorEdges(series.GeneNames(i))
+                    Dim j As Integer = series.GeneIndex(edge.TF)
+
+                    If j >= 0 AndAlso Not restricted.Contains(j) Then
+                        Call restricted.Add(j)
+                    End If
+                Next
+
+                If options.KeepSelfLoop AndAlso Not restricted.Contains(i) Then
+                    Call restricted.Add(i)
+                End If
+
+                If restricted.Count > 0 Then
+                    Return restricted _
+                        .OrderBy(Function(j) j) _
+                        .ToArray
+                End If
+            End If
+
+            Dim all As New System.Collections.Generic.List(Of Integer)
+
+            For j As Integer = 0 To n - 1
+                If j = i AndAlso Not options.KeepSelfLoop Then
+                    Continue For
+                End If
+
+                Call all.Add(j)
+            Next
+
+            If options.MaxRegulators > 0 AndAlso all.Count > options.MaxRegulators Then
+                Dim selected As New System.Collections.Generic.List(Of Integer)
+
+                ' 先验知识优先进入候选池：转录因子的表达量与靶基因的相关性往往很弱，
+                ' 若候选池只按相关性挑选，绝大多数已知的调控关系在进入拟合之前就会被丢掉
+                ' （实测先验边只有约 1% 能够进入候选池）。
+                ' 故这里把先验调控因子直接放进候选池，再由数据（拟合与稀疏化）决定是否保留。
+                If Not prior Is Nothing Then
+                    Dim known As PriorEdge() = prior.RegulatorEdges(series.GeneNames(i))
+
+                    For Each edge As PriorEdge In known
+                        Dim j As Integer = series.GeneIndex(edge.TF)
+
+                        If j < 0 OrElse j = i OrElse Not all.Contains(j) Then
+                            Continue For
+                        End If
+                        If selected.Count >= options.MaxRegulators Then
+                            Exit For
+                        End If
+                        If Not selected.Contains(j) Then
+                            Call selected.Add(j)
+                        End If
+                    Next
+                End If
+
+                If selected.Count < options.MaxRegulators Then
+                    Dim xi As Double() = series.X(i)
+                    Dim rest As Integer() = all _
+                        .Where(Function(j) Not selected.Contains(j)) _
+                        .OrderByDescending(Function(j) std.Abs(correlation(xi, series.X(j)))) _
+                        .ToArray
+
+                    For Each j As Integer In rest
+                        If selected.Count >= options.MaxRegulators Then
+                            Exit For
+                        End If
+
+                        Call selected.Add(j)
+                    Next
+                End If
+
+                Return selected _
+                    .OrderBy(Function(j) j) _
+                    .ToArray
+            End If
+
+            Return all.ToArray
+        End Function
+
+        Private Function correlation(a As Double(), b As Double()) As Double
+            Dim ma As Double = a.Average
+            Dim mb As Double = b.Average
+            Dim sab As Double = 0, saa As Double = 0, sbb As Double = 0
+
+            For k As Integer = 0 To a.Length - 1
+                Dim da As Double = a(k) - ma
+                Dim db As Double = b(k) - mb
+
+                sab += da * db
+                saa += da * da
+                sbb += db * db
+            Next
+
+            Dim denom As Double = std.Sqrt(saa * sbb)
+
+            If denom < 1.0E-12 Then
+                Return 0
+            End If
+
+            Return sab / denom
+        End Function
+
+        ''' <summary>
+        ''' 拟合单个基因的参数
+        ''' </summary>
+        ''' <param name="i">基因的行号</param>
+        ''' <param name="result">参数结果的容器</param>
+        ''' <param name="geneSeed">该基因专用的随机数种子（在并行之前统一生成）</param>
+        Private Function fitGene(i As Integer, result As SSystemParameters, geneSeed As Integer) As String
+            Dim candidates As Integer() = selectCandidates(i)
+            Dim k As Integer = candidates.Length
+            Dim observed As Double() = slopes(i)
+            Dim mean As Double = observed.Average
+            Dim variance As Double = observed.Sum(Function(x) (x - mean) ^ 2) / observed.Length
+            Dim priorMask As Boolean() = Nothing
+            Dim priorSign As Integer() = Nothing
+
+            If Not prior Is Nothing Then
+                Call buildPriorConstraints(i, candidates, priorMask, priorSign)
+            End If
+
+            Dim problem As New SlopeProblem With {
+                .LnX = candidates _
+                    .Select(Function(j) series.LnX(j)) _
+                    .ToArray,
+                .Observed = observed,
+                .Scale = std.Max(std.Sqrt(variance), 0.000000001),
+                .L1 = options.L1Penalty,
+                .SelfIndex = Array.IndexOf(candidates, i),
+                .StabilityWeight = options.StabilityPenalty,
+                .PriorMask = priorMask,
+                .PriorSign = If(options.UsePriorSign, priorSign, Nothing),
+                .PriorPenalty = options.PriorPenalty,
+                .PriorSignPenalty = If(options.UsePriorSign, options.PriorSignPenalty, 0)
+            }
+
+            Dim geneRnd As New Random(geneSeed)
+
+            Dim dims As Integer = 2 + 2 * k
+            Dim lower As Double() = New Double(dims - 1) {}
+            Dim upper As Double() = New Double(dims - 1) {}
+            Dim heuristic As Double() = New Double(dims - 1) {}
+
+            Call buildBounds(lower, upper, k)
+            Call buildHeuristic(heuristic, candidates, mean, lower, upper, i)
+
+            Dim best As Double() = heuristic
+            Dim bestScore As Double = problem.Objective(best)
+
+            ' 阶段一：差分进化全局粗搜
+            Dim phaseWatch As Stopwatch = Stopwatch.StartNew()
+
+            Try
+                Dim de As DifferentialEvolutionResult = DifferentialEvolutionLite.Minimize(
+                    target:=Function(p) problem.Objective(p),
+                    lower:=lower,
+                    upper:=upper,
+                    populationSize:=options.DEPopulationSize,
+                    maxIterations:=options.DEMaxIterations,
+                    F:=options.DEF,
+                    CR:=options.DECR,
+                    threshold:=options.DEThreshold,
+                    seed:=geneRnd.Next(),
+                    stagnation:=options.DEStagnation)
+
+                If Not de Is Nothing AndAlso Not de.Best Is Nothing Then
+                    Dim score As Double = problem.Objective(de.Best)
+
+                    If score < bestScore Then
+                        best = de.Best
+                        bestScore = score
+                    End If
+                End If
+            Catch ex As Exception
+                Call Console.WriteLine($"[WARN] differential evolution failed on gene '{series.GeneNames(i)}': {ex.Message}")
+            End Try
+
+            phaseWatch.Stop()
+
+            Dim evolutionMs As Double = phaseWatch.Elapsed.TotalMilliseconds
+
+            ' 阶段二：L-BFGS-B 盒约束局部精修（分别从历史最优与启发式初值出发）
+            phaseWatch.Restart()
+
+            For Each start As Double() In New Double()() {best, heuristic}
+                Dim refined As Double() = refine(start, problem, lower, upper)
+
+                If refined Is Nothing Then
+                    Continue For
+                End If
+
+                Dim score As Double = problem.Objective(refined)
+
+                If score < bestScore Then
+                    best = refined
+                    bestScore = score
+                End If
+            Next
+
+            phaseWatch.Stop()
+
+            Dim refineMs As Double = phaseWatch.Elapsed.TotalMilliseconds
+
+            Call System.Threading.Interlocked.Add(Me.totalEvaluations, problem.Evaluations)
+            Call System.Threading.Interlocked.Add(Me.totalEvolutionMs, CLng(evolutionMs))
+            Call System.Threading.Interlocked.Add(Me.totalRefineMs, CLng(refineMs))
+
+            ' 回写参数
+            result.alpha(i) = std.Exp(best(0))
+            result.beta(i) = std.Exp(best(1))
+
+            For c As Integer = 0 To k - 1
+                result.G(i)(candidates(c)) = best(2 + c)
+                result.H(i)(candidates(c)) = best(2 + k + c)
+            Next
+
+            result.SlopeSSE(i) = problem.RawSSE(best)
+            result.SlopeRMSE(i) = std.Sqrt(result.SlopeSSE(i) / m)
+            result.SlopeSST(i) = variance * m
+            result.Candidates(i) = candidates
+            result.Converged(i) = bestScore < 100000000000.0
+
+            If options.Verbose Then
+                Dim supported As Integer = If(priorMask Is Nothing, 0, priorMask.Sum)
+
+                Dim relative As Double = If(variance > 0, result.SlopeRMSE(i) / std.Sqrt(variance), 0)
+                Dim mass As Double = 0
+
+                For c As Integer = 0 To k - 1
+                    mass += std.Abs(best(2 + c)) + std.Abs(best(2 + k + c))
+                Next
+
+                Return $"  [{i + 1}/{n}] {series.GeneNames(i)}: alpha={result.alpha(i).ToString("G4")}, beta={result.beta(i).ToString("G4")}, rmse={result.SlopeRMSE(i).ToString("G4")}, relerr={relative.ToString("G3")}, r2={result.RSquared(i).ToString("G3")}, f={bestScore.ToString("G4")}, mass={mass.ToString("G4")}, candidates={k}, prior-supported={supported}"
+            Else
+                Return ""
+            End If
+        End Function
+
+        ''' <summary>
+        ''' 依据先验知识为目标基因的候选调控因子构造软约束掩码与方向约束
+        ''' </summary>
+        ''' <param name="i">靶基因的行号</param>
+        ''' <param name="candidates">候选调控因子的行号</param>
+        ''' <param name="mask">先验是否支持该调控关系（自环总是视为支持）</param>
+        ''' <param name="sign">先验方向：+1 激活、-1 抑制、0 未知</param>
+        Private Sub buildPriorConstraints(i As Integer,
+                                          candidates As Integer(),
+                                          ByRef mask As Boolean(),
+                                          ByRef sign As Integer())
+            Dim target As String = series.GeneNames(i)
+
+            mask = New Boolean(candidates.Length - 1) {}
+            sign = New Integer(candidates.Length - 1) {}
+
+            For c As Integer = 0 To candidates.Length - 1
+                Dim source As String = series.GeneNames(candidates(c))
+
+                ' 自环承担降解项的自我衰减作用，不参与先验约束
+                If candidates(c) = i Then
+                    mask(c) = True
+                    sign(c) = 0
+                    Continue For
+                End If
+
+                Dim edge As PriorEdge = prior.FindEdge(source, target)
+
+                If Not edge Is Nothing Then
+                    mask(c) = True
+                    sign(c) = edge.EdgeSign()
+                Else
+                    mask(c) = False
+                    sign(c) = 0
+                End If
+            Next
+        End Sub
+
+        Private Sub buildBounds(lower As Double(), upper As Double(), k As Integer)
+            lower(0) = std.Log(std.Max(options.AlphaBounds.Min, 1.0E-6))
+            upper(0) = std.Log(std.Max(options.AlphaBounds.Max, 1.0E-5))
+            lower(1) = std.Log(std.Max(options.BetaBounds.Min, 1.0E-6))
+            upper(1) = std.Log(std.Max(options.BetaBounds.Max, 1.0E-5))
+
+            For c As Integer = 0 To k - 1
+                lower(2 + c) = options.GBounds.Min
+                upper(2 + c) = options.GBounds.Max
+                lower(2 + k + c) = options.HBounds.Min
+                upper(2 + k + c) = options.HBounds.Max
+            Next
+        End Sub
+
+        ''' <summary>
+        ''' 构造启发式初值：先用对数域的最小二乘回归给出 alpha/beta 与动力学阶的估计。
+        ''' 参看 method.md 的步骤2：在非零数据之上取对数可以把幂律项线性化。
+        ''' </summary>
+        Private Sub buildHeuristic(h As Double(), candidates As Integer(), mean As Double, lower As Double(), upper As Double(), i As Integer)
+            Dim k As Integer = candidates.Length
+            Dim positive As New System.Collections.Generic.List(Of Integer)
+            Dim negative As New System.Collections.Generic.List(Of Integer)
+
+            For t As Integer = 0 To slopes(i).Length - 1
+                Dim s As Double = slopes(i)(t)
+
+                If s > 1.0E-6 Then
+                    Call positive.Add(t)
+                ElseIf s < -1.0E-6 Then
+                    Call negative.Add(t)
+                End If
+            Next
+
+            ' 合成项的初值：ln(S) = ln(alpha) + sum(g * lnX)
+            Dim a0 As Double = If(mean > 0, mean, 0) + 1
+            Dim b0 As Double = If(mean < 0, -mean, 0) + 1
+
+            If positive.Count >= k + 1 Then
+                Dim coef As Double() = logDomainFit(i, candidates, positive, False)
+
+                If Not coef Is Nothing Then
+                    a0 = std.Exp(coef(0))
+
+                    For c As Integer = 0 To k - 1
+                        h(2 + c) = clamp(coef(1 + c), lower(2 + c), upper(2 + c))
+                    Next
+                End If
+            ElseIf k > 0 Then
+                h(2 + k - 1) = clamp(0, lower(2 + k - 1), upper(2 + k - 1))
+            End If
+
+            ' 降解项的初值：ln(-S) = ln(beta) + sum(h * lnX)
+            If negative.Count >= k + 1 Then
+                Dim coef As Double() = logDomainFit(i, candidates, negative, True)
+
+                If Not coef Is Nothing Then
+                    b0 = std.Exp(coef(0))
+
+                    For c As Integer = 0 To k - 1
+                        h(2 + k + c) = clamp(coef(1 + c), lower(2 + k + c), upper(2 + k + c))
+                    Next
+                End If
+            ElseIf k > 0 Then
+                ' 没有负向的斜率，退化为一阶衰减的先验
+                For c As Integer = 0 To k - 1
+                    If candidates(c) = i Then
+                        h(2 + k + c) = clamp(1.0R, lower(2 + k + c), upper(2 + k + c))
+                    End If
+                Next
+            End If
+
+            h(0) = clamp(std.Log(std.Max(a0, 1.0E-6)), lower(0), upper(0))
+            h(1) = clamp(std.Log(std.Max(b0, 1.0E-6)), lower(1), upper(1))
+        End Sub
+
+        ''' <summary>
+        ''' 在给定的时间点集合之上做对数域的线性回归
+        ''' </summary>
+        ''' <param name="candidates">候选调控因子</param>
+        ''' <param name="rows">参与回归的时间点下标</param>
+        ''' <param name="negate">是否对斜率取负（用于降解项的拟合）</param>
+        ''' <returns>第一项为截距，其余为回归系数</returns>
+        Private Function logDomainFit(gene As Integer, candidates As Integer(), rows As System.Collections.Generic.List(Of Integer), negate As Boolean) As Double()
+            Dim nP As Integer = candidates.Length + 1
+            Dim nS As Integer = rows.Count
+            Dim X As Double(,) = New Double(nS - 1, nP - 1) {}
+            Dim y As Double() = New Double(nS - 1) {}
+
+            For r As Integer = 0 To nS - 1
+                Dim t As Integer = rows(r)
+
+                X(r, 0) = 1
+
+                For c As Integer = 0 To candidates.Length - 1
+                    X(r, 1 + c) = series.LnX(candidates(c))(t)
+                Next
+
+                Dim s As Double = slopes(gene)(t)
+
+                y(r) = std.Log(std.Max(If(negate, -s, s), 1.0E-12))
+            Next
+
+            Return leastSquares(X, y, nS, nP)
+        End Function
+
+        ''' <summary>
+        ''' 正规方程 + 高斯消元求解（带岭正则化的）最小二乘问题
+        ''' </summary>
+        ''' <remarks>
+        ''' 时序表达矩阵之中各个基因的对数表达量之间高度共线，正规方程是病态的，
+        ''' 故这里通过在对角线之上添加一个很小的岭参数来保证线性方程组可以稳定求解。
+        ''' </remarks>
+        Private Shared Function leastSquares(X As Double(,), y As Double(), nS As Integer, nP As Integer) As Double()
+            Dim A As Double(,) = New Double(nP - 1, nP - 1) {}
+            Dim b As Double() = New Double(nP - 1) {}
+            Dim ridge As Double = 1.0E-3 * nS
+
+            For i As Integer = 0 To nP - 1
+                For j As Integer = i To nP - 1
+                    Dim sum As Double = 0
+
+                    For r As Integer = 0 To nS - 1
+                        sum += X(r, i) * X(r, j)
+                    Next
+
+                    A(i, j) = sum
+                    A(j, i) = sum
+                Next
+
+                If i > 0 Then
+                    A(i, i) += ridge
+                End If
+
+                Dim sy As Double = 0
+
+                For r As Integer = 0 To nS - 1
+                    sy += X(r, i) * y(r)
+                Next
+
+                b(i) = sy
+            Next
+
+            ' 高斯消元（部分主元）
+            For col As Integer = 0 To nP - 1
+                Dim pivot As Integer = col
+                Dim maxAbs As Double = std.Abs(A(col, col))
+
+                For r As Integer = col + 1 To nP - 1
+                    If std.Abs(A(r, col)) > maxAbs Then
+                        maxAbs = std.Abs(A(r, col))
+                        pivot = r
+                    End If
+                Next
+
+                If maxAbs < 1.0E-12 Then
+                    Return Nothing
+                End If
+
+                If pivot <> col Then
+                    For j As Integer = 0 To nP - 1
+                        Dim tmp As Double = A(col, j)
+
+                        A(col, j) = A(pivot, j)
+                        A(pivot, j) = tmp
+                    Next
+
+                    Dim tb As Double = b(col)
+
+                    b(col) = b(pivot)
+                    b(pivot) = tb
+                End If
+
+                For r As Integer = col + 1 To nP - 1
+                    Dim factor As Double = A(r, col) / A(col, col)
+
+                    For j As Integer = col To nP - 1
+                        A(r, j) -= factor * A(col, j)
+                    Next
+
+                    b(r) -= factor * b(col)
+                Next
+            Next
+
+            ' 回代
+            Dim coef As Double() = New Double(nP - 1) {}
+
+            For r As Integer = nP - 1 To 0 Step -1
+                Dim sum As Double = b(r)
+
+                For j As Integer = r + 1 To nP - 1
+                    sum -= A(r, j) * coef(j)
+                Next
+
+                coef(r) = sum / A(r, r)
+
+                If Double.IsNaN(coef(r)) OrElse Double.IsInfinity(coef(r)) Then
+                    Return Nothing
+                End If
+            Next
+
+            Return coef
+        End Function
+
+        Private Function refine(x0 As Double(), problem As SlopeProblem, lower As Double(), upper As Double()) As Double()
+            Try
+                Dim solver As New LBFGSB(New Parameters() With {
+                    .max_iterations = options.LBFGSIterations
+                })
+
+                Return solver.minimize(New SlopeObjective With {.Problem = problem}, x0, lower, upper)
+            Catch ex As Exception
+                If options.Verbose Then
+                    Call Console.WriteLine($"[WARN] L-BFGS-B refinement failed: {ex.GetType().Name}: {ex.Message}")
+                End If
+
+                Return Nothing
+            End Try
+        End Function
+
+        Private Shared Function clamp(x As Double, lo As Double, hi As Double) As Double
+            If Double.IsNaN(x) Then
+                Return (lo + hi) / 2
+            End If
+
+            Return std.Max(std.Min(x, hi), lo)
+        End Function
+    End Class
+End Namespace

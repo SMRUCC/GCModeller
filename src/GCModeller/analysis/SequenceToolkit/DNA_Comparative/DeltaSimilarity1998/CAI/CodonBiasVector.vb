@@ -1,66 +1,20 @@
-﻿#Region "Microsoft.VisualBasic::171eb4a8236469eb4602f0dba86eca15, analysis\SequenceToolkit\DNA_Comparative\DeltaSimilarity1998\CAI\CodonBiasVector.vb"
-
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-    ' /********************************************************************************/
-
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 57
-    '    Code Lines: 29 (50.88%)
-    ' Comment Lines: 20 (35.09%)
-    '    - Xml Docs: 95.00%
-    ' 
-    '   Blank Lines: 8 (14.04%)
-    '     File Size: 1.89 KB
-
-
-    '     Structure CodonBiasVector
-    ' 
-    '         Function: EuclideanNormalization, (+2 Overloads) PopulateTriples, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
-
-#End Region
-
-Imports System.Runtime.CompilerServices
+﻿Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.Math.Correlations
 Imports SMRUCC.genomics.SequenceModel
 
 Namespace DeltaSimilarity1998.CAI
 
     ''' <summary>
-    ''' triple vector
+    ''' The site-specific codon signature triple vector of one codon XYZ:
+    ''' 
+    ''' ```
+    '''    XY = rhoXY(1, 2) = fXY(1, 2)/fX(1)fY(2)
+    '''    YZ = rhoYZ(2, 3) = fYZ(2, 3)/fY(2)fZ(3)
+    '''    XZ = rhoXZ(1, 3) = fXZ(1, 3)/fX(1)fZ(3)
+    ''' ```
+    ''' 
+    ''' (the three components are computed from a <see cref="CodonSignatureProfile"/>, 
+    ''' see <see cref="CodonSignatureProfile.CodonBiasVector"/>)
     ''' </summary>
     Public Structure CodonBiasVector
 
@@ -70,16 +24,8 @@ Namespace DeltaSimilarity1998.CAI
         <XmlAttribute> Dim Codon As String
         <XmlAttribute> Dim XY#, YZ#, XZ#
 
-        ''' <summary>
-        ''' 对Profile进行归一化处理
-        ''' </summary>
-        ''' <returns></returns>
-        Public Function EuclideanNormalization() As Double
-            Return {XY, YZ, XZ}.EuclideanDistance
-        End Function
-
         Public Overrides Function ToString() As String
-            Return $"{Codon} -> (pXY={XY}, pYZ={YZ}, pXZ={XZ})"
+            Return $"{Codon} -> (rhoXY(1,2)={XY:F3}, rhoYZ(2,3)={YZ:F3}, rhoXZ(1,3)={XZ:F3})"
         End Function
 
         ''' <summary>

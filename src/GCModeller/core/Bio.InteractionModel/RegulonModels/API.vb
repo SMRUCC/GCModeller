@@ -73,7 +73,8 @@ Namespace Regulon
             Public Property Regulator As String Implements IRegulon.TFlocusId
         End Structure
 
-        <Extension> Public Function GetRegulators(Of TRegulation As IRegulatorRegulation)(data As IEnumerable(Of TRegulation)) As String()
+        <Extension>
+        Public Function GetRegulators(Of TRegulation As IRegulatorRegulation)(data As IEnumerable(Of TRegulation)) As String()
             Dim LQuery As String() = (From reg As TRegulation
                                   In data
                                       Select reg.Regulators).IteratesALL.Distinct.ToArray
@@ -87,7 +88,8 @@ Namespace Regulon
         ''' <param name="Regulations">已经经过<see cref="Trim"></see>操作所处理的关系对</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <Extension> Public Function SignificantModel(Of TRegulation As IRegulatorRegulation)(Regulations As IEnumerable(Of TRegulation)) As RelationshipScore()
+        <Extension>
+        Public Function SignificantModel(Of TRegulation As IRegulatorRegulation)(Regulations As IEnumerable(Of TRegulation)) As RelationshipScore()
             Dim LQuery As RelationshipScore() =
             LinqAPI.Exec(Of RelationshipScore) <= From reg As TRegulation
                                                   In Regulations
@@ -132,7 +134,8 @@ Namespace Regulon
         ''' <param name="Regulations"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <Extension> Public Function Trim(Of TRegulation As IRegulatorRegulation)(Regulations As IEnumerable(Of TRegulation)) As RegulatorRegulation()
+        <Extension>
+        Public Function Trim(Of TRegulation As IRegulatorRegulation)(Regulations As IEnumerable(Of TRegulation)) As RegulatorRegulation()
             Dim GeneIdList = (From item As TRegulation In Regulations
                               Where Not String.IsNullOrEmpty(item.LocusId)
                               Select item.LocusId

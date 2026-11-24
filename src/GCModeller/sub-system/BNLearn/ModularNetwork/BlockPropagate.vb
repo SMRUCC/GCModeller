@@ -1,4 +1,8 @@
 ﻿Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
+Imports SMRUCC.genomics.BioSystem.Intervention
+' 使用别名导入：避免 Microsoft.VisualBasic.Math 这个命名空间与本文件中
+' Math.Sqrt 的 System.Math 产生名称解析歧义
+Imports simd = Microsoft.VisualBasic.Math.SIMD
 
 Namespace ModularNetwork
 
@@ -33,7 +37,7 @@ Namespace ModularNetwork
             Dim result As New GlobalPerturbationResult() With {
                 .SourceGene = Model._genes(sourceIdx),
                 .Method = PropagationMethod.Jacobian,
-                .mode = mode,
+                .Mode = mode,
                 .GeneNames = Model._genes
             }
             result.StepEffects.Add(CType(delta.Clone(), Double()))
@@ -73,7 +77,7 @@ Namespace ModularNetwork
             Dim result As New GlobalPerturbationResult() With {
                 .SourceGene = Model._genes(sourceIdx),
                 .Method = PropagationMethod.CascadeSampling,
-                .mode = mode,
+                .Mode = mode,
                 .GeneNames = Model._genes,
                 .Effects = CType(res.FoldChanges.Clone(), Double()),
                 .Steps = MaxSteps
@@ -89,11 +93,11 @@ Namespace ModularNetwork
             ' 注意：不能用 GetInterventionValue(0,1) —— Knockout 返回绝对干预值 0，
             ' 在标准化数据（野生型均值已是 0）下扰动增量为 0，导致传播全 0。
             Select Case mode
-                Case Intervention.InterventionMode.Knockout
+                Case InterventionMode.Knockout
                     Return -1.0
-                Case Intervention.InterventionMode.Overexpression
+                Case InterventionMode.Overexpression
                     Return 3.0
-                Case Intervention.InterventionMode.Knockdown
+                Case InterventionMode.Knockdown
                     Return -2.0
                 Case Else
                     Return 0.0
@@ -101,25 +105,30 @@ Namespace ModularNetwork
         End Function
 
         ' ---- 线性代数辅助 ----
+
+        ''' <summary>
+        ''' 矩阵向量乘法 <c>out = A * v</c>。
+        ''' </summary>
+        ''' <remarks>
+        ''' 雅可比矩阵 <c>A</c> 是行优先连续存放的矩形数组，每一行本身就是一段连续内存，
+        ''' 因此交给 <see cref="simd.SimdMatrix.MatrixVector(Double(,), Double())"/> 逐行做
+        ''' FMA 点积即可：不需要把矩阵转换成“行数组的数组”，也不需要复制行数据；
+        ''' 无 FMA 指令或全局禁用 SIMD 时会自动退回标量循环。
+        ''' </remarks>
         Private Function MatrixVectorMul(A As Double(,), v As Double()) As Double()
-            Dim n = v.Length
-            Dim out = New Double(n - 1) {}
-            For i = 0 To n - 1
-                Dim s As Double = 0
-                For j = 0 To n - 1
-                    s += A(i, j) * v(j)
-                Next
-                out(i) = s
-            Next
-            Return out
+            Return simd.SimdMatrix.MatrixVector(A, v)
         End Function
 
+        ''' <summary>
+        ''' L2 范数：<c>SQRT(SUM(v(i) ^ 2))</c>。
+        ''' </summary>
+        ''' <remarks>
+        ''' 平方和交给 <see cref="simd.SIMDIntrinsics.SumSquaresFma(Double())"/>；该内核在
+        ''' 处理器没有 FMA 或 <c>SIMDConfiguration.disable</c> 生效时会自动退回
+        ''' <c>SimdReduce.SumSquares</c> 或标量循环，因此这里不需要再做能力判断。
+        ''' </remarks>
         Private Function Norm(v As Double()) As Double
-            Dim s As Double = 0
-            For i = 0 To v.Length - 1
-                s += v(i) * v(i)
-            Next
-            Return Math.Sqrt(s)
+            Return Math.Sqrt(simd.SIMDIntrinsics.SumSquaresFma(v))
         End Function
     End Class
 End Namespace

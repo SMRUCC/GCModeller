@@ -11,9 +11,7 @@
 '
 ' /********************************************************************************/
 
-Imports System.Collections.Generic
-Imports System.Linq
-Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Namespace Core
 

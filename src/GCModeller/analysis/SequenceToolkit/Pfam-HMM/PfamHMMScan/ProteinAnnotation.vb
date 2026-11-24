@@ -65,7 +65,8 @@
 ' ============================================================================
 
 Imports System.IO
-Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming.Levenshtein
+Imports System.IO.Compression
+Imports System.Linq
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 ''' <summary>
@@ -75,95 +76,46 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 Public Class ProteinAnnotator
 
     ' 已加载的HMM模型字典
-    Private _models As New Dictionary(Of String, ProfileHMM)()
+    ReadOnly _models As New Dictionary(Of String, ProfileHMM)()
 
-    ' E值阈值
-    Private _eValueThreshold As Double = 0.01
+    ' 模型快照缓存：并行注释时以只读数组形式共享，避免直接遍历字典；模型增删后失效重建
+    Private _modelList As ProfileHMM()
 
-    ' 比特得分阈值
-    Private _bitScoreThreshold As Double = 25.0
+    ''' <summary>
+    ''' 获取当前模型集合的快照数组（惰性构建，供并行注释使用）
+    ''' </summary>
+    Private Function GetModelSnapshot() As ProfileHMM()
+        If _modelList Is Nothing Then
+            SyncLock _models
+                If _modelList Is Nothing Then
+                    _modelList = _models.Values.ToArray
+                End If
+            End SyncLock
+        End If
 
-    ' 数据库大小（用于E值计算）
-    Private _databaseSize As Integer = 10000
+        Return _modelList
+    End Function
+
+    Private Sub InvalidateModelSnapshot()
+        SyncLock _models
+            _modelList = Nothing
+        End SyncLock
+    End Sub
 
     ''' <summary>
     ''' 获取或设置E值阈值
     ''' </summary>
-    Public Property EValueThreshold As Double
-        Get
-            Return _eValueThreshold
-        End Get
-        Set(value As Double)
-            _eValueThreshold = value
-        End Set
-    End Property
+    Public Property EValueThreshold As Double = 0.01
 
     ''' <summary>
     ''' 获取或设置比特得分阈值
     ''' </summary>
-    Public Property BitScoreThreshold As Double
-        Get
-            Return _bitScoreThreshold
-        End Get
-        Set(value As Double)
-            _bitScoreThreshold = value
-        End Set
-    End Property
+    Public Property BitScoreThreshold As Double = 25
 
     ''' <summary>
     ''' 获取或设置数据库大小
     ''' </summary>
-    Public Property DatabaseSize As Integer
-        Get
-            Return _databaseSize
-        End Get
-        Set(value As Integer)
-            _databaseSize = value
-        End Set
-    End Property
-
-    ''' <summary>
-    ''' 加载单个HMMER3模型文件
-    ''' </summary>
-    ''' <param name="filePath">模型文件路径</param>
-    Public Sub LoadModel(filePath As String)
-        Dim model As ProfileHMM = HMMER3Parser.Parse(filePath)
-        If model IsNot Nothing AndAlso Not String.IsNullOrEmpty(model.Name) Then
-            _models(model.Name) = model
-        End If
-    End Sub
-
-    ''' <summary>
-    ''' 从目录加载所有HMMER3模型文件
-    ''' </summary>
-    ''' <param name="directoryPath">目录路径</param>
-    ''' <param name="searchPattern">文件搜索模式（默认*.hmm）</param>
-    Public Sub LoadModelsFromDirectory(directoryPath As String, Optional searchPattern As String = "*.hmm")
-        If Not Directory.Exists(directoryPath) Then
-            Throw New DirectoryNotFoundException($"Directory not found: {directoryPath}")
-        End If
-
-        Dim files As String() = Directory.GetFiles(directoryPath, searchPattern)
-        For Each file As String In files
-            Try
-                LoadModel(file)
-            Catch ex As Exception
-                ' 记录错误但继续加载其他模型
-                Console.WriteLine($"Error loading model {file}: {ex.Message}")
-            End Try
-        Next
-    End Sub
-
-    ''' <summary>
-    ''' 加载模型内容字符串
-    ''' </summary>
-    ''' <param name="modelContent">模型文本内容</param>
-    Public Sub LoadModelContent(modelContent As String)
-        Dim model As ProfileHMM = HMMER3Parser.ParseContent(modelContent)
-        If model IsNot Nothing AndAlso Not String.IsNullOrEmpty(model.Name) Then
-            _models(model.Name) = model
-        End If
-    End Sub
+    Public Property DatabaseSize As Integer = 10000
 
     ''' <summary>
     ''' 获取已加载的模型数量
@@ -184,32 +136,196 @@ Public Class ProteinAnnotator
     End Property
 
     ''' <summary>
+    ''' 加载单个HMMER3模型文件
+    ''' </summary>
+    ''' <param name="filePath">模型文件路径</param>
+    Public Sub ParseTextModel(filePath As String)
+        Using s As Stream = filePath.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
+            For Each model As ProfileHMM In HMMER3Parser.LoadDatabase(s)
+                If model IsNot Nothing AndAlso Not String.IsNullOrEmpty(model.Name) Then
+                    _models(model.Name) = model
+                End If
+            Next
+        End Using
+
+        Call InvalidateModelSnapshot()
+    End Sub
+
+    ''' <summary>
+    ''' 从目录加载所有HMMER3模型文件
+    ''' </summary>
+    ''' <param name="directoryPath">目录路径</param>
+    ''' <param name="searchPattern">文件搜索模式（默认*.hmm）</param>
+    Public Sub LoadModelsFromDirectory(directoryPath As String, Optional searchPattern As String = "*.hmm")
+        If Not Directory.Exists(directoryPath) Then
+            Throw New DirectoryNotFoundException($"Directory not found: {directoryPath}")
+        End If
+
+        Dim files As String() = Directory.GetFiles(directoryPath, searchPattern)
+        For Each file As String In files
+            Try
+                ParseTextModel(file)
+            Catch ex As Exception
+                ' 记录错误但继续加载其他模型
+                Call App.LogException(ex)
+                Call $"Error loading model {file}: {ex.Message}".error
+            End Try
+        Next
+    End Sub
+
+    ''' <summary>
+    ''' 加载模型内容字符串
+    ''' </summary>
+    ''' <param name="modelContent">模型文本内容</param>
+    Public Sub LoadModelContent(modelContent As String)
+        Dim model As ProfileHMM = HMMER3Parser.ParseContent(modelContent)
+
+        If model IsNot Nothing AndAlso Not String.IsNullOrEmpty(model.Name) Then
+            _models(model.Name) = model
+        End If
+
+        Call InvalidateModelSnapshot()
+    End Sub
+
+    ' ---- 模型包（zip 压缩包）的保存与加载 ----
+
+    Private Const PackageVersion As Integer = 1
+    Private Const EntryManifest As String = "manifest.txt"
+    Private Const EntryModelPrefix As String = "models/"
+
+    ''' <summary>
+    ''' 将当前的HMM模型集合序列化为zip压缩包进行保存。
+    ''' 模型数据以二进制格式（<see cref="BinaryWriter"/>）直接写入，避免字符串序列化转换开销。
+    ''' </summary>
+    ''' <param name="zipfile">目标zip压缩包输出流</param>
+    Public Sub Save(zipfile As Stream)
+        Dim models As ProfileHMM() = GetModelSnapshot()
+
+        Using zip As New ZipArchive(zipfile, ZipArchiveMode.Create, leaveOpen:=True)
+            ' 写入包描述清单
+            Using manifest As Stream = zip.CreateEntry(EntryManifest, CompressionLevel.Optimal).Open()
+                Using writer As New System.IO.StreamWriter(manifest)
+                    writer.WriteLine($"version={PackageVersion}")
+                    writer.WriteLine($"models={models.Length}")
+                    writer.WriteLine($"evalue_threshold={Me.EValueThreshold.ToString(Globalization.CultureInfo.InvariantCulture)}")
+                    writer.WriteLine($"bitscore_threshold={Me.BitScoreThreshold.ToString(Globalization.CultureInfo.InvariantCulture)}")
+                    writer.WriteLine($"database_size={Me.DatabaseSize.ToString(Globalization.CultureInfo.InvariantCulture)}")
+                End Using
+            End Using
+
+            ' 每一个模型写入一个二进制条目
+            For i As Integer = 0 To models.Length - 1
+                Dim entryName As String = $"{EntryModelPrefix}{i}.bin"
+
+                Using entry As Stream = zip.CreateEntry(entryName, CompressionLevel.Optimal).Open()
+                    Using writer As New BinaryWriter(entry)
+                        Call models(i).WriteBinary(writer)
+                    End Using
+                End Using
+            Next
+        End Using
+    End Sub
+
+    ''' <summary>
+    ''' 从zip压缩包中加载HMM模型数据，还原为 <see cref="ProteinAnnotator"/> 对象实例。
+    ''' </summary>
+    ''' <param name="zipfile">模型包zip压缩包输入流</param>
+    Public Shared Function LoadModel(zipfile As Stream) As ProteinAnnotator
+        Dim annotator As New ProteinAnnotator
+
+        Using zip As New ZipArchive(zipfile, ZipArchiveMode.Read, leaveOpen:=True)
+            Dim manifest As ZipArchiveEntry = zip.GetEntry(EntryManifest)
+
+            If manifest Is Nothing Then
+                Throw New InvalidDataException($"Missing '{EntryManifest}' entry in the hmmer model package!")
+            End If
+
+            ' 读取包描述清单
+            Using reader As New System.IO.StreamReader(manifest.Open())
+                While Not reader.EndOfStream
+                    Dim line As String = reader.ReadLine
+                    Dim eq As Integer = line.IndexOf("="c)
+
+                    If eq > 0 Then
+                        Dim name As String = line.Substring(0, eq).Trim
+                        Dim value As String = line.Substring(eq + 1).Trim
+
+                        Select Case name
+                            Case "version"
+                                Dim v As Integer = Integer.Parse(value, Globalization.CultureInfo.InvariantCulture)
+
+                                If v > PackageVersion Then
+                                    Throw New InvalidDataException($"Unsupported hmmer model package version: {v}")
+                                End If
+                            Case "evalue_threshold"
+                                annotator.EValueThreshold = Double.Parse(value, Globalization.CultureInfo.InvariantCulture)
+                            Case "bitscore_threshold"
+                                annotator.BitScoreThreshold = Double.Parse(value, Globalization.CultureInfo.InvariantCulture)
+                            Case "database_size"
+                                annotator.DatabaseSize = Integer.Parse(value, Globalization.CultureInfo.InvariantCulture)
+                        End Select
+                    End If
+                End While
+            End Using
+
+            ' 逐条目反序列化模型数据
+            For Each entry As ZipArchiveEntry In zip.Entries
+                If entry.FullName.StartsWith(EntryModelPrefix) AndAlso entry.FullName.EndsWith(".bin") Then
+                    Using s As Stream = entry.Open()
+                        Using reader As New BinaryReader(s)
+                            Dim model As ProfileHMM = ProfileHMM.ReadBinary(reader)
+
+                            annotator._models(model.Name) = model
+                        End Using
+                    End Using
+                End If
+            Next
+        End Using
+
+        Call annotator.InvalidateModelSnapshot()
+
+        Return annotator
+    End Function
+
+    ''' <summary>
     ''' 对单个蛋白质序列进行注释
     ''' </summary>
     ''' <param name="protein">蛋白质序列</param>
     ''' <returns>最佳注释结果</returns>
+    ''' <remarks>
+    ''' 各HMM模型之间的比对计算相互独立，模型集合以只读快照形式共享，
+    ''' 因此这里基于PLINQ对模型循环做并行计算以提升吞吐。
+    ''' </remarks>
     Public Function Annotate(protein As FastaSeq) As IEnumerable(Of AnnotationResult)
         If protein Is Nothing OrElse String.IsNullOrEmpty(protein.SequenceData) Then
             Return Nothing
+        Else
+            Call protein.Title.debug
         End If
 
-        Dim all As New List(Of AnnotationResult)
+        Dim seq As String = protein.SequenceData
+        Dim seqId As String = protein.Headers(0)
 
-        For Each kvp As KeyValuePair(Of String, ProfileHMM) In _models
-            Dim model As ProfileHMM = kvp.Value
-            Dim result As AnnotationResult = CompareSequence(protein.SequenceData, model)
+        Dim all As List(Of AnnotationResult) = GetModelSnapshot() _
+            .AsParallel() _
+            .Select(Function(model As ProfileHMM)
+                        Dim result As AnnotationResult = CompareSequence(seq, model)
 
-            If result IsNot Nothing Then
-                result.SeqId = protein.Headers(0)
-                result.IsSignificant = (result.EValue <= _eValueThreshold AndAlso
-                                         result.BitScore >= _bitScoreThreshold)
-                result.Confidence = CalculateConfidence(result.BitScore, result.EValue)
-                all.Add(result)
-            End If
-        Next
+                        If result IsNot Nothing Then
+                            result.SeqId = seqId
+                            result.IsSignificant = (result.EValue <= Me.EValueThreshold AndAlso
+                                                     result.BitScore >= Me.BitScoreThreshold)
+                            result.Confidence = CalculateConfidence(result.BitScore, result.EValue)
+                        End If
+
+                        Return result
+                    End Function) _
+            .Where(Function(r) r IsNot Nothing) _
+            .ToList()
 
         Return From result As AnnotationResult
                In all
+               Where result.BitScore > 0
                Order By result.BitScore Descending
     End Function
 
@@ -218,28 +334,38 @@ Public Class ProteinAnnotator
     ''' </summary>
     ''' <param name="protein">蛋白质序列</param>
     ''' <returns>最佳注释结果</returns>
+    ''' <remarks>
+    ''' 模型循环基于PLINQ并行求值，最终归约出比特得分最高的注释结果。
+    ''' </remarks>
     Public Function AnnotateTop(protein As FastaSeq) As AnnotationResult
         If protein Is Nothing OrElse String.IsNullOrEmpty(protein.SequenceData) Then
             Return Nothing
         End If
 
-        Dim bestResult As AnnotationResult = Nothing
-        Dim bestScore As Double = Double.NegativeInfinity
+        Dim models As ProfileHMM() = GetModelSnapshot()
 
-        For Each kvp As KeyValuePair(Of String, ProfileHMM) In _models
-            Dim model As ProfileHMM = kvp.Value
-            Dim result As AnnotationResult = CompareSequence(protein.SequenceData, model)
+        If models.Length = 0 Then
+            Return Nothing
+        End If
 
-            If result IsNot Nothing AndAlso result.BitScore > bestScore Then
-                bestScore = result.BitScore
-                bestResult = result
-            End If
-        Next
+        Dim seq As String = protein.SequenceData
+        Dim bestResult As AnnotationResult = models _
+            .AsParallel() _
+            .Select(Function(model As ProfileHMM) CompareSequence(seq, model)) _
+            .Where(Function(r) r IsNot Nothing) _
+            .DefaultIfEmpty() _
+            .Aggregate(Function(best As AnnotationResult, current As AnnotationResult)
+                           If current.BitScore > best.BitScore Then
+                               best = current
+                           End If
+
+                           Return best
+                       End Function)
 
         ' 判断是否显著
         If bestResult IsNot Nothing Then
-            bestResult.IsSignificant = (bestResult.EValue <= _eValueThreshold AndAlso
-                                           bestResult.BitScore >= _bitScoreThreshold)
+            bestResult.IsSignificant = (bestResult.EValue <= Me.EValueThreshold AndAlso
+                                           bestResult.BitScore >= Me.BitScoreThreshold)
             bestResult.Confidence = CalculateConfidence(bestResult.BitScore, bestResult.EValue)
         End If
 
@@ -250,9 +376,19 @@ Public Class ProteinAnnotator
     ''' 对蛋白质序列列表进行批量注释
     ''' </summary>
     ''' <param name="proteins">蛋白质序列列表</param>
+    ''' <remarks>
+    ''' 蛋白质序列之间的注释计算相互独立，基于PLINQ按序列并行，
+    ''' 并以 AsOrdered 保持与输入序列一致的输出顺序。
+    ''' </remarks>
     Public Iterator Function AnnotateAll(proteins As IEnumerable(Of FastaSeq)) As IEnumerable(Of AnnotationResult)
-        For Each protein As FastaSeq In proteins
-            Yield AnnotateTop(protein)
+        If proteins Is Nothing Then
+            Return
+        End If
+
+        Dim buffer As FastaSeq() = proteins.ToArray
+
+        For Each result As AnnotationResult In buffer.AsParallel().AsOrdered().Select(Function(fa) AnnotateTop(fa))
+            Yield result
         Next
     End Function
 

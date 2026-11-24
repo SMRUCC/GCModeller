@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>run the HMMER profile HMM search for protein function annotation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>hmmer_search {hmmer}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>run the HMMER profile HMM search for protein function annotation</h2>
+
+        <h3>Description</h3>
+
+        
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>hmmer_search</strong>(<i>hmmer</i>, <i>x</i>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>hmmer</dt>
+<dd><p>a <a href="cref:T:SMRUCC.genomics.Analysis.SequenceTools.HMMER.ProteinAnnotator">ProteinAnnotator</a> object that contains the loaded HMMER3 profile models, which is created by the <code>load_hmmer</code> api. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/HMMER/ProteinAnnotator.html">ProteinAnnotator</a>]</p></dd>
+
+
+<dt>x</dt>
+<dd><p>a protein fasta sequence collection for run the HMMER search, which can be a <a href="cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile">FastaFile</a> object, a collection of the <a href="cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq">FastaSeq</a> object, or a character vector of the raw sequence data.</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: none;">Details</h3>
+
+        
+
+        <h3 style="display: block">Authors</h3>
+
+        seqtoolkit
+
+        <h3>Value</h3>
+
+        <p>a lazy pipeline collection of the <a href="cref:T:SMRUCC.genomics.Analysis.SequenceTools.HMMER.AnnotationResult">AnnotationResult</a> domain annotation result, one result element for each of the profile HMM hit that found in the input protein sequence collection;</p>
+
+<p>this function returns NULL if the input sequence data can not be cast to a fasta sequence collection.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/HMMER/AnnotationResult.html">AnnotationResult</a></li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>hmmer</em> version 1.0.0.0 <a
+                href="../hmmer.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

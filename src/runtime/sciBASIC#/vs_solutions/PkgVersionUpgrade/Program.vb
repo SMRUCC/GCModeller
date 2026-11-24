@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4c660b54c692d68bfd2bd2f1efdb7c53, vs_solutions\PkgVersionUpgrade\Program.vb"
+﻿#Region "Microsoft.VisualBasic::dc33940be6ef472f052f3e3e3c578e68, vs_solutions\PkgVersionUpgrade\Program.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 510
-    '    Code Lines: 362 (70.98%)
-    ' Comment Lines: 65 (12.75%)
-    '    - Xml Docs: 89.23%
+    '   Total Lines: 390
+    '    Code Lines: 266 (68.21%)
+    ' Comment Lines: 61 (15.64%)
+    '    - Xml Docs: 88.52%
     ' 
-    '   Blank Lines: 83 (16.27%)
-    '     File Size: 21.08 KB
+    '   Blank Lines: 63 (16.15%)
+    '     File Size: 16.19 KB
 
 
     ' Module Program
@@ -48,32 +48,19 @@
     '     Function: EnumerateProjects, HasUtf8Bom, OtherValue, ParseCommandLine, ProcessProject
     '               RelativePath, Validate
     ' 
-    '     Sub: Main, PrintSummary, PrintUsage, ReportProject, SaveDocument
-    '     Class CliOptions
-    ' 
-    '         Properties: [Error], DryRun, FixOutputPath, MakeClean, NamespacePrefix
-    '                     OutputDir, ShowHelp, Slnx, Version
-    ' 
-    '     Class ProjectResult
-    ' 
-    '         Properties: [Error], Changed, Changes, FilePath, OutputPath
-    '                     OutputPathChanged, RemovedConditions, Skipped, Warnings
-    ' 
-    ' 
+    '     Sub: Main, PrintSummary, ReportProject, SaveDocument
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Imports System.Diagnostics
 Imports System.IO
 Imports System.Text
 Imports System.Xml
-Imports System.Xml.Linq
-Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.VBProj
-Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.VBProj.ProjectXml
 Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.sln
 Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.sln.File
+Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.VBProj
+Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.VBProj.ProjectXml
 Imports Microsoft.VisualBasic.CommandLine
 
 ''' <summary>
@@ -105,50 +92,16 @@ Imports Microsoft.VisualBasic.CommandLine
 ''' </remarks>
 Module Program
 
-    ''' <summary>单个工程的处理结果</summary>
-    Private Class ProjectResult
-        Public Property FilePath As String
-        Public Property Changes As VersionUpgrader.VersionChange()
-        Public Property RemovedConditions As Integer
-        Public Property Warnings As Integer
-        Public Property OutputPath As OutputPathFixer.OutputPathResult
-        Public Property [Error] As String
-        Public Property Skipped As Boolean
-
-        ''' <summary>输出路径修正是否产生了改动</summary>
-        Public ReadOnly Property OutputPathChanged As Boolean
-            Get
-                Return OutputPath IsNot Nothing AndAlso OutputPath.Changed
-            End Get
-        End Property
-
-        Public ReadOnly Property Changed As Boolean
-            Get
-                If Changes Is Nothing Then
-                    Return False
-                End If
-
-                For Each change In Changes
-                    If change.Changed Then
-                        Return True
-                    End If
-                Next
-
-                Return False
-            End Get
-        End Property
-    End Class
-
     Public Sub Main(args As String())
         Dim opts As CliOptions = ParseCommandLine(args)
 
         If opts.ShowHelp Then
-            Call PrintUsage()
+            Call CliOptions.PrintUsage()
             Return
         End If
         If Not String.IsNullOrEmpty(opts.Error) Then
             Console.WriteLine($"[error] {opts.Error}")
-            Call PrintUsage()
+            Call CliOptions.PrintUsage()
             Environment.ExitCode = 1
             Return
         End If
@@ -200,7 +153,7 @@ Module Program
                                      timestamp As Date) As ProjectResult
         Dim result As New ProjectResult With {
             .FilePath = path,
-            .Changes = New VersionUpgrader.VersionChange() {}
+            .Changes = New VersionChange() {}
         }
 
         Try
@@ -230,7 +183,7 @@ Module Program
             End If
 
             If opts.FixOutputPath AndAlso outputDir IsNot Nothing Then
-                result.OutputPath = OutputPathFixer.Apply(doc, ns, path, outputDir)
+                result.OutputPath = opts.CreateOutput.Apply(doc, ns, path, outputDir)
             End If
 
             If Not opts.DryRun AndAlso (result.Changed OrElse result.RemovedConditions > 0 OrElse result.OutputPathChanged) Then
@@ -490,41 +443,4 @@ Module Program
 
         Return ""
     End Function
-
-    Private Sub PrintUsage()
-        Console.WriteLine("Usage:")
-        Console.WriteLine("  PkgVersionUpgrade --slnx <solution.slnx> --namespace <prefix> [options]")
-        Console.WriteLine()
-        Console.WriteLine("Required:")
-        Console.WriteLine("  -s, --slnx <file>     要处理的 slnx 解决方案文件路径。")
-        Console.WriteLine("  -p, --namespace <p>  命名空间前缀，用于按 RootNamespace 过滤 slnx 中的 vbproj。")
-        Console.WriteLine()
-        Console.WriteLine("Options:")
-        Console.WriteLine("  -v, --version <ver>   nuget 程序包版本号。指定时直接写入 <Version>；")
-        Console.WriteLine("                        未指定时在每个工程现有 <Version> 的 major.minor 基础上")
-        Console.WriteLine("                        用当前时间戳推算出剩余数字（CalculateVersion）。")
-        Console.WriteLine("  -n, --dry-run         只打印将要发生的改动，不写入文件。")
-        Console.WriteLine("      --clean           不仅仅只更新版本号，清理过时的 TargetFramework 条件配置组。")
-        Console.WriteLine("  -o, --output <dir>    编译产物输出文件夹。仅当 --fix-output-path 开启时必填；")
-        Console.WriteLine("                        会被设为所操作目标 vbproj 的 nuget_release|x64 配置的")
-        Console.WriteLine("                        <OutputPath>，并化为相对于该 vbproj 的相对路径。")
-        Console.WriteLine("      --fix-output-path 修正 nuget_release|x64 的产物输出路径（需配合 --output）。")
-        Console.WriteLine("                        缺配置组的工程自动补建，并补齐 <Configurations> 中的")
-        Console.WriteLine("                        nuget_release 与 <Platforms> 中的 x64。")
-        Console.WriteLine("  -h, --help            显示本帮助信息。")
-        Console.WriteLine()
-        Console.WriteLine("Notes:")
-        Console.WriteLine("  * <AssemblyVersion> 与 <FileVersion> 恒由当前时间戳推算，不受 --version 影响；")
-        Console.WriteLine("    nuget 版本号与 assembly version 在所有 SDK 工程中确保存在，file version 只更新已有值。")
-        Console.WriteLine("  * --fix-output-path 默认关闭，需要显式指定才执行；带 $(TargetFramework) 的")
-        Console.WriteLine("    nuget_release|net10.0|x64 变体配置组同样会被修正。")
-        Console.WriteLine("  * 仅处理 Microsoft.NET.Sdk 风格工程，legacy 工程自动跳过；")
-        Console.WriteLine("    命名空间前缀不匹配的工程同样不参与任何更新。")
-        Console.WriteLine()
-        Console.WriteLine("Examples:")
-        Console.WriteLine("  PkgVersionUpgrade --slnx VBS.slnx --namespace Microsoft.VisualBasic --dry-run")
-        Console.WriteLine("  PkgVersionUpgrade --slnx VBS.slnx --namespace Microsoft.VisualBasic -v 10.5.0.0")
-        Console.WriteLine("  PkgVersionUpgrade --slnx VBS.slnx --namespace Microsoft.VisualBasic --fix-output-path --output G:\out -n")
-    End Sub
-
 End Module

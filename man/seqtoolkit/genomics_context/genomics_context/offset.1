@@ -1,0 +1,33 @@
+.\" man page create by R# package system.
+.TH GENOMICS_CONTEXT 2 2000-1月 "offset" "offset"
+.SH NAME
+offset \- do offset of the given location
+.SH SYNOPSIS
+\fIoffset(\fBloci\fR as <generic> NucleotideLocation, 
+\fBoffset\fR as integer);\fR
+.SH DESCRIPTION
+.PP
+do offset of the given location
+.PP
+.SH OPTIONS
+.PP
+\fBloci\fB \fR\- 
+ the target nucleotide location for make the offset.
+. 
+.PP
+.PP
+\fBoffset\fB \fR\- 
+ the offset value in nucleotide for move the given location region.
+. 
+.PP
+.SH VALUE
+.PP
+a new [NucleotideLocation](cref:T:SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation) location object that has been 
+ moved by the given offset value.
+.PP
+.SH SEE ALSO
+genomics_context
+.SH FILES
+.PP
+seqtoolkit.dll
+.PP

@@ -1,0 +1,40 @@
+.\" man page create by R# package system.
+.TH UNIPROT 1 2000-1月 "uniprot_keywords" "uniprot_keywords"
+.SH NAME
+uniprot_keywords \- Create a gsea background model for uniprot keywords based
+.SH SYNOPSIS
+\fIuniprot_keywords(\fBuniprot\fR as any, 
+\fBdb_xref\fR as string = \fB<NULL>\fR, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Create a gsea background model for uniprot keywords based
+ on the given uniprot database assembly data
+.PP
+.SH OPTIONS
+.PP
+\fBuniprot\fB \fR\- 
+ a collection of the UniProt protein [entry](cref:T:SMRUCC.genomics.Assembly.Uniprot.XML.entry) data, or a file path of the
+ UniProt database xml file.
+. 
+.PP
+.PP
+\fBdb_xref\fB \fR\- 
+ the database cross reference name that will be used as the gene id of the background
+ members, for example \fBGeneID\fR. Default \fBNULL\fR means using the UniProt accession id.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment.. 
+.PP
+.SH VALUE
+.PP
+a [Background](cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.Background) model whose clusters are the UniProt keyword terms, or an
+ error message when the input data could not be cast into the UniProt entry collection.
+.PP
+.SH SEE ALSO
+UniProt
+.SH FILES
+.PP
+gseakit.dll
+.PP

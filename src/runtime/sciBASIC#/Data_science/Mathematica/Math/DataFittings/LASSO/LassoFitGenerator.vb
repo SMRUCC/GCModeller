@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a783cd4baba1874d8f63291bcefcea2b, Data_science\Mathematica\Math\DataFittings\LASSO\LassoFitGenerator.vb"
+﻿#Region "Microsoft.VisualBasic::e1fcfd266d22399a11244b2d2180f272, Data_science\Mathematica\Math\DataFittings\LASSO\LassoFitGenerator.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 348
-    '    Code Lines: 251 (72.13%)
-    ' Comment Lines: 48 (13.79%)
-    '    - Xml Docs: 29.17%
+    '   Total Lines: 351
+    '    Code Lines: 253 (72.08%)
+    ' Comment Lines: 49 (13.96%)
+    '    - Xml Docs: 28.57%
     ' 
-    '   Blank Lines: 49 (14.08%)
-    '     File Size: 16.58 KB
+    '   Blank Lines: 49 (13.96%)
+    '     File Size: 16.75 KB
 
 
     '     Class LassoFitGenerator
@@ -59,6 +59,7 @@
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Math.SIMD
 Imports std = System.Math
 
 Namespace LASSO
@@ -125,7 +126,10 @@ Namespace LASSO
                 Throw New Exception("Number of observations (" & numObservations.ToString() & ") exceeds the maximum allowed number: " & getMaxAllowedObservations(maxNumFeatures).ToString())
             End If
             Me.numObservations = numObservations
-            observations = New Double(Me.numObservations - 1)() {}
+            ' observations 是按照特征为第一维来组织的：observations(特征)(样本)，
+            ' 因此外层数组的长度必须是特征的数量，而不是观测的数量。
+            ' (旧实现使用 numObservations 作为外层长度，只要自变量个数大于样本数量就会越界)
+            observations = New Double(maxNumFeatures - 1)() {}
             For t = 0 To maxNumFeatures - 1
                 observations(t) = New Double(Me.numObservations - 1) {}
             Next
@@ -155,7 +159,9 @@ Namespace LASSO
         End Sub
 
         Private Function getLassoFit(maxAllowedFeaturesPerModel As Integer) As LassoFit
-            If maxAllowedFeaturesPerModel < 0 Then
+            ' 负数表示不做限制；零也按不限制处理，否则下面的
+            ' maxAllowedFeaturesAlongPath 会等于零并构造出负长度的数组
+            If maxAllowedFeaturesPerModel <= 0 Then
                 maxAllowedFeaturesPerModel = numFeatures
             End If
             Dim numberOfLambdas = DEFAULT_NUMBER_OF_LAMBDAS
@@ -179,7 +185,7 @@ Namespace LASSO
                 For i = 0 To numObservations - 1
                     observations(j)(i) = CSng(factor * (observations(j)(i) - mean))
                 Next
-                featureStds(j) = std.Sqrt(MathUtil.getDotProduct(observations(j), observations(j), observations(j).Length))
+                featureStds(j) = std.Sqrt(SimdReduce.Dot(observations(j), observations(j)))
 
                 MathUtil.divideInPlace(observations(j), featureStds(j))
             Next
@@ -188,17 +194,22 @@ Namespace LASSO
             For i = 0 To numObservations - 1
                 targetsField(i) = factor * (targetsField(i) - targetMean)
             Next
-            Dim targetStd As Double = std.Sqrt(MathUtil.getDotProduct(targetsField, targetsField, targetsField.Length))
+            Dim targetStd As Double = std.Sqrt(SimdReduce.Dot(targetsField, targetsField))
             MathUtil.divideInPlace(targetsField, targetStd)
 
             For j = 0 To numFeatures - 1
-                feature2residualCorrelations(j) = MathUtil.getDotProduct(targetsField, observations(j), targetsField.Length)
+                feature2residualCorrelations(j) = SimdReduce.Dot(targetsField, observations(j))
             Next
 
             Dim feature2featureCorrelations = RectangularArray.Matrix(Of Double)(numFeatures, maxAllowedFeaturesAlongPath)
             Dim activeWeights = New Double(numFeatures - 1) {}
             Dim correlationCacheIndices = New Integer(numFeatures - 1) {}
-            Dim denseActiveSet = New Double(numFeatures - 1) {}
+            ' denseActiveSet 会和 feature2featureCorrelations(j) 做点积，后者的长度是
+            ' maxAllowedFeaturesAlongPath，因此这里也必须使用同一个长度，
+            ' 否则在 maxAllowedFeaturesPerModel 受限(即小于特征数量)的时候，
+            ' SimdReduce.Dot 会因为两个向量的长度不相等而抛出异常。
+            ' 旧实现使用 numFeatures，只有在正则化路径不受限的时候才恰好相等。
+            Dim denseActiveSet = New Double(maxAllowedFeaturesAlongPath - 1) {}
 
             Dim fit As New LassoFit(numberOfLambdas, maxAllowedFeaturesAlongPath, numFeatures) With {
                 .featureNames = featureNames,
@@ -272,7 +283,7 @@ Namespace LASSO
                                     If j = k Then
                                         feature2featureCorrelations(j)(numberOfInputs - 1) = 1.0
                                     Else
-                                        feature2featureCorrelations(j)(numberOfInputs - 1) = MathUtil.getDotProduct(observations(j), observations(k), observations(j).Length)
+                                        feature2featureCorrelations(j)(numberOfInputs - 1) = SimdReduce.Dot(observations(j), observations(k))
                                     End If
                                 End If
                             Next
@@ -294,6 +305,11 @@ Namespace LASSO
                         Exit While
                     End If
 
+                    ' 超出当前活跃集长度的位置必须保持为零，
+                    ' 这样下面与协方差行向量的整长点积才只覆盖有效的列
+                    For ii As Integer = numberOfInputs To denseActiveSet.Length - 1
+                        denseActiveSet(ii) = 0
+                    Next
                     For ii = 0 To numberOfInputs - 1
                         denseActiveSet(ii) = activeWeights(fit.indices(ii))
                     Next
@@ -324,7 +340,7 @@ Namespace LASSO
                     Next
                     For j = 0 To numFeatures - 1
                         If correlationCacheIndices(j) = 0 Then
-                            feature2residualCorrelations(j) -= MathUtil.getDotProduct(denseActiveSet, feature2featureCorrelations(j), numberOfInputs)
+                            feature2residualCorrelations(j) -= SimdReduce.Dot(denseActiveSet, feature2featureCorrelations(j))
                         End If
                     Next
                 End While

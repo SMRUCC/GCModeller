@@ -1,0 +1,40 @@
+.\" man page create by R# package system.
+.TH GENBANK 4 2000-1月 "addMeta" "addMeta"
+.SH NAME
+addMeta \- add metadata into a given feature object
+.SH SYNOPSIS
+\fIaddMeta(\fBfeature\fR as <generic> Feature, 
+..., 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+add metadata into a given feature object
+.PP
+.SH OPTIONS
+.PP
+\fBfeature\fB \fR\- 
+ the target [Feature](cref:T:SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES.Feature) genbank feature object for add the 
+ metadata.
+. 
+.PP
+.PP
+\fBmeta\fB \fR\- 
+ a R# list object of the metadata: the name of each list element is the 
+ qualifier name, and the element value is the qualifier value.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+the modified [Feature](cref:T:SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES.Feature) genbank feature object.
+.PP
+.SH SEE ALSO
+GenBank
+.SH FILES
+.PP
+seqtoolkit.dll
+.PP
+.SH AUTHOR
+Written by \fBxie.guigang@gcmodeller.org\fR

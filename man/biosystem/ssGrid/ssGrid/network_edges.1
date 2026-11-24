@@ -1,0 +1,29 @@
+.\" man page create by R# package system.
+.TH SSGRID 1 2000-1月 "network_edges" "network_edges"
+.SH NAME
+network_edges \- get the network topology of the fitted S-system model as a data.frame
+.SH SYNOPSIS
+\fInetwork_edges(\fBnetwork\fR as <generic> SSystemNetwork);\fR
+.SH DESCRIPTION
+.PP
+get the network topology of the fitted S-system model as a data.frame
+.PP
+.SH OPTIONS
+.PP
+\fBnetwork\fB \fR\- -. 
+.PP
+.SH VALUE
+.PP
+a dataframe with the columns: \fBsource,target,weight,g,h,interaction,
+ prior_supported,prior_type,prior_confidence\fR
+.PP
+.SH EXAMPLES
+.PP
+let edges = network_edges(network);
+.PP
+.SH SEE ALSO
+ssGrid
+.SH FILES
+.PP
+biosystem.dll
+.PP

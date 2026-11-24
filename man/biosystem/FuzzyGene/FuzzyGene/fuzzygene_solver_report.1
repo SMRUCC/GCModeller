@@ -1,0 +1,59 @@
+.\" man page create by R# package system.
+.TH FUZZYGENE 1 2000-1月 "fuzzygene_solver_report" "fuzzygene_solver_report"
+.SH NAME
+fuzzygene_solver_report \- Solver diagnostics of one virtual perturbation (exit reason, residuals, saturation).
+.SH SYNOPSIS
+\fIfuzzygene_solver_report(\fBfuzzygene\fR as <generic> FuzzyGeneModel, 
+\fBgene\fR as string, 
+\fBmode\fR as string = "knockout", 
+\fBsteps\fR as integer = 0, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Solver diagnostics of one virtual perturbation (exit reason, residuals, saturation).
+.PP
+.SH OPTIONS
+.PP
+\fBfuzzygene\fB \fR\- a trained (or restored) model. 
+.PP
+.PP
+\fBgene\fB \fR\- the target gene of the virtual perturbation. 
+.PP
+.PP
+\fBmode\fB \fR\- \fBknockout\fR (default), \fBknockdown\fR or \fBoverexpression\fR. 
+.PP
+.PP
+\fBsteps\fB \fR\- maximum iteration steps; 0 uses the model configuration. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment used to report errors. 
+.PP
+.SH VALUE
+.PP
+a one row data.frame
+.PP
+.SH DETAILS
+.PP
+One row with both the mutant and the wildtype run:
+ \fBexit_reason\fR / \fBiterations\fR / \fBfree_residual\fR / \fBclamp_residual\fR /
+ \fBout_of_support\fR / \fBpinned\fR / \fBattractor_period\fR / \fBomega\fR / \fBtolerance\fR /
+ \fBlagged\fR / \fBelapsed_ms\fR, plus the same fields prefixed with \fBcontrol_\fR.
+ 
+
+
+ 
+
+
+ Read \fBexit_reason\fR first. Only \fBConverged\fR means the flat tail of the curve is a real
+ steady state; \fBMaxIterations\fR is a truncated plateau, \fBLimitCycle\fR means the system
+ oscillates (the period mean is the honest answer), \fBSupportSaturated\fR means the support
+ clamp, not the model, produced the numbers, and \fBDiverged\fR means there is no answer.
+ \fBclamp_residual\fR is a diagnostic only: the clamped gene is by construction not at a fixed
+ point of the map, so it never goes to zero and must not be used as a convergence test.
+.PP
+.SH SEE ALSO
+FuzzyGene
+.SH FILES
+.PP
+biosystem.dll
+.PP

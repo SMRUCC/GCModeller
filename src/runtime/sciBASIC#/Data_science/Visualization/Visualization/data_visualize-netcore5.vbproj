@@ -2,11 +2,11 @@
 
 	<PropertyGroup>
 		<RootNamespace>Microsoft.VisualBasic.Data.visualize</RootNamespace>
-    <TargetFrameworks>net10.0-windows;net10.0</TargetFrameworks>
+    <TargetFrameworks>net10.0</TargetFrameworks>
 		<AssemblyName>Microsoft.VisualBasic.Data.visualize</AssemblyName>
 		<Authors>xieguigang &lt;I@xieguigang.me&gt;</Authors>
 		<Company>sciBASIC.NET Foundation</Company>
-		<Version>5.0.9758.20045</Version>
+		<Version>10.8.9818.14504</Version>
 		<Copyright>Copyright (c) sciBASIC.NET Foundation</Copyright>
 		<PackageProjectUrl>http://scibasic.net/</PackageProjectUrl>
 		<PackageIcon>logo-knot.png</PackageIcon>
@@ -17,12 +17,12 @@
 		<Configurations>Debug;Release;LipidSearch;Rsharp_app_release;mzkit_win32;gcmodeller_desktop;nuget_release</Configurations>
 		<AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
-		<AssemblyVersion>1.0.9758.20045</AssemblyVersion>
-		<Title>Visualization Layer for Networks, Clusters and Embeddings</Title>
-		<Description>Visualization abstractions for sciBASIC#: correlation and K-means network graphs, binary tree layouts, 2D and 3D rendering of UMAP, SOM and other data embeddings, plus tabular CSV rendering helpers.</Description>
+		<AssemblyVersion>1.0.9818.14504</AssemblyVersion>
+		<Title>Network, Cluster and Embedding Visualization Layer</Title>
+		<Description>A visualization layer for sciBASIC#: correlation and K-means cluster network graph construction, binary tree partition layouts, 2D and 3D rendering of UMAP, SOM and other data embeddings, plus CSV bar chart and scatter rendering helpers for tabular data.</Description>
 		<AssemblyTitle>Microsoft.VisualBasic.Data.visualize</AssemblyTitle>
-		<PackageTags>scibasic;visualization;network-graph;correlation-network;embedding;clustering;kmeans;umap;tabular-rendering</PackageTags>
-    <PackageReleaseNotes>Visualization abstractions for sciBASIC#. The root namespace provides correlation network graphs and the K-means clustering visualization together with tabular CSV rendering helpers, and the Tabular namespace handles the tabular rendering model. The package renders the outputs of the data mining and machine learning stacks - network graphs, cluster assignments, binary tree layouts and 2D or 3D embeddings from UMAP, SOM and similar methods - turning analysis results into inspectable graphics. It is the glue layer between the analysis packages and the charting engines.</PackageReleaseNotes>
+		<PackageTags>scibasic;visualization;network-graph;correlation-network;umap;kmeans;embedding</PackageTags>
+    <PackageReleaseNotes>This cycle: Fixed the plot error; Fixed the chrt plot diaplaay error; Scale math.</PackageReleaseNotes>
 		<PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
 		<RepositoryType>git</RepositoryType>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
@@ -86,7 +86,7 @@
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
 	  <DocumentationFile>Microsoft.VisualBasic.Data.visualize.xml</DocumentationFile>
 	  <RemoveIntegerChecks>true</RemoveIntegerChecks>
-	  <Optimize>false</Optimize>
+	  <Optimize>true</Optimize>
 	  <DebugSymbols>true</DebugSymbols>
 	  <DebugType>full</DebugType>
 	  <DefineDebug>false</DefineDebug>
@@ -129,8 +129,12 @@
 
 	<ItemGroup>
 	  <Compile Remove="Testing\**" />
+	  <Compile Remove="test\**" />
 	  <EmbeddedResource Remove="Testing\**" />
+	  <EmbeddedResource Remove="test\**" />
 	  <None Remove="Testing\**" />
+	  <None Remove="test\**" />
+	  <EmbeddedResource Include="ShapPlot\readme.md" />
 	  <None Include="..\..\..\LICENSE">
 	    <Pack>True</Pack>
 	    <PackagePath></PackagePath>
@@ -151,18 +155,24 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Data\DataFrame\dataframework-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\gr\Microsoft.VisualBasic.Imaging\imaging.NET5.vbproj" />
     <ProjectReference Include="..\..\..\gr\network-visualization\Datavisualization.Network\network_graph-netcore5.vbproj" />
-    <ProjectReference Include="..\..\..\gr\network-visualization\Network.IO.Extensions\network_io-netcore5.vbproj" />
-    <ProjectReference Include="..\..\..\gr\physics\physics-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\..\..\mime\text%html\html_netcore5.vbproj" />
     <ProjectReference Include="..\..\DataMining\DataMining\DataMining.NET5.vbproj" />
+    <ProjectReference Include="..\..\DataMining\hierarchical-clustering\hierarchical-clustering\hctree.NET5.vbproj" />
+    <ProjectReference Include="..\..\DataMining\hierarchical-clustering\HCTreePlot\HCTreePlot.vbproj" />
+    <ProjectReference Include="..\..\DataMining\hierarchical-clustering\hierarchical-clustering\hctree.NET5.vbproj" />
     <ProjectReference Include="..\..\DataMining\UMAP\UMAP.NET5.vbproj" />
     <ProjectReference Include="..\..\Graph\graph-netcore5.vbproj" />
-    <ProjectReference Include="..\..\MachineLearning\DeepLearning\DeepLearning.NET6.vbproj" />
-    <ProjectReference Include="..\..\MachineLearning\MachineLearning\machine_learning-netcore5.vbproj" />
-    <ProjectReference Include="..\..\Mathematica\Math\DataFrame\dataframeUtils-netcore5.vbproj" />
+
+    <ProjectReference Include="..\..\Mathematica\Math\ANOVA\ANOVA.vbproj" />
+
+    <ProjectReference Include="..\..\Mathematica\Math\Math.Statistics\stats-netcore5.vbproj" />
+
     <ProjectReference Include="..\..\Mathematica\Math\Math\Math.NET5.vbproj" />
-    <ProjectReference Include="..\Plots\plots-netcore5.vbproj" />
+    <ProjectReference Include="..\..\Mathematica\Math\Randomizer\randomizer-netcore5.vbproj" />
+    <ProjectReference Include="..\DataPlot\DataPlot.vbproj" />
   </ItemGroup>
 
 </Project>

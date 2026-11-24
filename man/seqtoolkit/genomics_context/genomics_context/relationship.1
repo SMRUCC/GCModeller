@@ -1,0 +1,44 @@
+.\" man page create by R# package system.
+.TH GENOMICS_CONTEXT 2 2000-1月 "relationship" "relationship"
+.SH NAME
+relationship \- get the segment relationship of two location
+.SH SYNOPSIS
+\fIrelationship(\fBa\fR as any, 
+\fBb\fR as any, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+get the segment relationship of two location
+.PP
+.SH OPTIONS
+.PP
+\fBa\fB \fR\- 
+ the first location for evaluate the segment relationship, which can be 
+ a gene model object([IGeneBrief](cref:T:SMRUCC.genomics.ComponentModel.Annotation.IGeneBrief)), a contig 
+ object([Contig](cref:T:SMRUCC.genomics.SequenceModel.NucleotideModels.Contig)), or a [NucleotideLocation](cref:T:SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation) 
+ nucleotide location object.
+. 
+.PP
+.PP
+\fBb\fB \fR\- 
+ the second location for evaluate the segment relationship, which 
+ accepts the same data models as the \fBa\fR parameter.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a [SegmentRelationships](cref:T:SMRUCC.genomics.ComponentModel.Loci.SegmentRelationships) segment relationship enum value 
+ of the given two location regions;
+ 
+ this function returns a R# error message object if the given location 
+ data can not be cast to a nucleotide location object.
+.PP
+.SH SEE ALSO
+genomics_context
+.SH FILES
+.PP
+seqtoolkit.dll
+.PP

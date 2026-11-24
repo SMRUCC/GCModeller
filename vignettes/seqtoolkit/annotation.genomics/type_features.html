@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>get the genomics features from the given gff table by its feature type</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>type_features {annotation.genomics}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>get the genomics features from the given gff table by its feature type</h2>
+
+        <h3>Description</h3>
+
+        
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>type_features</strong>(<i>gff</i>, <i>type</i>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>gff</dt>
+<dd><p>a <a href="cref:T:SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF.GFFTable">GFFTable</a> genomics feature annotation table object for query the feature data. [as <a href="/vignettes/clr/SMRUCC/genomics/Annotation/Assembly/NCBI/GenBank/TabularFormat/GFF/GFFTable.html">GFFTable</a>]</p></dd>
+
+
+<dt>type</dt>
+<dd><p>the feature type of the target features, example as <code>gene</code>, <code>CDS</code> or <code>mRNA</code>. [as string]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: none;">Details</h3>
+
+        
+
+        <h3 style="display: block">Authors</h3>
+
+        seqtoolkit
+
+        <h3>Value</h3>
+
+        <p>a vector of the <a href="cref:T:SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF.Feature">Feature</a> genomics feature object that its feature type matches the given type name.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Annotation/Assembly/NCBI/GenBank/TabularFormat/GFF/Feature.html">Feature</a></li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>annotation.genomics</em> version 1.0.0.0 <a
+                href="../annotation.genomics.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

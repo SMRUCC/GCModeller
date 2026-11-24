@@ -1,4 +1,4 @@
-#Region "Microsoft.VisualBasic::NumericTableRegressions, Data_science\Mathematica\Math\DataFittings\NumericTableRegressions.vb"
+﻿#Region "Microsoft.VisualBasic::683510b77a669b97d1d5f2d10ca27c7e, Data_science\Mathematica\Math\DataFittings\NumericTableRegressions.vb"
 
     ' Author:
     ' 
@@ -23,7 +23,35 @@
     ' GNU General Public License for more details.
     ' 
     ' You should have received a copy of the GNU General Public License
-    ' along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 601
+    '    Code Lines: 286 (47.59%)
+    ' Comment Lines: 230 (38.27%)
+    '    - Xml Docs: 89.57%
+    ' 
+    '   Blank Lines: 85 (14.14%)
+    '     File Size: 28.68 KB
+
+
+    ' Module NumericTableRegressions
+    ' 
+    '     Function: AsFitInputs, AutoPointDeletion, BayesianCurveFit, FeatureMatrix, FeatureNameList
+    '               FeatureProjection, GaussNewtonFit, LassoRegression, LinearFit, LoessFit
+    '               LogisticRegression, Lowess, MapRemovedRows, MultipleLinearRegression, Nnls
+    '               PolyFit, ResponseVector, RidgeRegression, SingleFeature, StandardCurveFit,
+    '               WeightedLinearFit
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -35,11 +63,15 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 Imports Microsoft.VisualBasic.Math.Scripting
+Imports CoxNS = Microsoft.VisualBasic.Data.Bootstrapping.Cox
 Imports FittingExtensions = Microsoft.VisualBasic.Data.Bootstrapping.Extensions
 Imports FeatureProjectionNS = Microsoft.VisualBasic.Data.Bootstrapping.FeatureProjection
 Imports LassoNS = Microsoft.VisualBasic.Data.Bootstrapping.LASSO
 Imports LogisticNS = Microsoft.VisualBasic.Data.Bootstrapping.Logistic
+Imports MGaussianNS = Microsoft.VisualBasic.Data.Bootstrapping.MGaussian
 Imports MultivariateNS = Microsoft.VisualBasic.Data.Bootstrapping.Multivariate
+Imports PoissonNS = Microsoft.VisualBasic.Data.Bootstrapping.Poisson
+Imports RidgeNS = Microsoft.VisualBasic.Data.Bootstrapping.Ridge
 
 ''' <summary>
 ''' 回归/曲线拟合算法的统一二维表入口。
@@ -54,6 +86,14 @@ Imports MultivariateNS = Microsoft.VisualBasic.Data.Bootstrapping.Multivariate
 '''    <see cref="Lowess"/>、<see cref="LoessFit"/>、<see cref="AutoPointDeletion"/>、
 '''    <see cref="GaussNewtonFit"/>、<see cref="BayesianCurveFit"/>）要求表
 '''    之中**有且仅有一个**特征列，否则会抛出 <see cref="ArgumentException"/>
+''' 4. 计数回归（<see cref="PoissonRegression"/>）使用全部特征列，响应变量必须是
+'''    非负整数计数；截距自动拟合，暴露量 offset 由 ``exposure`` 列名指定
+''' 5. 多响应回归（<see cref="MGaussianRegression"/>、<see cref="MGaussianCV"/>）
+'''    使用全部特征列，并把表的**全部标签列**（或 ``y As String()`` 指定的标签列子集）
+'''    组成 ``N x K`` 响应矩阵；需要至少 1 个标签列
+''' 6. 生存回归（<see cref="CoxRegression"/>、<see cref="CoxCV"/>）使用全部特征列，
+'''    响应为名为 ``time``（观测时间）与 ``status``（1=事件、0=删失）的两个标签列，
+'''    列名可由 ``time`` / ``status`` 参数覆盖；Cox 模型没有截距项
 ''' 
 ''' 所有的入口方法都直接返回既有的拟合模型对象，模型的输入/输出约定保持不变；
 ''' 若需要把模型的预测值写回到表的标签矩阵之中，请使用
@@ -131,6 +171,86 @@ Public Module NumericTableRegressions
         End If
 
         Return Enumerable.Range(1, m).Select(Function(i) CStr(i)).ToArray
+    End Function
+
+    ''' <summary>
+    ''' 读取多响应矩阵：把表的全部标签列（或 <paramref name="y"/> 指定的标签列子集）
+    ''' 按列拼成 ``response(sample)(response)`` 的 ``N x K`` 矩阵，并返回实际用到的列名。
+    ''' </summary>
+    Private Function ResponseMatrix(table As NumericTable,
+                                    y As String(),
+                                    caller As String,
+                                    ByRef responseNames As String()) As Double()()
+
+        If table Is Nothing Then
+            Throw New ArgumentNullException(NameOf(table))
+        End If
+        If table.nsamples = 0 OrElse table.labels Is Nothing OrElse table.nlabels = 0 Then
+            Throw New ArgumentException(
+                $"the '{caller}' regression requires at least one label column as a multi-response matrix!",
+                NameOf(table)
+            )
+        End If
+
+        Dim names As String() = If(y Is Nothing OrElse y.Length = 0, table.labelNames, y)
+        Dim n As Integer = table.nsamples
+        Dim k As Integer = names.Length
+        Dim response As Double()() = RectangularArray.Matrix(Of Double)(n, k)
+
+        For c As Integer = 0 To k - 1
+            ' 指定的标签列不存在的时候，GetLabel 会给出明确的 KeyNotFoundException
+            Dim column As Double() = table.GetLabel(names(c))
+
+            For i As Integer = 0 To n - 1
+                response(i)(c) = column(i)
+            Next
+        Next
+
+        responseNames = names
+        Return response
+    End Function
+
+    ''' <summary>
+    ''' 读取 Cox 生存响应：把 ``time`` 与 ``status`` 两个标签列拼成
+    ''' ``response(sample) = {time, status}`` 的 ``N x 2`` 矩阵。
+    ''' status 的语义为 1 = 事件、0 = 删失（与 ``Surv()`` 一致）。
+    ''' </summary>
+    Private Function SurvivalResponse(table As NumericTable,
+                                      time As String,
+                                      status As String,
+                                      caller As String) As Double()()
+
+        If table Is Nothing Then
+            Throw New ArgumentNullException(NameOf(table))
+        End If
+        If table.nsamples = 0 OrElse table.labels Is Nothing OrElse table.nlabels = 0 Then
+            Throw New ArgumentException(
+                $"the '{caller}' regression requires 'time' and 'status' label columns as the survival response!",
+                NameOf(table)
+            )
+        End If
+
+        Dim timeName As String = If(String.IsNullOrEmpty(time), "time", time)
+        Dim statusName As String = If(String.IsNullOrEmpty(status), "status", status)
+
+        If Not table.HasLabel(timeName) OrElse Not table.HasLabel(statusName) Then
+            Throw New ArgumentException(
+                $"the '{caller}' regression requires label columns '{timeName}' (observed time) and '{statusName}' (1=event, 0=censored)!",
+                NameOf(table)
+            )
+        End If
+
+        Dim timeColumn As Double() = table.GetLabel(timeName)
+        Dim statusColumn As Double() = table.GetLabel(statusName)
+        Dim n As Integer = table.nsamples
+        Dim response As Double()() = RectangularArray.Matrix(Of Double)(n, 2)
+
+        For i As Integer = 0 To n - 1
+            response(i)(0) = timeColumn(i)
+            response(i)(1) = statusColumn(i)
+        Next
+
+        Return response
     End Function
 
 #End Region
@@ -341,31 +461,68 @@ Public Module NumericTableRegressions
 #Region "classification && regularized"
 
     ''' <summary>
-    ''' 逻辑回归（梯度下降求解）。使用表中的全部特征列作为自变量。
+    ''' 逻辑回归（梯度下降求解）。使用表中的全部特征列作为自变量，返回正类概率模型。
     ''' </summary>
-    ''' <param name="table">特征矩阵为 X、指定标签列为类别编号的二维表</param>
-    ''' <param name="rate">学习率</param>
-    ''' <param name="iterations">梯度下降的迭代次数</param>
+    ''' <remarks>
+    ''' <para>
+    ''' 标签列必须是 0/1 数值；旧实现用 <c>CInt(yv(i))</c> 会把连续/概率标签
+    ''' 静默截断（银行家舍入），现在按原值传入并由训练器显式校验。
+    ''' </para>
+    ''' <para>
+    ''' 截距是模型的独立标量，不需要在表里手工加常量列；关闭
+    ''' <paramref name="fitIntercept"/> 时决策面强制过原点。
+    ''' 开启 <paramref name="standardize"/> 会让
+    ''' <c>Polynomial.Factors</c> 变成标准化空间的系数，此时若依赖
+    ''' <c>phi_i = bi * (xi - E[xi])</c> 之类的原始空间解释需自行换算。
+    ''' </para>
+    ''' </remarks>
+    ''' <param name="table">特征矩阵为 X、指定标签列为 0/1 类别的二维表</param>
+    ''' <param name="rate">学习率（自适应开启时仅作为初始步长）</param>
+    ''' <param name="iterations">梯度下降的最大迭代次数</param>
     ''' <param name="y">响应变量所在的标签列名，缺省为第一个标签列</param>
     ''' <param name="Silent">是否关闭算法内部的进度输出</param>
+    ''' <param name="fitIntercept">是否拟合独立截距项</param>
+    ''' <param name="standardize">是否先对每一列做 z-score 标准化</param>
+    ''' <param name="useParallel">是否使用分块并行计算梯度（默认关闭以保证可复现）</param>
+    ''' <param name="tolerance">成本改善的收敛容差</param>
     ''' <returns></returns>
     <Extension>
     Public Function LogisticRegression(table As NumericTable,
                                        Optional rate As Double = 0.0001,
                                        Optional iterations As Integer = 3000,
                                        Optional y As String = Nothing,
-                                       Optional Silent As Boolean = False) As LogisticNS.LogisticFit
+                                       Optional Silent As Boolean = False,
+                                       Optional fitIntercept As Boolean = True,
+                                       Optional standardize As Boolean = False,
+                                       Optional useParallel As Boolean = False,
+                                       Optional tolerance As Double = 0.0000001) As LogisticNS.LogisticFit
 
         Dim xm As Double()() = FeatureMatrix(table, NameOf(LogisticRegression))
         Dim yv As Double() = ResponseVector(table, y, NameOf(LogisticRegression))
         Dim n As Integer = table.nsamples
+
+        If yv.Length <> n Then
+            Throw New ArgumentException($"the label column has {yv.Length} value(s) but the table has {n} sample(s)!", NameOf(table))
+        End If
+
+        Dim progress As Action(Of String) = Nothing
+
+        If Not Silent Then
+            progress = Sub(msg) Console.WriteLine($"[LogisticRegression] {msg}")
+        End If
+
         Dim instances As LogisticNS.Instance() = New LogisticNS.Instance(n - 1) {}
-        Dim model As New LogisticNS.Logistic(table.nfeatures, rate, Nothing) With {
-            .ITERATIONS = iterations
+        Dim model As New LogisticNS.Logistic(table.nfeatures, rate, progress) With {
+            .ITERATIONS = iterations,
+            .FitIntercept = fitIntercept,
+            .StandardizeData = standardize,
+            .UseParallel = useParallel,
+            .Tolerance = tolerance
         }
 
         For i As Integer = 0 To n - 1
-            instances(i) = New LogisticNS.Instance(CInt(yv(i)), xm(i))
+            instances(i) = New LogisticNS.Instance(0, xm(i))
+            instances(i).label = yv(i)
         Next
 
         Return model.Train(instances)
@@ -411,6 +568,112 @@ Public Module NumericTableRegressions
         Next
 
         Return generator.fit(maxAllowedFeaturesPerModel)
+    End Function
+
+    ''' <summary>
+    ''' 岭回归（Ridge，L2 正则化的线性回归）。使用表中的全部特征列作为自变量。
+    ''' 
+    ''' 与 <see cref="MultipleLinearRegression"/> 不同，岭回归自带截距项
+    ''' （并且截距不施加惩罚），因此不需要在表里面额外加一列常量。
+    ''' 它最适合于自变量之间存在共线性的场合：惩罚项让正规方程
+    ''' ``X'X + n*lambda*I`` 恒为正定，从而可以稳定地解出系数。
+    ''' 
+    ''' 指定了 <paramref name="lambda"/> 的时候就只在该 lambda 之上求解一次；
+    ''' 否则会在 lambda 网格上面求解出完整的正则化路径，并用 GCV 准则
+    ''' 挑出最优的那一步（<see cref="RidgeNS.RidgeFit.bestIndex"/>）。
+    ''' 路径可以用 <see cref="RidgeNS.RidgeFit.toNumericTable"/> 导出成二维表查看。
+    ''' </summary>
+    ''' <param name="table">特征矩阵为 X、指定标签列为 y 的二维表</param>
+    ''' <param name="lambda">
+    ''' 正则化强度，必须为正数。缺省（Nothing）的时候走 GCV 自动选择
+    ''' </param>
+    ''' <param name="numberOfLambdas">lambda 网格的步数</param>
+    ''' <param name="standardize">是否先对每一列做标准化</param>
+    ''' <param name="y">响应变量所在的标签列名，缺省为第一个标签列</param>
+    ''' <param name="Silent">保留参数，岭回归求解器没有进度输出</param>
+    ''' <returns>含正则化路径的岭回归拟合结果</returns>
+    <Extension>
+    Public Function RidgeRegression(table As NumericTable,
+                                    Optional lambda As Double? = Nothing,
+                                    Optional numberOfLambdas As Integer = 100,
+                                    Optional standardize As Boolean = True,
+                                    Optional y As String = Nothing,
+                                    Optional Silent As Boolean = False) As RidgeNS.RidgeFit
+
+        Dim xm As Double()() = FeatureMatrix(table, NameOf(RidgeRegression))
+        Dim yv As Double() = ResponseVector(table, y, NameOf(RidgeRegression))
+        Dim names As String() = FeatureNameList(table)
+
+        Return RidgeNS.RidgeFitting.Fit(
+            x:=xm,
+            y:=yv,
+            lambda:=lambda,
+            numberOfLambdas:=numberOfLambdas,
+            standardize:=standardize,
+            featureNames:=names
+        )
+    End Function
+
+#End Region
+
+#Region "count regression"
+
+    ''' <summary>
+    ''' 泊松回归（对数链接 + 极大似然 / IRLS）。使用表中的全部特征列作为自变量，
+    ''' 指定的标签列作为非负整数计数型响应变量。
+    ''' </summary>
+    ''' <remarks>
+    ''' <para>
+    ''' 模型为 ``log(mu) = b0 + b1*x1 + ... + bp*xp + log(exposure)``，
+    ''' 截距自动拟合，不需要在表中额外添加常量列。结果对象实现了
+    ''' <see cref="IFitted"/>，可以使用 ``NumericTablePrediction.SetPrediction``
+    ''' 把预测值写回表中；注意带 offset 时写回的是单位暴露量之下的事件率。
+    ''' </para>
+    ''' </remarks>
+    ''' <param name="table">特征矩阵为 X、指定标签列为计数响应变量的二维表</param>
+    ''' <param name="y">响应变量所在的标签列名，缺省为第一个标签列</param>
+    ''' <param name="exposure">
+    ''' 暴露量所在的列名（标签列或特征列均可），数值必须全部为正数；
+    ''' 缺省（Nothing）时不使用 offset。传入的是原始暴露量 ``t``，内部自动取 ``log(t)``。
+    ''' </param>
+    ''' <param name="maxIterations">IRLS 最大迭代轮数</param>
+    ''' <param name="tolerance">收敛容差</param>
+    ''' <param name="Silent">保留参数，泊松回归求解器没有进度输出</param>
+    ''' <returns>含系数、标准误、IRR 与过度离散诊断的拟合结果</returns>
+    <Extension>
+    Public Function PoissonRegression(table As NumericTable,
+                                       Optional y As String = Nothing,
+                                       Optional exposure As String = Nothing,
+                                       Optional maxIterations As Integer = 100,
+                                       Optional tolerance As Double = 0.00000001,
+                                       Optional Silent As Boolean = False) As PoissonNS.PoissonFit
+
+        Dim xm As Double()() = FeatureMatrix(table, NameOf(PoissonRegression))
+        Dim yv As Double() = ResponseVector(table, y, NameOf(PoissonRegression))
+        Dim names As String() = FeatureNameList(table)
+        Dim offsets As Double() = Nothing
+
+        If Not String.IsNullOrEmpty(exposure) Then
+            If table.HasLabel(exposure) Then
+                offsets = table.GetLabel(exposure)
+            ElseIf table.HasFeature(exposure) Then
+                offsets = table.Feature(exposure)
+            Else
+                Throw New ArgumentException(
+                    $"the '{NameOf(PoissonRegression)}' regression can not find the exposure column named '{exposure}' in the label or feature columns!",
+                    NameOf(exposure)
+                )
+            End If
+        End If
+
+        Return PoissonNS.PoissonFitting.Fit(
+            x:=xm,
+            y:=yv,
+            exposure:=offsets,
+            maxIterations:=maxIterations,
+            tolerance:=tolerance,
+            featureNames:=names
+        )
     End Function
 
 #End Region
@@ -596,8 +859,8 @@ Public Module NumericTableRegressions
     ''' 将二维表转换为 <see cref="LMA.FitInput"/> 的集合，以提供给
     ''' <see cref="LMA.NonLinearFit"/> 使用。
     ''' 
-    ''' 注意：<see cref="LMA.NonLinearFit"/> 目前尚未实现（会抛出
-    ''' <see cref="NotImplementedException"/>），因此这里只是完成数据形态的适配。
+    ''' 转换之后每一个样本的自变量就是表的全部特征列（以列名为键），
+    ''' 响应变量由 <paramref name="y"/> 指定。
     ''' </summary>
     ''' <param name="table">特征矩阵为自变量、指定标签列为 y 的二维表</param>
     ''' <param name="y">响应变量所在的标签列名，缺省为第一个标签列</param>
@@ -624,6 +887,327 @@ Public Module NumericTableRegressions
         Next
 
         Return inputs
+    End Function
+
+    ''' <summary>
+    ''' 非线性最小二乘拟合的缺省表入口：拟合幂律（Cobb-Douglas / 异速生长）
+    ''' 模型 ``y = p0 * x1^p1 * x2^p2 * ...``，不需要调用者给出模型函数。
+    ''' 
+    ''' 该模型要求全部特征列与响应变量**均为正数**。
+    ''' </summary>
+    ''' <param name="table">特征矩阵为自变量、指定标签列为 y 的二维表</param>
+    ''' <param name="y">响应变量所在的标签列名，缺省为第一个标签列</param>
+    ''' <param name="iterations">求解器所允许的最大迭代次数</param>
+    ''' <returns>拟合结果，参数依次为 ``p0`` 以及各个特征列的指数</returns>
+    <Extension>
+    Public Function NonLinearFit(table As NumericTable,
+                                 Optional y As String = Nothing,
+                                 Optional iterations As Integer = 2000) As LMA.NonLinearFitResult
+
+        Dim inputs As LMA.FitInput() = AsFitInputs(table, y)
+
+        Return inputs.NonLinearFit(iterations)
+    End Function
+
+    ''' <summary>
+    ''' 给出模型委托的非线性最小二乘拟合表入口。
+    ''' 
+    ''' 自变量向量的顺序同 <see cref="FeatureNameList"/>，即特征列的列序。
+    ''' </summary>
+    ''' <param name="table">特征矩阵为自变量、指定标签列为 y 的二维表</param>
+    ''' <param name="model">待拟合的非线性模型</param>
+    ''' <param name="guess">参数的初始猜测值，缺省时全部取 1</param>
+    ''' <param name="names">参数名，缺省时自动生成 ``p1, p2, ...``</param>
+    ''' <param name="y">响应变量所在的标签列名，缺省为第一个标签列</param>
+    ''' <param name="iterations">求解器所允许的最大迭代次数</param>
+    ''' <param name="approxHessian">是否使用高斯-牛顿近似代替精确的海塞矩阵</param>
+    ''' <returns>拟合结果</returns>
+    <Extension>
+    Public Function NonLinearFit(table As NumericTable,
+                                 model As LMA.NonLinearModel,
+                                 Optional guess As Double() = Nothing,
+                                 Optional names As String() = Nothing,
+                                 Optional y As String = Nothing,
+                                 Optional iterations As Integer = 2000,
+                                 Optional approxHessian As Boolean = True) As LMA.NonLinearFitResult
+
+        Dim inputs As LMA.FitInput() = AsFitInputs(table, y)
+
+        Return inputs.NonLinearFit(model, guess, names, iterations, approxHessian)
+    End Function
+
+    ''' <summary>
+    ''' 给出公式字符串的非线性最小二乘拟合表入口。
+    ''' 
+    ''' 公式之中的自变量按**特征列的列名**绑定，例如特征列名为 ``t`` 时可以写作
+    ''' ``a*exp(-b*t)``；<paramref name="parameters"/> 之外的符号必须都是列名。
+    ''' </summary>
+    ''' <param name="table">特征矩阵为自变量、指定标签列为 y 的二维表</param>
+    ''' <param name="formula">模型的公式文本</param>
+    ''' <param name="parameters">待估计的参数符号名</param>
+    ''' <param name="guess">参数的初始猜测值，缺省时全部取 1</param>
+    ''' <param name="y">响应变量所在的标签列名，缺省为第一个标签列</param>
+    ''' <param name="iterations">求解器所允许的最大迭代次数</param>
+    ''' <param name="approxHessian">是否使用高斯-牛顿近似代替精确的海塞矩阵</param>
+    ''' <returns>拟合结果</returns>
+    <Extension>
+    Public Function NonLinearFit(table As NumericTable,
+                                 formula As String,
+                                 parameters As String(),
+                                 Optional guess As Double() = Nothing,
+                                 Optional y As String = Nothing,
+                                 Optional iterations As Integer = 2000,
+                                 Optional approxHessian As Boolean = True) As LMA.NonLinearFitResult
+
+        Dim inputs As LMA.FitInput() = AsFitInputs(table, y)
+
+        Return inputs.NonLinearFit(formula, parameters, guess, iterations, approxHessian)
+    End Function
+
+#End Region
+
+#Region "multi-response regression"
+
+    ''' <summary>
+    ''' 多响应高斯回归（``family = "mgaussian"``，组-lasso / 多任务学习）。
+    ''' 使用表中的全部特征列作为 X，把全部标签列（或 <paramref name="y"/> 指定的
+    ''' 标签列子集）组成 ``N x K`` 响应矩阵，沿 lambda 路径联合拟合。
+    ''' </summary>
+    ''' <remarks>
+    ''' 组-lasso 让每个变量在全部响应上「同进同出」，得到共享的变量支持集。
+    ''' 结果对象不是 <see cref="IFitted"/>（单响应契约），请使用
+    ''' ``MGaussianFit.Predict`` 做多响应预测，或用
+    ''' ``MGaussianFit.GetResponseModel`` 取得逐响应视图后再写回二维表。
+    ''' </remarks>
+    ''' <param name="table">特征矩阵为 X、标签列为多响应 Y 的二维表</param>
+    ''' <param name="y">参与建模的标签列名数组；缺省使用全部标签列</param>
+    ''' <param name="lambda">自定义 lambda 网格（严格递减、全为正），缺省自动生成</param>
+    ''' <param name="alpha">弹性网混合参数，1 为组-lasso、0 为岭型收缩</param>
+    ''' <param name="numberOfLambdas">自动 lambda 网格的步数</param>
+    ''' <param name="standardize">是否标准化特征列</param>
+    ''' <param name="standardizeResponse">是否标准化响应各列（量纲悬殊时建议开启）</param>
+    ''' <param name="intercept">是否为每个响应拟合独立截距</param>
+    ''' <param name="maxIterations">每个 lambda 步骤的坐标下降最大轮数</param>
+    ''' <param name="tolerance">收敛容差</param>
+    ''' <param name="Silent">保留参数，求解器不产生进度输出</param>
+    ''' <returns>含全部 lambda 步骤系数矩阵的正则化路径</returns>
+    <Extension>
+    Public Function MGaussianRegression(table As NumericTable,
+                                         Optional y As String() = Nothing,
+                                         Optional lambda As Double() = Nothing,
+                                         Optional alpha As Double = 1.0,
+                                         Optional numberOfLambdas As Integer = 100,
+                                         Optional standardize As Boolean = True,
+                                         Optional standardizeResponse As Boolean = False,
+                                         Optional intercept As Boolean = True,
+                                         Optional maxIterations As Integer = 1000,
+                                         Optional tolerance As Double = 0.000001,
+                                         Optional Silent As Boolean = False) As MGaussianNS.MGaussianFit
+
+        Dim xm As Double()() = FeatureMatrix(table, NameOf(MGaussianRegression))
+        Dim responseNames As String() = Nothing
+        Dim ym As Double()() = ResponseMatrix(table, y, NameOf(MGaussianRegression), responseNames)
+        Dim names As String() = FeatureNameList(table)
+
+        Return MGaussianNS.MGaussianFitting.Fit(
+            x:=xm,
+            y:=ym,
+            lambda:=lambda,
+            alpha:=alpha,
+            numberOfLambdas:=numberOfLambdas,
+            standardize:=standardize,
+            standardizeResponse:=standardizeResponse,
+            intercept:=intercept,
+            maxIterations:=maxIterations,
+            tolerance:=tolerance,
+            featureNames:=names,
+            responseNames:=responseNames,
+            Silent:=Silent
+        )
+    End Function
+
+    ''' <summary>
+    ''' 多响应高斯回归的 K 折交叉验证：在表的全部标签列（或指定的标签列子集）上
+    ''' 按全部响应合并计算 ``mse`` / ``mae``，自动选出 ``lambda.min`` 与 ``lambda.1se``。
+    ''' </summary>
+    ''' <param name="table">特征矩阵为 X、标签列为多响应 Y 的二维表</param>
+    ''' <param name="y">参与建模的标签列名数组；缺省使用全部标签列</param>
+    ''' <param name="nfolds">折数，必须在 ``[2, n]`` 之内</param>
+    ''' <param name="measure">折外误差指标 mse 或 mae</param>
+    ''' <param name="seed">确定性分折的随机种子</param>
+    ''' <param name="lambda">自定义 lambda 网格；缺省由完整数据自动生成</param>
+    ''' <param name="alpha">弹性网混合参数</param>
+    ''' <param name="numberOfLambdas">自动 lambda 网格的步数</param>
+    ''' <param name="standardize">是否标准化特征列</param>
+    ''' <param name="standardizeResponse">是否标准化响应各列</param>
+    ''' <param name="intercept">是否为每个响应拟合独立截距</param>
+    ''' <param name="maxIterations">每个 lambda 步骤的坐标下降最大轮数</param>
+    ''' <param name="tolerance">收敛容差</param>
+    ''' <param name="Silent">保留参数，交叉验证不产生进度输出</param>
+    ''' <returns>含完整数据路径、CV 曲线与 lambda.min / lambda.1se 的结果对象</returns>
+    <Extension>
+    Public Function MGaussianCV(table As NumericTable,
+                                Optional y As String() = Nothing,
+                                Optional nfolds As Integer = 10,
+                                Optional measure As MGaussianNS.CVMeasure = MGaussianNS.CVMeasure.Mse,
+                                Optional seed As Integer = 1,
+                                Optional lambda As Double() = Nothing,
+                                Optional alpha As Double = 1.0,
+                                Optional numberOfLambdas As Integer = 100,
+                                Optional standardize As Boolean = True,
+                                Optional standardizeResponse As Boolean = False,
+                                Optional intercept As Boolean = True,
+                                Optional maxIterations As Integer = 1000,
+                                Optional tolerance As Double = 0.000001,
+                                Optional Silent As Boolean = False) As MGaussianNS.MGaussianCVFit
+
+        Dim xm As Double()() = FeatureMatrix(table, NameOf(MGaussianCV))
+        Dim responseNames As String() = Nothing
+        Dim ym As Double()() = ResponseMatrix(table, y, NameOf(MGaussianCV), responseNames)
+        Dim names As String() = FeatureNameList(table)
+
+        Return MGaussianNS.MGaussianCV.CrossValidate(
+            x:=xm,
+            y:=ym,
+            nfolds:=nfolds,
+            measure:=measure,
+            seed:=seed,
+            lambda:=lambda,
+            alpha:=alpha,
+            numberOfLambdas:=numberOfLambdas,
+            standardize:=standardize,
+            standardizeResponse:=standardizeResponse,
+            intercept:=intercept,
+            maxIterations:=maxIterations,
+            tolerance:=tolerance,
+            featureNames:=names,
+            responseNames:=responseNames,
+            Silent:=Silent
+        )
+    End Function
+
+#End Region
+
+#Region "survival regression"
+
+    ''' <summary>
+    ''' Cox 比例风险回归（``family = "cox"``，负对数偏似然 + 弹性网惩罚）。
+    ''' 使用表中全部特征列作为协变量，由 ``time`` / ``status`` 两个标签列给出右删失生存响应。
+    ''' </summary>
+    ''' <remarks>
+    ''' Cox 模型**没有截距**（被吸收进基线风险）；``coef(fit)`` 长度等于特征数。
+    ''' 结果对象实现了 <see cref="IFitted"/>，但 <c>GetY</c> 返回的是风险得分
+    ''' （线性预测子 ``x'beta``）而不是时间，调用
+    ''' ``SetPrediction`` 时请勿开启残差列。
+    ''' </remarks>
+    ''' <param name="table">特征矩阵为 X、标签列含生存响应的二维表</param>
+    ''' <param name="time">观测时间所在的标签列名，缺省为 ``time``</param>
+    ''' <param name="status">事件指示所在的标签列名（1=事件、0=删失），缺省为 ``status``</param>
+    ''' <param name="lambda">自定义 lambda 网格（严格递减、全为正），缺省自动生成</param>
+    ''' <param name="alpha">弹性网混合参数，1 为 lasso、0 为 ridge</param>
+    ''' <param name="numberOfLambdas">自动 lambda 网格步数</param>
+    ''' <param name="standardize">是否标准化协变量</param>
+    ''' <param name="ties">平局处理方式，缺省 Efron</param>
+    ''' <param name="penaltyFactor">变量级惩罚乘子，0 表示永不惩罚</param>
+    ''' <param name="maxIterations">每个 lambda 步骤的坐标下降最大轮数</param>
+    ''' <param name="tolerance">收敛容差</param>
+    ''' <param name="Silent">保留参数，求解器不产生进度输出</param>
+    ''' <returns>含系数路径、HR、C 指数与基线生存估计的拟合结果</returns>
+    <Extension>
+    Public Function CoxRegression(table As NumericTable,
+                                  Optional time As String = "time",
+                                  Optional status As String = "status",
+                                  Optional lambda As Double() = Nothing,
+                                  Optional alpha As Double = 1.0,
+                                  Optional numberOfLambdas As Integer = 100,
+                                  Optional standardize As Boolean = True,
+                                  Optional ties As CoxNS.CoxTies = CoxNS.CoxTies.Efron,
+                                  Optional penaltyFactor As Double() = Nothing,
+                                  Optional maxIterations As Integer = 1000,
+                                  Optional tolerance As Double = 0.000001,
+                                  Optional Silent As Boolean = False) As CoxNS.CoxFit
+
+        Dim xm As Double()() = FeatureMatrix(table, NameOf(CoxRegression))
+        Dim ym As Double()() = SurvivalResponse(table, time, status, NameOf(CoxRegression))
+        Dim names As String() = FeatureNameList(table)
+
+        Return CoxNS.CoxFitting.Fit(
+            x:=xm,
+            y:=ym,
+            lambda:=lambda,
+            alpha:=alpha,
+            numberOfLambdas:=numberOfLambdas,
+            standardize:=standardize,
+            ties:=ties,
+            penaltyFactor:=penaltyFactor,
+            maxIterations:=maxIterations,
+            tolerance:=tolerance,
+            featureNames:=names,
+            Silent:=Silent
+        )
+    End Function
+
+    ''' <summary>
+    ''' Cox 模型的 K 折交叉验证：以部分似然偏差（deviance，越小越好）或
+    ''' Harrell C 指数（越大越好）为指标，自动选出 ``lambda.min`` 与 ``lambda.1se``。
+    ''' </summary>
+    ''' <param name="table">特征矩阵为 X、标签列含生存响应的二维表</param>
+    ''' <param name="time">观测时间所在的标签列名</param>
+    ''' <param name="status">事件指示所在的标签列名</param>
+    ''' <param name="nfolds">折数，必须在 ``[2, n]`` 之内</param>
+    ''' <param name="measure">折外指标 deviance 或 CIndex</param>
+    ''' <param name="grouped">是否用全数据减训练子集的「减法」方式计算 CV 偏似然</param>
+    ''' <param name="seed">确定性分折的随机种子</param>
+    ''' <param name="lambda">自定义 lambda 网格；缺省由完整数据自动生成</param>
+    ''' <param name="alpha">弹性网混合参数</param>
+    ''' <param name="numberOfLambdas">自动 lambda 网格步数</param>
+    ''' <param name="standardize">是否标准化协变量</param>
+    ''' <param name="ties">平局处理方式</param>
+    ''' <param name="penaltyFactor">变量级惩罚乘子</param>
+    ''' <param name="maxIterations">坐标下降最大轮数</param>
+    ''' <param name="tolerance">收敛容差</param>
+    ''' <param name="Silent">保留参数</param>
+    ''' <returns>含完整数据路径、CV 曲线与 lambda.min / lambda.1se 的结果对象</returns>
+    <Extension>
+    Public Function CoxCV(table As NumericTable,
+                          Optional time As String = "time",
+                          Optional status As String = "status",
+                          Optional nfolds As Integer = 10,
+                          Optional measure As CoxNS.CoxCVMeasure = CoxNS.CoxCVMeasure.Deviance,
+                          Optional grouped As Boolean = True,
+                          Optional seed As Integer = 1,
+                          Optional lambda As Double() = Nothing,
+                          Optional alpha As Double = 1.0,
+                          Optional numberOfLambdas As Integer = 100,
+                          Optional standardize As Boolean = True,
+                          Optional ties As CoxNS.CoxTies = CoxNS.CoxTies.Efron,
+                          Optional penaltyFactor As Double() = Nothing,
+                          Optional maxIterations As Integer = 1000,
+                          Optional tolerance As Double = 0.000001,
+                          Optional Silent As Boolean = False) As CoxNS.CoxCVFit
+
+        Dim xm As Double()() = FeatureMatrix(table, NameOf(CoxCV))
+        Dim ym As Double()() = SurvivalResponse(table, time, status, NameOf(CoxCV))
+        Dim names As String() = FeatureNameList(table)
+
+        Return CoxNS.CoxCV.CrossValidate(
+            x:=xm,
+            y:=ym,
+            nfolds:=nfolds,
+            measure:=measure,
+            grouped:=grouped,
+            seed:=seed,
+            lambda:=lambda,
+            alpha:=alpha,
+            numberOfLambdas:=numberOfLambdas,
+            standardize:=standardize,
+            ties:=ties,
+            penaltyFactor:=penaltyFactor,
+            maxIterations:=maxIterations,
+            tolerance:=tolerance,
+            featureNames:=names,
+            Silent:=Silent
+        )
     End Function
 
 #End Region

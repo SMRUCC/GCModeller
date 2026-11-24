@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::40a7258cd312a7a1d0d62667ac0e6412, Microsoft.VisualBasic.Core\src\ComponentModel\DataSource\Property\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::c4c4eb32d85c49bc3e50b6357ed63626, Microsoft.VisualBasic.Core\src\ComponentModel\DataSource\Property\Extensions.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 54
-    '    Code Lines: 37 (68.52%)
-    ' Comment Lines: 8 (14.81%)
+    '   Total Lines: 75
+    '    Code Lines: 48 (64.00%)
+    ' Comment Lines: 16 (21.33%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 9 (16.67%)
-    '     File Size: 2.18 KB
+    '   Blank Lines: 11 (14.67%)
+    '     File Size: 3.01 KB
 
 
     '     Module Extensions
     ' 
-    '         Function: ColRenames, PropertyNames
+    '         Function: ColRenames, (+2 Overloads) PropertyNames
     ' 
     ' 
     ' /********************************************************************************/
@@ -103,6 +103,27 @@ Namespace ComponentModel.DataSourceModel
                 .IteratesALL _
                 .Distinct _
                 .ToArray
+        End Function
+
+
+        ''' <summary>
+        ''' Gets the union collection of the keys from <see cref="IDynamicMeta(Of T).Properties"/>.
+        ''' </summary>
+        ''' <param name="list"></param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' (包含所有的已经去除重复了的属性名称)
+        ''' </remarks>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function PropertyNames(Of T)(list As IEnumerable(Of IDynamicMeta(Of T))) As String()
+            Return (From a As IDynamicMeta(Of T)
+                    In list.SafeQuery
+                    Where Not (a Is Nothing OrElse a.Properties Is Nothing)
+                    Select a.Properties.Keys
+            ).IteratesALL _
+            .Distinct _
+            .ToArray
         End Function
     End Module
 End Namespace

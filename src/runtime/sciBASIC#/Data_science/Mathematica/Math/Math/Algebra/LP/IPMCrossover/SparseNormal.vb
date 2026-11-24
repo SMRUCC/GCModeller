@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::481ae2447a9fe4ac4002fcb128b88908, Data_science\Mathematica\Math\Math\Algebra\LP\IPMCrossover\SparseNormal.vb"
+﻿#Region "Microsoft.VisualBasic::551a7e56e96db2d64001ee7b886f6901, Data_science\Mathematica\Math\Math\Algebra\LP\IPMCrossover\SparseNormal.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 232
-    '    Code Lines: 149 (64.22%)
-    ' Comment Lines: 38 (16.38%)
+    '   Total Lines: 231
+    '    Code Lines: 148 (64.07%)
+    ' Comment Lines: 38 (16.45%)
     '    - Xml Docs: 60.53%
     ' 
-    '   Blank Lines: 45 (19.40%)
-    '     File Size: 8.75 KB
+    '   Blank Lines: 45 (19.48%)
+    '     File Size: 8.74 KB
 
 
     '     Class SymCsr
@@ -74,7 +74,6 @@
 ' 模式在迭代过程中不变（θ 恒 > 0），但每遍成本极低，故不做模式缓存。
 ' ============================================================================
 
-Imports System
 Imports std = System.Math
 
 Namespace LinearAlgebra.LinearProgramming.IPMCrossover

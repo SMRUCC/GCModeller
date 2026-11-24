@@ -1,0 +1,45 @@
+.\" man page create by R# package system.
+.TH SIGMA_DIFFERENCE 1 2000-1月 "alien.genes.scan" "alien.genes.scan"
+.SH NAME
+alien.genes.scan \- Identify the alien (laterally transferred) genes with the 2D threshold
+.SH SYNOPSIS
+\fIalien.genes.scan(\fBgenes\fR as <generic> FastaFile, 
+\fBrpPattern\fR as string = "ribosomal protein", 
+\fBbiasAll\fR as double = 0.42, 
+\fBbiasRP\fR as double = 0.45);\fR
+.SH DESCRIPTION
+.PP
+Identify the alien (laterally transferred) genes with the 2D threshold
+ method (the paper's \fBB. subtilis\fR thresholds by default):
+
+ B(g|all) > 0.42 and B(g|RP) > 0.45: alien gene - unlike both the average
+ host gene and the host highly expressed genes;
+
+ B(g|all) > 0.42 but B(g|RP) < 0.45: highly expressed host gene.
+.PP
+.SH OPTIONS
+.PP
+\fBgenes\fB \fR\- all CDS gene sequences of the genome under study. 
+.PP
+.PP
+\fBrpPattern\fB \fR\- the ribosomal protein product name matching pattern;
+ pass an empty string to skip the B(g|RP) axis. 
+.PP
+.PP
+\fBbiasAll\fB \fR\- the B(g|all) threshold, default = paper value 0.42. 
+.PP
+.PP
+\fBbiasRP\fB \fR\- the B(g|RP) threshold, default = paper value 0.45. 
+.PP
+.SH VALUE
+.PP
+the classification prediction of every long gene
+.PP
+.SH SEE ALSO
+sigma_difference
+.SH FILES
+.PP
+comparative_toolkit.dll
+.PP
+.SH AUTHOR
+Written by \fBxie.guigang@gcmodeller.org\fR

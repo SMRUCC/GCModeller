@@ -1,55 +1,55 @@
 ﻿#Region "Microsoft.VisualBasic::f229a2132d277637455a77d86f7aee08, sub-system\simulators\SSystemKit.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 228
-    '    Code Lines: 157 (68.86%)
-    ' Comment Lines: 42 (18.42%)
-    '    - Xml Docs: 100.00%
-    ' 
-    '   Blank Lines: 29 (12.72%)
-    '     File Size: 8.60 KB
+' Summaries:
 
 
-    ' Module SSystemKit
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: ConfigEnvironment, ConfigSSystem, createKernel, GetSnapshotsDriver, getTable
-    '               RunKernel, script, setBounds
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 228
+'    Code Lines: 157 (68.86%)
+' Comment Lines: 42 (18.42%)
+'    - Xml Docs: 100.00%
+' 
+'   Blank Lines: 29 (12.72%)
+'     File Size: 8.60 KB
+
+
+' Module SSystemKit
+' 
+'     Constructor: (+1 Overloads) Sub New
+'     Function: ConfigEnvironment, ConfigSSystem, createKernel, GetSnapshotsDriver, getTable
+'               RunKernel, script, setBounds
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -81,7 +81,7 @@ Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 Module SSystemKit
 
     Sub New()
-        Call Internal.Object.Converts.makeDataframe.addHandler(GetType(MemoryCacheSnapshot), AddressOf getTable)
+        Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(MemoryCacheSnapshot), AddressOf getTable)
     End Sub
 
     Private Function getTable(cache As MemoryCacheSnapshot, args As list, env As Environment) As rdataframe
@@ -212,7 +212,7 @@ Module SSystemKit
         End If
 
         If TypeOf ssystem Is list Then
-            For Each flux In DirectCast(ssystem, list).AsGeneric(Of String)(env)
+            For Each flux In DirectCast(ssystem, list).asGeneric(Of String)(env)
                 name = flux.Key
                 expression = flux.Value
                 equations += New NamedValue(Of String) With {

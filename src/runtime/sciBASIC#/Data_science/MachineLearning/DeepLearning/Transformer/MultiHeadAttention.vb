@@ -1,4 +1,69 @@
-﻿' ---------------------------------------------------------------------------
+﻿#Region "Microsoft.VisualBasic::3daa464120eb796ea6f78ed7cfe1466f, Data_science\MachineLearning\DeepLearning\Transformer\MultiHeadAttention.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 302
+    '    Code Lines: 178 (58.94%)
+    ' Comment Lines: 74 (24.50%)
+    '    - Xml Docs: 77.03%
+    ' 
+    '   Blank Lines: 50 (16.56%)
+    '     File Size: 14.71 KB
+
+
+    '     Class MultiHeadAttention
+    ' 
+    '         Properties: LastCache
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '         Function: Backward, CalculateScaledMultiHeadedAttention, (+2 Overloads) Update
+    ' 
+    '         Sub: (+2 Overloads) ApplyLinearInputFilters, InitalizeOptimizers, InitializeLinearFilters, MakeTrainingStep, ZeroGradients
+    '         Class Cache
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+' ---------------------------------------------------------------------------
 ' MultiHeadAttention —— 多头缩放点积注意力（迁移到 TensorFlow\Tensor.vb）
 '
 ' 迁移前依赖 AD 张量的 N 维 MatMul/Concat/Softmax/Mask 与自动微分；
@@ -31,11 +96,21 @@ Namespace Transformer
         ' Learned linear input layers
         Private Qm, Km, Vm As Tensor()
 
+        ' Optional biases of the input projections (torch: in_proj_bias)
+        Private Qb, Kb, Vb As Tensor()
+
         ' Learned output layer
         Private Wo As Tensor
 
+        ' Optional bias of the output projection (torch: out_proj.bias)
+        Private Wob As Tensor
+
+        Private ReadOnly useBias As Boolean
+
         Private QmOptimizer, KmOptimizer, VmOptimizer As Optimizer()
         Private WoOptimizer As Optimizer
+        Private QbOptimizer, KbOptimizer, VbOptimizer As Optimizer()
+        Private WobOptimizer As Optimizer
 
         ''' <summary>
         ''' Forward intermediates of the attention computation, required by the backward pass.
@@ -79,15 +154,96 @@ Namespace Transformer
         ''' <param name="embeddingSize">Width of the model, used by the output projection.</param>
         ''' <param name="mask">When <c>True</c> the upper triangle of the attention scores is masked (causal attention).</param>
         Public Sub New(dk As Integer, dv As Integer, nr_heads As Integer, embeddingSize As Integer, mask As Boolean)
+            Me.New(dk, dv, nr_heads, embeddingSize, mask, False)
+        End Sub
+
+        ''' <summary>
+        ''' Creates a multi head attention sub layer, optionally with learnable projection biases.
+        ''' </summary>
+        ''' <param name="dk">Dimension of the query and key projections per head.</param>
+        ''' <param name="dv">Dimension of the value projection per head.</param>
+        ''' <param name="nr_heads">Number of attention heads.</param>
+        ''' <param name="embeddingSize">Width of the model, used by the output projection.</param>
+        ''' <param name="mask">When <c>True</c> the upper triangle of the attention scores is masked (causal attention).</param>
+        ''' <param name="useBias">
+        ''' When <c>True</c> the Q/K/V projections and the output projection get a learnable bias
+        ''' (required to load <c>nn.MultiheadAttention</c> weights).
+        ''' </param>
+        Public Sub New(dk As Integer, dv As Integer, nr_heads As Integer, embeddingSize As Integer, mask As Boolean,
+                       useBias As Boolean)
             Me.dk = dk
             Me.dv = dv
             Me.nr_heads = nr_heads
             Me.embeddingSize = embeddingSize
             Me.mask = mask
+            Me.useBias = useBias
 
             Call InitializeLinearFilters()
             Call InitalizeOptimizers()
         End Sub
+
+        ''' <summary>Whether the projections carry a learnable bias.</summary>
+        Public ReadOnly Property HasBias As Boolean
+            Get
+                Return useBias
+            End Get
+        End Property
+
+        ''' <summary>Per head query projection weights, each shaped <c>[embeddingSize, dk]</c>.</summary>
+        Friend ReadOnly Property QueryWeights As Tensor()
+            Get
+                Return Qm
+            End Get
+        End Property
+
+        ''' <summary>Per head key projection weights, each shaped <c>[embeddingSize, dk]</c>.</summary>
+        Friend ReadOnly Property KeyWeights As Tensor()
+            Get
+                Return Km
+            End Get
+        End Property
+
+        ''' <summary>Per head value projection weights, each shaped <c>[embeddingSize, dv]</c>.</summary>
+        Friend ReadOnly Property ValueWeights As Tensor()
+            Get
+                Return Vm
+            End Get
+        End Property
+
+        ''' <summary>Per head query projection biases, each shaped <c>[dk]</c>.</summary>
+        Friend ReadOnly Property QueryBias As Tensor()
+            Get
+                Return Qb
+            End Get
+        End Property
+
+        ''' <summary>Per head key projection biases, each shaped <c>[dk]</c>.</summary>
+        Friend ReadOnly Property KeyBias As Tensor()
+            Get
+                Return Kb
+            End Get
+        End Property
+
+        ''' <summary>Per head value projection biases, each shaped <c>[dv]</c>.</summary>
+        Friend ReadOnly Property ValueBias As Tensor()
+            Get
+                Return Vb
+            End Get
+        End Property
+
+        ''' <summary>Output projection weights, shaped <c>[dv * nr_heads, embeddingSize]</c>.</summary>
+        Friend ReadOnly Property OutputWeights As Tensor
+            Get
+                Return Wo
+            End Get
+        End Property
+
+        ''' <summary>Output projection bias, shaped <c>[embeddingSize]</c>.</summary>
+        Friend ReadOnly Property OutputBias As Tensor
+            Get
+                Return Wob
+            End Get
+        End Property
 
         ''' <summary>
         ''' Self attention: queries, keys and values all come from <paramref name="inputData"/>.
@@ -118,9 +274,9 @@ Namespace Transformer
             Vf = New Tensor(nr_heads - 1) {}
 
             For h = 0 To nr_heads - 1
-                Qf(h) = TensorOps.BatchedMatMul(inputData, Qm(h))
-                Kf(h) = TensorOps.BatchedMatMul(inputData, Km(h))
-                Vf(h) = TensorOps.BatchedMatMul(inputData, Vm(h))
+                Qf(h) = project(inputData, Qm(h), If(useBias, Qb(h), Nothing))
+                Kf(h) = project(inputData, Km(h), If(useBias, Kb(h), Nothing))
+                Vf(h) = project(inputData, Vm(h), If(useBias, Vb(h), Nothing))
             Next
         End Sub
 
@@ -130,11 +286,22 @@ Namespace Transformer
             Vf = New Tensor(nr_heads - 1) {}
 
             For h = 0 To nr_heads - 1
-                Qf(h) = TensorOps.BatchedMatMul(queries, Qm(h))
-                Kf(h) = TensorOps.BatchedMatMul(encoderOutput, Km(h))
-                Vf(h) = TensorOps.BatchedMatMul(encoderOutput, Vm(h))
+                Qf(h) = project(queries, Qm(h), If(useBias, Qb(h), Nothing))
+                Kf(h) = project(encoderOutput, Km(h), If(useBias, Kb(h), Nothing))
+                Vf(h) = project(encoderOutput, Vm(h), If(useBias, Vb(h), Nothing))
             Next
         End Sub
+
+        ''' <summary>
+        ''' 线性投影 <c>x·W + b</c>（<paramref name="bias"/> 为 <c>Nothing</c> 时退化为纯矩阵乘）。
+        ''' </summary>
+        Private Shared Function project(x As Tensor, w As Tensor, bias As Tensor) As Tensor
+            Dim y As Tensor = TensorOps.BatchedMatMul(x, w)
+
+            If bias IsNot Nothing Then y = TensorOps.VecAdd(y, bias)
+
+            Return y
+        End Function
 
         Private Function CalculateScaledMultiHeadedAttention(Qf As Tensor(), Kf As Tensor(), Vf As Tensor(),
                                                              queriesInput As Tensor, kInput As Tensor, vInput As Tensor,
@@ -168,7 +335,11 @@ Namespace Transformer
                 .CrossAttention = crossAttention
             }
 
-            Return TensorOps.BatchedMatMul(C, Wo)
+            Dim output As Tensor = TensorOps.BatchedMatMul(C, Wo)
+
+            If useBias Then output = TensorOps.VecAdd(output, Wob)
+
+            Return output
         End Function
 
         ''' <summary>
@@ -192,6 +363,10 @@ Namespace Transformer
             Call TensorOps.BatchedMatMulBackward(dOut, cache.Concat, Wo, dConcat, dWo)
             Call TensorOps.Accumulate(WoOptimizer.Gradient, dWo)
 
+            If useBias Then
+                Call TensorOps.Accumulate(WobOptimizer.Gradient, TensorOps.VecAddBackward(dOut))
+            End If
+
             Dim dAttentionHeads = TensorOps.SplitLastDim(dConcat, nr_heads)
             Dim scale = 1.0 / std.Sqrt(dk)
             Dim dQueries As Tensor = Nothing
@@ -206,6 +381,10 @@ Namespace Transformer
                 Dim dVInput As Tensor = Nothing, dVm As Tensor = Nothing
                 Call TensorOps.BatchedMatMulBackward(dVf, cache.VInput, Vm(h), dVInput, dVm)
                 Call TensorOps.Accumulate(VmOptimizer(h).Gradient, dVm)
+
+                If useBias Then
+                    Call TensorOps.Accumulate(VbOptimizer(h).Gradient, TensorOps.VecAddBackward(dVf))
+                End If
 
                 ' softmax 反向 + 缩放（掩码位置 softmax 输出为 0，其梯度自然为 0）
                 Dim dScore = TensorOps.SoftmaxBackward(cache.Probs(h), dProbs)
@@ -225,6 +404,11 @@ Namespace Transformer
                 Dim dKInput As Tensor = Nothing, dKm As Tensor = Nothing
                 Call TensorOps.BatchedMatMulBackward(dKf, cache.KInput, Km(h), dKInput, dKm)
                 Call TensorOps.Accumulate(KmOptimizer(h).Gradient, dKm)
+
+                If useBias Then
+                    Call TensorOps.Accumulate(QbOptimizer(h).Gradient, TensorOps.VecAddBackward(dQf))
+                    Call TensorOps.Accumulate(KbOptimizer(h).Gradient, TensorOps.VecAddBackward(dKf))
+                End If
 
                 If dQueries Is Nothing Then dQueries = TensorOps.ZerosLike(dQInput)
                 Call TensorOps.Accumulate(dQueries, dQInput)
@@ -251,9 +435,17 @@ Namespace Transformer
                 QmOptimizer(h).ZeroGrad()
                 KmOptimizer(h).ZeroGrad()
                 VmOptimizer(h).ZeroGrad()
+
+                If useBias Then
+                    QbOptimizer(h).ZeroGrad()
+                    KbOptimizer(h).ZeroGrad()
+                    VbOptimizer(h).ZeroGrad()
+                End If
             Next
 
             WoOptimizer.ZeroGrad()
+
+            If useBias Then WobOptimizer.ZeroGrad()
         End Sub
 
         ''' <summary>
@@ -266,8 +458,16 @@ Namespace Transformer
                 KmOptimizer(h).MakeTrainingStep(learningRate, [step], Km(h))
                 QmOptimizer(h).MakeTrainingStep(learningRate, [step], Qm(h))
                 VmOptimizer(h).MakeTrainingStep(learningRate, [step], Vm(h))
+
+                If useBias Then
+                    KbOptimizer(h).MakeTrainingStep(learningRate, [step], Kb(h))
+                    QbOptimizer(h).MakeTrainingStep(learningRate, [step], Qb(h))
+                    VbOptimizer(h).MakeTrainingStep(learningRate, [step], Vb(h))
+                End If
             Next
             WoOptimizer.MakeTrainingStep(learningRate, [step], Wo)
+
+            If useBias Then WobOptimizer.MakeTrainingStep(learningRate, [step], Wob)
         End Sub
 
         Private Sub InitializeLinearFilters()
@@ -282,6 +482,20 @@ Namespace Transformer
             Next
 
             Wo = TensorOps.HeNormalInit(New Integer() {dv * nr_heads, embeddingSize})
+
+            If useBias Then
+                Qb = New Tensor(nr_heads - 1) {}
+                Kb = New Tensor(nr_heads - 1) {}
+                Vb = New Tensor(nr_heads - 1) {}
+
+                For h = 0 To nr_heads - 1
+                    Qb(h) = New Tensor(dk)
+                    Kb(h) = New Tensor(dk)
+                    Vb(h) = New Tensor(dv)
+                Next
+
+                Wob = New Tensor(embeddingSize)
+            End If
         End Sub
 
         Private Sub InitalizeOptimizers()
@@ -296,6 +510,20 @@ Namespace Transformer
             Next
 
             WoOptimizer = New Optimizer(Wo)
+
+            If useBias Then
+                QbOptimizer = New Optimizer(nr_heads - 1) {}
+                KbOptimizer = New Optimizer(nr_heads - 1) {}
+                VbOptimizer = New Optimizer(nr_heads - 1) {}
+
+                For h = 0 To nr_heads - 1
+                    QbOptimizer(h) = New Optimizer(Qb(h))
+                    KbOptimizer(h) = New Optimizer(Kb(h))
+                    VbOptimizer(h) = New Optimizer(Vb(h))
+                Next
+
+                WobOptimizer = New Optimizer(Wob)
+            End If
         End Sub
 
     End Class

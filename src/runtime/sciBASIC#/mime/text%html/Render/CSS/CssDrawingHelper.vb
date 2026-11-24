@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::28ddb49e5bf56837d6cfe52830441d4b, mime\text%html\Render\CSS\CssDrawingHelper.vb"
+﻿#Region "Microsoft.VisualBasic::d13f5da01efdc2df4dbbd1668dfa1344, mime\text%html\Render\CSS\CssDrawingHelper.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 285
-    '    Code Lines: 179 (62.81%)
-    ' Comment Lines: 57 (20.00%)
-    '    - Xml Docs: 66.67%
+    '   Total Lines: 288
+    '    Code Lines: 178 (61.81%)
+    ' Comment Lines: 60 (20.83%)
+    '    - Xml Docs: 63.33%
     ' 
-    '   Blank Lines: 49 (17.19%)
-    '     File Size: 11.64 KB
+    '   Blank Lines: 50 (17.36%)
+    '     File Size: 11.85 KB
 
 
     '     Class CssDrawingHelper
@@ -62,11 +62,10 @@
 #End Region
 
 Imports System.Drawing
-Imports System.Drawing.Drawing2D
+Imports Microsoft.VisualBasic.Imaging
 Imports rect = System.Drawing.Rectangle
 
 Namespace Render.CSS
-#If NET48 Then
     ''' <summary>
     ''' Provides some drawing functionallity
     ''' </summary>
@@ -195,7 +194,12 @@ Namespace Render.CSS
 
             End Select
 
-            Dim path As New GraphicsPath(pts, New Byte() {CByte(PathPointType.Line), CByte(PathPointType.Line), CByte(PathPointType.Line), CByte(PathPointType.Line)})
+            ' the cross platform graphics path type of the imaging namespace
+            ' does not accept the gdi+ point type flag array, the polygon is
+            ' built from the four corner points instead.
+            Dim path As New GraphicsPath()
+
+            Call path.AddLines(pts)
 
             If corner IsNot Nothing Then
                 path.AddPath(corner, True)
@@ -304,7 +308,7 @@ Namespace Render.CSS
             swRadius *= 2
 
             'NW ---- NE
-            path.AddLine(rect.X + nwRadius, rect.Y, rect.Right - neRadius, rect.Y)
+            path.AddLine(New PointF(rect.X + nwRadius, rect.Y), New PointF(rect.Right - neRadius, rect.Y))
 
             'NE Arc
             If neRadius > 0F Then
@@ -314,7 +318,7 @@ Namespace Render.CSS
             ' NE
             '  |
             ' SE
-            path.AddLine(rect.Right, rect.Top + neRadius, rect.Right, rect.Bottom - seRadius)
+            path.AddLine(New PointF(rect.Right, rect.Top + neRadius), New PointF(rect.Right, rect.Bottom - seRadius))
 
             'SE Arc
             If seRadius > 0F Then
@@ -322,7 +326,7 @@ Namespace Render.CSS
             End If
 
             ' SW --- SE
-            path.AddLine(rect.Right - seRadius, rect.Bottom, rect.Left + swRadius, rect.Bottom)
+            path.AddLine(New PointF(rect.Right - seRadius, rect.Bottom), New PointF(rect.Left + swRadius, rect.Bottom))
 
             'SW Arc
             If swRadius > 0F Then
@@ -332,7 +336,7 @@ Namespace Render.CSS
             ' NW
             ' |
             ' SW
-            path.AddLine(rect.Left, rect.Bottom - swRadius, rect.Left, rect.Top + nwRadius)
+            path.AddLine(New PointF(rect.Left, rect.Bottom - swRadius), New PointF(rect.Left, rect.Top + nwRadius))
 
             'NW Arc
             If nwRadius > 0F Then
@@ -344,5 +348,4 @@ Namespace Render.CSS
             Return path
         End Function
     End Class
-#End If
 End Namespace

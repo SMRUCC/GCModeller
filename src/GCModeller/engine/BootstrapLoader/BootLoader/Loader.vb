@@ -1,65 +1,65 @@
 ﻿#Region "Microsoft.VisualBasic::9255bfbe17cc3b5de2a2d32f5e5f1a78, engine\BootstrapLoader\BootLoader\Loader.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 176
-    '    Code Lines: 120 (68.18%)
-    ' Comment Lines: 25 (14.20%)
-    '    - Xml Docs: 80.00%
-    ' 
-    '   Blank Lines: 31 (17.61%)
-    '     File Size: 7.36 KB
+' Summaries:
 
 
-    '     Class Loader
-    ' 
-    '         Properties: isLoadded, massLoader, massTable, strict
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: create, CreateEnvironment, GetCentralDogmaFluxLoader, GetFluxIndex, GetMetabolismNetworkLoader
-    '                   GetProteinMatureFluxLoader, GetTransmembraneLoader
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 176
+'    Code Lines: 120 (68.18%)
+' Comment Lines: 25 (14.20%)
+'    - Xml Docs: 80.00%
+' 
+'   Blank Lines: 31 (17.61%)
+'     File Size: 7.36 KB
+
+
+'     Class Loader
+' 
+'         Properties: isLoadded, massLoader, massTable, strict
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: create, CreateEnvironment, GetCentralDogmaFluxLoader, GetFluxIndex, GetMetabolismNetworkLoader
+'                   GetProteinMatureFluxLoader, GetTransmembraneLoader
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports Microsoft.VisualBasic.Data.Trinity
 Imports Microsoft.VisualBasic.Linq
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Definitions
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Definitions
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 
 Namespace ModelLoader

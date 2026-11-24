@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <!-- 项目级导入：表达矩阵类型 -->
+    <Import Include="SMRUCC.genomics.Analysis.HTS.DataFrame" />
+    <Import Include="SMRUCC.genomics.BioSystem.Core" />
+    <Import Include="SMRUCC.genomics.BioSystem.Intervention" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj" />
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\MachineLearning\TensorFlow\TensorFlow.vbproj" />
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\MachineLearning\SNN\SNN.vbproj" />

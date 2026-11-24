@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::269df90281cabfa6baa9072ca7739237, analysis\SequenceToolkit\SequenceLogo\SequenceLogo\DrawingDevice.vb"
+#Region "Microsoft.VisualBasic::269df90281cabfa6baa9072ca7739237, analysis\SequenceToolkit\SequenceLogo\SequenceLogo\DrawingDevice.vb"
 
     ' Author:
     ' 
@@ -57,7 +57,7 @@
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
+Imports Microsoft.VisualBasic.Data.Plots.Canvas
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver

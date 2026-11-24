@@ -31,6 +31,30 @@ Namespace v2
 
         Public Property note As String
 
+        ''' <summary>
+        ''' 当前RNA分子的组成成分(对于复合物类型的RNA)
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlElement("component")> Public Property components As String()
+
+        ''' <summary>
+        ''' 当前RNA分子所属的父对象编号
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property componentOf As String
+
+        ''' <summary>
+        ''' RNA分子在基因组上面的终止位置
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property endPosition As Integer
+
+        ''' <summary>
+        ''' RNA分子的交叉引用编号列表
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlElement("db_xref")> Public Property dbLinks As String()
+
         Sub New()
         End Sub
 

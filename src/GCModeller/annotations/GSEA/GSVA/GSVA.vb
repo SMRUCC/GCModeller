@@ -51,7 +51,9 @@
 
 #End Region
 
+Imports System.Diagnostics
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Linq
@@ -61,9 +63,93 @@ Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
+Imports std = System.Math
 
 Public Module GSVA
 
+    ''' <summary>
+    ''' Gene Set Variation Analysis (GSVA): estimate, for every sample, an
+    ''' enrichment score of each gene set by transforming the gene-by-sample
+    ''' expression matrix into a gene-set-by-sample score matrix.
+    ''' </summary>
+    ''' <param name="expr">
+    ''' The raw gene expression matrix whose rows are features (genes) and whose
+    ''' columns are samples. Constant-expression rows are filtered out, except
+    ''' when <paramref name="method"/> is <see cref="Methods.ssgsea"/>.
+    ''' </param>
+    ''' <param name="gsetIdxList">
+    ''' The collection of gene sets (<see cref="Background"/>) to be scored.
+    ''' </param>
+    ''' <param name="method">
+    ''' The enrichment scoring method:
+    ''' <see cref="Methods.gsva"/> (default, kernel based ES),
+    ''' <see cref="Methods.ssgsea"/>, <see cref="Methods.zscore"/> or
+    ''' <see cref="Methods.plage"/>.
+    ''' </param>
+    ''' <param name="kcdf">
+    ''' The kernel density estimation type used to estimate the cumulative
+    ''' distribution function of each expression profile:
+    ''' <see cref="KCDFs.Gaussian"/> for continuous data,
+    ''' <see cref="KCDFs.Poisson"/> for count data, or
+    ''' <see cref="KCDFs.none"/> for the empirical cumulative distribution
+    ''' function. When omitted (Nothing) the empirical CDF is used.
+    ''' </param>
+    ''' <param name="min_sz">
+    ''' Minimum gene-set size (number of mapped features). Gene sets with fewer
+    ''' mapped features are removed from the analysis. Default 1.
+    ''' </param>
+    ''' <param name="max_sz">
+    ''' Maximum gene-set size (number of mapped features). Gene sets with more
+    ''' mapped features are removed from the analysis. Default unlimited.
+    ''' </param>
+    ''' <param name="mxdiff">
+    ''' When TRUE (default) the ES range is transformed to the interval
+    ''' [-1, 1] by using the difference between the largest and the smallest ES
+    ''' values; otherwise the original ES range is kept.
+    ''' </param>
+    ''' <param name="tau">
+    ''' Exponent (τ, default 1) applied to the weight of the cumulative
+    ''' distribution function when <paramref name="method"/> is
+    ''' <see cref="Methods.gsva"/>; higher values give more weight to the tails
+    ''' of the distribution.
+    ''' </param>
+    ''' <param name="kernel">
+    ''' Logical flag to use the Gaussian kernel to estimate the cumulative
+    ''' distribution function when <paramref name="method"/> is
+    ''' <see cref="Methods.gsva"/>. Ignored when a non-kernel
+    ''' <paramref name="kcdf"/> is requested.
+    ''' </param>
+    ''' <param name="rnaseq">
+    ''' Logical flag indicating that <paramref name="expr"/> is read count data
+    ''' from an RNA-seq experiment; this switches the kernel to a Poisson
+    ''' density when a kernel is used.
+    ''' </param>
+    ''' <param name="abs_ranking">
+    ''' When TRUE (default FALSE) the enrichment scores are computed using the
+    ''' absolute values of the ranking, which is appropriate for single-sample
+    ''' (ssGSEA-style) scoring.
+    ''' </param>
+    ''' <param name="alpha">
+    ''' The α (alpha) parameter (default 0.25) of the ssGSEA scoring method,
+    ''' controlling the weight of the random-walk deviation.
+    ''' </param>
+    ''' <param name="normalize">
+    ''' Logical flag (default TRUE) to normalize the enrichment scores so that
+    ''' each gene set has a mean enrichment of zero across samples.
+    ''' </param>
+    ''' <param name="verbose">
+    ''' Logical flag (default FALSE) to emit progress and diagnostic messages
+    ''' during the calculation.
+    ''' </param>
+    ''' <returns>
+    ''' A <see cref="Matrix"/> of GSVA enrichment scores: rows are the retained
+    ''' gene sets (ordered as in <paramref name="gsetIdxList"/>) and columns are
+    ''' the samples of <paramref name="expr"/>.
+    ''' </returns>
+    ''' <remarks>
+    ''' Hänzelmann S., Castelo R. and Guinney J. GSVA: gene set variation analysis
+    ''' for microarray and RNA-Seq data. BMC Bioinformatics, 14:7, 2013.
+    ''' </remarks>
     <Extension>
     Public Function gsva(expr As Matrix, gsetIdxList As Background,
                          Optional method As Methods = Methods.gsva,
@@ -75,6 +161,8 @@ Public Module GSVA
                          Optional kernel As Boolean = True,
                          Optional rnaseq As Boolean = False,
                          Optional abs_ranking As Boolean = False,
+                         Optional alpha As Double = 0.25,
+                         Optional normalize As Boolean = True,
                          Optional verbose As Boolean = False) As Matrix
 
         Dim mapped_gset_idx_list As Dictionary(Of String, String())
@@ -102,7 +190,7 @@ Public Module GSVA
             kcdf = KCDFs.none
         End If
 
-        Return gsva(expr, mapped_gset_idx_list, method, kcdf, rnaseq, kernel, mxdiff, tau, abs_ranking, verbose)
+        Return gsva(expr, mapped_gset_idx_list, method, kcdf, rnaseq, kernel, mxdiff, tau, abs_ranking, alpha, normalize, verbose)
     End Function
 
     Private Function gsva(expr As Matrix,
@@ -114,13 +202,15 @@ Public Module GSVA
                           mxdiff As Boolean,
                           tau As Double,
                           abs_ranking As Boolean,
+                          alpha As Double,
+                          normalize As Boolean,
                           verbose As Boolean) As Matrix
 
         If gsetIdxList.Count = 0 Then
             Throw New InvalidProgramException("The gene set list is empty! Filter may be too stringent.")
         End If
         If gsetIdxList.Any(Function(d) d.Value.Length = 1) Then
-            Call "Some gene sets have size one. Consider setting 'min.sz > 1'.".Warning
+            Call "Some gene sets have size one. Consider setting 'min.sz > 1'.".warning
         End If
 
         If method = Methods.ssgsea Then
@@ -128,7 +218,7 @@ Public Module GSVA
                 Call $"Estimating ssGSEA scores for {gsetIdxList.Count} gene sets.".debug
             End If
 
-            Throw New NotImplementedException
+            Return ssgseaScores(expr, gsetIdxList, alpha:=alpha, normalize:=normalize)
         ElseIf method = Methods.zscore Then
             If rnaseq Then
                 Throw New InvalidProgramException("rnaseq=TRUE does not work with method='zscore'.")
@@ -137,7 +227,7 @@ Public Module GSVA
                 Call $"Estimating combined z-scores for {gsetIdxList.Count} gene sets.".debug
             End If
 
-            Throw New NotImplementedException
+            Return zscoreScores(expr, gsetIdxList)
         ElseIf method = Methods.plage Then
             If rnaseq Then
                 Throw New InvalidProgramException("rnaseq=TRUE does not work with method='plage'.")
@@ -146,7 +236,7 @@ Public Module GSVA
                 Call $"Estimating PLAGE scores for {gsetIdxList.Count} gene sets.".debug
             End If
 
-            Throw New NotImplementedException
+            Return plageScores(expr, gsetIdxList)
         Else
             If verbose Then
                 Call $"Estimating GSVA scores for {gsetIdxList.Count} gene sets.".debug
@@ -154,8 +244,6 @@ Public Module GSVA
         End If
 
         Dim nsamples = expr.sampleID.Length
-        Dim ngenes = expr.size
-        Dim ngset = gsetIdxList.Count
         Dim i As Integer() = Sequence(nsamples).ToArray
         Dim es_obs As Matrix = compute_geneset_es(
             expr,
@@ -196,31 +284,51 @@ Public Module GSVA
             End If
         End If
 
+        Dim clock As Stopwatch = Stopwatch.StartNew()
+
         Dim gene_density As NumericMatrix = compute_gene_density(expr, sample_idxs, rnaseq, kernel)
-        Dim compute_rank_score = Function(sort_idx_vec As Integer())
-                                     Dim tmp As New Vector(0.0, num_genes)
-                                     Dim v As Vector = Vector.seq(from:=num_genes, [to]:=1, by:=-1) - num_genes / 2
-                                     tmp(sort_idx_vec) = v
-                                     Return tmp
-                                 End Function
-        Dim sort_sgn_idxs = (From i As Integer
-                             In Enumerable.Range(0, gene_density.ColumnDimension)
-                             Let v = gene_density.ColumnVector(i)
-                             Let order As Double() = v.Ranking(strategy:=Strategies.OrdinalRanking, desc:=True)
-                             Let zeroI = order.Select(Function(d) CInt(d) - 1).ToArray
-                             Select zeroI).ToArray
-        Dim rank_scores = (From i As Integer
-                           In Enumerable.Range(0, gene_density.ColumnDimension)
-                           Let idx = sort_sgn_idxs(i)
-                           Let v = compute_rank_score(idx)
-                           Select v.ToArray) _
-                           .AsMatrix _
-                           .Transpose
+        Dim n_samples As Integer = gene_density.ColumnDimension
+
+        If verbose Then
+            Call $"[GSVA] kernel density: {clock.ElapsedMilliseconds} ms".debug
+            Call clock.Restart()
+        End If
+
+        ' 逐列排名：1 表示取值最小；并列时下标靠后者秩更大（R 的 ties.method = "last"）
+        Dim ranks As Integer()() = colRanksLast(gene_density)
+
+        If verbose Then
+            Call $"[GSVA] column ranks: {clock.ElapsedMilliseconds} ms".debug
+            Call clock.Restart()
+        End If
+        Dim half As Double = num_genes / 2.0
+        Dim decordstat As Integer()() = New Integer(n_samples - 1)() {}
+        Dim symrnkstat As Double()() = New Double(n_samples - 1)() {}
+
+        For j As Integer = 0 To n_samples - 1
+            Dim rank_j As Integer() = ranks(j)
+            Dim dos As Integer() = New Integer(num_genes - 1) {}
+            Dim srs As Double() = New Double(num_genes - 1) {}
+
+            For i As Integer = 0 To num_genes - 1
+                ' 降序序数：1 表示该样本中表达最高的基因，随机游走按此顺序遍历
+                dos(i) = num_genes - rank_j(i) + 1
+                ' 对称秩统计量：在表达量的两个极端取最大值，中间接近 0。
+                ' 官方实现为 fabs(p / 2 - rank)，此处必须取绝对值，
+                ' 否则随机游走的步长权重会出现负值，导致富集分数失去 [-1, 1] 的边界
+                srs(i) = std.Abs(half - rank_j(i))
+            Next
+
+            decordstat(j) = dos
+            symrnkstat(j) = srs
+        Next
+
         Dim m As New Matrix With {
-            .expression = gsetIdxList _
+            .sampleID = expr.sampleID,
+            .expression = TqdmWrapper.Wrap(gsetIdxList) _
                 .Select(Function(gsetIdx)
                             Dim idx As Integer() = gsetIdx.Value.Select(Function(id) rowIndex.IndexOf(id)).ToArray
-                            Dim test = ks_test_m(idx, rank_scores, sort_sgn_idxs, mxdiff, abs_ranking, tau, verbose)
+                            Dim test = ks_test_m(idx, symrnkstat, decordstat, mxdiff, abs_ranking, tau, verbose)
 
                             Return New DataFrameRow With {
                                 .experiments = test,
@@ -229,40 +337,26 @@ Public Module GSVA
                         End Function) _
                 .ToArray
         }
-        Dim pathIds As String() = gsetIdxList.Keys.ToArray
 
-        m.sampleID = expr.sampleID
-        m.eachGene(Sub(gene, i) gene.geneID = pathIds(i))
-
-        For Each gene As DataFrameRow In m.expression
-            Dim range As New DoubleRange(gene.experiments.Where(Function(d) Not d.IsNaNImaginary))
-
-            For i As Integer = 0 To gene.experiments.Length - 1
-                If Double.IsPositiveInfinity(gene.experiments(i)) Then
-                    gene.experiments(i) = range.Max
-                ElseIf Double.IsNegativeInfinity(gene.experiments(i)) Then
-                    gene.experiments(i) = range.Min
-                ElseIf gene.experiments(i).IsNaNImaginary Then
-                    gene.experiments(i) = 0
-                End If
-            Next
-        Next
+        If verbose Then
+            Call $"[GSVA] {gsetIdxList.Count} gene set(s) random walk: {clock.ElapsedMilliseconds} ms".debug
+        End If
 
         Return m
     End Function
 
     Private Function ks_test_m(gset_idxs As Integer(),
-                               gene_density As NumericMatrix,
-                               sort_idxs As Integer()(),
+                               symrnkstat As Double()(),
+                               decordstat As Integer()(),
                                mxdiff As Boolean,
                                abs_ranking As Boolean,
                                tau As Double,
                                verbose As Boolean) As Double()
 
-        Dim ngenes = gene_density.RowDimension
-        Dim nsamples = gene_density.ColumnDimension
+        Dim ngenes = symrnkstat(0).Length
+        Dim nsamples = symrnkstat.Length
         Dim ngeneset = gset_idxs.Count
-        Dim geneset_sample_es As Double() = C.ks_matrix_R(gene_density, sort_idxs, ngenes, gset_idxs, ngeneset, tau, nsamples, mxdiff, abs_ranking)
+        Dim geneset_sample_es As Double() = C.ks_matrix_R(symrnkstat, decordstat, ngenes, gset_idxs, ngeneset, tau, nsamples, mxdiff, abs_ranking)
 
         Return geneset_sample_es
     End Function
@@ -281,19 +375,75 @@ Public Module GSVA
                 ngenes,
                 rnaseq)
         Else
-            gene_density = expr.expression _
-                .Select(Function(r)
-                            Dim ecdf = r.experiments.ECDF(sample_idxs)
-                            Dim p As Double() = sample_idxs _
-                                .Select(Function(i) ecdf(i)) _
-                                .ToArray
-
-                            Return p
-                        End Function) _
-                .AsMatrix
-            gene_density = (gene_density / DirectCast(1 - gene_density, NumericMatrix)).Log
+            gene_density = New NumericMatrix(ecdfLogOdds(expr.expression))
         End If
 
         Return gene_density
+    End Function
+
+    ''' <summary>
+    ''' 不使用核函数时，直接用每一行自身的经验累积分布函数（ECDF）做行归一化
+    ''' </summary>
+    ''' <param name="rows">行是基因，行内是该基因在各样本上的表达量</param>
+    ''' <returns>与输入同形的矩阵，元素为 ECDF 取值经 logit 变换后的结果</returns>
+    ''' <remarks>
+    ''' 对应 R 的 ``apply(expr, 1, function(x) ecdf(x)(x))``：
+    ''' 对基因 i 的第 j 个样本，其 ECDF 取值为 ``#{x_k &lt;= x_j} / n``，取值落在 (0, 1]。
+    ''' 
+    ''' 由于后续只使用该矩阵的秩，logit 变换本身是单调的，不影响结果；
+    ''' 此处仍然施加该变换，以保持与核函数分支一致的值域。
+    ''' 边界上的 0 与 1 会让 logit 溢出为正负无穷，需要先裁剪到一个极小的邻域内，
+    ''' 裁剪是单调映射，因此不会改变并列关系。
+    ''' </remarks>
+    Private Function ecdfLogOdds(rows As IEnumerable(Of DataFrameRow)) As Double()()
+        Return rows _
+            .Select(Function(r)
+                        Dim x As Double() = r.experiments
+                        Dim n As Integer = x.Length
+                        Dim sorted As Double() = New Double(n - 1) {}
+                        Dim p As Double() = New Double(n - 1) {}
+                        Dim eps As Double = 1 / (2.0 * n)
+
+                        Array.Copy(x, sorted, n)
+                        Array.Sort(sorted)
+
+                        For j As Integer = 0 To n - 1
+                            ' 二分查找最后一个不大于 x(j) 的位置，即得 #{x_k <= x_j}
+                            Dim count As Integer = upperBound(sorted, x(j))
+                            Dim cdf As Double = count / n
+
+                            If cdf < eps Then
+                                cdf = eps
+                            ElseIf cdf > 1 - eps Then
+                                cdf = 1 - eps
+                            End If
+
+                            p(j) = std.Log(cdf / (1 - cdf))
+                        Next
+
+                        Return p
+                    End Function) _
+            .ToArray
+    End Function
+
+    ''' <summary>
+    ''' 在已升序排序的数组中找到大于 <paramref name="value"/> 的第一个位置，
+    ''' 即数组中不大于 <paramref name="value"/> 的元素个数
+    ''' </summary>
+    Private Function upperBound(sorted As Double(), value As Double) As Integer
+        Dim lo As Integer = 0
+        Dim hi As Integer = sorted.Length
+
+        While lo < hi
+            Dim mid As Integer = (lo + hi) \ 2
+
+            If sorted(mid) <= value Then
+                lo = mid + 1
+            Else
+                hi = mid
+            End If
+        End While
+
+        Return lo
     End Function
 End Module

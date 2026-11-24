@@ -33,7 +33,7 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "network_io-netcore5", "..\.
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "binarydata-netcore5", "..\..\runtime\sciBASIC#\Data\BinaryData\BinaryData\binarydata-netcore5.vbproj", "{88BFCB76-2C97-0E64-BA68-1E41EC98573E}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "InteractionModel.NET5", "..\core\Bio.InteractionModel\InteractionModel.NET5.vbproj", "{8784713D-D3BE-0239-1350-4294632B5719}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "InteractionModel", "..\core\Bio.InteractionModel\InteractionModel.vbproj", "{8784713D-D3BE-0239-1350-4294632B5719}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "GEARS", "GEARS\GEARS.vbproj", "{E9C919DA-E66F-4258-A23C-B084CBB818F6}"
 EndProject

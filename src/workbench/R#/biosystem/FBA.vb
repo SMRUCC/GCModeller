@@ -73,6 +73,7 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports KEGGReaction = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Reaction
 Imports Matrix = SMRUCC.genomics.Analysis.FBA.Matrix
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' Flux Balance Analysis
@@ -81,7 +82,7 @@ Imports Matrix = SMRUCC.genomics.Analysis.FBA.Matrix
 Module FBA
 
     Sub Main()
-        Call Internal.Object.Converts.makeDataframe.addHandler(GetType(Matrix), AddressOf MatrixTable)
+        Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(Matrix), AddressOf MatrixTable)
     End Sub
 
     Private Function MatrixTable(mat As Matrix, args As list, env As Environment) As dataframe

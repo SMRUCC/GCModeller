@@ -94,7 +94,7 @@ Namespace Assembly.KEGG.Archives.Tabular
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <Column(Name:="br.Class")> Public Property [Class] As String
+        <Column("br.Class")> Public Property [Class] As String
 
         ''' <summary>
         ''' Phenotype Category
@@ -102,7 +102,7 @@ Namespace Assembly.KEGG.Archives.Tabular
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <Column(Name:="br.Category")> Public Property Category As String
+        <Column("br.Category")> Public Property Category As String
 
         ''' <summary>
         ''' The enzyme gene which was involved in this pathway catalysts.

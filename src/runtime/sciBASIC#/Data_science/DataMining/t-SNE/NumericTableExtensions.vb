@@ -1,4 +1,4 @@
-#Region "Microsoft.VisualBasic::NumericTableExtensions, Data_science\DataMining\t-SNE\NumericTableExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::ba776652cc1cd58abfd84ebbe2ea0b18, Data_science\DataMining\t-SNE\NumericTableExtensions.vb"
 
     ' Author:
     ' 
@@ -23,7 +23,31 @@
     ' GNU General Public License for more details.
     ' 
     ' You should have received a copy of the GNU General Public License
-    ' along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 68
+    '    Code Lines: 39 (57.35%)
+    ' Comment Lines: 22 (32.35%)
+    '    - Xml Docs: 86.36%
+    ' 
+    '   Blank Lines: 7 (10.29%)
+    '     File Size: 3.12 KB
+
+
+    ' Module NumericTableExtensions
+    ' 
+    '     Function: tsne
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -55,13 +79,13 @@ Public Module NumericTableExtensions
     ''' <param name="nthreads">并行线程数，&lt;= 0 时取当前主机的 CPU 核心数</param>
     ''' <returns>以嵌入坐标（``dim_1..dim_n``）为特征的新二维表</returns>
     <Extension>
-    Public Function tsne(source As NumericTable,
-                         Optional perplexity As Double = 30,
-                         Optional dims As Integer = 2,
-                         Optional epsilon As Double = 200,
-                         Optional iterations As Integer = 1000,
-                         Optional useBarnesHut As Boolean = False,
-                         Optional nthreads As Integer = 0) As NumericTable
+    Public Function TSneFit(source As NumericTable,
+                            Optional perplexity As Double = 30,
+                            Optional dims As Integer = 2,
+                            Optional epsilon As Double = 200,
+                            Optional iterations As Integer = 1000,
+                            Optional useBarnesHut As Boolean = False,
+                            Optional nthreads As Integer = 0) As NumericTable
 
         If source Is Nothing Then
             Throw New ArgumentNullException(NameOf(source))

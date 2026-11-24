@@ -19,6 +19,7 @@ Namespace NN
     ''' </summary>
     Public Class BatchNorm
         Inherits LayerModule
+        Implements IRunningStatistics
 
         Private ReadOnly _name As String
         Private ReadOnly _params As Parameter()
@@ -59,7 +60,7 @@ Namespace NN
             Me._params = {Me.Gamma, Me.Beta}
         End Sub
 
-        Public Overrides ReadOnly Property Name As String
+        Public Overrides ReadOnly Property Name As String Implements IRunningStatistics.Name
             Get
                 Return _name
             End Get
@@ -71,15 +72,15 @@ Namespace NN
             End Get
         End Property
 
-        ''' <summary>滑动均值（<c>[1,H]</c>，只读诊断用）。</summary>
-        Public ReadOnly Property RunningMean As Tensor
+        ''' <summary>滑动均值（<c>[1,H]</c>）。</summary>
+        Public ReadOnly Property RunningMean As Tensor Implements IRunningStatistics.RunningMean
             Get
                 Return _runningMean
             End Get
         End Property
 
-        ''' <summary>滑动方差（<c>[1,H]</c>，只读诊断用）。</summary>
-        Public ReadOnly Property RunningVariance As Tensor
+        ''' <summary>滑动方差（<c>[1,H]</c>）。</summary>
+        Public ReadOnly Property RunningVariance As Tensor Implements IRunningStatistics.RunningVariance
             Get
                 Return _runningVar
             End Get

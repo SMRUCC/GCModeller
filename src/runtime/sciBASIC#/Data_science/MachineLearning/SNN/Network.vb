@@ -1,3 +1,77 @@
+﻿#Region "Microsoft.VisualBasic::c4e2e8917a215311c81c9a9bf9a58ea6, Data_science\MachineLearning\SNN\Network.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 478
+    '    Code Lines: 291 (60.88%)
+    ' Comment Lines: 111 (23.22%)
+    '    - Xml Docs: 74.77%
+    ' 
+    '   Blank Lines: 76 (15.90%)
+    '     File Size: 20.14 KB
+
+
+    ' Structure LossGradient
+    ' 
+    ' 
+    ' 
+    ' Module Losses
+    ' 
+    '     Function: SoftmaxCrossEntropy
+    ' 
+    ' Class AdamOptimizer
+    ' 
+    '     Properties: Beta1, Beta2, ClipNorm, Epsilon, LearningRate
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    '     Sub: Update
+    ' 
+    ' Class SpikingNetwork
+    ' 
+    '     Properties: Encoding, Layers, Rng, SparseInputMap, SparseLayer
+    '                 TimeSteps
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    '     Function: Accuracy, AddLayer, (+2 Overloads) AddSparseLayer, ComputeGradients, Encode
+    '               ForwardSparse, ForwardSpikes, IsConstantSequence, Predict, ScatterInput
+    '               TrainStep
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 ' ============================================================================
 ' Network.vb — SNN 网络模型 + 损失函数 + Adam 优化器
 '
@@ -10,6 +84,7 @@
 ' ============================================================================
 
 Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
+Imports tf = Microsoft.VisualBasic.MachineLearning.TensorFlow.Math
 Imports std = System.Math
 
 
@@ -58,9 +133,12 @@ Public Module Losses
             Next
         Next
 
+        ' 梯度缩放用 Double 标量：CSng(1.0/batch) 会先把缩放因子量化成单精度，
+        ' 之后整批梯度都带上这个 1e-8 量级的相对误差（batch 为非 2 的幂时尤其明显）。
+        ' 注：VB 的对象初始化器内不允许插入注释，故说明写在 Return 之前。
         Return New LossGradient With {
             .Loss = loss / batch,
-            .Grad = grad * CSng(1.0 / batch)
+            .Grad = tf.multiply_scalar(grad, 1.0 / batch)
         }
     End Function
 
@@ -119,7 +197,9 @@ Public Class AdamOptimizer
             vArr(i) = Beta2 * vArr(i) + (1.0 - Beta2) * g(i) * g(i)
             Dim mHat = m(i) / bc1
             Dim vHat = vArr(i) / bc2
-            param(i) = param(i) - CSng(LearningRate * mHat / (std.Sqrt(vHat) + Epsilon))
+            ' 更新量全程 Double：param / m / v 都是双精度存储，
+            ' 在最后一步套一个 CSng 只会白白丢掉有效位（主副本原则：更新在 Double 完成）
+            param(i) = param(i) - LearningRate * mHat / (std.Sqrt(vHat) + Epsilon)
         Next
     End Sub
 
@@ -271,11 +351,31 @@ Public Class SpikingNetwork
             Case SpikeEncoding.RateCoding
                 Return SpikeEncoders.RateEncode(x, TimeSteps, Rng)
             Case SpikeEncoding.DirectCurrent
-                ' 直接电流注入：每步注入同一连续电流（不做脉冲采样）
-                Return SpikeEncoders.DirectCurrentEncode(x, TimeSteps)
+                ' 直接电流注入：每步注入同一连续电流（不做脉冲采样）。
+                ' 各步内容完全相同，因此共享一份缓冲：既省掉 T 次分配，
+                ' 也让 GPU 后端只上传一次外部电流（否则每步都是一次 1.1 MB 的 H2D 拷贝，
+                ' 在 WDDM 上约 0.4 ms/步，足以盖过稀疏内核的收益）。
+                Return SpikeEncoders.DirectCurrentEncode(x, TimeSteps, shareBuffer:=True)
             Case Else
                 Return SpikeEncoders.LatencyEncode(x, TimeSteps)
         End Select
+    End Function
+
+    ''' <summary>
+    ''' 编码序列的每一步是否都是同一个张量（恒流编码的特征）。
+    ''' </summary>
+    ''' <remarks>
+    ''' 用于判断"可以只散射一次然后复用"：恒流下各步的外部电流逐元素相同，
+    ''' 复用同一个张量既省分配，也让设备端缓存能按引用命中（只上传一次）。
+    ''' </remarks>
+    Private Function IsConstantSequence(sequence As List(Of Tensor)) As Boolean
+        If sequence Is Nothing OrElse sequence.Count = 0 Then Return False
+
+        For t As Integer = 1 To sequence.Count - 1
+            If Not sequence(t) Is sequence(0) Then Return False
+        Next
+
+        Return True
     End Function
 
     ''' <summary>
@@ -323,24 +423,31 @@ Public Class SpikingNetwork
 
         SparseLayer.ResetState(batch)
 
-        Dim counts = New Tensor(batch, units)
-        Dim cd = counts.Data
+        ' 计数由层内的累加器维护：融合路径下它在<b>设备端</b>累加，
+        ' 逐算子路径下由层内主机循环累加。于是这里不再需要每步回读 [batch, N] 脉冲张量，
+        ' 也不再需要 O(T·N) 的主机求和循环 —— 后者在十万神经元 / T=30 下是 400 万次加法，
+        ' 并且会强制 GPU 后端每步做一次显存回读。
+        '
+        ' 恒流编码下各步的外部电流相同：散射一次后复用，避免每步重新分配与重新上传。
+        Dim sharedExt = If(IsConstantSequence(seq), ScatterInput(seq(0), batch, units), Nothing)
 
-        For t = 0 To TimeSteps - 1
-            Dim ext = ScatterInput(seq(t), batch, units)
-            Dim s = SparseLayer.ForwardStep(ext)
-            Dim sd = s.Data
+        For t As Integer = 0 To TimeSteps - 1
+            Dim ext As Tensor
 
-            ' 就地累加，避免每步分配 [batch, N] 新张量
-            For i = 0 To cd.Length - 1
-                cd(i) += sd(i)
-            Next
+            If sharedExt IsNot Nothing Then
+                ext = sharedExt
+            Else
+                ext = ScatterInput(seq(t), batch, units)
+            End If
+
+            Call SparseLayer.ForwardStep(ext)
         Next
 
-        ' 绕过索引器就地写入：声明主机数据已修改，使设备端缓存失效
-        counts.MarkHostModified()
+        ' 设备为主副本：整段仿真只需在结束时同步一次
+        Call SparseLayer.SyncFromDevice()
 
-        Return counts
+        ' 返回独立副本：避免调用方就地修改层内累加器（下一轮 ResetState 会重新分配）
+        Return CType(SparseLayer.Counts.Clone(), Tensor)
     End Function
 
     ''' <summary>
@@ -449,5 +556,3 @@ Public Class SpikingNetwork
     End Function
 
 End Class
-
-

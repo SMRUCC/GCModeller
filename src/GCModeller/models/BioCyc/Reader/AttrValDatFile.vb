@@ -128,11 +128,29 @@ Public Class AttrValDatFile
     End Function
 
     Private Shared Iterator Function loadFeatures(file As TextReader, line As Value(Of String)) As IEnumerable(Of FeatureElement)
-        Dim buffer As New List(Of String) From {line.Value}
+        Dim buffer As New List(Of String)
+
+        If Not line.Value Is Nothing AndAlso Not line.Value.Trim = "//" Then
+            Call buffer.Add(line)
+        End If
 
         Do While Not (line = file.ReadLine) Is Nothing
-            If line.Value = "//" Then
-                Yield FeatureElement.ParseBuffer(buffer.PopAll)
+            Dim text As String = line.Value
+
+            If text Is Nothing Then
+                Continue Do
+            End If
+
+            text = text.TrimEnd()
+
+            If text = "//" Then
+                ' 对象分隔符号：仅当缓冲区之中存在有效数据的时候才产生对象
+                If buffer.Count > 0 Then
+                    Yield FeatureElement.ParseBuffer(buffer.PopAll)
+                End If
+            ElseIf text.Length = 0 OrElse text.StartsWith("#") Then
+                ' 空行与注释行不属于任何属性值
+                Continue Do
             Else
                 Call buffer.Add(line)
             End If

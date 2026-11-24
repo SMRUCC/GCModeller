@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f1d60a552e500c5e6fe1b1acf9b1b3d9, mime\text%html\Render\CSS\CssBoxWordSplitter.vb"
+﻿#Region "Microsoft.VisualBasic::c11f2d7966459ef5f1953c7558c75b99, mime\text%html\Render\CSS\CssBoxWordSplitter.vb"
 
     ' Author:
     ' 
@@ -35,12 +35,12 @@
     ' Code Statistics:
 
     '   Total Lines: 122
-    '    Code Lines: 79 (64.75%)
+    '    Code Lines: 78 (63.93%)
     ' Comment Lines: 17 (13.93%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 26 (21.31%)
-    '     File Size: 3.70 KB
+    '   Blank Lines: 27 (22.13%)
+    '     File Size: 3.71 KB
 
 
     '     Class CssBoxWordSplitter
@@ -58,8 +58,9 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.Imaging
+
 Namespace Render.CSS
-#If NET48 Then
     ''' <summary>
     ''' Splits text on words for a box
     ''' </summary>
@@ -178,5 +179,4 @@ Namespace Render.CSS
         End Function
 #End Region
     End Class
-#End If
 End Namespace

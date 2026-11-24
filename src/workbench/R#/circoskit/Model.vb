@@ -42,16 +42,14 @@
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports SMRUCC.genomics.Visualize.Circos
-Imports SMRUCC.genomics.Visualize.Circos.Configurations
-Imports SMRUCC.Rsharp.Runtime.Internal.Object
-Imports SMRUCC.Rsharp.Runtime.Interop
-Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.genomics.ComponentModel.Annotation
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
 Imports SMRUCC.genomics.Visualize.Circos.TrackDatas.Highlights
-Imports SMRUCC.genomics.ComponentModel.Annotation
-Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Internal.Object
+Imports SMRUCC.Rsharp.Runtime.Interop
 
 ''' <summary>
 ''' package module for generates plot data
@@ -62,20 +60,20 @@ Module Model
     <ExportAPI("highlight.heatmapping")>
     <RApiReturn(GetType(Highlights))>
     Public Function HeatMapping(<RRawVectorArgument> values As Object, Optional colors$ = ColorMap.PatternJet, Optional env As Environment = Nothing) As Object
-        Dim valuePoints As pipeline = pipeline.TryCreatePipeline(Of ValueTrackData)(values, env)
+        Dim valuePoints As PipeIterator(Of ValueTrackData) = pipeline.Stream(Of ValueTrackData)(values, env)
 
         If valuePoints.isError Then
             Return valuePoints.getError
         End If
 
-        Dim model As New GradientMappings(valuePoints.populates(Of ValueTrackData)(env), mapName:=colors)
+        Dim model As New GradientMappings(valuePoints, mapName:=colors)
         Return model
     End Function
 
     <ExportAPI("highlight.genemarks")>
     <RApiReturn(GetType(Highlights))>
     Public Function GeneMarks(<RRawVectorArgument> genes As Object, colors As Object, Optional env As Environment = Nothing) As Object
-        Dim geneTable As pipeline = pipeline.TryCreatePipeline(Of IGeneBrief)(genes, env)
+        Dim geneTable As PipeIterator(Of IGeneBrief) = pipeline.Stream(Of IGeneBrief)(genes, env)
         Dim geneColors As Dictionary(Of String, String)
 
         If geneTable.isError Then
@@ -90,7 +88,7 @@ Module Model
             }
         End If
 
-        Return New GeneMark(geneTable.populates(Of IGeneBrief)(env), geneColors)
+        Return New GeneMark(geneTable, geneColors)
     End Function
 
     ''' <summary>

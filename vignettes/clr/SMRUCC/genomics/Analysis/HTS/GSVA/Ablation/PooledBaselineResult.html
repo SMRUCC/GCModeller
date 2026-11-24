@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.HTS.GSVA.Ablation.PooledBaselineResult</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>PooledBaselineResult {SMRUCC.genomics.Analysis.HTS.GSVA.Ablation}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>PooledBaselineResult</h2>
+
+        <h3>Description</h3>
+
+        <p>「拼接矩阵直接做一次单组学 GSVA」的消融对照结果。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.HTS.GSVA.Ablation
+export class PooledBaselineResult {
+   Available: boolean;
+   # 参与比对的通路数
+   ComparedPathways: integer;
+   # 与分组学融合结果逐通路的 Pearson 相关系数
+   Correlation: list;
+   # 对照计算失败时的错误信息
+   ErrorMessage: string;
+   # 与融合结果的逐元素平均绝对差
+   MeanAbsoluteDifference: double;
+   # 拼接矩阵上的单组学 GSVA 分数（通路 × 样本）
+   Scores: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>Correlation</code>: list</li>
+<li>use by <i>property</i> member <code>Scores</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

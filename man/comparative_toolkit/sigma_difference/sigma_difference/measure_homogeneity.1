@@ -1,0 +1,35 @@
+.\" man page create by R# package system.
+.TH SIGMA_DIFFERENCE 1 2000-1月 "measure_homogeneity" "measure_homogeneity"
+.SH NAME
+measure_homogeneity \- Measure the homogeneity property of the genome partition segments against
+.SH SYNOPSIS
+\fImeasure_homogeneity(\fBPartitionData\fR as <generic> IEnumerable`1, 
+\fBRuleSource\fR as string);\fR
+.SH DESCRIPTION
+.PP
+Measure the homogeneity property of the genome partition segments against
+ the \fBdnaA\fR-\fBgyrB\fR ruler segment of the reference genomes in batch.
+.PP
+.SH OPTIONS
+.PP
+\fBPartitionData\fB \fR\- the partition segments of all of the genomes. 
+.PP
+.PP
+\fBRuleSource\fB \fR\- 
+ The original GenBank download data directory which should contains the \fB*.ptt\fR
+ file for parsing the ruler segment between the \fBdnaA\fR and \fBgyrB\fR genes and
+ the \fB*.fna\fR file for parsing the genome nucleotide fasta sequence.
+. 
+.PP
+.SH VALUE
+.PP
+the data frame with one ruler distance column per reference genome
+.PP
+.SH SEE ALSO
+sigma_difference
+.SH FILES
+.PP
+comparative_toolkit.dll
+.PP
+.SH AUTHOR
+Written by \fBxie.guigang@gcmodeller.org\fR

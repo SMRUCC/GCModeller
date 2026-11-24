@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a6ee68e39fe860cdd39048f39488e763, visualize\DataVisualizationExtensions\UPGMATreeDrawer.vb"
+#Region "Microsoft.VisualBasic::a6ee68e39fe860cdd39048f39488e763, visualize\DataVisualizationExtensions\UPGMATreeDrawer.vb"
 
     ' Author:
     ' 
@@ -53,8 +53,7 @@
 #End Region
 
 Imports System.Drawing
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
+Imports Microsoft.VisualBasic.Data.Plots.Canvas
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.MIME.Html.CSS

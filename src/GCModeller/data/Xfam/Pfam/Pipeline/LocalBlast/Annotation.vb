@@ -99,8 +99,8 @@ Namespace Pipeline.LocalBlast
                                                    Optional evalue As Double = Evalue1En5,
                                                    Optional coverage As Double = 0.85,
                                                    Optional identities As Double = 0.3,
-                                                   Optional offset As Double = 0.1) As IEnumerable(Of PfamString.PfamString)
-            Dim protein As PfamString.PfamString
+                                                   Optional offset As Double = 0.1) As IEnumerable(Of PfamString)
+            Dim protein As PfamString
             Dim padLen% = 80
             Dim desc As String
 
@@ -120,12 +120,12 @@ Namespace Pipeline.LocalBlast
                                                    Optional evalue As Double = Evalue1En5,
                                                    Optional coverage As Double = 0.85,
                                                    Optional identities As Double = 0.3,
-                                                   Optional offset As Double = 0.1) As PfamString.PfamString
+                                                   Optional offset As Double = 0.1) As PfamString
 
             Dim domains As NamedCollection(Of DomainModel) = query.AnnotatedFromHitsGroup(evalue:=evalue, coverage:=coverage, identities:=identities, offset:=offset)
 
             If domains.IsEmpty Then
-                Return New PfamString.PfamString With {
+                Return New PfamString With {
                     .ProteinId = query.name,
                     .Description = query.description,
                     .Length = query(Scan0).query_length
@@ -140,7 +140,7 @@ Namespace Pipeline.LocalBlast
                         End Function) _
                 .Distinct _
                 .ToArray
-            Dim protein As New PfamString.PfamString With {
+            Dim protein As New PfamString With {
                 .ProteinId = query.name,
                 .Description = query.description,
                 .Length = query(Scan0).query_length,

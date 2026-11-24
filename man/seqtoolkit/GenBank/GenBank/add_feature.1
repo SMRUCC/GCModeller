@@ -1,0 +1,46 @@
+.\" man page create by R# package system.
+.TH GENBANK 4 2000-1月 "add_feature" "add_feature"
+.SH NAME
+add_feature \- add feature into a given genbank object
+.SH SYNOPSIS
+\fIadd_feature(\fBgb\fR as <generic> File, 
+\fBfeature\fR as <generic> Feature);\fR
+.SH DESCRIPTION
+.PP
+add feature into a given genbank object
+.PP
+.SH OPTIONS
+.PP
+\fBgb\fB \fR\- 
+ the [File](cref:T:SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.File) ncbi genbank assembly object for add the 
+ target feature site.
+. 
+.PP
+.PP
+\fBfeature\fB \fR\- 
+ the [Feature](cref:T:SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES.Feature) genbank feature object for add, which is 
+ created by the \fBfeature\fR api.
+. 
+.PP
+.SH VALUE
+.PP
+the modified [File](cref:T:SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.File) ncbi genbank assembly object.
+.PP
+.SH EXAMPLES
+.PP
+let gb_asm = read.genbank("./xxx.gbff");
+ let mics_site = GenBank::feature("micsRNA", nucl_location(5656,33,"+"));
+ 
+ # use the operator
+ gb_asm = gb_asm + mics_site;
+ # or use the function
+ gb_asm = gb_asm |> add_feature(mics_site);
+.PP
+.SH SEE ALSO
+GenBank
+.SH FILES
+.PP
+seqtoolkit.dll
+.PP
+.SH AUTHOR
+Written by \fBxie.guigang@gcmodeller.org\fR

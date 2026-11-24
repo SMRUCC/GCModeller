@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Set the damping factor, the iteration budget and the tolerance used by the steady-state solver.</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>fuzzygene_relaxation {FuzzyGene}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>Set the damping factor, the iteration budget and the tolerance used by the steady-state solver.</h2>
+
+        <h3>Description</h3>
+
+        
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>fuzzygene_relaxation</strong>(<i>fuzzygene</i>,
+    <i>omega</i> = <span style='color: green;'>0.5</span>,
+    <i>steps</i> = <span style='color: green;'>50</span>,
+    <i>tolerance</i> = <span style='color: green;'>1E-06</span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>fuzzygene</dt>
+<dd><p>a trained (or restored) model. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/FuzzyGeneModel.html">FuzzyGeneModel</a>]</p></dd>
+
+
+<dt>omega</dt>
+<dd><p>damping factor in (0, 1]; 0.5 is the recommended value. [as double]</p></dd>
+
+
+<dt>steps</dt>
+<dd><p>maximum iteration steps, must be positive. [as integer]</p></dd>
+
+
+<dt>tolerance</dt>
+<dd><p>convergence threshold on the per step max change, must be positive. [as double]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment used to report errors. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: block;">Details</h3>
+
+        <p>These three values belong to the damped fallback path (<code>z &lt;- z + omega * (F(z) - z)</code>). The default solver is a Levenberg-Marquardt root finder for <code>F(z) - z = 0</code>, and it is used whenever it can reduce the residual; the damping factor only matters when it falls back (or when <code>solver = "legacy"</code> / <code>"anderson"</code> is selected through <code>fuzzygene_hybrid_config</code>). With <code>omega = 1</code> the fallback is the plain repeated application of <code>F</code>, which on a genome scale model often keeps oscillating instead of converging; <code>omega = 0.5</code> is the usual compromise.</p>
+
+<p>Always rerun the trajectory after changing these values, and check <code>summary$exit_reason</code>: only <code>Converged</code> means the flat tail is a real steady state; <code>MaxIterations</code> is a truncated plateau and <code>LimitCycle</code> means the system oscillates.</p>
+
+
+<pre><code> model = FuzzyGene::fuzzygene_relaxation(model, omega = 0.5, steps = 80);
+ let t = FuzzyGene::fuzzygene_trace_perturbation(model, "TPPP3");
+ print(t$summary);
+ </code></pre>
+
+        <h3 style="display: block">Authors</h3>
+
+        biosystem
+
+        <h3>Value</h3>
+
+        <p>the same model object, so the call can be chained</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/FuzzyGeneModel.html">FuzzyGeneModel</a></li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>FuzzyGene</em> version 1.0.0.0 <a
+                href="../FuzzyGene.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

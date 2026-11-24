@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f66b4d15b60ad37fd7dc495b25664cdf, vs_solutions\PkgVersionUpgrade\OutputPathFixer.vb"
+﻿#Region "Microsoft.VisualBasic::9c6ccdd3dc3b7ab106c5da07f11a46f4, vs_solutions\PkgVersionUpgrade\src\OutputPathFixer.vb"
 
     ' Author:
     ' 
@@ -34,32 +34,28 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 231
-    '    Code Lines: 106 (45.89%)
-    ' Comment Lines: 89 (38.53%)
-    '    - Xml Docs: 89.89%
+    '   Total Lines: 217
+    '    Code Lines: 102 (47.00%)
+    ' Comment Lines: 79 (36.41%)
+    '    - Xml Docs: 84.81%
     ' 
-    '   Blank Lines: 36 (15.58%)
-    '     File Size: 10.38 KB
+    '   Blank Lines: 36 (16.59%)
+    '     File Size: 9.89 KB
 
 
-    ' Module OutputPathFixer
+    ' Class OutputPathFixer
+    ' 
+    '     Properties: ReleaseConfiguration, ReleasePlatform
     ' 
     '     Function: Apply, ComputeOutputPath, EnsureDeclared, IsNugetReleaseX64
     ' 
     '     Sub: CreateReleaseGroup
-    '     Class OutputPathResult
-    ' 
-    '         Properties: Changed, Created, DeclarationsAdded, OutputPath, Updated
-    ' 
-    ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
 Imports System.IO
-Imports System.Xml.Linq
 
 ''' <summary>
 ''' nuget_release|x64 编译配置的产物输出路径修正模块
@@ -85,32 +81,12 @@ Imports System.Xml.Linq
 ''' ``'$(Configuration)|$(TargetFramework)|$(Platform)'=='nuget_release|net10.0|x64'``
 ''' 会被同一套逻辑覆盖。
 ''' </remarks>
-Module OutputPathFixer
-
-    ''' <summary>单个工程的输出路径修正结果</summary>
-    Public Class OutputPathResult
-
-        ''' <summary>被改写或者补写了 OutputPath 的条件组数量</summary>
-        Public Property Updated As Integer
-        ''' <summary>新建的 nuget_release|x64 条件组数量（0 或 1）</summary>
-        Public Property Created As Integer
-        ''' <summary>补齐的 Configurations / Platforms 声明条数</summary>
-        Public Property DeclarationsAdded As Integer
-        ''' <summary>本次计算出的、指向输出文件夹的相对路径，用于日志展示</summary>
-        Public Property OutputPath As String
-
-        Public ReadOnly Property Changed As Boolean
-            Get
-                Return Updated > 0 OrElse Created > 0 OrElse DeclarationsAdded > 0
-            End Get
-        End Property
-
-    End Class
+Public Class OutputPathFixer
 
     ''' <summary>需要修正的编译配置名</summary>
-    Private Const ReleaseConfiguration As String = "nuget_release"
+    Public Property ReleaseConfiguration As String = "nuget_release"
     ''' <summary>需要修正的目标平台名</summary>
-    Private Const ReleasePlatform As String = "x64"
+    Public Property ReleasePlatform As String = "x64"
 
     ''' <summary>
     ''' 计算出从工程所在目录到输出文件夹的相对路径
@@ -295,4 +271,4 @@ Module OutputPathFixer
         Return 1
     End Function
 
-End Module
+End Class

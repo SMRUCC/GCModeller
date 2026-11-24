@@ -1,0 +1,78 @@
+.\" man page create by R# package system.
+.TH FUZZYGENE 1 2000-1月 "fuzzygene_export_trace" "fuzzygene_export_trace"
+.SH NAME
+fuzzygene_export_trace \- Export the two trajectory matrices of one virtual perturbation to a folder.
+.SH SYNOPSIS
+\fIfuzzygene_export_trace(\fBfuzzygene\fR as <generic> FuzzyGeneModel, 
+\fBgene\fR as string, 
+\fBdir\fR as string, 
+\fBmode\fR as string = "knockout", 
+\fBsteps\fR as integer = 0, 
+\fBdt\fR as double = 1, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Export the two trajectory matrices of one virtual perturbation to a folder.
+.PP
+.SH OPTIONS
+.PP
+\fBfuzzygene\fB \fR\- a trained (or restored) model. 
+.PP
+.PP
+\fBgene\fB \fR\- the target gene of the virtual perturbation. 
+.PP
+.PP
+\fBdir\fB \fR\- the output folder (created when missing). 
+.PP
+.PP
+\fBmode\fB \fR\- \fBknockout\fR (default), \fBknockdown\fR or \fBoverexpression\fR. 
+.PP
+.PP
+\fBsteps\fB \fR\- maximum iteration steps; 0 uses the model configuration. 
+.PP
+.PP
+\fBdt\fB \fR\- time unit of one iteration frame, used by the sidecar only. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment used to report errors. 
+.PP
+.SH VALUE
+.PP
+a character vector of the written file paths
+.PP
+.SH DETAILS
+.PP
+Writes, into **dir**:
+ 
+
+
+ 
+- \fBtrace.mutant.csv\fR / \fBtrace.wildtype.csv\fR: gene x iteration matrices;
+- \fB*.sampleinfo.json\fR: one `SampleInfo` row per column (\fBtime\fR / \fBiteration\fR
+ / \fBomega\fR / \fBconverged\fR / \fBperturbed_genes\fR ...), ready for the ExperimentDesigner
+ pipeline;
+- \fBtrace.perturbation.json\fR: the run summary plus the whole \fBmax_delta\fR sequence.
+
+
+ 
+
+
+ \fBdt\fR only affects \fBmetadata$time\fR of the sidecar (`time = iteration * dt`); it does
+ not change the matrix. Leave it at 1 unless the model is a lagged (time series) model and
+ the sampling interval is known.
+ 
+
+
+ 
+\fB
+ let files = FuzzyGene::fuzzygene_export_trace(model, "TPPP3", "/path/trace", mode = "knockout");
+ print(files);
+ 
+\fR`
+.PP
+.SH SEE ALSO
+FuzzyGene
+.SH FILES
+.PP
+biosystem.dll
+.PP

@@ -6,6 +6,8 @@ Imports SMRUCC.genomics.Analysis.BNLearn.IO
 Imports SMRUCC.genomics.Analysis.BNLearn.ModularNetwork
 Imports SMRUCC.genomics.Analysis.BNLearn.ModularNetwork.WGCNA
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports SMRUCC.genomics.BioSystem.Core
+Imports InterventionMode = SMRUCC.genomics.BioSystem.Intervention.InterventionMode
 
 Module WGCNADemo
 
@@ -22,7 +24,7 @@ Module WGCNADemo
         Dim modules As GeneModuleColor() = WGCNA.ReadModuleAssignment("K:\hsa\WGCNA_output-demo\gene_module_assignment.csv")
         Dim subMat As Matrix = Matrix.LoadData("K:\hsa\Homo_sapiens_expr_advanced_all_conditions.csv", tqdm_wrap:=True)
 
-        Dim exprData = BnIO.ReadGeneExpressionMatrix(subMat)
+        Dim exprData = HTSDataFrame.ReadGeneExpressionMatrix(subMat)
 
         ' 2. 构建 WGCNA 子网络 + 全局扰动流水线
         Dim pipeline As New ModularNetworkPipeline() With {
@@ -43,14 +45,14 @@ Module WGCNADemo
 
         ' 3. 方法一（默认）：雅可比矩阵多步线性传播
         pipeline.Propagation = PropagationMethod.Jacobian
-        Dim jacResults = pipeline.InsilicoPerturbation(source, Intervention.InterventionMode.Knockout).ToArray
+        Dim jacResults = pipeline.InsilicoPerturbation(source, InterventionMode.Knockout).ToArray
         Dim outDirJac = App.HOME & "/output/wgcna_global_perturbation/jacobian"
         Call pipeline.SaveResults(jacResults, outDirJac)
 
         ' 4. 方法二：级联采样跨模块传播（对前若干代表源演示，避免全量过慢）
         pipeline.Propagation = PropagationMethod.CascadeSampling
         Dim demoSources = jacResults.Take(5).Select(Function(r) r.SourceGene).ToArray()
-        Dim casResults = pipeline.InsilicoPerturbation(demoSources, Intervention.InterventionMode.Knockout).ToArray
+        Dim casResults = pipeline.InsilicoPerturbation(demoSources, InterventionMode.Knockout).ToArray
         Dim outDirCas = App.HOME & "/output/wgcna_global_perturbation/cascade"
         Call pipeline.SaveResults(casResults, outDirCas)
 
@@ -155,7 +157,7 @@ Module WGCNADemo
 
         Dim modules As GeneModuleColor() = WGCNA.ReadModuleAssignment(moduleFile)
         Dim subMat As Matrix = Matrix.LoadData(exprFile, tqdm_wrap:=True)
-        Dim exprAll = BnIO.ReadGeneExpressionMatrix(subMat)
+        Dim exprAll = HTSDataFrame.ReadGeneExpressionMatrix(subMat)
 
         ' 预先把表达矩阵收窄到 WGCNA 涉及的基因：pipeline 内部本来就只保留模块基因，
         ' 先裁剪可以显著降低 Standardize 与后续建模的内存/时间开销
@@ -194,10 +196,10 @@ Module WGCNADemo
         Call Console.WriteLine("=== [3] 生成保存前的扰动基线 ===")
 
         pipeline.Propagation = PropagationMethod.Jacobian
-        Dim beforeJac = pipeline.InsilicoPerturbation(sources, Intervention.InterventionMode.Knockout).ToArray()
+        Dim beforeJac = pipeline.InsilicoPerturbation(sources, InterventionMode.Knockout).ToArray()
 
         pipeline.Propagation = PropagationMethod.CascadeSampling
-        Dim beforeCas = pipeline.InsilicoPerturbation(sources.Take(1), Intervention.InterventionMode.Knockout).ToArray()
+        Dim beforeCas = pipeline.InsilicoPerturbation(sources.Take(1), InterventionMode.Knockout).ToArray()
 
         ' ---- 4. 导出 / 载入 ----
         Call Console.WriteLine("=== [4] 导出与载入模型 ===")
@@ -242,7 +244,7 @@ Module WGCNADemo
 
         ' 5.3 雅可比传播（覆盖 _genes / _gIndex / _A 的还原）
         loaded.Propagation = PropagationMethod.Jacobian
-        Dim afterJac = loaded.InsilicoPerturbation(sources, Intervention.InterventionMode.Knockout).ToArray()
+        Dim afterJac = loaded.InsilicoPerturbation(sources, InterventionMode.Knockout).ToArray()
 
         Check("Jacobian 扰动源序列一致",
               beforeJac.Select(Function(r) r.SourceGene).SequenceEqual(afterJac.Select(Function(r) r.SourceGene)))
@@ -273,7 +275,7 @@ Module WGCNADemo
 
         ' 5.4 级联采样传播（覆盖 _globalNet / _exprStd 的还原）
         loaded.Propagation = PropagationMethod.CascadeSampling
-        Dim afterCas = loaded.InsilicoPerturbation(sources.Take(1), Intervention.InterventionMode.Knockout).ToArray()
+        Dim afterCas = loaded.InsilicoPerturbation(sources.Take(1), InterventionMode.Knockout).ToArray()
         Dim casDiff As Double = -1
 
         If beforeCas.Length > 0 AndAlso beforeCas.Length = afterCas.Length Then

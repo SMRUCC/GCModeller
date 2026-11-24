@@ -63,4 +63,10 @@ Public Class rnas : Inherits Model
     <AttributeField("REGULATES")>
     Public Property regulates As String()
 
+    <AttributeField("COMPONENTS")> Public Property components As String()
+    <AttributeField("COMPONENT-OF")> Public Property componentOf As String
+    <AttributeField("LEFT-END-POSITION")> Public Property left As Long
+    <AttributeField("RIGHT-END-POSITION")> Public Property right As Long
+    <AttributeField("DBLINKS")> Public Property dbLinks As String()
+
 End Class

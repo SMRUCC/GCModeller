@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c3afc43a0caef15f31c1167d3434950b, mime\text%html\Render\CSS\CssLineBox.vb"
+﻿#Region "Microsoft.VisualBasic::c3e73a6639267ac465823aea1dd89d1f, mime\text%html\Render\CSS\CssLineBox.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 272
-    '    Code Lines: 152 (55.88%)
-    ' Comment Lines: 72 (26.47%)
+    '   Total Lines: 270
+    '    Code Lines: 151 (55.93%)
+    ' Comment Lines: 72 (26.67%)
     '    - Xml Docs: 91.67%
     ' 
-    '   Blank Lines: 48 (17.65%)
-    '     File Size: 9.21 KB
+    '   Blank Lines: 47 (17.41%)
+    '     File Size: 9.23 KB
 
 
     '     Class CssLineBox
@@ -60,11 +60,10 @@
 
 Imports System.Drawing
 Imports System.Math
+Imports Microsoft.VisualBasic.Imaging
 Imports rect = System.Drawing.Rectangle
 
 Namespace Render.CSS
-
-#If NET48 Then
 
     ''' <summary>
     ''' Represents a line of text.
@@ -247,7 +246,7 @@ Namespace Render.CSS
         ''' Draws the rectangles for debug purposes
         ''' </summary>
         ''' <param name="g"></param>
-        Friend Sub DrawRectangles(g As Graphics)
+        Friend Sub DrawRectangles(g As IGraphics)
             For Each b As CssBox In Rectangles.Keys
                 If Single.IsInfinity(Rectangles(b).Width) Then
                     Continue For
@@ -262,7 +261,7 @@ Namespace Render.CSS
         ''' </summary>
         ''' <param name="g"></param>
         ''' <returns></returns>
-        Public Function GetBaseLineHeight(b As CssBox, g As Graphics) As Single
+        Public Function GetBaseLineHeight(b As CssBox, g As IGraphics) As Single
             Dim f As Font = b.ActualFont
             Dim ff As FontFamily = f.FontFamily
             Dim s As FontStyle = f.Style
@@ -275,7 +274,7 @@ Namespace Render.CSS
         ''' <param name="g">Device info</param>
         ''' <param name="b">box to check words</param>
         ''' <param name="baseline">baseline</param>
-        Friend Sub SetBaseLine(g As Graphics, b As CssBox, baseline As Single)
+        Friend Sub SetBaseLine(g As IGraphics, b As CssBox, baseline As Single)
             'TODO: Aqui me quede, checar poniendo "by the" con un font-size de 3em
             Dim ws As List(Of CssBoxWord) = WordsOf(b)
 
@@ -328,5 +327,4 @@ Namespace Render.CSS
             Return String.Join(" ", ws)
         End Function
     End Class
-#End If
 End Namespace

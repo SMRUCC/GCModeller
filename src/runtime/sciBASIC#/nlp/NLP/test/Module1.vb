@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ed9f560d7c0526373b4f85027b6efdae, nlp\NLP\test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::03430a742e3d76a5eb18fcd42f3ad52b, nlp\NLP\test\Module1.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 120
-    '    Code Lines: 86 (71.67%)
-    ' Comment Lines: 13 (10.83%)
-    '    - Xml Docs: 53.85%
+    '   Total Lines: 141
+    '    Code Lines: 102 (72.34%)
+    ' Comment Lines: 15 (10.64%)
+    '    - Xml Docs: 46.67%
     ' 
-    '   Blank Lines: 21 (17.50%)
-    '     File Size: 5.02 KB
+    '   Blank Lines: 24 (17.02%)
+    '     File Size: 5.84 KB
 
 
     ' Module Module1
@@ -59,8 +59,29 @@ Imports Microsoft.VisualBasic.Math.Correlations
 
 Module Module1
 
-    Sub Main()
-        Call testtfidf()
+    Sub Main(args As String())
+        If args IsNot Nothing AndAlso args.Length > 0 AndAlso args(0).Trim.ToLower = "lda" Then
+            ' run the parallel gibbs LDA benchmark:
+            '   dotnet run -c Release -- lda [iterations]
+            Dim iterations As Integer = 200
+            Dim repeats As Integer = 3
+
+            If args.Length > 1 Then
+                Call Integer.TryParse(args(1), iterations)
+            End If
+            Dim syncInterval As Integer = 1
+
+            If args.Length > 2 Then
+                Call Integer.TryParse(args(2), repeats)
+            End If
+            If args.Length > 3 Then
+                Call Integer.TryParse(args(3), syncInterval)
+            End If
+
+            Call RunLdaBenchmark(iterations, repeats, syncInterval)
+        Else
+            Call testtfidf()
+        End If
     End Sub
 
     Sub testtfidf()

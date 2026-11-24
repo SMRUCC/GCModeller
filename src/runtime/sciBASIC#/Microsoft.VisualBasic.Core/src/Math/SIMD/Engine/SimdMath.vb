@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5ab9db360a5ece14b5fcb326fbbdfc37, Microsoft.VisualBasic.Core\src\Extensions\Math\SIMD\Engine\SimdMath.vb"
+﻿#Region "Microsoft.VisualBasic::f50cfe15cd3094849ed8077ac75227ca, Microsoft.VisualBasic.Core\src\Math\SIMD\Engine\SimdMath.vb"
 
     ' Author:
     ' 
@@ -34,21 +34,22 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 353
-    '    Code Lines: 192 (54.39%)
-    ' Comment Lines: 85 (24.08%)
-    '    - Xml Docs: 100.00%
+    '   Total Lines: 461
+    '    Code Lines: 241 (52.28%)
+    ' Comment Lines: 129 (27.98%)
+    '    - Xml Docs: 99.22%
     ' 
-    '   Blank Lines: 76 (21.53%)
-    '     File Size: 13.44 KB
+    '   Blank Lines: 91 (19.74%)
+    '     File Size: 18.54 KB
 
 
     '     Class SimdMath
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: Abs, Clamp, (+2 Overloads) Exp, (+2 Overloads) Log, Negate
-    '                   Pow, PowScalar, (+2 Overloads) Reciprocal, (+2 Overloads) Sqrt, Square
-    '                   Unary
+    '         Function: Abs, (+2 Overloads) Ceiling, Clamp, (+2 Overloads) Exp, (+2 Overloads) Floor
+    '                   (+3 Overloads) Log, Negate, Pow, PowScalar, (+2 Overloads) Reciprocal
+    '                   (+2 Overloads) Sign, SignBlock, SignBlockSingle, (+2 Overloads) Sqrt, Square
+    '                   (+2 Overloads) Truncate, Unary
     ' 
     ' 
     ' /********************************************************************************/
@@ -57,6 +58,8 @@
 
 Imports System.Numerics
 Imports System.Runtime.CompilerServices
+Imports System.Runtime.Intrinsics
+Imports System.Runtime.Intrinsics.X86
 Imports std = System.Math
 
 Namespace Math.SIMD
@@ -437,6 +440,300 @@ Namespace Math.SIMD
             Next
 
             Return out
+        End Function
+
+        ''' <summary>
+        ''' <c>ln(2)</c>，用于指数/对数的区间约减。
+        ''' </summary>
+        Public Const Ln2 As Double = 0.6931471805599453R
+        ''' <summary>
+        ''' <c>1 / ln(2)</c>。
+        ''' </summary>
+        Public Const InvLn2 As Double = 1.4426950408889634R
+
+        ''' <summary>
+        ''' 指数多项式展开的最高阶乘项下标（<c>1 / 13!</c>）。
+        ''' </summary>
+        Private Const EXP_DEGREE As Integer = 13
+
+        ''' <summary>
+        ''' 用于把浮点数舍入成整数的 magic number：<c>1.5 × 2^52</c>。
+        ''' </summary>
+        Private Const MagicRound As Double = 6755399441055744.0R
+        ''' <summary>
+        ''' <see cref="MagicRound"/> 的整数位模式。
+        ''' </summary>
+        Private Const MagicRoundBits As Long = &H4338000000000000L
+        ''' <summary>
+        ''' <c>2^52</c>，用于把整数位模式还原为浮点数（指数拆分）。
+        ''' </summary>
+        Private Const TwoPow52 As Double = 4503599627370496.0R
+        ''' <summary>
+        ''' <c>2^52</c> 的指数域位模式（<c>0x433</c> 指数）。
+        ''' </summary>
+        Private Const TwoPow52Bits As Long = &H4330000000000000L
+
+        ''' <summary>
+        ''' 计算 <c>1 / n!</c>，用于展开 <c>exp(r)</c>。
+        ''' </summary>
+        Private Shared ReadOnly ExpCoefficients As Double() = makeExpCoefficients()
+
+        Private Shared Function makeExpCoefficients() As Double()
+            Dim c As Double() = New Double(EXP_DEGREE) {}
+            Dim f As Double = 1
+
+            For n As Integer = 0 To EXP_DEGREE
+                If n > 0 Then
+                    f *= n
+                End If
+
+                c(n) = 1.0R / f
+            Next
+
+            Return c
+        End Function
+
+        ''' <summary>
+        ''' 判断当前数组是否可以走多项式路径（存在 NaN/Inf 的时候回退到标量实现，保证语义一致）。
+        ''' </summary>
+        Private Shared Function allFinite(v As Double(), count As Integer) As Boolean
+            For i As Integer = 0 To count - 1
+                If Double.IsNaN(v(i)) OrElse Double.IsInfinity(v(i)) Then
+                    Return False
+                End If
+            Next
+
+            Return True
+        End Function
+
+        ''' <summary>
+        ''' 逐元素自然指数（原地计算，真正的 SIMD 实现）。
+        ''' </summary>
+        ''' <param name="v">输入输出数组</param>
+        ''' <returns>返回 <paramref name="v"/> 自身，方便链式调用</returns>
+        ''' <remarks>
+        ''' <para>
+        ''' 实现方式与 Cephes/SLEEF 一致：区间约减 <c>x = k·ln2 + r</c>（<c>|r| ≤ ln2/2</c>），
+        ''' 用 13 阶泰勒多项式计算 <c>exp(r)</c>，再左移 <c>k</c> 位构造 <c>2^k</c> 缩放回去。
+        ''' 截断误差约 <c>1e-18</c>，远小于 <see cref="Double"/> 的有效精度。
+        ''' </para>
+        ''' <para>
+        ''' 输入被夹在 <c>[-700, 700]</c> 之内（与 <c>S-system</c> 的溢出保护一致）；
+        ''' 当数组中含有 NaN/Inf，或者 <see cref="SIMDEnvironment.IsEnabled"/> 为假时，
+        ''' 自动回退到逐元素的 <see cref="System.Math.Exp(Double)"/>，保证数值语义不变。
+        ''' </para>
+        ''' </remarks>
+        Public Shared Function ExpInPlace(v As Double()) As Double()
+            Return ExpInPlace(v, v.Length)
+        End Function
+
+        ''' <summary>
+        ''' 逐元素自然指数（原地计算，只处理前 <paramref name="count"/> 个元素）。
+        ''' </summary>
+        ''' <param name="v"></param>
+        ''' <param name="count"></param>
+        ''' <returns></returns>
+        Public Shared Function ExpInPlace(v As Double(), count As Integer) As Double()
+            If v Is Nothing Then Throw New ArgumentNullException(NameOf(v))
+            If count <= 0 Then Return v
+            If count > v.Length Then count = v.Length
+
+            Dim i As Integer = 0
+
+            If SIMDEnvironment.IsEnabled AndAlso Avx2.IsSupported AndAlso Fma.IsSupported AndAlso allFinite(v, count) Then
+                Dim width As Integer = Vector256(Of Double).Count
+                Dim last As Integer = count - width
+
+                Do While i <= last
+                    Dim x As Vector256(Of Double) = Vector256.LoadUnsafe(Of Double)(v(i))
+
+                    Vector256.StoreUnsafe(exp256(x), v(i))
+                    i += width
+                Loop
+            End If
+
+            For j As Integer = i To count - 1
+                v(j) = std.Exp(v(j))
+            Next
+
+            Return v
+        End Function
+
+        ''' <summary>
+        ''' 逐元素自然对数（原地计算，真正的 SIMD 实现）。
+        ''' </summary>
+        ''' <param name="v">输入输出数组，要求所有元素为正数</param>
+        ''' <returns>返回 <paramref name="v"/> 自身</returns>
+        ''' <remarks>
+        ''' 分解 <c>x = m·2^e</c>（<c>m ∈ [sqrt(0.5), sqrt(2))</c>），
+        ''' 再对 <c>ln(m) = 2·atanh((m-1)/(m+1))</c> 做奇次多项式展开；
+        ''' 输入中存在非正数或者非有限值时自动回退到标量实现。
+        ''' </remarks>
+        Public Shared Function LogInPlace(v As Double()) As Double()
+            Return LogInPlace(v, v.Length)
+        End Function
+
+        ''' <summary>
+        ''' 逐元素自然对数（原地计算，只处理前 <paramref name="count"/> 个元素）。
+        ''' </summary>
+        ''' <param name="v"></param>
+        ''' <param name="count"></param>
+        ''' <returns></returns>
+        Public Shared Function LogInPlace(v As Double(), count As Integer) As Double()
+            If v Is Nothing Then Throw New ArgumentNullException(NameOf(v))
+            If count <= 0 Then Return v
+            If count > v.Length Then count = v.Length
+
+            Dim i As Integer = 0
+            Dim positive As Boolean = True
+
+            For k As Integer = 0 To count - 1
+                If v(k) <= 0 OrElse Double.IsNaN(v(k)) OrElse Double.IsInfinity(v(k)) Then
+                    positive = False
+                    Exit For
+                End If
+            Next
+
+            If SIMDEnvironment.IsEnabled AndAlso Avx2.IsSupported AndAlso Fma.IsSupported AndAlso positive Then
+                Dim width As Integer = Vector256(Of Double).Count
+                Dim last As Integer = count - width
+
+                Do While i <= last
+                    Dim x As Vector256(Of Double) = Vector256.LoadUnsafe(Of Double)(v(i))
+
+                    Vector256.StoreUnsafe(log256(x), v(i))
+                    i += width
+                Loop
+            End If
+
+            For j As Integer = i To count - 1
+                v(j) = std.Log(v(j))
+            Next
+
+            Return v
+        End Function
+
+        ''' <summary>
+        ''' 4 通道向量的 <c>exp</c>：区间约减 + FMA 霍纳多项式 + 位运算构造 <c>2^k</c>。
+        ''' </summary>
+        ''' <param name="x"></param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' 这里刻意使用 <c>Avx/Avx2/Fma</c> 而不是泛型 <c>Vector(Of T)</c>：
+        ''' 指数缩放需要 <c>double → int64</c> 的位运算，泛型 <see cref="Vector(Of T)"/>
+        ''' 对 64 位整数的移位/位运算在 .NET 上会退化为软件展开，
+        ''' 实测反而比标量 <see cref="System.Math.Exp(Double)"/> 慢 5 倍以上。
+        ''' </remarks>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Private Shared Function exp256(x As Vector256(Of Double)) As Vector256(Of Double)
+            ' 溢出保护（与 S-system 的 clampExp 一致）
+            x = Avx.Max(x, Vector256.Create(-700.0R))
+            x = Avx.Min(x, Vector256.Create(700.0R))
+
+            ' k = round(x / ln2)，用 magic number 舍入（不产生 double→int 的转换指令）
+            Dim t As Vector256(Of Double) = Fma.MultiplyAdd(x, Vector256.Create(InvLn2), Vector256.Create(MagicRound))
+            Dim kd As Vector256(Of Double) = Avx.Subtract(t, Vector256.Create(MagicRound))
+            Dim ki As Vector256(Of Int64) = Avx2.Subtract(Vector256.AsInt64(t), Vector256.Create(MagicRoundBits))
+            Dim r As Vector256(Of Double) = Fma.MultiplyAddNegated(kd, Vector256.Create(Ln2), x)
+
+            ' exp(r) = 1 + r + r^2/2! + ... + r^13/13!，|r| ≤ ln2/2
+            Dim p As Vector256(Of Double) = Vector256.Create(1.6059043836821613E-10R)
+            p = Fma.MultiplyAdd(p, r, Vector256.Create(2.08767569878681E-9R))
+            p = Fma.MultiplyAdd(p, r, Vector256.Create(2.505210838544172E-8R))
+            p = Fma.MultiplyAdd(p, r, Vector256.Create(2.755731922398589E-7R))
+            p = Fma.MultiplyAdd(p, r, Vector256.Create(2.7557319223985893E-6R))
+            p = Fma.MultiplyAdd(p, r, Vector256.Create(2.48015873015873E-5R))
+            p = Fma.MultiplyAdd(p, r, Vector256.Create(1.984126984126984E-4R))
+            p = Fma.MultiplyAdd(p, r, Vector256.Create(1.388888888888889E-3R))
+            p = Fma.MultiplyAdd(p, r, Vector256.Create(8.333333333333333E-3R))
+            p = Fma.MultiplyAdd(p, r, Vector256.Create(4.1666666666666664E-2R))
+            p = Fma.MultiplyAdd(p, r, Vector256.Create(1.6666666666666666E-1R))
+            p = Fma.MultiplyAdd(p, r, Vector256.Create(0.5R))
+            p = Fma.MultiplyAdd(p, r, Vector256.Create(1.0R))
+            p = Fma.MultiplyAdd(p, r, Vector256.Create(1.0R))
+
+            ' 2^k = bitcast((k + 1023) << 52)
+            Dim scale As Vector256(Of Double) = Vector256.AsDouble(
+                Avx2.ShiftLeftLogical(Avx2.Add(ki, Vector256.Create(1023L)), 52))
+
+            Return Avx.Multiply(p, scale)
+        End Function
+
+        ''' <summary>
+        ''' 4 通道向量的 <c>log</c>：尾数/指数拆分 + <c>atanh</c> 奇次多项式。
+        ''' </summary>
+        ''' <param name="x">必须为正数</param>
+        ''' <returns></returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Private Shared Function log256(x As Vector256(Of Double)) As Vector256(Of Double)
+            Dim one As Vector256(Of Double) = Vector256.Create(1.0R)
+            Dim bits As Vector256(Of Int64) = Vector256.AsInt64(x)
+            Dim eBits As Vector256(Of Int64) = Avx2.ShiftRightLogical(bits, 52)
+            Dim mant As Vector256(Of Int64) = Avx2.Or(
+                Avx2.And(bits, Vector256.Create(&HFFFFFFFFFFFFFL)),
+                Vector256.Create(1023L << 52))
+            Dim m As Vector256(Of Double) = Vector256.AsDouble(mant)
+
+            ' 把尾数规整到 [sqrt(0.5), sqrt(2))，让 atanh 级数收敛最快
+            Dim hi As Vector256(Of Double) = Avx.Compare(m, Vector256.Create(1.4142135623730951R),
+                                                         FloatComparisonMode.OrderedGreaterThanNonSignaling)
+            Dim adj As Vector256(Of Double) = Avx.BlendVariable(Vector256(Of Double).Zero, one, hi)
+
+            m = Avx.BlendVariable(m, Avx.Multiply(m, Vector256.Create(0.5R)), hi)
+
+            ' 指数（0..2047）→ double：塞进 2^52 的尾数再减回去
+            Dim eDbl As Vector256(Of Double) = Avx.Subtract(
+                Vector256.AsDouble(Avx2.Or(eBits, Vector256.Create(TwoPow52Bits))),
+                Vector256.Create(TwoPow52))
+            Dim e As Vector256(Of Double) = Avx.Add(Avx.Subtract(eDbl, Vector256.Create(1023.0R)), adj)
+
+            Dim s As Vector256(Of Double) = Avx.Divide(Avx.Subtract(m, one), Avx.Add(m, one))
+            Dim s2 As Vector256(Of Double) = Avx.Multiply(s, s)
+            Dim p As Vector256(Of Double) = Vector256.Create(1.0R / 13.0R)
+
+            p = Fma.MultiplyAdd(p, s2, Vector256.Create(1.0R / 11.0R))
+            p = Fma.MultiplyAdd(p, s2, Vector256.Create(1.0R / 9.0R))
+            p = Fma.MultiplyAdd(p, s2, Vector256.Create(1.0R / 7.0R))
+            p = Fma.MultiplyAdd(p, s2, Vector256.Create(1.0R / 5.0R))
+            p = Fma.MultiplyAdd(p, s2, Vector256.Create(1.0R / 3.0R))
+            p = Fma.MultiplyAdd(p, s2, one)
+
+            Return Avx.Add(Avx.Multiply(e, Vector256.Create(Ln2)),
+                           Avx.Multiply(Vector256.Create(2.0R), Avx.Multiply(s, p)))
+        End Function
+
+        ''' <summary>
+        ''' 逐元素夹取（原地计算）。
+        ''' </summary>
+        ''' <param name="v"></param>
+        ''' <param name="min"></param>
+        ''' <param name="max"></param>
+        ''' <returns></returns>
+        Public Shared Function ClampInPlace(v As Double(), min As Double, max As Double) As Double()
+            If v Is Nothing Then Throw New ArgumentNullException(NameOf(v))
+            If v.Length = 0 Then Return v
+
+            Dim i As Integer = 0
+
+            If SIMDEnvironment.IsEnabled Then
+                Dim width As Integer = Vector(Of Double).Count
+                Dim last As Integer = v.Length - width
+                Dim vmax As New Vector(Of Double)(max)
+                Dim vmin As New Vector(Of Double)(min)
+
+                Do While i <= last
+                    Dim x As Vector(Of Double) = New Vector(Of Double)(v, i)
+
+                    Vector.Min(Vector.Max(x, vmin), vmax).CopyTo(v, i)
+                    i += width
+                Loop
+            End If
+
+            For j As Integer = i To v.Length - 1
+                v(j) = std.Max(std.Min(v(j), max), min)
+            Next
+
+            Return v
         End Function
 
         ''' <summary>

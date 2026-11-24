@@ -1,0 +1,224 @@
+<!DOCTYPE html><html lang="zh-CN">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>GPS</title>
+    <meta name="author" content="xie.guigang@gcmodeller.org" />
+    <meta name="copyright" content="SMRUCC genomics Copyright (c) 2022" />
+    <meta name="keywords" content="R#; GPS; biosystem" />
+    <meta name="generator" content="https://github.com/rsharp-lang" />
+    <meta name="theme-color" content="#333" />
+    <meta name="description" content="GPS: the GNN + Transformer based gene regulatory network modelli..." />
+    <meta class="foundation-data-attribute-namespace" />
+    <meta class="foundation-mq-xxlarge" />
+    <meta class="foundation-mq-xlarge" />
+    <meta class="foundation-mq-large" />
+    <meta class="foundation-mq-medium" />
+    <meta class="foundation-mq-small" />
+    <meta class="foundation-mq-topbar" />
+    <style>
+
+.table-three-line {
+border-collapse:collapse; /* 关键属性：合并表格内外边框(其实表格边框有2px，外面1px，里面还有1px哦) */
+border:solid #000000; /* 设置边框属性；样式(solid=实线)、颜色(#999=灰) */
+border-width:2px 0 2px 0px; /* 设置边框状粗细：上 右 下 左 = 对应：1px 0 0 1px */
+}
+.left-1{
+    border:solid #000000;border-width:1px 1px 2px 0px;padding:2px;
+    font-weight:bolder;
+}
+.right-1{
+    border:solid #000000;border-width:1px 0px 2px 1px;padding:2px;
+    font-weight:bolder;
+}
+.mid-1{
+    border:solid #000000;border-width:1px 1px 2px 1px;padding:2px;
+    font-weight:bolder;
+}
+.left{
+    border:solid #000000;border-width:1px 1px 1px 0px;padding:2px;
+}
+.right{
+    border:solid #000000;border-width:1px 0px 1px 1px;padding:2px;
+}
+.mid{
+    border:solid #000000;border-width:1px 1px 1px 1px;padding:2px;
+}
+table caption {font-size:14px;font-weight:bolder;}
+</style>
+  </head>
+  <body>
+    <table width="100%" summary="page for {GPS}">
+      <tbody>
+        <tr>
+          <td>{GPS}</td>
+          <td style="text-align: right;">R# Documentation</td>
+        </tr>
+      </tbody>
+    </table>
+    <h1>GPS</h1>
+    <hr />
+    <p style="     font-size: 1.125em;     line-height: .8em;     margin-left: 0.5%;     background-color: #fbfbfb;     padding: 24px; ">
+      <code>
+        <span style="color: blue;">require</span>(<span style="color: black; font-weight: bold;">GCModeller</span>);
+                               <br /><br /><span style="color: green;">#' GPS: the GNN + Transformer based gene regulatory network modelling toolkit.</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "GPS"</span><span style="color: blue;"> from</span><span style="color: brown"> "biosystem"</span>;
+                           </code>
+    </p>
+    <p><p>GPS: the GNN + Transformer based gene regulatory network modelling toolkit.</p></p>
+    <blockquote>
+      <p style="font-style: italic; font-size: 0.9em;">
+                           <p>This R# package module wraps the <a href="cref:T:SMRUCC.genomics.Analysis.GPS.GPSModel">GPSModel</a> of the <code>GPS</code> sub-system. The model fuses a local message passing branch (edge type aware aggregation over the prior regulatory network) with a global multi head attention branch (Graphormer style shortest path bias), encodes the obtained gene representations over time with a GRU and finally decodes the expression of every single gene with its own linear readout.</p>
+
+<p>The workflow exposed by this module is:</p>
+
+
+<ul>
+<li><code>gps_config</code>: create the hyper-parameter configuration object</li>
+</ul>
+
+
+<p>(<a href="cref:T:SMRUCC.genomics.Analysis.GPS.Config.GPSConfig">GPSConfig</a>, registered as the <code>gps_config</code> R# type);</p>
+
+
+<ul>
+<li><code>build_gps</code>: build a model object from a time series gene expression matrix and a</li>
+</ul>
+
+
+<p>prior regulatory network object;</p>
+
+
+<ul>
+<li><code>train</code>: run the masked reconstruction pre-training followed by the next-step</li>
+</ul>
+
+
+<p>prediction fine-tuning, and attach the training diagnostics to the returned object.</p>
+
+<p>A trained <a href="cref:T:SMRUCC.genomics.Analysis.GPS.GPSModel">GPSModel</a> implements the <a href="cref:T:SMRUCC.genomics.BioSystem.InsilicoPerturbationExperiment">InsilicoPerturbationExperiment</a> interface, so the <code>knockouts</code>, <code>knockdown</code> and <code>overexpress</code> api of the <code>bnlearn</code> package can be applied to it directly for in silico perturbation experiments. The generic <code>writeBin</code> handler of this module persists a model into a zip based binary stream, and <code>readBin.modular_bayesian</code> restores it back to a fully usable model object.</p>
+                           </p>
+    </blockquote>
+    <div id="main-wrapper">
+      <table class="table-three-line" style="display: block">
+        <caption>.NET clr type export</caption>
+        <tbody><tr>
+  <td id="gps">
+    <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GPS/GPSModel.html">gps: GPSModel</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="gps_config">
+    <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GPS/Config/GPSConfig.html">gps_config: GPSConfig</a>
+  </td>
+  <td></td>
+</tr></tbody>
+      </table>
+      <br />
+      <br />
+      <table class="table-three-line">
+        <caption>.NET clr function exports</caption>
+        <tbody><tr>
+  <td id="gps_config">
+    <a href="./GPS/gps_config.html">gps_config</a>
+  </td>
+  <td><p>Create a GPS model hyper-parameter configuration object.</p></td>
+</tr>
+<tr>
+  <td id="build_gps">
+    <a href="./GPS/build_gps.html">build_gps</a>
+  </td>
+  <td><p>Build a GPS (GNN + Transformer) gene regulatory network model.</p></td>
+</tr>
+<tr>
+  <td id="train">
+    <a href="./GPS/train.html">train</a>
+  </td>
+  <td><p>Train the GPS model and return it together with the training diagnostics.</p></td>
+</tr>
+<tr>
+  <td id="gene_names">
+    <a href="./GPS/gene_names.html">gene_names</a>
+  </td>
+  <td><p>Get the gene ids of the trained GPS model, in the modelling order.</p></td>
+</tr>
+<tr>
+  <td id="gene_means">
+    <a href="./GPS/gene_means.html">gene_means</a>
+  </td>
+  <td><p>Get the per gene mean of the preprocessed expression data (log-CPM scale).</p></td>
+</tr>
+<tr>
+  <td id="gene_sds">
+    <a href="./GPS/gene_sds.html">gene_sds</a>
+  </td>
+  <td><p>Get the per gene standard deviation of the preprocessed expression data (log-CPM scale).</p></td>
+</tr>
+<tr>
+  <td id="library_sizes">
+    <a href="./GPS/library_sizes.html">library_sizes</a>
+  </td>
+  <td><p>Get the raw library size of every training sample (the denominator of the CPM normalization).</p></td>
+</tr>
+<tr>
+  <td id="gene_stats">
+    <a href="./GPS/gene_stats.html">gene_stats</a>
+  </td>
+  <td><p>Get the gene alignment and the de-normalization parameters of the model as a tuple list.</p></td>
+</tr>
+<tr>
+  <td id="set_context">
+    <a href="./GPS/set_context.html">set_context</a>
+  </td>
+  <td><p>Inject an external cell context into the model as the control baseline of the following in silico perturbation experiments.</p></td>
+</tr>
+<tr>
+  <td id="reset_context">
+    <a href="./GPS/reset_context.html">reset_context</a>
+  </td>
+  <td><p>Restore the control baseline of the model back to the training derived one.</p></td>
+</tr>
+<tr>
+  <td id="knockdown_residual">
+    <a href="./GPS/knockdown_residual.html">knockdown_residual</a>
+  </td>
+  <td><p>Get or set the fraction of the wild type expression that is kept by an in silico knockdown.</p></td>
+</tr>
+<tr>
+  <td id="perturbation_channel">
+    <a href="./GPS/perturbation_channel.html">perturbation_channel</a>
+  </td>
+  <td><p>Get or set whether the perturbation channel is enabled.</p></td>
+</tr>
+<tr>
+  <td id="perturbation_channel_gain">
+    <a href="./GPS/perturbation_channel_gain.html">perturbation_channel_gain</a>
+  </td>
+  <td><p>Get or set the injection gain of the perturbation channel.</p></td>
+</tr>
+<tr>
+  <td id="perturbation_channel_coregulation">
+    <a href="./GPS/perturbation_channel_coregulation.html">perturbation_channel_coregulation</a>
+  </td>
+  <td><p>Get or set the co-regulation fallback of the perturbation channel.</p></td>
+</tr>
+<tr>
+  <td id="graph_normalization">
+    <a href="./GPS/graph_normalization.html">graph_normalization</a>
+  </td>
+  <td><p>The edge normalisation mode that the graph convolution actually uses.</p></td>
+</tr>
+<tr>
+  <td id="export_profiles">
+    <a href="./GPS/export_profiles.html">export_profiles</a>
+  </td>
+  <td><p>Write the mutant (and the control) expression profiles of a set of in silico perturbation results as csv matrix files.</p></td>
+</tr></tbody>
+      </table>
+    </div>
+    <hr />
+    <div style="text-align: center;">[<a href="../index.html">Document Index</a>]</div>
+  </body>
+</html>

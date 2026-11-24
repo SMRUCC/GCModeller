@@ -1,0 +1,33 @@
+.\" man page create by R# package system.
+.TH SIGMA_DIFFERENCE 1 2000-1月 "codon.signature_profile" "codon.signature_profile"
+.SH NAME
+codon.signature_profile \- Build the site-specific codon signature profile of a gene collection:
+.SH SYNOPSIS
+\fIcodon.signature_profile(\fBgenes\fR as <generic> FastaFile, 
+\fBname\fR as string = \fB<NULL>\fR);\fR
+.SH DESCRIPTION
+.PP
+Build the site-specific codon signature profile of a gene collection:
+ the odds ratios \fBrhoXY(1,2) / rhoYZ(2,3) / rhoXZ(1,3)\fR within the codons
+ and \fBrhoZW(3,4)\fR at the codon junctions, distinguished from the global
+ genome signature.
+.PP
+.SH OPTIONS
+.PP
+\fBgenes\fB \fR\- the CDS gene sequences of the gene collection. 
+.PP
+.PP
+\fBname\fB \fR\- the profile name. 
+.PP
+.SH VALUE
+.PP
+the codon signature profile
+.PP
+.SH SEE ALSO
+sigma_difference
+.SH FILES
+.PP
+comparative_toolkit.dll
+.PP
+.SH AUTHOR
+Written by \fBxie.guigang@gcmodeller.org\fR

@@ -1,0 +1,238 @@
+Imports System.Text
+Imports SMRUCC.genomics.Analysis.FuzzyGene.Config
+
+Namespace Fitting
+
+    ''' <summary>
+    ''' 单个靶基因的拟合诊断记录。
+    ''' </summary>
+    Public Class GeneFitMetric
+
+        ''' <summary>靶基因名称。</summary>
+        Public Property Gene As String
+
+        ''' <summary>实际使用的调控因子（规则预算降级之后）。</summary>
+        Public Property Regulators As String()
+
+        ''' <summary>训练集决定系数。</summary>
+        Public Property R2 As Double
+
+        ''' <summary>训练集均方根误差（z 空间）。</summary>
+        Public Property RMSE As Double
+
+        ''' <summary>最终规则数量。</summary>
+        Public Property RuleCount As Integer
+
+        ''' <summary>实际使用的模糊划分数（降级后可能小于配置值）。</summary>
+        Public Property MfCount As Integer
+
+        ''' <summary>实际使用的规则划分方式：<c>grid</c> 或 <c>scatter</c>。</summary>
+        Public Property Partition As String
+
+        ''' <summary>训练行数。</summary>
+        Public Property SampleCount As Integer
+
+        ''' <summary>训练轮数。</summary>
+        Public Property Iterations As Integer
+
+        ''' <summary>状态：<c>ok</c> / <c>skipped</c> / <c>failed</c>。</summary>
+        Public Property Status As String
+
+        ''' <summary>跳过或失败的原因。</summary>
+        Public Property Message As String
+
+        Public Overrides Function ToString() As String
+            If Status <> "ok" Then
+                Return $"{Gene}: {Status} ({Message})"
+            End If
+
+            Return $"{Gene} <- {{{String.Join(", ", If(Regulators, New String() {}))}}}: " &
+                   $"R2={R2:G4}, RMSE={RMSE:G4}, rules={RuleCount}, mf={MfCount}, n={SampleCount}"
+        End Function
+
+    End Class
+
+    ''' <summary>
+    ''' 整次拟合的汇总结果（诊断信息，不参与推理）。
+    ''' </summary>
+    Public Class FuzzyGeneTrainingResult
+
+        ''' <summary>实际采用的拟合路线。</summary>
+        Public Property Mode As FuzzyTargetMode
+
+        ''' <summary>参与建模的基因总数。</summary>
+        Public Property NGene As Integer
+
+        ''' <summary>成功训练出模型的基因数。</summary>
+        Public Property NTrained As Integer
+
+        ''' <summary>被跳过的基因数（常表达、缺少候选因子等）。</summary>
+        Public Property NSkipped As Integer
+
+        ''' <summary>训练失败的基因数。</summary>
+        Public Property NFailed As Integer
+
+        ''' <summary>成功基因的平均决定系数。</summary>
+        Public Property MeanR2 As Double
+
+        ''' <summary>成功基因的平均训练 RMSE。</summary>
+        Public Property MeanRmse As Double
+
+        ''' <summary>导出的带符号调控边数量。</summary>
+        Public Property EdgeCount As Integer
+
+        ''' <summary>训练样本（状态行）数量（行采样之后）。</summary>
+        Public Property NSample As Integer
+
+        ''' <summary>原始样本数量（行采样之前）。</summary>
+        Public Property NSampleRaw As Integer
+
+        ''' <summary>相关性筛选实际使用的候选基因数量。</summary>
+        Public Property NCandidatePool As Integer
+
+        ''' <summary>预处理（统计量 + 列构建 + 列统计）耗时。</summary>
+        Public Property PreprocessElapsed As TimeSpan
+
+        ''' <summary>候选筛选累计耗时（CPU 时间，跨所有并行线程求和）。</summary>
+        Public Property SelectionElapsed As TimeSpan
+
+        ''' <summary>单基因训练累计耗时（CPU 时间，跨所有并行线程求和）。</summary>
+        Public Property TrainingElapsed As TimeSpan
+
+        ''' <summary>实际使用的并行 worker 线程数（诊断 128 核机器是否真的跑满）。</summary>
+        Public Property ParallelWorkers As Integer
+
+        ''' <summary>拟合阶段的总分配字节数（MB）；用于衡量缓冲复用的效果。</summary>
+        Public Property AllocatedMB As Double
+
+        ''' <summary>拟合阶段的 Gen2 GC 次数；大对象分配是否被消除，看这个最直接。</summary>
+        Public Property Gen2Collections As Integer
+
+        ''' <summary>逐基因诊断记录。</summary>
+        Public Property GeneMetrics As GeneFitMetric()
+
+        ''' <summary>全局增益校准方式（未校准时为 <see cref="StabilityCalibrationMode.None"/>）。</summary>
+        Public Property CalibrationMode As StabilityCalibrationMode
+
+        ''' <summary>校准后的谱半径 <c>ρ(J)</c>；未校准时为 0。</summary>
+        Public Property SpectralRadius As Double
+
+        ''' <summary>校准的全局累计缩放系数（1 表示没有改动）。</summary>
+        Public Property CalibrationGamma As Double = 1.0
+
+        ''' <summary>校准前成功基因的平均 R²。</summary>
+        Public Property PreCalibrationR2 As Double = Double.NaN
+
+        ''' <summary>校准后重新评估的平均 R²（只在被缩放的基因上重算，其余沿用原值）。</summary>
+        Public Property PostCalibrationR2 As Double = Double.NaN
+
+        ''' <summary>被校准缩放的基因数。</summary>
+        Public Property CalibratedGenes As Integer
+
+        ''' <summary>降级、异常与数据质量告警。</summary>
+        Public Property Warnings As String()
+
+        ''' <summary>耗时。</summary>
+        Public Property Elapsed As TimeSpan
+
+        ''' <summary>按 R2 取训练最好的前 n 个基因。</summary>
+        Public Function GetTopGenes(n As Integer) As GeneFitMetric()
+            Return GeneMetrics _
+                .Where(Function(m) m.Status = "ok") _
+                .OrderByDescending(Function(m) m.R2) _
+                .Take(n) _
+                .ToArray()
+        End Function
+
+        ''' <summary>多行摘要。</summary>
+        Public Overrides Function ToString() As String
+            Dim sb As New StringBuilder()
+
+            Dim sampleText As String = If(NSampleRaw > 0 AndAlso NSampleRaw <> NSample,
+                $"{NSample} (sampled from {NSampleRaw})", NSample.ToString)
+
+            Call sb.AppendLine($"FuzzyGene fitting: mode={Mode}, samples={sampleText}, genes={NGene}, candidate pool={NCandidatePool}")
+            Call sb.AppendLine($"  trained={NTrained}, skipped={NSkipped}, failed={NFailed}, edges={EdgeCount}")
+            Call sb.AppendLine($"  mean R2={MeanR2:G4}, mean RMSE={MeanRmse:G4}, elapsed={Elapsed.TotalSeconds:F2}s")
+            Call sb.AppendLine($"  time: preprocessing={PreprocessElapsed.TotalSeconds:F2}s, " &
+                               $"selection={SelectionElapsed.TotalSeconds:F1}s (cpu), " &
+                               $"per-gene training={TrainingElapsed.TotalSeconds:F1}s (cpu)")
+            Call sb.AppendLine($"  runtime: workers={ParallelWorkers}, allocated={AllocatedMB:F0} MB, gen2={Gen2Collections}")
+
+            If CalibrationMode <> StabilityCalibrationMode.None Then
+                Call sb.AppendLine($"  calibration: {CalibrationMode}, rho={SpectralRadius:G4}, gamma={CalibrationGamma:G4}, " &
+                                   $"scaled={CalibratedGenes}, R2 {PreCalibrationR2:G4} -> {PostCalibrationR2:G4}")
+            End If
+
+            ' 注意：局部变量不能叫 structure —— Structure 是 VB 关键字
+            Dim effectiveStructure As String = DescribeStructure()
+
+            If Not String.IsNullOrEmpty(effectiveStructure) Then
+                Call sb.AppendLine($"  structure: {effectiveStructure}")
+            End If
+
+            If Warnings IsNot Nothing AndAlso Warnings.Length > 0 Then
+                Call sb.AppendLine($"  warnings: {Warnings.Length}")
+
+                For Each message As String In Warnings.Take(10)
+                    Call sb.AppendLine($"    - {message}")
+                Next
+            End If
+
+            Return sb.ToString().TrimEnd()
+        End Function
+
+        ''' <summary>
+        ''' 汇总**规则预算降级之后**实际使用的 <c>(模糊划分数, 输入个数)</c> 分布。
+        ''' </summary>
+        ''' <remarks>
+        ''' 配置里的 <c>MfCount</c> / <c>MaxRegulators</c> 只是"上限"，真正训练时会被
+        ''' <c>m^n ≤ MaxRules</c> 与 <c>m^n·(n+1) ≤ MaxConsequentParams</c> 的预算裁掉。
+        ''' 把实际结构打印出来，避免"我配了 18 个调控因子却只有 6 个"这类困惑。
+        ''' </remarks>
+        Private Function DescribeStructure() As String
+            If GeneMetrics Is Nothing Then
+                Return ""
+            End If
+
+            Dim groups As String() = GeneMetrics _
+                .Where(Function(m) m IsNot Nothing AndAlso String.Equals(m.Status, "ok", StringComparison.OrdinalIgnoreCase)) _
+                .GroupBy(Function(m) $"{If(String.IsNullOrEmpty(m.Partition), "grid", m.Partition)}, " &
+                                          $"mf={m.MfCount}, inputs={If(m.Regulators, New String() {}).Length}") _
+                .OrderByDescending(Function(g) g.Count()) _
+                .Take(3) _
+                .Select(Function(g) $"{g.Key} x{g.Count()}") _
+                .ToArray()
+
+            If groups.Length = 0 Then
+                Return ""
+            End If
+
+            Return String.Join(", ", groups)
+        End Function
+
+    End Class
+
+    ''' <summary>拟合输出：网络模型 + 诊断报告。</summary>
+    Public Class FuzzyGeneFitOutput
+
+        ''' <summary>拟合出的调控网络。</summary>
+        Public Property Network As FuzzyGeneNetwork
+
+        ''' <summary>训练诊断。</summary>
+        Public Property Report As FuzzyGeneTrainingResult
+
+        ''' <summary>
+        ''' 拟合期构建的 PBN 定性层；未启用 PBN 时为 <c>Nothing</c>。
+        ''' </summary>
+        ''' <remarks>
+        ''' 它是**过程产物**而不是模型的一部分：规则/CoD 只在本次进程内有用
+        ''' （集成预测需要它）。因此不写进 <c>*.fuzzygene.zip</c>——
+        ''' 从包文件恢复的模型只能做确定性推理，这是有意的取舍：
+        ''' 把 3×N 条真值表塞进包会让包体积翻倍，而集成预测本来就是「重新拟合之后」的分析。
+        ''' </remarks>
+        Public Property PbnPrior As Hybrid.PbnRegulatorPrior
+
+    End Class
+
+End Namespace

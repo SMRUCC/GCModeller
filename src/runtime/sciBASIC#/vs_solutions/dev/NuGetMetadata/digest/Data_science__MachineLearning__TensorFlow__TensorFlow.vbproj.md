@@ -1,0 +1,159 @@
+# Data_science/MachineLearning/TensorFlow/TensorFlow.vbproj
+
+- RootNamespace : Microsoft.VisualBasic.MachineLearning.TensorFlow
+- AssemblyName  : Microsoft.VisualBasic.MachineLearning.TensorFlow
+- TargetFramework: net10.0
+- Source files  : 27
+- Existing Title: Pure VB.NET Tensor Engine with NumPy API and Pluggable Compute Backend
+- Existing Desc : A self-contained tensor computation engine for sciBASIC#: managed double, float32 and half precision tensors with a NumPy-style API, TensorFlow-style nn activations and losses, mixed precision policies and diagnostics, plus pluggable SIMD and CUDA CPU/GPU backends with convolution, matmul and sparse SpMM operators.
+- Existing Tags : scibasic;tensor;ndarray;simd;fp16;mixed-precision;deep-learning;matmul
+
+## Namespaces
+- Compute  [files: 15]
+- MixedPrecisionBench  [files: 5]
+- NumPy  [files: 2]
+
+## Public types
+- Module Bench (_mixedprecision\Bench.vb)
+- Module OperatorParity (_mixedprecision\OperatorParity.vb)
+- Module Program (_mixedprecision\Program.vb)
+- Structure CaseResult (_mixedprecision\Program.vb)
+- Module ResidencyCases (_mixedprecision\ResidencyCases.vb)
+- Module UpperLayerParity (_mixedprecision\UpperLayerParity.vb)
+- Module CellActivation (Compute\CellActivation.vb) - 批量细胞管线融合算子使用的激活函数编码。 融合算子（<see cref="ITensorCompute.LtcRk4Batch"/> / <see cref="ITensorCompute.GraphLayerBatch"/>） 的签名一律使用 <c>Integer</c> 编码而不是委托或字符串：
+- Interface ITensorCompute (Compute\ITensorCompute.vb) - 张量计算后端契约。 形状校验、广播等“语义边界”仍然由 <see cref="Tensor"/> 层负责， 后端只需要实现纯粹的数值计算。后端应当是**无状态**（或线程安全）的，
+- Interface ITensorComputeF (Compute\ITensorComputeF.vb) - 单精度张量计算后端契约。 形状校验、广播等"语义边界"仍然由 <see cref="TensorF"/> 层负责， 后端只需要实现纯粹的数值计算。后端应当是**无状态**（或线程安全）的，
+- Interface ITensorComputeH (Compute\ITensorComputeH.vb) - 半精度张量计算后端契约。 形状校验、广播等"语义边界"仍然由 <see cref="TensorH"/> 层负责， 后端只需要实现纯粹的数值计算。后端应当是**无状态**（或线程安全）的，
+- Structure PrecisionCounter (Compute\MixedPrecisionDiagnostics.vb)
+- Module MixedPrecisionDiagnostics (Compute\MixedPrecisionDiagnostics.vb) - 混合精度的全局诊断计数器。
+- Module MixedPrecisionOps (Compute\MixedPrecisionOps.vb) - 把算力密集算子临时降到单精度执行的集中入口。
+- Enum PrecisionClass (Compute\MixedPrecisionPolicy.vb) - 算子的数值敏感度分类。 这是混合精度里唯一"不可协商"的维度：它描述的是**语义**而不是性能。 标成 MustDouble 的算子，即便规模再大也不允许走单精度。
+- Structure PrecisionDecision (Compute\MixedPrecisionPolicy.vb)
+- Module MixedPrecisionPolicy (Compute\MixedPrecisionPolicy.vb) - 混合精度的集中策略。
+- Module NamespaceDoc (Compute\NamespaceDoc.vb) - The tensor computation engine.
+- Class SIMDTensor (Compute\SIMDTensor.vb) - 默认的 SIMD 加速 CPU 计算后端。
+- Class SIMDTensorF (Compute\SIMDTensorF.vb) - 单精度张量的默认 SIMD 加速 CPU 计算后端。
+- Class SIMDTensorH (Compute\SIMDTensorH.vb) - 半精度张量的默认 SIMD 加速 CPU 计算后端。
+- Class SparseCsr (Compute\SparseCsr.vb) - CSR 稀疏矩阵载体（行 = 突触前，列 = 突触后）。 承载 <see cref="ITensorCompute.SpMM"/> 算子所需的全部稀疏结构信息。
+- Module Math (Math.vb) - TensorFlow 风格的数学运算模块 提供逐元素运算、规约操作和裁剪功能，全部基于 Tensor 实现
+- Class NamespaceDoc (NamespaceDoc.vb) - The TensorFlow style tensor computation library: tensors, numerical operations and the neural network helper API.
+- Module NamespaceDoc (NamespaceDoc.vb) - NumPy compatible array helpers.
+- Module nn (nn.vb) - TensorFlow 风格的神经网络模块 提供激活函数、损失函数和正则化操作，全部基于 Tensor 实现
+- Module NumPyModule (NumPy.vb) - NumPy 兼容 API 模块 提供类 NumPy 的静态方法，全部基于 Tensor 实现 典型用法:
+- Class RandomState (NumPy.vb) - NumPy 风格的随机数子模块 np.random.rand(...) 和 np.random.randn(...) 对应 NumPy.RandomState.rand(...)
+- Class Tensor (Tensor.vb) - 张量类 - GNN中所有数值计算的基础数据结构 支持多维数组的存储和基本数学运算
+- Class TensorF (TensorF.vb) - 单精度（Single / float32）多维张量。与双精度 <see cref="Tensor"/> 并列， 通过 <see cref="ToTensor"/> / <see cref="FromTensor"/> 双向互转。 索引器被刻意设计为"纯数组读写"，不包含版本计数或任何原子操作，
+- Class TensorH (TensorH.vb) - 半精度（<see cref="System.Half"/> / float16）多维张量。与双精度 <see cref="Tensor"/>、 单精度 <see cref="TensorF"/> 并列，通过 <see cref="ToTensor"/> / <see cref="ToTensorF"/> 等方法双向互转。
+
+## Notable public members
+- Friend Sub Run(useGpu As Boolean)
+- Friend Sub RunAll(results As List(Of CaseResult))
+- Friend Function BuildCsr(rows As Integer, cols As Integer, nnz As Integer, seed As Integer) As SparseCsr
+- Friend Sub New(name As String, passed As Boolean, detail As String)
+- Friend Function SetupGpuBackend(forceSmall As Boolean) As Boolean
+- Friend Function Randoms(n As Integer, seed As Integer, Optional scale As Double = 1.0) As Double()
+- Friend Function AsF(data As Double(), ParamArray shape As Integer()) As TensorF
+- Friend Function AsD(data As Double(), ParamArray shape As Integer()) As Tensor
+- Friend Function MaxAbsDiff(ref As Double(), got As Single()) As Double
+- Friend Function MaxAbs(data As Double()) As Double
+- Friend Function Compare(name As String, reference As Tensor, candidate As TensorF,
+- Friend Function CompareExact(name As String, reference As Tensor, candidate As TensorF) As CaseResult
+- Friend Function CompareScalar(name As String, reference As Double, candidate As Double,
+- Friend Sub RunAll(results As List(Of CaseResult))
+- Friend Sub RunAll(results As List(Of CaseResult))
+- Public Const Linear As Integer = 0
+- Public Const Tanh As Integer = 1
+- Public Const Sigmoid As Integer = 2
+- Public Const ReLU As Integer = 3
+- Public Function Apply(x As Double, code As Integer) As Double
+- Public ReadOnly Property Ratio As Double
+- Public Overrides Function ToString() As String
+- Public Property Enabled As Boolean = True
+- Public Sub Accelerated(op As String)
+- Public Sub Fallback(op As String, Optional reason As String = Nothing)
+- Public Sub Reset()
+- Public Function Report() As String
+- Public Function MatMul(a As Tensor, b As Tensor) As Tensor
+- Public Function BatchedMatMul(a As Tensor, b As Tensor) As Tensor
+- Public Function Conv2D(x As Tensor, filters As Tensor, bias As Tensor,
+- Public Function MatMulOr(a As Tensor, b As Tensor) As Tensor
+- Public Function Conv2DOr(x As Tensor, filters As Tensor, bias As Tensor,
+- Public Function SpMM(csr As SparseCsr, dense As Tensor) As Tensor
+- Public Sub New(useSingle As Boolean, reason As String)
+- Public Overrides Function ToString() As String
+- Public Property GemmOpsThreshold As Long = 262144L
+- Public Property ConvOpsThreshold As Long = 1048576L
+- Public Property SpmmNnzThreshold As Long = 65536L
+- Public Property ElementwiseThreshold As Integer = 65536
+- Public Property Enabled As Boolean = True
+- Public Function GemmOps(m As Integer, k As Integer, n As Integer) As Long
+- Public Function ConvOps(batch As Integer, outH As Integer, outW As Integer,
+- Public Function Decide(category As PrecisionClass, ops As Long, Optional opName As String = Nothing) As PrecisionDecision
+- Public Function ToSingleChecked(value As Double) As Single
+- Public Function IsSafeForSingle(values As Double()) As Boolean
+- Public Const MatrixDotThreshold As Integer = 10000
+- Public Property Transposed As Double()()
+- Public Sub New(rows As Integer, cols As Integer, version As Long, jagged As Double()())
+- Public Shared ReadOnly Property JaggedCacheHits As Long
+- Public Shared ReadOnly Property JaggedCacheMisses As Long
+- Public Overrides ReadOnly Property Name As String = "SIMD"
+- Public Shared Sub Register()
+- Public Overrides Function Add(a As Tensor, b As Tensor) As Tensor
+- Public Overrides Function Subtract(a As Tensor, b As Tensor) As Tensor
+- Public Overrides Function Multiply(a As Tensor, b As Tensor) As Tensor
+- Public Overrides Function Divide(a As Tensor, b As Tensor) As Tensor
+- Public Overrides Function Maximum(a As Tensor, b As Tensor) As Tensor
+- Public Overrides Function Minimum(a As Tensor, b As Tensor) As Tensor
+- Public Overrides Function Exp(t As Tensor) As Tensor
+- Public Overrides Function Log(t As Tensor) As Tensor
+- ... and 570 more
+
+## Imports
+- gpu = Microsoft.VisualBasic.Computing.ILCuda.GPUTensor
+- halfSimd = Microsoft.VisualBasic.Math.Numerics
+- Microsoft.VisualBasic.DeepLearning.GNN
+- Microsoft.VisualBasic.DeepLearning.LiquidNeuralNetwork
+- Microsoft.VisualBasic.MachineLearning.RNN
+- Microsoft.VisualBasic.MachineLearning.TensorFlow
+- Microsoft.VisualBasic.MachineLearning.TensorFlow.Compute
+- Microsoft.VisualBasic.MachineLearning.Transformer
+- Microsoft.VisualBasic.Math.SIMD
+- nv = System.Numerics
+- std = System.Math
+- System.Collections.Concurrent
+- System.Diagnostics
+- System.Text
+- System.Threading
+- tf = Microsoft.VisualBasic.MachineLearning.TensorFlow
+- tfCompute = Microsoft.VisualBasic.MachineLearning.TensorFlow.Compute
+- tpl = System.Threading.Tasks
+
+## File tree
+- _mixedprecision\Bench.vb
+- _mixedprecision\OperatorParity.vb
+- _mixedprecision\Program.vb
+- _mixedprecision\ResidencyCases.vb
+- _mixedprecision\UpperLayerParity.vb
+- Compute\CellActivation.vb
+- Compute\ITensorCompute.vb
+- Compute\ITensorComputeF.vb
+- Compute\ITensorComputeH.vb
+- Compute\MixedPrecisionDiagnostics.vb
+- Compute\MixedPrecisionOps.vb
+- Compute\MixedPrecisionPolicy.vb
+- Compute\NamespaceDoc.vb
+- Compute\SIMDTensor.vb
+- Compute\SIMDTensorF.vb
+- Compute\SIMDTensorH.vb
+- Compute\SparseCsr.vb
+- Compute\TensorComputeBase.vb
+- Compute\TensorComputeFBase.vb
+- Compute\TensorComputeHBase.vb
+- Math.vb
+- NamespaceDoc.vb
+- nn.vb
+- NumPy.vb
+- Tensor.vb
+- TensorF.vb
+- TensorH.vb
+

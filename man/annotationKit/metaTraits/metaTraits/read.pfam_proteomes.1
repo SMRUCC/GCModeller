@@ -1,0 +1,30 @@
+.\" man page create by R# package system.
+.TH METATRAITS 2 2000-1月 "read.pfam_proteomes" "read.pfam_proteomes"
+.SH NAME
+read.pfam_proteomes \- 读取一个目录之下的全部微生物基因组的蛋白质组 Pfam 结构域注释
+.SH SYNOPSIS
+\fIread.pfam_proteomes(\fBdir\fR as string, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+读取一个目录之下的全部微生物基因组的蛋白质组 Pfam 结构域注释
+.PP
+.SH OPTIONS
+.PP
+\fBdir\fB \fR\- 
+ 每一个子目录是一个微生物基因组，目录名即物种名，
+ 其中包含一个 Pfam.csv 文件
+. 
+.PP
+.SH VALUE
+.PP
+一个以基因组名为键的 list，每一个元素是该基因组的蛋白质组 Pfam 注释
+.PP
+.SH SEE ALSO
+metaTraits
+.SH FILES
+.PP
+annotationKit.dll
+.PP
+.SH AUTHOR
+Written by \fBxie.guigang@gcmodeller.org\fR

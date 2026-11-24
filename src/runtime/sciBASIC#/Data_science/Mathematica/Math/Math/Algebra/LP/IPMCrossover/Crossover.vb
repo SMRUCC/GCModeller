@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f8fd613fd602d01046f13a1bcaef3866, Data_science\Mathematica\Math\Math\Algebra\LP\IPMCrossover\Crossover.vb"
+﻿#Region "Microsoft.VisualBasic::897a98034d3fe9ed5b0aa992989b1b51, Data_science\Mathematica\Math\Math\Algebra\LP\IPMCrossover\Crossover.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 245
-    '    Code Lines: 206 (84.08%)
-    ' Comment Lines: 25 (10.20%)
+    '   Total Lines: 243
+    '    Code Lines: 204 (83.95%)
+    ' Comment Lines: 25 (10.29%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 14 (5.71%)
-    '     File Size: 10.60 KB
+    '   Blank Lines: 14 (5.76%)
+    '     File Size: 10.55 KB
 
 
     '     Class CrossoverResult
@@ -72,8 +72,6 @@
 '   [readme §四 "单纯形式主元收尾"]。
 ' ============================================================================
 
-Imports System
-Imports System.Collections.Generic
 Imports std = System.Math
 
 Namespace LinearAlgebra.LinearProgramming.IPMCrossover

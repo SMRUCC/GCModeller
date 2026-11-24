@@ -65,28 +65,38 @@ Public Module DESeq2Normalization
         Dim sampleCount As Integer = countData.sampleID.Length
         Dim geneCount As Integer = countData.expression.Length
 
-        ' 第一步：计算每个基因的几何平均数，并过滤掉全为0或无法计算的基因
-        ' 使用 Log 转换来防止连乘导致 Double 溢出: GeoMean = Exp(Avg(Log(x)))
+        ' 第一步：挑选出在**所有**样本之中都有表达的基因，并计算其几何平均数
+        '
+        ' DESeq2 的 estimateSizeFactorsForMatrix() 里是这样写的：
+        '
+        '     loggeomeans <- rowMeans(log(counts))
+        '     sf <- apply(counts, 2, function(cnts)
+        '             exp(median((log(cnts) - loggeomeans)[is.finite(loggeomeans) & cnts > 0])))
+        '
+        ' 也就是说：任何含 0 的基因其对数几何平均是 -Inf，会被整体丢弃。
+        ' 旧实现用"只对正值求几何平均"并且保留含 0 的基因，会让 0 值参与中位数，
+        ' 把 size factor 系统性地压小；这里按 DESeq2 的语义修正。
         Dim pseudoReference As New List(Of Double)
         Dim validGeneIndices As New List(Of Integer)
 
         For i As Integer = 0 To geneCount - 1
             Dim geneExpr As Double() = countData.expression(i).experiments
             Dim sumLog As Double = 0
-            Dim validCount As Integer = 0
+            Dim allPositive As Boolean = True
 
             For j As Integer = 0 To sampleCount - 1
-                If geneExpr(j) > 0 Then
-                    sumLog += std.Log(geneExpr(j))
-                    validCount += 1
+                Dim v As Double = geneExpr(j)
+
+                If v <= 0 Then
+                    allPositive = False
+                    Exit For
                 End If
+
+                sumLog += std.Log(v)
             Next
 
-            ' 只有在至少两个样本中表达（或者严格大于0），才计算几何平均数
-            ' DESeq2的默认行为是过滤掉几何平均数为0的基因
-            If validCount > 0 Then
-                Dim geoMean As Double = std.Exp(sumLog / validCount)
-                pseudoReference.Add(geoMean)
+            If allPositive AndAlso sampleCount > 0 Then
+                pseudoReference.Add(std.Exp(sumLog / sampleCount))
                 validGeneIndices.Add(i)
             End If
         Next
@@ -94,22 +104,33 @@ Public Module DESeq2Normalization
         ' 第二步：计算每个样本的 Size Factor (中位数比例)
         Dim sizeFactors(sampleCount - 1) As Double
 
-        For j As Integer = 0 To sampleCount - 1
-            Dim ratios As New List(Of Double)
-
-            ' 遍历所有有效基因
-            For k As Integer = 0 To validGeneIndices.Count - 1
-                Dim geneIndex As Integer = validGeneIndices(k)
-                Dim countValue As Double = countData.expression(geneIndex).experiments(j)
-                Dim geoMean As Double = pseudoReference(k)
-
-                ' 计算比例: Count / GeoMean
-                ratios.Add(countValue / geoMean)
+        If validGeneIndices.Count = 0 Then
+            ' DESeq2 在这种情况下会直接报错（geoMeans 全部为 -Inf），
+            ' 这里退化为不做缩放，保证函数仍然可用
+            For j As Integer = 0 To sampleCount - 1
+                sizeFactors(j) = 1.0
             Next
+        Else
+            For j As Integer = 0 To sampleCount - 1
+                Dim logRatios As New List(Of Double)(validGeneIndices.Count)
 
-            ' 取中位数作为该样本的 Size Factor
-            sizeFactors(j) = ratios.Median()
-        Next
+                ' 遍历所有有效基因
+                For k As Integer = 0 To validGeneIndices.Count - 1
+                    Dim geneIndex As Integer = validGeneIndices(k)
+                    Dim countValue As Double = countData.expression(geneIndex).experiments(j)
+                    Dim geoMean As Double = pseudoReference(k)
+
+                    ' DESeq2 在**对数空间**取中位数：
+                    '   exp(median(log(count) - log(geoMean)))
+                    ' 这与"先算比值再取中位数"并不等价：偶数个基因时前者是两个中间比值的
+                    ' 几何平均，后者是算术平均，实测会带来 1e-7 量级的偏差。
+                    Call logRatios.Add(std.Log(countValue) - std.Log(geoMean))
+                Next
+
+                ' 取中位数作为该样本的 Size Factor
+                sizeFactors(j) = std.Exp(logRatios.Median())
+            Next
+        End If
 
         ' 第三步：应用 Size Factor 进行归一化
         Dim normExpression(countData.expression.Length - 1) As DataFrameRow

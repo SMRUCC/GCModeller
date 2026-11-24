@@ -5,6 +5,8 @@
 node_modules
 
 gr/App
+Data_science/MachineVision/WorldMaker/output
+Data_science/MachineLearning/GLMNet/test/data
 
 .nuget/
 
@@ -701,3 +703,32 @@ vs_solutions/package-install-cache/part1/output-info.ini
 *.cab
 vs_solutions/package-install-cache/part2/output-info.ini
 Data/DataFrame/_smoke/dataframework-netcore5.vbproj
+gr/8
+/mime/applicationvnd.openxmlformats-officedocument.wordprocessingml.document/test/ooxml-validator
+Data_science/MachineVision/UNet/test/unet-out/unet_model.bin
+Data_science/MachineVision/UNet/test/unet-out/0114f484a16c152baa2d82fdd43740880a762c93f436c8988ac461c5c9dbe7d5_pred.png
+Data_science/MachineVision/UNet/test/unet-out/0999dab07b11bc85fb8464fc36c947fbd8b5d6ec49817361cb780659ca805eac_pred.png
+Data_science/MachineVision/UNet/test/unet-out/0999dab07b11bc85fb8464fc36c947fbd8b5d6ec49817361cb780659ca805eac_image.png
+Data_science/MachineVision/UNet/test/unet-out/0999dab07b11bc85fb8464fc36c947fbd8b5d6ec49817361cb780659ca805eac_gt.png
+Data_science/MachineVision/UNet/test/unet-out/0114f484a16c152baa2d82fdd43740880a762c93f436c8988ac461c5c9dbe7d5_gt.png
+Data_science/MachineVision/UNet/test/unet-out/0114f484a16c152baa2d82fdd43740880a762c93f436c8988ac461c5c9dbe7d5_image.png
+Data_science/MachineVision/UNet/test/unet-out/0a849e0eb15faa8a6d7329c3dd66aabe9a294cccb52ed30a90c8ca99092ae732_gt.png
+Data_science/MachineVision/UNet/test/unet-out/0a849e0eb15faa8a6d7329c3dd66aabe9a294cccb52ed30a90c8ca99092ae732_image.png
+Data_science/MachineVision/UNet/test/unet-out/0a849e0eb15faa8a6d7329c3dd66aabe9a294cccb52ed30a90c8ca99092ae732_pred.png
+Data_science/MachineVision/UNet/test/unet-out/0e132f71c8b4875c3c2dd7a22997468a3e842b46aa9bd47cf7b0e8b7d63f0925_gt.png
+Data_science/MachineVision/UNet/test/unet-out/0e132f71c8b4875c3c2dd7a22997468a3e842b46aa9bd47cf7b0e8b7d63f0925_image.png
+Data_science/MachineVision/UNet/test/unet-out/0e132f71c8b4875c3c2dd7a22997468a3e842b46aa9bd47cf7b0e8b7d63f0925_pred.png
+Data/BinaryData/numpy-demo/r160_subtype.payload.npz
+Data/BinaryData/numpy-demo/r160_subtype.payload.npy
+Data_science/MachineVision/GaussianSplatting3D/output/renders/render_00.png
+Data_science/MachineVision/GaussianSplatting3D/output/renders/render_01.png
+Data_science/MachineVision/GaussianSplatting3D/output/renders/render_02.png
+Data_science/MachineVision/GaussianSplatting3D/output/renders/render_03.png
+Data_science/MachineVision/GaussianSplatting3D/output/renders/render_04.png
+Data_science/MachineVision/GaussianSplatting3D/output/renders/render_05.png
+Data_science/MachineVision/GaussianSplatting3D/output/renders/render_06.png
+Data_science/MachineVision/GaussianSplatting3D/output/renders/render_07.png
+Data_science/MachineVision/GaussianSplatting3D/output/renders/render_08.png
+Data_science/MachineVision/GaussianSplatting3D/output/renders/render_09.png
+Data_science/MachineVision/GaussianSplatting3D/output/renders/render_10.png
+Data_science/MachineVision/GaussianSplatting3D/output/renders/render_11.png

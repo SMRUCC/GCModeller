@@ -59,6 +59,7 @@
 
 #End Region
 
+Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
@@ -89,22 +90,93 @@ Public Class FeatureElement : Implements IReadOnlyId
         Return uniqueId
     End Function
 
+    ''' <summary>
+    ''' 处理 BioCyc 的对齐文本的续行规则，以及注释行的剔除：
+    ''' 
+    ''' 1. 以单个 ``/`` 开头的行是上一行属性值的续行；
+    ''' 2. 以 ``//`` 开头的行表示该行以一个字面量 ``/`` 开始(转义规则)；
+    ''' 3. 以 ``#`` 开头的行是注释行，可以出现在文件的任意位置。
+    ''' </summary>
+    ''' <param name="buffer"></param>
+    ''' <returns></returns>
     Private Shared Function removeBreakLines(buffer As String()) As IEnumerable(Of String)
         Dim newBuf As New List(Of String)
 
         For i As Integer = 0 To buffer.Length - 1
-            If buffer(i) Is Nothing Then
+            Dim line As String = buffer(i)
+
+            If line Is Nothing Then
                 Continue For
             End If
 
-            If buffer(i).StartsWith("/") Then
-                newBuf(newBuf.Count - 1) &= buffer(i).Trim("/"c, " "c)
+            line = line.TrimEnd()
+
+            If line.Length = 0 Then
+                Continue For
+            End If
+
+            If line.StartsWith("#") Then
+                ' 注释行可以出现在文件的任意位置，直接跳过
+                Continue For
+            End If
+
+            If line.StartsWith("//") Then
+                ' 转义的字面量斜杠：//abc  ==>  /abc
+                If newBuf.Count = 0 Then
+                    Call newBuf.Add(line.Substring(2))
+                Else
+                    newBuf(newBuf.Count - 1) &= "/" & line.Substring(2)
+                End If
+            ElseIf line.StartsWith("/") Then
+                ' 续行：与上一行使用单个空格连接，避免原有的直接拼接产生的单词粘连
+                Dim cont As String = line.Substring(1).Trim()
+
+                If newBuf.Count = 0 Then
+                    Call newBuf.Add(cont)
+                ElseIf cont.Length = 0 Then
+                    ' 单独的 '/' 行表示段落分隔
+                    newBuf(newBuf.Count - 1) &= " "
+                ElseIf newBuf(newBuf.Count - 1).EndsWith(" ") Then
+                    newBuf(newBuf.Count - 1) &= cont
+                Else
+                    newBuf(newBuf.Count - 1) &= " " & cont
+                End If
             Else
-                newBuf.Add(buffer(i))
+                Call newBuf.Add(line)
             End If
         Next
 
         Return newBuf
+    End Function
+
+    ''' <summary>
+    ''' 移除字符串之中的非法XML字符。
+    ''' 
+    ''' BioCyc的平面文件之中偶尔会包含不可打印的控制字符(例如 0x11)，
+    ''' 这些字符会破坏最终生成的XML模型文件，因此在解析阶段就将其剔除。
+    ''' </summary>
+    ''' <param name="value"></param>
+    ''' <returns></returns>
+    Friend Shared Function sanitize(value As String) As String
+        If value.StringEmpty Then
+            Return value
+        End If
+
+        Dim sb As New StringBuilder(value.Length)
+
+        For Each ch As Char In value
+            Dim code As Integer = AscW(ch)
+
+            If ch = ControlChars.Tab OrElse ch = ControlChars.LF OrElse ch = ControlChars.CR Then
+                Call sb.Append(ch)
+            ElseIf code < &H20 OrElse code = &HFFFE OrElse code = &HFFFF Then
+                Continue For
+            Else
+                Call sb.Append(ch)
+            End If
+        Next
+
+        Return sb.ToString()
     End Function
 
     Friend Shared Function ParseBuffer(buffer As String()) As FeatureElement
@@ -117,13 +189,18 @@ Public Class FeatureElement : Implements IReadOnlyId
         For Each line As String In buffer
             If line.StartsWith("^") Then
                 ' is attribute value of the previous string value
-                Call innerAttrs.Add(line.Trim("^").GetTagValue(" - "))
+                Dim annotation = line.Trim("^").GetTagValue(" - ")
+
+                Call innerAttrs.Add(New NamedValue(Of String)(annotation.Name, sanitize(annotation.Value)))
+            ElseIf Not line.Contains(" - ") Then
+                ' 不合法的属性行(缺少分隔符号)：直接跳过而不是产生一个畸形的属性对象
+                Continue For
             Else
                 If Not temp.IsEmpty Then
                     Call attrs.Add(New NamedValue(Of ValueString) With {
                         .Name = temp.Name,
                         .Value = New ValueString With {
-                            .value = temp.Value,
+                            .value = sanitize(temp.Value),
                             .attributes = innerAttrs.PopAll
                         }
                     })
@@ -136,7 +213,7 @@ Public Class FeatureElement : Implements IReadOnlyId
         Call attrs.Add(New NamedValue(Of ValueString) With {
             .Name = temp.Name,
             .Value = New ValueString With {
-                .value = temp.Value,
+                .value = sanitize(temp.Value),
                 .attributes = innerAttrs.PopAll
             }
         })

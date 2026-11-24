@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Microsoft.VisualBasic.Math.Calculus.Dynamics.Data.ODESolution</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>ODESolution {Microsoft.VisualBasic.Math.Calculus.Dynamics.Data}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>ODESolution</h2>
+
+        <h3>Description</h3>
+
+        <p>ODEs output, this object can populates the <a href="cref:P:Microsoft.VisualBasic.Math.Calculus.Dynamics.Data.ODESolution.y">ODESolution.y</a> variables values through its enumerator interface. (常微分方程求解结果，同时也是所有求解器 —— 内建求解器与外部插件求解器 —— 的统一输出模型)</p>
+
+<p>除了原来的 <code>x</code> / <code>y</code> / <code>y0</code> / <code>params</code> 之外，这个类型还提供了与具体求解器无关的 通用访问接口（<a href="cref:P:Microsoft.VisualBasic.Math.Calculus.Dynamics.Data.ODESolution.Count">ODESolution.Count</a>、<a href="cref:P:Microsoft.VisualBasic.Math.Calculus.Dynamics.Data.ODESolution.Item(System.Int32)">ODESolution.Item</a>、<a href="cref:M:Microsoft.VisualBasic.Math.Calculus.Dynamics.Data.ODESolution.GetComponent(System.Int32)">ODESolution.GetComponent()</a>、 <a href="cref:M:Microsoft.VisualBasic.Math.Calculus.Dynamics.Data.ODESolution.ToCSV">ODESolution.ToCSV()</a>），因此像 <code>Sundials.CVODE</code> 这类只知道「N 维状态向量」的求解器也可以直接 使用它来输出结果，而不需要为每个求解器维护一套独立的结果类型。</p>
+
+<p>注意：<a href="cref:P:Microsoft.VisualBasic.Math.Calculus.Dynamics.Data.ODESolution.y">ODESolution.y</a> 是按键排序的字典（<code>SortedDictionary(Of String, T)</code>）， 所以列顺序必须通过 <a href="cref:P:Microsoft.VisualBasic.Math.Calculus.Dynamics.Data.ODESolution.columnNames">ODESolution.columnNames</a> 显式指定，不能依赖 <a href="cref:P:Microsoft.VisualBasic.Math.Calculus.Dynamics.Data.ODESolution.y">ODESolution.y</a> 的枚举顺序。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace Microsoft.VisualBasic.Math.Calculus.Dynamics.Data
+export class ODESolution {
+   # The column order of <a href="cref:P:Microsoft.VisualBasic.Math.Calculus.Dynamics.Data.ODESolution.y">ODESolution.y</a>: the index of this array is the state variable index, when this value is not presented the key order of <a href="cref:P:Microsoft.VisualBasic.Math.Calculus.Dynamics.Data.ODESolution.y">ODESolution.y</a> will be used. (列顺序，按状态变量序号排列；未指定的时候使用 y 的键顺序)
+   columnNames: string;
+   # The number of the sampling points of the integration result.(采样点个数)
+   Count: integer;
+   # 得到进行积分的步进值，采样点不足的时候返回零
+   dx: double;
+   # Is there NAN value in the function value <a href="cref:P:Microsoft.VisualBasic.Math.Calculus.Dynamics.Data.ODESolution.y">ODESolution.y</a> ???
+   HaveNaN: boolean;
+   # The solver specific diagnostics, e.g. the integration steps, the right-hand side evaluations of the external solvers. (求解器诊断信息)
+   info: list;
+   params: list;
+   # 获取得到积分计算的分辨率的数值，采样点不足的时候返回零
+   Resolution: double;
+   # The sampling time points of the integration result.(积分结果的采样时间点)
+   x: double;
+   # The result series of each state variable, the key is the variable name. (各个状态变量的结果序列，键为变量名称)
+   y: list;
+   # 方程组的初始值，积分结果会受到初始值的极大的影响
+   y0: list;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>info</code>: list</li>
+<li>use by <i>property</i> member <code>params</code>: list</li>
+<li>use by <i>property</i> member <code>y</code>: list</li>
+<li>use by <i>property</i> member <code>y0</code>: list</li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

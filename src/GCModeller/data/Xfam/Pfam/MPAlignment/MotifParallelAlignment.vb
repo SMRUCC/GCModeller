@@ -1,55 +1,55 @@
 ﻿#Region "Microsoft.VisualBasic::8de0ac0b2d95a0c9b0c04c62dea3c4b3, data\Xfam\Pfam\MPAlignment\MotifParallelAlignment.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 207
-    '    Code Lines: 132 (63.77%)
-    ' Comment Lines: 53 (25.60%)
-    '    - Xml Docs: 92.45%
-    ' 
-    '   Blank Lines: 22 (10.63%)
-    '     File Size: 12.13 KB
+' Summaries:
 
 
-    '     Module MotifParallelAlignment
-    ' 
-    '         Function: __idEquals, AlignmentOutput2Csv, (+2 Overloads) AlignProteins, (+2 Overloads) Convert, (+2 Overloads) SelectSource
-    '                   SelectUniprot, (+2 Overloads) WriteOutput, WriteResult
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 207
+'    Code Lines: 132 (63.77%)
+' Comment Lines: 53 (25.60%)
+'    - Xml Docs: 92.45%
+' 
+'   Blank Lines: 22 (10.63%)
+'     File Size: 12.13 KB
+
+
+'     Module MotifParallelAlignment
+' 
+'         Function: __idEquals, AlignmentOutput2Csv, (+2 Overloads) AlignProteins, (+2 Overloads) Convert, (+2 Overloads) SelectSource
+'                   SelectUniprot, (+2 Overloads) WriteOutput, WriteResult
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -58,6 +58,7 @@ Imports Microsoft.VisualBasic.Data.Framework.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
+Imports SMRUCC.genomics.ProteinModel
 Imports SMRUCC.genomics.SequenceModel
 
 Namespace ProteinDomainArchitecture.MPAlignment
@@ -83,8 +84,8 @@ Namespace ProteinDomainArchitecture.MPAlignment
         ''' <returns></returns>
         <ExportAPI("Domain.Alignment")>
         Public Function AlignProteins(besthit As IEnumerable(Of BiDirectionalBesthit),
-                                      <Parameter("Pfam.Query")> query As IEnumerable(Of PfamString.PfamString),
-                                      <Parameter("Pfam.Subject")> subject As IEnumerable(Of PfamString.PfamString),
+                                      <Parameter("Pfam.Query")> query As IEnumerable(Of PfamString),
+                                      <Parameter("Pfam.Subject")> subject As IEnumerable(Of PfamString),
                                       <Parameter("Threshold.HighlyScoring")>
                                       Optional highlyScoringThreshold As Double = 0.9) As List(Of LevAlign)
 
@@ -105,7 +106,7 @@ Namespace ProteinDomainArchitecture.MPAlignment
 
             Dim DomainAlignments = (From item
                                     In Queries.AsParallel
-                                    Select (From Hit As PfamString.PfamString
+                                    Select (From Hit As PfamString
                                             In item.HitsPfamString
                                             Select Algorithm.PfamStringEquals(
                                                 item.QueryPfamString,
@@ -135,8 +136,8 @@ Namespace ProteinDomainArchitecture.MPAlignment
 
         Public Function AlignProteins(Of T As I_BlastQueryHit)(
                                          Besthit As IEnumerable(Of T),
-                                         QueryPfam As IEnumerable(Of PfamString.PfamString),
-                                         SubjectPfam As IEnumerable(Of PfamString.PfamString),
+                                         QueryPfam As IEnumerable(Of PfamString),
+                                         SubjectPfam As IEnumerable(Of PfamString),
                                          highlyScoringThreshold As Double) As List(Of LevAlign)
 
             Dim Queries = (From QueryId As String
@@ -147,7 +148,7 @@ Namespace ProteinDomainArchitecture.MPAlignment
                            Let HitsPfamString = (From item In SubjectPfam Where Array.IndexOf(HitsIdCollection, item.ProteinId) > -1 Select item).ToArray
                            Select QueryId, BestHits, QueryPfamString, HitsPfamString).ToArray
             Dim DomainAlignments = (From item In Queries.AsParallel
-                                    Select (From Hit As PfamString.PfamString
+                                    Select (From Hit As PfamString
                                             In item.HitsPfamString
                                             Select Algorithm.PfamStringEquals(item.QueryPfamString, Hit, highlyScoringThreshold)).ToArray).ToArray
 

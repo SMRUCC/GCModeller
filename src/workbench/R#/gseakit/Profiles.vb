@@ -78,10 +78,13 @@ Imports REnv = SMRUCC.Rsharp.Runtime
 Public Module profiles
 
     ''' <summary>
-    ''' create kegg category class model from a gsea background model
+    ''' Create the KEGG category class model from a GSEA background model.
     ''' </summary>
-    ''' <param name="background"></param>
-    ''' <returns></returns>
+    ''' <param name="background">the GSEA background model that contains the KEGG class and category annotation.</param>
+    ''' <returns>
+    ''' a <see cref="ClassProfiles"/> object which contains the relationship between the KEGG
+    ''' class (or category) and the pathway ids.
+    ''' </returns>
     <ExportAPI("kegg_category")>
     Public Function CreateKEGGCategory(background As Background) As ClassProfiles
         Return SMRUCC.genomics.Analysis.HTS.GSEA.IDCategoryFromBackground(background)
@@ -91,12 +94,18 @@ Public Module profiles
     ''' Create catalog profiles data for GO enrichment result its data visualization.
     ''' </summary>
     ''' <param name="enrichments">the kobas <see cref="EnrichmentTerm"/> or gcmodeller <see cref="EnrichmentResult"/>.</param>
-    ''' <param name="goDb"></param>
+    ''' <param name="goDb">the GO obo database that is used for query the namespace of the GO terms.</param>
     ''' <param name="top">display the top n enriched GO terms.</param>
+    ''' <param name="pvalue_cut">the p-value cutoff of the enrichment terms. Default ``1`` means no filtering.</param>
     ''' <param name="sort">
     ''' sort of the namespace
     ''' </param>
-    ''' <returns></returns>
+    ''' <param name="env">the R# runtime environment.</param>
+    ''' <returns>
+    ''' a <see cref="CatalogProfiles"/> object, the name of each catalog is the GO namespace
+    ''' and the value is the top enriched GO terms of that namespace (the profile value is
+    ''' the ``-log10(p)`` score of the term).
+    ''' </returns>
     <ExportAPI("GO.enrichment.profile")>
     <RApiReturn(GetType(CatalogProfiles))>
     Public Function GOEnrichmentProfiles(<RRawVectorArgument>
@@ -136,18 +145,22 @@ Public Module profiles
     End Function
 
     ''' <summary>
-    ''' 
+    ''' Create the catalog profiles data of the GO enrichment result by the GO DAG term
+    ''' hierarchy, the terms are grouped by the child node of the given root term.
     ''' </summary>
-    ''' <param name="enrichments"></param>
-    ''' <param name="obo"></param>
+    ''' <param name="enrichments">the kobas <see cref="EnrichmentTerm"/> or gcmodeller <see cref="EnrichmentResult"/>.</param>
+    ''' <param name="obo">the GO obo database that is used for creating the DAG graph.</param>
     ''' <param name="root">
     ''' the root term id
     ''' </param>
-    ''' <param name="top"></param>
-    ''' <param name="pvalue_cut"></param>
-    ''' <param name="sort"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="top">display the top n enriched GO terms of each catalog.</param>
+    ''' <param name="pvalue_cut">the p-value cutoff of the enrichment terms. Default ``1`` means no filtering.</param>
+    ''' <param name="sort">sorts the terms of each catalog by the ``-log10(p)`` score? Default ``TRUE``.</param>
+    ''' <param name="env">the R# runtime environment.</param>
+    ''' <returns>
+    ''' a <see cref="CatalogProfiles"/> object, the name of each catalog is the child term of
+    ''' the given <paramref name="root"/> and the value is the enriched GO terms of that branch.
+    ''' </returns>
     <ExportAPI("dag_enrichment_profile")>
     Public Function dag_enrichment_profile(<RRawVectorArgument>
                                            enrichments As Object,
@@ -210,10 +223,13 @@ Public Module profiles
     ''' A method for cast the kegg enrichment result to the 
     ''' category profiles for run data visualization
     ''' </summary>
-    ''' <param name="enrichments"></param>
-    ''' <param name="top"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="enrichments">the kobas <see cref="EnrichmentTerm"/> or gcmodeller <see cref="EnrichmentResult"/>.</param>
+    ''' <param name="top">display the top n enriched pathway terms of each KEGG category.</param>
+    ''' <param name="env">the R# runtime environment.</param>
+    ''' <returns>
+    ''' a <see cref="CatalogProfiles"/> object, the name of each catalog is the KEGG category
+    ''' and the value is the top enriched pathway terms of that category.
+    ''' </returns>
     <ExportAPI("KEGG.enrichment.profile")>
     <RApiReturn(GetType(CatalogProfiles))>
     Public Function KEGGEnrichmentProfiles(<RRawVectorArgument>
@@ -244,6 +260,12 @@ Public Module profiles
         Return result
     End Function
 
+    ''' <summary>
+    ''' Keep only the top n terms of each catalog of the given catalog profiles.
+    ''' </summary>
+    ''' <param name="profile">the catalog profiles object, for example the result of the ``KEGG.enrichment.profile`` function.</param>
+    ''' <param name="top">the number of the terms that will be kept in each catalog. Default ``10``.</param>
+    ''' <returns>a new <see cref="CatalogProfiles"/> object that only contains the top n terms of each catalog.</returns>
     <ExportAPI("sort_profiles")>
     Public Function sortProfile(profile As CatalogProfiles, Optional top As Integer = 10) As CatalogProfiles
         Dim profiles = profile.catalogs _
@@ -260,6 +282,15 @@ Public Module profiles
         }
     End Function
 
+    ''' <summary>
+    ''' Cut the catalog profiles by the profile value (usually the ``-log10(p)`` score).
+    ''' </summary>
+    ''' <param name="profile">the catalog profiles object, for example the result of the ``KEGG.enrichment.profile`` function.</param>
+    ''' <param name="valueCut">
+    ''' the minimum profile value that a term should have, the terms with a smaller value
+    ''' will be removed from the catalog profiles.
+    ''' </param>
+    ''' <returns>a new <see cref="CatalogProfiles"/> object that only contains the terms with a value greater than or equals to the cutoff.</returns>
     <ExportAPI("cut_profiles")>
     Public Function cutProfile(profile As CatalogProfiles, valueCut As Double) As CatalogProfiles
         Dim profiles = profile.catalogs _
@@ -281,6 +312,22 @@ Public Module profiles
         }
     End Function
 
+    ''' <summary>
+    ''' Create a catalog profiles object that does not contains the category information,
+    ''' that means all of the enrichment terms are placed into a single catalog.
+    ''' </summary>
+    ''' <param name="enrichments">
+    ''' the enrichment analysis result set, both of the <see cref="EnrichmentTerm"/> and the
+    ''' <see cref="EnrichmentResult"/> array are accepted.
+    ''' </param>
+    ''' <param name="name">the catalog name that will be used for the result object.</param>
+    ''' <param name="top">the number of the most significant terms that will be kept. Default ``30``.</param>
+    ''' <param name="env">the R# runtime environment.</param>
+    ''' <returns>
+    ''' a <see cref="CatalogProfiles"/> object that contains only one catalog which is named by
+    ''' the <paramref name="name"/> parameter, or an error message when the input data type is
+    ''' not supported.
+    ''' </returns>
     <ExportAPI("no_catagory_profile")>
     <RApiReturn(GetType(CatalogProfiles))>
     Public Function NoCatagoryProfile(enrichments As Array, name As String,
@@ -319,15 +366,18 @@ Public Module profiles
     End Function
 
     ''' <summary>
-    ''' 
-    ''' get category labels for a given id set
+    ''' Get the category labels for a given id set.
     ''' </summary>
-    ''' <param name="category"></param>
+    ''' <param name="category">the KEGG category class model that is created by the ``kegg_category`` function.</param>
     ''' <param name="idSet">
     ''' a character vector of the target id set
     ''' </param>
-    ''' <param name="level">level1 or level2</param>
-    ''' <returns></returns>
+    ''' <param name="level">the category level that will be returns: ``1`` (default) for the level 1 class, ``2`` for the level 2 category.</param>
+    ''' <param name="env">the R# runtime environment.</param>
+    ''' <returns>
+    ''' a character vector of the category label of each input id, a ``NULL`` value will be
+    ''' returned for the id that is not found in the category model.
+    ''' </returns>
     <ExportAPI("category_labels")>
     Public Function categoryLabels(category As ClassProfiles,
                                    idSet As String(),

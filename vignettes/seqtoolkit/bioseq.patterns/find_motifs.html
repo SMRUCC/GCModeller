@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>find possible motifs of the given sequence collection</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>find_motifs {bioseq.patterns}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>find possible motifs of the given sequence collection</h2>
+
+        <h3>Description</h3>
+
+        
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>find_motifs</strong>(<i>fasta</i>,
+    <i>minw</i> = <span style='color: green;'>8</span>,
+    <i>maxw</i> = <span style='color: green;'>20</span>,
+    <i>nmotifs</i> = <span style='color: green;'>-1</span>,
+    <i>noccurs</i> = <span style='color: green;'>12</span>,
+    <i>seedingCutoff</i> = <span style='color: green;'>0.65</span>,
+    <i>scanMinW</i> = <span style='color: green;'>6</span>,
+    <i>scanCutoff</i> = <span style='color: green;'>0.8</span>,
+    <i>cleanMotif</i> = <span style='color: green;'>0.5</span>,
+    <i>significant.sites</i> = <span style='color: green;'>4</span>,
+    <i>seeds</i> = <span style='color: blue !important;'>NULL</span>,
+    <i>debug</i> = <span style='color: blue !important;'>FALSE</span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>fasta</dt>
+<dd><p>a fasta sequence collection for make the motif discovery, which should contains multiple sequence.</p></dd>
+
+
+<dt>minw%</dt>
+<dd><p>the minimum motif width in chars.</p></dd>
+
+
+<dt>maxw%</dt>
+<dd><p>the maximum motif width in chars.</p></dd>
+
+
+<dt>nmotifs</dt>
+<dd><p>A number for limit the number of motif outputs:</p>
+
+
+<ul>
+<li>negative integer/zero: no limits[default]</li>
+<li>positive value: top motifs with score desc</li>
+. [as integer]</p></dd>
+
+
+<dt>noccurs%</dt>
+<dd><p>the minimum occurrence number of the motif sites in the input sequence collection for keep a motif.</p></dd>
+
+
+<dt>seedingCutoff</dt>
+<dd><p>the similarity cutoff threshold value for build the seed clusters. [as double]</p></dd>
+
+
+<dt>scanMinW</dt>
+<dd><p>the minimum width of the seed scan region. [as integer]</p></dd>
+
+
+<dt>scanCutoff</dt>
+<dd><p>the similarity score cutoff threshold value of the seed scan. [as double]</p></dd>
+
+
+<dt>cleanMotif</dt>
+<dd><p>the motif cleaning threshold value for remove the low score motif sites from the generated motif model. [as double]</p></dd>
+
+
+<dt>significant.sites</dt>
+<dd><p>the minimum number of the significant sites for keep a seed. [as integer]</p></dd>
+
+
+<dt>seeds</dt>
+<dd><p>the pre-computed seed data for make the motifs, which can be a <a href="cref:T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.ScanFile">ScanFile</a> object that is created by the <code>create.seeds</code> api, or a collection of the <a href="cref:T:SMRUCC.genomics.Analysis.SequenceAlignment.BestLocalAlignment.HSP">HSP</a> seed object. If this parameter is not specified, then the seeds will be discovered from the input sequence data automatically.</p></dd>
+
+
+<dt>debug</dt>
+<dd><p>print the debug log message of the motif discovery progress?. [as boolean]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: none;">Details</h3>
+
+        
+
+        <h3 style="display: block">Authors</h3>
+
+        seqtoolkit
+
+        <h3>Value</h3>
+
+        <p>a vector of the <a href="cref:T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.SequenceMotif">SequenceMotif</a> motif object that discovered from the given sequence collection, which is sorted by the average motif site score in descending order.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/SequencePatterns/SequenceMotif.html">SequenceMotif</a></li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>bioseq.patterns</em> version 1.0.0.0 <a
+                href="../bioseq.patterns.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

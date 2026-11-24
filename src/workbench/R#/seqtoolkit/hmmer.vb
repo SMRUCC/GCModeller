@@ -63,20 +63,80 @@ Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
 
+''' <summary>
+''' HMMER profile hidden markov model search tools
+''' </summary>
+''' 
+''' <remarks>
+''' This R# package module provides the api for run the HMMER3 profile HMM 
+''' search based protein function annotation:
+''' 
+''' + ``load_interprodb``: load the InterPro database term entries;
+''' + ``parse_hmmer_model``: parse the HMMER3 profile HMM model text data;
+''' + ``load_hmmer``: load a collection of the HMMER3 profile HMM model files;
+''' + ``hmmer_search``: run the HMMER profile HMM search for protein function 
+'''   annotation;
+''' + ``parse_kofamscan``: parse the kofamscan annotation table output.
+''' </remarks>
 <Package("hmmer")>
 Module hmmer
 
+    ''' <summary>
+    ''' load the InterPro database term entries from a given interpro database 
+    ''' xml document file
+    ''' </summary>
+    ''' <param name="file">
+    ''' the file path of the InterPro database document file(``interpro.xml``) 
+    ''' for load the term entries.
+    ''' </param>
+    ''' <returns>
+    ''' a lazy pipeline collection of the <see cref="Interpro"/> term entry 
+    ''' object that loaded from the given InterPro database document file.
+    ''' </returns>
     <ExportAPI("load_interprodb")>
     <RApiReturn(GetType(Interpro))>
     Public Function load_interprodb(file As String) As Object
         Return pipeline.CreateFromPopulator(interprodb.ReadTerms(file))
     End Function
 
+    ''' <summary>
+    ''' parse the HMMER3 profile HMM model text data
+    ''' </summary>
+    ''' <param name="x">
+    ''' the HMMER3 profile HMM model text data, or a file path of the HMMER3 
+    ''' profile model document(``*.hmm``) for parse.
+    ''' </param>
+    ''' <returns>
+    ''' a <see cref="ProfileHMM"/> profile hidden markov model object that 
+    ''' parsed from the given HMMER3 profile model text data.
+    ''' </returns>
     <ExportAPI("parse_hmmer_model")>
     Public Function parse_hmmer_model(x As String) As ProfileHMM
         Return HMMER3Parser.ParseContent(x.SolveStream)
     End Function
 
+    ''' <summary>
+    ''' load a collection of the HMMER3 profile HMM model files for protein 
+    ''' function annotation
+    ''' </summary>
+    ''' <param name="x">
+    ''' a character vector of the HMMER3 profile model file paths(``*.hmm``) 
+    ''' for load into the protein annotator. this parameter also can be a 
+    ''' directory path that contains a set of the HMMER3 profile model files, 
+    ''' then all of the profile model files inside the given directory will be 
+    ''' loaded.
+    ''' 
+    ''' this parameter also can be a file path of the hmmer model package 
+    ''' archive file(``*.zip``) which is created by the ``save_hmmer`` api.
+    ''' </param>
+    ''' <returns>
+    ''' a <see cref="ProteinAnnotator"/> object that contains the loaded HMMER3 
+    ''' profile models, which can be used for run the protein function 
+    ''' annotation via the ``hmmer_search`` api;
+    ''' 
+    ''' this function returns NULL if the given input is an empty character 
+    ''' vector.
+    ''' </returns>
     <ExportAPI("load_hmmer")>
     Public Function load_hmmer(<RRawVectorArgument> x As Object) As ProteinAnnotator
         Dim list = CLRVector.asCharacter(x)
@@ -85,19 +145,77 @@ Module hmmer
             Return Nothing
         End If
 
+        ' 加载由save_hmmer api所创建的模型zip压缩包
+        If list.Length = 1 AndAlso Path.GetExtension(list(0)).TextEquals(".zip") Then
+            Using s As Stream = list(0).Open(FileMode.Open, doClear:=False, [readOnly]:=True)
+                Return ProteinAnnotator.LoadModel(s)
+            End Using
+        End If
+
         Dim hmmer As New ProteinAnnotator
 
         If list.Length = 1 AndAlso list(0).DirectoryExists Then
             Call hmmer.LoadModelsFromDirectory(list(0))
         Else
             For Each file As String In list
-                Call hmmer.LoadModel(file)
+                Call hmmer.ParseTextModel(file)
             Next
         End If
 
         Return hmmer
     End Function
 
+    ''' <summary>
+    ''' save the hmmer profile HMM model collection as a model package 
+    ''' archive file(``*.zip``)
+    ''' </summary>
+    ''' <param name="hmmer">
+    ''' a <see cref="ProteinAnnotator"/> object that contains the loaded HMMER3 
+    ''' profile models.
+    ''' </param>
+    ''' <param name="file">
+    ''' the file path of the target model package archive file(``*.zip``) for 
+    ''' save the model data. model data will be saved in binary format inside 
+    ''' the zip archive for get the maximum of the io performance.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' the file path of the created model package archive file.
+    ''' </returns>
+    <ExportAPI("save_hmmer")>
+    Public Function save_hmmer(hmmer As ProteinAnnotator, file As String, Optional env As Environment = Nothing) As Object
+        Dim filepath As String = CStr(file)
+
+        Using s As Stream = filepath.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False)
+            Call hmmer.Save(s)
+        End Using
+
+        Return filepath
+    End Function
+
+    ''' <summary>
+    ''' run the HMMER profile HMM search for protein function annotation
+    ''' </summary>
+    ''' <param name="hmmer">
+    ''' a <see cref="ProteinAnnotator"/> object that contains the loaded HMMER3 
+    ''' profile models, which is created by the ``load_hmmer`` api.
+    ''' </param>
+    ''' <param name="x">
+    ''' a protein fasta sequence collection for run the HMMER search, which can 
+    ''' be a <see cref="SMRUCC.genomics.SequenceModel.FASTA.FastaFile"/> object, 
+    ''' a collection of the 
+    ''' <see cref="SMRUCC.genomics.SequenceModel.FASTA.FastaSeq"/> object, or a 
+    ''' character vector of the raw sequence data.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a lazy pipeline collection of the <see cref="AnnotationResult"/> domain 
+    ''' annotation result, one result element for each of the profile HMM hit 
+    ''' that found in the input protein sequence collection;
+    ''' 
+    ''' this function returns NULL if the input sequence data can not be cast to 
+    ''' a fasta sequence collection.
+    ''' </returns>
     <ExportAPI("hmmer_search")>
     <RApiReturn(GetType(AnnotationResult))>
     Public Function hmmer_search(hmmer As ProteinAnnotator, <RRawVectorArgument> x As Object, Optional env As Environment = Nothing) As Object
@@ -107,15 +225,29 @@ Module hmmer
             Return Nothing
         End If
 
-        Return pipeline.CreateFromPopulator(seqs.Select(Function(fa) hmmer.Annotate(fa)).IteratesALL)
+        Return seqs _
+            .Select(Function(fa)
+                        Return hmmer.Annotate(fa)
+                    End Function) _
+            .IteratesALL _
+            .ToArray
     End Function
 
     ''' <summary>
     ''' Parse the kofamscan table output
     ''' </summary>
-    ''' <param name="file"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="file">
+    ''' the input source: a file path of the kofamscan annotation table output 
+    ''' file, or a file stream object of the target table file.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a lazy pipeline collection of the <see cref="KOFamScan"/> KEGG orthology 
+    ''' annotation result record object;
+    ''' 
+    ''' this function returns a R# error message object if the given file can 
+    ''' not be opened for read.
+    ''' </returns>
     <ExportAPI("parse_kofamscan")>
     <RApiReturn(GetType(KOFamScan))>
     Public Function parse_kofamscan(<RRawVectorArgument> file As Object, Optional env As Environment = Nothing) As Object

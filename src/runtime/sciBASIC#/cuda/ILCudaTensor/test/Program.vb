@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6c16925cf55c066b6b1cde4cd7122dbb, cuda\ILCudaTensor\test\Program.vb"
+﻿#Region "Microsoft.VisualBasic::a802efd82881fdc52594e033abb34fe9, cuda\ILCudaTensor\test\Program.vb"
 
     ' Author:
     ' 
@@ -34,20 +34,26 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 196
-    '    Code Lines: 137 (69.90%)
-    ' Comment Lines: 18 (9.18%)
-    '    - Xml Docs: 0.00%
+    '   Total Lines: 967
+    '    Code Lines: 639 (66.08%)
+    ' Comment Lines: 134 (13.86%)
+    '    - Xml Docs: 20.90%
     ' 
-    '   Blank Lines: 41 (20.92%)
-    '     File Size: 8.03 KB
+    '   Blank Lines: 194 (20.06%)
+    '     File Size: 47.12 KB
 
 
     ' Module Program
     ' 
-    '     Function: MaxDiff, RelErr
+    '     Function: BuildRandomCsr, MaxDiff, MaxDiffF, NetShapeProbe, RelErr
+    '               RelMaxDiff
     ' 
     '     Sub: Check, Main
+    '     Class ScalarProbe
+    ' 
+    '         Properties: Name
+    ' 
+    ' 
     ' 
     ' /********************************************************************************/
 
@@ -96,6 +102,39 @@ Module Program
 
         For i As Integer = 0 To x.Length - 1
             m = std.Max(m, std.Abs(x(i) - y(i)))
+        Next
+
+        Return m
+    End Function
+
+    ''' <summary>单精度版的 <see cref="MaxDiff"/>（用于单精度栈的对拍）</summary>
+    Private Function MaxDiffF(x As Single(), y As Single()) As Double
+        Dim m As Double = 0
+
+        For i As Integer = 0 To x.Length - 1
+            m = std.Max(m, std.Abs(CDbl(x(i)) - CDbl(y(i))))
+        Next
+
+        Return m
+    End Function
+
+    ''' <summary>
+    ''' 逐元素相对偏差的最大值：<c>max |a−b| / max(|a|, |b|)</c>。
+    ''' </summary>
+    ''' <remarks>
+    ''' 用于"取值量级很大、只要求量化误差级一致"的场合（典型例子：FP32 内核 vs 双精度参照）。
+    ''' 这类张量的量级可达 1e6 以上，单精度的表示误差会表现为 O(1) 的<b>绝对</b>偏差 ——
+    ''' 只有相对偏差才是有意义的判据（否则会把正常的量化误差误报成结构性错误）。
+    ''' </remarks>
+    Private Function RelMaxDiff(x As Double(), y As Double()) As Double
+        Dim m As Double = 0
+
+        For i As Integer = 0 To x.Length - 1
+            Dim a = std.Abs(x(i))
+            Dim b = std.Abs(y(i))
+            Dim scale = std.Max(std.Max(a, b), 1.0E-300)
+
+            m = std.Max(m, std.Abs(x(i) - y(i)) / scale)
         Next
 
         Return m
@@ -306,6 +345,211 @@ Module Program
 
         Console.WriteLine()
 
+        ' ---------------- 2.5) 单精度栈（TensorF / float32）----------------
+        '
+        ' 双精度栈在消费级显卡上只有 FP32 的 1/64 吞吐，因此真正能吃到 GPU 收益的是
+        ' 单精度栈。这里对 ITensorComputeF 的全部算子做 SIMD CPU vs CUDA GPU 对拍。
+        '
+        ' 判据说明：两条路径都是 float32，但内核里的累加顺序与 CPU 标量实现不同
+        ' （stencil 用 double 累加、归约是树形），因此只能要求"舍入级一致"，
+        ' 不能要求逐位一致。真正的回归判据是"不出现结构性偏差"。
+        Console.WriteLine(">> 2.5) 单精度栈 TensorF：SIMD CPU vs CUDA GPU（float32）")
+        Console.WriteLine($"    单精度后端 = {tf.TensorF.computeKernelF.Name}")
+
+        Dim cudaF = gpu.CudaTensorF.Current
+
+        If cudaF IsNot Nothing Then
+            For Each line In cudaF.DescribeKernels().Split({vbLf}, StringSplitOptions.RemoveEmptyEntries)
+                Console.WriteLine($"      {line.TrimEnd()}")
+            Next
+        End If
+
+        Console.WriteLine()
+
+        ' ---- 输入 ----
+        ' 元素数必须超过 MinGpuElementsF，否则会静默回退 CPU 造成"假通过"
+        Const fElems As Integer = 8192
+        Dim fRng As New Random(2026)
+
+        Dim fxData(fElems - 1) As Single
+        Dim fyData(fElems - 1) As Single
+
+        For i As Integer = 0 To fElems - 1
+            fxData(i) = CSng(fRng.NextDouble() * 2.0 - 1.0)
+            fyData(i) = CSng(fRng.NextDouble() * 2.0 - 1.0)
+        Next
+
+        Dim fX = New tf.TensorF(fxData, fElems)
+        Dim fY = New tf.TensorF(fyData, fElems)
+
+        ' 矩阵乘：256×96 · 96×64 = 157 万次乘加，远超 MinGemmElementsF
+        ' 注意：VB 标识符大小写不敏感，这些名字必须互相"长得不一样"，
+        ' 否则 fm / fM、fnn / fN 会被当成同一个变量而报重复声明。
+        Const fRows As Integer = 256, fInner As Integer = 96, fCols As Integer = 64
+        Dim fMatData(fRows * fInner - 1) As Single
+        Dim fMat2Data(fInner * fCols - 1) As Single
+
+        For i As Integer = 0 To fMatData.Length - 1
+            fMatData(i) = CSng(fRng.NextDouble() - 0.5)
+        Next
+        For i As Integer = 0 To fMat2Data.Length - 1
+            fMat2Data(i) = CSng(fRng.NextDouble() - 0.5)
+        Next
+
+        Dim fMatA = New tf.TensorF(fMatData, fRows, fInner)
+        Dim fMatB = New tf.TensorF(fMat2Data, fInner, fCols)
+
+        ' ---- CFD 三维网格：32×32×32 = 32768 格，超过 MinCfdCellsF ----
+        Const gnx As Integer = 32, gny As Integer = 32, gnz As Integer = 32
+        Dim gPlane = gny * gnz
+        Dim gCells = gnx * gny * gnz
+
+        Dim fieldData(gCells - 1) As Single
+        Dim uData(gCells - 1) As Single
+        Dim vData(gCells - 1) As Single
+        Dim wData(gCells - 1) As Single
+        Dim rhsData(gCells - 1) As Single
+
+        For i As Integer = 0 To gCells - 1
+            fieldData(i) = CSng(fRng.NextDouble())
+            uData(i) = CSng(fRng.NextDouble() * 2.0 - 1.0)
+            vData(i) = CSng(fRng.NextDouble() * 2.0 - 1.0)
+            wData(i) = CSng(fRng.NextDouble() * 2.0 - 1.0)
+            rhsData(i) = CSng(fRng.NextDouble() - 0.5)
+        Next
+
+        ' 掩膜：中间挖一个 8×8×8 的固体块，用来真正走到"固体邻居不计入"的分支
+        Dim maskData(gCells - 1) As Byte
+
+        For i As Integer = 0 To gnx - 1
+            For j As Integer = 0 To gny - 1
+                For k2 As Integer = 0 To gnz - 1
+                    Dim solid = (i >= 12 AndAlso i < 20) AndAlso
+                                (j >= 12 AndAlso j < 20) AndAlso
+                                (k2 >= 12 AndAlso k2 < 20)
+                    maskData((i * gny + j) * gnz + k2) = CByte(If(solid, 0, 1))
+                Next
+            Next
+        Next
+
+        ' 流体邻居数：与 CPU 参考实现的定义一致（该格 6 个轴向邻居中非固体的个数）
+        Dim nFluidData(gCells - 1) As Byte
+
+        For i As Integer = 0 To gnx - 1
+            For j As Integer = 0 To gny - 1
+                For k2 As Integer = 0 To gnz - 1
+                    Dim idx2 = (i * gny + j) * gnz + k2
+                    Dim cnt As Integer = 0
+
+                    If i > 0 AndAlso maskData(idx2 - gPlane) <> 0 Then cnt += 1
+                    If i < gnx - 1 AndAlso maskData(idx2 + gPlane) <> 0 Then cnt += 1
+                    If j > 0 AndAlso maskData(idx2 - gnz) <> 0 Then cnt += 1
+                    If j < gny - 1 AndAlso maskData(idx2 + gnz) <> 0 Then cnt += 1
+                    If k2 > 0 AndAlso maskData(idx2 - 1) <> 0 Then cnt += 1
+                    If k2 < gnz - 1 AndAlso maskData(idx2 + 1) <> 0 Then cnt += 1
+
+                    nFluidData(idx2) = CByte(cnt)
+                Next
+            Next
+        Next
+
+        Dim fField = New tf.TensorF(fieldData, gnx, gny, gnz)
+        Dim fU = New tf.TensorF(uData, gnx, gny, gnz)
+        Dim fV = New tf.TensorF(vData, gnx, gny, gnz)
+        Dim fW = New tf.TensorF(wData, gnx, gny, gnz)
+        Dim fRhs = New tf.TensorF(rhsData, gnx, gny, gnz)
+        Dim fInit = New tf.TensorF(CType(fieldData.Clone(), Single()), gnx, gny, gnz)
+
+        ' ---- CPU 参考（SIMD）----
+        Dim savedKernelF = tf.TensorF.computeKernelF
+        tf.TensorF.computeKernelF = tfCompute.SIMDTensorF.Default
+
+        Dim cpuK = tf.TensorF.computeKernelF
+
+        Dim fEwCpu = cpuK.MultiplyScalar(
+            cpuK.Sqrt(cpuK.Sigmoid(cpuK.Tanh(cpuK.Add(cpuK.Exp(fX), fY)))), 2.0F)
+        Dim fClipCpu = cpuK.Clip(fX, -0.5F, 0.5F)
+        Dim fMaxCpu = cpuK.Maximum(fX, fY)
+        Dim fSumCpu = cpuK.SumAll(fX)
+        Dim fMeanCpu = cpuK.MeanAll(fX)
+        Dim fMinAllCpu = cpuK.MinAll(fX)
+        Dim fMaxAllCpu = cpuK.MaxAll(fX)
+        Dim fMatCpu = cpuK.MatMul(fMatA, fMatB)
+
+        ' CFD 四原语
+        Dim fLapCpu = cpuK.Laplacian7(fField, maskData, nFluidData)
+        ' 压力泊松形态：alpha=1, beta=0（除数取 nFluid）
+        Dim fJacPoiCpu = cpuK.JacobiStencil7(fRhs, maskData, nFluidData, 1.0F, 0.0F, 8, Nothing)
+        ' 隐式扩散形态：alpha=a, beta=1+6a（除数取 beta），并带初值
+        Dim fJacDifCpu = cpuK.JacobiStencil7(fRhs, maskData, nFluidData, 0.2F, 2.2F, 8, fInit)
+        Dim fAdvCpu = cpuK.AdvectTrilinear(fField, fU, fV, fW, 0.1F, maskData)
+
+        ' ApplyMask 是就地 Sub：两份同样的数据分别给 CPU 与 GPU
+        Dim fMaskCpuField = New tf.TensorF(CType(fieldData.Clone(), Single()), gnx, gny, gnz)
+        Call cpuK.ApplyMask(maskData, fMaskCpuField)
+
+        ' ---- GPU ----
+        tf.TensorF.computeKernelF = savedKernelF
+
+        Dim gpuK = tf.TensorF.computeKernelF
+
+        Dim fEwGpu = gpuK.MultiplyScalar(
+            gpuK.Sqrt(gpuK.Sigmoid(gpuK.Tanh(gpuK.Add(gpuK.Exp(fX), fY)))), 2.0F)
+        Dim fClipGpu = gpuK.Clip(fX, -0.5F, 0.5F)
+        Dim fMaxGpu = gpuK.Maximum(fX, fY)
+        Dim fSumGpu = gpuK.SumAll(fX)
+        Dim fMeanGpu = gpuK.MeanAll(fX)
+        Dim fMinAllGpu = gpuK.MinAll(fX)
+        Dim fMaxAllGpu = gpuK.MaxAll(fX)
+        Dim fMatGpu = gpuK.MatMul(fMatA, fMatB)
+
+        Dim fLapGpu = gpuK.Laplacian7(fField, maskData, nFluidData)
+        Dim fJacPoiGpu = gpuK.JacobiStencil7(fRhs, maskData, nFluidData, 1.0F, 0.0F, 8, Nothing)
+        Dim fJacDifGpu = gpuK.JacobiStencil7(fRhs, maskData, nFluidData, 0.2F, 2.2F, 8, fInit)
+        Dim fAdvGpu = gpuK.AdvectTrilinear(fField, fU, fV, fW, 0.1F, maskData)
+
+        Dim fMaskGpuField = New tf.TensorF(CType(fieldData.Clone(), Single()), gnx, gny, gnz)
+        Call gpuK.ApplyMask(maskData, fMaskGpuField)
+
+        ' ---- 单精度栈断言 ----
+        ' 阈值取 1e-4：float32 的表示误差约 1e-7，但 stencil 用 double 累加、
+        ' 归约是树形，与 CPU 顺次累加的顺序差会放大到 1e-6 量级；留两个数量级余量。
+        Const fTol As Double = 1.0E-4
+
+        Dim fEwErr = MaxDiffF(fEwCpu.Data, fEwGpu.Data)
+        Dim fClipErr = MaxDiffF(fClipCpu.Data, fClipGpu.Data)
+        Dim fMaxErr = MaxDiffF(fMaxCpu.Data, fMaxGpu.Data)
+        Dim fMatErr = MaxDiffF(fMatCpu.Data, fMatGpu.Data)
+
+        Check("F32 逐元素链", fEwErr < fTol, $"maxdiff={fEwErr:E3}")
+        Check("F32 Clip", fClipErr < fTol, $"maxdiff={fClipErr:E3}")
+        Check("F32 Maximum", fMaxErr < fTol, $"maxdiff={fMaxErr:E3}")
+        Check("F32 MatMul (ILCuda gemmKernel)", fMatErr < fTol, $"maxdiff={fMatErr:E3}")
+
+        Dim fSumErr = std.Abs(fSumGpu - fSumCpu)
+        Dim fMeanErr = std.Abs(fMeanGpu - fMeanCpu)
+        Dim fMinErr = std.Abs(CDbl(fMinAllGpu) - CDbl(fMinAllCpu))
+        Dim fMaxAllErr = std.Abs(CDbl(fMaxAllGpu) - CDbl(fMaxAllCpu))
+
+        Check("F32 两段式全局 sum", fSumErr < fTol, $"diff={fSumErr:E3}")
+        Check("F32 全局 mean", fMeanErr < fTol, $"diff={fMeanErr:E3}")
+        Check("F32 全局 min", fMinErr < fTol, $"diff={fMinErr:E3}")
+        Check("F32 全局 max", fMaxAllErr < fTol, $"diff={fMaxAllErr:E3}")
+
+        Dim fLapErr = MaxDiffF(fLapCpu.Data, fLapGpu.Data)
+        Dim fJacPoiErr = MaxDiffF(fJacPoiCpu.Data, fJacPoiGpu.Data)
+        Dim fJacDifErr = MaxDiffF(fJacDifCpu.Data, fJacDifGpu.Data)
+        Dim fAdvErr = MaxDiffF(fAdvCpu.Data, fAdvGpu.Data)
+        Dim fMaskErr = MaxDiffF(fMaskCpuField.Data, fMaskGpuField.Data)
+
+        Check("F32 CFD Laplacian7 == CPU", fLapErr < fTol, $"maxdiff={fLapErr:E3}")
+        Check("F32 CFD Jacobi7 泊松档 == CPU", fJacPoiErr < fTol, $"maxdiff={fJacPoiErr:E3}")
+        Check("F32 CFD Jacobi7 扩散档 == CPU", fJacDifErr < fTol, $"maxdiff={fJacDifErr:E3}")
+        Check("F32 CFD AdvectTrilinear == CPU", fAdvErr < fTol, $"maxdiff={fAdvErr:E3}")
+        Check("F32 CFD ApplyMask == CPU", fMaskErr < fTol, $"maxdiff={fMaskErr:E3}")
+
+        Console.WriteLine()
+
         Dim ewGpu = tfMath.sqrt(tfMath.sigmoid(tfMath.tanh(tfMath.exp(x) + y)) * 2.0F)
         Dim trGpu = mat.Transpose()
         Dim matGpu = tfMath.reduce_sum(a * b)
@@ -313,6 +557,18 @@ Module Program
         Dim lsGpu = tfnn.log_softmax(logits)
         Dim rsGpu = tfMath.reduce_sum(logits, axis:=1)
         Dim amGpu = tfMath.argmax(logits, axis:=1)
+
+        ' ---- 全双精度档位的参照值 ----
+        ' 默认 UseFp32Gemm = True 会让矩阵乘 / 转置走单精度内核（消费级显卡的 FP64 只有 FP32 的
+        ' 1/64，这是训练场景里最主要的加速来源）；而这里的随机张量量级很大（~1e6），
+        ' 单精度的表示与累加误差本来就在 1e-7 量级上 —— 用"逐位一致 / 1e-13"去卡 FP32 的结果
+        ' 必然误报成失败。因此下面按档位分别校验：FP64 档要求逐位一致，FP32 档只要求量化误差级一致。
+        Dim fp32GemmSaved As Boolean = gpu.CudaTensor.Current.UseFp32Gemm
+
+        gpu.CudaTensor.Current.UseFp32Gemm = False
+        Dim trFp64 = mat.Transpose()
+        Dim sumFp64 = tfMath.reduce_sum(a * b)
+        gpu.CudaTensor.Current.UseFp32Gemm = fp32GemmSaved
 
         ' Heaviside 阶跃算子（GPU）
         Dim hvGpu = tf.Tensor.computeKernel.Heaviside(x)
@@ -420,8 +676,13 @@ Module Program
         Dim maxErr = RelErr(bigMaxGpu, bigMaxCpu)
         Dim minErr = RelErr(bigMinGpu, bigMinCpu)
 
+        ' 转置的两档校验：FP64 档必须逐位一致；FP32 档受表示精度限制，只看相对量化误差
+        Dim trFp64Err = MaxDiff(trCpu.Data, trFp64.Data)
+        Dim trFp32Rel = RelMaxDiff(trCpu.Data, trGpu.Data)
+
         Check("P2 逐元素链", ewErr < 1.0E-12, $"maxdiff={ewErr:E3}")
-        Check("P2 转置", trErr = 0.0, $"maxdiff={trErr:E3}")
+        Check("P2 转置 (fp64 档)", trFp64Err = 0.0, $"maxdiff={trFp64Err:E3}")
+        Check("P2 转置 (fp32 档) 量化误差级", trFp32Rel < 1.0E-5, $"relmaxdiff={trFp32Rel:E3}")
         Check("P3 softmax", smErr < 1.0E-14, $"maxdiff={smErr:E3}")
         Check("P3 log_softmax", lsErr < 1.0E-13, $"maxdiff={lsErr:E3}")
         Check("P3 末轴求和", rsErr < 1.0E-12, $"maxdiff={rsErr:E3}")
@@ -432,7 +693,11 @@ Module Program
         Dim actualOnes = hvCpu.Data.Sum()
         Check("P2 Heaviside 阶跃", hvErr = 0.0 AndAlso Math.Abs(actualOnes - expectOnes) < 0.5,
               $"maxdiff={hvErr:E3} ones={actualOnes}/{expectOnes}")
-        Check("double GEMM", gemmErr < 1.0E-13, $"relerr={gemmErr:E3}")
+        ' 归约 / 乘法的两档校验（同上：FP32 档不满足双精度级阈值，但必须落在量化误差量级内）
+        Dim gemmFp64Err = RelErr(sumFp64.Data(0), matCpu.Data(0))
+
+        Check("P2 归约 (fp64 档)", gemmFp64Err < 1.0E-13, $"relerr={gemmFp64Err:E3}")
+        Check("P2 归约 (fp32 档) 量化误差级", gemmErr < 1.0E-5, $"relerr={gemmErr:E3}")
         Check("两段式全局 sum", sumErr < 1.0E-13, $"relerr={sumErr:E3}")
         Check("两段式全局 max", maxErr < 1.0E-15, $"relerr={maxErr:E3}")
         Check("两段式全局 min", minErr < 1.0E-15, $"relerr={minErr:E3}")
@@ -501,6 +766,132 @@ Module Program
         Next
         Check("softmax 行和 = 1", rowErr < 1.0E-14, $"maxerr={rowErr:E3}")
 
+        ' ---- 融合 LIF 单步（Kernels\lif.cu）：设备常驻状态 + 就地更新 ----
+        ' 这是脉冲网络的核心算子：把「稀疏输入 → 泄漏积分 → 阈值触发 → 复位 → 计数累加」
+        ' 压成一次调用，状态张量钉在显存里跨时间步复用（每步零主机往返）。
+        ' 判据：与 CPU 标量实现<b>逐位一致</b>——脉冲计数是整数，任何舍入差异都会放大成计数偏差。
+        Const lifN As Integer = 4096
+        Const lifSteps As Integer = 8
+        Const lifBeta As Double = 0.9
+        Const lifThreshold As Double = 1.0
+
+        Dim lifCsr = BuildRandomCsr(New Random(505), lifN, lifN, 32)
+        Dim lifExt(lifSteps - 1) As tf.Tensor
+
+        For t As Integer = 0 To lifSteps - 1
+            lifExt(t) = tf.Tensor.Random({1, lifN}, -0.2, 0.6, seed:=600 + t)
+        Next
+
+        ' ---- CPU 参考（标量实现，与逐算子路径逐比特等价）----
+        Dim cpuH = New tf.Tensor(1, lifN)
+        Dim cpuS = New tf.Tensor(1, lifN)
+        Dim cpuCounts = New tf.Tensor(1, lifN)
+        Dim cpuPrev = New tf.Tensor(1, lifN)
+        Dim cpuAllFused As Boolean = True
+
+        For t As Integer = 0 To lifSteps - 1
+            cpuAllFused = cpuAllFused AndAlso probe.LifStep(
+                lifCsr, cpuPrev, lifExt(t), cpuH, cpuS, cpuCounts, lifBeta, lifThreshold, False)
+
+            ' 交换双缓冲：本步的输出脉冲成为下一步的递归输入（零拷贝）
+            Dim swapS = cpuPrev
+
+            cpuPrev = cpuS
+            cpuS = swapS
+        Next
+
+        Check("LifStep CPU 标量实现可用", cpuAllFused, $"counts.sum={cpuCounts.Data.Sum():F0}")
+
+        ' ---- GPU 双精度档：h / s / counts 全部钉成双精度常驻 ----
+        Dim cuda = gpu.CudaTensor.Current
+        Dim gpuH = New tf.Tensor(1, lifN)
+        Dim gpuS = New tf.Tensor(1, lifN)
+        Dim gpuCounts = New tf.Tensor(1, lifN)
+        Dim gpuPrev = New tf.Tensor(1, lifN)
+
+        Call cuda.PinDevice64(gpuH, "lif.H", zeroFill:=False)
+        Call cuda.PinDevice64(gpuS, "lif.S", zeroFill:=False)
+        Call cuda.PinDevice64(gpuCounts, "lif.counts", zeroFill:=True)
+        Call cuda.PinDevice64(gpuPrev, "lif.S_prev", zeroFill:=False)
+
+        Dim fusedSteps As Integer = 0
+
+        For t As Integer = 0 To lifSteps - 1
+            If tf.Tensor.computeKernel.LifStep(lifCsr, gpuPrev, lifExt(t), gpuH, gpuS, gpuCounts,
+                                               lifBeta, lifThreshold, False) Then
+                fusedSteps += 1
+            End If
+
+            Dim swapS = gpuPrev
+
+            gpuPrev = gpuS
+            gpuS = swapS
+        Next
+
+        ' 设备为主副本：读主机内容之前必须显式同步
+        Call cuda.SyncFromDevice(gpuH)
+        Call cuda.SyncFromDevice(gpuPrev)
+        Call cuda.SyncFromDevice(gpuCounts)
+
+        Dim lifHErr = MaxDiff(cpuH.Data, gpuH.Data)
+        Dim lifSErr = MaxDiff(cpuPrev.Data, gpuPrev.Data)
+        Dim lifCountsErr = MaxDiff(cpuCounts.Data, gpuCounts.Data)
+
+        Check("融合 LIF 确实走了 GPU 内核", fusedSteps = lifSteps, $"fused={fusedSteps}/{lifSteps}")
+        Check("融合 LIF 膜电位 == CPU", lifHErr = 0.0, $"maxdiff={lifHErr:E3}")
+        Check("融合 LIF 脉冲 == CPU", lifSErr = 0.0, $"maxdiff={lifSErr:E3}")
+        Check("融合 LIF 脉冲计数 == CPU", lifCountsErr = 0.0, $"maxdiff={lifCountsErr:E3}")
+
+        ' ---- 单精度档（最快档）：h / counts 钉单精度，脉冲仍双精度 ----
+        Dim f32H = New tf.Tensor(1, lifN)
+        Dim f32S = New tf.Tensor(1, lifN)
+        Dim f32Counts = New tf.Tensor(1, lifN)
+        Dim f32Prev = New tf.Tensor(1, lifN)
+
+        Call cuda.PinDevice64(f32S, "lif.f32.S", zeroFill:=False)
+        Call cuda.PinDevice64(f32Prev, "lif.f32.S_prev", zeroFill:=False)
+        Call cuda.PinDevice(f32H, "lif.f32.H", zeroFill:=False)
+        Call cuda.PinDevice(f32Counts, "lif.f32.counts", zeroFill:=True)
+
+        Dim f32FusedSteps As Integer = 0
+
+        For t As Integer = 0 To lifSteps - 1
+            If tf.Tensor.computeKernel.LifStep(lifCsr, f32Prev, lifExt(t), f32H, f32S, f32Counts,
+                                               lifBeta, lifThreshold, False) Then
+                f32FusedSteps += 1
+            End If
+
+            Dim swapS = f32Prev
+
+            f32Prev = f32S
+            f32S = swapS
+        Next
+
+        Call cuda.SyncFromDevice(f32H)
+        Call cuda.SyncFromDevice(f32Prev)
+        Call cuda.SyncFromDevice(f32Counts)
+
+        Dim f32HErr = MaxDiff(cpuH.Data, f32H.Data)
+        Dim f32CountsErr = MaxDiff(cpuCounts.Data, f32Counts.Data)
+        Dim f32DiffNeurons As Integer = 0
+
+        For i As Integer = 0 To f32Counts.Length - 1
+            If f32Counts.Data(i) <> cpuCounts.Data(i) Then f32DiffNeurons += 1
+        Next
+
+        Check("融合 LIF 单精度档确实走了 GPU 内核", f32FusedSteps = lifSteps, $"fused={f32FusedSteps}/{lifSteps}")
+        ' 单精度档是"最快档"：这里如实报告偏差，不作硬断言（精度受控档是上面的双精度通道）
+        Console.WriteLine($"    单精度档参考：膜电位 maxdiff={f32HErr:E3}  计数 maxdiff={f32CountsErr:F0}  " &
+                          $"计数不同神经元={f32DiffNeurons}/{lifN}")
+
+        ' 释放常驻缓冲（不释放会一直占着显存，直到后端 Dispose）
+        For Each t In {gpuH, gpuS, gpuCounts, gpuPrev, f32H, f32S, f32Counts, f32Prev}
+            Call cuda.UnpinDevice(t)
+        Next
+
+        Check("常驻缓冲已全部释放", cuda.IsDevicePinned(gpuH) = False AndAlso cuda.PinnedDeviceBytes = 0,
+              $"pinned={cuda.PinnedDeviceBytes} bytes")
+
         ' ---------------- 4) 性能参考 ----------------
         Console.WriteLine()
         Console.WriteLine(">> 4) 性能参考")
@@ -535,6 +926,96 @@ Module Program
             Console.WriteLine($"    稀疏 SpMM 加速比: {cpuSparseMs / gpuSparseMs:F2} x")
         End If
 
+        ' ---- 融合 LIF 单步性能参考（脉冲网络的真实负载形态）----
+        ' 每步：稀疏输入 + 泄漏积分 + 阈值触发 + 复位 + 计数累加；状态跨步复用。
+        Const perfLifSteps As Integer = 30
+        Dim perfCsr = BuildRandomCsr(New Random(606), 20000, 20000, 64)
+        Dim perfExt(perfLifSteps - 1) As tf.Tensor
+
+        For t As Integer = 0 To perfLifSteps - 1
+            perfExt(t) = tf.Tensor.Random({1, 20000}, -0.2, 0.6, seed:=700 + t)
+        Next
+
+        ' CPU：标量融合实现
+        Dim perfCpuH = New tf.Tensor(1, 20000)
+        Dim perfCpuS = New tf.Tensor(1, 20000)
+        Dim perfCpuCounts = New tf.Tensor(1, 20000)
+        Dim perfCpuPrev = New tf.Tensor(1, 20000)
+
+        Dim swLif As Stopwatch = Stopwatch.StartNew()
+
+        For t As Integer = 0 To perfLifSteps - 1
+            Call probe.LifStep(perfCsr, perfCpuPrev, perfExt(t), perfCpuH, perfCpuS, perfCpuCounts,
+                               0.9, 1.0, False)
+
+            Dim swapS = perfCpuPrev
+
+            perfCpuPrev = perfCpuS
+            perfCpuS = swapS
+        Next
+
+        swLif.Stop()
+        Dim cpuLifMs = swLif.Elapsed.TotalMilliseconds
+
+        ' GPU：设备常驻 + 融合内核（每步零往返，只有外部电流需要上传）
+        Dim perfGpuH = New tf.Tensor(1, 20000)
+        Dim perfGpuS = New tf.Tensor(1, 20000)
+        Dim perfGpuCounts = New tf.Tensor(1, 20000)
+        Dim perfGpuPrev = New tf.Tensor(1, 20000)
+
+        Call cuda.PinDevice64(perfGpuH, "perf.H", zeroFill:=False)
+        Call cuda.PinDevice64(perfGpuS, "perf.S", zeroFill:=False)
+        Call cuda.PinDevice64(perfGpuCounts, "perf.counts", zeroFill:=True)
+        Call cuda.PinDevice64(perfGpuPrev, "perf.S_prev", zeroFill:=False)
+
+        ' 预热：让 CSR / 内核 / 显存缓冲先就位（这些一次性开销不应计入稳态计时）
+        Call tf.Tensor.computeKernel.LifStep(perfCsr, perfGpuPrev, perfExt(0), perfGpuH, perfGpuS,
+                                            perfGpuCounts, 0.9, 1.0, False)
+
+        ' 预热会推进状态，因此重新钉一遍（等同清零），保证与 CPU 参考从同一初始状态出发；
+        ' 注意 CSR 缓存的键是 CSR 对象，重新钉状态不会让它失效，预热收益仍然保留
+        For Each t In {perfGpuH, perfGpuS, perfGpuCounts, perfGpuPrev}
+            Call cuda.UnpinDevice(t)
+        Next
+
+        Call cuda.PinDevice64(perfGpuH, "perf.H", zeroFill:=False)
+        Call cuda.PinDevice64(perfGpuS, "perf.S", zeroFill:=False)
+        Call cuda.PinDevice64(perfGpuCounts, "perf.counts", zeroFill:=True)
+        Call cuda.PinDevice64(perfGpuPrev, "perf.S_prev", zeroFill:=False)
+
+        swLif.Restart()
+
+        For t As Integer = 0 To perfLifSteps - 1
+            Call tf.Tensor.computeKernel.LifStep(perfCsr, perfGpuPrev, perfExt(t), perfGpuH, perfGpuS,
+                                                 perfGpuCounts, 0.9, 1.0, False)
+
+            Dim swapS = perfGpuPrev
+
+            perfGpuPrev = perfGpuS
+            perfGpuS = swapS
+        Next
+
+        swLif.Stop()
+        Dim gpuLifMs = swLif.Elapsed.TotalMilliseconds
+
+        Call cuda.SyncFromDevice(perfGpuPrev)
+        Call cuda.SyncFromDevice(perfGpuCounts)
+
+        Dim perfLifErr = MaxDiff(perfCpuPrev.Data, perfGpuPrev.Data)
+        Dim perfLifCountsErr = MaxDiff(perfCpuCounts.Data, perfGpuCounts.Data)
+
+        For Each t In {perfGpuH, perfGpuS, perfGpuCounts, perfGpuPrev}
+            Call cuda.UnpinDevice(t)
+        Next
+
+        Console.WriteLine($"    融合 LIF {perfLifSteps} 步  N=20,000 nnz={perfCsr.NonZeros:N0}   " &
+                          $"CPU {cpuLifMs,8:F3} ms   CUDA {gpuLifMs,8:F3} ms   " &
+                          $"maxdiff={perfLifErr:E3}/{perfLifCountsErr:E3}")
+
+        If gpuLifMs > 0 Then
+            Console.WriteLine($"    融合 LIF 加速比: {cpuLifMs / gpuLifMs:F2} x")
+        End If
+
         ' ---------------- 收尾 ----------------
         gpu.CudaTensor.Unregister()
 
@@ -545,4 +1026,3 @@ Module Program
     End Sub
 
 End Module
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::603a637dd8a858bef78b9de852bf2347, annotations\GO\EnrichBubbles.vb"
+#Region "Microsoft.VisualBasic::603a637dd8a858bef78b9de852bf2347, annotations\GO\EnrichBubbles.vb"
 
     ' Author:
     ' 
@@ -54,7 +54,7 @@
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
+Imports Microsoft.VisualBasic.Data.Plots.Canvas
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver

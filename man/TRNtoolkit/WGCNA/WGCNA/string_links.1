@@ -1,0 +1,58 @@
+.\" man page create by R# package system.
+.TH WGCNA 1 2000-1月 "string_links" "string_links"
+.SH NAME
+string_links \- locate the STRING protein interaction data files inside a STRING database
+.SH SYNOPSIS
+\fIstring_links(\fBopts\fR as <generic> GRNBuildOptions, 
+\fBstring_db\fR as string);\fR
+.SH DESCRIPTION
+.PP
+locate the STRING protein interaction data files inside a STRING database
+ folder and attach them to the GRN pipeline options.
+.PP
+.SH OPTIONS
+.PP
+\fBopts\fB \fR\- 
+ the GRN pipeline options object (usually created via `new("GRN_opts", ...)`
+ and possibly piped through other option helpers). This function mutates and
+ returns the same options object.
+. 
+.PP
+.PP
+\fBstring_db\fB \fR\- 
+ the directory of the extracted STRING database files (for example
+ `K:\hsa_grn\string-db`). The links file is picked with the priority:
+ compact `9606.protein.links.v*.txt` (3 columns) > detailed version >
+ any other `*protein.links*.txt`; the `.gz` archives and the
+ physical-subset files are always skipped. The aliases file
+ (`*protein.aliases*.txt`) is located as well and used to build the
+ Ensembl gene id => STRING protein id mapping automatically.
+. 
+.PP
+.SH VALUE
+.PP
+the same [GRNBuildOptions](cref:T:SMRUCC.genomics.Analysis.CellPhenotype.RegulationNetwork.GRNBuildOptions) object with the
+ `stringLinks` and `stringAliases` file paths filled in.
+ When no links file is found, the STRING protein interaction evidence is
+ disabled (a warning is printed).
+.PP
+.SH DETAILS
+.PP
+STRING protein interactions are used by the GRN pipeline in two configurable
+ ways: as a confidence re-weighting evidence for the existing co-expression
+ edges, and/or as a topology completion source that adds the protein
+ interaction pairs missing in the co-expression network (see
+ `GRN_opts` fields `stringAddEdges`, `stringMinScore` and
+ `stringWeight`).
+.PP
+.SH EXAMPLES
+.PP
+let opts = new("GRN_opts", minAbsCorrelation = 0.3, enableGpu = TRUE)
+ |> string_links(string_db = "K:\hsa_grn\string-db");
+.PP
+.SH SEE ALSO
+WGCNA
+.SH FILES
+.PP
+TRNtoolkit.dll
+.PP

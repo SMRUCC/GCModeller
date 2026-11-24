@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9c1c385c45e572ad0f2ceccba60eafd0, Data_science\Mathematica\Math\Math\Algebra\LP\IPMCrossover\LinAlg.vb"
+﻿#Region "Microsoft.VisualBasic::405f2eac067d508d24b0c878cf58c3dd, Data_science\Mathematica\Math\Math\Algebra\LP\IPMCrossover\LinAlg.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 296
-    '    Code Lines: 244 (82.43%)
-    ' Comment Lines: 31 (10.47%)
+    '   Total Lines: 295
+    '    Code Lines: 243 (82.37%)
+    ' Comment Lines: 31 (10.51%)
     '    - Xml Docs: 35.48%
     ' 
-    '   Blank Lines: 21 (7.09%)
-    '     File Size: 11.46 KB
+    '   Blank Lines: 21 (7.12%)
+    '     File Size: 11.44 KB
 
 
     '     Class LuFactorization
@@ -70,7 +70,6 @@
 ' EchelonRank：阶梯消元秩（支持非方阵），crossover 构造基的线性无关检测用。
 ' ============================================================================
 
-Imports System
 Imports std = System.Math
 
 Namespace LinearAlgebra.LinearProgramming.IPMCrossover

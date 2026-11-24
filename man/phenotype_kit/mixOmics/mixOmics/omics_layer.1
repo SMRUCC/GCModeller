@@ -1,0 +1,32 @@
+.\" man page create by R# package system.
+.TH MIXOMICS 1 2000-1月 "omics_layer" "omics_layer"
+.SH NAME
+omics_layer \- 
+.SH SYNOPSIS
+\fIomics_layer(\fBx\fR as <generic> Matrix, 
+\fBname\fR as string, 
+\fBdir\fR as integer = 1, 
+\fBverbose\fR as boolean = FALSE);\fR
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- -. 
+.PP
+.PP
+\fBname\fB \fR\- -. 
+.PP
+.PP
+\fBdir\fB \fR\- 
+ 方向约定：`+1` 表示数值升高代表通路活性升高（mRNA / protein），
+ `-1` 表示数值升高代表通路活性下降（例如甲基化 beta 值），
+ 打分完成后会对该层的 ES 取负以统一到"活性方向"。
+. 
+.PP
+.PP
+\fBverbose\fB \fR\- -. 
+.PP
+.SH SEE ALSO
+mixOmics
+.SH FILES
+.PP
+phenotype_kit.dll
+.PP

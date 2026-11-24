@@ -1,0 +1,37 @@
+.\" man page create by R# package system.
+.TH SIGMA_DIFFERENCE 1 2000-1月 "genome.delta_star_islands" "genome.delta_star_islands"
+.SH NAME
+genome.delta_star_islands \- The sliding window \fBdelta*\fR profile of the genome against its own global
+.SH SYNOPSIS
+\fIgenome.delta_star_islands(\fBgenome\fR as <generic> FastaSeq, 
+\fBwindowSize\fR as integer = 50000, 
+\fBstepSize\fR as integer = 5000);\fR
+.SH DESCRIPTION
+.PP
+The sliding window \fBdelta*\fR profile of the genome against its own global
+ average genome signature: the alien DNA that has not yet been ameliorated
+ shows a signature deviating from the host average and therefore appears as
+ peaks on the curve (e.g. the pathogenicity islands).
+.PP
+.SH OPTIONS
+.PP
+\fBgenome\fB \fR\- the genome nucleotide sequence. 
+.PP
+.PP
+\fBwindowSize\fB \fR\- the sliding window size in bp, default = the paper's 50kb contig size. 
+.PP
+.PP
+\fBstepSize\fB \fR\- the sampling step in bp. 
+.PP
+.SH VALUE
+.PP
+the profile rows ordered by the site position
+.PP
+.SH SEE ALSO
+sigma_difference
+.SH FILES
+.PP
+comparative_toolkit.dll
+.PP
+.SH AUTHOR
+Written by \fBxie.guigang@gcmodeller.org\fR

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e2e17181313a1b71ac7cf9ac978e288c, Data_science\Mathematica\Math\Math\Algebra\LP\IPMCrossover\LppProblem.vb"
+﻿#Region "Microsoft.VisualBasic::5aedc0f115116ed37770809bc459953a, Data_science\Mathematica\Math\Math\Algebra\LP\IPMCrossover\LppProblem.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 441
-    '    Code Lines: 291 (65.99%)
-    ' Comment Lines: 85 (19.27%)
+    '   Total Lines: 438
+    '    Code Lines: 288 (65.75%)
+    ' Comment Lines: 85 (19.41%)
     '    - Xml Docs: 38.82%
     ' 
-    '   Blank Lines: 65 (14.74%)
-    '     File Size: 18.75 KB
+    '   Blank Lines: 65 (14.84%)
+    '     File Size: 18.68 KB
 
 
     '     Class LppConstraint
@@ -88,9 +88,6 @@
 '                 shadowPrice_i = σ·flipSign_i·y_i = ∂(原始目标)/∂b_i
 ' ============================================================================
 
-Imports System
-Imports System.Collections.Generic
-Imports System.Linq
 Imports std = System.Math
 
 Namespace LinearAlgebra.LinearProgramming.IPMCrossover

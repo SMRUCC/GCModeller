@@ -67,6 +67,8 @@
 
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Solvers
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports std = System.Math
 
 Namespace ParameterLearning
 
@@ -98,20 +100,20 @@ Namespace ParameterLearning
             cpd.Coeffs = New Double() {}
             cpd.ParentIndices = New Integer() {}
             cpd.ResidualVariance = rss / nS
-            cpd.ResidualSD = Math.Sqrt(cpd.ResidualVariance)
+            cpd.ResidualSD = std.Sqrt(cpd.ResidualVariance)
             cpd.RSquared = 0.0
 
             ' 对数似然
             If cpd.ResidualVariance > 0.000000000000001 Then
-                totalLL += -nS / 2.0 * Math.Log(2 * Math.PI * cpd.ResidualVariance) - rss / (2 * cpd.ResidualVariance)
+                totalLL += -nS / 2.0 * std.Log(2 * std.PI * cpd.ResidualVariance) - rss / (2 * cpd.ResidualVariance)
             End If
 
             ' BIC
             Dim k As Integer = 2  ' μ, σ²
-            totalBIC += -2 * totalLL + k * Math.Log(nS)
+            totalBIC += -2 * totalLL + k * std.Log(nS)
         End Sub
 
-        Private Sub LearnRegression(ByRef cpd As Core.BnCPD, ByRef y As Double(), ByRef node As Core.BnNode, ByRef data As Core.GeneExpressionData)
+        Private Sub LearnRegression(ByRef cpd As Core.BnCPD, ByRef y As Double(), ByRef node As Core.BnNode, ByRef data As GeneExpressionData)
             ' 有父节点：线性回归 Xi = β0 + Σ βj·Paj + ε
             Dim parentIndices As Integer() = node.Parents.ToArray()
             Dim nP As Integer = parentIndices.Length
@@ -153,25 +155,25 @@ Namespace ParameterLearning
                 cpd.Coeffs(p) = beta(p + 1)
             Next
 
-            cpd.ResidualVariance = rss / Math.Max(1, nS - nP - 1)
-            cpd.ResidualSD = Math.Sqrt(cpd.ResidualVariance)
+            cpd.ResidualVariance = rss / std.Max(1, nS - nP - 1)
+            cpd.ResidualSD = std.Sqrt(cpd.ResidualVariance)
             cpd.RSquared = If(tss > 0, 1.0 - rss / tss, 0.0)
 
             ' 对数似然
             If cpd.ResidualVariance > 0.000000000000001 Then
-                totalLL += -nS / 2.0 * Math.Log(2 * Math.PI * cpd.ResidualVariance) - rss / (2 * cpd.ResidualVariance)
+                totalLL += -nS / 2.0 * std.Log(2 * std.PI * cpd.ResidualVariance) - rss / (2 * cpd.ResidualVariance)
             End If
 
             ' BIC
             Dim k As Integer = nP + 2  ' β0, β1...βp, σ²
-            Dim nodeBIC As Double = -2 * (-nS / 2.0 * Math.Log(2 * Math.PI * cpd.ResidualVariance) - rss / (2 * cpd.ResidualVariance)) + k * Math.Log(nS)
+            Dim nodeBIC As Double = -2 * (-nS / 2.0 * std.Log(2 * std.PI * cpd.ResidualVariance) - rss / (2 * cpd.ResidualVariance)) + k * std.Log(nS)
             totalBIC += nodeBIC
         End Sub
 
         ''' <summary>
         ''' 从数据学习网络参数
         ''' </summary>
-        Public Function Learn(network As Core.BayesianNetwork, data As Core.GeneExpressionData) As ParameterLearningResult
+        Public Function Learn(network As Core.BayesianNetwork, data As GeneExpressionData) As ParameterLearningResult
             ' 按拓扑排序依次拟合每个节点
             Dim topoOrder As Integer() = network.TopologicalSort()
 

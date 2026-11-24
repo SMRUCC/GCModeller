@@ -11,6 +11,8 @@
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageProjectUrl>https://gcmodeller.org</PackageProjectUrl>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+	<OutputPath>../../../../assembly/</OutputPath>
+	<GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -34,10 +36,10 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
-    <DocumentationFile>metagenomics_kit.xml</DocumentationFile>
-    <DefineConstants>netcore5=1</DefineConstants>
-    <OutputPath>../../pkg/assembly/</OutputPath>
+    <Optimize>true</Optimize>
   </PropertyGroup>
+
+
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\GCModeller\analysis\Metagenome\MetaFunction\MetaFunction.vbproj" />

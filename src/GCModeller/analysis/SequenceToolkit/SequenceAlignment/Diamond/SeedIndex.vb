@@ -156,8 +156,11 @@ Namespace DIAMOND
             Next
         End Sub
 
+        ''' <summary>未命中时复用的空列表(避免每次查询都分配)。</summary>
+        Private Shared ReadOnly Empty As New List(Of SubjectHit)
+
         ''' <summary>
-        ''' 查询一颗种子编码在参考库中命中的所有位置;未命中返回空列表。
+        ''' 查询一颗种子编码在参考库中命中的所有位置;未命中返回空列表(共享只读实例)。
         ''' </summary>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Lookup(code As Long) As List(Of SubjectHit)
@@ -167,7 +170,15 @@ Namespace DIAMOND
                 Return list
             End If
 
-            Return New List(Of SubjectHit)
+            Return Empty
+        End Function
+
+        ''' <summary>
+        ''' 查询一颗种子编码在参考库中命中的所有位置(无分配版本)。
+        ''' </summary>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function TryLookup(code As Long, ByRef hits As List(Of SubjectHit)) As Boolean
+            Return table.TryGetValue(code, hits)
         End Function
 
         ''' <summary>参考索引中的总种子条目数(诊断用)。</summary>

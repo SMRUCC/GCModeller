@@ -9,16 +9,16 @@
     <PackageProjectUrl>http://scibasic.net/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/xieguigang/sciBASIC</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <Version>1.0.9758.20045</Version>
-    <AssemblyVersion>1.0.9758.20045</AssemblyVersion>
+    <Version>10.8.9818.14504</Version>
+    <AssemblyVersion>1.0.9818.14504</AssemblyVersion>
     <Title>Machine Learning Dataset Storage: DataPack, MNIST and DataFrame Import</Title>
     <Description>Dataset persistence layer for sciBASIC# machine learning: imports a data frame into a normalised sample dataset, reads MNIST IDX image and label files, and packs large sample collections into streamable HDSPack archives.</Description>
     <AssemblyTitle>Microsoft.VisualBasic.MachineLearning.DataStorage</AssemblyTitle>
     <Authors>xieguigang &lt;I@xieguigang.me&gt;</Authors>
     <Company>sciBASIC.NET Foundation</Company>
     <Copyright>Copyright (c) sciBASIC.NET Foundation</Copyright>
-    <PackageTags>scibasic;machine-learning;dataset;mnist;idx;data-storage;hdspack;archive</PackageTags>
-    <PackageReleaseNotes>The dataset persistence layer of sciBASIC# machine learning. It imports a data frame into a normalised sample dataset (the form expected by the learning algorithms), reads MNIST IDX image and label files directly so the classic benchmark datasets can be used without any conversion step, and packs large sample collections into streamable HDSPack archives - a single file container that supports random access to individual samples, which matters when the dataset does not fit comfortably in memory.</PackageReleaseNotes>
+    <PackageTags>scibasic;machine-learning;dataset;mnist;data-storage</PackageTags>
+    <PackageReleaseNotes>This cycle: Implemented the MLP in base ML project; Improved handling of the shap mapping in directml; Implemented the direct ml.</PackageReleaseNotes>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <PackageIcon>logo-knot.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
@@ -34,16 +34,29 @@
     <DebugType>full</DebugType>
     <OutputPath>../../../.nuget/</OutputPath>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="test\**" />
+    <EmbeddedResource Remove="test\**" />
+    <None Remove="test\**" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Data\BinaryData\BinaryData\binarydata-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\Data\BinaryData\HDSPack\HDSPack.vbproj" />
     <ProjectReference Include="..\..\..\Data\BinaryData\msgpack\msgpack-netcore5.vbproj" />
-    <ProjectReference Include="..\..\..\Data\BinaryData\netCDF\netCDF.vbproj" />
+    <ProjectReference Include="..\..\..\Data\BinaryData\Protobuf\Protobuf.vbproj" />
     <ProjectReference Include="..\..\..\Data\DataFrame\dataframework-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\Microsoft.VisualBasic.Core\src\Core.vbproj" />
-    <ProjectReference Include="..\..\Mathematica\Math\DataFrame\dataframeUtils-netcore5.vbproj" />
+    <ProjectReference Include="..\..\DataMining\DataMining\DataMining.NET5.vbproj" />
     <ProjectReference Include="..\..\Mathematica\Math\Math\Math.NET5.vbproj" />
+    <ProjectReference Include="..\DeepLearning\DeepLearning.NET6.vbproj" />
     <ProjectReference Include="..\MachineLearning\machine_learning-netcore5.vbproj" />
+    <ProjectReference Include="..\TensorFlow\TensorFlow.vbproj" />
+    <ProjectReference Include="..\..\DirectML\DirectML.vbproj" />
     <None Include="..\..\..\vs_solutions\logo-knot.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
@@ -53,5 +66,7 @@
       <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
-
+  <ItemGroup>
+    <Folder Include="PT\" />
+  </ItemGroup>
 </Project>

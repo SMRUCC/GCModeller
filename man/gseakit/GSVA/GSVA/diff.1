@@ -1,0 +1,31 @@
+.\" man page create by R# package system.
+.TH GSVA 1 2000-1月 "diff" "diff"
+.SH NAME
+diff \- different analysis of the gsva result
+.SH SYNOPSIS
+\fIdiff(\fBgsva\fR as <generic> Matrix, 
+\fBcompares\fR as <generic> DataAnalysis);\fR
+.SH DESCRIPTION
+.PP
+different analysis of the gsva result
+.PP
+.SH OPTIONS
+.PP
+\fBgsva\fB \fR\- the gsva analysis result. 
+.PP
+.PP
+\fBcompares\fB \fR\- 
+ the [DataAnalysis](cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.DataAnalysis) comparision collection
+. 
+.PP
+.SH VALUE
+.PP
+this function returns a array of the [GSVADiff](cref:T:SMRUCC.genomics.Visualize.GSVADiff) object which is compares the different of the gsva score via the limma function. 
+ for get the different score of gsva score in raw [LimmaTable](cref:T:SMRUCC.genomics.Analysis.HTS.DataFrame.LimmaTable) array type, please use the \fBgeneExpression::limma\fR function for analysis the gsva difference result across two condition groups.
+.PP
+.SH SEE ALSO
+GSVA
+.SH FILES
+.PP
+gseakit.dll
+.PP

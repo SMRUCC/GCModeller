@@ -1,5 +1,7 @@
 Imports Microsoft.VisualBasic.DeepLearning.LiquidNeuralNetwork
 Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
+Imports SMRUCC.genomics.BioSystem
+Imports SMRUCC.genomics.BioSystem.Intervention
 Imports std = System.Math
 
 ''' <summary>
@@ -16,7 +18,7 @@ Imports std = System.Math
 ''' </list>
 ''' 底层 ODE 与反向模式 AD 全部复用 <see cref="LiquidNeuralNetwork"/>（LTC / CfC 模式）。
 ''' </remarks>
-Public Class MetabolicLiquidNetwork
+Public Class MetabolicLiquidNetwork : Implements InsilicoPerturbationExperiment
 
 #Region "属性"
 
@@ -88,10 +90,19 @@ Public Class MetabolicLiquidNetwork
     ''' <param name="mode">液态神经元动力学模式（LTC 或 CFC）</param>
     ''' <param name="solver">ODE 求解器（CfC 模式下被忽略）</param>
     ''' <param name="seed">随机种子</param>
+    ''' <param name="lightweight">
+    ''' 为 <c>True</c> 时**不初始化通量读取头**：仅供"克隆"使用
+    ''' （调用方随后必须用 <see cref="MetabolicNetwork.ShareWeights"/> 共享模板的只读常量）。
+    ''' 
+    ''' 通量头的权重与梯度各约 <c>(m+nIn)×r</c>（本项目的 GEM 上约 1.8 GB/份），
+    ''' 而克隆在构造后立刻被共享版本替换，随机初始化纯属浪费；
+    ''' 并行评估时每条 worker 都要克隆一次，这份浪费会被并行度放大约 3.5 GB × N。
+    ''' </param>
     Public Sub New(graph As MetabolicNetworkGraph,
                    Optional mode As LiquidMode = LiquidMode.LTC,
                    Optional solver As String = "rk4",
-                   Optional seed As Integer? = 42)
+                   Optional seed As Integer? = 42,
+                   Optional lightweight As Boolean = False)
         Me.Graph = graph
         Me.MetaboliteCount = graph.MetaboliteCount
         Me.ReactionCount = graph.ReactionCount
@@ -114,10 +125,18 @@ Public Class MetabolicLiquidNetwork
         _OutputMask = CType(identity.Clone(), Tensor)
 
         ' 通量读取头：v = e ⊙ σ(Wv·[h;u] + bv)
-        _FluxWeight = Tensor.XavierInit(m + nIn, r, If(seed.HasValue, seed.Value + 11, Nothing))
-        _FluxBias = Tensor.Zeros({r})
-        _FluxWeightGradient = Tensor.Zeros({m + nIn, r})
-        _FluxBiasGradient = Tensor.Zeros({r})
+        If lightweight Then
+            ' 克隆路径：这些马上由 ShareConstantsFrom 换成模板的只读常量
+            _FluxWeight = Nothing
+            _FluxBias = Nothing
+            _FluxWeightGradient = Nothing
+            _FluxBiasGradient = Nothing
+        Else
+            _FluxWeight = Tensor.XavierInit(m + nIn, r, If(seed.HasValue, seed.Value + 11, Nothing))
+            _FluxBias = Tensor.Zeros({r})
+            _FluxWeightGradient = Tensor.Zeros({m + nIn, r})
+            _FluxBiasGradient = Tensor.Zeros({r})
+        End If
 
         _enzymeLevel = New Double(r - 1) {}
         _boundaryOverride = New Double(graph.BoundaryCount - 1) {}
@@ -240,6 +259,46 @@ Public Class MetabolicLiquidNetwork
     End Sub
 
     ''' <summary>
+    ''' 逐反应酶水平系数的只读视图（长度 = 反应数，1 = 野生型，0 = 完全敲除）。
+    ''' </summary>
+    ''' <remarks>
+    ''' 这里刻意返回内部数组而不是副本：批量调度器每个时间步都要把整批细胞的
+    ''' 酶水平搬运进一个 <c>[B, r]</c> 缓冲，逐细胞分配一个新数组会带来与细胞数
+    ''' 成正比的 GC 压力。调用方只允许读取；批量写入请使用
+    ''' <see cref="ApplyEnzymeLevels(Double())"/>。
+    ''' </remarks>
+    Public ReadOnly Property EnzymeLevels As Double()
+        Get
+            Return _enzymeLevel
+        End Get
+    End Property
+
+    ''' <summary>
+    ''' 批量写入逐反应酶水平系数：长度不足的部分保持不变，NaN / Infinity 一律视为野生型 1.0。
+    ''' </summary>
+    ''' <remarks>
+    ''' 供批量管线（把扰动传播到 <c>StepIntervalBatch</c>）与「子代继承亲代基因型」
+    ''' 使用：二者都需要在不逐条解析反应 id 的前提下一次性同步整份基因型。
+    ''' </remarks>
+    Public Sub ApplyEnzymeLevels(levels As Double())
+        If levels Is Nothing Then
+            Return
+        End If
+
+        Dim count As Integer = std.Min(levels.Length, _enzymeLevel.Length)
+
+        For j As Integer = 0 To count - 1
+            Dim value As Double = levels(j)
+
+            If Double.IsNaN(value) OrElse Double.IsInfinity(value) Then
+                value = 1.0
+            End If
+
+            _enzymeLevel(j) = value
+        Next
+    End Sub
+
+    ''' <summary>
     ''' 固定某个边界代谢物的浓度（例如把 o2_e 设为 0 来模拟厌氧条件）。
     ''' 覆盖会一直生效，直到调用 <see cref="ResetPerturbation"/>。
     ''' </summary>
@@ -264,6 +323,180 @@ Public Class MetabolicLiquidNetwork
             _boundaryFixed(k) = False
             _boundaryOverride(k) = 0.0
         Next
+    End Sub
+
+#End Region
+
+#Region "上下文（酶表达量）"
+
+    ''' <summary>
+    ''' 上下文状态：默认 <see cref="ContextAlignmentMode.Affine"/>。
+    ''' </summary>
+    ''' <remarks>
+    ''' 网络的酶输入在训练前被 MinMax 归一化到 <c>[0,1]</c>（见 <c>MetabolicDataIO.MinMaxNormalize</c>），
+    ''' 因此把 <c>Means = 训练最小值</c>、<c>StandardDeviations = 极差</c> 交给公共组件的仿射换算，
+    ''' 得到的正是训练时使用的同一变换。
+    ''' </remarks>
+    Private m_context As ContextAlignmentState
+    Private m_contextEnzymes As Double()
+    Private m_contextReference As ContextAlignmentReference
+
+    Private ReadOnly Property ContextState As ContextAlignmentState
+        Get
+            If m_context Is Nothing Then
+                m_context = New ContextAlignmentState(ContextAlignmentMode.Affine)
+            End If
+
+            Return m_context
+        End Get
+    End Property
+
+    ''' <summary>当前生效的上下文对齐模式。</summary>
+    Public ReadOnly Property ContextAlignmentMode As ContextAlignmentMode
+        Get
+            Return ContextState.Mode
+        End Get
+    End Property
+
+    ''' <summary>最近一次上下文注入的诊断。</summary>
+    Public ReadOnly Property ContextDiagnostics As ContextAlignmentDiagnostics
+        Get
+            Return ContextState.Diagnostics
+        End Get
+    End Property
+
+    ''' <summary>是否已经注入了上下文。</summary>
+    Public ReadOnly Property HasContext As Boolean
+        Get
+            Return m_contextEnzymes IsNot Nothing
+        End Get
+    End Property
+
+    ''' <summary>
+    ''' 注册训练期的酶表达统计量（供上下文对齐使用）。
+    ''' </summary>
+    ''' <param name="minimum">逐反应的训练最小值（模型输入空间）</param>
+    ''' <param name="range">逐反应的训练极差（最大值 − 最小值，非正数按 1 处理）</param>
+    ''' <param name="population">逐反应的训练取值序列（分布类对齐需要）</param>
+    ''' <remarks>由 <see cref="MetabolicTrainer"/> 在训练完成之后自动调用。</remarks>
+    Public Sub SetContextReference(minimum As Double(), range As Double(), population As Double()())
+        Dim ranges(minimum.Length - 1) As Double
+
+        For i As Integer = 0 To ranges.Length - 1
+            ranges(i) = If(range(i) > 0.0, range(i), 1.0R)
+        Next
+
+        m_contextReference = New ContextAlignmentReference With {
+            .GeneNames = Graph.ReactionIds,
+            .Means = minimum,
+            .StandardDeviations = ranges,
+            .Population = population
+        }
+
+        Call ContextState.Clear()
+
+        m_contextEnzymes = Nothing
+    End Sub
+
+    ''' <summary>
+    ''' 把外部酶表达谱注入为模型的野生型背景。
+    ''' </summary>
+    ''' <param name="context">反应 ID → 原始酶表达量（大小写不敏感；可以只覆盖部分反应）</param>
+    ''' <returns>当前对象（便于链式调用）</returns>
+    ''' <remarks>
+    ''' 注入之后可通过 <see cref="ContextEnzymes"/> 取得模型输入空间下的逐反应酶水平
+    ''' （未覆盖的反应保持 1.0，即野生型容量），再配合 <see cref="SetEnzymeLevel"/>、
+    ''' <see cref="KnockOut"/> 与 <see cref="Simulate"/> 做通量级的扰动分析。
+    ''' </remarks>
+    ''' <exception cref="InvalidOperationException">
+    ''' 模型尚未注册训练统计量（请先训练），或者上下文没有任何反应命中
+    ''' </exception>
+    Public Function SetContext(context As Dictionary(Of String, Double)) As InsilicoPerturbationExperiment Implements InsilicoPerturbationExperiment.SetContext
+        Call ContextState.SetContext(context, m_contextReference)
+
+        If ContextState.Diagnostics Is Nothing OrElse ContextState.Diagnostics.Matched = 0 Then
+            Throw New InvalidOperationException(
+                "上下文中没有任何反应能够映射到代谢网络的反应集合上")
+        End If
+
+        Call applyContext(ContextState.Result)
+
+        Return Me
+    End Function
+
+    ''' <summary>切换上下文对齐模式；已注入上下文时会立即重新对齐。</summary>
+    ''' <param name="mode">新的对齐模式</param>
+    ''' <returns>当前对象（便于链式调用）</returns>
+    Public Function SetContextAlignmentMode(mode As ContextAlignmentMode) As InsilicoPerturbationExperiment Implements InsilicoPerturbationExperiment.SetContextAlignmentMode
+        Call ContextState.SetMode(mode)
+
+        If ContextState.HasContext Then
+            Call applyContext(ContextState.Result)
+        End If
+
+        Return Me
+    End Function
+
+    ''' <summary>撤销上下文，回到野生型酶容量。</summary>
+    Public Sub ClearContext()
+        Call ContextState.Clear()
+
+        m_contextEnzymes = Nothing
+    End Sub
+
+    ''' <summary>模型输入空间下的逐反应酶水平（未注入时为 Nothing）。</summary>
+    Public ReadOnly Property ContextEnzymes As Double()
+        Get
+            Return m_contextEnzymes
+        End Get
+    End Property
+
+    ''' <summary>
+    ''' 通量级扰动不通过本接口返回。
+    ''' </summary>
+    ''' <remarks>
+    ''' 代谢模型的“表型”是浓度/通量轨迹，必须由调用方给出初始状态、酶序列、边界序列与时间网格
+    ''' （<see cref="Simulate"/> / <see cref="MetabolicTrainer.Predict"/>）。接口签名没有这些输入，
+    ''' 因此这里显式拒绝，避免返回一个看似合理、实则没有意义的差异结果。
+    ''' 常用的做法是 <see cref="KnockOut"/> 之后重新 <see cref="Simulate"/>，再与对照轨迹相减。
+    ''' </remarks>
+    Public Function KnockoutGene(geneName As String, Optional nSamples As Integer = 0) As InterventionResult Implements InsilicoPerturbationExperiment.KnockoutGene
+        Throw New NotSupportedException(fluxLevelMessage(geneName))
+    End Function
+
+    ''' <summary>见 <see cref="KnockoutGene"/>（通量级扰动需要完整的仿真条件）。</summary>
+    Public Function OverexpressGene(geneName As String, Optional nSamples As Integer = 0) As InterventionResult Implements InsilicoPerturbationExperiment.OverexpressGene
+        Throw New NotSupportedException(fluxLevelMessage(geneName))
+    End Function
+
+    ''' <summary>见 <see cref="KnockoutGene"/>（通量级扰动需要完整的仿真条件）。</summary>
+    Public Function KnockDownGene(geneName As String, Optional nSamples As Integer = 0) As InterventionResult Implements InsilicoPerturbationExperiment.KnockDownGene
+        Throw New NotSupportedException(fluxLevelMessage(geneName))
+    End Function
+
+    Private Function fluxLevelMessage(geneName As String) As String
+        Return $"代谢模型的扰动响应是浓度/通量轨迹，接口没有提供初始状态、酶序列、边界序列与时间网格；" &
+               $"请改用 KnockOut(""{geneName}"") + Simulate(...) 与对照轨迹比较"
+    End Function
+
+    Private Sub applyContext(aligned As ContextAlignmentResult)
+        Dim n As Integer = ReactionCount
+        Dim values(n - 1) As Double
+
+        ' 未覆盖的反应保持 1.0（野生型容量），而不是被映射成 0（= 敲除）
+        For i As Integer = 0 To n - 1
+            values(i) = 1.0R
+        Next
+
+        For Each item As KeyValuePair(Of String, Double) In aligned.Values
+            Dim idx As Integer = Graph.IndexOfReaction(item.Key)
+
+            If idx >= 0 Then
+                values(idx) = item.Value
+            End If
+        Next
+
+        m_contextEnzymes = values
     End Sub
 
 #End Region
@@ -402,7 +635,7 @@ Public Class MetabolicLiquidNetwork
         Liquid.ResetState()
         cell.SetState(h0)
 
-        For t = 0 To steps - 1
+        For t As Integer = 0 To steps - 1
             If t > 0 Then
                 Dim dt = times(t) - times(t - 1)
 
@@ -411,13 +644,32 @@ Public Class MetabolicLiquidNetwork
                 End If
             End If
 
-            Dim u = BuildInput(RowOf(enzymeSeries, t), RowOf(boundarySeries, t))
-            Dim h = CType(cell.State.Clone(), Tensor)
+            Dim u As Tensor = Nothing
+            Dim h As Tensor = Nothing
+            Dim out As Tensor = Nothing
+            Dim v As Tensor = Nothing
+            Dim sysTau As Tensor = Nothing
+            Dim ti = t
+
+            Call MetabolicTelemetry.Timed("ltc.build-input",
+                                          Sub()
+                                              u = BuildInput(RowOf(enzymeSeries, ti), RowOf(boundarySeries, ti))
+                                              h = CType(cell.State.Clone(), Tensor)
+                                          End Sub)
+
             ' 浓度必须经输出读出层 ĉ = W_out·h + b_out 才是"浓度空间"的量；
             ' 直接把隐藏状态当作浓度会与训练时的监督目标不一致
-            Dim out = Liquid.ComputeOutputFrom(h)
-            Dim v = ComputeFlux(h, u)
-            Dim sysTau = cell.GetSystemTau(h, u)
+            Call MetabolicTelemetry.Timed("ltc.output", Sub()
+                                                            out = Liquid.ComputeOutputFrom(h)
+                                                        End Sub)
+
+            Call MetabolicTelemetry.Timed("ltc.flux", Sub()
+                                                          v = ComputeFlux(h, u)
+                                                      End Sub)
+
+            Call MetabolicTelemetry.Timed("ltc.tau", Sub()
+                                                         sysTau = cell.GetSystemTau(h, u)
+                                                     End Sub)
 
             For i = 0 To m - 1
                 conc(t, i) = out(i)
@@ -429,7 +681,10 @@ Public Class MetabolicLiquidNetwork
 
             ' 用当前时刻的驱动外推下一时刻（区间内部会按 MaxSubStep 细分积分）
             If t < steps - 1 Then
-                Call StepInterval(u, times(t + 1) - times(t))
+                Call MetabolicTelemetry.Timed("ltc.step-interval",
+                                              Sub()
+                                                  Call StepInterval(u, times(ti + 1) - times(ti))
+                                              End Sub)
             End If
         Next
 
@@ -467,6 +722,364 @@ Public Class MetabolicLiquidNetwork
 
         Return n
     End Function
+
+#End Region
+
+#Region "批量细胞管线（同一步的全部细胞一起推进）"
+
+        ' ------------------------------------------------------------------
+        ' 为什么需要批量接口：
+        '   类器官仿真里每个细胞每步都要跑一次 StepInterval + ComputeFlux。
+        '   逐细胞调用时矩阵只有 1×122，低于 GPU 后端的小算子阈值，会整体回退 CPU；
+        '   即使强行上 GPU，逐算子写法也会为每细胞每子步产生十几次显存往返。
+        '   把「同一步的全部存活细胞」当作 batch 维（峰值数千）之后，
+        '   单次算子规模提升百倍、内核启动摊薄，并且状态可以常驻显存零往返。
+        '
+        ' 语义约定与逐样本 API 完全一致（同样的子步划分、同样的通量读取头、
+        '   同样的 ±30 夹断与可逆开关），因此调用方无需为两个路径写两套逻辑。
+        ' ------------------------------------------------------------------
+
+        Private _reversibleMask As Tensor
+
+        ''' <summary>
+        ''' 逐反应可逆标记的 <c>[r]</c> 张量（非 0 = 可逆），供融合内核选择 σ 或 2σ−1。
+        ''' </summary>
+        ''' <remarks>只依赖网络拓扑，构造后缓存复用；拓扑不可变，因此无需版本管理。</remarks>
+        Public ReadOnly Property ReversibleMask As Tensor
+            Get
+                If _reversibleMask Is Nothing Then
+                    Dim mask As Tensor = Tensor.Zeros({ReactionCount})
+
+                    For j As Integer = 0 To ReactionCount - 1
+                        If Graph.Reversible(j) Then
+                            mask(j) = 1.0
+                        End If
+                    Next
+
+                    _reversibleMask = mask
+                End If
+
+                Return _reversibleMask
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' 按**更大的**拓扑扩展模板：旧权重块按语义搬到新下标，新维度一律置零。
+        ''' </summary>
+        ''' <remarks>
+        ''' 用途：异源反应（给代谢网络插入一条新反应 + 一个新基因）会改变反应维度 r，
+        ''' 而预训练模板的权重形状与 r 绑定，无法原地扩容。这里重建一个同构实例，
+        ''' 把旧参数按块搬过去：
+        ''' <list type="bullet">
+        ''' <item><description>
+        ''' 循环权重 / 偏置 / τ（m 不变）整块复制 —— 因此新反应不改变已有代谢物的动力学。
+        ''' </description></item>
+        ''' <item><description>
+        ''' 输入权重 U 的行是<b>输入通道</b>，布局为 <c>[酶通道(r) | 边界通道(nB)]</c>。
+        ''' r 变大后边界通道整体右移 Δr，因此不能做"左上角块拷贝"，
+        ''' 必须把旧边界行搬到 <c>r_new + k</c>。
+        ''' </description></item>
+        ''' <item><description>
+        ''' 通量头 Wv 的形状是 <c>(m + nIn) × r</c>：行同样按 <c>[h(m) | 酶(r) | 边界(nB)]</c>
+        ''' 排布，需要同时处理"边界行右移"与"新反应列置零"。
+        ''' </description></item>
+        ''' </list>
+        ''' 结果是：**变体基线与原基线逐位一致**（新反应的通量与输入恒为 0），
+        ''' 只有优化器显式开启新反应（提高其基因表达 / kcat）才会产生差异。
+        ''' </remarks>
+        ''' <param name="template">原模板（不会被修改）</param>
+        ''' <param name="graph">新拓扑；代谢物与边界集合必须与原模板一致</param>
+        ''' <param name="mode">动力学模式</param>
+        ''' <param name="solver">ODE 求解器</param>
+        ''' <exception cref="InvalidOperationException">
+        ''' 代谢物数或边界数发生变化时抛出：新增反应只允许使用模型中已存在的代谢物，
+        ''' 且不得引入新的边界代谢物（否则跨膜槽映射需要整体重建，超出本函数的能力范围）。
+        ''' </exception>
+        Public Shared Function GrowFrom(template As MetabolicLiquidNetwork,
+                                        graph As MetabolicNetworkGraph,
+                                        Optional mode As LiquidMode = LiquidMode.LTC,
+                                        Optional solver As String = "rk4") As MetabolicLiquidNetwork
+            If template Is Nothing Then Throw New ArgumentNullException(NameOf(template))
+            If graph Is Nothing Then Throw New ArgumentNullException(NameOf(graph))
+
+            Dim m As Integer = template.MetaboliteCount
+            Dim rSrc As Integer = template.ReactionCount
+            Dim rDst As Integer = graph.ReactionCount
+
+            If graph.MetaboliteCount <> m OrElse graph.BoundaryCount <> template.Graph.BoundaryCount Then
+                Throw New InvalidOperationException(
+                    $"模板维度不可扩展：代谢物 {m}->{graph.MetaboliteCount}、" &
+                    $"边界 {template.Graph.BoundaryCount}->{graph.BoundaryCount}。" &
+                    "新增反应必须只用模型中已存在的代谢物，且不得改变边界集合。")
+            End If
+
+            If rDst < rSrc Then
+                Throw New InvalidOperationException($"新拓扑的反应数 {rDst} 少于模板的 {rSrc}，无法扩展")
+            End If
+
+            Dim dst As New MetabolicLiquidNetwork(graph, mode, solver, Nothing, lightweight:=True)
+            Dim sourceCell As LiquidCell = template.Liquid.LiquidLayer.Cells(0)
+
+            Call dst.SetTauBounds(sourceCell.TauMin, sourceCell.TauMax)
+
+            dst.MaxSubStep = template.MaxSubStep
+
+            If rDst = rSrc Then
+                ' 拓扑不变：整块复制即可（Metaboliq 不能反向依赖 Cella 的 ShareWeights）
+                Call CopyParameters(template, dst)
+
+                Return dst
+            End If
+
+            Dim delta As Integer = rDst - rSrc
+            Dim nInSrc As Integer = template.InputSize
+            Dim nInDst As Integer = dst.InputSize
+            Dim src As LiquidCell = sourceCell
+            Dim target As LiquidCell = dst.Liquid.LiquidLayer.Cells(0)
+
+            ' ---- 1. m 不变：状态侧参数整块复制 ----
+            Call CopyWhole(src.WeightRecurrent, target.WeightRecurrent)
+            Call CopyWhole(src.Bias, target.Bias)
+            Call CopyWhole(src.Tau, target.Tau)
+
+            If src.HasGate Then
+                Call CopyWhole(src.WeightGate, target.WeightGate)
+                Call CopyWhole(src.BiasGate, target.BiasGate)
+                Call CopyWhole(src.WeightGateInput, target.WeightGateInput, rowShift:=delta, rowFence:=rSrc)
+            End If
+
+            ' ---- 2. 输入权重 U(nIn × m)：酶通道原位，边界通道右移 delta ----
+            Call CopyInputRows(src.WeightInput, target.WeightInput, nInSrc, rSrc, delta, m)
+
+            ' ---- 3. 输出读出层（m 不变） ----
+            Call CopyWhole(template.Liquid.OutputWeight, dst.Liquid.OutputWeight)
+            Call CopyWhole(template.Liquid.OutputBias, dst.Liquid.OutputBias)
+
+            ' ---- 4. 通量头 Wv((m+nIn) × r) ----
+            dst.FluxWeight = Tensor.Zeros({m + nInDst, rDst})
+            dst.FluxBias = Tensor.Zeros({rDst})
+
+            ' 源头通量头为空（lightweight 模板）时保持全零：新反应静默，语义仍然正确
+            If template.FluxWeight IsNot Nothing AndAlso template.FluxWeight.Shape.Length > 1 Then
+                ' 4.1 隐藏状态行 [0, m) × 旧反应列 [0, rSrc)
+                For i As Integer = 0 To m - 1
+                    Call CopyRow(template.FluxWeight, i, 0, dst.FluxWeight, i, 0, rSrc)
+                Next
+
+                ' 4.2 输入行：旧行 m+k -> 新行 m + (k < rSrc ? k : k + delta)
+                For k As Integer = 0 To nInSrc - 1
+                    Dim destRow As Integer = m + (If(k < rSrc, k, k + delta))
+
+                    Call CopyRow(template.FluxWeight, m + k, 0, dst.FluxWeight, destRow, 0, rSrc)
+                Next
+            End If
+
+            ' 4.3 偏置：旧列原位
+            If template.FluxBias IsNot Nothing AndAlso template.FluxBias.Length >= rSrc Then
+                Call Array.Copy(template.FluxBias.Data, dst.FluxBias.Data, rSrc)
+                Call dst.FluxBias.MarkHostModified()
+            End If
+
+            Return dst
+        End Function
+
+        ''' <summary>维度完全一致时的整块参数复制（含通量头）</summary>
+        Private Shared Sub CopyParameters(source As MetabolicLiquidNetwork, target As MetabolicLiquidNetwork)
+            If source Is Nothing OrElse target Is Nothing Then
+                Return
+            End If
+
+            Dim src As LiquidCell = source.Liquid.LiquidLayer.Cells(0)
+            Dim dst As LiquidCell = target.Liquid.LiquidLayer.Cells(0)
+
+            Call CopyWhole(src.WeightRecurrent, dst.WeightRecurrent)
+            Call CopyWhole(src.WeightInput, dst.WeightInput)
+            Call CopyWhole(src.Bias, dst.Bias)
+            Call CopyWhole(src.Tau, dst.Tau)
+
+            If src.HasGate Then
+                Call CopyWhole(src.WeightGate, dst.WeightGate)
+                Call CopyWhole(src.WeightGateInput, dst.WeightGateInput)
+                Call CopyWhole(src.BiasGate, dst.BiasGate)
+            End If
+
+            Call CopyWhole(source.Liquid.OutputWeight, target.Liquid.OutputWeight)
+            Call CopyWhole(source.Liquid.OutputBias, target.Liquid.OutputBias)
+
+            If source.FluxWeight IsNot Nothing Then
+                target.FluxWeight = Tensor.Zeros(source.FluxWeight.Shape)
+                Call Array.Copy(source.FluxWeight.Data, target.FluxWeight.Data, source.FluxWeight.Length)
+                Call target.FluxWeight.MarkHostModified()
+            End If
+
+            If source.FluxBias IsNot Nothing Then
+                target.FluxBias = Tensor.Zeros(source.FluxBias.Shape)
+                Call Array.Copy(source.FluxBias.Data, target.FluxBias.Data, source.FluxBias.Length)
+                Call target.FluxBias.MarkHostModified()
+            End If
+        End Sub
+
+        ''' <summary>把源张量的数据整块复制到目标（取两者最小维度，目标其余位置保持原值）</summary>
+        Private Shared Sub CopyWhole(source As Tensor, target As Tensor, Optional rowShift As Integer = 0,
+                                     Optional rowFence As Integer = -1)
+            If source Is Nothing OrElse target Is Nothing Then
+                Return
+            End If
+
+            If source.Shape.Length <= 1 OrElse target.Shape.Length <= 1 Then
+                Dim length As Integer = System.Math.Min(source.Length, target.Length)
+
+                Call Array.Copy(source.Data, target.Data, length)
+                Call target.MarkHostModified()
+
+                Return
+            End If
+
+            Dim rows As Integer = System.Math.Min(source.Shape(0), target.Shape(0))
+            Dim cols As Integer = System.Math.Min(source.Shape(1), target.Shape(1))
+
+            For i As Integer = 0 To rows - 1
+                Dim destRow As Integer = If(rowFence >= 0 AndAlso i >= rowFence, i + rowShift, i)
+
+                If destRow < 0 OrElse destRow >= target.Shape(0) Then
+                    Continue For
+                End If
+
+                Call CopyRow(source, i, 0, target, destRow, 0, cols)
+            Next
+        End Sub
+
+        ''' <summary>复制输入权重矩阵的行：前 <paramref name="fence"/> 行原位，其余行整体右移</summary>
+        Private Shared Sub CopyInputRows(source As Tensor, target As Tensor,
+                                         rows As Integer, fence As Integer,
+                                         shift As Integer, cols As Integer)
+            For k As Integer = 0 To rows - 1
+                Dim destRow As Integer = If(k < fence, k, k + shift)
+
+                If destRow < 0 OrElse destRow >= target.Shape(0) Then
+                    Continue For
+                End If
+
+                Call CopyRow(source, k, 0, target, destRow, 0, cols)
+            Next
+        End Sub
+
+        ''' <summary>把源张量某一行的一段复制到目标张量的某一行（行主序）</summary>
+        Private Shared Sub CopyRow(source As Tensor, sourceRow As Integer, sourceCol As Integer,
+                                   target As Tensor, targetRow As Integer, targetCol As Integer,
+                                   count As Integer)
+            If count <= 0 Then
+                Return
+            End If
+
+            Dim sourceWidth As Integer = source.Shape(1)
+            Dim targetWidth As Integer = target.Shape(1)
+            Dim offset As Integer = sourceRow * sourceWidth + sourceCol
+
+            If offset < 0 OrElse offset + count > source.Data.Length Then
+                Return
+            End If
+            If targetRow * targetWidth + targetCol + count > target.Data.Length Then
+                Return
+            End If
+
+            Call Array.Copy(source.Data, offset, target.Data, targetRow * targetWidth + targetCol, count)
+            Call target.MarkHostModified()
+        End Sub
+
+        ''' <summary>
+        ''' 从模板共享只读的常量矩阵：通量读出头的权重、偏置以及可逆掩码。
+        ''' </summary>
+        ''' <remarks>
+        ''' 这些矩阵只依赖网络拓扑与随机初始化，推理期间不会被就地修改。
+        ''' 它们的大小为 <c>(m+n)×r</c>：m≈8130、n≈3401、r≈3270 时单个细胞就要约 300 MB，
+        ''' 因此多细胞仿真必须共享，否则内存占用会随细胞数量线性膨胀。
+        ''' 训练场景请改用 <c>CopyWeights</c> 取得独立副本。
+        ''' </remarks>
+        Public Sub ShareConstantsFrom(template As MetabolicLiquidNetwork)
+            If template Is Nothing OrElse ReferenceEquals(template, Me) Then
+                Return
+            End If
+            If template.ReactionCount <> ReactionCount OrElse template.MetaboliteCount <> MetaboliteCount Then
+                Return
+            End If
+
+            Me._FluxWeight = template._FluxWeight
+            Me._FluxBias = template._FluxBias
+            Me._reversibleMask = template._reversibleMask
+        End Sub
+
+        ''' <summary>创建批量状态矩阵 <c>[B, m]</c>（零初值）。</summary>
+        Public Function NewBatchState(batchSize As Integer) As Tensor
+            Return Tensor.Zeros({batchSize, MetaboliteCount})
+        End Function
+
+        ''' <summary>创建批量输入矩阵 <c>[B, r+nB]</c>（零初值）。</summary>
+        Public Function NewBatchInput(batchSize As Integer) As Tensor
+            Return Tensor.Zeros({batchSize, InputSize})
+        End Function
+
+        ''' <summary>创建批量输出矩阵 <c>[B, cols]</c>（零初值）。</summary>
+        Public Function NewBatchBuffer(batchSize As Integer, cols As Integer) As Tensor
+            Return Tensor.Zeros({batchSize, cols})
+        End Function
+
+        ''' <summary>
+        ''' 批量步进：把 <c>[B, m]</c> 的状态矩阵就地推进 <paramref name="span"/>。
+        ''' </summary>
+        ''' <remarks>
+        ''' 子步划分与逐样本 <see cref="StepInterval"/> 完全相同
+        ''' （<c>n = ceil(span / MaxSubStep)</c>，并受 <see cref="MaxSubStepsPerInterval"/> 限制），
+        ''' 且 n 只依赖 span 与 MaxSubStep，与细胞无关 —— 因此整个 batch 可以共用同一组子步，
+        ''' 不存在"批次被最慢细胞拖长"的长尾问题。
+        ''' </remarks>
+        ''' <param name="batchState">批量状态 <c>[B, m]</c>，就地更新</param>
+        ''' <param name="batchU">批量输入 <c>[B, r+nB]</c></param>
+        ''' <param name="span">推进时长</param>
+        ''' <returns>实际执行的子步数</returns>
+        Public Function StepIntervalBatch(batchState As Tensor, batchU As Tensor, span As Double) As Integer
+            If span <= 0 Then
+                Throw New ArgumentException($"时间区间长度必须为正，当前为 {span}")
+            End If
+
+            Dim n As Integer = CInt(std.Ceiling(span / std.Max(0.0000001, MaxSubStep)))
+
+            If n < 1 Then n = 1
+            If n > MaxSubStepsPerInterval Then n = MaxSubStepsPerInterval
+
+            Return Liquid.ForwardBatch(batchState, batchU, span, n)
+        End Function
+
+        ''' <summary>
+        ''' 批量浓度读出：<c>ĉ = h · OutputWeight + OutputBias</c>，就地写入 <paramref name="output"/>。
+        ''' </summary>
+        Public Sub ComputeOutputFromBatch(batchState As Tensor, output As Tensor)
+            Call Liquid.ComputeOutputFromBatch(batchState, output)
+        End Sub
+
+        ''' <summary>
+        ''' 批量通量读取头：<c>v = e ⊙ gsat([h ‖ u]·Wv + bv)</c>，就地写入 <paramref name="output"/>。
+        ''' </summary>
+        ''' <remarks>与 <see cref="ComputeFlux"/> 逐项对应（含可逆反应的 2σ−1 与预激活 ±30 夹断）。</remarks>
+        Public Sub ComputeFluxBatch(batchState As Tensor, batchU As Tensor, output As Tensor)
+            Call Tensor.computeKernel.FluxHeadBatch(batchState, batchU, _FluxWeight, _FluxBias,
+                                                   ReversibleMask, output)
+        End Sub
+
+        ''' <summary>
+        ''' 批量系统时间常数：<c>τ^sys = 1/(1/τ_eff + f)</c>，就地写入 <paramref name="output"/>。
+        ''' </summary>
+        Public Sub SystemTauBatch(batchState As Tensor, batchU As Tensor, output As Tensor)
+            Dim unit As LiquidCell = Liquid.LiquidLayer.Cells(0)
+
+            Call Tensor.computeKernel.SystemTauBatch(
+                batchState, batchU,
+                If(unit.HasGate, unit.WeightGate, Nothing),
+                If(unit.HasGate, unit.WeightGateInput, Nothing),
+                If(unit.HasGate, unit.BiasGate, Nothing),
+                unit.EffectiveTauVector,
+                output)
+        End Sub
 
     ''' <summary>
     ''' 单个观测区间内允许的最大子步数（防御性上限，避免极端时间尺度拖垮训练）

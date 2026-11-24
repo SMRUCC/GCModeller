@@ -1,3 +1,78 @@
+﻿#Region "Microsoft.VisualBasic::8832429b224c5117897bc8e92aa1dbfd, Data_science\Mathematica\Math\Math\Algebra\MILP\MilpOptions.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 187
+    '    Code Lines: 78 (41.71%)
+    ' Comment Lines: 69 (36.90%)
+    '    - Xml Docs: 84.06%
+    ' 
+    '   Blank Lines: 40 (21.39%)
+    '     File Size: 8.61 KB
+
+
+    '     Enum BranchRule
+    ' 
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    '     Enum NodeRule
+    ' 
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    '     Class MilpOptions
+    ' 
+    '         Properties: AbsoluteGap, Branch, CutCoefficientLimit, CutDensityLimit, DecimalFormat
+    '                     DivingDepthLimit, EnableCuts, EnableHeuristics, EnableLuUpdate, EnableParallel
+    '                     EnablePresolve, FeasibilityTolerance, IntegerTolerance, LpIterationLimit, LuMaxEtaNorm
+    '                     LuMaxUpdates, LuPivotTolerance, MaxCutsPerRound, MaxNodes, MaxOpenNodes
+    '                     MaxSeconds, MaxThreads, Node, RelativeGap, RootCutRounds
+    '                     Verbose
+    ' 
+    '         Function: Clone, ToLuUpdateOptions
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 ' ============================================================================
 ' MilpOptions.vb — MILP 求解控制选项与枚举
 ' ----------------------------------------------------------------------------
@@ -6,6 +81,8 @@
 '
 ' Copyright (c) 2018 GPL3 Licensed — sciBASIC.NET Foundation
 ' ============================================================================
+
+Imports Microsoft.VisualBasic.Math.LinearAlgebra.LinearProgramming.IPMCrossover
 
 Namespace LinearAlgebra.LinearProgramming.MILP
 
@@ -104,6 +181,45 @@ Namespace LinearAlgebra.LinearProgramming.MILP
         ''' <summary>是否输出详细日志（求解进度）。默认关闭。</summary>
         Public Property Verbose As Boolean = False
 
+        ''' <summary>
+        ''' 是否启用多线程并行加速（割平面逐行生成、预处理行扫描、大矩阵 LU 消元、
+        ''' 分支定界并行节点求解等）。SIMD 向量化不受该开关影响，始终启用。
+        ''' 默认关闭以保持既有串行行为。
+        ''' </summary>
+        Public Property EnableParallel As Boolean = False
+
+        ''' <summary>并行最大线程数；0 = 自动（CPU 逻辑核心数）。默认 0。</summary>
+        Public Property MaxThreads As Integer = 0
+
+        ''' <summary>
+        ''' 是否启用基矩阵 LU 增量更新（产品形式 η 修正，换基 O(m²)）。
+        ''' 关闭时退回「每次换基完整重构 LU」的既有路径 —— 既是 A/B benchmark
+        ''' 的对照组，也是一键回退开关。默认开启。
+        ''' </summary>
+        Public Property EnableLuUpdate As Boolean = True
+
+        ''' <summary>
+        ''' 两轮完整重构之间允许的最大换基次数（η 条数上限），达到即强制完整重构。
+        ''' 兼作周期性重构的节奏控制。默认 60。
+        ''' </summary>
+        Public Property LuMaxUpdates As Integer = 60
+
+        ''' <summary>LU 更新主元分母 |1 + w_p| 的下限，低于该值拒绝本次更新并重构。默认 1e-12。</summary>
+        Public Property LuPivotTolerance As Double = 0.000000000001
+
+        ''' <summary>LU 更新 η 向量无穷范数上限，超过该值拒绝本次更新并重构。默认 1e6。</summary>
+        Public Property LuMaxEtaNorm As Double = 1000000.0
+
+        ''' <summary>把 LU 更新相关选项转换成共享层的 <see cref="LuUpdateOptions"/>。</summary>
+        Friend Function ToLuUpdateOptions() As LuUpdateOptions
+            Return New LuUpdateOptions With {
+                .Enabled = EnableLuUpdate,
+                .MaxUpdates = System.Math.Max(1, LuMaxUpdates),
+                .PivotTolerance = LuPivotTolerance,
+                .MaxEtaNorm = LuMaxEtaNorm
+            }
+        End Function
+
         ''' <summary>数值输出格式。</summary>
         Public Property DecimalFormat As String = "G6"
 
@@ -131,6 +247,12 @@ Namespace LinearAlgebra.LinearProgramming.MILP
                 .Branch = Branch,
                 .Node = Node,
                 .Verbose = Verbose,
+                .EnableParallel = EnableParallel,
+                .MaxThreads = MaxThreads,
+                .EnableLuUpdate = EnableLuUpdate,
+                .LuMaxUpdates = LuMaxUpdates,
+                .LuPivotTolerance = LuPivotTolerance,
+                .LuMaxEtaNorm = LuMaxEtaNorm,
                 .DecimalFormat = DecimalFormat
             }
         End Function

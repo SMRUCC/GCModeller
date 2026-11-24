@@ -53,16 +53,22 @@
 #End Region
 
 Imports System.IO
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports SMRUCC.genomics.Analysis.BNLearn
+Imports Microsoft.VisualBasic.Scripting.Runtime
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Analysis.BNLearn.Core
 Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
-Imports SMRUCC.genomics.Analysis.BNLearn.IO
 Imports SMRUCC.genomics.Analysis.BNLearn.ModularNetwork
 Imports SMRUCC.genomics.Analysis.BNLearn.ModularNetwork.WGCNA
 Imports SMRUCC.genomics.Analysis.BNLearn.StructureLearning
+Imports SMRUCC.genomics.Analysis.CellPhenotype.RegulationNetwork
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports SMRUCC.genomics.BioSystem
+Imports SMRUCC.genomics.BioSystem.Core
+Imports SMRUCC.genomics.BioSystem.Intervention
 Imports SMRUCC.genomics.MetabolicModel
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
@@ -154,6 +160,12 @@ Module bnlearn
         Return ModularNetworkPipeline.LoadModel(s)
     End Function
 
+    <ExportAPI("read_pathway_knowledge")>
+    <RApiReturn(GetType(MetabolicPathway))>
+    Public Function read_pathways(kb As String) As Object
+        Return New list(kb.SolveStream.LoadJSON(Of Dictionary(Of String, MetabolicPathway)))
+    End Function
+
     ''' <summary>
     ''' learn the gene regulatory bayesian network from the gene expression data
     ''' </summary>
@@ -229,7 +241,7 @@ Module bnlearn
                 If pull IsNot Nothing AndAlso pull.isError Then
                     Return pull.getError
                 Else
-                    kbNet = BnIO.ReadPriorNetwork(pull)
+                    kbNet = pull.AssemblePriorNetwork
                 End If
             End If
         Else
@@ -239,7 +251,7 @@ Module bnlearn
         Dim timeSeries As GeneExpressionData
 
         If TypeOf exprData Is matrix Then
-            timeSeries = BnIO.ReadGeneExpressionMatrix(DirectCast(exprData, matrix))
+            timeSeries = HTSDataFrame.ReadGeneExpressionMatrix(DirectCast(exprData, matrix))
         Else
             timeSeries = DirectCast(exprData, GeneExpressionData)
         End If
@@ -288,17 +300,31 @@ Module bnlearn
     ''' <summary>
     ''' set wildtype baseline
     ''' </summary>
-    ''' <param name="model"><see cref="BNLearnWorkflow"/> or <see cref="BlockBayesianNetwork"/></param>
+    ''' <param name="model">
+    ''' <see cref="BNLearnWorkflow"/>, <see cref="BlockBayesianNetwork"/>, or the elastic net
+    ''' perturbation engine that is created via ``linear::elastic_model``.
+    ''' </param>
     ''' <param name="baseline">a value list tuple of the baseline expression value, example as list(gene1=xxx,gene2=xxx,...)</param>
     ''' <param name="env"></param>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' For the elastic net engine the given values are interpreted in the model space
+    ''' (i.e. the same numeric space as the expression matrix that was used to fit the network),
+    ''' and the genes that are not modelled are simply ignored.
+    ''' </remarks>
     <ExportAPI("wildtype_baseline")>
-    <RApiReturn(GetType(BNLearnWorkflow), GetType(BlockBayesianNetwork))>
+    <RApiReturn(GetType(BNLearnWorkflow), GetType(BlockBayesianNetwork), GetType(SMRUCC.genomics.Analysis.CellPhenotype.ElasticNet))>
     Public Function setBaseline(model As Object, baseline As list, Optional env As Environment = Nothing) As Object
         If TypeOf model Is BNLearnWorkflow Then
-            Call DirectCast(model, BNLearnWorkflow).SetExternalExpression(baseline.asGeneric(Function(x) CLRVector.asScalarNumber(x)))
+            Call DirectCast(model, BNLearnWorkflow).SetContext(baseline.asGeneric(Function(x) CLRVector.asScalarNumber(x)))
         ElseIf TypeOf model Is BlockBayesianNetwork Then
             Call DirectCast(model, BlockBayesianNetwork).SetWildtypeBaseline(baseline.asGeneric(Function(x) CLRVector.asScalarNumber(x)))
+        ElseIf TypeOf model Is SMRUCC.genomics.Analysis.CellPhenotype.ElasticNet Then
+            Dim values As Dictionary(Of String, Double) = baseline.asGeneric(Function(x) CLRVector.asScalarNumber(x))
+            Dim engine As SMRUCC.genomics.Analysis.CellPhenotype.ElasticNet =
+                DirectCast(model, SMRUCC.genomics.Analysis.CellPhenotype.ElasticNet)
+
+            Call engine.SetContext(values)
         Else
             Return Message.InCompatibleType(GetType(BNLearnWorkflow), model.GetType, env)
         End If
@@ -368,8 +394,10 @@ Module bnlearn
     ''' a collection of the regulatory edge data, which can be a vector of the 
     ''' <see cref="RegulatoryEdge"/> object, the output of the ``prior_network`` 
     ''' api, or a pipeline object that produces a set of the 
-    ''' <see cref="RegulatoryEdge"/> data.
+    ''' <see cref="RegulatoryEdge"/> data. or this parameter value also could be the
+    ''' <see cref="GRNBuildResult"/> object which is created via the WGCNA module detection and the TF enrichment analysis, the regulatory edges of the prior network will be extracted from the given GRNBuildResult object.
     ''' </param>
+    ''' <param name="cutoff">the cutoff value for filtering the regulatory edges.</param>
     ''' <param name="env">the R# runtime environment object.</param>
     ''' <returns>
     ''' a <see cref="PriorNetwork"/> object that contains all of the given 
@@ -380,14 +408,43 @@ Module bnlearn
     ''' </returns>
     <ExportAPI("as.prior_net")>
     <RApiReturn(GetType(PriorNetwork))>
-    Public Function buildNetwork(<RRawVectorArgument(GetType(RegulatoryEdge))> priorNet As Object, Optional env As Environment = Nothing) As Object
-        Dim pull As PipeIterator(Of RegulatoryEdge) = pipeline.Stream(Of RegulatoryEdge)(priorNet, env, nullPipe:=True)
-
-        If pull IsNot Nothing AndAlso pull.isError Then
-            Return pull.getError
+    Public Function buildNetwork(<RRawVectorArgument(GetType(RegulatoryEdge))> priorNet As Object, Optional cutoff As Double? = 0.6, Optional env As Environment = Nothing) As Object
+        If TypeOf priorNet Is GRNBuildResult Then
+            With DirectCast(priorNet, GRNBuildResult)
+                If cutoff Is Nothing Then
+                    Return .ToPriorNetwork
+                Else
+                    ' make strict network by filtering the edges with the given cutoff value
+                    Return .ToPriorNetwork(cutoff)
+                End If
+            End With
         Else
-            Return BnIO.ReadPriorNetwork(pull)
+            Dim pull As PipeIterator(Of RegulatoryEdge) = pipeline.Stream(Of RegulatoryEdge)(priorNet, env, nullPipe:=True)
+
+            If pull IsNot Nothing AndAlso pull.isError Then
+                Return pull.getError
+            Else
+                Return pull.AssemblePriorNetwork
+            End If
         End If
+    End Function
+
+    <ExportAPI("save_prior")>
+    Public Function save_network(prior_net As PriorNetwork, file As String)
+        Return prior_net.ToJson.SaveTo(file)
+    End Function
+
+    <ExportAPI("load_prior")>
+    Public Function load_prior(data As String) As PriorNetwork
+        Return PriorNetwork.ParseJson(data.SolveStream)
+    End Function
+
+    <ExportAPI("read.prior_net")>
+    Public Function read_prior_net(file As String) As PriorNetwork
+        Dim edges As RegulatoryEdge() = file.LoadCsv(Of RegulatoryEdge)(mute:=True)
+        Dim net As New PriorNetwork(edges)
+
+        Return net
     End Function
 
     ''' <summary>
@@ -430,203 +487,30 @@ Module bnlearn
         Dim tfs As String() = CLRVector.asCharacter(TF)
         Dim targets As String() = CLRVector.asCharacter(target_gene)
         Dim reg_types As String() = CLRVector.asCharacter(regulation_type)
-        Dim confs As Double() = CLRVector.asNumeric(confidence)
+        Dim conf_str As String() = CLRVector.asCharacter(confidence)
         Dim evidences As String() = CLRVector.asCharacter(evidence)
         Dim priorNet As RegulatoryEdge() = New RegulatoryEdge(tfs.Length - 1) {}
+        Dim confs As Double()
+
+        If conf_str.All(Function(si) si.IsNumeric(True, True)) Then
+            confs = conf_str.AsDouble
+        Else
+            confs = conf_str _
+                .Select(Function(si) RegulatoryEdge.ParseConfidenceEnum(si)) _
+                .ToArray
+        End If
 
         For i As Integer = 0 To tfs.Length - 1
             priorNet(i) = New RegulatoryEdge With {
                 .Confidence = confs(i),
                 .Evidence = evidences(i),
-                .RegulationType = reg_types(i),
+                .RegulationType = RegulatoryEdge.ParseEffector(reg_types(i)),
                 .TargetGene = targets(i),
                 .TF = tfs(i)
             }
         Next
 
         Return priorNet
-    End Function
-
-    ' permutation
-
-    ''' <summary>
-    ''' run the in silico gene knockout experiment on the given network model
-    ''' </summary>
-    ''' <param name="bnlearn">
-    ''' the trained network model object, which could be created by the ``bnlearn`` 
-    ''' api or the ``GEARS::new`` api.
-    ''' </param>
-    ''' <param name="geneNames">
-    ''' a character vector of the gene id for run the knockout experiment, one 
-    ''' <see cref="InterventionResult"/> object will be generated for each gene.
-    ''' </param>
-    ''' <returns>
-    ''' a vector of the <see cref="InterventionResult"/> perturbation result: the 
-    ''' ``WildtypeMeans`` is the wildtype expression value of each gene, the 
-    ''' ``MutantMeans`` is the expression value of each gene after the gene has been 
-    ''' knocked out, and the ``FoldChanges``, ``PercentChanges``, ``ZScores`` and 
-    ''' ``IsSignificant`` data is the differential analysis result of the 
-    ''' perturbation.
-    ''' </returns>
-    ''' 
-    ''' <remarks>
-    ''' the behavior of this function is determined by the ``strict`` option of the 
-    ''' input network model: an error will be thrown when the target gene is missing 
-    ''' from the network model in the strict mode, otherwise the wildtype expression 
-    ''' data will be returned as the result with the ``Undefined`` flag marked as 
-    ''' TRUE.
-    ''' </remarks>
-    <ExportAPI("knockouts")>
-    <RApiReturn(GetType(InterventionResult), GetType(GlobalPerturbationResult))>
-    Public Function KnockoutGene(bnlearn As Object, <RRawVectorArgument(TypeCodes.string)> geneNames As Object) As Object
-        If TypeOf bnlearn Is ModularNetworkPipeline Then
-            Return DirectCast(bnlearn, ModularNetworkPipeline).InsilicoPerturbation(CLRVector.asCharacter(geneNames), InterventionMode.Knockout).ToArray
-        Else
-            Dim result As New List(Of InterventionResult)
-
-            For Each geneName As String In CLRVector.asCharacter(geneNames)
-                Call result.Add(DirectCast(bnlearn, InsilicoPerturbationExperiment).KnockoutGene(geneName))
-            Next
-
-            Return result.ToArray
-        End If
-    End Function
-
-    ''' <summary>
-    ''' run the in silico gene overexpression experiment on the given network model
-    ''' </summary>
-    ''' <param name="bnlearn">
-    ''' the trained network model object, which could be created by the ``bnlearn`` 
-    ''' api or the ``GEARS::new`` api.
-    ''' </param>
-    ''' <param name="geneNames">
-    ''' a character vector of the gene id for run the overexpression experiment, 
-    ''' one <see cref="InterventionResult"/> object will be generated for each gene.
-    ''' </param>
-    ''' <param name="env">the R# runtime environment object.</param>
-    ''' <returns>
-    ''' a vector of the <see cref="InterventionResult"/> perturbation result: the 
-    ''' ``WildtypeMeans`` is the wildtype expression value of each gene, the 
-    ''' ``MutantMeans`` is the expression value of each gene after the gene has been 
-    ''' overexpressed, and the ``FoldChanges``, ``PercentChanges``, ``ZScores`` and 
-    ''' ``IsSignificant`` data is the differential analysis result of the 
-    ''' perturbation.
-    ''' </returns>
-    <ExportAPI("overexpress")>
-    <RApiReturn(GetType(InterventionResult), GetType(GlobalPerturbationResult))>
-    Public Function overexpress(bnlearn As Object, <RRawVectorArgument(TypeCodes.string)> geneNames As Object, Optional env As Environment = Nothing) As Object
-        If TypeOf bnlearn Is ModularNetworkPipeline Then
-            Return DirectCast(bnlearn, ModularNetworkPipeline).InsilicoPerturbation(CLRVector.asCharacter(geneNames), InterventionMode.Overexpression).ToArray
-        Else
-            Dim result As New List(Of InterventionResult)
-
-            For Each geneName As String In CLRVector.asCharacter(geneNames)
-                Call result.Add(DirectCast(bnlearn, InsilicoPerturbationExperiment).OverexpressGene(geneName))
-            Next
-
-            Return result.ToArray
-        End If
-    End Function
-
-    ''' <summary>
-    ''' run the in silico gene knockdown experiment on the given network model
-    ''' </summary>
-    ''' <param name="bnlearn">
-    ''' the trained network model object, which could be created by the ``bnlearn`` 
-    ''' api or the ``GEARS::new`` api.
-    ''' </param>
-    ''' <param name="geneNames">
-    ''' a character vector of the gene id for run the knockdown experiment, one 
-    ''' <see cref="InterventionResult"/> object will be generated for each gene.
-    ''' </param>
-    ''' <returns>
-    ''' a vector of the <see cref="InterventionResult"/> perturbation result: the 
-    ''' ``WildtypeMeans`` is the wildtype expression value of each gene, the 
-    ''' ``MutantMeans`` is the expression value of each gene after the gene has been 
-    ''' knocked down, and the ``FoldChanges``, ``PercentChanges``, ``ZScores`` and 
-    ''' ``IsSignificant`` data is the differential analysis result of the 
-    ''' perturbation.
-    ''' </returns>
-    <ExportAPI("knockdown")>
-    <RApiReturn(GetType(InterventionResult), GetType(GlobalPerturbationResult))>
-    Public Function knockdownGene(bnlearn As Object, <RRawVectorArgument(TypeCodes.string)> geneNames As Object) As Object
-        If TypeOf bnlearn Is ModularNetworkPipeline Then
-            Return DirectCast(bnlearn, ModularNetworkPipeline).InsilicoPerturbation(CLRVector.asCharacter(geneNames), InterventionMode.Knockdown).ToArray
-        Else
-            Dim result As New List(Of InterventionResult)
-
-            For Each geneName As String In CLRVector.asCharacter(geneNames)
-                Call result.Add(DirectCast(bnlearn, InsilicoPerturbationExperiment).KnockDownGene(geneName))
-            Next
-
-            Return result.ToArray
-        End If
-    End Function
-
-    ''' <summary>
-    ''' export the virtual permutation result as csv table files
-    ''' </summary>
-    ''' <param name="results">
-    ''' a collection of the in silico perturbation result, which can be a vector of 
-    ''' the <see cref="InterventionResult"/> object, or a pipeline object that 
-    ''' produces a set of the <see cref="InterventionResult"/> data.
-    ''' </param>
-    ''' <param name="dir">
-    ''' the output directory for save the generated csv table files, this directory 
-    ''' will be created if it is not exists.
-    ''' </param>
-    ''' <param name="pathway_info">
-    ''' an optional tuple list of the <see cref="MetabolicPathway"/> knowledge data: 
-    ''' the slot key of the list is the pathway id and the slot value is the 
-    ''' corresponding pathway object, this parameter is used for run the pathway 
-    ''' level analysis of the perturbation result.
-    ''' </param>
-    ''' <param name="top_n">
-    ''' the top n affected genes for export in the intervention ranking table, by 
-    ''' default is 50.
-    ''' </param>
-    ''' <param name="env">the R# runtime environment object.</param>
-    ''' <returns>
-    ''' TRUE will be returns if all of the result table files have been exported 
-    ''' into the given directory successfully;
-    ''' 
-    ''' this function returns a R# error message object if the given data can not be 
-    ''' cast to a collection of the <see cref="InterventionResult"/> data.
-    ''' </returns>
-    ''' 
-    ''' <remarks>
-    ''' the generated csv table files in the given output directory:
-    ''' 
-    ''' + ``foldchange_matrix.csv``, ``percentchange_matrix.csv``, 
-    '''   ``significance_matrix.csv``, ``zscore_matrix.csv``, 
-    '''   ``wildtype_means_matrix.csv``, ``mutant_means_matrix.csv``;
-    ''' + ``comprehensive_comparison.csv``, ``condition_similarity.csv``;
-    ''' + ``intervention_ranking.csv``: the top n affected genes of each 
-    '''   perturbation condition;
-    ''' + ``pathway_summary.csv`` and ``cross_impact_matrix.csv``: these two table 
-    '''   files will be generated only when the ``pathway_info`` parameter is 
-    '''   provided.
-    ''' </remarks>
-    <ExportAPI("make_exports")>
-    Public Function make_exports(<RRawVectorArgument(GetType(InterventionResult))> results As Object, dir As String,
-                                 <RRawVectorArgument>
-                                 Optional pathway_info As list = Nothing,
-                                 Optional top_n As Integer = 50,
-                                 Optional env As Environment = Nothing) As Object
-
-        Dim pull As pipeline = pipeline.TryCreatePipeline(Of InterventionResult)(results, env)
-        Dim pathways As Dictionary(Of String, MetabolicPathway) = Nothing
-
-        If pull.isError Then
-            Return pull.getError
-        End If
-        If pathway_info IsNot Nothing Then
-            pathways = pathway_info.asGeneric(Of MetabolicPathway)(env)
-        End If
-
-        Call New InterventionComparisonExporter(pull.populates(Of InterventionResult)(env)).ExportAll(dir, pathways, topN:=top_n)
-
-        Return True
     End Function
 
     ''' <summary>

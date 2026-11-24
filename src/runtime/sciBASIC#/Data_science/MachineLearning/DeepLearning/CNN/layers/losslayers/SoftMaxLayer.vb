@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9aba2b9cfa36bc705448f5f727101971, Data_science\MachineLearning\DeepLearning\CNN\Layers\losslayers\SoftMaxLayer.vb"
+﻿#Region "Microsoft.VisualBasic::37e98ff7301185067d878e18eb6fd119, Data_science\MachineLearning\DeepLearning\CNN\Layers\losslayers\SoftMaxLayer.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 108
-    '    Code Lines: 69 (63.89%)
-    ' Comment Lines: 17 (15.74%)
-    '    - Xml Docs: 58.82%
+    '   Total Lines: 115
+    '    Code Lines: 53 (46.09%)
+    ' Comment Lines: 40 (34.78%)
+    '    - Xml Docs: 75.00%
     ' 
-    '   Blank Lines: 22 (20.37%)
-    '     File Size: 3.39 KB
+    '   Blank Lines: 22 (19.13%)
+    '     File Size: 4.92 KB
 
 
     '     Class SoftMaxLayer
@@ -146,7 +146,11 @@ Namespace CNN.losslayers
             Call x.setGradient(mul.Data)
 
             ' loss is the class negative log likelihood
-            Return -std.Log(es(y))
+            '
+            ' 必须夹下限：softmax 的输出在极端 logits 下会下溢到 0（单精度下更早），
+            ' 而 -log(0) = +Inf 会顺着损失一路污染到梯度与权重。
+            ' 这里取 1e-12 与后端里 MaskedCrossEntropy 的保护口径一致。
+            Return -std.Log(std.Max(es(y), 1.0E-12))
         End Function
 
         ''' <summary>

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8e1ff93e65c5dbbaa608a326cb7b97bb, Microsoft.VisualBasic.Core\src\Extensions\Math\SIMD\SimdExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::7699d5d81dc2c73af98fa1d49f310db2, Microsoft.VisualBasic.Core\src\Math\SIMD\SimdExtensions.vb"
 
     ' Author:
     ' 
@@ -34,22 +34,23 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 355
-    '    Code Lines: 171 (48.17%)
-    ' Comment Lines: 136 (38.31%)
+    '   Total Lines: 415
+    '    Code Lines: 201 (48.43%)
+    ' Comment Lines: 157 (37.83%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 48 (13.52%)
-    '     File Size: 11.35 KB
+    '   Blank Lines: 57 (13.73%)
+    '     File Size: 13.38 KB
 
 
     '     Module SimdExtensions
     ' 
     '         Function: (+3 Overloads) SimdAbs, (+5 Overloads) SimdAdd, SimdAddScalar, SimdClamp, SimdDivide
-    '                   SimdDivideScalar, (+2 Overloads) SimdDot, SimdL1Norm, SimdL2Norm, (+2 Overloads) SimdMax
-    '                   (+2 Overloads) SimdMean, SimdMin, (+5 Overloads) SimdMultiply, SimdMultiplyScalar, (+2 Overloads) SimdNegate
-    '                   SimdReciprocal, (+2 Overloads) SimdSqrt, SimdSquare, (+4 Overloads) SimdSubtract, (+2 Overloads) SimdSum
-    '                   SimdSumSquares
+    '                   SimdDivideScalar, (+2 Overloads) SimdDot, SimdL1Norm, SimdL2Norm, SimdMatrixAdd
+    '                   SimdMatrixDivideZeroSafe, SimdMatrixDot, SimdMatrixMultiply, SimdMatrixScale, SimdMatrixSubtract
+    '                   SimdMatrixTranspose, (+2 Overloads) SimdMax, (+2 Overloads) SimdMean, SimdMin, (+5 Overloads) SimdMultiply
+    '                   SimdMultiplyScalar, (+2 Overloads) SimdNegate, SimdReciprocal, (+2 Overloads) SimdSqrt, SimdSquare
+    '                   (+4 Overloads) SimdSubtract, (+2 Overloads) SimdSum, SimdSumSquares
     ' 
     ' 
     ' /********************************************************************************/
@@ -466,6 +467,50 @@ Namespace Math.SIMD
         <Extension>
         Public Function SimdMatrixDot(a As Double()(), b As Double()()) As Double()()
             Return SimdMatrix.Dot(a, b)
+        End Function
+
+#End Region
+
+#Region "select and distance"
+
+        ''' <summary>
+        ''' 平方距离：<c>SUM((v1(i) - v2(i)) ^ 2)</c>，单趟零分配。
+        ''' </summary>
+        <Extension>
+        Public Function SimdDistanceSquared(v1 As Double(), v2 As Double()) As Double
+            Return SimdReduce.DistanceSquared(v1, v2)
+        End Function
+
+        ''' <summary>
+        ''' 最小值所在的下标（单趟扫描，数值相等取较小下标）。
+        ''' </summary>
+        <Extension>
+        Public Function SimdArgMin(v As Double()) As Integer
+            Return SimdSelect.ArgMin(v)
+        End Function
+
+        ''' <summary>
+        ''' 最大值所在的下标（单趟扫描，数值相等取较小下标）。
+        ''' </summary>
+        <Extension>
+        Public Function SimdArgMax(v As Double()) As Integer
+            Return SimdSelect.ArgMax(v)
+        End Function
+
+        ''' <summary>
+        ''' 最小的 <paramref name="k"/> 个元素的下标，按 (值升序, 下标升序) 排列。
+        ''' </summary>
+        <Extension>
+        Public Function SimdTopK(v As Double(), k As Integer) As Integer()
+            Return SimdSelect.TopKIndices(v, k)
+        End Function
+
+        ''' <summary>
+        ''' 平方范数：<c>SUM(v(i) ^ 2)</c>。
+        ''' </summary>
+        <Extension>
+        Public Function SimdSquaredNorm(v As Double()) As Double
+            Return SimdDistance.SquaredNorm(v)
         End Function
 
 #End Region

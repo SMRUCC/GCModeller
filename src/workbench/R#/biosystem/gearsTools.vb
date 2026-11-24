@@ -1,10 +1,11 @@
 ﻿
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports SMRUCC.genomics.Analysis.BNLearn
-Imports SMRUCC.genomics.Analysis.BNLearn.Core
 Imports SMRUCC.genomics.Analysis.BNLearn.IO
 Imports SMRUCC.genomics.Analysis.GEARS
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports SMRUCC.genomics.BioSystem
+Imports SMRUCC.genomics.BioSystem.Core
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
@@ -92,7 +93,7 @@ Public Module gearsTools
     <ExportAPI("new")>
     <RApiReturn(GetType(GEARS))>
     Public Function create_GEARS(x As Matrix, prior As PriorNetwork, config As GEARSConfig) As GEARS
-        Dim exprData As GeneExpressionData = BnIO.ReadGeneExpressionMatrix(x)
+        Dim exprData As GeneExpressionData = HTSDataFrame.ReadGeneExpressionMatrix(x)
         Dim gears As New GEARS(exprData, prior, config)
         Return gears
     End Function

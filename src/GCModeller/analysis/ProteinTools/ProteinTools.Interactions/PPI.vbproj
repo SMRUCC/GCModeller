@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>SMRUCC.genomics.Analysis.ProteinTools.Interactions</RootNamespace>
+    <AssemblyName>SMRUCC.genomics.Analysis.ProteinTools.Interactions</AssemblyName>
+    <Title>Protein-Protein Interaction Prediction Tools</Title>
+    <Description>Protein-protein interaction analysis library. It reimplements the Bayesian network method of Burger &amp; van Nimwegen (Mol Syst Biol 2008, 4:165) for predicting interaction partners directly from paired multiple sequence alignments of two protein families: Dirichlet-multinomial marginal likelihoods, likelihood-ratio mutual information, dependency trees summed through the matrix-tree theorem, Gibbs sampling over assignments, phylogenetic permutation tests and calibrated scoring. It also provides a general Bayesian belief network kernel (variable elimination, junction trees, loopy belief propagation, parameter and structure learning, EM) plus SwissTCS two-component system data access and iPfam PPI annotations.</Description>
+    <PackageProjectUrl>https://gcmodeller.org/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/SMRUCC/GCModeller.git</RepositoryUrl>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <Copyright>Copyright © SMRUCC genomics, GuiLin China, 2026</Copyright>
+    <Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
+    <Company>SMRUCC genomics institute</Company>
+    <Product>GCModeller</Product>
+    <PackageIcon Condition="Exists('logo.png')">logo.png</PackageIcon>
+    <PackageTags>gcmodeller;bioinformatics;genomics;protein-interaction;bayesian-network;coevolution;two-component-system;ppi-prediction</PackageTags>
+    <PackageReleaseNotes>Complete rewrite of the protein interaction prediction core: the R bnlearn based pipeline was replaced by a pure .NET implementation of the Burger &amp; van Nimwegen Bayesian network method (paired MSA, Dirichlet-multinomial likelihood ratio R_ij, dependency trees through the matrix-tree theorem, Gibbs sampling and phylogenetic permutation tests). The BayesianBeliefNetwork kernel now supports multi-valued nodes, correct evidence merging, variable elimination, junction trees, loopy belief propagation, parameter/structure learning and EM.</PackageReleaseNotes>
+    <Platforms>AnyCPU;x64</Platforms>
+    <TargetFramework>net10.0</TargetFramework>
+    <OutputType>Library</OutputType>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="test\**" />
+    <EmbeddedResource Remove="test\**" />
+    <None Remove="test\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\interops\localblast\LocalBLAST\localblast.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\DataFrame\dataframework-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\DataMining\DataMining\DataMining.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Graph\graph-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
+    <ProjectReference Include="..\..\SequenceToolkit\SequenceAlignment\SequenceAlignment.vbproj" />
+  </ItemGroup>
+ 
+</Project>

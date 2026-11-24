@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f8133567325e938cd26d0b48b5afd365, cuda\ILCuda\Runtime\CudaStream.vb"
+﻿#Region "Microsoft.VisualBasic::e6b67414ae2220be3752fe0949c17cb7, cuda\ILCuda\Runtime\CudaStream.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 95
-    '    Code Lines: 58 (61.05%)
-    ' Comment Lines: 17 (17.89%)
+    '   Total Lines: 103
+    '    Code Lines: 63 (61.17%)
+    ' Comment Lines: 17 (16.50%)
     '    - Xml Docs: 64.71%
     ' 
-    '   Blank Lines: 20 (21.05%)
-    '     File Size: 3.52 KB
+    '   Blank Lines: 23 (22.33%)
+    '     File Size: 3.74 KB
 
 
     '     Enum CudaStreamFlags
@@ -92,6 +92,8 @@ Namespace Runtime
         Public Sub New(Optional flags As CudaStreamFlags = CudaStreamFlags.DefaultStream)
             Dim handle As IntPtr = IntPtr.Zero
 
+            CudaRuntime.EnsureCurrent()
+
             CudaDriverApi.Check(
                 CudaDriverApi.cuStreamCreate(handle, CUInt(flags)), "cuStreamCreate")
 
@@ -108,6 +110,7 @@ Namespace Runtime
         ''' <summary>阻塞等待本流上已提交的全部任务完成</summary>
         Public Sub Synchronize()
             ThrowIfDisposed()
+            CudaRuntime.EnsureCurrent()
             CudaDriverApi.Check(CudaDriverApi.cuStreamSynchronize(_handle), "cuStreamSynchronize")
         End Sub
 
@@ -117,6 +120,7 @@ Namespace Runtime
         ''' </summary>
         Public Function Query() As Boolean
             ThrowIfDisposed()
+            CudaRuntime.EnsureCurrent()
 
             Dim status = CudaDriverApi.cuStreamQuery(_handle)
 
@@ -132,6 +136,8 @@ Namespace Runtime
             ThrowIfDisposed()
             If evt Is Nothing Then Throw New ArgumentNullException(NameOf(evt))
 
+            CudaRuntime.EnsureCurrent()
+
             CudaDriverApi.Check(
                 CudaDriverApi.cuStreamWaitEvent(_handle, evt.Handle, 0UI), "cuStreamWaitEvent")
         End Sub
@@ -146,6 +152,8 @@ Namespace Runtime
 
             If _handle <> IntPtr.Zero Then
                 Try
+                    CudaRuntime.EnsureCurrent()
+
                     CudaDriverApi.Check(CudaDriverApi.cuStreamDestroy_v2(_handle), "cuStreamDestroy_v2")
                 Catch
                 End Try

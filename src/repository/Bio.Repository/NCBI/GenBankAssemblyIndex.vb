@@ -1,67 +1,67 @@
 ﻿#Region "Microsoft.VisualBasic::fa9040dfe944ad1aa7a19ef4256bcacc, Bio.Repository\NCBI\GenBankAssemblyIndex.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 433
-    '    Code Lines: 48 (11.09%)
-    ' Comment Lines: 380 (87.76%)
-    '    - Xml Docs: 95.79%
-    ' 
-    '   Blank Lines: 5 (1.15%)
-    '     File Size: 22.31 KB
+' Summaries:
 
 
-    ' Class GenBankAssemblyIndex
-    ' 
-    '     Properties: annotation_date, annotation_name, annotation_provider, asm_name, asm_not_live_date
-    '                 asm_submitter, assembly_accession, assembly_level, assembly_type, bioproject
-    '                 biosample, contig_count, excluded_from_refseq, ftp_path, gbrs_paired_asm
-    '                 gc_percent, genome_rep, genome_size, genome_size_ungapped, group
-    '                 infraspecific_name, isolate, non_coding_gene_count, organism_name, paired_asm_comp
-    '                 protein_coding_gene_count, pubmed_id, refseq_category, relation_to_type_material, release_type
-    '                 replicon_count, scaffold_count, seq_rel_date, species_taxid, taxid
-    '                 total_gene_count, version_status, wgs_master
-    ' 
-    '     Function: LoadIndex
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 433
+'    Code Lines: 48 (11.09%)
+' Comment Lines: 380 (87.76%)
+'    - Xml Docs: 95.79%
+' 
+'   Blank Lines: 5 (1.15%)
+'     File Size: 22.31 KB
+
+
+' Class GenBankAssemblyIndex
+' 
+'     Properties: annotation_date, annotation_name, annotation_provider, asm_name, asm_not_live_date
+'                 asm_submitter, assembly_accession, assembly_level, assembly_type, bioproject
+'                 biosample, contig_count, excluded_from_refseq, ftp_path, gbrs_paired_asm
+'                 gc_percent, genome_rep, genome_size, genome_size_ungapped, group
+'                 infraspecific_name, isolate, non_coding_gene_count, organism_name, paired_asm_comp
+'                 protein_coding_gene_count, pubmed_id, refseq_category, relation_to_type_material, release_type
+'                 replicon_count, scaffold_count, seq_rel_date, species_taxid, taxid
+'                 total_gene_count, version_status, wgs_master
+' 
+'     Function: LoadIndex
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.Data.Framework.IO.Linq
-Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports SMRUCC.genomics.Metagenomics
 
 ''' <summary>

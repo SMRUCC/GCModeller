@@ -76,6 +76,7 @@ Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Analysis.GO
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
+Imports SMRUCC.genomics.Analysis.HTS.GSEA.Formats
 Imports SMRUCC.genomics.Analysis.HTS.GSEA.KnowledgeBase
 Imports SMRUCC.genomics.Analysis.HTS.GSEA.KnowledgeBase.Metabolism
 Imports SMRUCC.genomics.Analysis.HTS.GSEA.KnowledgeBase.Metabolism.Metpa
@@ -164,7 +165,7 @@ Public Module GSEABackground
     ''' <summary>
     ''' get all of the cluster id set from the given background model object 
     ''' </summary>
-    ''' <param name="background"></param>
+    ''' <param name="background">the GSEA background model object.</param>
     ''' <returns>A character vector of the cluster id(or pathway id) that defined inside the given background model</returns>
     ''' <example>
     ''' let kb = read.background("hsa.xml");
@@ -177,6 +178,27 @@ Public Module GSEABackground
         Return background.clusters.Select(Function(a) a.ID).ToArray
     End Function
 
+    ''' <summary>
+    ''' Get the cluster name of each gene id from the given background model.
+    ''' </summary>
+    ''' <param name="background">the GSEA background model object.</param>
+    ''' <param name="idset">
+    ''' a character vector of the gene ids, the first cluster that contains the target
+    ''' gene will be used for query the cluster name.
+    ''' </param>
+    ''' <returns>
+    ''' a character vector of the cluster name of each input gene id, a ``NULL`` value will be
+    ''' returned for the gene id that is not annotated in any cluster.
+    ''' </returns>
+    ''' <remarks>
+    ''' This function returns only the first matched cluster name when a gene is annotated
+    ''' in multiple clusters, use ``geneSet.intersects`` with ``get_clusterID=TRUE`` for
+    ''' getting all of the cluster ids of the gene.
+    ''' </remarks>
+    ''' <example>
+    ''' let kb = read.background("hsa.xml");
+    ''' print(cluster_names(kb, c("7157", "1956")));
+    ''' </example>
     <ExportAPI("cluster_names")>
     Public Function clusterNames(background As Background, <RRawVectorArgument(TypeCodes.string)> idset As Object) As String()
         Return CLRVector.asCharacter(idset) _
@@ -194,7 +216,7 @@ Public Module GSEABackground
     ''' <summary>
     ''' get all of the molecule id set from the given background model object
     ''' </summary>
-    ''' <param name="background"></param>
+    ''' <param name="background">the GSEA background model object.</param>
     ''' <returns>A character vector of the gene id that defined inside the given background model</returns>
     ''' <example>
     ''' let kb = read.background("hsa.xml");
@@ -213,6 +235,16 @@ Public Module GSEABackground
             .ToArray
     End Function
 
+    ''' <summary>
+    ''' Create a GSEA background model from the KEGG pathway graph query result of the
+    ''' enrichment analysis result terms.
+    ''' </summary>
+    ''' <param name="enrich">
+    ''' the enrichment analysis result set, the term id of each result object will be used
+    ''' as the pathway id for query the pathway graph from the <paramref name="graphQuery"/>.
+    ''' </param>
+    ''' <param name="graphQuery">the KEGG pathway graph query object.</param>
+    ''' <returns>a <see cref="Background"/> model that is created from the pathway graph data.</returns>
     <ExportAPI("meta_background")>
     <RApiReturn(GetType(Background))>
     Public Function MetaEnrichBackground(enrich As EnrichmentResult(), graphQuery As GraphQuery) As Object
@@ -222,7 +254,7 @@ Public Module GSEABackground
     ''' <summary>
     ''' create gsea background from a given obo ontology file data.
     ''' </summary>
-    ''' <param name="dag"></param>
+    ''' <param name="dag">the GO obo database object that is used for creating the background model.</param>
     ''' <param name="flat">
     ''' Flat the ontology tree into cluster via the ``is_a`` relationship?
     ''' 
@@ -230,7 +262,9 @@ Public Module GSEABackground
     ''' value true, will flat the ontology tree into cluster, then the enrichment analysis could be
     ''' applied via the ``enrichment`` function.
     ''' </param>
-    ''' <returns></returns>
+    ''' <param name="verbose_progress">prints the progress message? Default ``TRUE``.</param>
+    ''' <param name="env">the R# runtime environment.</param>
+    ''' <returns>a <see cref="Background"/> model of the GO terms.</returns>
     <ExportAPI("dag.background")>
     Public Function DAGbackground(dag As GO_OBO,
                                   Optional flat As Boolean = False,
@@ -283,18 +317,21 @@ Public Module GSEABackground
     ''' <summary>
     ''' Append id terms to a given gsea background
     ''' </summary>
-    ''' <param name="background"></param>
-    ''' <param name="term_name"></param>
-    ''' <param name="terms"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="background">the GSEA background model object, this model will be modified in place.</param>
+    ''' <param name="term_name">the term name that will be written into the ``name`` field of the :class:``BackgroundGene.term_id``.</param>
+    ''' <param name="terms">
+    ''' a named list of the term id vector, the name of each slot is the gene id and the
+    ''' value is the term id vector of that gene.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment.</param>
+    ''' <returns>the given background model with the new term id information appended.</returns>
     <ExportAPI("append.id_terms")>
     Public Function appendIdTerms(background As Background,
                                   term_name As String,
                                   terms As list,
                                   Optional env As Environment = Nothing) As Object
 
-        Dim termList As Dictionary(Of String, String()) = terms.AsGeneric(Of String())(env)
+        Dim termList As Dictionary(Of String, String()) = terms.asGeneric(Of String())(env)
 
         For Each cluster As Cluster In background.clusters
             For Each gene As BackgroundGene In cluster.members
@@ -333,7 +370,7 @@ Public Module GSEABackground
     ''' <summary>
     ''' do id mapping of the members in the background cluster
     ''' </summary>
-    ''' <param name="background"></param>
+    ''' <param name="background">the GSEA background model object.</param>
     ''' <param name="mapping">
     ''' do id translation via this id source list
     ''' </param>
@@ -342,15 +379,15 @@ Public Module GSEABackground
     ''' collection then the cluster will be keeps from the result
     ''' background if this parameter is not null or empty.
     ''' </param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="env">the R# runtime environment.</param>
+    ''' <returns>a new <see cref="Background"/> model with the translated member gene ids.</returns>
     <ExportAPI("background.id_mapping")>
     <RApiReturn(GetType(Background))>
     Public Function BackgroundIDmapping(background As Background, mapping As list,
                                         Optional subset As String() = Nothing,
                                         Optional env As Environment = Nothing) As Object
 
-        Dim maps As Dictionary(Of String, String()) = mapping.AsGeneric(Of String())(env, [default]:={})
+        Dim maps As Dictionary(Of String, String()) = mapping.asGeneric(Of String())(env, [default]:={})
         Dim filterIndex As Index(Of String) = subset.Indexing
         Dim newClusterList = background.clusters _
             .Select(Function(c)
@@ -380,9 +417,12 @@ Public Module GSEABackground
     ''' <summary>
     ''' Do translation of the <see cref="BackgroundGene.accessionID"/>
     ''' </summary>
-    ''' <param name="g"></param>
-    ''' <param name="maps"></param>
-    ''' <returns></returns>
+    ''' <param name="g">the source gene object.</param>
+    ''' <param name="maps">the id translation table (``source id -> target id vector``).</param>
+    ''' <returns>
+    ''' the translated gene objects, or ``Nothing`` when the gene id is not found in the
+    ''' translation table.
+    ''' </returns>
     <Extension>
     Private Function id_translation(g As BackgroundGene, maps As Dictionary(Of String, String())) As IEnumerable(Of BackgroundGene)
         Dim multipleID As String() = maps.TryGetValue(g.accessionID)
@@ -414,9 +454,9 @@ Public Module GSEABackground
     ''' Create the id translation of the <see cref="BackgroundGene"/> inside 
     ''' the given <see cref="Cluster"/> model <paramref name="c"/>.
     ''' </summary>
-    ''' <param name="c"></param>
-    ''' <param name="maps"></param>
-    ''' <returns></returns>
+    ''' <param name="c">the source cluster object.</param>
+    ''' <param name="maps">the id translation table (``source id -> target id vector``).</param>
+    ''' <returns>a new cluster object whose members are the translated gene ids.</returns>
     <Extension>
     Private Function id_translation(c As Cluster, maps As Dictionary(Of String, String())) As Cluster
         Dim geneList As BackgroundGene() = c.members _
@@ -441,8 +481,8 @@ Public Module GSEABackground
     ''' <summary>
     ''' Load GSEA background model from a xml file.
     ''' </summary>
-    ''' <param name="file"></param>
-    ''' <returns></returns>
+    ''' <param name="file">the xml file path of the GSEA background model.</param>
+    ''' <returns>a <see cref="Background"/> model object.</returns>
     ''' <example>
     ''' let kb = read.background("hsa.xml");
     ''' </example>
@@ -453,11 +493,39 @@ Public Module GSEABackground
     End Function
 
     ''' <summary>
+    ''' Read the gene set matrix (``gmx``) file.
+    ''' </summary>
+    ''' <param name="file">the ``gmx`` file path.</param>
+    ''' <returns>the parsed <see cref="Gmx"/> gene set matrix object.</returns>
+    ''' <remarks>
+    ''' The ``gmx`` format is the transposed version of the ``gmt`` format: the first
+    ''' column of each row is the gene id and the rest columns are the member gene set ids.
+    ''' </remarks>
+    <ExportAPI("read_gmx")>
+    Public Function readGct(file As String) As Gmx
+        Return Gmx.LoadFile(file)
+    End Function
+
+    ''' <summary>
+    ''' Read the gene set matrix (``gmt``) file.
+    ''' </summary>
+    ''' <param name="file">the ``gmt`` file path.</param>
+    ''' <returns>the parsed <see cref="Gmt"/> gene set matrix object.</returns>
+    ''' <remarks>
+    ''' Each line of the ``gmt`` file is a gene set in the format of
+    ''' ``set_id \t description \t gene1 \t gene2 ...``.
+    ''' </remarks>
+    <ExportAPI("read_gmt")>
+    Public Function readGmt(file As String) As Gmt
+        Return Gmt.LoadFile(file)
+    End Function
+
+    ''' <summary>
     ''' Save GSEA background model as xml file
     ''' </summary>
-    ''' <param name="background"></param>
-    ''' <param name="file"></param>
-    ''' <returns></returns>
+    ''' <param name="background">the GSEA background model object that will be saved.</param>
+    ''' <param name="file">the output xml file path.</param>
+    ''' <returns>this function returns ``TRUE`` when the file is saved successfully.</returns>
     ''' <example>
     ''' write.background(kb, "hsa.xml");
     ''' </example>
@@ -469,9 +537,15 @@ Public Module GSEABackground
     ''' <summary>
     ''' make gsea background dynamic cut
     ''' </summary>
-    ''' <param name="background"></param>
-    ''' <param name="annotated"></param>
-    ''' <returns></returns>
+    ''' <param name="background">the GSEA background model object.</param>
+    ''' <param name="annotated">
+    ''' a character vector of the annotated gene ids, only the cluster members that are
+    ''' annotated in this gene id set will be kept.
+    ''' </param>
+    ''' <returns>
+    ''' a new <see cref="Background"/> model that only contains the annotated gene ids;
+    ''' returns ``Nothing`` when the given gene id set is empty.
+    ''' </returns>
     <ExportAPI("cut_background")>
     Public Function cut_background(background As Background, <RRawVectorArgument> annotated As Object) As Background
         Dim takes As Index(Of String) = CLRVector.asCharacter(annotated).Indexing
@@ -512,8 +586,16 @@ Public Module GSEABackground
     ''' <summary>
     ''' summary of the background model as dataframe
     ''' </summary>
-    ''' <param name="background"></param>
-    ''' <returns>row item is the cluster object</returns>
+    ''' <param name="background">the GSEA background model object.</param>
+    ''' <param name="gene_names">
+    ''' writes the gene names in the ``factors`` column when ``TRUE`` (default), otherwise
+    ''' writes the gene accession ids.
+    ''' </param>
+    ''' <returns>
+    ''' a ``dataframe`` of the cluster information, the row names are the cluster ids and
+    ''' the columns are ``class``, ``category``, ``name``, ``description``,
+    ''' ``cluster_size`` and ``factors`` (the member gene ids joined by ``;``).
+    ''' </returns>
     <ExportAPI("background_summary")>
     Public Function backgroundSummary(background As Background, Optional gene_names As Boolean = True) As Rdataframe
         Dim table As New Rdataframe With {
@@ -546,11 +628,16 @@ Public Module GSEABackground
     End Function
 
     ''' <summary>
-    ''' get cluster info data table
+    ''' Get the cluster information data table of a specific cluster.
     ''' </summary>
-    ''' <param name="background"></param>
-    ''' <param name="clusterId"></param>
-    ''' <returns></returns>
+    ''' <param name="background">the GSEA background model object.</param>
+    ''' <param name="clusterId">the cluster id (or the pathway id) that will be query from the background model.</param>
+    ''' <returns>
+    ''' a ``dataframe`` of the cluster member genes, the row names are the gene ids and
+    ''' the columns are ``clusterId``, ``clusterName``, ``name``, ``locus_tag``,
+    ''' ``description`` and ``terms``. An empty ``dataframe`` will be returned when the
+    ''' cluster id is not found.
+    ''' </returns>
     <ExportAPI("clusterInfo")>
     Public Function GetCluster(background As Background, clusterId As String) As Rdataframe
         Dim cluster As Cluster = background.clusters _
@@ -577,12 +664,20 @@ Public Module GSEABackground
     End Function
 
     ''' <summary>
-    ''' make gene set annotation via a given gsea background model
+    ''' Make the gene set annotation via a given GSEA background model.
     ''' </summary>
-    ''' <param name="background"></param>
-    ''' <param name="geneSet"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="background">the GSEA background model object.</param>
+    ''' <param name="geneSet">
+    ''' the gene id set that will be annotated, could be a character vector of the gene ids
+    ''' or a ``dataframe`` object whose row names are the gene ids. When a ``dataframe`` is
+    ''' given the annotation columns will be appended to it directly.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment.</param>
+    ''' <returns>
+    ''' a ``dataframe`` with the gene id as the row names and the columns of the cluster
+    ''' information (``cluster``, ``clusterName``, ``category``, ``class`` and the
+    ''' annotation terms) of each gene.
+    ''' </returns>
     <ExportAPI("geneSet.annotations")>
     Public Function geneSetAnnotation(background As Background,
                                       <RRawVectorArgument>
@@ -637,8 +732,10 @@ Public Module GSEABackground
     ''' <param name="cluster">
     ''' A gene cluster model or gsea background model object.
     ''' </param>
-    ''' <param name="geneSet"></param>
-    ''' <param name="isLocusTag"></param>
+    ''' <param name="geneSet">a character vector of the gene ids for the intersection query.</param>
+    ''' <param name="isLocusTag">
+    ''' matches the gene id with the locus tag instead of the accession id? Default ``FALSE``.
+    ''' </param>
     ''' <param name="get_clusterID">
     ''' this function will returns a set of mapping cluster id if this 
     ''' parameter value is set to value TRUE, otherwise this function
@@ -647,6 +744,15 @@ Public Module GSEABackground
     ''' this parameter only works when the cluster object is a 
     ''' gsea background model object.
     ''' </param>
+    ''' <param name="term_map">
+    ''' returns a ``dataframe`` of the gene id and the annotation term of each gene instead of
+    ''' the intersected id set when this parameter is set to ``TRUE``. Default ``FALSE``.
+    ''' </param>
+    ''' <param name="id_map">
+    ''' keeps the original gene id in the ``term`` column of the result dataframe when the gene
+    ''' has no annotation term? Default ``FALSE`` means the empty value will be used.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment.</param>
     ''' <returns>
     ''' a character vector of the intersected gene id set or the cluster id set based on the option of parameter <paramref name="get_clusterID"/>.
     ''' </returns>
@@ -757,6 +863,16 @@ Public Module GSEABackground
         End If
     End Function
 
+    ''' <summary>
+    ''' Remove the clusters from the given background model by the cluster id.
+    ''' </summary>
+    ''' <param name="background">the GSEA background model object.</param>
+    ''' <param name="id_removes">a character vector of the cluster ids that will be removed from the background model.</param>
+    ''' <param name="env">the R# runtime environment.</param>
+    ''' <returns>
+    ''' a new <see cref="Background"/> model that does not contains the removed clusters,
+    ''' the ``size`` of the result model is re-evaluated from the remaining clusters.
+    ''' </returns>
     <ExportAPI("cluster_filter")>
     Public Function clusterFilter(background As Background, <RRawVectorArgument(TypeCodes.string)> id_removes As Object, Optional env As Environment = Nothing) As Object
         Dim id_filter As Index(Of String) = CLRVector.asCharacter(id_removes).Indexing
@@ -777,7 +893,7 @@ Public Module GSEABackground
     ''' <summary>
     ''' make filter of the background model 
     ''' </summary>
-    ''' <param name="background"></param>
+    ''' <param name="background">the GSEA background model object.</param>
     ''' <param name="geneSet">usually be a character of the gene id set.</param>
     ''' <param name="min_size">the min feature size is required for each cluster. 
     ''' all of the cluster that have the feature number less than this cutoff 
@@ -785,6 +901,11 @@ Public Module GSEABackground
     ''' <param name="max_intersects">the max intersect number that each cluster 
     ''' intersect with the input geneSet. all of the clusters that greater than 
     ''' this value will be removed from the background.</param>
+    ''' <param name="remove_clusters">
+    ''' a character vector of the cluster ids that will be removed from the background
+    ''' directly, default ``NULL`` means no cluster is removed by this rule.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment.</param>
     ''' <returns>
     ''' a new background model that has cluster filtered by the given rule.
     ''' </returns>
@@ -847,10 +968,13 @@ Public Module GSEABackground
     End Function
 
     ''' <summary>
-    ''' convert the background model to a data table
+    ''' Convert the KO annotation of the background model into a node table.
     ''' </summary>
-    ''' <param name="background"></param>
-    ''' <returns></returns>
+    ''' <param name="background">the GSEA background model object.</param>
+    ''' <returns>
+    ''' an array of the <see cref="EntityObject"/> objects, the ``ID`` of each object is the
+    ''' gene accession id and the ``KO`` property is the KO term of that gene.
+    ''' </returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <ExportAPI("KO.table")>
     Public Function KOTable(background As Background) As EntityObject()
@@ -887,7 +1011,7 @@ Public Module GSEABackground
     ''' <param name="name">
     ''' the field column name for get gene members name
     ''' </param>
-    ''' <returns></returns>
+    ''' <returns>a <see cref="Cluster"/> object that is created from the given dataframe.</returns>
     ''' <remarks>
     ''' the input dataframe could be a set of database xrefs, example as:
     ''' 
@@ -934,13 +1058,14 @@ Public Module GSEABackground
     End Function
 
     ''' <summary>
-    ''' 
+    ''' Create a background gene member from the given dataframe columns.
     ''' </summary>
-    ''' <param name="fields"></param>
-    ''' <param name="idStr"></param>
+    ''' <param name="fields">the dataframe columns that are not used as the gene id or the gene name, they will be used as the annotation terms.</param>
+    ''' <param name="idStr">the gene accession id.</param>
     ''' <param name="i">the row index of current gene</param>
-    ''' <param name="name"></param>
-    ''' <returns></returns>
+    ''' <param name="name">the gene name.</param>
+    ''' <param name="alias_id">the gene alias id collection.</param>
+    ''' <returns>a <see cref="BackgroundGene"/> object of the given gene.</returns>
     <Extension>
     Private Function getMemberItem(fields As Dictionary(Of String, String()), idStr As String, i As Integer, name As String, alias_id As String()) As BackgroundGene
         ' scan for other database reference id
@@ -983,10 +1108,16 @@ Public Module GSEABackground
     ''' </param>
     ''' <param name="reactions">A collection of the reference <see cref="ReactionTable"/> model 
     ''' data for build the metabolism network</param>
-    ''' <param name="org_name"></param>
-    ''' <param name="is_ko_ref"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="org_name">the KEGG organism code (or the organism name) of the target model, default ``NULL``.</param>
+    ''' <param name="is_ko_ref">
+    ''' treats the given KEGG pathway model as the KO reference model? Default ``FALSE`` means
+    ''' the pathway model of a specific organism.
+    ''' </param>
+    ''' <param name="multipleOmics">
+    ''' creates the background model for the multiple omics data analysis? Default ``FALSE``.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment.</param>
+    ''' <returns>a <see cref="metpa"/> background model for the metabolism enrichment analysis.</returns>
     <ExportAPI("metpa")>
     <RApiReturn(GetType(metpa))>
     Public Function create_metpa(<RRawVectorArgument> kegg As Object,
@@ -1055,7 +1186,7 @@ Public Module GSEABackground
     ''' parse the tuple list as the pathway object
     ''' </summary>
     ''' <param name="idset">An id collection</param>
-    ''' <returns></returns>
+    ''' <returns>the pathway objects that are created from the given id collection.</returns>
     Private Iterator Function ParsePathwayObject(idset As list) As IEnumerable(Of Pathway)
         For Each name As String In idset.getNames
             Dim id As String() = CLRVector.asCharacter(idset.slots(name))
@@ -1080,10 +1211,13 @@ Public Module GSEABackground
     ''' cluster id as the list name and the corresponding tuple list value should be
     ''' the gene id character vector.
     ''' </param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="env">the R# runtime environment.</param>
+    ''' <returns>
+    ''' a <see cref="Background"/> model that is created from the given list;
+    ''' returns ``Nothing`` when the given list is empty.
+    ''' </returns>
     <ExportAPI("fromList")>
-    Public Function backgroundFromList(geneSet As list, Optional env As Environment = Nothing) As Object
+    Public Function backgroundFromList(geneSet As list, Optional env As Environment = Nothing) As Background
         If geneSet Is Nothing OrElse geneSet.is_empty Then
             Call env.AddMessage("the input gene feature set should not be nothing!", MSG_TYPES.WRN)
             Return Nothing
@@ -1109,7 +1243,7 @@ Public Module GSEABackground
     ''' cast the cluster data as the enrichment background
     ''' </summary>
     ''' <param name="clusters">
-    ''' a data cluster or a collection of kegg pathway model
+    ''' a data cluster or a collection of kegg pathway model, value could be a collection of <see cref="Cluster"/> object, parsed <see cref="Gmt"/>, parsed <see cref="Gmx"/> file data.
     ''' </param>
     ''' <param name="background_size">
     ''' default value -1 or zero means auto evaluated
@@ -1136,8 +1270,8 @@ Public Module GSEABackground
     ''' the kegg organism code when the given <paramref name="clusters"/> collection is
     ''' a collection of the pathway object.
     ''' </param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="env">the R# runtime environment.</param>
+    ''' <returns>a <see cref="Background"/> model that is created from the given cluster data.</returns>
     <ExportAPI("as.background")>
     <RApiReturn(GetType(Background))>
     Public Function assembleBackground(<RRawVectorArgument> clusters As Object,
@@ -1221,7 +1355,10 @@ Public Module GSEABackground
     ''' <summary>
     ''' Extract the gene set list from the background model
     ''' </summary>
-    ''' <param name="background"></param>
+    ''' <param name="background">the GSEA background model object.</param>
+    ''' <param name="export_alias">
+    ''' exports the gene alias ids instead of the gene accession ids? Default ``FALSE``.
+    ''' </param>
     ''' <returns>
     ''' a tuple list object that contains the gene set information,
     ''' data result in format like:
@@ -1287,7 +1424,12 @@ Public Module GSEABackground
     ''' create kegg maps background for the metabolism data analysis
     ''' </summary>
     ''' <param name="kegg">Should be a collection of the kegg map object</param>
-    ''' <returns></returns>
+    ''' <param name="filter">
+    ''' a character vector of the map id that will be kept in the background model,
+    ''' default ``NULL`` means all of the given maps will be used.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment.</param>
+    ''' <returns>a <see cref="Background"/> model that is created from the given KEGG maps.</returns>
     <ExportAPI("metabolism.background")>
     <RApiReturn(GetType(Background))>
     Public Function metabolismBackground(<RRawVectorArgument>
@@ -1331,7 +1473,7 @@ Public Module GSEABackground
     ''' <summary>
     ''' get kegg compound class brite background model
     ''' </summary>
-    ''' <returns></returns>
+    ''' <returns>a <see cref="Background"/> model of the KEGG compound class (brite) categories.</returns>
     ''' <remarks>
     ''' this function generates a background model from the internal
     ''' kegg resource database, the generated background model which 
@@ -1349,7 +1491,17 @@ Public Module GSEABackground
     ''' <param name="maps">the kegg maps model</param>
     ''' <param name="size">the background gene size, default -1 or zero means auto calculation.</param>
     ''' <param name="genomeName">the genome name that tagged with this background model.</param>
-    ''' <returns></returns>
+    ''' <param name="id_map">
+    ''' an optional id mapping data for the gene id, the ko id and the gene name, it could be
+    ''' a ``list`` object or a ``dataframe`` object. Default ``NULL`` means no extra id mapping.
+    ''' </param>
+    ''' <param name="multiple_omics">
+    ''' creates the background model for the multiple omics data analysis? Default ``FALSE``.
+    ''' </param>
+    ''' <param name="term_db">the database label of the term that will be written into the result model. Default ``unknown``.</param>
+    ''' <param name="instance_map">the compound instance map that is used for the metabolism enrichment analysis. Default ``NULL``.</param>
+    ''' <param name="env">the R# runtime environment.</param>
+    ''' <returns>a <see cref="Background"/> model that is created from the given KO id mapping.</returns>
     <ExportAPI("KO.background")>
     <RApiReturn(GetType(Background))>
     Public Function CreateKOBackground(<RRawVectorArgument> genes As Object,

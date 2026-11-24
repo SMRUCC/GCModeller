@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.SGrid.GRN.RegulatoryEdge</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>RegulatoryEdge {SMRUCC.genomics.Analysis.SGrid.GRN}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>RegulatoryEdge</h2>
+
+        <h3>Description</h3>
+
+        <p>A directed regulatory interaction edge of the gene regulatory network. (基因调控网络之中的一条有向调控边)</p>
+
+<p>边的权重取净调控弹性 g_ij - h_ij：为正表示源基因激活靶基因， 为负表示源基因抑制靶基因，零表示不存在调控关系。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.SGrid.GRN
+export class RegulatoryEdge {
+   # 合成项之中的动力学阶 g_ij
+   g: double;
+   # 降解项之中的动力学阶 h_ij
+   h: double;
+   # 调控的类型：激活或者抑制
+   interaction: string;
+   # 先验知识所记录的置信度（0~1，零表示没有先验支持）
+   PriorConfidence: double;
+   # 本条调控关系是否在先验知识之中有记录
+   PriorSupported: boolean;
+   # 先验知识所记录的调控方向（Activator/Inhibitor/Unknown）
+   PriorType: string;
+   # 稀疏化排序时施加的先验加权（0 表示没有先验支持）
+   PriorWeight: double;
+   # 调控因子的基因编号
+   source: string;
+   # 靶基因的基因编号
+   target: string;
+   # 净调控弹性 g_ij - h_ij
+   weight: double;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        this clr type has no other .net clr type reference.
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

@@ -57,6 +57,7 @@
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame.MultipleOmics
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
 Imports SMRUCC.genomics.Analysis.KEGG
 Imports SMRUCC.genomics.Analysis.Microarray
@@ -72,6 +73,7 @@ Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 ''' multiple omics analysis tool
 ''' </summary>
 <Package("mixOmics")>
+<RTypeExport("omics_layer", GetType(OmicsLayer))>
 Module mixOmics
 
     Sub Main()
@@ -145,6 +147,25 @@ Module mixOmics
         Else
             Return {}
         End If
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <param name="name"></param>
+    ''' <param name="dir">
+    ''' 方向约定：<c>+1</c> 表示数值升高代表通路活性升高（mRNA / protein），
+    ''' <c>-1</c> 表示数值升高代表通路活性下降（例如甲基化 beta 值），
+    ''' 打分完成后会对该层的 ES 取负以统一到"活性方向"。
+    ''' </param>
+    ''' <param name="verbose"></param>
+    ''' <returns></returns>
+    <ExportAPI("omics_layer")>
+    Public Function omics_layer(x As Matrix, name As String, Optional dir As Integer = 1, Optional verbose As Boolean = False) As OmicsLayer
+        Dim layer As OmicsLayer = OmicsLayer.Create(name, x, verbose)
+        layer.Direction = dir
+        Return layer
     End Function
 
     <ExportAPI("map_force")>

@@ -1,78 +1,27 @@
-﻿#Region "Microsoft.VisualBasic::bf4a35f99e766bf5a5e44c5aff8d4d02, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\ACCESSION.vb"
-
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-    ' /********************************************************************************/
-
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 148
-    '    Code Lines: 112 (75.68%)
-    ' Comment Lines: 8 (5.41%)
-    '    - Xml Docs: 87.50%
-    ' 
-    '   Blank Lines: 28 (18.92%)
-    '     File Size: 4.93 KB
-
-
-    '     Class ACCESSION
-    ' 
-    '         Properties: AccessionId, Alternative
-    ' 
-    '         Function: CreateObject, ToString
-    ' 
-    '     Class LOCUS
-    ' 
-    '         Properties: AccessionID, Length, Molecular, Type, UpdateTime
-    ' 
-    '         Function: InternalParser, ToString
-    ' 
-    '     Class DEFINITION
-    ' 
-    '         Properties: Value
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    '         Function: ToString
-    ' 
-    '     Class VERSION
-    ' 
-    '         Properties: AccessionID, GI, IsEmpty, Ver, VersionString
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    '         Function: ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
-
-#End Region
+﻿' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 Imports Microsoft.VisualBasic.Language.[Default]
 
@@ -94,19 +43,52 @@ RETURN_EMPTY:   Return New ACCESSION With {
                     .Alternative = DefaultID
                 }
             Else
-                str = Mid(str.First, 12).Trim.Split
-                If str.IsNullOrEmpty OrElse (str.Length = 1 AndAlso String.IsNullOrEmpty(str.First)) Then
+                Dim value As String = __fieldValue(str(Scan0))
+
+                If String.IsNullOrEmpty(value) Then
+                    GoTo RETURN_EMPTY
+                End If
+
+                Dim tokens As String() = value.Split({" "c, ControlChars.Tab}, StringSplitOptions.RemoveEmptyEntries)
+
+                If tokens.Length = 0 Then
                     GoTo RETURN_EMPTY
                 Else
                     Return New ACCESSION With {
-                        .AccessionId = str.First,
-                        .Alternative = str.Last
+                        .AccessionId = tokens(Scan0),
+                        .Alternative = tokens(tokens.Length - 1)
                     }
                 End If
             End If
         End Function
+
+        ''' <summary>
+        ''' 取出头部字段的值部分(去掉前面的字段名所占用的列)
+        ''' </summary>
+        Friend Shared Function __fieldValue(line As String) As String
+            If String.IsNullOrEmpty(line) Then
+                Return ""
+            End If
+
+            Dim i As Integer = line.IndexOf(" "c)
+
+            If i < 0 Then
+                Return ""
+            End If
+
+            Return line.Substring(i).Trim()
+        End Function
     End Class
 
+    ''' <summary>
+    ''' ``LOCUS``行所描述的记录摘要信息
+    ''' </summary>
+    ''' <remarks>
+    ''' ```
+    ''' LOCUS       NC_000001          248956422 bp    DNA     linear   CON 06-AUG-2025
+    ''' LOCUS       SCU49845              5028 bp    DNA     circular PLN 21-JUN-1999
+    ''' ```
+    ''' </remarks>
     Public Class LOCUS : Inherits KeyWord
 
         ''' <summary>
@@ -114,28 +96,123 @@ RETURN_EMPTY:   Return New ACCESSION With {
         ''' </summary>
         ''' <returns></returns>
         Public Property AccessionID As String
+        ''' <summary>
+        ''' 序列的长度(碱基数量)
+        ''' </summary>
         Public Property Length As Integer
+        ''' <summary>
+        ''' 分子的类型: ``DNA``/``RNA``/``mRNA``等
+        ''' </summary>
         Public Property Type As String
-        Public Property UpdateTime As String
+        ''' <summary>
+        ''' 分子的拓扑结构: ``linear``/``circular``/``both``
+        ''' </summary>
         Public Property Molecular As String
+        ''' <summary>
+        ''' 数据库的分类代码: ``CON``/``BCT``/``PLN``/``PRI``/``MAM`` 等
+        ''' </summary>
+        Public Property Division As String
+        ''' <summary>
+        ''' 最后更新的日期
+        ''' </summary>
+        Public Property UpdateTime As String
+
+        ''' <summary>
+        ''' 分子的拓扑结构(``linear``/``circular``)
+        ''' </summary>
+        Public ReadOnly Property Topology As String
+            Get
+                Return Molecular
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' 是否为环状分子
+        ''' </summary>
+        Public ReadOnly Property IsCircular As Boolean
+            Get
+                Return GbkFormat.IsCircular(Molecular)
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' 这个记录是否为``CON``(constructed)类型的记录: 即序列是由多个片段拼接而成的
+        ''' </summary>
+        Public ReadOnly Property IsCON As Boolean
+            Get
+                Return String.Equals(Division, "CON", StringComparison.OrdinalIgnoreCase)
+            End Get
+        End Property
 
         Public Overrides Function ToString() As String
             Return AccessionID
         End Function
 
         Public Shared Function InternalParser(s As String) As LOCUS
-            Dim ChunkBuffer As String() = (From ss As String In s.Split.Skip(1)
-                                           Where Not String.IsNullOrEmpty(ss)
-                                           Select ss).ToArray
-            Dim loc As LOCUS = New LOCUS
+            If String.IsNullOrEmpty(s) Then
+                Return Nothing
+            End If
 
-            loc.AccessionID = ChunkBuffer(0)
-            loc.Length = ChunkBuffer(1)
-            loc.Type = ChunkBuffer(3)
-            loc.Molecular = ChunkBuffer(4)
-            loc.UpdateTime = ChunkBuffer.Last
+            Dim tokens As String() = s.Split({" "c, ControlChars.Tab}, StringSplitOptions.RemoveEmptyEntries)
+            Dim loc As New LOCUS
+
+            If tokens.Length = 0 Then
+                Return Nothing
+            End If
+
+            ' tokens(0) 为 "LOCUS" 字段名
+            Dim i As Integer = 1
+
+            If i < tokens.Length Then
+                loc.AccessionID = tokens(i)
+                i += 1
+            End If
+
+            Dim length As Long
+
+            If i < tokens.Length AndAlso Long.TryParse(tokens(i), length) Then
+                loc.Length = CInt(Math.Min(length, Integer.MaxValue))
+                i += 1
+            End If
+
+            ' 跳过 "bp"/"aa" 这样的长度单位
+            If i < tokens.Length AndAlso (String.Equals(tokens(i), "bp", StringComparison.OrdinalIgnoreCase) OrElse
+                                          String.Equals(tokens(i), "aa", StringComparison.OrdinalIgnoreCase)) Then
+                i += 1
+            End If
+
+            If i < tokens.Length Then
+                loc.Type = tokens(i)
+                i += 1
+            End If
+
+            If i < tokens.Length Then
+                loc.Molecular = tokens(i)
+                i += 1
+            End If
+
+            If i < tokens.Length Then
+                ' 分类代码是可选的字段
+                If tokens(i).Length <= 4 AndAlso Not __isDate(tokens(i)) Then
+                    loc.Division = tokens(i)
+                    i += 1
+                End If
+            End If
+
+            If i < tokens.Length Then
+                loc.UpdateTime = tokens(i)
+            End If
 
             Return loc
+        End Function
+
+        Private Shared Function __isDate(s As String) As Boolean
+            ' 日期格式: 21-JUN-1999
+            If s.Length <> 11 Then
+                Return False
+            End If
+
+            Return s(2) = "-"c AndAlso s(6) = "-"c
         End Function
     End Class
 
@@ -155,9 +232,28 @@ RETURN_EMPTY:   Return New ACCESSION With {
         End Function
 
         Public Shared Widening Operator CType(str As String()) As DEFINITION
-            str(0) = Mid(str(0), 11)
+            If str.IsNullOrEmpty Then
+                Return New DEFINITION With {.Value = ""}
+            End If
+
+            Dim sb As New Text.StringBuilder()
+            Dim first As String = str(Scan0)
+
+            ' 去掉 "DEFINITION" 字段名所占用的列
+            If first.Length > 10 Then
+                Call sb.Append(first.Substring(10).Trim())
+            End If
+
+            For i As Integer = 1 To str.Length - 1
+                Dim line As String = str(i)
+
+                If Not String.IsNullOrEmpty(line) Then
+                    Call sb.Append(" "c).Append(line.Trim())
+                End If
+            Next
+
             Return New DEFINITION With {
-                .Value = String.Join(" ", (From s As String In str Select s.Trim).ToArray)
+                .Value = sb.ToString()
             }
         End Operator
 
@@ -207,18 +303,36 @@ RETURN_EMPTY:   Return New ACCESSION With {
         Public Shared Widening Operator CType(str As String()) As VERSION
             If str.IsNullOrEmpty Then
                 Return New VERSION
-            Else
-                str = Strings.Split(Mid(str.First, 11).Trim)
             End If
 
-            Dim Ver As VERSION = New VERSION With {
-                .AccessionID = str.First,
-                .GI = str.Last.Replace("GI:", "")
+            Dim value As String = ACCESSION.__fieldValue(str(Scan0))
+
+            If String.IsNullOrEmpty(value) Then
+                Return New VERSION
+            End If
+
+            Dim tokens As String() = value.Split({" "c, ControlChars.Tab}, StringSplitOptions.RemoveEmptyEntries)
+            Dim ver As New VERSION With {
+                .AccessionID = tokens(Scan0),
+                .GI = ""
             }
-            str = Ver.AccessionID.Split(CChar("."))
-            Ver.AccessionID = str.First
-            Ver.Ver = str.Last
-            Return Ver
+
+            For i As Integer = 1 To tokens.Length - 1
+                If tokens(i).StartsWith("GI:", StringComparison.OrdinalIgnoreCase) Then
+                    ver.GI = tokens(i).Substring(3)
+                End If
+            Next
+
+            Dim parts As String() = ver.AccessionID.Split(CChar("."))
+
+            If parts.Length > 1 Then
+                ver.AccessionID = parts(Scan0)
+                ver.Ver = parts(parts.Length - 1)
+            Else
+                ver.Ver = ""
+            End If
+
+            Return ver
         End Operator
     End Class
 End Namespace

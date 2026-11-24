@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::019ce8f7cdde6677e83efbbf4fd95798, Data_science\Visualization\DataPlot\Engine\PlotEngine.vb"
+﻿#Region "Microsoft.VisualBasic::8c558f070ac85f0b6d9e1f889f4caeeb, Data_science\Visualization\DataPlot\Engine\PlotEngine.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 461
-    '    Code Lines: 354 (76.79%)
-    ' Comment Lines: 62 (13.45%)
-    '    - Xml Docs: 25.81%
+    '   Total Lines: 720
+    '    Code Lines: 501 (69.58%)
+    ' Comment Lines: 138 (19.17%)
+    '    - Xml Docs: 56.52%
     ' 
-    '   Blank Lines: 45 (9.76%)
-    '     File Size: 19.89 KB
+    '   Blank Lines: 81 (11.25%)
+    '     File Size: 31.65 KB
 
 
     ' Class SeriesPlotEngine
     ' 
-    '     Constructor: (+2 Overloads) Sub New
+    '     Constructor: (+3 Overloads) Sub New
     ' 
     ' Class PlotEngine
     ' 
@@ -61,23 +61,33 @@
     ' 
     '  
     ' 
-    '     Properties: CanvasHeight, CanvasWidth, PlotArea
+    '     Properties: CanvasHeight, CanvasWidth, DrawFrame, Driver, GraphicsDevice
+    '                 PlotArea
     ' 
-    '     Constructor: (+2 Overloads) Sub New
+    '     Constructor: (+3 Overloads) Sub New
     ' 
-    '     Function: FormatNumber, GenerateTicks, GetGraphics, NiceStep, ToBitmap
-    '               ToPixelX, ToPixelY
+    '     Function: FormatNumber, GenerateTicks, GetGraphics, MeasureString, NiceStep
+    '               RegularPolygon, StarPolygon, ToBitmap, ToPixelX, ToPixelY
     ' 
-    '     Sub: ApplyQuality, AutoRange, ComputePlotArea, Dispose, DrawAxisAndGrid
-    '          DrawBackground, DrawLegend, DrawMarker, DrawPlotArea, DrawTitle
+    '     Sub: ApplyQuality, AutoRange, ComputePlotArea, Dispose, DrawAbline
+    '          DrawAxisAndGrid, DrawBackground, DrawColorLegend, DrawLabel, DrawLegend
+    '          DrawMarker, DrawPlotArea, DrawTitle, SetDataRange, SetPlotArea
     ' 
     ' /********************************************************************************/
 
 #End Region
 
 Imports System.Drawing
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Emit.Delegates
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Driver
+Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
+Imports Microsoft.VisualBasic.Scripting.Runtime
+Imports Font = Microsoft.VisualBasic.Imaging.Font
 Imports std = System.Math
 
 ' ============================================================================
@@ -85,31 +95,96 @@ Imports std = System.Math
 '  负责画布管理、坐标变换、坐标轴 / 网格 / 图例绘制、PNG 高清导出
 ' ============================================================================
 
+''' <summary>
+''' 所有以数据系列（<see cref="Series"/>）为输入的图表的基类：
+''' 散点图、折线图、面积图这一类「把若干条 (X, Y) 序列画在同一套坐标系里」的图表都从这里派生。
+''' </summary>
 Public MustInherit Class SeriesPlotEngine : Inherits PlotEngine
+
+    ''' <summary>
+    ''' 当前正在绘制的数据系列。由 <see cref="Plot(IList(Of Series))"/> 与带画布尺寸的导出重载写入，
+    ''' 子类的 <see cref="PlotEngine.PlotInternal"/> 从这里取数据。
+    ''' </summary>
+    ''' <returns></returns>
+    Protected Property SeriesList As IList(Of Series) = Nothing
 
     Protected Sub New(bmp As Bitmap)
         MyBase.New(bmp)
     End Sub
 
-    Protected Sub New(width As Integer, height As Integer, Optional theme As PlotTheme = Nothing)
-        MyBase.New(width, height, theme)
+    Protected Sub New(width As Integer, height As Integer, Optional theme As PlotTheme = Nothing, Optional driver As Drivers = Drivers.Default)
+        MyBase.New(width, height, theme, driver)
     End Sub
 
-    Public MustOverride Sub Plot(seriesList As IList(Of Series))
+    ''' <summary>直接在外部提供的绘图设备上绘制（例如 DirectX 的 GPU 画布）。</summary>
+    Protected Sub New(g As IGraphics, Optional theme As PlotTheme = Nothing)
+        MyBase.New(g, theme)
+    End Sub
+
+    Protected Sub New()
+        Call MyBase.New()
+    End Sub
+
+    ''' <summary>
+    ''' 把给定的数据系列绘制到当前画布之上（引擎自建画布，或者外部注入的宿主画布）。
+    ''' </summary>
+    ''' <param name="seriesList">数据系列</param>
+    Public Overloads Sub Plot(seriesList As IList(Of Series))
+        Me.SeriesList = seriesList
+        Call Plot()
+    End Sub
+
+    ''' <summary>
+    ''' 一次性渲染并按 <paramref name="driver"/> 指定的驱动导出绘图数据。
+    ''' </summary>
+    ''' <param name="seriesList">数据系列</param>
+    ''' <param name="size">画布尺寸</param>
+    ''' <param name="dpi">分辨率</param>
+    ''' <param name="driver">绘图驱动，决定输出格式（png/svg/pdf/ps）</param>
+    ''' <returns>可直接 <c>Save(path)</c> 落盘的绘图数据对象</returns>
+    Public Overloads Function Plot(seriesList As IList(Of Series), size As Size,
+                                   Optional dpi As Integer = 300,
+                                   Optional driver As Drivers = Drivers.Default) As GraphicsData
+        Me.SeriesList = seriesList
+        Return Plot(size, dpi, driver)
+    End Function
+
+    ''' <summary>
+    ''' 一次性渲染并按 <paramref name="driver"/> 指定的驱动导出绘图数据。
+    ''' </summary>
+    ''' <param name="seriesList">数据系列</param>
+    ''' <param name="size">画布尺寸，``width,height``格式的字符串</param>
+    ''' <param name="ppi">分辨率</param>
+    ''' <param name="driver">绘图驱动，决定输出格式（png/svg/pdf/ps）</param>
+    ''' <returns>可直接 <c>Save(path)</c> 落盘的绘图数据对象</returns>
+    Public Overloads Function Plot(seriesList As IList(Of Series), size As String,
+                                   Optional ppi As Integer = 300,
+                                   Optional driver As Drivers = Drivers.Default) As GraphicsData
+        Me.SeriesList = seriesList
+        Return Plot(size, ppi, driver)
+    End Function
 
 End Class
 
 ''' <summary>
 ''' 绘图引擎：所有图表类型的基类与公共能力。
-''' 使用 GDI+ 在内存 Bitmap 上绘制，最后导出为 PNG。
 ''' </summary>
-Public Class PlotEngine : Implements IDisposable
+Public MustInherit Class PlotEngine : Implements IDisposable
 
     ' ---------- 画布 ----------
     Protected _g As IGraphics
     Protected _width As Integer
     Protected _height As Integer
-    Protected _bitmap As Microsoft.VisualBasic.Imaging.Bitmap = Nothing
+    Protected _bitmap As Bitmap = Nothing
+
+    ''' <summary>
+    ''' 画布是否由本对象创建（决定 <see cref="Dispose"/> 时要不要把它一起释放）。
+    ''' </summary>
+    ''' <remarks>
+    ''' 外部注入画布时（例如 DirectX 的 GPU 画布）必须为 False：
+    ''' 那块画布属于宿主控件，绘图引擎把它 Dispose 掉会让宿主下一帧直接崩掉。
+    ''' </remarks>
+    Private _ownsGraphics As Boolean = True
 
     ' ---------- 主题 ----------
     Public Property Theme As PlotTheme
@@ -139,6 +214,36 @@ Public Class PlotEngine : Implements IDisposable
         BottomOutside
     End Enum
 
+    ' ---------- 图层叠加模式 ----------
+    ''' <summary>
+    ''' 图层叠加模式下应设为 False：此时跳过背景 / 绘图区边框 / 标题 / 坐标轴 / 图例的绘制，
+    ''' 只绘制几何图元本体，从而可以把多个图型叠加到同一块共享画布上（ggplot 的多图层模型）。
+    ''' </summary>
+    Public Property DrawFrame As Boolean = True
+
+    Private _plotAreaPinned As RectangleF? = Nothing
+    ''' <summary>
+    ''' <see cref="_plotAreaPinned"/> 是否由宿主（图层叠加模式）显式钉死。
+    ''' 宿主钉死之后，<see cref="PlotCore"/> 不得再用画布的 CSS padding 覆盖绘图区，
+    ''' 否则多图层叠加时各图层会各自按自己的边距排版。
+    ''' </summary>
+    Private _hostPinned As Boolean = False
+
+    ''' <summary>由宿主给定固定的绘图区；图层模式下各图层必须共用同一块绘图区。</summary>
+    Public Sub SetPlotArea(area As RectangleF)
+        _plotAreaPinned = area
+        _plotArea = area
+        _hostPinned = True
+    End Sub
+
+    ''' <summary>由宿主钉死数据坐标范围（图层模式下通常由跨图层的联合计算结果提供）。</summary>
+    Public Sub SetDataRange(xmin As Double, xmax As Double, ymin As Double, ymax As Double)
+        Me.XMin = xmin
+        Me.XMax = xmax
+        Me.YMin = ymin
+        Me.YMax = ymax
+    End Sub
+
     ' ---------- 绘图区（数据坐标对应的像素矩形） ----------
     Protected _plotArea As RectangleF
     Public ReadOnly Property PlotArea As RectangleF
@@ -150,19 +255,43 @@ Public Class PlotEngine : Implements IDisposable
     ' ========================================================
     '  构造与释放
     ' ========================================================
-    Public Sub New(width As Integer, height As Integer, Optional theme As PlotTheme = Nothing)
+    ''' <summary>
+    ''' 创建指定尺寸的画布。可以通过 <paramref name="driver"/> 参数选择绘图驱动，
+    ''' 从而支持输出 png（GDI 栅格）/ svg / postscript / pdf 等不同的图形格式。
+    ''' </summary>
+    ''' <param name="driver">
+    ''' 绘图驱动类型（<see cref="Drivers.Default"/> 表示使用全局默认驱动，默认为 GDI+ 栅格）。
+    ''' 非 GDI 驱动需要先在程序启动时完成注册（例如 <c>ImageDriver.Register()</c>、
+    ''' <c>ImageDriver.RegisterPostScript()</c> 或 Skia 驱动注册）。
+    ''' </param>
+    Public Sub New(width As Integer, height As Integer,
+                   Optional theme As PlotTheme = Nothing,
+                   Optional driver As Drivers = Drivers.Default)
+
         _width = width
         _height = height
         _Theme = If(theme, PlotTheme.Light())
-        _g = DriverLoad.CreateGraphicsDevice(New Size(width, height))
+        _g = DriverLoad.CreateGraphicsDevice(New Size(width, height), driver:=driver)
         ApplyQuality(_g)
     End Sub
+
+    Sub New()
+    End Sub
+
+    ''' <summary>
+    ''' 当前绘图引擎所使用的绘图驱动类型。
+    ''' </summary>
+    Public ReadOnly Property Driver As Drivers
+        Get
+            Return _g.Driver
+        End Get
+    End Property
 
     ''' <summary>
     ''' 直接使用已有的 System.Drawing.Bitmap 作为绘图设备（GDI 驱动）。
     ''' 渲染结果即绘制在该位图上，可通过 ToBitmap() 取回。
     ''' </summary>
-    Public Sub New(bmp As Microsoft.VisualBasic.Imaging.Bitmap)
+    Public Sub New(bmp As Bitmap)
         If bmp Is Nothing Then Throw New ArgumentNullException(NameOf(bmp))
         _bitmap = bmp
         _width = bmp.Width
@@ -172,14 +301,197 @@ Public Class PlotEngine : Implements IDisposable
         ApplyQuality(_g)
     End Sub
 
+    ''' <summary>
+    ''' 直接在<b>外部提供</b>的绘图设备上绘制。
+    ''' </summary>
+    ''' <param name="g">
+    ''' 已经绑定到目标表面的绘图设备。除了默认的 GDI+ 位图，任何 <c>IGraphics</c> 实现都可用 ——
+    ''' 例如 <c>Microsoft.VisualBasic.Drawing.DirectX.DxGraphics</c>（Direct2D/D3D11 GPU 画布），
+    ''' 于是图表可以直接画在 WinForms 控件上而不需要中间位图。
+    ''' </param>
+    ''' <param name="theme">主题（省略时用浅色主题）</param>
+    ''' <remarks>
+    ''' <b>画布的所有权归调用方</b>：<see cref="Dispose"/> 不会释放外部注入的设备，
+    ''' 因此可以安全地写成 <c>Using plot ... End Using</c>（宿主画布不会被连带关闭）。
+    ''' 
+    ''' 画布尺寸从 <c>g.Size</c> 取，控件尺寸变化后需要重新构造本对象才能按新尺寸排版。
+    ''' </remarks>
+    Public Sub New(g As IGraphics, Optional theme As PlotTheme = Nothing)
+        If g Is Nothing Then Throw New ArgumentNullException(NameOf(g))
+
+        _width = g.Size.Width
+        _height = g.Size.Height
+        _Theme = If(theme, PlotTheme.Light())
+        _g = g
+        _ownsGraphics = False
+        ApplyQuality(_g)
+    End Sub
+
     ''' <summary>取回底层绘图位图（若由 New(bmp) 构造则有值，否则为 Nothing）。</summary>
-    Public Function ToBitmap() As Microsoft.VisualBasic.Imaging.Bitmap
+    Public Function ToBitmap() As Bitmap
+        If _bitmap Is Nothing AndAlso _g.GetType.ImplementInterface(Of GdiRasterGraphics) Then
+            Return New Bitmap(DirectCast(_g, GdiRasterGraphics).ImageResource)
+        End If
         Return _bitmap
     End Function
 
+    ''' <summary>底层绘图设备（外部注入时就是宿主的画布本身）。</summary>
+    Public ReadOnly Property GraphicsDevice As IGraphics
+        Get
+            Return _g
+        End Get
+    End Property
+
     Public Sub Dispose() Implements IDisposable.Dispose
-        _g?.Dispose()
+        ' 只释放自己创建的画布：外部注入的画布属于宿主（例如控件的 GPU 画布），
+        ' 释放它会让宿主在下一帧绘制时直接失败
+        If _ownsGraphics Then
+            _g?.Dispose()
+        End If
+
+        _g = Nothing
     End Sub
+
+    ' ========================================================
+    '  渲染入口（与 Canvas\PlotBase.vb 相同的两段式模式）
+    ' --------------------------------------------------------
+    '  Plot(size, dpi, driver) 负责「按驱动创建画布 → 绘制 → 取回绘图数据」，
+    '  具体画什么交给子类在 PlotInternal 里面写。
+    ' ========================================================
+    ''' <summary>
+    ''' 一次性渲染，并按 <paramref name="driver"/> 所指定的绘图驱动产生对应格式的绘图数据。
+    ''' </summary>
+    ''' <param name="size">画布尺寸</param>
+    ''' <param name="dpi">分辨率（栅格驱动下决定位图像素密度）</param>
+    ''' <param name="driver">
+    ''' 绘图驱动：<see cref="Drivers.GDI"/> 输出 png/jpeg 等栅格图、<see cref="Drivers.SVG"/> 输出矢量 svg、
+    ''' <see cref="Drivers.PostScript"/> 输出 ps、<see cref="Drivers.PDF"/> 输出 pdf。
+    ''' 非默认的驱动需要先完成注册（<c>PlotDrivers.Register()</c>）。
+    ''' </param>
+    ''' <returns>
+    ''' 与驱动对应的绘图数据对象（<see cref="ImageData"/> / <see cref="SVGData"/> /
+    ''' <see cref="PostScriptData"/> / PdfData），可直接调用 <c>Save(path)</c> 写出文件。
+    ''' </returns>
+    ''' <remarks>
+    ''' 这个入口会重新创建一块画布来完成绘制，与构造函数里创建的那块画布无关，
+    ''' 因此即便引擎是「画在宿主控件上」的模式（<c>New(g As IGraphics)</c>）也照样可以导出图形文件。
+    ''' </remarks>
+    Public Overloads Function Plot(size As Size,
+                                   Optional dpi As Integer = 300,
+                                   Optional driver As Drivers = Drivers.Default) As GraphicsData
+        Return g.GraphicsPlots(
+            size:=size,
+            padding:=Me.Theme.Padding,
+            bg:=Me.Theme.BackgroundColor.ToHtmlColor,
+            plotAPI:=AddressOf PlotCore,
+            driver:=driver,
+            dpi:=dpi
+        )
+    End Function
+
+    ''' <summary>
+    ''' 一次性渲染，并按 <paramref name="driver"/> 所指定的绘图驱动产生对应格式的绘图数据。
+    ''' </summary>
+    ''' <param name="size">画布尺寸，``width,height``格式的字符串，例如``3600,2400``</param>
+    ''' <param name="ppi">分辨率（栅格驱动下决定位图像素密度）</param>
+    ''' <param name="driver">绘图驱动，决定输出的文件格式</param>
+    ''' <returns>与驱动对应的绘图数据对象，可直接调用 <c>Save(path)</c> 写出文件</returns>
+    Public Overloads Function Plot(size As String,
+                                   Optional ppi As Integer = 300,
+                                   Optional driver As Drivers = Drivers.Default) As GraphicsData
+        Return Plot(size.SizeParser, ppi, driver)
+    End Function
+
+    ''' <summary>
+    ''' 把图表绘制到给定的绘图设备之上（例如宿主控件的画布、图层叠加模式下的共享画布）。
+    ''' </summary>
+    ''' <param name="g">目标绘图设备</param>
+    ''' <param name="canvas">画布布局信息（整张画布的尺寸与边距）</param>
+    Public Overloads Sub Plot(ByRef g As IGraphics, canvas As GraphicsRegion)
+        Call PlotCore(g, canvas)
+    End Sub
+
+    ''' <summary>
+    ''' 把图表绘制到给定的绘图设备之上，绘图区由调用方直接以像素矩形给出。
+    ''' </summary>
+    ''' <param name="g">目标绘图设备</param>
+    ''' <param name="layout">绘图区（不含坐标轴与标题的留白部分）</param>
+    Public Overloads Sub Plot(ByRef g As IGraphics, layout As Rectangle)
+        Dim padding As New Padding With {
+            .Left = $"{layout.Left}px",
+            .Top = $"{layout.Top}px",
+            .Right = $"{g.Size.Width - layout.Right}px",
+            .Bottom = $"{g.Size.Height - layout.Bottom}px"
+        }
+        Dim canvas As New GraphicsRegion(g.Size, padding)
+
+        Call PlotCore(g, canvas)
+    End Sub
+
+    ''' <summary>
+    ''' 把图表绘制到引擎当前的画布之上（由 <c>New(width, height)</c> 自建，或者由 <c>New(g)</c> 注入的宿主画布）。
+    ''' </summary>
+    Public Overloads Sub Plot()
+        Dim canvas As New GraphicsRegion(New Size(_width, _height), Me.Theme.Padding)
+
+        Call PlotCore(_g, canvas)
+    End Sub
+
+    ''' <summary>
+    ''' 渲染管线：挂载目标绘图设备 → 调用子类的 <see cref="PlotInternal"/> → 恢复引擎自身的画布状态。
+    ''' </summary>
+    ''' <param name="g">本次渲染所使用的绘图设备</param>
+    ''' <param name="canvas">画布布局信息</param>
+    ''' <remarks>
+    ''' <see cref="Microsoft.VisualBasic.Imaging.Drawing2D.g.GraphicsPlots"/> 所创建的临时画布在返回之后
+    ''' 就会被释放，所以这里必须在 Finally 之中把 <c>_g</c> 等字段还原，
+    ''' 否则引擎在下一次绘制时会访问一块已经被释放的画布。
+    ''' </remarks>
+    Private Sub PlotCore(ByRef g As IGraphics, canvas As GraphicsRegion)
+        Dim savedDevice As IGraphics = _g
+        Dim savedWidth As Integer = _width
+        Dim savedHeight As Integer = _height
+        Dim savedArea As RectangleF = _plotArea
+        Dim savedPinned As RectangleF? = _plotAreaPinned
+
+        Call AttachDevice(g, canvas)
+
+        Try
+            Call PlotInternal(g, canvas)
+        Finally
+            _g = savedDevice
+            _width = savedWidth
+            _height = savedHeight
+            _plotArea = savedArea
+            _plotAreaPinned = savedPinned
+        End Try
+    End Sub
+
+    ''' <summary>
+    ''' 把引擎的绘制上下文切换到目标设备：更新画布尺寸，并按画布的 CSS padding 钉死绘图区。
+    ''' </summary>
+    ''' <param name="g"></param>
+    ''' <param name="canvas"></param>
+    Private Sub AttachDevice(g As IGraphics, canvas As GraphicsRegion)
+        _g = g
+        _width = g.Size.Width
+        _height = g.Size.Height
+
+        If Not _hostPinned Then
+            Dim css As CSSEnvirnment = g.LoadEnvironment
+
+            _plotAreaPinned = canvas.PlotRegion(css)
+            _plotArea = _plotAreaPinned.Value
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' 具体的绘图代码。子类把图元（坐标轴、网格、数据图形、图例等）写在这里，
+    ''' 画布的创建与格式输出由基类的 <c>Plot</c> 重载统一负责。
+    ''' </summary>
+    ''' <param name="g">本次渲染所使用的绘图设备</param>
+    ''' <param name="canvas">画布布局信息（可用 <c>canvas.PlotRegion(css)</c> 取出绘图区）</param>
+    Protected MustOverride Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
 
     ' ========================================================
     '  画质设置
@@ -200,6 +512,12 @@ Public Class PlotEngine : Implements IDisposable
     ' ========================================================
     ''' <summary>计算绘图区矩形（基于主题边距）</summary>
     Protected Sub ComputePlotArea()
+        If _plotAreaPinned.HasValue Then
+            ' 图层模式：绘图区由宿主（画布）统一指定，禁止各图层自行推断
+            _plotArea = _plotAreaPinned.Value
+            Return
+        End If
+
         Dim x = Theme.MarginLeft
         Dim y = Theme.MarginTop
         Dim w = _width - Theme.MarginLeft - Theme.MarginRight
@@ -207,7 +525,11 @@ Public Class PlotEngine : Implements IDisposable
         _plotArea = New RectangleF(x, y, w, h)
     End Sub
 
-    ''' <summary>数据坐标 -> 像素坐标</summary>
+    ''' <summary>
+    ''' 数据坐标 -> 像素坐标
+    ''' </summary>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Protected Function ToPixelX(x As Double, xmin As Double, xmax As Double) As Single
         Return _plotArea.Left + CSng((x - xmin) / (xmax - xmin) * _plotArea.Width)
     End Function
@@ -267,12 +589,16 @@ Public Class PlotEngine : Implements IDisposable
     '  背景与边框
     ' ========================================================
     Protected Sub DrawBackground()
+        If Not DrawFrame Then Return
+
         Using br As New SolidBrush(Theme.BackgroundColor)
             _g.FillRectangle(br, 0, 0, _width, _height)
         End Using
     End Sub
 
     Protected Sub DrawPlotArea()
+        If Not DrawFrame Then Return
+
         Using br As New SolidBrush(Theme.PlotAreaColor)
             _g.FillRectangle(br, _plotArea)
         End Using
@@ -282,6 +608,7 @@ Public Class PlotEngine : Implements IDisposable
     '  标题
     ' ========================================================
     Protected Sub DrawTitle()
+        If Not DrawFrame Then Return
         If String.IsNullOrEmpty(Title) Then Return
         Using sf As New StringFormat()
             sf.Alignment = StringAlignment.Center
@@ -313,6 +640,8 @@ Public Class PlotEngine : Implements IDisposable
                                   Optional xLabels As String() = Nothing,
                                   Optional yLabels As String() = Nothing,
                                   Optional xLabelRotate As Boolean = False)
+        If Not DrawFrame Then Return
+
         If xTicks Is Nothing Then xTicks = GenerateTicks(xmin, xmax)
         If yTicks Is Nothing Then yTicks = GenerateTicks(ymin, ymax)
 
@@ -423,6 +752,8 @@ Public Class PlotEngine : Implements IDisposable
     '  图例
     ' ========================================================
     Protected Sub DrawLegend(seriesList As IList(Of Series))
+        ' 图层模式下图例由宿主画布统一排版绘制（跨图层聚集），不在图层内部绘制
+        If Not DrawFrame Then Return
         If Not ShowLegend OrElse seriesList Is Nothing OrElse seriesList.Count = 0 Then Return
         Dim visible = seriesList.Where(Function(s) s.Visible AndAlso Not String.IsNullOrEmpty(s.Name)).ToList()
         If visible.Count = 0 Then Return
@@ -513,9 +844,145 @@ Public Class PlotEngine : Implements IDisposable
                 Case MarkerShape.Plus
                     _g.DrawLine(pen, x - size / 2, y, x + size / 2, y)
                     _g.DrawLine(pen, x, y - size / 2, x, y + size / 2)
+                Case MarkerShape.InvertedTriangle
+                    Dim pts = {
+                        New PointF(x, y + size / 2),
+                        New PointF(x - size / 2, y - size / 2),
+                        New PointF(x + size / 2, y - size / 2)
+                    }
+                    _g.FillPolygon(br, pts)
+                Case MarkerShape.Hexagon, MarkerShape.Pentagon
+                    _g.FillPolygon(br, RegularPolygon(x, y, size / 2, If(shape = MarkerShape.Hexagon, 6, 5)))
+                Case MarkerShape.Star
+                    _g.FillPolygon(br, StarPolygon(x, y, size / 2))
             End Select
         End Using
     End Sub
+
+    ' ========================================================
+    '  子类通用辅助绘制
+    ' --------------------------------------------------------
+    '  下面的方法把「测量文本」「画色条图例」「画参考线」这类每个图表都会用到、
+    '  但又不属于坐标轴的绘制动作统一到基类，避免各图表各写一遍。
+    ' ========================================================
+    ''' <summary>测量文本在当前设备上的像素尺寸</summary>
+    Protected Function MeasureString(text As String, font As Font) As SizeF
+        Return _g.MeasureString(text, font)
+    End Function
+
+    ''' <summary>
+    ''' 绘制颜色条图例。
+    ''' </summary>
+    ''' <param name="cmap">色阶方案</param>
+    ''' <param name="vmin">色阶下界</param>
+    ''' <param name="vmax">色阶上界</param>
+    ''' <param name="rect">放置位置，留空时自动靠在绘图区右侧</param>
+    ''' <param name="horizontal">True 时横向绘制并贴到绘图区下方</param>
+    ''' <param name="tickCount">刻度数量</param>
+    ''' <param name="title">颜色条标题</param>
+    Protected Sub DrawColorLegend(cmap As ScalerPalette, vmin As Double, vmax As Double,
+                                  Optional rect As RectangleF = Nothing,
+                                  Optional horizontal As Boolean = False,
+                                  Optional tickCount As Integer = 5,
+                                  Optional title As String = "")
+        If rect.IsEmpty Then
+            Dim gap = Theme.ColorBarGap
+            Dim barW = Theme.ColorBarWidth
+
+            If horizontal Then
+                rect = New RectangleF(_plotArea.Left, _plotArea.Bottom + 42.0F, _plotArea.Width, barW)
+            Else
+                rect = New RectangleF(_plotArea.Right + gap, _plotArea.Top, barW, _plotArea.Height)
+            End If
+        End If
+
+        ColorScale.DrawColorLegend(_g, Theme, cmap, vmin, vmax,
+                                   rect.X, rect.Y, rect.Width, rect.Height,
+                                   horizontal:=horizontal, tickCount:=tickCount, title:=title)
+    End Sub
+
+    ''' <summary>
+    ''' 在数据坐标系下绘制参考直线 y = a + b*x，并裁剪到绘图区内。
+    ''' </summary>
+    Protected Sub DrawAbline(a As Double, b As Double, xmin As Double, xmax As Double,
+                             ymin As Double, ymax As Double, pen As Pen)
+        Dim candidates As New List(Of PointF)()
+
+        ' 依次尝试与四条边界求交，取落在范围内的两点
+        Dim left As Double? = Nothing, right As Double? = Nothing
+        Dim bottom As Double? = Nothing, top As Double? = Nothing
+
+        If b <> 0 Then
+            Dim xb = (ymin - a) / b
+            Dim xt = (ymax - a) / b
+            If xb >= xmin AndAlso xb <= xmax Then bottom = xb
+            If xt >= xmin AndAlso xt <= xmax Then top = xt
+        End If
+
+        Dim yl = a + b * xmin
+        Dim yr = a + b * xmax
+        If yl >= ymin AndAlso yl <= ymax Then left = yl
+        If yr >= ymin AndAlso yr <= ymax Then right = yr
+
+        Dim hits As New List(Of PointF)()
+        If left.HasValue Then hits.Add(New PointF(ToPixelX(xmin, xmin, xmax), ToPixelY(left.Value, ymin, ymax)))
+        If right.HasValue Then hits.Add(New PointF(ToPixelX(xmax, xmin, xmax), ToPixelY(right.Value, ymin, ymax)))
+        If bottom.HasValue Then hits.Add(New PointF(ToPixelX(bottom.Value, xmin, xmax), ToPixelY(ymin, ymin, ymax)))
+        If top.HasValue Then hits.Add(New PointF(ToPixelX(top.Value, xmin, xmax), ToPixelY(ymax, ymin, ymax)))
+
+        If hits.Count < 2 Then Return
+
+        Dim p1 = hits(0)
+        Dim p2 = hits(1)
+        _g.DrawLine(pen, p1.X, p1.Y, p2.X, p2.Y)
+    End Sub
+
+    ''' <summary>
+    ''' 绘制带可选背景框的文本，x/y 为文本框的左上角。
+    ''' </summary>
+    Protected Sub DrawLabel(text As String, font As Font, brush As Brush, x As Single, y As Single,
+                            Optional backgroundColor As Color? = Nothing,
+                            Optional borderColor As Color? = Nothing)
+        Dim size = _g.MeasureString(text, font)
+
+        If backgroundColor.HasValue Then
+            Using cbr As New SolidBrush(backgroundColor.Value)
+                _g.FillRectangle(cbr, x - 2, y - 1, size.Width + 4, size.Height + 2)
+            End Using
+        End If
+        If borderColor.HasValue Then
+            Using cpen As New Pen(borderColor.Value, 0.7F)
+                _g.DrawRectangle(cpen, x - 2, y - 1, size.Width + 4, size.Height + 2)
+            End Using
+        End If
+
+        _g.DrawString(text, font, brush, x, y)
+    End Sub
+
+    ''' <summary>生成正 n 边形的顶点（第一个顶点朝上）</summary>
+    Protected Shared Function RegularPolygon(cx As Single, cy As Single, radius As Single, n As Integer) As PointF()
+        Dim pts(n - 1) As PointF
+
+        For i = 0 To n - 1
+            Dim angle = -std.PI / 2 + 2 * std.PI * i / n
+            pts(i) = New PointF(CSng(cx + radius * std.Cos(angle)), CSng(cy + radius * std.Sin(angle)))
+        Next
+
+        Return pts
+    End Function
+
+    ''' <summary>生成五角星的十个顶点（外顶点与内顶点交替）</summary>
+    Protected Shared Function StarPolygon(cx As Single, cy As Single, radius As Single) As PointF()
+        Dim pts(9) As PointF
+
+        For i = 0 To 9
+            Dim r = If(i Mod 2 = 0, radius, radius * 0.382)
+            Dim angle = -std.PI / 2 + std.PI * i / 5
+            pts(i) = New PointF(CSng(cx + r * std.Cos(angle)), CSng(cy + r * std.Sin(angle)))
+        Next
+
+        Return pts
+    End Function
 
     ''' <summary>获取内部 Graphics（高级用户自定义绘制）</summary>
     Public Function GetGraphics() As IGraphics

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Enable the residual two-stage structure discovery on a GeneTree configuration.</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>discovery {geneTree}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>Enable the residual two-stage structure discovery on a GeneTree configuration.</h2>
+
+        <h3>Description</h3>
+
+        
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>discovery</strong>(<i>config</i>, <i>candidates</i>,
+    <i>max.per.gene</i> = <span style='color: green;'>2</span>,
+    <i>max.candidates</i> = <span style='color: green;'>5</span>,
+    <i>min.correlation</i> = <span style='color: green;'>0.1</span>,
+    <i>min.delta.r2</i> = <span style='color: green;'>0.002</span>,
+    <i>sample.size</i> = <span style='color: green;'>1000</span>,
+    <i>max.genes</i> = <span style='color: green;'>0</span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>config</dt>
+<dd><p>the configuration object created by the <code>make_profile</code> api (it is modified in place and returned, so it can be chained). [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GeneTree/GeneTreeConfig.html">GeneTreeConfig</a>]</p></dd>
+
+
+<dt>candidates</dt>
+<dd><p>a character vector of the candidate regulator gene id; the discovery only searches inside this set, it never guesses the candidate space by itself.</p>
+
+<p>to make a non-transcription-factor perturbation target able to propagate to its downstream genes, the target gene itself must be included in this candidate set.</p></dd>
+
+
+<dt>max.per.gene</dt>
+<dd><p>the maximum number of the new edges that could be accepted for each target gene, default is 2. [as integer]</p></dd>
+
+
+<dt>max.candidates</dt>
+<dd><p>the maximum number of the candidates that are tried for each target gene (each try costs one more model fitting), default is 5. [as integer]</p></dd>
+
+
+<dt>min.correlation</dt>
+<dd><p>the minimal |pearson r| between the target gene residual and the candidate gene expression, default is 0.1. [as double]</p></dd>
+
+
+<dt>min.delta.r2</dt>
+<dd><p>the minimal validation R² gain that is required for accepting one new edge, default is 0.002. [as double]</p></dd>
+
+
+<dt>sample.size</dt>
+<dd><p>the number of the cells that are used by the residual correlation screening, default is 1000, <code>0</code> uses all of the training cells. [as integer]</p></dd>
+
+
+<dt>max.genes</dt>
+<dd><p>only the first n target genes run the discovery, <code>0</code> means all of them (useful for a quick trial). [as integer]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: block;">Details</h3>
+
+        <p>The discovery runs in two stages:</p>
+
+
+<ol>
+<li>only the ARACNE edges are used to fit the target gene model, and the residual</li>
+</ol>
+
+
+<p>(label - prediction) is computed;</p>
+
+
+<ol start="2">
+<li>the candidates are ranked by the correlation with the residual, then they are added</li>
+</ol>
+
+
+<p>into the feature set one by one; a candidate is accepted as a new regulation edge only when the validation R² gain is above <code>min_delta_r2</code> and the feature is actually used by the trees.</p>
+
+<p>the ARACNE edges are always kept, the accepted edges are appended after them, so the topology of a discovery model is still comparable with the previous models.</p>
+
+        <h3 style="display: block">Authors</h3>
+
+        biosystem
+
+        <h3>Value</h3>
+
+        <p>the input configuration object with <code>EdgeDiscovery = ResidualTwoStage</code>; an R# error message object is returned when the candidate set is empty or the resulting configuration is invalid.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/GeneTree/GeneTreeConfig.html">GeneTreeConfig</a></li></ul>
+
+        <h3 style="display: block;">Examples</h3>
+
+        <pre><code id="example_r"> imports ["geneTree"] from "biosystem";
+ 
+ let tfs = read.csv("./tfs.csv");
+ let opts = geneTree::make_profile("fast", population = 100, max_regulators = 10)
+          |> geneTree::discovery(tfs$gene_id, max_per_gene = 2);
+ let grn = geneTree::new(aracne, expr, opts) |> fit_tree();
+ geneTree::discovered_edges(grn, top_n = 100) |> print();</code></pre>
+
+        <hr />
+        <div style="text-align: center;">[Package <em>geneTree</em> version 1.0.0.0 <a
+                href="../geneTree.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

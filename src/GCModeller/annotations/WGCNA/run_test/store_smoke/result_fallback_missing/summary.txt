@@ -1,0 +1,38 @@
+WGCNA benchmark summary
+=======================
+file      : g:/GCModeller/src/GCModeller/annotations/WGCNA/run_test/store_smoke/expr300.csv
+mode      : blockwise
+genes     : 300
+samples   : 40
+backend   : SIMD
+treeCut   : dynamic
+maxBlock  : 300
+topN      : 0
+parallel  : 1
+seed      : 12345
+cor store : g:/GCModeller/src/GCModeller/annotations/WGCNA/run_test/store_smoke/no_such_store
+cor source: expression
+
+soft power: 1
+modules   : 3
+assigned  : 300
+  M1: 100
+  M2: 100
+  M3: 100
+
+load       : 0.1 s
+wall clock : 0.2 s
+peak RSS   : 54 MB
+managed heap: 6 MB
+
+stage timings (ms):
+  backend: 0
+  filter: 0
+  correlationStore: 0
+  precluster: 1
+  beta: 52
+  blocks: 71
+  collect: 0
+  merge: 5
+  eigengene: 0
+  total: 146

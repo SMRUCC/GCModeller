@@ -1,3 +1,60 @@
+﻿#Region "Microsoft.VisualBasic::1c67db2b05e762a92da6d1ed2a01093c, Data_science\MachineLearning\DeepLearning\CNN\CNNLayers.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 216
+    '    Code Lines: 81 (37.50%)
+    ' Comment Lines: 109 (50.46%)
+    '    - Xml Docs: 99.08%
+    ' 
+    '   Blank Lines: 26 (12.04%)
+    '     File Size: 11.60 KB
+
+
+    '     Module CNNLayers
+    ' 
+    '         Function: conv_layer, conv_transpose_layer, dropout_layer, full_connected_layer, gaussian_layer
+    '                   (+2 Overloads) input_layer, leaky_relu_layer, lrn_layer, maxout_layer, pool_layer
+    '                   regression_layer, relu_layer, sigmoid_layer, softmax_layer, spec
+    '                   tanh_layer
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 Imports Microsoft.VisualBasic.MachineLearning.CNN.data
 
 Namespace CNN
@@ -96,28 +153,24 @@ Namespace CNN
         ''' Transposed convolution layer: upsamples a feature map back to a larger spatial size (decoder side of an
         ''' auto encoder, semantic segmentation, and similar scenarios).
         ''' </summary>
-        ''' <param name="dims">Target output size <c>{width, height, depth}</c>.</param>
-        ''' <param name="filter">Filter window <c>{width, height}</c>.</param>
-        ''' <param name="filters">Number of filters.</param>
-        ''' <param name="stride">Stride.</param>
+        ''' <param name="kernel">Side length of the square filter window.</param>
+        ''' <param name="filters">Number of output channels; 0 表示与输入通道数相同。</param>
+        ''' <param name="stride">Stride; 2 表示空间尺寸翻倍。</param>
+        ''' <param name="padding">Zero padding of the corresponding forward convolution.</param>
+        ''' <param name="useBias">Whether a learnable bias is added.</param>
         ''' <returns>The transposed convolution layer specification.</returns>
-        Public Function conv_transpose_layer(dims As Integer(),
-                                             filter As Integer(),
-                                             Optional filters As Integer = 3,
-                                             Optional stride As Integer = 1) As CNNLayerArguments
+        Public Function conv_transpose_layer(kernel As Integer,
+                                             Optional filters As Integer = 0,
+                                             Optional stride As Integer = 2,
+                                             Optional padding As Integer = 0,
+                                             Optional useBias As Boolean = True) As CNNLayerArguments
 
-            If dims Is Nothing OrElse dims.Length < 3 Then
-                Throw New ArgumentException("需要形如 {width, height, depth} 的输出尺寸", NameOf(dims))
-            End If
-            If filter Is Nothing OrElse filter.Length < 2 Then
-                Throw New ArgumentException("需要形如 {width, height} 的滤波窗口", NameOf(filter))
+            If kernel <= 0 Then
+                Throw New ArgumentException("卷积核窗口必须为正数", NameOf(kernel))
             End If
 
-            Dim out_dims As New OutputDefinition(dims(0), dims(1), dims(2))
-            Dim window As New Dimension(filter(0), filter(1))
-
-            Return spec($"conv_transpose_layer(dims=[{dims(0)}, {dims(1)}, {dims(2)}], filter=[{window.x}, {window.y}], filters={filters}, stride={stride})",
-                        Function(cnn) cnn.buildConv2DTransposeLayer(out_dims, window, filters, stride))
+            Return spec($"conv_transpose_layer(kernel={kernel}, filters={filters}, stride={stride}, padding={padding})",
+                        Function(cnn) cnn.buildConv2DTransposeLayer(kernel, filters, stride, padding, useBias))
         End Function
 
         ''' <summary>
@@ -154,6 +207,16 @@ Namespace CNN
         ''' <returns>The LeakyReLU layer specification.</returns>
         Public Function leaky_relu_layer() As CNNLayerArguments
             Return spec(NameOf(leaky_relu_layer), Function(cnn) cnn.buildLeakyReLULayer())
+        End Function
+
+        ''' <summary>
+        ''' ELU activation: <c>f(x) = x</c> for <c>x &gt;= 0</c> and <c>f(x) = alpha * (exp(x) - 1)</c> otherwise.
+        ''' </summary>
+        ''' <param name="alpha">Scaling factor applied to the negative half axis.</param>
+        ''' <returns>The ELU layer specification.</returns>
+        Public Function elu_layer(Optional alpha As Double = layers.EluLayer.DefaultAlpha) As CNNLayerArguments
+            Return spec($"elu_layer(alpha={alpha})",
+                        Function(cnn) cnn.buildEluLayer(alpha))
         End Function
 
         ''' <summary>Sigmoid activation: <c>f(x) = 1 / (1 + exp(-x))</c>, with output in <c>(0, 1)</c>.</summary>

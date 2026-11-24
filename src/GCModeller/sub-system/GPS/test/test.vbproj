@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>GPS.Test</RootNamespace>
+    <AssemblyName>GPS.Test</AssemblyName>
+    <TargetFramework>net10.0</TargetFramework>
+    <Platforms>AnyCPU;x64</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- 项目级导入：先验网络 / 表达矩阵 / 干预类型 -->
+    <Import Include="SMRUCC.genomics.BioSystem.Core" />
+    <Import Include="SMRUCC.genomics.BioSystem.Intervention" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\core\Bio.InteractionModel\InteractionModel.vbproj" />
+    <ProjectReference Include="..\GPS.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\MachineLearning\TensorFlow\TensorFlow.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\MachineLearning\GNN\GNN.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\..\BNLearn\BNLearn.vbproj" />
+    <ProjectReference Include="..\..\GEARS\GEARS.vbproj" />
+    <!-- DEMO：Limma 差异分析 -->
+    <ProjectReference Include="..\..\..\analysis\HTS_matrix\HTS_matrix-netcore5.vbproj" />
+    <!-- DEMO：SampleInfo / DataAnalysis 实验设计 -->
+    <ProjectReference Include="..\..\..\..\workbench\modules\ExperimentDesigner\designer-netcore5.vbproj" />
+    <!-- DEMO：Fisher 精确检验通路富集 -->
+    <ProjectReference Include="..\..\..\annotations\GSEA\FisherCore\Fisher.NET5.vbproj" />
+  </ItemGroup>
+
+</Project>

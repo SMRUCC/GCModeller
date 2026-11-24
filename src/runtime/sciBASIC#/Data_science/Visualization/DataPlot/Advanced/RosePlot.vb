@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e055d8b3b5cec5062267667d4f0ca819, Data_science\Visualization\DataPlot\Advanced\RosePlot.vb"
+#Region "Microsoft.VisualBasic::4f9d10b77ab1b874cd052f319ca0f586, Data_science\Visualization\DataPlot\Advanced\RosePlot.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 110
-    '    Code Lines: 88 (80.00%)
-    ' Comment Lines: 11 (10.00%)
-    '    - Xml Docs: 45.45%
+    '   Total Lines: 115
+    '    Code Lines: 91 (79.13%)
+    ' Comment Lines: 12 (10.43%)
+    '    - Xml Docs: 50.00%
     ' 
-    '   Blank Lines: 11 (10.00%)
-    '     File Size: 4.36 KB
+    '   Blank Lines: 12 (10.43%)
+    '     File Size: 4.73 KB
 
 
     ' Class RosePlot
@@ -48,7 +48,7 @@
     '     Properties: Colors, Donut, DonutRadius, Labels, ShowPercentage
     '                 ShowValues, StartAngle, Values
     ' 
-    '     Constructor: (+1 Overloads) Sub New
+    '     Constructor: (+2 Overloads) Sub New
     '     Sub: Plot
     ' 
     ' /********************************************************************************/
@@ -57,6 +57,7 @@
 
 Imports System.Drawing
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports std = System.Math
 
 ''' <summary>南丁格尔玫瑰图（等角度扇区，半径与数值成比例）</summary>
@@ -76,11 +77,16 @@ Public Class RosePlot
     ''' <summary>显示数值标签</summary>
     Public Property ShowValues As Boolean = True
 
-    Public Sub New(width As Integer, height As Integer, Optional theme As PlotTheme = Nothing)
-        MyBase.New(width, height, theme)
+    Public Sub New(width As Integer, height As Integer, Optional theme As PlotTheme = Nothing, Optional driver As Microsoft.VisualBasic.Imaging.Driver.Drivers = Microsoft.VisualBasic.Imaging.Driver.Drivers.Default)
+        MyBase.New(width, height, theme, driver)
     End Sub
 
-    Public Sub Plot()
+    ''' <summary>直接在外部提供的绘图设备上绘制（图层叠加模式 / 宿主画布）。</summary>
+    Public Sub New(g As IGraphics, Optional theme As PlotTheme = Nothing)
+        MyBase.New(g, theme)
+    End Sub
+
+    Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
         DrawBackground()
         DrawTitle()
 
@@ -99,8 +105,8 @@ Public Class RosePlot
         ' 同心参考圆（网格）
         If Theme.ShowGrid Then
             Using pen As New Pen(Theme.GridColor, Theme.GridLineWidth)
-                For g = 1 To 4
-                    Dim r = maxR * g / 4
+                For ring = 1 To 4
+                    Dim r = maxR * ring / 4
                     _g.DrawEllipse(pen, cx - r, cy - r, r * 2, r * 2)
                 Next
             End Using

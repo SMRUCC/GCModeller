@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1fdf349319bfcdeee71cad82865a996b, Data_science\Visualization\DataPlot\Engine\PlotTheme.vb"
+﻿#Region "Microsoft.VisualBasic::5e210668c9f8663aaf5dce409561e818, Data_science\Visualization\DataPlot\Engine\PlotTheme.vb"
 
     ' Author:
     ' 
@@ -34,25 +34,27 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 179
-    '    Code Lines: 144 (80.45%)
-    ' Comment Lines: 20 (11.17%)
-    '    - Xml Docs: 50.00%
+    '   Total Lines: 202
+    '    Code Lines: 159 (78.71%)
+    ' Comment Lines: 24 (11.88%)
+    '    - Xml Docs: 58.33%
     ' 
-    '   Blank Lines: 15 (8.38%)
-    '     File Size: 7.79 KB
+    '   Blank Lines: 19 (9.41%)
+    '     File Size: 9.18 KB
 
 
     ' Class PlotTheme
     ' 
     '     Properties: AnnotationFont, AntiAlias, AxisColor, AxisLabelFont, AxisLineWidth
-    '                 BackgroundColor, BarPadding, BorderColor, GridColor, GridLineWidth
-    '                 HighQualityText, LegendBackgroundColor, LegendBorderColor, LegendFont, LineWidth
+    '                 BackgroundColor, BarPadding, BorderColor, ColorBarGap, ColorBarWidth
+    '                 DefaultFontFamily, GridColor, GridLineWidth, GridMinorWidth, HighQualityText
+    '                 JitterAmount, LegendBackgroundColor, LegendBorderColor, LegendFont, LineWidth
     '                 MarginBottom, MarginLeft, MarginRight, MarginTop, MarkerSize
     '                 MinorGridColor, Palette, PlotAreaColor, ShowGrid, ShowLegendBorder
     '                 ShowMinorGrid, SubTitleColor, SubTitleFont, TextColor, TickLabelFont
     '                 TitleColor, TitleFont
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: Clone, Dark, Grayscale, Light, Nature
     '               Science
     ' 
@@ -61,6 +63,9 @@
 #End Region
 
 Imports System.Drawing
+Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.MIME.Html
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Font = Microsoft.VisualBasic.Imaging.Font
 Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
 
@@ -88,13 +93,15 @@ Public Class PlotTheme
     Public Property LegendBorderColor As Color = Color.FromArgb(200, 200, 200)
     Public Property BorderColor As Color = Color.FromArgb(180, 180, 180)
 
+    Public Shared Property DefaultFontFamily As String = FontFace.MicrosoftYaHei
+
     ' ---------- 字体 ----------
-    Public Property TitleFont As New Font("Microsoft YaHei", 16, FontStyle.Bold)
-    Public Property SubTitleFont As New Font("Microsoft YaHei", 10, FontStyle.Regular)
-    Public Property AxisLabelFont As New Font("Microsoft YaHei", 11, FontStyle.Regular)
-    Public Property TickLabelFont As New Font("Microsoft YaHei", 9, FontStyle.Regular)
-    Public Property LegendFont As New Font("Microsoft YaHei", 9, FontStyle.Regular)
-    Public Property AnnotationFont As New Font("Microsoft YaHei", 9, FontStyle.Regular)
+    Public Property TitleFont As New Font(DefaultFontFamily, 16, FontStyle.Bold)
+    Public Property SubTitleFont As New Font(DefaultFontFamily, 10, FontStyle.Regular)
+    Public Property AxisLabelFont As New Font(DefaultFontFamily, 11, FontStyle.Regular)
+    Public Property TickLabelFont As New Font(DefaultFontFamily, 9, FontStyle.Regular)
+    Public Property LegendFont As New Font(DefaultFontFamily, 9, FontStyle.Regular)
+    Public Property AnnotationFont As New Font(DefaultFontFamily, 9, FontStyle.Regular)
 
     ' ---------- 调色板（用于多系列 / 分类） ----------
     Public Property Palette As Color() = {
@@ -123,6 +130,36 @@ Public Class PlotTheme
     Public Property MarginTop As Single = 70
     Public Property MarginBottom As Single = 70
 
+    ''' <summary>由四个边缘像素值换算得到的 CSS padding 布局，供绘图驱动计算绘图区</summary>
+    ''' <returns>与 <see cref="MarginLeft"/>/<see cref="MarginTop"/>/<see cref="MarginRight"/>/<see cref="MarginBottom"/> 等价的 CSS padding</returns>
+    Public ReadOnly Property Padding As Padding
+        Get
+            Return New Padding With {
+                .Left = $"{CInt(MarginLeft)}px",
+                .Top = $"{CInt(MarginTop)}px",
+                .Right = $"{CInt(MarginRight)}px",
+                .Bottom = $"{CInt(MarginBottom)}px"
+            }
+        End Get
+    End Property
+
+    ''' <summary>背景色的 html 颜色表达式，用于创建绘图设备时填充画布底色</summary>
+    ''' <returns></returns>
+    Public ReadOnly Property Background As String
+        Get
+            Return BackgroundColor.ToHtmlColor
+        End Get
+    End Property
+
+    ''' <summary>色阶图例条的宽度（垂直模式下）或高度（水平模式下）</summary>
+    Public Property ColorBarWidth As Single = 16.0F
+    ''' <summary>色阶图例条到绘图区的间距</summary>
+    Public Property ColorBarGap As Single = 20.0F
+    ''' <summary>次网格线宽</summary>
+    Public Property GridMinorWidth As Single = 0.5F
+    ''' <summary>抖动幅度（相对值域的比例），仅对启用了抖动的图表生效</summary>
+    Public Property JitterAmount As Double = 0.02
+
     ' ---------- 其它开关 ----------
     Public Property ShowGrid As Boolean = True
     Public Property ShowMinorGrid As Boolean = False
@@ -130,14 +167,23 @@ Public Class PlotTheme
     Public Property AntiAlias As Boolean = True
     Public Property HighQualityText As Boolean = True
 
+    Sub New(Optional padding As String = "padding: 70px 30px 70px 80px;")
+        Dim margin As Padding = CSS.Padding.TryParse(padding)
+
+        MarginBottom = Val(margin.Bottom)
+        MarginLeft = Val(margin.Left)
+        MarginRight = Val(margin.Right)
+        MarginTop = Val(margin.Top)
+    End Sub
+
     ''' <summary>浅色主题（默认，适合论文白底插图）</summary>
-    Public Shared Function Light() As PlotTheme
-        Return New PlotTheme()
+    Public Shared Function Light(Optional padding As String = "padding: 70px 30px 70px 80px;") As PlotTheme
+        Return New PlotTheme(padding)
     End Function
 
     ''' <summary>深色主题（适合演示 / 海报）</summary>
-    Public Shared Function Dark() As PlotTheme
-        Dim t As New PlotTheme()
+    Public Shared Function Dark(Optional padding As String = "padding: 70px 30px 70px 80px;") As PlotTheme
+        Dim t As New PlotTheme(padding)
         t.BackgroundColor = Color.FromArgb(30, 30, 30)
         t.PlotAreaColor = Color.FromArgb(40, 40, 40)
         t.AxisColor = Color.FromArgb(200, 200, 200)
@@ -162,8 +208,8 @@ Public Class PlotTheme
     End Function
 
     ''' <summary>Nature 期刊风格（清淡、克制）</summary>
-    Public Shared Function Nature() As PlotTheme
-        Dim t As New PlotTheme()
+    Public Shared Function Nature(Optional padding As String = "padding: 70px 30px 70px 80px;") As PlotTheme
+        Dim t As New PlotTheme(padding)
         t.BackgroundColor = Color.White
         t.PlotAreaColor = Color.White
         t.AxisColor = Color.Black
@@ -191,8 +237,8 @@ Public Class PlotTheme
     End Function
 
     ''' <summary>Science 期刊风格（紧凑、专业）</summary>
-    Public Shared Function Science() As PlotTheme
-        Dim t As New PlotTheme()
+    Public Shared Function Science(Optional padding As String = "padding: 70px 30px 70px 80px;") As PlotTheme
+        Dim t As New PlotTheme(padding)
         t.BackgroundColor = Color.White
         t.PlotAreaColor = Color.White
         t.AxisColor = Color.FromArgb(50, 50, 50)
@@ -219,8 +265,8 @@ Public Class PlotTheme
     End Function
 
     ''' <summary>灰色主题（适合黑白印刷）</summary>
-    Public Shared Function Grayscale() As PlotTheme
-        Dim t As New PlotTheme()
+    Public Shared Function Grayscale(Optional padding As String = "padding: 70px 30px 70px 80px;") As PlotTheme
+        Dim t As New PlotTheme(padding)
         t.Palette = {
             Color.FromArgb(20, 20, 20),
             Color.FromArgb(80, 80, 80),

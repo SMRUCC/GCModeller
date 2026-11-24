@@ -77,6 +77,27 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords
         Public Const GBK_FIELD_KEY_LOCUS As String = "LOCUS"
         Public Const GBK_FIELD_KEY_KEYWORDS As String = "KEYWORDS"
         Public Const GBK_FIELD_KEY_DBLINK As String = "DBLINK"
+        ''' <summary>
+        ''' ``CONTIG``段: 用于``CON``类型的记录，描述染色体是由哪些片段拼接起来的
+        ''' </summary>
+        Public Const GBK_FIELD_KEY_CONTIG As String = "CONTIG"
+        ''' <summary>
+        ''' ``PRIMARY``段: WGS主记录之中的组成部分列表
+        ''' </summary>
+        Public Const GBK_FIELD_KEY_PRIMARY As String = "PRIMARY"
+        ''' <summary>
+        ''' ``SEGMENT``段: 一个记录的片段编号信息(``1 of 10``)
+        ''' </summary>
+        Public Const GBK_FIELD_KEY_SEGMENT As String = "SEGMENT"
+        ''' <summary>
+        ''' ``PROJECT``段: 记录的工程编号
+        ''' </summary>
+        Public Const GBK_FIELD_KEY_PROJECT As String = "PROJECT"
+        ''' <summary>
+        ''' ``WGS``段: 全基因组测序工程的编号
+        ''' </summary>
+        Public Const GBK_FIELD_KEY_WGS As String = "WGS"
+        Public Const GBK_FIELD_KEY_WGS_SCAFLD As String = "WGS_SCAFLD"
 
         Protected Friend Sub New()
         End Sub
@@ -86,11 +107,17 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords
                 values = New String() {}
             Else
                 Dim s As String = values(Scan0)
-                If s Is Nothing Then
+
+                If String.IsNullOrEmpty(s) Then
                     s = ""
+                ElseIf s.Length > GbkFormat.HEADER_INDENT - 2 Then
+                    ' 去掉头部字段名所占用的列(第1列到第10列)，这里采用直接切片的方式，
+                    ' 避免 VB 的 Mid 函数在老版本之上的整串复制行为
+                    s = s.Substring(GbkFormat.HEADER_INDENT - 2).Trim()
                 Else
-                    s = Mid(s, 11).Trim
+                    s = ""
                 End If
+
                 values(0) = s
             End If
         End Sub

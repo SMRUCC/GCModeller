@@ -1,0 +1,1628 @@
+Imports System.Text
+Imports System.Text.Json
+Imports System.Text.Json.Serialization
+Imports SMRUCC.genomics.Analysis.FuzzyGene.Config
+Imports SMRUCC.genomics.Analysis.FuzzyGene.Data
+Imports SMRUCC.genomics.Analysis.FuzzyGene.Fitting
+Imports std = System.Math
+
+''' <summary>
+''' 由逐靶基因神经模糊模型拼成的基因调控网络（纯推理对象）。
+''' </summary>
+''' <remarks>
+''' <para>
+''' 每一行是一个基因，<see cref="Models"/> 的第 <c>g</c> 项是该基因作为靶基因时训练出的 TSK 模型
+''' （没有可用调控因子的基因为 <c>Nothing</c>，其状态在传播中保持不变）。
+''' </para>
+''' <para>
+''' 静态与滞后两条路线的对外语义完全一致：都是「下一状态 = F(当前状态)」。
+''' 静态路线下 <c>F</c> 学的是 <c>x_g = f(regulators)</c>，迭代就是求不动点；
+''' 滞后路线下 <c>F</c> 学的是 <c>x_g(t+1) = f(regulators(t))</c>，迭代就是时间推进。
+''' 因此稳态求解、钳制扰动与多步级联共用同一套阻尼迭代器。
+''' </para>
+''' <para>
+''' 内部一律在 z 空间迭代（与训练一致），对外接口收发原始表达量。
+''' </para>
+''' </remarks>
+Public Class FuzzyGeneNetwork
+
+    Private ReadOnly _geneIndex As Dictionary(Of String, Integer)
+    Private ReadOnly _regulatorIndices As Integer()()
+
+    ''' <summary>
+    ''' 逐步迭代时复用的输入行缓冲（线程局部，只增不减）。
+    ''' </summary>
+    ''' <remarks>
+    ''' <see cref="StepZ"/> 每步要为每个基因凑一行调控因子取值；原来每次都新建一个数组，
+    ''' 几万基因 × 上百步迭代下来是 GB 级的小对象垃圾。缓冲按"最大调控因子个数"增长，
+    ''' 逐基因多出来的尾部不被读取。
+    ''' </remarks>
+    Private ReadOnly _inputScratch As New System.Threading.ThreadLocal(Of Double())(Function() New Double(-1) {})
+    Private ReadOnly _config As FuzzyGeneConfig
+
+    ''' <summary>
+    ''' 逐基因、逐调控因子的输入定义域 <c>[min, max]</c>（长度 <c>2·K</c> 的扁平表，z 空间）。
+    ''' </summary>
+    ''' <remarks>
+    ''' 这是「输入侧支持域夹断」的依据：虚拟敲除会把某个调控因子推到训练范围之外，
+    ''' 高斯前件那时几乎全部失活，输出由最外侧规则线性外推——等价于问模型一个它没见过的问题。
+    ''' 夹断到定义域内可以保证外推最多只到「最外侧隶属函数覆盖到的地方」。
+    ''' </remarks>
+    Private ReadOnly _inputBounds As Double()()
+
+    ''' <summary>
+    ''' 逐线程的计数槽：<c>(0)</c> = 输入被夹断的基因数，<c>(1)</c> = 输出贴界的基因数。
+    ''' </summary>
+    ''' <remarks>
+    ''' <para>
+    ''' 用线程局部而不是共享计数器：稳态迭代每步要为上万个基因做一次判定，
+    ''' <c>Interlocked.Increment</c> 会成为热点；每个线程各写自己的槽，最后求和即可。
+    ''' </para>
+    ''' <para>
+    ''' <c>trackAllValues:=True</c> 是必须的：<see cref="ResetForwardDiagnostics"/> 要遍历所有线程的槽位，
+    ''' 而 <c>ThreadLocal.Values</c> 只有在构造时显式开启跟踪才可用。
+    ''' </para>
+    ''' </remarks>
+    Private ReadOnly _diagnostics As New System.Threading.ThreadLocal(Of Integer())(
+        Function() New Integer(1) {}, trackAllValues:=True)
+
+    ''' <summary>参与建模的基因（顺序即 <see cref="Models"/> 的索引顺序）。</summary>
+    Public Property GeneNames As String()
+
+    ''' <summary>逐基因模型，未建模的位置为 <c>Nothing</c>。</summary>
+    Public Property Models As GeneRegulationModel()
+
+    ''' <summary>带符号调控边（由各靶基因模型的解析灵敏度汇总）。</summary>
+    Public Property Edges As RegulationEdgeModel()
+
+    ''' <summary>
+    ''' 拟合期构建的 PBN 定性层；未启用 PBN 或旧包时为 <c>Nothing</c>。
+    ''' </summary>
+    ''' <remarks>
+    ''' 放在网络上而不是模型门面上，是为了能随 <c>*.fuzzygene.zip</c> 一起持久化：
+    ''' PBN 的规则来自训练表达矩阵的二值化，推理期没有矩阵就无法重建，
+    ''' 而生产流程是「训练一次 → 之后反复扰动」（常常还是在另一台机器上）。
+    ''' </remarks>
+    Public Property PbnPrior As Hybrid.PbnRegulatorPrior
+
+    ''' <summary>建模配置（决定传播步数、阻尼、限幅等默认行为）。</summary>
+    Public ReadOnly Property Config As FuzzyGeneConfig
+        Get
+            Return _config
+        End Get
+    End Property
+
+    ''' <summary>实际采用的拟合路线。</summary>
+    Public Property Mode As FuzzyTargetMode
+
+    ''' <summary>逐基因原始表达均值。</summary>
+    Public Property Means As Double()
+
+    ''' <summary>逐基因原始表达标准差。</summary>
+    Public Property SDs As Double()
+
+    ''' <summary>稳态迭代的起始状态（原始尺度）。</summary>
+    Public Property BaselineRaw As Double()
+
+    ''' <summary>逐基因训练支持域下界（z 空间）。</summary>
+    Public Property SupportMin As Double()
+
+    ''' <summary>逐基因训练支持域上界（z 空间）。</summary>
+    Public Property SupportMax As Double()
+
+    ''' <summary>
+    ''' 全局增益校准后的谱半径 <c>ρ(J)</c>；<c>0</c> 表示未校准（旧包）。
+    ''' </summary>
+    ''' <remarks>
+    ''' <c>ρ ≤ 1</c> 是阻尼迭代能收缩的必要条件，<c>ρ</c> 越接近 1 收敛越慢。
+    ''' 这个数字放在网络上（而不是只在训练报告里）是为了让**加载旧包之后的推理**
+    ''' 也能知道自己手上的模型是否处在收敛域内。
+    ''' </remarks>
+    Public Property SpectralRadius As Double
+
+    ''' <summary>全局增益校准方式；旧包为 <see cref="StabilityCalibrationMode.None"/>。</summary>
+    Public Property CalibrationMode As StabilityCalibrationMode
+
+    ''' <summary>
+    ''' 逐基因的模块编号（FCM 粗粒度层用）；未做模块划分（或旧包）时为 <c>Nothing</c>。
+    ''' </summary>
+    ''' <remarks>
+    ''' 模块划分必须在拟合期算好并随模型保存：扰动期只剩模型、没有表达矩阵，
+    ''' 现场聚类是做不到的（这也是本字段唯一需要持久化的融合元数据）。
+    ''' </remarks>
+    Public Property Modules As Integer()
+
+    ''' <summary>校准前的训练集平均 R²（<c>0</c> 表示未记录）。</summary>
+    ''' <remarks>
+    ''' 不用 <c>NaN</c> 表示「未记录」：模型包是 JSON，<see cref="System.Text.Json"/>
+    ''' 默认拒绝写出 NaN/Infinity，会让保存直接失败。
+    ''' </remarks>
+    Public Property PreCalibrationR2 As Double
+
+    ''' <summary>校准后的训练集平均 R²（<c>0</c> 表示未记录）。</summary>
+    Public Property PostCalibrationR2 As Double
+
+    ''' <summary>基因数量。</summary>
+    Public ReadOnly Property NGene As Integer
+        Get
+            Return GeneNames.Length
+        End Get
+    End Property
+
+    ''' <summary>参与建模（有模型）的基因数量。</summary>
+    Public ReadOnly Property NModelled As Integer
+        Get
+            Return Models.Count(Function(m) m IsNot Nothing)
+        End Get
+    End Property
+
+    ''' <summary>是否为滞后（时序）路线。</summary>
+    Public ReadOnly Property IsLagged As Boolean
+        Get
+            Return Mode = FuzzyTargetMode.LaggedRoute
+        End Get
+    End Property
+
+    ''' <summary>
+    ''' 模型是否在 z 空间训练。
+    ''' </summary>
+    ''' <remarks>
+    ''' 为 <c>False</c>（配置里 <c>Standardize = False</c>）时内部坐标就是原始表达量，
+    ''' 此时 <see cref="ToZ"/> / <see cref="ToRaw"/> 不做任何换算——
+    ''' 否则「训练用原始值、推理用 z 值」会造成整体平移的隐性错误。
+    ''' </remarks>
+    Public ReadOnly Property Standardized As Boolean
+        Get
+            Return _standardized
+        End Get
+    End Property
+
+    Private ReadOnly _standardized As Boolean
+
+    ''' <summary>按结构创建网络（一般由 <see cref="Fitting.GeneNetworkFitter"/> 调用）。</summary>
+    Public Sub New(geneNames As String(),
+                   models As GeneRegulationModel(),
+                   edges As RegulationEdgeModel(),
+                   config As FuzzyGeneConfig,
+                   means As Double(),
+                   sds As Double(),
+                   baseline As Double(),
+                   supportMin As Double(),
+                   supportMax As Double(),
+                   mode As FuzzyTargetMode,
+                   Optional standardized As Boolean = True)
+
+        If geneNames Is Nothing OrElse geneNames.Length = 0 Then
+            Throw New ArgumentException("the gene list is empty", NameOf(geneNames))
+        End If
+        If models Is Nothing OrElse models.Length <> geneNames.Length Then
+            Throw New ArgumentException("the model list does not match the gene list", NameOf(models))
+        End If
+
+        Me.GeneNames = geneNames
+        Me.Models = models
+        Me.Edges = If(edges, New RegulationEdgeModel() {})
+        Me.Mode = mode
+        Me.Means = means
+        Me.SDs = sds
+        Me.BaselineRaw = baseline
+        Me.SupportMin = supportMin
+        Me.SupportMax = supportMax
+        _config = If(config, New FuzzyGeneConfig())
+        _standardized = standardized
+
+        _geneIndex = BuildIndex(geneNames)
+        _regulatorIndices = BuildRegulatorIndices(Me.Models, _geneIndex)
+        _inputBounds = BuildInputBounds(Me.Models, _regulatorIndices)
+    End Sub
+
+    ''' <summary>
+    ''' 逐基因收集调控因子的训练定义域（z 空间），供传播时做输入侧夹断。
+    ''' </summary>
+    ''' <remarks>
+    ''' 定义域来自 <see cref="Microsoft.VisualBasic.DataMining.FuzzyLogic.TSK.TskInputVariable.Minimum"/>/<c>Maximum</c>，
+    ''' 即该调控因子在训练集上的取值范围；散射划分下这些字段同样是原始列的最小/最大值。
+    ''' </remarks>
+    Private Shared Function BuildInputBounds(models As GeneRegulationModel(),
+                                             regulators As Integer()()) As Double()()
+        Dim bounds(models.Length - 1)() As Double
+
+        For g As Integer = 0 To models.Length - 1
+            Dim model As GeneRegulationModel = models(g)
+
+            If model Is Nothing OrElse model.Network Is Nothing Then
+                Continue For
+            End If
+
+            Dim inputs As Integer() = regulators(g)
+
+            If inputs.Length = 0 OrElse inputs.Length <> model.Network.InputCount Then
+                Continue For
+            End If
+
+            Dim table(inputs.Length * 2 - 1) As Double
+
+            For j As Integer = 0 To inputs.Length - 1
+                Dim variable = model.Network.Inputs(j)
+
+                table(j * 2) = variable.Minimum
+                table(j * 2 + 1) = variable.Maximum
+            Next
+
+            bounds(g) = table
+        Next
+
+        Return bounds
+    End Function
+
+    ''' <summary>逐基因的调控因子下标表（求解器组装 Jacobian 时要用）。</summary>
+    Friend ReadOnly Property RegulatorIndexTable As Integer()()
+        Get
+            Return _regulatorIndices
+        End Get
+    End Property
+
+    ''' <summary>本次迭代的候选并行度（求解器按同一口径分块）。</summary>
+    Friend ReadOnly Property WorkerCount As Integer
+        Get
+            Return ParallelDegree
+        End Get
+    End Property
+
+    ''' <summary>该基因是否参与建模（有模型且有调控因子）。</summary>
+    Friend Function IsModelled(gene As Integer) As Boolean
+        Return Models(gene) IsNot Nothing AndAlso _regulatorIndices(gene).Length > 0
+    End Function
+
+    Private Shared Function BuildIndex(geneNames As String()) As Dictionary(Of String, Integer)
+        Dim index As New Dictionary(Of String, Integer)(StringComparer.OrdinalIgnoreCase)
+
+        For i As Integer = 0 To geneNames.Length - 1
+            index(geneNames(i)) = i
+        Next
+
+        Return index
+    End Function
+
+    Private Shared Function BuildRegulatorIndices(models As GeneRegulationModel(),
+                                                 index As Dictionary(Of String, Integer)) As Integer()()
+        Dim result(models.Length - 1)() As Integer
+
+        For g As Integer = 0 To models.Length - 1
+            Dim model As GeneRegulationModel = models(g)
+
+            If model Is Nothing OrElse model.Regulators Is Nothing Then
+                result(g) = New Integer() {}
+                Continue For
+            End If
+
+            Dim rows As New List(Of Integer)
+
+            For Each gene As String In model.Regulators
+                Dim idx As Integer
+
+                If index.TryGetValue(gene, idx) Then
+                    Call rows.Add(idx)
+                End If
+            Next
+
+            ' 输入个数必须与训练时一致，否则模型无法推理（例如包文件被手工改写）
+            If model.Network IsNot Nothing AndAlso rows.Count <> model.Network.InputCount Then
+                result(g) = New Integer() {}
+            Else
+                result(g) = rows.ToArray()
+            End If
+        Next
+
+        Return result
+    End Function
+
+    ''' <summary>按基因名查下标（大小写不敏感），缺失时返回 -1。</summary>
+    Public Function IndexOfGene(gene As String) As Integer
+        Dim idx As Integer
+
+        If Not String.IsNullOrEmpty(gene) AndAlso _geneIndex.TryGetValue(gene, idx) Then
+            Return idx
+        End If
+
+        Return -1
+    End Function
+
+#Region "并行调度"
+
+    ''' <summary>
+    ''' 触发基因维并行的最小基因数。
+    ''' </summary>
+    ''' <remarks>
+    ''' 单基因前向约 0.2~0.8 微秒，2048 个基因约 0.5~1.5 毫秒，远大于
+    ''' <c>System.Threading.Tasks.Parallel.For</c> 每次 5~20 微秒的调度开销；
+    ''' 更小的网络直接走串行分支，避免「为几百个基因起线程池」造成的负收益。
+    ''' </remarks>
+    Private Const ParallelMinGenes As Integer = 2048
+
+    ''' <summary>并行分块的最小基因数：用于摊薄每个分块的任务开销。</summary>
+    Private Const MinChunkGenes As Integer = 128
+
+    ''' <summary>
+    ''' 脏位阈值：单步变化量低于它即认为该基因没有发生变化。
+    ''' </summary>
+    ''' <remarks>
+    ''' 与 <c>TskLayers.MinimumActivationSum</c> 一样以具名常量表达，
+    ''' 避免同一个魔法数字在稳态循环里出现两次。
+    ''' </remarks>
+    Private Const DirtyEpsilon As Double = 0.000000000001
+
+    ''' <summary>
+    ''' 本次迭代实际使用的并行度（<c>1</c> 表示串行）。
+    ''' </summary>
+    ''' <remarks>
+    ''' 复用训练阶段的 <see cref="FuzzyGeneConfig.DegreeOfParallelism"/>：
+    ''' <c>0</c> = 使用全部逻辑核心，<c>1</c> = 强制串行（单元测试与 A/B 基准都依赖这一点）。
+    ''' </remarks>
+    Public ReadOnly Property ParallelDegree As Integer
+        Get
+            Dim degree As Integer = _config.DegreeOfParallelism
+
+            If degree > 0 Then
+                Return degree
+            End If
+
+            Return System.Environment.ProcessorCount
+        End Get
+    End Property
+
+    ''' <summary>给定基因数是否值得启用并行。</summary>
+    Private Shared Function ShouldParallelize(count As Integer, workers As Integer) As Boolean
+        Return workers > 1 AndAlso count >= ParallelMinGenes
+    End Function
+
+    ''' <summary>
+    ''' 按基因数与并行度计算分块大小。
+    ''' </summary>
+    ''' <remarks>
+    ''' 目标是「每核约 4 个分块」以实现动态负载均衡（不同基因的规则数不同，
+    ''' 静态均分很容易卡在最慢的那一块）；同时每块不小于 <see cref="MinChunkGenes"/>，
+    ''' 且不小于「每核至少一块」，避免分块碎到调度开销盖过计算。
+    ''' </remarks>
+    Private Shared Function ChunkGenes(count As Integer, workers As Integer) As Integer
+        Dim target As Integer = (count + workers * 4 - 1) \ std.Max(1, workers * 4)
+        Dim chunk As Integer = std.Max(MinChunkGenes, target)
+        Dim upper As Integer = std.Max(1, count \ std.Max(1, workers))
+
+        If chunk > upper Then
+            chunk = upper
+        End If
+
+        Return std.Max(1, chunk)
+    End Function
+
+    ''' <summary>构造本次迭代的并行选项（<see cref="System.Threading.Tasks.Parallel"/> 必须全限定）。</summary>
+    Private Shared Function ParallelOptionsOf(workers As Integer) As System.Threading.Tasks.ParallelOptions
+        Return New System.Threading.Tasks.ParallelOptions With {.MaxDegreeOfParallelism = workers}
+    End Function
+
+    ''' <summary>线程池最小线程数已经按多大的并行度抬高过（进程级，只增不减）。</summary>
+    Private Shared _poolWarmed As Integer = 0
+
+    Private Shared ReadOnly _poolWarmSync As New Object()
+
+    ''' <summary>
+    ''' 把线程池的最小线程数抬到本次并行度（进程级一次性设置）。
+    ''' </summary>
+    ''' <param name="workers">本次稳态迭代要用的并行度</param>
+    ''' <remarks>
+    ''' <para>
+    ''' .NET 线程池在「饥饿」状态下注入新线程的速度约为每 500 毫秒一条（hill-climbing）。
+    ''' 稳态迭代是「短并行区 + 每步 barrier」的形态：万级基因时每步只有 3~15 毫秒，
+    ''' 整轮迭代也就一两百毫秒，线程池根本来不及长满——实测并发度会稳定在 2~3 条线程，
+    ''' 加速比趋近于 1。逐基因训练改用 <c>LongRunning</c> 长任务，正是为了绕开同一问题。
+    ''' </para>
+    ''' <para>
+    ''' 这里选择抬高最小线程数、而不是自建工作线程池：不需要管理线程生命周期，
+    ''' 也不会在每次 <see cref="SteadyState"/> 调用时付出「新建 N 条线程」的固定开销
+    ''' （扰动扫描会反复调用同一个网络的 <see cref="SteadyState"/>）。
+    ''' 设置只增不减，可以与宿主程序既有的设置共存。
+    ''' </para>
+    ''' </remarks>
+    Private Shared Sub EnsureThreadPool(workers As Integer)
+        If workers <= _poolWarmed Then
+            Return
+        End If
+
+        SyncLock _poolWarmSync
+            If workers <= _poolWarmed Then
+                Return
+            End If
+
+            Dim minWorker As Integer = 0
+            Dim minIo As Integer = 0
+
+            System.Threading.ThreadPool.GetMinThreads(minWorker, minIo)
+
+            If minWorker < workers Then
+                System.Threading.ThreadPool.SetMinThreads(workers, minIo)
+            End If
+
+            _poolWarmed = workers
+        End SyncLock
+    End Sub
+
+    ''' <summary>把全部线程的诊断计数槽清零（每次前向之前调用）。</summary>
+    ''' <remarks>
+    ''' 线程局部槽位是「每线程一份」，因此必须遍历所有已创建的槽，
+    ''' 否则上一轮别的线程留下的数字会被算进本轮。
+    ''' 槽位数等于参与过稳态迭代的线程数（通常不超过核数），遍历成本可忽略。
+    ''' </remarks>
+    Friend Sub ResetForwardDiagnostics()
+        For Each slot As Integer() In _diagnostics.Values
+            slot(0) = 0
+            slot(1) = 0
+        Next
+    End Sub
+
+    ''' <summary>汇总本轮前向的输入夹断数与输出贴界数。</summary>
+    Friend Function ForwardDiagnostics() As (outOfSupport As Integer, pinned As Integer)
+        Dim outOfSupport As Integer = 0
+        Dim pinned As Integer = 0
+
+        For Each slot As Integer() In _diagnostics.Values
+            outOfSupport += slot(0)
+            pinned += slot(1)
+        Next
+
+        Return (outOfSupport, pinned)
+    End Function
+
+#End Region
+
+#Region "推理"
+
+    ''' <summary>单步预测（原始表达量进、原始表达量出）。</summary>
+    Public Function Predict(state As Double()) As Double()
+        Dim z As Double() = ToZ(state)
+        Dim dirty As Boolean() = Repeat(True, NGene)
+
+        Return ToRaw(StepZ(z, dirty, True))
+    End Function
+
+    ''' <summary>
+    ''' 在给定钳制条件下迭代到稳态（返回原始表达量）。
+    ''' </summary>
+    ''' <param name="initial">初始状态（原始表达量，长度 = 基因数）</param>
+    ''' <param name="clamps">被钳制的基因 → 固定值（原始表达量）；<c>Nothing</c> 表示不钳制</param>
+    ''' <param name="steps">最大迭代步数；&lt;= 0 时取配置值</param>
+    ''' <param name="relaxation">阻尼系数；<c>NaN</c> 时取配置值</param>
+    ''' <param name="tolerance">收敛阈值；<c>NaN</c> 时取配置值</param>
+    ''' <returns>稳态（原始表达量）</returns>
+    ''' <remarks>
+    ''' 只要结果不要过程时用这个入口；需要逐帧轨迹请改用
+    ''' <see cref="SteadyStateTraceOf"/>。两者的终态逐位相同。
+    ''' </remarks>
+    Public Function SteadyState(initial As Double(),
+                                Optional clamps As Dictionary(Of String, Double) = Nothing,
+                                Optional steps As Integer = 0,
+                                Optional relaxation As Double = Double.NaN,
+                                Optional tolerance As Double = Double.NaN) As Double()
+
+        Return Solve(initial, clamps, steps, relaxation, tolerance, Nothing)
+    End Function
+
+    ''' <summary>
+    ''' 在给定钳制条件下迭代到稳态，并记录每一帧的状态（可视化 / 收敛诊断用）。
+    ''' </summary>
+    ''' <param name="initial">初始状态（原始表达量，长度 = 基因数）</param>
+    ''' <param name="clamps">被钳制的基因 → 固定值（原始表达量）；<c>Nothing</c> 表示不钳制</param>
+    ''' <param name="steps">最大迭代步数；&lt;= 0 时取配置值</param>
+    ''' <param name="relaxation">阻尼系数；<c>NaN</c> 时取配置值</param>
+    ''' <param name="tolerance">收敛阈值；<c>NaN</c> 时取配置值</param>
+    ''' <returns>
+    ''' 轨迹：第 0 帧是起点（已施加钳制），之后每执行一步迭代追加一帧。
+    ''' </returns>
+    ''' <remarks>
+    ''' <para>
+    ''' 第 <c>t</c> 帧的正确语义是「第 t 次阻尼迭代」，<b>不是</b>「第 t 个时间点」：
+    ''' <c>ω</c> 会改变曲线形状而（收敛时）不改变终点。只有滞后路线且 <c>ω = 1</c> 时，
+    ''' 帧号才等价于采样时间步。
+    ''' </para>
+    ''' <para>
+    ''' 记录动作只发生在 <c>trace IsNot Nothing</c> 的分支里、只读取状态，
+    ''' 因此不会影响 <see cref="SteadyState"/> 的数值结果。
+    ''' </para>
+    ''' </remarks>
+    Public Function SteadyStateTraceOf(initial As Double(),
+                                       Optional clamps As Dictionary(Of String, Double) = Nothing,
+                                       Optional steps As Integer = 0,
+                                       Optional relaxation As Double = Double.NaN,
+                                       Optional tolerance As Double = Double.NaN) As Data.SteadyStateTrace
+
+        Return SolveTrace(initial, clamps, steps, relaxation, tolerance, New Solver.SteadyStateReport())
+    End Function
+
+    ''' <summary>
+    ''' 求稳态并记录轨迹，同时把求解诊断写进轨迹（退出原因、残差、贴界比例）。
+    ''' </summary>
+    ''' <param name="initial">初始状态（原始表达量）</param>
+    ''' <param name="clamps">钳制条件（原始表达量）</param>
+    ''' <param name="steps">步数预算；&lt;= 0 时取配置值</param>
+    ''' <param name="relaxation">阻尼系数；<c>NaN</c> 时取配置值</param>
+    ''' <param name="tolerance">收敛容差；<c>NaN</c> 时取配置值</param>
+    ''' <param name="report">调用方持有的诊断对象（求解后就地填充）</param>
+    ''' <remarks>
+    ''' 与上一个重载的区别只是多了一个必填的 <paramref name="report"/>，
+    ''' 因此原有的 2~5 参数调用仍然落在旧重载上，不会产生重载歧义。
+    ''' </remarks>
+    Public Function SteadyStateTraceOf(initial As Double(),
+                                       clamps As Dictionary(Of String, Double),
+                                       steps As Integer,
+                                       relaxation As Double,
+                                       tolerance As Double,
+                                       report As Solver.SteadyStateReport) As Data.SteadyStateTrace
+
+        Return SolveTrace(initial, clamps, steps, relaxation, tolerance, report)
+    End Function
+
+    ''' <summary><see cref="SteadyStateTraceOf(Double(), Dictionary(Of String, Double), Integer, Double, Double)"/> 的实现。</summary>
+    Private Function SolveTrace(initial As Double(),
+                                clamps As Dictionary(Of String, Double),
+                                steps As Integer,
+                                relaxation As Double,
+                                tolerance As Double,
+                                report As Solver.SteadyStateReport) As Data.SteadyStateTrace
+
+        Dim trace As New Data.SteadyStateTrace With {
+            .GeneNames = CType(GeneNames.Clone(), String())
+        }
+
+        Dim finalState As Double() = SolveCore(initial, clamps, steps, relaxation, tolerance, trace, report)
+
+        ' 步数耗尽的极端情形下（例如 maxSteps 被配成 0）末帧可能不是终态，
+        ' 这里补一帧，保证 trace.Final 与 SteadyState 的返回值逐位一致
+        Call trace.Seal(finalState, trace.MaxDeltas.Count, report)
+
+        Return trace
+    End Function
+
+    ''' <summary>
+    ''' 在给定钳制条件下求稳态，并返回完整诊断（不记录逐帧轨迹）。
+    ''' </summary>
+    ''' <param name="initial">初始状态（原始表达量）</param>
+    ''' <param name="clamps">钳制条件（原始表达量）；<c>Nothing</c> 表示不钳制</param>
+    ''' <param name="steps">步数预算；&lt;= 0 时取配置值</param>
+    ''' <param name="relaxation">阻尼系数；<c>NaN</c> 时取配置值</param>
+    ''' <param name="tolerance">收敛容差；<c>NaN</c> 时取配置值</param>
+    ''' <returns>诊断（含终态、退出原因与残差拆分）</returns>
+    ''' <remarks>
+    ''' 与 <see cref="SteadyState"/> 走同一条求解路径，只是把 <see cref="Data.SteadyStateTrace"/> 换成
+    ''' <see cref="Solver.SteadyStateReport"/>：不记录每帧状态，内存占用与基因数同阶。
+    ''' </remarks>
+    Public Function SteadyStateWithReport(initial As Double(),
+                                          Optional clamps As Dictionary(Of String, Double) = Nothing,
+                                          Optional steps As Integer = 0,
+                                          Optional relaxation As Double = Double.NaN,
+                                          Optional tolerance As Double = Double.NaN) As Solver.SteadyStateReport
+
+        Dim report As New Solver.SteadyStateReport()
+
+        Call SolveCore(initial, clamps, steps, relaxation, tolerance, Nothing, report)
+
+        Return report
+    End Function
+
+    ''' <summary>
+    ''' <see cref="SteadyState"/> 与 <see cref="SteadyStateTraceOf"/> 的共用实现。
+    ''' </summary>
+    ''' <param name="trace">
+    ''' 轨迹收集器；<c>Nothing</c> 表示只求稳态、不记录任何中间状态。
+    ''' </param>
+    Private Function Solve(initial As Double(),
+                           clamps As Dictionary(Of String, Double),
+                           steps As Integer,
+                           relaxation As Double,
+                           tolerance As Double,
+                           trace As Data.SteadyStateTrace) As Double()
+
+        Return SolveCore(initial, clamps, steps, relaxation, tolerance, trace, Nothing)
+    End Function
+
+    ''' <summary>
+    ''' 稳态求解的唯一入口：解析配置、施加钳制、按策略分派求解器。
+    ''' </summary>
+    ''' <remarks>
+    ''' <para>
+    ''' 三条路径共用同一组「参数归一化 + 钳制解析 + 第 0 帧快照」逻辑，
+    ''' 因此换求解器不会改变问题本身，只改变求解方式。
+    ''' </para>
+    ''' <para>
+    ''' <b>收敛口径</b>：只有自由基因的残差低于容差才算收敛；被钳制基因的约束违背量
+    ''' （<see cref="Solver.SteadyStateReport.ClampResidual"/>）只作诊断。
+    ''' 这正是旧实现把 <c>maxDelta</c> 统计在钳制回写之前所导致的假阴性修复点。
+    ''' </para>
+    ''' </remarks>
+    Friend Function SolveCore(initial As Double(),
+                              clamps As Dictionary(Of String, Double),
+                              steps As Integer,
+                              relaxation As Double,
+                              tolerance As Double,
+                              trace As Data.SteadyStateTrace,
+                              report As Solver.SteadyStateReport) As Double()
+
+        If initial Is Nothing Then
+            Throw New ArgumentNullException(NameOf(initial))
+        End If
+        If initial.Length <> NGene Then
+            Throw New ArgumentException($"the state has {initial.Length} values but the network has {NGene} genes", NameOf(initial))
+        End If
+
+        Dim options As SolverOptions = _config.Solver
+        Dim maxSteps As Integer = If(steps > 0, steps, _config.PropagationSteps)
+        Dim omega As Double = If(Double.IsNaN(relaxation), _config.Relaxation, relaxation)
+        Dim tol As Double = If(Double.IsNaN(tolerance), _config.ConvergenceTolerance, tolerance)
+
+        If omega <= 0.0 OrElse omega > 1.0 Then
+            omega = 0.5
+        End If
+        If tol <= 0.0 Then
+            tol = 0.000001
+        End If
+
+        If report Is Nothing Then
+            report = New Solver.SteadyStateReport()
+        End If
+
+        report.Mode = ResolveSolverMode(options)
+
+        Dim clock As Stopwatch = Stopwatch.StartNew()
+        Dim z As Double() = ToZ(initial)
+        Dim clampIndex As New List(Of Integer)
+        Dim clampValue As New List(Of Double)
+
+        Call ResolveClamps(clamps, z, clampIndex, clampValue)
+
+        If trace IsNot Nothing Then
+            trace.Relaxation = omega
+            trace.Tolerance = tol
+            trace.Lagged = IsLagged
+
+            ' 第 0 帧：钳制已经写进 z，因此被扰动的基因从第一帧起就是施加值
+            Call trace.Push(ToRaw(z), 0.0)
+        End If
+
+        Dim context As New Solver.SolveContext With {
+            .Network = Me,
+            .Z = z,
+            .ClampIndex = clampIndex,
+            .ClampValue = clampValue,
+            .MaxSteps = maxSteps,
+            .Relaxation = omega,
+            .Tolerance = tol,
+            .Workers = ParallelDegree,
+            .Trace = trace,
+            .Report = report
+        }
+
+        If ShouldParallelize(NGene, context.Workers) Then
+            Call EnsureThreadPool(context.Workers)
+        End If
+
+        Select Case report.Mode
+            Case SolverMode.Newton
+                Dim newton As New Solver.NewtonSolver(Me, context)
+
+                If Not newton.Solve() Then
+                    report.AddMessage(
+                        "the Newton/LM iteration could not reduce the residual; fell back to the Anderson accelerated damping")
+
+                    Call DampedSolve(context, useAnderson:=True)
+                End If
+            Case SolverMode.AndersonDamped
+                Call DampedSolve(context, useAnderson:=True)
+            Case Else
+                ' LegacyDamped / Advance：保留旧的逐帧阻尼语义（含脏位优化）
+                Call DampedSolve(context, useAnderson:=False)
+        End Select
+
+        clock.Stop()
+        report.ElapsedMs = clock.Elapsed.TotalMilliseconds
+        report.FinalState = ToRaw(z)
+
+        ' 既没有不动点也没有精确周期：用轨迹尾段均值做「时间平均」兜底。
+        ' FCM 模块稳态由调用方（PerturbationEngine）覆盖，所以这里只填手头有的东西
+        If report.ExitReason <> Solver.ExitReason.Converged AndAlso report.AttractorMean Is Nothing AndAlso
+           trace IsNot Nothing AndAlso trace.States IsNot Nothing AndAlso trace.States.Count >= 4 Then
+
+            report.AttractorMean = TraceTailMean(trace, 8)
+            report.StabilizedBy = "tail mean"
+            report.AddMessage("no fixed point and no exact cycle; the mean of the last frames is attached as a time-average surrogate")
+        End If
+
+        ' 统一在这里标注"终态是怎么稳定下来的"：只有 fixed point 是真正的不动点，
+        ' limit cycle 是周期均值；其余情况（预算耗尽）留给调用方去挂 FCM/尾段代理
+        Select Case report.ExitReason
+            Case Solver.ExitReason.Converged
+                report.StabilizedBy = "fixed point"
+            Case Solver.ExitReason.LimitCycle
+                report.StabilizedBy = "limit cycle"
+        End Select
+
+        Return report.FinalState
+    End Function
+
+    ''' <summary>把 <see cref="SolverMode.Auto"/> 解析成本次实际使用的策略。</summary>
+    Private Function ResolveSolverMode(options As SolverOptions) As SolverMode
+        If options.Mode <> SolverMode.Auto Then
+            Return options.Mode
+        End If
+
+        ' 滞后路线学到的是 x(t+1)=F(x(t))，那是一个时间推进过程，
+        ' 是否存在不动点由系统本身决定，因此不能套用「求根」语义
+        If IsLagged Then
+            Return SolverMode.Advance
+        End If
+
+        Return SolverMode.Newton
+    End Function
+
+    ''' <summary>
+    ''' 阻尼迭代求解（Anderson 加速或旧行为），逐帧记录轨迹。
+    ''' </summary>
+    ''' <param name="context">共享求解上下文</param>
+    ''' <param name="useAnderson">是否启用 Anderson 外推（失败时自动退回普通阻尼步）</param>
+    ''' <remarks>
+    ''' <para>
+    ''' 循环结构是「先评估残差、再判收敛、最后走一步」：这样 <c>ResidualHistory</c> 与
+    ''' <c>Iterations</c> 严格等长，且「产生第 k 帧的那一步的残差」就是第 k 步的驱动量。
+    ''' </para>
+    ''' <para>
+    ''' <b>与旧实现的关键差异</b>：残差在钳制回写之前、且只在自由基因上统计。
+    ''' 旧实现把被钳制基因的 <c>ω|F_k - clamp_k|</c> 也算进 <c>maxDelta</c>，
+    ''' 导致只要有敲除就永远报「不收敛」。
+    ''' </para>
+    ''' </remarks>
+    Private Sub DampedSolve(context As Solver.SolveContext, useAnderson As Boolean)
+        Dim report As Solver.SteadyStateReport = context.Report
+        Dim options As SolverOptions = _config.Solver
+        Dim residual As New Solver.ResidualMap(Me, context)
+        Dim direction(NGene - 1) As Double
+        Dim n As Integer = NGene
+
+        ' 求根/加速路径必须全量重算：脏位优化会把「调控因子不再变化」的基因冻结在
+        ' 非不动点上（nextZ 被复制成 z），残差会被误报成 0
+        Dim forceAll As Boolean = useAnderson OrElse
+                                  (report.Mode <> SolverMode.LegacyDamped AndAlso report.Mode <> SolverMode.Advance)
+
+        Dim anderson As Solver.AndersonAcceleration = Nothing
+
+        If useAnderson Then
+            anderson = New Solver.AndersonAcceleration(context, options.AndersonDepth)
+        End If
+
+        Dim cycle As Solver.CycleDetector = Nothing
+
+        If options.CycleWindow > 0 Then
+            ' 容差取收敛阈值的 100 倍：真实振荡极少逐位重复（实测同相位相差 1e-2），
+            ' 用精确比对会让「系统性振荡」被误报成「没跑够」
+            cycle = New Solver.CycleDetector(options.CycleWindow, context.Tolerance * 100.0)
+        End If
+
+        ' 先写哨兵：循环里只在 Converged / Diverged / LimitCycle / SupportSaturated 时改写它。
+        ' 这样「预算跑完」一定落在 MaxIterations，不会继承 Newton 阶段留下的值
+        ' （Newton 失败时该字段是 MaxIterations，但 Enum 的 0 值恰好是 Converged，
+        ' 早期版本因此把 134 步的截断平台报成了收敛）。
+        report.ExitReason = Solver.ExitReason.MaxIterations
+        ' 阻尼步的迭代数与 Newton 轮数不是同一个口径，回落时重新计数
+        report.Iterations = 0
+        report.JacobianEvaluations = 0
+
+        Call residual.Evaluate(forceAll)
+
+        Dim initialMax As Double = residual.FreeMax()
+
+        For stepIndex As Integer = 1 To context.MaxSteps
+            Dim currentMax As Double = residual.FreeMax()
+
+            Call Publish(residual, report)
+
+            If currentMax <= context.Tolerance Then
+                report.ExitReason = Solver.ExitReason.Converged
+
+                Exit For
+            End If
+
+            ' 残差持续放大：模型本身没有不动点（或数值上不可达），早点停机比跑满预算更有信息量
+            If initialMax > 0.0 AndAlso currentMax > initialMax * options.DivergenceFactor Then
+                report.ExitReason = Solver.ExitReason.Diverged
+                report.AddMessage($"the residual grew by more than {options.DivergenceFactor:G3}x; the model has no reachable fixed point from this initial state")
+
+                Exit For
+            End If
+
+            ' 有相当比例的基因被压在支持域边界：结论不可采信（夹断把发散伪装成了饱和）。
+            ' 三条同时成立才算：网络够大、已经跑过几轮、残差显著高于容差——
+            ' 否则小网络的首轮贴界会被误判成饱和
+            If n >= 8 AndAlso stepIndex >= 3 AndAlso residual.Pinned * 4 >= n * 3 AndAlso
+               currentMax > context.Tolerance * 100.0 Then
+
+                report.ExitReason = Solver.ExitReason.SupportSaturated
+                report.AddMessage("more than 75% of the genes are pinned to the support bounds; the response is an artefact of clamping")
+
+                Exit For
+            End If
+
+            If cycle IsNot Nothing Then
+                Dim period As Integer = cycle.Push(context.Z)
+
+                If period > 0 Then
+                    report.ExitReason = Solver.ExitReason.LimitCycle
+                    report.AttractorPeriod = period
+                    Call AttachAttractorMean(report, context.Trace, period, cycle)
+                    report.AddMessage($"a limit cycle of period {period} was detected; the steady state is replaced by the cycle mean")
+
+                    Exit For
+                End If
+            End If
+
+            Dim alpha As Double = 0.0
+
+            If anderson IsNot Nothing Then
+                Call anderson.ComputeStep(residual.Residual, direction)
+                alpha = residual.TryStep(direction, currentMax, options.LineSearchSteps)
+            End If
+
+            If alpha <= 0.0 Then
+                ' 普通阻尼步：z += ω·r（与旧实现等价）
+                For g As Integer = 0 To n - 1
+                    direction(g) = context.Relaxation * residual.Residual(g)
+                Next
+
+                Call residual.ApplyStep(direction)
+            End If
+
+            report.Iterations = stepIndex
+            report.PushResidual(currentMax)
+
+            If context.Trace IsNot Nothing Then
+                ' 快照取在钳制回写之后：被扰动基因在曲线上是一条水平线
+                Call context.Trace.Push(ToRaw(context.Z), currentMax)
+            End If
+
+            Call residual.Evaluate(forceAll)
+
+            If anderson IsNot Nothing Then
+                Call anderson.Update(context.Z, residual.Residual())
+            End If
+        Next
+
+        ' 收敛检查同样在循环顶部：最后一步刚好降到容差以下时会被预算截断误报成 MaxIterations，
+        ' 这里按终态残差补一次判定
+        If residual.FreeMax() <= context.Tolerance Then
+            report.ExitReason = Solver.ExitReason.Converged
+        ElseIf report.Iterations >= context.MaxSteps AndAlso report.ExitReason = Solver.ExitReason.MaxIterations Then
+            report.AddMessage($"the step budget ({context.MaxSteps}) was exhausted without reaching the tolerance {context.Tolerance:G3}")
+        End If
+
+        ' 收敛时上面已经写过诊断；未收敛时要保证报告里是终态的残差
+        Call Publish(residual, report)
+    End Sub
+
+    ''' <summary>把残差映射的当前诊断复制进报告（口径由 <see cref="Solver.ResidualMap.PublishTo"/> 统一）。</summary>
+    Private Shared Sub Publish(residual As Solver.ResidualMap, report As Solver.SteadyStateReport)
+        Call residual.PublishTo(report)
+    End Sub
+
+    ''' <summary>
+    ''' 轨迹最后若干帧的均值（原始表达量）：预算耗尽又检不出精确周期时的兜底代理。
+    ''' </summary>
+    ''' <param name="trace">轨迹</param>
+    ''' <param name="frames">参与平均的帧数上限</param>
+    ''' <remarks>
+    ''' 取「最后 frames 帧」而不是所有帧：前面那段还在收敛，混进去会系统性地偏大。
+    ''' 跳过第 0 帧（起点是施加钳制后的基线，不代表任何轨道位置）。
+    ''' </remarks>
+    Private Shared Function TraceTailMean(trace As Data.SteadyStateTrace,
+                                          Optional frames As Integer = 8) As Double()
+        If trace Is Nothing OrElse trace.States Is Nothing OrElse trace.States.Count < 4 Then
+            Return Nothing
+        End If
+
+        Dim count As Integer = std.Min(frames, trace.States.Count - 1)
+
+        If count < 2 Then
+            Return Nothing
+        End If
+
+        Dim genes As Integer = trace.States(0).Length
+        Dim mean(genes - 1) As Double
+        Dim start As Integer = trace.States.Count - count
+
+        For i As Integer = start To trace.States.Count - 1
+            Dim frame As Double() = trace.States(i)
+
+            For g As Integer = 0 To genes - 1
+                mean(g) += frame(g)
+            Next
+        Next
+
+        For g As Integer = 0 To genes - 1
+            mean(g) /= count
+        Next
+
+        Return mean
+    End Function
+
+    ''' <summary>检出极限环时，用轨迹最后 <paramref name="period"/> 帧的均值作为稳态代理。</summary>
+    ''' <param name="report">求解报告</param>
+    ''' <param name="trace">轨迹快照；<c>Nothing</c> 时回退到检测器自己保留的状态</param>
+    ''' <param name="period">检出的周期</param>
+    ''' <param name="cycle">极限环检测器（无轨迹时的兜底来源）</param>
+    Private Shared Sub AttachAttractorMean(report As Solver.SteadyStateReport,
+                                           trace As Data.SteadyStateTrace,
+                                           period As Integer,
+                                           Optional cycle As Solver.CycleDetector = Nothing)
+        If period <= 0 Then
+            Return
+        End If
+
+        ' 没有轨迹快照（Predict 不建 trace）时用检测器自己的最近帧，否则永远拿不到周期均值
+        If trace Is Nothing OrElse trace.States.Count < period Then
+            If cycle IsNot Nothing Then
+                report.AttractorMean = cycle.MeanOfLast(period)
+            End If
+
+            Return
+        End If
+
+        Dim genes As Integer = trace.States(0).Length
+        Dim mean(genes - 1) As Double
+        Dim first As Integer = trace.States.Count - period
+
+        For k As Integer = 0 To period - 1
+            Dim frame As Double() = trace.States(first + k)
+
+            For g As Integer = 0 To genes - 1
+                mean(g) += frame(g)
+            Next
+        Next
+
+        For g As Integer = 0 To genes - 1
+            mean(g) /= period
+        Next
+
+        report.AttractorMean = mean
+    End Sub
+
+    ''' <summary>
+    ''' 多步级联模拟。
+    ''' </summary>
+    ''' <param name="initial">初始状态（原始表达量）</param>
+    ''' <param name="clamps">钳制条件（原始表达量）</param>
+    ''' <param name="steps">时间步数（含第 0 步的初始状态）</param>
+    ''' <returns>
+    ''' 轨迹 <c>[时间步, 基因]</c>，每个元素是长度为 1 的样本数组
+    ''' （与 BNLearn 的 <c>InterventionResult.DynamicTrajectory</c> 约定一致）
+    ''' </returns>
+    Public Function SimulateCascade(initial As Double(),
+                                    Optional clamps As Dictionary(Of String, Double) = Nothing,
+                                    Optional steps As Integer = 0) As Double(,)()
+        If initial Is Nothing Then
+            Throw New ArgumentNullException(NameOf(initial))
+        End If
+
+        Dim count As Integer = If(steps > 0, steps, _config.PropagationSteps)
+
+        If count < 1 Then
+            count = 1
+        End If
+
+        Dim z As Double() = ToZ(initial)
+        Dim clampIndex As New List(Of Integer)
+        Dim clampValue As New List(Of Double)
+
+        Call ResolveClamps(clamps, z, clampIndex, clampValue)
+
+        Dim trajectory(count - 1, NGene - 1)() As Double
+
+        Record(trajectory, 0, z)
+
+        ' forceAll 为 True 时 dirty 不参与判定，复用同一个全 True 缓冲即可（不再每步 Repeat）
+        Dim allDirty As Boolean() = Repeat(True, NGene)
+
+        For t As Integer = 1 To count - 1
+            z = StepZ(z, allDirty, True)
+
+            For k As Integer = 0 To clampIndex.Count - 1
+                z(clampIndex(k)) = clampValue(k)
+            Next
+
+            Record(trajectory, t, z)
+        Next
+
+        Return trajectory
+    End Function
+
+    Private Sub Record(trajectory As Double(,)(), stepIndex As Integer, z As Double())
+        Dim raw As Double() = ToRaw(z)
+
+        For i As Integer = 0 To NGene - 1
+            trajectory(stepIndex, i) = New Double() {raw(i)}
+        Next
+    End Sub
+
+    ''' <summary>
+    ''' 把钳制条件写进 z 状态，并登记被固定的基因下标与取值。
+    ''' </summary>
+    Private Sub ResolveClamps(clamps As Dictionary(Of String, Double),
+                              z As Double(),
+                              ByRef clampIndex As List(Of Integer),
+                              ByRef clampValue As List(Of Double))
+        If clamps Is Nothing Then
+            Return
+        End If
+
+        For Each item As KeyValuePair(Of String, Double) In clamps
+            Dim idx As Integer = IndexOfGene(item.Key)
+
+            If idx < 0 Then
+                Continue For
+            End If
+
+            Dim value As Double = item.Value
+
+            If value.IsNaNImaginary Then
+                Continue For
+            End If
+
+            Dim zv As Double = ToZValue(idx, value)
+
+            z(idx) = zv
+            Call clampIndex.Add(idx)
+            Call clampValue.Add(zv)
+        Next
+    End Sub
+
+    ''' <summary>
+    ''' 一步状态更新（分配结果数组的便捷入口）：只重算「有调控因子发生变化」的基因。
+    ''' </summary>
+    ''' <remarks>
+    ''' 单次调用（<see cref="Predict"/>、<see cref="SimulateCascade"/>）用这个入口；
+    ''' 稳态迭代走 <see cref="StepZInto"/> 的零分配路径。
+    ''' </remarks>
+    Private Function StepZ(z As Double(), dirty As Boolean(), forceAll As Boolean) As Double()
+        Dim result(NGene - 1) As Double
+
+        Call StepZInto(z, dirty, forceAll, result, ParallelDegree)
+
+        Return result
+    End Function
+
+    ''' <summary>
+    ''' 一步状态更新，结果写入 <paramref name="nextZ"/>；基因维按块并行。
+    ''' </summary>
+    ''' <param name="z">当前状态（z 空间，只读）</param>
+    ''' <param name="dirty">上一步发生变化的基因（只读）</param>
+    ''' <param name="forceAll">为 <c>True</c> 时忽略脏集，全量重算</param>
+    ''' <param name="nextZ">目标缓冲，长度必须等于基因数</param>
+    ''' <param name="workers">并行度（<c>1</c> 表示串行）</param>
+    ''' <remarks>
+    ''' <para>
+    ''' 每个基因只写自己的 <c>nextZ(g)</c>，对 <c>z</c> / <c>dirty</c> 只读，
+    ''' 因此按基因并行天然无竞争、也与线程调度无关：结果逐位可复现。
+    ''' 线程局部缓冲（<see cref="_inputScratch"/>）在 <c>TskNetwork</c> 一侧同样是每线程一份，
+    ''' 所以并行不需要任何锁。
+    ''' </para>
+    ''' <para>
+    ''' <b>不能就地写回 <paramref name="z"/></b>：同一步内其他基因还要读旧状态。
+    ''' </para>
+    ''' </remarks>
+    Friend Sub StepZInto(z As Double(),
+                         dirty As Boolean(),
+                         forceAll As Boolean,
+                         nextZ As Double(),
+                         workers As Integer)
+
+        Dim n As Integer = NGene
+
+        ' 未被重算的基因必须逐位保持原值（也保证混合循环看到的是完整的下一步状态）
+        Call Array.Copy(z, nextZ, n)
+
+        If Not ShouldParallelize(n, workers) Then
+            Call StepZRange(z, dirty, forceAll, nextZ, 0, n)
+
+            Return
+        End If
+
+        Dim chunk As Integer = ChunkGenes(n, workers)
+        Dim nChunks As Integer = (n + chunk - 1) \ chunk
+        Dim options As System.Threading.Tasks.ParallelOptions = ParallelOptionsOf(workers)
+
+        ' Parallel 必须全限定：Microsoft.VisualBasic.Parallel 会遮蔽同名类型
+        System.Threading.Tasks.Parallel.For(0, nChunks, options,
+            Sub(c)
+                Dim start As Integer = c * chunk
+
+                Call StepZRange(z, dirty, forceAll, nextZ, start, std.Min(start + chunk, n))
+            End Sub)
+    End Sub
+
+    ''' <summary>
+    ''' <see cref="StepZInto"/> 的逐基因内核，只处理 <c>[start, ends)</c> 区间。
+    ''' </summary>
+    ''' <remarks>
+    ''' <para>
+    ''' 与旧实现的区别只有两处，但都很关键：① 调控因子的取值在送进前件之前先夹断到
+    ''' 训练定义域（<c>ClampInputToSupport</c>）——虚拟敲除会把输入推到支持域之外，
+    ''' 那时高斯前件几乎全部失活、结论退化成最外侧规则的无界线性外推；
+    ''' ② 输出夹断改成可关闭，并统计「贴界基因数」，让「夹断把发散伪装成饱和」
+    ''' 这件事在诊断里可见。两者都只在配置打开时生效，默认行为与旧版本一致。
+    ''' </para>
+    ''' <para>
+    ''' 计数写线程局部槽位，不参与任何数值计算，因此并行与串行仍然逐位一致。
+    ''' </para>
+    ''' </remarks>
+    Private Sub StepZRange(z As Double(),
+                           dirty As Boolean(),
+                           forceAll As Boolean,
+                           nextZ As Double(),
+                           start As Integer,
+                           ends As Integer)
+
+        ' 提到循环外：配置在一次迭代内不会变化，避免每个基因都做一次属性访问
+        Dim options As Config.SolverOptions = _config.Solver
+        Dim clampInput As Boolean = options.ClampInputToSupport
+        Dim clampOutput As Boolean = options.ClampOutputToSupport
+        Dim counter As Integer() = _diagnostics.Value
+
+        For g As Integer = start To ends - 1
+            Dim model As GeneRegulationModel = Models(g)
+
+            If model Is Nothing Then
+                Continue For
+            End If
+
+            Dim inputs As Integer() = _regulatorIndices(g)
+
+            If inputs.Length = 0 Then
+                Continue For
+            End If
+            If Not forceAll AndAlso Not AnyDirty(inputs, dirty) Then
+                Continue For
+            End If
+
+            Dim row As Double() = _inputScratch.Value
+
+            If row.Length < inputs.Length Then
+                ReDim row(inputs.Length - 1)
+                _inputScratch.Value = row
+            End If
+
+            Dim bounds As Double() = If(clampInput, _inputBounds(g), Nothing)
+            Dim clamped As Boolean = False
+
+            For j As Integer = 0 To inputs.Length - 1
+                Dim v As Double = z(inputs(j))
+
+                If bounds IsNot Nothing Then
+                    Dim lower As Double = bounds(j * 2)
+                    Dim upper As Double = bounds(j * 2 + 1)
+
+                    If upper >= lower Then
+                        If v < lower Then
+                            v = lower
+                            clamped = True
+                        ElseIf v > upper Then
+                            v = upper
+                            clamped = True
+                        End If
+                    End If
+                End If
+
+                row(j) = v
+            Next
+
+            If clamped Then
+                counter(0) += 1
+            End If
+
+            Dim value As Double
+
+            Try
+                value = model.Predict(row)
+            Catch ex As Exception
+                ' 单个基因的推理失败不应中断整个网络（例如规则被剪空）
+                value = z(g)
+            End Try
+
+            If value.IsNaNImaginary Then
+                value = z(g)
+            End If
+
+            If clampOutput Then
+                Dim lower As Double = SupportMin(g) - 1.0
+                Dim upper As Double = SupportMax(g) + 1.0
+
+                If upper > lower Then
+                    If value < lower Then
+                        value = lower
+                        counter(1) += 1
+                    ElseIf value > upper Then
+                        value = upper
+                        counter(1) += 1
+                    End If
+                End If
+            End If
+
+            nextZ(g) = value
+        Next
+    End Sub
+
+    ''' <summary>
+    ''' 阻尼混合 <c>z ← z + ω·(next − z)</c> + 收敛统计 + 脏位刷新；基因维按块并行。
+    ''' </summary>
+    ''' <param name="z">当前状态，就地更新</param>
+    ''' <param name="nextZ">一步预测结果</param>
+    ''' <param name="omega">阻尼系数</param>
+    ''' <param name="nextDirty">脏位输出（整段赋值，无需预先清零）</param>
+    ''' <param name="workers">并行度（<c>1</c> 表示串行）</param>
+    ''' <returns>本步的最大变化量</returns>
+    ''' <remarks>
+    ''' <c>max</c> 精确可结合，因此分块归约的合并顺序不影响结果——
+    ''' 并行与串行给出<b>逐位相同</b>的最大变化量与 <paramref name="z"/>，
+    ''' 这一点与 <c>Sum</c>/<c>Dot</c> 的分块归约（末位 ULP 会变）不同。
+    ''' </remarks>
+    Private Function BlendInto(z As Double(),
+                               nextZ As Double(),
+                               omega As Double,
+                               nextDirty As Boolean(),
+                               workers As Integer) As Double
+
+        Dim n As Integer = NGene
+
+        If Not ShouldParallelize(n, workers) Then
+            Return BlendRange(z, nextZ, omega, nextDirty, 0, n)
+        End If
+
+        Dim chunk As Integer = ChunkGenes(n, workers)
+        Dim nChunks As Integer = (n + chunk - 1) \ chunk
+        Dim partials As Double() = New Double(nChunks - 1) {}
+        Dim options As System.Threading.Tasks.ParallelOptions = ParallelOptionsOf(workers)
+
+        ' 每个分块只写自己的 partials(c)，无锁、无跨块共享写
+        System.Threading.Tasks.Parallel.For(0, nChunks, options,
+            Sub(c)
+                Dim start As Integer = c * chunk
+
+                partials(c) = BlendRange(z, nextZ, omega, nextDirty, start, std.Min(start + chunk, n))
+            End Sub)
+
+        Dim maxDelta As Double = 0.0
+
+        For i As Integer = 0 To nChunks - 1
+            If partials(i) > maxDelta Then
+                maxDelta = partials(i)
+            End If
+        Next
+
+        Return maxDelta
+    End Function
+
+    ''' <summary>
+    ''' <see cref="BlendInto"/> 的逐元素内核，只处理 <c>[start, ends)</c> 区间。
+    ''' </summary>
+    ''' <remarks>
+    ''' 脏位在这里是<b>直接赋值</b>而不是「先清零再条件置 True」：
+    ''' 因为本函数覆盖 <c>[0, N)</c> 的每一个下标，两种写法完全等价，
+    ''' 但直接赋值可以省掉每步一次 <c>Array.Clear</c>。
+    ''' </remarks>
+    Private Shared Function BlendRange(z As Double(),
+                                       nextZ As Double(),
+                                       omega As Double,
+                                       nextDirty As Boolean(),
+                                       start As Integer,
+                                       ends As Integer) As Double
+
+        Dim maxDelta As Double = 0.0
+
+        For i As Integer = start To ends - 1
+            Dim blended As Double = z(i) + omega * (nextZ(i) - z(i))
+            Dim delta As Double = std.Abs(blended - z(i))
+
+            z(i) = blended
+            nextDirty(i) = delta > DirtyEpsilon
+
+            If delta > maxDelta Then
+                maxDelta = delta
+            End If
+        Next
+
+        Return maxDelta
+    End Function
+
+    Private Shared Function AnyDirty(indices As Integer(), dirty As Boolean()) As Boolean
+        For Each idx As Integer In indices
+            If dirty(idx) Then
+                Return True
+            End If
+        Next
+
+        Return False
+    End Function
+
+    Private Shared Function Repeat(value As Boolean, count As Integer) As Boolean()
+        Dim result(count - 1) As Boolean
+
+        For i As Integer = 0 To count - 1
+            result(i) = value
+        Next
+
+        Return result
+    End Function
+
+    ''' <summary>原始表达量向量 → z 向量。</summary>
+    Public Function ToZ(state As Double()) As Double()
+        If state Is Nothing Then
+            Throw New ArgumentNullException(NameOf(state))
+        End If
+        If state.Length <> NGene Then
+            Throw New ArgumentException($"the state has {state.Length} values but the network has {NGene} genes", NameOf(state))
+        End If
+
+        Dim z(NGene - 1) As Double
+
+        For i As Integer = 0 To NGene - 1
+            z(i) = ToZValue(i, state(i))
+        Next
+
+        Return z
+    End Function
+
+    ''' <summary>z 向量 → 原始表达量向量。</summary>
+    Public Function ToRaw(z As Double()) As Double()
+        If Not _standardized Then
+            Return CType(z.Clone(), Double())
+        End If
+
+        Dim raw(NGene - 1) As Double
+
+        For i As Integer = 0 To NGene - 1
+            raw(i) = z(i) * SDs(i) + Means(i)
+        Next
+
+        Return raw
+    End Function
+
+    ''' <summary>单基因原始值 → z 值。</summary>
+    Public Function ToZValue(gene As Integer, value As Double) As Double
+        If Not _standardized Then
+            Return value
+        End If
+
+        Dim sd As Double = SDs(gene)
+
+        If std.Abs(sd) < 0.000000000001 Then
+            sd = 1.0
+        End If
+
+        Return (value - Means(gene)) / sd
+    End Function
+
+#End Region
+
+#Region "可解释性导出"
+
+    ''' <summary>全部规则的文本描述（按靶基因分段）。</summary>
+    Public Function RulesText() As String()
+        Dim lines As New List(Of String)
+
+        For g As Integer = 0 To NGene - 1
+            Dim model As GeneRegulationModel = Models(g)
+
+            If model Is Nothing Then
+                Continue For
+            End If
+
+            Call lines.Add($"# {model.TargetGene} <- {{{String.Join(", ", If(model.Regulators, New String() {}))}}}")
+
+            For Each rule As String In model.RulesText()
+                Call lines.Add(rule)
+            Next
+
+            Call lines.Add("")
+        Next
+
+        Return lines.ToArray()
+    End Function
+
+    ''' <summary>SIF 网络文本（<c>Source  pp  Target</c>）。</summary>
+    Public Function EdgesToSif() As String
+        Dim sb As New StringBuilder()
+
+        For Each edge As RegulationEdgeModel In Edges
+            Call sb.AppendLine(edge.ToSifLine())
+        Next
+
+        Return sb.ToString()
+    End Function
+
+    ''' <summary>CSV 边表文本（含表头）。</summary>
+    Public Function EdgesToCsv() As String
+        Dim sb As New StringBuilder()
+
+        Call sb.AppendLine(RegulationEdgeModel.CsvHeader())
+
+        For Each edge As RegulationEdgeModel In Edges
+            Call sb.AppendLine(edge.ToCsvLine())
+        Next
+
+        Return sb.ToString()
+    End Function
+
+    ''' <summary>单行摘要。</summary>
+    Public Overrides Function ToString() As String
+        Return $"FuzzyGene network: {NGene} genes ({NModelled} modelled), {Edges.Length} edges, " &
+               $"{String.Join(",", Models.Where(Function(m) m IsNot Nothing).Sum(Function(m) m.RuleCount))} rules, " &
+               $"mode={Mode}"
+    End Function
+
+#End Region
+
+#Region "序列化"
+
+    ''' <summary>序列化为 JSON（含全部模型）。</summary>
+    Public Function ToJson(Optional indented As Boolean = True) As String
+        Return JsonSerializer.Serialize(ToDto(), JsonOptions(indented))
+    End Function
+
+    ''' <summary>
+    ''' 构造传输对象。
+    ''' </summary>
+    ''' <param name="includeModels">为 False 时只导出 manifest 部分（zip 写入时模型按基因分文件）</param>
+    Friend Function ToDto(Optional includeModels As Boolean = True) As FuzzyGeneNetworkDto
+        Dim dto As New FuzzyGeneNetworkDto With {
+            .formatVersion = "1.0",
+            .createdAt = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+            .mode = Mode,
+            .geneNames = GeneNames,
+            .means = Means,
+            .sds = SDs,
+            .baseline = BaselineRaw,
+            .supportMin = SupportMin,
+            .supportMax = SupportMax,
+            .config = _config,
+            .standardized = _standardized,
+            .spectralRadius = SpectralRadius,
+            .calibrationMode = CalibrationMode,
+            .preCalibrationR2 = PreCalibrationR2,
+            .postCalibrationR2 = PostCalibrationR2,
+            .modules = Modules,
+            .pbn = If(PbnPrior Is Nothing, Nothing, PbnPrior.ToDto()),
+            .edges = Edges
+        }
+
+        If includeModels Then
+            dto.models = Models.Select(Function(m) If(m Is Nothing, Nothing, m.ToDto())).ToArray()
+        End If
+
+        Return dto
+    End Function
+
+    ''' <summary>从 JSON 还原。</summary>
+    Public Shared Function FromJson(json As String) As FuzzyGeneNetwork
+        If String.IsNullOrEmpty(json) Then
+            Throw New ArgumentException("the json text is empty", NameOf(json))
+        End If
+
+        Dim dto As FuzzyGeneNetworkDto = JsonSerializer.Deserialize(Of FuzzyGeneNetworkDto)(json, JsonOptions(False))
+
+        If dto Is Nothing OrElse dto.geneNames Is Nothing Then
+            Throw New InvalidOperationException("the json text does not describe a fuzzy gene network")
+        End If
+
+        Return FromDto(dto)
+    End Function
+
+    ''' <summary>由传输对象还原（zip 读取路径复用）。</summary>
+    Friend Shared Function FromDto(dto As FuzzyGeneNetworkDto) As FuzzyGeneNetwork
+        Dim models(dto.geneNames.Length - 1) As GeneRegulationModel
+
+        If dto.models IsNot Nothing Then
+            For i As Integer = 0 To std.Min(dto.models.Length, models.Length) - 1
+                If dto.models(i) IsNot Nothing Then
+                    models(i) = GeneRegulationModel.FromDto(dto.models(i))
+                End If
+            Next
+        End If
+
+        Dim network As New FuzzyGeneNetwork(
+            dto.geneNames,
+            models,
+            If(dto.edges, New RegulationEdgeModel() {}),
+            If(dto.config, New FuzzyGeneConfig()),
+            If(dto.means, New Double(dto.geneNames.Length - 1) {}),
+            If(dto.sds, Repeat(1.0, dto.geneNames.Length)),
+            If(dto.baseline, New Double(dto.geneNames.Length - 1) {}),
+            If(dto.supportMin, New Double(dto.geneNames.Length - 1) {}),
+            If(dto.supportMax, New Double(dto.geneNames.Length - 1) {}),
+            dto.mode,
+            dto.standardized)
+
+        ' 校准元数据是可选的：旧包里没有这几个字段，读出来是默认值（未校准），
+        ' 正好对应「旧包按旧语义解释」——不需要额外分支
+        network.SpectralRadius = dto.spectralRadius
+        network.CalibrationMode = dto.calibrationMode
+        network.PreCalibrationR2 = dto.preCalibrationR2
+        network.PostCalibrationR2 = dto.postCalibrationR2
+        network.Modules = dto.modules
+        ' PBN 同样是可选的：旧包里没有该字段，读出来是 Nothing，fuzzygene_ensemble 会明确报错
+        network.PbnPrior = Hybrid.PbnRegulatorPrior.FromDto(dto.pbn)
+
+        Return network
+    End Function
+
+    Private Shared Function Repeat(value As Double, count As Integer) As Double()
+        Dim result(count - 1) As Double
+
+        For i As Integer = 0 To count - 1
+            result(i) = value
+        Next
+
+        Return result
+    End Function
+
+    ''' <summary>JSON 选项（枚举按名称写出，中文基因名不转义）。</summary>
+    Friend Shared Function JsonOptions(indented As Boolean) As JsonSerializerOptions
+        Dim options As New JsonSerializerOptions With {
+            .WriteIndented = indented
+        }
+
+        Call options.Converters.Add(New JsonStringEnumConverter())
+
+        Return options
+    End Function
+
+#End Region
+
+End Class
+
+''' <summary>调控网络包的传输对象（manifest 与整体 JSON 共用）。</summary>
+Public Class FuzzyGeneNetworkDto
+
+    ''' <summary>格式版本。</summary>
+    Public Property formatVersion As String
+    ''' <summary>创建时间。</summary>
+    Public Property createdAt As String
+    ''' <summary>拟合路线。</summary>
+    Public Property mode As FuzzyTargetMode
+    ''' <summary>基因名。</summary>
+    Public Property geneNames As String()
+    ''' <summary>逐基因原始均值。</summary>
+    Public Property means As Double()
+    ''' <summary>逐基因原始标准差。</summary>
+    Public Property sds As Double()
+    ''' <summary>稳态迭代起始状态。</summary>
+    Public Property baseline As Double()
+    ''' <summary>支持域下界（z 空间）。</summary>
+    Public Property supportMin As Double()
+    ''' <summary>支持域上界（z 空间）。</summary>
+    Public Property supportMax As Double()
+    ''' <summary>建模配置。</summary>
+    Public Property config As FuzzyGeneConfig
+    ''' <summary>模型是否在 z 空间训练（缺省视为 True，对齐历史包）。</summary>
+    Public Property standardized As Boolean = True
+    ''' <summary>全局增益校准后的谱半径；0 表示未校准（旧包）。</summary>
+    Public Property spectralRadius As Double
+    ''' <summary>全局增益校准方式；旧包为 None。</summary>
+    Public Property calibrationMode As StabilityCalibrationMode
+    ''' <summary>校准前训练集平均 R²（0 = 未记录；JSON 不能写 NaN）。</summary>
+    Public Property preCalibrationR2 As Double
+    ''' <summary>校准后训练集平均 R²（0 = 未记录）。</summary>
+    Public Property postCalibrationR2 As Double
+    ''' <summary>逐基因模块编号（FCM 粗粒度层用）；旧包与未启用时为 Nothing。</summary>
+    Public Property modules As Integer()
+    ''' <summary>PBN 定性层；未启用 PBN 时为 Nothing。</summary>
+    Public Property pbn As Hybrid.PbnPriorDto
+    ''' <summary>带符号调控边。</summary>
+    Public Property edges As RegulationEdgeModel()
+    ''' <summary>逐基因模型（未建模的位置为 <c>Nothing</c>）。</summary>
+    Public Property models As GeneModelDto()
+
+End Class
+

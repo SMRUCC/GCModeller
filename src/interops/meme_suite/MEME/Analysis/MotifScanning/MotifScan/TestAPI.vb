@@ -75,12 +75,12 @@ Namespace Analysis.MotifScans
 
         <ExportAPI("DeltaSimilarity")>
         Public Function DeltaSimilarity(f As FASTA.FastaSeq, g As FASTA.FastaSeq) As Double
-            Return DifferenceMeasurement.Sigma(f, g)
+            Return DeltaStarDistance.DeltaStar(f, g)
         End Function
 
         <ExportAPI("DeltaSimilarity")>
         Public Function DeltaSimilarity(f As NucleotideModels.NucleicAcid, g As NucleotideModels.NucleicAcid) As Double
-            Return DifferenceMeasurement.Sigma(f, g)
+            Return DeltaStarDistance.DeltaStar(f, g)
         End Function
 
         <ExportAPI("DeltaSimilarity")>

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2209aca2bed8e92ef9a15e7901983db3, CLI_tools\eggHTS\CLI\Enrichment\KOBAS.vb"
+#Region "Microsoft.VisualBasic::2209aca2bed8e92ef9a15e7901983db3, CLI_tools\eggHTS\CLI\Enrichment\KOBAS.vb"
 
     ' Author:
     ' 
@@ -47,9 +47,9 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.ChartPlots
-Imports Microsoft.VisualBasic.Data.ChartPlots.Fractions
-Imports Microsoft.VisualBasic.Data.ChartPlots.Plot3D
+Imports Microsoft.VisualBasic.Data.Plots
+Imports Microsoft.VisualBasic.Data.Plots.Canvas
+Imports Microsoft.VisualBasic.Data.Plots.Plot3D
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors

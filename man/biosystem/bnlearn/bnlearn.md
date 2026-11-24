@@ -1,0 +1,31 @@
+﻿# bnlearn
+
+Bayesian network learning and the in silico gene perturbation toolkit
+> This R# package module provides the toolkit for learn the gene regulatory 
+>  bayesian network from the gene expression data, and then run the in silico 
+>  gene perturbation experiment based on the learned network model:
+>  
+>  + ``prior_network`` and ``as.prior_net``: create the prior knowledge 
+>    regulatory network(TF -> target gene) which is used as the whitelist of 
+>    the network structure learning;
+>  + ``bnlearn``: learn the network structure(MMHC algorithm with the whitelist 
+>    prior) and the network parameters(Gaussian bayesian network MLE);
+>  + ``knockouts``, ``overexpress`` and ``knockdown``: run the in silico gene 
+>    perturbation experiment on the learned network model;
+>  + ``make_exports``: export the perturbation experiment result as a set of the 
+>    csv table files;
+>  + ``save_model``: save the learned bayesian network model as the tsv table 
+>    files.
+
++ [read_pathway_knowledge](bnlearn/read_pathway_knowledge.1) 
++ [bnlearn](bnlearn/bnlearn.1) learn the gene regulatory bayesian network from the gene expression data
++ [read_module_assignment](bnlearn/read_module_assignment.1) read WGCNA module color assignment result table
++ [wildtype_baseline](bnlearn/wildtype_baseline.1) set wildtype baseline
++ [modular_intervene](bnlearn/modular_intervene.1) 
++ [export_modular_response](bnlearn/export_modular_response.1) 
++ [as.prior_net](bnlearn/as.prior_net.1) build prior network object based on a given vector of the knowledge network edges data
++ [save_prior](bnlearn/save_prior.1) 
++ [load_prior](bnlearn/load_prior.1) 
++ [read.prior_net](bnlearn/read.prior_net.1) 
++ [prior_network](bnlearn/prior_network.1) create prior knowledge netwoek edges from the given vector data
++ [save_model](bnlearn/save_model.1) save bnlearn model

@@ -1,0 +1,52 @@
+.\" man page create by R# package system.
+.TH KOBAS 1 2000-1月 "kobas.background" "kobas.background"
+.SH NAME
+kobas.background \- Load a gene set collection from a GMT file as a GSEA background model.
+.SH SYNOPSIS
+\fIkobas.background(\fBgmt\fR as string, 
+\fBmin_size\fR as integer = 0, 
+\fBmax_size\fR as integer = 2147483647, 
+\fBduplicate\fR as string = "error");\fR
+.SH DESCRIPTION
+.PP
+Load a gene set collection from a GMT file as a GSEA background model.
+.PP
+.SH OPTIONS
+.PP
+\fBgmt\fB \fR\- the GMT file path.. 
+.PP
+.PP
+\fBmin_size\fB \fR\- 
+ the minimum number of members of the gene set, gene sets smaller than this
+ value will be removed. Default \fB0\fR means no filtering.
+. 
+.PP
+.PP
+\fBmax_size\fB \fR\- 
+ the maximum number of members of the gene set, gene sets larger than this
+ value will be removed. Default \fB2147483647\fR means no filtering.
+. 
+.PP
+.PP
+\fBduplicate\fB \fR\- 
+ the strategy for the duplicated gene set id in the GMT file, could be
+ \fBerror\fR (default, throw an exception) or \fBkeep\fR (keep the first one).
+. 
+.PP
+.SH VALUE
+.PP
+a [Background](cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.Background) model.
+.PP
+.SH DETAILS
+.PP
+The \fBsize\fR property of the returned background model is the union size of all
+ gene set members, it is NOT the number of genes in the expression matrix. The
+ GSEA analysis always uses the number of genes in the ranked list as the
+ population size \fBN\fR.
+.PP
+.SH SEE ALSO
+KOBAS
+.SH FILES
+.PP
+gseakit.dll
+.PP

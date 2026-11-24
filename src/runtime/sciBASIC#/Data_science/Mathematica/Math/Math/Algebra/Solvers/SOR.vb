@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::11c96f53df5909efd24deeab80001ce5, Data_science\Mathematica\Math\Math\Algebra\Solvers\SOR.vb"
+﻿#Region "Microsoft.VisualBasic::6adb0b5f4c140f6313dddafcd3daa417, Data_science\Mathematica\Math\Math\Algebra\Solvers\SOR.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 53
-    '    Code Lines: 33 (62.26%)
-    ' Comment Lines: 9 (16.98%)
-    '    - Xml Docs: 88.89%
+    '   Total Lines: 71
+    '    Code Lines: 43 (60.56%)
+    ' Comment Lines: 15 (21.13%)
+    '    - Xml Docs: 53.33%
     ' 
-    '   Blank Lines: 11 (20.75%)
-    '     File Size: 1.73 KB
+    '   Blank Lines: 13 (18.31%)
+    '     File Size: 2.76 KB
 
 
     '     Module SOR
@@ -76,9 +76,17 @@ Namespace LinearAlgebra.Solvers
             Dim N As Integer = A.ColumnDimension
             Dim x1 As Vector = New Vector(N), x As Vector = New Vector(N)
             Dim sum As Double
+            Dim converged As Boolean = False
 
             For k As Integer = 0 To Iteration
                 For i As Integer = 0 To N - 1
+                    ' 准确度修正：对角零元素守卫 —— A(i,i) 为除数，
+                    ' 零元素会产生除零/NaN 并污染整个迭代序列
+                    If A(i, i) = 0 Then
+                        Throw New InvalidOperationException(
+                            $"SOR solver requires non-zero diagonal elements: A({i},{i}) = 0.")
+                    End If
+
                     sum = 0
 
                     For j As Integer = 0 To N - 1
@@ -95,11 +103,21 @@ Namespace LinearAlgebra.Solvers
                 Dim dx As Vector = x - x1, err As Double = std.Sqrt(dx.Mod)
 
                 If err < e Then
+                    converged = True
                     Exit For
                 End If
 
-                x1 = x
+                ' 准确度修正：Vector 是引用类型，直接赋值会让 x1 与 x 共享
+                ' 同一缓冲，下一轮迭代中 x 的就地更新会同步改写 x1，
+                ' 导致误差恒为 0 而提前退出（静默返回未收敛的解）。
+                ' 必须深拷贝。
+                x1 = x.Clone()
             Next
+
+            If Not converged Then
+                Call Console.WriteLine(
+                    $"WARNING: SOR iteration does not converge after {Iteration + 1} iterations (final error > {e}).")
+            End If
 
             Return x
         End Function

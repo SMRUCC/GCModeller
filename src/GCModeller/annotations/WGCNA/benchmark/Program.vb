@@ -1,0 +1,715 @@
+' ---------------------------------------------------------------------------
+'  WGCNA benchmark / 对照测试控制台程序
+'
+'  用法：
+'    WGCNA_benchmark --file <表达矩阵.csv> [--mode blockwise|full|validate]
+'                    [--block 5000] [--gpu] [--topN 0] [--minVar 0]
+'                    [--seed 12345] [--deepSplit 2] [--power <beta>]
+'                    [--cut dynamic|static] [--adjacency 0.6] [--mergeCut 0.15]
+'                    [--blocks 1] [--dump] [--out <输出目录>]
+'                    [--store <repo>] [--writestore <repo>] [--corkind bicor|pearson]
+'                    [--compare] [--dumpcor]
+'
+'  相关矩阵存储（bicor/pearson）：
+'    --writestore <repo>  存储缺失时从（与运行期一致的）过滤后矩阵创建，随后自动复用
+'    --store <repo>       复用已存在的存储目录（基因/样本校验失败会自动回退重算）
+'    --compare            先按现状重算跑一轮，再用 store 跑一轮，输出模块划分 ARI
+'    --dumpcor            输出首块相关子矩阵：store 切片 vs GEMM 重算的最大绝对差
+'
+'  输出（写入 --out 目录）：
+'    gene_module.csv   基因 -> 模块 分配表
+'    modules.csv       模块名 -> 基因数
+'    timing.csv        各阶段耗时（毫秒，含 correlationStore 与各块 cor 分段）
+'    summary.txt       汇总信息（基因数、样本数、后端、相关系数来源、模块数、峰值内存）
+'    cor.csv/adj.csv/tom.csv   （仅 --dump）用于与 GNU R 做逐元素数值对照
+' ---------------------------------------------------------------------------
+
+Imports System.Diagnostics
+Imports System.Globalization
+Imports System.IO
+Imports System.Text
+Imports Microsoft.VisualBasic.DataMining.HierarchicalClustering
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports SMRUCC.genomics.Analysis.HTS.WGCNA
+Imports stdNum = System.Math
+
+Module Program
+
+    ''' <summary>
+    ''' 命令行参数解析结果
+    ''' </summary>
+    Class Options
+        Public file As String = ""
+        Public mode As String = "blockwise"
+        Public block As Integer = 5000
+        Public gpu As Boolean = False
+        Public topN As Integer = 0
+        Public minVar As Double = 0
+        Public seed As Integer = 12345
+        Public deepSplit As Integer = 2
+        Public power As Double = Double.NaN
+        Public cut As String = "dynamic"
+        Public cutHeight As Double = Double.NaN
+        Public adjacency As Double = 0.6
+        Public mergeCut As Double = 0.15
+        Public blocks As Integer = 1
+        Public dump As Boolean = False
+        Public out As String = ""
+        Public verbose As Boolean = True
+        ''' 预先计算相关矩阵存储目录（复用）
+        Public store As String = ""
+        ''' 相关矩阵存储目录（缺失时从过滤后矩阵创建，随后自动复用）
+        Public writestore As String = ""
+        ''' 写入存储时使用的相关系数类型：bicor（默认）或 pearson
+        Public corkind As String = "bicor"
+        ''' 对照模式：重算一轮 + store 一轮，输出模块划分 ARI
+        Public compare As Boolean = False
+        ''' 输出首块相关子矩阵的 store 切片 vs GEMM 重算最大绝对差
+        Public dumpcor As Boolean = False
+    End Class
+
+    Function Main(args As String()) As Integer
+        Dim opt As Options = ParseArgs(args)
+
+        If opt.file = "" Then
+            Call Console.WriteLine(Usage())
+            Return 1
+        End If
+
+        If opt.out = "" Then
+            opt.out = Path.Combine(AppContext.BaseDirectory, "result")
+        End If
+
+        Call Directory.CreateDirectory(opt.out)
+
+        Dim proc As Process = Process.GetCurrentProcess()
+        Dim swAll As New Stopwatch()
+
+        Call swAll.Start()
+
+        ' ------------------------------------------------------------ 加载
+        Dim sw As New Stopwatch()
+
+        sw.Start()
+
+        Dim samples As Matrix = Matrix.LoadData(opt.file, tqdm_wrap:=False)
+
+        sw.Stop()
+
+        Dim loadMs As Double = sw.ElapsedMilliseconds
+
+        Call Console.WriteLine($"loaded: {samples.size} genes x {samples.sample_count} samples in {loadMs / 1000:F1}s")
+
+        ' ------------------------------------------------------------ 配置
+        Dim config As New WGCNAConfig With {
+            .maxBlockSize = opt.block,
+            .adjacency = opt.adjacency,
+            .power = opt.power,
+            .treeCut = If(opt.cut = "static", TreeCutMethod.StaticCut, TreeCutMethod.Dynamic),
+            .deepSplit = opt.deepSplit,
+            .mergeCutHeight = opt.mergeCut,
+            .useGpu = opt.gpu,
+            .maxConcurrentBlocks = stdNum.Max(1, opt.blocks),
+            .filterTopN = opt.topN,
+            .minVariance = opt.minVar,
+            .randomSeed = opt.seed,
+            .verbose = opt.verbose,
+            .buildGraph = False
+        }
+
+        Dim result As Result = Nothing
+        Dim dumpCor As Double()() = Nothing
+        Dim dumpAdj As Double()() = Nothing
+        Dim dumpTom As Double()() = Nothing
+        Dim dumpKeys As String() = Nothing
+
+        ' ------------------------------------------------------------ 运行
+        Select Case opt.mode.ToLower()
+            Case "blockwise"
+                Dim kind As CorrelationKind = If(opt.corkind.ToLower() = "pearson",
+                                                 CorrelationKind.Pearson,
+                                                 CorrelationKind.Bicor)
+
+                ' 可选：先写存储（缺失才写），随后自动复用
+                If opt.writestore <> "" Then
+                    Call WriteStore(samples, opt.writestore, config, kind)
+                    opt.store = opt.writestore
+                End If
+
+                If opt.compare AndAlso opt.store <> "" Then
+                    ' ① 基线：不配置 store，按现状从表达矩阵重算
+                    Call Console.WriteLine("[compare] run 1/2: recompute correlation from expression matrix...")
+                    Dim baseline As Result = Analysis.RunBlockwise(samples, config)
+
+                    ' ② 对照：复用预计算相关矩阵存储
+                    Dim storeConfig As WGCNAConfig = config.Clone()
+                    storeConfig.correlationStore = opt.store
+
+                    Call Console.WriteLine($"[compare] run 2/2: reuse correlation store '{opt.store}'...")
+                    Dim storeRun As Result = Analysis.RunBlockwise(samples, storeConfig)
+
+                    Dim nBase As Integer = If(baseline.modules Is Nothing, 0, baseline.modules.Count)
+                    Dim nStore As Integer = If(storeRun.modules Is Nothing, 0, storeRun.modules.Count)
+                    Dim ari As Double = AdjustedRandIndex(ToLabels(baseline), ToLabels(storeRun))
+
+                    Call Console.WriteLine($"[compare] modules: expr={nBase}, store={nStore}, " &
+                                           $"corSource={storeRun.correlationSource}, ARI={ari:F4}")
+
+                    result = storeRun
+                Else
+                    If opt.store <> "" Then
+                        config.correlationStore = opt.store
+                    End If
+
+                    result = Analysis.RunBlockwise(samples, config)
+                End If
+
+                If opt.dumpcor AndAlso opt.store <> "" Then
+                    Call DumpCorDiff(samples, result, opt.store)
+                End If
+
+            Case "hclust"
+                ' 诊断模式：直接对一份距离矩阵 CSV 做 average-linkage 层次聚类并导出 merge/height，
+                ' 用于把「层次聚类实现」与「树剪切实现」的差异分开验证
+                Dim dist As Double()() = ReadMatrixCsv(opt.file, dumpKeys)
+
+                sw.Restart()
+
+                Dim flatDist As Double() = TensorOps.Flatten(dist, dist.Length, dist(Scan0).Length)
+
+                sw.Restart()
+
+                Dim dendro As HclustResult = AverageLinkage.Hclust(flatDist, dist.Length)
+                Dim hc As Cluster = AverageLinkage.Cluster(dendro, dumpKeys)
+
+                sw.Stop()
+
+                result = New Result With {.hclust = hc, .dendrogram = dendro}
+                result.timing = New Dictionary(Of String, Double) From {{"hclust", sw.ElapsedMilliseconds}}
+
+                Call WriteDendrogram(result, dumpKeys, Path.Combine(opt.out, "dendro.csv"))
+                Call File.WriteAllText(Path.Combine(opt.out, "dendro_keys.csv"),
+                                       String.Join(vbLf, dumpKeys), New UTF8Encoding(False))
+
+            Case "full", "validate"
+                ' 单块路径：基因数较大时必须先限制规模，否则 n^2 矩阵会直接 OOM
+                If opt.topN > 0 Then
+                    samples = GeneFilter.ByVariance(samples, opt.topN, opt.minVar)
+                End If
+
+                If samples.size > opt.block Then
+                    samples = GeneFilter.ByVariance(samples, opt.block, 0)
+                End If
+
+                config.pcaLayout = False
+                config.buildGraph = False
+                config.cutHeight = opt.cutHeight
+
+                result = Analysis.Run(samples, config)
+
+                If opt.dump Then
+                    Call DumpMatrices(samples, result, opt.adjacency, dumpKeys, dumpCor, dumpAdj, dumpTom)
+                    Call WriteDendrogram(result, dumpKeys, Path.Combine(opt.out, "dendro.csv"))
+                End If
+
+            Case Else
+                Call Console.WriteLine($"unknown mode: {opt.mode}")
+                Return 2
+        End Select
+
+        Call swAll.Stop()
+
+        ' ------------------------------------------------------------ 输出
+        Call WriteModules(result, opt.out)
+        Call WriteTiming(result, opt.out, loadMs, swAll.ElapsedMilliseconds)
+
+        If dumpCor IsNot Nothing Then
+            Call WriteMatrix(Path.Combine(opt.out, "cor.csv"), dumpKeys, dumpCor)
+            Call WriteMatrix(Path.Combine(opt.out, "adj.csv"), dumpKeys, dumpAdj)
+            Call WriteMatrix(Path.Combine(opt.out, "tom.csv"), dumpKeys, dumpTom)
+        End If
+
+        Dim peakMB As Double = proc.PeakWorkingSet64 / 1024 / 1024
+        Dim gcMB As Double = GC.GetTotalMemory(False) / 1024 / 1024
+
+        Call WriteSummary(opt, samples, result, opt.out, loadMs, swAll.ElapsedMilliseconds, peakMB, gcMB)
+
+        Call Console.WriteLine($"done in {swAll.ElapsedMilliseconds / 1000:F1}s, peak RSS = {peakMB:F0} MB, " &
+                               $"{If(result.modules Is Nothing, 0, result.modules.Count)} modules")
+        Call Console.WriteLine($"output -> {opt.out}")
+
+        Return 0
+    End Function
+
+    ''' <summary>
+    ''' 重新计算并导出 cor / adjacency / TOM 三个矩阵，用于与 GNU R 做逐元素对照
+    ''' </summary>
+    Private Sub DumpMatrices(samples As Matrix, result As Result, threshold As Double,
+                             ByRef geneKeys As String(), ByRef corMat As Double()(),
+                             ByRef adjMat As Double()(), ByRef tomMat As Double()())
+
+        geneKeys = samples.expression.Select(Function(gene) gene.geneID).ToArray()
+
+        Dim n As Integer = geneKeys.Length
+        Dim beta As Double = result.beta.Power
+        Dim tcor As TensorCorrelation = TensorCorrelation.Create(samples)
+        Dim absCor As Double() = WeightedNetwork.AbsCorrelation(tcor)
+        Dim adjacency As Double() = WeightedNetwork.BuildAdjacency(absCor, beta, threshold)
+        Dim k As Double() = WeightedNetwork.ConnectivityOf(adjacency, n)
+        Dim tomBuf As Double() = TOM.Matrix(adjacency, k, n)
+
+        corMat = TensorOps.ToJagged(tcor.Buffer, n, n)
+        adjMat = TensorOps.ToJagged(adjacency, n, n)
+        tomMat = TensorOps.ToJagged(tomBuf, n, n)
+
+        Call Console.WriteLine($"dump: beta={beta}, n={n}")
+    End Sub
+
+    ''' <summary>
+    ''' 读取带行列名的稠密矩阵 CSV
+    ''' </summary>
+    Private Function ReadMatrixCsv(path As String, ByRef keys As String()) As Double()()
+        Dim rows As New List(Of Double())()
+        keys = Nothing
+        Dim names As New List(Of String)()
+
+        Using reader As New StreamReader(path)
+            Dim header As String() = reader.ReadLine().Split(","c)
+            Dim n As Integer = header.Length - 1
+
+            Do While Not reader.EndOfStream
+                Dim line As String = reader.ReadLine()
+
+                If line = "" Then Continue Do
+
+                Dim parts As String() = line.Split(","c)
+
+                names.Add(parts(0))
+
+                Dim row(n - 1) As Double
+
+                For i As Integer = 0 To n - 1
+                    row(i) = Double.Parse(parts(i + 1), CultureInfo.InvariantCulture)
+                Next
+
+                rows.Add(row)
+            Loop
+        End Using
+
+        keys = names.ToArray()
+
+        Return rows.ToArray()
+    End Function
+
+    ''' <summary>
+    ''' 以 R hclust 的 merge/height 格式导出聚类树，供 R 的 cutreeHybrid 在同一棵树上复算
+    ''' </summary>
+    Private Sub WriteDendrogram(result As Result, keys As String(), path As String)
+        If result.dendrogram Is Nothing Then Return
+
+        Dim dendro As HclustResult = result.dendrogram
+
+        Using writer As New StreamWriter(path, False, New UTF8Encoding(False))
+            Call writer.WriteLine("merge1,merge2,height")
+
+            For i As Integer = 0 To dendro.height.Length - 1
+                Call writer.WriteLine($"{dendro.merge(i)(0)},{dendro.merge(i)(1)},{dendro.height(i).ToString("G17", CultureInfo.InvariantCulture)}")
+            Next
+        End Using
+    End Sub
+
+    ''' <summary>
+    ''' 写出 gene -> module 分配表与模块统计
+    ''' </summary>
+    Private Sub WriteModules(result As Result, outDir As String)
+        Dim modules As Dictionary(Of String, String()) = result.modules
+
+        If modules Is Nothing Then
+            modules = New Dictionary(Of String, String())()
+        End If
+
+        Using writer As New StreamWriter(Path.Combine(outDir, "gene_module.csv"), False, New UTF8Encoding(False))
+            Call writer.WriteLine("gene,module")
+
+            For Each kv In modules.OrderBy(Function(x) x.Key)
+                For Each gene As String In kv.Value
+                    Call writer.WriteLine($"{gene},{kv.Key}")
+                Next
+            Next
+        End Using
+
+        Using writer As New StreamWriter(Path.Combine(outDir, "modules.csv"), False, New UTF8Encoding(False))
+            Call writer.WriteLine("module,size")
+
+            For Each kv In modules.OrderByDescending(Function(x) x.Value.Length)
+                Call writer.WriteLine($"{kv.Key},{kv.Value.Length}")
+            Next
+        End Using
+
+        If result.blocks IsNot Nothing Then
+            Using writer As New StreamWriter(Path.Combine(outDir, "blocks.csv"), False, New UTF8Encoding(False))
+                Call writer.WriteLine("block,gene")
+
+                For i As Integer = 0 To result.blocks.Length - 1
+                    For Each gene As String In result.blocks(i)
+                        Call writer.WriteLine($"{i + 1},{gene}")
+                    Next
+                Next
+            End Using
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' 写出分段耗时
+    ''' </summary>
+    Private Sub WriteTiming(result As Result, outDir As String, loadMs As Double, totalMs As Double)
+        Using writer As New StreamWriter(Path.Combine(outDir, "timing.csv"), False, New UTF8Encoding(False))
+            Call writer.WriteLine("stage,ms")
+            Call writer.WriteLine($"load,{loadMs.ToString(CultureInfo.InvariantCulture)}")
+
+            If result.timing IsNot Nothing Then
+                For Each kv In result.timing
+                    Call writer.WriteLine($"{kv.Key},{kv.Value.ToString(CultureInfo.InvariantCulture)}")
+                Next
+            End If
+
+            If result.blockResults IsNot Nothing Then
+                For Each br As BlockResult In result.blockResults
+                    If br Is Nothing OrElse br.timing Is Nothing Then Continue For
+
+                    For Each kv In br.timing
+                        Call writer.WriteLine($"block{br.index}.{kv.Key},{kv.Value.ToString(CultureInfo.InvariantCulture)}")
+                    Next
+                Next
+            End If
+
+            Call writer.WriteLine($"wallclock,{totalMs.ToString(CultureInfo.InvariantCulture)}")
+        End Using
+    End Sub
+
+    ''' <summary>
+    ''' 写出汇总报告
+    ''' </summary>
+    Private Sub WriteSummary(opt As Options, samples As Matrix, result As Result, outDir As String,
+                            loadMs As Double, totalMs As Double, peakMB As Double, gcMB As Double)
+
+        Dim sb As New StringBuilder()
+
+        Call sb.AppendLine("WGCNA benchmark summary")
+        Call sb.AppendLine("=======================")
+        Call sb.AppendLine($"file      : {opt.file}")
+        Call sb.AppendLine($"mode      : {opt.mode}")
+
+        If samples IsNot Nothing Then
+            Call sb.AppendLine($"genes     : {samples.size}")
+            Call sb.AppendLine($"samples   : {samples.sample_count}")
+        End If
+        Call sb.AppendLine($"backend   : {Analysis.Backend}")
+        Call sb.AppendLine($"treeCut   : {opt.cut}")
+        Call sb.AppendLine($"maxBlock  : {opt.block}")
+        Call sb.AppendLine($"topN      : {opt.topN}")
+        Call sb.AppendLine($"parallel  : {opt.blocks}")
+        Call sb.AppendLine($"seed      : {opt.seed}")
+
+        If opt.store <> "" Then
+            Call sb.AppendLine($"cor store : {opt.store}")
+        End If
+
+        If result IsNot Nothing AndAlso Not String.IsNullOrEmpty(result.correlationSource) Then
+            Call sb.AppendLine($"cor source: {result.correlationSource}")
+        End If
+        Call sb.AppendLine()
+
+        If result.beta IsNot Nothing Then
+            Call sb.AppendLine($"soft power: {result.beta.Power}")
+        End If
+
+        If result.modules IsNot Nothing Then
+            Call sb.AppendLine($"modules   : {result.modules.Count}")
+            Call sb.AppendLine($"assigned  : {result.modules.Sum(Function(kv) kv.Value.Length)}")
+
+            For Each kv In result.modules.OrderByDescending(Function(x) x.Value.Length).Take(20)
+                Call sb.AppendLine($"  {kv.Key}: {kv.Value.Length}")
+            Next
+        End If
+
+        Call sb.AppendLine()
+        Call sb.AppendLine($"load       : {loadMs / 1000:F1} s")
+        Call sb.AppendLine($"wall clock : {totalMs / 1000:F1} s")
+        Call sb.AppendLine($"peak RSS   : {peakMB:F0} MB")
+        Call sb.AppendLine($"managed heap: {gcMB:F0} MB")
+
+        If result.timing IsNot Nothing Then
+            Call sb.AppendLine()
+            Call sb.AppendLine("stage timings (ms):")
+
+            For Each kv In result.timing
+                Call sb.AppendLine($"  {kv.Key}: {kv.Value}")
+            Next
+        End If
+
+        Call File.WriteAllText(Path.Combine(outDir, "summary.txt"), sb.ToString(), New UTF8Encoding(False))
+    End Sub
+
+    ''' <summary>
+    ''' 以 CSV 写出带行列名的稠密矩阵
+    ''' </summary>
+    Private Sub WriteMatrix(path As String, keys As String(), mat As Double()())
+        Using writer As New StreamWriter(path, False, New UTF8Encoding(False))
+            Call writer.WriteLine("," & keys.JoinBy(","))
+
+            For i As Integer = 0 To mat.Length - 1
+                Dim row As Double() = mat(i)
+                Dim sb As New StringBuilder(keys(i))
+
+                For j As Integer = 0 To row.Length - 1
+                    Call sb.Append(","c)
+                    Call sb.Append(row(j).ToString("G17", CultureInfo.InvariantCulture))
+                Next
+
+                Call writer.WriteLine(sb.ToString())
+            Next
+        End Using
+    End Sub
+
+    ''' <summary>
+    ''' 解析命令行参数
+    ''' </summary>
+    Private Function ParseArgs(args As String()) As Options
+        Dim opt As New Options()
+
+        For i As Integer = 0 To args.Length - 1
+            Dim key As String = args(i)
+
+            If Not key.StartsWith("--") Then Continue For
+
+            Dim name As String = key.Substring(2).ToLower()
+            Dim argValue As String = ""
+
+            If i + 1 < args.Length AndAlso Not args(i + 1).StartsWith("--") Then
+                argValue = args(i + 1)
+                i += 1
+            End If
+
+            Select Case name
+                Case "file" : opt.file = argValue
+                Case "mode" : opt.mode = argValue
+                Case "block" : opt.block = CInt(Val(argValue))
+                Case "gpu" : opt.gpu = True
+                Case "topn" : opt.topN = CInt(Val(argValue))
+                Case "minvar" : opt.minVar = Val(argValue)
+                Case "seed" : opt.seed = CInt(Val(argValue))
+                Case "deepsplit" : opt.deepSplit = CInt(Val(argValue))
+                Case "power" : opt.power = Val(argValue)
+                Case "cut" : opt.cut = argValue
+                Case "cutheight" : opt.cutHeight = Val(argValue)
+                Case "adjacency" : opt.adjacency = Val(argValue)
+                Case "mergecut" : opt.mergeCut = Val(argValue)
+                Case "blocks" : opt.blocks = CInt(Val(argValue))
+                Case "dump" : opt.dump = True
+                Case "store" : opt.store = argValue
+                Case "writestore" : opt.writestore = argValue
+                Case "corkind" : opt.corkind = argValue
+                Case "compare" : opt.compare = True
+                Case "dumpcor" : opt.dumpcor = True
+                Case "out" : opt.out = argValue
+                Case "quiet" : opt.verbose = False
+            End Select
+        Next
+
+        Return opt
+    End Function
+
+    ''' <summary>
+    ''' 使用说明
+    ''' </summary>
+    Private Function Usage() As String
+        Dim sb As New StringBuilder()
+
+        Call sb.AppendLine("WGCNA_benchmark --file <expr.csv> [--mode blockwise|full|validate]")
+        Call sb.AppendLine("                [--block 5000] [--gpu] [--topN 0] [--minVar 0]")
+        Call sb.AppendLine("                [--seed 12345] [--deepSplit 2] [--power <beta>]")
+        Call sb.AppendLine("                [--cut dynamic|static] [--adjacency 0.6] [--mergeCut 0.15]")
+        Call sb.AppendLine("                [--blocks 1] [--dump] [--out <dir>]")
+        Call sb.AppendLine("                [--store <repo>] [--writestore <repo>] [--corkind bicor|pearson]")
+        Call sb.AppendLine("                [--compare] [--dumpcor]")
+
+        Return sb.ToString()
+    End Function
+
+    ''' <summary>
+    ''' 从（与运行期一致的）过滤后矩阵创建相关矩阵存储；已存在则跳过直接复用
+    ''' </summary>
+    Private Sub WriteStore(samples As Matrix, repo As String, config As WGCNAConfig, kind As CorrelationKind)
+        Dim dataFile As String = $"{repo}/{CorrelationStoreFiles.DataFileOf(kind)}"
+        Dim indexFile As String = $"{repo}/{CorrelationStoreFiles.IndexFile}"
+
+        If IO.File.Exists(dataFile) AndAlso IO.File.Exists(indexFile) Then
+            Call Console.WriteLine($"correlation store already exists: '{repo}' (reuse)")
+            Return
+        End If
+
+        Call IO.Directory.CreateDirectory(repo)
+
+        Dim sw As New Stopwatch()
+        Call sw.Start()
+
+        ' 与 RunBlockwise 内部一致的过滤：保证 store 基因集 = 运行期输入基因集
+        Dim filtered As Matrix = GeneFilter.Filter(samples, config)
+
+        ' 编码用默认值 Float32，仅按类型参数写入
+        Call filtered.CreateMatrixStore(repo, corKind:=kind)
+
+        Call sw.Stop()
+
+        Call Console.WriteLine($"correlation store({kind}) written: {filtered.size} genes x {filtered.sample_count} samples " &
+                               $"in {sw.ElapsedMilliseconds / 1000:F1}s -> '{repo}'")
+    End Sub
+
+    ''' <summary>
+    ''' 首块相关子矩阵对拍：store 切片 vs 表达矩阵 GEMM 重算
+    ''' </summary>
+    Private Sub DumpCorDiff(samples As Matrix, result As Result, repo As String)
+        If result.blocks Is Nothing OrElse result.blocks.Length = 0 Then
+            Call Console.WriteLine("dumpcor: 结果中没有块信息，跳过")
+            Return
+        End If
+
+        Dim keys As String() = result.blocks(0)
+        Dim allIds As String() = samples.expression.Select(Function(g) g.geneID).ToArray()
+        Dim indexOf As New Dictionary(Of String, Integer)(StringComparer.OrdinalIgnoreCase)
+
+        For i As Integer = 0 To allIds.Length - 1
+            indexOf(allIds(i)) = i
+        Next
+
+        Dim rows As Integer() = keys.Select(Function(g) indexOf(g)).ToArray()
+
+        Using handle As CorrelationStoreHandle = CorrelationStoreHandle.Open(repo)
+            Dim storeRows As Integer() = StoreCorrelation.MapGenes(handle.Store, allIds)
+
+            If storeRows Is Nothing Then
+                Call Console.WriteLine("dumpcor: 输入基因未被 store 完整覆盖，跳过")
+                Return
+            End If
+
+            Dim blockRows As Integer() = rows.Select(Function(i) storeRows(i)).ToArray()
+            Dim fromStore As TensorCorrelation = StoreCorrelation.Correlation(handle.Store, blockRows)
+            Dim expr As Double()() = rows.Select(Function(i) samples.expression(i).experiments).ToArray()
+            Dim fromGemm As TensorCorrelation = TensorCorrelation.Create(expr)
+            Dim n As Integer = rows.Length
+            Dim maxDiff As Double = 0.0
+
+            For i As Integer = 0 To n - 1
+                For j As Integer = 0 To n - 1
+                    Dim d As Double = stdNum.Abs(fromStore(i, j) - fromGemm(i, j))
+
+                    If d > maxDiff Then
+                        maxDiff = d
+                    End If
+                Next
+            Next
+
+            Call Console.WriteLine($"dumpcor: block0 n={n}, store({handle.Kind}) vs GEMM(pearson) max|diff| = {maxDiff:E3}")
+            Call Console.WriteLine("dumpcor: 说明 -- bicor 与 GEMM(pearson) 是不同估计量，差值大为预期；" &
+                                   "pearson 存储应与 GEMM 在 float32 精度（约 1e-7）内一致")
+        End Using
+    End Sub
+
+    ''' <summary>
+    ''' 模块划分结果 → 基因 → 模块标签 字典（ARI 输入）
+    ''' </summary>
+    Private Function ToLabels(result As Result) As Dictionary(Of String, String)
+        Dim labels As New Dictionary(Of String, String)(StringComparer.OrdinalIgnoreCase)
+
+        If result Is Nothing OrElse result.modules Is Nothing Then
+            Return labels
+        End If
+
+        For Each kv In result.modules
+            For Each g As String In kv.Value
+                labels(g) = kv.Key
+            Next
+        Next
+
+        Return labels
+    End Function
+
+    ''' <summary>
+    ''' 调整兰德指数（ARI）：比较两组「基因 → 模块标签」划分的一致性（1 = 完全一致）
+    ''' </summary>
+    Private Function AdjustedRandIndex(a As Dictionary(Of String, String), b As Dictionary(Of String, String)) As Double
+        If a Is Nothing OrElse b Is Nothing Then
+            Return Double.NaN
+        End If
+
+        Dim genes As New List(Of String)
+
+        For Each g As String In a.Keys
+            If b.ContainsKey(g) Then
+                genes.Add(g)
+            End If
+        Next
+
+        Dim n As Long = genes.Count
+
+        If n < 2 Then
+            Return Double.NaN
+        End If
+
+        Dim groupA As New Dictionary(Of String, Long)
+        Dim groupB As New Dictionary(Of String, Long)
+        Dim cross As New Dictionary(Of String, Long)
+
+        For Each g As String In genes
+            Dim la As String = a(g)
+            Dim lb As String = b(g)
+
+            If groupA.ContainsKey(la) Then
+                groupA(la) += 1
+            Else
+                groupA(la) = 1
+            End If
+
+            If groupB.ContainsKey(lb) Then
+                groupB(lb) += 1
+            Else
+                groupB(lb) = 1
+            End If
+
+            Dim key As String = la & vbTab & lb
+
+            If cross.ContainsKey(key) Then
+                cross(key) += 1
+            Else
+                cross(key) = 1
+            End If
+        Next
+
+        Dim sumCross As Long = 0
+        Dim sumA As Long = 0
+        Dim sumB As Long = 0
+
+        For Each v As Long In cross.Values
+            sumCross += v * (v - 1) \ 2
+        Next
+        For Each v As Long In groupA.Values
+            sumA += v * (v - 1) \ 2
+        Next
+        For Each v As Long In groupB.Values
+            sumB += v * (v - 1) \ 2
+        Next
+
+        Dim totalPairs As Long = n * (n - 1) \ 2
+        Dim expected As Double = CDbl(sumA) * CDbl(sumB) / CDbl(totalPairs)
+        Dim maxIndex As Double = 0.5 * (sumA + sumB)
+        Dim denom As Double = maxIndex - expected
+
+        If stdNum.Abs(denom) < 1.0E-12 Then
+            Return 1.0
+        End If
+
+        Return (sumCross - expected) / denom
+    End Function
+End Module

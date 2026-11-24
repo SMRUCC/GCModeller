@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.GCModeller.ModellingEngine.IO.vcXML.vcExperiment</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>vcExperiment {SMRUCC.genomics.GCModeller.ModellingEngine.IO.vcXML}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>vcExperiment</h2>
+
+        <h3>Description</h3>
+
+        <p>实验级元数据：运行引擎、随机性、时间轴与运行开关。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.GCModeller.ModellingEngine.IO.vcXML
+export class vcExperiment {
+   cvParams: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/IO/vcXML/cvParam.html">cvParam[]</a>;
+   # 模拟引擎名称，例如 Cella / BootstrapLoader
+   engine: string;
+   # 帧数
+   frameCount: integer;
+   # 随机种子；无法确定时写 <code>auto</code>
+   seed: string;
+   # 时间步长（单位见 <a href="cref:P:SMRUCC.genomics.GCModeller.ModellingEngine.IO.vcXML.vcExperiment.timeUnit">vcExperiment.timeUnit</a>）
+   timeStep: double;
+   # 时间单位 accession（默认 UO:0000031 minute）
+   timeUnit: string;
+   # 时间单位名称
+   timeUnitName: string;
+   # 总模拟时长（单位见 <a href="cref:P:SMRUCC.genomics.GCModeller.ModellingEngine.IO.vcXML.vcExperiment.timeUnit">vcExperiment.timeUnit</a>）
+   totalTime: double;
+   userParams: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/IO/vcXML/userParam.html">userParam[]</a>;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>cvParams</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/IO/vcXML/cvParam.html">cvParam</a></li>
+<li>use by <i>property</i> member <code>userParams</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/IO/vcXML/userParam.html">userParam</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

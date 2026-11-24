@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>去掉表达矩阵的前若干个主成分(比"减去跨基因均值"更强的去全局因子)。</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>remove_principal_components {linear}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>去掉表达矩阵的前若干个主成分(比"减去跨基因均值"更强的去全局因子)。</h2>
+
+        <h3>Description</h3>
+
+        <p>&lt;br /&gt; 做法：在基因抽样的子矩阵上用块幂迭代求出前 <strong>components</strong> 个&lt;br /&gt; 右奇异向量(样本空间的全局方向)，然后把每个基因的表达向量投影到这些方向上&lt;br /&gt; 并减掉。等于把"细胞组成 / 测序质量 / 全局调控程序"这类共同因子从数据里移除。&lt;br /&gt; &lt;br /&gt; 与只减跨基因均值相比，这一步能真正削弱残留的全局共表达，&lt;br /&gt; 从而让网络里出现更多负相关(抑制型)的边。</p>
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>remove_principal_components</strong>(<i>x</i>,
+    <i>components</i> = <span style='color: green;'>3</span>,
+    <i>maxGenes</i> = <span style='color: green;'>2000</span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>x</dt>
+<dd><p>表达矩阵(行 = 基因、列 = 样本). [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>]</p></dd>
+
+
+<dt>components</dt>
+<dd><p>要移除的主成分个数，默认 3；小于等于 0 时原样返回. [as integer]</p></dd>
+
+
+<dt>maxGenes</dt>
+<dd><p>估计主成分时使用的基因抽样上限，默认 2000. [as integer]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: none;">Details</h3>
+
+        
+
+        <h3 style="display: block">Authors</h3>
+
+        TRNtoolkit
+
+        <h3>Value</h3>
+
+        <p>变换之后的新矩阵</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a></li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>linear</em> version 1.0.0.0 <a
+                href="../linear.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

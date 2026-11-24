@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9798f53ed94de306a556e3e3c3f54a1f, Data_science\MachineLearning\DeepLearning\NeuralNetwork\NetworkKernel.vb"
+﻿#Region "Microsoft.VisualBasic::589e44767ec64d9ab271544f7a0e5171, Data_science\MachineLearning\DeepLearning\NeuralNetwork\NetworkKernel.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 87
-    '    Code Lines: 43 (49.43%)
-    ' Comment Lines: 33 (37.93%)
-    '    - Xml Docs: 87.88%
+    '   Total Lines: 94
+    '    Code Lines: 43 (45.74%)
+    ' Comment Lines: 40 (42.55%)
+    '    - Xml Docs: 90.00%
     ' 
-    '   Blank Lines: 11 (12.64%)
-    '     File Size: 4.19 KB
+    '   Blank Lines: 11 (11.70%)
+    '     File Size: 4.71 KB
 
 
     '     Module NetworkKernel
@@ -58,6 +58,7 @@ Imports Microsoft.VisualBasic.MachineLearning.CNN
 Imports Microsoft.VisualBasic.MachineLearning.CNN.data
 Imports Microsoft.VisualBasic.MachineLearning.CNN.layers
 Imports Microsoft.VisualBasic.MachineLearning.CNN.losslayers
+Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
 
 Namespace NeuralNetwork
 
@@ -138,10 +139,18 @@ Namespace NeuralNetwork
         ''' <remarks>
         ''' No normalization is applied so the values keep the plain real-number semantics of the legacy
         ''' Netz/Network input, avoiding the <c>-0.5</c> offset introduced by image normalization.
+        ''' 
+        ''' 单精度输入在此**加宽**为 <c>Double()</c> 写进 CNN 内核的 <c>DataBlock.w</c>；
+        ''' 这是 NeuralNetwork 分支里唯一的精度边界，方向是加宽，不损失信息。
         ''' </remarks>
-        Public Function BuildDataBlock(inputs As Double()) As DataBlock
-            Dim db As New DataBlock(inputs.Length, 1, 1, 0)
-            Call Array.ConstrainedCopy(inputs, 0, db.w, 0, inputs.Length)
+        Public Function BuildDataBlock(inputs As TensorF) As DataBlock
+            Dim src = inputs.Data
+            Dim db As New DataBlock(src.Length, 1, 1, 0)
+
+            For i As Integer = 0 To src.Length - 1
+                db.w(i) = src(i)
+            Next
+
             Return db
         End Function
     End Module

@@ -5,14 +5,16 @@ Imports SMRUCC.genomics.Analysis.BNLearn.Core
 Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
 Imports SMRUCC.genomics.Analysis.BNLearn.IO
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports SMRUCC.genomics.BioSystem.Core
+Imports SMRUCC.genomics.BioSystem.Intervention
 Imports SMRUCC.genomics.MetabolicModel
 
 Module Demo1
 
     Sub Run()
         ' 1. 加载数据
-        Dim exprData = BnIO.ReadGeneExpressionMatrix(Matrix.LoadData("G:\GCModeller\src\GCModeller\sub-system\demo\TestData1\gene_expression_matrix.csv"))
-        Dim priorNet = BnIO.ReadPriorNetwork("G:\GCModeller\src\GCModeller\sub-system\demo\TestData1\regulatory_network_prior.csv".LoadCsv(Of RegulatoryEdge))
+        Dim exprData = HTSDataFrame.ReadGeneExpressionMatrix(Matrix.LoadData("G:\GCModeller\src\GCModeller\sub-system\demo\TestData1\gene_expression_matrix.csv"))
+        Dim priorNet = "G:\GCModeller\src\GCModeller\sub-system\demo\TestData1\regulatory_network_prior.csv".LoadCsv(Of RegulatoryEdge)().AssemblePriorNetwork
         Dim pathways As Dictionary(Of String, MetabolicPathway) = "G:\GCModeller\src\GCModeller\sub-system\demo\TestData1\pathway_info.json".LoadJsonFile(Of Dictionary(Of String, MetabolicPathway))
 
         ' 2. 创建工作流
@@ -55,7 +57,7 @@ Module Demo1
         }
 
         ' —— 关键接口：接收外部转录组数据字典，设置新的基因表达上下文 ——
-        workflow.SetExternalExpression(myTranscriptome)
+        workflow.SetContext(myTranscriptome)
 
         Console.WriteLine()
         Console.WriteLine("========================================")

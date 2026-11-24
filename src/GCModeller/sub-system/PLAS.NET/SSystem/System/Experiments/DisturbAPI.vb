@@ -79,7 +79,7 @@ Namespace Kernel.ObjectModels
  _
                 {Types.Increase, Function(x, d) x + d},
                 {Types.Decrease, Function(x, d) x - d},
-                {Types.ChangeTo, Function(x, d) x}
+                {Types.ChangeTo, Function(x, d) d}
             }
         End Sub
     End Module

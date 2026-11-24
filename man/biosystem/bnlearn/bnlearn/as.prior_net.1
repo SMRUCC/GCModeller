@@ -1,0 +1,42 @@
+.\" man page create by R# package system.
+.TH BNLEARN 1 2000-1月 "as.prior_net" "as.prior_net"
+.SH NAME
+as.prior_net \- build prior network object based on a given vector of the knowledge network edges data
+.SH SYNOPSIS
+\fIas.prior_net(\fBpriorNet\fR as any, 
+\fBcutoff\fR as <generic> Double = 0.6, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+build prior network object based on a given vector of the knowledge network edges data
+.PP
+.SH OPTIONS
+.PP
+\fBpriorNet\fB \fR\- 
+ a collection of the regulatory edge data, which can be a vector of the 
+ [RegulatoryEdge](cref:T:SMRUCC.genomics.BioSystem.Core.RegulatoryEdge) object, the output of the \fBprior_network\fR 
+ api, or a pipeline object that produces a set of the 
+ [RegulatoryEdge](cref:T:SMRUCC.genomics.BioSystem.Core.RegulatoryEdge) data. or this parameter value also could be the
+ [GRNBuildResult](cref:T:SMRUCC.genomics.Analysis.CellPhenotype.RegulationNetwork.GRNBuildResult) object which is created via the WGCNA module detection and the TF enrichment analysis, the regulatory edges of the prior network will be extracted from the given GRNBuildResult object.
+. 
+.PP
+.PP
+\fBcutoff\fB \fR\- the cutoff value for filtering the regulatory edges.. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a [PriorNetwork](cref:T:SMRUCC.genomics.BioSystem.Core.PriorNetwork) object that contains all of the given 
+ regulatory edges, the TF name set and the target gene name set;
+ 
+ this function returns a R# error message object if the given data can not 
+ be cast to a collection of the [RegulatoryEdge](cref:T:SMRUCC.genomics.BioSystem.Core.RegulatoryEdge) data.
+.PP
+.SH SEE ALSO
+bnlearn
+.SH FILES
+.PP
+biosystem.dll
+.PP

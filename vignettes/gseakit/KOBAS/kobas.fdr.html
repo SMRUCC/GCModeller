@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Multiple testing correction of the p-values.</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>kobas.fdr {KOBAS}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>Multiple testing correction of the p-values.</h2>
+
+        <h3>Description</h3>
+
+        
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>kobas.fdr</strong>(<i>pvalue</i>,
+    <i>method</i> = <span style='color: brown;'><strong>"BH"</strong></span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>pvalue</dt>
+<dd><p>the raw p-values. [as double]</p></dd>
+
+
+<dt>method</dt>
+<dd><p>the correction method: <code>BH</code> (Benjamini and Hochberg, default), <code>BY</code> (Benjamini and Yekutieli), <code>QVALUE</code> (Storey) or <code>None</code>. [as string]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: block;">Details</h3>
+
+        <p>The q-value is estimated with a fixed lambda (0.5) of the Storey's pi0 estimator, the R <code>qvalue</code> package uses a smoothed lambda grid instead, so the result may differ slightly from the R package.</p>
+
+        <h3 style="display: block">Authors</h3>
+
+        gseakit
+
+        <h3>Value</h3>
+
+        <p>the adjusted p-values in the same order as the input.</p><h4>clr value class</h4><ul><li>double</li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>KOBAS</em> version 1.0.0.0 <a
+                href="../KOBAS.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

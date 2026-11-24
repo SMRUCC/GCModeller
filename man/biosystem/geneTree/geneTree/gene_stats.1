@@ -1,0 +1,35 @@
+.\" man page create by R# package system.
+.TH GENETREE 1 2000-1月 "gene_stats" "gene_stats"
+.SH NAME
+gene_stats \- Get the gene alignment and the wildtype baseline of the model.
+.SH SYNOPSIS
+\fIgene_stats(\fBtree\fR as <generic> XGBoostGRN, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Get the gene alignment and the wildtype baseline of the model.
+.PP
+.SH OPTIONS
+.PP
+\fBtree\fB \fR\- the trained [XGBoostGRN](cref:T:SMRUCC.genomics.Analysis.GeneTree.XGBoostGRN) model object.. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a list with the slots \fBgene_names\fR, \fBmeans\fR, \fBsds\fR, \fBpopulation\fR,
+ \fBhas_context\fR and \fBcontext_fix\fR.
+.PP
+.SH DETAILS
+.PP
+the \fBmeans\fR and \fBsds\fR vectors are estimated from the cells that are used
+ as the initial states of the fixed point iteration, they define the z-score
+ normalization of the perturbation result.
+.PP
+.SH SEE ALSO
+geneTree
+.SH FILES
+.PP
+biosystem.dll
+.PP

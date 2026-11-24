@@ -1,4 +1,4 @@
 {
-    "restructuredtext.syntaxHighlighting.disabled": true,
+    "r.lsp.promptToInstall": false,
     "svn.ignoreMissingSvnWarning": true
 }

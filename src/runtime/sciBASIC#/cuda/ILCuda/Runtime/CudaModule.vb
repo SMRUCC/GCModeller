@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::309e9cde6de076ce83be27a072aa45b8, cuda\ILCuda\Runtime\CudaModule.vb"
+﻿#Region "Microsoft.VisualBasic::201aaff55b2aaaeeaf3b1bd057f33e7c, cuda\ILCuda\Runtime\CudaModule.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 117
-    '    Code Lines: 79 (67.52%)
-    ' Comment Lines: 20 (17.09%)
-    '    - Xml Docs: 80.00%
+    '   Total Lines: 126
+    '    Code Lines: 82 (65.08%)
+    ' Comment Lines: 21 (16.67%)
+    '    - Xml Docs: 76.19%
     ' 
-    '   Blank Lines: 18 (15.38%)
-    '     File Size: 4.72 KB
+    '   Blank Lines: 23 (18.25%)
+    '     File Size: 4.96 KB
 
 
     '     Class CudaModule
@@ -106,6 +106,10 @@ Namespace Runtime
             Dim pin = GCHandle.Alloc(data, GCHandleType.Pinned)
             Try
                 Dim handle As IntPtr = IntPtr.Zero
+
+                ' 模块加载是上下文作用域的：本线程必须先绑定上下文
+                CudaRuntime.EnsureCurrent()
+
                 CudaDriverApi.Check(
                     CudaDriverApi.cuModuleLoadData(handle, pin.AddrOfPinnedObject()), "cuModuleLoadData")
                 Return New CudaModule(handle)
@@ -155,6 +159,9 @@ Namespace Runtime
             If _kernels.TryGetValue(name, cached) Then Return cached
 
             Dim hfunc As IntPtr = IntPtr.Zero
+
+            CudaRuntime.EnsureCurrent()
+
             CudaDriverApi.Check(
                 CudaDriverApi.cuModuleGetFunction(hfunc, _handle, name), $"cuModuleGetFunction({name})")
 
@@ -167,6 +174,8 @@ Namespace Runtime
             If _handle = IntPtr.Zero Then Return
             _kernels.Clear()
             Try
+                CudaRuntime.EnsureCurrent()
+
                 CudaDriverApi.Check(CudaDriverApi.cuModuleUnload(_handle), "cuModuleUnload")
             Catch
             End Try

@@ -1,3 +1,59 @@
+﻿#Region "Microsoft.VisualBasic::e0aa14c11e9e3d11a884c8c9bca43903, Data_science\MachineLearning\SNN\Decoder.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 232
+    '    Code Lines: 140 (60.34%)
+    ' Comment Lines: 53 (22.84%)
+    '    - Xml Docs: 67.92%
+    ' 
+    '   Blank Lines: 39 (16.81%)
+    '     File Size: 8.75 KB
+
+
+    ' Module SpikeDecoders
+    ' 
+    '     Function: ActiveNeurons, ConcatRateAndPotential, dataLength, FiringRate, MembranePotential
+    '               RasterText, (+2 Overloads) SpikeCounts, TotalSpikeCount
+    ' 
+    '     Sub: AssertHistory
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 ' ============================================================================
 ' Decoder.vb — 脉冲解码器（Spike Decoder）
 '
@@ -46,10 +102,31 @@ Public Module SpikeDecoders
     End Function
 
     ''' <summary>
+    ''' 方案 B（推荐）：直接使用 <see cref="SparseLIFLayer"/> 内部维护的计数累加器。
+    ''' </summary>
+    ''' <remarks>
+    ''' 与 <c>SpikeCounts(sHistory)</c> 的结果完全一致，但既不需要保留 T 个脉冲张量，
+    ''' 也不需要 O(T·N) 的主机求和 —— 融合算子路径下计数是在设备端逐步累加出来的
+    ''' （GPU 后端下本函数会隐式同步一次设备副本）。
+    ''' <para>
+    ''' 全脑规模（十万级神经元 / T=30）下这是唯一推荐的解码入口。
+    ''' </para>
+    ''' </remarks>
+    Public Function SpikeCounts(layer As SparseLIFLayer) As Tensor
+        If layer Is Nothing Then Throw New ArgumentNullException(NameOf(layer))
+
+        Call layer.SyncFromDevice()
+
+        Return CType(layer.Counts.Clone(), Tensor)
+    End Function
+
+    ''' <summary>
     ''' 方案 B：平均发放率 (Σ_t S[t]) / T（形状 [batch, Units]，取值 [0,1]）。
     ''' </summary>
     Public Function FiringRate(sHistory As List(Of Tensor)) As Tensor
         AssertHistory(sHistory)
+        ' 这里保持原样：SpikeCounts 返回的是 Tensor，`Tensor / Single` 走后端标量除法，
+        ' 除数是"时间步计数"（远小于 1600 万，Single 可精确表示），不构成精度损失。
         Return SpikeCounts(sHistory) / CSng(sHistory.Count)
     End Function
 

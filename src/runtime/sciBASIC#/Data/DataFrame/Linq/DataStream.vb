@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::61c36f7c7237fe3637a583ce1ee62cb6, Data\DataFrame\Linq\DataStream.vb"
+﻿#Region "Microsoft.VisualBasic::ac108b9784a176a51f667ee94e3f2e55, Data\DataFrame\Linq\DataStream.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 399
-    '    Code Lines: 244 (61.15%)
-    ' Comment Lines: 92 (23.06%)
-    '    - Xml Docs: 82.61%
+    '   Total Lines: 417
+    '    Code Lines: 252 (60.43%)
+    ' Comment Lines: 100 (23.98%)
+    '    - Xml Docs: 76.00%
     ' 
-    '   Blank Lines: 63 (15.79%)
-    '     File Size: 15.93 KB
+    '   Blank Lines: 65 (15.59%)
+    '     File Size: 16.99 KB
 
 
     '     Delegate Function
@@ -288,6 +288,13 @@ Namespace IO.Linq
         Private Iterator Function BufferProvider() As IEnumerable(Of String)
             Call _file.BaseStream.Seek(Scan0, SeekOrigin.Begin)
 
+            ' 20260923 the StreamReader is a buffered reader, so that after the base stream
+            ' was seek back to the beginning, the text lines that already buffered inside
+            ' the reader memory will still be returned by the next ReadLine call. Such data
+            ' will causes the head lines of the file being read twice. So we needs to discard
+            ' the buffered data after the base stream seek operation for avoid this bug.
+            Call _file.DiscardBufferedData()
+
             If _skip > 0 Then
                 For i As Integer = 0 To _skip
                     Call _file.ReadLine()
@@ -449,7 +456,18 @@ Namespace IO.Linq
         Protected Overridable Overloads Sub Dispose(disposing As Boolean)
             If Not Me.disposedValue Then
                 If disposing Then
-                    ' TODO: dispose managed state (managed objects).
+                    ' 20260923 close the inner file reader, otherwise the csv file handle
+                    ' will always be occupied by this data stream object, and any further
+                    ' open operation of the same file will be failed with the IOException
+                    ' of file is in use by another process.
+                    If Not _file Is Nothing Then
+                        Try
+                            Call _file.Dispose()
+                        Catch ex As Exception
+                            Call ex.Message.debug
+                        End Try
+                    End If
+
                     Call FlushMemory()
                 End If
 

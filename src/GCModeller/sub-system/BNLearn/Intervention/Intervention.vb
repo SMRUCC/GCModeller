@@ -54,6 +54,9 @@
 #End Region
 
 Imports SMRUCC.genomics.Analysis.BNLearn.Core
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports SMRUCC.genomics.BioSystem.Intervention
+Imports std = System.Math
 
 ' ============================================================
 ' Intervention.vb - 虚拟干扰分析
@@ -87,13 +90,7 @@ Namespace Intervention
     Public Class BnInterventionAnalyzer
 
         Private _network As Core.BayesianNetwork
-        Private _data As Core.GeneExpressionData
-
-        ''' <summary>初始化</summary>
-        Public Sub New(fittedNetwork As Core.BayesianNetwork, trainingData As Core.GeneExpressionData)
-            _network = fittedNetwork
-            _data = trainingData
-        End Sub
+        Private _data As GeneExpressionData
 
         ''' <summary>
         ''' Strict 严格模式开关（默认 True）。
@@ -102,6 +99,12 @@ Namespace Intervention
         ''' 并将结果对象标记为未定义（<see cref="InterventionResult.Undefined"/> = True）。
         ''' </summary>
         Public Property Strict As Boolean = True
+
+        ''' <summary>初始化</summary>
+        Public Sub New(fittedNetwork As Core.BayesianNetwork, trainingData As GeneExpressionData)
+            _network = fittedNetwork
+            _data = trainingData
+        End Sub
 
         Private Function FindGeneIndex(spec As InterventionSpec) As Integer
             Dim i As Integer = 0
@@ -192,10 +195,10 @@ Namespace Intervention
 
             For i = 0 To nG - 1
                 foldChanges(i) = mutantMeans(i) - wildtypeMeans(i)
-                If Math.Abs(wildtypeMeans(i)) > 0.0000000001 Then
-                    percentChanges(i) = foldChanges(i) / Math.Abs(wildtypeMeans(i)) * 100
+                If std.Abs(wildtypeMeans(i)) > 0.0000000001 Then
+                    percentChanges(i) = foldChanges(i) / std.Abs(wildtypeMeans(i)) * 100
                 Else
-                    percentChanges(i) = If(Math.Abs(foldChanges(i)) > 0.01, Double.NaN, 0)
+                    percentChanges(i) = If(std.Abs(foldChanges(i)) > 0.01, Double.NaN, 0)
                 End If
 
                 ' 显著性判断：变化超过 0.5 个标准差
@@ -203,8 +206,8 @@ Namespace Intervention
                 For s = 0 To nSamples - 1
                     sd += (mutantSamples(i, s) - mutantMeans(i)) ^ 2
                 Next
-                sd = Math.Sqrt(sd / (nSamples - 1))
-                isSignificant(i) = Math.Abs(foldChanges(i)) > 0.5 * sd
+                sd = std.Sqrt(sd / (nSamples - 1))
+                isSignificant(i) = std.Abs(foldChanges(i)) > 0.5 * sd
             Next
 
             Return New InterventionResult() With {
@@ -317,10 +320,10 @@ Namespace Intervention
 
             For i = 0 To nG - 1
                 foldChanges(i) = currentMeans(i) - wildtypeMeans(i)
-                If Math.Abs(wildtypeMeans(i)) > 0.0000000001 Then
-                    percentChanges(i) = foldChanges(i) / Math.Abs(wildtypeMeans(i)) * 100
+                If std.Abs(wildtypeMeans(i)) > 0.0000000001 Then
+                    percentChanges(i) = foldChanges(i) / std.Abs(wildtypeMeans(i)) * 100
                 End If
-                isSignificant(i) = Math.Abs(foldChanges(i)) > 0.1
+                isSignificant(i) = std.Abs(foldChanges(i)) > 0.1
             Next
 
             Return New InterventionResult() With {

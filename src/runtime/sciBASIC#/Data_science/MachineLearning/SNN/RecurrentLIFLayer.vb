@@ -1,3 +1,70 @@
+﻿#Region "Microsoft.VisualBasic::351b54cb5fb350ac048b69d71dca1131, Data_science\MachineLearning\SNN\RecurrentLIFLayer.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 644
+    '    Code Lines: 352 (54.66%)
+    ' Comment Lines: 194 (30.12%)
+    '    - Xml Docs: 67.53%
+    ' 
+    '   Blank Lines: 98 (15.22%)
+    '     File Size: 26.43 KB
+
+
+    ' Structure RecurrentGradients
+    ' 
+    ' 
+    ' 
+    ' Class RecurrentLIFLayer
+    ' 
+    '     Properties: Alpha, Beta, HLast, Mask, MembraneState
+    '                 Name, ResetMode, SHistory, SmoothForward, SprevHistory
+    '                 SurrogateType, Threshold, TimeSteps, Trainable, UHistory
+    '                 ULast, Units, Weight, WeightGrad
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
+    '     Function: AddTensor, BackwardTime, Diagnose, EmptySpikeGradients, ForwardSequence
+    '               ForwardStep, HasFrozenSynapses, MaskedWeightGrad, ToString
+    ' 
+    '     Sub: ApplyMaskToWeight, AssertSquare, ResetState
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 ' ============================================================================
 ' RecurrentLIFLayer.vb — 可训练的递归 LIF 层（含 BPTT + 代理梯度）
 '
@@ -49,6 +116,8 @@
 ' ============================================================================
 
 Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
+Imports Microsoft.VisualBasic.MachineLearning.TensorFlow.Compute
+Imports tf = Microsoft.VisualBasic.MachineLearning.TensorFlow.Math
 Imports std = System.Math
 
 ''' <summary>
@@ -357,7 +426,9 @@ Public Class RecurrentLIFLayer
         End If
 
         ' 1. 递归输入：上一时刻脉冲经突触矩阵回灌（含循环连接与自反馈）
-        Dim Irec = Sprev.MatMul(Weight)
+        ' 递归积分：O(batch·N²) 的 per-step GEMM，是本题材最大的算力面。
+        ' 规模达标时走单精度；膜电位 U / H 与 β、θ 系数保持双精度。
+        Dim Irec = MixedPrecisionOps.MatMulOr(Sprev, Weight)
 
         ' 2. 叠加外部注入电流
         Dim I As Tensor
@@ -374,7 +445,7 @@ Public Class RecurrentLIFLayer
         End If
 
         ' 3. 泄漏积分：U = β·H + I
-        Dim U = I + (_H * CSng(Beta))
+        Dim U = I + tf.multiply_scalar(_H, Beta)
 
         ' 4. 阈值触发：S = Θ(U − θ)（自检模式下用光滑替代函数）
         Dim S As Tensor
@@ -389,7 +460,7 @@ Public Class RecurrentLIFLayer
         If ResetMode = LIFResetMode.ZeroOnSpike Then
             H = U.ElementwiseMultiply(S.Apply(Function(v As Double) 1.0 - v))
         Else
-            H = U - (S * CSng(Threshold))
+            H = U - tf.multiply_scalar(S, Threshold)
         End If
 
         _X.Add(externalCurrent)
@@ -467,7 +538,7 @@ Public Class RecurrentLIFLayer
             ' ---- H[t] 的梯度：β·gU[t+1] 与直接输出梯度 ----
             Dim gH As Tensor = Nothing
             If gUnext IsNot Nothing Then
-                gH = gUnext * CSng(Beta)
+                gH = tf.multiply_scalar(gUnext, Beta)
             End If
             If t = steps - 1 AndAlso dH_last IsNot Nothing Then
                 gH = AddTensor(gH, dH_last)
@@ -476,7 +547,7 @@ Public Class RecurrentLIFLayer
             ' ---- S[t] 的梯度：上游 + 下一步递归输入经 Wᵀ 的回流 ----
             Dim gS = dS_ext(t)
             If gIrecNext IsNot Nothing Then
-                gS = gS + gIrecNext.MatMul(Weight.Transpose())
+                gS = gS + MixedPrecisionOps.MatMulOr(gIrecNext, Weight.Transpose())
             End If
 
             ' ---- 复位路径：∂H/∂S 与 ∂H/∂U ----
@@ -494,7 +565,7 @@ Public Class RecurrentLIFLayer
                 End If
             Else
                 If gH IsNot Nothing Then
-                    gS = gS - (gH * CSng(Threshold))             ' ∂H/∂S = −θ
+                    gS = gS - tf.multiply_scalar(gH, Threshold)   ' ∂H/∂S = −θ
                 End If
                 gU = gS.ElementwiseMultiply(surr)
                 If gH IsNot Nothing Then
@@ -509,7 +580,7 @@ Public Class RecurrentLIFLayer
 
             ' ---- dW += S[t−1]ᵀ·gI_rec[t]（∂I_rec/∂W = S[t−1]）----
             If accumulateW Then
-                gW = gW + Sprev.Transpose().MatMul(gU)
+                gW = gW + MixedPrecisionOps.MatMulOr(Sprev.Transpose(), gU)
             End If
 
             ' dI_ext[t] = dL/dI_rec[t] = dL/dU[t]

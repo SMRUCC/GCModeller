@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5c60731238d2af8bea3a459516dffc8c, Data_science\DataMining\hierarchical-clustering\hierarchical-clustering\ClusteringAlgorithm\Cluster.vb"
+﻿#Region "Microsoft.VisualBasic::fe7890a9e497bbaade9d8f95bc3afa98, Data_science\DataMining\hierarchical-clustering\hierarchical-clustering\ClusteringAlgorithm\Cluster.vb"
 
     ' Author:
     ' 
@@ -34,20 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 299
-    '    Code Lines: 118 (39.46%)
-    ' Comment Lines: 151 (50.50%)
-    '    - Xml Docs: 88.74%
+    '   Total Lines: 363
+    '    Code Lines: 146 (40.22%)
+    ' Comment Lines: 178 (49.04%)
+    '    - Xml Docs: 86.52%
     ' 
-    '   Blank Lines: 30 (10.03%)
-    '     File Size: 13.47 KB
+    '   Blank Lines: 39 (10.74%)
+    '     File Size: 16.41 KB
 
 
     ' Class Cluster
     ' 
-    '     Properties: Children, Distance, DistanceValue, isLeaf, IsRoot
-    '                 LeafNames, Leafs, Name, Parent, TotalDistance
-    '                 WeightValue
+    '     Properties: Children, Distance, DistanceValue, Id, isLeaf
+    '                 IsRoot, LeafCount, LeafNames, Leafs, Name
+    '                 Parent, removed, TotalDistance, WeightValue
     ' 
     '     Constructor: (+1 Overloads) Sub New
     ' 
@@ -65,6 +65,7 @@ Imports System.Threading
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures.Tree
 Imports Microsoft.VisualBasic.DataMining.HierarchicalClustering.Hierarchy
+Imports Microsoft.VisualBasic.Linq
 
 '
 '*****************************************************************************
@@ -89,7 +90,7 @@ Imports Microsoft.VisualBasic.DataMining.HierarchicalClustering.Hierarchy
 ''' (containing child clusters formed by merging). Implements the tree node data structure
 ''' required for hierarchical clustering and provides named identification via <see cref="INamedValue"/> .
 ''' </summary>
-Public Class Cluster : Implements INamedValue, ITreeNodeData(Of Cluster)
+Public Class Cluster : Implements INamedValue, ITreeNodeData(Of Cluster), IHierarchyTree, Enumeration(Of IHierarchyTree)
 
     ''' <summary>
     ''' Gets or sets the <see cref="Distance"/>  object associated with this cluster,
@@ -116,7 +117,7 @@ Public Class Cluster : Implements INamedValue, ITreeNodeData(Of Cluster)
     ''' For leaf nodes, this is typically zero or the initial distance.
     ''' </summary>
     ''' <returns>A <see cref="Double"/>  value representing the distance associated with this cluster.</returns>
-    Public ReadOnly Property DistanceValue As Double
+    Public ReadOnly Property DistanceValue As Double Implements IHierarchyTree.DistanceValue
         Get
             Return Distance.Distance
         End Get
@@ -136,7 +137,7 @@ Public Class Cluster : Implements INamedValue, ITreeNodeData(Of Cluster)
     ''' Implements <see cref="INamedValue.Key"/>  and <see cref="ITreeNodeData(Of Cluster).FullyQualifiedName"/> .
     ''' </summary>
     ''' <returns>A <see cref="String"/>  representing the name of this cluster.</returns>
-    Public Property Name As String Implements INamedValue.Key, ITreeNodeData(Of Cluster).FullyQualifiedName
+    Public Property Name As String Implements INamedValue.Key, ITreeNodeData(Of Cluster).FullyQualifiedName, IHierarchyTree.Name
 
     Private Shared __nextId As Integer = 0
 
@@ -147,6 +148,18 @@ Public Class Cluster : Implements INamedValue, ITreeNodeData(Of Cluster)
     ''' </summary>
     ''' <returns></returns>
     Friend ReadOnly Property Id As Integer
+
+    ''' <summary>
+    ''' 供 <see cref="Hierarchy.HierarchyBuilder"/> 在凝聚过程中以 O(1) 的方式
+    ''' 标记当前簇已经被合并进新簇（等价于旧实现的从 Clusters 列表中物理移除）。
+    ''' 
+    ''' <para>
+    ''' 旧实现每合并一对簇都要对 Clusters 列表做一次 O(n) 的线性查找 + RemoveAt
+    ''' （尾部元素整体前移），累计 O(n^2) 的常数开销；标记位方案把删除降为 O(1)，
+    ''' 失效条目由 HierarchyBuilder 在其数量超过存活条目时一次性压实。
+    ''' </para>
+    ''' </summary>
+    Friend Property removed As Boolean
 
     ''' <summary>
     ''' Gets the read-only collection of child clusters directly under this node.
@@ -211,7 +224,7 @@ Public Class Cluster : Implements INamedValue, ITreeNodeData(Of Cluster)
     ''' </summary>
     ''' <returns><c>True</c> if this cluster has no children (i.e., it is a leaf node);
     ''' otherwise, <c>False</c>.</returns>
-    Public ReadOnly Property isLeaf As Boolean Implements ITreeNodeData(Of Cluster).IsLeaf
+    Public ReadOnly Property isLeaf As Boolean Implements ITreeNodeData(Of Cluster).IsLeaf, IHierarchyTree.IsLeaf
         Get
             Return Children.Count = 0
         End Get
@@ -222,7 +235,7 @@ Public Class Cluster : Implements INamedValue, ITreeNodeData(Of Cluster)
     ''' Recursively counts all descendant leaf nodes, including direct children and their children.
     ''' </summary>
     ''' <returns>An <see cref="Integer"/>  representing the total count of leaf nodes in this subtree.</returns>
-    Public ReadOnly Property Leafs() As Integer
+    Public ReadOnly Property Leafs() As Integer Implements IHierarchyTree.Leafs
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
             ' 惰性缓存：合并（HierarchyTreeNode.Agglomerate）时已经可以 O(1) 地得到新簇的叶数并写入缓存；
@@ -409,5 +422,11 @@ Public Class Cluster : Implements INamedValue, ITreeNodeData(Of Cluster)
         Next
 
         Return count
+    End Function
+
+    Private Iterator Function GenericEnumerator() As IEnumerator(Of IHierarchyTree) Implements Enumeration(Of IHierarchyTree).GenericEnumerator
+        For Each node As Cluster In m_childs
+            Yield DirectCast(node, IHierarchyTree)
+        Next
     End Function
 End Class

@@ -1,3 +1,71 @@
+﻿#Region "Microsoft.VisualBasic::03c6e595f2338493a0eb89ac99277596, Data_science\Mathematica\Math\Math\Algebra\MILP\MilpSolution.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 180
+    '    Code Lines: 103 (57.22%)
+    ' Comment Lines: 47 (26.11%)
+    '    - Xml Docs: 65.96%
+    ' 
+    '   Blank Lines: 30 (16.67%)
+    '     File Size: 8.02 KB
+
+
+    '     Enum MilpStatus
+    ' 
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    '     Class MilpSolution
+    ' 
+    '         Properties: BestBound, CutsAdded, DroppedNodes, ElapsedMilliseconds, FailureMessage
+    '                     HasIncumbent, HeuristicSolutions, IncumbentAtRoot, Log, Lp
+    '                     LpSolves, LuGateRejects, LuRefactors, LuUpdates, NodesExplored
+    '                     ObjectiveValue, RelativeGap, RootRelaxation, Solution, SolverError
+    '                     Status, VariableNames
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: GetSolution, StatusText, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 ' ============================================================================
 ' MilpSolution.vb — MILP 求解结果
 ' ----------------------------------------------------------------------------
@@ -16,7 +84,6 @@
 ' ============================================================================
 
 Imports System.Text
-Imports Microsoft.VisualBasic.Math.LinearAlgebra.LinearProgramming
 
 Namespace LinearAlgebra.LinearProgramming.MILP
 
@@ -70,6 +137,13 @@ Namespace LinearAlgebra.LinearProgramming.MILP
         Public Property RootRelaxation As Double? = Nothing
         ''' <summary>是否在根节点即得到整数可行解</summary>
         Public Property IncumbentAtRoot As Boolean = False
+
+        ''' <summary>基矩阵 LU 完整重构次数（含热启动基载入与闸门触发的重构）</summary>
+        Public Property LuRefactors As Integer = 0
+        ''' <summary>基矩阵 LU 增量更新（η 修正）次数</summary>
+        Public Property LuUpdates As Integer = 0
+        ''' <summary>LU 更新被稳定性闸门拒绝的次数（拒绝即触发完整重构）</summary>
+        Public Property LuGateRejects As Integer = 0
 
         Public Property ElapsedMilliseconds As Long = 0
         Public Property Log As String = ""
@@ -157,6 +231,10 @@ Namespace LinearAlgebra.LinearProgramming.MILP
 
             sb.AppendLine($"统计: 节点 {NodesExplored}，LP 求解 {LpSolves}，割平面 {CutsAdded}，" &
                           $"启发式可行解 {HeuristicSolutions}，耗时 {ElapsedMilliseconds} ms")
+
+            If LuUpdates > 0 OrElse LuRefactors > 0 Then
+                sb.AppendLine($"LU: 重构 {LuRefactors}，增量更新 {LuUpdates}，闸门拒绝 {LuGateRejects}")
+            End If
 
             If DroppedNodes > 0 Then
                 sb.AppendLine($"警告: {DroppedNodes} 个节点因 LP 数值失败被丢弃，最优性未被证明。")

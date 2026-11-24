@@ -117,6 +117,26 @@ Namespace Layers
         End Function
 
         ''' <summary>
+        ''' 批量前向：<c>y = x · W + b</c>，结果就地写入 <paramref name="output"/>。
+        ''' </summary>
+        ''' <remarks>
+        ''' 复用图卷积的批量融合内核的"无邻居"形态（自环保留取 1、无 CSR、线性激活），
+        ''' 因此整批的 GEMM + 偏置只需要一次内核启动；不写入 <c>lastInput</c> 前向缓存
+        ''' （训练仍走逐样本 <see cref="Forward"/>）。
+        ''' </remarks>
+        ''' <param name="input">输入特征 <c>[rows, inFeatures]</c></param>
+        ''' <param name="output">输出特征 <c>[rows, outFeatures]</c></param>
+        Public Overloads Sub ForwardBatch(input As Tensor, output As Tensor)
+            If input Is Nothing OrElse output Is Nothing Then
+                Throw New ArgumentNullException(NameOf(input))
+            End If
+
+            Call Tensor.computeKernel.GraphLayerBatch(
+                input, weights, Nothing, Nothing, If(UseBias, bias, Nothing), Nothing, output,
+                Microsoft.VisualBasic.MachineLearning.TensorFlow.Compute.CellActivation.Linear)
+        End Sub
+
+        ''' <summary>
         ''' 反向传播：累积 dW / db 并返回输入梯度 dX
         ''' </summary>
         ''' <param name="gradient">上游梯度 [batch, outFeatures]</param>

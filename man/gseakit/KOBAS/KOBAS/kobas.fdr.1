@@ -1,0 +1,37 @@
+.\" man page create by R# package system.
+.TH KOBAS 1 2000-1月 "kobas.fdr" "kobas.fdr"
+.SH NAME
+kobas.fdr \- Multiple testing correction of the p-values.
+.SH SYNOPSIS
+\fIkobas.fdr(\fBpvalue\fR as double, 
+\fBmethod\fR as string = "BH");\fR
+.SH DESCRIPTION
+.PP
+Multiple testing correction of the p-values.
+.PP
+.SH OPTIONS
+.PP
+\fBpvalue\fB \fR\- the raw p-values.. 
+.PP
+.PP
+\fBmethod\fB \fR\- 
+ the correction method: \fBBH\fR (Benjamini and Hochberg, default), \fBBY\fR
+ (Benjamini and Yekutieli), \fBQVALUE\fR (Storey) or \fBNone\fR.
+. 
+.PP
+.SH VALUE
+.PP
+the adjusted p-values in the same order as the input.
+.PP
+.SH DETAILS
+.PP
+The q-value is estimated with a fixed lambda (0.5) of the Storey's pi0 estimator,
+ the R \fBqvalue\fR package uses a smoothed lambda grid instead, so the result may
+ differ slightly from the R package.
+.PP
+.SH SEE ALSO
+KOBAS
+.SH FILES
+.PP
+gseakit.dll
+.PP

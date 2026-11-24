@@ -1,0 +1,102 @@
+.\" man page create by R# package system.
+.TH FUZZYGENE 1 2000-1月 "fuzzygene_trace_perturbation" "fuzzygene_trace_perturbation"
+.SH NAME
+fuzzygene_trace_perturbation \- Record the whole-genome steady-state trajectory of one virtual perturbation.
+.SH SYNOPSIS
+\fIfuzzygene_trace_perturbation(\fBfuzzygene\fR as <generic> FuzzyGeneModel, 
+\fBgene\fR as string, 
+\fBmode\fR as string = "knockout", 
+\fBsteps\fR as integer = 0, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Record the whole-genome steady-state trajectory of one virtual perturbation.
+.PP
+.SH OPTIONS
+.PP
+\fBfuzzygene\fB \fR\- a trained (or restored) model. 
+.PP
+.PP
+\fBgene\fB \fR\- the target gene of the virtual perturbation. 
+.PP
+.PP
+\fBmode\fB \fR\- \fBknockout\fR (default), \fBknockdown\fR or \fBoverexpression\fR. 
+.PP
+.PP
+\fBsteps\fB \fR\- maximum iteration steps; 0 uses the model configuration. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment used to report errors. 
+.PP
+.SH VALUE
+.PP
+a named list of matrices, data.frames and the run summary
+.PP
+.SH DETAILS
+.PP
+Returns a named list:
+ 
+
+
+ 
+- \fBmutant\fR: a Matrix (rows = all genes, columns = iteration frames \fBmut_t000\fR...);
+- \fBwildtype\fR: the same shape for the unperturbed baseline;
+- \fBconvergence\fR: a data.frame \fBiteration\fR / \fBmax_delta\fR of the mutant run;
+- \fBcontrol_convergence\fR: the same for the wildtype run;
+- \fBchanges\fR: a data.frame \fBgene\fR / \fBfold_change\fR / \fBpercent_change\fR / \fBz_score\fR /
+ \fBsignificant\fR of the final state;
+- \fBsummary\fR: a one row data.frame with the perturbation definition and the solver diagnostics.
+
+
+ 
+
+
+ \fBmutant\fR and \fBwildtype\fR are .NET `HTS.DataFrame.Matrix` objects (rows = genes,
+ columns = frames), not R matrices, so \fBdim()\fR returns 1 on them. Pass them straight to a
+ downstream consumer instead:
+ 
+\fB
+ let trace = FuzzyGene::fuzzygene_trace_perturbation(model, "TPPP3");
+ geneExpression::write.expr_matrix(trace$mutant, file = "/path/mutant.csv", id = "geneID");
+ 
+\fR`
+
+ 
+
+
+ 
+
+
+ The column index is a solver iteration, not biological time. The default solver
+ finds the constrained fixed point of \fBF(z) - z = 0\fR (Levenberg-Marquardt, see
+ \fBfuzzygene_hybrid_config(solver = ...)\fR), so the frames are Newton steps and the number of
+ frames is small (single digit for a well posed network). Only when the solver falls back to
+ the damped iteration does \fBomega\fR shape the curve (\fBfuzzygene_relaxation\fR), and only a
+ lagged (time series) model in \fBadvance\fR mode makes one frame equal to one sampling interval.
+ 
+
+
+ 
+
+
+ Read \fBconvergence\fR / \fBsummary$converged\fR before interpreting the curve: a flat tail
+ produced by running out of \fBsteps\fR is a truncated plateau, not a steady state.
+ 
+
+
+ 
+
+
+ \fBwildtype\fR is the control run: it starts from the same baseline and is iterated to its own
+ fixed point, so \fBfoldchange\fR is now "mutant fixed point minus wildtype fixed point" instead
+ of "mutant minus the training mean". The training mean is generally not a fixed point
+ of a nonlinear fuzzy map, so the previous definition mixed the perturbation effect with the
+ model's own drift; the wildtype trajectory still exposes that drift, which is worth checking
+ (a large drift means the fit is inconsistent with its own steady state).
+.PP
+.SH SEE ALSO
+FuzzyGene
+.SH FILES
+.PP
+biosystem.dll
+.PP

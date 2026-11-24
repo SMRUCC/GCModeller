@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 143
-    '    Code Lines: 109 (76.22%)
-    ' Comment Lines: 29 (20.28%)
-    '    - Xml Docs: 0.00%
+    '   Total Lines: 30
+    '    Code Lines: 23 (76.67%)
+    '    Comment Lines: 0 (0.00%)
+    '     - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 5 (3.50%)
-    '     File Size: 5.45 KB
+    '   Blank Lines: 7 (23.33%)
+    '     File Size: 1.18 KB
 
 
     ' Class FormMarkWeb
@@ -75,19 +75,34 @@ Partial Class FormMarkWeb
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        components = New ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormMarkWeb))
         WebView21 = New Microsoft.Web.WebView2.WinForms.WebView2()
         ToolStrip1 = New ToolStrip()
         ToolStripButton1 = New ToolStripButton()
-        TabControl1 = New TabControl()
-        TabPage1 = New TabPage()
-        TabPage2 = New TabPage()
+        ToolStripButton2 = New ToolStripButton()
+        ToolStripThemeButton = New ToolStripDropDownButton()
+        ToolStripMenuItemThemeGitHub = New ToolStripMenuItem()
+        ToolStripMenuItemThemeDark = New ToolStripMenuItem()
+        ToolStripMenuItemThemeThesis = New ToolStripMenuItem()
+        ToolStripSeparatorTheme = New ToolStripSeparator()
+        ToolStripMenuItemThemePlain = New ToolStripMenuItem()
+        SplitContainer1 = New SplitContainer()
+        SplitContainer2 = New SplitContainer()
+        TreeView1 = New TreeView()
         TextBox1 = New TextBox()
+        Timer1 = New Timer(components)
+        StatusStrip1 = New StatusStrip()
         CType(WebView21, ComponentModel.ISupportInitialize).BeginInit()
         ToolStrip1.SuspendLayout()
-        TabControl1.SuspendLayout()
-        TabPage1.SuspendLayout()
-        TabPage2.SuspendLayout()
+        CType(SplitContainer1, ComponentModel.ISupportInitialize).BeginInit()
+        SplitContainer1.Panel1.SuspendLayout()
+        SplitContainer1.Panel2.SuspendLayout()
+        SplitContainer1.SuspendLayout()
+        CType(SplitContainer2, ComponentModel.ISupportInitialize).BeginInit()
+        SplitContainer2.Panel1.SuspendLayout()
+        SplitContainer2.Panel2.SuspendLayout()
+        SplitContainer2.SuspendLayout()
         SuspendLayout()
         ' 
         ' WebView21
@@ -96,17 +111,18 @@ Partial Class FormMarkWeb
         WebView21.CreationProperties = Nothing
         WebView21.DefaultBackgroundColor = Color.White
         WebView21.Dock = DockStyle.Fill
-        WebView21.Location = New Point(3, 3)
+        WebView21.Location = New Point(0, 0)
         WebView21.Name = "WebView21"
-        WebView21.Size = New Size(1447, 886)
+        WebView21.Size = New Size(637, 898)
         WebView21.TabIndex = 0
         WebView21.ZoomFactor = 1R
         ' 
         ' ToolStrip1
         ' 
-        ToolStrip1.Items.AddRange(New ToolStripItem() {ToolStripButton1})
+        ToolStrip1.Items.AddRange(New ToolStripItem() {ToolStripButton1, ToolStripButton2, ToolStripThemeButton})
         ToolStrip1.Location = New Point(0, 0)
         ToolStrip1.Name = "ToolStrip1"
+        ToolStrip1.RenderMode = ToolStripRenderMode.System
         ToolStrip1.Size = New Size(1461, 25)
         ToolStrip1.TabIndex = 1
         ToolStrip1.Text = "ToolStrip1"
@@ -120,67 +136,148 @@ Partial Class FormMarkWeb
         ToolStripButton1.Size = New Size(23, 22)
         ToolStripButton1.Text = "打开"
         ' 
-        ' TabControl1
+        ' ToolStripButton2
         ' 
-        TabControl1.Controls.Add(TabPage1)
-        TabControl1.Controls.Add(TabPage2)
-        TabControl1.Dock = DockStyle.Fill
-        TabControl1.Location = New Point(0, 25)
-        TabControl1.Name = "TabControl1"
-        TabControl1.SelectedIndex = 0
-        TabControl1.Size = New Size(1461, 920)
-        TabControl1.TabIndex = 2
+        ToolStripButton2.DisplayStyle = ToolStripItemDisplayStyle.Image
+        ToolStripButton2.Image = CType(resources.GetObject("ToolStripButton2.Image"), Image)
+        ToolStripButton2.ImageTransparentColor = Color.Magenta
+        ToolStripButton2.Name = "ToolStripButton2"
+        ToolStripButton2.Size = New Size(23, 22)
+        ToolStripButton2.Text = "导出文档"
         ' 
-        ' TabPage1
+        ' ToolStripThemeButton
         ' 
-        TabPage1.Controls.Add(WebView21)
-        TabPage1.Location = New Point(4, 24)
-        TabPage1.Name = "TabPage1"
-        TabPage1.Padding = New Padding(3)
-        TabPage1.Size = New Size(1453, 892)
-        TabPage1.TabIndex = 0
-        TabPage1.Text = "渲染结果"
-        TabPage1.UseVisualStyleBackColor = True
+        ToolStripThemeButton.DisplayStyle = ToolStripItemDisplayStyle.Text
+        ToolStripThemeButton.DropDownItems.AddRange(New ToolStripItem() {ToolStripMenuItemThemeGitHub, ToolStripMenuItemThemeDark, ToolStripMenuItemThemeThesis, ToolStripSeparatorTheme, ToolStripMenuItemThemePlain})
+        ToolStripThemeButton.Name = "ToolStripThemeButton"
+        ToolStripThemeButton.Size = New Size(68, 22)
+        ToolStripThemeButton.Text = "样式主题"
+        ToolStripThemeButton.ToolTipText = "选择预览使用的 CSS 样式主题"
         ' 
-        ' TabPage2
+        ' ToolStripMenuItemThemeGitHub
         ' 
-        TabPage2.Controls.Add(TextBox1)
-        TabPage2.Location = New Point(4, 24)
-        TabPage2.Name = "TabPage2"
-        TabPage2.Padding = New Padding(3)
-        TabPage2.Size = New Size(1453, 892)
-        TabPage2.TabIndex = 1
-        TabPage2.Text = "Markdown原始输入"
-        TabPage2.UseVisualStyleBackColor = True
+        ToolStripMenuItemThemeGitHub.Checked = True
+        ToolStripMenuItemThemeGitHub.CheckState = CheckState.Checked
+        ToolStripMenuItemThemeGitHub.Name = "ToolStripMenuItemThemeGitHub"
+        ToolStripMenuItemThemeGitHub.Size = New Size(180, 22)
+        ToolStripMenuItemThemeGitHub.Text = "GitHub 浅色"
+        ToolStripMenuItemThemeGitHub.ToolTipText = "GitHub 风格的浅色主题（MarkdownStyle.GitHub）"
+        ' 
+        ' ToolStripMenuItemThemeDark
+        ' 
+        ToolStripMenuItemThemeDark.Name = "ToolStripMenuItemThemeDark"
+        ToolStripMenuItemThemeDark.Size = New Size(180, 22)
+        ToolStripMenuItemThemeDark.Text = "深色"
+        ToolStripMenuItemThemeDark.ToolTipText = "深色主题（MarkdownStyle.Dark）"
+        ' 
+        ' ToolStripMenuItemThemeThesis
+        ' 
+        ToolStripMenuItemThemeThesis.Name = "ToolStripMenuItemThemeThesis"
+        ToolStripMenuItemThemeThesis.Size = New Size(180, 22)
+        ToolStripMenuItemThemeThesis.Text = "论文学术风格"
+        ToolStripMenuItemThemeThesis.ToolTipText = "论文版式：宋体正文 + 黑体标题 + 三线表（MarkdownStyle.Thesis）"
+        ' 
+        ' ToolStripSeparatorTheme
+        ' 
+        ToolStripSeparatorTheme.Name = "ToolStripSeparatorTheme"
+        ToolStripSeparatorTheme.Size = New Size(177, 6)
+        ' 
+        ' ToolStripMenuItemThemePlain
+        ' 
+        ToolStripMenuItemThemePlain.Name = "ToolStripMenuItemThemePlain"
+        ToolStripMenuItemThemePlain.Size = New Size(180, 22)
+        ToolStripMenuItemThemePlain.Text = "无样式"
+        ToolStripMenuItemThemePlain.ToolTipText = "不注入任何 CSS，仅输出 html 片段（HtmlRender 默认行为）"
+        ' 
+        ' SplitContainer1
+        ' 
+        SplitContainer1.Dock = DockStyle.Fill
+        SplitContainer1.Location = New Point(0, 25)
+        SplitContainer1.Name = "SplitContainer1"
+        ' 
+        ' SplitContainer1.Panel1
+        ' 
+        SplitContainer1.Panel1.Controls.Add(SplitContainer2)
+        ' 
+        ' SplitContainer1.Panel2
+        ' 
+        SplitContainer1.Panel2.Controls.Add(WebView21)
+        SplitContainer1.Size = New Size(1461, 898)
+        SplitContainer1.SplitterDistance = 820
+        SplitContainer1.TabIndex = 2
+        ' 
+        ' SplitContainer2
+        ' 
+        SplitContainer2.Dock = DockStyle.Fill
+        SplitContainer2.Location = New Point(0, 0)
+        SplitContainer2.Name = "SplitContainer2"
+        ' 
+        ' SplitContainer2.Panel1
+        ' 
+        SplitContainer2.Panel1.Controls.Add(TreeView1)
+        ' 
+        ' SplitContainer2.Panel2
+        ' 
+        SplitContainer2.Panel2.Controls.Add(TextBox1)
+        SplitContainer2.Size = New Size(820, 898)
+        SplitContainer2.SplitterDistance = 240
+        SplitContainer2.TabIndex = 0
+        ' 
+        ' TreeView1
+        ' 
+        TreeView1.BorderStyle = BorderStyle.None
+        TreeView1.Dock = DockStyle.Fill
+        TreeView1.Location = New Point(0, 0)
+        TreeView1.Name = "TreeView1"
+        TreeView1.Size = New Size(240, 898)
+        TreeView1.TabIndex = 0
         ' 
         ' TextBox1
         ' 
         TextBox1.BorderStyle = BorderStyle.None
         TextBox1.Dock = DockStyle.Fill
         TextBox1.Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        TextBox1.Location = New Point(3, 3)
+        TextBox1.Location = New Point(0, 0)
         TextBox1.Multiline = True
         TextBox1.Name = "TextBox1"
         TextBox1.ScrollBars = ScrollBars.Both
-        TextBox1.Size = New Size(1447, 886)
+        TextBox1.Size = New Size(576, 898)
         TextBox1.TabIndex = 0
+        ' 
+        ' Timer1
+        ' 
+        Timer1.Interval = 300
+        ' 
+        ' StatusStrip1
+        ' 
+        StatusStrip1.Location = New Point(0, 923)
+        StatusStrip1.Name = "StatusStrip1"
+        StatusStrip1.Size = New Size(1461, 22)
+        StatusStrip1.TabIndex = 3
+        StatusStrip1.Text = "StatusStrip1"
         ' 
         ' FormMarkWeb
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(1461, 945)
-        Controls.Add(TabControl1)
+        Controls.Add(SplitContainer1)
         Controls.Add(ToolStrip1)
+        Controls.Add(StatusStrip1)
         Name = "FormMarkWeb"
         Text = "Markdown文档查看"
         CType(WebView21, ComponentModel.ISupportInitialize).EndInit()
         ToolStrip1.ResumeLayout(False)
         ToolStrip1.PerformLayout()
-        TabControl1.ResumeLayout(False)
-        TabPage1.ResumeLayout(False)
-        TabPage2.ResumeLayout(False)
-        TabPage2.PerformLayout()
+        SplitContainer1.Panel1.ResumeLayout(False)
+        SplitContainer1.Panel2.ResumeLayout(False)
+        CType(SplitContainer1, ComponentModel.ISupportInitialize).EndInit()
+        SplitContainer1.ResumeLayout(False)
+        SplitContainer2.Panel1.ResumeLayout(False)
+        SplitContainer2.Panel2.ResumeLayout(False)
+        SplitContainer2.Panel2.PerformLayout()
+        CType(SplitContainer2, ComponentModel.ISupportInitialize).EndInit()
+        SplitContainer2.ResumeLayout(False)
         ResumeLayout(False)
         PerformLayout()
     End Sub
@@ -188,9 +285,18 @@ Partial Class FormMarkWeb
     Friend WithEvents WebView21 As Microsoft.Web.WebView2.WinForms.WebView2
     Friend WithEvents ToolStrip1 As ToolStrip
     Friend WithEvents ToolStripButton1 As ToolStripButton
-    Friend WithEvents TabControl1 As TabControl
-    Friend WithEvents TabPage1 As TabPage
-    Friend WithEvents TabPage2 As TabPage
+    Friend WithEvents SplitContainer1 As SplitContainer
+    Friend WithEvents SplitContainer2 As SplitContainer
+    Friend WithEvents TreeView1 As TreeView
     Friend WithEvents TextBox1 As TextBox
+    Friend WithEvents Timer1 As Timer
+    Friend WithEvents ToolStripButton2 As ToolStripButton
+    Friend WithEvents StatusStrip1 As StatusStrip
+    Friend WithEvents ToolStripThemeButton As ToolStripDropDownButton
+    Friend WithEvents ToolStripMenuItemThemeGitHub As ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItemThemeDark As ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItemThemeThesis As ToolStripMenuItem
+    Friend WithEvents ToolStripSeparatorTheme As ToolStripSeparator
+    Friend WithEvents ToolStripMenuItemThemePlain As ToolStripMenuItem
 
 End Class

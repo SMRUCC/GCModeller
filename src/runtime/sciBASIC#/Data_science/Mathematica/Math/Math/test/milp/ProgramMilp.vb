@@ -1,3 +1,60 @@
+﻿#Region "Microsoft.VisualBasic::ba1884e08d0064f7fe9e1188eb540af6, Data_science\Mathematica\Math\Math\test\milp\ProgramMilp.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 347
+    '    Code Lines: 218 (62.82%)
+    ' Comment Lines: 54 (15.56%)
+    '    - Xml Docs: 5.56%
+    ' 
+    '   Blank Lines: 75 (21.61%)
+    '     File Size: 15.46 KB
+
+
+    ' Module ProgramMilp
+    ' 
+    '     Function: Main, Verify
+    ' 
+    '     Sub: DemoAssignment, DemoFacilityLocation, DemoInfeasible, DemoIntegerProduction, DemoKnapsackBinary
+    '          DemoLargeKnapsack, DemoMixedEquality, DemoUnbounded, PrintModel, RunAndReport
+    '          RunDemos
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 ' ============================================================================
 ' ProgramMilp.vb — MILP 求解器演示入口
 ' ----------------------------------------------------------------------------
@@ -5,6 +62,9 @@
 '   dotnet run                 运行全部演示（默认 demo）
 '   dotnet run -- demo         同上
 '   dotnet run -- selftest     内置自检（与暴力枚举 / DP 精确解 / 已知最优对拍）
+'   dotnet run -- lu-selftest  LU 增量更新自检（T14 单元对拍 / T15 端到端 A/B）
+'   dotnet run -- dnmf         DNMF 判别式非负矩阵分解自检（DebugAudit 报告）
+'   dotnet run -- milp-bench   LU 增量更新 A/B 基准（重构 vs 增量，加速比报告）
 '   dotnet run -- lpp          既有 IPM+Crossover 线性规划演示
 '   dotnet run -- lpp-selftest 既有线性规划自检
 '
@@ -25,12 +85,24 @@ Public Module ProgramMilp
             Select Case args(0).ToLowerInvariant()
                 Case "selftest"
                     Return MilpSelfTest.RunAll()
+                Case "lu-selftest"
+                    ' LU 增量更新（产品形式 η 修正）的正确性校验
+                    Return MilpLuSelfTest.RunAll()
+                Case "dnmf"
+                    ' Discriminative NMF 的 Fisher 约束与数值路径自检
+                    Return DNMFAudit.RunAll()
+                Case "milp-bench"
+                    ' LU 增量更新 vs 每次换基全量重构的 A/B 基准
+                    Return MilpLuBenchmark.RunAll()
                 Case "simd"
                     ' Vector / NumericMatrix SIMD 重构的正确性验证
                     Return VectorMatrixSimdTest.RunAll()
                 Case "simd-bench"
                     ' 标量 vs SIMD 的耗时与加速比基准
                     Return SimdBenchmark.RunAll()
+                Case "half-simd"
+                    ' 半精度 SIMD 内核（HalfSimd）与 System.Half 标量语义的逐位差分自测
+                    Return HalfSimdTest.RunAll()
                 Case "simd-all"
                     Dim simdCode As Integer = VectorMatrixSimdTest.RunAll()
 
@@ -45,11 +117,20 @@ Public Module ProgramMilp
                     TruncatedSVDTest.Main()
 
                     Return 0
+                Case "algebra-fix"
+                    ' Algebra 准确度修正 + SIMD 化的回归验证
+                    Return AlgebraFixTest.RunAll()
                 Case "lpp"
                     ' 保持对既有 LP 求解器演示入口的访问（自 test.vbproj 的启动对象切换之后）
                     Return ProgramLpp.Main(New String() {})
                 Case "lpp-selftest"
                     Return ProgramLpp.Main(New String() {"selftest"})
+                Case "triq-ecdf"
+                    ' TrIQ / ECDF 性能优化的正确性校验与提速基准
+                    Return DistributionsPerfTest.RunAll()
+                Case "lhs"
+                    ' 拉丁超立方采样（Distributions\LHS）的正确性自检
+                    Return LhsSelfTest.RunAll()
             End Select
         End If
 

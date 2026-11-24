@@ -89,6 +89,68 @@ Namespace v2
 
         Public Property proteins As protein()
 
+        ''' <summary>
+        ''' 调控组：转录因子以及其所调控的全部转录单元
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlArray("regulons")>
+        <XmlArrayItem("regulon")>
+        Public Property regulons As Regulon()
+
+        ''' <summary>
+        ''' DNA结合位点列表
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlArray("bindingSites")>
+        <XmlArrayItem("bindingSite")>
+        Public Property bindingSites As BindingSite()
+
+        ''' <summary>
+        ''' 启动子(转录起始位点)列表
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlArray("promoters")>
+        <XmlArrayItem("promoter")>
+        Public Property promoters As Promoter()
+
+        ''' <summary>
+        ''' 转录终止子列表
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlArray("terminators")>
+        <XmlArrayItem("terminator")>
+        Public Property terminators As Terminator()
+
+        ''' <summary>
+        ''' 蛋白质序列上面的结构域以及功能位点
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlArray("proteinFeatures")>
+        <XmlArrayItem("proteinFeature")>
+        Public Property proteinFeatures As ProteinFeature()
+
+        ''' <summary>
+        ''' 整个基因组的GC百分含量，取值范围为[0,1]
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property gcContent As Double
+
+        ''' <summary>
+        ''' 整个基因组的长度(bp)
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property genomeSize As Long
+
+        ''' <summary>
+        ''' 质粒复制子的数量
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property plasmidCount As Integer
+            Get
+                Return replicons.SafeQuery.Count(Function(r) r.isPlasmid)
+            End Get
+        End Property
+
         Sub New()
         End Sub
 
@@ -96,6 +158,13 @@ Namespace v2
             replicons = copy.replicons.SafeQuery.ToArray
             regulations = copy.regulations.SafeQuery.ToArray
             proteins = copy.proteins.SafeQuery.ToArray
+            regulons = copy.regulons.SafeQuery.ToArray
+            bindingSites = copy.bindingSites.SafeQuery.ToArray
+            promoters = copy.promoters.SafeQuery.ToArray
+            terminators = copy.terminators.SafeQuery.ToArray
+            proteinFeatures = copy.proteinFeatures.SafeQuery.ToArray
+            gcContent = copy.gcContent
+            genomeSize = copy.genomeSize
         End Sub
 
         Public Iterator Function GetAllGenes(Optional skipPlasmids As Boolean = False) As IEnumerable(Of gene)

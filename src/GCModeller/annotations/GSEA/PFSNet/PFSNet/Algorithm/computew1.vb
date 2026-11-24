@@ -1,53 +1,53 @@
 ﻿#Region "Microsoft.VisualBasic::30a8321309af0e675f0b51f1b6b5498c, annotations\GSEA\PFSNet\PFSNet\Algorithm\computew1.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 88
-    '    Code Lines: 56 (63.64%)
-    ' Comment Lines: 27 (30.68%)
-    '    - Xml Docs: 92.59%
-    ' 
-    '   Blank Lines: 5 (5.68%)
-    '     File Size: 3.56 KB
+' Summaries:
 
 
-    ' Module computew1Function
-    ' 
-    '     Function: computew1, getFuzzyWeight
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 88
+'    Code Lines: 56 (63.64%)
+' Comment Lines: 27 (30.68%)
+'    - Xml Docs: 92.59%
+' 
+'   Blank Lines: 5 (5.68%)
+'     File Size: 3.56 KB
+
+
+' Module computew1Function
+' 
+'     Function: computew1, getFuzzyWeight
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -56,11 +56,12 @@ Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.Correlations
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
+Imports Microsoft.VisualBasic.Math.Quantile
 Imports Microsoft.VisualBasic.Math.Statistics.Linq
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.PFSNet.R
 
-<HideModuleName> Module computew1Function
+<HideModuleName> Public Module computew1Function
 
     ''' <summary>
     ''' ```R
@@ -83,25 +84,27 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
     Public Function computew1(expr As DataFrameRow(), theta1 As Double, theta2 As Double) As DataFrameRow()
         Dim ranks As Vector() = expr _
             .Select(Function(r) r.experiments.AsVector) _
-            .Apply(math:=Function(x)
-                             Dim data As Double() = x.ToArray
-                             Dim rankVec As Vector = data.Ranking(Strategies.OrdinalRanking).AsVector
-                             Return rankVec / data.Length
-                         End Function,
-                   axis:=ApplyOnAxis.Column,
+            .Apply(math:=Function(x) RankColumn(x.ToArray),
+                   axis:=AxisMargins.Column,
                    aggregate:=Function(x) x.Select(Function(v) v.AsVector)) _
             .ToArray
         Dim result = ranks _
             .Apply(math:=Function(x)
-                             Dim q2 = Quantile.Threshold(x, theta2)
-                             Dim q1 = Quantile.Threshold(x, theta1)
-                             Dim m = x.Median
-                             Dim mx = x.Max
+                             Dim finite As Double() = x _
+                                 .Where(Function(value) Double.IsFinite(value)) _
+                                 .ToArray
+
+                             If finite.Length = 0 Then
+                                 Return x.Select(Function(value) Double.NaN)
+                             End If
+
+                             Dim q2 As Double = finite.LinearQuantile(theta2)
+                             Dim q1 As Double = finite.LinearQuantile(theta1)
                              Dim delta_q12 As Double = q1 - q2
 
                              Return x.Select(Function(y) getFuzzyWeight(y, q1, q2, delta_q12))
                          End Function,
-                   axis:=ApplyOnAxis.Row,
+                   axis:=AxisMargins.Row,
                    aggregate:=Function(x)
                                   Return x.Select(Function(v) v.ToArray)
                               End Function) _
@@ -118,6 +121,35 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
             .ToArray
     End Function
 
+    Private Function RankColumn(data As Double()) As Vector
+        If data.Length = 0 Then
+            Return Array.Empty(Of Double)().AsVector
+        End If
+
+        Dim positions As New System.Collections.Generic.List(Of Integer)
+        Dim values As New System.Collections.Generic.List(Of Double)
+        Dim normalized(data.Length - 1) As Double
+
+        Array.Fill(normalized, Double.NaN)
+
+        For i As Integer = 0 To data.Length - 1
+            If Double.IsFinite(data(i)) Then
+                positions.Add(i)
+                values.Add(data(i))
+            End If
+        Next
+
+        If values.Count > 0 Then
+            Dim finiteRanks As Double() = values.Ranking(Strategies.FractionalRanking)
+
+            For i As Integer = 0 To positions.Count - 1
+                normalized(positions(i)) = finiteRanks(i) / data.Length
+            Next
+        End If
+
+        Return normalized.AsVector
+    End Function
+
     ''' <summary>
     ''' 计算模糊权重
     ''' </summary>
@@ -128,7 +160,7 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
     ''' <returns></returns>
     ''' <remarks></remarks>
     Private Function getFuzzyWeight(y As Double, q1 As Double, q2 As Double, delta_q12 As Double) As Double
-        If y.IsNaNImaginary Then
+        If Not Double.IsFinite(y) Then
             Return Double.NaN
         ElseIf y >= q1 Then
             Return 1

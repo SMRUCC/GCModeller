@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.CellPhenotype.RegulationNetwork.BuildSummary</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>BuildSummary {SMRUCC.genomics.Analysis.CellPhenotype.RegulationNetwork}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>BuildSummary</h2>
+
+        <h3>Description</h3>
+
+        <p>整条流水线的汇总统计</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.CellPhenotype.RegulationNetwork
+export class BuildSummary {
+   # 跨模块边数
+   crossModuleEdges: integer;
+   # 由 TF 注释成功定向的边数
+   directedEdges: integer;
+   # 被 DPI 去除的边数
+   dpiRemovedEdges: integer;
+   # 总耗时（毫秒）
+   elapsedMilliseconds: double;
+   # 参与分析的基因数（预处理之后）
+   geneCount: integer;
+   # WGCNA 模块数
+   moduleCount: integer;
+   # 各模块的统计信息
+   moduleStatistics: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/CellPhenotype/RegulationNetwork/ModuleStatistics.html">ModuleStatistics[]</a>;
+   # 被偏相关去除的边数
+   partialRemovedEdges: integer;
+   # 样本数
+   sampleCount: integer;
+   # 仅由 STRING 新增的边数
+   stringOnlyEdges: integer;
+   # 得到 STRING 支持的边数
+   stringSupportedEdges: integer;
+   # 调控边总数（含跨模块与无向候选边）
+   totalEdges: integer;
+   # 无向候选边数
+   undirectedEdges: integer;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>moduleStatistics</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/CellPhenotype/RegulationNetwork/ModuleStatistics.html">ModuleStatistics</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

@@ -8,8 +8,8 @@
     <Configurations>Debug;Release;Rsharp_app_release;LipidSearch;mzkit;NPSearch;gcmodeller_desktop;nuget_release</Configurations>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
-    <Version>1.1.9758.20045</Version>
-    <FileVersion>1.1.9758.20045</FileVersion>
+    <Version>10.8.9818.14504</Version>
+    <FileVersion>1.1.9818.14504</FileVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <RepositoryType>git</RepositoryType>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
@@ -18,15 +18,15 @@
     <PackageProjectUrl>http://scibasic.net/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/xieguigang/sciBASIC</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <AssemblyVersion>1.0.9758.20045</AssemblyVersion>
+    <AssemblyVersion>1.0.9818.14504</AssemblyVersion>
     <Title>PDF Document Reader, Text Extractor and Writer Library</Title>
-    <Description>Reads and writes PDF files for sciBASIC#: a low-level reader resolves xref tables, object streams and filters to extract page text through ToUnicode CMaps, while a streaming generator lays out headings, text, tables and images via the shared IDocumentWriter contract.</Description>
+    <Description>Reads and writes PDF files for sciBASIC#: a low-level reader resolves xref tables, object streams and filters to extract page text via ToUnicode CMaps, while a streaming generator lays out text, tables and images.</Description>
     <AssemblyTitle>Microsoft.VisualBasic.MIME.application.pdf</AssemblyTitle>
     <Authors>xieguigang &lt;I@xieguigang.me&gt;</Authors>
     <Company>sciBASIC.NET Foundation</Company>
     <Copyright>Copyright (c) sciBASIC.NET Foundation</Copyright>
-    <PackageTags>scibasic;pdf;pdf-reader;text-extraction;pdf-writer;document-generation;flate-decode</PackageTags>
-    <PackageReleaseNotes>The pure managed PDF library of sciBASIC#. Reading: the PdfReader namespace provides a lexer (PdfLexer) and an object parser producing the full PdfObject family (PdfDictionary, PdfArray, PdfStream, PdfIndirectObject, ...), resolves cross reference tables and indirect references, decodes stream filters (Flate/deflate, ASCII85 and predictors) and enumerates page dictionaries through the page tree. Text extraction rebuilds readable text for a page from its content streams, mapping character codes back to Unicode through ToUnicode CMaps and the associated font information (TextExtractor, ToUnicodeCMap, FontInfo). Writing: PdfDocument implements the shared IDocumentWriter contract with a fluent Heading / Paragraph / Table / Image API, PdfLayoutEngine paginates the collected blocks into pages, and PdfWriter serializes objects, content streams, the xref table and the trailer into a standards conforming file; PdfFontResource, PdfImageXObject and PdfColor cover font metrics and encoding, image XObject encoding and RGB colour operators. Because the writer implements IDocumentWriter, code written against the WordDocument surface can emit PDF output without source changes.</PackageReleaseNotes>
+    <PackageTags>scibasic;pdf;pdf-reader;text-extraction;pdf-writer</PackageTags>
+    <PackageReleaseNotes>This cycle: Fixed the namespace reference to the report document writer; Removed the un-necessary project component reference.</PackageReleaseNotes>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <PackageIcon>logo-knot.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
@@ -60,7 +60,7 @@
     <DefineConstants>netcore5=1,UNIX=1</DefineConstants>
     <DocumentationFile>Microsoft.VisualBasic.MIME.application.pdf.xml</DocumentationFile>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
-    <Optimize>false</Optimize>
+    <Optimize>true</Optimize>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <DefineDebug>false</DefineDebug>
@@ -109,6 +109,9 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DocumentationFile>Microsoft.VisualBasic.MIME.application.pdf.xml</DocumentationFile>
+    <!-- the image writer scales pixels to EMU (pixels * 9525) unchecked, like every other
+         configuration of this project; without it the embedded image encoding overflows -->
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='LipidSearch|AnyCPU'">
@@ -175,9 +178,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Microsoft.VisualBasic.Core\src\Core.vbproj" />
-    <ProjectReference Include="..\application%json\JSON-netcore5.vbproj" />
-    <ProjectReference Include="..\applicationvnd.openxmlformats-officedocument.wordprocessingml.document\docx\WordDocument.vbproj" />
-    <ProjectReference Include="..\text%markdown\markdown.NET5.vbproj" />
   </ItemGroup>
 
   <ItemGroup>

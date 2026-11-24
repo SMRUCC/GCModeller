@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e488f6f1ae1b76296c5cba339f6a53a7, Data_science\Visualization\DataPlot\Advanced\PiePlot.vb"
+#Region "Microsoft.VisualBasic::c34e5144004f4b58058fffbe1076b78f, Data_science\Visualization\DataPlot\Advanced\PiePlot.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 95
-    '    Code Lines: 80 (84.21%)
-    ' Comment Lines: 5 (5.26%)
-    '    - Xml Docs: 20.00%
+    '   Total Lines: 100
+    '    Code Lines: 83 (83.00%)
+    ' Comment Lines: 6 (6.00%)
+    '    - Xml Docs: 33.33%
     ' 
-    '   Blank Lines: 10 (10.53%)
-    '     File Size: 3.65 KB
+    '   Blank Lines: 11 (11.00%)
+    '     File Size: 4.01 KB
 
 
     ' Class PiePlot
@@ -48,7 +48,7 @@
     '     Properties: Colors, Donut, DonutRadius, ExplodeIndex, Labels
     '                 ShowPercentage, StartAngle, Values
     ' 
-    '     Constructor: (+1 Overloads) Sub New
+    '     Constructor: (+2 Overloads) Sub New
     '     Sub: Plot
     ' 
     ' /********************************************************************************/
@@ -57,6 +57,7 @@
 
 Imports System.Drawing
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports std = System.Math
 
 ''' <summary>饼图</summary>
@@ -72,11 +73,16 @@ Public Class PiePlot
     Public Property ExplodeIndex As Integer = -1
     Public Property StartAngle As Single = -90
 
-    Public Sub New(width As Integer, height As Integer, Optional theme As PlotTheme = Nothing)
-        MyBase.New(width, height, theme)
+    Public Sub New(width As Integer, height As Integer, Optional theme As PlotTheme = Nothing, Optional driver As Microsoft.VisualBasic.Imaging.Driver.Drivers = Microsoft.VisualBasic.Imaging.Driver.Drivers.Default)
+        MyBase.New(width, height, theme, driver)
     End Sub
 
-    Public Sub Plot()
+    ''' <summary>直接在外部提供的绘图设备上绘制（图层叠加模式 / 宿主画布）。</summary>
+    Public Sub New(g As IGraphics, Optional theme As PlotTheme = Nothing)
+        MyBase.New(g, theme)
+    End Sub
+
+    Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
         DrawBackground()
         DrawTitle()
 

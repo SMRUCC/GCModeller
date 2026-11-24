@@ -1,0 +1,51 @@
+.\" man page create by R# package system.
+.TH GENETREE 1 2000-1月 "parallel_opts" "parallel_opts"
+.SH NAME
+parallel_opts \- Override the parallelism of a trained model (the perturbation solver) or of a
+.SH SYNOPSIS
+\fIparallel_opts(\fBtree\fR as any, 
+\fBthreads\fR as integer = -1, 
+\fBthreads_per_model\fR as integer = -1, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Override the parallelism of a trained model (the perturbation solver) or of a
+ configuration object (the model training).
+.PP
+.SH OPTIONS
+.PP
+\fBtree\fB \fR\- the GeneTree model or the configuration object.. 
+.PP
+.PP
+\fBthreads\fB \fR\- 
+ the outer (per gene) degree of parallelism; \fB<= 0\fR restores the automatic mode
+ which uses all of the available processors.
+. 
+.PP
+.PP
+\fBthreads_per_model\fB \fR\- 
+ the TGBoost thread number of a single gene model: \fB-1\fR automatic (1 when the genes
+ are trained in parallel), \fB0\fR sequential, \fB>0\fR explicit. It only affects the
+ model training, it is ignored for the perturbation solving.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+the input object with the new parallelism settings.
+.PP
+.SH DETAILS
+.PP
+the training is parallel over the target genes, therefore the per model threads are
+ resolved to 1 automatically: nested parallelism (outer over genes plus inner tree
+ building) starves the .NET thread pool and the CPU utilization collapses to a few
+ cores even on a 128 threads server.
+.PP
+.SH SEE ALSO
+geneTree
+.SH FILES
+.PP
+biosystem.dll
+.PP

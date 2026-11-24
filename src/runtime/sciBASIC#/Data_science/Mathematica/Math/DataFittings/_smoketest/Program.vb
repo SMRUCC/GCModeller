@@ -1,3 +1,58 @@
+﻿#Region "Microsoft.VisualBasic::aca6ae657385903ebebe2bb32732a7a5, Data_science\Mathematica\Math\DataFittings\_smoketest\Program.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 241
+    '    Code Lines: 155 (64.32%)
+    ' Comment Lines: 17 (7.05%)
+    '    - Xml Docs: 76.47%
+    ' 
+    '   Blank Lines: 69 (28.63%)
+    '     File Size: 10.93 KB
+
+
+    ' Module Program
+    ' 
+    '     Function: BuildLogisticTable, BuildMultiFeatureTable, BuildSingleFeatureTable, ProbeGaussNewton, Throws
+    ' 
+    '     Sub: Check, Main, Section
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 Imports System
 Imports System.Linq
 Imports Microsoft.VisualBasic.Data
@@ -85,6 +140,70 @@ Module Program
         ' 因此这里只探测表的输入适配，求解器的异常信息会被如实打印出来
         Call Console.WriteLine($"   [note] GaussNewtonFit -> {ProbeGaussNewton(singleTable)}")
 
+        ' 缺省入口：幂律（Cobb-Douglas）模型，参数初值来自对数域的普通最小二乘
+        Dim powerTable As NumericTable = BuildPowerTable(n)
+        Dim powerFit As LMA.NonLinearFitResult = powerTable.NonLinearFit()
+
+        Call Check(powerFit.R2 > 0.999, $"LMA power-law R2 = {powerFit.R2:F6}")
+        Call Check(System.Math.Abs(powerFit.Parameters("p0") - 2.5) < 0.05, $"LMA p0 = {powerFit.Parameters("p0"):F4}, expected 2.5")
+        Call Check(System.Math.Abs(powerFit.Parameters("p1") - 1.5) < 0.01, $"LMA p1 = {powerFit.Parameters("p1"):F4}, expected 1.5")
+        Call Check(System.Math.Abs(powerFit.Parameters("p2") + 0.5) < 0.01, $"LMA p2 = {powerFit.Parameters("p2"):F4}, expected -0.5")
+        Call Check(powerFit.Converged, $"LMA power-law converged after {powerFit.Iterations} iteration(s)")
+
+        Dim powerRow As Double()() = powerTable.NumericRows
+
+        Call Check(System.Math.Abs(powerFit.GetY(powerRow(0)) - powerFit.FittedValues(0)) < 0.000000001,
+                   "LMA GetY reproduces the fitted value of the first sample")
+
+        Dim powerPred As NumericTable = powerFit.PredictTable(powerTable, name:="lma_fit", withResidual:=True)
+
+        Call Check(powerPred.HasLabel("lma_fit"), "LMA PredictTable writes the prediction column")
+        Call Check(powerPred.HasLabel("residual"), "LMA PredictTable writes the residual column")
+        Call Check(Not powerTable.HasLabel("lma_fit"), "LMA PredictTable does not modify the source table")
+
+        ' 公式字符串入口：a*exp(-b*x)，自变量按列名绑定
+        Dim t As Double() = {0.5, 1.0, 1.5, 2.0, 3.0, 4.0, 5.0, 6.0, 8.0, 10.0}
+        Dim decay As Double() = t.Select(Function(ti) 3.0 * System.Math.Exp(-0.5 * ti)).ToArray
+        Dim decayTable As NumericTable = BuildSingleFeatureTable(t, decay)
+        Dim decayFit As LMA.NonLinearFitResult = decayTable.NonLinearFit("a*exp(-b*x)", {"a", "b"})
+
+        Call Check(decayFit.R2 > 0.999, $"LMA formula R2 = {decayFit.R2:F6}")
+        Call Check(System.Math.Abs(decayFit.Parameters("a") - 3.0) < 0.01, $"LMA a = {decayFit.Parameters("a"):F4}, expected 3")
+        Call Check(System.Math.Abs(decayFit.Parameters("b") - 0.5) < 0.01, $"LMA b = {decayFit.Parameters("b"):F4}, expected 0.5")
+        Call Check(decayFit.Converged, $"LMA formula converged after {decayFit.Iterations} iteration(s)")
+
+        ' 关掉高斯-牛顿近似、改用精确海塞（二阶差分）应当得到同样的解
+        Dim exactFit As LMA.NonLinearFitResult = decayTable.NonLinearFit("a*exp(-b*x)", {"a", "b"}, approxHessian:=False)
+
+        Call Check(exactFit.R2 > 0.999, $"LMA exact hessian R2 = {exactFit.R2:F6}")
+        Call Check(System.Math.Abs(exactFit.Parameters("a") - 3.0) < 0.01, $"LMA exact hessian a = {exactFit.Parameters("a"):F4}, expected 3")
+        Call Check(System.Math.Abs(exactFit.Parameters("b") - 0.5) < 0.01, $"LMA exact hessian b = {exactFit.Parameters("b"):F4}, expected 0.5")
+
+        ' 委托入口：米氏方程 v = Vmax*x/(Km+x)
+        Dim conc As Double() = {0.5, 1.0, 2.0, 4.0, 8.0, 16.0, 32.0, 64.0}
+        Dim rate As Double() = conc.Select(Function(si) 10.0 * si / (2.0 + si)).ToArray
+        Dim mmTable As NumericTable = BuildSingleFeatureTable(conc, rate)
+        Dim mmFit As LMA.NonLinearFitResult = mmTable.NonLinearFit(
+            Function(p, xi) p(0) * xi(0) / (p(1) + xi(0)),
+            guess:={1.0, 1.0})
+
+        Call Check(mmFit.R2 > 0.999, $"LMA delegate R2 = {mmFit.R2:F6}")
+        Call Check(System.Math.Abs(mmFit.Parameters("p1") - 10.0) < 0.05, $"LMA Vmax = {mmFit.Parameters("p1"):F4}, expected 10")
+        Call Check(System.Math.Abs(mmFit.Parameters("p2") - 2.0) < 0.05, $"LMA Km = {mmFit.Parameters("p2"):F4}, expected 2")
+
+        ' 错误处理
+        Call Check(Throws(Sub() decayTable.NonLinearFit("a*exp(-b*zzz)", {"a", "b"})),
+                   "the LMA formula entry rejects a formula with an unknown symbol")
+        Call Check(Throws(Sub() decayTable.NonLinearFit("a*x^b", New String() {})),
+                   "the LMA formula entry requires at least one parameter symbol")
+
+        ' 幂律入口要求自变量为正，含负值的数据必须被拒绝
+        Dim signedX As Double() = {-5.0, -4.0, -3.0, -2.0, -1.0, 1.0, 2.0, 3.0, 4.0, 5.0}
+        Dim signedTable As NumericTable = BuildSingleFeatureTable(signedX, signedX.Select(Function(xi) 2.0 * xi + 1.0).ToArray)
+
+        Call Check(Throws(Sub() signedTable.NonLinearFit()),
+                   "the LMA power-law entry rejects a table with non-positive factors")
+
         Call Section("multivariate regression")
         Dim f1 As Double() = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
         Dim f2 As Double() = {2, 1, 4, 3, 6, 5, 8, 7, 10, 9}
@@ -121,11 +240,94 @@ Module Program
         Call Check(inputs.Length = n, $"LMA FitInput count = {inputs.Length}")
         Call Check(inputs(0).factors.Count = 3, $"LMA FitInput factor count = {inputs(0).factors.Count}")
 
+        Call Section("ridge regression")
+
+        ' 共线性数据：b = 2a，X'X 奇异，普通最小二乘在这里无法给出稳定的解
+        Dim ca As Double() = Enumerable.Range(1, n).Select(Function(i) CDbl(i)).ToArray
+        Dim cb As Double() = ca.Select(Function(v) v * 2.0).ToArray
+        Dim cy As Double() = ca.Select(Function(v) 1.0 + 3.0 * v).ToArray
+        Dim collinear As NumericTable = BuildMultiFeatureTable(ca, cb, cy)
+        Dim collinearRidge As Ridge.RidgeFit = collinear.RidgeRegression(numberOfLambdas:=50)
+
+        Call Check(collinearRidge.lambdas.Length = 50, $"ridge path has {collinearRidge.lambdas.Length} step(s)")
+        Call Check(collinearRidge.R2 > 0.99, $"ridge R2 = {collinearRidge.R2:F6} on collinear data")
+        Call Check(collinearRidge.BestLambda > 0, $"ridge best lambda = {collinearRidge.BestLambda:G4} (selected by GCV)")
+        Call Check(collinearRidge.BestCoefficients.All(Function(c) Not Double.IsNaN(c) AndAlso Not Double.IsInfinity(c)),
+                   "the ridge coefficients stay finite on collinear data")
+        Call Check(TypeOf collinearRidge.Polynomial Is Ridge.RidgePolynomial, "the ridge model exposes a polynomial with the intercept")
+
+        Dim ridgePath As NumericTable = collinearRidge.toNumericTable()
+
+        Call Check(ridgePath.nsamples = 50, $"ridge path table rows = {ridgePath.nsamples}")
+        Call Check(ridgePath.nfeatures = 4, $"ridge path table columns = {ridgePath.nfeatures}")
+        Call Check(ridgePath.HasLabel("gcv"), "the ridge path table carries the gcv label column")
+        Call Check(ridgePath.HasLabel("df"), "the ridge path table carries the df label column")
+
+        Dim ridgePred As NumericTable = collinear.SetPrediction(collinearRidge, name:="ridge_fit", withResidual:=True)
+
+        Call Check(ridgePred.HasLabel("ridge_fit"), "ridge SetPrediction writes the prediction column")
+        Call Check(ridgePred.HasLabel("residual"), "ridge SetPrediction writes the residual column")
+
+        ' lambda 趋于 0 的时候岭回归应当回到普通最小二乘
+        Dim ridgeTiny As Ridge.RidgeFit = multi.RidgeRegression(lambda:=0.000001)
+        Dim ridgeMLR As Multivariate.MLRFit = multi.MultipleLinearRegression()
+        Dim multiRows As Double()() = multi.NumericRows
+        Dim ridgeGap As Double = 0.0
+
+        For i As Integer = 0 To multiRows.Length - 1
+            ridgeGap = System.Math.Max(ridgeGap, System.Math.Abs(ridgeTiny.GetY(multiRows(i)) - ridgeMLR.GetY(multiRows(i))))
+        Next
+
+        Call Check(ridgeGap < 0.001, $"ridge with a tiny lambda reproduces the MLR fit, max |diff| = {ridgeGap:E3}")
+
+        ' 惩罚越强，系数的二范数越小（岭回归的收缩性质）
+        Dim ridgeStrong As Ridge.RidgeFit = multi.RidgeRegression(lambda:=10.0)
+        Dim normStrong As Double = ridgeStrong.BestCoefficients.Select(Function(c) c * c).Sum
+        Dim normWeak As Double = ridgeTiny.BestCoefficients.Select(Function(c) c * c).Sum
+
+        Call Check(normStrong < normWeak, $"ridge shrinks the coefficients: |b|^2 = {normStrong:E3} (lambda=10) < {normWeak:E3} (lambda=1e-6)")
+        Call Check(multi.RidgeRegression().R2 > 0.99, $"ridge R2 = {multi.RidgeRegression().R2:F6} with the GCV-selected lambda")
+
+        ' 无噪声的数据之上 GCV 会一路走到网格的最软端；加入确定性扰动之后
+        ' 它才会在网格内部（而不是两端）折中偏差与方差挑出 lambda
+        Dim na As Double() = Enumerable.Range(1, n).Select(Function(i) CDbl(i)).ToArray
+        Dim nb As Double() = na.Select(Function(v) v * 2.0).ToArray
+        Dim ny As Double() = na.Select(Function(v, i) 1.0 + 3.0 * v + 4.0 * System.Math.Sin(i)).ToArray
+        Dim noisy As NumericTable = BuildMultiFeatureTable(na, nb, ny)
+        Dim noisyRidge As Ridge.RidgeFit = noisy.RidgeRegression(numberOfLambdas:=50)
+
+        Call Check(noisyRidge.bestIndex > 0 AndAlso noisyRidge.bestIndex < noisyRidge.lambdas.Length - 1,
+                   $"GCV selects an interior lambda: index {noisyRidge.bestIndex} of {noisyRidge.lambdas.Length}, lambda = {noisyRidge.BestLambda:G4}")
+        Call Check(noisyRidge.df(noisyRidge.bestIndex) <= noisyRidge.BestCoefficients.Length,
+                   $"the effective degrees of freedom = {noisyRidge.df(noisyRidge.bestIndex):F4} of {noisyRidge.BestCoefficients.Length} coefficients")
+
+        ' 错误处理
+        Call Check(Throws(Sub() multi.RidgeRegression(lambda:=-1)), "the ridge entry rejects a non-positive lambda")
+
         Call Section("logistic regression")
         Dim ltable As NumericTable = BuildLogisticTable(f1, f2)
         Dim logistic = ltable.LogisticRegression(iterations:=3000, y:="class")
 
         Call Check(logistic IsNot Nothing, "LogisticRegression returns a fitted model")
+        Call Check(logistic.ErrorTest IsNot Nothing AndAlso logistic.ErrorTest.Length = n,
+                   "LogisticRegression records one fit error per sample")
+        Call Check(logistic.ErrorTest.All(Function(e) e.Yfit >= 0.0 AndAlso e.Yfit <= 1.0),
+                   "fitted values are probabilities in [0,1]")
+        Call Check(logistic.R2 >= 0.0 AndAlso logistic.R2 <= 1.0,
+                   $"fitted R2 is a real metric in [0,1]: R2 = {logistic.R2:F6}")
+        Call Check(logistic.LogLoss > 0.0, $"fitted LogLoss is finite and positive: {logistic.LogLoss:F6}")
+
+        Call Section("logistic audit")
+        failures += LogisticAudit.Run()
+
+        Call Section("poisson audit")
+        failures += PoissonAudit.Run()
+
+        Call Section("mgaussian audit")
+        failures += MGaussianAudit.Run()
+
+        Call Section("cox audit")
+        failures += CoxAudit.Run()
 
         Call Section("prediction")
         Dim predicted As NumericTable = multi.SetPrediction(mlr, withResidual:=True)
@@ -193,6 +395,28 @@ Module Program
             .ToArray
         Dim rows As String() = Enumerable.Range(1, f1.Length).Select(Function(i) $"m{i}").ToArray
         Dim table As New NumericTable(features, rows, New String() {"bias", "a", "b"})
+
+        Call table.SetLabel("y", y)
+
+        Return table
+    End Function
+
+    ''' <summary>
+    ''' 幂律（Cobb-Douglas）模型的测试数据：``y = 2.5 * x1^1.5 * x2^-0.5``，
+    ''' 自变量与响应变量全部取正值
+    ''' </summary>
+    Private Function BuildPowerTable(n As Integer) As NumericTable
+        Dim x1 As Double() = Enumerable.Range(1, n).Select(Function(i) 1.0 + i * 0.5).ToArray
+        Dim x2 As Double() = Enumerable.Range(1, n).Select(Function(i) 2.0 + (n - i) * 0.25).ToArray
+        Dim y As Double() = x1 _
+            .Select(Function(xi, i) 2.5 * System.Math.Pow(xi, 1.5) * System.Math.Pow(x2(i), -0.5)) _
+            .ToArray
+        Dim features As Double()() = x1 _
+            .SeqIterator _
+            .Select(Function(i) New Double() {i.value, x2(i.i)}) _
+            .ToArray
+        Dim rows As String() = Enumerable.Range(1, n).Select(Function(i) $"p{i}").ToArray
+        Dim table As New NumericTable(features, rows, New String() {"x1", "x2"})
 
         Call table.SetLabel("y", y)
 

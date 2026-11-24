@@ -4,13 +4,40 @@
     <Platform Name="x64" />
   </Configurations>
   <Folder Name="/framework/">
+    <Project Path="../../runtime/sciBASIC#/Data/BinaryData/BinaryData/binarydata-netcore5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../runtime/sciBASIC#/Data/BinaryData/Parquet/Parquet.vbproj">
+      <Platform Solution="Release|x64" Project="x64" />
+    </Project>
     <Project Path="../../runtime/sciBASIC#/Data/DataFrame/dataframework-netcore5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../runtime/sciBASIC#/Data_science/DataMining/DataMining/DataMining.NET5.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
     <Project Path="../../runtime/sciBASIC#/Data_science/Graph/graph-netcore5.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
+    <Project Path="../../runtime/sciBASIC#/Data_science/MachineLearning/GNN/GNN.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../runtime/sciBASIC#/Data_science/MachineLearning/LNN/LNN.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../runtime/sciBASIC#/Data_science/MachineLearning/MachineLearning/machine_learning-netcore5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../runtime/sciBASIC#/Data_science/MachineLearning/TensorFlow/TensorFlow.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../runtime/sciBASIC#/Data_science/Mathematica/Math/CVODE_Solver/Sundials.CVODE.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
     <Project Path="../../runtime/sciBASIC#/Data_science/Mathematica/Math/DataFittings/linear-netcore5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../runtime/sciBASIC#/Data_science/Mathematica/Math/DataFrame/dataframeUtils-netcore5.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
     <Project Path="../../runtime/sciBASIC#/Data_science/Mathematica/Math/Math.Statistics/stats-netcore5.vbproj">
@@ -26,6 +53,17 @@
       <Platform Solution="*|x64" Project="x64" />
     </Project>
   </Folder>
+  <Folder Name="/framework/voxels/">
+    <Project Path="../../runtime/sciBASIC#/gr/Landscape/Landscape.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../runtime/sciBASIC#/gr/Microsoft.VisualBasic.Imaging/imaging.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../runtime/sciBASIC#/mime/text%html/html_netcore5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+  </Folder>
   <Folder Name="/gcmodeller/">
     <Project Path="../../workbench/modules/ExperimentDesigner/designer-netcore5.vbproj">
       <Platform Solution="*|x64" Project="x64" />
@@ -36,26 +74,46 @@
     <Project Path="../core/Bio.Assembly/biocore-netcore5.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
-    <Project Path="../sub-system/BNLearn/BNLearn.vbproj">
+    <Project Path="../core/Bio.InteractionModel/InteractionModel.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
-    <Project Path="BootstrapLoader/BootstrapLoader.NET5.vbproj">
-      <Platform Solution="*|x64" Project="x64" />
-    </Project>
-    <Project Path="CompilerServices/CompilerServices.NET5.vbproj">
-      <Platform Solution="*|x64" Project="x64" />
-    </Project>
-    <Project Path="Dynamics/Dynamics.NET5.vbproj">
-      <Platform Solution="*|x64" Project="x64" />
-    </Project>
-    <Project Path="IO/GCMarkupLanguage/GCMarkupXML.NET5.vbproj">
+    <Project Path="../models/BioCyc/BioCyc.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
     <Project Path="Model/Model.Core.NET5.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
   </Folder>
+  <Folder Name="/kernels/">
+    <Project Path="../sub-system/GEARS/GEARS.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../sub-system/Metaboliq/Metaboliq.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="Dynamics/Dynamics.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+  </Folder>
   <Project Path="Cella/Cella.vbproj">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
+  <Project Path="CellaLoader/CellaLoader.vbproj" Id="3b83bda6-e851-4901-9be9-53b4084c3028">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
+  <Project Path="CellaOptimization/CellaOptimization.vbproj" Id="2e56186c-c8eb-4e2e-a605-ab47fa5dbb87">
+    <Platform Solution="Release|x64" Project="x64" />
+  </Project>
+  <Project Path="CompilerServices/CompilerServices.NET5.vbproj">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
+  <Project Path="IO/BioCycCompiler/BioCycCompiler.vbproj">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
+  <Project Path="IO/GCMarkupLanguage/GCMarkupXML.NET5.vbproj">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
+  <Project Path="vCella/vCella.vbproj" Id="713d3a2d-f06a-4017-a337-f4bec6ec07b6">
     <Platform Solution="*|x64" Project="x64" />
   </Project>
 </Solution>

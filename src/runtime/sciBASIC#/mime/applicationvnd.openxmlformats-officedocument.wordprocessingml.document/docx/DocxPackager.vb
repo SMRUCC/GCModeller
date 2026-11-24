@@ -1,57 +1,57 @@
-﻿#Region "Microsoft.VisualBasic::3ee4d1dc1555adc88a53fb74a1b8a8a2, mime\applicationvnd.openxmlformats-officedocument.wordprocessingml.document\docx\DocxPackager.vb"
+﻿#Region "Microsoft.VisualBasic::44a6bd00fa4355ab1185cf278f633da8, mime\applicationvnd.openxmlformats-officedocument.wordprocessingml.document\docx\DocxPackager.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-    ' /********************************************************************************/
-
-    ' Summaries:
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-    ' Code Statistics:
 
-    '   Total Lines: 319
-    '    Code Lines: 222 (69.59%)
-    ' Comment Lines: 57 (17.87%)
-    '    - Xml Docs: 24.56%
-    ' 
-    '   Blank Lines: 40 (12.54%)
-    '     File Size: 16.98 KB
+' /********************************************************************************/
+
+' Summaries:
 
 
-    ' Class DocxPackager
-    ' 
-    '     Function: BuildAppProps, BuildContentTypes, BuildCoreProps, BuildDocumentRels, BuildDocumentXml
-    '               BuildRootRels, BuildSettingsXml, BuildStylesXml, GetImageContentType, PtToTwip
-    '               XEsc
-    ' 
-    '     Sub: Save, WriteEntry
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 383
+'    Code Lines: 268 (69.97%)
+' Comment Lines: 69 (18.02%)
+'    - Xml Docs: 26.09%
+' 
+'   Blank Lines: 46 (12.01%)
+'     File Size: 21.23 KB
+
+
+' Class DocxPackager
+' 
+'     Function: BuildAppProps, BuildContentTypes, BuildCoreProps, BuildDocumentRels, BuildDocumentXml
+'               BuildRootRels, BuildSettingsXml, BuildStylesXml, GetImageContentType, JcVal
+'               PtToTwip, XEsc
+' 
+'     Sub: Save, WriteEntry
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -76,6 +76,7 @@ Imports System.Globalization
 Imports System.IO
 Imports System.IO.Compression
 Imports System.Text
+Imports Microsoft.VisualBasic.ApplicationServices.Report
 
 ''' <summary>
 ''' .docx 文件打包器。
@@ -114,7 +115,7 @@ Public Class DocxPackager
                 WriteEntry(archive, "word/styles.xml", BuildStylesXml(doc))
 
                 ' 5. word/settings.xml
-                WriteEntry(archive, "word/settings.xml", BuildSettingsXml())
+                WriteEntry(archive, "word/settings.xml", BuildSettingsXml(doc))
 
                 ' 6. word/_rels/document.xml.rels
                 WriteEntry(archive, "word/_rels/document.xml.rels", BuildDocumentRels(doc))
@@ -125,7 +126,14 @@ Public Class DocxPackager
                 ' 8. docProps/app.xml
                 WriteEntry(archive, "docProps/app.xml", BuildAppProps(doc))
 
-                ' 9. 图片文件
+                ' 9. 页眉/页脚部件文件
+                For Each hf As WordDocument.HeaderFooterPart In doc.GetHeaderFooterParts()
+                    Dim relNum As Integer = Integer.Parse(hf.RelId.Replace("rId", ""))
+                    Dim partPath As String = If(hf.Kind = "header", $"word/header{relNum}.xml", $"word/footer{relNum}.xml")
+                    WriteEntry(archive, partPath, hf.Xml)
+                Next
+
+                ' 10. 图片文件
                 For Each img As WordDocument.ImageEntry In doc.GetImages()
                     Dim contentType As String = GetImageContentType(img.Extension)
                     ' 根据关系 ID 确定文件名
@@ -166,6 +174,17 @@ Public Class DocxPackager
         sb.Append("<Override PartName=""/word/settings.xml"" ContentType=""application/vnd.openxmlformats-officedocument.wordprocessingml.settings+xml""/>")
         sb.Append("<Override PartName=""/docProps/core.xml"" ContentType=""application/vnd.openxmlformats-package.core-properties+xml""/>")
         sb.Append("<Override PartName=""/docProps/app.xml"" ContentType=""application/vnd.openxmlformats-officedocument.extended-properties+xml""/>")
+
+        ' 页眉/页脚部件
+        For Each hf As WordDocument.HeaderFooterPart In doc.GetHeaderFooterParts()
+            Dim relNum As Integer = Integer.Parse(hf.RelId.Replace("rId", ""))
+            Dim partName As String = If(hf.Kind = "header", $"word/header{relNum}.xml", $"word/footer{relNum}.xml")
+            Dim contentType As String = If(hf.Kind = "header",
+                "application/vnd.openxmlformats-officedocument.wordprocessingml.header+xml",
+                "application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml")
+            sb.Append($"<Override PartName=""/{partName}"" ContentType=""{contentType}""/>")
+        Next
+
         sb.Append("</Types>")
         Return sb.ToString()
     End Function
@@ -196,6 +215,16 @@ Public Class DocxPackager
             sb.Append($"<Relationship Id=""{img.RelId}"" Type=""http://schemas.openxmlformats.org/officeDocument/2006/relationships/image"" Target=""media/image{relNum - 2}.{img.Extension}""/>")
         Next
 
+        ' 页眉/页脚关系
+        For Each hf As WordDocument.HeaderFooterPart In doc.GetHeaderFooterParts()
+            Dim relNum As Integer = Integer.Parse(hf.RelId.Replace("rId", ""))
+            Dim target As String = If(hf.Kind = "header", $"header{relNum}.xml", $"footer{relNum}.xml")
+            Dim relType As String = If(hf.Kind = "header",
+                "http://schemas.openxmlformats.org/officeDocument/2006/relationships/header",
+                "http://schemas.openxmlformats.org/officeDocument/2006/relationships/footer")
+            sb.Append($"<Relationship Id=""{hf.RelId}"" Type=""{relType}"" Target=""{target}""/>")
+        Next
+
         sb.Append("</Relationships>")
         Return sb.ToString()
     End Function
@@ -204,16 +233,12 @@ Public Class DocxPackager
     Private Function BuildDocumentXml(doc As WordDocument) As String
         Dim sb As New StringBuilder()
         sb.Append("<?xml version=""1.0"" encoding=""UTF-8"" standalone=""yes""?>")
-        sb.Append($"<w:document xmlns:w=""{NS_W}"" xmlns:r=""{NS_R}"" xmlns:wp=""{NS_WP}"" xmlns:a=""{NS_A}"" xmlns:pic=""{NS_PIC}"" xmlns:mc=""http://schemas.openxmlformats.org/markup-compatibility/2006"">")
+        sb.Append($"<w:document xmlns:w=""{NS_W}"" xmlns:r=""{NS_R}"" xmlns:wp=""{NS_WP}"" xmlns:a=""{NS_A}"" xmlns:pic=""{NS_PIC}"" xmlns:mc=""http://schemas.openxmlformats.org/markup-compatibility/2006"" xmlns:m=""http://schemas.openxmlformats.org/officeDocument/2006/math"">")
         sb.Append("<w:body>")
         sb.Append(doc.GetBodyXml())
 
-        ' 节属性 (页面大小和边距)
-        Dim margins = doc.GetMargins()
-        sb.Append("<w:sectPr>")
-        sb.Append($"<w:pgSz w:w=""{doc.GetPageWidth()}"" w:h=""{doc.GetPageHeight()}""/>")
-        sb.Append($"<w:pgMar w:top=""{margins.Top}"" w:right=""{margins.Right}"" w:bottom=""{margins.Bottom}"" w:left=""{margins.Left}"" w:header=""720"" w:footer=""720"" w:gutter=""0""/>")
-        sb.Append("</w:sectPr>")
+        ' 文档末尾的节属性 (body 级 sectPr：页面大小、边距 + 最后一节的页眉页脚与页码格式)
+        sb.Append(doc.GetFinalSectionPr())
 
         sb.Append("</w:body>")
         sb.Append("</w:document>")
@@ -249,7 +274,7 @@ Public Class DocxPackager
         sb.Append("<w:qFormat/>")
         sb.Append("<w:pPr>")
         sb.Append($"<w:spacing w:before=""{PtToTwip(ts.SpaceBefore)}"" w:after=""{PtToTwip(ts.SpaceAfter)}"" w:line=""{CInt(ts.LineSpacing * 240)}"" w:lineRule=""auto""/>")
-        sb.Append($"<w:jc w:val=""{ts.Alignment}""/>")
+        sb.Append($"<w:jc w:val=""{JcVal(ts.Alignment)}""/>")
         sb.Append("</w:pPr><w:rPr>")
         sb.Append($"<w:rFonts w:ascii=""{ts.FontName}"" w:eastAsia=""{ts.FontNameEastAsia}"" w:hAnsi=""{ts.FontName}""/>")
         If ts.Bold Then sb.Append("<w:b/>")
@@ -281,25 +306,56 @@ Public Class DocxPackager
             sb.Append("</w:rPr></w:style>")
         Next
 
-        ' TOC 标题样式
+        ' TOC 标题样式（跟随主题章标题样式：如论文规范中为"三号黑体居中，段前段后空1行"）
+        Dim h1 As WordStyle = headings(0)
         sb.Append("<w:style w:type=""paragraph"" w:styleId=""TOCHeading"">")
         sb.Append("<w:name w:val=""TOC Heading""/>")
         sb.Append("<w:basedOn w:val=""Normal""/>")
         sb.Append("<w:next w:val=""Normal""/>")
         sb.Append("<w:qFormat/>")
-        sb.Append("<w:pPr><w:spacing w:before=""240"" w:after=""120""/></w:pPr>")
-        sb.Append("<w:rPr><w:b/><w:sz w:val=""28""/><w:color w:val=""1F4D78""/></w:rPr>")
-        sb.Append("</w:style>")
+        sb.Append("<w:pPr>")
+        sb.Append($"<w:spacing w:before=""{PtToTwip(h1.SpaceBefore)}"" w:after=""{PtToTwip(h1.SpaceAfter)}"" w:line=""{CInt(h1.LineSpacing * 240)}"" w:lineRule=""auto""/>")
+        If h1.Alignment <> "left" Then sb.Append($"<w:jc w:val=""{JcVal(h1.Alignment)}""/>")
+        sb.Append("</w:pPr><w:rPr>")
+        sb.Append($"<w:rFonts w:ascii=""{h1.FontName}"" w:eastAsia=""{h1.FontNameEastAsia}"" w:hAnsi=""{h1.FontName}""/>")
+        If h1.Bold Then sb.Append("<w:b/>")
+        If h1.Italic Then sb.Append("<w:i/>")
+        sb.Append($"<w:color w:val=""{h1.ForeColor}""/>")
+        sb.Append($"<w:sz w:val=""{CInt(h1.Size * 2)}""/><w:szCs w:val=""{CInt(h1.Size * 2)}""/>")
+        sb.Append("</w:rPr></w:style>")
+
+        ' 目录条目样式 TOC1-TOC3
+        ' （规范：目录字体小四号宋体，行距固定值 20 磅，两端对齐；一级目录无缩进，
+        '   二级/三级目录分别左缩进 2 个字符(480 twips)和 4 个字符(960 twips)）
+        Dim ps As WordStyle = doc.GetParagraphStyle()
+        Dim tocIndents() As Integer = {0, 480, 960}
+        For lvl As Integer = 1 To 3
+            sb.Append($"<w:style w:type=""paragraph"" w:styleId=""TOC{lvl}"">")
+            sb.Append($"<w:name w:val=""toc {lvl}""/>")
+            sb.Append("<w:basedOn w:val=""Normal""/>")
+            sb.Append("<w:next w:val=""Normal""/>")
+            sb.Append("<w:pPr>")
+            sb.Append("<w:spacing w:line=""400"" w:lineRule=""exact""/>")
+            If tocIndents(lvl - 1) > 0 Then sb.Append($"<w:ind w:left=""{tocIndents(lvl - 1)}""/>")
+            sb.Append("<w:jc w:val=""both""/>")
+            sb.Append("</w:pPr><w:rPr>")
+            sb.Append($"<w:rFonts w:ascii=""{ps.FontName}"" w:eastAsia=""{ps.FontNameEastAsia}"" w:hAnsi=""{ps.FontName}""/>")
+            sb.Append($"<w:sz w:val=""{CInt(ps.Size * 2)}""/><w:szCs w:val=""{CInt(ps.Size * 2)}""/>")
+            sb.Append("</w:rPr></w:style>")
+        Next
 
         sb.Append("</w:styles>")
         Return sb.ToString()
     End Function
 
     ''' <summary>word/settings.xml</summary>
-    Private Function BuildSettingsXml() As String
+    Private Function BuildSettingsXml(doc As WordDocument) As String
         Dim sb As New StringBuilder()
         sb.Append("<?xml version=""1.0"" encoding=""UTF-8"" standalone=""yes""?>")
         sb.Append($"<w:settings xmlns:w=""{NS_W}"">")
+        ' 奇偶页页眉分注（学位论文规范：奇数页章序章题、偶数页校名）
+        ' 注意：CT_Settings 序列中 evenAndOddHeaders 位于 updateFields 之前
+        If doc.GetUseEvenOddHeaders() Then sb.Append("<w:evenAndOddHeaders/>")
         ' 自动更新域（让 Word 打开时自动更新 TOC）
         sb.Append("<w:updateFields w:val=""true""/>")
         sb.Append("</w:settings>")
@@ -366,6 +422,15 @@ Public Class DocxPackager
 
     Private Shared Function PtToTwip(pt As Double) As Integer
         Return CInt(pt * 20)
+    End Function
+
+    ''' <summary>
+    ''' 将样式对齐方式归一化为 ST_Jc 合法枚举值（"justify" → "both"，
+    ''' ST_Jc 中不存在 "justify"，直接输出会导致 Word 拒绝打开文档）。
+    ''' </summary>
+    Private Shared Function JcVal(align As String) As String
+        If String.IsNullOrEmpty(align) Then Return "left"
+        Return If(align.ToLower() = "justify", "both", align.ToLower())
     End Function
 
     Private Shared Function XEsc(text As String) As String

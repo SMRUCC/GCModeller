@@ -1,0 +1,26 @@
+.\" man page create by R# package system.
+.TH GENETREE 1 2000-1月 "reset_context" "reset_context"
+.SH NAME
+reset_context \- Remove the expression state context, the model is restored back to the wildtype
+.SH SYNOPSIS
+\fIreset_context(\fBtree\fR as <generic> XGBoostGRN, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Remove the expression state context, the model is restored back to the wildtype
+ baseline that was estimated during the model training.
+.PP
+.SH OPTIONS
+.PP
+\fBtree\fB \fR\- the trained [XGBoostGRN](cref:T:SMRUCC.genomics.Analysis.GeneTree.XGBoostGRN) model object.. 
+.PP
+.SH VALUE
+.PP
+the input model object, so that it can be chained with the perturbation api.
+.PP
+.SH SEE ALSO
+geneTree
+.SH FILES
+.PP
+biosystem.dll
+.PP

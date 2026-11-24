@@ -10,16 +10,16 @@
     <RepositoryType>git</RepositoryType>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <Version>1.0.9758.20045</Version>
-    <AssemblyVersion>1.0.9758.20045</AssemblyVersion>
-    <Title>AVI Video Encoder For Uncompressed RGB Frame Streams</Title>
-    <Description>A dependency-free AVI (RIFF) writer that assembles main/stream headers and appends bitmap frames into a playable video file, ideal for exporting rendered animation frames from the sciBASIC# imaging pipeline.</Description>
+    <Version>10.8.9818.14504</Version>
+    <AssemblyVersion>1.0.9818.14504</AssemblyVersion>
+    <Title>AVI Video Encoder with MJPEG and Uncompressed DIB Codecs</Title>
+    <Description>A dependency-free AVI (RIFF) video writer for sciBASIC#: assembles main and stream headers to export rendered animation frames as MJPEG or uncompressed 32-bit DIB streams, with per-stream codec selection and configurable JPEG quality and no external codec dependency.</Description>
     <AssemblyTitle>Microsoft.VisualBasic.Imaging.AVIMedia</AssemblyTitle>
     <Authors>xieguigang &lt;I@xieguigang.me&gt;</Authors>
     <Company>sciBASIC.NET Foundation</Company>
     <Copyright>Copyright (c) sciBASIC.NET Foundation</Copyright>
-    <PackageTags>scibasic;avi;video-encoder;riff;animation;bitmap;frame-stream</PackageTags>
-    <PackageReleaseNotes>The AVI (RIFF) video encoder of sciBASIC#. It assembles the RIFF main header and the stream headers (AVIMainHeader, AVIStreamHeader, AVIStream) and then appends uncompressed RGB bitmap frames through FrameStream into a playable .avi file - no codec and no native dependency is required. Encoder drives the whole process from a Settings object (frame rate, frame size, codec tags and stream metadata), while UInt8Array provides the byte buffer used while writing frames. The primary use case is exporting rendered animation frames from the sciBASIC# imaging pipeline - for example the force directed layout animation recorded by NetworkCanvas - where a lossless, dependency free container is preferred over a compressed codec.</PackageReleaseNotes>
+    <PackageTags>scibasic;avi;video-encoder;riff;mjpeg;animation;frame-stream</PackageTags>
+    <PackageReleaseNotes>Package maintenance release: build and packaging configuration updates only, no functional changes in this cycle.</PackageReleaseNotes>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <PackageIcon>logo-knot.png</PackageIcon>
     <PackageProjectUrl>http://scibasic.net/</PackageProjectUrl>
@@ -39,6 +39,10 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='nuget_release|x64'">
     <PlatformTarget>x64</PlatformTarget>
     <OutputPath>../../.nuget/</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
+    <Optimize>true</Optimize>
   </PropertyGroup>
 
   <ItemGroup>
@@ -67,10 +71,12 @@
   </ItemGroup>
 
   <ItemGroup>
-	  <PackageReference Include="System.Drawing.Common" Version="10.0.12" />
+    <PackageReference Include="System.Drawing.Common" Version="11.0.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Data\BinaryData\BinaryData\binarydata-netcore5.vbproj" />
+    <ProjectReference Include="..\..\Data_science\Mathematica\Math\Math\Math.NET5.vbproj" />
     <ProjectReference Include="..\..\Microsoft.VisualBasic.Core\src\Core.vbproj" />
   </ItemGroup>
 

@@ -1,0 +1,79 @@
+.\" man page create by R# package system.
+.TH KOBAS 1 2000-1月 "kobas.identify" "kobas.identify"
+.SH NAME
+kobas.identify \- Run the KOBAS style over-representation (enrichment) analysis
+.SH SYNOPSIS
+\fIkobas.identify(\fBforeground\fR as any, 
+\fBbackground\fR as any, 
+\fBgmt\fR as any, 
+\fBmethod\fR as string = "h", 
+\fBfdr\fR as string = "BH", 
+\fBcutoff\fR as integer = 5, 
+\fBdatabase\fR as string = "K", 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Run the KOBAS style over-representation (enrichment) analysis
+ 
+ Perform the over-representation analysis with the KOBAS statistical tests: the
+ foreground gene list is mapped onto the given gene set collection, then the
+ members of each term are compared with the background gene list by the
+ hypergeometric test, the Fisher exact test, the binomial test or the chi-square
+ test.
+.PP
+.SH OPTIONS
+.PP
+\fBforeground\fB \fR\- 
+ the foreground gene list: a character vector of the gene ids, or the file path of
+ a KOBAS \fBannotate\fR output file (the \fBquery\fR column will be used).
+. 
+.PP
+.PP
+\fBbackground\fB \fR\- 
+ the background gene list: a character vector of the gene ids, or the file path of
+ a KOBAS \fBannotate\fR output file. It must be a superset of the
+ **foreground** for the Fisher and the chi-square test.
+. 
+.PP
+.PP
+\fBgmt\fB \fR\- the gene set collection: a [Background](cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.Background) model or a GMT file path.. 
+.PP
+.PP
+\fBmethod\fB \fR\- 
+ the statistical test: \fBh\fR for the Fisher exact test (default, also the
+ hypergeometric test), \fBb\fR for the binomial test, \fBc\fR for the chi-square test
+ and \fBx\fR for the frequency list only.
+. 
+.PP
+.PP
+\fBfdr\fB \fR\- 
+ the multiple testing correction: \fBBH\fR (default), \fBBY\fR, \fBQVALUE\fR or \fBNone\fR.
+. 
+.PP
+.PP
+\fBcutoff\fB \fR\- 
+ the minimum number of the background members of a term, terms with fewer
+ background members are not used in the statistical test. Default \fB5\fR.
+. 
+.PP
+.PP
+\fBdatabase\fB \fR\- 
+ the database label that will be written into the \fBdatabase\fR column, default \fBK\fR
+ (KEGG PATHWAY).
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment.. 
+.PP
+.SH VALUE
+.PP
+a \fBdataframe\fR with the term id as the row names and the columns:
+ \fBname\fR, \fBdatabase\fR, \fBinput_number\fR, \fBbackground_number\fR, \fBpvalue\fR,
+ \fBp_adjust\fR and \fBinput\fR (the enriched gene ids joined by \fB;\fR).
+.PP
+.SH SEE ALSO
+KOBAS
+.SH FILES
+.PP
+gseakit.dll
+.PP

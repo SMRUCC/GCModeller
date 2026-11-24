@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.HTS.GSVA.MultiOmicsGsvaOptions</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>MultiOmicsGsvaOptions {SMRUCC.genomics.Analysis.HTS.GSVA}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>MultiOmicsGsvaOptions</h2>
+
+        <h3>Description</h3>
+
+        <p>moGSVA 的运行配置。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.HTS.GSVA
+export class MultiOmicsGsvaOptions {
+   # 是否叠加「组学特征数平衡项」<code>1/log2(2+|S_k|)</code>，用于抑制成员多的组学主导融合结果。
+   BalanceFeatureSize: boolean;
+   # 是否计算「拼接矩阵直接做单组学 GSVA」的消融对照
+   ComputePooled: boolean;
+   # 跨组学一致性奖励项的超参 λ（0 表示关闭，等价于纯粹的加权平均基线）。
+   ConsistencyLambda: double;
+   # 组学加权融合策略。
+   FusionStrategy: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSVA/Fusion/FusionMethods.html">FusionMethods</a>;
+   # 核密度估计类型：<a href="cref:F:SMRUCC.genomics.Analysis.HTS.GSVA.KCDFs.Gaussian">KCDFs.Gaussian</a>（连续数据，默认）/ <a href="cref:F:SMRUCC.genomics.Analysis.HTS.GSVA.KCDFs.Poisson">KCDFs.Poisson</a>（计数数据）/ <a href="cref:F:SMRUCC.genomics.Analysis.HTS.GSVA.KCDFs.none">KCDFs.none</a>（经验 CDF）。
+   Kcdf: <a href="/vignettes/clr/System/Nullable`1.html">Nullable`1</a>;
+   # 未显式指定通路子集时，参与置换检验的最大通路数
+   MaxPermutationPathways: integer;
+   # 基因集最大尺寸（成员数，映射到特征之后）
+   MaxSize: integer;
+   # 基因集最小尺寸（成员数，映射到特征之后）
+   MinSize: integer;
+   # 置换检验视图中保留的特征数上限（0 表示不裁剪）。 裁剪时优先保留目标通路的成员，再用固定种子补充背景特征。
+   PermutationGeneLimit: integer;
+   # 置换检验使用的打分方法，默认 ssGSEA（基于秩，避免重复做核密度估计）。
+   PermutationMethod: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSVA/Methods.html">Methods</a>;
+   # 参与置换检验的通路子集；为空时取融合结果中的前 <a href="cref:P:SMRUCC.genomics.Analysis.HTS.GSVA.MultiOmicsGsvaOptions.MaxPermutationPathways">MultiOmicsGsvaOptions.MaxPermutationPathways</a> 条通路。
+   PermutationPathways: string;
+   # 置换检验次数（0 表示跳过显著性评估）。
+   Permutations: integer;
+   # 组学内部的富集打分方法，推荐 <a href="cref:F:SMRUCC.genomics.Analysis.HTS.GSVA.Methods.gsva">Methods.gsva</a>（默认）。
+   ScoreMethod: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSVA/Methods.html">Methods</a>;
+   # 随机种子（派生数据、置换打乱均使用它保证可复现）
+   Seed: integer;
+   # ssGSEA 打分路径的 alpha 参数
+   SsGseaAlpha: double;
+   # ssGSEA 打分路径是否做分数归一化
+   SsGseaNormalize: boolean;
+   # 是否输出过程日志
+   Verbose: boolean;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>FusionStrategy</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSVA/Fusion/FusionMethods.html">FusionMethods</a></li>
+<li>use by <i>property</i> member <code>Kcdf</code>: <a href="/vignettes/clr/System/Nullable`1.html">Nullable`1</a></li>
+<li>use by <i>property</i> member <code>PermutationMethod</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSVA/Methods.html">Methods</a></li>
+<li>use by <i>property</i> member <code>ScoreMethod</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSVA/Methods.html">Methods</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

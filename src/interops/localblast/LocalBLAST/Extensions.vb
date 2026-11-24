@@ -53,9 +53,10 @@
 
 Imports System.Runtime.CompilerServices
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline
 
 <HideModuleName>
-Module Extensions
+Public Module Extensions
 
     ''' <summary>
     ''' Is this collection of the besthit data is empty or nothing?
@@ -73,5 +74,17 @@ Module Extensions
                                       Select bh).FirstOrDefault
             Return notNull Is Nothing
         End If
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function TopTerms(list As IEnumerable(Of RankTerm)) As IEnumerable(Of RankTerm)
+        Return From q As RankTerm
+               In list
+               Where Not q Is Nothing
+               Group By q.queryName Into Group
+               Select Group _
+                   .OrderByDescending(Function(a) a.score) _
+                   .First
     End Function
 End Module

@@ -65,6 +65,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 <Template(ExperimentDesigner)>
 Public Class SampleInfo : Inherits SampleGroup
     Implements INamedValue
+    Implements IDynamicMeta(Of String)
 
     ''' <summary>
     ''' 样品的标记符号，符合VisualBasic标识符语法的目标样品标识符
@@ -87,7 +88,7 @@ Public Class SampleInfo : Inherits SampleGroup
     ''' additional sample metadata, for example as "treatment", "control", "time point 1h", "time point 2h" etc.
     ''' </summary>
     ''' <returns></returns>
-    Public Property metadata As Dictionary(Of String, String)
+    Public Property metadata As Dictionary(Of String, String) Implements IDynamicMeta(Of String).Properties
 
     Default Public ReadOnly Property Value(name As String) As String
         Get

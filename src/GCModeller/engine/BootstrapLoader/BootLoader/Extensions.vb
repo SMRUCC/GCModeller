@@ -1,61 +1,64 @@
 ﻿#Region "Microsoft.VisualBasic::2bf1143b305e4674589e851bd69736f0, engine\BootstrapLoader\BootLoader\Extensions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 29
-    '    Code Lines: 21 (72.41%)
-    ' Comment Lines: 6 (20.69%)
-    '    - Xml Docs: 100.00%
-    ' 
-    '   Blank Lines: 2 (6.90%)
-    '     File Size: 1.20 KB
+' Summaries:
 
 
-    ' Module Extensions
-    ' 
-    '     Function: variables
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 29
+'    Code Lines: 21 (72.41%)
+' Comment Lines: 6 (20.69%)
+'    - Xml Docs: 100.00%
+' 
+'   Blank Lines: 2 (6.90%)
+'     File Size: 1.20 KB
+
+
+' Module Extensions
+' 
+'     Function: variables
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Definitions
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Molecule
+Imports Engine2 = SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Engine.Engine
 
 <HideModuleName>
 Public Module Extensions
@@ -78,5 +81,21 @@ Public Module Extensions
                 Yield massTable.variable(peptide, cellular_id)
             End If
         Next
+    End Function
+
+    <Extension>
+    Public Function IsCurrentStatus(stats As Status, engine As Engine2, cutoff#) As Boolean
+        Dim current As Vector = engine _
+            .getMass(stats.masslist) _
+            .Select(Function(mass) mass.Value) _
+            .AsVector
+        Dim diff As Vector
+
+        current = current / current.Max
+        diff = current - stats.status
+
+        ' 通过当前的代谢物物质间的百分比是否和定义的状态相似
+        ' 来判断特定的事件是否发生
+        Return diff.Average <= cutoff
     End Function
 End Module

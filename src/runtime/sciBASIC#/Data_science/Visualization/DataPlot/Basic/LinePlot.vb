@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2fb51ff8ed72ff3c45ac80f26ce1c5f2, Data_science\Visualization\DataPlot\Basic\LinePlot.vb"
+#Region "Microsoft.VisualBasic::464345792bb8dcf1e50d0311eb5d6267, Data_science\Visualization\DataPlot\Basic\LinePlot.vb"
 
     ' Author:
     ' 
@@ -34,19 +34,19 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 74
-    '    Code Lines: 62 (83.78%)
-    ' Comment Lines: 3 (4.05%)
-    '    - Xml Docs: 66.67%
+    '   Total Lines: 137
+    '    Code Lines: 94 (68.61%)
+    ' Comment Lines: 24 (17.52%)
+    '    - Xml Docs: 91.67%
     ' 
-    '   Blank Lines: 9 (12.16%)
-    '     File Size: 2.79 KB
+    '   Blank Lines: 19 (13.87%)
+    '     File Size: 5.94 KB
 
 
     ' Class LinePlot
     ' 
     '     Constructor: (+2 Overloads) Sub New
-    '     Sub: Plot
+    '     Sub: DrawErrorBand, Plot
     ' 
     ' /********************************************************************************/
 
@@ -55,23 +55,54 @@
 Imports System.Drawing
 
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
 
 ''' <summary>折线图（默认无标记，可单独配置）</summary>
 Public Class LinePlot
-    Inherits SeriesPlotEngine
+Inherits SeriesPlotEngine
 
-    Public Sub New(width As Integer, height As Integer, Optional theme As PlotTheme = Nothing)
-        MyBase.New(width, height, theme)
-    End Sub
+''' <summary>是否用 Catmull-Rom 样条把折线平滑成曲线</summary>
+Public Property Smooth As Boolean = False
+''' <summary>样条每段的插值点数</summary>
+Public Property SmoothSamplesPerSegment As Integer = 12
+''' <summary>Series 提供 ErrorMinus / ErrorPlus 时，是否绘制半透明的误差带</summary>
+Public Property ShowErrorBand As Boolean = True
+''' <summary>误差带透明度（0~255）</summary>
+Public Property BandAlpha As Integer = 70
+
+Public Sub New(width As Integer, height As Integer, Optional theme As PlotTheme = Nothing, Optional driver As Microsoft.VisualBasic.Imaging.Driver.Drivers = Microsoft.VisualBasic.Imaging.Driver.Drivers.Default)
+    MyBase.New(width, height, theme, driver)
+End Sub
 
     ''' <summary>直接在已有的位图上绘制（用于宿主程序 PictureBox 等）。</summary>
     Public Sub New(bmp As Microsoft.VisualBasic.Imaging.Bitmap)
         MyBase.New(bmp)
     End Sub
 
-    Public Overrides Sub Plot(seriesList As IList(Of Series))
+    ''' <summary>
+    ''' 直接在外部绘图设备上绘制 —— 例如 DirectX 的 GPU 画布
+    ''' （<c>Microsoft.VisualBasic.Drawing.DirectX.DxGraphics</c>）。
+    ''' </summary>
+    ''' <param name="g">
+    ''' 目标绘图设备。<c>DxCanvas</c> 控件的 <c>Graphics</c> 属性、
+    ''' 或者它的 <c>Render</c> 事件参数 <c>e.Graphics</c> 就是可直接传入的实例 ——
+    ''' 也就是说曲线图会<b>直接画在控件上</b>，不需要中间位图。
+    ''' </param>
+    ''' <param name="theme">主题（省略时用浅色主题）</param>
+    ''' <remarks>
+    ''' 用这种方式构造时，画布所有权仍归调用方（<see cref="PlotEngine.Dispose"/> 不会释放它），
+    ''' 因此可以放心写成 <c>Using plot ... End Using</c>。
+    ''' 
+    ''' 注意画布尺寸取自 <c>g.Size</c>：控件尺寸变化后要重新构造本对象，否则排版仍按旧尺寸。
+    ''' </remarks>
+    Public Sub New(g As Microsoft.VisualBasic.Imaging.IGraphics,
+                   Optional theme As PlotTheme = Nothing)
+        MyBase.New(g, theme)
+    End Sub
+
+    Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
         ' 折线图默认不显示标记
-        For Each s In seriesList
+        For Each s In SeriesList
             If s.MarkerShape = MarkerShape.Circle Then s.MarkerShape = MarkerShape.None
         Next
         DrawBackground()
@@ -79,8 +110,8 @@ Public Class LinePlot
         DrawPlotArea()
         DrawTitle()
 
-        Dim allX = seriesList.SelectMany(Function(s) s.X).ToArray()
-        Dim allY = seriesList.SelectMany(Function(s) s.Y).ToArray()
+        Dim allX = SeriesList.SelectMany(Function(s) s.X).ToArray()
+        Dim allY = SeriesList.SelectMany(Function(s) s.Y).ToArray()
         Dim xmin = If(Me.XMin, allX.Min())
         Dim xmax = If(Me.XMax, allX.Max())
         Dim ymin = If(Me.YMin, allY.Min())
@@ -98,8 +129,8 @@ Public Class LinePlot
 
         DrawAxisAndGrid(xmin, xmax, ymin, ymax)
 
-        For i = 0 To seriesList.Count - 1
-            Dim s = seriesList(i)
+        For i = 0 To SeriesList.Count - 1
+            Dim s = SeriesList(i)
             If Not s.Visible Then Continue For
             Dim color = If(s.Color, Theme.Palette(i Mod Theme.Palette.Length))
             Dim pts = New List(Of PointF)()
@@ -107,13 +138,21 @@ Public Class LinePlot
                 pts.Add(New PointF(ToPixelX(s.X(j), xmin, xmax),
                                    ToPixelY(s.Y(j), ymin, ymax)))
             Next
+            If ShowErrorBand AndAlso s.ErrorMinus IsNot Nothing AndAlso s.ErrorPlus IsNot Nothing Then
+                DrawErrorBand(s, xmin, xmax, ymin, ymax, color)
+            End If
+
             If pts.Count > 1 Then
+                Dim drawPts = If(Smooth AndAlso pts.Count >= 3,
+                                 Geometry.SmoothSpline(pts.ToArray(), SmoothSamplesPerSegment),
+                                 pts.ToArray())
+
                 Using pen As New Pen(color, Theme.LineWidth)
                     pen.DashStyle = s.LineStyle
                     pen.StartCap = LineCap.Round
                     pen.EndCap = LineCap.Round
                     pen.LineJoin = LineJoin.Round
-                    _g.DrawLines(pen, pts.ToArray())
+                    _g.DrawLines(pen, drawPts)
                 End Using
             End If
             If s.MarkerShape <> MarkerShape.None Then
@@ -123,6 +162,31 @@ Public Class LinePlot
             End If
         Next
 
-        DrawLegend(seriesList)
+        DrawLegend(SeriesList)
+    End Sub
+
+    ''' <summary>把 [-err, +err] 区间铺成一个闭合多边形，得到半透明误差带</summary>
+    Private Sub DrawErrorBand(s As Series, xmin As Double, xmax As Double,
+                              ymin As Double, ymax As Double, color As Color)
+        Dim n = System.Math.Min(System.Math.Min(s.X.Length, s.Y.Length),
+                                System.Math.Min(s.ErrorMinus.Length, s.ErrorPlus.Length))
+        If n < 2 Then Return
+
+        Dim upper As New List(Of PointF)()
+        Dim lower As New List(Of PointF)()
+
+        For j = 0 To n - 1
+            Dim px = ToPixelX(s.X(j), xmin, xmax)
+            upper.Add(New PointF(px, ToPixelY(s.Y(j) + s.ErrorPlus(j), ymin, ymax)))
+            lower.Add(New PointF(px, ToPixelY(s.Y(j) - s.ErrorMinus(j), ymin, ymax)))
+        Next
+
+        lower.Reverse()
+
+        Dim band = upper.Concat(lower).ToArray()
+
+        Using br As New SolidBrush(Color.FromArgb(BandAlpha, color))
+            _g.FillPolygon(br, band)
+        End Using
     End Sub
 End Class

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::200d290aef6ce028d3bee4589bef0c3c, Microsoft.VisualBasic.Core\src\Extensions\Math\Math.vb"
+﻿#Region "Microsoft.VisualBasic::200d290aef6ce028d3bee4589bef0c3c, Microsoft.VisualBasic.Core\src\Math\Math.vb"
 
     ' Author:
     ' 
@@ -712,9 +712,10 @@ Namespace Math
             If bc Is Nothing Then
                 Return 0
             Else
-                Return bc _
-                    .Select(Function(b) If(True = b, 1.0R, 0R)) _
-                    .Sum
+                Return Aggregate b As Boolean
+                       In bc
+                       Where b
+                       Into Count
             End If
         End Function
 

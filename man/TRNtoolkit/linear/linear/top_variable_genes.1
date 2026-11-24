@@ -1,0 +1,47 @@
+.\" man page create by R# package system.
+.TH LINEAR 1 2000-1月 "top_variable_genes" "top_variable_genes"
+.SH NAME
+top_variable_genes \- 按 MAD(中位数绝对偏差)降序挑选变异最大的若干个基因。
+.SH SYNOPSIS
+\fItop_variable_genes(\fBx\fR as <generic> Matrix, 
+\fBtopN\fR as integer = 3000, 
+\fBrobust\fR as boolean = TRUE, 
+\fBexcludeGlobal\fR as boolean = TRUE);\fR
+.SH DESCRIPTION
+.PP
+按 MAD(中位数绝对偏差)降序挑选变异最大的若干个基因。
+ 
+ 用于扩充候选调控因子池：\fBTF ∪ 扰动靶基因\fR 之外，再补上一批"在样本之间
+ 波动最大"的基因，让每个目标基因的模型有机会用上真正与它共变的调控因子，
+ 而不是被迫只能用 TF 和 300 个扰动靶基因去解释。
+ 
+ 使用 MAD 而不是标准差，是因为 MAD 对离群样本(双细胞、线粒体爆表)不敏感，
+ 不会像 SD 那样把少数极端样本的基因顶到榜首。
+.PP
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- 对数空间的表达矩阵(行 = 基因、列 = 样本). 
+.PP
+.PP
+\fBtopN\fB \fR\- 返回的基因数量. 
+.PP
+.PP
+\fBrobust\fB \fR\- True = MAD；False = 标准差(更快，但对离群值敏感). 
+.PP
+.PP
+\fBexcludeGlobal\fB \fR\- 
+ 是否在排名时排除线粒体/核糖体基因(\fBMT-\fR、\fBMTRNR\fR、\fBRPL\fR、\fBRPS\fR)。
+ 这些基因几乎总是 MAD 最高的，但它们代表的是细胞状态而不是特异调控；
+ 把它们放进候选池会让所有基因的模型都挂到同一个全局程序上。
+. 
+.PP
+.SH VALUE
+.PP
+按变异程度降序排列的基因编号
+.PP
+.SH SEE ALSO
+linear
+.SH FILES
+.PP
+TRNtoolkit.dll
+.PP

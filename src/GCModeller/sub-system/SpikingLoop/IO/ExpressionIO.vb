@@ -12,9 +12,6 @@
 
 Imports System.IO
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Linq
-Imports SMRUCC.genomics.Analysis.BNLearn.Core
-Imports SMRUCC.genomics.Analysis.BNLearn.IO
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 
@@ -45,7 +42,7 @@ Namespace IO
             End If
 
             Dim matrix As Matrix = Matrix.LoadData(path)
-            Dim expr = BnIO.ReadGeneExpressionMatrix(matrix, sampleinfo, time_label)
+            Dim expr = HTSDataFrame.ReadGeneExpressionMatrix(matrix, sampleinfo, time_label)
 
             If expr.GeneNames Is Nothing OrElse expr.GeneNames.Length = 0 Then
                 Throw New InvalidOperationException(
@@ -61,7 +58,7 @@ Namespace IO
         ''' 常见来源为 Monocle3 的 <c>pseudotime</c> 导出表。
         ''' </summary>
         ''' <remarks>
-        ''' 复用 <see cref="BnIO.ReadExpressionVector"/>：它按 <c>,</c> / Tab / <c>;</c> 切分，
+        ''' 复用 <see cref="Document.ReadExpressionVector"/>：它按 <c>,</c> / Tab / <c>;</c> 切分，
         ''' 并会跳过无法解析为数值的表头行，因此形如
         ''' <code>cell,pseudotime</code> 的表头不影响解析。
         ''' </remarks>
@@ -74,7 +71,7 @@ Namespace IO
                 Throw New FileNotFoundException($"伪时间文件不存在: {path}", path)
             End If
 
-            Return BnIO.ReadExpressionVector(path)
+            Return Document.ReadExpressionVector(path)
         End Function
 
         ''' <summary>

@@ -228,7 +228,7 @@ Namespace v10
 
         Public Shared Function LoadFile(path As String) As BIOMDataSet(Of T)
             Dim json$ = path.ReadAllText
-            Dim biom As BIOMDataSet(Of T) = JsonContract.EnsureDate(json, "date").LoadJSON(Of BIOMDataSet(Of T))
+            Dim biom As BIOMDataSet(Of T) = json.LoadJSON(Of BIOMDataSet(Of T))
             Return biom
         End Function
     End Class

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Microsoft.VisualBasic.Math.Statistics.RScan.RScanRow</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>RScanRow {Microsoft.VisualBasic.Math.Statistics.RScan}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>RScanRow</h2>
+
+        <h3>Description</h3>
+
+        <p>左尾 r-scan 表行：R(r) = X_(r) 与聚集显著性</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace Microsoft.VisualBasic.Math.Statistics.RScan
+export class RScanRow {
+   # L(r) = Σ<em>{j≤r} X</em>(j)（聚集强度统计量 [readme §一]）
+   Lr: double;
+   # 左尾 p 值：前 r 个最紧间隔显著更小的概率（小 → 聚集）
+   PLeft: double;
+   # 蒙特卡洛经验 p（若启用）
+   PLeftMc: <a href="/vignettes/clr/System/Nullable`1.html">Nullable`1</a>;
+   # 第 r 个最小间隔的 r
+   R: integer;
+   # X_(r) 观察值
+   Xr: double;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>PLeftMc</code>: <a href="/vignettes/clr/System/Nullable`1.html">Nullable`1</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

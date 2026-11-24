@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::15dd337ca01f584b97d2fca411de6e5a, Data\MyersDiff\DiffResult.vb"
+﻿#Region "Microsoft.VisualBasic::3cc636dbb43d6d1c4a5c729efc587e70, Data\MyersDiff\DiffResult.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 247
-    '    Code Lines: 169 (68.42%)
-    ' Comment Lines: 43 (17.41%)
+    '   Total Lines: 249
+    '    Code Lines: 170 (68.27%)
+    ' Comment Lines: 43 (17.27%)
     '    - Xml Docs: 62.79%
     ' 
-    '   Blank Lines: 35 (14.17%)
-    '     File Size: 9.84 KB
+    '   Blank Lines: 36 (14.46%)
+    '     File Size: 9.86 KB
 
 
     ' Class DiffResult
@@ -54,10 +54,12 @@
 
 #End Region
 
+Imports System.Text
+Imports std = System.Math
+
 ' -----------------------------------------------------------------------
 ' 差异结果：封装完整的比较结果
 ' -----------------------------------------------------------------------
-Imports System.Text
 
 ''' <summary>
 ''' 表示两个序列比较后的完整差异结果。
@@ -71,6 +73,12 @@ Public Class DiffResult
 
     ''' <summary>新序列的元素总数。</summary>
     Public Property NewCount As Integer
+
+    ''' <summary>
+    ''' 编辑距离超过 <see cref="MyersDiff.MaxEditDistance"/> 时为 TRUE：此时结果
+    ''' 已退化为「全部删除 + 全部插入」，并非最短编辑脚本。
+    ''' </summary>
+    Public Property Truncated As Boolean
 
     ''' <summary>相同元素的数量。</summary>
     Public ReadOnly Property EqualCount As Integer
@@ -108,7 +116,7 @@ Public Class DiffResult
     ''' <summary>相似度（0.0 ~ 1.0），基于相同元素占比计算。</summary>
     Public ReadOnly Property Similarity As Double
         Get
-            Dim total As Integer = Math.Max(OldCount, NewCount)
+            Dim total As Integer = std.Max(OldCount, NewCount)
             If total = 0 Then Return 1.0
             Return CDbl(EqualCount) / CDbl(total)
         End Get
@@ -252,8 +260,8 @@ Public Class DiffResult
 
         ' 为每个分组构建差异块
         For Each group In groups
-            Dim startIdx As Integer = Math.Max(0, group(0) - contextLines)
-            Dim endIdx As Integer = Math.Min(Items.Count - 1, group(group.Count - 1) + contextLines)
+            Dim startIdx As Integer = std.Max(0, group(0) - contextLines)
+            Dim endIdx As Integer = std.Min(Items.Count - 1, group(group.Count - 1) + contextLines)
 
             Dim blockItems As New List(Of DiffItem)()
             Dim oldLine As Integer = 0

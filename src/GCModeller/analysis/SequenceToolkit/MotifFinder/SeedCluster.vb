@@ -53,7 +53,9 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.BinaryTree
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Data
 Imports Microsoft.VisualBasic.DataMining.ComponentModel.EntityModels
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Language
@@ -129,13 +131,14 @@ Public Module SeedCluster
     End Function
 
     <Extension>
-    Public Function BuildKmeansCluster(seeds As IEnumerable(Of HSP), clusterN%) As IEnumerable(Of EntityClusterModel)
+    Public Function BuildKmeansCluster(seeds As IEnumerable(Of HSP), clusterN%) As NumericTable
         ' 先做一次group操作，这样子可以将重复的序列减少
         ' 做出矩阵之后直接复制就可
         Dim queryGroup = seeds _
             .SeqIterator _
             .GroupBy(Function(q) q.value.Query) _
             .ToArray
+        Dim featureIDs As String() = queryGroup.Keys
         Dim matrix As NamedCollection(Of Double)() = queryGroup _
             .SeqIterator _
             .AsParallel _
@@ -146,13 +149,17 @@ Public Module SeedCluster
                         Return row
                     End Function) _
             .ToArray
+        Dim table As New NumericTable With {
+            .description = "HSP matrix",
+            .featureNames = featureIDs,
+            .features = matrix.Select(Function(r) r.value).ToArray,
+            .rowNames = matrix.Keys.ToArray
+        }
 
         Call "Kmeans...".debug
 
         ' 进行聚类分簇
-        Dim clusters = matrix _
-            .ToKMeansModels _
-            .Kmeans(expected:=clusterN, debug:=True)
+        Dim clusters As NumericTable = table.kmeans(k:=clusterN, debug:=True)
 
         Return clusters
     End Function

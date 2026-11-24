@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1dc7dd4e18ff2b7d5aabc6682aa65954, Data_science\Visualization\DataPlot\Advanced\BoxPlot.vb"
+#Region "Microsoft.VisualBasic::2fedcb55cb438df1e1abbde5ccebcd13, Data_science\Visualization\DataPlot\Advanced\BoxPlot.vb"
 
     ' Author:
     ' 
@@ -34,20 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 144
-    '    Code Lines: 124 (86.11%)
-    ' Comment Lines: 9 (6.25%)
-    '    - Xml Docs: 11.11%
+    '   Total Lines: 153
+    '    Code Lines: 129 (84.31%)
+    ' Comment Lines: 11 (7.19%)
+    '    - Xml Docs: 18.18%
     ' 
-    '   Blank Lines: 11 (7.64%)
-    '     File Size: 6.72 KB
+    '   Blank Lines: 13 (8.50%)
+    '     File Size: 7.24 KB
 
 
     ' Class BoxPlot
     ' 
     '     Properties: Groups, Horizontal, ShowMean, ShowOutliers
     ' 
-    '     Constructor: (+1 Overloads) Sub New
+    '     Constructor: (+2 Overloads) Sub New
     ' 
     '     Function: Quantile
     ' 
@@ -59,6 +59,7 @@
 
 Imports System.Drawing
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports std = System.Math
 
 ''' <summary>盒须图（Box Plot / Box-and-Whisker）</summary>
@@ -70,11 +71,16 @@ Public Class BoxPlot
     Public Property ShowOutliers As Boolean = True
     Public Property ShowMean As Boolean = True
 
-    Public Sub New(width As Integer, height As Integer, Optional theme As PlotTheme = Nothing)
-        MyBase.New(width, height, theme)
+    Public Sub New(width As Integer, height As Integer, Optional theme As PlotTheme = Nothing, Optional driver As Microsoft.VisualBasic.Imaging.Driver.Drivers = Microsoft.VisualBasic.Imaging.Driver.Drivers.Default)
+        MyBase.New(width, height, theme, driver)
     End Sub
 
-    Public Sub Plot()
+    ''' <summary>直接在外部提供的绘图设备上绘制（图层叠加模式 / 宿主画布）。</summary>
+    Public Sub New(g As IGraphics, Optional theme As PlotTheme = Nothing)
+        MyBase.New(g, theme)
+    End Sub
+
+    Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
         DrawBackground()
         ComputePlotArea()
         DrawPlotArea()
@@ -82,27 +88,31 @@ Public Class BoxPlot
 
         Dim nGrp = Groups.Count
         ' 计算全局 Y 范围
-        Dim allData = Groups.SelectMany(Function(g) g.Data).ToList()
+        Dim allData = Groups.SelectMany(Function(x) x.Data).ToList()
         Dim ymin = If(Me.YMin, allData.Min())
         Dim ymax = If(Me.YMax, allData.Max())
-        Dim pad = (ymax - ymin) * 0.05
-        ymin -= pad : ymax += pad
+
+        ' 图层模式下 Y 范围由宿主钉死，不再额外留白
+        If Me.YMin Is Nothing OrElse Me.YMax Is Nothing Then
+            Dim pad = (ymax - ymin) * 0.05
+            ymin -= pad : ymax += pad
+        End If
 
         Dim xTicks = Enumerable.Range(0, nGrp).Select(Function(i) CDbl(i)).ToArray()
         Dim yTicks = GenerateTicks(ymin, ymax)
         If Horizontal Then
-            DrawAxisAndGrid(ymin, ymax, -0.5, nGrp - 0.5, yTicks, xTicks, Nothing, Groups.Select(Function(g) g.Name).ToArray())
+            DrawAxisAndGrid(ymin, ymax, -0.5, nGrp - 0.5, yTicks, xTicks, Nothing, Groups.Select(Function(x) x.Name).ToArray())
         Else
-            DrawAxisAndGrid(-0.5, nGrp - 0.5, ymin, ymax, xTicks, yTicks, Groups.Select(Function(g) g.Name).ToArray(), Nothing)
+            DrawAxisAndGrid(-0.5, nGrp - 0.5, ymin, ymax, xTicks, yTicks, Groups.Select(Function(x) x.Name).ToArray(), Nothing)
         End If
 
         Dim groupWidth = If(Horizontal, _plotArea.Height / nGrp, _plotArea.Width / nGrp)
         Dim boxWidth = groupWidth * 0.5
 
         For i = 0 To nGrp - 1
-            Dim g = Groups(i)
-            Dim color As Color = If(g.Color, Theme.Palette(i Mod Theme.Palette.Length))
-            Dim sorted = g.Data.OrderBy(Function(v) v).ToArray()
+            Dim grp = Groups(i)
+            Dim color As Color = If(grp.Color, Theme.Palette(i Mod Theme.Palette.Length))
+            Dim sorted = grp.Data.OrderBy(Function(v) v).ToArray()
             Dim q1 = Quantile(sorted, 0.25)
             Dim q2 = Quantile(sorted, 0.5)
             Dim q3 = Quantile(sorted, 0.75)
@@ -140,7 +150,7 @@ Public Class BoxPlot
                     _g.DrawLine(pen, pxWHi, by0 + 4, pxWHi, by1 - 4)
                     ' 均值
                     If ShowMean Then
-                        Dim mean = g.Data.Average()
+                        Dim mean = grp.Data.Average()
                         Dim pxM = ToPixelX(mean, ymin, ymax)
                         Using dsh As New Pen(color, Theme.LineWidth)
                             dsh.DashStyle = DashStyle.Dot
@@ -174,7 +184,7 @@ Public Class BoxPlot
                     _g.DrawLine(pen, CSng(bx0 + 4), pyWLo, CSng(bx1 - 4), pyWLo)
                     _g.DrawLine(pen, CSng(bx0 + 4), pyWHi, CSng(bx1 - 4), pyWHi)
                     If ShowMean Then
-                        Dim mean = g.Data.Average()
+                        Dim mean = grp.Data.Average()
                         Dim pyM = ToPixelY(mean, ymin, ymax)
                         Using dsh As New Pen(color, Theme.LineWidth)
                             dsh.DashStyle = DashStyle.Dot

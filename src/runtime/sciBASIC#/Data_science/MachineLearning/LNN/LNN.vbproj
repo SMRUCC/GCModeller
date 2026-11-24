@@ -5,17 +5,17 @@
     <TargetFramework>net10.0</TargetFramework>
     <AssemblyName>Microsoft.VisualBasic.DeepLearning.LNN</AssemblyName>
     <Platforms>AnyCPU;x64</Platforms>
-    <Version>1.0.9758.20045</Version>
-    <AssemblyVersion>1.0.9758.20045</AssemblyVersion>
-    <Configurations>nuget_release;Rsharp_app_release;Debug</Configurations>
+    <Version>10.8.9818.14504</Version>
+    <AssemblyVersion>1.0.9818.14504</AssemblyVersion>
+    <Configurations>nuget_release;Rsharp_app_release;Debug;Release</Configurations>
     <Title>Liquid Neural Networks with ODE Solvers for Time Series</Title>
     <Description>Continuous-time liquid neural networks for sciBASIC#, where neuron dynamics follow learnable ODEs solved by Euler, Heun, RK4 or adaptive RK45 steps; includes SGD/Adam training and time-series preprocessing utilities.</Description>
     <AssemblyTitle>Microsoft.VisualBasic.DeepLearning.LNN</AssemblyTitle>
     <Authors>xieguigang &lt;I@xieguigang.me&gt;</Authors>
     <Company>sciBASIC.NET Foundation</Company>
     <Copyright>Copyright (c) sciBASIC.NET Foundation</Copyright>
-    <PackageTags>scibasic;liquid-neural-network;ode;runge-kutta;continuous-time;time-series;recurrent-network</PackageTags>
-    <PackageReleaseNotes>Liquid neural networks for sciBASIC#. Unlike fixed architecture networks, a liquid network lets the neuron dynamics follow a learnable ODE, so the hidden state evolves as a continuous time dynamical system rather than as a discrete recurrence. The ODESolver namespace provides the Euler, Heun, RK4 and adaptive RK45 integrators used to advance that state; LiquidCell and LiquidLayer define the continuous time units, ActivationFunctions provides the nonlinearities, and LiquidNeuralNetwork with LNNTrainer assembles the model and trains it with SGD or Adam. TimeSeriesUtils supplies the preprocessing helpers - windowing, scaling and splitting - needed to feed time series data in, which makes the package a natural fit for irregularly sampled and continuously evolving signals.</PackageReleaseNotes>
+    <PackageTags>scibasic;liquid-neural-network;ode;time-series;continuous-time</PackageTags>
+    <PackageReleaseNotes>This cycle: Enable optimization.</PackageReleaseNotes>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <PackageIcon>logo-knot.png</PackageIcon>
     <PackageProjectUrl>http://scibasic.net/</PackageProjectUrl>
@@ -36,6 +36,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
     <PlatformTarget>x64</PlatformTarget>
     <OutputPath>../../../.nuget/</OutputPath>
+    <Optimize>true</Optimize>
   </PropertyGroup>
 
   <ItemGroup>

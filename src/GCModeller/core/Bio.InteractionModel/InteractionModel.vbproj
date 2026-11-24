@@ -1,0 +1,76 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>SMRUCC.genomics.BioSystem</RootNamespace>
+    <TargetFrameworks>net10.0</TargetFrameworks>
+    <AssemblyName>SMRUCC.genomics.BioSystem</AssemblyName>
+    <Platforms>AnyCPU;x64</Platforms>
+    <Configurations>Debug;Release;Rsharp_app_release;mzkit_win32;nuget_release;CellaLAB-Desktop</Configurations>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Company>SMRUCC genomics institute</Company>
+    <Product>GCModeller</Product>
+    <UseApplicationFramework>True</UseApplicationFramework>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageOutputPath>..\..\..\..\.nuget</PackageOutputPath>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <IncludeSymbols>True</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <Title>GCModeller Biological Interaction &amp; Regulon Models</Title>
+    <Description>Model library for biological interaction networks and gene regulation. It defines generic directed interactions, protein interaction networks, relationship scoring and regulon/regulator-regulates abstractions together with regulation database interfaces.</Description>
+    <PackageProjectUrl>https://gcmodeller.org/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/SMRUCC/GCModeller.git</RepositoryUrl>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <Copyright>Copyright © SMRUCC genomics, GuiLin China, 2026</Copyright>
+    <Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
+    <PackageTags>gcmodeller;bioinformatics;genomics;interaction-network;regulon;gene-regulation</PackageTags>
+    <PackageReleaseNotes>Adds models for biological interactions, protein interaction networks and regulon regulation relationships.</PackageReleaseNotes>
+    <Version>10.5.9775.36927</Version>
+    <AssemblyVersion>1.0.9775.36927</AssemblyVersion>
+    <AssemblyTitle>Base System Framework for the Bio Network Simulation</AssemblyTitle>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+  
+  </PropertyGroup>
+
+ 
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
+  
+    <OutputPath>../../../../.nuget/</OutputPath>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='nuget_release|x64'">
+
+    <OutputPath>../../../../.nuget/</OutputPath>
+  </PropertyGroup>
+
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0|x64'">
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>false</DefineDebug>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="test\**" />
+    <EmbeddedResource Remove="test\**" />
+    <None Remove="test\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Graph\graph-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\Bio.Assembly\biocore-netcore5.vbproj" />
+  </ItemGroup>
+
+</Project>

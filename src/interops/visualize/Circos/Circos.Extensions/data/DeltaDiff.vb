@@ -62,7 +62,7 @@ Namespace Documents.Karyotype.NtProps
             Dim NT_Cache = New NucleicAcid(NT.ToArray)
             Dim ChunkBuffer = (From n In SW.AsParallel
                                Select n.left,
-                                   d = Sigma(NT_Cache, New NucleotideModels.NucleicAcid(n.Items))
+                                   d = DeltaStar(NT_Cache, New NucleotideModels.NucleicAcid(n.Items))
                                Order By left Ascending).ToArray
 
             Dim LastSegment = SW.Last.Items.AsList
@@ -74,7 +74,7 @@ Namespace Documents.Karyotype.NtProps
             For i As Integer = 0 To LastSegment.Count - 1 Step Steps
                 TempChunk = LastSegment.Skip(i).AsList
                 Call TempChunk.AddRange(NT_Array.Take(i).ToArray)
-                Call List.Add(Sigma(NT_Cache, New NucleotideModels.NucleicAcid(TempChunk.ToArray)))
+                Call List.Add(DeltaStar(NT_Cache, New NucleotideModels.NucleicAcid(TempChunk.ToArray)))
             Next
 
             Dim MergeList = (From item In ChunkBuffer Select item.d).AsList

@@ -1,4 +1,4 @@
-Imports SMRUCC.genomics.Analysis.BNLearn
+Imports SMRUCC.genomics.BioSystem.Core
 
 Namespace Graph
 

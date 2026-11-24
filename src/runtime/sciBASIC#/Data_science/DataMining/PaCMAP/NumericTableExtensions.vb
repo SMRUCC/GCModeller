@@ -1,4 +1,4 @@
-#Region "Microsoft.VisualBasic::NumericTableExtensions, Data_science\DataMining\PaCMAP\NumericTableExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::835cacbb89fcbd4871bf548840f2b779, Data_science\DataMining\PaCMAP\NumericTableExtensions.vb"
 
     ' Author:
     ' 
@@ -23,7 +23,31 @@
     ' GNU General Public License for more details.
     ' 
     ' You should have received a copy of the GNU General Public License
-    ' along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 74
+    '    Code Lines: 45 (60.81%)
+    ' Comment Lines: 19 (25.68%)
+    '    - Xml Docs: 89.47%
+    ' 
+    '   Blank Lines: 10 (13.51%)
+    '     File Size: 2.82 KB
+
+
+    ' Module NumericTableExtensions
+    ' 
+    '     Function: pacmap
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -53,7 +77,7 @@ Public Module NumericTableExtensions
     ''' <param name="init">嵌入坐标的初始化方式</param>
     ''' <returns>以嵌入坐标（``dim_1..dim_n``）为特征的新二维表</returns>
     <Extension>
-    Public Function pacmap(source As NumericTable,
+    Public Function PacMapFit(source As NumericTable,
                            Optional dims As Integer = 2,
                            Optional neighbors As Integer = 10,
                            Optional iterations As Integer = 450,

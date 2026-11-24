@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e1531ef00763cde200e3ea9224bff853, visualize\DataVisualizationExtensions\KeggPlot\EnrichmentCategoryBubble.vb"
+#Region "Microsoft.VisualBasic::e1531ef00763cde200e3ea9224bff853, visualize\DataVisualizationExtensions\KeggPlot\EnrichmentCategoryBubble.vb"
 
     ' Author:
     ' 
@@ -54,10 +54,9 @@
 
 Imports System.Drawing
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
+Imports Microsoft.VisualBasic.Data.Plots
+Imports Microsoft.VisualBasic.Data.Plots.Canvas
+Imports Microsoft.VisualBasic.Data.Plots.Plot3D.Legend
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
@@ -96,7 +95,8 @@ Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
 Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
 #End If
 
-Public Class EnrichmentCategoryBubble : Inherits HeatMapPlot
+Public Class EnrichmentCategoryBubble : Inherits Plot
+    Public Property mapLevels As Integer
 
     ReadOnly enrich As Dictionary(Of String, EnrichmentResult())
 

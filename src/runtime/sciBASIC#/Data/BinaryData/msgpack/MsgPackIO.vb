@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3248997340408a9f4df9fdbd54479b57, Data\BinaryData\msgpack\MsgPackIO.vb"
+﻿#Region "Microsoft.VisualBasic::7f42006eac83e805a74a0827a2924572, Data\BinaryData\msgpack\MsgPackIO.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 814
-    '    Code Lines: 699 (85.87%)
-    ' Comment Lines: 2 (0.25%)
+    '   Total Lines: 828
+    '    Code Lines: 706 (85.27%)
+    ' Comment Lines: 6 (0.72%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 113 (13.88%)
-    '     File Size: 35.69 KB
+    '   Blank Lines: 116 (14.01%)
+    '     File Size: 36.39 KB
 
 
     ' Module MsgPackIO
@@ -90,6 +90,11 @@ Module MsgPackIO
     Friend Sub DeserializeArray(array As Array, numElements As Integer, reader As BinaryDataReader)
         Dim elementType As Type = array.GetType().GetElementType()
 
+        ' 基础类型数组走整块快路径：不逐元素分配、不装箱（wire 格式不变）
+        If MsgPackArrayIO.TryReadArray(array, numElements, reader) Then
+            Return
+        End If
+
         For i = 0 To numElements - 1
             Dim o = DeserializeValue(elementType, reader, NilImplication.Null)
             Dim safeVal As Object = Nothing
@@ -118,6 +123,11 @@ Module MsgPackIO
 
         If numElements >= 0 Then
             isNull = False
+
+            ' List(Of Double) 之类：先整块读成数组再 AddRange，省掉百万级的逐元素 Add
+            If MsgPackArrayIO.TryReadList(collection, numElements, reader) Then
+                Return False
+            End If
 
             For i = 0 To numElements - 1
                 Dim o = DeserializeValue(elementType, reader, NilImplication.Null)
@@ -801,6 +811,10 @@ Module MsgPackIO
 
                 If array Is Nothing Then
                     writer.Write(MsgPackFormats.NIL)
+
+                    ' 基础类型数组：整块编码 + 整块写盘（省掉逐元素的函数调用、分配与流调用）
+                ElseIf MsgPackArrayIO.TryWriteArray(array, writer) Then
+                    ' 已经写完了
                 Else
 
                     If array.Length <= 15 Then

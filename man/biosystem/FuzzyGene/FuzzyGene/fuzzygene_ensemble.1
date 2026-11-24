@@ -1,0 +1,71 @@
+.\" man page create by R# package system.
+.TH FUZZYGENE 1 2000-1月 "fuzzygene_ensemble" "fuzzygene_ensemble"
+.SH NAME
+fuzzygene_ensemble \- Ensemble (resampled boolean structure) prediction of virtual perturbations.
+.SH SYNOPSIS
+\fIfuzzygene_ensemble(\fBfuzzygene\fR as <generic> FuzzyGeneModel, 
+\fBgenes\fR as string, 
+\fBmode\fR as string = "knockout", 
+\fBsamples\fR as integer = 16, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Ensemble (resampled boolean structure) prediction of virtual perturbations.
+.PP
+.SH OPTIONS
+.PP
+\fBfuzzygene\fB \fR\- a trained model built with \fBpbnRegularization != "none"\fR. 
+.PP
+.PP
+\fBgenes\fB \fR\- the genes to perturb. 
+.PP
+.PP
+\fBmode\fB \fR\- \fBknockout\fR (default), \fBknockdown\fR or \fBoverexpression\fR. 
+.PP
+.PP
+\fBsamples\fB \fR\- how many PBN resamples; <= 0 falls back to the configured value. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment used to report errors. 
+.PP
+.SH VALUE
+.PP
+a named list of data.frames
+.PP
+.SH DETAILS
+.PP
+Each sample rebuilds the network by drawing one rule per target gene from the
+ probabilistic boolean network according to its CoD derived probability, and then solves
+ the continuous perturbation again. The spread of the resulting states therefore measures
+ **structural uncertainty** (which regulatory logic the data supports), not numerical noise.
+ 
+
+
+ 
+
+
+ Returns a named list:
+ 
+
+
+ 
+- \fBtable\fR: one row per (perturbation, gene) with \fBmean\fR / \fBsd\fR /
+ \fBlower\fR (5%) / \fBupper\fR (95%) / \fBsign_agreement\fR / \fBhigh_fraction\fR / \fBreference\fR;
+- \fBsummary\fR: one row per perturbation with \fBsamples\fR /
+ \fBconverged_fraction\fR / \fBdegenerate\fR / \fBnotes\fR;
+- \fBattractors\fR: the boolean attractor period distribution
+ (\fBperturbation\fR / \fBperiod\fR / \fBcount\fR), zero rows when no cycle was detected.
+
+
+ 
+
+
+ \fBsign_agreement\fR is the single most useful column: about 0.5 means the direction of that
+ gene's response is decided by the model noise, so it must not be reported as a finding.
+.PP
+.SH SEE ALSO
+FuzzyGene
+.SH FILES
+.PP
+biosystem.dll
+.PP

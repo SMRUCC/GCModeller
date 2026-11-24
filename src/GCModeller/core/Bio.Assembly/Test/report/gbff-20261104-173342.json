@@ -1,0 +1,47 @@
+﻿{
+  "captures": {
+    "index.records": "705"
+  },
+  "failureCount": 1,
+  "records": [
+    {
+      "time": "2026-11-04T17:33:42.908",
+      "kind": "Scope",
+      "level": "debug",
+      "expression": null,
+      "message": "index.scan",
+      "sourceFile": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Test\\gbffLargeGenomeTest.vb",
+      "line": 322,
+      "member": "RunIndex",
+      "threadId": 2,
+      "elapsedMs": 2998.191,
+      "succeeded": true
+    },
+    {
+      "time": "2026-11-04T17:33:42.970",
+      "kind": "Mark",
+      "level": "infom",
+      "expression": null,
+      "message": "index.records = 705",
+      "sourceFile": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Test\\gbffLargeGenomeTest.vb",
+      "line": 326,
+      "member": "RunIndex",
+      "threadId": 2,
+      "elapsedMs": 0,
+      "succeeded": true
+    },
+    {
+      "time": "2026-11-04T17:33:42.970",
+      "kind": "Assertion",
+      "level": "warng",
+      "expression": "IO.File.Exists(cache)",
+      "message": "the record index cache file should be created (IO.File.Exists(cache))",
+      "sourceFile": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Test\\gbffLargeGenomeTest.vb",
+      "line": 328,
+      "member": "RunIndex",
+      "threadId": 2,
+      "elapsedMs": 0,
+      "succeeded": false
+    }
+  ]
+}

@@ -1,60 +1,61 @@
 ﻿#Region "Microsoft.VisualBasic::377a0e5a4fbbcb5eceda0142fa7da534, sub-system\PLAS.NET\SSystem\Script\Models\SEquation.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 47
-    '    Code Lines: 25 (53.19%)
-    ' Comment Lines: 15 (31.91%)
-    '    - Xml Docs: 100.00%
-    ' 
-    '   Blank Lines: 7 (14.89%)
-    '     File Size: 1.46 KB
+' Summaries:
 
 
-    '     Class SEquation
-    ' 
-    '         Properties: Expression, x
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    '         Function: GetModel, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 47
+'    Code Lines: 25 (53.19%)
+' Comment Lines: 15 (31.91%)
+'    - Xml Docs: 100.00%
+' 
+'   Blank Lines: 7 (14.89%)
+'     File Size: 1.46 KB
+
+
+'     Class SEquation
+' 
+'         Properties: Expression, x
+' 
+'         Constructor: (+2 Overloads) Sub New
+'         Function: GetModel, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Scripting.MathExpression
 Imports Microsoft.VisualBasic.Math.Scripting.MathExpression.Impl
@@ -71,12 +72,12 @@ Namespace Script
         ''' UniqueId，由于可能会存在多个过程，所以这里的值不再唯一
         ''' </summary>
         ''' <returns></returns>
-        Public Property x As String
+        <XmlAttribute> Public Property x As String
         ''' <summary>
         ''' The mathematics equation of this reaction channel its dynamics
         ''' </summary>
         ''' <returns></returns>
-        Public Property Expression As String
+        <XmlText> Public Property Expression As String
 
         Sub New(id As String, expr As String)
             x = id

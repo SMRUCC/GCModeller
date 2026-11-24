@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aad705cc49500f777372edcd446ab136, gr\avi\Encoder.vb"
+﻿#Region "Microsoft.VisualBasic::86311806e24e98336e08ffd6c8f3b4e0, gr\avi\Encoder.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 99
-    '    Code Lines: 71 (71.72%)
-    ' Comment Lines: 6 (6.06%)
-    '    - Xml Docs: 66.67%
+    '   Total Lines: 102
+    '    Code Lines: 71 (69.61%)
+    ' Comment Lines: 9 (8.82%)
+    '    - Xml Docs: 77.78%
     ' 
-    '   Blank Lines: 22 (22.22%)
-    '     File Size: 3.05 KB
+    '   Blank Lines: 22 (21.57%)
+    '     File Size: 3.19 KB
 
 
     ' Class Encoder
@@ -144,13 +144,16 @@ Public Class Encoder
             frameLen * 4 * 2
     End Function
 
+    ''' <summary>
+    ''' 计算一条视频流的帧数据在 <c>movi</c> 列表中占用的总字节数（包含 chunk 头与 word 对齐填充）。
+    ''' </summary>
     Public Shared Function getVideoDataLength(stream As AVIStream) As Long
         Dim len& = 0
         Dim frames = stream.frames
 
         For i As Integer = 0 To frames.Count - 1
             ' Pad if chunk Not in word boundary
-            len += 8 + frames(i).length + If(frames(i).length Mod 2 = 0, 0, 1)
+            len += frames(i).chunkSize
         Next
 
         Return len

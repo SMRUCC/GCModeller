@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b28a888558178071e821db030a34ae20, visualize\DataVisualizationExtensions\DEGPlot\GSVADiffBar.vb"
+#Region "Microsoft.VisualBasic::b28a888558178071e821db030a34ae20, visualize\DataVisualizationExtensions\DEGPlot\GSVADiffBar.vb"
 
     ' Author:
     ' 
@@ -55,9 +55,8 @@
 Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
+Imports Microsoft.VisualBasic.Data.Plots
+Imports Microsoft.VisualBasic.Data.Plots.Canvas
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Math.LinearAlgebra

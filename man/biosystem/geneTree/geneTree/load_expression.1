@@ -1,0 +1,42 @@
+.\" man page create by R# package system.
+.TH GENETREE 1 2000-1月 "load_expression" "load_expression"
+.SH NAME
+load_expression \- Attach the gene expression matrix to the regulation graph, the created model is
+.SH SYNOPSIS
+\fIload_expression(\fBgraph\fR as <generic> GeneRegulationGraph, 
+\fBexpr\fR as <generic> Matrix, 
+\fBconfig\fR as <generic> GeneTreeConfig = \fB<NULL>\fR, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Attach the gene expression matrix to the regulation graph, the created model is
+ not trained yet.
+.PP
+.SH OPTIONS
+.PP
+\fBgraph\fB \fR\- 
+ the regulation graph object that is created by the \fBload_topology\fR api.
+. 
+.PP
+.PP
+\fBexpr\fB \fR\- 
+ the gene expression matrix object(rows are genes, columns are samples), which
+ could be loaded from a csv table file via the \fBgeneExpression::load.expr\fR api.
+ the numeric values of the model training and the perturbation are all taken from
+ this matrix(the ARACNE model archive stores the rank transformed vectors instead
+ of the raw expression values).
+. 
+.PP
+.PP
+\fBconfig\fB \fR\- the configuration object created by the \fBmake_profile\fR api.. 
+.PP
+.SH VALUE
+.PP
+the untrained [XGBoostGRN](cref:T:SMRUCC.genomics.Analysis.GeneTree.XGBoostGRN) model object.
+.PP
+.SH SEE ALSO
+geneTree
+.SH FILES
+.PP
+biosystem.dll
+.PP

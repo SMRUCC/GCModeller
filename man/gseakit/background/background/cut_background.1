@@ -1,0 +1,32 @@
+.\" man page create by R# package system.
+.TH BACKGROUND 2 2000-1月 "cut_background" "cut_background"
+.SH NAME
+cut_background \- make gsea background dynamic cut
+.SH SYNOPSIS
+\fIcut_background(\fBbackground\fR as <generic> Background, 
+\fBannotated\fR as any);\fR
+.SH DESCRIPTION
+.PP
+make gsea background dynamic cut
+.PP
+.SH OPTIONS
+.PP
+\fBbackground\fB \fR\- the GSEA background model object.. 
+.PP
+.PP
+\fBannotated\fB \fR\- 
+ a character vector of the annotated gene ids, only the cluster members that are
+ annotated in this gene id set will be kept.
+. 
+.PP
+.SH VALUE
+.PP
+a new [Background](cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.Background) model that only contains the annotated gene ids;
+ returns \fBNothing\fR when the given gene id set is empty.
+.PP
+.SH SEE ALSO
+background
+.SH FILES
+.PP
+gseakit.dll
+.PP

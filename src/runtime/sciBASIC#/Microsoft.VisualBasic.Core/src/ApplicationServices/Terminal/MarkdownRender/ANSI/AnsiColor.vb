@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d61677b127cab6bf2729d00f1207e906, Microsoft.VisualBasic.Core\src\ApplicationServices\Terminal\MarkdownRender\ANSI\AnsiColor.vb"
+﻿#Region "Microsoft.VisualBasic::7765de00ac3ed1c488ff39f84a1160f3, Microsoft.VisualBasic.Core\src\ApplicationServices\Terminal\MarkdownRender\ANSI\AnsiColor.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 197
-    '    Code Lines: 141 (71.57%)
-    ' Comment Lines: 30 (15.23%)
+    '   Total Lines: 204
+    '    Code Lines: 147 (72.06%)
+    ' Comment Lines: 30 (14.71%)
     '    - Xml Docs: 70.00%
     ' 
-    '   Blank Lines: 26 (13.20%)
-    '     File Size: 9.65 KB
+    '   Blank Lines: 27 (13.24%)
+    '     File Size: 9.93 KB
 
 
     '     Structure AnsiColor
@@ -48,8 +48,8 @@
     '         Properties: B, G, R
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: (+2 Overloads) Equals, FromConsoleColor, GetCode, GetEscapeSequence, GetHashCode
-    '                   Rgb, ToString, TryParse
+    '         Function: (+2 Overloads) Equals, FromConsoleColor, FromRgbColor, GetCode, GetEscapeSequence
+    '                   GetHashCode, Rgb, ToString, TryParse
     '         Operators: <>, =
     '         Enum Type
     ' 
@@ -66,6 +66,7 @@
 
 #End Region
 
+Imports System.Drawing
 Imports System.Globalization
 Imports System.Runtime.CompilerServices
 Imports System.Runtime.InteropServices
@@ -124,12 +125,18 @@ Namespace ApplicationServices.Terminal
             Return New AnsiColor($"38;2;{r};{g};{b}", $"48;2;{r};{g};{b}", $"#{r:X2}{g:X2}{b:X2}") With {._R = r, ._G = g, ._B = b}
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function FromRgbColor(c As Color) As AnsiColor
+            Return Rgb(c.R, c.G, c.B)
+        End Function
+
         Public Sub New(foregroundCode As String, backgroundCode As String, friendlyName As String)
             Me.foregroundCode = foregroundCode
             Me.backgroundCode = backgroundCode
             Me.friendlyName = friendlyName
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetEscapeSequence(Optional type As Type = Type.Foreground) As String
             Return AnsiEscapeCodes.ToAnsiEscapeSequence(GetCode(type))
         End Function

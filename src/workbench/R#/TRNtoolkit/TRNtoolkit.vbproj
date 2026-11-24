@@ -11,8 +11,12 @@
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageProjectUrl>https://gcmodeller.org</PackageProjectUrl>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <OutputPath>../../pkg/assembly/</OutputPath>
+    <OutputPath>../../../../assembly/</OutputPath>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
+    <Optimize>true</Optimize>
   </PropertyGroup>
 
 
@@ -32,8 +36,10 @@
     <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\SequencePatterns.Abstract\SequencePatterns.Abstract.NET5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\SequencePatterns\SequencePatterns.NET5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj" />
-    <ProjectReference Include="..\..\..\GCModeller\core\Bio.InteractionModel\InteractionModel.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\core\Bio.InteractionModel\InteractionModel.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\data\RegulonDatabase\RegulonDatabase.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\data\STRING\STRING-db.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\models\Networks\Network.Regulons.Cuda\Network.Regulons.Cuda.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\models\Networks\Network.Regulons\Network.Regulons.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\sub-system\BNLearn\BNLearn.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\sub-system\CellPhenotype\CellPhenotype.vbproj" />

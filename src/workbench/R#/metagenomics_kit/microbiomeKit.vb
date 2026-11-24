@@ -73,7 +73,6 @@ Imports SMRUCC.genomics.Analysis.HTS.GSEA
 Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.Analysis.Metagenome.gast
 Imports SMRUCC.genomics.Analysis.Metagenome.greengenes
-Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.metaTraits
 Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.PICRUSt
 Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.VFDB
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject

@@ -98,9 +98,17 @@ Module genbankKit
     ''' read the given genbank assembly file.
     ''' </summary>
     ''' <param name="file">the file path of the given genbank assembly file.</param>
-    ''' <param name="repliconTable"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="repliconTable">
+    ''' read the replicon table data of the genbank assembly file?
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a <see cref="GBFF.File"/> ncbi genbank assembly object that read from 
+    ''' the given genbank assembly file;
+    ''' 
+    ''' this function returns a R# error message object if the given file is 
+    ''' not exists.
+    ''' </returns>
     <ExportAPI("read.genbank")>
     <RApiReturn(GetType(GBFF.File))>
     Public Function readGenbank(file As String,
@@ -121,7 +129,10 @@ Module genbankKit
     ''' <summary>
     ''' get ncbi taxonomy id from the given genbank assembly file.
     ''' </summary>
-    ''' <param name="gb"></param>
+    ''' <param name="gb">
+    ''' the <see cref="GBFF.File"/> ncbi genbank assembly object for extract 
+    ''' its ncbi taxonomy id.
+    ''' </param>
     ''' <returns>the ncbi taxonomy id</returns>
     <ExportAPI("taxon_id")>
     <RApiReturn(TypeCodes.integer)>
@@ -132,8 +143,13 @@ Module genbankKit
     ''' <summary>
     ''' extract the taxonomy lineage information from the genbank file
     ''' </summary>
-    ''' <param name="gb"></param>
-    ''' <returns></returns>
+    ''' <param name="gb">
+    ''' a <see cref="GBFF.File"/> ncbi genbank assembly object for extract its 
+    ''' taxonomy lineage information.
+    ''' </param>
+    ''' <returns>
+    ''' a <see cref="Taxonomy"/> taxonomy lineage object.
+    ''' </returns>
     <ExportAPI("taxonomy_lineage")>
     Public Function taxonomy(gb As GBFF.File) As Taxonomy
         Return gb.Source.GetTaxonomy
@@ -142,8 +158,16 @@ Module genbankKit
     ''' <summary>
     ''' extract all gene features from genbank and cast to tabular data
     ''' </summary>
-    ''' <param name="gbff"></param>
-    ''' <returns></returns>
+    ''' <param name="gbff">
+    ''' a <see cref="GBFF.File"/> ncbi genbank assembly object for extract its 
+    ''' gene features.
+    ''' </param>
+    ''' <param name="ORF">
+    ''' export the gene features with its ORF region data?
+    ''' </param>
+    ''' <returns>
+    ''' a vector of the <see cref="GeneTable"/> gene table record object.
+    ''' </returns>
     <ExportAPI("as_tabular")>
     <RApiReturn(GetType(GeneTable))>
     Public Function create_tabular(gbff As GBFF.File, Optional ORF As Boolean = True) As Object
@@ -158,17 +182,35 @@ Module genbankKit
         End If
     End Function
 
+    ''' <summary>
+    ''' read gene table from the given csv tabular data file
+    ''' </summary>
+    ''' <param name="file">the file path of the target csv table file, which could be de-serialized as <see cref="GeneTable"/> array.</param>
+    ''' <returns>
+    ''' a vector of the <see cref="GeneTable"/> gene table record object that 
+    ''' loaded from the given csv table file.
+    ''' </returns>
     <ExportAPI("read_genetable")>
-    Public Function read_genetable(file As String) As GeneTable()
+    <RApiReturn(GetType(GeneTable))>
+    Public Function read_genetable(file As String) As Object
         Return file.LoadCsv(Of GeneTable)(mute:=True).ToArray
     End Function
 
     ''' <summary>
     ''' get current genbank assembly accession id 
     ''' </summary>
-    ''' <param name="genbank"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="genbank">
+    ''' a collection of the <see cref="GBFF.File"/> ncbi genbank assembly 
+    ''' object for get its accession id.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a character vector of the ncbi accession id of each genbank assembly;
+    ''' 
+    ''' this function returns a R# error message object if the input genbank 
+    ''' data can not be cast to a collection of the <see cref="GBFF.File"/> 
+    ''' object.
+    ''' </returns>
     <ExportAPI("accession_id")>
     <RApiReturn(TypeCodes.string)>
     Public Function accession_id(<RRawVectorArgument> genbank As Object, Optional env As Environment = Nothing) As Object
@@ -186,9 +228,21 @@ Module genbankKit
     ''' <summary>
     ''' check of the given genbank assembly is the data source of a plasmid or not?
     ''' </summary>
-    ''' <param name="gb"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="gb">
+    ''' the ncbi genbank assembly data for make the plasmid source check, 
+    ''' which can be a vector of the <see cref="GBFF.File"/> object or a named 
+    ''' list of this assembly object.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a boolean value of the plasmid source check result when the input is a 
+    ''' vector of the genbank assembly object, or a named list of the check 
+    ''' result when the input is a named list;
+    ''' 
+    ''' this function returns a R# error message object if the input genbank 
+    ''' data can not be cast to a collection of the <see cref="GBFF.File"/> 
+    ''' object.
+    ''' </returns>
     <ExportAPI("is.plasmid")>
     <RApiReturn(GetType(Boolean))>
     Public Function isPlasmidSource(<RRawVectorArgument> gb As Object, Optional env As Environment = Nothing) As Object
@@ -220,16 +274,62 @@ Module genbankKit
         End If
     End Function
 
+    ''' <summary>
+    ''' get the molecule type evidence annotation of the given genbank 
+    ''' assembly
+    ''' </summary>
+    ''' <param name="gb">
+    ''' a collection of the <see cref="GBFF.File"/> ncbi genbank assembly 
+    ''' object for get its molecule type evidence.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a vector of the <see cref="MolTypeEvidence"/> molecule type evidence 
+    ''' object;
+    ''' 
+    ''' this function returns a R# error message object if the input genbank 
+    ''' data can not be cast to a collection of the <see cref="GBFF.File"/> 
+    ''' object.
+    ''' </returns>
     <ExportAPI("moltype")>
     <RApiReturn(GetType(MolTypeEvidence))>
     Public Function moltype(<RRawVectorArgument(GetType(GBFF.File))> gb As Object, Optional env As Environment = Nothing) As Object
+        Dim pull As PipeIterator(Of GBFF.File) = pipeline.Stream(Of GBFF.File)(gb, env)
 
+        If pull.isError Then
+            Return pull.getError
+        End If
+
+        Return pull.Select(Function(g) g.GetMolTypeEvidence).ToArray
     End Function
 
+    ''' <summary>
+    ''' get the assembly level evidence annotation of the given genbank 
+    ''' assembly
+    ''' </summary>
+    ''' <param name="gb">
+    ''' a collection of the <see cref="GBFF.File"/> ncbi genbank assembly 
+    ''' object for get its assembly level evidence.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a vector of the <see cref="AssemblyLevelEvidence"/> assembly level 
+    ''' evidence object;
+    ''' 
+    ''' this function returns a R# error message object if the input genbank 
+    ''' data can not be cast to a collection of the <see cref="GBFF.File"/> 
+    ''' object.
+    ''' </returns>
     <ExportAPI("assembly_level")>
     <RApiReturn(GetType(AssemblyLevelEvidence))>
     Public Function assembly_level(<RRawVectorArgument(GetType(GBFF.File))> gb As Object, Optional env As Environment = Nothing) As Object
+        Dim pull As PipeIterator(Of GBFF.File) = pipeline.Stream(Of GBFF.File)(gb, env)
 
+        If pull.isError Then
+            Return pull.getError
+        End If
+
+        Return pull.Select(Function(g) g.GetAssemblyLevelEvidence).ToArray
     End Function
 
     ''' <summary>
@@ -243,8 +343,14 @@ Module genbankKit
     ''' <param name="autoClose">
     ''' auto close of the <see cref="Stream"/> if the <paramref name="files"/> contains stream object?
     ''' </param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a lazy pipeline collection of the <see cref="GBFF.File"/> ncbi genbank 
+    ''' assembly object;
+    ''' 
+    ''' this function returns a R# error message object if the given file list 
+    ''' is nothing.
+    ''' </returns>
     ''' <remarks>
     ''' this function supports of read assembly data directly from *.gz genbank archive file.
     ''' </remarks>
@@ -330,10 +436,19 @@ Module genbankKit
     ''' <summary>
     ''' save the modified genbank file
     ''' </summary>
-    ''' <param name="gb"></param>
+    ''' <param name="gb">
+    ''' the <see cref="GBFF.File"/> ncbi genbank assembly object for save to 
+    ''' the target file.
+    ''' </param>
     ''' <param name="file">the file path of the genbank assembly file to write data.</param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a boolean value of the file save result: TRUE means the genbank 
+    ''' assembly data has been written into the target file successfully;
+    ''' 
+    ''' this function returns a R# error message object if the input genbank 
+    ''' assembly data is nothing.
+    ''' </returns>
     <ExportAPI("write.genbank")>
     <RApiReturn(TypeCodes.boolean)>
     Public Function writeGenbank(gb As GBFF.File, file$, Optional env As Environment = Nothing) As Object
@@ -347,9 +462,19 @@ Module genbankKit
     ''' <summary>
     ''' converts tabular data file to genbank assembly object
     ''' </summary>
-    ''' <param name="x"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="x">
+    ''' the tabular data object for convert as the genbank assembly object. 
+    ''' Only the <see cref="PTT"/> tabular table object is supported at this 
+    ''' moment.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a <see cref="GBFF.File"/> ncbi genbank assembly object that converted 
+    ''' from the given tabular data;
+    ''' 
+    ''' this function returns a R# error message object if the given tabular 
+    ''' data type is not supported.
+    ''' </returns>
     <ExportAPI("as.genbank")>
     <RApiReturn(GetType(GBFF.File))>
     Public Function asGenbank(<RRawVectorArgument> x As Object, Optional env As Environment = Nothing) As Object
@@ -368,11 +493,21 @@ Module genbankKit
     ''' <summary>
     ''' create new feature site
     ''' </summary>
-    ''' <param name="keyName"></param>
-    ''' <param name="location"></param>
-    ''' <param name="data"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="keyName">
+    ''' the feature key name, example as ``gene``, ``CDS`` or ``tRNA``.
+    ''' </param>
+    ''' <param name="location">
+    ''' the location region of the target feature site.
+    ''' </param>
+    ''' <param name="data">
+    ''' a R# list object of the feature qualifiers data: the name of each list 
+    ''' element is the qualifier name, and the element value is a character 
+    ''' vector of the qualifier value.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a new <see cref="Feature"/> genbank feature site object.
+    ''' </returns>
     <ExportAPI("feature")>
     Public Function createFeature(keyName$, location As NucleotideLocation,
                                   <RListObjectArgument>
@@ -404,9 +539,17 @@ Module genbankKit
     ''' <summary>
     ''' add feature into a given genbank object
     ''' </summary>
-    ''' <param name="gb"></param>
-    ''' <param name="feature"></param>
-    ''' <returns></returns>
+    ''' <param name="gb">
+    ''' the <see cref="GBFF.File"/> ncbi genbank assembly object for add the 
+    ''' target feature site.
+    ''' </param>
+    ''' <param name="feature">
+    ''' the <see cref="Feature"/> genbank feature object for add, which is 
+    ''' created by the ``feature`` api.
+    ''' </param>
+    ''' <returns>
+    ''' the modified <see cref="GBFF.File"/> ncbi genbank assembly object.
+    ''' </returns>
     ''' <example>
     ''' let gb_asm = read.genbank("./xxx.gbff");
     ''' let mics_site = GenBank::feature("micsRNA", nucl_location(5656,33,"+"));
@@ -427,7 +570,14 @@ Module genbankKit
     ''' enumerate all features in the given NCBI genbank database object
     ''' </summary>
     ''' <param name="gb">a NCBI genbank database object</param>
-    ''' <returns></returns>
+    ''' <param name="keys">
+    ''' a character vector of the feature key name for filter the target 
+    ''' features. If this parameter is not specified, then all of the features 
+    ''' inside the given genbank object will be returned.
+    ''' </param>
+    ''' <returns>
+    ''' a vector of the <see cref="Feature"/> genbank feature object.
+    ''' </returns>
     <ExportAPI("enumerateFeatures")>
     Public Function enumerateFeatures(gb As GBFF.File, Optional keys As String() = Nothing) As Feature()
         If keys.IsNullOrEmpty Then
@@ -445,8 +595,13 @@ Module genbankKit
     ''' get all feature key names 
     ''' </summary>
     ''' <param name="features">a collection of the genbank feature object or a genbank clr object.</param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a character vector of the feature key name;
+    ''' 
+    ''' this function returns a R# error message object if the input features 
+    ''' data can not be cast to a collection of the genbank feature object.
+    ''' </returns>
     <ExportAPI("featureKeys")>
     <RApiReturn(GetType(String))>
     Public Function keyNames(<RRawVectorArgument> features As Object, Optional env As Environment = Nothing) As Object
@@ -475,10 +630,23 @@ Module genbankKit
     ''' <summary>
     ''' extract the feature metadata from a genbank clr feature object
     ''' </summary>
-    ''' <param name="features"></param>
-    ''' <param name="attrName$"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="features">
+    ''' a collection of the genbank feature object for extract its metadata 
+    ''' information.
+    ''' </param>
+    ''' <param name="attrName$">
+    ''' the qualifier name of the target metadata. If this parameter is not 
+    ''' specified, then all of the metadata of the target features will be 
+    ''' returned.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a named list of the feature metadata or a character vector of the 
+    ''' specific qualifier value;
+    ''' 
+    ''' this function returns a R# error message object if the input features 
+    ''' data can not be cast to a collection of the genbank feature object.
+    ''' </returns>
     <ExportAPI("featureMeta")>
     <RApiReturn(GetType(String))>
     Public Function featureMeta(<RRawVectorArgument> features As Object,
@@ -531,10 +699,18 @@ Module genbankKit
     ''' <summary>
     ''' add metadata into a given feature object
     ''' </summary>
-    ''' <param name="feature"></param>
-    ''' <param name="meta"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="feature">
+    ''' the target <see cref="Feature"/> genbank feature object for add the 
+    ''' metadata.
+    ''' </param>
+    ''' <param name="meta">
+    ''' a R# list object of the metadata: the name of each list element is the 
+    ''' qualifier name, and the element value is the qualifier value.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' the modified <see cref="Feature"/> genbank feature object.
+    ''' </returns>
     <ExportAPI("addMeta")>
     Public Function addMeta(feature As Feature, <RListObjectArgument> meta As list, Optional env As Environment = Nothing) As Feature
         Dim metadata As Dictionary(Of String, String) = meta.AsGeneric(Of String)(env)
@@ -549,9 +725,17 @@ Module genbankKit
     ''' <summary>
     ''' get, add or replace the genome origin fasta sequence in the given genbank assembly file.
     ''' </summary>
-    ''' <param name="gb"></param>
-    ''' <param name="nt"></param>
-    ''' <param name="mol_type"></param>
+    ''' <param name="gb">
+    ''' the <see cref="GBFF.File"/> ncbi genbank assembly object for get, add 
+    ''' or replace its genome origin sequence data.
+    ''' </param>
+    ''' <param name="nt">
+    ''' the fasta sequence object for update the genome origin sequence data.
+    ''' </param>
+    ''' <param name="mol_type">
+    ''' the molecule type of the genome origin sequence, default value is 
+    ''' ``genomic DNA``.
+    ''' </param>
     ''' <returns>
     ''' if the ``<paramref name="nt"/>`` parameter is nothing, 
     ''' means get fasta sequence, otherwise is add/update fasta 
@@ -592,8 +776,13 @@ Module genbankKit
     ''' <summary>
     ''' get all of the RNA gene its gene sequence in fasta sequence format.
     ''' </summary>
-    ''' <param name="gb"></param>
-    ''' <returns></returns>
+    ''' <param name="gb">
+    ''' the <see cref="GBFF.File"/> ncbi genbank assembly object for extract 
+    ''' its RNA gene sequence data.
+    ''' </param>
+    ''' <returns>
+    ''' a <see cref="FastaFile"/> RNA gene sequence collection object.
+    ''' </returns>
     <ExportAPI("getRNA.fasta")>
     Public Function getRNASeq(gb As GBFF.File) As FastaFile
         Dim rnaGenes = gb.Features.Where(Function(region) InStr(region.KeyName, "RNA") > 0).ToArray
@@ -615,12 +804,29 @@ Module genbankKit
     ''' <summary>
     ''' export gene fasta from the given genbank assembly file
     ''' </summary>
-    ''' <param name="gb"></param>
-    ''' <param name="title"></param>
+    ''' <param name="gb">
+    ''' the <see cref="GBFF.File"/> ncbi genbank assembly object for export 
+    ''' its gene nucleotide sequence data.
+    ''' </param>
+    ''' <param name="title">
+    ''' the fasta headers title template string for export of the gene 
+    ''' sequence data.
+    ''' </param>
+    ''' <param name="key">
+    ''' the feature key name for extract the gene sequence data, example as 
+    ''' ``gene`` or ``CDS``.
+    ''' </param>
+    ''' <param name="required">
+    ''' a character vector of the template keyword name for filter the gene 
+    ''' export: the gene that its template data is missing any of the required 
+    ''' keyword will be skipped.
+    ''' </param>
     ''' <param name="unique_names">
     ''' processing the possible duplicated header as unique id, this option is usually when you use this function for build a sequence database for salmon tool.
     ''' </param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' a <see cref="FastaFile"/> gene nucleotide sequence collection object.
+    ''' </returns>
     ''' <remarks>
     ''' fasta title is build with a string template, there are some reserved template keyword for this function:
     ''' 
@@ -694,13 +900,29 @@ Module genbankKit
     ''' <summary>
     ''' get or set fasta sequence of all CDS feature in the given genbank assembly file. 
     ''' </summary>
-    ''' <param name="gb"></param>
+    ''' <param name="gb">
+    ''' the <see cref="GBFF.File"/> ncbi genbank assembly object for get or 
+    ''' set its CDS protein sequence data.
+    ''' </param>
     ''' <param name="proteins">set the genbank feature CDS protein sequence if this value is existsed.</param>
+    ''' <param name="title">
+    ''' the fasta headers title template string for export of the protein 
+    ''' sequence data.
+    ''' </param>
     ''' <param name="filter_empty">
     ''' Filter out the empty protein sequence when do export of the protein sequence data.
     ''' </param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a collection of the <see cref="FastaSeq"/> protein sequence data or a 
+    ''' lazy pipeline collection of this sequence data when the ``proteins`` 
+    ''' parameter is not specified, or the modified 
+    ''' <see cref="GBFF.File"/> ncbi genbank assembly object when the 
+    ''' ``proteins`` parameter is specified;
+    ''' 
+    ''' this function returns a R# error message object if the given protein 
+    ''' sequence data can not be cast to a fasta sequence collection.
+    ''' </returns>
     <ExportAPI("protein_seqs")>
     <RApiReturn(GetType(GBFF.File))>
     Public Function addproteinSeq(gb As GBFF.File,
@@ -758,6 +980,26 @@ Module genbankKit
         End If
     End Sub
 
+    ''' <summary>
+    ''' add the RNA gene feature data into the given genbank assembly by the 
+    ''' blastn mapping result
+    ''' </summary>
+    ''' <param name="gb">
+    ''' the <see cref="GBFF.File"/> ncbi genbank assembly object for add the 
+    ''' RNA gene feature data.
+    ''' </param>
+    ''' <param name="RNA">
+    ''' the blastn mapping result data of the RNA sequence, which can be a 
+    ''' vector of the <see cref="BlastnMapping"/> object or a pipeline object 
+    ''' that produces this mapping data.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' the modified <see cref="GBFF.File"/> ncbi genbank assembly object;
+    ''' 
+    ''' this function returns a R# error message object if the input RNA 
+    ''' mapping data is not a supported data model.
+    ''' </returns>
     <ExportAPI("add.RNA.gene")>
     <RApiReturn(GetType(GBFF.File))>
     Public Function addRNAGene(gb As GBFF.File, <RRawVectorArgument> RNA As Object, Optional env As Environment = Nothing) As Object

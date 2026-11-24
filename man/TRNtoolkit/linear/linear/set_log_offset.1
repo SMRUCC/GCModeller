@@ -1,0 +1,32 @@
+.\" man page create by R# package system.
+.TH LINEAR 1 2000-1月 "set_log_offset" "set_log_offset"
+.SH NAME
+set_log_offset \- 设置模型空间的整体对数偏移量(去全局因子之后的 context 需要)。
+.SH SYNOPSIS
+\fIset_log_offset(\fBmodel\fR as <generic> ElasticNet, 
+\fBoffset\fR as double);\fR
+.SH DESCRIPTION
+.PP
+设置模型空间的整体对数偏移量(去全局因子之后的 context 需要)。
+ 
+ 拟合矩阵做过"逐样本减去跨基因均值"之后，模型空间是
+ \fBx' = log2(CPM + 1) - offset\fR；扰动幅度必须先在 \fBx' + offset\fR 上计算，
+ 再换算回来，否则负基线会被压成 0，敲降变成"敲到底"甚至反号。
+.PP
+.SH OPTIONS
+.PP
+\fBmodel\fB \fR\- 由 \fBelastic_model\fR 创建的扰动引擎. 
+.PP
+.PP
+\fBoffset\fB \fR\- 偏移量，即该 context 的跨基因均值减去中位数校准量. 
+.PP
+.SH VALUE
+.PP
+同一个引擎对象，便于链式调用
+.PP
+.SH SEE ALSO
+linear
+.SH FILES
+.PP
+TRNtoolkit.dll
+.PP

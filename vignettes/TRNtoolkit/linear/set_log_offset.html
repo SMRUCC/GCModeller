@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>设置模型空间的整体对数偏移量(去全局因子之后的 context 需要)。</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>set_log_offset {linear}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>设置模型空间的整体对数偏移量(去全局因子之后的 context 需要)。</h2>
+
+        <h3>Description</h3>
+
+        <p>&lt;br /&gt; 拟合矩阵做过"逐样本减去跨基因均值"之后，模型空间是&lt;br /&gt; <code>x' = log2(CPM + 1) - offset</code>；扰动幅度必须先在 <code>x' + offset</code> 上计算，&lt;br /&gt; 再换算回来，否则负基线会被压成 0，敲降变成"敲到底"甚至反号。</p>
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>set_log_offset</strong>(<i>model</i>, <i>offset</i>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>model</dt>
+<dd><p>由 <code>elastic_model</code> 创建的扰动引擎. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/CellPhenotype/ElasticNet.html">ElasticNet</a>]</p></dd>
+
+
+<dt>offset</dt>
+<dd><p>偏移量，即该 context 的跨基因均值减去中位数校准量. [as double]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: none;">Details</h3>
+
+        
+
+        <h3 style="display: block">Authors</h3>
+
+        TRNtoolkit
+
+        <h3>Value</h3>
+
+        <p>同一个引擎对象，便于链式调用</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/CellPhenotype/ElasticNet.html">ElasticNet</a></li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>linear</em> version 1.0.0.0 <a
+                href="../linear.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

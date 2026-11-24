@@ -79,4 +79,12 @@ Public Class transunits : Inherits Model
     ''' <remarks></remarks>
     <AttributeField("COMPONENTS")> Public Property components As String()
 
+    <AttributeField("LEFT-END-POSITION")> Public Property left As Long
+    <AttributeField("RIGHT-END-POSITION")> Public Property right As Long
+    <AttributeField("TRANSCRIPTION-DIRECTION")> Public Property direction As String
+    <AttributeField("REGULATED-BY")> Public Property regulatedBy As String()
+    <AttributeField("COMPONENT-OF")> Public Property componentOf As String()
+    <AttributeField("UNMAPPED-COMPONENT-OF")> Public Property unmappedComponentOf As String()
+    <AttributeField("DBLINKS")> Public Property dbLinks As String()
+
 End Class

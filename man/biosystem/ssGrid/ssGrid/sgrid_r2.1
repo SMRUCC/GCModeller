@@ -1,0 +1,29 @@
+.\" man page create by R# package system.
+.TH SSGRID 1 2000-1月 "sgrid_r2" "sgrid_r2"
+.SH NAME
+sgrid_r2 \- get the R square of the slope fitting of each gene
+.SH SYNOPSIS
+\fIsgrid_r2(\fBnetwork\fR as <generic> SSystemNetwork);\fR
+.SH DESCRIPTION
+.PP
+get the R square of the slope fitting of each gene
+.PP
+.SH OPTIONS
+.PP
+\fBnetwork\fB \fR\- -. 
+.PP
+.SH VALUE
+.PP
+a numeric vector of the R square value of each gene, the order of the 
+ values is the same as the row order of \fBsgrid_parameters(network)$gene\fR
+.PP
+.SH EXAMPLES
+.PP
+let r2 = sgrid_r2(network);
+.PP
+.SH SEE ALSO
+ssGrid
+.SH FILES
+.PP
+biosystem.dll
+.PP

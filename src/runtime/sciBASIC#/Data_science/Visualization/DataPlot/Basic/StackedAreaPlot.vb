@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::37e6cefc043dfa74bcde785947cc4075, Data_science\Visualization\DataPlot\Basic\StackedAreaPlot.vb"
+#Region "Microsoft.VisualBasic::1104ae82d51455d2fc0d6c4993acd862, Data_science\Visualization\DataPlot\Basic\StackedAreaPlot.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 142
-    '    Code Lines: 113 (79.58%)
-    ' Comment Lines: 12 (8.45%)
-    '    - Xml Docs: 33.33%
+    '   Total Lines: 147
+    '    Code Lines: 116 (78.91%)
+    ' Comment Lines: 13 (8.84%)
+    '    - Xml Docs: 38.46%
     ' 
-    '   Blank Lines: 17 (11.97%)
-    '     File Size: 5.84 KB
+    '   Blank Lines: 18 (12.24%)
+    '     File Size: 6.21 KB
 
 
     ' Class StackedAreaPlot
@@ -48,7 +48,7 @@
     '     Properties: Categories, FillAlpha, MultiValues, SeriesNames, ShowValueLabels
     '                 Smooth, SmoothSegments
     ' 
-    '     Constructor: (+1 Overloads) Sub New
+    '     Constructor: (+2 Overloads) Sub New
     ' 
     '     Function: CatmullRom
     ' 
@@ -60,6 +60,7 @@
 
 Imports System.Drawing
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports std = System.Math
 
 ''' <summary>堆叠面积图</summary>
@@ -76,11 +77,16 @@ Public Class StackedAreaPlot
     Public Property FillAlpha As Integer = 140
     Public Property ShowValueLabels As Boolean = False
 
-    Public Sub New(width As Integer, height As Integer, Optional theme As PlotTheme = Nothing)
-        MyBase.New(width, height, theme)
+    Public Sub New(width As Integer, height As Integer, Optional theme As PlotTheme = Nothing, Optional driver As Microsoft.VisualBasic.Imaging.Driver.Drivers = Microsoft.VisualBasic.Imaging.Driver.Drivers.Default)
+        MyBase.New(width, height, theme, driver)
     End Sub
 
-    Public Sub Plot()
+    ''' <summary>直接在外部提供的绘图设备上绘制（图层叠加模式 / 宿主画布）。</summary>
+    Public Sub New(g As IGraphics, Optional theme As PlotTheme = Nothing)
+        MyBase.New(g, theme)
+    End Sub
+
+    Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
         DrawBackground()
         ComputePlotArea()
         DrawPlotArea()

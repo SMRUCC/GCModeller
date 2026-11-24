@@ -1,0 +1,23 @@
+S-system GRN fitting report
+time series     : 3 genes x 241 time points [0, 15]
+normalization   : Log2 (pseudo=1)
+sparsity        : 0.2
+max edges/gene  : 3
+mean slope RMSE : 0.00671426
+regulatory edges: 7
+trajectory refit: False
+The network may be unstable: the Gershgorin upper bound of the maximal eigenvalue real part is 4.404 (>= 0).
+
+S-system parameters: 3 genes
+mean slope RMSE    : 0.00671426
+
+  X1' = 0.2727*[prod] - 0.13*[prod]
+      <- X1  g=0.6958, h=3, net=-2.304
+      <- X2  g=1.782, h=1.074, net=0.7081
+      <- X3  g=-3, h=3, net=-6
+  X2' = 0.4207*[prod] - 1.132*[prod]
+      <- X1  g=2.059, h=0.09203, net=1.967
+      <- X2  g=-1.784, h=0.5435, net=-2.327
+  X3' = 0.5025*[prod] - 0.3066*[prod]
+      <- X2  g=0.9495, h=-0.2132, net=1.163
+      <- X3  g=-1.206, h=2.021, net=-3.227

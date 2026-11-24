@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0b0024ba20f82b6482a6ee4d4c0cc9c2, mime\text%html\Render\CSS\CssPropertyInheritedAttribute.vb"
+﻿#Region "Microsoft.VisualBasic::ced2855c3f8facbf0c95a1834c1700a1, mime\text%html\Render\CSS\CssPropertyInheritedAttribute.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 8
-    '    Code Lines: 6 (75.00%)
+    '   Total Lines: 10
+    '    Code Lines: 7 (70.00%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 2 (25.00%)
-    '     File Size: 166 B
+    '   Blank Lines: 3 (30.00%)
+    '     File Size: 207 B
 
 
     '     Class CssPropertyInheritedAttribute
@@ -51,6 +51,8 @@
     ' /********************************************************************************/
 
 #End Region
+
+Imports Microsoft.VisualBasic.Imaging
 
 Namespace Render.CSS
 

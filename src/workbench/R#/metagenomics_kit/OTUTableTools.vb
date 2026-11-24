@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::153040831a2b91375a4f542382af77dc, R#\metagenomics_kit\OTUTableTools.vb"
+#Region "Microsoft.VisualBasic::153040831a2b91375a4f542382af77dc, R#\metagenomics_kit\OTUTableTools.vb"
 
     ' Author:
     ' 
@@ -61,7 +61,7 @@ Imports System.Drawing
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
+Imports Microsoft.VisualBasic.Data.Plots.Canvas
 Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph

@@ -1,0 +1,41 @@
+.\" man page create by R# package system.
+.TH GENBANK 4 2000-1月 "write.genbank" "write.genbank"
+.SH NAME
+write.genbank \- save the modified genbank file
+.SH SYNOPSIS
+\fIwrite.genbank(\fBgb\fR as <generic> File, 
+\fBfile\fR as string, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+save the modified genbank file
+.PP
+.SH OPTIONS
+.PP
+\fBgb\fB \fR\- 
+ the [File](cref:T:SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.File) ncbi genbank assembly object for save to 
+ the target file.
+. 
+.PP
+.PP
+\fBfile\fB \fR\- the file path of the genbank assembly file to write data.. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a boolean value of the file save result: TRUE means the genbank 
+ assembly data has been written into the target file successfully;
+ 
+ this function returns a R# error message object if the input genbank 
+ assembly data is nothing.
+.PP
+.SH SEE ALSO
+GenBank
+.SH FILES
+.PP
+seqtoolkit.dll
+.PP
+.SH AUTHOR
+Written by \fBxie.guigang@gcmodeller.org\fR

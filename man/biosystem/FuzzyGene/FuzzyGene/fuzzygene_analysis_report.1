@@ -1,0 +1,116 @@
+.\" man page create by R# package system.
+.TH FUZZYGENE 1 2000-1月 "fuzzygene_analysis_report" "fuzzygene_analysis_report"
+.SH NAME
+fuzzygene_analysis_report \- Run every analysis once and write the tables to a folder.
+.SH SYNOPSIS
+\fIfuzzygene_analysis_report(\fBfuzzygene\fR as <generic> FuzzyGeneModel, 
+\fBgene\fR as string, 
+\fBgeneA\fR as string = \fB<NULL>\fR, 
+\fBgeneB\fR as string = \fB<NULL>\fR, 
+\fBdir\fR as string = \fB<NULL>\fR, 
+\fBmode\fR as string = "knockout", 
+\fBomegas\fR as double = \fB<NULL>\fR, 
+\fBstepsList\fR as double = \fB<NULL>\fR, 
+\fBdoses\fR as double = \fB<NULL>\fR, 
+\fBsweepSteps\fR as integer = 50, 
+\fBdoseSteps\fR as integer = 60, 
+\fBcombinationSteps\fR as integer = 60, 
+\fBtop\fR as integer = 50, 
+\fBsurfaceTop\fR as integer = 20, 
+\fBlagRatio\fR as double = 0.1, 
+\fBtolerance\fR as double = 0.001, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Run every analysis once and write the tables to a folder.
+.PP
+.SH OPTIONS
+.PP
+\fBfuzzygene\fB \fR\- a trained (or restored) model. 
+.PP
+.PP
+\fBgene\fB \fR\- the target gene of the single perturbation analyses. 
+.PP
+.PP
+\fBgeneA\fB \fR\- the first gene of the combination analysis; empty skips that part. 
+.PP
+.PP
+\fBgeneB\fB \fR\- the second gene of the combination analysis; empty skips that part. 
+.PP
+.PP
+\fBdir\fB \fR\- the output folder (created when missing). 
+.PP
+.PP
+\fBmode\fB \fR\- \fBknockout\fR (default), \fBknockdown\fR or \fBoverexpression\fR. 
+.PP
+.PP
+\fBomegas\fB \fR\- relaxation grid; \fBNULL\fR uses \fBc(0.2, 0.5, 0.8, 1.0)\fR. 
+.PP
+.PP
+\fBstepsList\fB \fR\- step grid of the invariance check; \fBNULL\fR uses \fBc(50, 200, 500)\fR. 
+.PP
+.PP
+\fBdoses\fB \fR\- dose grid; \fBNULL\fR uses 5 evenly spaced points. 
+.PP
+.PP
+\fBsweepSteps\fB \fR\- fixed iteration budget of the omega / lag analyses. 
+.PP
+.PP
+\fBdoseSteps\fB \fR\- iteration budget of the dose analyses. 
+.PP
+.PP
+\fBcombinationSteps\fB \fR\- iteration budget of the combination analysis. 
+.PP
+.PP
+\fBtop\fB \fR\- number of genes kept in the dose and combination tables. 
+.PP
+.PP
+\fBsurfaceTop\fB \fR\- number of genes kept in the dose-time surface. 
+.PP
+.PP
+\fBlagRatio\fB \fR\- relative trigger threshold of the lag definition. 
+.PP
+.PP
+\fBtolerance\fB \fR\- relative deviation threshold of the invariant flags. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment used to report errors. 
+.PP
+.SH VALUE
+.PP
+a character vector of the written file paths
+.PP
+.SH DETAILS
+.PP
+Writes into the folder:
+ \fBanalysis.sensitivity.csv\fR (omega + step sweeps),
+ \fBanalysis.lag.csv\fR, \fBanalysis.spearman.csv\fR,
+ \fBanalysis.dose_response.csv\fR, \fBanalysis.dose_time_surface.csv\fR,
+ \fBanalysis.combination.csv\fR (when both genes are given) and
+ \fBanalysis.report.json\fR (grid definition, invariant flags, run count, elapsed time).
+ 
+
+
+ 
+
+
+ This is the cheap way to get everything: calling the four analysis apis separately would
+ repeat the dose sweep twice. Expect one to two minutes on an 18k gene model with the
+ default grids.
+ 
+
+
+ 
+\fB
+ let files = FuzzyGene::fuzzygene_analysis_report(
+     model, "TPPP3", geneA = "HSD17B3", geneB = "TPPP3", dir = "/path/analysis");
+ print(files);
+ 
+\fR`
+.PP
+.SH SEE ALSO
+FuzzyGene
+.SH FILES
+.PP
+biosystem.dll
+.PP

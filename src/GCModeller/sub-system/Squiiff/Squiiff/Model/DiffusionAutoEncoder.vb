@@ -98,6 +98,19 @@ Namespace Model
             End Get
         End Property
 
+        ''' <summary>
+        ''' 模型内全部携带滑动统计量的归一化层（编码器残差块 + 去噪器条件残差块）。
+        ''' 层名全局唯一，可直接作为存档主键。
+        ''' </summary>
+        Public ReadOnly Property Normalizations As IReadOnlyList(Of IRunningStatistics)
+            Get
+                Dim bag As New List(Of IRunningStatistics)
+                bag.AddRange(Me.Encoder.Normalizations)
+                bag.AddRange(Me.Denoiser.Normalizations)
+                Return bag
+            End Get
+        End Property
+
         ''' <summary>可训练参数总元素数（诊断用）。</summary>
         Public ReadOnly Property ParameterSize As Integer
             Get

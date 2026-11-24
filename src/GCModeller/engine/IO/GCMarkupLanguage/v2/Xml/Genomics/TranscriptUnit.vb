@@ -85,6 +85,37 @@ Namespace v2
         <XmlElement>
         Public Property note As String
 
+        ''' <summary>
+        ''' 转录方向：``+1`` 或者 ``-1``
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property direction As String
+
+        ''' <summary>
+        ''' 转录单元在基因组上面的坐标区间
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property left As Integer
+        <XmlAttribute> Public Property right As Integer
+
+        ''' <summary>
+        ''' 调控当前转录单元的调控关系编号列表
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlElement("regulatedBy")> Public Property regulatedBy As String()
+
+        ''' <summary>
+        ''' 当前转录单元的启动子
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlElement("promoter")> Public Property promoter As Promoter
+
+        ''' <summary>
+        ''' 当前转录单元的终止子
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlElement("terminator")> Public Property terminator As Terminator
+
         Public ReadOnly Property numOfGenes As Integer
             Get
                 If genes Is Nothing Then

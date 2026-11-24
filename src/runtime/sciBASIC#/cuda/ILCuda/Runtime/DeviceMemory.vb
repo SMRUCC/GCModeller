@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::11f113c37f0dbe336b2e8f993c10276f, cuda\ILCuda\Runtime\DeviceMemory.vb"
+﻿#Region "Microsoft.VisualBasic::1c95462e5b1ba682776bd2e578cba3e6, cuda\ILCuda\Runtime\DeviceMemory.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 56
-    '    Code Lines: 45 (80.36%)
-    ' Comment Lines: 2 (3.57%)
-    '    - Xml Docs: 100.00%
+    '   Total Lines: 66
+    '    Code Lines: 48 (72.73%)
+    ' Comment Lines: 6 (9.09%)
+    '    - Xml Docs: 33.33%
     ' 
-    '   Blank Lines: 9 (16.07%)
-    '     File Size: 1.82 KB
+    '   Blank Lines: 12 (18.18%)
+    '     File Size: 2.35 KB
 
 
     '     Class DeviceMemory
@@ -79,12 +79,18 @@ Namespace Runtime
 
         Protected Sub Allocate(bytes As ULong)
             If bytes = 0 Then Throw New ArgumentOutOfRangeException(NameOf(bytes), "分配的字节数必须大于 0")
+
+            ' 当前上下文是线程局部状态：先把本线程绑到活跃上下文上，
+            ' 否则在线程池线程里分配显存会得到 CUDA_ERROR_INVALID_CONTEXT (201)
+            CudaRuntime.EnsureCurrent()
+
             CudaDriverApi.Check(CudaDriverApi.cuMemAlloc_v2(_pointer, bytes), "cuMemAlloc_v2")
             _byteSize = bytes
         End Sub
 
         Public Sub Clear()
             ThrowIfDisposed()
+            CudaRuntime.EnsureCurrent()
             CudaDriverApi.Check(CudaDriverApi.cuMemsetD8_v2(_pointer, 0, _byteSize), "cuMemsetD8_v2")
         End Sub
 
@@ -95,6 +101,10 @@ Namespace Runtime
         Protected Overridable Sub Release()
             If _pointer <> 0 Then
                 Try
+                    ' 这里可能从终结器线程进来：绑定失败不能被抛出，
+                    ' 否则 Dispose 会带着异常结束（下面的 Catch 只保护释放本身）
+                    CudaRuntime.EnsureCurrent()
+
                     CudaDriverApi.Check(CudaDriverApi.cuMemFree_v2(_pointer), "cuMemFree_v2")
                 Catch
                 End Try

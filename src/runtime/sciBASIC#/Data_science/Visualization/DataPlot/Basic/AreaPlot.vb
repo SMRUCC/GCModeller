@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::af8b3be1d827ce5a964f9c2e1eddad8d, Data_science\Visualization\DataPlot\Basic\AreaPlot.vb"
+#Region "Microsoft.VisualBasic::503700aeaf296622213f32498d152ebd, Data_science\Visualization\DataPlot\Basic\AreaPlot.vb"
 
     ' Author:
     ' 
@@ -34,20 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 112
-    '    Code Lines: 89 (79.46%)
-    ' Comment Lines: 10 (8.93%)
-    '    - Xml Docs: 60.00%
+    '   Total Lines: 117
+    '    Code Lines: 92 (78.63%)
+    ' Comment Lines: 11 (9.40%)
+    '    - Xml Docs: 63.64%
     ' 
-    '   Blank Lines: 13 (11.61%)
-    '     File Size: 4.56 KB
+    '   Blank Lines: 14 (11.97%)
+    '     File Size: 4.92 KB
 
 
     ' Class AreaPlot
     ' 
     '     Properties: Baseline, FillAlpha, Smooth, SmoothSegments
     ' 
-    '     Constructor: (+1 Overloads) Sub New
+    '     Constructor: (+2 Overloads) Sub New
     ' 
     '     Function: CatmullRom
     ' 
@@ -59,11 +59,12 @@
 
 Imports System.Drawing
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports std = System.Math
 
 ''' <summary>基础面积图（曲线下面积填充）</summary>
 Public Class AreaPlot
-    Inherits PlotEngine
+    Inherits SeriesPlotEngine
 
     ''' <summary>是否启用 Catmull-Rom 平滑曲线</summary>
     Public Property Smooth As Boolean = True
@@ -74,19 +75,24 @@ Public Class AreaPlot
     ''' <summary>面积基线 Y 值（默认 0，即曲线下面积）</summary>
     Public Property Baseline As Double = 0
 
-    Public Sub New(width As Integer, height As Integer, Optional theme As PlotTheme = Nothing)
-        MyBase.New(width, height, theme)
+    Public Sub New(width As Integer, height As Integer, Optional theme As PlotTheme = Nothing, Optional driver As Microsoft.VisualBasic.Imaging.Driver.Drivers = Microsoft.VisualBasic.Imaging.Driver.Drivers.Default)
+        MyBase.New(width, height, theme, driver)
     End Sub
 
-    Public Sub Plot(seriesList As IList(Of Series))
+    ''' <summary>直接在外部提供的绘图设备上绘制（图层叠加模式 / 宿主画布）。</summary>
+    Public Sub New(g As IGraphics, Optional theme As PlotTheme = Nothing)
+        MyBase.New(g, theme)
+    End Sub
+
+    Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
         DrawBackground()
         ComputePlotArea()
         DrawPlotArea()
         DrawTitle()
 
         ' ---- 计算坐标范围 ----
-        Dim allX = seriesList.SelectMany(Function(s) s.X).ToArray()
-        Dim allY = seriesList.SelectMany(Function(s) s.Y).ToArray()
+        Dim allX = SeriesList.SelectMany(Function(s) s.X).ToArray()
+        Dim allY = SeriesList.SelectMany(Function(s) s.Y).ToArray()
         Dim xmin = If(Me.XMin, allX.Min())
         Dim xmax = If(Me.XMax, allX.Max())
         Dim yLo = std.Min(allY.Min(), Baseline)
@@ -107,8 +113,8 @@ Public Class AreaPlot
         DrawAxisAndGrid(xmin, xmax, ymin, ymax)
 
         ' ---- 逐系列绘制面积 ----
-        For i = 0 To seriesList.Count - 1
-            Dim s = seriesList(i)
+        For i = 0 To SeriesList.Count - 1
+            Dim s = SeriesList(i)
             If Not s.Visible Then Continue For
             Dim color = If(s.Color, Theme.Palette(i Mod Theme.Palette.Length))
 
@@ -140,7 +146,7 @@ Public Class AreaPlot
             End If
         Next
 
-        DrawLegend(seriesList)
+        DrawLegend(SeriesList)
     End Sub
 
     ''' <summary>Catmull-Rom 样条插值，返回密集采样点列表</summary>

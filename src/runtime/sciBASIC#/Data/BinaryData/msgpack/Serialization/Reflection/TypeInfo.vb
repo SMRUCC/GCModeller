@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b7bb24287b25a0327421f5ac2b11bff1, Data\BinaryData\msgpack\Serialization\Reflection\TypeInfo.vb"
+﻿#Region "Microsoft.VisualBasic::6a8de43db64e3b91bd137bd90b98c617, Data\BinaryData\msgpack\Serialization\Reflection\TypeInfo.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 29
-    '    Code Lines: 22 (75.86%)
+    '   Total Lines: 28
+    '    Code Lines: 21 (75.00%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 7 (24.14%)
-    '     File Size: 900 B
+    '   Blank Lines: 7 (25.00%)
+    '     File Size: 872 B
 
 
     '     Class TypeInfo
@@ -55,7 +55,6 @@
 
 #End Region
 
-Imports System.Collections
 Imports Microsoft.VisualBasic.Emit.Delegates
 
 Namespace Serialization.Reflection

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::de911949b854eb26e17ec98c60a30872, Microsoft.VisualBasic.Core\src\Extensions\IO\Extensions\PathExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::e0d4226fe2338f05cca999581a2156c0, Microsoft.VisualBasic.Core\src\Extensions\IO\Extensions\PathExtensions.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 1128
-    '    Code Lines: 638 (56.56%)
-    ' Comment Lines: 371 (32.89%)
-    '    - Xml Docs: 83.83%
+    '   Total Lines: 1134
+    '    Code Lines: 642 (56.61%)
+    ' Comment Lines: 373 (32.89%)
+    '    - Xml Docs: 83.91%
     ' 
-    '   Blank Lines: 119 (10.55%)
-    '     File Size: 44.25 KB
+    '   Blank Lines: 119 (10.49%)
+    '     File Size: 44.51 KB
 
 
     ' Module PathExtensions
@@ -49,10 +49,10 @@
     '               DirectoryExists, DirectoryName, EnumerateFiles, (+2 Overloads) ExtensionSuffix, FileCopy
     '               FileExists, FileLength, FileMove, FileName, FileOpened
     '               GetDirectoryFullPath, GetFullPath, ListDirectory, ListFiles, Long2Short
-    '               MakeDir, (+2 Overloads) NormalizePathString, ParentDirName, ParentPath, PathCombine
-    '               PathIllegal, ReadDirectory, (+2 Overloads) RelativePath, SafeCopyTo, SplitPath
-    '               TheFile, ToDIR_URL, ToFileURL, TrimDIR, TrimSuffix
-    '               UnixPath
+    '               MakeDir, (+2 Overloads) NormalizePathString, ParentDirName, ParentPath, ParentPathInternal
+    '               PathCombine, PathIllegal, ReadDirectory, (+2 Overloads) RelativePath, SafeCopyTo
+    '               SplitPath, TheFile, ToDIR_URL, ToFileURL, TrimDIR
+    '               TrimSuffix, UnixPath
     ' 
     ' /********************************************************************************/
 
@@ -184,7 +184,7 @@ Public Module PathExtensions
     ''' </remarks>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
-    Public Function ExtensionSuffix(path As String) As String
+    Public Function ExtensionSuffix(path As String, Optional dotPrefix As Boolean = False) As String
         If path.StringEmpty Then
             Return ""
         Else
@@ -193,6 +193,8 @@ Public Module PathExtensions
 
             If fileName = suffix Then
                 Return ""
+            ElseIf dotPrefix Then
+                Return "." & suffix.ToLower
             Else
                 Return suffix.ToLower
             End If
@@ -755,7 +757,7 @@ Public Module PathExtensions
     ''' 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension> Public Function DirectoryName(dir$) As String
-        Return dir.TrimDIR _
+        Return dir.TrimDirSep _
             .Split("\"c).Last _
             .Split("/"c).Last
     End Function
@@ -858,7 +860,9 @@ Public Module PathExtensions
     ''' <param name="full">
     ''' http url should turn this parameter to false?
     ''' </param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' this function returns empty string if the given <paramref name="file"/> is empty.
+    ''' </returns>
     ''' <remarks>this function also could be used for handling of the http url location.
     ''' 这个函数不依赖于系统的底层API，因为系统的底层API对于过长的文件名会出错</remarks>
     <ExportAPI(NameOf(ParentPath))>
@@ -866,8 +870,12 @@ Public Module PathExtensions
     Public Function ParentPath(file$, Optional full As Boolean = True) As String
         If file.StringEmpty Then
             Return ""
+        Else
+            Return ParentPathInternal(file, full)
         End If
+    End Function
 
+    Private Function ParentPathInternal(file$, full As Boolean) As String
         Dim isUNCpath As Boolean = file.CheckUNCNetworkPath
         Dim isHttpUrl As Boolean = file.IsURLPattern
 
@@ -1140,7 +1148,7 @@ Public Module PathExtensions
     ''' </remarks>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
-    Public Function TrimDIR(DIR As String) As String
+    Public Function TrimDirSep(DIR As String) As String
         Return DIR.TrimEnd("/"c, "\"c)
     End Function
 

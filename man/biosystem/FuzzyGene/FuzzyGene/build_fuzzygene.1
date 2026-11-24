@@ -1,0 +1,54 @@
+.\" man page create by R# package system.
+.TH FUZZYGENE 1 2000-1月 "build_fuzzygene" "build_fuzzygene"
+.SH NAME
+build_fuzzygene \- Build an untrained neuro-fuzzy gene regulatory network model.
+.SH SYNOPSIS
+\fIbuild_fuzzygene(\fBx\fR as any, 
+\fBprior\fR as <generic> PriorNetwork = \fB<NULL>\fR, 
+\fBconfig\fR as <generic> FuzzyGeneConfig = \fB<NULL>\fR, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Build an untrained neuro-fuzzy gene regulatory network model.
+.PP
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- 
+ the gene expression matrix: either the \fBMatrix\fR object returned by
+ \fBgeneExpression::load.expr\fR (rows = genes, columns = samples) or an already converted
+ \fBGeneExpressionData\fR. Both are accepted because the plain \fBload.expr\fR result is a
+ \fBMatrix\fR; the old signature only took \fBGeneExpressionData\fR, so every script that piped
+ \fBload.expr()\fR straight into \fBbuild_fuzzygene\fR failed with an InvalidCastException.
+. 
+.PP
+.PP
+\fBprior\fB \fR\- 
+ an optional prior regulatory network created by the \fBbnlearn\fR package (\fBprior_edges\fR);
+ when omitted the candidate regulators are selected by correlation only.
+. 
+.PP
+.PP
+\fBconfig\fB \fR\- 
+ the configuration created by \fBFuzzyGene::fuzzygene_config\fR; \fBNothing\fR uses the defaults.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment used to report errors. 
+.PP
+.SH VALUE
+.PP
+an untrained model object
+.PP
+.SH DETAILS
+.PP
+The expression matrix provides the training data: when it carries \fBTimePoints\fR with at
+ least three distinct values the model learns the lagged map `x(t+1) = F(x(t))`,
+ otherwise it learns the static map `x_g = F(regulators)`. The prior network supplies
+ TF-to-target edges that are used to order (not to force) the candidate inputs.
+.PP
+.SH SEE ALSO
+FuzzyGene
+.SH FILES
+.PP
+biosystem.dll
+.PP

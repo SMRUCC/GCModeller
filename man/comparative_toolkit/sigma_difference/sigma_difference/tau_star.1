@@ -1,0 +1,37 @@
+.\" man page create by R# package system.
+.TH SIGMA_DIFFERENCE 1 2000-1月 "tau_star" "tau_star"
+.SH NAME
+tau_star \- The symmetrized \fBtau*\fR generalized odds ratio of one tetranucleotide:
+.SH SYNOPSIS
+\fItau_star(\fBnt\fR as <generic> FastaSeq, 
+\fBword\fR as string);\fR
+.SH DESCRIPTION
+.PP
+The symmetrized \fBtau*\fR generalized odds ratio of one tetranucleotide:
+
+\fB
+ tau*(XYZW) = f(XYZW) f(YZ) / ( f(XYZ) f(YZW) )
+ \fR`
+
+ A value far below 1 indicates a restriction site avoidance signal
+ (e.g. the CTAG avoidance in \fBM. jannaschii\fR, tau* = 0.06).
+.PP
+.SH OPTIONS
+.PP
+\fBnt\fB \fR\- the genome nucleotide sequence. 
+.PP
+.PP
+\fBword\fB \fR\- the four-base word under study, e.g. \fB"CTAG"\fR. 
+.PP
+.SH VALUE
+.PP
+the tau* value; 0 when the word is absent
+.PP
+.SH SEE ALSO
+sigma_difference
+.SH FILES
+.PP
+comparative_toolkit.dll
+.PP
+.SH AUTHOR
+Written by \fBxie.guigang@gcmodeller.org\fR

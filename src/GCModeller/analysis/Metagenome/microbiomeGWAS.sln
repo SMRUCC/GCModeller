@@ -1,9 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.1.31911.260
+# Visual Studio Version 18
+VisualStudioVersion = 18.9.12128.139 oobstable
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "microbiomeGWAS", "microbiomeGWAS\microbiomeGWAS.vbproj", "{DA7A7B6B-B27D-4B76-AC56-CF8C47917656}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "framework", "framework", "{CD57D797-ABC2-4888-B11D-76442BAE8045}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Math.NET5", "..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj", "{858324EE-999E-E068-4C90-86B664A177CB}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Core", "..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj", "{8E0DAC93-81D0-4261-2CF9-087F28F0B285}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,9 +69,85 @@ Global
 		{DA7A7B6B-B27D-4B76-AC56-CF8C47917656}.Release|x64.Build.0 = Release|x64
 		{DA7A7B6B-B27D-4B76-AC56-CF8C47917656}.Release|x86.ActiveCfg = Release|x86
 		{DA7A7B6B-B27D-4B76-AC56-CF8C47917656}.Release|x86.Build.0 = Release|x86
+		{858324EE-999E-E068-4C90-86B664A177CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{858324EE-999E-E068-4C90-86B664A177CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{858324EE-999E-E068-4C90-86B664A177CB}.Debug|x64.ActiveCfg = Debug|x64
+		{858324EE-999E-E068-4C90-86B664A177CB}.Debug|x64.Build.0 = Debug|x64
+		{858324EE-999E-E068-4C90-86B664A177CB}.Debug|x86.ActiveCfg = Debug|x86
+		{858324EE-999E-E068-4C90-86B664A177CB}.Debug|x86.Build.0 = Debug|x86
+		{858324EE-999E-E068-4C90-86B664A177CB}.docs|Any CPU.ActiveCfg = Release|Any CPU
+		{858324EE-999E-E068-4C90-86B664A177CB}.docs|Any CPU.Build.0 = Release|Any CPU
+		{858324EE-999E-E068-4C90-86B664A177CB}.docs|x64.ActiveCfg = Release|x64
+		{858324EE-999E-E068-4C90-86B664A177CB}.docs|x64.Build.0 = Release|x64
+		{858324EE-999E-E068-4C90-86B664A177CB}.docs|x86.ActiveCfg = Release|x86
+		{858324EE-999E-E068-4C90-86B664A177CB}.docs|x86.Build.0 = Release|x86
+		{858324EE-999E-E068-4C90-86B664A177CB}.GCModeller(Release_X64)|Any CPU.ActiveCfg = CellaLAB-Desktop|Any CPU
+		{858324EE-999E-E068-4C90-86B664A177CB}.GCModeller(Release_X64)|Any CPU.Build.0 = CellaLAB-Desktop|Any CPU
+		{858324EE-999E-E068-4C90-86B664A177CB}.GCModeller(Release_X64)|x64.ActiveCfg = CellaLAB-Desktop|x64
+		{858324EE-999E-E068-4C90-86B664A177CB}.GCModeller(Release_X64)|x64.Build.0 = CellaLAB-Desktop|x64
+		{858324EE-999E-E068-4C90-86B664A177CB}.GCModeller(Release_X64)|x86.ActiveCfg = CellaLAB-Desktop|x86
+		{858324EE-999E-E068-4C90-86B664A177CB}.GCModeller(Release_X64)|x86.Build.0 = CellaLAB-Desktop|x86
+		{858324EE-999E-E068-4C90-86B664A177CB}.GCModeller(UNIX-Release_X64)|Any CPU.ActiveCfg = Rsharp_app_release|Any CPU
+		{858324EE-999E-E068-4C90-86B664A177CB}.GCModeller(UNIX-Release_X64)|Any CPU.Build.0 = Rsharp_app_release|Any CPU
+		{858324EE-999E-E068-4C90-86B664A177CB}.GCModeller(UNIX-Release_X64)|x64.ActiveCfg = Rsharp_app_release|x64
+		{858324EE-999E-E068-4C90-86B664A177CB}.GCModeller(UNIX-Release_X64)|x64.Build.0 = Rsharp_app_release|x64
+		{858324EE-999E-E068-4C90-86B664A177CB}.GCModeller(UNIX-Release_X64)|x86.ActiveCfg = Rsharp_app_release|x86
+		{858324EE-999E-E068-4C90-86B664A177CB}.GCModeller(UNIX-Release_X64)|x86.Build.0 = Rsharp_app_release|x86
+		{858324EE-999E-E068-4C90-86B664A177CB}.Publish|Any CPU.ActiveCfg = Rsharp_app_release|Any CPU
+		{858324EE-999E-E068-4C90-86B664A177CB}.Publish|Any CPU.Build.0 = Rsharp_app_release|Any CPU
+		{858324EE-999E-E068-4C90-86B664A177CB}.Publish|x64.ActiveCfg = Rsharp_app_release|x64
+		{858324EE-999E-E068-4C90-86B664A177CB}.Publish|x64.Build.0 = Rsharp_app_release|x64
+		{858324EE-999E-E068-4C90-86B664A177CB}.Publish|x86.ActiveCfg = Rsharp_app_release|x86
+		{858324EE-999E-E068-4C90-86B664A177CB}.Publish|x86.Build.0 = Rsharp_app_release|x86
+		{858324EE-999E-E068-4C90-86B664A177CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{858324EE-999E-E068-4C90-86B664A177CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{858324EE-999E-E068-4C90-86B664A177CB}.Release|x64.ActiveCfg = Release|x64
+		{858324EE-999E-E068-4C90-86B664A177CB}.Release|x64.Build.0 = Release|x64
+		{858324EE-999E-E068-4C90-86B664A177CB}.Release|x86.ActiveCfg = Release|x86
+		{858324EE-999E-E068-4C90-86B664A177CB}.Release|x86.Build.0 = Release|x86
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.Debug|x64.ActiveCfg = Debug|x64
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.Debug|x64.Build.0 = Debug|x64
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.Debug|x86.ActiveCfg = Debug|x86
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.Debug|x86.Build.0 = Debug|x86
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.docs|Any CPU.ActiveCfg = Release|Any CPU
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.docs|Any CPU.Build.0 = Release|Any CPU
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.docs|x64.ActiveCfg = Release|x64
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.docs|x64.Build.0 = Release|x64
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.docs|x86.ActiveCfg = Release|x86
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.docs|x86.Build.0 = Release|x86
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.GCModeller(Release_X64)|Any CPU.ActiveCfg = CellaLAB-Desktop|Any CPU
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.GCModeller(Release_X64)|Any CPU.Build.0 = CellaLAB-Desktop|Any CPU
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.GCModeller(Release_X64)|x64.ActiveCfg = CellaLAB-Desktop|x64
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.GCModeller(Release_X64)|x64.Build.0 = CellaLAB-Desktop|x64
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.GCModeller(Release_X64)|x86.ActiveCfg = CellaLAB-Desktop|x86
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.GCModeller(Release_X64)|x86.Build.0 = CellaLAB-Desktop|x86
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.GCModeller(UNIX-Release_X64)|Any CPU.ActiveCfg = Rsharp_app_release|Any CPU
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.GCModeller(UNIX-Release_X64)|Any CPU.Build.0 = Rsharp_app_release|Any CPU
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.GCModeller(UNIX-Release_X64)|x64.ActiveCfg = Rsharp_app_release|x64
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.GCModeller(UNIX-Release_X64)|x64.Build.0 = Rsharp_app_release|x64
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.GCModeller(UNIX-Release_X64)|x86.ActiveCfg = Rsharp_app_release|x86
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.GCModeller(UNIX-Release_X64)|x86.Build.0 = Rsharp_app_release|x86
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.Publish|Any CPU.ActiveCfg = Rsharp_app_release|Any CPU
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.Publish|Any CPU.Build.0 = Rsharp_app_release|Any CPU
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.Publish|x64.ActiveCfg = Rsharp_app_release|x64
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.Publish|x64.Build.0 = Rsharp_app_release|x64
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.Publish|x86.ActiveCfg = Rsharp_app_release|x86
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.Publish|x86.Build.0 = Rsharp_app_release|x86
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.Release|x64.ActiveCfg = Release|x64
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.Release|x64.Build.0 = Release|x64
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.Release|x86.ActiveCfg = Release|x86
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{858324EE-999E-E068-4C90-86B664A177CB} = {CD57D797-ABC2-4888-B11D-76442BAE8045}
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285} = {CD57D797-ABC2-4888-B11D-76442BAE8045}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4DC950DD-445C-4679-A5AC-D06F611C3441}

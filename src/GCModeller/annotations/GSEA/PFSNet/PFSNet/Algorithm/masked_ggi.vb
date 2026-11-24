@@ -58,7 +58,7 @@ Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.PFSNet.DataStructure
 Imports SMRUCC.genomics.Analysis.PFSNet.R
 
-<HideModuleName> Module masked_ggi
+<HideModuleName> Public Module masked_ggi
 
     ''' <summary>
     ''' ```R
@@ -165,13 +165,31 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
         Dim g As PFSNetGraph = Graph.Data.Frame(data)
 
         For i As Integer = 0 To g.nodes.Length - 1
-            g.nodes(i).weight = w1matrix1.Select(g.nodes(i).name).experiments.Sum / w1matrix1.Select(g.nodes.First.name).experiments.Sum
-            g.nodes(i).weight2 = w1matrix2.Select(g.nodes(i).name).experiments.Sum / w1matrix2.Select(g.nodes.First.name).experiments.Sum
+            g.nodes(i).weight = MeanWeight(w1matrix1, g.nodes(i).name)
+            g.nodes(i).weight2 = MeanWeight(w1matrix2, g.nodes(i).name)
         Next
 
         ' 计算出总的网络之后再将总的网络分解为小得网络对象
         g = Graph.simplify(g)
         ' create sub-network
         Return Graph.decompose_graph(g, min_vertices:=5)
+    End Function
+
+    Private Function MeanWeight(matrix As DataFrameRow(), gene As String) As Double
+        Dim row As DataFrameRow = matrix.Select(gene)
+
+        If row Is Nothing OrElse row.experiments Is Nothing Then
+            Return 0
+        End If
+
+        Dim values As Double() = row.experiments _
+            .Where(Function(x) Double.IsFinite(x)) _
+            .ToArray
+
+        If values.Length = 0 Then
+            Return 0
+        Else
+            Return values.Average
+        End If
     End Function
 End Module

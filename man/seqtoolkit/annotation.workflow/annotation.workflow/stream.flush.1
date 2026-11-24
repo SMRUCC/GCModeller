@@ -1,0 +1,43 @@
+.\" man page create by R# package system.
+.TH ANNOTATION.WORKFLOW 2 2000-1月 "stream.flush" "stream.flush"
+.SH NAME
+stream.flush \- Save the annotation rawdata into the given stream file.
+.SH SYNOPSIS
+\fIstream.flush(\fBdata\fR as <generic> pipeline, 
+\fBstream\fR as any, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Save the annotation rawdata into the given stream file.
+.PP
+.SH OPTIONS
+.PP
+\fBdata\fB \fR\- 
+ a lazy pipeline collection of the annotation data for write into the 
+ target stream file, the supported data element types are: 
+ [BestHit](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit), [BiDirectionalBesthit](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BiDirectionalBesthit), 
+ [BlastnMapping](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.NtMapping.BlastnMapping) and [RankTerm](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline.RankTerm).
+. 
+.PP
+.PP
+\fBstream\fB \fR\- 
+ a stream data handler that generated via the \fBopen.stream\fR function.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+this function returns a R# error message object if the output stream 
+ device is nothing, the input data is nothing, or the stream device 
+ type is not matched with the incoming data type.
+.PP
+.SH SEE ALSO
+annotation.workflow
+.SH FILES
+.PP
+seqtoolkit.dll
+.PP
+.SH AUTHOR
+Written by \fBxie.guigang@gcmodeller.org\fR

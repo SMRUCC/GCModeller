@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ae5624e188bbd58a84fc655797324248, visualize\DataVisualizationExtensions\CatalogProfiling\Heatmap\CatalogBubbleHeatmap.vb"
+#Region "Microsoft.VisualBasic::ae5624e188bbd58a84fc655797324248, visualize\DataVisualizationExtensions\CatalogProfiling\Heatmap\CatalogBubbleHeatmap.vb"
 
     ' Author:
     ' 
@@ -59,7 +59,7 @@
 Imports System.Drawing
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
+Imports Microsoft.VisualBasic.Data.Plots.Canvas
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors

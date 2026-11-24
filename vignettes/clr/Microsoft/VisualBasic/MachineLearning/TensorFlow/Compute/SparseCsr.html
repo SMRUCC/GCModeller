@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Microsoft.VisualBasic.MachineLearning.TensorFlow.Compute.SparseCsr</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>SparseCsr {Microsoft.VisualBasic.MachineLearning.TensorFlow.Compute}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>SparseCsr</h2>
+
+        <h3>Description</h3>
+
+        <p>CSR 稀疏矩阵载体（行 = 突触前，列 = 突触后）。 承载 <a href="cref:M:Microsoft.VisualBasic.MachineLearning.TensorFlow.Compute.ITensorCompute.SpMM(Microsoft.VisualBasic.MachineLearning.TensorFlow.Compute.SparseCsr,Microsoft.VisualBasic.MachineLearning.TensorFlow.Tensor)">ITensorCompute.SpMM()</a> 算子所需的全部稀疏结构信息。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace Microsoft.VisualBasic.MachineLearning.TensorFlow.Compute
+export class SparseCsr {
+   # 非零元素的列索引（长度 = 非零数，每段内非降序）
+   ColumnIndices: integer;
+   # 突触后神经元数量（矩阵列数）
+   Columns: integer;
+   # 非零元素（突触）数量
+   NonZeros: integer;
+   # 行偏移数组（长度 Rows+1，单调非降，首元素 0、末元素 = 非零数）
+   RowPointers: integer;
+   # 突触前神经元数量（矩阵行数）
+   Rows: integer;
+   # 非零元素的权重（长度 = 非零数；就地修改后必须调用 <a href="cref:M:Microsoft.VisualBasic.MachineLearning.TensorFlow.Compute.SparseCsr.MarkModified">SparseCsr.MarkModified()</a>)
+   Values: double;
+   # 数据版本号。任何就地修改 <a href="cref:P:Microsoft.VisualBasic.MachineLearning.TensorFlow.Compute.SparseCsr.Values">SparseCsr.Values</a> 之后都应调用 <a href="cref:M:Microsoft.VisualBasic.MachineLearning.TensorFlow.Compute.SparseCsr.MarkModified">SparseCsr.MarkModified()</a> 使其自增，供设备端缓存判断失效。
+   Version: integer;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        this clr type has no other .net clr type reference.
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

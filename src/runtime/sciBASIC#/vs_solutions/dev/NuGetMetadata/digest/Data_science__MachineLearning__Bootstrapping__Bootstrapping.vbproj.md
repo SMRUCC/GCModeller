@@ -1,0 +1,246 @@
+# Data_science/MachineLearning/Bootstrapping/Bootstrapping.vbproj
+
+- RootNamespace : Microsoft.VisualBasic.MachineLearning.Bootstrapping
+- AssemblyName  : Microsoft.VisualBasic.MachineLearning.Bootstrapping
+- TargetFramework: net10.0
+- Source files  : 75
+- Existing Title: Graph Embedding and Ensemble Learning Toolkit (node2vec, graph2vec, ComplEx, Voting/Bagging/Stacking)
+- Existing Desc : Provides graph representation learning (node2vec biased random walks with word2vec, whole-graph graph2vec vectors, ComplEx knowledge-graph embeddings) and an ensemble learning framework (Voting/Bagging/Stacking over heterogeneous sciBASIC# algorithms) with a JSON-manifest + CSV-table model bundle format for zero-retraining persistence.
+- Existing Tags : scibasic;graph-embedding;node2vec;knowledge-graph;complex;ensemble-learning;voting;bagging;stacking;model-persistence
+
+## Namespaces
+- Ensemble  [files: 20]
+- Ensemble.Persistence  [files: 12]
+- GraphEmbedding  [files: 3]
+- GraphEmbedding.complex  [files: 5]
+- GraphEmbedding.complex_NNE  [files: 5]
+- GraphEmbedding.complex_NNE_AER  [files: 6]
+- GraphEmbedding.complex_R  [files: 6]
+- GraphEmbedding.struct  [files: 8]
+- GraphEmbedding.util  [files: 3]
+- node2vec  [files: 4]
+
+## Public types
+- Interface IClassifier (Ensemble\Abstractions\Contracts.vb) - 统一的分类器输出契约。 <c>PredictProbability</c> 返回的向量长度必须等于 <c>Classes.Length</c>， 且顺序严格对齐 <c>Classes</c>；这是 Voting / Bagging / Stacking
+- Interface IRegressor (Ensemble\Abstractions\Contracts.vb)
+- Interface IFeatureSchema (Ensemble\Abstractions\Contracts.vb) - 可报告训练特征维度的模型契约。 <para> 集成框架在 <c>Train</c> 时记录特征维度，预测时逐样本校验，从而把
+- Interface IClassifierLearner (Ensemble\Abstractions\Contracts.vb) - 可训练的分类基学习器。 <c>Fit</c> 接收的 <c>yIndex</c> 已经是类别索引（取值范围 <c>[0, classes.Length)</c>），<c>classes</c> 是全局类别顺序；
+- Interface IRegressorLearner (Ensemble\Abstractions\Contracts.vb)
+- Enum VotingMode (Ensemble\Abstractions\Enums.vb)
+- Enum BaggingAggregation (Ensemble\Abstractions\Enums.vb)
+- Module EnsembleMetrics (Ensemble\Core\EnsembleMetrics.vb)
+- Module EnsembleParallel (Ensemble\Core\EnsembleParallel.vb) - 集成框架的并行调度工具：把「是否并行 + 串行回退」的成对循环收敛到一处。 <para> 基模型训练与批量预测在两个维度上都可以并行（模型维 / 样本维），
+- Module EnsembleValidation (Ensemble\Core\EnsembleValidation.vb) - <para> 六个集成器（Voting / Bagging / Stacking × 分类 / 回归）在 <c>Train</c> 与 <c>Predict</c> 入口上的校验逻辑完全一致，集中在这里可以保证：
+- Module ProbabilityMath (Ensemble\Core\ProbabilityMath.vb)
+- Class NamespaceDoc (Ensemble\NamespaceDoc.vb) - </item> <item> <description>
+- Interface IModelCodec (Ensemble\Storage\IModelCodec.vb) - 单个算法族的模型编解码器。 <para> 编解码器把「具体适配器/算法模型」与「清单 + CSV」之间做双向映射：
+- Interface IPersistableModel (Ensemble\Storage\IModelCodec.vb) - 可持久化的集成模型。 集成器的保存逻辑必须知道「基模型 + 权重 + 元学习器」的结构， 因此由集成器自身实现 <see cref="SaveModel"/>；加载侧则集中在
+- Module ModelFormat (Ensemble\Storage\ModelFormat.vb) - 模型包的文本格式约定：数字、时间戳与区域设置。 模型文件必须在任何机器上往返一致，因此： <list type="bullet">
+- Class Graph2Vec (Graph2Vec.vb)
+- Class Arguments (GraphEmbedding\Arguments.vb)
+- Class AdaGrad (GraphEmbedding\complex\AdaGrad.vb)
+- Class ComplEx (GraphEmbedding\complex\ComplEx.vb)
+- Class Evaluation (GraphEmbedding\complex\Evaluation.vb)
+- Class Gradients (GraphEmbedding\complex\Gradients.vb)
+- Module NamespaceDoc (GraphEmbedding\complex\NamespaceDoc.vb) - The complex graph embedding models.
+- Class AdaGrad (GraphEmbedding\complex_NNE\AdaGrad.vb)
+- Class ComplEx (GraphEmbedding\complex_NNE\ComplEx.vb)
+- Class Evaluation (GraphEmbedding\complex_NNE\Evaluation.vb)
+- Class Gradients (GraphEmbedding\complex_NNE\Gradients.vb)
+- Module NamespaceDoc (GraphEmbedding\complex_NNE\NamespaceDoc.vb) - The complex graph embedding model with a neural network encoder.
+- Class AdaGrad (GraphEmbedding\complex_NNE_AER\AdaGrad.vb)
+- Class AERGradients (GraphEmbedding\complex_NNE_AER\AERGradients.vb)
+- Class ComplEx (GraphEmbedding\complex_NNE_AER\ComplEx.vb)
+- Class Evaluation (GraphEmbedding\complex_NNE_AER\Evaluation.vb)
+- Class Gradients (GraphEmbedding\complex_NNE_AER\Gradients.vb)
+- Module NamespaceDoc (GraphEmbedding\complex_NNE_AER\NamespaceDoc.vb) - The auto-encoder regularized complex graph embedding model.
+- Class AdaGrad (GraphEmbedding\complex_R\AdaGrad.vb)
+- Class ComplEx (GraphEmbedding\complex_R\ComplEx.vb)
+- Class Evaluation (GraphEmbedding\complex_R\Evaluation.vb)
+- Class Gradients (GraphEmbedding\complex_R\Gradients.vb)
+- Module NamespaceDoc (GraphEmbedding\complex_R\NamespaceDoc.vb) - The complex graph embedding model with typed relations.
+- Class RGradients (GraphEmbedding\complex_R\RGradients.vb)
+- Module NamespaceDoc (GraphEmbedding\NamespaceDoc.vb) - Graph embedding algorithms: the shared embedding abstractions.
+- Class Matrix (GraphEmbedding\struct\Matrix.vb)
+- Module NamespaceDoc (GraphEmbedding\struct\NamespaceDoc.vb) - Structural graph embedding models.
+- Structure Relation (GraphEmbedding\struct\Relation.vb)
+- Class Rule (GraphEmbedding\struct\Rule.vb)
+- Class RuleSet (GraphEmbedding\struct\RuleSet.vb)
+- Structure Triple (GraphEmbedding\struct\Triple.vb)
+- Class TripleDict (GraphEmbedding\struct\TripleDict.vb)
+- Class TripleSet (GraphEmbedding\struct\TripleSet.vb)
+- Module NamespaceDoc (GraphEmbedding\util\NamespaceDoc.vb) - Utility helpers for the graph embedding algorithms.
+- Class NegativeTripleGenerator (GraphEmbedding\util\NegativeTripleGenerator.vb)
+- Class StringSplitter (GraphEmbedding\util\StringSplitter.vb)
+- Class NamespaceDoc (NamespaceDoc.vb) - The graph embedding and bootstrapping machine learning toolkit.
+- Class Graph (Node2Vec\Graph.vb) - Created by freemso on 17-3-14.
+- Module NamespaceDoc (Node2Vec\NamespaceDoc.vb) - The node2vec graph embedding algorithm.
+- Module Solver (Node2Vec\Solver.vb) - Created by freemso on 17-3-14.
+
+## Notable public members
+- Public Sub New(classes As Double(), predictor As Func(Of Double(), Double()))
+- Public ReadOnly Property Classes As Double() Implements IClassifier.Classes
+- Public Function PredictProbability(x As Double()) As Double() Implements IClassifier.PredictProbability
+- Public Sub New(predictor As Func(Of Double(), Double))
+- Public Function Predict(x As Double()) As Double Implements IRegressor.Predict
+- Public Sub New(name As String, fit As Func(Of Double()(), Integer(), Double(), IClassifier))
+- Public ReadOnly Property Name As String Implements IClassifierLearner.Name
+- Public Function Fit(x As Double()(), yIndex As Integer(), classes As Double()) As IClassifier Implements IClassifierLearner.Fit
+- Public Sub New(name As String, fit As Func(Of Double()(), Double(), IRegressor))
+- Public ReadOnly Property Name As String Implements IRegressorLearner.Name
+- Public Function Fit(x As Double()(), y As Double()) As IRegressor Implements IRegressorLearner.Fit
+- Public Sub New(fitted As Bayesian, classes As Double())
+- Public ReadOnly Property FittedModel As Bayesian
+- Public ReadOnly Property Classes As Double() Implements IClassifier.Classes
+- Public ReadOnly Property FeatureWidth As Integer Implements IFeatureSchema.FeatureWidth
+- Public Function PredictProbability(x As Double()) As Double() Implements IClassifier.PredictProbability
+- Public Property Smoothing As Double = 1.0R
+- Public ReadOnly Property Name As String Implements IClassifierLearner.Name
+- Public Function Fit(x As Double()(), yIndex As Integer(), classes As Double()) As IClassifier Implements IClassifierLearner.Fit
+- Public Sub New(fitted As LogisticNS.LogisticFit, classes As Double())
+- Public ReadOnly Property FittedModel As LogisticNS.LogisticFit
+- Public ReadOnly Property Classes As Double() Implements IClassifier.Classes
+- Public ReadOnly Property FeatureWidth As Integer Implements IFeatureSchema.FeatureWidth
+- Public Function PredictProbability(x As Double()) As Double() Implements IClassifier.PredictProbability
+- Public Property Rate As Double = 0.1R
+- Public Property Iterations As Integer = 2000
+- Public Property Tolerance As Double = 0.0000001R
+- Public ReadOnly Property Name As String Implements IClassifierLearner.Name
+- Public Function Fit(x As Double()(), yIndex As Integer(), classes As Double()) As IClassifier Implements IClassifierLearner.Fit
+- Public Sub New(fitted As SvmModelType, classes As Double(), labelOffset As Integer,
+- Public ReadOnly Property FittedModel As SvmModelType
+- Public ReadOnly Property IndexOffset As Integer
+- Public ReadOnly Property FeatureWidth As Integer Implements IFeatureSchema.FeatureWidth
+- Public ReadOnly Property Classes As Double() Implements IClassifier.Classes
+- Public Function PredictProbability(x As Double()) As Double() Implements IClassifier.PredictProbability
+- Friend Shared Function ToNodes(x As Double(), offset As Integer) As Node()
+- Friend Shared Function CreateProblem(x As Double()(), labels As Double(),
+- Public Property C As Double = 1.0R
+- Public Property Gamma As Double = 0.0R
+- Public Property IndexOffset As Integer = 1
+- Public ReadOnly Property Name As String Implements IClassifierLearner.Name
+- Public Function Fit(x As Double()(), yIndex As Integer(), classes As Double()) As IClassifier Implements IClassifierLearner.Fit
+- Public Sub New(fitted As XGBoostModel, classes As Double())
+- Public ReadOnly Property FittedModel As XGBoostModel
+- Public ReadOnly Property Classes As Double() Implements IClassifier.Classes
+- Public ReadOnly Property FeatureWidth As Integer Implements IFeatureSchema.FeatureWidth
+- Public Function PredictProbability(x As Double()) As Double() Implements IClassifier.PredictProbability
+- Public Property Rounds As Integer = 30
+- Public Property MaxDepth As Integer = 6
+- Public Property Seed As Integer = 42
+- Public ReadOnly Property Name As String Implements IClassifierLearner.Name
+- Public Function Fit(x As Double()(), yIndex As Integer(), classes As Double()) As IClassifier Implements IClassifierLearner.Fit
+- Public Sub New(fitted As RanFog, Optional featureWidth As Integer = 0)
+- Public ReadOnly Property FittedModel As RanFog
+- Public ReadOnly Property FeatureWidth As Integer Implements IFeatureSchema.FeatureWidth
+- Public Function Predict(x As Double()) As Double Implements IRegressor.Predict
+- Public Property TreeCount As Integer = 100
+- Public Property MaxBranch As Integer = 2000
+- Public Property Mtry As Integer = 0
+- Public Property UseGini As Boolean = False
+- ... and 448 more
+
+## Imports
+- BayesRegNS = Microsoft.VisualBasic.MachineLearning.BayesianRegression
+- Edge = Microsoft.VisualBasic.Data.GraphTheory.VertexEdge
+- GaussianModel = Microsoft.VisualBasic.MachineLearning.BayesianRegression.GaussianBayes
+- LassoNS = Microsoft.VisualBasic.Data.Bootstrapping.LASSO
+- LogisticNS = Microsoft.VisualBasic.Data.Bootstrapping.Logistic
+- Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
+- Microsoft.VisualBasic.ComponentModel
+- Microsoft.VisualBasic.ComponentModel.Collection
+- Microsoft.VisualBasic.ComponentModel.DataSourceModel
+- Microsoft.VisualBasic.ComponentModel.TagData
+- Microsoft.VisualBasic.Data
+- Microsoft.VisualBasic.Data.GraphTheory
+- Microsoft.VisualBasic.Data.GraphTheory.SequenceGraphTransform
+- Microsoft.VisualBasic.Data.NLP.Word2Vec
+- Microsoft.VisualBasic.DataMining.Kernel.Classifier
+- Microsoft.VisualBasic.Emit
+- Microsoft.VisualBasic.Language
+- Microsoft.VisualBasic.Linq
+- Microsoft.VisualBasic.MachineLearning.Bootstrapping.Ensemble.Persistence
+- Microsoft.VisualBasic.MachineLearning.Bootstrapping.GraphEmbedding.struct
+- Microsoft.VisualBasic.MachineLearning.Bootstrapping.GraphEmbedding.util
+- Microsoft.VisualBasic.MachineLearning.RandomForests
+- Microsoft.VisualBasic.MachineLearning.SVM
+- Microsoft.VisualBasic.MachineLearning.XGBoost
+- Microsoft.VisualBasic.MachineLearning.XGBoost.train
+
+## File tree
+- Ensemble\Abstractions\Contracts.vb
+- Ensemble\Abstractions\DelegateLearners.vb
+- Ensemble\Abstractions\Enums.vb
+- Ensemble\Adapters\ClassificationAdapters.vb
+- Ensemble\Adapters\RegressionAdapters.vb
+- Ensemble\Adapters\XGBoostAdapter.vb
+- Ensemble\Bagging\BaggingClassifier.vb
+- Ensemble\Bagging\BaggingRegressor.vb
+- Ensemble\Core\BootstrapSampler.vb
+- Ensemble\Core\CrossValidation.vb
+- Ensemble\Core\EnsembleMetrics.vb
+- Ensemble\Core\EnsembleParallel.vb
+- Ensemble\Core\EnsembleValidation.vb
+- Ensemble\Core\LabelEncoder.vb
+- Ensemble\Core\ProbabilityMath.vb
+- Ensemble\NamespaceDoc.vb
+- Ensemble\Stacking\StackingClassifier.vb
+- Ensemble\Stacking\StackingRegressor.vb
+- Ensemble\Storage\Codecs\GlmCodec.vb
+- Ensemble\Storage\Codecs\NaiveBayesCodec.vb
+- Ensemble\Storage\Codecs\RandomForestCodec.vb
+- Ensemble\Storage\Codecs\SvmCodec.vb
+- Ensemble\Storage\Codecs\XGBoostCodec.vb
+- Ensemble\Storage\CsvTable.vb
+- Ensemble\Storage\EnsembleModelCodec.vb
+- Ensemble\Storage\EnsembleModelStore.vb
+- Ensemble\Storage\IModelCodec.vb
+- Ensemble\Storage\ModelBundle.vb
+- Ensemble\Storage\ModelFormat.vb
+- Ensemble\Storage\ModelManifest.vb
+- Ensemble\Voting\VotingClassifier.vb
+- Ensemble\Voting\VotingRegressor.vb
+- Graph2Vec.vb
+- GraphEmbedding\Algorithm.vb
+- GraphEmbedding\Arguments.vb
+- GraphEmbedding\complex\AdaGrad.vb
+- GraphEmbedding\complex\ComplEx.vb
+- GraphEmbedding\complex\Evaluation.vb
+- GraphEmbedding\complex\Gradients.vb
+- GraphEmbedding\complex\NamespaceDoc.vb
+- GraphEmbedding\complex_NNE\AdaGrad.vb
+- GraphEmbedding\complex_NNE\ComplEx.vb
+- GraphEmbedding\complex_NNE\Evaluation.vb
+- GraphEmbedding\complex_NNE\Gradients.vb
+- GraphEmbedding\complex_NNE\NamespaceDoc.vb
+- GraphEmbedding\complex_NNE_AER\AdaGrad.vb
+- GraphEmbedding\complex_NNE_AER\AERGradients.vb
+- GraphEmbedding\complex_NNE_AER\ComplEx.vb
+- GraphEmbedding\complex_NNE_AER\Evaluation.vb
+- GraphEmbedding\complex_NNE_AER\Gradients.vb
+- GraphEmbedding\complex_NNE_AER\NamespaceDoc.vb
+- GraphEmbedding\complex_R\AdaGrad.vb
+- GraphEmbedding\complex_R\ComplEx.vb
+- GraphEmbedding\complex_R\Evaluation.vb
+- GraphEmbedding\complex_R\Gradients.vb
+- GraphEmbedding\complex_R\NamespaceDoc.vb
+- GraphEmbedding\complex_R\RGradients.vb
+- GraphEmbedding\NamespaceDoc.vb
+- GraphEmbedding\struct\Matrix.vb
+- GraphEmbedding\struct\NamespaceDoc.vb
+- GraphEmbedding\struct\Relation.vb
+- GraphEmbedding\struct\Rule.vb
+- GraphEmbedding\struct\RuleSet.vb
+- GraphEmbedding\struct\Triple.vb
+- GraphEmbedding\struct\TripleDict.vb
+- GraphEmbedding\struct\TripleSet.vb
+- GraphEmbedding\util\NamespaceDoc.vb
+- GraphEmbedding\util\NegativeTripleGenerator.vb
+- GraphEmbedding\util\StringSplitter.vb
+- Model.vb
+- NamespaceDoc.vb
+- Node2Vec\AliasMethod.vb
+- Node2Vec\Graph.vb
+- Node2Vec\NamespaceDoc.vb
+- Node2Vec\Solver.vb
+

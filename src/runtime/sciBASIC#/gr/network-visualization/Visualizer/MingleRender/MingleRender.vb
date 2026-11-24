@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2e2f23ae4b9aa69fd7f755fbf9d900c8, gr\network-visualization\Visualizer\MingleRender\MingleRender.vb"
+﻿#Region "Microsoft.VisualBasic::1b47ff6dbe11d02d01736a8789e59b93, gr\network-visualization\Visualizer\MingleRender\MingleRender.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 24 (12.70%)
-    '     File Size: 7.55 KB
+    '     File Size: 7.62 KB
 
 
     ' Class MingleRender
@@ -157,7 +157,7 @@ Public Class MingleRender
             If (e.Length > 3) Then
                 c1 = e(1).unbundledPos
                 c2 = e((e.Length - 1) / 2 - 1).unbundledPos
-                [end] = lerp(midpoint, c2, 1 - pct)
+                [end] = InternalMath.lerp(midpoint, c2, 1 - pct)
                 ctx.beginPath()
                 ctx.moveTo(start(0), start(1))
                 ctx.bezierCurveTo(c1(0), c1(1), c2(0), c2(1), [end](0), [end](1))
@@ -166,7 +166,7 @@ Public Class MingleRender
                 [end] = e(e.Length - 1).unbundledPos
                 If (1 - pct) Then
                     ' line to midpoint + pct of something
-                    start = lerp(midpoint, c1, 1 - pct)
+                    start = InternalMath.lerp(midpoint, c1, 1 - pct)
                     ctx.lineTo(start(0), start(1))
                 End If
                 ctx.bezierCurveTo(c1(0), c1(1), c2(0), c2(1), [end](0), [end](1))
@@ -215,10 +215,10 @@ Public Class MingleRender
                 If j <> 0 Then
                     pos0 = If(posStart, e(j - 1).unbundledPos)
                     pos = adjustPosition(nodeStart.ID, PosItem, pos, margin, options.delta)
-                    midPos = lerp(pos0, pos, 0.5)
-                    pos1 = lerp(pos0, midPos, If(j = 1, 0, options.curviness))
+                    midPos = InternalMath.lerp(pos0, pos, 0.5)
+                    pos1 = InternalMath.lerp(pos0, midPos, If(j = 1, 0, options.curviness))
                     pos3 = pos
-                    pos2 = lerp(midPos, pos3, If(j = n - 1, 1, (1 - (options.curviness))))
+                    pos2 = InternalMath.lerp(midPos, pos3, If(j = n - 1, 1, (1 - (options.curviness))))
                     'ctx.lineCap = 'butt';//'round';
                     'ctx.beginPath();
                     If Not quadStart.IsNullOrEmpty Then

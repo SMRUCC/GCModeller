@@ -12,20 +12,45 @@
     <Configurations>Debug;Release;Rsharp_app_release;nuget_release</Configurations>
     <OutputPath>../../.nuget</OutputPath>
    
-    <Version>1.0.9758.20045</Version>
-    <AssemblyVersion>1.0.9758.20045</AssemblyVersion>
+    <Version>10.8.9818.14504</Version>
+    <AssemblyVersion>1.0.9818.14504</AssemblyVersion>
 
     <Title>GPU Tensor Types and CUDA Kernels for the ILCuda Runtime</Title>
-    <Description>GPU tensor extension for the ILCuda framework of sciBASIC#: device resident dense and CSR sparse tensor storage with device/host caches, plus hand written double precision CUDA kernels for GEMM, softmax, reductions, convolution and pooling.</Description>
-    <PackageTags>scibasic;cuda;gpu-tensor;sparse-matrix;csr;nvrtc;cuda-kernel;deep-learning</PackageTags>
-    <PackageReleaseNotes>ILCudaTensor extends the sciBASIC# ILCuda compute framework with device resident tensor types and ready to use CUDA kernels. Capabilities: (1) CudaTensor, a full double precision ITensorCompute implementation for CUDA derived from the TensorFlow TensorComputeBase, so any operator without a GPU kernel automatically falls back to the CPU implementation; (2) the element wise, activation, linear algebra, normalization and reduction operator set - Add, Multiply, Exp, Log, Clip, Relu, Gelu, Sigmoid, Tanh, MatMul, Transpose, Softmax, LogSoftmax, Sum, Mean, Max, ArgMax, RowReduce and ReduceGlobal; (3) DeviceCache and SparseCsrCache for explicit device memory residency, avoiding the leaks caused by ILCuda having no finalizer, with a default 1 GiB cache budget; (4) hand written double precision CUDA kernels shipped as embedded resources and injected into the NVRTC compile unit by CudaTensor.Register - tensor.cu (last axis softmax, reductions, arg min max), gemm.cu (tiled GEMM), spmm.cu (row parallel CSR x dense with atomicAdd(double), the core operator when loading real connectomes such as FlyWire), conv.cu and pool.cu (NHWC forward and backward); (5) a two stage global reduction plus a MinGpuElements threshold (default 4096) that keeps small tensors on the CPU. Targets x64 only.</PackageReleaseNotes>
+    <Description>A GPU tensor extension for sciBASIC#: device-resident dense and CSR sparse tensor storage with host/device caches, hand-written single and double precision CUDA kernels for GEMM, softmax, convolution, pooling and sparse SpMM, plus a CUDA backend for the machine learning tensor compute interface.</Description>
+    <PackageTags>scibasic;cuda;gpu-tensor;fp32;csr;deep-learning;gpgpu;matmul</PackageTags>
+    <PackageReleaseNotes>Package maintenance release: build and packaging configuration updates only, no functional changes in this cycle.</PackageReleaseNotes>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <AssemblyTitle>Microsoft.VisualBasic.Computing.ILCuda.GPUTensor</AssemblyTitle>
+    <Authors>xieguigang &lt;I@xieguigang.me&gt;</Authors>
+    <Company>sciBASIC.NET Foundation</Company>
+    <Copyright>Copyright (c) sciBASIC.NET Foundation</Copyright>
+    <PackageProjectUrl>http://scibasic.net/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/xieguigang/sciBASIC</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <PackageIcon>logo-knot.png</PackageIcon>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <IncludeSymbols>True</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='nuget_release|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>../../.nuget/</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
+    <Optimize>true</Optimize>
   </PropertyGroup>
 
   <ItemGroup>
     <Compile Remove="test\**" />
     <EmbeddedResource Remove="test\**" />
     <None Remove="test\**" />
+    <None Include="..\..\vs_solutions\logo-knot.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
@@ -44,6 +69,15 @@
     <EmbeddedResource Include="Kernels\tensor.cu" />
     <EmbeddedResource Include="Kernels\gemm.cu" />
     <!--
+      手写单精度内核（float32）：两段式全局归约 + CFD 四个扩展原语。
+      单精度栈的逐元素 / 标量算子由 FloatKernels.vb 经 IL2Cuda 自动生成，
+      只有"块内共享内存归约"与"三维 stencil"这两类 IL2Cuda 表达不了的才放这里。
+    -->
+    <EmbeddedResource Include="Kernels\tensor_f32.cu" />
+    <EmbeddedResource Include="Kernels\conv_f32.cu" />
+    <EmbeddedResource Include="Kernels\pool_f32.cu" />
+    <EmbeddedResource Include="Kernels\spmm_f32.cu" />
+    <!--
       CSR 稀疏 × 稠密内核（double）：脉冲神经网络加载真实突触连接组
       （FlyWire 等）时的核心算子，行并行 + atomicAdd(double)。
     -->
@@ -59,6 +93,17 @@
       IL2Cuda 无法表达"多输出数组"与"块内共享内存归约"，因此与 gemm.cu 一样手写。
     -->
     <EmbeddedResource Include="Kernels\train.cu" />
+    <!--
+      融合的递归 LIF 单步内核：把「稀疏输入 + 泄漏积分 + 阈值触发 + 复位 + 计数累加」
+      压成一次调用，配合设备常驻状态实现每步零主机往返。double 与 float 两个变体。
+    -->
+    <EmbeddedResource Include="Kernels\lif.cu" />
+    <!--
+      Cella 批量细胞管线融合内核：把「同一步的全部细胞」当作一个 batch，
+      为液态网络 RK4 积分（LNN）与先验调控图消息传递（GNN）各提供一次内核完成，
+      配合设备常驻状态消除逐算子往返。
+    -->
+    <EmbeddedResource Include="Kernels\cellaccel.cu" />
   </ItemGroup>
 
   <ItemGroup>

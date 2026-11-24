@@ -1,0 +1,37 @@
+.\" man page create by R# package system.
+.TH GENETREE 1 2000-1月 "feature_importance" "feature_importance"
+.SH NAME
+feature_importance \- Get the split importance of the regulators, this table is the data driven
+.SH SYNOPSIS
+\fIfeature_importance(\fBtree\fR as <generic> XGBoostGRN, 
+\fBtop_n\fR as integer = 20, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Get the split importance of the regulators, this table is the data driven
+ "sign and weight" of the ARACNE network edges.
+.PP
+.SH OPTIONS
+.PP
+\fBtree\fB \fR\- the trained [XGBoostGRN](cref:T:SMRUCC.genomics.Analysis.GeneTree.XGBoostGRN) model object.. 
+.PP
+.PP
+\fBtop_n\fB \fR\- 
+ the number of the regulator records that are ordered by the sensitivity in
+ descending order, \fB0\fR returns all of them.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a dataframe whose columns are \fBgene\fR, \fBregulator\fR, \fBrank\fR, \fBmi\fR,
+ \fBcorrelation\fR, \fBsplits\fR and \fBsensitivity\fR.
+.PP
+.SH SEE ALSO
+geneTree
+.SH FILES
+.PP
+biosystem.dll
+.PP

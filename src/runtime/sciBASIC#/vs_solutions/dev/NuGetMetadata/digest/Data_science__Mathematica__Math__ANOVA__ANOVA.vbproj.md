@@ -1,0 +1,165 @@
+# Data_science/Mathematica/Math/ANOVA/ANOVA.vbproj
+
+- RootNamespace : Microsoft.VisualBasic.Math.Statistics.Hypothesis.ANOVA
+- AssemblyName  : Microsoft.VisualBasic.Math.Statistics.ANOVA
+- TargetFramework: net10.0
+- Source files  : 27
+- Existing Title: ANOVA, Kruskal-Wallis and Multivariate Omics Analysis Toolkit
+- Existing Desc : A statistical hypothesis testing toolkit for sciBASIC#: one-way ANOVA F-tests, Kruskal-Wallis non-parametric group comparison with Bonferroni and Benjamini-Hochberg FDR correction, plus PCA, PLS-DA and OPLS-DA multivariate analysis over unified numeric tables.
+- Existing Tags : scibasic;anova;kruskal-wallis;pca;pls-da;opls-da;omics
+
+## Namespaces
+- stats  [files: 2]
+
+## Public types
+- Module Program (_smoketest\Program.vb) - ANOVA 多变量分析（PCA / PLS-DA / OPLS-DA）的 NumericTable 入口自检程序。
+- Class AnovaFTest (ANOVA\AnovaFTest.vb)
+- Class Group (ANOVA\Group.vb)
+- Class TableFivepercent (ANOVA\TableFivepercent.vb)
+- Class TableOnepercent (ANOVA\TableOnepercent.vb)
+- Class AnovaMain (AnovaMain.vb)
+- Module KruskalWallisModule (KruskalWallis\KruskalWallisModule.vb) - 功能说明： 1. 对微生物丰度矩阵（行=物种/OTU，列=样本）逐行执行 Kruskal-Wallis 检验 2. 自动处理结值（tied ranks）并应用校正因子
+- Structure KWResult (KruskalWallis\KWResult.vb) - Kruskal-Wallis 检验结果结构体，存储单个分类单元（物种/OTU）的检验统计量
+- Class BasicMathematics (MultivariateAnalysis\BasicMathematics.vb)
+- Module DataSetHelper (MultivariateAnalysis\DataSet.vb) - helper module for create the input dataset for run analysis
+- Module Debugger (MultivariateAnalysis\Debugger.vb)
+- Class MultivariateAnalysisResult (MultivariateAnalysis\MultivariateAnalysisResult.vb)
+- Module MultivariateMetrics (MultivariateAnalysis\MultivariateMetrics.vb) - 多元统计分析结果（<see cref="MultivariateAnalysisResult"/>）的通用指标提取器。 <para> 将散落在各个分析流程内部的指标公式集中到这里，绘图代码与置换检验都复用同一套实现，
+- Module NumericTableAnalysis (MultivariateAnalysis\NumericTableAnalysis.vb) - 多变量分析（PCA / PLS-DA / OPLS-DA）的统一二维表入口。 所有的入口方法都直接接收 <see cref="NumericTable"/>，内部会构造 一个**全新的** <see cref="StatisticsObject"/> 之后再调用现有的分析算法，
+- Module NumericTableDataSet (MultivariateAnalysis\NumericTableDataSet.vb) - 将 Core 之中的统一二维表 <see cref="NumericTable"/> 适配为多变量分析所需要的 <see cref="StatisticsObject"/> 输入对象的帮助模块。 表之中的特征矩阵会作为自变量 X，而指定的标签列则作为响应/分组变量 y。
+- Module NumericTableResult (MultivariateAnalysis\NumericTableResult.vb) - 将多变量分析的结果对象 <see cref="MultivariateAnalysisResult"/> 之中的 降维投影结果（score）与载荷结果（loading）抽取为统一的二维表对象 <see cref="NumericTable"/>，从而可以方便的直接送入聚类、可视化等后续流程。
+- Class OPLS (MultivariateAnalysis\OPLS.vb)
+- Module PCA (MultivariateAnalysis\PCA.vb)
+- Module PCAData (MultivariateAnalysis\PCAData.vb) - get pca result: contribution, score, loading
+- Class PermutationTestResult (MultivariateAnalysis\PermutationTest.vb) - 置换检验（permutation test）的计算结果。 <para> 对应 OPLS-DA / PLS-DA 的标准验证图：横轴是「置换后的响应变量与原始响应变量的相关系数」，
+- Module PermutationTest (MultivariateAnalysis\PermutationTest.vb) - <para> 实现方式是：固定 X，对响应变量 Y 做随机重排（相当于打散样本与类别之间的对应关系）， 然后重新跑一次完整的 PLS/OPLS 建模，记录该次置换模型的 R2Y 与累计 Q2；
+- Class PLS (MultivariateAnalysis\PLS.vb)
+- Module PLSData (MultivariateAnalysis\PLSData.vb) - get pls-da result
+- Class Component (MultivariateAnalysis\PLSData.vb)
+- Class StatisticsMathematics (MultivariateAnalysis\StatisticsMathematics.vb)
+- Enum ScaleMethod (MultivariateAnalysis\StatisticsObject.vb)
+- Enum TransformMethod (MultivariateAnalysis\StatisticsObject.vb)
+- Class BasicStats (MultivariateAnalysis\StatisticsObject.vb)
+- Class StatisticsObject (MultivariateAnalysis\StatisticsObject.vb)
+- Class NamespaceDoc (NamespaceDoc.vb) - Analysis of variance (ANOVA) statistical hypothesis testing.
+- Module NamespaceDoc (NamespaceDoc.vb) - Statistical helpers used by the ANOVA test implementation.
+
+## Notable public members
+- Public Const P_FIVE_PERCENT As String = "p<.05"
+- Public Const P_ONE_PERCENT As String = "p<.01"
+- Public Overridable ReadOnly Property numenator As Integer
+- Public Overridable ReadOnly Property denomenator As Integer
+- Public Overridable ReadOnly Property type As String
+- Public Overridable ReadOnly Property criticalNumber As Double
+- Public Overridable Function fScore_determineIt() As Double
+- Public Overridable Sub divide_by_degrees_of_freedom()
+- Public Overridable Sub populate(matrix As IEnumerable(Of Double()), type As String)
+- Public Overridable Sub findWithinGroupMeans()
+- Public Overridable Sub setSumOfSquaresOfGroups()
+- Public Overridable Sub setTotalSumOfSquares()
+- Public Overrides Function ToString() As String
+- Public ReadOnly Property DfBetween As Integer
+- Public ReadOnly Property DfWithin As Integer
+- Public ReadOnly Property FStatistic As Double
+- Public ReadOnly Property PValue As Double
+- Protected Sub New(type As String)
+- Protected MustOverride Function loadMatrix() As IEnumerable(Of Double())
+- Public Shared Function getCriticalNumber(numerator As Integer, denominator As Integer, type As String) As Double
+- Public Overrides Function ToString() As String
+- Protected Friend Shared Function getRowIndex(actualNumerator As Integer) As Integer
+- Protected Friend Shared Function getColIndex(actualNumerator As Integer) As Integer
+- Public Sub New(ary As Double())
+- Public Sub New()
+- Protected Overrides Iterator Function loadMatrix() As IEnumerable(Of Double())
+- Public Sub New()
+- Protected Overrides Iterator Function loadMatrix() As IEnumerable(Of Double())
+- Public Shared Sub Main(ParamArray strings As String())
+- Public Function RegularizedIncompleteGammaP(a As Double, x As Double) As Double
+- Public Function ChiSquaredCDF(x As Double, k As Integer) As Double
+- Public Function ChiSquaredPValue(x As Double, k As Integer) As Double
+- Public Function ComputeRanks(values As Double()) As Double()
+- Public Function ComputeRanksFast(values As Double()) As Double()
+- Public Function ComputeTieCorrection(values As Double()) As Double
+- Public Function KruskalWallisTest(abundanceData As Double()(),
+- Public Function KruskalWallisMatrixTest(abundanceMatrix As Double(,),
+- Public Function FormatKWResult(result As KWResult) As String
+- Public Function FormatKWResultsTable(results As KWResult()) As String
+- Public Function GetSignificantTaxa(results As KWResult(),
+- Public Function BonferroniCorrection(results As KWResult()) As Double()
+- Public Function BenjaminiHochbergCorrection(results As KWResult()) As Double()
+- Public Shared Function ErrorOfSquareVs2(x As Double(), y As Double()) As Double
+- Public Shared Function Stdev(array As Double()) As Double
+- Public Shared Function SumOfSquare(array As Double()) As Double
+- Public Shared Function SumOfSquareCentered(array As Double()) As Double
+- Public Shared Function RootSumOfSquare(array1 As Double(), array2 As Double()) As Double
+- Public Shared Function RootSumOfSquare(array As Double()) As Double
+- Public Shared Function Var(array As Double()) As Double
+- Public Shared Function InnerProduct(array1 As Double(), array2 As Double()) As Double
+- Public Function CommonDataSet(df As DataFrame, Optional labels As Array = Nothing) As StatisticsObject
+- Public Function CommonDataSet(Of Row As {INamedValue, IVector})(mat As IEnumerable(Of Row), colnames As String(), Optional labels As Array = Nothing) …
+- Public Function CommonDataSet(Of Row As {INamedValue, DynamicPropertyBase(Of Double)})(mat As IEnumerable(Of Row), Optional labels As Array = Nothing)…
+- Public Function CommonDataSet(mat As IEnumerable(Of NamedCollection(Of Double)), colnames As String(), Optional labels As Array = Nothing) As Statisti…
+- Public Sub WritePlsResult(x As MultivariateAnalysisResult, sw As TextWriter)
+- Public Sub WritePlsResult(x As MultivariateAnalysisResult, output As Stream)
+- Public Sub WriteOplsResult(x As MultivariateAnalysisResult, sw As TextWriter)
+- Public Sub WriteOplsResult(x As MultivariateAnalysisResult, output As Stream)
+- Public Sub WritePcaResult(x As MultivariateAnalysisResult, sw As TextWriter)
+- Public Sub WritePcaResult(x As MultivariateAnalysisResult, output As Stream)
+- ... and 143 more
+
+## Imports
+- any = Microsoft.VisualBasic.Scripting
+- ASCII = Microsoft.VisualBasic.Text.ASCII
+- Microsoft.VisualBasic.ComponentModel.Collection
+- Microsoft.VisualBasic.ComponentModel.Collection.Generic
+- Microsoft.VisualBasic.ComponentModel.DataSourceModel
+- Microsoft.VisualBasic.Data
+- Microsoft.VisualBasic.Data.Framework
+- Microsoft.VisualBasic.Language
+- Microsoft.VisualBasic.Linq
+- Microsoft.VisualBasic.Math.Distributions
+- Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
+- Microsoft.VisualBasic.Math.Statistics.Distributions
+- Microsoft.VisualBasic.Math.Statistics.Distributions.LinearMoments
+- Microsoft.VisualBasic.Math.Statistics.Hypothesis.ANOVA
+- Microsoft.VisualBasic.Parallel
+- Microsoft.VisualBasic.Scripting.Expressions
+- Microsoft.VisualBasic.Serialization.JSON
+- std = System.Math
+- System
+- System.Collections.Generic
+- System.Collections.ObjectModel
+- System.IO
+- System.Linq
+- System.Runtime.CompilerServices
+- System.Runtime.InteropServices
+
+## File tree
+- _smoketest\Program.vb
+- ANOVA\Anova.vb
+- ANOVA\AnovaFTest.vb
+- ANOVA\DistributionTable.vb
+- ANOVA\Group.vb
+- ANOVA\TableFivepercent.vb
+- ANOVA\TableOnepercent.vb
+- AnovaMain.vb
+- KruskalWallis\KruskalWallisModule.vb
+- KruskalWallis\KWResult.vb
+- MultivariateAnalysis\BasicMathematics.vb
+- MultivariateAnalysis\DataSet.vb
+- MultivariateAnalysis\Debugger.vb
+- MultivariateAnalysis\MultivariateAnalysisResult.vb
+- MultivariateAnalysis\MultivariateMetrics.vb
+- MultivariateAnalysis\NumericTableAnalysis.vb
+- MultivariateAnalysis\NumericTableDataSet.vb
+- MultivariateAnalysis\NumericTableResult.vb
+- MultivariateAnalysis\OPLS.vb
+- MultivariateAnalysis\PCA.vb
+- MultivariateAnalysis\PCAData.vb
+- MultivariateAnalysis\PermutationTest.vb
+- MultivariateAnalysis\PLS.vb
+- MultivariateAnalysis\PLSData.vb
+- MultivariateAnalysis\StatisticsMathematics.vb
+- MultivariateAnalysis\StatisticsObject.vb
+- NamespaceDoc.vb
+

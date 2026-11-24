@@ -1,0 +1,158 @@
+.\" man page create by R# package system.
+.TH FUZZYGENE 1 2000-1月 "fuzzygene_hybrid_config" "fuzzygene_hybrid_config"
+.SH NAME
+fuzzygene_hybrid_config \- Chainable mutator of the solver and hybrid layer options.
+.SH SYNOPSIS
+\fIfuzzygene_hybrid_config(\fBconfig\fR as <generic> FuzzyGeneConfig, 
+\fBsolver\fR as string = "newton", 
+\fBmaxNewtonIterations\fR as integer = 20, 
+\fBandersonDepth\fR as integer = 5, 
+\fBcalibration\fR as string = "none", 
+\fBcalibrationEpsilon\fR as double = 0.05, 
+\fBcalibrationMinScale\fR as double = 0.05, 
+\fBclampInputToSupport\fR as boolean = TRUE, 
+\fBclampOutputToSupport\fR as boolean = TRUE, 
+\fBmaxRegulatorCollinearity\fR as double = 1, 
+\fBpbnRegularization\fR as string = "none", 
+\fBpbnMinCod\fR as double = 0.05, 
+\fBpbnWeight\fR as double = 1, 
+\fBpbnMaxParents\fR as integer = 2, 
+\fBpbnMaxGenes\fR as integer = 2000, 
+\fBpbnCandidateSize\fR as integer = 5, 
+\fBensembleSamples\fR as integer = 0, 
+\fBmodeBiasWeight\fR as double = 0, 
+\fBfcmWarmStart\fR as boolean = FALSE, 
+\fBfcmModules\fR as integer = 48, 
+\fBfcmAlpha\fR as double = 1, 
+\fBfcmMaxSteps\fR as integer = 200, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Chainable mutator of the solver and hybrid layer options.
+.PP
+.SH OPTIONS
+.PP
+\fBconfig\fB \fR\- the configuration created by \fBfuzzygene_config\fR. 
+.PP
+.PP
+\fBsolver\fB \fR\- 
+ \fBnewton\fR (default), \fBanderson\fR, \fBlegacy\fR (the old damped iteration) or \fBadvance\fR
+ (lagged/time series only: plain time stepping, no steady state claim)
+. 
+.PP
+.PP
+\fBcalibration\fB \fR\- 
+ \fBnone\fR (default), \fBspectral\fR (scale the cyclic part until the spectral radius of the
+ assembled Jacobian is below \fB1 - epsilon\fR) or \fBrow-l1\fR (the conservative row norm bound)
+. 
+.PP
+.PP
+\fBcalibrationEpsilon\fB \fR\- target margin \fB1 - epsilon\fR of the spectral radius. Default 0.05.. 
+.PP
+.PP
+\fBcalibrationMinScale\fB \fR\- lower bound of one calibration pass, keeps the model from collapsing. Default 0.05.. 
+.PP
+.PP
+\fBclampInputToSupport\fB \fR\- 
+ clamp the antecedent inputs to the training domain of each regulator. Turning this off
+ re-enables the unbounded extrapolation of the outermost rules. Default TRUE.
+. 
+.PP
+.PP
+\fBclampOutputToSupport\fB \fR\- clamp the predicted expression to the training support. Default TRUE.. 
+.PP
+.PP
+\fBmaxRegulatorCollinearity\fB \fR\- 
+ upper bound of the pairwise |Pearson| between the selected regulators; 1 disables the
+ constraint (default). Lowering it to 0.95 improves the conditioning of the least squares
+ step at the price of selecting fewer data driven regulators.
+. 
+.PP
+.PP
+\fBpbnRegularization\fB \fR\- 
+ \fBnone\fR (default), \fBfilter\fR (drop correlation candidates whose CoD is too low) or
+ \fBweighted\fR (order the candidates by CoD). Enabling it also makes
+ \fBfuzzygene_ensemble\fR available.
+. 
+.PP
+.PP
+\fBpbnMinCod\fB \fR\- minimum CoD for a candidate parent set. Default 0.05.. 
+.PP
+.PP
+\fBpbnWeight\fB \fR\- weight of the CoD term when \fBpbnRegularization = "weighted"\fR. Default 1.. 
+.PP
+.PP
+\fBpbnMaxParents\fB \fR\- maximum parents enumerated per target gene. Default 2.. 
+.PP
+.PP
+\fBpbnMaxGenes\fB \fR\- gene limit of the qualitative layer; above it the PBN layer is skipped. Default 2000.. 
+.PP
+.PP
+\fBpbnCandidateSize\fB \fR\- candidate pool size per target gene (prior TFs plus the top correlated genes). Default 5.. 
+.PP
+.PP
+\fBensembleSamples\fB \fR\- 
+ default sample count of \fBfuzzygene_ensemble\fR: how many times the PBN rules are resampled.
+ 0 (default) keeps the deterministic single solve.
+. 
+.PP
+.PP
+\fBmodeBiasWeight\fB \fR\- 
+ how strongly a sampled boolean mode pulls the continuous solve; 0 (default) only reports
+ the boolean consistency without changing the numerical result.
+. 
+.PP
+.PP
+\fBfcmWarmStart\fB \fR\- 
+ enable the module level fuzzy cognitive map: it provides a bounded warm start for the
+ per gene root finding and a surrogate answer when the solver detects a limit cycle.
+ Default FALSE.
+. 
+.PP
+.PP
+\fBfcmModules\fB \fR\- number of modules of the coarse grained layer. Default 48.. 
+.PP
+.PP
+\fBfcmAlpha\fB \fR\- slope of the sigmoid activation. Default 1.. 
+.PP
+.PP
+\fBfcmMaxSteps\fB \fR\- propagation budget of the module layer. Default 200.. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment used to report errors. 
+.PP
+.SH VALUE
+.PP
+the same configuration object, so the call can be chained
+.PP
+.SH DETAILS
+.PP
+The existing \fBfuzzygene_config\fR already carries 30 optional arguments; adding the
+ solver / PBN / FCM knobs there would make it unusable and would break every script that
+ relies on positional arguments. This function mutates a configuration object in place
+ instead, so the whole thing stays readable:
+ 
+
+
+ 
+\fB
+ let opts = FuzzyGene::fuzzygene_config(maxRegulators = 6, mfCount = 3);
+ opts = FuzzyGene::fuzzygene_hybrid_config(opts,
+     solver = "newton", pbnRegularization = "weighted", ensembleSamples = 16);
+ 
+\fR`
+
+ 
+
+
+ Defaults are chosen so that calling this function with only \fBconfig\fR changes nothing
+ important: the Newton root finder is already the default solver, and the stability
+ calibration stays off (the root finder does not need a contractive map, while calibrating
+ a strongly cyclic fit can drop R2 from 0.86 to 0.014 — that has to be an explicit choice).
+.PP
+.SH SEE ALSO
+FuzzyGene
+.SH FILES
+.PP
+biosystem.dll
+.PP

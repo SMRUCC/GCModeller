@@ -1,0 +1,21 @@
+WGCNA benchmark summary
+=======================
+file      : G:\GCModeller\src\GCModeller\annotations\WGCNA\run_test\dist400.csv
+mode      : hclust
+genes     : 400
+samples   : 400
+backend   : SIMD
+treeCut   : dynamic
+maxBlock  : 5000
+topN      : 0
+parallel  : 1
+seed      : 12345
+
+
+load       : 0.1 s
+wall clock : 0.2 s
+peak RSS   : 47 MB
+managed heap: 11 MB
+
+stage timings (ms):
+  hclust: 8

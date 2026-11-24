@@ -1,0 +1,33 @@
+.\" man page create by R# package system.
+.TH PROTEINKIT 1 2000-1月 "analysis_domains" "analysis_domains"
+.SH NAME
+analysis_domains \- analysis the functional domain on the protein sequence
+.SH SYNOPSIS
+\fIanalysis_domains(\fBblastp\fR as any, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+analysis the functional domain on the protein sequence
+.PP
+.SH OPTIONS
+.PP
+\fBblastp\fB \fR\- 
+ the diamond blastp annotation result data for extract the protein 
+ domain information.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a vector of the [PfamString](cref:T:SMRUCC.genomics.ProteinModel.PfamString) protein domain annotation 
+ result, one result element for each of the protein sequence in the 
+ input annotation result data.
+.PP
+.SH SEE ALSO
+proteinKit
+.SH FILES
+.PP
+seqtoolkit.dll
+.PP

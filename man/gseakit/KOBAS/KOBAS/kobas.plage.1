@@ -1,0 +1,77 @@
+.\" man page create by R# package system.
+.TH KOBAS 1 2000-1月 "kobas.plage" "kobas.plage"
+.SH NAME
+kobas.plage \- PLAGE pathway level analysis (KOBAS SNBEA)
+.SH SYNOPSIS
+\fIkobas.plage(\fBexpr\fR as any, 
+\fBcls\fR as any, 
+\fBgmt\fR as any, 
+\fBmin_size\fR as integer = 5, 
+\fBmax_size\fR as integer = 500, 
+\fBfdr\fR as string = "BH", 
+\fBdata_type\fR as string = "rseq", 
+\fBnormalize\fR as boolean = TRUE, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+PLAGE pathway level analysis (KOBAS SNBEA)
+ 
+ Score each gene set of the expression matrix with the PLAGE method (the first
+ right singular vector of the row standardized gene set submatrix), then compare
+ the activity scores between the two phenotype groups.
+.PP
+.SH OPTIONS
+.PP
+\fBexpr\fB \fR\- 
+ the expression matrix (matrix object, \fBdataframe\fR or expression matrix file path).
+. 
+.PP
+.PP
+\fBcls\fB \fR\- the phenotype class labels, same as the \fBcls\fR parameter of \fBkobas.gsea\fR.. 
+.PP
+.PP
+\fBgmt\fB \fR\- the gene set collection: a [Background](cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.Background) model or a GMT file path.. 
+.PP
+.PP
+\fBmin_size\fB \fR\- the minimum number of the mapped members of a gene set, default \fB5\fR.. 
+.PP
+.PP
+\fBmax_size\fB \fR\- the maximum number of the mapped members of a gene set, default \fB500\fR.. 
+.PP
+.PP
+\fBfdr\fB \fR\- the multiple testing correction method, default \fBBH\fR.. 
+.PP
+.PP
+\fBdata_type\fB \fR\- 
+ the data type of the expression matrix: \fBrseq\fR (RNA-seq read counts, default) or
+ \fBma\fR (microarray data).
+. 
+.PP
+.PP
+\fBnormalize\fB \fR\- 
+ performs the data normalization before the analysis? Default \fBTRUE\fR: the RNA-seq
+ data will be transformed by the log2 CPM with the prior count and the microarray
+ data will be quantile normalized.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment.. 
+.PP
+.SH VALUE
+.PP
+a \fBdataframe\fR with the gene set id as the row names and the columns: \fBname\fR,
+ \fBdescription\fR, \fBsize\fR, \fBstatistic\fR, \fBpvalue\fR, \fBp_adjust\fR and \fBgenes\fR.
+.PP
+.SH DETAILS
+.PP
+The differential analysis uses the classic Welch two sample t-test instead of the
+ limma moderated t-test because there is no moderated t implementation in the
+ GCModeller core library, so the p-values are slightly more conservative than the
+ limma result.
+.PP
+.SH SEE ALSO
+KOBAS
+.SH FILES
+.PP
+gseakit.dll
+.PP

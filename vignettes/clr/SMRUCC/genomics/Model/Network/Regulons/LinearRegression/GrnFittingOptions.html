@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GrnFittingOptions</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>GrnFittingOptions {SMRUCC.genomics.Model.Network.Regulons.LinearRegression}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>GrnFittingOptions</h2>
+
+        <h3>Description</h3>
+
+        <p>基因调控网络的线性拟合参数</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Model.Network.Regulons.LinearRegression
+export class GrnFittingOptions {
+   # 自动模式下，候选调控因子数量占样本数量的最大比例(默认为 1/3)。
+   # 
+   # 这个上限是必须的：参与拟合的自变量个数应当显著小于样本数量，否则 <a href="cref:F:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.FittingMethod.MultipleLinear">FittingMethod.MultipleLinear</a> 的 QR 分解会因为秩不足而失效， 而 DataFittings 的 LASSO 求解器也会因为内部数组的维度缺陷而越界崩溃。
+   candidateSampleRatio: double;
+   # 是否计算回归系数的 t 值与显著性 p 值(仅对 <a href="cref:F:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.FittingMethod.MultipleLinear">FittingMethod.MultipleLinear</a> 有效)。
+   computeStatistics: boolean;
+   # 候选调控因子的相关性筛选后端。
+   # 
+   # 为空(默认)的时候使用内置的逐基因扫描(行为与原实现逐位一致)； 非空的时候由后端一次性算出每个目标基因的候选集， 从而把 "每个基因各扫一遍全表" 降为一次分块矩阵乘法。
+   # 
+   # 后端的 <code>Initialize</code> 会在 <a href="cref:M:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GeneRegulatoryNetwork.Fit">GeneRegulatoryNetwork.Fit()</a> 开始时 被调用一次，<code>Query</code> 会被并行拟合过程并发调用，因此实现必须是线程安全的只读。
+   correlationBackend: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/ICorrelationScreener.html">ICorrelationScreener</a>;
+   # 弹性网络的超参数配置，只在 <a href="cref:F:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.FittingMethod.ElasticNet">FittingMethod.ElasticNet</a> 模式下生效。
+   elasticNet: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/ElasticNetOptions.html">ElasticNetOptions</a>;
+   # 每一个目标基因最多纳入多少个候选调控因子。
+   # 
+   # 小于或者等于零的时候按照 <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GrnFittingOptions.candidateSampleRatio">GrnFittingOptions.candidateSampleRatio</a> 自动推算。
+   maxCandidates: integer;
+   # 并行拟合的最大并发度，小于或者等于零的时候由运行时自行决定。
+   maxDegreeOfParallelism: integer;
+   # 使用 LASSO 求解的时候，每一个目标基因最多允许保留多少个非零的调控关系。 小于或者等于零的时候不做限制。
+   maxRegulatorsPerGene: integer;
+   # 线性拟合的求解方法，默认为普通最小二乘(OLS)。
+   method: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/FittingMethod.html">FittingMethod</a>;
+   # 候选调控因子与目标基因的 pearson 相关性的绝对值下限， 低于这个阈值的基因不会被纳入设计矩阵(默认为 0，即不施加相关性过滤)。
+   minAbsCorrelation: double;
+   # 导出调控边的时候的回归系数绝对值阈值，小于这个阈值的边会被丢弃(默认为 0，即保留全部)。
+   minAbsWeight: double;
+   # 是否只保留互为因果(|权重|在两个方向上都显著且符号一致)的调控关系。
+   # 
+   # 开启之后，只有在 <code>A -&gt; B</code> 与 <code>B -&gt; A</code> 两个方向都被拟合出来、 并且回归系数同号的时候才会保留这条边，边的权重取两个方向的均值。
+   mutualOnly: boolean;
+   # 为负相关的候选调控因子保留的名额，默认 -1(不启用)。
+   # 
+   # 共表达网络里负相关的边极少，L1 会优先保留强正相关的候选， 于是敲降一个基因只会把整片基因一起拖下去(全下凋)。 设置成例如 15 之后，每个目标基因的候选集里会强制包含 15 个负相关基因 (其余名额仍给正相关)，网络里才会出现抑制型边，扰动响应才可能同时有升有降。
+   # 
+   # 该配额只在触发候选筛选的时候生效(候选池大于 <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GrnFittingOptions.maxCandidates">GrnFittingOptions.maxCandidates</a> 或设置了 <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GrnFittingOptions.minAbsCorrelation">GrnFittingOptions.minAbsCorrelation</a>)。
+   negativeCandidateQuota: integer;
+   # <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GrnFittingOptions.partialCorrelation">GrnFittingOptions.partialCorrelation</a> 开启时，用作条件集的 hub 基因数量，默认 5。
+   partialConditionSize: integer;
+   # 是否使用偏相关(而不是零阶 Pearson)来给候选调控因子排序，默认关闭。
+   # 
+   # 开启之后，会先找出表达谱最"像全局程序"的若干个 hub 基因 (与随机抽样基因的平均 |r| 最大的一批，通常是线粒体/核糖体基因)， 把每个基因对这批 hub 做线性回归、取残差，再在残差上计算相关。
+   # 
+   # 这等价于以 hub 基因为条件集的偏相关(Frisch-Waugh-Lovell 残差回归， 与 <code>WGCNA/PartialCorrelation.vb::FromData</code> 使用的是同一个算法)， 可以显著削弱"所有基因共享同一个全局因子"造成的伪边。
+   # 
+   # 注意：只有当候选池大于 <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GrnFittingOptions.maxCandidates">GrnFittingOptions.maxCandidates</a> 或者设置了 <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GrnFittingOptions.minAbsCorrelation">GrnFittingOptions.minAbsCorrelation</a> 的时候才会触发候选筛选； 候选池本身很小(例如限定为 300 个靶基因)时本选项不起作用。
+   partialCorrelation: boolean;
+   # 优先注入的基因数量上限，默认 0(不限制)。
+   # 
+   # <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GrnFittingOptions.priorityRegulators">GrnFittingOptions.priorityRegulators</a> 列出 1600+ 个基因的时候，每个目标基因的 候选数会从 <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GrnFittingOptions.maxCandidates">GrnFittingOptions.maxCandidates</a> 膨胀到 1900 左右，而求解器要为每个 基因分配 <code>p x n</code> 的列数组(大对象堆)。并发较高时这会触发 <code>OutOfMemoryException</code>，表现为大量基因"没有任何调控关系"。 把本属性设为与 <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GrnFittingOptions.maxCandidates">GrnFittingOptions.maxCandidates</a> 相同的量级，可以避免候选集爆炸。
+   priorityBudget: integer;
+   # 需要优先纳入候选调控因子池的基因集合(例如转录因子列表)。
+   # 
+   # 与 <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GrnFittingOptions.regulators">GrnFittingOptions.regulators</a> 的"限定"语义不同：这里列出的基因不受 <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GrnFittingOptions.maxCandidates">GrnFittingOptions.maxCandidates</a> 与 <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GrnFittingOptions.minAbsCorrelation">GrnFittingOptions.minAbsCorrelation</a> 的截断影响， 总是会被追加进每一个目标基因的候选集(目标基因自身除外)。
+   # 
+   # 为空的时候不产生任何影响。大小写不敏感，表达矩阵之中不存在的基因会被忽略。
+   priorityRegulators: string;
+   # 采纳先验的最低置信度，默认 0.9(即只使用 High 置信度的边)。
+   # 
+   # 低于该阈值的边既不参与候选注入，也不参与惩罚放松。
+   priorMinConfidence: double;
+   # curated 数据库之中的 <code>TF -&gt; target</code> 调控关系先验，默认空。
+   # 
+   # 提供之后会启用两项机制：
+   # 
+   # 
+   # <ol>
+   # <li>候选注入：对于某个目标基因，先验中指向它的 TF 会被追加进候选集， 即使它被 top-k 相关性排名挤出了名单也会保留下来；</li>
+   # <li>自适应惩罚：先验支持的边在 L1 惩罚上乘以 <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GrnFittingOptions.priorPenalty">GrnFittingOptions.priorPenalty</a>， 在稀疏化过程中更容易存活。</li>
+   # </ol>
+   # 
+   # 
+   # 先验为空时，拟合行为与不提供先验时逐位一致。
+   priorNetwork: <a href="/vignettes/clr/SMRUCC/genomics/BioSystem/Core/RegulatoryEdge.html">RegulatoryEdge[]</a>;
+   # 先验支持的边所享有的 L1 惩罚乘子，默认 1.0(不放松)。
+   # 
+   # 取值越小，先验边越容易被保留；0.3 是一个稳健的默认选择 (先验提供倾斜，但仍然由数据决定去留)。设为 1.0 等价于关闭方案 B。
+   priorPenalty: double;
+   # 是否把先验的因果符号(激活/抑制)作为回归系数的可行域约束，默认开启。
+   # 
+   # 开启之后，先验中标记为 Activator 的边只允许 β ≥ 0、标记为 Inhibitor 的边 只允许 β ≤ 0(符号未知的边不受约束)。这就是 signed lasso： 幅度仍由数据决定，但方向由外部知识固定。
+   # 
+   # 之所以需要它：共表达数据无法区分激活与抑制(Inhibitor 边的相关系数同样为正)， 而 L1/L2/图拉普拉斯这些偶次惩罚对 β → -β 完全对称， 只有把可行域限制到半空间才能确定绝对符号。
+   priorSignMode: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/PriorSignMode.html">PriorSignMode</a>;
+   # p 值计算的容差：小于这个数值的 p 值会被修正为零。
+   pvalueTolerance: double;
+   # 可选的调控因子集合(例如转录因子列表)。
+   # 
+   # 为空的时候，所有的基因都可以作为候选调控因子； 非空的时候，只有这个集合之内的基因才会被作为自变量参与拟合， 而目标基因仍然可以是表达矩阵之中的任意一行。
+   regulators: string;
+   # 是否关闭拟合过程之中的进度提示输出。
+   silent: boolean;
+   # 是否在进行拟合之前把每一个基因的表达向量标准化(z-score)。
+   # 
+   # 开启之后回归系数可以在不同基因之间横向比较，代价是丢失了原始的表达量尺度， 同时模型的截距项在理论上会退化为零。
+   standardize: boolean;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>correlationBackend</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/ICorrelationScreener.html">ICorrelationScreener</a></li>
+<li>use by <i>property</i> member <code>elasticNet</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/ElasticNetOptions.html">ElasticNetOptions</a></li>
+<li>use by <i>property</i> member <code>method</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/FittingMethod.html">FittingMethod</a></li>
+<li>use by <i>property</i> member <code>priorNetwork</code>: <a href="/vignettes/clr/SMRUCC/genomics/BioSystem/Core/RegulatoryEdge.html">RegulatoryEdge</a></li>
+<li>use by <i>property</i> member <code>priorSignMode</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/PriorSignMode.html">PriorSignMode</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

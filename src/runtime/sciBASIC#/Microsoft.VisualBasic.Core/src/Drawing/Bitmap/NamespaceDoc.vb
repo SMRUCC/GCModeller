@@ -1,8 +1,77 @@
+﻿#Region "Microsoft.VisualBasic::63949769a4d4ccaa19326b73158be891, Microsoft.VisualBasic.Core\src\Drawing\Bitmap\NamespaceDoc.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 8
+    '    Code Lines: 4 (50.00%)
+    ' Comment Lines: 3 (37.50%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 1 (12.50%)
+    '     File Size: 184 B
+
+
+    '     Module NamespaceDoc
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 Namespace Imaging.BitmapImage
 
     ''' <summary>
     ''' Bitmap image types and pixel processing helpers.
     ''' </summary>
+    ''' <remarks>
+    ''' The pixel rows of the <see cref="FileStream.Bitmap"/> object are stored in 
+    ''' the order that is used by the bitmap file: the rows of the standard bottom 
+    ''' up DIB are stored from the bottom to the top, so that the first scan line 
+    ''' of the <see cref="FileStream.Bitmap.PixelData"/> is the lowest row of the 
+    ''' image. the <see cref="FileStream.Bitmap.PixelDataFliped"/> property and the 
+    ''' <c>flipRows</c> option of the <see cref="FileStream.BitmapFileHelper"/> are 
+    ''' used for reversing the pixel rows into the top down order.
+    ''' 
+    ''' The scan line of the image that is less than 8 bits per pixel is bit packed 
+    ''' and the color palette of the indexed image is stored right after the DIB 
+    ''' header of the file, both of them are handled by the 
+    ''' <see cref="FileStream.Bitmap.Stride"/> and the 
+    ''' <see cref="FileStream.Bitmap.Palette"/> property.
+    ''' </remarks>
     Module NamespaceDoc
     End Module
 End Namespace

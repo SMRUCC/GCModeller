@@ -67,14 +67,6 @@ Namespace LASSO
     Public Class MathUtil
 
 
-        Public Shared Function getStg(arr As Double()) As Double
-            Return getStd(arr, arr.Average())
-        End Function
-
-        Public Shared Function getStg(arr As IList(Of Double)) As Double
-            Return getStd(arr, arr.Average())
-        End Function
-
         Public Shared Function getStd(arr As Double(), avg As Double) As Double
             Dim sum As Double = 0
             For Each item In arr
@@ -89,22 +81,6 @@ Namespace LASSO
                 sum += std.Pow(item - avg, 2)
             Next
             Return std.Sqrt(sum / arr.Count)
-        End Function
-
-        Public Shared Function getDotProduct(vector1 As Single(), vector2 As Single(), length As Integer) As Double
-            Dim product As Double = 0
-            For i = 0 To length - 1
-                product += vector1(i) * vector2(i)
-            Next
-            Return product
-        End Function
-
-        Public Shared Function getDotProduct(vector1 As Double(), vector2 As Double(), length As Integer) As Double
-            Dim product As Double = 0
-            For i = 0 To length - 1
-                product += vector1(i) * vector2(i)
-            Next
-            Return product
         End Function
 
         ' Divides the second vector from the first one (vector1[i] /= val)

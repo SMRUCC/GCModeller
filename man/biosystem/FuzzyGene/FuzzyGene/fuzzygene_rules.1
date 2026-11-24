@@ -1,0 +1,35 @@
+.\" man page create by R# package system.
+.TH FUZZYGENE 1 2000-1月 "fuzzygene_rules" "fuzzygene_rules"
+.SH NAME
+fuzzygene_rules \- Export the IF-THEN rules of every fitted target gene.
+.SH SYNOPSIS
+\fIfuzzygene_rules(\fBfuzzygene\fR as <generic> FuzzyGeneModel, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Export the IF-THEN rules of every fitted target gene.
+.PP
+.SH OPTIONS
+.PP
+\fBfuzzygene\fB \fR\- a trained model. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment used to report errors. 
+.PP
+.SH VALUE
+.PP
+a character vector, one element per rule (with per gene section headers)
+.PP
+.SH DETAILS
+.PP
+Each line reads like
+ `rule3 [12.34%] IF TF-A IS high AND TF-B IS low THEN gene-G = 1.2*TF-A + -0.8*TF-B + 0.1`：
+ the bracketed number is the average normalized firing strength on the training set, the
+ coefficients are the local linear conclusions of that rule.
+.PP
+.SH SEE ALSO
+FuzzyGene
+.SH FILES
+.PP
+biosystem.dll
+.PP

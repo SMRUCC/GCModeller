@@ -75,17 +75,17 @@ Namespace Assembly.KEGG.DBGET.bGetObject.SSDB
         ''' </summary>
         ''' <returns></returns>
         Public Property LocusId As String
-        <Column(Name:="KEGG_Entry")> Public Property hit_name As String
+        <Column("KEGG_Entry")> Public Property hit_name As String
         Public Property Definition As String
         Public Property KO As String
         Public Property query_length As Integer
-        <Column(Name:="Length")> Public Property len As Integer
-        <Column(Name:="SW-score")> Public Property SW As Double
-        <Column(Name:="Margin")> Public Property margin As Integer
+        <Column("Length")> Public Property len As Integer
+        <Column("SW-score")> Public Property SW As Double
+        <Column("Margin")> Public Property margin As Integer
         Public Property bits As Double
         Public Property identity As Double
         Public Property overlap As Double
-        <Column(Name:="best(all)")> Public Property bestAll As String
+        <Column("best(all)")> Public Property bestAll As String
 
         Public Overrides Function ToString() As String
             Return Me.GetJson

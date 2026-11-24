@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.GeneTree.GeneTreeProfile</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>GeneTreeProfile {SMRUCC.genomics.Analysis.GeneTree}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>GeneTreeProfile</h2>
+
+        <h3>Description</h3>
+
+        <p>训练规模的预设档位（与 readme 中的“快速验证 / 精度优先 / 全量”三档对应）</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.GeneTree
+export class GeneTreeProfile extends <a href="/vignettes/clr/System/Enum.html">Enum</a> {
+   # 快速档：分钟级跑通流程，适合先验证网络与求解器是否可用
+   Fast: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GeneTree/GeneTreeProfile.html">GeneTreeProfile</a> = 0;
+
+   # 均衡档：精度与耗时的折中
+   Balanced: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GeneTree/GeneTreeProfile.html">GeneTreeProfile</a> = 1;
+
+   # 全量档：使用全部细胞与全部调控者，耗时极长
+   Full: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GeneTree/GeneTreeProfile.html">GeneTreeProfile</a> = 2;
+
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>this class extends from <a href="/vignettes/clr/System/Enum.html">Enum</a> class: <a href="/vignettes/clr/System/Enum.html">Enum</a></li>
+<li>use by <i>field</i> member <code>Fast</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GeneTree/GeneTreeProfile.html">GeneTreeProfile</a></li>
+<li>use by <i>field</i> member <code>Balanced</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GeneTree/GeneTreeProfile.html">GeneTreeProfile</a></li>
+<li>use by <i>field</i> member <code>Full</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GeneTree/GeneTreeProfile.html">GeneTreeProfile</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

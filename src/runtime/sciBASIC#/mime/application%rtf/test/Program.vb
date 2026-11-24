@@ -1,10 +1,65 @@
+﻿#Region "Microsoft.VisualBasic::aec3c3ebc98c4d457fc1ef9cd7691b84, mime\application%rtf\test\Program.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 288
+    '    Code Lines: 195 (67.71%)
+    ' Comment Lines: 38 (13.19%)
+    '    - Xml Docs: 7.89%
+    ' 
+    '   Blank Lines: 55 (19.10%)
+    '     File Size: 13.84 KB
+
+
+    ' Module Program
+    ' 
+    '     Function: BuildBlocks, IsPureAscii, Main, ToStream
+    ' 
+    '     Sub: Check, VerifyLexer, VerifyRoundTrip, WriteSharedDocument
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 ' ============================================================================
 ' Program.vb - RTF 生成 / 解析示例与自校验
 '
 ' 用法: RtfDemo [输出目录]
 '
 ' 演示并自校验：
-'   1. 由 JSONSchema 内容块 + 流式写入 API 生成 .rtf（含中文、表格、图片内嵌）；
+'   1. 由 Report.Block 内容块 + 流式写入 API 生成 .rtf（含中文、表格、图片内嵌）；
 '   2. 同一段写入代码改用 IDocumentWriter 的 docx 实现，验证写入器可互换；
 '   3. 用 RtfTextReader 把 .rtf 解析回文本，校验关键内容与元数据；
 '   4. 针对 \'hh / \uN? / ansicpg936 原始多字节 / 畸形文档 / 忽略分组做解析器健壮性检查。
@@ -14,9 +69,9 @@
 
 Imports System.IO
 Imports System.Text
+Imports Microsoft.VisualBasic.ApplicationServices.Report
 Imports Microsoft.VisualBasic.MIME.Office.WordDocument
 Imports Microsoft.VisualBasic.MIME.RTF
-Imports Microsoft.VisualBasic.MIME.text.markdown
 
 Module Program
 
@@ -72,6 +127,9 @@ Module Program
 
         Console.WriteLine("== 4. 解析器健壮性检查 ==")
         Call VerifyLexer()
+
+        Console.WriteLine("== 5. TextReportRender 直接输出 RTF 文本 ==")
+        Call VerifyTextRender(outDir)
 
         Console.WriteLine()
         If failures = 0 Then
@@ -129,8 +187,8 @@ Module Program
     End Sub
 
     ''' <summary>构造一份覆盖常见块类型的 markdown 内容块列表。</summary>
-    Private Function BuildBlocks() As List(Of JSONSchema.Block)
-        Dim table As New JSONSchema.Block With {
+    Private Function BuildBlocks() As List(Of Block)
+        Dim table As New Block With {
             .type = "table",
             .headers = {"列 A", "列 B"},
             .alignments = {"left", "center"}
@@ -140,19 +198,19 @@ Module Program
             New String() {"a2", "b2"}
         }
 
-        Return New List(Of JSONSchema.Block) From {
-            New JSONSchema.Block With {.type = "heading", .level = 2, .content = "内容块驱动的段落"},
-            New JSONSchema.Block With {.type = "paragraph", .content = "正文由 JSONSchema.Block 生成，含符号 { } \ 与制表符" & vbTab & "的转义验证。"},
-            New JSONSchema.Block With {.type = "code", .language = "vbnet", .content = "Console.WriteLine(""hello rtf"")"},
-            New JSONSchema.Block With {.type = "list", .ordered = True, .items = {"块列表第一项", "块列表第二项"}},
-            New JSONSchema.Block With {.type = "tasklist", .items = {"块任务已完成", "块任务未完成"}, .checked = {True, False}},
-            New JSONSchema.Block With {.type = "deflist", .terms = {"Markdown"}, .definitions = {"轻量标记语言"}},
-            New JSONSchema.Block With {.type = "blockquote", .content = "引用块内容"},
+        Return New List(Of Block) From {
+            New Block With {.type = "heading", .level = 2, .content = "内容块驱动的段落"},
+            New Block With {.type = "paragraph", .content = "正文由 Block 生成，含符号 { } \ 与制表符" & vbTab & "的转义验证。"},
+            New Block With {.type = "code", .language = "vbnet", .content = "Console.WriteLine(""hello rtf"")"},
+            New Block With {.type = "list", .ordered = True, .items = {"块列表第一项", "块列表第二项"}},
+            New Block With {.type = "tasklist", .items = {"块任务已完成", "块任务未完成"}, .checked = {True, False}},
+            New Block With {.type = "deflist", .terms = {"Markdown"}, .definitions = {"轻量标记语言"}},
+            New Block With {.type = "blockquote", .content = "引用块内容"},
             table,
-            New JSONSchema.Block With {.type = "hr"},
-            New JSONSchema.Block With {.type = "math", .content = "E = mc^2"},
-            New JSONSchema.Block With {.type = "link", .alt = "sciBASIC#", .url = "https://github.com/xieguigang/sciBASIC"},
-            New JSONSchema.Block With {.type = "footnote", .id = "1", .content = "脚注内容"}
+            New Block With {.type = "hr"},
+            New Block With {.type = "math", .content = "E = mc^2"},
+            New Block With {.type = "link", .alt = "sciBASIC#", .url = "https://github.com/xieguigang/sciBASIC"},
+            New Block With {.type = "footnote", .id = "1", .content = "脚注内容"}
         }
     End Function
 
@@ -260,6 +318,82 @@ Module Program
     End Sub
 
     ' ========================================================================
+    ' 校验：RtfRender（TextReportRender）直接输出 RTF 文本
+    ' ========================================================================
+
+    Private Sub VerifyTextRender(outDir As String)
+        Dim blocks As Block() = {
+            New Block With {.type = "heading", .level = 1, .content = "第一章 报告渲染"},
+            New Block With {.type = "paragraph", .content = "本文档由 RtfRender 从内容块直接渲染为 RTF 文本。"},
+            New Block With {.type = "list", .ordered = True, .items = {"内容块模型", "文本输出", "文件保存"}},
+            New Block With {.type = "table",
+                            .headers = {"渲染器", "输出"},
+                            .alignments = {"left", "left"},
+                            .rows = {New String() {"RtfRender", "RTF 文本"}, New String() {"WordRender", "docx 包"}}},
+            New Block With {.type = "blockquote", .content = "RTF 与 docx 共用同一份 Block 内容模型。"}
+        }
+
+        Dim render As New RtfRender() With {
+            .DocumentTitle = "RtfRender 文本输出示例",
+            .TableOfContents = True,
+            .Author = AuthorText,
+            .Title = "RtfRender 示例",
+            .Subject = "RtfRender",
+            .Tags = New String() {"rtf", "report"}
+        }
+
+        Call render.Render(blocks)
+
+        Dim rtfPath As String = Path.Combine(outDir, "demo_render.rtf")
+        Call render.Save(rtfPath)
+
+        Dim rtfText As String = render.Output
+
+        Console.WriteLine($"  已生成: {rtfPath} ({New FileInfo(rtfPath).Length} 字节)")
+
+        Call Check("输出为 RTF 文档（\\rtf1 头部）", rtfText.StartsWith("{\rtf1\ansi\ansicpg936"))
+        Call Check("输出包含字体表与颜色表", rtfText.Contains("\fonttbl") AndAlso rtfText.Contains("\colortbl"))
+        Call Check("输出包含 \info 元数据", rtfText.Contains("{\info") AndAlso rtfText.Contains("{\author "))
+        Call Check("输出为纯 ASCII 文本", IsAsciiText(rtfText))
+        Call Check("Save 写出的文件内容与 Output 一致", File.ReadAllText(rtfPath, Encoding.UTF8) = rtfText)
+
+        Dim text As String = New RtfTextReader().ExtractText(rtfPath)
+
+        For Each expected As String In {
+            "RtfRender 文本输出示例",
+            "第一章 报告渲染",
+            "本文档由 RtfRender 从内容块直接渲染为 RTF 文本。",
+            "内容块模型",
+            "文件保存",
+            "docx 包",
+            "RTF 与 docx 共用同一份 Block 内容模型。"
+        }
+            Call Check("回读包含: " & expected, text.Contains(expected))
+        Next
+
+        ' ---- 一次性生成 ----
+        Dim generatedPath As String = Path.Combine(outDir, "demo_render_generate.rtf")
+        Dim generated As RtfDocument = RtfRender.Generate(blocks, generatedPath, "一句话生成 RTF 报告")
+
+        Call Check("Generate 生成文件非空", File.Exists(generatedPath) AndAlso New FileInfo(generatedPath).Length > 0)
+        Call Check("Generate 返回文档实例", generated IsNot Nothing)
+        Call Check("Generate 的文档题目出现在正文",
+                   New RtfTextReader().ExtractText(generatedPath).Contains("一句话生成 RTF 报告"))
+
+        ' ---- 多次 Render 在同一文档中追加 ----
+        Dim reuse As New RtfRender()
+        Call reuse.Render({New Block With {.type = "paragraph", .content = "追加的第一段"}})
+        Call reuse.Render({New Block With {.type = "paragraph", .content = "追加的第二段"}})
+
+        Dim reusePath As String = Path.Combine(outDir, "demo_render_reuse.rtf")
+        Call reuse.Save(reusePath)
+
+        Dim reuseText As String = New RtfTextReader().ExtractText(reusePath)
+        Call Check("多次 Render 在同一文档中追加内容",
+                   reuseText.Contains("追加的第一段") AndAlso reuseText.Contains("追加的第二段"))
+    End Sub
+
+    ' ========================================================================
     ' 辅助
     ' ========================================================================
 
@@ -280,6 +414,15 @@ Module Program
     Private Function IsPureAscii(filePath As String) As Boolean
         For Each b As Byte In File.ReadAllBytes(filePath)
             If b > 127 Then Return False
+        Next
+
+        Return True
+    End Function
+
+    ''' <summary>检查内存中的 RTF 文本是否全部为 ASCII 字符。</summary>
+    Private Function IsAsciiText(text As String) As Boolean
+        For Each c As Char In text
+            If AscW(c) > 127 Then Return False
         Next
 
         Return True

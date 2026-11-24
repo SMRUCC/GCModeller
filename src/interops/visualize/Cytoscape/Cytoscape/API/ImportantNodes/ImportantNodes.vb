@@ -59,7 +59,7 @@ Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports SMRUCC.genomics.InteractionModel.Regulon
+Imports SMRUCC.genomics.BioSystem.Regulon
 Imports SMRUCC.genomics.Visualize.Cytoscape.Tables
 
 Namespace API.ImportantNodes

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::92775223ab390e0edfcdde473b164fd0, Microsoft.VisualBasic.Core\src\Extensions\Collection\Linq\EnumerationExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::08e3ee4bf9eacfdbf21854fe3e3db5c8, Microsoft.VisualBasic.Core\src\Extensions\Collection\Linq\EnumerationExtensions.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 63
-    '    Code Lines: 31 (49.21%)
-    ' Comment Lines: 27 (42.86%)
+    '   Total Lines: 65
+    '    Code Lines: 31 (47.69%)
+    ' Comment Lines: 29 (44.62%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 5 (7.94%)
-    '     File Size: 2.65 KB
+    '   Blank Lines: 5 (7.69%)
+    '     File Size: 2.75 KB
 
 
     '     Module EnumerationExtensions
@@ -96,10 +96,12 @@ Namespace Linq
         ''' </summary>
         ''' <typeparam name="T">The type of the elements of source.</typeparam>
         ''' <param name="enums">The sequence to type as <see cref="IEnumerable(Of T)"/></param>
-        ''' <returns>The input sequence typed as <see cref="IEnumerable(Of T)"/>.</returns>
+        ''' <returns>
+        ''' The input sequence typed as <see cref="IEnumerable(Of T)"/>, or empty collection if the source is nothing.
+        ''' </returns>
         ''' <remarks>
-        ''' this iterator function is a kind of safe function: for the given data source is nothing,
-        ''' this function will returns a empty collection, null reference error will not happends 
+        ''' this iterator function is a kind of <strong>safe function: for the given data source is nothing,
+        ''' this function will returns a empty collection, null reference error will not happends </strong>
         ''' in this iterator function.
         ''' </remarks>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

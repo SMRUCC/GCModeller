@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Build a [MultiOmicsGsvaOptions](cref:T:SMRUCC.genomics.Analysis.HTS.GSVA.MultiOmicsGsvaOptions) configuration object that controls</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>mogsva_opts {GSVA}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>Build a [MultiOmicsGsvaOptions](cref:T:SMRUCC.genomics.Analysis.HTS.GSVA.MultiOmicsGsvaOptions) configuration object that controls</h2>
+
+        <h3>Description</h3>
+
+        <p>the whole multi-omics GSVA (moGSVA) pipeline: per-omics enrichment scoring,&lt;br /&gt; cross-omics weighted fusion with a consistency reward, and a gene-to-pathway&lt;br /&gt; permutation test for significance assessment.</p>
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>mogsva_opts</strong>(
+    <i>score.method</i> = gsva,
+    <i>kcdf</i> = Gaussian,
+    <i>fusion.strategy</i> = Equal,
+    <i>consistency.lambda</i> = <span style='color: green;'>0.25</span>,
+    <i>balance.feature.size</i> = <span style='color: blue !important;'>FALSE</span>,
+    <i>min.size</i> = <span style='color: green;'>5</span>,
+    <i>max.size</i> = <span style='color: green;'>500</span>,
+    <i>ssgsea.alpha</i> = <span style='color: green;'>0.25</span>,
+    <i>ssgsea.normalize</i> = <span style='color: blue !important;'>TRUE</span>,
+    <i>permutations</i> = <span style='color: green;'>0</span>,
+    <i>permutation.method</i> = ssgsea,
+    <i>permutation.pathways</i> = <span style='color: blue !important;'>NULL</span>,
+    <i>permutation.gene.limit</i> = <span style='color: green;'>0</span>,
+    <i>max.permutation.pathways</i> = <span style='color: green;'>40</span>,
+    <i>seed</i> = <span style='color: green;'>20261026</span>,
+    <i>compute.pooled</i> = <span style='color: blue !important;'>TRUE</span>,
+    <i>verbose</i> = <span style='color: blue !important;'>TRUE</span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>score.method</dt>
+<dd><p>The enrichment scoring method applied independently inside each omics layer (recommended <a href="cref:F:SMRUCC.genomics.Analysis.HTS.GSVA.Methods.gsva">Methods.gsva</a>, the default). Other choices are ssGSEA, z-score and PLAGE. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSVA/Methods.html">Methods</a>]</p></dd>
+
+
+<dt>kcdf</dt>
+<dd><p>The kernel density estimation type used by the GSVA scoring step: <a href="cref:F:SMRUCC.genomics.Analysis.HTS.GSVA.KCDFs.Gaussian">KCDFs.Gaussian</a> for continuous data (default), <a href="cref:F:SMRUCC.genomics.Analysis.HTS.GSVA.KCDFs.Poisson">KCDFs.Poisson</a> for count data, or <a href="cref:F:SMRUCC.genomics.Analysis.HTS.GSVA.KCDFs.none">KCDFs.none</a> for the empirical cumulative distribution function. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSVA/KCDFs.html">KCDFs</a>]</p></dd>
+
+
+<dt>fusion.strategy</dt>
+<dd><p>The cross-omics weighted fusion strategy. Defaults to <a href="cref:F:SMRUCC.genomics.Analysis.HTS.GSVA.Fusion.FusionMethods.Equal">FusionMethods.Equal</a> (a plain average, i.e. baseline 1). Alternatives: variance weighting, information-entropy weighting, mutual-information consistency weighting and a balanced scheme that also applies the per-omics feature-count balancing term. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSVA/Fusion/FusionMethods.html">FusionMethods</a>]</p></dd>
+
+
+<dt>consistency.lambda</dt>
+<dd><p>The hyper-parameter λ (lambda) of the cross-omics consistency reward term. A value of 0 disables the reward and reduces the fusion to a pure weighted average. Default 0.25. [as double]</p></dd>
+
+
+<dt>balance.feature.size</dt>
+<dd><p>Whether to superimpose the per-omics feature-count balancing term 1/log2(2+|S_k|) so that omics layers with many mapped members cannot dominate the fused score. Off by default so that the equal-weight fusion stays strictly identical to the simple per-omics average. [as boolean]</p></dd>
+
+
+<dt>min.size</dt>
+<dd><p>Minimum gene-set size (number of mapped features) after the feature mapping step. Gene sets smaller than this are dropped. Default 5. [as integer]</p></dd>
+
+
+<dt>max.size</dt>
+<dd><p>Maximum gene-set size (number of mapped features) after the feature mapping step. Gene sets larger than this are dropped. Default 500. [as integer]</p></dd>
+
+
+<dt>ssgsea.alpha</dt>
+<dd><p>The α (alpha) parameter of the ssGSEA scoring path. Default 0.25. [as double]</p></dd>
+
+
+<dt>ssgsea.normalize</dt>
+<dd><p>Whether the ssGSEA scoring path normalizes the enrichment scores. Default TRUE. [as boolean]</p></dd>
+
+
+<dt>permutations</dt>
+<dd><p>Number of permutations for the gene-to-pathway permutation test. 0 (the default) skips the significance assessment entirely. [as integer]</p></dd>
+
+
+<dt>permutation.method</dt>
+<dd><p>The scoring method used to build the permutation null distribution. Defaults to ssGSEA (rank based) to avoid repeating the expensive kernel density estimation. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSVA/Methods.html">Methods</a>]</p></dd>
+
+
+<dt>permutation.pathways</dt>
+<dd><p>A subset of pathway identifiers to evaluate in the permutation test. When nothing is supplied the first <strong>max_permutation_pathways</strong> pathways from the fused result are used. [as string]</p></dd>
+
+
+<dt>permutation.gene.limit</dt>
+<dd><p>Upper bound on the number of features kept in the permutation view (0 means no trimming). When trimming is applied, the target pathway members are kept first and the remaining budget is filled with background features using a fixed seed. [as integer]</p></dd>
+
+
+<dt>max.permutation.pathways</dt>
+<dd><p>Maximum number of pathways evaluated in the permutation test when no explicit pathway subset is supplied. Default 40. [as integer]</p></dd>
+
+
+<dt>seed</dt>
+<dd><p>Random seed used for deterministic data derivation and permutation shuffling so that runs are fully reproducible. Default 20261026. [as integer]</p></dd>
+
+
+<dt>compute.pooled</dt>
+<dd><p>Whether to also compute the ablation control "concatenate then single-omics GSVA" baseline. Default TRUE. [as boolean]</p></dd>
+
+
+<dt>verbose</dt>
+<dd><p>Whether to emit progress/diagnostic logging. Default TRUE. [as boolean]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>The R# runtime environment (used for error reporting). [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: block;">Details</h3>
+
+        <p>All parameters are optional and default to the values defined on the <a href="cref:T:SMRUCC.genomics.Analysis.HTS.GSVA.MultiOmicsGsvaOptions">MultiOmicsGsvaOptions</a> class, so calling this function with no arguments yields the same default configuration that the moGSVA engine uses.</p>
+
+        <h3 style="display: block">Authors</h3>
+
+        gseakit
+
+        <h3>Value</h3>
+
+        <p>A fully populated <a href="cref:T:SMRUCC.genomics.Analysis.HTS.GSVA.MultiOmicsGsvaOptions">MultiOmicsGsvaOptions</a> object that can be passed to the <code>mogsva</code> function.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSVA/MultiOmicsGsvaOptions.html">MultiOmicsGsvaOptions</a></li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>GSVA</em> version 1.0.0.0 <a
+                href="../GSVA.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

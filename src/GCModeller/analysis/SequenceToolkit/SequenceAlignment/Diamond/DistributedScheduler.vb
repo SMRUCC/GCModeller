@@ -93,13 +93,8 @@ Namespace DIAMOND
         ''' 分发核心(可被子类重写以接入集群)。默认实现为本地 PLINQ 并行回退。
         ''' </summary>
         Protected Overridable Function DispatchCore(queries As FastaSeq(), subjectDb As IList(Of FastaSeq), perQuery As Func(Of FastaSeq, IEnumerable(Of DiamondHit))) As IEnumerable(Of DiamondHit)
-            Dim q = queries.AsParallel()
-
-            If LocalDegreeOfParallelism > 0 Then
-                q = q.WithDegreeOfParallelism(LocalDegreeOfParallelism)
-            End If
-
-            Return q.SelectMany(Function(query) perQuery(query)).ToArray
+            ' 本地回退统一走分块并行实现(与 ParallelScheduler 保持一致的并行语义)
+            Return New ParallelScheduler(LocalDegreeOfParallelism).Run(queries, subjectDb, perQuery)
         End Function
     End Class
 End Namespace

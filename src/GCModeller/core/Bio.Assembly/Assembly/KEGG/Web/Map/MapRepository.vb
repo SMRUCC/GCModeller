@@ -178,9 +178,9 @@ Namespace Assembly.KEGG.WebServices
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Private Shared Function CreateIndex(map As Map, silent As Boolean) As MapIndex
+        Public Shared Function CreateIndex(map As Map, Optional silent As Boolean = True) As MapIndex
             If Not silent Then
-                Call map.Name.debug
+                Call map.name.debug
             End If
 
             Return New MapIndex With {

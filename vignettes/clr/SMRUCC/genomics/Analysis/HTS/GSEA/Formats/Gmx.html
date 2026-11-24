@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.HTS.GSEA.Formats.Gmx</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>Gmx {SMRUCC.genomics.Analysis.HTS.GSEA.Formats}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>Gmx</h2>
+
+        <h3>Description</h3>
+
+        <h4>GMX: Gene Matrix file format (<code>*.gmx</code>)</h4>
+
+<p>The GMX format is the transposed variant of the <a href="cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.Formats.Gmt">Gmt</a> format: in the GMX format each <strong>column</strong> represents a gene set, while in the GMT format each row represents a gene set.</p>
+
+<p>The GMX format uses tabs to separate the fields, and the file layout is:</p>
+
+
+<ol>
+<li>(gene set name 1) (TAB) (gene set name 2) ... (TAB) (gene set name N)</li>
+<li>(description 1) (TAB) (description 2) ... (TAB) (description N)</li>
+<li>(gene 1 of each gene set) ...</li>
+</ol>
+
+
+<p>The member genes are read row by row from the third line, an empty cell in a column means that the current gene set has no more member gene at this row.</p>
+
+<p>Note that the description line is a <strong>required</strong> part of the file format: if it is missing then the member genes would be read as the description data, and the parsed result will contains no gene set at all(<code>numberOfSets</code> is zero).</p>
+
+<p><a href="http://software.broadinstitute.org/cancer/software/gsea/wiki/index.php/Data_formats#Gene_Set_Data_Formats" title="http://software.broadinstitute.org/cancer/software/gsea/wiki/index.php/Data_formats#Gene_Set_Data_Formats">http://software.broadinstitute.org/cancer/software/gsea/wiki/index.php/Data_formats#Gene_Set_Data_Formats</a></p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.HTS.GSEA.Formats
+export class Gmx {
+   # The gene sets that defined in the gmx file, each column in the source file is parsed as one <a href="cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.Cluster">Cluster</a> object.
+   clusters: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/Cluster.html">Cluster[]</a>;
+   # The comment lines(<code>#</code> prefix) that read from the gmx file, usually these data is the metadata of the gene set database.
+   comments: string;
+   # The number of the gene sets that defined in this gmx file.
+   numberOfSets: integer;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>clusters</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/Cluster.html">Cluster</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

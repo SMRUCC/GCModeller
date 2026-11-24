@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3fa45978bf337c23fb87a8e2c88e76c3, Data_science\Mathematica\Math\CVODE_Solver\Func.vb"
+﻿#Region "Microsoft.VisualBasic::a5a5d7a3cee4c0b249a03a62c921c8af, Data_science\Mathematica\Math\CVODE_Solver\Func.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 26
-    '    Code Lines: 3 (11.54%)
-    ' Comment Lines: 21 (80.77%)
+    '   Total Lines: 28
+    '    Code Lines: 4 (14.29%)
+    ' Comment Lines: 21 (75.00%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 2 (7.69%)
-    '     File Size: 1013 B
+    '   Blank Lines: 3 (10.71%)
+    '     File Size: 1.06 KB
 
 
     ' Delegate Sub
@@ -61,6 +61,9 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
+
 ''' <summary>
 ''' 右端函数委托类型
 ''' 定义常微分方程组 dy/dt = f(t, y)
@@ -68,7 +71,7 @@
 ''' <param name="t">当前时间</param>
 ''' <param name="y">当前状态向量</param>
 ''' <param name="ydot">导数向量（输出）</param>
-Public Delegate Sub RHSFunction(t As Double, y As NVector, ydot As NVector)
+Public Delegate Sub RHSFunction(t As Double, y As Vector, ydot As Vector)
 
 ''' <summary>
 ''' Jacobian矩阵计算委托类型
@@ -77,8 +80,8 @@ Public Delegate Sub RHSFunction(t As Double, y As NVector, ydot As NVector)
 ''' <param name="t">当前时间</param>
 ''' <param name="y">当前状态向量</param>
 ''' <param name="fy">当前导数向量</param>
-''' <param name="J">Jacobian矩阵（输出）</param>
-Public Delegate Sub JacobianFunction(t As Double, y As NVector, fy As NVector, J As DenseMatrix)
+''' <param name="J">Jacobian矩阵（输出，就地填充）</param>
+Public Delegate Sub JacobianFunction(t As Double, y As Vector, fy As Vector, J As NumericMatrix)
 
 ''' <summary>
 ''' 根函数委托类型
@@ -86,4 +89,4 @@ Public Delegate Sub JacobianFunction(t As Double, y As NVector, fy As NVector, J
 ''' <param name="t">当前时间</param>
 ''' <param name="y">当前状态</param>
 ''' <param name="g">根函数值数组（输出）</param>
-Public Delegate Sub RootFunction(t As Double, y As NVector, g As Double())
+Public Delegate Sub RootFunction(t As Double, y As Vector, g As Double())

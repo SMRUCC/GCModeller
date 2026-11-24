@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.GeneTree.ModelPerformance</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>ModelPerformance {SMRUCC.genomics.Analysis.GeneTree}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>ModelPerformance</h2>
+
+        <h3>Description</h3>
+
+        <p>单个基因模型的拟合评价</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.GeneTree
+export class ModelPerformance {
+   # 用“标签均值”作为预测时得到的均方根误差（也就是标签的标准差）， 用于衡量模型相对常数的改进幅度。
+   baselineRmse: double;
+   # 每个被选中调控因子的重要性
+   importance: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GeneTree/RegulatorImportance.html">RegulatorImportance[]</a>;
+   # 相对常数基线的改进比例：<code>1 - rmse / baselineRmse</code>
+   improvement: double;
+   # 模型的种类：<code>xgboost</code> 或 <code>constant</code>
+   kind: string;
+   # 训练标签的取值范围上界（外推裁剪用）
+   maxValue: double;
+   # 训练标签的取值范围下界（外推裁剪用）
+   minValue: double;
+   # 被选中参与拟合的调控因子数量
+   nRegulators: integer;
+   # 训练集样本数
+   nTrain: integer;
+   # 验证集样本数（0 表示没有留出验证集）
+   nValidate: integer;
+   # 验证集上的决定系数 R²（没有验证集时退化为训练集 R²）
+   r2: double;
+   # 验证集上的均方根误差
+   rmse: double;
+   # 树的数量
+   trees: integer;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>importance</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GeneTree/RegulatorImportance.html">RegulatorImportance</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

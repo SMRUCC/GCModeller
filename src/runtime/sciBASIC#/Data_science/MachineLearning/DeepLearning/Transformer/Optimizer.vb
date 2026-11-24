@@ -1,4 +1,61 @@
-﻿' ---------------------------------------------------------------------------
+﻿#Region "Microsoft.VisualBasic::d99d5e82ce27f0cedb7eef7c24423d01, Data_science\MachineLearning\DeepLearning\Transformer\Optimizer.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 85
+    '    Code Lines: 45 (52.94%)
+    ' Comment Lines: 25 (29.41%)
+    '    - Xml Docs: 68.00%
+    ' 
+    '   Blank Lines: 15 (17.65%)
+    '     File Size: 3.31 KB
+
+
+    '     Class Optimizer
+    ' 
+    '         Properties: Gradient
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Sub: MakeTrainingStep, ZeroGrad
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+' ---------------------------------------------------------------------------
 ' Transformer 专用的 Adam 优化器
 '
 ' 迁移前它直接消费 AD 张量的 GetDerivatives()/ClearDerivatives()/MatAdd()；
@@ -49,6 +106,48 @@ Namespace Transformer
         ''' <summary>把梯度累加器清零。</summary>
         Public Sub ZeroGrad()
             Call TensorOps.ZeroInPlace(_gradient)
+        End Sub
+
+        ''' <summary>
+        ''' 一阶矩估计张量（与参数同形）。仅供 checkpoint 持久化读取，请勿直接改写其内容。
+        ''' </summary>
+        Public ReadOnly Property FirstMoment As Tensor
+            Get
+                Return _m
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' 二阶矩估计张量（与参数同形）。仅供 checkpoint 持久化读取，请勿直接改写其内容。
+        ''' </summary>
+        Public ReadOnly Property SecondMoment As Tensor
+            Get
+                Return _v
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' 从 checkpoint 恢复一阶/二阶矩估计（用于中断后精确续训）。
+        ''' </summary>
+        ''' <param name="m">一阶矩数据，长度须与参数相同</param>
+        ''' <param name="v">二阶矩数据，长度须与参数相同</param>
+        ''' <remarks>
+        ''' 恢复的是 Adam 的动量缓存，不触及参数值与梯度累加器；
+        ''' 调用方应保证配套的全局训练步序号（偏置校正依据）一并恢复。
+        ''' </remarks>
+        Public Sub RestoreMomenta(m As Double(), v As Double())
+            If m Is Nothing Then Throw New ArgumentNullException(NameOf(m))
+            If v Is Nothing Then Throw New ArgumentNullException(NameOf(v))
+
+            If m.Length <> _m.Data.Length OrElse v.Length <> _v.Data.Length Then
+                Throw New ArgumentException(
+                    $"动量数据长度（{m.Length}/{v.Length}）与参数规模（{_m.Data.Length}）不一致")
+            End If
+
+            Call System.Array.Copy(m, _m.Data, m.Length)
+            Call System.Array.Copy(v, _v.Data, v.Length)
+            Call _m.MarkHostModified()
+            Call _v.MarkHostModified()
         End Sub
 
         ''' <summary>

@@ -1,0 +1,41 @@
+.\" man page create by R# package system.
+.TH ARACNE 1 2000-1月 "read_prior" "read_prior"
+.SH NAME
+read_prior \- Load the curated \fBTF -> target\fR prior network from a csv table.
+.SH SYNOPSIS
+\fIread_prior(\fBfile\fR as string, 
+\fBmin_confidence\fR as double = 0.45, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Load the curated \fBTF -> target\fR prior network from a csv table.
+.PP
+.SH OPTIONS
+.PP
+\fBfile\fB \fR\- 
+ the file path of the curated prior table, the header must contain the \fBTF\fR and
+ the \fBTargetGene\fR columns; the optional \fBConfidence\fR column (\fBHigh\fR/
+ \fBMedium\fR/\fBLow\fR or a numeric value) and the optional \fBRegulationType\fR column
+ (\fBActivator\fR/\fBInhibitor\fR) are recognized as well.
+. 
+.PP
+.PP
+\fBmin_confidence\fB \fR\- the eligibility threshold of the prior confidence, default 0.45. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object. 
+.PP
+.SH VALUE
+.PP
+a [RegulatoryEdge](cref:T:SMRUCC.genomics.BioSystem.Core.RegulatoryEdge) vector that can be passed to the \fBprior\fR argument of \fBaracne\fR
+.PP
+.SH EXAMPLES
+.PP
+let prior = ARACNE::read_prior("G:/vcc2026/data/TF_target_prior_curated.csv", min_confidence = 0.9);
+.PP
+.SH SEE ALSO
+ARACNE
+.SH FILES
+.PP
+TRNtoolkit.dll
+.PP

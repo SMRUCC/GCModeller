@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::47511c9eb9388412ff6e9292c8f42992, mime\application%xml\MathML\XML\Math.vb"
+﻿#Region "Microsoft.VisualBasic::8d1054ade1e9ffc67ad959a7dac21605, mime\application%xml\MathML\XML\Math.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 58
-    '    Code Lines: 40 (68.97%)
+    '   Total Lines: 59
+    '    Code Lines: 41 (69.49%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 18 (31.03%)
-    '     File Size: 1.51 KB
+    '   Blank Lines: 18 (30.51%)
+    '     File Size: 1.55 KB
 
 
     '     Class Math
@@ -77,6 +77,7 @@
 #End Region
 
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Language
 
 Namespace MathML
 

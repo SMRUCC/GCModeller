@@ -1,0 +1,30 @@
+.\" man page create by R# package system.
+.TH GPS 1 2000-1月 "gene_means" "gene_means"
+.SH NAME
+gene_means \- Get the per gene mean of the preprocessed expression data (log-CPM scale).
+.SH SYNOPSIS
+\fIgene_means(\fBgps\fR as <generic> GPSModel);\fR
+.SH DESCRIPTION
+.PP
+Get the per gene mean of the preprocessed expression data (log-CPM scale).
+.PP
+.SH OPTIONS
+.PP
+\fBgps\fB \fR\- the trained model object.. 
+.PP
+.SH VALUE
+.PP
+a numeric vector, one value per modelled gene.
+.PP
+.SH DETAILS
+.PP
+Together with \fBGPS::gene_sds\fR this vector defines the z-score normalization of the
+ model: `z = (log2(cpm + 1) - mean) / sd`. External context profiles must be
+ normalized with exactly these two vectors before they are injected via \fBGPS::set_context\fR.
+.PP
+.SH SEE ALSO
+GPS
+.SH FILES
+.PP
+biosystem.dll
+.PP

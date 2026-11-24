@@ -1,0 +1,57 @@
+.\" man page create by R# package system.
+.TH GENBANK 4 2000-1月 "protein_seqs" "protein_seqs"
+.SH NAME
+protein_seqs \- get or set fasta sequence of all CDS feature in the given genbank assembly file.
+.SH SYNOPSIS
+\fIprotein_seqs(\fBgb\fR as <generic> File, 
+\fBproteins\fR as any = \fB<NULL>\fR, 
+\fBtitle\fR as string = \fB<NULL>\fR, 
+\fBfilter_empty\fR as boolean = TRUE, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+get or set fasta sequence of all CDS feature in the given genbank assembly file.
+.PP
+.SH OPTIONS
+.PP
+\fBgb\fB \fR\- 
+ the [File](cref:T:SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.File) ncbi genbank assembly object for get or 
+ set its CDS protein sequence data.
+. 
+.PP
+.PP
+\fBproteins\fB \fR\- set the genbank feature CDS protein sequence if this value is existsed.. 
+.PP
+.PP
+\fBtitle\fB \fR\- 
+ the fasta headers title template string for export of the protein 
+ sequence data.
+. 
+.PP
+.PP
+\fBfilter_empty\fB \fR\- 
+ Filter out the empty protein sequence when do export of the protein sequence data.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a collection of the [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) protein sequence data or a 
+ lazy pipeline collection of this sequence data when the \fBproteins\fR 
+ parameter is not specified, or the modified 
+ [File](cref:T:SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.File) ncbi genbank assembly object when the 
+ \fBproteins\fR parameter is specified;
+ 
+ this function returns a R# error message object if the given protein 
+ sequence data can not be cast to a fasta sequence collection.
+.PP
+.SH SEE ALSO
+GenBank
+.SH FILES
+.PP
+seqtoolkit.dll
+.PP
+.SH AUTHOR
+Written by \fBxie.guigang@gcmodeller.org\fR

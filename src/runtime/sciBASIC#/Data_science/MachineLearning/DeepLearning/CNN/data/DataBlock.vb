@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cd786f444aa1a1a78435a1eeb188526d, Data_science\MachineLearning\DeepLearning\CNN\data\DataBlock.vb"
+﻿#Region "Microsoft.VisualBasic::e981bf4300a1b85633bb9012b35b827b, Data_science\MachineLearning\DeepLearning\CNN\data\DataBlock.vb"
 
     ' Author:
     ' 
@@ -34,19 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 283
-    '    Code Lines: 156 (55.12%)
-    ' Comment Lines: 85 (30.04%)
-    '    - Xml Docs: 96.47%
+    '   Total Lines: 558
+    '    Code Lines: 254 (45.52%)
+    ' Comment Lines: 231 (41.40%)
+    '    - Xml Docs: 83.98%
     ' 
-    '   Blank Lines: 42 (14.84%)
-    '     File Size: 9.95 KB
+    '   Blank Lines: 73 (13.08%)
+    '     File Size: 24.51 KB
 
 
     '     Class DataBlock
     ' 
-    '         Properties: Depth, Gradients, SX, SY, trace
-    '                     Weights
+    '         Properties: Depth, Grad, Grad2D, Grad4D, Gradients
+    '                     SX, SY, TensorShape4D, trace, Value
+    '                     Value2D, Value4D, Weights
     ' 
     '         Constructor: (+4 Overloads) Sub New
     ' 
@@ -54,7 +55,8 @@
     '                   ToString
     ' 
     '         Sub: addFrom, addFromScaled, (+2 Overloads) addGradient, (+3 Overloads) addImageData, addWeight
-    '              mulGradient, (+3 Overloads) setGradient, (+2 Overloads) setWeight, subGradient
+    '              MarkGradientModified, MarkHostModified, MarkValueModified, mulGradient, (+3 Overloads) setGradient
+    '              SetGradients, SetValues, (+2 Overloads) setWeight, subGradient
     ' 
     ' 
     ' /********************************************************************************/
@@ -266,6 +268,28 @@ Namespace CNN.data
         ''' <summary>把整块数据写入 <see cref="dw"/>，并声明梯度数据的设备端缓存已失效</summary>
         Friend Sub SetGradients(data As Double())
             Array.ConstrainedCopy(data, Scan0, dw, Scan0, dw.Length)
+            Call MarkGradientModified()
+        End Sub
+
+        ''' <summary>
+        ''' 把 <paramref name="values"/> 逐元素**累加**到梯度向量 <see cref="Gradients"/> 之中，并声明设备端缓存已失效。
+        ''' </summary>
+        ''' <param name="values">待累加的梯度数据；长度不足时只累加前 <c>values.Length</c> 个元素。</param>
+        ''' <remarks>
+        ''' 存在理由：U-Net 这类**有向图**结构里，同一个激活块可能被多个下游消费者同时消费
+        ''' (例如编码器的特征图既喂给池化层、又作为跳跃连接喂给拼接层)，
+        ''' 反向传播时两个分支的梯度必须**相加**而不是互相覆盖。
+        ''' 串行网络(``ConvolutionalNN``)里每个块只有一个消费者，仍然走 <c>SetGradients</c> 的覆盖语义。
+        ''' </remarks>
+        Public Overridable Sub AddGradients(values As Double())
+            If values Is Nothing OrElse dw Is Nothing Then Return
+
+            Dim n As Integer = std.Min(values.Length, dw.Length)
+
+            For i As Integer = 0 To n - 1
+                dw(i) += values(i)
+            Next
+
             Call MarkGradientModified()
         End Sub
 

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Model.Network.Regulons.ARACNE.DpiResult</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>DpiResult {SMRUCC.genomics.Model.Network.Regulons.ARACNE}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>DpiResult</h2>
+
+        <h3>Description</h3>
+
+        <p>DPI 过滤的结果</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Model.Network.Regulons.ARACNE
+export class DpiResult {
+   # 过滤之后的边数量
+   EdgesAfter: integer;
+   # 过滤之前的边数量
+   EdgesBefore: integer;
+   # 过滤之后的互信息矩阵(稀疏结构，未修改输入对象)
+   Matrix: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/ARACNE/MiMatrix.html">MiMatrix</a>;
+   # 实际执行的迭代轮数
+   Passes: integer;
+   # 满足 DPI 剔除条件、但是因为受到 curated 先验保护而被保留下来的边。
+   # 
+   # 这个列表直接量化了先验知识“救回来”的真实调控关系数量， 也就是 ARACNE 的 DPI 假设在这里失效的次数。
+   ProtectedEdges: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/ARACNE/MiEdge.html">iterates(MiEdge)</a>;
+   # 被判定为间接相互作用而被剔除的边(保留剔除之前的互信息值)
+   RemovedEdges: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/ARACNE/MiEdge.html">iterates(MiEdge)</a>;
+   # 检查过的三元组数量(每条边与它的每一个共同邻居构成一个三元组)
+   TrianglesExamined: integer;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>Matrix</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/ARACNE/MiMatrix.html">MiMatrix</a></li>
+<li>use by <i>property</i> member <code>ProtectedEdges</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/ARACNE/MiEdge.html">iterates(MiEdge)</a></li>
+<li>use by <i>property</i> member <code>RemovedEdges</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/ARACNE/MiEdge.html">iterates(MiEdge)</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

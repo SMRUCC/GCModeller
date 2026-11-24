@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2a702a7310410631d9a9b52410e029b1, Data_science\Mathematica\Math\Math\Algebra\Solvers\GaussianElimination.vb"
+﻿#Region "Microsoft.VisualBasic::4532d6c577d7e302522aae5820ebaf6a, Data_science\Mathematica\Math\Math\Algebra\Solvers\GaussianElimination.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 117
-    '    Code Lines: 44 (37.61%)
-    ' Comment Lines: 62 (52.99%)
-    '    - Xml Docs: 88.71%
+    '   Total Lines: 151
+    '    Code Lines: 66 (43.71%)
+    ' Comment Lines: 68 (45.03%)
+    '    - Xml Docs: 80.88%
     ' 
-    '   Blank Lines: 11 (9.40%)
-    '     File Size: 4.54 KB
+    '   Blank Lines: 17 (11.26%)
+    '     File Size: 6.21 KB
 
 
     '     Module GaussianElimination
@@ -54,6 +54,7 @@
 
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 Imports SIMDIntrinsics = Microsoft.VisualBasic.Math.SIMD.SIMDIntrinsics
+Imports std = System.Math
 
 Namespace LinearAlgebra.Solvers
 
@@ -131,6 +132,33 @@ Namespace LinearAlgebra.Solvers
             Dim data As Double()() = Ab.ArrayPack(deepcopy:=False)
 
             For k As Integer = 0 To n - 2
+                ' 准确度修正：增加部分主元（partial pivoting）选取 —— 在当前列的
+                ' 剩余行中选择绝对值最大的元素作为主元。旧实现直接使用 data(k)(k)
+                ' 做除数，遇零主元会产生除零/NaN，且小主元会放大舍入误差。
+                Dim p As Integer = k
+                Dim maxAbs As Double = std.Abs(data(k)(k))
+
+                For i As Integer = k + 1 To n - 1
+                    Dim magnitude As Double = std.Abs(data(i)(k))
+
+                    If magnitude > maxAbs Then
+                        maxAbs = magnitude
+                        p = i
+                    End If
+                Next
+
+                If maxAbs = 0 Then
+                    Throw New InvalidOperationException(
+                        $"the coefficient matrix is singular: all pivot candidates at column {k} are zero.")
+                End If
+
+                If p <> k Then
+                    ' 整行交换（含增广列）
+                    Dim swap As Double() = data(k)
+                    data(k) = data(p)
+                    data(p) = swap
+                End If
+
                 For i As Integer = k + 1 To n - 1
                     TMP = data(i)(k) / data(k)(k)
                     Call SIMDIntrinsics.AxpyInPlace(-TMP, data(k), data(i))
@@ -158,9 +186,12 @@ Namespace LinearAlgebra.Solvers
             Dim N As Integer = A.ColumnDimension
             Dim x As New Vector(N)
 
-            x(N - 1) = b(N - 1) / A(N - 1, N - 1)
+            For i As Integer = N - 1 To 0 Step -1
+                If A(i, i) = 0 Then
+                    Throw New InvalidOperationException(
+                        $"the coefficient matrix is singular: zero diagonal element at row {i} during back substitution.")
+                End If
 
-            For i As Integer = N - 2 To 0 Step -1
                 x(i) = b(i)
                 For j As Integer = i + 1 To N - 1
                     x(i) -= A(i, j) * x(j)

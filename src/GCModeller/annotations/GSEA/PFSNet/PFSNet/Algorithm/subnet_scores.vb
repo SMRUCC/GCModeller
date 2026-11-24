@@ -87,45 +87,56 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
         Return (From x In ccs Select pscoring(x, w1matrix1)).ToArray
     End Function
 
-    Private Function pscoring(x As PFSNetGraph, w1matrix1 As DataFrameRow()) As Double()
-        Dim vertices = (From ccs_node In x.nodes Select ccs_node.name).ToArray  'vertices<-get.vertex.attribute(x,name="name")
-        Dim ws = w1matrix1.Select(vertices) 'ws<-w1matrix1[vertices,,drop=FALSE]
-        Dim v = New List(Of Double) '	v<-c()
-        Dim ncol = ws(Scan0).samples
-
-        For j As Integer = 0 To ncol - 1
-            Dim p = j
-            Dim sum = (From d In ws Select x.Node(d.geneID).weight * d.experiments(p)).Sum
-
-            Call v.Add(sum)
-        Next
-        'v()
-        '#apply(ss,2,function(y){
-        '#		sum(apply(ss[y,,drop=FALSE],1,sum)/ncol(expr1o))
-        '#	})
-        Return v.ToArray
+    Private Function pscoring(graph As PFSNetGraph, w1matrix1 As DataFrameRow()) As Double()
+        Return Score(graph, w1matrix1, usePrimaryWeight:=True)
     End Function
 
     Public Function sapply_nscore(ccs As PFSNetGraph(), w1matrix1 As DataFrameRow()) As Double()()
         Return (From node As PFSNetGraph In ccs Select nscoring(node, w1matrix1)).ToArray
     End Function
 
-    Private Function nscoring(x As PFSNetGraph, w1matrix1 As DataFrameRow()) As Double()
-        Dim vertices = (From ccs_node In x.nodes Select ccs_node.name).ToArray  'vertices<-get.vertex.attribute(x,name="name")
-        Dim ws = w1matrix1.Select(vertices) 'ws<-w1matrix1[vertices,,drop=FALSE]
-        Dim v = New List(Of Double) '	v<-c()
-        Dim ncol = ws(Scan0).samples
+    Private Function nscoring(graph As PFSNetGraph, w1matrix1 As DataFrameRow()) As Double()
+        Return Score(graph, w1matrix1, usePrimaryWeight:=False)
+    End Function
 
-        For j As Integer = 0 To ncol - 1
-            Dim p = j
-            Dim sum = (From d In ws Select x.Node(d.geneID).weight2 * d.experiments(p)).Sum
+    Private Function Score(graph As PFSNetGraph,
+                           matrix As DataFrameRow(),
+                           usePrimaryWeight As Boolean) As Double()
 
-            Call v.Add(sum)
+        If matrix Is Nothing OrElse matrix.Length = 0 Then
+            Return Array.Empty(Of Double)()
+        End If
+
+        Dim sampleCount As Integer = matrix(0).samples
+        Dim rows As New System.Collections.Generic.Dictionary(Of String, DataFrameRow)(StringComparer.Ordinal)
+
+        For Each row As DataFrameRow In matrix
+            If row IsNot Nothing AndAlso Not rows.ContainsKey(row.geneID) Then
+                rows.Add(row.geneID, row)
+            End If
         Next
-        'v()
-        '#apply(ss,2,function(y){
-        '#		sum(apply(ss[y,,drop=FALSE],1,sum)/ncol(expr1o))
-        '#	})
-        Return v.ToArray
+
+        Dim scores(sampleCount - 1) As Double
+
+        For sampleIndex As Integer = 0 To sampleCount - 1
+            Dim totalScore As Double = 0
+
+            For Each node As PFSNetGraphNode In graph.nodes
+                Dim row As DataFrameRow = Nothing
+
+                If rows.TryGetValue(node.name, row) AndAlso sampleIndex < row.samples Then
+                    Dim weight As Double = If(usePrimaryWeight, node.weight, node.weight2)
+                    Dim expression As Double = row.experiments(sampleIndex)
+
+                    If Double.IsFinite(weight) AndAlso Double.IsFinite(expression) Then
+                        totalScore += weight * expression
+                    End If
+                End If
+            Next
+
+            scores(sampleIndex) = totalScore
+        Next
+
+        Return scores
     End Function
 End Module

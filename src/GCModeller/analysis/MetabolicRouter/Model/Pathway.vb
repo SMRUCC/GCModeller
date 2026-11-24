@@ -37,6 +37,17 @@ Namespace Model
         Public Property NumSteps As Integer
 
         ''' <summary>
+        ''' 该通路正向生物合成的起始代谢物（最上游主前体，即逆合成最深一步的主前体）。
+        ''' 值为化合物 id（如 "ISOCHORISMATE"）；无法解析 id 时回退为其 SMILES。
+        ''' </summary>
+        <JsonPropertyName("start_metabolite")>
+        Public Property StartMetabolite As String
+
+        ''' <summary>该通路的最终目标化合物：值为化合物 id，无法解析 id 时回退为 SMILES。</summary>
+        <JsonPropertyName("target_metabolite")>
+        Public Property TargetMetabolite As String
+
+        ''' <summary>
         ''' 正向生物合成顺序的步骤列表（汇前体 → 目标）。
         ''' </summary>
         <JsonPropertyName("steps")>

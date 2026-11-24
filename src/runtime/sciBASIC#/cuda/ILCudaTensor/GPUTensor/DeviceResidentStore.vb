@@ -1,3 +1,72 @@
+﻿#Region "Microsoft.VisualBasic::acf6f7469c9b89ccb5ed1cc5641dd99f, cuda\ILCudaTensor\GPUTensor\DeviceResidentStore.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 368
+    '    Code Lines: 203 (55.16%)
+    ' Comment Lines: 93 (25.27%)
+    '    - Xml Docs: 73.12%
+    ' 
+    '   Blank Lines: 72 (19.57%)
+    '     File Size: 15.24 KB
+
+
+    '     Class DeviceResidentStore
+    ' 
+    '         Properties: Count, TotalBytes
+    ' 
+    '         Function: Describe, Download, FormatMb, IsPinned, Pin
+    '                   ToDouble, ToSingle, TryGet, Unpin, Upload
+    ' 
+    '         Sub: Clear, Dispose, EnsureCapacity, RunChunked
+    '         Class Entry
+    ' 
+    '             Constructor: (+1 Overloads) Sub New
+    '             Sub: Finalize
+    ' 
+    '         Class HostComparer
+    ' 
+    '             Function: Equals, GetHashCode
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 ' ---------------------------------------------------------------------------
 ' 设备常驻缓冲注册表
 '
@@ -70,11 +139,11 @@ Namespace GPUTensor
         Private NotInheritable Class HostComparer
             Implements IEqualityComparer(Of Double())
 
-            Public Function Equals(a As Double(), b As Double()) As Boolean Implements IEqualityComparer(Of Double()).Equals
+            Public Overloads Function Equals(a As Double(), b As Double()) As Boolean Implements IEqualityComparer(Of Double()).Equals
                 Return ReferenceEquals(a, b)
             End Function
 
-            Public Function GetHashCode(a As Double()) As Integer Implements IEqualityComparer(Of Double()).GetHashCode
+            Public Overloads Function GetHashCode(a As Double()) As Integer Implements IEqualityComparer(Of Double()).GetHashCode
                 If a Is Nothing Then Return 0
                 Return RuntimeHelpers.GetHashCode(a)
             End Function

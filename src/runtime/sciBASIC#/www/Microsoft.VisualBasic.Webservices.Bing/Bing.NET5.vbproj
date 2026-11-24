@@ -6,16 +6,16 @@
     <AssemblyName>Microsoft.VisualBasic.Web.KnowledgeBase</AssemblyName>
     <Platforms>AnyCPU;x64</Platforms>
     <Configurations>Debug;Release;LipidSearch;mzkit;NPSearch;Rsharp_app_release;nuget_release</Configurations>
-    <Version>1.0.9758.20045</Version>
-    <AssemblyVersion>1.0.9758.20045</AssemblyVersion>
+    <Version>10.8.9818.14504</Version>
+    <AssemblyVersion>1.0.9818.14504</AssemblyVersion>
     <Title>Microsoft Bing Web, Academic, Translation and DOI Services Client</Title>
-    <Description>Bing service clients for sciBASIC# knowledge base enrichment: scrape web search results with paging, query the academic search portal for article profiles and citations, look up word translations, and decode DOI handle service responses.</Description>
+    <Description>Bing service clients for the sciBASIC# framework: scrape web search results with paging, query the academic search portal for article profiles, look up word translations, and decode DOI handle service responses.</Description>
     <AssemblyTitle>Microsoft.VisualBasic.Data.KnowledgeBase.Web</AssemblyTitle>
     <Authors>xieguigang &lt;I@xieguigang.me&gt;</Authors>
     <Company>sciBASIC.NET Foundation</Company>
     <Copyright>Copyright (c) sciBASIC.NET Foundation</Copyright>
-    <PackageTags>scibasic;bing;search-engine;web-scraping;academic-search;translation;doi;knowledge-base</PackageTags>
-    <PackageReleaseNotes>The Microsoft Bing (and DOI) service clients of sciBASIC#, used for knowledge base enrichment. Web search: SearchEngineProvider builds Bing query URLs, downloads and parses result pages into WebResult items (title, URL, brief text, update date) and supports paging through NextPage / HaveNext together with an all-results iterator. Academic search: the Bing.Academic namespace performs term search returning candidate article links, scrapes article profiles into ArticleProfile metadata (authors, journal, DOI, citations, keywords), and provides Extensions that build a literature knowledge base from a term and summarize article sets. Translation: Bing.Translation looks up a word and returns its pronunciation plus a list of target words through WordTranslation. DOI: the DOI namespace provides a strongly typed response model for the DOI handle service (handle, values, HS_ADMIN). Together these clients let a sciBASIC# knowledge base pipeline discover literature, resolve identifiers and translate terminology without hand written scraping code.</PackageReleaseNotes>
+    <PackageTags>scibasic;bing;search-engine;web-scraping;translation;doi</PackageTags>
+    <PackageReleaseNotes>This cycle: Improved the web processor; Improved the html text processing code; Config for the demo test project.</PackageReleaseNotes>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <PackageIcon>logo-knot.png</PackageIcon>
     <PackageProjectUrl>http://scibasic.net/</PackageProjectUrl>
@@ -92,7 +92,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
     <DocumentationFile>Microsoft.VisualBasic.Web.KnowledgeBase.xml</DocumentationFile>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
-    <Optimize>false</Optimize>
+    <Optimize>true</Optimize>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <DefineDebug>false</DefineDebug>
@@ -147,15 +147,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="MicrosoftBing\BingImage.vb" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Import Include="System.Data" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Data\DataFrame\dataframework-netcore5.vbproj" />
+    <ProjectReference Include="..\..\Data\Trinity\Trinity.NET5.vbproj" />
+    <ProjectReference Include="..\..\Data_science\Graph\graph-netcore5.vbproj" />
+    <ProjectReference Include="..\..\Data_science\Mathematica\Math\Math\Math.NET5.vbproj" />
     <ProjectReference Include="..\..\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\..\nlp\NLP\NLP.NET.vbproj" />
   </ItemGroup>
 
 </Project>

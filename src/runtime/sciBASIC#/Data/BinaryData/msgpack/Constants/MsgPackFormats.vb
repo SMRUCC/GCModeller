@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8a82bedaeac21f69a31f2da7a127dd05, Data\BinaryData\msgpack\Constants\MsgPackFormats.vb"
+﻿#Region "Microsoft.VisualBasic::7b93c3d1dc99acd93d31a8e7e67c8b4c, Data\BinaryData\msgpack\Constants\MsgPackFormats.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 60
-    '    Code Lines: 47 (78.33%)
-    ' Comment Lines: 9 (15.00%)
+    '   Total Lines: 56
+    '    Code Lines: 44 (78.57%)
+    ' Comment Lines: 9 (16.07%)
     '    - Xml Docs: 88.89%
     ' 
-    '   Blank Lines: 4 (6.67%)
-    '     File Size: 2.38 KB
+    '   Blank Lines: 3 (5.36%)
+    '     File Size: 2.32 KB
 
 
     '     Class MsgPackFormats
@@ -51,10 +51,6 @@
     ' /********************************************************************************/
 
 #End Region
-
-#If netcore5 = 0 Then
-Imports System.Linq
-#End If
 
 Namespace Constants
 

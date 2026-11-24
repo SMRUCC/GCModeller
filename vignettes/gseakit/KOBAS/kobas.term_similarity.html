@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Compute the pairwise similarity matrix of the given term list.</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>kobas.term_similarity {KOBAS}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>Compute the pairwise similarity matrix of the given term list.</h2>
+
+        <h3>Description</h3>
+
+        
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>kobas.term_similarity</strong>(<i>terms</i>,
+    <i>method</i> = <span style='color: brown;'><strong>"kappa"</strong></span>,
+    <i>universe</i> = <span style='color: green;'>-1</span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>terms</dt>
+<dd><p>a named <code>list</code> of the character vectors, the name of each slot is the term id and the value is the member gene id vector of that term (for example the result of <code>as.geneSet</code> of a gsea background model). [as list]</p></dd>
+
+
+<dt>method</dt>
+<dd><p>the similarity method: <code>kappa</code> (Cohen's kappa, default) or <code>jaccard</code>. [as string]</p></dd>
+
+
+<dt>universe</dt>
+<dd><p>the size of the gene universe that is used by the kappa method. Default <code>-1</code> means the union size of all of the given terms. [as integer]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: none;">Details</h3>
+
+        
+
+        <h3 style="display: block">Authors</h3>
+
+        gseakit
+
+        <h3>Value</h3>
+
+        <p>a <code>dataframe</code> of the similarity matrix, both the row names and the column names are the term ids and the diagonal values are <code>1</code>.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Internal/Object/dataframe.html">dataframe</a></li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>KOBAS</em> version 1.0.0.0 <a
+                href="../KOBAS.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <RootNamespace>Microsoft.VisualBasic.DataMining.HierarchicalClustering</RootNamespace>
@@ -12,16 +12,16 @@
     <PackageProjectUrl>http://scibasic.net/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/xieguigang/sciBASIC</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <Version>1.0.9758.20045</Version>
-    <AssemblyVersion>1.0.9758.20045</AssemblyVersion>
+    <Version>10.8.9818.14504</Version>
+    <AssemblyVersion>1.0.9818.14504</AssemblyVersion>
     <Title>Dendrogram and Radial Tree Plotting for Cluster Hierarchies</Title>
-    <Description>Renders hierarchical clustering results as publication-ready graphics: vertical dendrograms, circular and radial layouts, and horizon or right-to-left panels, with class colour legends, leaf labels and rulers.</Description>
+    <Description>A hierarchical clustering plotting library for sciBASIC#: renders cluster trees as vertical dendrograms, circular and radial layouts, and horizon or right-to-left panels, with heatmap compatibility layers, class colour legends, leaf labels and row or column data scaling.</Description>
     <AssemblyTitle>Microsoft.VisualBasic.DataMining.HierarchicalClustering.Plot</AssemblyTitle>
     <Authors>xieguigang &lt;I@xieguigang.me&gt;</Authors>
     <Company>sciBASIC.NET Foundation</Company>
     <Copyright>Copyright (c) sciBASIC.NET Foundation</Copyright>
-    <PackageTags>scibasic;dendrogram;radial-tree;visualization;hierarchical-clustering;plot;tree-layout</PackageTags>
-    <PackageReleaseNotes>Dendrogram and radial tree plotting for sciBASIC#. It renders hierarchical clustering results as publication ready graphics: vertical dendrograms (Dendrogram), circular and radial layouts (Circular, RadialDendrogram), and horizon or right-to-left panels (Horizon, HorizonRightToLeft), with class colour legends, leaf labels and rulers driven by the shared layout models (Layouts) and the panel base types (DendrogramPanel, DendrogramPanelV2). The package consumes the cluster trees produced by the hierarchical clustering engine and is the standard way to inspect clustering results visually.</PackageReleaseNotes>
+    <PackageTags>scibasic;dendrogram;radial-tree;heatmap;visualization;hierarchical-clustering</PackageTags>
+    <PackageReleaseNotes>This cycle: Enable optimization; Fixed the plot api expoerts; Upgrade of the nuget package version number.</PackageReleaseNotes>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <PackageIcon>logo-knot.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
@@ -43,9 +43,12 @@
     <DebugType>full</DebugType>
     <OutputPath>../../../../.nuget/</OutputPath>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
+    <Optimize>true</Optimize>
+  </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="System.Composition" Version="10.0.12" />
-    <PackageReference Include="System.Resources.Extensions" Version="10.0.12" />
+
     <None Include="..\..\..\..\vs_solutions\logo-knot.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
@@ -61,7 +64,9 @@
     <ProjectReference Include="..\..\..\..\Microsoft.VisualBasic.Core\src\Core.vbproj" />
     <ProjectReference Include="..\..\..\..\mime\text%html\html_netcore5.vbproj" />
     <ProjectReference Include="..\..\..\Mathematica\Math\Math\Math.NET5.vbproj" />
-    <ProjectReference Include="..\..\..\Visualization\Plots\plots-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\Visualization\DataPlot\DataPlot.vbproj" />
+    <ProjectReference Include="..\..\..\Mathematica\Math\DataFrame\dataframeUtils-netcore5.vbproj" />
+
     <ProjectReference Include="..\..\DataMining\DataMining.NET5.vbproj" />
     <ProjectReference Include="..\hierarchical-clustering\hctree.NET5.vbproj" />
   </ItemGroup>

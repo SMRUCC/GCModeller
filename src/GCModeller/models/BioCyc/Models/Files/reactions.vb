@@ -241,6 +241,26 @@ Public Class reactions : Inherits Model
     <AttributeField("SPECIES")>
     Public Property species As String
 
+    ''' <summary>
+    ''' the equilibrium constant of current reaction
+    ''' </summary>
+    ''' <returns></returns>
+    <AttributeField("EQUILIBRIUM-CONSTANT")> Public Property equilibriumConstant As Double
+
+    ''' <summary>
+    ''' the standard reduction potential of current reaction
+    ''' </summary>
+    ''' <returns></returns>
+    <AttributeField("STD-REDUCTION-POTENTIAL")> Public Property stdReductionPotential As Double
+    <AttributeField("PREDECESSORS")> Public Property predecessors As String()
+    <AttributeField("PRIMARIES")> Public Property primaries As String()
+    <AttributeField("REGULATED-BY")> Public Property regulatedBy As String()
+    <AttributeField("REQUIREMENTS")> Public Property requirements As String()
+    <AttributeField("ENZYMES-NOT-USED")> Public Property enzymesNotUsed As String()
+    <AttributeField("DBLINKS")> Public Property dbLinks As String()
+    <AttributeField("DATA-SOURCE")> Public Property dataSource As String()
+    <AttributeField("DOCUMENTATION")> Public Property documentation As String()
+
     Public ReadOnly Property equation As Equation
         Get
             Dim uid As String = MyBase.ToString

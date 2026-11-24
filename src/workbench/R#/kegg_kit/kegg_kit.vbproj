@@ -13,6 +13,7 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <UseApplicationFramework>True</UseApplicationFramework>
     <Title>KEGG database toolkit</Title>
+	 <OutputPath>../../../../assembly/</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -39,10 +40,9 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
     <DocumentationFile>kegg_kit.xml</DocumentationFile>
-    <DefineConstants>netcore5=1</DefineConstants>
-    <OutputPath>../../pkg/assembly/</OutputPath>
+   <OutputPath>../../../../assembly/</OutputPath>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
-    <Optimize>false</Optimize>
+    <Optimize>true</Optimize>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <DefineDebug>false</DefineDebug>

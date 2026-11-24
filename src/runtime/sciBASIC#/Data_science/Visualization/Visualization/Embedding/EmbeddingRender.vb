@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::afc87cf68bc5bcb8a2c2f06abc8a0092, Data_science\Visualization\Visualization\Embedding\EmbeddingRender.vb"
+﻿#Region "Microsoft.VisualBasic::b6fdfafa83c75fcaf948f34e45ba155a, Data_science\Visualization\Visualization\Embedding\EmbeddingRender.vb"
 
     ' Author:
     ' 
@@ -34,28 +34,29 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 61
-    '    Code Lines: 45 (73.77%)
-    ' Comment Lines: 3 (4.92%)
+    '   Total Lines: 105
+    '    Code Lines: 77 (73.33%)
+    ' Comment Lines: 7 (6.67%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 13 (21.31%)
-    '     File Size: 2.02 KB
+    '   Blank Lines: 21 (20.00%)
+    '     File Size: 3.65 KB
 
 
     ' Class EmbeddingRender
     ' 
     '     Constructor: (+1 Overloads) Sub New
-    '     Function: GetClusterColors, getClusterLabel
+    '     Function: Build2DSeries, GetClusterColors, getClusterLabel, ToSeries
     ' 
     ' /********************************************************************************/
 
 #End Region
 
 Imports System.Drawing
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
+Imports Microsoft.VisualBasic.Data.Plots.Canvas
+Imports Microsoft.VisualBasic.Data.Plots
 Imports Microsoft.VisualBasic.DataMining.ComponentModel
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Linq
 
@@ -111,5 +112,48 @@ Public MustInherit Class EmbeddingRender : Inherits Plot
         map("n/a") = Brushes.Gray
 
         Return map
+    End Function
+
+    ''' <summary>
+    ''' 把降维结果按聚类分组拆成 DataPlot 的数据系列。
+    ''' 二维 embedding 的绘制统一交给 <see cref="ScatterPlot"/> 完成，这里只负责分组与配色。
+    ''' </summary>
+    Protected Function Build2DSeries() As List(Of Series)
+        Dim embeddings As PointF() = umap.GetPoint2D
+        Dim serials As New List(Of Series)()
+
+        If clusters.IsNullOrEmpty Then
+            serials.Add(ToSeries("ungroups", Color.Gray, embeddings))
+            Return serials
+        End If
+
+        Dim colorMap = GetClusterColors()
+        Dim maps As New Dictionary(Of String, List(Of PointF))()
+
+        For Each clusterId In colorMap
+            maps(clusterId.Key) = New List(Of PointF)()
+        Next
+
+        For i As Integer = 0 To embeddings.Length - 1
+            maps(getClusterLabel(i)).Add(embeddings(i))
+        Next
+
+        For Each group In maps.Where(Function(a) a.Value.Count > 0).ToArray()
+            serials.Add(ToSeries(group.Key, colorMap(group.Key).Color, group.Value.ToArray()))
+        Next
+
+        Return serials
+    End Function
+
+    Private Function ToSeries(name As String, color As Color, points As PointF()) As Series
+        Return New Series With {
+            .Name = name,
+            .Color = color,
+            .MarkerShape = MarkerShape.Circle,
+            .PointSize = CSng(theme.pointSize),
+            .Visible = True,
+            .X = points.Select(Function(p) CDbl(p.X)).ToArray(),
+            .Y = points.Select(Function(p) CDbl(p.Y)).ToArray()
+        }
     End Function
 End Class

@@ -1,69 +1,68 @@
 ﻿#Region "Microsoft.VisualBasic::5f2fa8337d9fe5578f99fac3fc6683d1, Data_science\MachineVision\GaussianSplatting3D\GaussianSplatting\ImageLoader.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 226
-    '    Code Lines: 175 (77.43%)
-    ' Comment Lines: 33 (14.60%)
-    '    - Xml Docs: 87.88%
-    ' 
-    '   Blank Lines: 18 (7.96%)
-    '     File Size: 9.28 KB
+' Summaries:
 
 
-    ' Class ImageLoader
-    ' 
-    '     Function: Load, LoadAll
-    ' 
-    '     Sub: Save
-    ' 
-    ' Class PointCloudIO
-    ' 
-    '     Function: LoadPLY
-    ' 
-    '     Sub: SaveGaussianPLY, SavePLY
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 226
+'    Code Lines: 175 (77.43%)
+' Comment Lines: 33 (14.60%)
+'    - Xml Docs: 87.88%
+' 
+'   Blank Lines: 18 (7.96%)
+'     File Size: 9.28 KB
+
+
+' Class ImageLoader
+' 
+'     Function: Load, LoadAll
+' 
+'     Sub: Save
+' 
+' Class PointCloudIO
+' 
+'     Function: LoadPLY
+' 
+'     Sub: SaveGaussianPLY, SavePLY
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.IO
-Imports System.Drawing
-Imports System.Drawing.Imaging
-Imports std = System.Math
+Imports Microsoft.VisualBasic.Imaging.BitmapImage.Png
 Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
+Imports std = System.Math
 
 ''' <summary>
 ''' 图像加载器 - 从 PNG 文件加载图像并转换为 Tensor
@@ -76,34 +75,32 @@ Public Class ImageLoader
     ''' Load a PNG image as a Tensor with shape [H, W, 3], values in [0, 1].
     ''' </summary>
     Public Shared Function Load(path As String) As Tensor
-        Using bmp As New Bitmap(path)
-            Dim W = bmp.Width
-            Dim H = bmp.Height
-            Dim result = New Tensor(H, W, 3)
+        ' Core 的 BitmapReader 只支持 BMP（校验 "BM" 魔数），PNG 必须走自带编解码器
+        Dim png = PngReader.Load(path)
+        Dim W = png.Width
+        Dim H = png.Height
+        Dim result = New Tensor(H, W, 3)
 
-            ' 锁定像素数据
-            Dim rect As New Rectangle(0, 0, W, H)
-            Dim bmpData = bmp.LockBits(rect, ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb)
-            Dim stride = bmpData.Stride
-            Dim bytes(stride * H - 1) As Byte
-            System.Runtime.InteropServices.Marshal.Copy(bmpData.Scan0, bytes, 0, bytes.Length)
-            bmp.UnlockBits(bmpData)
+        Dim src = png.Rgb
+        Dim data = result.Data
 
-            ' Format24bppRgb: BGR 顺序，行优先，stride 可能大于 W*3
-            For y = 0 To H - 1
-                For x = 0 To W - 1
-                    Dim offset = y * stride + x * 3
-                    Dim b = bytes(offset) / 255.0
-                    Dim g = bytes(offset + 1) / 255.0
-                    Dim r = bytes(offset + 2) / 255.0
-                    result(y, x, 0) = r
-                    result(y, x, 1) = g
-                    result(y, x, 2) = b
+        ' 直接写底层数组（Tensor 索引器 setter 每写一次都会 Interlocked 自增版本号）
+        System.Threading.Tasks.Parallel.For(0, H,
+            Sub(Y)
+                Dim s = Y * W * 3
+                Dim d = Y * W * 3
+
+                For X As Integer = 0 To W - 1
+                    data(d) = src(s) / 255.0
+                    data(d + 1) = src(s + 1) / 255.0
+                    data(d + 2) = src(s + 2) / 255.0
+
+                    s += 3
+                    d += 3
                 Next
-            Next
+            End Sub)
 
-            Return result
-        End Using
+        Return result
     End Function
 
     ''' <summary>
@@ -113,35 +110,24 @@ Public Class ImageLoader
     Public Shared Sub Save(image As Tensor, path As String)
         Dim H = image.Shape(0)
         Dim W = image.Shape(1)
-        Using bmp As New Bitmap(W, H, PixelFormat.Format24bppRgb)
-            Dim rect As New Rectangle(0, 0, W, H)
-            Dim bmpData = bmp.LockBits(rect, ImageLockMode.WriteOnly, PixelFormat.Format24bppRgb)
-            Dim stride = bmpData.Stride
-            Dim bytes(stride * H - 1) As Byte
+        Dim rgb(W * H * 3 - 1) As Byte
+        Dim data = image.Data
 
-            For y = 0 To H - 1
-                For x = 0 To W - 1
-                    Dim offset = y * stride + x * 3
-                    Dim r = image(y, x, 0)
-                    Dim g = image(y, x, 1)
-                    Dim b = image(y, x, 2)
+        System.Threading.Tasks.Parallel.For(0, H,
+            Sub(Y)
+                Dim src = Y * W * 3
+
+                For X As Integer = 0 To W - 1
                     ' clamp 到 [0, 1] 然后转换为 [0, 255]
-                    bytes(offset) = CByte(std.Max(0, std.Min(255, CInt(b * 255))))
-                    bytes(offset + 1) = CByte(std.Max(0, std.Min(255, CInt(g * 255))))
-                    bytes(offset + 2) = CByte(std.Max(0, std.Min(255, CInt(r * 255))))
+                    rgb(src) = CByte(std.Max(0, std.Min(255, CInt(data(src) * 255))))
+                    rgb(src + 1) = CByte(std.Max(0, std.Min(255, CInt(data(src + 1) * 255))))
+                    rgb(src + 2) = CByte(std.Max(0, std.Min(255, CInt(data(src + 2) * 255))))
+
+                    src += 3
                 Next
-            Next
+            End Sub)
 
-            System.Runtime.InteropServices.Marshal.Copy(bytes, 0, bmpData.Scan0, bytes.Length)
-            bmp.UnlockBits(bmpData)
-
-            ' 确保目录存在
-            Dim dir = path.FileName
-            If Not String.IsNullOrEmpty(dir) AndAlso Not Directory.Exists(dir) Then
-                Directory.CreateDirectory(dir)
-            End If
-            bmp.Save(path, ImageFormat.Png)
-        End Using
+        Call PngWriter.EncodeFile(path, W, H, rgb)
     End Sub
 
     ''' <summary>
@@ -228,24 +214,32 @@ Public Class PointCloudIO
             sw.WriteLine("property float rot_3")
             sw.WriteLine("property float opacity")
             sw.WriteLine("end_header")
+            Dim pos = model.PositionsData
+            Dim cols = model.ColorsData
+            Dim scales = model.ScalesData
+            Dim rots = model.RotationsData
+
             For i = 0 To n - 1
-                Dim x = model.Positions(i, 0)
-                Dim y = model.Positions(i, 1)
-                Dim z = model.Positions(i, 2)
-                Dim r = CInt(std.Max(0, std.Min(255, model.Colors(i, 0) * 255)))
-                Dim g = CInt(std.Max(0, std.Min(255, model.Colors(i, 1) * 255)))
-                Dim b = CInt(std.Max(0, std.Min(255, model.Colors(i, 2) * 255)))
-                Dim sx = std.Exp(model.Scales(i, 0))
-                Dim sy = std.Exp(model.Scales(i, 1))
-                Dim sz = std.Exp(model.Scales(i, 2))
-                Dim qw = model.Rotations(i, 0)
-                Dim qx = model.Rotations(i, 1)
-                Dim qy = model.Rotations(i, 2)
-                Dim qz = model.Rotations(i, 3)
+                Dim o3 = i * 3
+                Dim o4 = i * 4
+
+                Dim x = pos(o3)
+                Dim y = pos(o3 + 1)
+                Dim z = pos(o3 + 2)
+
+                Dim r = CInt(std.Max(0, std.Min(255, cols(o3) * 255)))
+                Dim g = CInt(std.Max(0, std.Min(255, cols(o3 + 1) * 255)))
+                Dim b = CInt(std.Max(0, std.Min(255, cols(o3 + 2) * 255)))
+
+                Dim sx = std.Exp(scales(o3))
+                Dim sy = std.Exp(scales(o3 + 1))
+                Dim sz = std.Exp(scales(o3 + 2))
+
                 Dim op = model.GetOpacity(i)
+
                 sw.WriteLine($"{x:F6} {y:F6} {z:F6} 0 0 0 {r} {g} {b} " &
                              $"{sx:F6} {sy:F6} {sz:F6} " &
-                             $"{qw:F6} {qx:F6} {qy:F6} {qz:F6} " &
+                             $"{rots(o4):F6} {rots(o4 + 1):F6} {rots(o4 + 2):F6} {rots(o4 + 3):F6} " &
                              $"{op:F6}")
             Next
         End Using

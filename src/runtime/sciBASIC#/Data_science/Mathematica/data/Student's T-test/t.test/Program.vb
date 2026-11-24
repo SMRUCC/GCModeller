@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8c62335a7d04996c211d9e1da172eb29, sciBASIC#\Data_science\Mathematica\data\Student's T-test\t.test\Program.vb"
+﻿#Region "Microsoft.VisualBasic::e6b42cf611a9d850cb0ab68666f0915e, Data_science\Mathematica\data\Student's T-test\t.test\Program.vb"
 
     ' Author:
     ' 
@@ -35,10 +35,12 @@
     ' Code Statistics:
 
     '   Total Lines: 213
-    '    Code Lines: 48
-    ' Comment Lines: 111
-    '   Blank Lines: 54
-    '     File Size: 6.80 KB
+    '    Code Lines: 48 (22.54%)
+    ' Comment Lines: 111 (52.11%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 54 (25.35%)
+    '     File Size: 6.75 KB
 
 
     ' Module Program
@@ -63,16 +65,16 @@ Module Program
         Dim b#() = {185, 169, 173, 173, 188, 186, 175, 174, 179, 180}
 
         With t.Test(a, b)
-            Call $"alternative hypothesis: { .Valid}".__DEBUG_ECHO
-            Call .GetJson(True).__DEBUG_ECHO
+            Call $"alternative hypothesis: { .Valid}".debug
+            Call .GetJson(True).debug
         End With
 
         Dim x#() = {0, 1, 1, 1}
 
         ' ttest([0,1,1,1], {mu: 1}).valid() // true
         With t.Test(x, mu:=1)
-            Call $"alternative hypothesis: { .Valid}".__DEBUG_ECHO
-            Call .GetJson(True).__DEBUG_ECHO
+            Call $"alternative hypothesis: { .Valid}".debug
+            Call .GetJson(True).debug
         End With
 
         ' ttest([0,1,1,1], [1,2,2,2], {mu: -1}).valid() // true
@@ -81,8 +83,8 @@ Module Program
         a = {6846523.253, 6840877.665, 5806323.704}
         b = {3056565.388, 1831431.105, 2933659.497}
 
-        Call t.Test(a, b).GetJson(indent:=True).__DEBUG_ECHO
-        Call t.Test(a, b, varEqual:=False).GetJson(indent:=True).__DEBUG_ECHO
+        Call t.Test(a, b).GetJson(indent:=True).debug
+        Call t.Test(a, b, varEqual:=False).GetJson(indent:=True).debug
 
         Pause()
     End Sub

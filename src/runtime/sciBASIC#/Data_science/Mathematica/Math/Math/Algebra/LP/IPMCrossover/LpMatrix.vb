@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::31c031f5d424da6e308fd020a4bd0759, Data_science\Mathematica\Math\Math\Algebra\LP\IPMCrossover\LpMatrix.vb"
+﻿#Region "Microsoft.VisualBasic::2c491013f515ddb4e4902eb07fe815bb, Data_science\Mathematica\Math\Math\Algebra\LP\IPMCrossover\LpMatrix.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 549
-    '    Code Lines: 377 (68.67%)
-    ' Comment Lines: 61 (11.11%)
+    '   Total Lines: 546
+    '    Code Lines: 375 (68.68%)
+    ' Comment Lines: 61 (11.17%)
     '    - Xml Docs: 59.02%
     ' 
-    '   Blank Lines: 111 (20.22%)
-    '     File Size: 19.11 KB
+    '   Blank Lines: 110 (20.15%)
+    '     File Size: 19.06 KB
 
 
     '     Interface INormalFactor
@@ -109,9 +109,6 @@
 '   CSR A       → ~0.9 MB
 '   稀疏 AΘAᵀ   → ~3e5 非零元
 ' ============================================================================
-
-Imports System
-Imports std = System.Math
 
 Namespace LinearAlgebra.LinearProgramming.IPMCrossover
 

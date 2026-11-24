@@ -1,3 +1,6 @@
+Imports Microsoft.VisualBasic.Math
+Imports Microsoft.VisualBasic.Math.FalseDiscoveryRate
+
 Namespace Statistics
 
     ''' <summary>
@@ -26,23 +29,23 @@ Namespace Statistics
                 Return pvalues
             End If
 
-            Dim adjustMethod As Microsoft.VisualBasic.Math.Extensions.PValueAdjustMethod
+            Dim adjustMethod As PValueAdjustMethod
 
             Select Case method.Trim().ToLowerInvariant()
                 Case "none"
                     Return pvalues
                 Case "fdr", "bh"
-                    adjustMethod = Microsoft.VisualBasic.Math.Extensions.PValueAdjustMethod.BH
+                    adjustMethod = PValueAdjustMethod.BH
                 Case "bonferroni"
-                    adjustMethod = Microsoft.VisualBasic.Math.Extensions.PValueAdjustMethod.Bonferroni
+                    adjustMethod = PValueAdjustMethod.Bonferroni
                 Case "holm"
-                    adjustMethod = Microsoft.VisualBasic.Math.Extensions.PValueAdjustMethod.Holm
+                    adjustMethod = PValueAdjustMethod.Holm
                 Case "hochberg"
-                    adjustMethod = Microsoft.VisualBasic.Math.Extensions.PValueAdjustMethod.Hochberg
+                    adjustMethod = PValueAdjustMethod.Hochberg
                 Case "hommel"
-                    adjustMethod = Microsoft.VisualBasic.Math.Extensions.PValueAdjustMethod.Hommel
+                    adjustMethod = PValueAdjustMethod.Hommel
                 Case "by"
-                    adjustMethod = Microsoft.VisualBasic.Math.Extensions.PValueAdjustMethod.BY
+                    adjustMethod = PValueAdjustMethod.BY
                 Case Else
                     Throw New System.ArgumentException($"Unknown multiple testing correction method: '{method}'")
             End Select
@@ -64,7 +67,7 @@ Namespace Statistics
                 Return result
             End If
 
-            Dim adjusted As Double() = Microsoft.VisualBasic.Math.Extensions.PValueAdjust(valid, adjustMethod)
+            Dim adjusted As Double() = FalseDiscoveryRate.PValueAdjust(valid, adjustMethod)
 
             For i As Integer = 0 To adjusted.Length - 1
                 result(indices(i)) = adjusted(i)

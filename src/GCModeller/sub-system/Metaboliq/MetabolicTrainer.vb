@@ -329,8 +329,52 @@ Public Class MetabolicTrainer
             End If
         Next
 
+        ' 训练完成之后把酶表达的统计量交给模型，供上下文对齐使用
+        Call attachContextReference(enzymeSeries)
+
         Return history
     End Function
+
+    ''' <summary>
+    ''' 从训练用的酶序列提取逐反应的最小值/极差/种群，注册到模型上。
+    ''' </summary>
+    ''' <param name="enzymeSeries">酶表达序列，形状 (T × r)</param>
+    ''' <remarks>
+    ''' 网络输入是 MinMax 归一化之后的酶表达量，因此上下文对齐必须使用同一组 <c>min</c> 与
+    ''' <c>max − min</c>（见 <see cref="MetabolicLiquidNetwork.ContextAlignmentMode"/>）。
+    ''' </remarks>
+    Private Sub attachContextReference(enzymeSeries As Tensor)
+        If enzymeSeries Is Nothing OrElse Model Is Nothing Then
+            Return
+        End If
+
+        Dim r As Integer = Model.ReactionCount
+        Dim bins As Integer = enzymeSeries.Shape(0)
+        Dim minimum(r - 1) As Double
+        Dim range(r - 1) As Double
+        Dim population(r - 1)() As Double
+
+        For j As Integer = 0 To r - 1
+            Dim values(bins - 1) As Double
+            Dim min As Double = Double.MaxValue
+            Dim max As Double = Double.MinValue
+
+            For t As Integer = 0 To bins - 1
+                Dim v As Double = enzymeSeries(t, j)
+
+                values(t) = v
+
+                If v < min Then min = v
+                If v > max Then max = v
+            Next
+
+            population(j) = values
+            minimum(j) = If(min = Double.MaxValue, 0.0R, min)
+            range(j) = If(max > min, max - min, 1.0R)
+        Next
+
+        Call Model.SetContextReference(minimum, range, population)
+    End Sub
 
     ''' <summary>
     ''' 跑一个 epoch。

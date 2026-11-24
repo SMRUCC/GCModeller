@@ -41,7 +41,6 @@
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Visualize.Circos.Configurations.Nodes.Plots
 Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
@@ -49,6 +48,7 @@ Imports SMRUCC.genomics.Visualize.Circos.TrackDatas.Highlights
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' package module for create track plots or config track plots
@@ -77,7 +77,7 @@ Module TrackPlots
     ''' <returns></returns>
     ''' <remarks></remarks>
     <ExportAPI("orientation")>
-    Public Function SetTrackOrientation(track As ITrackPlot, Optional orientation As orientations = orientations.in) As ITrackPlot
+    Public Function SetTrackOrientation(track As ITrackPlot, Optional orientation As Orientation = Orientation.in) As ITrackPlot
         track.orientation = orientation
         Return track
     End Function
@@ -154,13 +154,13 @@ Module TrackPlots
                               Optional label_snuggle$ = "yes",
                               Optional env As Environment = Nothing) As Object
 
-        Dim textPoints As pipeline = pipeline.TryCreatePipeline(Of TextTrackData)(texts, env)
+        Dim textPoints As PipeIterator(Of TextTrackData) = pipeline.Stream(Of TextTrackData)(texts, env)
 
         If textPoints.isError Then
             Return textPoints.getError
         End If
 
-        Dim labelText As New HighlightLabel(textPoints.populates(Of TextTrackData)(env))
+        Dim labelText As New HighlightLabel(textPoints)
         Dim labels As New TextLabel(labelText) With {
             .r0 = r0,
             .r1 = r1,
@@ -169,7 +169,7 @@ Module TrackPlots
         }
 
         If labels.tracksData.GetEnumerator.Count = 0 Then
-            Return Internal.debug.stop("the text track data can not be empty!", env)
+            Return RInternal.debug.stop("the text track data can not be empty!", env)
         Else
             Return labels
         End If
@@ -181,7 +181,7 @@ Module TrackPlots
         Dim hTrack As New HighLight(highlights)
 
         If hTrack.tracksData.GetEnumerator.Count = 0 Then
-            Return Internal.debug.stop("the value points in the track data can not be empty!", env)
+            Return RInternal.debug.stop("the value points in the track data can not be empty!", env)
         Else
             Return hTrack
         End If
@@ -189,16 +189,16 @@ Module TrackPlots
 
     <ExportAPI("track.histogram")>
     Public Function Histogram(<RRawVectorArgument> values As Object, Optional env As Environment = Nothing) As Object
-        Dim valuePoints As pipeline = pipeline.TryCreatePipeline(Of ValueTrackData)(values, env)
+        Dim valuePoints As PipeIterator(Of ValueTrackData) = pipeline.Stream(Of ValueTrackData)(values, env)
 
         If valuePoints.isError Then
             Return valuePoints.getError
         End If
 
-        Dim hist As New Histogram(New NtProps.GCSkew(valuePoints.populates(Of ValueTrackData)(env)))
+        Dim hist As New Histogram(New NtProps.GCSkew(valuePoints))
 
         If hist.tracksData.GetEnumerator.Count = 0 Then
-            Return Internal.debug.stop("the value points in the track data can not be empty!", env)
+            Return RInternal.debug.stop("the value points in the track data can not be empty!", env)
         Else
             Return hist
         End If

@@ -110,6 +110,48 @@ Public Class compounds : Inherits Model
     <AttributeField("SUPERATOMS")>
     Public Property superAtoms As String
 
+    <AttributeField("GO-TERMS")> Public Property goTerms As String()
+    <AttributeField("ABBREV-NAME")> Public Property abbrevName As String
+    <AttributeField("ACCESSION-1")> Public Property accession1 As String
+
+    ''' <summary>
+    ''' the isoelectric point of current metabolite
+    ''' </summary>
+    ''' <returns></returns>
+    <AttributeField("PI")> Public Property pi As Double
+    <AttributeField("PKA1")> Public Property pKa1 As Double
+    <AttributeField("PKA2")> Public Property pKa2 As Double
+    <AttributeField("PKA3")> Public Property pKa3 As Double
+    <AttributeField("LOGP")> Public Property logP As Double
+
+    ''' <summary>
+    ''' the net electric charge of current metabolite at the physiological pH
+    ''' </summary>
+    ''' <returns></returns>
+    <AttributeField("CHARGE")> Public Property charge As Double
+    <AttributeField("MOLECULAR-WEIGHT-KD")> Public Property molecularWeightKD As Double
+    <AttributeField("MOLECULAR-WEIGHT-EXP")> Public Property molecularWeightExp As Double
+    <AttributeField("MOLECULAR-WEIGHT-SEQ")> Public Property molecularWeightSeq As Double
+
+    ''' <summary>
+    ''' 当前化合物作为聚合物的时候的组成单体列表
+    ''' </summary>
+    ''' <returns></returns>
+    <AttributeField("COMPONENTS")> Public Property components As String()
+    <AttributeField("COMPONENT-COEFFICIENTS")> Public Property componentCoefficients As String()
+    <AttributeField("REGULATED-BY")> Public Property regulatedBy As String()
+    <AttributeField("TAUTOMERS")> Public Property tautomers As String()
+    <AttributeField("SYMMETRY")> Public Property symmetry As String
+    <AttributeField("LOCATIONS")> Public Property locations As String()
+    <AttributeField("IN-MIXTURE")> Public Property inMixture As String()
+
+    ''' <summary>
+    ''' the unmodified form of current compound, for the modified compound
+    ''' </summary>
+    ''' <returns></returns>
+    <AttributeField("UNMODIFIED-FORM")> Public Property unmodifiedForm As String
+    <AttributeField("MODIFIED-FORM")> Public Property modifiedForm As String()
+
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function FormulaString(meta As compounds) As String
         If meta.chemicalFormula.IsNullOrEmpty Then

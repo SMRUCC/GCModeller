@@ -69,7 +69,9 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Math
+Imports Microsoft.VisualBasic.Math.Correlations
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
+Imports Microsoft.VisualBasic.Math.Quantile
 
 ''' <summary>
 ''' 偏最小二乘路径建模 (PLS-PM) 模块
@@ -239,7 +241,7 @@ Public Module PLSPM
                             xCol(i) = Z(i, manifestNames(lv.featureIDs(k)))
                             yCol(i) = innerScores(i, j)
                         Next
-                        w(k) = Statistics.Pearson(xCol, yCol)
+                        w(k) = GetPearson(xCol, yCol)
                     Next
                 Else
                     ' Mode B (形成型): w = (X'X)^{-1} X'Y_inner
@@ -271,7 +273,7 @@ Public Module PLSPM
                                 xCol(i) = Z(i, manifestNames(lv.featureIDs(k)))
                                 yCol(i) = innerScores(i, j)
                             Next
-                            w(k) = Statistics.Pearson(xCol, yCol)
+                            w(k) = GetPearson(xCol, yCol)
                         Next
                     End Try
                 End If
@@ -314,7 +316,7 @@ Public Module PLSPM
                     xCol(i) = Z(i, manifestNames(lv.featureIDs(k)))
                     yCol(i) = latentScores(i, j)
                 Next
-                load(k) = Statistics.Pearson(xCol, yCol)
+                load(k) = GetPearson(xCol, yCol)
                 comm += load(k) ^ 2
             Next
             loadings.Add(load)
@@ -492,7 +494,7 @@ Public Module PLSPM
                         xCol(i) = scores(i, j)
                         yCol(i) = scores(i, neighbor)
                     Next
-                    innerWeights(j, neighbor) = Statistics.Pearson(xCol, yCol)
+                    innerWeights(j, neighbor) = GetPearson(xCol, yCol)
                 Next
             End If
         Next
@@ -691,7 +693,7 @@ Public Module PLSPM
             Dim samples = pathSamples(k).ToArray()
             If samples.Length > 0 Then
                 result.PathBootSE(k) = samples.SD
-                result.PathBootCI(k) = (Statistics.Quantile(samples, 0.025), Statistics.Quantile(samples, 0.975))
+                result.PathBootCI(k) = (samples.LinearQuantile(0.025), samples.LinearQuantile(0.975))
             End If
         Next
 
@@ -701,7 +703,7 @@ Public Module PLSPM
             Dim samples = indirectSamples(k).ToArray()
             If samples.Length > 0 Then
                 result.IndirectBootSE(k) = samples.SD
-                result.IndirectBootCI(k) = (Statistics.Quantile(samples, 0.025), Statistics.Quantile(samples, 0.975))
+                result.IndirectBootCI(k) = (samples.LinearQuantile(0.025), samples.LinearQuantile(0.975))
             End If
         Next
 
@@ -711,7 +713,7 @@ Public Module PLSPM
             Dim samples = loadingsSamples(k).ToArray()
             If samples.Length > 0 Then
                 result.LoadingsBootSE(k) = samples.SD
-                result.LoadingsBootCI(k) = (Statistics.Quantile(samples, 0.025), Statistics.Quantile(samples, 0.975))
+                result.LoadingsBootCI(k) = (samples.LinearQuantile(0.025), samples.LinearQuantile(0.975))
             End If
         Next
 

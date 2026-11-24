@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.FuzzyGene.Config.StabilityCalibrationMode</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>StabilityCalibrationMode {SMRUCC.genomics.Analysis.FuzzyGene.Config}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>StabilityCalibrationMode</h2>
+
+        <h3>Description</h3>
+
+        <p>拟合完成后的全局增益校准方式。</p>
+
+<p>逐靶基因独立拟合无法保证整张网络的 Jacobian 谱半径 <code>&lt; 1</code>； 只要 <code>ρ(J) ≥ 1</code>，阻尼迭代就不收缩（<code>λ≈1</code> 时甚至是中立方向）。 校准就是把 <code>J</code> 的斜率整体缩放 <code>γ = (1-ε)/ρ</code>，把拟合网络标定成压缩映射： 符号、规则结构、相对强弱都不变，只有幅度被压进收敛域。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.FuzzyGene.Config
+export class StabilityCalibrationMode extends <a href="/vignettes/clr/System/Enum.html">Enum</a> {
+   # 不校准（保留旧模型的行为）。
+   None: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/StabilityCalibrationMode.html">StabilityCalibrationMode</a> = 0;
+
+   # 逐行 L1 上界的保守校准（<code>ρ(J) ≤ ‖J‖∞</code>）。
+   RowL1: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/StabilityCalibrationMode.html">StabilityCalibrationMode</a> = 1;
+
+   # 组装稀疏 Jacobian 做幂迭代求谱半径（默认）。
+   SpectralRadius: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/StabilityCalibrationMode.html">StabilityCalibrationMode</a> = 2;
+
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>this class extends from <a href="/vignettes/clr/System/Enum.html">Enum</a> class: <a href="/vignettes/clr/System/Enum.html">Enum</a></li>
+<li>use by <i>field</i> member <code>None</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/StabilityCalibrationMode.html">StabilityCalibrationMode</a></li>
+<li>use by <i>field</i> member <code>RowL1</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/StabilityCalibrationMode.html">StabilityCalibrationMode</a></li>
+<li>use by <i>field</i> member <code>SpectralRadius</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/FuzzyGene/Config/StabilityCalibrationMode.html">StabilityCalibrationMode</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

@@ -1,0 +1,42 @@
+.\" man page create by R# package system.
+.TH LINEAR 1 2000-1月 "profiles_matrix" "profiles_matrix"
+.SH NAME
+profiles_matrix \- Run the perturbation experiment for a set of genes and collect the profiles into a matrix.
+.SH SYNOPSIS
+\fIprofiles_matrix(\fBmodel\fR as <generic> ElasticNet, 
+\fBgenes\fR as any, 
+\fBmode\fR as string = "knockdown", 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Run the perturbation experiment for a set of genes and collect the profiles into a matrix.
+.PP
+.SH OPTIONS
+.PP
+\fBmodel\fB \fR\- the perturbation engine that is created via \fBelastic_model\fR. 
+.PP
+.PP
+\fBgenes\fB \fR\- the target gene ids, one column will be generated for each of them. 
+.PP
+.PP
+\fBmode\fB \fR\- \fBknockout\fR, \fBknockdown\fR (default) or \fBoverexpress\fR. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object. 
+.PP
+.SH VALUE
+.PP
+a matrix of the \fB[gene x condition]\fR mutant means. The genes that can not be found in
+ the model are skipped, so the column number equals the number of the matched genes.
+.PP
+.SH DETAILS
+.PP
+This api is the memory friendly replacement of the \fBmake_exports\fR api for a batch run:
+ it does not generate the ten difference analysis tables for every condition.
+.PP
+.SH SEE ALSO
+linear
+.SH FILES
+.PP
+TRNtoolkit.dll
+.PP

@@ -1,0 +1,44 @@
+.\" man page create by R# package system.
+.TH GENETREE 1 2000-1月 "perturb" "perturb"
+.SH NAME
+perturb \- Set the expression value of a set of genes to the given values, i.e. run a
+.SH SYNOPSIS
+\fIperturb(\fBtree\fR as <generic> XGBoostGRN, 
+\fBgenes\fR as any, 
+\fBexpression\fR as any, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Set the expression value of a set of genes to the given values, i.e. run a
+ \fBCustom\fR mode in silico intervention.
+.PP
+.SH OPTIONS
+.PP
+\fBtree\fB \fR\- the trained [XGBoostGRN](cref:T:SMRUCC.genomics.Analysis.GeneTree.XGBoostGRN) model object.. 
+.PP
+.PP
+\fBgenes\fB \fR\- a character vector of the target gene id.. 
+.PP
+.PP
+\fBexpression\fB \fR\- 
+ a numeric vector of the expected expression value of each target gene, in the
+ same order as **genes**; the genes are set to these values and
+ are clamped during the whole iteration.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+the [InterventionResult](cref:T:SMRUCC.genomics.BioSystem.Intervention.InterventionResult) object of the intervention, which could be
+ exported via the \fBmake_exports\fR api of the \fBbnlearn\fR package module;
+ an R# error message object is returned when the sizes of the two vectors do not
+ match or the prediction fails.
+.PP
+.SH SEE ALSO
+geneTree
+.SH FILES
+.PP
+biosystem.dll
+.PP

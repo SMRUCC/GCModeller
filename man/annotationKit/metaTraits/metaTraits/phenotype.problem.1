@@ -1,0 +1,39 @@
+.\" man page create by R# package system.
+.TH METATRAITS 2 2000-1月 "phenotype.problem" "phenotype.problem"
+.SH NAME
+phenotype.problem \- 装配表型的训练数据集
+.SH SYNOPSIS
+\fIphenotype.problem(\fBtraits\fR as any, 
+\fBannotations\fR as any, 
+\fBpfams\fR as any, 
+\fBembedding\fR as <generic> PfamEmbedding, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+装配表型的训练数据集
+.PP
+.SH OPTIONS
+.PP
+\fBtraits\fB \fR\- 表型定义表. 
+.PP
+.PP
+\fBannotations\fB \fR\- 表型标注数据. 
+.PP
+.PP
+\fBpfams\fB \fR\- 各微生物基因组的蛋白质组 Pfam 注释（list 或者目录路径）. 
+.PP
+.PP
+\fBembedding\fB \fR\- Pfam 嵌入配置. 
+.PP
+.SH VALUE
+.PP
+行 = 微生物基因组样本，topic = 表型名的训练数据集
+.PP
+.SH SEE ALSO
+metaTraits
+.SH FILES
+.PP
+annotationKit.dll
+.PP
+.SH AUTHOR
+Written by \fBxie.guigang@gcmodeller.org\fR

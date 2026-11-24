@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4466e2e5b1d6d18a0db243828d454a9b, visualize\DataVisualizationExtensions\CatalogProfiling\Heatmap\MultipleCatalogHeatmap.vb"
+#Region "Microsoft.VisualBasic::4466e2e5b1d6d18a0db243828d454a9b, visualize\DataVisualizationExtensions\CatalogProfiling\Heatmap\MultipleCatalogHeatmap.vb"
 
     ' Author:
     ' 
@@ -59,8 +59,8 @@
 Imports System.Drawing
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
+Imports Microsoft.VisualBasic.Data.Plots
+Imports Microsoft.VisualBasic.Data.Plots.Canvas
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors

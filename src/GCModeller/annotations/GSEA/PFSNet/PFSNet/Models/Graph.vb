@@ -61,7 +61,7 @@ Imports SMRUCC.genomics.Analysis.PFSNet.DataStructure
 
 Namespace R.Graph
 
-    Module Data
+    Public Module Data
 
         ''' <summary>
         ''' This function creates an igraph graph from one or two data frames containing the (symbolic) edge list and edge/vertex attributes.
@@ -107,63 +107,122 @@ Namespace R.Graph
         ''' <returns>A new graph object with the edges deleted.</returns>
         ''' <remarks></remarks>
         Public Function simplify(graph As PFSNetGraph) As PFSNetGraph
-            Dim edges As GraphEdge() = (From edge As GraphEdge
-                                        In graph.edges
-                                        Where Not edge.isSelfLoop
-                                        Select edge).ToArray
+            Dim source As GraphEdge() = If(graph.edges, Array.Empty(Of GraphEdge)())
+            Dim keys As New System.Collections.Generic.HashSet(Of String)(StringComparer.Ordinal)
+            Dim unique As New System.Collections.Generic.List(Of GraphEdge)
+
+            For Each edge As GraphEdge In source
+                If edge Is Nothing OrElse edge.isSelfLoop Then
+                    Continue For
+                End If
+
+                Dim gene1 As String = If(edge.g1, "")
+                Dim gene2 As String = If(edge.g2, "")
+                Dim first As String
+                Dim second As String
+
+                If StringComparer.Ordinal.Compare(gene1, gene2) <= 0 Then
+                    first = gene1
+                    second = gene2
+                Else
+                    first = gene2
+                    second = gene1
+                End If
+
+                Dim key As String = If(edge.pathwayID, "") & vbNullChar & first & vbNullChar & second
+
+                If keys.Add(key) Then
+                    unique.Add(edge)
+                End If
+            Next
+
+            Dim graphId As String = graph.Id
+
+            If String.IsNullOrEmpty(graphId) AndAlso unique.Count > 0 Then
+                graphId = unique(0).pathwayID
+            End If
+
             Return New PFSNetGraph With {
                 .nodes = graph.nodes,
-                .edges = edges,
+                .edges = unique.ToArray,
                 .masked = graph.masked,
-                .Id = graph.edges.First.pathwayID
+                .Id = graphId
             }
         End Function
 
         Public Iterator Function decompose_graph(g As PFSNetGraph, min_vertices As Integer) As IEnumerable(Of PFSNetGraph)
-            Dim graph As New NetworkGraph
+            Dim nodes As PFSNetGraphNode() = If(g.nodes, Array.Empty(Of PFSNetGraphNode)())
+            Dim edges As GraphEdge() = If(g.edges, Array.Empty(Of GraphEdge)())
+            Dim nodeLookup As New System.Collections.Generic.Dictionary(Of String, PFSNetGraphNode)(StringComparer.Ordinal)
+            Dim adjacency As New System.Collections.Generic.Dictionary(Of String, System.Collections.Generic.List(Of String))(StringComparer.Ordinal)
 
-            For Each node As PFSNetGraphNode In g.nodes
-                graph.CreateNode(node.name)
-                graph.GetElementByID(node.name).data.weights = {
-                    node.weight,
-                    node.weight2
-                }
+            For Each node As PFSNetGraphNode In nodes
+                If node IsNot Nothing AndAlso Not nodeLookup.ContainsKey(node.name) Then
+                    nodeLookup.Add(node.name, node)
+                    adjacency.Add(node.name, New System.Collections.Generic.List(Of String))
+                End If
             Next
 
-            For Each ggi As GraphEdge In g.edges
-                Call graph.CreateEdge(ggi.g1, ggi.g2, data:=New EdgeData With {.label = ggi.pathwayID})
+            For Each edge As GraphEdge In edges
+                If edge Is Nothing OrElse Not adjacency.ContainsKey(edge.g1) OrElse Not adjacency.ContainsKey(edge.g2) Then
+                    Continue For
+                End If
+
+                adjacency(edge.g1).Add(edge.g2)
+                adjacency(edge.g2).Add(edge.g1)
             Next
 
-            Dim subnetworks = graph.DecomposeGraph(minVertices:=min_vertices).ToArray
-            Dim pfsnet As PFSNetGraph
+            Dim visited As New System.Collections.Generic.HashSet(Of String)(StringComparer.Ordinal)
 
-            For Each part In subnetworks
-                pfsnet = New PFSNetGraph With {
+            For Each seed As PFSNetGraphNode In nodes
+                If seed Is Nothing OrElse Not visited.Add(seed.name) Then
+                    Continue For
+                End If
+
+                Dim queue As New System.Collections.Generic.Queue(Of String)
+                Dim component As New System.Collections.Generic.List(Of String)
+
+                queue.Enqueue(seed.name)
+
+                While queue.Count > 0
+                    Dim gene As String = queue.Dequeue
+                    component.Add(gene)
+
+                    For Each partner As String In adjacency(gene)
+                        If visited.Add(partner) Then
+                            queue.Enqueue(partner)
+                        End If
+                    Next
+                End While
+
+                If component.Count < min_vertices Then
+                    Continue For
+                End If
+
+                Dim memberSet As New System.Collections.Generic.HashSet(Of String)(component, StringComparer.Ordinal)
+                Dim componentEdges As GraphEdge() = edges _
+                    .Where(Function(edge) memberSet.Contains(edge.g1) AndAlso memberSet.Contains(edge.g2)) _
+                    .ToArray
+                Dim componentNodes As PFSNetGraphNode() = component _
+                    .Select(Function(gene)
+                                Dim source As PFSNetGraphNode = nodeLookup(gene)
+
+                                Return New PFSNetGraphNode With {
+                                    .name = source.name,
+                                    .weight = source.weight,
+                                    .weight2 = source.weight2
+                                }
+                            End Function) _
+                    .ToArray
+
+                Yield New PFSNetGraph With {
                     .Id = g.Id,
                     .masked = g.masked,
                     .pvalue = 1,
                     .statistics = 0,
-                    .edges = part.graphEdges _
-                        .Select(Function(a)
-                                    Return New GraphEdge With {
-                                        .g1 = a.U.label,
-                                        .g2 = a.V.label,
-                                        .pathwayID = a.data.label
-                                    }
-                                End Function) _
-                        .ToArray,
-                    .nodes = part.vertex _
-                        .Select(Function(a)
-                                    Return New PFSNetGraphNode With {
-                                        .name = a.label,
-                                        .weight = a.data.weights(Scan0),
-                                        .weight2 = a.data.weights(1)
-                                    }
-                                End Function) _
-                        .ToArray
+                    .edges = componentEdges,
+                    .nodes = componentNodes
                 }
-
-                Yield pfsnet
             Next
         End Function
 

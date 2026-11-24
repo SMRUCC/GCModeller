@@ -1,0 +1,30 @@
+.\" man page create by R# package system.
+.TH GENETREE 1 2000-1月 "report_table" "report_table"
+.SH NAME
+report_table \- Get the per gene fitting quality table of the trained model.
+.SH SYNOPSIS
+\fIreport_table(\fBtree\fR as <generic> XGBoostGRN, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Get the per gene fitting quality table of the trained model.
+.PP
+.SH OPTIONS
+.PP
+\fBtree\fB \fR\- the trained [XGBoostGRN](cref:T:SMRUCC.genomics.Analysis.GeneTree.XGBoostGRN) model object.. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a dataframe whose rows are the modelled genes and whose columns are \fBkind\fR,
+ \fBn_regulators\fR, \fBn_train\fR, \fBn_validate\fR, \fBr2\fR, \fBrmse\fR,
+ \fBbaseline_rmse\fR, \fBimprovement\fR, \fBtrees\fR, \fBmin_value\fR and \fBmax_value\fR.
+.PP
+.SH SEE ALSO
+geneTree
+.SH FILES
+.PP
+biosystem.dll
+.PP

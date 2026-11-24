@@ -70,21 +70,21 @@ Public Class PartitioningData : Implements IAbstractFastaToken
     ''' <value></value>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    <Column("Tag")> Public Property PartitioningTag As String
+    <Column("tag")> Public Property PartitioningTag As String
     ''' <summary>
     ''' 分区的起始位置
     ''' </summary>
     ''' <value></value>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    <Column("Loci.Sp")> Public Property LociLeft As Integer
+    <Column("loci.sp")> Public Property LociLeft As Integer
     ''' <summary>
     ''' 分区的结束位置
     ''' </summary>
     ''' <value></value>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    <Column("Loci.St")> Public Property LociRight As Integer
+    <Column("loci.st")> Public Property LociRight As Integer
     Public Property ORFList As String()
     Public Property GenomeID As String
     Public ReadOnly Property Length As Integer
