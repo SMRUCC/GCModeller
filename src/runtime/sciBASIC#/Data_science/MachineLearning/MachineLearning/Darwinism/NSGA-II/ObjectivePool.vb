@@ -16,6 +16,7 @@
 
 Imports System.Linq
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports std = System.Math
 
 Namespace Darwinism.NSGA2
 
@@ -66,7 +67,7 @@ Namespace Darwinism.NSGA2
             End If
 
             Me.inner = objectives
-            Me.maxCapacity = Math.Max(cacheSize, 0)
+            Me.maxCapacity = std.Max(cacheSize, 0)
             Me.cacheEnabled = cacheSize > 0 AndAlso objectives.Cacheable
         End Sub
 

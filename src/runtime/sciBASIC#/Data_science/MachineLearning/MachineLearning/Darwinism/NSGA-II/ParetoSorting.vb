@@ -215,15 +215,16 @@ Namespace Darwinism.NSGA2
             Dim m% = objectives(front(0)).Length
 
             For obj As Integer = 0 To m - 1
+                Dim objectiveIndex As Integer = obj
                 Dim order As Integer() = Enumerable _
                     .Range(0, n) _
-                    .OrderBy(Function(pos) GetObjectiveValue(objectives(front(pos))(obj))) _
+                    .OrderBy(Function(pos) GetObjectiveValue(objectives(front(pos))(objectiveIndex))) _
                     .ToArray
 
                 Dim firstPos% = order(0)
                 Dim lastPos% = order(n - 1)
-                Dim minValue# = GetObjectiveValue(objectives(front(firstPos))(obj))
-                Dim maxValue# = GetObjectiveValue(objectives(front(lastPos))(obj))
+                Dim minValue# = GetObjectiveValue(objectives(front(firstPos))(objectiveIndex))
+                Dim maxValue# = GetObjectiveValue(objectives(front(lastPos))(objectiveIndex))
 
                 ' the boundary solutions are always kept
                 distance(firstPos) = Double.PositiveInfinity
@@ -236,8 +237,8 @@ Namespace Darwinism.NSGA2
                 End If
 
                 For pos As Integer = 1 To n - 2
-                    Dim prevValue# = GetObjectiveValue(objectives(front(order(pos - 1)))(obj))
-                    Dim nextValue# = GetObjectiveValue(objectives(front(order(pos + 1)))(obj))
+                    Dim prevValue# = GetObjectiveValue(objectives(front(order(pos - 1)))(objectiveIndex))
+                    Dim nextValue# = GetObjectiveValue(objectives(front(order(pos + 1)))(objectiveIndex))
                     Dim currentPos% = order(pos)
 
                     distance(currentPos) += (nextValue - prevValue) / (maxValue - minValue)

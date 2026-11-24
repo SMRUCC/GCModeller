@@ -79,8 +79,8 @@ Namespace Darwinism.NSGA2
     ''' <typeparam name="Chr">The chromosome type of the genetic algorithm.</typeparam>
     Public Class DelegateObjective(Of Chr) : Implements IMultiObjective(Of Chr)
 
-        ReadOnly evaluate As Func(Of Chr, Boolean, Double())
-        ReadOnly objectives%
+        ReadOnly evaluator As Func(Of Chr, Boolean, Double())
+        ReadOnly objectiveCount%
 
         ''' <summary>
         ''' Create a multi-objective evaluation model from a delegate function.
@@ -96,8 +96,8 @@ Namespace Darwinism.NSGA2
                 Throw New ArgumentOutOfRangeException(NameOf(objectives), "The number of the objective functions should be greater than zero.")
             End If
 
-            Me.evaluate = evaluate
-            Me.objectives = objectives
+            Me.evaluator = evaluate
+            Me.objectiveCount = objectives
             Me.Cacheable = cacheable
         End Sub
 
@@ -107,7 +107,7 @@ Namespace Darwinism.NSGA2
         ''' <returns>An <see cref="Integer"/> value.</returns>
         Public ReadOnly Property Objectives As Integer Implements IMultiObjective(Of Chr).Objectives
             Get
-                Return objectives
+                Return objectiveCount
             End Get
         End Property
 
@@ -124,7 +124,7 @@ Namespace Darwinism.NSGA2
         ''' <param name="parallel">Whether the evaluation should be run in parallel mode?</param>
         ''' <returns>The objective vector of the given <paramref name="chromosome"/>.</returns>
         Public Function Evaluate(chromosome As Chr, parallel As Boolean) As Double() Implements IMultiObjective(Of Chr).Evaluate
-            Return evaluate(chromosome, parallel)
+            Return evaluator(chromosome, parallel)
         End Function
     End Class
 

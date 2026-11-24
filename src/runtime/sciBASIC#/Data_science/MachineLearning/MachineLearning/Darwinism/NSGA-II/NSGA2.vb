@@ -46,7 +46,7 @@ Namespace Darwinism.NSGA2
 
         Shared ReadOnly randfSeeds As New [Default](Of IRandomSeeds)(Function() randf.seeds)
 
-        ReadOnly objectiveModel As IMultiObjective(Of Chr)
+        ReadOnly objectiveEvaluator As IMultiObjective(Of Chr)
         ReadOnly crossoverOperator As Func(Of Chr, Chr, Random, IEnumerable(Of Chr))
         ReadOnly mutationOperator As Func(Of Chr, Random, Chr)
         ReadOnly expectedSize As Integer
@@ -90,7 +90,7 @@ Namespace Darwinism.NSGA2
         ''' <returns>A <see cref="IMultiObjective(Of Chr)"/> model.</returns>
         Public ReadOnly Property ObjectiveModel As IMultiObjective(Of Chr)
             Get
-                Return objectiveModel
+                Return objectiveEvaluator
             End Get
         End Property
 
@@ -142,7 +142,7 @@ Namespace Darwinism.NSGA2
             Me.seeds = seeds Or randfSeeds
             Me.currentPopulation = population
             Me.expectedSize = population.Size
-            Me.objectiveModel = New ObjectivePool(Of Chr)(objectives, cacheSize)
+            Me.objectiveEvaluator = New ObjectivePool(Of Chr)(objectives, cacheSize)
             Me.crossoverOperator = If(crossover, Function(a, b, rnd) a.Crossover(b))
             Me.mutationOperator = If(mutate, Function(chromosome, rnd) chromosome.Mutate())
 
@@ -172,7 +172,7 @@ Namespace Darwinism.NSGA2
         ''' <param name="chromosome">The candidate chromosome which will be evaluated.</param>
         ''' <returns>The objective vector of the given <paramref name="chromosome"/>.</returns>
         Public Function GetObjectives(chromosome As Chr) As Double()
-            Return checkVector(objectiveModel.Evaluate(chromosome, parallel:=False), 0)
+            Return checkVector(objectiveEvaluator.Evaluate(chromosome, parallel:=False), 0)
         End Function
 
         ''' <summary>
@@ -280,7 +280,7 @@ Namespace Darwinism.NSGA2
         ''' Clear the internal objective vector cache.
         ''' </summary>
         Public Sub Clear()
-            Dim pool As ObjectivePool(Of Chr) = TryCast(objectiveModel, ObjectivePool(Of Chr))
+            Dim pool As ObjectivePool(Of Chr) = TryCast(objectiveEvaluator, ObjectivePool(Of Chr))
 
             If Not pool Is Nothing Then
                 Call pool.Clear()
@@ -333,13 +333,13 @@ Namespace Darwinism.NSGA2
             Dim values As Double()() = New Double(chromosomes.Count - 1)() {}
 
             If parallel Then
-                Call Parallel.For(0, chromosomes.Count,
+                Call System.Threading.Tasks.Parallel.For(0, chromosomes.Count,
                     Sub(i As Integer)
-                        values(i) = checkVector(objectiveModel.Evaluate(chromosomes(i), parallel:=False), i)
+                        values(i) = checkVector(objectiveEvaluator.Evaluate(chromosomes(i), parallel:=False), i)
                     End Sub)
             Else
                 For i As Integer = 0 To chromosomes.Count - 1
-                    values(i) = checkVector(objectiveModel.Evaluate(chromosomes(i), parallel:=True), i)
+                    values(i) = checkVector(objectiveEvaluator.Evaluate(chromosomes(i), parallel:=True), i)
                 Next
             End If
 
@@ -350,10 +350,10 @@ Namespace Darwinism.NSGA2
             If vector Is Nothing Then
                 Throw New InvalidOperationException($"The objective model returned Nothing for the chromosome at index={index}.")
             End If
-            If vector.Length <> objectiveModel.Objectives Then
+            If vector.Length <> objectiveEvaluator.Objectives Then
                 Throw New InvalidOperationException(
                     $"The objective model returned a vector with {vector.Length} elements at index={index}, " &
-                    $"but it was declared as {objectiveModel.Objectives} objectives."
+                    $"but it was declared as {objectiveEvaluator.Objectives} objectives."
                 )
             End If
 

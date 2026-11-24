@@ -16,6 +16,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.MachineLearning.Darwinism.Models
+Imports std = System.Math
 
 Namespace Darwinism.NSGA2
 
@@ -57,8 +58,8 @@ Namespace Darwinism.NSGA2
                 Return {g1, g2}
             End If
 
-            Dim y1 As Double = Math.Min(g1, g2)
-            Dim y2 As Double = Math.Max(g1, g2)
+            Dim y1 As Double = std.Min(g1, g2)
+            Dim y2 As Double = std.Max(g1, g2)
 
             If y2 - y1 <= EPSILON Then
                 Return {g1, g2}
