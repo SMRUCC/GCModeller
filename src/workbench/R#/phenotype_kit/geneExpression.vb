@@ -135,7 +135,9 @@ Imports std_vec = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
 ''' + the expression pattern clustering: ``pca``, ``peakCMeans``, 
 '''   ``expression.cmeans_pattern``, ``cmeans_matrix``, ``pattern_representatives``;
 ''' + the differential expression analysis: ``deg.t.test``, ``limma``, 
-'''   ``limma_impactsort``, ``as.deg``, ``deg.class``.
+'''   ``limma_impactsort``, ``as.deg``, ``deg.class``;
+''' + the synthetic community matrix decomposition: ``decompose_community``, 
+'''   ``write.decomposition``, ``feature_mean``.
 ''' </remarks>
 <Package("geneExpression")>
 Module geneExpression

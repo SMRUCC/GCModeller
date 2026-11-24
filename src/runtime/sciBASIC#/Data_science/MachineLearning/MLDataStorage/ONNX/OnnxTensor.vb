@@ -126,7 +126,10 @@ Namespace ONNX
         ''' <param name="dims">新的形状；其中最多允许出现一个 -1，由方法自动推断。</param>
         ''' <returns>新的张量视图。</returns>
         Public Function Reshape(ParamArray dims As Integer()) As OnnxTensor
-            Dim resolved As Integer() = ResolveDims(Dims, Data.Length, dims)
+            ' 注意：VB 的标识符不区分大小写，参数 dims 会遮蔽 Dims 属性，
+            ' 必须显式写 Me.Dims，否则 ResolveDims 的"源形状"会退化成目标形状本身，
+            ' 任何改变了形状的 Reshape 都会被判成元素个数不匹配。
+            Dim resolved As Integer() = ResolveDims(Me.Dims, Data.Length, dims)
 
             Return New OnnxTensor(resolved, Data)
         End Function

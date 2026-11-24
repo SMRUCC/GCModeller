@@ -117,6 +117,11 @@ Module Program
 
         Console.WriteLine($"  训练集 {trainImages.Shape(0)} 张, 测试集 {testImages.Shape(0)} 张")
 
+        If settings.SkipTraining Then
+            Console.WriteLine("  已跳过训练与后续校验（--skip-train）")
+            Return
+        End If
+
         ' ---------------- 2. 训练 ----------------
         Console.WriteLine("== 2. 训练变分自编码器 ==")
 
@@ -128,19 +133,16 @@ Module Program
 
         Dim before As Tuple(Of Double, Double, Double) = model.Evaluate(testImages)
         Dim watch As Stopwatch = Stopwatch.StartNew()
+        Dim options As TrainingOptions = RgbGenerativeVae.CreateDefaultOptions()
 
-        If Not settings.SkipTraining Then
-            Dim options As TrainingOptions = RgbGenerativeVae.CreateDefaultOptions()
+        options.Epochs = settings.Epochs
+        options.BatchSize = settings.BatchSize
+        options.LearningRate = settings.LearningRate
+        options.Beta = settings.Beta
+        options.KlWarmupEpochs = std.Max(1, settings.Epochs \ 5)
+        options.Verbose = True
 
-            options.Epochs = settings.Epochs
-            options.BatchSize = settings.BatchSize
-            options.KlWarmupEpochs = std.Max(1, settings.Epochs \ 5)
-            options.Verbose = True
-
-            Call model.Fit(trainImages, options)
-        Else
-            Console.WriteLine("  已跳过训练（--skip-train）")
-        End If
+        Call model.Fit(trainImages, options)
 
         watch.Stop()
 
@@ -154,16 +156,14 @@ Module Program
 
         Console.WriteLine($"  耗时 {watch.ElapsedMilliseconds} ms, 测试集 BCE {before.Item1:F5} -> {after.Item1:F5}, MSE {after.Item2:F5}")
 
-        If Not settings.SkipTraining Then
-            Call DebugAudit.AreEqual(settings.Epochs, model.Loss.Count, "训练损失记录数必须等于训练轮数")
-            Call DebugAudit.Test(AllFinite(model.Loss), "训练损失必须全部为有限值")
-            Call DebugAudit.Test(model.Loss.Last() < model.Loss.First(),
-                                 $"训练损失应下降: {model.Loss.First():F5} -> {model.Loss.Last():F5}")
-            Call DebugAudit.Test(after.Item1 < before.Item1,
-                                 $"测试集重构误差应下降: {before.Item1:F5} -> {after.Item1:F5}")
-            Call DebugAudit.Test(after.Item2 < before.Item2,
-                                 $"测试集 MSE 应下降: {before.Item2:F5} -> {after.Item2:F5}")
-        End If
+        Call DebugAudit.AreEqual(settings.Epochs, model.Loss.Count, "训练损失记录数必须等于训练轮数")
+        Call DebugAudit.Test(AllFinite(model.Loss), "训练损失必须全部为有限值")
+        Call DebugAudit.Test(model.Loss.Last() < model.Loss.First(),
+                             $"训练损失应下降: {model.Loss.First():F5} -> {model.Loss.Last():F5}")
+        Call DebugAudit.Test(after.Item1 < before.Item1,
+                             $"测试集重构误差应下降: {before.Item1:F5} -> {after.Item1:F5}")
+        Call DebugAudit.Test(after.Item2 < before.Item2,
+                             $"测试集 MSE 应下降: {before.Item2:F5} -> {after.Item2:F5}")
 
         ' ---------------- 3. 重构与生成 ----------------
         Console.WriteLine("== 3. 重构与随机生成 ==")
@@ -273,6 +273,8 @@ Module Program
         Public Property Size As Integer = 32
         Public Property LatentDim As Integer = 16
         Public Property Seed As Integer = 2026
+        Public Property LearningRate As Double = 0.002
+        Public Property Beta As Double = 0.2
         Public Property SkipTraining As Boolean = False
         Public Property Help As Boolean = False
         Public Property OutputDirectory As String = Path.Combine(AppContext.BaseDirectory, "rastergene-output")
@@ -308,6 +310,12 @@ Module Program
                     Case "--seed"
                         settings.Seed = NextInt(args, index, "--seed")
                         index += 2
+                    Case "--lr"
+                        settings.LearningRate = NextDouble(args, index, "--lr")
+                        index += 2
+                    Case "--beta"
+                        settings.Beta = NextDouble(args, index, "--beta")
+                        index += 2
                     Case "--out"
                         If index + 1 >= args.Length Then
                             Throw New ArgumentException("参数 --out 缺少目录")
@@ -339,6 +347,20 @@ Module Program
             End If
 
             Return settings
+        End Function
+
+        Private Shared Function NextDouble(args As String(), index As Integer, name As String) As Double
+            If index + 1 >= args.Length Then
+                Throw New ArgumentException($"参数 {name} 缺少取值")
+            End If
+
+            Dim value As Double
+
+            If Not Double.TryParse(args(index + 1), Globalization.NumberStyles.Float, Globalization.CultureInfo.InvariantCulture, value) Then
+                Throw New ArgumentException($"参数 {name} 的取值无法解析为浮点数: {args(index + 1)}")
+            End If
+
+            Return value
         End Function
 
         Private Shared Function NextInt(args As String(), index As Integer, name As String) As Integer

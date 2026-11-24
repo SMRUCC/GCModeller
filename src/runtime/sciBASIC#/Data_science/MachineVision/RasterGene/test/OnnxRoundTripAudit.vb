@@ -182,14 +182,6 @@ Public Module OnnxRoundTripAudit
         Dim evaluator As New OnnxGraphEvaluator(onnxModel)
         Dim nchw As OnnxTensor = ToOnnxNchw(images)
 
-        Console.WriteLine($"  probe assembly: {GetType(OnnxTensor).Assembly.Location} ({GetType(OnnxTensor).Assembly.GetName().Version})")
-
-        Try
-            Console.WriteLine($"  probe resolvedims: [{String.Join(", ", OnnxTensor.ResolveDims({32, 1024}, 32768, {0, 8, 8, 16}))}]")
-        Catch ex As Exception
-            Console.WriteLine($"  probe resolvedims 失败: {ex.Message}")
-        End Try
-
         ' ---- 1) 编码器 + 生成器端到端：图像 → mu → 图像 ----
         Dim zeros As OnnxTensor = OnnxTensor.Zeros(count, model.LatentDim)
         Dim encoderEnv As New Dictionary(Of String, OnnxTensor) From {
@@ -197,12 +189,8 @@ Public Module OnnxRoundTripAudit
             {RgbVaeOnnxContract.GraphInputLatent, zeros}
         }
 
-        Console.WriteLine($"  probe run1: image=[{String.Join(", ", nchw.Dims)}] latent=[{String.Join(", ", zeros.Dims)}]")
-
         Dim encoderOutput As Dictionary(Of String, OnnxTensor) = evaluator.Run(encoderEnv)
         Dim mean As OnnxTensor = encoderOutput(RgbVaeOnnxContract.GraphOutputMean)
-
-        Console.WriteLine($"  probe mu: [{String.Join(", ", mean.Dims)}]")
 
         Call DebugAudit.AreEqual(count, mean.Dims(0), "编码器输出的批大小与输入不一致")
         Call DebugAudit.AreEqual(model.LatentDim, mean.Dims(1), "编码器输出的潜变量维度与模型不一致")

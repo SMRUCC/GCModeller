@@ -37,6 +37,7 @@
 #   families.csv            跨菌株同源基因家族(含共享 KO)
 #   annotation.csv          基因注释(模块 / 家族 / KO / 通路)
 #   pathways.csv            KEGG 通路表(基因数 + KO 列表)
+#   pathways.gmt            KEGG 通路基因集(GMT 格式，供 R# 侧的 GSVA 直接使用)
 #   design.csv              实验设计
 #   module_base.csv         校准后的各菌群模块组成(可复现性)
 #   gsva_community.csv      群落水平的 GSVA 通路得分(通路 x 样本)
@@ -720,6 +721,18 @@ pathwayRows <- lapply(names(pathwayPool), function(p) {
 })
 write.csv(do.call(rbind, pathwayRows), file.path(outDir, "pathways.csv"),
           row.names = FALSE, quote = FALSE)
+
+# KEGG 通路基因集(GMT 格式：通路ID \t 描述 \t 基因ID...)
+# 供 R# 侧的 gseakit::read_gmt -> background::as.background -> GSVA::gsva 直接使用
+gmtLines <- vapply(names(pathwayPool), function(p) {
+  members <- genes$gene_id[genes$pathway == p]
+  if (length(members) == 0L) {
+    return(NA_character_)
+  }
+  paste(c(p, unname(pathwayName[p]), sort(unique(members))), collapse = "\t")
+}, character(1))
+
+writeLines(gmtLines[!is.na(gmtLines)], file.path(outDir, "pathways.gmt"), useBytes = TRUE)
 
 # GSVA：群落水平(通路 x 样本) 与 菌株水平(菌株 x 通路 x 分组均值)
 communityGsva <- scores$community
