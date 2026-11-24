@@ -1,0 +1,241 @@
+<Solution>
+  <Configurations>
+    <BuildType Name="BioDeep_database" />
+    <BuildType Name="Biodeep_UNIX_x64" />
+    <BuildType Name="Debug" />
+    <BuildType Name="GCModeller(Release_X64)" />
+    <BuildType Name="GCModeller(UNIX-Release_X64)" />
+    <BuildType Name="gcmodeller_desktop" />
+    <BuildType Name="LipidSearch" />
+    <BuildType Name="mzkit" />
+    <BuildType Name="mzkit_UnixDocker" />
+    <BuildType Name="mzkit_win32" />
+    <BuildType Name="NPSearch" />
+    <BuildType Name="PlantMAT" />
+    <BuildType Name="Release" />
+    <BuildType Name="Rsharp_app_release" />
+    <BuildType Name="vcellkit" />
+    <Platform Name="Any CPU" />
+    <Platform Name="ARM32" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/framework/">
+    <Project Path="../runtime/Darwinism/src/data/BucketDb/BucketDb.vbproj">
+      <BuildType Solution="BioDeep_database|*" Project="Rsharp_app_release" />
+      <BuildType Solution="Biodeep_UNIX_x64|*" Project="Rsharp_app_release" />
+      <BuildType Solution="GCModeller(Release_X64)|*" Project="Rsharp_app_release" />
+      <BuildType Solution="GCModeller(UNIX-Release_X64)|*" Project="Rsharp_app_release" />
+      <BuildType Solution="gcmodeller_desktop|*" Project="Rsharp_app_release" />
+      <BuildType Solution="LipidSearch|*" Project="Rsharp_app_release" />
+      <BuildType Solution="mzkit_UnixDocker|*" Project="Rsharp_app_release" />
+      <BuildType Solution="mzkit_win32|*" Project="Rsharp_app_release" />
+      <BuildType Solution="mzkit|*" Project="Debug" />
+      <BuildType Solution="NPSearch|*" Project="Rsharp_app_release" />
+      <BuildType Solution="PlantMAT|*" Project="Rsharp_app_release" />
+      <BuildType Solution="vcellkit|*" Project="Rsharp_app_release" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../runtime/sciBASIC#/Data/BinaryData/BinaryData/binarydata-netcore5.vbproj">
+      <BuildType Solution="BioDeep_database|*" Project="Debug" />
+      <BuildType Solution="Biodeep_UNIX_x64|*" Project="Debug" />
+      <BuildType Solution="GCModeller(Release_X64)|*" Project="Release" />
+      <BuildType Solution="GCModeller(UNIX-Release_X64)|*" Project="Release" />
+      <BuildType Solution="mzkit_UnixDocker|*" Project="mzkit" />
+      <BuildType Solution="vcellkit|*" Project="Debug" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../runtime/sciBASIC#/Data/BinaryData/HDSPack/HDSPack.vbproj">
+      <BuildType Solution="BioDeep_database|*" Project="Debug" />
+      <BuildType Solution="Biodeep_UNIX_x64|*" Project="Debug" />
+      <BuildType Solution="GCModeller(Release_X64)|*" Project="gcmodeller_desktop" />
+      <BuildType Solution="GCModeller(UNIX-Release_X64)|*" Project="gcmodeller_desktop" />
+      <BuildType Solution="mzkit_UnixDocker|*" Project="mzkit_win32" />
+      <BuildType Solution="vcellkit|*" Project="Debug" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../runtime/sciBASIC#/Data/BinaryData/msgpack/msgpack-netcore5.vbproj">
+      <BuildType Solution="BioDeep_database|*" Project="Debug" />
+      <BuildType Solution="Biodeep_UNIX_x64|*" Project="Debug" />
+      <BuildType Solution="GCModeller(Release_X64)|*" Project="Release" />
+      <BuildType Solution="GCModeller(UNIX-Release_X64)|*" Project="Release" />
+      <BuildType Solution="mzkit_UnixDocker|*" Project="mzkit" />
+      <BuildType Solution="vcellkit|*" Project="Debug" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../runtime/sciBASIC#/Data/DataFrame/dataframework-netcore5.vbproj">
+      <BuildType Solution="BioDeep_database|*" Project="Debug" />
+      <BuildType Solution="Biodeep_UNIX_x64|*" Project="Debug" />
+      <BuildType Solution="GCModeller(Release_X64)|*" Project="Release" />
+      <BuildType Solution="GCModeller(UNIX-Release_X64)|*" Project="Release" />
+      <BuildType Solution="mzkit_UnixDocker|*" Project="mzkit" />
+      <BuildType Solution="vcellkit|*" Project="Debug" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../runtime/sciBASIC#/Microsoft.VisualBasic.Core/src/Core.vbproj">
+      <BuildType Solution="BioDeep_database|*" Project="Debug" />
+      <BuildType Solution="Biodeep_UNIX_x64|*" Project="Debug" />
+      <BuildType Solution="GCModeller(Release_X64)|*" Project="Release" />
+      <BuildType Solution="GCModeller(UNIX-Release_X64)|*" Project="Release" />
+      <BuildType Solution="mzkit_UnixDocker|*" Project="mzkit" />
+      <BuildType Solution="vcellkit|*" Project="Debug" />
+      <Platform Solution="*|x64" Project="x64" />
+      <Platform Solution="gcmodeller_desktop|x86" Project="x86" />
+      <Platform Solution="mzkit_win32|x86" Project="x86" />
+    </Project>
+    <Project Path="../runtime/sciBASIC#/mime/application%json/JSON-netcore5.vbproj">
+      <BuildType Solution="BioDeep_database|*" Project="Rsharp_app_release" />
+      <BuildType Solution="Biodeep_UNIX_x64|*" Project="Rsharp_app_release" />
+      <BuildType Solution="GCModeller(Release_X64)|*" Project="nuget_release" />
+      <BuildType Solution="GCModeller(UNIX-Release_X64)|*" Project="Rsharp_app_release" />
+      <BuildType Solution="mzkit_UnixDocker|*" Project="gcmodeller_desktop" />
+      <BuildType Solution="mzkit|*" Project="Debug" />
+      <BuildType Solution="vcellkit|*" Project="Rsharp_app_release" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../runtime/sciBASIC#/mime/application%rdf+xml/rdf_xml-netcore5.vbproj">
+      <BuildType Solution="BioDeep_database|*" Project="Debug" />
+      <BuildType Solution="Biodeep_UNIX_x64|*" Project="Debug" />
+      <BuildType Solution="GCModeller(Release_X64)|*" Project="Release" />
+      <BuildType Solution="GCModeller(UNIX-Release_X64)|*" Project="Release" />
+      <BuildType Solution="gcmodeller_desktop|*" Project="Debug" />
+      <BuildType Solution="mzkit_UnixDocker|*" Project="mzkit_win32" />
+      <BuildType Solution="mzkit|*" Project="mzkit_win32" />
+      <BuildType Solution="NPSearch|*" Project="Debug" />
+      <BuildType Solution="PlantMAT|*" Project="Debug" />
+      <BuildType Solution="vcellkit|*" Project="Debug" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../runtime/sciBASIC#/mime/application%xml/xml-netcore5.vbproj">
+      <BuildType Solution="BioDeep_database|*" Project="Debug" />
+      <BuildType Solution="Biodeep_UNIX_x64|*" Project="Debug" />
+      <BuildType Solution="GCModeller(Release_X64)|*" Project="gcmodeller_desktop" />
+      <BuildType Solution="GCModeller(UNIX-Release_X64)|*" Project="gcmodeller_desktop" />
+      <BuildType Solution="mzkit_UnixDocker|*" Project="mzkit_win32" />
+      <BuildType Solution="mzkit|*" Project="mzkit_win32" />
+      <BuildType Solution="NPSearch|*" Project="Debug" />
+      <BuildType Solution="PlantMAT|*" Project="Debug" />
+      <BuildType Solution="vcellkit|*" Project="Debug" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+  </Folder>
+  <Folder Name="/gcmodeller/">
+    <Project Path="../GCModeller/core/Bio.Annotation/annotation.NET5.vbproj">
+      <BuildType Solution="BioDeep_database|*" Project="Debug" />
+      <BuildType Solution="Biodeep_UNIX_x64|*" Project="Debug" />
+      <BuildType Solution="GCModeller(Release_X64)|*" Project="Release" />
+      <BuildType Solution="GCModeller(UNIX-Release_X64)|*" Project="Release" />
+      <BuildType Solution="LipidSearch|*" Project="Debug" />
+      <BuildType Solution="mzkit_UnixDocker|*" Project="Debug" />
+      <BuildType Solution="mzkit|*" Project="Debug" />
+      <BuildType Solution="NPSearch|*" Project="Debug" />
+      <BuildType Solution="PlantMAT|*" Project="Debug" />
+      <BuildType Solution="vcellkit|*" Project="Debug" />
+      <Platform Solution="*|ARM32" Project="ARM32" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../GCModeller/core/Bio.Assembly/biocore-netcore5.vbproj">
+      <BuildType Solution="BioDeep_database|*" Project="Debug" />
+      <BuildType Solution="Biodeep_UNIX_x64|*" Project="Debug" />
+      <BuildType Solution="GCModeller(Release_X64)|*" Project="Release" />
+      <BuildType Solution="GCModeller(UNIX-Release_X64)|*" Project="Release" />
+      <BuildType Solution="mzkit_UnixDocker|*" Project="mzkit" />
+      <BuildType Solution="PlantMAT|*" Project="Debug" />
+      <BuildType Solution="vcellkit|*" Project="Debug" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../GCModeller/data/Rhea/Rhea.vbproj">
+      <BuildType Solution="BioDeep_database|*" Project="Debug" />
+      <BuildType Solution="Biodeep_UNIX_x64|*" Project="Debug" />
+      <BuildType Solution="GCModeller(Release_X64)|*" Project="Release" />
+      <BuildType Solution="GCModeller(UNIX-Release_X64)|*" Project="Release" />
+      <BuildType Solution="gcmodeller_desktop|*" Project="Debug" />
+      <BuildType Solution="LipidSearch|*" Project="Debug" />
+      <BuildType Solution="mzkit_UnixDocker|*" Project="Debug" />
+      <BuildType Solution="mzkit_win32|*" Project="Debug" />
+      <BuildType Solution="mzkit|*" Project="Debug" />
+      <BuildType Solution="NPSearch|*" Project="Debug" />
+      <BuildType Solution="PlantMAT|*" Project="Debug" />
+      <BuildType Solution="vcellkit|*" Project="Debug" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../GCModeller/data/SABIO-RK/SABIO-RK.NET.vbproj">
+      <BuildType Solution="BioDeep_database|*" Project="Debug" />
+      <BuildType Solution="Biodeep_UNIX_x64|*" Project="Debug" />
+      <BuildType Solution="GCModeller(Release_X64)|*" Project="Release" />
+      <BuildType Solution="GCModeller(UNIX-Release_X64)|*" Project="Release" />
+      <BuildType Solution="gcmodeller_desktop|*" Project="Debug" />
+      <BuildType Solution="mzkit_UnixDocker|*" Project="mzkit" />
+      <BuildType Solution="mzkit_win32|*" Project="mzkit" />
+      <BuildType Solution="PlantMAT|*" Project="Debug" />
+      <BuildType Solution="vcellkit|*" Project="Debug" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../GCModeller/models/SBML/SBML/sbml-netcore5.vbproj">
+      <BuildType Solution="BioDeep_database|*" Project="Debug" />
+      <BuildType Solution="Biodeep_UNIX_x64|*" Project="Debug" />
+      <BuildType Solution="GCModeller(Release_X64)|*" Project="Release" />
+      <BuildType Solution="GCModeller(UNIX-Release_X64)|*" Project="Release" />
+      <BuildType Solution="gcmodeller_desktop|*" Project="Debug" />
+      <BuildType Solution="mzkit_UnixDocker|*" Project="Debug" />
+      <BuildType Solution="mzkit_win32|*" Project="Debug" />
+      <BuildType Solution="mzkit|*" Project="Debug" />
+      <BuildType Solution="NPSearch|*" Project="Debug" />
+      <BuildType Solution="PlantMAT|*" Project="Debug" />
+      <BuildType Solution="vcellkit|*" Project="Debug" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+  </Folder>
+  <Project Path="Bio.Repository/repository.NET5.vbproj">
+    <BuildType Solution="BioDeep_database|*" Project="Rsharp_app_release" />
+    <BuildType Solution="Biodeep_UNIX_x64|*" Project="Rsharp_app_release" />
+    <BuildType Solution="GCModeller(Release_X64)|*" Project="Release" />
+    <BuildType Solution="GCModeller(UNIX-Release_X64)|*" Project="Release" />
+    <BuildType Solution="LipidSearch|Any CPU" Project="Debug" />
+    <BuildType Solution="LipidSearch|ARM32" Project="Rsharp_app_release" />
+    <BuildType Solution="LipidSearch|x64" Project="Debug" />
+    <BuildType Solution="LipidSearch|x86" Project="Rsharp_app_release" />
+    <BuildType Solution="mzkit_UnixDocker|*" Project="Rsharp_app_release" />
+    <BuildType Solution="mzkit|Any CPU" Project="Debug" />
+    <BuildType Solution="mzkit|ARM32" Project="Rsharp_app_release" />
+    <BuildType Solution="mzkit|x64" Project="Debug" />
+    <BuildType Solution="mzkit|x86" Project="Rsharp_app_release" />
+    <BuildType Solution="NPSearch|Any CPU" Project="Debug" />
+    <BuildType Solution="NPSearch|ARM32" Project="Rsharp_app_release" />
+    <BuildType Solution="NPSearch|x64" Project="Debug" />
+    <BuildType Solution="NPSearch|x86" Project="Rsharp_app_release" />
+    <BuildType Solution="PlantMAT|Any CPU" Project="Debug" />
+    <BuildType Solution="PlantMAT|ARM32" Project="Rsharp_app_release" />
+    <BuildType Solution="PlantMAT|x64" Project="Debug" />
+    <BuildType Solution="PlantMAT|x86" Project="Rsharp_app_release" />
+    <BuildType Solution="Rsharp_app_release|Any CPU" Project="Release" />
+    <BuildType Solution="vcellkit|*" Project="Rsharp_app_release" />
+    <Platform Solution="*|ARM32" Project="ARM32" />
+    <Platform Solution="BioDeep_database|x64" Project="x64" />
+    <Platform Solution="Biodeep_UNIX_x64|x64" Project="x64" />
+    <Platform Solution="Debug|x64" Project="x64" />
+    <Platform Solution="GCModeller(Release_X64)|x64" Project="x64" />
+    <Platform Solution="GCModeller(UNIX-Release_X64)|x64" Project="x64" />
+    <Platform Solution="gcmodeller_desktop|x64" Project="x64" />
+    <Platform Solution="mzkit_UnixDocker|x64" Project="x64" />
+    <Platform Solution="mzkit_win32|x64" Project="x64" />
+    <Platform Solution="Rsharp_app_release|x64" Project="x64" />
+    <Platform Solution="vcellkit|x64" Project="x64" />
+  </Project>
+  <Project Path="Bio.Repository/test/test.vbproj">
+    <BuildType Solution="BioDeep_database|*" Project="Debug" />
+    <BuildType Solution="Biodeep_UNIX_x64|*" Project="Debug" />
+    <BuildType Solution="GCModeller(Release_X64)|*" Project="Release" />
+    <BuildType Solution="GCModeller(UNIX-Release_X64)|*" Project="Release" />
+    <BuildType Solution="gcmodeller_desktop|*" Project="Debug" />
+    <BuildType Solution="LipidSearch|*" Project="Debug" />
+    <BuildType Solution="mzkit_UnixDocker|*" Project="Debug" />
+    <BuildType Solution="mzkit_win32|*" Project="Debug" />
+    <BuildType Solution="mzkit|*" Project="Debug" />
+    <BuildType Solution="NPSearch|*" Project="Debug" />
+    <BuildType Solution="PlantMAT|*" Project="Debug" />
+    <BuildType Solution="Rsharp_app_release|*" Project="Release" />
+    <BuildType Solution="vcellkit|*" Project="Debug" />
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
+</Solution>
