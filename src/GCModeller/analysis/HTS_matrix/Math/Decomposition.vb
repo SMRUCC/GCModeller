@@ -100,6 +100,11 @@ Public Class DecompositionOptions
     ''' <summary>
     ''' 是否在单菌株矩阵中补齐 “基因组内存在、但总矩阵中没有测量行” 的零表达基因(默认 False)
     ''' </summary>
+    ''' <remarks>
+    ''' 已废弃：为保证所有菌株矩阵与原始矩阵之间可以在基因维度上直接对齐，
+    ''' 输出矩阵的行固定为总矩阵的基因行，该参数会被忽略并给出告警。
+    ''' 若确实需要补齐未被测量的基因，请在外层对分解结果按基因组基因表做 left join。
+    ''' </remarks>
     Public Property IncludeSilentGenes As Boolean = False
 
     ''' <summary>
@@ -383,7 +388,7 @@ Public Class CommunityDecomposition
     Public Property method As String
 
     ''' <summary>
-    ''' 主要输出：菌株基因组ID -> 该菌株自己的基因表达矩阵
+    ''' 主要输出：菌株基因组ID -> 该菌株的分解矩阵(行与总矩阵完全对齐，其它菌株的基因行填 0)
     ''' </summary>
     Public Property strains As Dictionary(Of String, Matrix)
 
@@ -516,6 +521,12 @@ End Class
 ''' 既不丢失信号也不会跨菌株重复计数。
 ''' </item>
 ''' </list>
+''' <para>
+''' <b>输出约定</b>：每个菌株的输出矩阵在 <b>行维度上与总矩阵完全一致</b>(同样的基因、同样的顺序)，
+''' 属于该菌株的基因行填其重构值，其它菌株的基因行填 <c>0</c>。因此所有菌株矩阵之间、
+''' 以及菌株矩阵与原始矩阵之间都可以直接按行对齐，方便热图/表达趋势等需要共享基因坐标的
+''' 可视化分析；下游只需要某个菌株自己的基因时，按该菌株的基因组基因表对行做一次子集即可。
+''' </para>
 ''' </remarks>
 Public Class Decomposition
 
@@ -701,7 +712,11 @@ Public Class Decomposition
         Call $"masked refinement: {refine.iterations} iteration(s), converged = {refine.converged}".info
 
         ' 重构层
-        Dim reconstructions As StrainReconstruction() = Reconstruct(A2, community, strains, rowOfStrain, geneRow, refine, opt)
+        If opt.IncludeSilentGenes Then
+            Call "the 'IncludeSilentGenes' option is ignored: the output matrix rows are always aligned with the union matrix!".warning
+        End If
+
+        Dim reconstructions As StrainReconstruction() = Reconstruct(A2, total, community, strains, rowOfStrain, geneRow, refine, opt)
         Dim scaled As Integer = 0
 
         If opt.RescaleToTotal Then
@@ -744,7 +759,7 @@ Public Class Decomposition
     ''' <param name="genomes">菌株基因组ID -> 该基因组中的全部基因ID</param>
     ''' <param name="families">基因并集与跨基因组同源关系(<see cref="UnionFind"/>)</param>
     ''' <param name="opt">分解参数</param>
-    ''' <returns>菌株基因组ID -> 该菌株自己的基因表达矩阵</returns>
+    ''' <returns>菌株基因组ID -> 该菌株的分解矩阵(行与总矩阵完全对齐，其它菌株的基因行填 0)</returns>
     Public Shared Function DecomposeMatrices(total As Matrix,
                                              genomes As Dictionary(Of String, String()),
                                              families As UnionFind,
@@ -760,7 +775,7 @@ Public Class Decomposition
     ''' <param name="families">基因并集与跨基因组同源关系</param>
     ''' <param name="groups">样本分组标签，长度必须等于 <paramref name="total"/> 的样本数</param>
     ''' <param name="opt">分解参数</param>
-    ''' <returns>菌株基因组ID -> 该菌株自己的基因表达矩阵(列序与原矩阵一致)</returns>
+    ''' <returns>菌株基因组ID -> 该菌株的分解矩阵(行与列均与原矩阵对齐)</returns>
     ''' <remarks>
     ''' <para>
     ''' 同一个菌株在不同群落语境下的功能程序可能发生切换(代谢分工的可塑性)，此时
@@ -1628,6 +1643,7 @@ Public Class Decomposition
     ''' 按菌株重构表达矩阵，并把同源家族的共享信号归并到本菌株的基因拷贝行
     ''' </summary>
     Private Shared Function Reconstruct(A2 As NumericMatrix,
+                                        total As Matrix,
                                         community As CommunityStructure,
                                         strains As String(),
                                         rowOfStrain As Integer()(),
@@ -1644,14 +1660,27 @@ Public Class Decomposition
             homologShares = BuildHomologShares(A2, community, geneRow, opt)
         End If
 
+        ' 输出的基因行顺序与总矩阵完全一致：这样所有菌株矩阵之间、以及菌株矩阵与原始矩阵
+        ' 之间都可以直接按行对齐，便于需要共享基因维度坐标的可视化分析
+        Dim totalGenes As String() = total.expression.Select(Function(row) row.geneID).ToArray()
+        Dim rowIndex As New Dictionary(Of String, Integer)(totalGenes.Length, StringComparer.Ordinal)
+
+        For i As Integer = 0 To totalGenes.Length - 1
+            rowIndex(totalGenes(i)) = i
+        Next
+
         For si As Integer = 0 To strains.Length - 1
             Dim strain As String = strains(si)
             Dim h As Double() = refine.activity(si)
-            Dim genes As New List(Of String)
-            Dim values As New List(Of Double())
-            Dim outIndex As New Dictionary(Of String, Integer)(StringComparer.Ordinal)
+            Dim values As Double()() = New Double(totalGenes.Length - 1)() {}
 
-            For Each gene As String In community.GetGenes(strain)
+            For i As Integer = 0 To totalGenes.Length - 1
+                Dim gene As String = totalGenes(i)
+
+                If Not String.Equals(community.GetStrainOf(gene), strain, StringComparison.Ordinal) Then
+                    Continue For
+                End If
+
                 Dim r As Integer
 
                 If geneRow.TryGetValue(gene, r) Then
@@ -1662,13 +1691,7 @@ Public Class Decomposition
                         v(j) = w * h(j)
                     Next
 
-                    outIndex(gene) = genes.Count
-                    Call genes.Add(gene)
-                    Call values.Add(v)
-                ElseIf opt.IncludeSilentGenes Then
-                    outIndex(gene) = genes.Count
-                    Call genes.Add(gene)
-                    Call values.Add(New Double(n - 1) {})
+                    values(i) = v
                 End If
             Next
 
@@ -1678,11 +1701,18 @@ Public Class Decomposition
                 For Each share As KeyValuePair(Of String, Double()) In ownShares
                     Dim idx As Integer
 
-                    If outIndex.TryGetValue(share.Key, idx) Then
+                    If rowIndex.TryGetValue(share.Key, idx) Then
                         values(idx) = share.Value
                     End If
                 Next
             End If
+
+            ' 其它菌株的基因行(以及总矩阵中未归属菌株的行)固定为 0，保证行维度严格对齐
+            For i As Integer = 0 To values.Length - 1
+                If values(i) Is Nothing Then
+                    values(i) = New Double(n - 1) {}
+                End If
+            Next
 
             ' 因子模型在该菌株基因行上的相对重构误差
             Dim numeratorError As Double = 0
@@ -1701,8 +1731,8 @@ Public Class Decomposition
 
             result(si) = New StrainReconstruction With {
                 .strainID = strain,
-                .genes = genes.ToArray,
-                .values = values.ToArray,
+                .genes = totalGenes,
+                .values = values,
                 .residual = std.Sqrt(numeratorError / std.Max(denominatorError, eps))
             }
         Next
@@ -1967,25 +1997,30 @@ Public Class Decomposition
         Next
 
         Dim abundanceRows As DataFrameRow() = New DataFrameRow(strains.Length - 1) {}
+        Dim totalGenes As String() = total.expression.Select(Function(row) row.geneID).ToArray()
 
         For si As Integer = 0 To strains.Length - 1
             Dim strain As String = strains(si)
             Dim table As Dictionary(Of String, Double()) = values(strain)
-            Dim genes As String() = table.Keys.ToArray
-            Dim rows As DataFrameRow() = New DataFrameRow(genes.Length - 1) {}
+            Dim rows As DataFrameRow() = New DataFrameRow(totalGenes.Length - 1) {}
             Dim sum As Double() = New Double(n - 1) {}
 
-            For i As Integer = 0 To genes.Length - 1
-                Dim v As Double() = table(genes(i))
+            ' 行固定为总矩阵的基因行：其它菌株的基因行填 0，保证跨菌株的行维度对齐
+            For i As Integer = 0 To totalGenes.Length - 1
+                Dim v As Double() = Nothing
+
+                If table.TryGetValue(totalGenes(i), v) AndAlso v IsNot Nothing Then
+                    For j As Integer = 0 To n - 1
+                        sum(j) += v(j)
+                    Next
+                Else
+                    v = New Double(n - 1) {}
+                End If
 
                 rows(i) = New DataFrameRow With {
-                    .geneID = genes(i),
+                    .geneID = totalGenes(i),
                     .experiments = v
                 }
-
-                For j As Integer = 0 To n - 1
-                    sum(j) += v(j)
-                Next
             Next
 
             result.strains(strain) = New Matrix With {

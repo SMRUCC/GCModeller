@@ -1,0 +1,78 @@
+# SynCom DNMF + GSVA 关键数值 (由 syncom_visualization.R 自动生成)
+基因数 5236 ; 通路数 18 ; 样本数 24 ; 家族数 97
+重构保真度 r = 0.9615 ; Σ菌株/Σ群落 = 0.9986
+
+## 菌株丰度系数 (基准状态: 除草剂 + QS 正常)
+  YKB Y1     = 0.928
+  YKB K1     = 1.554
+  YKB B1     = 1.100
+  YKB H1     = 0.893
+  HKB Y1     = 1.227
+  HKB K1     = 1.112
+  HKB B1     = 1.764
+  HKB H1     = 1.191
+
+## 丰度系数相对基准状态的变化 (%)
+  YKB WT.QSR   B1    : 117%
+  YKB WT.QSR   H1    : 109%
+  YKB WT.QSR   K1    : 42%
+  YKB WT.QSR   Y1    : 116%
+  YKB NH.WT    B1    : 69%
+  YKB NH.WT    H1    : 139%
+  YKB NH.WT    K1    : 68%
+  YKB NH.WT    Y1    : 134%
+  YKB NH.QSR   B1    : 83%
+  YKB NH.QSR   H1    : 108%
+  YKB NH.QSR   K1    : 29%
+  YKB NH.QSR   Y1    : 122%
+  HKB WT.QSR   B1    : 37%
+  HKB WT.QSR   H1    : 78%
+  HKB WT.QSR   K1    : 93%
+  HKB WT.QSR   Y1    : 83%
+  HKB NH.WT    B1    : 59%
+  HKB NH.WT    H1    : 82%
+  HKB NH.WT    K1    : 61%
+  HKB NH.WT    Y1    : 85%
+  HKB NH.QSR   B1    : 29%
+  HKB NH.QSR   H1    : 78%
+  HKB NH.QSR   K1    : 68%
+  HKB NH.QSR   Y1    : 86%
+
+## 群落水平对比: 按 padj 排序的前 12 项
+  YKB | QS effect
+(herbicide)  | map00380 | WT: Δ=-0.245 padj=0.0198
+  YKB | Herbicide effect
+(QS active) | map00983 | WT: Δ=0.179 padj=0.0505
+  YKB | QS effect
+(herbicide)  | map03430 | WT: Δ=-0.159 padj=0.0831
+  YKB | Herbicide effect
+(QS active) | map00400 | WT: Δ=-0.166 padj=0.1062
+  YKB | QS effect
+(herbicide)  | map00791 | WT: Δ=0.171 padj=0.1407
+  HKB | QS effect
+(herbicide)  | map00791 | WT: Δ=0.078 padj=0.2390
+  HKB | QS effect
+(herbicide)  | map00020 | WT: Δ=-0.118 padj=0.2390
+  HKB | QS effect
+(herbicide)  | map03420 | WT: Δ=-0.147 padj=0.2390
+  HKB | QS effect
+(herbicide)  | map02024 | WT: Δ=0.080 padj=0.2390
+  HKB | QS effect
+(herbicide)  | map00983 | WT: Δ=0.105 padj=0.2674
+  YKB | QS effect
+(herbicide)  | map00627 | WT: Δ=0.115 padj=0.2958
+  YKB | QS effect
+(herbicide)  | map02024 | WT: Δ=0.099 padj=0.2958
+
+## 基准状态菌株层得分 (仅该菌群真实成员)
+  map00791  YKB.Y1=-0.440  YKB.K1=0.095  YKB.B1=-0.697  HKB.K1=-0.247  HKB.B1=0.585  HKB.H1=-0.317
+  map00627  YKB.Y1=-0.172  YKB.K1=0.238  YKB.B1=-0.642  HKB.K1=-0.334  HKB.B1=0.462  HKB.H1=-0.186
+  map00380  YKB.Y1=-0.161  YKB.K1=-0.933  YKB.B1=0.593  HKB.K1=0.946  HKB.B1=-0.851  HKB.H1=-0.290
+  map00920  YKB.Y1=-0.378  YKB.K1=-0.183  YKB.B1=0.087  HKB.K1=0.032  HKB.B1=-0.111  HKB.H1=0.102
+  map00010  YKB.Y1=0.441  YKB.K1=0.100  YKB.B1=0.077  HKB.K1=-0.127  HKB.B1=-0.074  HKB.H1=-0.088
+  map02024  YKB.Y1=-0.001  YKB.K1=0.141  YKB.B1=-0.435  HKB.K1=-0.181  HKB.B1=0.422  HKB.H1=0.226
+
+菌株层加权重构 vs 群落实测: r = 0.2832 ; 符号一致率 = 57%
+家族层面: 优势份额中位数 0.343 ; 优势菌株分布 B1=35 H1=21 K1=20 Y1=21
+
+生成时间: 2026-11-24 19:58:32
