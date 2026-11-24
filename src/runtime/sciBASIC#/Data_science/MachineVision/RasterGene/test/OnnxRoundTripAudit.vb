@@ -196,8 +196,13 @@ Public Module OnnxRoundTripAudit
             {RgbVaeOnnxContract.GraphInputImage, nchw},
             {RgbVaeOnnxContract.GraphInputLatent, zeros}
         }
+
+        Console.WriteLine($"  probe run1: image=[{String.Join(", ", nchw.Dims)}] latent=[{String.Join(", ", zeros.Dims)}]")
+
         Dim encoderOutput As Dictionary(Of String, OnnxTensor) = evaluator.Run(encoderEnv)
         Dim mean As OnnxTensor = encoderOutput(RgbVaeOnnxContract.GraphOutputMean)
+
+        Console.WriteLine($"  probe mu: [{String.Join(", ", mean.Dims)}]")
 
         Call DebugAudit.AreEqual(count, mean.Dims(0), "编码器输出的批大小与输入不一致")
         Call DebugAudit.AreEqual(model.LatentDim, mean.Dims(1), "编码器输出的潜变量维度与模型不一致")
