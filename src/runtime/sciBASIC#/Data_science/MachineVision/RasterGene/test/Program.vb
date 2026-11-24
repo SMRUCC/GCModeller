@@ -274,7 +274,7 @@ Module Program
         Public Property LatentDim As Integer = 16
         Public Property Seed As Integer = 2026
         Public Property LearningRate As Double = 0.005
-        Public Property Beta As Double = 0.01
+        Public Property Beta As Double = 0.002
         Public Property SkipTraining As Boolean = False
         Public Property Help As Boolean = False
         Public Property OutputDirectory As String = Path.Combine(AppContext.BaseDirectory, "rastergene-output")
@@ -388,7 +388,7 @@ Module Program
         Public Shared Sub PrintUsage()
             Console.WriteLine("用法: test [--epochs N] [--batch N] [--samples N] [--size N] [--latent N] [--seed N] [--lr X] [--beta X] [--out DIR] [--skip-train]")
             Console.WriteLine("  --size 必须是 4 的倍数（模型中包含两级 stride-2 卷积）")
-            Console.WriteLine("  --beta 为 KL 项权重，取 1 时容易出现后验坍塌（默认 0.2）")
+            Console.WriteLine("  --beta 为 KL 项权重，取 1 时容易出现后验坍塌（默认 0.002）")
         End Sub
 
     End Class
