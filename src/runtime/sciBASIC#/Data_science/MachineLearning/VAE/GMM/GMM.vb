@@ -1,87 +1,23 @@
-﻿#Region "Microsoft.VisualBasic::08463ee76149c37fe87448b2c3fa76a6, Data_science\MachineLearning\VAE\GMM\GMM.vb"
-
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
-
-
-' Code Statistics:
-
-'   Total Lines: 832
-'    Code Lines: 559 (67.19%)
-' Comment Lines: 158 (18.99%)
-'    - Xml Docs: 54.43%
-' 
-'   Blank Lines: 115 (13.82%)
-'     File Size: 27.53 KB
-
-
-' Class GaussianMixtureModel
-' 
-'     Properties: Converged, Covariances, LogLikelihood, LogLikelihoodHistory, Means
-'                 NIter, Weights
-'     Enum InitMethod
-' 
-'         KMeansPP, Random
-' 
-' 
-' 
-'  
-' 
-'     Constructor: (+1 Overloads) Sub New
-' 
-'     Function: ComputeLogGaussianPDF, EStep, GetComponentMean, GetComponentStdDev, GetComponentVariance
-'               LogDeterminant, MatrixInverse, Predict, PredictProba, (+2 Overloads) Predicts
-'               Sample, Score, ScoreSamples, ToString
-' 
-'     Sub: Fit, InitializeParameters, MStep
-' 
-' /********************************************************************************/
-
-#End Region
-
-' ============================================================================
+﻿' ============================================================================
 ' GMM.vb - 高斯混合模型 (Gaussian Mixture Model)
 '
-' 基于 EM (Expectation-Maximization) 算法实现的多变量高斯混合模型
-' 使用用户提供的 Tensor 类作为底层数值计算结构
-'
-' 算法参考:
-'   - Bishop, "Pattern Recognition and Machine Learning", Chapter 9
-'   - EM 算法: E步计算后验责任度, M步更新参数
-'
-' 作者: Qingyan Agent
+' 生产化重写要点（公开签名一律保持不变）：
+'   1. 修正权重初始化：原实现 `For K = 0 To K - 1 : wData(K) = 1.0 / K`
+'      的循环变量遮蔽了维度变量，首次迭代产生 1.0/0 = +Infinity，
+'      经由 log(Weights) 使整条 EM 链路静默产出 NaN；
+'   2. 修正 LogDeterminant 的 `logDet = -logDet`（行交换本不影响 |det|）；
+'   3. E 步改用 Cholesky 分解 + 前代求解计算马氏距离，每个成分每轮只需一次
+'      O(D³/3) 分解，取代原先的两次 O(D³)（求逆 + 行列式）；
+'   4. 采样使用 x = μ + L·z，恢复协方差矩阵的相关性结构；
+'   5. 空簇重初始化、权重下限、协方差下限；
+'   6. 新增 BIC/AIC/参数计数、输入维度校验、Save/TryLoad；
+'   7. 线性代数全部下沉到 Core.Numerics.LinearAlgebraOps → MatrixBridge → JAMA。
 ' ============================================================================
 
 Imports Microsoft.VisualBasic.DataMining.ComponentModel.EntityModels
 Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
+Imports Microsoft.VisualBasic.MachineLearning.VariationalAutoencoder.Core
+Imports Microsoft.VisualBasic.MachineLearning.VariationalAutoencoder.Core.Numerics
 Imports std = System.Math
 
 ''' <summary>
@@ -93,6 +29,13 @@ Imports std = System.Math
 ''' 其中 π_k 为混合权重, μ_k 为均值向量, Σ_k 为协方差矩阵
 ''' </remarks>
 Public Class GaussianMixtureModel
+    Implements IProbabilisticClusterer
+    Implements IPriorSampler
+    Implements IModelScore
+    Implements IModelPersistable
+
+    ''' <summary>模型文件的数据结构版本。</summary>
+    Public Const ModelFileSchemaVersion As Integer = 1
 
 #Region "私有字段"
 
@@ -111,11 +54,30 @@ Public Class GaussianMixtureModel
     ' 随机数种子
     Private _seed As Integer?
 
-    ' 是否使用对角协方差矩阵 (高维数据时推荐)
+    ' 是否使用对角协方差矩阵 (保留以维持 ToString 的既有文案)
     Private _diagCovariance As Boolean
 
     ' 初始化方式
     Private _initMethod As InitMethod
+
+    ' 扩展选项（协方差结构、下限、空簇策略）
+    Private _options As GmmOptions
+
+    ' 可复现的随机数服务
+    Private _rng As RandomGaussian
+
+    ' 训练样本数量（BIC 的惩罚项需要）
+    Private _sampleCount As Integer
+
+    ' 是否已完成训练
+    Private _fitted As Boolean = False
+
+    ' 全协方差 / Tied 模式下每个成分的 Cholesky 下三角因子
+    Private _factors As Tensor()
+
+    ' E 步 / M 步复用的缓冲区，避免每轮重新分配 N×K 张量
+    Private _logResp As Double(,)
+    Private _resp As Double(,)
 
 #End Region
 
@@ -141,6 +103,74 @@ Public Class GaussianMixtureModel
 
     ''' <summary>训练历史对数似然值</summary>
     Public Property LogLikelihoodHistory As New List(Of Double)
+
+#End Region
+
+#Region "新增只读属性"
+
+    ''' <summary>混合成分数量。</summary>
+    Public ReadOnly Property NComponents As Integer Implements IProbabilisticClusterer.NComponents
+        Get
+            Return _nComponents
+        End Get
+    End Property
+
+    ''' <summary>训练数据的特征维度；模型尚未训练时为 0。</summary>
+    Public ReadOnly Property InputDim As Integer
+        Get
+            If Means Is Nothing Then
+                Return 0
+            End If
+
+            Return Means.Shape(1)
+        End Get
+    End Property
+
+    ''' <summary>模型是否已完成训练。</summary>
+    Public ReadOnly Property IsFitted As Boolean
+        Get
+            Return _fitted AndAlso Means IsNot Nothing
+        End Get
+    End Property
+
+    ''' <summary>协方差结构类型。</summary>
+    Public ReadOnly Property CovarianceType As GmmCovarianceType
+        Get
+            Return _options.CovarianceType
+        End Get
+    End Property
+
+    ''' <summary>模型自由参数个数（用于 BIC/AIC）。</summary>
+    Public ReadOnly Property NParameters As Integer
+        Get
+            If Means Is Nothing Then
+                Return 0
+            End If
+
+            Return ModelSelection.GaussianMixtureParameters(_nComponents, InputDim, _options.ToCovarianceKind())
+        End Get
+    End Property
+
+    ''' <summary>贝叶斯信息准则，数值越小越好。</summary>
+    Public ReadOnly Property BIC As Double
+        Get
+            Return ModelSelection.Bic(LogLikelihood, NParameters, _sampleCount)
+        End Get
+    End Property
+
+    ''' <summary>赤池信息准则，数值越小越好。</summary>
+    Public ReadOnly Property AIC As Double
+        Get
+            Return ModelSelection.Aic(LogLikelihood, NParameters)
+        End Get
+    End Property
+
+    ''' <summary>训练时使用的样本数量。</summary>
+    Public ReadOnly Property SampleCount As Integer
+        Get
+            Return _sampleCount
+        End Get
+    End Property
 
 #End Region
 
@@ -171,16 +201,39 @@ Public Class GaussianMixtureModel
                    Optional diagCovariance As Boolean = False,
                    Optional initMethod As InitMethod = InitMethod.KMeansPP,
                    Optional seed As Integer? = Nothing)
+        Call Configure(nComponents, maxIter, tol, regCovar, initMethod, seed,
+                       GmmOptions.FromDiagonalFlag(diagCovariance))
+    End Sub
+
+    ''' <summary>
+    ''' 使用扩展选项创建高斯混合模型（新增重载，不影响既有构造签名）。
+    ''' </summary>
+    Public Sub New(nComponents As Integer,
+                   options As GmmOptions,
+                   Optional maxIter As Integer = 200,
+                   Optional tol As Double = 0.000001,
+                   Optional regCovar As Double = 0.000001,
+                   Optional initMethod As InitMethod = InitMethod.KMeansPP,
+                   Optional seed As Integer? = Nothing)
+        Call Configure(nComponents, maxIter, tol, regCovar, initMethod, seed,
+                       If(options, New GmmOptions()))
+    End Sub
+
+    Private Sub Configure(nComponents As Integer, maxIter As Integer, tol As Double, regCovar As Double,
+                          initMethod As InitMethod, seed As Integer?, options As GmmOptions)
         If nComponents < 1 Then
             Throw New ArgumentException("混合成分数量必须大于 0")
         End If
+
         _nComponents = nComponents
-        _maxIter = maxIter
+        _maxIter = std.Max(1, maxIter)
         _tol = tol
-        _regCovar = regCovar
-        _diagCovariance = diagCovariance
+        _regCovar = std.Max(0, regCovar)
         _initMethod = initMethod
         _seed = seed
+        _options = If(options, New GmmOptions())
+        _diagCovariance = (_options.CovarianceType = GmmCovarianceType.Diagonal OrElse
+                           _options.CovarianceType = GmmCovarianceType.Spherical)
     End Sub
 
 #End Region
@@ -192,301 +245,784 @@ Public Class GaussianMixtureModel
     ''' </summary>
     ''' <param name="X">输入数据, 形状 [N, D], N 为样本数, D 为特征维度</param>
     Public Sub Fit(X As Tensor)
-        If X.Rank <> 2 Then
-            Throw New ArgumentException("输入数据必须是二维张量 [N, D]")
+        Call FitCore(X, _maxIter, _tol)
+    End Sub
+
+    ''' <summary>
+    ''' 使用统一的训练选项拟合模型（新增重载）。迭代轮数取自
+    ''' <see cref="TrainingOptions.Epochs"/>。
+    ''' </summary>
+    Public Function Fit(X As Tensor, options As TrainingOptions) As GaussianMixtureModel
+        Dim iterations As Integer = If(options Is Nothing, _maxIter, std.Max(1, options.Epochs))
+
+        Call FitCore(X, iterations, _tol)
+
+        Return Me
+    End Function
+
+    Private Sub FitCore(X As Tensor, maxIterations As Integer, tolerance As Double)
+        Call ValidateInput(X, allowUnfitted:=True)
+
+        Dim sampleCount As Integer = X.Shape(0)
+        Dim dimension As Integer = X.Shape(1)
+
+        If sampleCount < _nComponents Then
+            Throw New ArgumentException(
+                $"样本数 {sampleCount} 少于混合成分数 {_nComponents}，无法估计模型参数")
         End If
 
-        Dim N = X.Shape(0)
-        Dim D = X.Shape(1)
-        Dim K = _nComponents
-        Dim rng = If(_seed.HasValue, New Random(_seed.Value), New Random())
+        ' 无论第几次调用 Fit，都从干净的状态开始
+        Converged = False
+        NIter = 0
+        LogLikelihood = Double.NegativeInfinity
+        LogLikelihoodHistory.Clear()
+        _fitted = False
+        _sampleCount = sampleCount
 
-        ' ---------- 1. 初始化参数 ----------
-        InitializeParameters(X, K, D, rng)
+        _rng = If(_seed.HasValue, New RandomGaussian(_seed.Value), New RandomGaussian())
 
-        ' ---------- 2. EM 迭代 ----------
-        Dim prevLogLik As Double = Double.NegativeInfinity
+        Call InitializeParameters(X, dimension)
 
-        For iter = 1 To _maxIter
-            ' E 步: 计算责任度 (log 域稳定计算)
-            Dim logResp As Tensor = Nothing
-            Dim logLik As Double = EStep(X, logResp)
+        _logResp = New Double(sampleCount - 1, _nComponents - 1) {}
+        _resp = New Double(sampleCount - 1, _nComponents - 1) {}
 
-            ' 记录对数似然历史
-            LogLikelihoodHistory.Add(logLik)
+        Dim previous As Double = Double.NegativeInfinity
 
-            ' 检查收敛
-            If iter > 1 AndAlso std.Abs(logLik - prevLogLik) < _tol Then
-                Converged = True
-                NIter = iter
-                LogLikelihood = logLik
+        For iteration As Integer = 1 To maxIterations
+            Call BuildFactors()
+
+            Dim current As Double = EStepCore(X, _logResp)
+
+            If Double.IsNaN(current) OrElse Double.IsInfinity(current) Then
+                ' 数值异常时保留上一轮参数，并以未收敛状态结束
+                Call DebugTrace(sampleCount, current)
                 Exit For
             End If
 
-            prevLogLik = logLik
+            LogLikelihoodHistory.Add(current)
+            LogLikelihood = current
+            NIter = iteration
 
-            ' M 步: 更新参数
-            MStep(X, logResp)
+            If iteration > 1 AndAlso std.Abs(current - previous) < tolerance Then
+                Converged = True
+                Exit For
+            End If
 
-            NIter = iter
-            LogLikelihood = logLik
+            previous = current
+
+            Call MStepCore(X, _logResp, _resp)
         Next
 
-        If Not Converged Then
-            ' 未收敛也保留最后一次结果
+        ' 用最终的参数重新评估一次，使 LogLikelihood 与当前参数一致
+        If NIter > 0 Then
+            Call BuildFactors()
+
+            Dim final As Double = EStepCore(X, _logResp)
+
+            If Not Double.IsNaN(final) AndAlso Not Double.IsInfinity(final) Then
+                LogLikelihood = final
+                LogLikelihoodHistory(LogLikelihoodHistory.Count - 1) = final
+            End If
         End If
+
+        _fitted = Means IsNot Nothing AndAlso Not HasInvalidParameters()
+    End Sub
+
+    ''' <summary>检测参数中是否混入了 NaN / Infinity。</summary>
+    Private Function HasInvalidParameters() As Boolean
+        Return HasInvalid(Weights) OrElse HasInvalid(Means) OrElse HasInvalid(Covariances)
+    End Function
+
+    Private Shared Function HasInvalid(t As Tensor) As Boolean
+        If t Is Nothing Then
+            Return True
+        End If
+
+        Dim data As Double() = t.Data
+
+        For i As Integer = 0 To data.Length - 1
+            If Double.IsNaN(data(i)) OrElse Double.IsInfinity(data(i)) Then
+                Return True
+            End If
+        Next
+
+        Return False
+    End Function
+
+    Private Shared Sub DebugTrace(sampleCount As Integer, value As Double)
+        System.Diagnostics.Debug.WriteLine($"[GMM] 迭代出现异常对数似然 {value}，N={sampleCount}")
     End Sub
 
     ''' <summary>
     ''' 初始化模型参数
     ''' </summary>
-    Private Sub InitializeParameters(X As Tensor, K As Integer, D As Integer, rng As Random)
-        Dim N = X.Shape(0)
+    Private Sub InitializeParameters(X As Tensor, dimension As Integer)
+        Dim sampleCount As Integer = X.Shape(0)
+        Dim components As Integer = _nComponents
 
-        ' 初始化权重为均匀分布
-        Dim wData = New Double(K - 1) {}
-        For K = 0 To K - 1
-            wData(K) = 1.0 / K
+        ' 均匀权重。注意：这里绝不能用循环变量参与 1/K 的计算
+        Dim weightsData As Double() = New Double(components - 1) {}
+
+        For k As Integer = 0 To components - 1
+            weightsData(k) = 1.0 / components
         Next
-        Weights = New Tensor(wData, K)
+
+        Weights = New Tensor(weightsData, components)
 
         ' 初始化均值
-        Dim meansData = New Double(K * D - 1) {}
+        Dim meansData As Double() = New Double(components * dimension - 1) {}
+
         Select Case _initMethod
             Case InitMethod.Random
-                ' 从数据中随机采样 K 个点作为初始均值
-                For K = 0 To K - 1
-                    Dim idx = rng.Next(N)
-                    For D = 0 To D - 1
-                        meansData(K * D + D) = X(idx, D)
+                For k As Integer = 0 To components - 1
+                    Dim picked As Integer = _rng.NextIndex(sampleCount)
+                    Dim offset As Integer = k * dimension
+
+                    For d As Integer = 0 To dimension - 1
+                        meansData(offset + d) = X(picked, d)
                     Next
                 Next
-            Case InitMethod.KMeansPP
-                ' K-Means++ 风格初始化
-                Dim firstIdx = rng.Next(N)
-                For D = 0 To D - 1
-                    meansData(D) = X(firstIdx, D)
-                Next
-
-                Dim chosenIndices = New List(Of Integer) From {firstIdx}
-
-                For K = 1 To K - 1
-                    ' 计算每个点到最近已选中心的距离平方
-                    Dim dists = New Double(N - 1) {}
-                    Dim totalDist As Double = 0
-                    For i = 0 To N - 1
-                        Dim minDist As Double = Double.MaxValue
-                        For Each ci In chosenIndices
-                            Dim dist As Double = 0
-                            For D = 0 To D - 1
-                                Dim diff = X(i, D) - X(ci, D)
-                                dist += diff * diff
-                            Next
-                            If dist < minDist Then minDist = dist
-                        Next
-                        dists(i) = minDist
-                        totalDist += minDist
-                    Next
-
-                    ' 按距离平方加权随机选择下一个中心
-                    Dim r = rng.NextDouble() * totalDist
-                    Dim cumDist As Double = 0
-                    Dim nextIdx = N - 1
-                    For i = 0 To N - 1
-                        cumDist += dists(i)
-                        If cumDist >= r Then
-                            nextIdx = i
-                            Exit For
-                        End If
-                    Next
-
-                    chosenIndices.Add(nextIdx)
-                    For D = 0 To D - 1
-                        meansData(K * D + D) = X(nextIdx, D)
-                    Next
-                Next
+            Case Else
+                Call KMeansPlusPlus(X, dimension, meansData)
         End Select
-        Means = New Tensor(meansData, K, D)
 
-        ' 初始化协方差矩阵 (使用全局数据协方差)
-        If _diagCovariance Then
-            ' 对角协方差: [K, D]
-            Dim covData = New Double(K * D - 1) {}
-            ' 计算全局方差
-            Dim globalVar = New Double(D - 1) {}
-            For i = 0 To N - 1
-                For D = 0 To D - 1
-                    globalVar(D) += X(i, D) * X(i, D)
+        Means = New Tensor(meansData, components, dimension)
+
+        ' 初始化协方差（使用正确的全局方差与协方差）
+        Dim globalMean As Double() = Nothing
+        Dim globalVariance As Double() = Nothing
+        Call ComputeGlobalStatistics(X, dimension, globalMean, globalVariance)
+
+        If IsDiagonalCovariance() Then
+            Dim covData As Double() = New Double(components * dimension - 1) {}
+
+            For k As Integer = 0 To components - 1
+                Dim offset As Integer = k * dimension
+
+                For d As Integer = 0 To dimension - 1
+                    covData(offset + d) = std.Max(globalVariance(d) + _regCovar, _options.CovarianceFloor)
                 Next
             Next
-            For D = 0 To D - 1
-                globalVar(D) = globalVar(D) / N + _regCovar
-            Next
-            For K = 0 To K - 1
-                For D = 0 To D - 1
-                    covData(K * D + D) = globalVar(D)
-                Next
-            Next
-            Covariances = New Tensor(covData, K, D)
+
+            Covariances = New Tensor(covData, components, dimension)
         Else
-            ' 全协方差: [K, D, D]
-            Dim covData = New Double(K * D * D - 1) {}
-            ' 计算全局协方差矩阵
-            Dim globalCov = New Double(D * D - 1) {}
-            For i = 0 To N - 1
-                For r = 0 To D - 1
-                    For c = 0 To D - 1
-                        globalCov(r * D + c) += X(i, r) * X(i, c)
-                    Next
+            Dim globalCovariance As Tensor = GlobalCovariance(X, dimension, globalMean)
+            Dim buffer As Double() = globalCovariance.Data
+            Dim covData As Double() = New Double(components * dimension * dimension - 1) {}
+
+            For k As Integer = 0 To components - 1
+                Dim offset As Integer = k * dimension * dimension
+
+                For j As Integer = 0 To dimension * dimension - 1
+                    covData(offset + j) = buffer(j)
+                Next
+
+                For d As Integer = 0 To dimension - 1
+                    Dim index As Integer = offset + d * dimension + d
+                    covData(index) = std.Max(covData(index) + _regCovar, _options.CovarianceFloor)
                 Next
             Next
-            For r = 0 To D - 1
-                For c = 0 To D - 1
-                    globalCov(r * D + c) = globalCov(r * D + c) / N
-                    If r = c Then globalCov(r * D + c) += _regCovar
-                Next
-            Next
-            For K = 0 To K - 1
-                For j = 0 To D * D - 1
-                    covData(K * D * D + j) = globalCov(j)
-                Next
-            Next
-            Covariances = New Tensor(covData, K, D, D)
+
+            Covariances = New Tensor(covData, components, dimension, dimension)
         End If
     End Sub
 
-    ''' <summary>
-    ''' E 步: 计算对数责任度 (log-responsibilities) 和对数似然
-    ''' 使用 log-sum-exp 技巧保证数值稳定性
-    ''' </summary>
-    Private Function EStep(X As Tensor, ByRef logResp As Tensor) As Double
-        Dim N = X.Shape(0)
-        Dim D = X.Shape(1)
-        Dim K = _nComponents
+    ''' <summary>K-Means++ 风格的均值初始化。</summary>
+    Private Sub KMeansPlusPlus(X As Tensor, dimension As Integer, meansData As Double())
+        Dim sampleCount As Integer = X.Shape(0)
+        Dim components As Integer = _nComponents
+        Dim xData As Double() = X.Data
 
-        ' 计算 log(π_k * N(x_n | μ_k, Σ_k)) 对所有 n, k
-        Dim logProb = ComputeLogGaussianPDF(X)  ' [N, K]
+        Dim chosen As Integer() = New Integer(components - 1) {}
+        chosen(0) = _rng.NextIndex(sampleCount)
 
-        ' 加上 log 权重
-        Dim weightedLogProb = New Tensor(N, K)
-        For N = 0 To N - 1
-            For K = 0 To K - 1
-                weightedLogProb(N, K) = logProb(N, K) + std.Log(Weights(K))
-            Next
+        For d As Integer = 0 To dimension - 1
+            meansData(d) = xData(chosen(0) * dimension + d)
         Next
 
-        ' 计算 log-sum-exp (沿 K 维度)
-        Dim logLik As Double = 0
-        logResp = New Tensor(N, K)
+        If components = 1 Then
+            Return
+        End If
 
-        For N = 0 To N - 1
-            ' 找最大值
-            Dim maxVal As Double = Double.NegativeInfinity
-            For K = 0 To K - 1
-                If weightedLogProb(N, K) > maxVal Then
-                    maxVal = weightedLogProb(N, K)
+        Dim nearest As Double() = New Double(sampleCount - 1) {}
+        For i As Integer = 0 To sampleCount - 1
+            nearest(i) = Double.MaxValue
+        Next
+
+        For k As Integer = 1 To components - 1
+            Dim centerRow As Integer = chosen(k - 1)
+            Dim total As Double = 0
+
+            For i As Integer = 0 To sampleCount - 1
+                Dim acc As Double = 0
+                Dim rowOffset As Integer = i * dimension
+                Dim centerOffset As Integer = centerRow * dimension
+
+                For d As Integer = 0 To dimension - 1
+                    Dim diff As Double = xData(rowOffset + d) - xData(centerOffset + d)
+                    acc += diff * diff
+                Next
+
+                If acc < nearest(i) Then
+                    nearest(i) = acc
                 End If
+
+                total += nearest(i)
             Next
 
-            ' 计算 sum exp
-            Dim sumExp As Double = 0
-            For K = 0 To K - 1
-                sumExp += std.Exp(weightedLogProb(N, K) - maxVal)
+            Dim picked As Integer = _rng.NextIndex(sampleCount)
+
+            If total > 0 Then
+                Dim threshold As Double = _rng.NextDouble() * total
+                Dim cumulative As Double = 0
+
+                For i As Integer = 0 To sampleCount - 1
+                    cumulative += nearest(i)
+
+                    If cumulative >= threshold Then
+                        picked = i
+                        Exit For
+                    End If
+                Next
+            End If
+
+            chosen(k) = picked
+
+            Dim offset As Integer = k * dimension
+            For d As Integer = 0 To dimension - 1
+                meansData(offset + d) = xData(picked * dimension + d)
             Next
+        Next
+    End Sub
 
-            Dim logSumExp = maxVal + std.Log(sumExp)
-            logLik += logSumExp
+    Private Shared Sub ComputeGlobalStatistics(X As Tensor, dimension As Integer,
+                                               ByRef globalMean As Double(), ByRef globalVariance As Double())
+        Dim sampleCount As Integer = X.Shape(0)
+        Dim xData As Double() = X.Data
 
-            ' 计算责任度 (log 域)
-            For K = 0 To K - 1
-                logResp(N, K) = weightedLogProb(N, K) - logSumExp
+        globalMean = New Double(dimension - 1) {}
+
+        For i As Integer = 0 To sampleCount - 1
+            Dim offset As Integer = i * dimension
+
+            For d As Integer = 0 To dimension - 1
+                globalMean(d) += xData(offset + d)
             Next
         Next
 
-        Return logLik
+        For d As Integer = 0 To dimension - 1
+            globalMean(d) /= sampleCount
+        Next
+
+        globalVariance = New Double(dimension - 1) {}
+
+        For i As Integer = 0 To sampleCount - 1
+            Dim offset As Integer = i * dimension
+
+            For d As Integer = 0 To dimension - 1
+                Dim diff As Double = xData(offset + d) - globalMean(d)
+                globalVariance(d) += diff * diff
+            Next
+        Next
+
+        For d As Integer = 0 To dimension - 1
+            globalVariance(d) /= std.Max(1, sampleCount - 1)
+        Next
+    End Sub
+
+    Private Shared Function GlobalCovariance(X As Tensor, dimension As Integer, globalMean As Double()) As Tensor
+        Dim sampleCount As Integer = X.Shape(0)
+        Dim xData As Double() = X.Data
+        Dim covData As Double() = New Double(dimension * dimension - 1) {}
+
+        For i As Integer = 0 To sampleCount - 1
+            Dim offset As Integer = i * dimension
+
+            For r As Integer = 0 To dimension - 1
+                Dim diffR As Double = xData(offset + r) - globalMean(r)
+
+                For c As Integer = r To dimension - 1
+                    Dim diffC As Double = xData(offset + c) - globalMean(c)
+                    covData(r * dimension + c) += diffR * diffC
+                Next
+            Next
+        Next
+
+        Dim denominator As Double = std.Max(1, sampleCount - 1)
+
+        For r As Integer = 0 To dimension - 1
+            For c As Integer = r To dimension - 1
+                Dim value As Double = covData(r * dimension + c) / denominator
+                covData(r * dimension + c) = value
+                covData(c * dimension + r) = value
+            Next
+
+            covData(r * dimension + r) += LinearAlgebraOps.MinVariance
+        Next
+
+        Return New Tensor(covData, dimension, dimension)
     End Function
 
     ''' <summary>
-    ''' M 步: 根据责任度更新参数
+    ''' E 步：把 log(π_k) + log N(x | μ_k, Σ_k) 写入
+    ''' <paramref name="logResp"/>，再在原位减去每行的 log-sum-exp。
+    ''' 返回数据集的对数似然（求和）。
     ''' </summary>
-    Private Sub MStep(X As Tensor, logResp As Tensor)
-        Dim N = X.Shape(0)
-        Dim D = X.Shape(1)
-        Dim K = _nComponents
+    Private Function EStepCore(X As Tensor, logResp As Double(,)) As Double
+        Dim sampleCount As Integer = X.Shape(0)
+        Dim dimension As Integer = X.Shape(1)
+        Dim components As Integer = _nComponents
+        Dim xData As Double() = X.Data
+        Dim meansData As Double() = Means.Data
+        Dim weightsData As Double() = Weights.Data
 
-        ' 将 log 责任度转换为责任度
-        Dim resp = New Tensor(N, K)
-        For N = 0 To N - 1
-            For K = 0 To K - 1
-                resp(N, K) = std.Exp(logResp(N, K))
-            Next
+        Dim logWeight As Double() = New Double(components - 1) {}
+        For k As Integer = 0 To components - 1
+            logWeight(k) = LogSumExp.SafeLog(weightsData(k))
         Next
 
-        ' 计算 N_k = Σ_n resp(n, k)
-        Dim Nk = New Double(K - 1) {}
-        For K = 0 To K - 1
-            Dim s As Double = 0
-            For N = 0 To N - 1
-                s += resp(N, K)
-            Next
-            Nk(K) = s
-        Next
+        Dim diff As Double() = New Double(dimension - 1) {}
 
-        ' 更新权重: π_k = N_k / N
-        Dim wData = New Double(K - 1) {}
-        For K = 0 To K - 1
-            wData(K) = (Nk(K) + 0.0000001) / (N + K * 0.0000001)
-        Next
-        Weights = New Tensor(wData, K)
+        For k As Integer = 0 To components - 1
+            Dim logDet As Double = ComponentLogDeterminant(k)
+            Dim meanOffset As Integer = k * dimension
 
-        ' 更新均值: μ_k = (1/N_k) Σ_n resp(n,k) * x_n
-        Dim meansData = New Double(K * D - 1) {}
-        For K = 0 To K - 1
-            For D = 0 To D - 1
-                Dim s As Double = 0
-                For N = 0 To N - 1
-                    s += resp(N, K) * X(N, D)
+            For i As Integer = 0 To sampleCount - 1
+                Dim rowOffset As Integer = i * dimension
+
+                For d As Integer = 0 To dimension - 1
+                    diff(d) = xData(rowOffset + d) - meansData(meanOffset + d)
                 Next
-                meansData(K * D + D) = s / (Nk(K) + 0.0000001)
+
+                logResp(i, k) = LinearAlgebraOps.LogPdf(dimension, logDet, MahalanobisSquaredAt(k, diff)) + logWeight(k)
             Next
         Next
-        Means = New Tensor(meansData, K, D)
 
-        ' 更新协方差
-        If _diagCovariance Then
-            Dim covData = New Double(K * D - 1) {}
-            For K = 0 To K - 1
-                For D = 0 To D - 1
-                    Dim s As Double = 0
-                    For N = 0 To N - 1
-                        Dim diff = X(N, D) - Means(K, D)
-                        s += resp(N, K) * diff * diff
-                    Next
-                    covData(K * D + D) = s / (Nk(K) + 0.0000001) + _regCovar
-                Next
+        Dim logLikelihood As Double = 0
+
+        For i As Integer = 0 To sampleCount - 1
+            Dim maxValue As Double = Double.NegativeInfinity
+
+            For k As Integer = 0 To components - 1
+                If logResp(i, k) > maxValue Then
+                    maxValue = logResp(i, k)
+                End If
             Next
-            Covariances = New Tensor(covData, K, D)
-        Else
-            Dim covData = New Double(K * D * D - 1) {}
-            For K = 0 To K - 1
-                For r = 0 To D - 1
-                    For c = 0 To D - 1
-                        Dim s As Double = 0
-                        For N = 0 To N - 1
-                            Dim diffR = X(N, r) - Means(K, r)
-                            Dim diffC = X(N, c) - Means(K, c)
-                            s += resp(N, K) * diffR * diffC
-                        Next
-                        covData(K * D * D + r * D + c) = s / (Nk(K) + 0.0000001)
-                        If r = c Then
-                            covData(K * D * D + r * D + c) += _regCovar
+
+            If Double.IsNegativeInfinity(maxValue) Then
+                ' 全部为 -Infinity：退化为均匀分配，避免产生 NaN
+                Dim uniform As Double = -std.Log(components)
+
+                For k As Integer = 0 To components - 1
+                    logResp(i, k) = uniform
+                Next
+
+                Continue For
+            End If
+
+            Dim acc As Double = 0
+            For k As Integer = 0 To components - 1
+                acc += std.Exp(logResp(i, k) - maxValue)
+            Next
+
+            Dim norm As Double = maxValue + std.Log(acc)
+            logLikelihood += norm
+
+            For k As Integer = 0 To components - 1
+                logResp(i, k) -= norm
+            Next
+        Next
+
+        Return logLikelihood
+    End Function
+
+    ''' <summary>
+    ''' M 步：根据责任度更新权重、均值与协方差，并处理空簇。
+    ''' </summary>
+    Private Sub MStepCore(X As Tensor, logResp As Double(,), resp As Double(,))
+        Dim sampleCount As Integer = X.Shape(0)
+        Dim dimension As Integer = X.Shape(1)
+        Dim components As Integer = _nComponents
+        Dim xData As Double() = X.Data
+
+        Dim nk As Double() = New Double(components - 1) {}
+        Dim maxResp As Double() = New Double(sampleCount - 1) {}
+
+        For i As Integer = 0 To sampleCount - 1
+            Dim top As Double = 0
+
+            For k As Integer = 0 To components - 1
+                Dim value As Double = std.Exp(logResp(i, k))
+                resp(i, k) = value
+                nk(k) += value
+
+                If value > top Then
+                    top = value
+                End If
+            Next
+
+            maxResp(i) = top
+        Next
+
+        ' ---- 空簇重初始化：把最不适配的样本指派给退化成分 ----
+        Dim reinitSample As Integer() = New Integer(components - 1) {}
+        For k As Integer = 0 To components - 1
+            reinitSample(k) = -1
+        Next
+
+        If _options.ReinitializeEmptyClusters Then
+            For k As Integer = 0 To components - 1
+                If nk(k) >= _options.EmptyClusterSize Then
+                    Continue For
+                End If
+
+                Dim worst As Integer = -1
+                Dim worstValue As Double = Double.MaxValue
+
+                For i As Integer = 0 To sampleCount - 1
+                    If maxResp(i) >= 0 AndAlso maxResp(i) < worstValue Then
+                        worstValue = maxResp(i)
+                        worst = i
+                    End If
+                Next
+
+                If worst < 0 Then
+                    Exit For
+                End If
+
+                reinitSample(k) = worst
+                maxResp(worst) = -1
+                nk(k) = 1.0
+            Next
+        End If
+
+        ' ---- 混合权重 ----
+        Dim weightsData As Double() = New Double(components - 1) {}
+        Dim total As Double = 0
+
+        For k As Integer = 0 To components - 1
+            weightsData(k) = std.Max(nk(k), _options.WeightFloor)
+            total += weightsData(k)
+        Next
+
+        If total <= 0 Then
+            total = 1
+        End If
+
+        For k As Integer = 0 To components - 1
+            weightsData(k) /= total
+        Next
+
+        Weights = New Tensor(weightsData, components)
+
+        ' ---- 均值 ----
+        Dim meansData As Double() = New Double(components * dimension - 1) {}
+
+        For k As Integer = 0 To components - 1
+            Dim offset As Integer = k * dimension
+
+            If reinitSample(k) >= 0 Then
+                Dim rowOffset As Integer = reinitSample(k) * dimension
+
+                For d As Integer = 0 To dimension - 1
+                    meansData(offset + d) = xData(rowOffset + d)
+                Next
+
+                Continue For
+            End If
+
+            Dim denominator As Double = std.Max(nk(k), _options.WeightFloor)
+
+            For d As Integer = 0 To dimension - 1
+                Dim acc As Double = 0
+
+                For i As Integer = 0 To sampleCount - 1
+                    acc += resp(i, k) * xData(i * dimension + d)
+                Next
+
+                meansData(offset + d) = acc / denominator
+            Next
+        Next
+
+        Means = New Tensor(meansData, components, dimension)
+
+        ' ---- 协方差 ----
+        Dim hasReinit As Boolean = False
+
+        For k As Integer = 0 To components - 1
+            If reinitSample(k) >= 0 Then
+                hasReinit = True
+                Exit For
+            End If
+        Next
+
+        Dim fallback As Tensor = Nothing
+
+        If hasReinit Then
+            Dim globalMean As Double() = Nothing
+            Dim globalVariance As Double() = Nothing
+            Call ComputeGlobalStatistics(X, dimension, globalMean, globalVariance)
+            fallback = GlobalCovariance(X, dimension, globalMean)
+        End If
+
+        If IsDiagonalCovariance() Then
+            Dim covData As Double() = New Double(components * dimension - 1) {}
+            Dim fallbackData As Double() = If(fallback Is Nothing, Nothing, fallback.Data)
+
+            For k As Integer = 0 To components - 1
+                Dim offset As Integer = k * dimension
+                Dim denominator As Double = std.Max(nk(k), _options.WeightFloor)
+
+                For d As Integer = 0 To dimension - 1
+                    If reinitSample(k) >= 0 Then
+                        covData(offset + d) = std.Max(fallbackData(d * dimension + d), _options.CovarianceFloor)
+                        Continue For
+                    End If
+
+                    Dim acc As Double = 0
+                    Dim mean As Double = meansData(offset + d)
+
+                    For i As Integer = 0 To sampleCount - 1
+                        Dim weight As Double = resp(i, k)
+
+                        If weight > 0 Then
+                            Dim diff As Double = xData(i * dimension + d) - mean
+                            acc += weight * diff * diff
                         End If
                     Next
+
+                    covData(offset + d) = std.Max(acc / denominator + _regCovar, _options.CovarianceFloor)
                 Next
             Next
-            Covariances = New Tensor(covData, K, D, D)
+
+            ' Tied / Spherical 的后处理
+            Select Case _options.CovarianceType
+                Case GmmCovarianceType.Tied
+                    For d As Integer = 0 To dimension - 1
+                        Dim pooled As Double = 0
+
+                        For k As Integer = 0 To components - 1
+                            pooled += weightsData(k) * covData(k * dimension + d)
+                        Next
+
+                        For k As Integer = 0 To components - 1
+                            covData(k * dimension + d) = pooled
+                        Next
+                    Next
+                Case GmmCovarianceType.Spherical
+                    Dim scalar As Double = 0
+
+                    For d As Integer = 0 To dimension - 1
+                        For k As Integer = 0 To components - 1
+                            scalar += weightsData(k) * covData(k * dimension + d)
+                        Next
+                    Next
+
+                    scalar /= dimension
+
+                    For k As Integer = 0 To components * dimension - 1
+                        covData(k) = scalar
+                    Next
+            End Select
+
+            Covariances = New Tensor(covData, components, dimension)
+        Else
+            Dim covData As Double() = New Double(components * dimension * dimension - 1) {}
+            Dim fallbackData As Double() = If(fallback Is Nothing, Nothing, fallback.Data)
+
+            For k As Integer = 0 To components - 1
+                Dim offset As Integer = k * dimension * dimension
+                Dim denominator As Double = std.Max(nk(k), _options.WeightFloor)
+
+                If reinitSample(k) >= 0 Then
+                    For j As Integer = 0 To dimension * dimension - 1
+                        covData(offset + j) = fallbackData(j)
+                    Next
+
+                    For d As Integer = 0 To dimension - 1
+                        covData(offset + d * dimension + d) += _regCovar
+                    Next
+
+                    Continue For
+                End If
+
+                For r As Integer = 0 To dimension - 1
+                    Dim meanR As Double = meansData(offset + r)
+
+                    For c As Integer = r To dimension - 1
+                        Dim meanC As Double = meansData(offset + c)
+                        Dim acc As Double = 0
+
+                        For i As Integer = 0 To sampleCount - 1
+                            Dim weight As Double = resp(i, k)
+
+                            If weight > 0 Then
+                                acc += weight *
+                                       (xData(i * dimension + r) - meanR) *
+                                       (xData(i * dimension + c) - meanC)
+                            End If
+                        Next
+
+                        Dim value As Double = acc / denominator
+
+                        If r = c Then
+                            value = std.Max(value + _regCovar, _options.CovarianceFloor)
+                        End If
+
+                        covData(offset + r * dimension + c) = value
+                        covData(offset + c * dimension + r) = value
+                    Next
+                Next
+            Next
+
+            Dim covarianceTensor As Tensor = New Tensor(covData, components, dimension, dimension)
+
+            Select Case _options.CovarianceType
+                Case GmmCovarianceType.Tied
+                    covarianceTensor = ShareCovariance(covarianceTensor, weightsData, dimension, components)
+                Case GmmCovarianceType.Full
+                    ' 无需后处理
+            End Select
+
+            Covariances = covarianceTensor
+        End If
+
+        Call BuildFactors()
+    End Sub
+
+    ''' <summary>把所有成分的协方差按有效样本比例合并为共享协方差。</summary>
+    Private Shared Function ShareCovariance(source As Tensor, weightsData As Double(),
+                                            dimension As Integer, components As Integer) As Tensor
+        Dim data As Double() = source.Data
+        Dim pooled As Double() = New Double(dimension * dimension - 1) {}
+
+        For k As Integer = 0 To components - 1
+            Dim offset As Integer = k * dimension * dimension
+
+            For j As Integer = 0 To dimension * dimension - 1
+                pooled(j) += weightsData(k) * data(offset + j)
+            Next
+        Next
+
+        Dim result As Double() = New Double(components * dimension * dimension - 1) {}
+
+        For k As Integer = 0 To components - 1
+            Dim offset As Integer = k * dimension * dimension
+
+            For j As Integer = 0 To dimension * dimension - 1
+                result(offset + j) = pooled(j)
+            Next
+        Next
+
+        Return New Tensor(result, components, dimension, dimension)
+    End Function
+
+#End Region
+
+#Region "协方差与 Cholesky 因子"
+
+    Private Function IsDiagonalCovariance() As Boolean
+        Return _options.CovarianceType = GmmCovarianceType.Diagonal OrElse
+               _options.CovarianceType = GmmCovarianceType.Spherical
+    End Function
+
+    ''' <summary>提取第 k 个成分的完整协方差矩阵 [D, D]。</summary>
+    Private Function ComponentCovariance(component As Integer) As Tensor
+        Dim dimension As Integer = InputDim
+        Dim data As Double() = New Double(dimension * dimension - 1) {}
+
+        For r As Integer = 0 To dimension - 1
+            For c As Integer = 0 To dimension - 1
+                data(r * dimension + c) = Covariances(component, r, c)
+            Next
+        Next
+
+        Return New Tensor(data, dimension, dimension)
+    End Function
+
+    ''' <summary>在 Cholesky 全部失败时用对角线构造一个对角因子。</summary>
+    Private Shared Function DiagonalFactor(matrix As Tensor) As Tensor
+        Dim dimension As Integer = matrix.Shape(0)
+        Dim data As Double() = New Double(dimension * dimension - 1) {}
+
+        For d As Integer = 0 To dimension - 1
+            data(d * dimension + d) = std.Sqrt(std.Max(matrix(d, d), LinearAlgebraOps.MinVariance))
+        Next
+
+        Return New Tensor(data, dimension, dimension)
+    End Function
+
+    ''' <summary>为全协方差模式重建每个成分的 Cholesky 因子。</summary>
+    Private Sub BuildFactors()
+        If Means Is Nothing OrElse Covariances Is Nothing Then
+            Return
+        End If
+
+        If IsDiagonalCovariance() Then
+            _factors = Nothing
+            Return
+        End If
+
+        Dim components As Integer = _nComponents
+        _factors = New Tensor(components - 1) {}
+
+        For k As Integer = 0 To components - 1
+            Dim matrix As Tensor = ComponentCovariance(k)
+            Dim factor As Tensor = LinearAlgebraOps.CholeskyFactor(matrix)
+
+            If factor Is Nothing Then
+                Dim jitter As Double = 0
+                factor = LinearAlgebraOps.CholeskyFactorWithJitter(matrix, jitter)
+            End If
+
+            If factor Is Nothing Then
+                factor = DiagonalFactor(matrix)
+            End If
+
+            _factors(k) = factor
+        Next
+    End Sub
+
+    Private Sub EnsureFactors()
+        If IsDiagonalCovariance() Then
+            Return
+        End If
+
+        If _factors Is Nothing Then
+            Call BuildFactors()
         End If
     End Sub
+
+    Private Function ComponentLogDeterminant(component As Integer) As Double
+        Dim dimension As Integer = InputDim
+
+        If IsDiagonalCovariance() Then
+            Dim acc As Double = 0
+
+            For d As Integer = 0 To dimension - 1
+                acc += std.Log(std.Max(Covariances(component, d), LinearAlgebraOps.MinVariance))
+            Next
+
+            Return acc
+        End If
+
+        Return LinearAlgebraOps.LogDeterminantFromFactor(_factors(component))
+    End Function
+
+    Private Function MahalanobisSquaredAt(component As Integer, diff As Double()) As Double
+        If IsDiagonalCovariance() Then
+            Dim acc As Double = 0
+
+            For d As Integer = 0 To diff.Length - 1
+                Dim variance As Double = std.Max(Covariances(component, d), LinearAlgebraOps.MinVariance)
+                acc += diff(d) * diff(d) / variance
+            Next
+
+            Return acc
+        End If
+
+        Return LinearAlgebraOps.MahalanobisSquared(_factors(component), diff)
+    End Function
 
 #End Region
 
@@ -498,68 +1034,35 @@ Public Class GaussianMixtureModel
     ''' <param name="X">输入数据 [N, D]</param>
     ''' <returns>对数概率密度 [N, K]</returns>
     Public Function ComputeLogGaussianPDF(X As Tensor) As Tensor
-        If Means Is Nothing Then
-            Throw New InvalidOperationException("模型尚未训练, 请先调用 Fit 方法")
-        End If
+        Call EnsureFitted()
+        Call ValidateInput(X, allowUnfitted:=False)
 
-        Dim N = X.Shape(0)
-        Dim D = X.Shape(1)
-        Dim K = _nComponents
-        Dim result = New Tensor(N, K)
+        Dim sampleCount As Integer = X.Shape(0)
+        Dim dimension As Integer = X.Shape(1)
+        Dim components As Integer = _nComponents
+        Dim xData As Double() = X.Data
+        Dim meansData As Double() = Means.Data
 
-        If _diagCovariance Then
-            ' 对角协方差情况
-            For K = 0 To K - 1
-                ' 计算 log|Σ_k| = Σ_d log(σ²_kd)
-                Dim logDetCov As Double = 0
-                For D = 0 To D - 1
-                    logDetCov += std.Log(Covariances(K, D))
+        Dim result As New Tensor(sampleCount, components)
+        Dim buffer As Double() = result.Data
+        Dim diff As Double() = New Double(dimension - 1) {}
+
+        Call EnsureFactors()
+
+        For k As Integer = 0 To components - 1
+            Dim logDet As Double = ComponentLogDeterminant(k)
+            Dim meanOffset As Integer = k * dimension
+
+            For i As Integer = 0 To sampleCount - 1
+                Dim rowOffset As Integer = i * dimension
+
+                For d As Integer = 0 To dimension - 1
+                    diff(d) = xData(rowOffset + d) - meansData(meanOffset + d)
                 Next
 
-                ' 常数项: -0.5 * (D * log(2π) + log|Σ_k|)
-                Dim constTerm = -0.5 * (D * std.Log(2.0 * std.PI) + logDetCov)
-
-                For N = 0 To N - 1
-                    ' 计算 (x - μ)^T Σ^(-1) (x - μ) = Σ_d (x_d - μ_d)² / σ²_d
-                    Dim mahalDist As Double = 0
-                    For D = 0 To D - 1
-                        Dim diff = X(N, D) - Means(K, D)
-                        mahalDist += diff * diff / Covariances(K, D)
-                    Next
-                    result(N, K) = constTerm - 0.5 * mahalDist
-                Next
+                buffer(i * components + k) = LinearAlgebraOps.LogPdf(dimension, logDet, MahalanobisSquaredAt(k, diff))
             Next
-        Else
-            ' 全协方差情况
-            For K = 0 To K - 1
-                ' 提取第 k 个协方差矩阵 [D, D]
-                Dim cov = New Tensor(D, D)
-                For r = 0 To D - 1
-                    For c = 0 To D - 1
-                        cov(r, c) = Covariances(K, r, c)
-                    Next
-                Next
-
-                ' 计算协方差矩阵的逆和 log 行列式
-                Dim invCov = MatrixInverse(cov, D)
-                Dim logDetCov = LogDeterminant(cov, D)
-
-                Dim constTerm = -0.5 * (D * std.Log(2.0 * std.PI) + logDetCov)
-
-                For N = 0 To N - 1
-                    ' 计算 (x - μ)^T Σ^(-1) (x - μ)
-                    Dim mahalDist As Double = 0
-                    For r = 0 To D - 1
-                        Dim sumRow As Double = 0
-                        For c = 0 To D - 1
-                            sumRow += invCov(r, c) * (X(N, c) - Means(K, c))
-                        Next
-                        mahalDist += (X(N, r) - Means(K, r)) * sumRow
-                    Next
-                    result(N, K) = constTerm - 0.5 * mahalDist
-                Next
-            Next
-        End If
+        Next
 
         Return result
     End Function
@@ -573,19 +1076,26 @@ Public Class GaussianMixtureModel
     ''' </summary>
     ''' <param name="X">输入数据 [N, D]</param>
     ''' <returns>责任度矩阵 [N, K]</returns>
-    Public Function PredictProba(X As Tensor) As Tensor
-        Dim logResp As Tensor = Nothing
-        Call EStep(X, logResp)
+    Public Function PredictProba(X As Tensor) As Tensor Implements IProbabilisticClusterer.PredictProba
+        Call EnsureFitted()
+        Call ValidateInput(X, allowUnfitted:=False)
+        Call EnsureFactors()
 
-        Dim N = X.Shape(0)
-        Dim K = _nComponents
-        Dim resp = New Tensor(N, K)
-        For N = 0 To N - 1
-            For K = 0 To K - 1
-                resp(N, K) = std.Exp(logResp(N, K))
+        Dim sampleCount As Integer = X.Shape(0)
+        Dim logResp As Double(,) = New Double(sampleCount - 1, _nComponents - 1) {}
+
+        Call EStepCore(X, logResp)
+
+        Dim result As New Tensor(sampleCount, _nComponents)
+        Dim buffer As Double() = result.Data
+
+        For i As Integer = 0 To sampleCount - 1
+            For k As Integer = 0 To _nComponents - 1
+                buffer(i * _nComponents + k) = std.Exp(logResp(i, k))
             Next
         Next
-        Return resp
+
+        Return result
     End Function
 
     ''' <summary>
@@ -593,23 +1103,28 @@ Public Class GaussianMixtureModel
     ''' </summary>
     ''' <param name="X">输入数据 [N, D]</param>
     ''' <returns>标签数组 [N]</returns>
-    Public Function Predict(X As Tensor) As Integer()
-        Dim resp = PredictProba(X)
-        Dim N = X.Shape(0)
-        Dim K = _nComponents
-        Dim labels = New Integer(N - 1) {}
+    Public Function Predict(X As Tensor) As Integer() Implements IProbabilisticClusterer.Predict
+        Dim resp As Tensor = PredictProba(X)
+        Dim sampleCount As Integer = X.Shape(0)
+        Dim components As Integer = _nComponents
+        Dim buffer As Double() = resp.Data
+        Dim labels As Integer() = New Integer(sampleCount - 1) {}
 
-        For N = 0 To N - 1
-            Dim maxVal As Double = Double.NegativeInfinity
-            Dim maxIdx = 0
-            For K = 0 To K - 1
-                If resp(N, K) > maxVal Then
-                    maxVal = resp(N, K)
-                    maxIdx = K
+        For i As Integer = 0 To sampleCount - 1
+            Dim maxValue As Double = Double.NegativeInfinity
+            Dim maxIndex As Integer = 0
+            Dim offset As Integer = i * components
+
+            For k As Integer = 0 To components - 1
+                If buffer(offset + k) > maxValue Then
+                    maxValue = buffer(offset + k)
+                    maxIndex = k
                 End If
             Next
-            labels(N) = maxIdx
+
+            labels(i) = maxIndex
         Next
+
         Return labels
     End Function
 
@@ -617,34 +1132,57 @@ Public Class GaussianMixtureModel
     ''' 计算给定数据的平均对数似然
     ''' </summary>
     Public Function Score(X As Tensor) As Double
-        Dim logResp As Tensor = Nothing
-        Dim logLik = EStep(X, logResp)
-        Return logLik / X.Shape(0)
+        Call EnsureFitted()
+        Call ValidateInput(X, allowUnfitted:=False)
+        Call EnsureFactors()
+
+        Dim sampleCount As Integer = X.Shape(0)
+        Dim logResp As Double(,) = New Double(sampleCount - 1, _nComponents - 1) {}
+
+        Return EStepCore(X, logResp) / sampleCount
     End Function
 
     ''' <summary>
-    ''' 计算给定数据点处的概率密度 p(x) = Σ_k π_k N(x | μ_k, Σ_k)
+    ''' 计算给定数据点处的对数概率密度 ln p(x) = ln Σ_k π_k N(x | μ_k, Σ_k)
     ''' </summary>
     ''' <param name="X">输入数据 [N, D]</param>
-    ''' <returns>概率密度 [N]</returns>
+    ''' <returns>对数概率密度 [N]</returns>
     Public Function ScoreSamples(X As Tensor) As Tensor
-        Dim logProb = ComputeLogGaussianPDF(X)
-        Dim N = X.Shape(0)
-        Dim K = _nComponents
-        Dim result = New Tensor(N)
+        Dim logDensity As Tensor = ComputeLogGaussianPDF(X)
+        Dim sampleCount As Integer = X.Shape(0)
+        Dim components As Integer = _nComponents
+        Dim buffer As Double() = logDensity.Data
+        Dim weightsData As Double() = Weights.Data
+        Dim logWeight As Double() = New Double(components - 1) {}
 
-        For N = 0 To N - 1
-            Dim maxVal As Double = Double.NegativeInfinity
-            For K = 0 To K - 1
-                Dim v = logProb(N, K) + std.Log(Weights(K))
-                If v > maxVal Then maxVal = v
-            Next
-            Dim sumExp As Double = 0
-            For K = 0 To K - 1
-                sumExp += std.Exp(logProb(N, K) + std.Log(Weights(K)) - maxVal)
-            Next
-            result(N) = maxVal + std.Log(sumExp)
+        For k As Integer = 0 To components - 1
+            logWeight(k) = LogSumExp.SafeLog(weightsData(k))
         Next
+
+        Dim result As New Tensor(sampleCount)
+        Dim output As Double() = result.Data
+
+        For i As Integer = 0 To sampleCount - 1
+            Dim maxValue As Double = Double.NegativeInfinity
+            Dim offset As Integer = i * components
+
+            For k As Integer = 0 To components - 1
+                Dim value As Double = buffer(offset + k) + logWeight(k)
+
+                If value > maxValue Then
+                    maxValue = value
+                End If
+            Next
+
+            Dim acc As Double = 0
+
+            For k As Integer = 0 To components - 1
+                acc += std.Exp(buffer(offset + k) + logWeight(k) - maxValue)
+            Next
+
+            output(i) = maxValue + std.Log(acc)
+        Next
+
         Return result
     End Function
 
@@ -655,52 +1193,78 @@ Public Class GaussianMixtureModel
     ''' <param name="seed">随机种子</param>
     ''' <returns>采样数据 [n, D]</returns>
     Public Function Sample(n As Integer, Optional seed As Integer? = Nothing) As Tensor
-        If Means Is Nothing Then
-            Throw New InvalidOperationException("模型尚未训练, 请先调用 Fit 方法")
+        Call EnsureFitted()
+
+        If n <= 0 Then
+            Throw New ArgumentException("采样数量必须大于 0", NameOf(n))
         End If
 
-        Dim D = Means.Shape(1)
-        Dim K = _nComponents
-        Dim rng = If(seed.HasValue, New Random(seed.Value), New Random())
-        Dim result = New Tensor(n, D)
+        Dim dimension As Integer = InputDim
+        Dim components As Integer = _nComponents
+        Dim rng As RandomGaussian = If(seed.HasValue, New RandomGaussian(seed.Value), _rng)
 
-        ' 累积权重用于选择成分
-        Dim cumWeights = New Double(K - 1) {}
-        cumWeights(0) = Weights(0)
-        For K = 1 To K - 1
-            cumWeights(K) = cumWeights(K - 1) + Weights(K)
+        If rng Is Nothing Then
+            rng = New RandomGaussian()
+        End If
+
+        Call EnsureFactors()
+
+        Dim result As New Tensor(n, dimension)
+        Dim output As Double() = result.Data
+        Dim weightsData As Double() = Weights.Data
+        Dim meansData As Double() = Means.Data
+
+        Dim cumulative As Double() = New Double(components - 1) {}
+        Dim acc As Double = 0
+
+        For k As Integer = 0 To components - 1
+            acc += weightsData(k)
+            cumulative(k) = acc
         Next
 
-        For i = 0 To n - 1
-            ' 选择成分
-            Dim r = rng.NextDouble()
-            Dim selK = K - 1
-            For K = 0 To K - 1
-                If r <= cumWeights(K) Then
-                    selK = K
+        Dim mean As Double() = New Double(dimension - 1) {}
+
+        For i As Integer = 0 To n - 1
+            Dim threshold As Double = rng.NextDouble() * acc
+            Dim selected As Integer = components - 1
+
+            For k As Integer = 0 To components - 1
+                If threshold <= cumulative(k) Then
+                    selected = k
                     Exit For
                 End If
             Next
 
-            ' 从该成分的高斯分布中采样 (Box-Muller)
-            For D = 0 To D - 1
-                Dim u1 = 1.0 - rng.NextDouble()
-                Dim u2 = 1.0 - rng.NextDouble()
-                Dim z = std.Sqrt(-2.0 * std.Log(u1)) * std.Sin(2.0 * std.PI * u2)
+            Dim meanOffset As Integer = selected * dimension
+            For d As Integer = 0 To dimension - 1
+                mean(d) = meansData(meanOffset + d)
+            Next
 
-                If _diagCovariance Then
-                    Dim std_ = std.Sqrt(Covariances(selK, D))
-                    result(i, D) = Means(selK, D) + std_ * z
-                Else
-                    ' 简化: 仅使用对角元素 (Cholesky 分解略)
-                    Dim var = Covariances(selK, D, D)
-                    Dim std_ = std.Sqrt(var)
-                    result(i, D) = Means(selK, D) + std_ * z
-                End If
+            Dim value As Double()
+
+            If IsDiagonalCovariance() Then
+                value = New Double(dimension - 1) {}
+
+                For d As Integer = 0 To dimension - 1
+                    Dim variance As Double = std.Max(Covariances(selected, d), LinearAlgebraOps.MinVariance)
+                    value(d) = mean(d) + std.Sqrt(variance) * rng.NextNormal()
+                Next
+            Else
+                ' 完整保留协方差的相关性结构：x = μ + L·z
+                value = LinearAlgebraOps.SampleGaussian(rng, mean, _factors(selected))
+            End If
+
+            Dim rowOffset As Integer = i * dimension
+            For d As Integer = 0 To dimension - 1
+                output(rowOffset + d) = value(d)
             Next
         Next
 
         Return result
+    End Function
+
+    Private Function SampleFromPrior(count As Integer, seed As Integer?) As Tensor Implements IPriorSampler.Sample
+        Return Sample(count, seed)
     End Function
 
 #End Region
@@ -708,167 +1272,208 @@ Public Class GaussianMixtureModel
 #Region "线性代数辅助函数"
 
     ''' <summary>
-    ''' 矩阵求逆 (Gauss-Jordan 消元法)
+    ''' 矩阵求逆。内部委托到 <see cref="LinearAlgebraOps"/>，即
+    ''' NumericMatrix + JAMA 实现，奇异时按对角线抖动回退。
     ''' </summary>
     Public Shared Function MatrixInverse(mat As Tensor, n As Integer) As Tensor
-        ' 构造增广矩阵 [A | I]
-        Dim aug = New Double(n - 1, 2 * n - 1) {}
-        For i = 0 To n - 1
-            For j = 0 To n - 1
-                aug(i, j) = mat(i, j)
-            Next
-            aug(i, n + i) = 1.0
-        Next
+        If mat Is Nothing Then
+            Throw New ArgumentNullException(NameOf(mat))
+        End If
 
-        ' 前向消元 + 部分主元选取
-        For col = 0 To n - 1
-            ' 找列主元
-            Dim maxRow = col
-            Dim maxVal = std.Abs(aug(col, col))
-            For row = col + 1 To n - 1
-                If std.Abs(aug(row, col)) > maxVal Then
-                    maxVal = std.Abs(aug(row, col))
-                    maxRow = row
-                End If
-            Next
+        If mat.Rank <> 2 OrElse mat.Shape(0) <> n OrElse mat.Shape(1) <> n Then
+            Throw New ArgumentException($"矩阵求逆要求 {n}x{n} 的方阵，实际为 [{String.Join(", ", mat.Shape)}]")
+        End If
 
-            ' 交换行
-            If maxRow <> col Then
-                For j = 0 To 2 * n - 1
-                    Dim tmp = aug(col, j)
-                    aug(col, j) = aug(maxRow, j)
-                    aug(maxRow, j) = tmp
-                Next
-            End If
-
-            ' 主元不能为 0
-            If std.Abs(aug(col, col)) < 0.0000000001 Then
-                Throw New InvalidOperationException("矩阵不可逆 (奇异矩阵)")
-            End If
-
-            ' 归一化主元行
-            Dim pivot = aug(col, col)
-            For j = 0 To 2 * n - 1
-                aug(col, j) /= pivot
-            Next
-
-            ' 消去其他行
-            For row = 0 To n - 1
-                If row = col Then Continue For
-                Dim factor = aug(row, col)
-                For j = 0 To 2 * n - 1
-                    aug(row, j) -= factor * aug(col, j)
-                Next
-            Next
-        Next
-
-        ' 提取逆矩阵
-        Dim result = New Tensor(n, n)
-        For i = 0 To n - 1
-            For j = 0 To n - 1
-                result(i, j) = aug(i, n + j)
-            Next
-        Next
-        Return result
+        Return LinearAlgebraOps.Inverse(mat)
     End Function
 
     ''' <summary>
-    ''' 计算矩阵的 log 行列式 (通过 LU 分解)
+    ''' 计算矩阵的 ln|A|。奇异矩阵返回 <see cref="Double.NegativeInfinity"/>。
+    ''' 内部委托到 <see cref="LinearAlgebraOps"/>（Cholesky 优先，LU 回退）。
     ''' </summary>
     Public Shared Function LogDeterminant(mat As Tensor, n As Integer) As Double
-        ' 复制矩阵
-        Dim a = New Double(n - 1, n - 1) {}
-        For i = 0 To n - 1
-            For j = 0 To n - 1
-                a(i, j) = mat(i, j)
-            Next
-        Next
+        If mat Is Nothing Then
+            Throw New ArgumentNullException(NameOf(mat))
+        End If
 
-        Dim logDet As Double = 0
+        If mat.Rank <> 2 OrElse mat.Shape(0) <> n OrElse mat.Shape(1) <> n Then
+            Throw New ArgumentException($"行列式要求 {n}x{n} 的方阵，实际为 [{String.Join(", ", mat.Shape)}]")
+        End If
 
-        ' LU 分解 (带部分主元)
-        For col = 0 To n - 1
-            ' 找主元
-            Dim maxRow = col
-            Dim maxVal = std.Abs(a(col, col))
-            For row = col + 1 To n - 1
-                If std.Abs(a(row, col)) > maxVal Then
-                    maxVal = std.Abs(a(row, col))
-                    maxRow = row
-                End If
-            Next
+        Return LinearAlgebraOps.LogDeterminant(mat)
+    End Function
 
-            If maxRow <> col Then
-                For j = 0 To n - 1
-                    Dim tmp = a(col, j)
-                    a(col, j) = a(maxRow, j)
-                    a(maxRow, j) = tmp
-                Next
-                logDet = -logDet  ' 行交换改变行列式符号
+#End Region
+
+#Region "持久化"
+
+    '<inheritdoc/>
+    Private ReadOnly Property SchemaVersionValue As Integer Implements IModelPersistable.SchemaVersion
+        Get
+            Return ModelFileSchemaVersion
+        End Get
+    End Property
+
+    ''' <summary>把模型参数写入指定路径。</summary>
+    Public Sub Save(path As String) Implements IModelPersistable.Save
+        Call EnsureFitted()
+
+        Dim parameters As New ModelParameters("GaussianMixtureModel", ModelFileSchemaVersion)
+
+        Call parameters.Add("weights", Weights)
+        Call parameters.Add("means", Means)
+        Call parameters.Add("covariances", Covariances)
+        Call parameters.AddValue("nComponents", _nComponents)
+        Call parameters.AddValue("inputDim", InputDim)
+        Call parameters.AddValue("covarianceType", CInt(_options.CovarianceType))
+        Call parameters.AddValue("regCovar", _regCovar)
+        Call parameters.AddValue("sampleCount", _sampleCount)
+        Call parameters.AddValue("logLikelihood", LogLikelihood)
+        Call parameters.AddValue("converged", If(Converged, 1.0, 0.0))
+        Call parameters.AddValue("nIter", NIter)
+        Call parameters.Save(path)
+    End Sub
+
+    ''' <summary>从指定路径还原模型参数。</summary>
+    Public Function TryLoad(path As String, ByRef errorMessage As String) As Boolean Implements IModelPersistable.TryLoad
+        errorMessage = Nothing
+
+        Try
+            Dim parameters As ModelParameters = ModelParameters.Load(path)
+
+            If Not String.Equals(parameters.ModelType, "GaussianMixtureModel", StringComparison.Ordinal) Then
+                errorMessage = $"模型类型不符: 期望 GaussianMixtureModel，实际 {parameters.ModelType}"
+                Return False
             End If
 
-            If std.Abs(a(col, col)) < 0.0000000001 Then
-                Return Double.NegativeInfinity
+            Dim components As Integer = CInt(parameters.GetValue("nComponents", 0))
+            Dim dimension As Integer = CInt(parameters.GetValue("inputDim", 0))
+
+            If components <= 0 OrElse dimension <= 0 Then
+                errorMessage = "模型文件缺少有效的维度信息"
+                Return False
             End If
 
-            logDet += std.Log(std.Abs(a(col, col)))
+            Dim covarianceKind As Integer = CInt(parameters.GetValue("covarianceType", 0))
+            Dim diagonal As Boolean = covarianceKind = CInt(GmmCovarianceType.Diagonal) OrElse
+                                      covarianceKind = CInt(GmmCovarianceType.Spherical)
 
-            ' 消去下方
-            For row = col + 1 To n - 1
-                Dim factor = a(row, col) / a(col, col)
-                For j = col To n - 1
-                    a(row, j) -= factor * a(col, j)
-                Next
-            Next
-        Next
+            Dim weights As Tensor = parameters.RequireTensor("weights", New Integer() {components})
+            Dim means As Tensor = parameters.RequireTensor("means", New Integer() {components, dimension})
+            Dim covariances As Tensor
 
-        Return logDet
+            If diagonal Then
+                covariances = parameters.RequireTensor("covariances", New Integer() {components, dimension})
+            Else
+                covariances = parameters.RequireTensor("covariances", New Integer() {components, dimension, dimension})
+            End If
+
+            _nComponents = components
+            _options = New GmmOptions(CType(covarianceKind, GmmCovarianceType))
+            _diagCovariance = diagonal
+            _regCovar = parameters.GetValue("regCovar", _regCovar)
+            _sampleCount = CInt(parameters.GetValue("sampleCount", 0))
+
+            Weights = weights
+            Means = means
+            Covariances = covariances
+
+            LogLikelihood = parameters.GetValue("logLikelihood", Double.NegativeInfinity)
+            Converged = parameters.GetValue("converged", 0) > 0.5
+            NIter = CInt(parameters.GetValue("nIter", 0))
+
+            _fitted = True
+            _factors = Nothing
+
+            Call BuildFactors()
+
+            Return True
+        Catch ex As Exception
+            errorMessage = ex.Message
+            Return False
+        End Try
     End Function
 
 #End Region
 
 #Region "辅助方法"
 
+    Private Sub EnsureFitted()
+        If Not _fitted OrElse Means Is Nothing OrElse Weights Is Nothing OrElse Covariances Is Nothing Then
+            Throw New InvalidOperationException("模型尚未训练, 请先调用 Fit 方法")
+        End If
+    End Sub
+
+    Private Sub ValidateInput(X As Tensor, allowUnfitted As Boolean)
+        If X Is Nothing Then
+            Throw New ArgumentNullException(NameOf(X))
+        End If
+
+        If X.Rank <> 2 Then
+            Throw New ArgumentException("输入数据必须是二维张量 [N, D]")
+        End If
+
+        If X.Shape(0) <= 0 Then
+            Throw New ArgumentException("输入数据不得为空")
+        End If
+
+        If Not allowUnfitted Then
+            Dim dimension As Integer = InputDim
+
+            If dimension > 0 AndAlso X.Shape(1) <> dimension Then
+                Throw New ArgumentException($"输入维度不符: 期望 {dimension}, 实际 {X.Shape(1)}")
+            End If
+        End If
+    End Sub
+
     ''' <summary>
     ''' 获取第 k 个成分的均值向量 (1D 张量)
     ''' </summary>
     Public Function GetComponentMean(k As Integer) As Tensor
-        Dim D = Means.Shape(1)
-        Dim result = New Tensor(D)
-        For D = 0 To D - 1
-            result(D) = Means(k, D)
+        Call EnsureFitted()
+
+        Dim dimension As Integer = InputDim
+        Dim data As Double() = New Double(dimension - 1) {}
+
+        For d As Integer = 0 To dimension - 1
+            data(d) = Means(k, d)
         Next
-        Return result
+
+        Return New Tensor(data, dimension)
     End Function
 
     ''' <summary>
     ''' 获取第 k 个成分的方差向量 (对角协方差情况)
     ''' </summary>
     Public Function GetComponentVariance(k As Integer) As Tensor
-        Dim D = Means.Shape(1)
-        Dim result = New Tensor(D)
-        If _diagCovariance Then
-            For D = 0 To D - 1
-                result(D) = Covariances(k, D)
-            Next
-        Else
-            For D = 0 To D - 1
-                result(D) = Covariances(k, D, D)
-            Next
-        End If
-        Return result
+        Call EnsureFitted()
+
+        Dim dimension As Integer = InputDim
+        Dim data As Double() = New Double(dimension - 1) {}
+
+        For d As Integer = 0 To dimension - 1
+            If IsDiagonalCovariance() Then
+                data(d) = Covariances(k, d)
+            Else
+                data(d) = Covariances(k, d, d)
+            End If
+        Next
+
+        Return New Tensor(data, dimension)
     End Function
 
     ''' <summary>
     ''' 获取第 k 个成分的标准差向量
     ''' </summary>
     Public Function GetComponentStdDev(k As Integer) As Tensor
-        Dim var = GetComponentVariance(k)
-        Dim result = New Tensor(var.Length)
-        For i = 0 To var.Length - 1
-            result(i) = std.Sqrt(var(i))
+        Dim variance As Tensor = GetComponentVariance(k)
+        Dim data As Double() = New Double(variance.Length - 1) {}
+
+        For i As Integer = 0 To data.Length - 1
+            data(i) = std.Sqrt(std.Max(variance.Data(i), 0))
         Next
-        Return result
+
+        Return New Tensor(data, data.Length)
     End Function
 
     Public Overrides Function ToString() As String
@@ -876,25 +1481,48 @@ Public Class GaussianMixtureModel
     End Function
 
     Public Shared Function Predicts(rowdatas() As ClusterEntity, components As Integer, threshold As Double, strict As Boolean) As GaussianMixtureModel
-        Dim gmm As New GaussianMixtureModel(components, tol:=threshold)
-        Dim w As Integer = rowdatas(0).Length
-        Dim samples As Double() = New Double(rowdatas.Length * w - 1) {}
+        If rowdatas Is Nothing OrElse rowdatas.Length = 0 Then
+            Throw New ArgumentException("输入数据不得为空", NameOf(rowdatas))
+        End If
+
+        Dim model As New GaussianMixtureModel(components, tol:=threshold)
+        Dim width As Integer = rowdatas(0).Length
+        Dim samples As Double() = New Double(rowdatas.Length * width - 1) {}
 
         For i As Integer = 0 To rowdatas.Length - 1
-            Array.Copy(rowdatas(i).entityVector, 0, samples, i * w, w)
+            Array.Copy(rowdatas(i).entityVector, 0, samples, i * width, width)
         Next
 
-        Dim X = New Tensor(samples, rowdatas.Length, w)
-        gmm.Fit(X)
-        Return gmm
+        Dim X As New Tensor(samples, rowdatas.Length, width)
+        Call model.Fit(X)
+
+        Return model
     End Function
 
     Public Shared Function Predicts(samples() As Double, components As Integer, threshold As Double, verbose As Boolean) As GaussianMixtureModel
-        Dim gmm As New GaussianMixtureModel(components, tol:=threshold)
-        Dim X = New Tensor(samples, samples.Length, 1)
-        gmm.Fit(X)
-        Return gmm
+        Dim model As New GaussianMixtureModel(components, tol:=threshold)
+        Dim X As New Tensor(samples, samples.Length, 1)
+
+        Call model.Fit(X)
+
+        Return model
     End Function
+
+#End Region
+
+#Region "显式接口实现"
+
+    Private ReadOnly Property ScoreLogLikelihood As Double Implements IModelScore.LogLikelihood
+        Get
+            Return LogLikelihood
+        End Get
+    End Property
+
+    Private ReadOnly Property ScoreParameters As Integer Implements IModelScore.ParametersCount
+        Get
+            Return NParameters
+        End Get
+    End Property
 
 #End Region
 
