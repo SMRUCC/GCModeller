@@ -7,7 +7,7 @@
     <Platforms>AnyCPU;x64</Platforms>
     <Version>10.8.9818.14504</Version>
     <AssemblyVersion>1.0.9818.14504</AssemblyVersion>
-    <Configurations>Debug;Release;nuget_release</Configurations>
+    <Configurations>Debug;Release;nuget_release;Rsharp_app_release</Configurations>
     <Title>Pure-Managed Protocol Buffers Toolkit with .proto Parser and Code Generator</Title>
     <Description>A managed protobuf toolchain for sciBASIC# covering the wire format, a proto2/proto3 .proto parser, attribute-driven CLR object serialization with a cached reflection model, unknown-field preservation, and entity class generation in both Visual Basic .NET and C#.</Description>
     <AssemblyTitle>Microsoft.VisualBasic.Data.IO.Protobuf</AssemblyTitle>

@@ -18,7 +18,7 @@
     <RepositoryType>git</RepositoryType>
     <Platforms>AnyCPU;x64</Platforms>
     <AssemblyVersion>1.0.9818.14504</AssemblyVersion>
-    <Configurations>Debug;Release;nuget_release</Configurations>
+    <Configurations>Debug;Release;nuget_release;Rsharp_app_release</Configurations>
     <Copyright>Copyright (c) sciBASIC.NET Foundation</Copyright>
     <PackageReleaseNotes>This cycle: Updated project metadata; Fixed the file format api error; Check of the type.</PackageReleaseNotes>
     <PackageIcon>logo-knot.png</PackageIcon>
