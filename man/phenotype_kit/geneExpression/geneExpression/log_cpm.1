@@ -1,0 +1,59 @@
+.\" man page create by R# package system.
+.TH GENEEXPRESSION 1 2000-1月 "log_cpm" "log_cpm"
+.SH NAME
+log_cpm \- normalize data by sample column
+.SH SYNOPSIS
+\fIlog_cpm(\fBmat\fR as <generic> Matrix, 
+\fBscale\fR as double = 1000000, 
+\fBprior\fR as double = 1, 
+\fBbase\fR as double = 2);\fR
+.SH DESCRIPTION
+.PP
+normalize data by sample column
+.PP
+.SH OPTIONS
+.PP
+\fBmatrix\fB \fR\- a gene expression matrix. 
+.PP
+.PP
+\fBscale\fB \fR\- 
+ the total sum scale of each sample column after the normalization, by 
+ default is 10000.
+. 
+.PP
+.PP
+\fBmat\fB \fR\- A raw hits count expression matrix object.. 
+.PP
+.PP
+\fBscale\fB \fR\- The CPM scale factor, default is 1e6.. 
+.PP
+.PP
+\fBprior\fB \fR\- The pseudo count that added to the CPM value before the log transform, default is 1.. 
+.PP
+.PP
+\fBbase\fB \fR\- The logarithm base, default is 2.. 
+.PP
+.SH VALUE
+.PP
+a new expression matrix object which is normalized by the total sum value 
+ of each sample column: each expression value in a sample column is divided 
+ by the sum of the sample column and then multiplied by the given scale 
+ value.
+.PP
+.SH DETAILS
+.PP
+apply for the metabolomics data usually
+.PP
+.SH EXAMPLES
+.PP
+```r
+ let logcpm = geneExpression::log_cpm(total);
+ let scores = GSVA::gsva(logcpm, background, kcdf = "Gaussian");
+ ```
+.PP
+.SH SEE ALSO
+geneExpression
+.SH FILES
+.PP
+phenotype_kit.dll
+.PP

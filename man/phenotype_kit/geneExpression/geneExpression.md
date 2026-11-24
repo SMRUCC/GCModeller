@@ -16,7 +16,9 @@ the gene expression matrix data toolkit
 >  + the expression pattern clustering: ``pca``, ``peakCMeans``, 
 >    ``expression.cmeans_pattern``, ``cmeans_matrix``, ``pattern_representatives``;
 >  + the differential expression analysis: ``deg.t.test``, ``limma``, 
->    ``limma_impactsort``, ``as.deg``, ``deg.class``.
+>    ``limma_impactsort``, ``as.deg``, ``deg.class``;
+>  + the synthetic community matrix decomposition: ``decompose_community``, 
+>    ``write.decomposition``, ``feature_mean``.
 
 + [exp](geneExpression/exp.1) power of the expression value in the matrix
 + [tr](geneExpression/tr.1) do matrix transpose
@@ -51,7 +53,8 @@ the gene expression matrix data toolkit
 + [average](geneExpression/average.1) calculate average value of the gene expression for
 + [z_score](geneExpression/z_score.1) Z-score normalized of the expression data matrix
 + [pca](geneExpression/pca.1) do PCA on a gene expressin matrix
-+ [totalSumNorm](geneExpression/totalSumNorm.1) normalize data by sample column
++ [log_cpm](geneExpression/log_cpm.1) normalize data by sample column
++ [totalSumNorm](geneExpression/totalSumNorm.1) 
 + [relative](geneExpression/relative.1) normalize data by feature rows
 + [expression.cmeans_pattern](geneExpression/expression.cmeans_pattern.1) This function performs clustering analysis of time course data. 
 + [expression.cmeans3D](geneExpression/expression.cmeans3D.1) run cmeans clustering in 3 patterns
@@ -81,3 +84,6 @@ the gene expression matrix data toolkit
 + [add_gauss](geneExpression/add_gauss.1) add random gauss noise to the matrix
 + [as.abundance_matrix](geneExpression/as.abundance_matrix.1) create the abundance matrix from a collection of the metagenomics 
 + [as.time_serials](geneExpression/as.time_serials.1) 
++ [decompose_community](geneExpression/decompose_community.1) 
++ [write.decomposition](geneExpression/write.decomposition.1) Write the per-strain expression matrices of the community decomposition result to CSV files.
++ [feature_mean](geneExpression/feature_mean.1) Calculate the mean value of one feature row over the given samples.

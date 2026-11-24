@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Calculate the mean value of one feature row over the given samples.</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>feature_mean {geneExpression}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>Calculate the mean value of one feature row over the given samples.</h2>
+
+        <h3>Description</h3>
+
+        
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>feature_mean</strong>(<i>expr</i>, <i>featureId</i>,
+    <i>samples</i> = <span style='color: blue !important;'>NULL</span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>expr</dt>
+<dd><p>A gene expression matrix object(the feature could be a gene or a pathway id). [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>]</p></dd>
+
+
+<dt>featureId</dt>
+<dd><p>The row id of the target feature. [as string]</p></dd>
+
+
+<dt>samples</dt>
+<dd><p>A character vector of the sample id for make the column subset of the mean calculation, or nothing for using all of the samples in the matrix.</p></dd>
+
+        </table>
+
+
+        <h3 style="display: none;">Details</h3>
+
+        
+
+        <h3 style="display: block">Authors</h3>
+
+        phenotype_kit
+
+        <h3>Value</h3>
+
+        <p>The mean value of the given feature over the selected samples, or <code>NaN</code> when the feature id is not found in the given matrix.</p><h4>clr value class</h4><ul><li>double</li></ul>
+
+        <h3 style="display: block;">Examples</h3>
+
+        <pre><code id="example_r"> ```r
+ let scores = GSVA::gsva(expr, background);
+ let ykb = geneExpression::project(scores, c("YKB_WT_WT_R1", "YKB_WT_WT_R2", "YKB_WT_WT_R3"));
+ let mean = geneExpression::feature_mean(ykb, "map00791");
+ ```</code></pre>
+
+        <hr />
+        <div style="text-align: center;">[Package <em>geneExpression</em> version 1.0.0.0 <a
+                href="../geneExpression.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

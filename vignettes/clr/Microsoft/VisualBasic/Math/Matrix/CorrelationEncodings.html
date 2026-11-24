@@ -22,7 +22,7 @@
 
         <h3>Description</h3>
 
-        <p>带符号相关系数矩阵的磁盘编码方式</p>
+        
 
         <h3>Declare</h3>        
 
@@ -30,10 +30,8 @@
             <code id="clr_ts">
 # namespace Microsoft.VisualBasic.Math.Matrix
 export class CorrelationEncodings extends <a href="/vignettes/clr/System/Enum.html">Enum</a> {
-   # 单精度浮点（4 字节/值，精度约 1e-7）。全库体积约为 <a href="cref:F:Microsoft.VisualBasic.Math.Matrix.CorrelationEncodings.QuantizedInt16">CorrelationEncodings.QuantizedInt16</a> 的两倍。
    Float32: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/Matrix/CorrelationEncodings.html">CorrelationEncodings</a> = 0;
 
-   # Int16 线性量化（2 字节/值）：值域 [-1, 1] 线性映射到 [-32767, 32767]， 量化精度约 3e-5，对相关系数完全足够；NaN 使用 <a href="cref:F:System.Int16.MinValue">Int16.MinValue</a> 哨兵值。
    QuantizedInt16: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/Matrix/CorrelationEncodings.html">CorrelationEncodings</a> = 1;
 
 }

@@ -1,0 +1,44 @@
+.\" man page create by R# package system.
+.TH GENEEXPRESSION 1 2000-1月 "feature_mean" "feature_mean"
+.SH NAME
+feature_mean \- Calculate the mean value of one feature row over the given samples.
+.SH SYNOPSIS
+\fIfeature_mean(\fBexpr\fR as <generic> Matrix, 
+\fBfeatureId\fR as string, 
+\fBsamples\fR as any = \fB<NULL>\fR);\fR
+.SH DESCRIPTION
+.PP
+Calculate the mean value of one feature row over the given samples.
+.PP
+.SH OPTIONS
+.PP
+\fBexpr\fB \fR\- A gene expression matrix object(the feature could be a gene or a pathway id).. 
+.PP
+.PP
+\fBfeatureId\fB \fR\- The row id of the target feature.. 
+.PP
+.PP
+\fBsamples\fB \fR\- 
+ A character vector of the sample id for make the column subset of the mean
+ calculation, or nothing for using all of the samples in the matrix.
+. 
+.PP
+.SH VALUE
+.PP
+The mean value of the given feature over the selected samples, or \fBNaN\fR when
+ the feature id is not found in the given matrix.
+.PP
+.SH EXAMPLES
+.PP
+```r
+ let scores = GSVA::gsva(expr, background);
+ let ykb = geneExpression::project(scores, c("YKB_WT_WT_R1", "YKB_WT_WT_R2", "YKB_WT_WT_R3"));
+ let mean = geneExpression::feature_mean(ykb, "map00791");
+ ```
+.PP
+.SH SEE ALSO
+geneExpression
+.SH FILES
+.PP
+phenotype_kit.dll
+.PP

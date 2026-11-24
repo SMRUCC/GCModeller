@@ -77,7 +77,8 @@ table caption {font-size:14px;font-weight:bolder;}
 <li>the matrix data manipulation: <code>dims</code>, <code>tr</code>, <code>filter</code>, <code>project</code>, <code>joinSample</code>, <code>joinFeatures</code>, <code>aggregate</code>, <code>sample_id</code>, <code>setFeatures</code>, <code>setTag</code>, etc;</li>
 <li>the matrix data normalization and imputation: <code>z_score</code>, <code>minmax01Norm</code>, <code>relative</code>, <code>totalSumNorm</code>, <code>impute_missing</code>, <code>filterNaNMissing</code>, <code>setZero</code>;</li>
 <li>the expression pattern clustering: <code>pca</code>, <code>peakCMeans</code>, <code>expression.cmeans_pattern</code>, <code>cmeans_matrix</code>, <code>pattern_representatives</code>;</li>
-<li>the differential expression analysis: <code>deg.t.test</code>, <code>limma</code>, <code>limma_impactsort</code>, <code>as.deg</code>, <code>deg.class</code>.</li>
+<li>the differential expression analysis: <code>deg.t.test</code>, <code>limma</code>, <code>limma_impactsort</code>, <code>as.deg</code>, <code>deg.class</code>;</li>
+<li>the synthetic community matrix decomposition: <code>decompose_community</code>, <code>write.decomposition</code>, <code>feature_mean</code>.</li>
 </ul>
                            </p>
     </blockquote>
@@ -321,10 +322,16 @@ table caption {font-size:14px;font-weight:bolder;}
   <td><p>do PCA on a gene expressin matrix</p></td>
 </tr>
 <tr>
+  <td id="log_cpm">
+    <a href="./geneExpression/log_cpm.html">log_cpm</a>
+  </td>
+  <td><p>normalize data by sample column</p></td>
+</tr>
+<tr>
   <td id="totalSumNorm">
     <a href="./geneExpression/totalSumNorm.html">totalSumNorm</a>
   </td>
-  <td><p>normalize data by sample column</p></td>
+  <td></td>
 </tr>
 <tr>
   <td id="relative">
@@ -507,6 +514,24 @@ table caption {font-size:14px;font-weight:bolder;}
     <a href="./geneExpression/as.time_serials.html">as.time_serials</a>
   </td>
   <td></td>
+</tr>
+<tr>
+  <td id="decompose_community">
+    <a href="./geneExpression/decompose_community.html">decompose_community</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="write.decomposition">
+    <a href="./geneExpression/write.decomposition.html">write.decomposition</a>
+  </td>
+  <td><p>Write the per-strain expression matrices of the community decomposition result to CSV files.</p></td>
+</tr>
+<tr>
+  <td id="feature_mean">
+    <a href="./geneExpression/feature_mean.html">feature_mean</a>
+  </td>
+  <td><p>Calculate the mean value of one feature row over the given samples.</p></td>
 </tr></tbody>
       </table>
     </div>

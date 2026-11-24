@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>normalize data by sample column</title>
+    <title>totalSumNorm</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>normalize data by sample column</h2>
+        <h2>totalSumNorm</h2>
 
         <h3>Description</h3>
 
-        
+        totalSumNorm
 
         <h3>Usage</h3>
 
@@ -35,19 +35,12 @@
 
         <table>
             
-<dt>matrix</dt>
-<dd><p>a gene expression matrix. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>]</p></dd>
-
-
-<dt>scale</dt>
-<dd><p>the total sum scale of each sample column after the normalization, by default is 10000. [as double]</p></dd>
-
         </table>
 
 
-        <h3 style="display: block;">Details</h3>
+        <h3 style="display: none;">Details</h3>
 
-        <p>apply for the metabolomics data usually</p>
+        
 
         <h3 style="display: block">Authors</h3>
 
@@ -55,7 +48,7 @@
 
         <h3>Value</h3>
 
-        <p>a new expression matrix object which is normalized by the total sum value of each sample column: each expression value in a sample column is divided by the sum of the sample column and then multiplied by the given scale value.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a></li></ul>
+        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

@@ -1,3 +1,5 @@
+require(GCModeller);
+
 # =====================================================================
 # Synthetic community expression matrix decomposition + KEGG pathway GSVA
 #
@@ -135,9 +137,9 @@ print("[STEP] 5/6 GSVA on the pre-decomposition matrix");
 
 let gsva_pre = GSVA::gsva(geneExpression::log_cpm(total), bg, kcdf = "Gaussian");
 
-geneExpression::write.expr_matrix(gsva_pre, here("gsva_pre_community.csv"));
+geneExpression::write.expr_matrix(gsva_pre, here("gsva/pre_community.csv"));
 
-let pre_df = read.csv(here("gsva_pre_community.csv"));
+let pre_df = read.csv(here("gsva/pre_community.csv"));
 
 print(sprintf("  gsva pre matrix: %s x %s", nrow(pre_df), ncol(pre_df)));
 
@@ -161,10 +163,10 @@ let gsva_k1 = GSVA::gsva(geneExpression::log_cpm(k1), bg, kcdf = "Gaussian");
 let gsva_b1 = GSVA::gsva(geneExpression::log_cpm(b1), bg, kcdf = "Gaussian");
 let gsva_h1 = GSVA::gsva(geneExpression::log_cpm(h1), bg, kcdf = "Gaussian");
 
-geneExpression::write.expr_matrix(gsva_y1, here("gsva_post_Comamonas_sp_Y1.csv"));
-geneExpression::write.expr_matrix(gsva_k1, here("gsva_post_Acinetobacter_sp_K1.csv"));
-geneExpression::write.expr_matrix(gsva_b1, here("gsva_post_Pseudomonas_sp_B1.csv"));
-geneExpression::write.expr_matrix(gsva_h1, here("gsva_post_Bacillus_sp_H1.csv"));
+geneExpression::write.expr_matrix(gsva_y1, here("gsva/post_Comamonas_sp_Y1.csv"));
+geneExpression::write.expr_matrix(gsva_k1, here("gsva/post_Acinetobacter_sp_K1.csv"));
+geneExpression::write.expr_matrix(gsva_b1, here("gsva/post_Pseudomonas_sp_B1.csv"));
+geneExpression::write.expr_matrix(gsva_h1, here("gsva/post_Bacillus_sp_H1.csv"));
 
 let by_group = list(YKB_WT = c("YKB_WT_WT_R1", "YKB_WT_WT_R2", "YKB_WT_WT_R3"),
                     YKB_QSR = c("YKB_WT_QSR_R1", "YKB_WT_QSR_R2", "YKB_WT_QSR_R3"),
@@ -176,10 +178,10 @@ let agg_k1 = geneExpression::aggregate_samples(gsva_k1, by_group);
 let agg_b1 = geneExpression::aggregate_samples(gsva_b1, by_group);
 let agg_h1 = geneExpression::aggregate_samples(gsva_h1, by_group);
 
-geneExpression::write.expr_matrix(agg_y1, here("gsva_post_Comamonas_sp_Y1_groups.csv"));
-geneExpression::write.expr_matrix(agg_k1, here("gsva_post_Acinetobacter_sp_K1_groups.csv"));
-geneExpression::write.expr_matrix(agg_b1, here("gsva_post_Pseudomonas_sp_B1_groups.csv"));
-geneExpression::write.expr_matrix(agg_h1, here("gsva_post_Bacillus_sp_H1_groups.csv"));
+geneExpression::write.expr_matrix(agg_y1, here("gsva/post_Comamonas_sp_Y1_groups.csv"));
+geneExpression::write.expr_matrix(agg_k1, here("gsva/post_Acinetobacter_sp_K1_groups.csv"));
+geneExpression::write.expr_matrix(agg_b1, here("gsva/post_Pseudomonas_sp_B1_groups.csv"));
+geneExpression::write.expr_matrix(agg_h1, here("gsva/post_Bacillus_sp_H1_groups.csv"));
 
 # ---- KEGG pathway scores of the interesting combinations ----
 
@@ -256,7 +258,7 @@ let metrics = c(
   sprintf("strain.map00920.HKB.B1,%s", b1_sulfur)
 );
 
-writeLines(metrics, con = here("gsva_key_metrics.csv"));
+writeLines(metrics, con = here("gsva/key_metrics.csv"));
 
 # ---------------------------------------------------------------------
 # 7. assert the paper conclusions
