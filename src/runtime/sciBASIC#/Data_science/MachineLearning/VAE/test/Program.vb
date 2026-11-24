@@ -63,6 +63,13 @@ Public Module GraphVAEDemo
     ''' 主程序入口: 演示GraphVAE的使用
     ''' </summary>
     Public Sub Main(args As String())
+        ' 运行完整的生产化审计并生成 DebugAudit 报告（便于在 CI 中单独执行）：
+        '   dotnet run -- --audit
+        If args IsNot Nothing AndAlso Array.IndexOf(args, "--audit") >= 0 Then
+            Environment.ExitCode = AuditRunner.Run()
+            Return
+        End If
+
         ' 只运行变分贝叶斯审计（便于在 CI 中单独执行）：
         '   dotnet run -- --vb-only
         If args IsNot Nothing AndAlso Array.IndexOf(args, "--vb-only") >= 0 Then
