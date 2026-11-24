@@ -87,3 +87,4 @@ the gene expression matrix data toolkit
 + [decompose_community](geneExpression/decompose_community.1) 
 + [write.decomposition](geneExpression/write.decomposition.1) Write the per-strain expression matrices of the community decomposition result to CSV files.
 + [feature_mean](geneExpression/feature_mean.1) Calculate the mean value of one feature row over the given samples.
++ [strain_genes](geneExpression/strain_genes.1) Get the gene id list of one strain from the genome gene table.

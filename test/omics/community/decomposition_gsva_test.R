@@ -1,3 +1,5 @@
+require(GCModeller);
+
 # =====================================================================
 # Synthetic community expression matrix decomposition + KEGG pathway GSVA
 #
