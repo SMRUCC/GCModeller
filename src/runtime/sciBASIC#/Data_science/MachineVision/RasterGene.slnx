@@ -1,0 +1,14 @@
+<Solution>
+  <Folder Name="/framework/">
+    <Project Path="../../Microsoft.VisualBasic.Core/src/Core.vbproj" />
+    <Project Path="../DataMining/DataMining/DataMining.NET5.vbproj" />
+    <Project Path="../MachineLearning/DeepLearning/DeepLearning.NET6.vbproj" />
+    <Project Path="../MachineLearning/MachineLearning/machine_learning-netcore5.vbproj" />
+    <Project Path="../MachineLearning/TensorFlow/TensorFlow.vbproj" />
+    <Project Path="../MachineLearning/VAE/VAE.vbproj" />
+    <Project Path="../Mathematica/Math/Math.Statistics/stats-netcore5.vbproj" />
+    <Project Path="../Mathematica/Math/Math/Math.NET5.vbproj" />
+  </Folder>
+  <Project Path="RasterGene/RasterGene.vbproj" />
+  <Project Path="RasterGene/test/test.vbproj" />
+</Solution>
