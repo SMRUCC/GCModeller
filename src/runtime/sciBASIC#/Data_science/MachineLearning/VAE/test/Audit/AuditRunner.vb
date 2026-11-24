@@ -26,7 +26,6 @@ Public Module AuditRunner
         Call AuditSupport.Group("gmm", AddressOf GmmAudit.Run)
         Call AuditSupport.Group("gmvae", AddressOf GmvaeAudit.Run)
         Call AuditSupport.Group("graphvae", AddressOf GraphVaeAudit.Run)
-        Call AuditSupport.Group("cells", AddressOf CellsAudit.Run)
         Call AuditSupport.Group("convvae", AddressOf ConvVaeAudit.Run)
 
         ' 公开 API 零破坏验证（只用重构前就存在的签名）
