@@ -162,12 +162,15 @@
 	  <Compile Remove="NeuralNetwork\Demo\**" />
 	  <Compile Remove="QLearning\Maze-Q-Learning\**" />
 	  <Compile Remove="test\**" />
+	  <Compile Remove="Darwinism\NSGA-II\test\**" />
 	  <EmbeddedResource Remove="NeuralNetwork\Demo\**" />
 	  <EmbeddedResource Remove="QLearning\Maze-Q-Learning\**" />
 	  <EmbeddedResource Remove="test\**" />
+	  <EmbeddedResource Remove="Darwinism\NSGA-II\test\**" />
 	  <None Remove="NeuralNetwork\Demo\**" />
 	  <None Remove="QLearning\Maze-Q-Learning\**" />
 	  <None Remove="test\**" />
+	  <None Remove="Darwinism\NSGA-II\test\**" />
 	  <None Include="..\..\..\LICENSE">
 	    <Pack>True</Pack>
 	    <PackagePath></PackagePath>
