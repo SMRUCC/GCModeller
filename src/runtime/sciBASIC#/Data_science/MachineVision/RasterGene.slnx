@@ -1,6 +1,9 @@
 <Solution>
   <Folder Name="/framework/">
+    <Project Path="../../gr/Drawing-net4.8/Drawing-net4.8.vbproj" />
+    <Project Path="../../gr/Microsoft.VisualBasic.Imaging/imaging.NET5.vbproj" />
     <Project Path="../../Microsoft.VisualBasic.Core/src/Core.vbproj" />
+    <Project Path="../../mime/text%html/html_netcore5.vbproj" />
     <Project Path="../DataMining/DataMining/DataMining.NET5.vbproj" />
     <Project Path="../MachineLearning/DeepLearning/DeepLearning.NET6.vbproj" />
     <Project Path="../MachineLearning/MachineLearning/machine_learning-netcore5.vbproj" />
