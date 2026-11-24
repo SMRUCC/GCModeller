@@ -67,7 +67,7 @@ Namespace Darwinism.NSGA2
         ''' <summary>
         ''' The current parent population of this NSGA-II engine.
         ''' </summary>
-        ''' <returns>A <see cref="Population(Of Chr)"/> object.</returns>
+        ''' <returns>A <c>Population(Of Chr)</c> object.</returns>
         Public ReadOnly Property Population As Population(Of Chr)
             Get
                 Return currentPopulation
@@ -91,6 +91,41 @@ Namespace Darwinism.NSGA2
         Public ReadOnly Property ObjectiveModel As IMultiObjective(Of Chr)
             Get
                 Return objectiveEvaluator
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' The mean objective sum of the current first non-dominated front; 
+        ''' this value is only used as a scalar progress indicator for the text 
+        ''' report and it does NOT participate in the selection procedure.
+        ''' </summary>
+        ''' <returns>
+        ''' A <see cref="Double"/> value, or ``NaN`` when the current front is 
+        ''' empty.
+        ''' </returns>
+        Public ReadOnly Property ProgressValue As Double
+            Get
+                If currentObjectives Is Nothing OrElse currentRanks Is Nothing OrElse
+                    currentObjectives.Length <> currentPopulation.Size Then
+
+                    Call EvaluateAll(parallel:=False)
+                End If
+
+                Dim count As Integer = 0
+                Dim total As Double = 0
+
+                For i As Integer = 0 To currentObjectives.Length - 1
+                    If currentRanks(i) = 0 Then
+                        total += currentObjectives(i).Sum()
+                        count += 1
+                    End If
+                Next
+
+                If count = 0 Then
+                    Return Double.NaN
+                Else
+                    Return total / count
+                End If
             End Get
         End Property
 

@@ -15,6 +15,7 @@
 ' *****************************************************************************
 
 Imports Microsoft.VisualBasic.MachineLearning.Darwinism.GAF
+Imports Microsoft.VisualBasic.MachineLearning.Darwinism.Models
 
 Namespace Darwinism.NSGA2
 
@@ -129,7 +130,7 @@ Namespace Darwinism.NSGA2
     End Class
 
     ''' <summary>
-    ''' Adapts the single objective <see cref="Fitness(Of Chr)"/> model of the 
+    ''' Adapts the single objective <c>Fitness(Of Chr)</c> model of the 
     ''' classic genetic algorithm into the multi-objective evaluation model, so 
     ''' that the NSGA-II engine is able to optimize the existing fitness 
     ''' functions directly.
@@ -138,9 +139,9 @@ Namespace Darwinism.NSGA2
     ''' The chromosome type of the genetic algorithm.
     ''' </typeparam>
     ''' <remarks>
-    ''' When <paramref name="maximize"/> is ``True`` the sign of the fitness 
-    ''' value is flipped, because the NSGA-II implementation always treats a 
-    ''' smaller objective value as a better one.
+    ''' When the ``maximize`` flag of the constructor is ``True`` the sign of 
+    ''' the fitness value is flipped, because the NSGA-II implementation always 
+    ''' treats a smaller objective value as a better one.
     ''' </remarks>
     Public Class SingleObjectiveAdapter(Of Chr) : Implements IMultiObjective(Of Chr)
 
@@ -178,7 +179,7 @@ Namespace Darwinism.NSGA2
         End Property
 
         ''' <summary>
-        ''' The cacheable flag of the wrapped <see cref="Fitness(Of Chr)"/> model.
+        ''' The cacheable flag of the wrapped <c>Fitness(Of Chr)</c> model.
         ''' </summary>
         ''' <returns>A <see cref="Boolean"/> value.</returns>
         Public ReadOnly Property Cacheable As Boolean Implements IMultiObjective(Of Chr).Cacheable
@@ -195,7 +196,7 @@ Namespace Darwinism.NSGA2
         ''' <param name="parallel">Whether the fitness calculation should be run in parallel mode?</param>
         ''' <returns>
         ''' A single element objective vector which is created from the 
-        ''' <see cref="Fitness(Of Chr).Calculate"/> function.
+        ''' <c>Fitness(Of Chr).Calculate</c> function.
         ''' </returns>
         Public Function Evaluate(chromosome As Chr, parallel As Boolean) As Double() Implements IMultiObjective(Of Chr).Evaluate
             Return {orientation * fitness.Calculate(chromosome, parallel)}

@@ -160,15 +160,7 @@ Namespace Darwinism.NSGA2
         ''' a scalar progress indicator for the text report.
         ''' </summary>
         Private Shared Function ScalarProgress(model As NSGA2Engine(Of Chr)) As Double
-            Dim front As ParetoSolution(Of Chr)() = model.ParetoFront
-
-            If front.Length = 0 Then
-                Return Double.NaN
-            End If
-
-            Return front _
-                .Select(Function(solution) solution.Objectives.Sum()) _
-                .Average()
+            Return model.ProgressValue
         End Function
     End Class
 

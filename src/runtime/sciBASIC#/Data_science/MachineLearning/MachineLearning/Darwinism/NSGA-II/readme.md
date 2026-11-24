@@ -135,3 +135,118 @@ def environmental_selection(R_objs, N):
 NSGA-II 已在**工程设计（结构、外形优化）、车间调度、电力系统（水光互补调度、机组组合）、通信（波形优化、基站配置）、土地利用规划、机器学习超参数调优**等领域成为事实上的基准算法。
 **选型经验法则**：2–3 目标问题首选 NSGA-II；4 目标以上改用 NSGA-III（基于参考点方向维持多样性）；目标函数平滑且评估昂贵时可尝试 MOPSO；前沿形状规则时 MOEA/D 的分解思想也有优势。两代算法的本质差异可以一句话概括——NSGA-II 用"解之间的距离"维持多样性，NSGA-III 用"解到参考方向的距离"维持多样性，后者在高维目标空间中更不易塌陷。
 理解 NSGA-II 的关键，不在于记住流程图，而在于体会它如何把"无序的多目标比较"转化为"分层 + 层内密度"的二维选择准则——这一思想至今仍是大多数 MOEA 的设计骨架。
+---
+## 八、VB.NET 实现（Darwinism.NSGA2）
+
+本库在 `Darwinism/NSGA-II` 目录下实现了上述算法，命名空间为 `Microsoft.VisualBasic.MachineLearning.Darwinism.NSGA2`（目录名含连字符，不能直接作为命名空间），并完整复用现有 `Chromosome(Of Chr)` / `Population(Of Chr)` 遗传算法框架。
+
+### 8.1 类型一览
+
+| 类型 | 作用 |
+|------|------|
+| `IMultiObjective(Of Chr)` | 多目标评估接口：`Objectives`（目标个数）、`Cacheable`、`Evaluate(chromosome, parallel) As Double()` |
+| `DelegateObjective(Of Chr)` | 用委托函数快速构造多目标评估模型 |
+| `SingleObjectiveAdapter(Of Chr)` | 把现有 `Fitness(Of Chr)` 适配为单目标向量（可设置 `maximize`），用于兼容传统 GA |
+| `ObjectivePool(Of Chr)` | 按 `Chromosome.Identity` 缓存目标向量，避免重复评估 |
+| `ParetoSorting` | `Dominates`、`FastNonDominatedSort`、`CrowdingDistance` 等纯算法函数 |
+| `EnvironmentalSelection` | 父子代合并后的精英保留环境选择（rank 优先、拥挤度次之） |
+| `NSGA2Engine(Of Chr)` | NSGA-II 引擎：持有种群、执行单代 `Evolve()`、输出 `ParetoFront` |
+| `NSGA2Driver(Of Chr)` | 多代循环驱动，继承 `IterationReporter(Of T)`，支持进度回调 |
+| `IRealVector(Of Chr)` | 实数向量染色体抽象：`Genes` 与 `Create(genes)` |
+| `RealCodedOperators` | SBX 交叉 `SBXCrossover` / 多项式变异 `PolynomialMutation`（含搜索边界与 η 参数） |
+
+### 8.2 快速开始
+
+目标函数返回目标向量，`Chr` 只需实现现有的 `Chromosome(Of Chr)` 接口（沿用 `Crossover` / `Mutate`）：
+
+```vbnet
+Imports Microsoft.VisualBasic.MachineLearning.Darwinism.GAF.Population
+Imports Microsoft.VisualBasic.MachineLearning.Darwinism.NSGA2
+
+Dim population As New Population(Of MyChromosome)(New PopulationList(Of MyChromosome), parallel:=False) With {
+    .capacitySize = 100
+}
+' 添加 100 个初始个体 ...
+
+' 目标函数：f1, f2 均为最小化目标
+Dim objectives As New DelegateObjective(Of MyChromosome)(
+    Function(chr, parallel) {Cost(chr), Risk(chr)},
+    objectives:=2,
+    cacheable:=True
+)
+
+Dim engine As New NSGA2Engine(Of MyChromosome)(
+    population:=population,
+    objectives:=objectives,
+    seeds:=Function() myRandom,          ' 可选，默认使用全局随机源
+    cacheSize:=1000                       ' 0 表示关闭目标缓存
+)
+
+Dim driver As New NSGA2Driver(Of MyChromosome)(
+    model:=engine,
+    generations:=250
+)
+
+Call driver.Train()
+
+For Each solution As ParetoSolution(Of MyChromosome) In engine.ParetoFront
+    Console.WriteLine(solution.ToString())
+Next
+```
+
+### 8.3 兼容单目标 Fitness
+
+```vbnet
+' 统一为最小化；原 Fitness 越大越好时传 maximize:=True
+Dim objectives As New SingleObjectiveAdapter(Of MyChromosome)(fitnessModel, maximize:=False)
+Dim engine As New NSGA2Engine(Of MyChromosome)(population, objectives)
+```
+
+单目标时 NSGA-II 会退化为"最优解 + 拥挤度多样性"的选择行为，主要用于平滑迁移已有模型。
+
+### 8.4 实数编码算子
+
+使染色体实现 `IRealVector(Of Chr)`（暴露 `Genes As Double()` 与 `Create(genes) As Chr`），即可使用内置算子：
+
+```vbnet
+Dim lower As Double() = Enumerable.Repeat(0.0, 30).ToArray
+Dim upper As Double() = Enumerable.Repeat(1.0, 30).ToArray
+
+Dim engine As New NSGA2Engine(Of Zdt1Chromosome)(
+    population, objectives,
+    seeds:=Function() rnd,
+    crossover:=Function(a, b, rand) a.SBXCrossover(b, rand, lower, upper, pc:=0.9, etaC:=20),
+    mutate:=Function(chr, rand) chr.PolynomialMutation(rand, lower, upper, rate:=1.0 / 30, etaM:=20)
+)
+```
+
+也可以直接调用基因级函数 `CrossoverGene` / `MutateGene`，把它们复用到自定义编码中。
+
+### 8.5 参数建议
+
+| 参数 | 建议取值 | 说明 |
+|------|---------|------|
+| 种群规模 N | 50–200 | 取初始 `Population.Size`，环境选择恰好保留 N 个 |
+| `pc`（SBX 交叉概率） | 0.8–0.9 | 未触发交叉时直接返回父本 |
+| `etaC`（SBX 分布指数） | 10–20 | 越大子代越接近父代 |
+| `pm`（多项式变异概率） | 1/D | 传 `rate<=0` 时回退到 `Chromosome.MutationRate`，仍无效则取 1/D |
+| `etaM`（变异分布指数） | 15–30 | 越大扰动越小 |
+| `cacheSize` | 0 或 1000 量级 | 按 `Identity` 缓存目标向量，需保证 `Identity` 唯一 |
+
+> 目标方向必须统一为最小化；最大化目标请取负号或使用 `SingleObjectiveAdapter(maximize:=True)`。
+
+### 8.6 示例与验证工程
+
+`Darwinism/NSGA-II/test` 下提供了 ZDT1（30 维、双目标）示例与可执行验证工程：
+
+```
+dotnet run --project Darwinism/NSGA-II/test/NSGA2_test.vbproj -c Debug
+```
+
+程序固定随机种子运行 `N=100`、`250` 代，并断言：
+
+- 输出前沿两两互不支配；
+- 世代距离 `GD <= 0.01`（对解析前沿 `f2 = 1 - sqrt(f1)` 采样计算）；
+- `f1` 覆盖范围接近 `[0, 1]`。
+
+验证通过时进程退出码为 `0`，否则为 `1`，可直接用于 CI。

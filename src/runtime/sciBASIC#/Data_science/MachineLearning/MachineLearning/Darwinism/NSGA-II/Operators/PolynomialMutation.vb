@@ -18,13 +18,6 @@ Imports System.Runtime.CompilerServices
 
 Namespace Darwinism.NSGA2
 
-    ''' <summary>
-    ''' The polynomial mutation operator of the real coded genetic algorithm.
-    ''' </summary>
-    ''' <remarks>
-    ''' The mutation probability of each gene is ``1/D`` by default, where ``D`` 
-    ''' is the number of the decision variables.
-    ''' </remarks>
     Public Partial Module RealCodedOperators
 
         ''' <summary>

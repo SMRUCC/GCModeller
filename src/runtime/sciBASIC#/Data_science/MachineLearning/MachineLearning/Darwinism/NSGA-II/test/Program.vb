@@ -40,7 +40,7 @@ Namespace NSGA2_test
                 objectives:=New Zdt1Objectives(),
                 seeds:=Function() rnd,
                 crossover:=Function(a, b, rand) a.SBXCrossover(b, rand, lower, upper, pc:=0.9, etaC:=20),
-                mutate:=Function(chromosome, rand) chromosome.PolynomialMutation(rand, lower, upper, rate:=0.1, etaM:=20),
+                mutate:=Function(chromosome, rand) chromosome.PolynomialMutation(rand, lower, upper, rate:=1.0 / Zdt1Chromosome.Dimensions, etaM:=20),
                 cacheSize:=1000
             )
             Dim started As DateTime = DateTime.Now

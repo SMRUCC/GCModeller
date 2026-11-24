@@ -45,13 +45,14 @@ Namespace Darwinism.NSGA2
         ''' <returns>A vector of the zero based solution indexes.</returns>
         Public ReadOnly Property Indices As Integer()
         ''' <summary>
-        ''' The non-dominated rank of the solutions in the merged population; the 
-        ''' value is ``-1`` for the solutions which are not selected.
+        ''' The non-dominated rank of the selected chromosomes, which are aligned 
+        ''' with the <see cref="Population"/> member indexes.
         ''' </summary>
         ''' <returns>A vector of the non-dominated ranks.</returns>
         Public ReadOnly Property Ranks As Integer()
         ''' <summary>
-        ''' The crowding distance of the solutions in the merged population.
+        ''' The crowding distance of the selected chromosomes, which are aligned 
+        ''' with the <see cref="Population"/> member indexes.
         ''' </summary>
         ''' <returns>A vector of the crowding distance values.</returns>
         Public ReadOnly Property Crowding As Double()
@@ -62,8 +63,8 @@ Namespace Darwinism.NSGA2
         ''' <param name="population">The population of the next generation.</param>
         ''' <param name="objectives">The objective vectors of the selected chromosomes.</param>
         ''' <param name="indices">The source indexes of the selected chromosomes.</param>
-        ''' <param name="ranks">The non-dominated rank of the merged population.</param>
-        ''' <param name="crowding">The crowding distance of the merged population.</param>
+        ''' <param name="ranks">The non-dominated rank of the selected chromosomes.</param>
+        ''' <param name="crowding">The crowding distance of the selected chromosomes.</param>
         Public Sub New(population As Population(Of Chr), objectives As Double()(), indices As Integer(),
                        ranks As Integer(), crowding As Double())
             Me.Population = population
@@ -159,10 +160,15 @@ Namespace Darwinism.NSGA2
                 End If
             Next
 
-            Dim population As Population(Of Chr) = New Population(Of Chr)(New PopulationList(Of Chr), parallel:=False) With {
+            Dim population As Population(Of Chr) = New Population(Of Chr)(
+                New PopulationList(Of Chr),
+                New ParallelDataSetCompute(Of Chr)
+            ) With {
                 .capacitySize = populationSize
             }
             Dim selectedObjectives As Double()() = New Double(selected.Count - 1)() {}
+            Dim selectedRanks As Integer() = New Integer(selected.Count - 1) {}
+            Dim selectedCrowding As Double() = New Double(selected.Count - 1) {}
             Dim indices As Integer() = New Integer(selected.Count - 1) {}
 
             For i As Integer = 0 To selected.Count - 1
@@ -170,11 +176,13 @@ Namespace Darwinism.NSGA2
 
                 indices(i) = idx
                 selectedObjectives(i) = objectives(idx)
+                selectedRanks(i) = ranks(idx)
+                selectedCrowding(i) = crowding(idx)
 
                 Call population.Add(chromosomes(idx))
             Next
 
-            Return New SelectionResult(Of Chr)(population, selectedObjectives, indices, ranks, crowding)
+            Return New SelectionResult(Of Chr)(population, selectedObjectives, indices, selectedRanks, selectedCrowding)
         End Function
     End Module
 End Namespace
