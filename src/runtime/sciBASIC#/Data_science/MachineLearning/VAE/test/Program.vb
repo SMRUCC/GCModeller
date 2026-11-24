@@ -62,8 +62,18 @@ Public Module GraphVAEDemo
     ''' <summary>
     ''' 主程序入口: 演示GraphVAE的使用
     ''' </summary>
-    Public Sub Main()
+    Public Sub Main(args As String())
+        ' 只运行变分贝叶斯审计（便于在 CI 中单独执行）：
+        '   dotnet run -- --vb-only
+        If args IsNot Nothing AndAlso Array.IndexOf(args, "--vb-only") >= 0 Then
+            Call VBDemo.Main3(args)
+            Return
+        End If
+
         GMMDemo.Main2({})
+        Pause()
+
+        VBDemo.Main3({})
         Pause()
 
         Console.WriteLine("="c, 70)

@@ -513,6 +513,8 @@ Namespace VariationalBayes
 
             term4 += k * VBMath.LogWishartNormalizer(_logDetW0, _nu0, d)
             term4 += 0.5R * (_nu0 - d - 1.0R) * sumElnLambda
+            ' E[tr(W0^-1 Λ_k)] = ν0 D
+            term4 -= 0.5R * _nu0 * d * k
 
             ' ---- 5. -E[ln q(Z)] ----
             Dim term5 As Double = 0
@@ -534,20 +536,25 @@ Namespace VariationalBayes
                 lnCAlpha -= VBMath.LogGamma(_alpha(i))
             Next
 
-            Dim term6 As Double = lnCAlpha
+            Dim term6 As Double = -lnCAlpha
 
             For i As Integer = 0 To k - 1
-                term6 += (_alpha(i) - 1.0R) * elnPi(i)
+                term6 -= (_alpha(i) - 1.0R) * elnPi(i)
             Next
 
-            ' ---- 7. -E[ln q(μ,Λ)] ----
+            ' ---- 7. -E[ln q(μ,Λ)] = H[q(μ|Λ)] + H[q(Λ)] ----
             Dim term7 As Double = 0
 
             For i As Integer = 0 To k - 1
-                term7 += 0.5R * d * std.Log(_beta(i) / (2.0R * std.PI)) +
-                         0.5R * _nu(i) * elnLambda(i) -
-                         0.5R * d * (1.0R + _nu(i)) +
-                         VBMath.LogWishartNormalizer(_logDetW(i), _nu(i), d)
+                ' H[q(μ_k|Λ_k)] = ½(D ln2π + D - D lnβ_k - E[ln|Λ_k|])
+                ' H[q(Λ_k)]    = -lnB(W_k,ν_k) - ½(ν_k-D-1)E[ln|Λ_k|] + ½ν_k D
+                term7 += 0.5R * d * std.Log(2.0R * std.PI) +
+                         0.5R * d -
+                         0.5R * d * std.Log(_beta(i)) -
+                         0.5R * elnLambda(i) -
+                         VBMath.LogWishartNormalizer(_logDetW(i), _nu(i), d) -
+                         0.5R * (_nu(i) - d - 1.0R) * elnLambda(i) +
+                         0.5R * _nu(i) * d
             Next
 
             Return term1 + term2 + term3 + term4 + term5 + term6 + term7
