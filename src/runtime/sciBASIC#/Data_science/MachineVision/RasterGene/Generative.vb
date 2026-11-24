@@ -15,6 +15,7 @@ Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
 Imports Microsoft.VisualBasic.MachineLearning.VariationalAutoencoder.Core
 Imports Microsoft.VisualBasic.MachineLearning.VariationalAutoencoder.Imaging
 Imports Microsoft.VisualBasic.MachineVision.RasterGenerative.Raster
+Imports Microsoft.VisualBasic.MachineVision.RasterGenerative.Serialization
 Imports std = System.Math
 
 Namespace Global.Microsoft.VisualBasic.MachineVision.RasterGenerative
@@ -258,6 +259,34 @@ Namespace Global.Microsoft.VisualBasic.MachineVision.RasterGenerative
             Call ValidateImages(images)
 
             Return _vae.Evaluate(images)
+        End Function
+
+#End Region
+
+#Region "持久化"
+
+        ''' <summary>
+        ''' 把模型保存为单个 ONNX 文件（编码器 + 生成器双分支，对外 NCHW 布局）。
+        ''' </summary>
+        ''' <param name="path">目标文件路径，通常以 <c>.onnx</c> 结尾。</param>
+        ''' <param name="options">导出选项；Nothing 表示使用默认值（opset 13、单精度权重）。</param>
+        Public Sub SaveOnnx(path As String, Optional options As RgbVaeExportOptions = Nothing)
+            Call RgbVaeOnnxExport.Save(Me, path, options)
+        End Sub
+
+        ''' <summary>
+        ''' 从 ONNX 文件还原模型；失败时返回 <c>Nothing</c> 并给出中文原因。
+        ''' </summary>
+        ''' <param name="path">ONNX 文件路径。</param>
+        ''' <param name="errorMessage">失败原因。</param>
+        Public Shared Function LoadOnnx(path As String, ByRef errorMessage As String) As RgbGenerativeVae
+            Return RgbVaeOnnxImport.Load(path, errorMessage)
+        End Function
+
+        ''' <summary>从 ONNX 文件还原模型；失败时抛出 <see cref="IO.InvalidDataException"/>。</summary>
+        ''' <param name="path">ONNX 文件路径。</param>
+        Public Shared Function LoadOnnx(path As String) As RgbGenerativeVae
+            Return RgbVaeOnnxImport.Load(path)
         End Function
 
 #End Region
