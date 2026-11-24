@@ -4,6 +4,8 @@
     "demo.families": "97",
     "kegg.pathways": "18",
     "decomposition.files": "6",
+    "decomposed.aligned.rows": "5236",
+    "strain.genes.Acinetobacter": "1317",
     "gsva.community.pathways": "18",
     "YKB.map00791.K1": "0.09478871056195935",
     "YKB.map00791.B1": "-0.6968563894872236",
@@ -18,7 +20,7 @@
   "failureCount": 0,
   "records": [
     {
-      "time": "2026-11-24T18:34:56.486",
+      "time": "2026-11-24T20:25:13.186",
       "kind": "Mark",
       "level": "infom",
       "expression": null,
@@ -31,7 +33,7 @@
       "succeeded": true
     },
     {
-      "time": "2026-11-24T18:34:56.487",
+      "time": "2026-11-24T20:25:13.187",
       "kind": "Mark",
       "level": "infom",
       "expression": null,
@@ -44,7 +46,7 @@
       "succeeded": true
     },
     {
-      "time": "2026-11-24T18:34:56.487",
+      "time": "2026-11-24T20:25:13.187",
       "kind": "Mark",
       "level": "infom",
       "expression": null,
@@ -57,7 +59,7 @@
       "succeeded": true
     },
     {
-      "time": "2026-11-24T18:34:56.487",
+      "time": "2026-11-24T20:25:13.187",
       "kind": "Mark",
       "level": "infom",
       "expression": null,
@@ -70,7 +72,33 @@
       "succeeded": true
     },
     {
-      "time": "2026-11-24T18:34:56.487",
+      "time": "2026-11-24T20:25:13.187",
+      "kind": "Mark",
+      "level": "infom",
+      "expression": null,
+      "message": "decomposed.aligned.rows = 5236",
+      "sourceFile": "E:\\codebuddy\\GCModeller\\src\\R-sharp\\studio\\Rsharp_kit\\devkit\\debugAudit.vb",
+      "line": 369,
+      "member": "mark",
+      "threadId": 4,
+      "elapsedMs": 0,
+      "succeeded": true
+    },
+    {
+      "time": "2026-11-24T20:25:13.187",
+      "kind": "Mark",
+      "level": "infom",
+      "expression": null,
+      "message": "strain.genes.Acinetobacter = 1317",
+      "sourceFile": "E:\\codebuddy\\GCModeller\\src\\R-sharp\\studio\\Rsharp_kit\\devkit\\debugAudit.vb",
+      "line": 369,
+      "member": "mark",
+      "threadId": 4,
+      "elapsedMs": 0,
+      "succeeded": true
+    },
+    {
+      "time": "2026-11-24T20:25:13.187",
       "kind": "Mark",
       "level": "infom",
       "expression": null,
@@ -83,7 +111,7 @@
       "succeeded": true
     },
     {
-      "time": "2026-11-24T18:34:56.488",
+      "time": "2026-11-24T20:25:13.187",
       "kind": "Mark",
       "level": "infom",
       "expression": null,
@@ -96,7 +124,7 @@
       "succeeded": true
     },
     {
-      "time": "2026-11-24T18:34:56.488",
+      "time": "2026-11-24T20:25:13.187",
       "kind": "Mark",
       "level": "infom",
       "expression": null,
@@ -109,7 +137,7 @@
       "succeeded": true
     },
     {
-      "time": "2026-11-24T18:34:56.488",
+      "time": "2026-11-24T20:25:13.187",
       "kind": "Mark",
       "level": "infom",
       "expression": null,
@@ -122,7 +150,7 @@
       "succeeded": true
     },
     {
-      "time": "2026-11-24T18:34:56.488",
+      "time": "2026-11-24T20:25:13.187",
       "kind": "Mark",
       "level": "infom",
       "expression": null,
@@ -135,7 +163,7 @@
       "succeeded": true
     },
     {
-      "time": "2026-11-24T18:34:56.488",
+      "time": "2026-11-24T20:25:13.187",
       "kind": "Mark",
       "level": "infom",
       "expression": null,
@@ -148,7 +176,7 @@
       "succeeded": true
     },
     {
-      "time": "2026-11-24T18:34:56.488",
+      "time": "2026-11-24T20:25:13.187",
       "kind": "Mark",
       "level": "infom",
       "expression": null,
@@ -161,7 +189,7 @@
       "succeeded": true
     },
     {
-      "time": "2026-11-24T18:34:56.489",
+      "time": "2026-11-24T20:25:13.188",
       "kind": "Mark",
       "level": "infom",
       "expression": null,
@@ -174,7 +202,7 @@
       "succeeded": true
     },
     {
-      "time": "2026-11-24T18:34:56.489",
+      "time": "2026-11-24T20:25:13.188",
       "kind": "Mark",
       "level": "infom",
       "expression": null,
@@ -187,7 +215,7 @@
       "succeeded": true
     },
     {
-      "time": "2026-11-24T18:34:56.489",
+      "time": "2026-11-24T20:25:13.188",
       "kind": "Mark",
       "level": "infom",
       "expression": null,

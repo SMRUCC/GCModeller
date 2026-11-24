@@ -906,23 +906,33 @@ Public Class Decomposition
             End If
         Next
 
-        ' 按基因组顺序重建每个菌株的矩阵(列序与原矩阵一致)
+        ' 按 "总矩阵的基因行顺序" 重建每个菌株的矩阵：这样才能保证跨菌株、以及菌株矩阵与
+        ' 原始矩阵之间在基因维度上完全对齐(其它菌株的基因行填 0)
+        Dim totalGenes As String() = total.expression.Select(Function(row) row.geneID).ToArray()
+
         For Each strain As String In genomes.Keys
             Dim table As Dictionary(Of String, Double()) = Nothing
             Dim rows As New List(Of DataFrameRow)
 
-            If values.TryGetValue(strain, table) Then
-                For Each gene As String In genomes(strain)
-                    Dim v As Double() = Nothing
-
-                    If table.TryGetValue(gene, v) Then
-                        Call rows.Add(New DataFrameRow With {
-                            .geneID = gene,
-                            .experiments = v
-                        })
-                    End If
-                Next
+            If Not values.TryGetValue(strain, table) Then
+                table = New Dictionary(Of String, Double())(StringComparer.Ordinal)
             End If
+
+            For Each gene As String In totalGenes
+                Dim v As Double() = Nothing
+
+                If table.TryGetValue(gene, v) AndAlso v IsNot Nothing Then
+                    Call rows.Add(New DataFrameRow With {
+                        .geneID = gene,
+                        .experiments = v
+                    })
+                Else
+                    Call rows.Add(New DataFrameRow With {
+                        .geneID = gene,
+                        .experiments = New Double(total.sample_count - 1) {}
+                    })
+                End If
+            Next
 
             result.strains(strain) = New Matrix With {
                 .sampleID = total.sampleID.ToArray,

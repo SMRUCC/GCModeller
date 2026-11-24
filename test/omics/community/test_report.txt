@@ -1,21 +1,22 @@
 # community decomposition + KEGG GSVA test report
-# script : E:/codebuddy/GCModeller/test/omics/community/decomposition_gsva_test.R
-# input  : src/GCModeller/analysis/HTS_matrix/test/data/syncom
-# output : E:/codebuddy/GCModeller/test/omics/community
+# script : decomposition_gsva_test.R (here = script folder)
+# input  : syncom/ (here)
+# output : here() of the script folder
 
 [PASS] 1.1 demo data: 5236 genes, 97 cross-strain families
 [PASS] 2.1 KEGG background: 18 pathways (GMT: pathways.gmt)
 [PASS] 3.1 decomposition exported 6 files to ./decomposed
-[PASS] 4.1 per-strain gene rows: Y1=1317 K1=1317 B1=1317 H1=1285, 24 samples kept
-[PASS] 5.1 community GSVA matrix: 18 pathways x 24 samples
-[PASS] 6.1 strain GSVA matrices written for all of the 4 strains
-[PASS] 7.1 YKB map00791 (herbicide degradation) by strain: K1=0.09478871056195935 > B1=-0.6968563894872236 > Y1=-0.44035431650092377
-[PASS] 7.2 YKB map00010 (glycolysis/energy) by strain: Y1=0.44058384324944905 > K1=0.09990775528573892
-[PASS] 7.3 YKB map00380 (tryptophan metabolism) by strain: B1=0.5927438180408054 > K1=-0.9333813467870794
-[PASS] 7.4 HKB map00791 (herbicide degradation) by strain: B1=0.5853178682213768 > K1=-0.24658154571660149 / H1=-0.317039202500436
-[PASS] 7.5 HKB map00920 (sulfur metabolism) by strain: H1=0.10239427783310845 > K1=0.03226187685900147 > B1=-0.11075387960922085
-[PASS] 7.6 community map00791 WT vs NH: YKB -0.04494370144423695 vs -0.10712516893302577 ; HKB 0.2055459986450298 vs 0.17381718182153214
-[PASS] 7.7 community map02024 WT vs QSR: YKB 0.16379964757472776 vs 0.06446342778600612 ; HKB 0.007785761681045195 vs -0.07187256929783682
+[PASS] 4.1 gene rows aligned with the union matrix: 5236 rows x 24 samples for all of the 4 strains
+[PASS] 5.1 per-strain gene extraction: Y1=1317 K1=1317 H1=1285 rows (./decomposed_own)
+[PASS] 6.1 community GSVA matrix: 18 pathways x 24 samples
+[PASS] 7.1 strain GSVA matrices written for all of the 4 strains
+[PASS] 8.1 YKB map00791 (herbicide degradation) by strain: K1=0.09478871056195935 > B1=-0.6968563894872236 > Y1=-0.44035431650092377
+[PASS] 8.2 YKB map00010 (glycolysis/energy) by strain: Y1=0.44058384324944905 > K1=0.09990775528573892
+[PASS] 8.3 YKB map00380 (tryptophan metabolism) by strain: B1=0.5927438180408054 > K1=-0.9333813467870794
+[PASS] 8.4 HKB map00791 (herbicide degradation) by strain: B1=0.5853178682213768 > K1=-0.24658154571660149 / H1=-0.317039202500436
+[PASS] 8.5 HKB map00920 (sulfur metabolism) by strain: H1=0.10239427783310845 > K1=0.03226187685900147 > B1=-0.11075387960922085
+[PASS] 8.6 community map00791 WT vs NH: YKB -0.04494370144423695 vs -0.10712516893302577 ; HKB 0.2055459986450298 vs 0.17381718182153214
+[PASS] 8.7 community map02024 WT vs QSR: YKB 0.16379964757472776 vs 0.06446342778600612 ; HKB 0.007785761681045195 vs -0.07187256929783682
 
-summary: 19 assertions, 0 failure(s)
+summary: 21 assertions, 0 failure(s)
 [PASS] all of the community decomposition + KEGG GSVA checks passed
