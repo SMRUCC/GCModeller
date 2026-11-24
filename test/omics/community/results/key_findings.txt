@@ -1,6 +1,8 @@
 # SynCom DNMF + GSVA 关键数值 (由 syncom_visualization.R 自动生成)
 基因数 5236 ; 通路数 18 ; 样本数 24 ; 家族数 97
-重构保真度 r = 0.9615 ; Σ菌株/Σ群落 = 0.9986
+四矩阵之和/群落总量 = 3.8669 (未做总和归一化, 预期 ~4) ; 逐基因 r = 0.8699
+decomposed_own 与 decomposed 在本菌基因上的一致性 r = Y1:1.0000  K1:1.0000  B1:1.0000  H1:1.0000
+逐基因四菌组成: spec(1-H/log2 4) 中位 = 1.0000, 范围 0.0028 - 1.0000
 
 ## 菌株丰度系数 (基准状态: 除草剂 + QS 正常)
   YKB Y1     = 0.928
@@ -39,30 +41,18 @@
   HKB NH.QSR   Y1    : 86%
 
 ## 群落水平对比: 按 padj 排序的前 12 项
-  YKB | QS effect
-(herbicide)  | map00380 | WT: Δ=-0.245 padj=0.0198
-  YKB | Herbicide effect
-(QS active) | map00983 | WT: Δ=0.179 padj=0.0505
-  YKB | QS effect
-(herbicide)  | map03430 | WT: Δ=-0.159 padj=0.0831
-  YKB | Herbicide effect
-(QS active) | map00400 | WT: Δ=-0.166 padj=0.1062
-  YKB | QS effect
-(herbicide)  | map00791 | WT: Δ=0.171 padj=0.1407
-  HKB | QS effect
-(herbicide)  | map00791 | WT: Δ=0.078 padj=0.2390
-  HKB | QS effect
-(herbicide)  | map00020 | WT: Δ=-0.118 padj=0.2390
-  HKB | QS effect
-(herbicide)  | map03420 | WT: Δ=-0.147 padj=0.2390
-  HKB | QS effect
-(herbicide)  | map02024 | WT: Δ=0.080 padj=0.2390
-  HKB | QS effect
-(herbicide)  | map00983 | WT: Δ=0.105 padj=0.2674
-  YKB | QS effect
-(herbicide)  | map00627 | WT: Δ=0.115 padj=0.2958
-  YKB | QS effect
-(herbicide)  | map02024 | WT: Δ=0.099 padj=0.2958
+  YKB | QS effect (herbicide)  | map00380 | WT: Δ=-0.245 padj=0.0198
+  YKB | Herbicide effect (QS active) | map00983 | WT: Δ=0.179 padj=0.0505
+  YKB | QS effect (herbicide)  | map03430 | WT: Δ=-0.159 padj=0.0831
+  YKB | Herbicide effect (QS active) | map00400 | WT: Δ=-0.166 padj=0.1062
+  YKB | QS effect (herbicide)  | map00791 | WT: Δ=0.171 padj=0.1407
+  HKB | QS effect (herbicide)  | map00791 | WT: Δ=0.078 padj=0.2390
+  HKB | QS effect (herbicide)  | map00020 | WT: Δ=-0.118 padj=0.2390
+  HKB | QS effect (herbicide)  | map03420 | WT: Δ=-0.147 padj=0.2390
+  HKB | QS effect (herbicide)  | map02024 | WT: Δ=0.080 padj=0.2390
+  HKB | QS effect (herbicide)  | map00983 | WT: Δ=0.105 padj=0.2674
+  YKB | QS effect (herbicide)  | map00627 | WT: Δ=0.115 padj=0.2958
+  YKB | QS effect (herbicide)  | map02024 | WT: Δ=0.099 padj=0.2958
 
 ## 基准状态菌株层得分 (仅该菌群真实成员)
   map00791  YKB.Y1=-0.440  YKB.K1=0.095  YKB.B1=-0.697  HKB.K1=-0.247  HKB.B1=0.585  HKB.H1=-0.317
@@ -75,4 +65,4 @@
 菌株层加权重构 vs 群落实测: r = 0.2832 ; 符号一致率 = 57%
 家族层面: 优势份额中位数 0.343 ; 优势菌株分布 B1=35 H1=21 K1=20 Y1=21
 
-生成时间: 2026-11-24 19:58:32
+生成时间: 2026-11-24 21:11:25

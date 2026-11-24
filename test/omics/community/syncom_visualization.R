@@ -6,12 +6,14 @@
 #    syncom/genomes.csv        菌株基因组注释 (strain/isolate/gene_id/symbol/KO/pathway)
 #    syncom/families.csv       跨菌株同源基因家族 (family_id/gene_id)
 #    syncom/pathways.gmt       KEGG 通路基因集 (18 条通路)
-#    decomposed/*.csv          DNMF 分解出的 4 个菌株矩阵 + abundance + summary
+#    decomposed/*.csv          DNMF 分解出的 4 个菌株矩阵 (已按全基因集对齐, 5236 x 24)
+#                              + abundance.csv + decomposition_summary.csv
+#    decomposed_own/*.csv      同一分解结果, 但按各菌株自身基因组基因集抽取 (1317/1285 x 24)
 #    gsva/pre_community.csv    群落水平 (分解前) GSVA 得分
 #    gsva/post_<strain>.csv    菌株水平 (分解后) GSVA 得分
 #
 #  输出:
-#    figures/fig01 ... fig10   出版级 PNG (300 dpi)
+#    figures/fig01 ... fig11   出版级 PNG (300 dpi)
 #    results/*.csv             绘图背后的统计表 (可直接作为补充材料)
 #    results/key_findings.txt  关键数值清单
 #
@@ -85,9 +87,9 @@ replace_file <- function(tmp, dst) {
     invisible(file.remove(tmp))
   }
 }
-save_fig <- function(p, file, w, h) {
+save_fig <- function(p, file, w, h, res = 300) {
   dst <- file.path(FIG, file); tmp <- paste0(dst, ".tmp.png")
-  agg_png(tmp, width = w, height = h, units = "in", res = 300, background = "white")
+  agg_png(tmp, width = w, height = h, units = "in", res = res, background = "white")
   print(p); invisible(dev.off())
   replace_file(tmp, dst); cat("  ->", file, "\n")
 }
@@ -105,10 +107,28 @@ fam   <- read_df("syncom/families.csv")
 abund <- read_mat("decomposed/abundance.csv")
 dsum  <- read_df("decomposed/decomposition_summary.csv")
 
+## 分解矩阵有两个版本, 用途不同:
+##   dmat_full : 全基因集对齐 (每株 5 236 x 24) —— 用于逐基因的四菌组成、可回加校验;
+##   dmat_own  : 按各菌自身基因组抽取 (1 317/1 285 x 24) —— 用于仅在本菌成员内成立的统计。
+DCOMP_FULL <- "decomposed"
+DCOMP_OWN  <- "decomposed_own"
+
 STRAINS     <- c("Y1", "K1", "B1", "H1")
 STRAIN_FULL <- c(Y1 = "Comamonas sp. Y1", K1 = "Acinetobacter sp. K1",
                  B1 = "Pseudomonas sp. B1", H1 = "Bacillus sp. H1")
 MEMBERS     <- list(YKB = c("Y1", "K1", "B1"), HKB = c("K1", "B1", "H1"))
+
+dmat_full <- setNames(lapply(STRAINS, function(s)
+  read_mat(paste0(DCOMP_FULL, "/", STRAIN_FULL[[s]], ".csv"))), STRAINS)
+dmat_own  <- setNames(lapply(STRAINS, function(s)
+  read_mat(paste0(DCOMP_OWN,  "/", STRAIN_FULL[[s]], ".csv"))), STRAINS)
+
+## 两版本应在本菌自有基因上一致(不一致说明两次导出口径不同)
+own_check <- sapply(STRAINS, function(s) {
+  g <- intersect(rownames(dmat_own[[s]]), rownames(dmat_full[[s]]))
+  if (!length(g)) return(NA_real_)
+  cor(as.numeric(dmat_own[[s]][g, ]), as.numeric(dmat_full[[s]][g, ]))
+})
 
 post <- setNames(lapply(STRAINS, function(s)
   read_mat(sprintf("gsva/post_%s.csv", gsub("[. ]+", "_", STRAIN_FULL[[s]])))), STRAINS)
@@ -491,10 +511,12 @@ p3b <- ggplot(d3b, aes(cond_lab, factor, colour = grp, linetype = is_member,
         legend.text = element_text(size = 6.4), legend.key.size = unit(3.6, "mm"),
         legend.margin = margin(t = -2, b = 0))
 
-fs <- list.files(file.path(ROOT, "decomposed"), pattern = "^[A-Za-z]+ sp\\.", full.names = TRUE)
-rec_sum <- rowSums(sapply(fs, function(f) {
-  x <- read_mat(gsub(paste0(ROOT, "/"), "", f)); v <- setNames(rep(0, nrow(total)), rownames(total))
-  v[rownames(x)] <- x[, 1]; v
+## 四株矩阵逐基因相加 (矩阵已按全基因集对齐, 直接同序相加)
+rec_sum <- rowSums(sapply(STRAINS, function(s) {
+  v <- setNames(rep(0, nrow(total)), rownames(total))
+  m <- dmat_full[[s]]
+  v[rownames(m)] <- m[, 1]
+  v
 }))
 d3c_all <- data.frame(total = total[, 1], rec = rec_sum) %>% filter(total > 0)
 d3c     <- d3c_all %>% filter(total >= 10, rec > 0)
@@ -509,9 +531,10 @@ p3c <- ggplot(d3c, aes(total, rec)) +
            family = FONT, size = 3.1) +
   labs(x = "Counts in the original community matrix (sample R1)",
        y = "Sum of the four strain matrices",
-       title = "C  Reconstruction fidelity: the decomposition adds back losslessly at gene level",
-       subtitle = sprintf("All %d union genes covered; sum(strains)/sum(community) = %.3f (only the %d genes with counts >= 10 are shown)",
-                          nrow(total), sum(rec_sum) / sum(total[, 1]), nrow(d3c)))
+       title = "C  Additivity of the four strain matrices against the community matrix",
+       subtitle = sprintf(paste0("All %d genes covered; per-gene r = %.3f. The matrices are not normalised to unit total, so the four strain matrices sum to ~4x the community total (%.2f; ",
+                                 "dashed line = 1:1), which is expected rather than an error."),
+                          nrow(total), cor(d3c$total, d3c$rec), sum(rec_sum) / sum(total[, 1])))
 
 p3 <- (p3a | p3b) / p3c + plot_layout(heights = c(1.15, 1))
 save_fig(p3, "fig03_decomposition_quality.png", 13.5, 8.4)
@@ -877,127 +900,115 @@ cat("[FIG] 11 基因层 PCA(饼图符号)\n")
 ##              本数据集的 spec 实测范围为 0.003(atzA, 几乎均分) - 0.295(fumA), 故半径按
 ##              观测范围线性铺满, 图例标注真实的 spec 数值而非 0-1 归一值。
 
-## --- 11.1 家族 x 菌株 的分解表达量 -> 组成份额 ------------------------------
-strain_mean <- setNames(lapply(STRAINS, function(s) {
-  m <- read_mat(paste0("decomposed/", STRAIN_FULL[[s]], ".csv"))
-  cns <- names(MEMBERS)[vapply(MEMBERS, function(v) s %in% v, logical(1))]
-  ss  <- colnames(m)[sub("_.*$", "", colnames(m)) %in% cns]
-  rowMeans(m[, ss, drop = FALSE])
-}), STRAINS)
-
-FAM_LV  <- sort(unique(fam$family_id))
-fam_mat <- matrix(0, length(FAM_LV), length(STRAINS), dimnames = list(FAM_LV, STRAINS))
+## --- 11.1 家族口径的四菌组成 --------------------------------------------------
+## 单个基因只属于一个菌株的基因组, 若逐基因统计"四菌组成"会退化为 [1,0,0,0](饼图为单色整圆);
+## 只有跨菌株同源家族(3-4 个拷贝, 分处不同菌株)才存在可解释的四菌比例 —— 这也是本数据集中
+## 唯一会出现"接近平均均分"情形的口径。
+## 计算: 每个拷贝取其"归属菌株"的分解矩阵, 逐样本算四菌份额, 再对 24 个样本平均。
+FAM_LV <- sort(unique(fam$family_id))
+arrF <- array(0, c(length(FAM_LV), length(STRAINS), ncol(total)),
+              dimnames = list(FAM_LV, STRAINS, colnames(total)))
 for (s in STRAINS) {
   sub <- fam[fam$isolate == s, , drop = FALSE]
-  fam_mat[sub$family_id, s] <- strain_mean[[s]][sub$gene_id]
+  if (!nrow(sub)) next
+  arrF[sub$family_id, s, ] <- dmat_full[[s]][sub$gene_id, colnames(total)]
 }
-fam_p <- fam_mat / rowSums(fam_mat)
-fam_p[!is.finite(fam_p)] <- 1 / ncol(fam_p)
-H11    <- -rowSums(ifelse(fam_p > 0, fam_p * log2(fam_p), 0))
-spec11 <- 1 - H11 / log2(ncol(fam_p))      # 0 = 四菌均分, 1 = 单菌独占
+denF <- apply(arrF, c(1, 3), sum)
+p_fam <- sapply(seq_along(STRAINS), function(k) rowMeans(arrF[, k, ] / denF))
+dimnames(p_fam) <- list(FAM_LV, STRAINS)
+p_fam[!is.finite(p_fam)] <- 1 / length(STRAINS)
 
-## --- 11.2 基因层面 PCA(全部基因) -------------------------------------------
-## 全部 5 236 个基因都进入 PCA 与绘图:
-##   家族内基因 -> 扇区取家族的四菌分配(多色);
-##   其余基因   -> 只存在于单一菌株基因组, 扇区恒为该菌 100%(单色), 其 H = 0 故 spec = 1(半径最大)。
-gene11 <- rownames(lg_total)
-pca11  <- prcomp(lg_total[gene11, , drop = FALSE], center = TRUE, scale. = FALSE)
-ve11   <- 100 * pca11$sdev^2 / sum(pca11$sdev^2)
+H_fam    <- -rowSums(ifelse(p_fam > 0, p_fam * log2(p_fam), 0))
+spec_fam <- 1 - H_fam / log2(length(STRAINS))      # 0 = 四菌均分, 1 = 单菌独占
+
+## 基因层面: 家族内基因取所属家族的组成; 其余为自身菌株 100%
+gene11   <- rownames(lg_total)
 gene_fam <- setNames(fam$family_id, fam$gene_id)
 gene_own <- sub("_.*$", "", gene11)
+in_fam   <- gene11 %in% names(gene_fam)
 
+p_gene <- matrix(0, length(gene11), length(STRAINS), dimnames = list(gene11, STRAINS))
+p_gene[in_fam, ] <- p_fam[gene_fam[gene11[in_fam]], , drop = FALSE]
+p_gene[cbind(which(!in_fam), match(gene_own[!in_fam], STRAINS))] <- 1
+H_all    <- -rowSums(ifelse(p_gene > 0, p_gene * log2(p_gene), 0))
+spec_all <- 1 - H_all / log2(length(STRAINS))
+
+## --- 11.2 基因层面 PCA(全部基因) -------------------------------------------
+pca11  <- prcomp(lg_total[gene11, , drop = FALSE], center = TRUE, scale. = FALSE)
+ve11   <- 100 * pca11$sdev^2 / sum(pca11$sdev^2)
 xy11 <- data.frame(gene   = rownames(pca11$x),
                    PC1    = pca11$x[, 1],
                    PC2    = pca11$x[, 2],
                    family = unname(gene_fam[rownames(pca11$x)]),
                    stringsAsFactors = FALSE)
+xy11$f_ <- in_fam[match(xy11$gene, gene11)]
+xy11$spec <- unname(spec_all[xy11$gene])
 
-## 每个基因的组成矩阵: 家族基因取 fam_p, 其余为自身菌株 100%
-p_gene <- matrix(0, length(gene11), length(STRAINS), dimnames = list(gene11, STRAINS))
-in_fam <- gene11 %in% names(gene_fam)
-p_gene[in_fam, ] <- fam_p[gene_fam[gene11[in_fam]], , drop = FALSE]
-p_gene[cbind(which(!in_fam), match(gene_own[!in_fam], STRAINS))] <- 1
-H_all    <- -rowSums(ifelse(p_gene > 0, p_gene * log2(p_gene), 0))
-spec_all <- 1 - H_all / log2(ncol(p_gene))
-xy11$spec  <- unname(spec_all[xy11$gene])
-xy11$fam_  <- in_fam[match(xy11$gene, gene11)]
+## --- 11.3 组成专一性(spec) 保留为数值指标, 不再用于半径 ----------------------
+## 本版散点尺寸固定, spec 仅作为表内指标输出(specificity 列), 供后续筛选/排序使用。
 
-## --- 11.3 半径映射(spec -> 半径) -------------------------------------------
-## 半径整体压缩(全部基因同图, 点数从 386 增至 5 236), 最小/最大半径同步缩小
-rng11 <- min(diff(range(xy11$PC1)), diff(range(xy11$PC2)))
-rmax  <- 0.0065 * rng11
-## spec 呈强烈双峰: 家族基因 0.003-0.295, 单菌基因恒为 1。若按全局 [0,1] 线性映射,
-## 家族饼会全部挤在半径底部而无法辨认扇区; 故分段处理 —— 家族组内按相对 spec 铺满
-## [r_fam_lo, r_fam_hi], 单菌基因直接取最大半径 rmax(其 spec 本来就是 1)。
-fam_s   <- xy11$spec[xy11$fam_]
-lo11    <- min(fam_s); hi11 <- max(fam_s)
-r_fam_lo <- 0.50 * rmax
-r_fam_hi <- 0.86 * rmax
-xy11$r   <- rmax
-xy11$r[xy11$fam_] <- r_fam_lo + (fam_s - lo11) / (hi11 - lo11) * (r_fam_hi - r_fam_lo)
+## --- 11.4 CMYK 配色 + 散点 --------------------------------------------------
+## 组成 -> CMYK -> RGB: 四个菌株的份额直接作为 C/M/Y/K 分量,
+##   R = 255(1-C)(1-K),  G = 255(1-M)(1-K),  B = 255(1-Y)(1-K)
+## 四菌均分 -> 中灰; 偏向单一菌株 -> 青 / 品红 / 黄 / 黑
+CM_ORDER <- c(Y1 = "C", K1 = "M", B1 = "Y", H1 = "K")
+cm <- p_gene[match(xy11$gene, rownames(p_gene)), , drop = FALSE]
+cm <- cm / rowSums(cm)
+R8 <- 255 * (1 - cm[, "Y1"]) * (1 - cm[, "H1"])
+G8 <- 255 * (1 - cm[, "K1"]) * (1 - cm[, "H1"])
+B8 <- 255 * (1 - cm[, "B1"]) * (1 - cm[, "H1"])
+## 纯 CMYK 转出的 RGB 过于饱和(尤其 K 分量给出的纯黑)。若向白色混合, 黄色会被冲淡到
+## 几乎看不见; 故改为向中灰收敛 —— 各色相同等降饱和, 深色被提亮、亮色被压深, 可见性守恒。
+SOFT_GRAY <- 150
+SOFT_MIX  <- 0.42
+soften <- function(v) v * (1 - SOFT_MIX) + SOFT_GRAY * SOFT_MIX
+R8 <- soften(R8); G8 <- soften(G8); B8 <- soften(B8)
+xy11$R <- R8; xy11$G <- G8; xy11$B <- B8
+xy11$col <- rgb(R8, G8, B8, maxColorValue = 255)
 
-## --- 11.4 组装饼图几何 ------------------------------------------------------
-gord <- xy11$gene[order(-xy11$r)]          # 大饼先画(下层), 小饼后画(上层)
-pn   <-  ncol(p_gene)
-pie_long <- data.frame(gene   = rep(gord, times = pn),
-                       strain = factor(rep(STRAINS, each = length(gord)), levels = STRAINS),
-                       frac   = as.numeric(p_gene[gord, , drop = FALSE]))
-pie_long <- pie_long %>% group_by(gene) %>%
-  mutate(end = 2 * pi * cumsum(frac), start = end - 2 * pi * frac) %>% ungroup() %>%
-  left_join(xy11[, c("gene", "PC1", "PC2", "r", "fam_")], by = "gene")
-pie_oth <- pie_long %>% filter(!fam_)      # 单菌独占: 单色, 半透明, 作底层点云
-pie_fam <- pie_long %>% filter(fam_)       # 同源家族: 多色, 白描边, 作上层重点
-
-p11 <- ggplot() +
-  ggforce::geom_arc_bar(data = pie_oth,
-                        aes(x0 = PC1, y0 = PC2, r0 = 0, r = r,
-                            start = start, end = end, fill = strain),
-                        colour = "white", linewidth = 0.05, alpha = 0.88) +
-  ggforce::geom_arc_bar(data = pie_fam,
-                        aes(x0 = PC1, y0 = PC2, r0 = 0, r = r,
-                            start = start, end = end, fill = strain),
-                        colour = "white", linewidth = 0.14, alpha = 0.98) +
-  scale_fill_manual(values = PAL_STRAIN, labels = STRAIN_FULL, name = NULL) +
+p11 <- ggplot(xy11, aes(PC1, PC2)) +
+  geom_point(aes(colour = col), size = 1.0, alpha = 0.75, stroke = 0) +
+  scale_colour_identity() +
   coord_fixed(clip = "off") +
   labs(x = sprintf("PC1 (%.1f%%)", ve11[1]), y = sprintf("PC2 (%.1f%%)", ve11[2]),
-       title = "Gene-level PCA of the SynCom expression matrix, drawn as strain-composition pie glyphs",
-       subtitle = sprintf(paste0("Each glyph = one gene (all %s genes). Multi-coloured: %d genes of %d homologous families, sectors = the family's DNMF expression split among the four strains.\n",
-                                 "Single-coloured: %s genes present in one genome only, hence a full circle (share = 100%%); their radii take the maximum value. Family glyph radii are scaled within 0.00-0.30.\n",
-                                 "Radius = 1 - H/log2(4), an inverse-type transform of Shannon entropy: even across the four strains -> smallest; approaching [1,0,0,0] -> largest."),
-                          format(length(gene11), big.mark = ","), sum(in_fam), length(FAM_LV),
-                          format(sum(!in_fam), big.mark = ","))) +
-  theme(legend.position = "right",
-        legend.text = element_text(size = 8.2),
-        legend.key.size = unit(4.2, "mm"),
-        plot.title = element_text(size = 11.5, face = "bold"),
-        plot.subtitle = element_text(size = 7.4, colour = "grey30", lineheight = 1.18))
+       title = "Gene-level PCA of the SynCom expression matrix, coloured by strain composition in CMYK",
+       subtitle = paste0("Each point = one gene (all 5,236 genes), constant size. Colour = strain composition in CMYK: shares of Y1 / K1 / B1 / H1 act as the C / M / Y / K components.\n",
+                         "R = 255(1-C)(1-K), G = 255(1-M)(1-K), B = 255(1-Y)(1-K). Even across the four strains -> mid-grey; dominated by one strain -> cyan / magenta / yellow / black.")) +
+  theme(plot.title    = element_text(size = 14, face = "bold"),
+        plot.subtitle = element_text(size = 9.2, colour = "grey30", lineheight = 1.2),
+        axis.title    = element_text(size = 11.5),
+        axis.text     = element_text(size = 10.5),
+        legend.text   = element_text(size = 10))
 
-## 半径图例(手工嵌入): 三个示例圆对应观测范围内 spec 的最小/中位/最大值
-leg_r <- data.frame(x = c(0, 1.35, 2.9),
-                    r = c(r_fam_lo, r_fam_hi, rmax),
-                    lab = c(sprintf("%.2f", lo11), sprintf("%.2f", hi11), "1.00"))
-p_leg <- ggplot() +
-  ggforce::geom_arc_bar(data = leg_r, aes(x0 = x, y0 = 0, r0 = 0, r = r, start = 0, end = 2 * pi),
-                        fill = "grey58", colour = "white", linewidth = 0.3) +
-  geom_text(data = leg_r, aes(x = x, y = -1.75 * rmax, label = lab),
-            size = 2.4, family = FONT, colour = "grey15") +
-  coord_fixed(xlim = c(-1.25, 4.15), ylim = c(-2.15 * rmax, 1.3 * rmax), clip = "off") +
-  labs(title = "Radius = 1 - H / log2(4)") +
+## 图例(手工嵌入): 四个纯分量对应的颜色
+leg_c <- data.frame(x = c(1, 2, 1, 2), y = c(2, 2, 1, 1),
+                    strain = STRAINS,
+                    fill = rgb(soften(c(0, 255, 255, 0)), soften(c(255, 0, 255, 0)),
+                               soften(c(255, 255, 0, 0)), maxColorValue = 255),
+                    txt  = c("black", "black", "black", "white"),
+                    stringsAsFactors = FALSE)
+p_leg <- ggplot(leg_c, aes(x, y)) +
+  geom_tile(aes(fill = fill), colour = "white", linewidth = 0.7, width = 0.94, height = 0.94) +
+  geom_text(aes(label = strain, colour = txt), size = 3.2, family = FONT, fontface = "bold") +
+  scale_fill_identity() + scale_colour_identity() +
+  coord_fixed(xlim = c(0.4, 2.6), ylim = c(0.4, 2.6), expand = FALSE) +
+  labs(title = "CMYK = strain share") +
   theme_void(base_family = FONT) +
-  theme(plot.title = element_text(size = 6.4, hjust = 0.5),
+  theme(plot.title = element_text(size = 9, hjust = 0.5),
         plot.background = element_rect(fill = alpha("white", 0.85), colour = NA),
         plot.margin = margin(2, 2, 2, 2))
-p11 <- p11 + inset_element(p_leg, left = 0.02, bottom = 0.02, right = 0.24, top = 0.15)
-save_fig(p11, "fig11_gene_pca_pie.png", 15, 11.6)
+p11 <- p11 + inset_element(p_leg, left = 0.02, bottom = 0.02, right = 0.155, top = 0.215)
+save_fig(p11, "fig11_gene_pca_pie.png", 11.5, 9, res = 600)
 
 ## 明细表: 基因 -> PC 坐标 / 所属家族 / 四菌份额 / 熵 / 半径
 write.csv(data.frame(gene = xy11$gene,
-                     family = ifelse(xy11$fam_, xy11$family, NA_character_),
+                     family = xy11$family,
                      PC1 = xy11$PC1, PC2 = xy11$PC2,
                      p_gene[xy11$gene, , drop = FALSE],
                      H = unname(H_all[xy11$gene]),
-                     H_norm = unname(H_all[xy11$gene]) / log2(pn),
-                     specificity = xy11$spec, radius = xy11$r,
+                     H_norm = unname(H_all[xy11$gene]) / log2(length(STRAINS)),
+                     specificity = xy11$spec,
+                     R = xy11$R, G = xy11$G, B = xy11$B, colour = xy11$col,
                      row.names = NULL, check.names = FALSE),
           file.path(RES, "table_gene_pca_pie.csv"), row.names = FALSE, na = "")
 
@@ -1019,8 +1030,12 @@ lines <- c(
   "# SynCom DNMF + GSVA 关键数值 (由 syncom_visualization.R 自动生成)",
   sprintf("基因数 %d ; 通路数 %d ; 样本数 %d ; 家族数 %d",
           nrow(total), length(PW_LEVELS), ncol(total), nrow(fam_tab)),
-  sprintf("重构保真度 r = %s ; Σ菌株/Σ群落 = %s", fmt(cor(d3c$total, d3c$rec), 4),
-          fmt(sum(rec_sum) / sum(total[, 1]), 4)),
+  sprintf("四矩阵之和/群落总量 = %s (未做总和归一化, 预期 ~4) ; 逐基因 r = %s",
+          fmt(sum(rec_sum) / sum(total[, 1]), 4), fmt(cor(d3c$total, d3c$rec), 4)),
+  sprintf("decomposed_own 与 decomposed 在本菌基因上的一致性 r = %s",
+          paste(sprintf("%s:%.4f", STRAINS, own_check), collapse = "  ")),
+  sprintf("逐基因四菌组成: spec(1-H/log2 4) 中位 = %s, 范围 %s - %s",
+          fmt(median(spec_all), 4), fmt(min(spec_all), 4), fmt(max(spec_all), 4)),
   "",
   "## 菌株丰度系数 (基准状态: 除草剂 + QS 正常)",
   paste(sprintf("  YKB %-6s = %s", STRAINS, fmt(as.numeric(ab_base("YKB", STRAINS)), 3)), collapse = "\n"),
@@ -1031,7 +1046,8 @@ lines <- c(
                 fmt(ab_rel$rel, 0)), collapse = "\n"),
   "",
   "## 群落水平对比: 按 padj 排序的前 12 项",
-  paste(sprintf("  %s | %-22s | %s | %s: Δ=%s padj=%s", d9_top$consortium, d9_top$eff,
+  paste(sprintf("  %s | %-22s | %s | %s: Δ=%s padj=%s", d9_top$consortium,
+                gsub("\\n", " ", d9_top$eff),   # eff 内含换行, 纯文本摘要里压平
                 d9_top$pathway, d9_top$stratum, fmt(d9_top$delta), fmt(d9_top$padj, 4)),
         collapse = "\n"),
   "",
