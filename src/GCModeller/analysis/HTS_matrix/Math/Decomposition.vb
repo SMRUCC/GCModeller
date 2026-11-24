@@ -1399,6 +1399,11 @@ Public Class Decomposition
         Dim n As Integer = A2.ColumnDimension
         Dim eps As Double = If(opt.Epsilon > 0, opt.Epsilon, 0.000001)
         Dim result As StrainReconstruction() = New StrainReconstruction(strains.Length - 1) {}
+        Dim homologShares As Dictionary(Of String, Dictionary(Of String, Double())) = Nothing
+
+        If opt.RedistributeHomologs Then
+            homologShares = BuildHomologShares(A2, community, strains, geneRow, refine)
+        End If
 
         For si As Integer = 0 To strains.Length - 1
             Dim strain As String = strains(si)
@@ -1428,8 +1433,16 @@ Public Class Decomposition
                 End If
             Next
 
-            If opt.RedistributeHomologs Then
-                Call MergeHomologs(community, strain, si, geneRow, refine, outIndex, values)
+            Dim ownShares As Dictionary(Of String, Double()) = Nothing
+
+            If homologShares IsNot Nothing AndAlso homologShares.TryGetValue(strain, ownShares) AndAlso ownShares IsNot Nothing Then
+                For Each share As KeyValuePair(Of String, Double()) In ownShares
+                    Dim idx As Integer
+
+                    If outIndex.TryGetValue(share.Key, idx) Then
+                        values(idx) = share.Value
+                    End If
+                Next
             End If
 
             ' 因子模型在该菌株基因行上的相对重构误差
@@ -1459,79 +1472,199 @@ Public Class Decomposition
     End Function
 
     ''' <summary>
-    ''' 同源家族信号归并：家族在该菌株活性下的重构总量写回本菌株自己的基因拷贝行
+    ''' 同源家族信号归并：把家族内每一个成员行对本菌株的贡献汇总后写回本菌株自己的基因拷贝行
     ''' </summary>
     ''' <remarks>
-    ''' 对家族 <c>C</c> 与菌株 <c>s</c>：<c>acc(j) = sum_{g in C} w_g * h_s(j)</c>，
-    ''' 再把 <c>acc</c> 均分到 <c>s</c> 在该家族中的每一个拷贝行上。
-    ''' 因为每个菌株都会做同样的归并，家族层面的总质量满足
-    ''' <c>sum_s sum_{g in C} = sum_{g in C} sum_s</c>，既不丢信号也不重复计数。
+    ''' <para>
+    ''' 对家族 <c>C</c> 中的任一行 <c>g</c>，其观测值都可以写成 “各菌株活性谱的非负线性组合”
+    ''' <c>y_g ≈ sum_s w_g^s * h_s</c>，其中 <c>w^s</c> 由非负最小二乘(坐标下降)联合求解。
+    ''' 之所以要联合求解而不是像无同源的标记基因那样做单谱投影，是因为活性谱之间并不正交，
+    ''' 逐谱投影会把同一份信号重复计入多个菌株。
+    ''' </para>
+    ''' <para>
+    ''' 菌株 <c>s</c> 在该家族上的真实表达由家族内所有成员行共同承载(reads 交叉分配)，
+    ''' 因此把 <c>sum_{g in C} w_g^s * h_s</c> 汇总后写回 <c>s</c> 自己的拷贝行；
+    ''' 由于 <c>sum_s sum_{g in C} w_g^s h_s = sum_{g in C} y_g</c>，
+    ''' 家族层面的总质量严格守恒，既不丢信号也不跨菌株重复计数。
+    ''' </para>
     ''' </remarks>
-    Private Shared Sub MergeHomologs(community As CommunityStructure,
-                                     strain As String,
-                                     si As Integer,
-                                     geneRow As Dictionary(Of String, Integer),
-                                     refine As Refinement,
-                                     outIndex As Dictionary(Of String, Integer),
-                                     values As List(Of Double()))
+    Private Shared Function BuildHomologShares(A2 As NumericMatrix,
+                                               community As CommunityStructure,
+                                               strains As String(),
+                                               geneRow As Dictionary(Of String, Integer),
+                                               refine As Refinement) As Dictionary(Of String, Dictionary(Of String, Double()))
 
-        Dim h As Double() = refine.activity(si)
-        Dim n As Integer = h.Length
+        Dim n As Integer = A2.ColumnDimension
         Dim eps As Double = 0.000001
+        Dim strainIndex As New Dictionary(Of String, Integer)(StringComparer.Ordinal)
+        Dim shares As New Dictionary(Of String, Dictionary(Of String, Double()))(StringComparer.Ordinal)
+
+        For i As Integer = 0 To strains.Length - 1
+            strainIndex(strains(i)) = i
+        Next
 
         For Each family As GeneFamily In community.GetSharedFamilies()
-            Dim own As String() = community.GetOwnCopies(family, strain)
+            Dim candidates As New List(Of Integer)
 
-            If own.Length = 0 Then
+            For Each strain As String In family.strainMembers.Keys
+                Dim si As Integer
+
+                If strainIndex.TryGetValue(strain, si) Then
+                    Call candidates.Add(si)
+                End If
+            Next
+
+            If candidates.Count < 2 Then
                 Continue For
             End If
 
-            Dim acc As Double() = New Double(n - 1) {}
+            Dim acc As Double()() = New Double(candidates.Count - 1)() {}
+
+            For i As Integer = 0 To candidates.Count - 1
+                acc(i) = New Double(n - 1) {}
+            Next
+
             Dim any As Boolean = False
 
             For Each gene As String In family.members
                 Dim r As Integer
 
-                If geneRow.TryGetValue(gene, r) Then
-                    Dim w As Double = refine.weights(r)
+                If Not geneRow.TryGetValue(gene, r) Then
+                    Continue For
+                End If
+
+                Dim y As Double() = New Double(n - 1) {}
+
+                For j As Integer = 0 To n - 1
+                    y(j) = A2(r, j)
+                Next
+
+                Dim attribution As Double() = FitAttribution(y, refine.activity, candidates.ToArray)
+
+                For i As Integer = 0 To candidates.Count - 1
+                    If attribution(i) <= 0 Then
+                        Continue For
+                    End If
+
+                    Dim h As Double() = refine.activity(candidates(i))
 
                     For j As Integer = 0 To n - 1
-                        acc(j) += w * h(j)
+                        acc(i)(j) += attribution(i) * h(j)
                     Next
 
                     any = True
-                End If
+                Next
             Next
 
             If Not any Then
                 Continue For
             End If
 
-            Dim total As Double = 0
+            For i As Integer = 0 To candidates.Count - 1
+                Dim strain As String = strains(candidates(i))
+                Dim own As String() = community.GetOwnCopies(family, strain)
+                Dim total As Double = 0
 
-            For j As Integer = 0 To n - 1
-                total += acc(j)
-            Next
+                For j As Integer = 0 To n - 1
+                    total += acc(i)(j)
+                Next
 
-            If total <= eps Then
-                Continue For
-            End If
-
-            Dim share As Double() = New Double(n - 1) {}
-
-            For j As Integer = 0 To n - 1
-                share(j) = acc(j) / own.Length
-            Next
-
-            For Each gene As String In own
-                Dim idx As Integer
-
-                If outIndex.TryGetValue(gene, idx) Then
-                    values(idx) = CType(share.Clone(), Double())
+                If own.Length = 0 OrElse total <= eps Then
+                    Continue For
                 End If
+
+                Dim share As Double() = New Double(n - 1) {}
+
+                For j As Integer = 0 To n - 1
+                    share(j) = acc(i)(j) / own.Length
+                Next
+
+                Dim table As Dictionary(Of String, Double()) = Nothing
+
+                If Not shares.TryGetValue(strain, table) Then
+                    table = New Dictionary(Of String, Double())(StringComparer.Ordinal)
+                    shares(strain) = table
+                End If
+
+                For Each gene As String In own
+                    table(gene) = CType(share.Clone(), Double())
+                Next
             Next
         Next
-    End Sub
+
+        Return shares
+    End Function
+
+    ''' <summary>
+    ''' 用坐标下降求解非负最小二乘 <c>min ||y - sum_c w_c * h_c||^2, w_c &gt;= 0</c>
+    ''' </summary>
+    ''' <param name="y">一行(一个基因)的观测表达向量</param>
+    ''' <param name="profiles">菌株活性谱(按菌株下标索引)</param>
+    ''' <param name="candidates">参与拟合的菌株下标(只有该家族的成员菌株才参与)</param>
+    ''' <returns>与 <paramref name="candidates"/> 等长的非负权重</returns>
+    ''' <remarks>
+    ''' 坐标下降对于这个凸问题可以收敛到全局最优，每个坐标的更新都是闭式解
+    ''' <c>w_c = (r . h_c) / (h_c . h_c) + w_c</c>(<c>r</c> 为当前残差)，
+    ''' 并且天然保持非负。活性谱之间不正交，因此不能退化为逐谱的单变量投影。
+    ''' </remarks>
+    Private Shared Function FitAttribution(y As Double(), profiles As Double()(), candidates As Integer()) As Double()
+        Dim k As Integer = candidates.Length
+        Dim weights As Double() = New Double(k - 1) {}
+        Dim residual As Double() = CType(y.Clone(), Double())
+        Dim scale As Double = 0
+
+        For j As Integer = 0 To y.Length - 1
+            scale = std.Max(scale, std.Abs(y(j)))
+        Next
+
+        If scale <= 0 Then
+            Return weights
+        End If
+
+        Dim tolerance As Double = scale * 0.0000000001
+
+        For sweep As Integer = 1 To 100
+            Dim delta As Double = 0
+
+            For c As Integer = 0 To k - 1
+                Dim h As Double() = profiles(candidates(c))
+                Dim denominator As Double = 0
+                Dim numerator As Double = 0
+
+                For j As Integer = 0 To h.Length - 1
+                    denominator += h(j) * h(j)
+                    numerator += residual(j) * h(j)
+                Next
+
+                If denominator <= 0 Then
+                    Continue For
+                End If
+
+                Dim value As Double = numerator / denominator + weights(c)
+
+                If value < 0 Then
+                    value = 0
+                End If
+
+                Dim diff As Double = value - weights(c)
+
+                If diff <> 0 Then
+                    For j As Integer = 0 To h.Length - 1
+                        residual(j) -= diff * h(j)
+                    Next
+
+                    weights(c) = value
+                    delta = std.Max(delta, std.Abs(diff))
+                End If
+            Next
+
+            If delta <= tolerance Then
+                Exit For
+            End If
+        Next
+
+        Return weights
+    End Function
 
     ''' <summary>
     ''' 按列把重构总量校正到总矩阵的列总量，返回被校正的样本数量
