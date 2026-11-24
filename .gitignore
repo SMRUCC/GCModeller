@@ -733,3 +733,7 @@ test/fuzzygene-trace/trace.perturbation.json
 test/fuzzygene-trace/trace.mutant.sampleinfo.json
 test/fuzzygene-trace/api_test_report.txt
 test/fuzzygene-analysis/analysis.report.json
+src/GCModeller/core/Bio.Assembly/Test/report/gbff-20261124-112145.json
+src/GCModeller/core/Bio.Assembly/Test/report/gbff-20261124-112157.json
+src/GCModeller/core/Bio.Assembly/Test/report/gbff-20261124-112202.json
+src/GCModeller/core/Bio.Assembly/Test/report/gbff-20261124-112135.json

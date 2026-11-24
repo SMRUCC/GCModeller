@@ -438,7 +438,7 @@ Module gbffLargeGenomeTest
             Call DebugAudit.AreEqual(accession, reload.Locus.AccessionID, "round-trip locus accession")
             Call DebugAudit.AreEqual(originLength, reload.Origin.Size, "round-trip sequence length")
             Call DebugAudit.AreEqual(features, reload.Features.Count, "round-trip feature count")
-            Call DebugAudit.AreEqual(gb.Contig.Segments.Length, reload.Contig.Segments.Length, "round-trip contig segments")
+            Call DebugAudit.AreEqual(__contigSegments(gb), __contigSegments(reload), "round-trip contig segments")
 
             ' 抽查若干个feature的序列是否一致
             Dim cds As gbFeature() = gb.Features.ByKey("CDS")
@@ -471,6 +471,17 @@ Module gbffLargeGenomeTest
             Call Console.WriteLine($"output kept: {target}")
         End If
     End Sub
+
+    ''' <summary>
+    ''' ``CONTIG``段的片段数量(没有``CONTIG``段的记录返回0)
+    ''' </summary>
+    Private Function __contigSegments(gb As File) As Integer
+        If gb Is Nothing OrElse gb.Contig Is Nothing OrElse gb.Contig.Segments Is Nothing Then
+            Return 0
+        Else
+            Return gb.Contig.Segments.Length
+        End If
+    End Function
 End Module
 
 Module StringExtensions
