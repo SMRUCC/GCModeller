@@ -15,11 +15,11 @@ Module Program
         ' 2. 与 GNU R (limma/edgeR/DESeq2) 的数学对拍
         failures += RCrossCheckTest.Run()
 
-        ' 3. 合成菌群表达矩阵分解（report/community-decomposition-report.json）
-        failures += DecompositionTest.Run()
-
-        ' 4. 输出审计报告（文本摘要 + report/hts_matrix_io.json）
+        ' 3. 输出审计报告（文本摘要 + report/hts_matrix_io.json）
         Call MatrixIoTest.Report()
+
+        ' 4. 合成菌群表达矩阵分解（report/community-decomposition-report.json）
+        failures += DecompositionTest.Run()
 
         Environment.ExitCode = failures
     End Sub

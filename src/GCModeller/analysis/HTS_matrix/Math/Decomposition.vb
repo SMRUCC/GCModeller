@@ -488,12 +488,18 @@ End Class
 ''' 在指派固定的前提下做闭式交替非负最小二乘
 ''' (<c>w_g = (A_g . h_s) / (h_s . h_s)</c>、<c>h_s = sum(w_g * A_g) / sum(w_g^2)</c>)，
 ''' 使分解结果可辨识、可重复，且每个菌株的重构矩阵不会携带其它菌株的信号。
+''' 其中菌株活性谱 <c>h_s</c> 只用该菌株的标记基因估计，避免同源基因行把其它菌株的信号
+''' 通过活性谱扩散到整株基因；而 <c>w_g</c> 仍然对该菌株的全部基因行做投影。
+''' </item>
+''' <item>
+''' <b>同源归并层</b>：同一个基因家族内的成员行是 “各菌株信号的非负线性组合”，
+''' 因为活性谱之间不正交，这里用坐标下降做联合非负最小二乘
+''' (<c>min ||y_g - sum_s w_g^s h_s||^2, w &gt;= 0</c>) 求出归属，
+''' 再把 <c>sum_{g in C} w_g^s h_s</c> 汇总回本菌株自己的拷贝行。
+''' 由于 <c>sum_s sum_{g in C} w_g^s h_s = sum_{g in C} y_g</c>，家族层面的总质量严格守恒，
+''' 既不丢失信号也不会跨菌株重复计数。
 ''' </item>
 ''' </list>
-''' <para>
-''' 同源基因家族的共享信号在最后归并回该家族中 “本菌株自己的拷贝” 行：家族层面的总质量严格守恒
-''' (<c>sum_s sum_g = sum_g sum_s</c>)，既不丢失信号也不会跨菌株重复计数。
-''' </para>
 ''' </remarks>
 Public Class Decomposition
 
@@ -582,13 +588,13 @@ Public Class Decomposition
 
         ' 样本数/行数不足以支撑 k 个因子时，降级为 “按基因集切分 + 家族均分”
         If k < 2 Then
-            Return SplitFallback(total, community, opt, result, "only one strain in the community, nothing to decompose")
+            Return SplitFallback(total, community, result, "only one strain in the community, nothing to decompose")
         End If
         If assignedRows.Count < k Then
-            Return SplitFallback(total, community, opt, result, $"not enough gene feature rows({assignedRows.Count}) for {k} strain factors")
+            Return SplitFallback(total, community, result, $"not enough gene feature rows({assignedRows.Count}) for {k} strain factors")
         End If
         If n < k Then
-            Return SplitFallback(total, community, opt, result, $"not enough sample columns({n}) for {k} strain factors")
+            Return SplitFallback(total, community, result, $"not enough sample columns({n}) for {k} strain factors")
         End If
 
         ' 只对已归属菌株的行做分解
@@ -647,7 +653,7 @@ Public Class Decomposition
                 errors = model.errors
                 method = "NMF"
             Catch ex As Exception
-                Return SplitFallback(total, community, opt, result, $"the NMF factorization failed: {ex.Message}")
+                Return SplitFallback(total, community, result, $"the NMF factorization failed: {ex.Message}")
             End Try
         End If
 
@@ -1759,7 +1765,6 @@ Public Class Decomposition
     ''' </remarks>
     Private Shared Function SplitFallback(total As Matrix,
                                           community As CommunityStructure,
-                                          opt As DecompositionOptions,
                                           result As CommunityDecomposition,
                                           reason As String) As CommunityDecomposition
 
