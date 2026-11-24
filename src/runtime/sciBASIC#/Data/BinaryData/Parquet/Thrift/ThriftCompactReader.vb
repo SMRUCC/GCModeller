@@ -2,8 +2,10 @@ Option Strict On
 Option Explicit On
 Option Infer On
 
+Imports System.Buffers.Binary
 Imports System.IO
 Imports System.Text
+Imports BufferPool = Microsoft.VisualBasic.Data.IO.BufferPool
 
 Namespace Thrift
 
@@ -156,16 +158,47 @@ Namespace Thrift
         End Function
 
         Public Function ReadDouble() As Double
-            Dim bytes As Byte() = ReadExact(8)
+            ' 线上格式为小端：直接按小端解出，避免 8 字节临时数组与可能的 Array.Reverse
+            Dim buffer As Byte() = ScratchOf(8)
 
-            If Not BitConverter.IsLittleEndian Then
-                Array.Reverse(bytes)
-            End If
+            Call ReadInto(buffer, 0, 8)
 
-            Return BitConverter.ToDouble(bytes, 0)
+            Return BinaryPrimitives.ReadDoubleLittleEndian(buffer.AsSpan(0, 8))
         End Function
 
         Public Function ReadBinary() As Byte()
+            Dim size As Integer = ReadBinaryLength()
+            Dim buffer As Byte() = New Byte(size - 1) {}
+
+            Call ReadInto(buffer, 0, size)
+
+            Return buffer
+        End Function
+
+        Public Function ReadString() As String
+            Dim size As Integer = ReadBinaryLength()
+
+            If size = 0 Then
+                Return String.Empty
+            End If
+
+            ' 旧实现先由 ReadBinary 分配一个精确长度的字节数组再解码为字符串，
+            ' 这里直接使用池化缓冲解码，避免每次读取元数据字符串都产生一次短命数组。
+            Dim rented As Byte() = BufferPool.RentBytes(size)
+
+            Try
+                Call ReadInto(rented, 0, size)
+
+                Return Encoding.UTF8.GetString(rented, 0, size)
+            Finally
+                BufferPool.ReturnBytes(rented)
+            End Try
+        End Function
+
+        ''' <summary>
+        ''' 读取 binary 字段的字节长度，并做边界校验。
+        ''' </summary>
+        Private Function ReadBinaryLength() As Integer
             Dim size As ULong = ReadVarint()
 
             If size > Integer.MaxValue Then
@@ -176,13 +209,21 @@ Namespace Thrift
                 Throw New InvalidDataException("thrift: the declared binary length is beyond the end of the stream, the data is corrupted!")
             End If
 
-            Return ReadExact(CInt(size))
+            Return CInt(size)
         End Function
 
-        Public Function ReadString() As String
-            Dim bytes As Byte() = ReadBinary()
+        ''' <summary>
+        ''' 每个线程复用的标量暂存区。
+        ''' </summary>
+        <ThreadStatic>
+        Private Shared _tlsScratch As Byte()
 
-            Return Encoding.UTF8.GetString(bytes)
+        Private Shared Function ScratchOf(minimumLength As Integer) As Byte()
+            If _tlsScratch Is Nothing OrElse _tlsScratch.Length < minimumLength Then
+                _tlsScratch = New Byte(minimumLength - 1) {}
+            End If
+
+            Return _tlsScratch
         End Function
 
         Public Function ReadListHeader() As (size As Integer, type As ThriftType)
@@ -227,7 +268,7 @@ Namespace Thrift
                 Case ThriftType.I16, ThriftType.I32, ThriftType.I64
                     Call ReadVarint()
                 Case ThriftType.Double
-                    Call ReadExact(8)
+                    Call ReadInto(ScratchOf(8), 0, 8)
                 Case ThriftType.Binary
                     Call ReadBinary()
                 Case ThriftType.List, ThriftType.Set
@@ -274,25 +315,27 @@ Namespace Thrift
             Return CByte(value)
         End Function
 
-        Private Function ReadExact(size As Integer) As Byte()
-            Dim buffer As Byte() = New Byte(size - 1) {}
-            Dim offset As Integer = 0
+        ''' <summary>
+        ''' 把 <paramref name="count"/> 个字节读入调用方提供的缓冲区，不产生新的数组分配。
+        ''' </summary>
+        Private Sub ReadInto(buffer As Byte(), offset As Integer, count As Integer)
+            Dim done As Integer = 0
 
-            While offset < size
-                Dim n As Integer = _stream.Read(buffer, offset, size - offset)
+            While done < count
+                Dim n As Integer = _stream.Read(buffer, offset + done, count - done)
 
                 If n <= 0 Then
                     Throw New EndOfStreamException("thrift: unexpected end of the stream while reading the metadata!")
                 End If
 
-                offset += n
+                done += n
             End While
-
-            Return buffer
-        End Function
+        End Sub
 
         Private Shared Function AsSigned(value As ULong) As Long
-            Return BitConverter.ToInt64(BitConverter.GetBytes(value), 0)
+            ' CLng 与 BitConverter.ToInt64(BitConverter.GetBytes(value)) 的位模式一致，
+            ' 但不再分配一个 8 字节的临时数组。
+            Return CLng(value)
         End Function
 
     End Class

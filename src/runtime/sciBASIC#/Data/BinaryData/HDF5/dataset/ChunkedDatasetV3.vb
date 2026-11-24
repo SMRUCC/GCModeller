@@ -172,12 +172,20 @@ Namespace dataset
         Private Function linearIndexToDimensionIndex(index As Integer, dimensions As Integer()) As Integer()
             Dim dimIndex As Integer() = New Integer(dimensions.Length - 1) {}
 
+            Call linearIndexToDimensionIndex(index, dimensions, dimIndex)
+
+            Return dimIndex
+        End Function
+
+        ''' <summary>
+        ''' 就地写入坐标结果，避免在每个元素上分配一个新的坐标数组。
+        ''' </summary>
+        Private Sub linearIndexToDimensionIndex(index As Integer, dimensions As Integer(), dimIndex As Integer())
             For i As Integer = dimIndex.Length - 1 To 0 Step -1
                 dimIndex(i) = index Mod dimensions(i)
                 index = index \ dimensions(i)
             Next
-            Return dimIndex
-        End Function
+        End Sub
 
         ''' <summary>
         ''' 将一个多维矩阵数组的坐标信息转换为一个一维线性区域的数组下标
@@ -187,8 +195,17 @@ Namespace dataset
         ''' <returns></returns>
         Private Function dimensionIndexToLinearIndex(index As Integer(), dimensions As Integer()) As Integer
             Dim linear As Integer = 0
+            Dim allZero As Boolean = True
 
-            If index.All(Function(i) i = 0) Then
+            ' 旧实现使用 index.All(Function(i) i = 0)，每个元素都会分配一个委托与枚举器对象
+            For i As Integer = 0 To index.Length - 1
+                If index(i) <> 0 Then
+                    allZero = False
+                    Exit For
+                End If
+            Next
+
+            If allZero Then
                 ' 所有的元素都是零，则其肯定是线性数组之中的第一个元素
                 Return 0
             End If
@@ -209,13 +226,20 @@ Namespace dataset
         Private Function getChunkOffset(dimensionedIndex As Integer()) As Long()
             Dim chunkOffset As Long() = New Long(dimensionedIndex.Length - 1) {}
 
+            Call fillChunkOffset(dimensionedIndex, chunkOffset)
+
+            Return chunkOffset
+        End Function
+
+        ''' <summary>
+        ''' 就地写入 chunk 偏移量，避免在每个元素上分配一个新的偏移数组。
+        ''' </summary>
+        Private Sub fillChunkOffset(dimensionedIndex As Integer(), chunkOffset As Long())
             For i As Integer = 0 To chunkOffset.Length - 1
                 Dim temp As Long = dimensionSize(i)
                 chunkOffset(i) = (dimensionedIndex(i) \ temp) * temp
             Next
-
-            Return chunkOffset
-        End Function
+        End Sub
 
         Protected Overrides Function getBuffer(sb As Superblock) As MemoryStream
             Return getBuffer(sb, New ChunkLookup(sb, Me))
@@ -226,31 +250,61 @@ Namespace dataset
             Dim dataArray As Byte() = New Byte(diskSize - 1) {}
             Dim elementSize As Integer = dataType.size
 
+            Dim n As Integer = dimensions.Length
+
+            ' 工作缓冲在循环外一次性分配：旧实现为每一个元素分别新建
+            ' 坐标数组、chunk 偏移数组、chunk 内坐标数组以及 ChunkOffsetKey 对象，
+            ' 百万元素级别的 dataset 会产生数百万次短命分配。
+            Dim dimensionedIndex As Integer() = New Integer(n - 1) {}
+            Dim chunkOffset As Long() = New Long(n - 1) {}
+            Dim insideChunk As Integer() = New Integer(n - 1) {}
+            Dim lastChunkOffset As Long() = New Long(n - 1) {}
+            Dim hasLastChunk As Boolean = False
+            Dim lastChunkData As Byte() = Nothing
+
             ' size 是元素的总数量，在这个循环之中，分别计算坐标，将每一个元素的数据字节从对应的chunk之中复制到dataArray之中
             For i As Integer = 0 To size - 1
 
                 ' 在这里首先根据元素的字节占用数量计算元素所处的chunk的编号
-                Dim dimensionedIndex As Integer() = linearIndexToDimensionIndex(i, dimensions)
-                Dim chunkOffset As Long() = getChunkOffset(dimensionedIndex)
+                Call linearIndexToDimensionIndex(i, dimensions, dimensionedIndex)
+                Call fillChunkOffset(dimensionedIndex, chunkOffset)
+
+                ' 线性下标遍历时，最后若干维连续的元素落在同一个 chunk 之中。
+                ' 这里缓存上一次命中的 chunk，避免为每个元素都构造一次 ChunkOffsetKey（内部还会做一次 JSON 序列化）。
+                Dim sameChunk As Boolean = hasLastChunk
+
+                If sameChunk Then
+                    For j As Integer = 0 To n - 1
+                        If chunkOffset(j) <> lastChunkOffset(j) Then
+                            sameChunk = False
+                            Exit For
+                        End If
+                    Next
+                End If
+
+                If Not sameChunk Then
+                    ' 主键对象会持有偏移数组，这里必须使用副本，避免工作缓冲被后续元素改写
+                    Dim keyOffset As Long() = DirectCast(chunkOffset.Clone(), Long())
+
+                    lastChunkData = getDecodedChunk(chunkLookup, New ChunkOffsetKey(keyOffset))
+                    Call Array.Copy(chunkOffset, lastChunkOffset, n)
+                    hasLastChunk = True
+                End If
 
                 ' Now figure out which element inside the chunk
-                Dim insideChunk As Integer() = New Integer(chunkOffset.Length - 1) {}
-
-                For j As Integer = 0 To chunkOffset.Length - 1
+                For j As Integer = 0 To n - 1
                     insideChunk(j) = CInt(dimensionedIndex(j) - chunkOffset(j))
                 Next
 
                 ' 然后下面的代码根据所计算出来的chunk编号查找出对应的chunk
                 Dim insideChunkLinearOffset As Integer = dimensionIndexToLinearIndex(insideChunk, dimensionSize)
-                Dim key As New ChunkOffsetKey(chunkOffset)
-                Dim chunkData As Byte() = getDecodedChunk(chunkLookup, key)
 
                 ' Copy that data into the overall buffer
                 ' 然后从所查找出来的chunk之中复制对应的元素到dataarray之中
-                Dim sourcePos = insideChunkLinearOffset * elementSize
-                Dim dataOffset = i * elementSize
+                Dim sourcePos As Integer = insideChunkLinearOffset * elementSize
+                Dim dataOffset As Integer = i * elementSize
 
-                Array.Copy(chunkData, sourcePos, dataArray, dataOffset, elementSize)
+                Call Array.Copy(lastChunkData, sourcePos, dataArray, dataOffset, elementSize)
             Next
 
             Return New MemoryStream(dataArray)

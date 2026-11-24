@@ -1,4 +1,6 @@
 Imports System.Buffers
+Imports System.IO
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Unit
 
 ''' <summary>
 ''' 全仓库统一的临时缓冲租借入口。
@@ -31,12 +33,12 @@ Public Module BufferPool
     ''' <see cref="ArrayPool(Of T).Shared"/> 的单个桶最大长度（1 MiB）。
     ''' 超过该长度的租借请求会走 <see cref="LargeBytes"/>。
     ''' </summary>
-    Public Const MaxSharedArrayLength As Integer = 1024 * 1024
+    Public Const MaxSharedArrayLength As Integer = ByteSize.MB
 
     ''' <summary>
     ''' 大块池的单个桶最大长度（64 MiB），用于 page / 整列 / 整表级别的缓冲。
     ''' </summary>
-    Public Const MaxLargeArrayLength As Integer = 64 * 1024 * 1024
+    Public Const MaxLargeArrayLength As Integer = 64 * ByteSize.MB
 
     ''' <summary>
     ''' 大块池每个桶缓存的数组个数。大块数组常驻内存代价高，仅保留少量。
@@ -156,5 +158,63 @@ Public Module BufferPool
 
         ArrayPool(Of Long).Shared.Return(buffer, clear)
     End Sub
+
+    ''' <summary>
+    ''' 使用池化缓冲把 <paramref name="reader"/> 中剩余的数据全部读入一个字节数组。
+    ''' </summary>
+    ''' <param name="reader">数据来源。</param>
+    ''' <param name="initialSize">初始缓冲长度，默认 64 KiB。</param>
+    ''' <remarks>
+    ''' 与 <c>MemoryStream</c> + <c>ToArray</c> 的组合相比，这里避免了内部缓冲按 2 倍扩张产生的
+    ''' 多次大数组分配以及 <c>ToArray</c> 的整块复制；扩张过程使用池化缓冲，不会持续冲击 LOH。
+    ''' 返回数组的所有权归调用方，其长度精确等于实际读入的字节数。
+    ''' </remarks>
+    Public Function ReadToEnd(reader As Stream, Optional initialSize As Integer = 65536) As Byte()
+        If reader Is Nothing Then
+            Throw New ArgumentNullException(NameOf(reader))
+        End If
+        If initialSize < 1 Then
+            initialSize = 1
+        End If
+
+        Dim rented As Byte() = RentBytes(initialSize)
+        Dim length As Integer = 0
+
+        Try
+            Do
+                If length = rented.Length Then
+                    Dim nextSize As Long = CLng(rented.Length) * 2L
+
+                    If nextSize > MaxLargeArrayLength Then
+                        Throw New InvalidOperationException($"读取的数据量超过了单个缓冲的上限 {MaxLargeArrayLength} 字节。")
+                    End If
+
+                    Dim larger As Byte() = RentBytes(CInt(nextSize))
+
+                    Call Buffer.BlockCopy(rented, 0, larger, 0, length)
+                    Call ReturnBytes(rented)
+                    rented = larger
+                End If
+
+                Dim n As Integer = reader.Read(rented, length, rented.Length - length)
+
+                If n <= 0 Then
+                    Exit Do
+                End If
+
+                length += n
+            Loop
+        Catch
+            Call ReturnBytes(rented)
+            Throw
+        End Try
+
+        Dim result As Byte() = New Byte(length - 1) {}
+
+        Call Buffer.BlockCopy(rented, 0, result, 0, length)
+        Call ReturnBytes(rented)
+
+        Return result
+    End Function
 
 End Module

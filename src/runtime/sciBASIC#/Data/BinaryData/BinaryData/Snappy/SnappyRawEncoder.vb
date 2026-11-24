@@ -16,23 +16,12 @@ Namespace Snappy
         ''' 压缩指定范围的原始数据，返回「varint 未压缩长度 + 指令流」的完整原始块。
         ''' </summary>
         Friend Function Encode(input As Byte(), offset As Integer, count As Integer) As Byte()
-            If input Is Nothing Then Throw New ArgumentNullException(NameOf(input))
-            If offset < 0 OrElse count < 0 OrElse offset > input.Length OrElse count > input.Length - offset Then
-                Throw New ArgumentOutOfRangeException("offset/count 超出了数据范围。")
-            End If
+            Call ValidateRange(input, offset, count)
 
             Dim output As Byte() = New Byte(Snappy.MaxCompressedLength(count) - 1) {}
             Dim op As Integer = 0
-            Varint.Write(CUInt(count), output, op)
 
-            Dim pos As Integer = offset
-            Dim finish As Integer = offset + count
-
-            While pos < finish
-                Dim block As Integer = std.Min(SnappyConstants.BlockSize, finish - pos)
-                EncodeFragment(input, pos, pos + block, output, op)
-                pos += block
-            End While
+            Call EncodeCore(input, offset, count, output, op)
 
             If op = output.Length Then Return output
 
@@ -41,10 +30,74 @@ Namespace Snappy
             Return result
         End Function
 
-        Private Sub EncodeFragment(input As Byte(), start As Integer, finish As Integer, output As Byte(), ByRef op As Integer)
-            Dim table(SnappyConstants.HashTableSize - 1) As Integer
+        ''' <summary>
+        ''' 压缩指定范围的原始数据并写入调用方提供的输出缓冲，不产生额外的数组分配。
+        ''' </summary>
+        ''' <param name="input">输入数据。</param>
+        ''' <param name="offset">输入数据的起始位置。</param>
+        ''' <param name="count">输入数据的长度。</param>
+        ''' <param name="output">
+        ''' 输出缓冲，长度必须不小于 <see cref="Snappy.MaxCompressedLength(Integer)"/>。
+        ''' 典型用法是从 <see cref="BufferPool.RentBytes"/> 租用该缓冲，用完即归还。
+        ''' </param>
+        ''' <param name="op">返回实际写出的字节数（从 0 开始计）。</param>
+        ''' <remarks>
+        ''' 该重载不做所有权转移：缓冲区的生命周期由调用方管理。
+        ''' <see cref="SnappyOutputStream"/> 等内部高频调用方应当优先使用本重载，
+        ''' 以避免「先分配完整输出缓冲、再裁剪复制一次」的双重分配。
+        ''' </remarks>
+        Friend Sub Encode(input As Byte(), offset As Integer, count As Integer, output As Byte(), ByRef op As Integer)
+            Call ValidateRange(input, offset, count)
 
-            For i As Integer = 0 To table.Length - 1
+            If output Is Nothing Then Throw New ArgumentNullException(NameOf(output))
+
+            Dim capacity As Integer = Snappy.MaxCompressedLength(count)
+
+            If output.Length < capacity Then
+                Throw New ArgumentException($"输出缓冲的长度不足：至少需要 {capacity} 字节，实际为 {output.Length} 字节。", NameOf(output))
+            End If
+
+            op = 0
+            Call EncodeCore(input, offset, count, output, op)
+        End Sub
+
+        Private Sub ValidateRange(input As Byte(), offset As Integer, count As Integer)
+            If input Is Nothing Then Throw New ArgumentNullException(NameOf(input))
+            If offset < 0 OrElse count < 0 OrElse offset > input.Length OrElse count > input.Length - offset Then
+                Throw New ArgumentOutOfRangeException("offset/count 超出了数据范围。")
+            End If
+        End Sub
+
+        ''' <summary>
+        ''' 写入 varint 长度前缀与全部指令流。
+        ''' </summary>
+        ''' <remarks>
+        ''' 哈希表从 <see cref="BufferPool"/> 租用：每个 64 KiB 分片都会重建一次该表，
+        ''' 池化之后这条高频路径上不再产生 64 KiB 的 Integer 数组分配。
+        ''' </remarks>
+        Private Sub EncodeCore(input As Byte(), offset As Integer, count As Integer, output As Byte(), ByRef op As Integer)
+            Varint.Write(CUInt(count), output, op)
+
+            Dim table As Integer() = BufferPool.RentInt32s(SnappyConstants.HashTableSize)
+
+            Try
+                Dim pos As Integer = offset
+                Dim finish As Integer = offset + count
+
+                While pos < finish
+                    Dim block As Integer = std.Min(SnappyConstants.BlockSize, finish - pos)
+                    EncodeFragment(input, pos, pos + block, output, op, table)
+                    pos += block
+                End While
+            Finally
+                BufferPool.ReturnInt32s(table)
+            End Try
+        End Sub
+
+        Private Sub EncodeFragment(input As Byte(), start As Integer, finish As Integer,
+                                   output As Byte(), ByRef op As Integer, table As Integer())
+            ' 表格可能是从池中租用的更大数组，因此按常量确定需要初始化的长度
+            For i As Integer = 0 To SnappyConstants.HashTableSize - 1
                 table(i) = -1
             Next
 

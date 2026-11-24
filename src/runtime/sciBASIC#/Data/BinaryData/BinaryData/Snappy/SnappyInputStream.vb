@@ -26,6 +26,16 @@ Namespace Snappy
         Private _chunkPosition As Integer
 
         ''' <summary>
+        ''' 分块头复用缓冲：每个分块都需要读取一次 4 字节头，避免每次分配一个小数组。
+        ''' </summary>
+        Private ReadOnly _chunkHeader As Byte() = New Byte(3) {}
+
+        ''' <summary>
+        ''' 跳过分块（padding / skippable）时使用的复用缓冲。
+        ''' </summary>
+        Private ReadOnly _skipScratch As Byte() = New Byte(4095) {}
+
+        ''' <summary>
         ''' 创建一个 Snappy 分块流读取器，并立即校验输入流开头的 stream identifier。
         ''' </summary>
         ''' <param name="input">包含分块流的输入流，必须可读。</param>
@@ -62,7 +72,7 @@ Namespace Snappy
         End Function
 
         Private Sub ReadStreamIdentifier()
-            Dim header(3) As Byte
+            Dim header As Byte() = _chunkHeader
 
             If Not ReadFully(header, 0, 4, allowEof:=True) Then
                 Throw New InvalidDataException("Snappy: 分块流缺少 stream identifier。")
@@ -85,7 +95,7 @@ Namespace Snappy
 
         Private Function LoadNextChunk() As Boolean
             Do
-                Dim header(3) As Byte
+                Dim header As Byte() = _chunkHeader
 
                 If Not ReadFully(header, 0, 4, allowEof:=True) Then Return False
 
@@ -133,22 +143,29 @@ Namespace Snappy
                 Throw New InvalidDataException($"Snappy: 压缩分块长度 {length} 超出允许上限 {maxLength}。")
             End If
 
-            Dim payload(length - 1) As Byte
-            ReadExactlyCore(payload, 0, length)
+            ' 压缩载荷仅作中转，解码完成后即可归还；每 64 KiB 分块都会走一次，
+            ' 池化后可以消除这条高频路径上的临时数组分配。
+            Dim payload As Byte() = BufferPool.RentBytes(length)
 
-            Dim expected As UInteger = ReadUInt32LE(payload, 0)
-            Dim pos As Integer = 4
-            Dim decoded As Byte() = SnappyRawDecoder.Decode(payload, pos, length)
+            Try
+                ReadExactlyCore(payload, 0, length)
 
-            If pos <> length Then
-                Throw New InvalidDataException($"Snappy: 压缩分块末尾存在 {length - pos} 字节未消费的数据。")
-            End If
-            If decoded.Length > SnappyConstants.MaxChunkUncompressedData Then
-                Throw New InvalidDataException($"Snappy: 分块解压后长度 {decoded.Length} 超出 65536 字节上限。")
-            End If
+                Dim expected As UInteger = ReadUInt32LE(payload, 0)
+                Dim pos As Integer = 4
+                Dim decoded As Byte() = SnappyRawDecoder.Decode(payload, pos, length)
 
-            VerifyChecksum(expected, decoded)
-            SetChunk(decoded)
+                If pos <> length Then
+                    Throw New InvalidDataException($"Snappy: 压缩分块末尾存在 {length - pos} 字节未消费的数据。")
+                End If
+                If decoded.Length > SnappyConstants.MaxChunkUncompressedData Then
+                    Throw New InvalidDataException($"Snappy: 分块解压后长度 {decoded.Length} 超出 65536 字节上限。")
+                End If
+
+                VerifyChecksum(expected, decoded)
+                SetChunk(decoded)
+            Finally
+                BufferPool.ReturnBytes(payload)
+            End Try
         End Sub
 
         Private Sub LoadUncompressedChunk(length As Integer)
@@ -162,21 +179,27 @@ Namespace Snappy
                 Throw New InvalidDataException($"Snappy: 未压缩分块长度 {dataLength} 超出 65536 字节上限。")
             End If
 
-            Dim payload(length - 1) As Byte
-            ReadExactlyCore(payload, 0, length)
+            Dim payload As Byte() = BufferPool.RentBytes(length)
 
-            Dim expected As UInteger = ReadUInt32LE(payload, 0)
-            Dim data As Byte()
+            Try
+                ReadExactlyCore(payload, 0, length)
 
-            If dataLength = 0 Then
-                data = New Byte() {}
-            Else
-                data = New Byte(dataLength - 1) {}
-                Buffer.BlockCopy(payload, 4, data, 0, dataLength)
-            End If
+                Dim expected As UInteger = ReadUInt32LE(payload, 0)
+                Dim data As Byte()
 
-            VerifyChecksum(expected, data)
-            SetChunk(data)
+                If dataLength = 0 Then
+                    data = New Byte() {}
+                Else
+                    ' data 会被 _chunk 字段持有，因此必须使用独立副本，不能直接复用池缓冲
+                    data = New Byte(dataLength - 1) {}
+                    Buffer.BlockCopy(payload, 4, data, 0, dataLength)
+                End If
+
+                VerifyChecksum(expected, data)
+                SetChunk(data)
+            Finally
+                BufferPool.ReturnBytes(payload)
+            End Try
         End Sub
 
         Private Sub SetChunk(data As Byte())
@@ -240,7 +263,7 @@ Namespace Snappy
         End Sub
 
         Private Sub Skip(count As Integer)
-            Dim scratch(4095) As Byte
+            Dim scratch As Byte() = _skipScratch
             Dim remaining As Integer = count
 
             While remaining > 0

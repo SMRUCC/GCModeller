@@ -2,8 +2,10 @@ Option Strict On
 Option Explicit On
 Option Infer On
 
+Imports System.Buffers.Binary
 Imports System.IO
 Imports System.Text
+Imports BufferPool = Microsoft.VisualBasic.Data.IO.BufferPool
 
 Namespace Thrift
 
@@ -85,9 +87,38 @@ Namespace Thrift
             Call WriteBinary(value)
         End Sub
 
+        ''' <summary>
+        ''' 写入 UTF-8 字符串字段（varint 长度前缀 + 原始字节）。
+        ''' </summary>
+        ''' <remarks>
+        ''' 与 <c>Protobuf/Wire/ProtoWriter.WriteString</c> 保持一致的池化范式：
+        ''' 先用 <see cref="Encoding.GetByteCount(String)"/> 得到精确长度，再从池中租用缓冲，
+        ''' 最后只用逻辑长度写出并归还，避免每次写字符串都分配一个临时字节数组。
+        ''' </remarks>
         Public Sub WriteStringField(id As Integer, value As String)
             Call WriteFieldHeader(id, ThriftType.Binary)
-            Call WriteBinary(If(value Is Nothing, New Byte() {}, Encoding.UTF8.GetBytes(value)))
+
+            If value Is Nothing Then
+                Call WriteVarint(0UL)
+                Return
+            End If
+
+            Dim byteCount As Integer = Encoding.UTF8.GetByteCount(value)
+
+            Call WriteVarint(CULng(byteCount))
+
+            If byteCount = 0 Then
+                Return
+            End If
+
+            Dim rented As Byte() = BufferPool.RentBytes(byteCount)
+
+            Try
+                Call Encoding.UTF8.GetBytes(value, 0, value.Length, rented, 0)
+                _stream.Write(rented, 0, byteCount)
+            Finally
+                BufferPool.ReturnBytes(rented)
+            End Try
         End Sub
 
         ''' <summary>
@@ -161,17 +192,30 @@ Namespace Thrift
         End Sub
 
         Public Sub WriteDoubleValue(value As Double)
-            Dim bytes As Byte() = BitConverter.GetBytes(value)
+            Dim buffer As Byte() = ScratchOf(8)
 
-            If Not BitConverter.IsLittleEndian Then
-                Array.Reverse(bytes)
-            End If
-
-            Call _stream.Write(bytes, 0, bytes.Length)
+            BinaryPrimitives.WriteDoubleLittleEndian(buffer.AsSpan(0, 8), value)
+            _stream.Write(buffer, 0, 8)
         End Sub
 
+        ''' <summary>
+        ''' 每个线程复用的标量暂存区。
+        ''' </summary>
+        <ThreadStatic>
+        Private Shared _tlsScratch As Byte()
+
+        Private Shared Function ScratchOf(minimumLength As Integer) As Byte()
+            If _tlsScratch Is Nothing OrElse _tlsScratch.Length < minimumLength Then
+                _tlsScratch = New Byte(minimumLength - 1) {}
+            End If
+
+            Return _tlsScratch
+        End Function
+
         Private Shared Function AsUnsigned(value As Long) As ULong
-            Return BitConverter.ToUInt64(BitConverter.GetBytes(value), 0)
+            ' CULng 与 BitConverter.ToUInt64(BitConverter.GetBytes(value)) 的位模式一致，
+            ' 但不再分配一个 8 字节的临时数组（该函数在每次 zigzag 写入时都会被调用）。
+            Return CULng(value)
         End Function
 
     End Class

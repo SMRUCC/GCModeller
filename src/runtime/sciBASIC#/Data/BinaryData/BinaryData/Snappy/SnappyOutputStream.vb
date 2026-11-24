@@ -82,20 +82,32 @@ Namespace Snappy
         Private Sub FlushChunk()
             If _bufferLength = 0 Then Return
 
-            Dim compressed As Byte() = SnappyRawEncoder.Encode(_buffer, 0, _bufferLength)
-            Dim useCompressed As Boolean = compressed.Length < _bufferLength
-            Dim payloadLength As Integer = 4 + If(useCompressed, compressed.Length, _bufferLength)
-            Dim crc As UInteger = Crc32C.Mask(Crc32C.ComputeHash(_buffer, 0, _bufferLength))
+            ' 通过 into 重载把压缩结果直接写入池化缓冲：
+            ' 旧实现需要「分配完整输出缓冲 + 裁剪复制一次」，每 64 KiB 就会产生两次申请。
+            Dim compressed As Byte() = BufferPool.RentBytes(Snappy.MaxCompressedLength(_bufferLength))
 
-            _output.WriteByte(If(useCompressed, SnappyConstants.ChunkTypeCompressed, SnappyConstants.ChunkTypeUncompressed))
-            WriteChunkLength(payloadLength)
-            WriteUInt32LE(crc)
+            Try
+                Dim compressedLength As Integer = 0
 
-            If useCompressed Then
-                _output.Write(compressed, 0, compressed.Length)
-            Else
-                _output.Write(_buffer, 0, _bufferLength)
-            End If
+                Call SnappyRawEncoder.Encode(_buffer, 0, _bufferLength, compressed, compressedLength)
+
+                Dim useCompressed As Boolean = compressedLength < _bufferLength
+                Dim payloadLength As Integer = 4 + If(useCompressed, compressedLength, _bufferLength)
+                Dim crc As UInteger = Crc32C.Mask(Crc32C.ComputeHash(_buffer, 0, _bufferLength))
+
+                _output.WriteByte(If(useCompressed, SnappyConstants.ChunkTypeCompressed, SnappyConstants.ChunkTypeUncompressed))
+                Call WriteChunkLength(payloadLength)
+                Call WriteUInt32LE(crc)
+
+                If useCompressed Then
+                    ' 只写出有效长度，绝不使用 compressed.Length
+                    _output.Write(compressed, 0, compressedLength)
+                Else
+                    _output.Write(_buffer, 0, _bufferLength)
+                End If
+            Finally
+                BufferPool.ReturnBytes(compressed)
+            End Try
 
             _bufferLength = 0
         End Sub

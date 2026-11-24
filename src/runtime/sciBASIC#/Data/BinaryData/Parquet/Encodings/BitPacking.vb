@@ -4,6 +4,7 @@ Option Infer On
 
 Imports System.Buffers.Binary
 Imports System.IO
+Imports BufferPool = Microsoft.VisualBasic.Data.IO.BufferPool
 
 Namespace Encodings
 
@@ -250,23 +251,38 @@ Namespace Encodings
         Private Sub WriteBitPackedRun(stream As Stream, values As Integer(), start As Integer, count As Integer, bitWidth As Integer)
             Dim groups As Integer = (count + 7) \ 8
             Dim totalBits As Integer = groups * 8 * bitWidth
-            Dim buffer As Byte() = New Byte((totalBits + 7) \ 8 - 1) {}
+            Dim bytes As Integer = (totalBits + 7) \ 8
 
-            For k As Integer = 0 To count - 1
-                Dim value As Integer = values(start + k)
-                Dim bitOffset As Integer = k * bitWidth
+            If bytes <= 0 Then
+                Call ByteWriter.WriteVarint(stream, CULng((CLng(groups) << 1) Or 1L))
+                Return
+            End If
 
-                For b As Integer = 0 To bitWidth - 1
-                    If ((value >> b) And 1) <> 0 Then
-                        Dim position As Integer = bitOffset + b
-                        Dim index As Integer = position >> 3
-                        buffer(index) = CByte(buffer(index) Or CByte(1 << (position And 7)))
-                    End If
+            ' 位打包输出缓冲从池中租用（每个 run 一块），注意 Shared 池不清零，
+            ' 位打包依赖初始零值，因此必须显式清零。
+            Dim buffer As Byte() = BufferPool.RentBytes(bytes)
+
+            Try
+                Call Array.Clear(buffer, 0, bytes)
+
+                For k As Integer = 0 To count - 1
+                    Dim value As Integer = values(start + k)
+                    Dim bitOffset As Integer = k * bitWidth
+
+                    For b As Integer = 0 To bitWidth - 1
+                        If ((value >> b) And 1) <> 0 Then
+                            Dim position As Integer = bitOffset + b
+                            Dim index As Integer = position >> 3
+                            buffer(index) = CByte(buffer(index) Or CByte(1 << (position And 7)))
+                        End If
+                    Next
                 Next
-            Next
 
-            Call ByteWriter.WriteVarint(stream, CULng((CLng(groups) << 1) Or 1L))
-            Call stream.Write(buffer, 0, buffer.Length)
+                Call ByteWriter.WriteVarint(stream, CULng((CLng(groups) << 1) Or 1L))
+                Call stream.Write(buffer, 0, bytes)
+            Finally
+                BufferPool.ReturnBytes(buffer)
+            End Try
         End Sub
 
         ''' <summary>

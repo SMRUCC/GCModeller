@@ -36,8 +36,11 @@ Namespace Snappy
             If Not input.CanRead Then Throw New ArgumentException("输入流必须可读。", NameOf(input))
 
             Using copy As New MemoryStream()
-                input.CopyTo(copy)
-                Return Compress(copy.ToArray())
+                Call input.CopyTo(copy)
+
+                ' 直接使用 MemoryStream 的底层缓冲（按逻辑长度读取），
+                ' 避免 ToArray() 带来的整块复制
+                Return SnappyRawEncoder.Encode(copy.GetBuffer(), 0, CInt(copy.Length))
             End Using
         End Function
 
@@ -66,8 +69,17 @@ Namespace Snappy
             If Not input.CanRead Then Throw New ArgumentException("输入流必须可读。", NameOf(input))
 
             Using copy As New MemoryStream()
-                input.CopyTo(copy)
-                Return Uncompress(copy.ToArray())
+                Call input.CopyTo(copy)
+
+                Dim length As Integer = CInt(copy.Length)
+                Dim pos As Integer = 0
+                Dim result As Byte() = SnappyRawDecoder.Decode(copy.GetBuffer(), pos, length)
+
+                If pos <> length Then
+                    Throw New InvalidDataException($"Snappy: 原始块末尾存在 {length - pos} 字节未消费的数据。")
+                End If
+
+                Return result
             End Using
         End Function
 

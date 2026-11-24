@@ -74,11 +74,11 @@ Namespace LZ77Stream
         ''' </summary>
         Public Shared Function Decompress(input As Stream) As Byte()
             If input Is Nothing Then Throw New ArgumentNullException(NameOf(input))
-            Using output As New MemoryStream()
-                Using decoder As New LzmaStream(input, leaveOpen:=True)
-                    decoder.CopyTo(output)
-                End Using
-                Return output.ToArray()
+
+            ' 旧实现使用 MemoryStream 累积再由 ToArray 复制一次；改为池化缓冲增长后按有效长度输出，
+            ' 消除内部缓冲的 2 倍扩张分配以及末尾的整块复制。
+            Using decoder As New LzmaStream(input, leaveOpen:=True)
+                Return BufferPool.ReadToEnd(decoder)
             End Using
         End Function
 

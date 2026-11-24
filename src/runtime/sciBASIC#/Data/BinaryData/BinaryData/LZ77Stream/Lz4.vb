@@ -79,11 +79,11 @@ Namespace LZ77Stream
         ''' </summary>
         Public Shared Function Decompress(input As Stream) As Byte()
             If input Is Nothing Then Throw New ArgumentNullException(NameOf(input))
-            Using output As New MemoryStream()
-                Using decoder As New Lz4Stream(input, leaveOpen:=True)
-                    decoder.CopyTo(output)
-                End Using
-                Return output.ToArray()
+
+            ' 旧实现使用 MemoryStream 累积再由 ToArray 复制一次；改为池化缓冲增长后按有效长度输出，
+            ' 消除内部缓冲的 2 倍扩张分配以及末尾的整块复制。
+            Using decoder As New Lz4Stream(input, leaveOpen:=True)
+                Return BufferPool.ReadToEnd(decoder)
             End Using
         End Function
 
@@ -96,11 +96,38 @@ Namespace LZ77Stream
             If decompressedSize < 0 Then Throw New ArgumentOutOfRangeException(NameOf(decompressedSize))
 
             Dim dst = New Byte(decompressedSize - 1) {}
-            Dim endPos = DecodeBlock(compressed, 0, compressed.Length, dst, 0, 0, decompressedSize)
+            Dim endPos = DecodeBlock(compressed, dst, 0, decompressedSize)
+
             If endPos <> decompressedSize Then
                 Throw New InvalidDataException($"LZ4 block: decoded {endPos - 0} bytes but {decompressedSize} were expected.")
             End If
+
             Return dst
+        End Function
+
+        ''' <summary>
+        ''' 解码一个解压后长度已知的原始 LZ4 块，并把结果写入调用方提供的缓冲，
+        ''' 不产生新的数组分配。
+        ''' </summary>
+        ''' <param name="compressed">压缩块。</param>
+        ''' <param name="dst">目标缓冲，<c>dstOffset + decompressedSize</c> 不得超出其长度。</param>
+        ''' <param name="dstOffset">目标缓冲的写入起始位置。</param>
+        ''' <param name="decompressedSize">解压后的字节数。</param>
+        ''' <returns>实际写出的结束位置。</returns>
+        ''' <remarks>
+        ''' 该重载不做所有权转移：缓冲区的生命周期由调用方管理。
+        ''' 典型用法是从 <see cref="BufferPool.RentBytes"/> 租用目标缓冲，用完即归还。
+        ''' </remarks>
+        Public Shared Function DecodeBlock(compressed As Byte(), dst As Byte(),
+                                           dstOffset As Integer, decompressedSize As Integer) As Integer
+            If compressed Is Nothing Then Throw New ArgumentNullException(NameOf(compressed))
+            If dst Is Nothing Then Throw New ArgumentNullException(NameOf(dst))
+            If decompressedSize < 0 Then Throw New ArgumentOutOfRangeException(NameOf(decompressedSize))
+            If dstOffset < 0 OrElse CLng(dstOffset) + CLng(decompressedSize) > dst.Length Then
+                Throw New ArgumentOutOfRangeException(NameOf(dstOffset), "目标缓冲的空间不足。")
+            End If
+
+            Return DecodeBlock(compressed, 0, compressed.Length, dst, dstOffset, dstOffset, dstOffset + decompressedSize)
         End Function
 
         ''' <summary>

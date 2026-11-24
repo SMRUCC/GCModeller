@@ -119,6 +119,11 @@ Namespace LZ77Stream
         Private _prevTailLen As Integer
         Private _endAfterServe As Boolean
 
+        ''' <summary>
+        ''' 跳过分块（skippable / padding 帧）时使用的复用缓冲，避免每次调用都分配 4 KB。
+        ''' </summary>
+        Private ReadOnly _skipScratch As Byte() = New Byte(4095) {}
+
         ''' <summary>Creates a decompressing stream over an LZ4 compressed input stream.</summary>
         ''' <param name="input">The compressed stream; must be readable.</param>
         ''' <param name="leaveOpen">True to leave <paramref name="input"/> open when this stream is disposed.</param>
@@ -282,26 +287,33 @@ Namespace LZ77Stream
                 Throw New InvalidDataException($"LZ4: block data size {dataSize} exceeds the frame's maximum block size {_blockMaxSize}.")
             End If
 
-            Dim data(dataSize - 1) As Byte
-            ReadExactlyBlock(data)
+            ' 块输入缓冲仅作中转，解码完成即可归还。大块帧（1 MB / 4 MB）下该缓冲
+            ' 会直接落入 LOH，池化收益显著；超过 1 MiB 的请求由 BufferPool 转入大块池。
+            Dim data As Byte() = BufferPool.RentBytes(dataSize)
 
-            If _blockChecksum Then
-                Dim sum = ReadU32LE()
-                If sum <> XxHash32.ComputeHash(data, 0, dataSize) Then
-                    Throw New InvalidDataException("LZ4: block checksum mismatch.")
+            Try
+                Call ReadExactlyInto(data, dataSize)
+
+                If _blockChecksum Then
+                    Dim sum = ReadU32LE()
+                    If sum <> XxHash32.ComputeHash(data, 0, dataSize) Then
+                        Throw New InvalidDataException("LZ4: block checksum mismatch.")
+                    End If
                 End If
-            End If
 
-            BeginBlock()
+                Call BeginBlock()
 
-            If stored Then
-                Buffer.BlockCopy(data, 0, _out, _blockStart, dataSize)
-                _blockLen = dataSize
-            Else
-                Dim dictStart = If(_linked, 0, _blockStart)
-                Dim newEnd = Lz4.DecodeBlock(data, 0, dataSize, _out, dictStart, _blockStart, _blockStart + _blockMaxSize)
-                _blockLen = newEnd - _blockStart
-            End If
+                If stored Then
+                    Buffer.BlockCopy(data, 0, _out, _blockStart, dataSize)
+                    _blockLen = dataSize
+                Else
+                    Dim dictStart = If(_linked, 0, _blockStart)
+                    Dim newEnd = Lz4.DecodeBlock(data, 0, dataSize, _out, dictStart, _blockStart, _blockStart + _blockMaxSize)
+                    _blockLen = newEnd - _blockStart
+                End If
+            Finally
+                BufferPool.ReturnBytes(data)
+            End Try
 
             _frameProduced += CULng(_blockLen)
             _served = 0
@@ -324,12 +336,18 @@ Namespace LZ77Stream
                 Throw New InvalidDataException("LZ4: legacy block is too large.")
             End If
 
-            Dim data(dataSize - 1) As Byte
-            ReadExactlyBlock(data)
+            ' legacy 帧的块最大可达 8 MB，旧实现每次都要新分配一整块，池化后可以直接复用
+            Dim data As Byte() = BufferPool.RentBytes(dataSize)
 
-            _blockStart = 0
-            _blockLen = Lz4.DecodeBlock(data, 0, dataSize, _out, 0, 0, LegacyBlockSize)
-            _served = 0
+            Try
+                Call ReadExactlyInto(data, dataSize)
+
+                _blockStart = 0
+                _blockLen = Lz4.DecodeBlock(data, 0, dataSize, _out, 0, 0, LegacyBlockSize)
+                _served = 0
+            Finally
+                BufferPool.ReturnBytes(data)
+            End Try
             ' Legacy frames end after any block that decompressed to less than 8 MB.
             If _blockLen < LegacyBlockSize Then _endAfterServe = True
         End Sub
@@ -418,7 +436,7 @@ Namespace LZ77Stream
         End Sub
 
         Private Sub SkipBytes(count As UInteger)
-            Dim scratch(4095) As Byte
+            Dim scratch As Byte() = _skipScratch
             Dim remaining As ULong = CULng(count)
             Do While remaining > 0UL
                 Dim c = CInt(std.Min(remaining, CULng(scratch.Length)))

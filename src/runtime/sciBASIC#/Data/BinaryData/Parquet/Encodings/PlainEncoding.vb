@@ -2,7 +2,9 @@ Option Strict On
 Option Explicit On
 Option Infer On
 
+Imports System.Buffers.Binary
 Imports System.IO
+Imports BufferPool = Microsoft.VisualBasic.Data.IO.BufferPool
 
 Namespace Encodings
 
@@ -12,93 +14,122 @@ Namespace Encodings
     Public Module PlainEncoding
 
         ''' <summary>
+        ''' 共享的空字节数组，用于代替 <c>New Byte() {}</c> 以避免重复分配。
+        ''' </summary>
+        Private ReadOnly EmptyBytes As Byte() = New Byte() {}
+
+        ''' <summary>
         ''' 布尔值采用 bit-packed、LSB first 的方式编码。
         ''' </summary>
+        ''' <remarks>
+        ''' 输出缓冲按整列长度从 <see cref="BufferPool"/> 租用：一个 100 万行的布尔列会产生
+        ''' 约 125 KB 的缓冲，属于典型的高频大块临时缓冲。
+        ''' <see cref="ArrayPool(Of T).Shared"/> 不清零返还的数组，因此必须显式清零。
+        ''' </remarks>
         Public Sub WriteBooleans(stream As Stream, values As Boolean())
             Dim bytes As Integer = (values.Length + 7) \ 8
-            Dim buffer As Byte() = New Byte(bytes - 1) {}
 
-            For i As Integer = 0 To values.Length - 1
-                If values(i) Then
-                    buffer(i >> 3) = CByte(buffer(i >> 3) Or CByte(1 << (i And 7)))
-                End If
-            Next
-
-            If bytes > 0 Then
-                Call stream.Write(buffer, 0, bytes)
+            If bytes <= 0 Then
+                Return
             End If
+
+            Dim buffer As Byte() = BufferPool.RentBytes(bytes)
+
+            Try
+                Call Array.Clear(buffer, 0, bytes)
+
+                For i As Integer = 0 To values.Length - 1
+                    If values(i) Then
+                        buffer(i >> 3) = CByte(buffer(i >> 3) Or CByte(1 << (i And 7)))
+                    End If
+                Next
+
+                Call stream.Write(buffer, 0, bytes)
+            Finally
+                BufferPool.ReturnBytes(buffer)
+            End Try
         End Sub
 
         Public Sub WriteInt32(stream As Stream, values As Integer())
-            Dim buffer As Byte() = New Byte(values.Length * 4 - 1) {}
+            Dim count As Integer = values.Length * 4
 
-            For i As Integer = 0 To values.Length - 1
-                System.Buffer.BlockCopy(BitConverter.GetBytes(values(i)), 0, buffer, i * 4, 4)
-            Next
+            If count <= 0 Then
+                Return
+            End If
 
-            If Not BitConverter.IsLittleEndian Then
+            ' 整列缓冲（默认 RowGroup 100 万行时为 4 MB，远超 1 MiB 的共享池上限）
+            ' 由 BufferPool 转入大块池；元素级写入使用 BinaryPrimitives，不再产生小数组。
+            Dim buffer As Byte() = BufferPool.RentBytes(count)
+
+            Try
                 For i As Integer = 0 To values.Length - 1
-                    Array.Reverse(buffer, i * 4, 4)
+                    BinaryPrimitives.WriteInt32LittleEndian(buffer.AsSpan(i * 4, 4), values(i))
                 Next
-            End If
 
-            If buffer.Length > 0 Then
-                Call stream.Write(buffer, 0, buffer.Length)
-            End If
+                Call stream.Write(buffer, 0, count)
+            Finally
+                BufferPool.ReturnBytes(buffer)
+            End Try
         End Sub
 
         Public Sub WriteInt64(stream As Stream, values As Long())
-            Dim buffer As Byte() = New Byte(values.Length * 8 - 1) {}
+            Dim count As Integer = values.Length * 8
 
-            For i As Integer = 0 To values.Length - 1
-                System.Buffer.BlockCopy(BitConverter.GetBytes(values(i)), 0, buffer, i * 8, 8)
-            Next
+            If count <= 0 Then
+                Return
+            End If
 
-            If Not BitConverter.IsLittleEndian Then
+            Dim buffer As Byte() = BufferPool.RentBytes(count)
+
+            Try
                 For i As Integer = 0 To values.Length - 1
-                    Array.Reverse(buffer, i * 8, 8)
+                    BinaryPrimitives.WriteInt64LittleEndian(buffer.AsSpan(i * 8, 8), values(i))
                 Next
-            End If
 
-            If buffer.Length > 0 Then
-                Call stream.Write(buffer, 0, buffer.Length)
-            End If
+                Call stream.Write(buffer, 0, count)
+            Finally
+                BufferPool.ReturnBytes(buffer)
+            End Try
         End Sub
 
         Public Sub WriteSingle(stream As Stream, values As Single())
-            Dim data As Byte() = New Byte(values.Length * 4 - 1) {}
+            Dim count As Integer = values.Length * 4
 
-            For i As Integer = 0 To values.Length - 1
-                System.Buffer.BlockCopy(BitConverter.GetBytes(values(i)), 0, data, i * 4, 4)
-            Next
+            If count <= 0 Then
+                Return
+            End If
 
-            If Not BitConverter.IsLittleEndian Then
+            Dim buffer As Byte() = BufferPool.RentBytes(count)
+
+            Try
                 For i As Integer = 0 To values.Length - 1
-                    Array.Reverse(data, i * 4, 4)
+                    BinaryPrimitives.WriteSingleLittleEndian(buffer.AsSpan(i * 4, 4), values(i))
                 Next
-            End If
 
-            If data.Length > 0 Then
-                Call stream.Write(data, 0, data.Length)
-            End If
+                Call stream.Write(buffer, 0, count)
+            Finally
+                BufferPool.ReturnBytes(buffer)
+            End Try
         End Sub
 
         Public Sub WriteDouble(stream As Stream, values As Double())
-            Dim data As Byte() = New Byte(values.Length * 8 - 1) {}
+            Dim count As Integer = values.Length * 8
 
-            For i As Integer = 0 To values.Length - 1
-                System.Buffer.BlockCopy(BitConverter.GetBytes(values(i)), 0, data, i * 8, 8)
-            Next
+            If count <= 0 Then
+                Return
+            End If
 
-            If Not BitConverter.IsLittleEndian Then
+            Dim buffer As Byte() = BufferPool.RentBytes(count)
+
+            Try
                 For i As Integer = 0 To values.Length - 1
-                    Array.Reverse(data, i * 8, 8)
+                    BinaryPrimitives.WriteDoubleLittleEndian(buffer.AsSpan(i * 8, 8), values(i))
                 Next
-            End If
 
-            If data.Length > 0 Then
-                Call stream.Write(data, 0, data.Length)
-            End If
+                Call stream.Write(buffer, 0, count)
+            Finally
+                BufferPool.ReturnBytes(buffer)
+            End Try
         End Sub
 
         ''' <summary>
@@ -106,7 +137,7 @@ Namespace Encodings
         ''' </summary>
         Public Sub WriteByteArrays(stream As Stream, values As Byte()())
             For Each value As Byte() In values
-                Dim buffer As Byte() = If(value, New Byte() {})
+                Dim buffer As Byte() = If(value, EmptyBytes)
 
                 Call ByteWriter.WriteInt32LE(stream, buffer.Length)
                 Call stream.Write(buffer, 0, buffer.Length)
@@ -118,7 +149,7 @@ Namespace Encodings
         ''' </summary>
         Public Sub WriteFixedLenByteArrays(stream As Stream, values As Byte()(), typeLength As Integer)
             For Each value As Byte() In values
-                Dim buffer As Byte() = If(value, New Byte() {})
+                Dim buffer As Byte() = If(value, EmptyBytes)
 
                 If buffer.Length <> typeLength Then
                     Throw New ParquetException($"the fixed length byte array value should be {typeLength} bytes, but got {buffer.Length} bytes!")
