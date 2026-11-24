@@ -147,14 +147,41 @@ Friend Module DecompositionTest
                 Continue For
             End If
 
-            Call DebugAudit.AreEqual(genomes(strain).Length, mat.size, $"row count of strain '{strain}'")
+            ' 行维度必须与总矩阵完全对齐(同样的基因、同样的顺序)
+            Call DebugAudit.AreEqual(total.size, mat.size,
+                                     $"row count of strain '{strain}' should be aligned with the total matrix")
             Call DebugAudit.AreEqual(total.sample_count, mat.sample_count, $"sample count of strain '{strain}'")
 
-            Dim expected As New HashSet(Of String)(genomes(strain), StringComparer.Ordinal)
-            Dim actual As New HashSet(Of String)(mat.rownames, StringComparer.Ordinal)
+            Dim aligned As Boolean = True
 
-            Call DebugAudit.Test(expected.SetEquals(actual),
-                                 $"the rows of strain '{strain}' should be exactly its own genome genes")
+            For i As Integer = 0 To total.size - 1
+                If Not String.Equals(total.expression(i).geneID, mat.expression(i).geneID, StringComparison.Ordinal) Then
+                    aligned = False
+                    Exit For
+                End If
+            Next
+
+            Call DebugAudit.Test(aligned, $"the gene rows of '{strain}' should be aligned with the total matrix")
+
+            ' 属于其它菌株的基因行必须为 0，保证每个菌株矩阵只携带自己的信号
+            Dim own As New HashSet(Of String)(genomes(strain), StringComparer.Ordinal)
+            Dim foreignSignal As Integer = 0
+
+            For Each row As DataFrameRow In mat.expression
+                If own.Contains(row.geneID) Then
+                    Continue For
+                End If
+
+                For Each v As Double In row.experiments
+                    If std.Abs(v) > 0 Then
+                        foreignSignal += 1
+                        Exit For
+                    End If
+                Next
+            Next
+
+            Call DebugAudit.AreEqual(0, foreignSignal,
+                                     $"the matrix of '{strain}' should not carry the signals of the other strains")
 
             For j As Integer = 0 To total.sample_count - 1
                 Call DebugAudit.AreEqual(total.sampleID(j), mat.sampleID(j), $"sample order of strain '{strain}'")
@@ -377,7 +404,7 @@ Friend Module DecompositionTest
                 Dim strain As String = Path.GetFileNameWithoutExtension(file)
                 Dim round As Matrix = Matrix.LoadData(file)
 
-                Call DebugAudit.AreEqual(genomes(strain).Length, round.size, $"csv row count of '{strain}'")
+                Call DebugAudit.AreEqual(result.strains(strain).size, round.size, $"csv row count of '{strain}'")
                 Call DebugAudit.AreEqual(result.strains(strain).sample_count, round.sample_count,
                                          $"csv sample count of '{strain}'")
 

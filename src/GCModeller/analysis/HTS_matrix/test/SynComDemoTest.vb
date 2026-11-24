@@ -167,13 +167,44 @@ Friend Module SynComDemoTest
                 Continue For
             End If
 
-            Call DebugAudit.AreEqual(genomes(strain).Length, mat.size, $"row count of '{strain}'")
+            ' 每个菌株矩阵的行维度都必须与原始并集矩阵完全对齐
+            Call DebugAudit.AreEqual(total.size, mat.size,
+                                     $"row count of '{strain}' should be aligned with the total matrix")
             Call DebugAudit.AreEqual(total.sample_count, mat.sample_count, $"sample count of '{strain}'")
 
-            Dim expected As New HashSet(Of String)(genomes(strain), StringComparer.Ordinal)
-            Dim actual As New HashSet(Of String)(mat.rownames, StringComparer.Ordinal)
+            Dim aligned As Boolean = True
 
-            Call DebugAudit.Test(expected.SetEquals(actual), $"the rows of '{strain}' should be its own genome genes")
+            For i As Integer = 0 To total.size - 1
+                If Not String.Equals(total.expression(i).geneID, mat.expression(i).geneID, StringComparison.Ordinal) Then
+                    aligned = False
+                    Exit For
+                End If
+            Next
+
+            Call DebugAudit.Test(aligned, $"the gene rows of '{strain}' should be aligned with the total matrix")
+
+            ' 本菌株的基因行覆盖完整，且其它菌株的基因行必须为 0
+            Dim own As New HashSet(Of String)(genomes(strain), StringComparer.Ordinal)
+            Dim present As New HashSet(Of String)(mat.rownames, StringComparer.Ordinal)
+            Dim missing As Integer = own.Where(Function(gene) Not present.Contains(gene)).Count()
+            Dim foreignSignal As Integer = 0
+
+            For Each row As DataFrameRow In mat.expression
+                If own.Contains(row.geneID) Then
+                    Continue For
+                End If
+
+                For Each v As Double In row.experiments
+                    If std.Abs(v) > 0 Then
+                        foreignSignal += 1
+                        Exit For
+                    End If
+                Next
+            Next
+
+            Call DebugAudit.AreEqual(0, missing, $"the matrix of '{strain}' should contain all of its own genome genes")
+            Call DebugAudit.AreEqual(0, foreignSignal,
+                                     $"the matrix of '{strain}' should not carry the signals of the other strains")
 
             Dim invalid As Integer = 0
 
