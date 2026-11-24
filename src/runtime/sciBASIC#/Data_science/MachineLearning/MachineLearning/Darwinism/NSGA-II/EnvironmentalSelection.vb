@@ -30,7 +30,7 @@ Namespace Darwinism.NSGA2
         ''' The population of the next generation, which contains exactly 
         ''' ``N`` chromosomes.
         ''' </summary>
-        ''' <returns>A <see cref="Population(Of Chr)"/> object.</returns>
+        ''' <returns>A <c>Population(Of Chr)</c> object.</returns>
         Public ReadOnly Property Population As Population(Of Chr)
         ''' <summary>
         ''' The objective vectors of the selected chromosomes, which are aligned 
