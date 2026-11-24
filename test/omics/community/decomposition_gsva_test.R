@@ -46,9 +46,9 @@ DebugAudit::max_events(20000);
 # ---------------------------------------------------------------------
 print("[STEP] 1/6 load demo data");
 
-let total = geneExpression::load.expr("E:/codebuddy/GCModeller/src/GCModeller/analysis/HTS_matrix/test/data/syncom/total.csv");
-let genomes = read.csv("E:/codebuddy/GCModeller/src/GCModeller/analysis/HTS_matrix/test/data/syncom/genomes.csv");
-let families = read.csv("E:/codebuddy/GCModeller/src/GCModeller/analysis/HTS_matrix/test/data/syncom/families.csv");
+let total = geneExpression::load.expr(here("syncom/total.csv"));
+let genomes = read.csv(here("syncom/genomes.csv"));
+let families = read.csv(here("syncom/families.csv"));
 
 let n_gene = nrow(genomes);
 let n_family = length(unique(families$family_id));
@@ -66,7 +66,7 @@ if (c2 != TRUE) { stop("[FAIL] step 1: families.csv should contain more than 50 
 # ---------------------------------------------------------------------
 print("[STEP] 2/6 build the KEGG pathway background");
 
-let gmt_file = "E:/codebuddy/GCModeller/src/GCModeller/analysis/HTS_matrix/test/data/syncom/pathways.gmt";
+let gmt_file = here("syncom/pathways.gmt");
 let gmt = background::read_gmt(gmt_file);
 let bg = background::as.background(gmt, name = "KEGG syncom demo");
 let n_pathway = length(readLines(gmt_file));
@@ -93,7 +93,7 @@ let groups = list(
 );
 
 let dec = geneExpression::decompose_community(total, genomes, families, groups = groups, seed = 42);
-let files = geneExpression::write.decomposition(dec, "E:/codebuddy/GCModeller/test/omics/community/decomposed");
+let files = geneExpression::write.decomposition(dec, here("decomposed"));
 
 print(sprintf("  exported %s files", length(files)));
 
@@ -105,15 +105,15 @@ if (c4 != TRUE) { stop("[FAIL] step 3: write.decomposition should export 6 files
 # ---------------------------------------------------------------------
 print("[STEP] 4/6 load the decomposed matrices");
 
-let y1 = geneExpression::load.expr("E:/codebuddy/GCModeller/test/omics/community/decomposed/Comamonas sp. Y1.csv");
-let k1 = geneExpression::load.expr("E:/codebuddy/GCModeller/test/omics/community/decomposed/Acinetobacter sp. K1.csv");
-let b1 = geneExpression::load.expr("E:/codebuddy/GCModeller/test/omics/community/decomposed/Pseudomonas sp. B1.csv");
-let h1 = geneExpression::load.expr("E:/codebuddy/GCModeller/test/omics/community/decomposed/Bacillus sp. H1.csv");
+let y1 = geneExpression::load.expr(here("decomposed/Comamonas sp. Y1.csv"));
+let k1 = geneExpression::load.expr(here("decomposed/Acinetobacter sp. K1.csv"));
+let b1 = geneExpression::load.expr(here("decomposed/Pseudomonas sp. B1.csv"));
+let h1 = geneExpression::load.expr(here("decomposed/Bacillus sp. H1.csv"));
 
-let y1_df = read.csv("E:/codebuddy/GCModeller/test/omics/community/decomposed/Comamonas sp. Y1.csv");
-let k1_df = read.csv("E:/codebuddy/GCModeller/test/omics/community/decomposed/Acinetobacter sp. K1.csv");
-let b1_df = read.csv("E:/codebuddy/GCModeller/test/omics/community/decomposed/Pseudomonas sp. B1.csv");
-let h1_df = read.csv("E:/codebuddy/GCModeller/test/omics/community/decomposed/Bacillus sp. H1.csv");
+let y1_df = read.csv(here("decomposed/Comamonas sp. Y1.csv"));
+let k1_df = read.csv(here("decomposed/Acinetobacter sp. K1.csv"));
+let b1_df = read.csv(here("decomposed/Pseudomonas sp. B1.csv"));
+let h1_df = read.csv(here("decomposed/Bacillus sp. H1.csv"));
 
 print(sprintf("  rows: Y1=%s K1=%s B1=%s H1=%s", nrow(y1_df), nrow(k1_df), nrow(b1_df), nrow(h1_df)));
 
@@ -135,9 +135,9 @@ print("[STEP] 5/6 GSVA on the pre-decomposition matrix");
 
 let gsva_pre = GSVA::gsva(geneExpression::log_cpm(total), bg, kcdf = "Gaussian");
 
-geneExpression::write.expr_matrix(gsva_pre, "E:/codebuddy/GCModeller/test/omics/community/gsva_pre_community.csv");
+geneExpression::write.expr_matrix(gsva_pre, here("gsva_pre_community.csv"));
 
-let pre_df = read.csv("E:/codebuddy/GCModeller/test/omics/community/gsva_pre_community.csv");
+let pre_df = read.csv(here("gsva_pre_community.csv"));
 
 print(sprintf("  gsva pre matrix: %s x %s", nrow(pre_df), ncol(pre_df)));
 
@@ -161,10 +161,10 @@ let gsva_k1 = GSVA::gsva(geneExpression::log_cpm(k1), bg, kcdf = "Gaussian");
 let gsva_b1 = GSVA::gsva(geneExpression::log_cpm(b1), bg, kcdf = "Gaussian");
 let gsva_h1 = GSVA::gsva(geneExpression::log_cpm(h1), bg, kcdf = "Gaussian");
 
-geneExpression::write.expr_matrix(gsva_y1, "E:/codebuddy/GCModeller/test/omics/community/gsva_post_Comamonas_sp_Y1.csv");
-geneExpression::write.expr_matrix(gsva_k1, "E:/codebuddy/GCModeller/test/omics/community/gsva_post_Acinetobacter_sp_K1.csv");
-geneExpression::write.expr_matrix(gsva_b1, "E:/codebuddy/GCModeller/test/omics/community/gsva_post_Pseudomonas_sp_B1.csv");
-geneExpression::write.expr_matrix(gsva_h1, "E:/codebuddy/GCModeller/test/omics/community/gsva_post_Bacillus_sp_H1.csv");
+geneExpression::write.expr_matrix(gsva_y1, here("gsva_post_Comamonas_sp_Y1.csv"));
+geneExpression::write.expr_matrix(gsva_k1, here("gsva_post_Acinetobacter_sp_K1.csv"));
+geneExpression::write.expr_matrix(gsva_b1, here("gsva_post_Pseudomonas_sp_B1.csv"));
+geneExpression::write.expr_matrix(gsva_h1, here("gsva_post_Bacillus_sp_H1.csv"));
 
 let by_group = list(YKB_WT = c("YKB_WT_WT_R1", "YKB_WT_WT_R2", "YKB_WT_WT_R3"),
                     YKB_QSR = c("YKB_WT_QSR_R1", "YKB_WT_QSR_R2", "YKB_WT_QSR_R3"),
@@ -176,10 +176,10 @@ let agg_k1 = geneExpression::aggregate_samples(gsva_k1, by_group);
 let agg_b1 = geneExpression::aggregate_samples(gsva_b1, by_group);
 let agg_h1 = geneExpression::aggregate_samples(gsva_h1, by_group);
 
-geneExpression::write.expr_matrix(agg_y1, "E:/codebuddy/GCModeller/test/omics/community/gsva_post_Comamonas_sp_Y1_groups.csv");
-geneExpression::write.expr_matrix(agg_k1, "E:/codebuddy/GCModeller/test/omics/community/gsva_post_Acinetobacter_sp_K1_groups.csv");
-geneExpression::write.expr_matrix(agg_b1, "E:/codebuddy/GCModeller/test/omics/community/gsva_post_Pseudomonas_sp_B1_groups.csv");
-geneExpression::write.expr_matrix(agg_h1, "E:/codebuddy/GCModeller/test/omics/community/gsva_post_Bacillus_sp_H1_groups.csv");
+geneExpression::write.expr_matrix(agg_y1, here("gsva_post_Comamonas_sp_Y1_groups.csv"));
+geneExpression::write.expr_matrix(agg_k1, here("gsva_post_Acinetobacter_sp_K1_groups.csv"));
+geneExpression::write.expr_matrix(agg_b1, here("gsva_post_Pseudomonas_sp_B1_groups.csv"));
+geneExpression::write.expr_matrix(agg_h1, here("gsva_post_Bacillus_sp_H1_groups.csv"));
 
 # ---- KEGG pathway scores of the interesting combinations ----
 
@@ -256,7 +256,7 @@ let metrics = c(
   sprintf("strain.map00920.HKB.B1,%s", b1_sulfur)
 );
 
-writeLines(metrics, con = "E:/codebuddy/GCModeller/test/omics/community/gsva_key_metrics.csv");
+writeLines(metrics, con = here("gsva_key_metrics.csv"));
 
 # ---------------------------------------------------------------------
 # 7. assert the paper conclusions
@@ -342,8 +342,8 @@ let report = c(
   "[PASS] all of the community decomposition + KEGG GSVA checks passed"
 );
 
-writeLines(report, con = "E:/codebuddy/GCModeller/test/omics/community/test_report.txt");
-DebugAudit::save_report("E:/codebuddy/GCModeller/test/omics/community/debug_audit_report.json");
+writeLines(report, con = here("test_report.txt"));
+DebugAudit::save_report(here("debug_audit_report.json"));
 
 if (failures != 0) {
     stop("[FAIL] unexpected DebugAudit failures");
