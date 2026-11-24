@@ -74,6 +74,15 @@ Namespace Assembly.NCBI.GenBank.GBFF
         }
 
         ''' <summary>
+        ''' 值具有固定的结构(例如<c>(pos:1..3,aa:Met)</c>)，按照NCBI的规范是直接写出而不加引号的qualifier
+        ''' </summary>
+        ReadOnly rawQualifiers As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase) From {
+            "transl_except",
+            "anticodon",
+            "codon"
+        }
+
+        ''' <summary>
         ''' 将genbank对象模型转换为文本文档数据以进行数据保存
         ''' </summary>
         ''' <param name="gb"></param>
@@ -417,6 +426,10 @@ Namespace Assembly.NCBI.GenBank.GBFF
         Private Function __qualifierValue(name As String, value As String) As String
             If String.IsNullOrEmpty(value) Then
                 Return ""
+            End If
+
+            If rawQualifiers.Contains(name) Then
+                Return value
             End If
 
             If unquotedQualifiers.Contains(name) AndAlso __isNumber(value) Then
