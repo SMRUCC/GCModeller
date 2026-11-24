@@ -20,6 +20,8 @@ src/GCModeller/data/MoleculeKit/SMILES/test/output/
 src/GCModeller/engine/vCella
 src/GCModeller/engine/CellaOptimization
 
+!src/GCModeller/core/Bio.Assembly/Assembly/
+
 node_modules
 *.lock
 *.ide
