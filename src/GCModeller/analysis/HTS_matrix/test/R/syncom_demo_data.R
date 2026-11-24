@@ -62,8 +62,18 @@ SEED <- 20261124
 # 1. 菌株、功能模块、KEGG 通路与 KO
 # ---------------------------------------------------------------------------
 
-strains <- c("Y1", "K1", "B1", "H1")
+# 分离株编号(用于 locus tag 前缀) 与 菌株学名全名(strain id)
+isolates <- c("Y1", "K1", "B1", "H1")
+strainName <- c(
+  Y1 = "Comamonas sp. Y1",
+  K1 = "Acinetobacter sp. K1",
+  B1 = "Pseudomonas sp. B1",
+  H1 = "Bacillus sp. H1")
 genera <- c(Y1 = "Comamonas", K1 = "Acinetobacter", B1 = "Pseudomonas", H1 = "Bacillus")
+
+# 内部计算使用分离株编号，写出 CSV 时统一转换为学名
+strains <- isolates
+strainLabel <- function(isolate) unname(strainName[isolate])
 
 modules <- c("herb_initial", "herb_downstream", "qs_ahl", "qs_ai2", "tryptophan",
              "sulfur", "carbohydrate", "dna_repair", "biofilm", "transporter",
@@ -92,37 +102,104 @@ pathwayName <- c(
 
 ko <- function(from, to) sprintf("K%05d", seq.int(from, to))
 
-# 每个通路的 KO 池(同源家族从这个池中取编号；私有基因按顺序轮转分配)
-pathwayKO <- list(
-  map00791 = ko(3382, 3413),      # 除草剂起始/三嗪环降解酶
-  map00627 = ko(1447, 1460),      # 酰胺类下游代谢
-  map00983 = ko(1211, 1222),      # 磺酰脲水解/其他酶
-  map00380 = ko(1695, 1710),      # 色氨酸代谢
-  map00400 = ko(1657, 1670),      # 芳香族氨基酸合成
-  map00920 = ko(956, 975),        # 硫代谢
-  map00270 = ko(1738, 1750),      # Cys/Met 代谢
-  map00010 = c("K00845", "K01810", "K00850", "K01624", "K01803", "K00134",
-               "K00927", "K01834", "K01689", "K00873"),
-  map00020 = c("K01647", "K01681", "K00031", "K00164", "K00658", "K01902",
-               "K01903", "K00239", "K00240", "K01676", "K01679", "K00024"),
-  map00190 = c("K02112", "K02109", "K02117", "K02118", "K02298", "K02274"),
-  map03440 = c("K03553", "K03582", "K03583", "K03581", "K03111", "K03550",
-               "K03551", "K01134"),
-  map03430 = c("K03555", "K03572", "K06223", "K03657"),
-  map03420 = c("K03701", "K03702", "K03703"),
-  map02024 = c("K07173", "K13060", "K13061", "K11531", "K11532"),
-  map02025 = ko(20276, 20290),
-  map02010 = ko(2035, 2050),
-  map03010 = c("K03040", "K03043", "K03046", "K03086", "K02945", "K02967",
-               "K02863", "K02886", "K02904", "K02911"),
-  map00970 = c("K01866", "K01867", "K01868", "K01869", "K01870"))
+# KEGG 通路的基因池：基因符号(symbol) 与 KO 编号按位对应。
+#
+# 除草剂降解酶的符号取自论文 Fig. 3(atzA/atzB/.../dnrA)，其余功能使用对应通路的
+# 经典基因符号(glk/pgi/.../rpoB/...)，这样每个基因的 gene_id 都有可直接解读的
+# 生物学名称，而不是合成的模块序号。
+pathwayPool <- list(
+  map00791 = data.frame(
+    symbol = c("atzA", "ethBAD", "nsh", "damH", "cmeH", "dpeL", "pmo", "thcBCD",
+               "atzB", "atzC", "atzD", "atzE", "atzF", "trzA", "triA", "triB",
+               "metS", "metDA"),
+    KO = ko(3382, 3399), stringsAsFactors = FALSE),
+  map00627 = data.frame(
+    symbol = c("meaXY", "meaA", "meaB", "cndC1", "asdmH", "thcA", "thcB", "thcC",
+               "thcD", "ethA", "ethB", "ethC", "dpeA", "dpeB"),
+    KO = ko(1447, 1460), stringsAsFactors = FALSE),
+  map00983 = data.frame(
+    symbol = c("nsr", "suh", "rutABC", "nao", "fad", "fah", "sah", "sox", "dnrA",
+               "trzB", "hdxA", "atdA"),
+    KO = ko(1211, 1222), stringsAsFactors = FALSE),
+  map00380 = data.frame(
+    symbol = c("trpA", "trpB", "trpC", "trpD", "trpE", "trpF", "trpG", "tnaA",
+               "kynA", "kynB", "iaaH", "iac", "aroH", "trpS", "tyrA", "pheA"),
+    KO = ko(1695, 1710), stringsAsFactors = FALSE),
+  map00400 = data.frame(
+    symbol = c("aroA", "aroB", "aroC", "aroD", "aroE", "aroK", "aroL", "aroF",
+               "aroG", "aroK2", "pheA2", "tyrA2", "trpE2", "trpD2"),
+    KO = ko(1657, 1670), stringsAsFactors = FALSE),
+  map00920 = data.frame(
+    symbol = c("cysD", "cysN", "cysC", "cysH", "cysJ", "cysI", "cysK", "cysE",
+               "sat", "tauA", "tauB", "tauC", "soxA", "soxB", "soxC", "soxD",
+               "soxR", "ssuD", "ssuE", "sir"),
+    KO = ko(956, 975), stringsAsFactors = FALSE),
+  map00270 = data.frame(
+    symbol = c("cysK2", "cysE2", "metA", "metB", "metC", "mdeA", "mddA", "mdeB",
+               "sahH", "metH", "metE", "msrA", "mtr"),
+    KO = ko(1738, 1750), stringsAsFactors = FALSE),
+  map00010 = data.frame(
+    symbol = c("glk", "pgi", "pfkA", "fbaA", "tpiA", "gapA", "pgk", "gpmA",
+               "eno", "pykF"),
+    KO = c("K00845", "K01810", "K00850", "K01624", "K01803", "K00134",
+           "K00927", "K01834", "K01689", "K00873"), stringsAsFactors = FALSE),
+  map00020 = data.frame(
+    symbol = c("gltA", "acnB", "icd", "sucA", "sucB", "sucC", "sucD", "sdhA",
+               "sdhB", "fumA", "fumC", "mdh", "aceE", "pckA"),
+    KO = c("K01647", "K01681", "K00031", "K00164", "K00658", "K01902", "K01903",
+           "K00239", "K00240", "K01676", "K01679", "K00024", "K00163", "K01610"),
+    stringsAsFactors = FALSE),
+  map00190 = data.frame(
+    symbol = c("atpD", "atpF", "atpA", "atpB", "atpE", "atpG"),
+    KO = c("K02112", "K02109", "K02117", "K02118", "K02298", "K02274"),
+    stringsAsFactors = FALSE),
+  map03440 = data.frame(
+    symbol = c("recA", "recB", "recC", "recD", "ssb", "ruvA", "ruvB", "ruvC"),
+    KO = c("K03553", "K03582", "K03583", "K03581", "K03111", "K03550",
+           "K03551", "K01134"), stringsAsFactors = FALSE),
+  map03430 = data.frame(
+    symbol = c("mutS", "mutL", "mutH", "uvrD"),
+    KO = c("K03555", "K03572", "K06223", "K03657"), stringsAsFactors = FALSE),
+  map03420 = data.frame(
+    symbol = c("uvrA", "uvrB", "uvrC"),
+    KO = c("K03701", "K03702", "K03703"), stringsAsFactors = FALSE),
+  map02024 = data.frame(
+    symbol = c("luxS", "luxI", "luxR", "lsrR", "lsrK"),
+    KO = c("K07173", "K13060", "K13061", "K11531", "K11532"),
+    stringsAsFactors = FALSE),
+  map02025 = data.frame(
+    symbol = c("pelA", "pelB", "pelC", "pelD", "pelE", "pelF", "pelG", "algD",
+               "algA", "algE", "algI", "algJ", "algK", "algL", "epsE"),
+    KO = ko(20276, 20290), stringsAsFactors = FALSE),
+  map02010 = data.frame(
+    symbol = c("abcA", "abcB", "abcC", "abcD", "mdtA", "mdtB", "mdtC", "mdtD",
+               "tonB", "ompA", "ompC", "ompF", "lamB", "malE", "malF", "malG"),
+    KO = ko(2035, 2050), stringsAsFactors = FALSE),
+  map03010 = data.frame(
+    symbol = c("rpoA", "rpoB", "rpoC", "rpoD", "rpsA", "rpsB", "rplA", "rplB",
+               "rpsC", "rplC"),
+    KO = c("K03040", "K03043", "K03046", "K03086", "K02945", "K02967",
+           "K02863", "K02886", "K02904", "K02911"), stringsAsFactors = FALSE),
+  map00970 = data.frame(
+    symbol = c("lysS", "argS", "gltX", "tyrS", "thrS"),
+    KO = c("K01866", "K01867", "K01868", "K01869", "K01870"),
+    stringsAsFactors = FALSE))
 
-# KO -> 通路
-koPathway <- local({
-  table <- character()
-  for (p in names(pathwayKO)) {
-    table[pathwayKO[[p]]] <- p
-  }
+# 基因符号 -> (KO, 通路) 的全局索引
+symbolIndex <- local({
+  table <- do.call(rbind, lapply(names(pathwayPool), function(p) {
+    data.frame(symbol = pathwayPool[[p]]$symbol,
+               KO = pathwayPool[[p]]$KO,
+               pathway = p,
+               stringsAsFactors = FALSE)
+  }))
+  table[!duplicated(table$symbol), ]
+})
+
+# KO -> 基因符号
+koSymbol <- local({
+  table <- symbolIndex$symbol
+  names(table) <- symbolIndex$KO
   table
 })
 
@@ -159,20 +236,22 @@ families <- list(
   qs_ai2 = c("luxS", "lsrR", "lsrK"),
   qs_ahl = c("luxI", "luxR"))
 
-# 每个家族的 KO/通路：按模块的通路顺序依次取 KO，保证同源家族四个成员共享同一编号
+# 每个家族的 KO/通路：直接按基因符号反查，保证 “基因符号 <-> KO <-> 通路” 三者一致，
+# 并且同源家族的四个成员共享同一个 KO 与基因符号
 familyAnnotation <- local({
   table <- data.frame(family_id = character(), module = character(),
                       KO = character(), pathway = character(), stringsAsFactors = FALSE)
   for (mo in names(families)) {
-    pathways <- modulePathways[[mo]]
-    k <- 1
-    for (i in seq_along(families[[mo]])) {
-      p <- pathways[((i - 1L) %% length(pathways)) + 1L]
-      pool <- pathwayKO[[p]]
-      KO <- pool[((k - 1L) %% length(pool)) + 1L]
-      k <- k + 1L
-      table <- rbind(table, data.frame(family_id = families[[mo]][i], module = mo,
-                                       KO = KO, pathway = p, stringsAsFactors = FALSE))
+    for (symbol in families[[mo]]) {
+      hit <- symbolIndex[symbolIndex$symbol == symbol, ]
+
+      if (nrow(hit) == 0L) {
+        stop(sprintf("missing KO annotation for gene symbol '%s'", symbol))
+      }
+
+      table <- rbind(table, data.frame(family_id = symbol, module = mo,
+                                       KO = hit$KO[1], pathway = hit$pathway[1],
+                                       stringsAsFactors = FALSE))
     }
   }
   table
@@ -191,38 +270,63 @@ buildGenome <- function(strain) {
   parts <- list()
 
   # 同源家族基因(四类除草剂关键酶、QS、中心代谢等重要功能)
+  # gene_id = 分离株编号 + 基因符号(与 NCBI 原核基因组 locus_tag 的命名习惯一致)
   homolog <- familyAnnotation
   homolog <- homolog[!(homolog$module == "qs_ahl" & strain == "H1"), ]  # H1 无 AHL
 
   parts[[length(parts) + 1L]] <- data.frame(
     gene_id = paste0(strain, "_", homolog$family_id),
+    symbol = homolog$family_id,
     module = homolog$module,
     family_id = homolog$family_id,
     KO = homolog$KO,
     pathway = homolog$pathway,
     stringsAsFactors = FALSE)
 
-  # 私有基因(无跨菌株同源 -> 分解时的标记基因)；KO/通路按模块的 KO 池轮转
+  # 私有基因(无跨菌株同源 -> 分解时的标记基因)：
+  # 按模块的基因池轮转分配 (基因符号, KO, 通路)；同一菌株内重复的符号按旁系同源编号
   for (mo in names(privateSize)) {
     n <- privateSize[[mo]]
     if (n <= 0L) next
     if (mo == "qs_ahl" && strain == "H1") next
 
-    pathways <- modulePathways[[mo]]
-    pool <- unlist(pathwayKO[pathways], use.names = FALSE)
-    idx <- ((seq_len(n) - 1L) %% length(pool)) + 1L
-    kos <- pool[idx]
+    pool <- do.call(rbind, lapply(modulePathways[[mo]], function(p) {
+      data.frame(symbol = pathwayPool[[p]]$symbol,
+                 KO = pathwayPool[[p]]$KO,
+                 pathway = p,
+                 stringsAsFactors = FALSE)
+    }))
+
+    idx <- ((seq_len(n) - 1L) %% nrow(pool)) + 1L
+    symbols <- pool$symbol[idx]
 
     parts[[length(parts) + 1L]] <- data.frame(
-      gene_id = paste0(strain, "_", mo, "_", seq_len(n)),
+      gene_id = paste0(strain, "_", symbols),
+      symbol = symbols,
       module = mo,
       family_id = NA_character_,
-      KO = kos,
-      pathway = unname(koPathway[kos]),
+      KO = pool$KO[idx],
+      pathway = pool$pathway[idx],
       stringsAsFactors = FALSE)
   }
 
   genome <- do.call(rbind, parts)
+
+  # 保证同一菌株内 gene_id 唯一：同符号的拷贝按旁系同源编号(atzA, atzA_2, atzA_3 ...)
+  ids <- genome$gene_id
+  counter <- new.env(parent = emptyenv())
+
+  for (i in seq_along(ids)) {
+    key <- ids[i]
+    n <- if (is.null(counter[[key]])) 1L else counter[[key]] + 1L
+    counter[[key]] <- n
+
+    if (n > 1L) {
+      ids[i] <- paste0(key, "_", n)
+    }
+  }
+
+  genome$gene_id <- ids
   genome$strain <- strain
 
   genome
@@ -564,29 +668,35 @@ writeMatrix <- function(mat, path) {
   write.csv(table, path, row.names = FALSE, quote = FALSE)
 }
 
+# strain id 统一使用菌株的学名全名(Comamonas sp. Y1 等)
+geneStrainLabel <- unname(strainName[geneStrain])
+
 writeMatrix(as.matrix(sim$observed), file.path(outDir, "total.csv"))
 
 for (strain in strains) {
   idx <- which(geneStrain == strain)
   table <- data.frame(geneID = genes$gene_id[idx], sim$truth[idx, , drop = FALSE],
                       check.names = FALSE)
-  write.csv(table, file.path(outDir, "truth", paste0(strain, ".csv")),
+  write.csv(table, file.path(outDir, "truth", paste0(strainLabel(strain), ".csv")),
             row.names = FALSE, quote = FALSE)
 }
 
-write.csv(data.frame(strain = geneStrain, gene_id = genes$gene_id,
-                     genus = genera[geneStrain], KO = genes$KO,
+write.csv(data.frame(strain = geneStrainLabel, isolate = geneStrain,
+                     gene_id = genes$gene_id, symbol = genes$symbol,
+                     genus = unname(genera[geneStrain]), KO = genes$KO,
                      pathway = genes$pathway, stringsAsFactors = FALSE),
           file.path(outDir, "genomes.csv"), row.names = FALSE, quote = FALSE)
 
 familyRows <- which(!is.na(genes$family_id))
 write.csv(data.frame(family_id = genes$family_id[familyRows],
                      gene_id = genes$gene_id[familyRows],
+                     symbol = genes$symbol[familyRows],
                      KO = genes$KO[familyRows],
                      stringsAsFactors = FALSE),
           file.path(outDir, "families.csv"), row.names = FALSE, quote = FALSE)
 
-write.csv(data.frame(gene_id = genes$gene_id, strain = geneStrain,
+write.csv(data.frame(gene_id = genes$gene_id, symbol = genes$symbol,
+                     strain = geneStrainLabel, isolate = geneStrain,
                      module = geneModule,
                      family_id = ifelse(is.na(genes$family_id), "", genes$family_id),
                      KO = genes$KO, pathway = genes$pathway,
@@ -595,12 +705,13 @@ write.csv(data.frame(gene_id = genes$gene_id, strain = geneStrain,
 
 write.csv(design, file.path(outDir, "design.csv"), row.names = FALSE, quote = FALSE)
 
-# KEGG 通路表
-pathwayRows <- lapply(names(pathwayKO), function(p) {
+# KEGG 通路表(基因数 + KO 列表 + 基因符号列表)
+pathwayRows <- lapply(names(pathwayPool), function(p) {
   idx <- which(genes$pathway == p)
   data.frame(pathway = p, name = unname(pathwayName[p]),
              genes = length(idx),
              KO = paste(sort(unique(genes$KO[idx])), collapse = ";"),
+             symbols = paste(sort(unique(genes$symbol[idx])), collapse = ";"),
              stringsAsFactors = FALSE)
 })
 write.csv(do.call(rbind, pathwayRows), file.path(outDir, "pathways.csv"),
@@ -620,7 +731,7 @@ for (strain in strains) {
       cols <- grepl(group, colnames(mat), fixed = TRUE)
       if (!any(cols)) next
       strainRows[[length(strainRows) + 1L]] <- data.frame(
-        strain = strain, pathway = p, group = group,
+        strain = strainLabel(strain), pathway = p, group = group,
         gsva = mean(mat[p, cols]), stringsAsFactors = FALSE)
     }
   }
@@ -630,16 +741,17 @@ write.csv(do.call(rbind, strainRows), file.path(outDir, "gsva_strain.csv"),
 
 # limma 差异表达：显著基因 + 汇总
 limmaTable <- scores$limma
-annotation <- data.frame(gene_id = genes$gene_id, strain = geneStrain,
-                         module = geneModule, KO = genes$KO, pathway = genes$pathway,
+annotation <- data.frame(gene_id = genes$gene_id, symbol = genes$symbol,
+                         strain = geneStrainLabel, module = geneModule,
+                         KO = genes$KO, pathway = genes$pathway,
                          stringsAsFactors = FALSE)
 limmaTable <- merge(limmaTable, annotation, by = "gene_id", all.x = TRUE)
 
 # 参考论文的差异表达阈值: |log2FC| >= 1 且 adj.P < 0.05
 significant <- limmaTable[!is.na(limmaTable$adj.P.Val) & limmaTable$adj.P.Val < 0.05 &
                             abs(limmaTable$logFC) >= 1, ]
-write.csv(significant[, c("contrast", "gene_id", "strain", "module", "KO", "pathway",
-                          "logFC", "AveExpr", "t", "P.Value", "adj.P.Val")],
+write.csv(significant[, c("contrast", "gene_id", "symbol", "strain", "module", "KO",
+                          "pathway", "logFC", "AveExpr", "t", "P.Value", "adj.P.Val")],
           file.path(outDir, "limma_de_hits.csv"), row.names = FALSE, quote = FALSE)
 
 limmaSummary <- do.call(rbind, lapply(split(limmaTable, limmaTable$contrast), function(d) {
@@ -665,10 +777,12 @@ conclusionTable <- do.call(rbind, conclusionRows)
 write.csv(conclusionTable, file.path(outDir, "gsva_conclusions.csv"),
           row.names = FALSE, quote = TRUE)
 
-# 校准后的模块组成(便于复现与审阅)
+# 校准后的模块组成(便于复现与审阅；菌株列使用学名)
 base <- do.call(rbind, lapply(names(moduleBase), function(consortium) {
   table <- as.data.frame(moduleBase[[consortium]])
-  data.frame(consortium = consortium, strain = rownames(moduleBase[[consortium]]),
+  data.frame(consortium = consortium,
+             strain = unname(strainName[rownames(moduleBase[[consortium]])]),
+             isolate = rownames(moduleBase[[consortium]]),
              table, check.names = FALSE)
 }))
 write.csv(base, file.path(outDir, "module_base.csv"), row.names = FALSE, quote = FALSE)
