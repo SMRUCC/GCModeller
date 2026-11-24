@@ -51,6 +51,18 @@ Namespace Core
     End Interface
 
     ''' <summary>
+    ''' 可以从学到的先验分布中采样的模型。
+    ''' 与 <see cref="IGenerativeModel"/> 的区别在于不要求具备编码重构能力
+    ''' （例如 GMM 只能聚类与采样，没有解码器）。
+    ''' </summary>
+    Public Interface IPriorSampler
+
+        ''' <summary>从先验采样 <paramref name="count"/> 个样本。</summary>
+        Function Sample(count As Integer, seed As Integer?) As Tensor
+
+    End Interface
+
+    ''' <summary>
     ''' 可供模型选择（BIC/AIC）使用的评分契约。
     ''' </summary>
     Public Interface IModelScore
