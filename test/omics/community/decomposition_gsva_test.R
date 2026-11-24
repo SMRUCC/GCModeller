@@ -18,7 +18,7 @@
 # 说明：菌株水平只在该菌群实际存在的成员之间比较。YKB 中不含 H1、HKB 中不含 Y1，
 #       缺失成员的重构矩阵只剩下噪声，其 GSVA 得分不具备生物学含义。
 #
-# 输入数据(由 src/GCModeller/analysis/HTS_matrix/test/R/syncom_demo_data.R 生成)：
+# 输入数据：
 #   total.csv    并集定量的总表达矩阵(5236 基因 x 24 样本)
 #   genomes.csv  菌株 -> 基因(strain / gene_id 列)
 #   families.csv 跨菌株同源家族(family_id / gene_id 列)
