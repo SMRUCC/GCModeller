@@ -668,8 +668,11 @@ Public Class Decomposition
         Call $"factor assignment: {strains.Select(Function(s, i) $"{s} -> factor[{comp(i) + 1}]").JoinBy("; ")}".info
 
         ' 结构掩码精化
-        Dim rowOfStrain As Integer()() = RowsOfStrains(community, strains, geneRow)
-        Dim refine As Refinement = RefineMasked(A2, rowOfStrain, comp, W, H, opt)
+        Dim rowOfStrain As Integer()() = RowsOfStrains(community, strains, geneRow, markersOnly:=False)
+        Dim markerRows As Integer()() = RowsOfStrains(community, strains, geneRow, markersOnly:=True)
+        Dim refine As Refinement = RefineMasked(A2, rowOfStrain, markerRows, comp, W, H, opt)
+
+        Call $"strain activity is estimated from marker genes: {strains.Select(Function(s, i) $"{s}={markerRows(i).Length}").JoinBy(", ")}".info
 
         Call $"masked refinement: {refine.iterations} iteration(s), converged = {refine.converged}".info
 
@@ -1147,16 +1150,27 @@ Public Class Decomposition
     ''' <summary>
     ''' 计算每个菌株在 “已归属菌株的基因行” 之中的行下标
     ''' </summary>
+    ''' <param name="community">结构层信息</param>
+    ''' <param name="strains">菌株ID列表</param>
+    ''' <param name="geneRow">基因ID -> 分解矩阵行下标</param>
+    ''' <param name="markersOnly">
+    ''' True = 只返回该菌株的标记基因(无跨菌株同源)行，用于估计菌株活性谱；
+    ''' False = 返回该菌株的全部基因行
+    ''' </param>
     Private Shared Function RowsOfStrains(community As CommunityStructure,
                                           strains As String(),
-                                          geneRow As Dictionary(Of String, Integer)) As Integer()()
+                                          geneRow As Dictionary(Of String, Integer),
+                                          markersOnly As Boolean) As Integer()()
 
         Dim rows(strains.Length - 1)() As Integer
 
         For si As Integer = 0 To strains.Length - 1
             Dim list As New List(Of Integer)
+            Dim genes As String() = If(markersOnly,
+                                       community.GetMarkers(strains(si)),
+                                       community.GetGenes(strains(si)))
 
-            For Each gene As String In community.GetGenes(strains(si))
+            For Each gene As String In genes
                 Dim r As Integer
 
                 If geneRow.TryGetValue(gene, r) Then
@@ -1178,9 +1192,15 @@ Public Class Decomposition
     ''' <c>A[g] ≈ w_g * h_{s(g)}</c>：每个基因行只是其所属菌株活性谱的一个非负倍数。
     ''' 于是 <c>w_g</c> 与 <c>h_s</c> 都存在闭式最小二乘解，交替更新即可单调下降且天然非负；
     ''' 不同菌株只写自己的行槽位与自己的活性谱，因此可以安全地按菌株并行。
+    ''' 
+    ''' 其中 <c>h_s</c> 只用该菌株的标记基因(<paramref name="markerRows"/>)来估计：
+    ''' 同源基因行携带了其它菌株的信号，若参与活性谱更新会把偏差扩散到整株基因；
+    ''' 而 <c>w_g</c> 仍然对该菌株的全部基因行做投影，保证每条基因都有重构值。
+    ''' 当某菌株没有可用的标记基因时自动退化为使用其全部基因行。
     ''' </remarks>
     Private Shared Function RefineMasked(A2 As NumericMatrix,
                                          rowOfStrain As Integer()(),
+                                         markerRows As Integer()(),
                                          comp As Integer(),
                                          W As NumericMatrix,
                                          H As NumericMatrix,
@@ -1193,16 +1213,50 @@ Public Class Decomposition
         Dim activity As Double()() = New Double(comp.Length - 1)() {}
 
         For si As Integer = 0 To comp.Length - 1
+            Dim rows As Integer() = rowOfStrain(si)
             Dim profile As Double() = New Double(n - 1) {}
+            Dim usable As Boolean = False
 
             For j As Integer = 0 To n - 1
-                profile(j) = H(comp(si), j)
+                Dim value As Double = H(comp(si), j)
+
+                If value > eps Then
+                    usable = True
+                End If
+                If value < eps Then
+                    value = eps
+                End If
+
+                profile(j) = value
             Next
+
+            ' 初始分解给出的活性谱退化(全为 0)时，用该菌株基因行的均值作为起点，避免迭代被 eps 卡死
+            If Not usable AndAlso rows.Length > 0 Then
+                For j As Integer = 0 To n - 1
+                    profile(j) = 0
+                Next
+
+                For Each r As Integer In rows
+                    For j As Integer = 0 To n - 1
+                        profile(j) += A2(r, j)
+                    Next
+                Next
+
+                For j As Integer = 0 To n - 1
+                    profile(j) = profile(j) / rows.Length + eps
+                Next
+            End If
 
             activity(si) = profile
 
-            For Each r As Integer In rowOfStrain(si)
-                weights(r) = W(r, comp(si))
+            For Each r As Integer In rows
+                Dim value As Double = W(r, comp(si))
+
+                If value < eps Then
+                    value = eps
+                End If
+
+                weights(r) = value
             Next
         Next
 
@@ -1217,7 +1271,11 @@ Public Class Decomposition
                 Dim rows As Integer() = rowOfStrain(si)
                 Dim profile As Double() = activity(si)
 
-                If rows.Length = 0 Then
+                ' 菌株活性谱优先由无跨菌株同源的标记基因估计：
+                ' 同源基因行携带了其它菌株的信号，如果参与活性谱的估计会把偏差传递给整株基因。
+                Dim profileRows As Integer() = If(markerRows(si).Length > 0, markerRows(si), rows)
+
+                If rows.Length = 0 OrElse profileRows.Length = 0 Then
                     changes(si) = 0
                     Return
                 End If
@@ -1257,7 +1315,7 @@ Public Class Decomposition
                 Dim numerator As Double() = New Double(n - 1) {}
                 Dim wSquare As Double = 0
 
-                For Each r As Integer In rows
+                For Each r As Integer In profileRows
                     Dim weight As Double = weights(r)
 
                     wSquare += weight * weight

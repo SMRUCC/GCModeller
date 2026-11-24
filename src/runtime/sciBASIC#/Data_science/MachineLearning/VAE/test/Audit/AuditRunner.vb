@@ -27,6 +27,10 @@ Public Module AuditRunner
         Call AuditSupport.Group("gmvae", AddressOf GmvaeAudit.Run)
         Call AuditSupport.Group("graphvae", AddressOf GraphVaeAudit.Run)
         Call AuditSupport.Group("cells", AddressOf CellsAudit.Run)
+        Call AuditSupport.Group("convvae", AddressOf ConvVaeAudit.Run)
+
+        ' 公开 API 零破坏验证（只用重构前就存在的签名）
+        Call AuditSupport.Group("compatibility", AddressOf CompatibilityAudit.Run)
 
         ' 已确认缺陷的回归用例（重构前后对比的基准）
         Call AuditSupport.Group("regression", AddressOf RegressionAudit.Run)
