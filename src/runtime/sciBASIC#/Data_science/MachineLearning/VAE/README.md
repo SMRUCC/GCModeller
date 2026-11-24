@@ -1,4 +1,4 @@
-# 生成式模型：高斯混合、变分自编码器与图/图像/单细胞生成
+# 生成式模型：高斯混合、变分自编码器与图/图像生成
 
 ## 引言
 
@@ -6,7 +6,7 @@
 **变分自编码器（VAE）**通过让编码器输出**分布**（均值与方差）而非单点，并对潜在空间施加先验约束，
 使潜在空间连续、可采样。
 
-本包提供五个模型，外加一层共用的数值与工程基础设施。
+本包提供四个模型，外加一层共用的数值与工程基础设施。
 
 ## 模型一览
 
@@ -15,7 +15,6 @@
 | **`GaussianMixtureModel`** | EM 训练的混合高斯 | 软聚类、密度估计；无神经网络，数值最稳 |
 | **`GMVAE`** | 高斯编码器 + **潜空间高斯混合先验** | 多峰数据的联合聚类 + 生成 |
 | **`GraphVAE`** | GCN 编码器 + 内积解码器 | 图结构生成（可变节点数、稀疏邻接） |
-| **`ConditionalVAE`** | 条件编码器 + 计数似然 | 虚拟细胞 / 虚拟扰动（含反事实预测） |
 | **`ConvVAE`** | 卷积编解码 + 伯努利似然 | 图像生成 |
 
 > 注意类名：高斯混合模型是 `GaussianMixtureModel`，高斯混合 VAE 是 `GMVAE`。
@@ -104,27 +103,7 @@ Dim normalized = sparse.NormalizedWithSelfLoops()   ' D^-1/2 (A+I) D^-1/2
 Dim propagated = normalized.Multiply(features)      ' 稀疏 Â @ X
 ```
 
-### 4. 虚拟细胞 / 虚拟扰动
-
-```vbnet
-Imports Microsoft.VisualBasic.MachineLearning.VariationalAutoencoder.Cells
-
-Dim dataset = PerturbationDataset.FromCounts(counts, conditions,
-                                             New String() {"control", "drug"})
-
-Dim model As New ConditionalVAE(geneCount:=dataset.GeneCount,
-                                conditionCount:=dataset.ConditionCount,
-                                latentDim:=16, hiddenDim:=64, seed:=42)
-model.Likelihood.Kind = CountLikelihoodKind.NegativeBinomial
-model.Likelihood.Dispersion = 1.5
-model.Fit(dataset, epochs:=200, batchSize:=64, learningRate:=0.001, beta:=1.0)
-
-' 反事实：同一细胞状态，只替换条件
-Dim pair = model.PredictCounterfactual(counts, conditionFrom:=0, conditionTo:=1)
-Dim log2fc = model.LogFoldChange(counts, 0, 1)   ' 逐基因的对数倍数变化
-```
-
-### 5. 图像生成
+### 4. 图像生成
 
 ```vbnet
 Imports Microsoft.VisualBasic.MachineLearning.VariationalAutoencoder.Imaging
