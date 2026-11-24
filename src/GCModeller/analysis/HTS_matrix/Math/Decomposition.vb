@@ -386,6 +386,11 @@ Public Class CommunityDecomposition
     Public Property markers As Dictionary(Of String, Integer)
 
     ''' <summary>
+    ''' 菌株 -> 参与指派计算的基因列表(优先使用无同源的标记基因)
+    ''' </summary>
+    Public Property markerGenes As Dictionary(Of String, String())
+
+    ''' <summary>
     ''' 菌株 -> (因子 -> 打分)，可用于人工核对指派是否合理
     ''' </summary>
     Public Property markerScore As Dictionary(Of String, Dictionary(Of String, Double))
@@ -580,6 +585,7 @@ Public Class Decomposition
             .strains = New Dictionary(Of String, Matrix)(StringComparer.Ordinal),
             .assign = New Dictionary(Of String, Integer)(StringComparer.Ordinal),
             .markers = New Dictionary(Of String, Integer)(StringComparer.Ordinal),
+            .markerGenes = New Dictionary(Of String, String())(StringComparer.Ordinal),
             .markerScore = New Dictionary(Of String, Dictionary(Of String, Double))(StringComparer.Ordinal),
             .strainResidual = New Dictionary(Of String, Double)(StringComparer.Ordinal),
             .unassignedGenes = unassigned.ToArray,
@@ -668,6 +674,7 @@ Public Class Decomposition
         For i As Integer = 0 To strains.Length - 1
             result.assign(strains(i)) = comp(i)
             result.markers(strains(i)) = assignment.markerCount(strains(i))
+            result.markerGenes(strains(i)) = assignment.markerGenes(strains(i))
             result.markerScore(strains(i)) = assignment.scores(strains(i))
         Next
 

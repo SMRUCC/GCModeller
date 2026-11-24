@@ -21,6 +21,9 @@ Module Program
         ' 4. 合成菌群表达矩阵分解（report/community-decomposition-report.json）
         failures += DecompositionTest.Run()
 
+        ' 5. 基于论文演示数据(test/data/syncom)的分解流程演示（report/syncom-decomposition-report.json）
+        failures += SynComDemoTest.Run()
+
         Environment.ExitCode = failures
     End Sub
 
