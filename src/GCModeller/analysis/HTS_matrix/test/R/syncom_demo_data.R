@@ -8,6 +8,10 @@
 #
 # 1. 四个菌株：Y1(Comamonas), K1(Acinetobacter), B1(Pseudomonas), H1(Bacillus)
 #    两个合成菌群：YKB = Y1 + K1 + B1，HKB = H1 + K1 + B1 (K1/B1 是共享成员)
+#    strain id 使用菌株的学名全名(Comamonas sp. Y1 / Acinetobacter sp. K1 /
+#    Pseudomonas sp. B1 / Bacillus sp. H1)；gene_id 使用
+#    “分离株编号_基因符号” 的 locus tag 形式(如 Y1_atzA、K1_gapA)，
+#    同一菌株内的同符号拷贝按旁系同源追加编号(atzA_2、atzA_3 ...)。
 # 2. 代谢分工：
 #    - YKB: K1 是主要降解者(起始步骤酶 atzA/ethBAD/nsh)；Y1 是能量供给者
 #           (糖类与能量代谢、转运体)；B1 是 "代谢清道夫"(色氨酸代谢 -> acetyl-CoA -> TCA)

@@ -44,10 +44,11 @@ Friend Module SynComDemoTest
     Private Const ConsortiumYKB As String = "YKB"
     Private Const ConsortiumHKB As String = "HKB"
 
-    Private Const StrainY1 As String = "Y1"
-    Private Const StrainK1 As String = "K1"
-    Private Const StrainB1 As String = "B1"
-    Private Const StrainH1 As String = "H1"
+    ' 菌株使用学名全名(与 genomes.csv / annotation.csv 的 strain 列一致)
+    Private Const StrainY1 As String = "Comamonas sp. Y1"
+    Private Const StrainK1 As String = "Acinetobacter sp. K1"
+    Private Const StrainB1 As String = "Pseudomonas sp. B1"
+    Private Const StrainH1 As String = "Bacillus sp. H1"
 
     ''' <summary>
     ''' 演示数据中的功能模块名(与 R 脚本保持一致)
@@ -976,14 +977,21 @@ Friend Module SynComDemoTest
 
     Private Function LoadGenomes(path As String) As Dictionary(Of String, String())
         Dim table As New Dictionary(Of String, List(Of String))(StringComparer.Ordinal)
+        Dim rows As List(Of String()) = ReadTable(path)
+        Dim header As String() = rows(0)
+        Dim strainCol As Integer = Array.IndexOf(header, "strain")
+        Dim geneCol As Integer = Array.IndexOf(header, "gene_id")
 
-        For Each row As String() In ReadTable(path).Skip(1)
-            If row.Length < 2 Then
+        If strainCol < 0 Then strainCol = 0
+        If geneCol < 0 Then geneCol = 1
+
+        For Each row As String() In rows.Skip(1)
+            If row.Length <= std.Max(strainCol, geneCol) Then
                 Continue For
             End If
 
-            Dim strain As String = row(0).Trim
-            Dim gene As String = row(1).Trim
+            Dim strain As String = row(strainCol).Trim
+            Dim gene As String = row(geneCol).Trim
 
             If strain = "" OrElse gene = "" Then
                 Continue For
