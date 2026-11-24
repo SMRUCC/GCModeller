@@ -181,13 +181,13 @@ Namespace Numpy
         ''' <param name="shape">数组形状；省略时视为一维数组</param>
         ''' <param name="fortranOrder">是否以 Fortran 序（列优先）落盘</param>
         Public Sub Write(path As String, data As Boolean(), Optional shape As Integer() = Nothing, Optional fortranOrder As Boolean = False)
-            Dim bytes As Byte() = New Byte(data.Length - 1) {}
+            Dim bytes As Byte() = BufferPool.RentBytes(data.Length)
 
             For i As Integer = 0 To data.Length - 1
                 bytes(i) = If(data(i), CByte(1), CByte(0))
             Next
 
-            Call SaveBuffer(path, bytes, NpyDType.Parse("|b1"), shape, fortranOrder, 1, data.Length)
+            Call SaveRentedBuffer(path, bytes, data.Length, NpyDType.Parse("|b1"), shape, fortranOrder, 1, data.Length)
         End Sub
 
         ''' <summary>
@@ -220,13 +220,17 @@ Namespace Numpy
             Next
 
             Dim itemSize As Integer = capacity * 4
-            Dim bytes As Byte() = New Byte(data.Length * itemSize - 1) {}
+            Dim byteCount As Integer = data.Length * itemSize
+            Dim bytes As Byte() = BufferPool.RentBytes(byteCount)
+
+            ' 字符串数组按定长 UTF-32 编码，未写满的尾部必须是零填充
+            Call Array.Clear(bytes, 0, byteCount)
 
             For i As Integer = 0 To data.Length - 1
                 Call EncodeUtf32(data(i), bytes, i * itemSize, capacity)
             Next
 
-            Call SaveBuffer(path, bytes, NpyDType.Parse("<U" & capacity), shape, fortranOrder, itemSize, data.Length)
+            Call SaveRentedBuffer(path, bytes, byteCount, NpyDType.Parse("<U" & capacity), shape, fortranOrder, itemSize, data.Length)
         End Sub
 
         Private Sub SaveNumeric(Of T)(path As String, data As T(), dtype As NpyDType, shape As Integer(), fortranOrder As Boolean, itemSize As Integer)
@@ -237,27 +241,55 @@ Namespace Numpy
                 Throw New ArgumentException("can not write an empty numpy array: at least one element is required!", NameOf(data))
             End If
 
-            Call SaveBuffer(path, Serialize(data, itemSize), dtype, shape, fortranOrder, itemSize, data.Length)
+            Dim byteCount As Integer = data.Length * itemSize
+            Dim bytes As Byte() = BufferPool.RentBytes(byteCount)
+
+            Call Serialize(data, itemSize, bytes, byteCount)
+            Call SaveRentedBuffer(path, bytes, byteCount, dtype, shape, fortranOrder, itemSize, data.Length)
         End Sub
 
         ''' <summary>
         ''' 按小端序、C 序的原始字节写出数组（字符串类型等自定义宽度的元素也走这个入口）。
         ''' </summary>
         Private Sub SaveBuffer(path As String, raw As Byte(), dtype As NpyDType, shape As Integer(), fortranOrder As Boolean, itemSize As Integer, elementCount As Integer)
+            Call SaveCore(path, raw, If(raw Is Nothing, 0, raw.Length), dtype, shape, fortranOrder, itemSize, elementCount)
+        End Sub
+
+        ''' <summary>
+        ''' 写出一个由本方法负责生命周期的原始数据缓冲（从 <see cref="BufferPool"/> 租用，写完即归还）。
+        ''' </summary>
+        ''' <param name="raw">池化缓冲，其长度可能大于有效数据长度，因此需要额外的 <paramref name="rawLength"/>。</param>
+        Private Sub SaveRentedBuffer(path As String, raw As Byte(), rawLength As Integer,
+                                     dtype As NpyDType, shape As Integer(), fortranOrder As Boolean,
+                                     itemSize As Integer, elementCount As Integer)
+            Try
+                Call SaveCore(path, raw, rawLength, dtype, shape, fortranOrder, itemSize, elementCount)
+            Finally
+                BufferPool.ReturnBytes(raw)
+            End Try
+        End Sub
+
+        Private Sub SaveCore(path As String, raw As Byte(), rawLength As Integer,
+                             dtype As NpyDType, shape As Integer(), fortranOrder As Boolean,
+                             itemSize As Integer, elementCount As Integer)
             If raw Is Nothing Then
                 Throw New ArgumentNullException(NameOf(raw))
             End If
             If elementCount <= 0 Then
                 Throw New ArgumentException("can not write an empty numpy array: at least one element is required!")
             End If
-            If raw.Length <> elementCount * itemSize Then
-                Throw New ArgumentException($"numpy array buffer size mismatch: {raw.Length} bytes for {elementCount} elements of {itemSize} bytes!")
+            If rawLength <> elementCount * itemSize Then
+                Throw New ArgumentException($"numpy array buffer size mismatch: {rawLength} bytes for {elementCount} elements of {itemSize} bytes!")
             End If
 
             Dim resolved As Integer() = ResolveShape(shape, elementCount)
 
             If fortranOrder AndAlso resolved.Length > 1 Then
-                raw = NpyArray.ReorderToFortran(raw, elementCount, itemSize, resolved)
+                ' ReorderToFortran 依赖精确长度的输入缓冲，因此只在 Fortran 序（少见的显式选项）下复制一份
+                Dim exact As Byte() = New Byte(rawLength - 1) {}
+
+                Call System.Buffer.BlockCopy(raw, 0, exact, 0, rawLength)
+                raw = NpyArray.ReorderToFortran(exact, elementCount, itemSize, resolved)
             End If
 
             Call Save(path, New NpyArray With {
@@ -290,30 +322,29 @@ Namespace Numpy
             Return DirectCast(shape.Clone(), Integer())
         End Function
 
+        ''' <summary>
+        ''' 把数值数组按小端序展开到调用方提供的缓冲（缓冲可能大于有效数据长度）。
+        ''' </summary>
         <System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)>
-        Private Function Serialize(Of T)(data As T(), itemSize As Integer) As Byte()
-            Dim bytes As Byte() = New Byte(data.Length * itemSize - 1) {}
-
-            Call System.Buffer.BlockCopy(data, 0, bytes, 0, bytes.Length)
+        Private Sub Serialize(Of T)(data As T(), itemSize As Integer, buffer As Byte(), byteCount As Integer)
+            Call System.Buffer.BlockCopy(data, 0, buffer, 0, byteCount)
 
             If Not BitConverter.IsLittleEndian AndAlso itemSize > 1 Then
                 ' 大端机器：把数据翻转成小端序落盘
                 Dim half As Integer = itemSize \ 2
 
-                For offset As Integer = 0 To bytes.Length - 1 Step itemSize
+                For offset As Integer = 0 To byteCount - 1 Step itemSize
                     For i As Integer = 0 To half - 1
                         Dim a As Integer = offset + i
                         Dim b As Integer = offset + itemSize - 1 - i
-                        Dim tmp As Byte = bytes(a)
+                        Dim tmp As Byte = buffer(a)
 
-                        bytes(a) = bytes(b)
-                        bytes(b) = tmp
+                        buffer(a) = buffer(b)
+                        buffer(b) = tmp
                     Next
                 Next
             End If
-
-            Return bytes
-        End Function
+        End Sub
 
         Private Function CodePointCount(s As String) As Integer
             If String.IsNullOrEmpty(s) Then

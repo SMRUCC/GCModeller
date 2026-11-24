@@ -131,6 +131,21 @@ Namespace Writer.Internal
         End Sub
 
         ''' <summary>
+        ''' 从 <paramref name="bytes"/> 的起始位置复制 <paramref name="count"/> 个字节到页内。
+        ''' </summary>
+        ''' <remarks>
+        ''' 该重载用于配合池化缓冲：调用方租用的缓冲长度可能大于实际数据长度，
+        ''' 因此必须显式指定有效字节数。
+        ''' </remarks>
+        Public Sub WriteBytes(offset As Integer, bytes As Byte(), count As Integer)
+            If bytes Is Nothing OrElse count <= 0 Then
+                Return
+            End If
+
+            Call Array.Copy(bytes, 0, _data, offset, count)
+        End Sub
+
+        ''' <summary>
         ''' 组装一个表 B 树页: 页头 + cell 指针数组(按 cell 顺序) + 自可用区末尾向下排列的 cell 内容。
         ''' </summary>
         ''' <param name="pageSize">页大小</param>
@@ -164,21 +179,26 @@ Namespace Writer.Internal
                 page.WriteUInt32(baseOffset + 8, rightMostPointer)
             End If
 
-            Dim offsets(cellCount - 1) As Integer
+            ' cell 指针偏移表在每页构建时都会新建一次，改为从池中租用
+            Dim offsets As Integer() = BufferPool.RentInt32s(cellCount)
             Dim contentBegin As Integer = usableSize
 
-            For i As Integer = 0 To cellCount - 1
-                Dim cell As Byte() = cells(i)
-                contentBegin -= cell.Length
-                page.WriteBytes(contentBegin, cell)
-                offsets(i) = contentBegin
-            Next
+            Try
+                For i As Integer = 0 To cellCount - 1
+                    Dim cell As Byte() = cells(i)
+                    contentBegin -= cell.Length
+                    page.WriteBytes(contentBegin, cell)
+                    offsets(i) = contentBegin
+                Next
 
-            page.WriteUInt16(baseOffset + 5, contentBegin)  ' CellContentBegin
+                page.WriteUInt16(baseOffset + 5, contentBegin)  ' CellContentBegin
 
-            For i As Integer = 0 To cellCount - 1
-                page.WriteUInt16(baseOffset + headerSize + i * CellPointerSize, offsets(i))
-            Next
+                For i As Integer = 0 To cellCount - 1
+                    page.WriteUInt16(baseOffset + headerSize + i * CellPointerSize, offsets(i))
+                Next
+            Finally
+                BufferPool.ReturnInt32s(offsets)
+            End Try
 
             Return page.Data
         End Function

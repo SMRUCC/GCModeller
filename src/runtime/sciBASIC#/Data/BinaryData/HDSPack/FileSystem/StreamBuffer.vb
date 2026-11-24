@@ -242,9 +242,20 @@ Namespace FileSystem
             ' move current base file position to the file block
             ' start location, and then start to copy file block
             ' data to the underlying base file stream
-            buffer.Flush()
+            Call buffer.Flush()
             basefile.Position = block.offset
-            basefile.Write(buffer.ToArray, offset:=Scan0, count:=buffer.Length)
+
+            Dim length As Integer = CInt(buffer.Length)
+            Dim view As ArraySegment(Of Byte)
+
+            ' MemoryStream.ToArray 会把整个内存块再完整复制一份；
+            ' 这里直接取底层缓冲完成零拷贝写出。
+            If buffer.TryGetBuffer(view) Then
+                basefile.Write(view.Array, view.Offset, length)
+            Else
+                basefile.Write(buffer.ToArray, offset:=Scan0, count:=length)
+            End If
+
             basefile.Flush()
         End Sub
 

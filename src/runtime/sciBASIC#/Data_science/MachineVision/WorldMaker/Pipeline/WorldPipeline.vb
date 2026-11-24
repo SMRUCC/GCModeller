@@ -5,11 +5,9 @@
 ' 中间产物全部落盘（点云/网格/渲染对照/训练日志），便于逐段复跑与人工复核。
 ' ---------------------------------------------------------------------------
 
-Imports System.Diagnostics
 Imports System.IO
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging
 Imports WorldMaker.Cli
-Imports std = System.Math
 
 Namespace Pipeline
 
@@ -39,115 +37,115 @@ Namespace Pipeline
 
             Try
                 If String.IsNullOrEmpty(options.ReusePly) Then
-                ' ================================================================
-                ' 阶段 1：COLMAP 稀疏模型
-                ' ================================================================
-                Call Stage($"[1/6] 读取 COLMAP 稀疏模型: {options.SparseDir}")
+                    ' ================================================================
+                    ' 阶段 1：COLMAP 稀疏模型
+                    ' ================================================================
+                    Call Stage($"[1/6] 读取 COLMAP 稀疏模型: {options.SparseDir}")
 
-                t0 = Stopwatch.StartNew()
+                    t0 = Stopwatch.StartNew()
 
-                Dim scene As Colmap.ColmapScene = Colmap.ColmapSparse.Read(options.SparseDir)
+                    Dim scene As Colmap.ColmapScene = Colmap.ColmapSparse.Read(options.SparseDir)
 
-                t0.Stop()
+                    t0.Stop()
 
-                Call Log($"  相机: {scene.Cameras.Count}，注册视图: {scene.Images.Count}，稀疏点: {scene.PointCount:N0}")
+                    Call Log($"  相机: {scene.Cameras.Count}，注册视图: {scene.Images.Count}，稀疏点: {scene.PointCount:N0}")
 
-                For Each camera As Colmap.ColmapCamera In scene.Cameras.Values
-                    Call Log($"  {camera}")
-                Next
+                    For Each camera As Colmap.ColmapCamera In scene.Cameras.Values
+                        Call Log($"  {camera}")
+                    Next
 
-                Dim spacing As Double = scene.EstimateSpacing()
+                    Dim spacing As Double = scene.EstimateSpacing()
 
-                Call Log($"  场景平均点距 ≈ {spacing:G4}")
+                    Call Log($"  场景平均点距 ≈ {spacing:G4}")
 
-                Call report.Add("colmap", "cameras", scene.Cameras.Count)
-                Call report.Add("colmap", "registered_views", scene.Images.Count)
-                Call report.Add("colmap", "sparse_points", scene.PointCount)
-                Call report.Add("colmap", "sparse_spacing", spacing)
-                Call report.Add("colmap", "seconds", t0.Elapsed.TotalSeconds, "F2")
+                    Call report.Add("colmap", "cameras", scene.Cameras.Count)
+                    Call report.Add("colmap", "registered_views", scene.Images.Count)
+                    Call report.Add("colmap", "sparse_points", scene.PointCount)
+                    Call report.Add("colmap", "sparse_spacing", spacing)
+                    Call report.Add("colmap", "seconds", t0.Elapsed.TotalSeconds, "F2")
 
-                ' ================================================================
-                ' 阶段 2：训练数据集（JPEG 解码 + 降采样）
-                ' ================================================================
-                Call Stage("[2/6] 构建训练数据集（JPEG → Tensor）")
+                    ' ================================================================
+                    ' 阶段 2：训练数据集（JPEG 解码 + 降采样）
+                    ' ================================================================
+                    Call Stage("[2/6] 构建训练数据集（JPEG → Tensor）")
 
-                t0.Restart()
+                    t0.Restart()
 
-                Dim dataset As Photos.ImageDataset =
-                    Photos.ImageDatasetBuilder.Build(scene, options.ImagesDir, options, AddressOf Log)
+                    Dim dataset As Photos.ImageDataset =
+                        Photos.ImageDatasetBuilder.Build(scene, options.ImagesDir, options, AddressOf Log)
 
-                t0.Stop()
+                    t0.Stop()
 
-                Call report.Add("dataset", "views", dataset.Count)
-                Call report.Add("dataset", "target_width", dataset.TargetWidth)
-                Call report.Add("dataset", "target_height", dataset.TargetHeight)
-                Call report.Add("dataset", "total_pixels", dataset.TotalPixels)
-                Call report.Add("dataset", "intrinsics_fx", dataset.Intrinsics.Fx)
-                Call report.Add("dataset", "intrinsics_fy", dataset.Intrinsics.Fy)
-                Call report.Add("dataset", "seconds", t0.Elapsed.TotalSeconds, "F2")
+                    Call report.Add("dataset", "views", dataset.Count)
+                    Call report.Add("dataset", "target_width", dataset.TargetWidth)
+                    Call report.Add("dataset", "target_height", dataset.TargetHeight)
+                    Call report.Add("dataset", "total_pixels", dataset.TotalPixels)
+                    Call report.Add("dataset", "intrinsics_fx", dataset.Intrinsics.Fx)
+                    Call report.Add("dataset", "intrinsics_fy", dataset.Intrinsics.Fy)
+                    Call report.Add("dataset", "seconds", t0.Elapsed.TotalSeconds, "F2")
 
-                ' 抽样保存两张图，确认解码/降采样没有翻转或色偏
-                Call dataset.SavePreview(0, paths.Render("dataset_sample_000.png"))
+                    ' 抽样保存两张图，确认解码/降采样没有翻转或色偏
+                    Call dataset.SavePreview(0, paths.Render("dataset_sample_000.png"))
 
-                If dataset.Count > 1 Then
-                    Call dataset.SavePreview(dataset.Count \ 2, paths.Render("dataset_sample_mid.png"))
-                End If
+                    If dataset.Count > 1 Then
+                        Call dataset.SavePreview(dataset.Count \ 2, paths.Render("dataset_sample_mid.png"))
+                    End If
 
-                ' ================================================================
-                ' 阶段 3：3D 高斯溅射训练
-                ' ================================================================
-                Call Stage("[3/6] 3D 高斯溅射训练")
+                    ' ================================================================
+                    ' 阶段 3：3D 高斯溅射训练
+                    ' ================================================================
+                    Call Stage("[3/6] 3D 高斯溅射训练")
 
-                t0.Restart()
+                    t0.Restart()
 
-                Dim fit As Splatting.SplatFitResult =
-                    Splatting.SplatFit.Run(scene, dataset, options, paths, AddressOf Log)
+                    Dim fit As Splatting.SplatFitResult =
+                        Splatting.SplatFit.Run(scene, dataset, options, paths, AddressOf Log)
 
-                t0.Stop()
+                    t0.Stop()
 
-                Call report.Add("splatting", "gaussians", fit.Model.Count)
-                Call report.Add("splatting", "requested_iterations", fit.RequestedIterations)
-                Call report.Add("splatting", "completed_iterations", fit.CompletedIterations)
-                Call report.Add("splatting", "cancelled_by_budget", fit.Cancelled)
-                Call report.Add("splatting", "final_loss", fit.FinalLoss, "G6")
-                Call report.Add("splatting", "final_psnr_db", fit.FinalPsnr, "F3")
-                Call report.Add("splatting", "seconds", t0.Elapsed.TotalSeconds, "F2")
-                Call report.Add("splatting", "log", fit.LogPath)
+                    Call report.Add("splatting", "gaussians", fit.Model.Count)
+                    Call report.Add("splatting", "requested_iterations", fit.RequestedIterations)
+                    Call report.Add("splatting", "completed_iterations", fit.CompletedIterations)
+                    Call report.Add("splatting", "cancelled_by_budget", fit.Cancelled)
+                    Call report.Add("splatting", "final_loss", fit.FinalLoss, "G6")
+                    Call report.Add("splatting", "final_psnr_db", fit.FinalPsnr, "F3")
+                    Call report.Add("splatting", "seconds", t0.Elapsed.TotalSeconds, "F2")
+                    Call report.Add("splatting", "log", fit.LogPath)
 
-                Call DebugAudit.Mark($"3DGS trained: {fit.Model.Count} gaussians, psnr={fit.FinalPsnr:F2} dB")
+                    Call DebugAudit.Mark($"3DGS trained: {fit.Model.Count} gaussians, psnr={fit.FinalPsnr:F2} dB")
 
-                ' ================================================================
-                ' 阶段 4：高斯 → 点云 PLY
-                ' ================================================================
-                Call Stage("[4/6] 导出三维点云 PLY")
+                    ' ================================================================
+                    ' 阶段 4：高斯 → 点云 PLY
+                    ' ================================================================
+                    Call Stage("[4/6] 导出三维点云 PLY")
 
-                t0.Restart()
+                    t0.Restart()
 
-                ' 未做致密化时，高斯与稀疏点一一对应 ⇒ 用 COLMAP 的真彩色
-                Dim trueColors As Double() = Nothing
+                    ' 未做致密化时，高斯与稀疏点一一对应 ⇒ 用 COLMAP 的真彩色
+                    Dim trueColors As Double() = Nothing
 
-                If fit.Model.Count = scene.PointCount Then
-                    trueColors = scene.Colors
-                End If
+                    If fit.Model.Count = scene.PointCount Then
+                        trueColors = scene.Colors
+                    End If
 
-                Dim surface As Splatting.SurfaceCloudStats =
-                    Splatting.SplatPointCloud.Export(fit.Model, options, paths, AddressOf Log, trueColors)
+                    Dim surface As Splatting.SurfaceCloudStats =
+                        Splatting.SplatPointCloud.Export(fit.Model, options, paths, AddressOf Log, trueColors)
 
-                t0.Stop()
+                    t0.Stop()
 
-                Call report.Add("pointcloud", "gaussians_total", surface.TotalGaussians)
-                Call report.Add("pointcloud", "surface_points", surface.KeptPoints)
-                Call report.Add("pointcloud", "median_scale", surface.MedianScale)
-                Call report.Add("pointcloud", "bbox_diagonal", surface.Diagonal)
-                Call report.Add("pointcloud", "bbox_robust_diagonal", surface.RobustDiagonal)
-                Call report.Add("pointcloud", "full_ply", surface.GaussianPly)
-                Call report.Add("pointcloud", "surface_ply", surface.SurfacePly)
-                Call report.Add("pointcloud", "seconds", t0.Elapsed.TotalSeconds, "F2")
+                    Call report.Add("pointcloud", "gaussians_total", surface.TotalGaussians)
+                    Call report.Add("pointcloud", "surface_points", surface.KeptPoints)
+                    Call report.Add("pointcloud", "median_scale", surface.MedianScale)
+                    Call report.Add("pointcloud", "bbox_diagonal", surface.Diagonal)
+                    Call report.Add("pointcloud", "bbox_robust_diagonal", surface.RobustDiagonal)
+                    Call report.Add("pointcloud", "full_ply", surface.GaussianPly)
+                    Call report.Add("pointcloud", "surface_ply", surface.SurfacePly)
+                    Call report.Add("pointcloud", "seconds", t0.Elapsed.TotalSeconds, "F2")
 
-                Call DebugAudit.Check(surface.KeptPoints > 0, "surface point cloud should not be empty")
-                Call DebugAudit.Capture($"{surface.KeptPoints:N0}", "surface points")
+                    Call DebugAudit.Check(surface.KeptPoints > 0, "surface point cloud should not be empty")
+                    Call DebugAudit.Capture($"{surface.KeptPoints:N0}", val:="surface points")
 
-                surfacePly = surface.SurfacePly
+                    surfacePly = surface.SurfacePly
                 Else
                     Call Stage("[1-4/6] 复用已有点云（跳过训练）: " & options.ReusePly)
 

@@ -517,12 +517,19 @@ Namespace FileSystem
                     Return New SubStream(buffer, block.offset, block.size)
                 Else
                     Dim ms As New MemoryStream()
-                    Dim buf As Byte() = New Byte(block.size - 1) {}
 
-                    Call buffer.Seek(block.offset, SeekOrigin.Begin)
-                    Call buffer.Read(buf, Scan0, block.size)
-                    Call ms.Write(buf, Scan0, buf.Length)
-                    Call ms.Seek(Scan0, SeekOrigin.Begin)
+                    ' 读入整块数据时使用池化缓冲：单个块的体积通常远大于 1 MiB，
+                    ' 旧实现每次打开块都会在大对象堆上申请一整块内存。
+                    Dim buf As Byte() = BufferPool.RentBytes(block.size)
+
+                    Try
+                        Call buffer.Seek(block.offset, SeekOrigin.Begin)
+                        Call buffer.Read(buf, Scan0, block.size)
+                        Call ms.Write(buf, Scan0, block.size)
+                        Call ms.Seek(Scan0, SeekOrigin.Begin)
+                    Finally
+                        BufferPool.ReturnBytes(buf)
+                    End Try
 
                     Return ms
                 End If

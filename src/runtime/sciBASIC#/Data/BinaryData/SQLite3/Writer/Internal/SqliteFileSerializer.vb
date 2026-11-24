@@ -239,9 +239,16 @@ Namespace Writer.Internal
                 page.WriteUInt32(0, nextNo)
 
                 Dim length As Integer = System.Math.Min(capacity, record.Length - offset)
-                Dim chunk(length - 1) As Byte
-                Call Array.Copy(record, offset, chunk, 0, length)
-                page.WriteBytes(4, chunk)
+
+                ' 溢出页的分片仅作搬运中转，用池化缓冲代替每次分配
+                Dim chunk As Byte() = BufferPool.RentBytes(length)
+
+                Try
+                    Call Array.Copy(record, offset, chunk, 0, length)
+                    page.WriteBytes(4, chunk, length)
+                Finally
+                    BufferPool.ReturnBytes(chunk)
+                End Try
 
                 _pages(pageNo) = page.Data
                 offset += length

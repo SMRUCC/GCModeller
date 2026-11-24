@@ -2,6 +2,8 @@ Option Strict On
 Option Explicit On
 Option Infer On
 
+Imports BufferPool = Microsoft.VisualBasic.Data.IO.BufferPool
+
 Namespace Encodings
 
     ''' <summary>
@@ -80,15 +82,23 @@ Namespace Encodings
                             bytes = reader.Remaining
                         End If
 
-                        Dim buffer As Byte() = reader.ReadBytes(bytes)
+                        ' miniblock 的数据体仅作解码中转，用完即可归还；
+                        ' 该缓冲区在每个 miniblock 上都会重建一次。
+                        Dim buffer As Byte() = BufferPool.RentBytes(bytes)
 
-                        For k As Integer = 0 To countInMiniBlock - 1
-                            Dim delta As Long = BitPacking.UnpackValue(buffer, k * width, width)
+                        Try
+                            Call reader.ReadBytes(bytes, buffer, 0)
 
-                            previous = previous + minDelta + delta
-                            result(index) = previous
-                            index += 1
-                        Next
+                            For k As Integer = 0 To countInMiniBlock - 1
+                                Dim delta As Long = BitPacking.UnpackValue(buffer, k * width, width)
+
+                                previous = previous + minDelta + delta
+                                result(index) = previous
+                                index += 1
+                            Next
+                        Finally
+                            BufferPool.ReturnBytes(buffer)
+                        End Try
                     End If
                 Next
             End While

@@ -106,7 +106,7 @@ Namespace Reporting
 
             ' DebugAudit 的报告：把关键指标也写进去，方便与其它测试程序用同一套工具对比
             For Each row As ReportRow In _rows
-                Call DebugAudit.Capture(row.Value, $"{row.Section}/{row.Name}")
+                Call DebugAudit.Capture(row.Value, val:=$"{row.Section}/{row.Name}")
             Next
 
             Try

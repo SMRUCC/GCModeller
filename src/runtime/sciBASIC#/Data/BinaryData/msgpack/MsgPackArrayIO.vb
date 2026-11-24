@@ -138,7 +138,24 @@ Friend Module MsgPackArrayIO
         If count <= 0 Then Return True
 
         ' 注意写全 System.Math：只写 Math 会命中 sciBASIC 里那个处理向量的 Min 扩展
-        Dim buffer As Byte() = New Byte(System.Math.Min(count, ChunkElements) * MaxElementSize - 1) {}
+        Dim capacity As Integer = System.Math.Min(count, ChunkElements) * MaxElementSize
+
+        ' 这个写缓冲最大为 576 KB（65536 × 9），属于高频大块临时缓冲：
+        ' 超过 1 MiB 共享池上限的场景由 BufferPool 自动转入大块池。
+        Dim buffer As Byte() = BufferPool.RentBytes(capacity)
+
+        Try
+            Return writeArrayBody(array, elementType, count, buffer, writer)
+        Finally
+            BufferPool.ReturnBytes(buffer)
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' 把整个数组的元素按 msgpack 格式写入调用方提供的写缓冲（缓冲不够时就先刷盘）。
+    ''' </summary>
+    Private Function writeArrayBody(array As Array, elementType As Type, count As Integer,
+                                    buffer As Byte(), writer As BinaryWriter) As Boolean
         Dim at As Integer = 0
 
         If elementType Is GetType(Double) Then
