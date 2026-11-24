@@ -81,6 +81,7 @@ Imports Microsoft.VisualBasic.Scripting.Runtime
 <Assembly: InternalsVisibleTo("REnv")>
 <Assembly: InternalsVisibleTo("R#")>
 <Assembly: InternalsVisibleTo("Microsoft.VisualBasic.Data.visualize.Network.Visualizer")>
+<Assembly: InternalsVisibleTo("FullTextBuffer")>
 
 ''' <summary>
 ''' Debugger helper module for VisualBasic Enterprises System.

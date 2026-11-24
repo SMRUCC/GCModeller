@@ -66,19 +66,19 @@ Namespace ComponentModel.DataSourceModel.Repository
         ''' <summary>
         ''' q-gram的长度
         ''' </summary>
-        ReadOnly _q As Integer
+        Friend ReadOnly _q As Integer
         ''' <summary>
         ''' the q-gram index set
         ''' </summary>
-        ReadOnly _index As Dictionary(Of String, HashSet(Of Integer))
+        Friend ReadOnly _index As Dictionary(Of String, HashSet(Of Integer))
         ''' <summary>
         ''' the raw input string collection
         ''' </summary>
-        ReadOnly _strings As List(Of (str As String, id As Integer))
+        Friend ReadOnly _strings As List(Of (str As String, id As Integer))
         ''' <summary>
         ''' the q-gram count for each raw input string
         ''' </summary>
-        ReadOnly _counts As New Dictionary(Of String, Integer)
+        Friend ReadOnly _counts As New Dictionary(Of String, Integer)
 
         ''' <summary>
         ''' 
@@ -91,6 +91,19 @@ Namespace ComponentModel.DataSourceModel.Repository
             _q = q
             _index = New Dictionary(Of String, HashSet(Of Integer))(StringComparer.OrdinalIgnoreCase)
             _strings = New List(Of (String, Integer))
+        End Sub
+
+        ''' <summary>
+        ''' Rebuilds a q-gram index from a deserialized cache state.
+        ''' </summary>
+        Friend Sub New(q As Integer,
+                       strings As List(Of (str As String, id As Integer)),
+                       counts As Dictionary(Of String, Integer),
+                       index As Dictionary(Of String, HashSet(Of Integer)))
+            Me._q = q
+            Me._strings = strings
+            Me._counts = counts
+            Me._index = index
         End Sub
 
         ''' <summary>

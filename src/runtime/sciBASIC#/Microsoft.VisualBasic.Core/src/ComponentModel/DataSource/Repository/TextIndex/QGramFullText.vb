@@ -63,15 +63,28 @@ Namespace ComponentModel.DataSourceModel.Repository
     ''' </summary>
     Public Class QGramFullText
 
-        ReadOnly docs As Dictionary(Of String, String)
-        ReadOnly word2Docs As Dictionary(Of String, HashSet(Of String))
-        ReadOnly wordIndex As QGramIndex
-        ReadOnly tokenlicer As Func(Of String, IEnumerable(Of String))
+        Friend ReadOnly docs As Dictionary(Of String, String)
+        Friend ReadOnly word2Docs As Dictionary(Of String, HashSet(Of String))
+        Friend ReadOnly wordIndex As QGramIndex
+        Friend ReadOnly tokenlicer As Func(Of String, IEnumerable(Of String))
 
         Sub New(Optional q As Integer = 3, Optional tokenlicer As Func(Of String, IEnumerable(Of String)) = Nothing)
             Me.docs = New Dictionary(Of String, String)
             Me.word2Docs = New Dictionary(Of String, HashSet(Of String))
             Me.wordIndex = New QGramIndex(q)
+            Me.tokenlicer = If(tokenlicer, AddressOf TextSplit.MakeWords)
+        End Sub
+
+        ''' <summary>
+        ''' Rebuilds an index from a deserialized cache state.
+        ''' </summary>
+        Friend Sub New(docs As Dictionary(Of String, String),
+                       word2Docs As Dictionary(Of String, HashSet(Of String)),
+                       wordIndex As QGramIndex,
+                       Optional tokenlicer As Func(Of String, IEnumerable(Of String)) = Nothing)
+            Me.docs = docs
+            Me.word2Docs = word2Docs
+            Me.wordIndex = wordIndex
             Me.tokenlicer = If(tokenlicer, AddressOf TextSplit.MakeWords)
         End Sub
 
