@@ -11,8 +11,10 @@ Namespace Core.Numerics
 
     ''' <summary>
     ''' 稳定的对数域运算工具。
+    ''' 模块名刻意使用 <c>LogSumExpOps</c>，避免与
+    ''' <c>VariationalBayes.VBMath.LogSumExp</c> 的同名函数在调用点产生歧义解析。
     ''' </summary>
-    Public Module LogSumExp
+    Public Module LogSumExpOps
 
         ''' <summary>对数域中「零概率」的下界，用于避免 log(0)。</summary>
         Public Const TinyProbability As Double = 1.0E-300

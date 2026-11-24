@@ -175,7 +175,7 @@ Public Module Math
             Dim pvalue As New Dictionary(Of String, Double)
             Dim exprVals As New Dictionary(Of String, Double)
 
-            For Each group In groups
+            For Each group As KeyValuePair(Of String, Integer()) In groups
                 Dim index As Integer() = group.Value
                 Dim group_max As Vector = group_maxs(group.Key)
                 Dim group_val As Vector = gene(index).AsVector

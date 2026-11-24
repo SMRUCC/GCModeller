@@ -27,6 +27,19 @@ Namespace Core.Numerics
             _rng = New Random(seed)
         End Sub
 
+        ''' <summary>
+        ''' 包装一个既有的 <see cref="Random"/> 实例（用于向后兼容那些
+        ''' 直接接收 <see cref="Random"/> 参数的公开 API）。
+        ''' </summary>
+        Public Sub New(source As Random)
+            If source Is Nothing Then
+                Throw New ArgumentNullException(NameOf(source))
+            End If
+
+            _seed = 0
+            _rng = source
+        End Sub
+
         ''' <summary>创建服务时使用的种子。</summary>
         Public ReadOnly Property Seed As Integer
             Get

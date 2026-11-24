@@ -206,6 +206,20 @@ Public Class GaussianMixtureModel
     End Sub
 
     ''' <summary>
+    ''' 使用指定的协方差结构创建高斯混合模型（新增重载）。
+    ''' </summary>
+    Public Sub New(nComponents As Integer,
+                   covarianceType As GmmCovarianceType,
+                   Optional maxIter As Integer = 200,
+                   Optional tol As Double = 0.000001,
+                   Optional regCovar As Double = 0.000001,
+                   Optional initMethod As InitMethod = InitMethod.KMeansPP,
+                   Optional seed As Integer? = Nothing)
+        Call Configure(nComponents, maxIter, tol, regCovar, initMethod, seed,
+                       New GmmOptions(covarianceType))
+    End Sub
+
+    ''' <summary>
     ''' 使用扩展选项创建高斯混合模型（新增重载，不影响既有构造签名）。
     ''' </summary>
     Public Sub New(nComponents As Integer,
@@ -406,7 +420,7 @@ Public Class GaussianMixtureModel
 
             Covariances = New Tensor(covData, components, dimension)
         Else
-            Dim globalCovariance As Tensor = GlobalCovariance(X, dimension, globalMean)
+            Dim globalCovariance As Tensor = ComputeGlobalCovariance(X, dimension, globalMean)
             Dim buffer As Double() = globalCovariance.Data
             Dim covData As Double() = New Double(components * dimension * dimension - 1) {}
 
@@ -530,7 +544,7 @@ Public Class GaussianMixtureModel
         Next
     End Sub
 
-    Private Shared Function GlobalCovariance(X As Tensor, dimension As Integer, globalMean As Double()) As Tensor
+    Private Shared Function ComputeGlobalCovariance(X As Tensor, dimension As Integer, globalMean As Double()) As Tensor
         Dim sampleCount As Integer = X.Shape(0)
         Dim xData As Double() = X.Data
         Dim covData As Double() = New Double(dimension * dimension - 1) {}
@@ -578,7 +592,7 @@ Public Class GaussianMixtureModel
 
         Dim logWeight As Double() = New Double(components - 1) {}
         For k As Integer = 0 To components - 1
-            logWeight(k) = LogSumExp.SafeLog(weightsData(k))
+            logWeight(k) = LogSumExpOps.SafeLog(weightsData(k))
         Next
 
         Dim diff As Double() = New Double(dimension - 1) {}
@@ -762,7 +776,7 @@ Public Class GaussianMixtureModel
             Dim globalMean As Double() = Nothing
             Dim globalVariance As Double() = Nothing
             Call ComputeGlobalStatistics(X, dimension, globalMean, globalVariance)
-            fallback = GlobalCovariance(X, dimension, globalMean)
+            fallback = ComputeGlobalCovariance(X, dimension, globalMean)
         End If
 
         If IsDiagonalCovariance() Then
@@ -846,11 +860,14 @@ Public Class GaussianMixtureModel
                     Continue For
                 End If
 
+                ' 注意：均值是 [K, D] 布局，偏移量与协方差的 [K, D, D] 偏移量不同
+                Dim meanBase As Integer = k * dimension
+
                 For r As Integer = 0 To dimension - 1
-                    Dim meanR As Double = meansData(offset + r)
+                    Dim meanR As Double = meansData(meanBase + r)
 
                     For c As Integer = r To dimension - 1
-                        Dim meanC As Double = meansData(offset + c)
+                        Dim meanC As Double = meansData(meanBase + c)
                         Dim acc As Double = 0
 
                         For i As Integer = 0 To sampleCount - 1
@@ -1156,7 +1173,7 @@ Public Class GaussianMixtureModel
         Dim logWeight As Double() = New Double(components - 1) {}
 
         For k As Integer = 0 To components - 1
-            logWeight(k) = LogSumExp.SafeLog(weightsData(k))
+            logWeight(k) = LogSumExpOps.SafeLog(weightsData(k))
         Next
 
         Dim result As New Tensor(sampleCount)
@@ -1358,14 +1375,16 @@ Public Class GaussianMixtureModel
             Dim diagonal As Boolean = covarianceKind = CInt(GmmCovarianceType.Diagonal) OrElse
                                       covarianceKind = CInt(GmmCovarianceType.Spherical)
 
-            Dim weights As Tensor = parameters.RequireTensor("weights", New Integer() {components})
-            Dim means As Tensor = parameters.RequireTensor("means", New Integer() {components, dimension})
-            Dim covariances As Tensor
+            ' 注意：局部变量不能命名为 weights / means / covariances，
+            ' VB 大小写不敏感，那样会遮蔽同名属性，使下面的赋值退化为自赋值。
+            Dim restoredWeights As Tensor = parameters.RequireTensor("weights", New Integer() {components})
+            Dim restoredMeans As Tensor = parameters.RequireTensor("means", New Integer() {components, dimension})
+            Dim restoredCovariances As Tensor
 
             If diagonal Then
-                covariances = parameters.RequireTensor("covariances", New Integer() {components, dimension})
+                restoredCovariances = parameters.RequireTensor("covariances", New Integer() {components, dimension})
             Else
-                covariances = parameters.RequireTensor("covariances", New Integer() {components, dimension, dimension})
+                restoredCovariances = parameters.RequireTensor("covariances", New Integer() {components, dimension, dimension})
             End If
 
             _nComponents = components
@@ -1374,9 +1393,9 @@ Public Class GaussianMixtureModel
             _regCovar = parameters.GetValue("regCovar", _regCovar)
             _sampleCount = CInt(parameters.GetValue("sampleCount", 0))
 
-            Weights = weights
-            Means = means
-            Covariances = covariances
+            Weights = restoredWeights
+            Means = restoredMeans
+            Covariances = restoredCovariances
 
             LogLikelihood = parameters.GetValue("logLikelihood", Double.NegativeInfinity)
             Converged = parameters.GetValue("converged", 0) > 0.5

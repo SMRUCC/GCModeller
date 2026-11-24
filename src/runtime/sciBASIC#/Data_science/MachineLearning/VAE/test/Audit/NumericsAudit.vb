@@ -36,29 +36,29 @@ Public Module NumericsAudit
 
     Private Sub LogSumExpMustBeStable()
         Dim balanced As Double() = {0.0, 0.0}
-        Call DebugAudit.Test(std.Abs(LogSumExp.Compute(balanced) - std.Log(2.0)) < 1.0E-12,
+        Call DebugAudit.Test(std.Abs(LogSumExpOps.Compute(balanced) - std.Log(2.0)) < 1.0E-12,
                              "ln(e^0 + e^0) 应等于 ln2")
 
         ' 极小的对数权重：朴素实现会下溢为 ln(0) = -Infinity
         Dim tiny As Double() = {-1000.0, -1000.0}
-        Dim tinyResult As Double = LogSumExp.Compute(tiny)
+        Dim tinyResult As Double = LogSumExpOps.Compute(tiny)
 
         Call DebugAudit.Test(std.Abs(tinyResult - (-1000.0 + std.Log(2.0))) < 1.0E-9,
                              $"极小的对数权重必须保持精度，实际为 {tinyResult}")
 
         ' 全部为 -Infinity 时必须是 -Infinity，而不是 NaN
         Dim zeros As Double() = {Double.NegativeInfinity, Double.NegativeInfinity}
-        Call DebugAudit.Test(Double.IsNegativeInfinity(LogSumExp.Compute(zeros)),
+        Call DebugAudit.Test(Double.IsNegativeInfinity(LogSumExpOps.Compute(zeros)),
                              "全部为 -Infinity 时应返回 -Infinity 而非 NaN")
 
         ' 含 +Infinity 时必须是 +Infinity，而不是 NaN
         Dim infinite As Double() = {Double.PositiveInfinity, 0.0}
-        Call DebugAudit.Test(Double.IsPositiveInfinity(LogSumExp.Compute(infinite)),
+        Call DebugAudit.Test(Double.IsPositiveInfinity(LogSumExpOps.Compute(infinite)),
                              "含 +Infinity 时应返回 +Infinity 而非 NaN")
 
         ' 混合主导项：ln(e^10 + e^0) ≈ 10
         Dim dominated As Double() = {10.0, 0.0}
-        Call DebugAudit.Test(std.Abs(LogSumExp.Compute(dominated) - 10.0000453999) < 1.0E-6,
+        Call DebugAudit.Test(std.Abs(LogSumExpOps.Compute(dominated) - 10.0000453999) < 1.0E-6,
                              "主导项情形下的 log-sum-exp 精度不足")
 
         ' log-softmax 的行归一性
@@ -67,7 +67,7 @@ Public Module NumericsAudit
             {-5.0, 5.0, 0.0}
         }
 
-        Dim softmaxValues As Double(,) = LogSumExp.SoftmaxRows(logValues)
+        Dim softmaxValues As Double(,) = LogSumExpOps.SoftmaxRows(logValues)
 
         For i As Integer = 0 To 1
             Dim total As Double = softmaxValues(i, 0) + softmaxValues(i, 1) + softmaxValues(i, 2)

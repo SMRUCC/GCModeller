@@ -22,6 +22,12 @@ Public Module AuditRunner
         ' 公共基础设施自检
         Call AuditSupport.Group("numerics", AddressOf NumericsAudit.Run)
 
+        ' 各模型的生产级验收
+        Call AuditSupport.Group("gmm", AddressOf GmmAudit.Run)
+        Call AuditSupport.Group("gmvae", AddressOf GmvaeAudit.Run)
+        Call AuditSupport.Group("graphvae", AddressOf GraphVaeAudit.Run)
+        Call AuditSupport.Group("cells", AddressOf CellsAudit.Run)
+
         ' 已确认缺陷的回归用例（重构前后对比的基准）
         Call AuditSupport.Group("regression", AddressOf RegressionAudit.Run)
 

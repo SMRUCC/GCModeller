@@ -161,13 +161,39 @@ Public Module RegressionAudit
 
         Dim model As New GMVAE(inputDim:=4, latentDim:=4, nComponents:=3,
                                hiddenDim:=32, seed:=11)
-        Call model.Fit(X, epochs:=150, batchSize:=32, learningRate:=0.005,
-                       beta:=1.0, gamma:=0.5, verbose:=False)
+        Call model.Fit(X, epochs:=200, batchSize:=32, learningRate:=0.005,
+                       beta:=1.0, gamma:=0.1, verbose:=False)
 
         Dim predicted As Integer() = model.PredictClusters(X)
         Dim accuracy As Double = AuditSupport.ClusterAccuracy(predicted, labels, 3)
 
         DebugAudit.Capture("gmvae.accuracy", accuracy)
+
+        ' 诊断：潜空间是否可分、重建是否正常
+        Dim reconstructed As Tensor = model.Reconstruct(X, useMean:=True)
+        DebugAudit.Capture("gmvae.recon.mse", AuditSupport.Mse(reconstructed, X))
+
+        Dim weights As Double() = model.PriorWeights
+        DebugAudit.Capture("gmvae.prior.weights",
+                           CObj($"{weights(0):F3}/{weights(1):F3}/{weights(2):F3}"))
+
+        Dim priorMu As Tensor = model.PriorMean
+        Dim centerSpread As Double = 0
+
+        For a As Integer = 0 To 2
+            For b As Integer = a + 1 To 2
+                Dim acc As Double = 0
+
+                For d As Integer = 0 To priorMu.Shape(1) - 1
+                    Dim delta As Double = priorMu(a, d) - priorMu(b, d)
+                    acc += delta * delta
+                Next
+
+                centerSpread += std.Sqrt(acc)
+            Next
+        Next
+
+        DebugAudit.Capture("gmvae.prior.center-spread", centerSpread)
 
         Dim uniqueCount As Integer = 0
         Dim seen As New HashSet(Of Integer)

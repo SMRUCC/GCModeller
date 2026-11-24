@@ -97,6 +97,8 @@
 ' ============================================================================
 
 Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
+Imports Microsoft.VisualBasic.MachineLearning.VariationalAutoencoder.Core
+Imports Microsoft.VisualBasic.MachineLearning.VariationalAutoencoder.Core.Layers
 Imports std = System.Math
 
 ' ============================================================================
@@ -309,12 +311,9 @@ Public Class LinearLayer
     ' 前向传播缓存的输入
     Private _cachedInput As Tensor
 
-    ' Adam优化器状态
-    Private _mW As Tensor
-    Private _vW As Tensor
-    Private _mb As Tensor
-    Private _vb As Tensor
-    Private _adamT As Integer = 0
+    ' 统一的 Adam 优化器状态（Core.Layers.Adam）
+    Private _adamWeights As Core.Layers.Adam
+    Private _adamBias As Core.Layers.Adam
 
 #End Region
 
@@ -374,38 +373,20 @@ Public Class LinearLayer
     ''' 使用Adam优化器更新参数
     ''' </summary>
     Public Sub Update(lr As Single, beta1 As Single, beta2 As Single, eps As Single)
-        _adamT += 1
-        Dim t As Integer = _adamT
-        Dim biasCorrection1 As Double = 1.0 - std.Pow(CDbl(beta1), t)
-        Dim biasCorrection2 As Double = 1.0 - std.Pow(CDbl(beta2), t)
-
-        ' 初始化Adam状态
-        If _mW Is Nothing Then
-            _mW = Tensor.Zeros(Weights.Shape)
-            _vW = Tensor.Zeros(Weights.Shape)
-            _mb = Tensor.Zeros(Bias.Shape)
-            _vb = Tensor.Zeros(Bias.Shape)
+        If _adamWeights Is Nothing Then
+            _adamWeights = New Core.Layers.Adam(Weights.Shape, lr)
+            _adamBias = New Core.Layers.Adam(Bias.Shape, lr)
         End If
 
-        ' 更新权重
-        For i As Integer = 0 To Weights.Length - 1
-            Dim g As Double = WeightGrad.Data(i)
-            _mW.Data(i) = beta1 * _mW.Data(i) + (1.0 - beta1) * g
-            _vW.Data(i) = beta2 * _vW.Data(i) + (1.0 - beta2) * g * g
-            Dim mHat As Double = _mW.Data(i) / biasCorrection1
-            Dim vHat As Double = _vW.Data(i) / biasCorrection2
-            Weights.Data(i) -= lr * mHat / (std.Sqrt(vHat) + eps)
-        Next
+        _adamWeights.Beta1 = beta1
+        _adamWeights.Beta2 = beta2
+        _adamWeights.Epsilon = eps
+        _adamBias.Beta1 = beta1
+        _adamBias.Beta2 = beta2
+        _adamBias.Epsilon = eps
 
-        ' 更新偏置
-        For i As Integer = 0 To Bias.Length - 1
-            Dim g As Double = BiasGrad.Data(i)
-            _mb.Data(i) = beta1 * _mb.Data(i) + (1.0 - beta1) * g
-            _vb.Data(i) = beta2 * _vb.Data(i) + (1.0 - beta2) * g * g
-            Dim mHat As Double = _mb.Data(i) / biasCorrection1
-            Dim vHat As Double = _vb.Data(i) / biasCorrection2
-            Bias.Data(i) -= lr * mHat / (std.Sqrt(vHat) + eps)
-        Next
+        _adamWeights.Update(Weights, WeightGrad, lr)
+        _adamBias.Update(Bias, BiasGrad, lr)
     End Sub
 
 #End Region
@@ -431,10 +412,14 @@ Public Class GCNLayer
     Private _cachedAX As Tensor    ' Â @ X
     Private _cachedZ As Tensor     ' 预激活值 Â @ X @ W
 
-    ' Adam优化器状态
-    Private _mW As Tensor
-    Private _vW As Tensor
-    Private _adamT As Integer = 0
+    ' 统一的 Adam 优化器状态（Core.Layers.Adam）
+    Private _adamWeights As Core.Layers.Adam
+
+    ''' <summary>
+    ''' 邻接矩阵是否对称。<c>True</c>（默认，无向图）时反向传播用 Â 代替 Âᵀ；
+    ''' 有向图必须设为 <c>False</c>，否则梯度方向错误。
+    ''' </summary>
+    Public Property AssumeSymmetricAdjacency As Boolean = True
 
 #End Region
 
@@ -483,8 +468,10 @@ Public Class GCNLayer
         ' WeightGrad = (Â @ X)^T @ dZ = AX^T @ dZ: (inDim, outDim)
         WeightGrad = _cachedAX.Transpose().MatMul(dZ)
 
-        ' dX = Â^T @ dZ @ W^T = Â @ dZ @ W^T (因为Â是对称的): (N, inDim)
-        Dim gradInput As Tensor = _cachedNormAdj.MatMul(dZ.MatMul(Weights.Transpose()))
+        ' dX = Â^T @ dZ @ W^T。无向图的 Â 对称，可以直接复用；
+        ' 有向图必须显式转置，否则梯度方向错误。
+        Dim propagation As Tensor = If(AssumeSymmetricAdjacency, _cachedNormAdj, _cachedNormAdj.Transpose())
+        Dim gradInput As Tensor = propagation.MatMul(dZ.MatMul(Weights.Transpose()))
         Return gradInput
     End Function
 
@@ -496,26 +483,14 @@ Public Class GCNLayer
     ''' 使用Adam优化器更新参数
     ''' </summary>
     Public Sub Update(lr As Single, beta1 As Single, beta2 As Single, eps As Single)
-        _adamT += 1
-        Dim t As Integer = _adamT
-        Dim biasCorrection1 As Double = 1.0 - std.Pow(CDbl(beta1), t)
-        Dim biasCorrection2 As Double = 1.0 - std.Pow(CDbl(beta2), t)
-
-        ' 初始化Adam状态
-        If _mW Is Nothing Then
-            _mW = Tensor.Zeros(Weights.Shape)
-            _vW = Tensor.Zeros(Weights.Shape)
+        If _adamWeights Is Nothing Then
+            _adamWeights = New Core.Layers.Adam(Weights.Shape, lr)
         End If
 
-        ' 更新权重
-        For i As Integer = 0 To Weights.Length - 1
-            Dim g As Double = WeightGrad.Data(i)
-            _mW.Data(i) = beta1 * _mW.Data(i) + (1.0 - beta1) * g
-            _vW.Data(i) = beta2 * _vW.Data(i) + (1.0 - beta2) * g * g
-            Dim mHat As Double = _mW.Data(i) / biasCorrection1
-            Dim vHat As Double = _vW.Data(i) / biasCorrection2
-            Weights.Data(i) -= lr * mHat / (std.Sqrt(vHat) + eps)
-        Next
+        _adamWeights.Beta1 = beta1
+        _adamWeights.Beta2 = beta2
+        _adamWeights.Epsilon = eps
+        _adamWeights.Update(Weights, WeightGrad, lr)
     End Sub
 
 #End Region
@@ -584,6 +559,17 @@ Public Class GraphVAE
     Private _rand As Random
     Private _seed As Integer?
 
+    ' 最近一次训练前向的中间量（供 Backward 使用）
+    Private _cache As GraphForwardCache
+
+    ' 扩展选项（有向图 / 变长图等）
+    Private _options As GraphVAEOptions
+
+    Private _fitted As Boolean = False
+
+    ''' <summary>模型文件的数据结构版本。</summary>
+    Public Const ModelFileSchemaVersion As Integer = 1
+
 #End Region
 
 #Region "构造函数"
@@ -592,8 +578,26 @@ Public Class GraphVAE
     ''' 创建GraphVAE模型
     ''' </summary>
     Public Sub New(config As GraphVAEConfig, Optional seed As Integer? = Nothing)
+        Call InitializeCore(config, seed)
+    End Sub
+
+    Private Sub InitializeCore(config As GraphVAEConfig, seed As Integer?)
         _config = config
         _seed = seed
+        _options = New GraphVAEOptions With {
+            .MaxNodes = config.NumNodes,
+            .InputDim = config.InputDim,
+            .Hidden1 = config.Hidden1,
+            .Hidden2 = config.Hidden2,
+            .LatentDim = config.LatentDim,
+            .DecHidden = config.DecHidden,
+            .Seed = seed
+        }
+
+        If config.NumNodes <= 0 OrElse config.InputDim <= 0 OrElse config.LatentDim <= 0 Then
+            Throw New ArgumentException(
+                $"模型配置无效: NumNodes={config.NumNodes}, InputDim={config.InputDim}, LatentDim={config.LatentDim}")
+        End If
 
         If seed.HasValue Then
             _rand = New Random(seed.Value)
@@ -629,58 +633,145 @@ Public Class GraphVAE
     ''' 输出: (重构邻接, 重构特征, μ, logσ², z)
     ''' </summary>
     Public Function Forward(adj As Tensor, features As Tensor) As Tuple(Of Tensor, Tensor, Tensor, Tensor, Tensor)
-        Dim N As Integer = _config.NumNodes
+        _cache = ForwardCore(adj, features, useSampling:=True, nodeMask:=Nothing)
+        Call BindCache(_cache)
 
-        ' 缓存输入
-        _adj = adj
-        _features = features
+        Return Tuple.Create(_cache.ReconAdjacency, _cache.ReconFeatures, _cache.Mu, _cache.LogVar, _cache.Sample)
+    End Function
 
-        ' 归一化邻接矩阵
-        _normAdj = GraphUtils.NormalizeAdjacency(adj)
+    ''' <summary>
+    ''' 变长图的前向：<paramref name="nodeCount"/> 之后的节点视为填充，不参与损失与梯度。
+    ''' </summary>
+    Public Function ForwardMasked(adj As Tensor, features As Tensor, nodeCount As Integer) As Tuple(Of Tensor, Tensor, Tensor, Tensor, Tensor)
+        Dim mask As Double() = BuildNodeMask(_config.NumNodes, nodeCount)
+
+        _cache = ForwardCore(adj, features, useSampling:=True, nodeMask:=mask)
+        Call BindCache(_cache)
+
+        Return Tuple.Create(_cache.ReconAdjacency, _cache.ReconFeatures, _cache.Mu, _cache.LogVar, _cache.Sample)
+    End Function
+
+    ''' <summary>
+    ''' 唯一的前向实现。所有公开入口（<see cref="Forward"/> / <see cref="Predict"/> /
+    ''' <see cref="Evaluate"/>）都走这里，避免多处重复实现导致行为漂移。
+    ''' </summary>
+    ''' <param name="useSampling">
+    ''' <c>False</c> 时直接使用后验均值解码，不引入任何随机性——评估必须走这条路径。
+    ''' </param>
+    Private Function ForwardCore(adj As Tensor, features As Tensor, useSampling As Boolean,
+                                 nodeMask As Double()) As GraphForwardCache
+        If adj Is Nothing OrElse adj.Rank <> 2 Then
+            Throw New ArgumentException("邻接矩阵必须是二维张量 [N, N]", NameOf(adj))
+        End If
+
+        Dim nodes As Integer = adj.Shape(0)
+
+        If nodes <> _config.NumNodes OrElse adj.Shape(1) <> nodes Then
+            Throw New ArgumentException(
+                $"邻接矩阵形状应为 [{_config.NumNodes}, {_config.NumNodes}]，实际 [{String.Join(", ", adj.Shape)}]",
+                NameOf(adj))
+        End If
+
+        If features Is Nothing OrElse features.Rank <> 2 Then
+            Throw New ArgumentException("节点特征必须是二维张量 [N, F]", NameOf(features))
+        End If
+
+        If features.Shape(0) <> nodes Then
+            Throw New ArgumentException($"特征矩阵行数 {features.Shape(0)} 与节点数 {nodes} 不一致", NameOf(features))
+        End If
+
+        Dim cache As New GraphForwardCache With {
+            .NumNodes = nodes,
+            .InputDim = features.Shape(1),
+            .HiddenDim1 = _config.Hidden1,
+            .HiddenDim2 = _config.Hidden2,
+            .DecoderHidden = _config.DecHidden,
+            .LatentDim = _config.LatentDim,
+            .NodeMask = nodeMask,
+            .Adjacency = adj,
+            .Features = features
+        }
 
         ' === 编码器 ===
-        ' GCN层1: H1 = ReLU(Â @ X @ W1)
-        _H1 = _gcn1.Forward(_normAdj, features)
+        cache.NormAdjacency = GraphUtils.NormalizeAdjacency(adj)
+        cache.Hidden1 = _gcn1.Forward(cache.NormAdjacency, features)
+        cache.Hidden2 = _gcn2.Forward(cache.NormAdjacency, cache.Hidden1)
+        cache.GraphEmbedding = cache.Hidden2.Mean(0)
 
-        ' GCN层2: H2 = ReLU(Â @ H1 @ W2)
-        _H2 = _gcn2.Forward(_normAdj, _H1)
-
-        ' 图读出: g = mean(H2, axis=0) -> (1, Hidden2)
-        _g = _H2.Mean(0)
-
-        ' μ = g @ Wμ + bμ
-        _mu = _encMu.Forward(_g)
-
-        ' logσ² = g @ Wlv + blv
-        _logVar = _encLogVar.Forward(_g)
+        cache.Mu = _encMu.Forward(cache.GraphEmbedding)
+        cache.LogVar = _encLogVar.Forward(cache.GraphEmbedding)
 
         ' === 重参数化 ===
-        ' z = μ + σ * ε, 其中 σ = exp(0.5 * logσ²), ε ~ N(0, I)
-        _epsilon = SampleEpsilon(_config.LatentDim)
-        Dim halfLogVar As Tensor = _logVar.Apply(Function(x) 0.5 * x)
-        _std = halfLogVar.Apply(Function(x) std.Exp(x))
-        ' z = μ + σ * ε
-        _z = _mu + _std.ElementwiseMultiply(_epsilon)
+        If useSampling Then
+            cache.Epsilon = SampleEpsilon(_config.LatentDim)
+
+            Dim halfLogVar As Tensor = cache.LogVar.Apply(Function(x) 0.5 * x)
+            cache.Std = halfLogVar.Apply(Function(x) std.Exp(x))
+            cache.Sample = cache.Mu + cache.Std.ElementwiseMultiply(cache.Epsilon)
+        Else
+            cache.Epsilon = Tensor.Zeros(New Integer() {1, _config.LatentDim})
+            cache.Std = Tensor.Zeros(New Integer() {1, _config.LatentDim})
+            cache.Sample = cache.Mu
+        End If
 
         ' === 解码器 ===
-        ' h = z @ We + be -> (1, N * DecHidden)
-        _h = _decEmbed.Forward(_z)
+        Dim decoded As Tuple(Of Tensor, Tensor, Tensor) = DecodeSample(cache.Sample)
 
-        ' 重塑为节点嵌入 E (N, DecHidden)
-        _E = New Tensor(_h.ToDoubleArray(), N, _config.DecHidden)
+        cache.DecoderH = decoded.Item1
+        cache.NodeEmbedding = decoded.Item2
+        cache.NodeEmbeddingActivated = decoded.Item3
+        cache.AdjacencyLogits = cache.NodeEmbeddingActivated.MatMul(cache.NodeEmbeddingActivated.Transpose())
+        cache.ReconAdjacency = GraphUtils.ApplySigmoid(cache.AdjacencyLogits)
+        cache.FeatureLogits = _decFeat.Forward(cache.NodeEmbeddingActivated)
+        cache.ReconFeatures = GraphUtils.ApplySigmoid(cache.FeatureLogits)
 
-        ' E_act = ReLU(E)
-        _E_act = GraphUtils.ApplyReLU(_E)
+        Return cache
+    End Function
 
-        ' 邻接矩阵: A' = sigmoid(E_act @ E_act^T)
-        _S_adj = _E_act.MatMul(_E_act.Transpose())
-        _reconAdj = GraphUtils.ApplySigmoid(_S_adj)
+    ''' <summary>解码单个潜向量，返回 (展平输出, 节点嵌入预激活, 节点嵌入激活)。</summary>
+    Private Function DecodeSample(z As Tensor) As Tuple(Of Tensor, Tensor, Tensor)
+        Dim nodes As Integer = _config.NumNodes
+        Dim flattened As Tensor = _decEmbed.Forward(z)
+        Dim embedding As Tensor = New Tensor(flattened.ToDoubleArray(), nodes, _config.DecHidden)
+        Dim activated As Tensor = GraphUtils.ApplyReLU(embedding)
 
-        ' 节点特征: X' = sigmoid(E_act @ Wf + bf)
-        _S_feat = _decFeat.Forward(_E_act)
-        _reconFeat = GraphUtils.ApplySigmoid(_S_feat)
+        Return Tuple.Create(flattened, embedding, activated)
+    End Function
 
-        Return Tuple.Create(_reconAdj, _reconFeat, _mu, _logVar, _z)
+    ''' <summary>把缓存中的量绑定到供 <see cref="Backward"/> 使用的私有字段。</summary>
+    Private Sub BindCache(cache As GraphForwardCache)
+        _adj = cache.Adjacency
+        _features = cache.Features
+        _normAdj = cache.NormAdjacency
+        _H1 = cache.Hidden1
+        _H2 = cache.Hidden2
+        _g = cache.GraphEmbedding
+        _mu = cache.Mu
+        _logVar = cache.LogVar
+        _epsilon = cache.Epsilon
+        _std = cache.Std
+        _z = cache.Sample
+        _h = cache.DecoderH
+        _E = cache.NodeEmbedding
+        _E_act = cache.NodeEmbeddingActivated
+        _S_adj = cache.AdjacencyLogits
+        _reconAdj = cache.ReconAdjacency
+        _S_feat = cache.FeatureLogits
+        _reconFeat = cache.ReconFeatures
+    End Sub
+
+    Private Shared Function BuildNodeMask(total As Integer, nodeCount As Integer) As Double()
+        If nodeCount <= 0 OrElse nodeCount > total Then
+            Throw New ArgumentOutOfRangeException(NameOf(nodeCount), $"有效节点数应落在 (0, {total}] 区间")
+        End If
+
+        Dim mask As Double() = New Double(total - 1) {}
+
+        For i As Integer = 0 To nodeCount - 1
+            mask(i) = 1
+        Next
+
+        Return mask
     End Function
 
     ''' <summary>
@@ -713,9 +804,21 @@ Public Class GraphVAE
         Dim F As Integer = _config.InputDim
         Dim L As Integer = _config.LatentDim
 
-        ' 重构损失（均值BCE）
-        Dim adjLoss As Double = GraphUtils.BCELossSum(reconAdj, adj) / (N * N)
-        Dim featLoss As Double = GraphUtils.BCELossSum(reconFeat, features) / (N * F)
+        ' 变长图：只统计有效节点之间的条目（由最近一次 ForwardMasked 写入）
+        Dim mask As Double() = If(_cache Is Nothing, Nothing, _cache.NodeMask)
+
+        Dim adjLoss As Double
+        Dim featLoss As Double
+
+        If mask Is Nothing Then
+            adjLoss = GraphUtils.BCELossSum(reconAdj, adj) / (N * N)
+            featLoss = GraphUtils.BCELossSum(reconFeat, features) / (N * F)
+        Else
+            Dim validNodes As Integer = _cache.ValidNodeCount()
+
+            adjLoss = MaskedBCELoss(reconAdj, adj, mask, N) / std.Max(1, validNodes * validNodes)
+            featLoss = MaskedRowBCELoss(reconFeat, features, mask, N, F) / std.Max(1, validNodes * F)
+        End If
 
         ' KL散度（均值）
         Dim klLoss As Double = GraphUtils.KLDivergence(mu, logVar) / L
@@ -723,6 +826,60 @@ Public Class GraphVAE
         ' 总损失
         Dim totalLoss As Double = adjLoss + featLoss + beta * klLoss
         Return totalLoss
+    End Function
+
+    ''' <summary>标量二元交叉熵，供掩码求和使用（避免逐元素构造张量）。</summary>
+    Private Shared Function BceScalar(probability As Double, target As Double) As Double
+        Dim clamped As Double = std.Max(1.0E-10, std.Min(1.0 - 1.0E-10, probability))
+
+        Return -(target * std.Log(clamped) + (1.0 - target) * std.Log(1.0 - clamped))
+    End Function
+
+    ''' <summary>只对掩码内节点对求 BCE（求和，未归一）。</summary>
+    Private Shared Function MaskedBCELoss(recon As Tensor, target As Tensor, mask As Double(), nodes As Integer) As Double
+        Dim acc As Double = 0
+        Dim reconData As Double() = recon.Data
+        Dim targetData As Double() = target.Data
+
+        For i As Integer = 0 To nodes - 1
+            If mask(i) <= 0 Then
+                Continue For
+            End If
+
+            Dim rowBase As Integer = i * nodes
+
+            For j As Integer = 0 To nodes - 1
+                If mask(j) <= 0 Then
+                    Continue For
+                End If
+
+                acc += BceScalar(reconData(rowBase + j), targetData(rowBase + j))
+            Next
+        Next
+
+        Return acc
+    End Function
+
+    ''' <summary>只对掩码内节点的特征求 BCE（求和，未归一）。</summary>
+    Private Shared Function MaskedRowBCELoss(recon As Tensor, target As Tensor, mask As Double(),
+                                             nodes As Integer, columns As Integer) As Double
+        Dim acc As Double = 0
+        Dim reconData As Double() = recon.Data
+        Dim targetData As Double() = target.Data
+
+        For i As Integer = 0 To nodes - 1
+            If mask(i) <= 0 Then
+                Continue For
+            End If
+
+            Dim rowBase As Integer = i * columns
+
+            For j As Integer = 0 To columns - 1
+                acc += BceScalar(reconData(rowBase + j), targetData(rowBase + j))
+            Next
+        Next
+
+        Return acc
     End Function
 
 #End Region
@@ -744,26 +901,50 @@ Public Class GraphVAE
 
         ' === 解码器反向传播 ===
 
-        ' 邻接矩阵BCE梯度（通过sigmoid）
-        ' dS_adj = (A' - A) / (N * N)
+        ' 变长图的节点掩码（由最近一次 ForwardMasked 写入）
+        Dim mask As Double() = If(_cache Is Nothing, Nothing, _cache.NodeMask)
+        Dim validNodes As Integer = If(mask Is Nothing, N, _cache.ValidNodeCount())
+
+        ' 邻接矩阵 BCE 梯度（通过 sigmoid）：dS_adj = (A' - A) / (N_valid²)
         Dim dS_adj As New Tensor(N, N)
-        Dim adjScale As Double = 1.0 / (N * N)
-        For i As Integer = 0 To N * N - 1
-            dS_adj.Data(i) = (reconAdj.Data(i) - adj.Data(i)) * adjScale
+        Dim dSBuffer As Double() = dS_adj.Data
+        Dim reconBuffer As Double() = reconAdj.Data
+        Dim targetBuffer As Double() = adj.Data
+        Dim adjScale As Double = 1.0 / std.Max(1, validNodes * validNodes)
+
+        For i As Integer = 0 To N - 1
+            Dim rowWeight As Double = If(mask Is Nothing, 1.0, mask(i))
+            Dim rowBase As Integer = i * N
+
+            For j As Integer = 0 To N - 1
+                Dim columnWeight As Double = If(mask Is Nothing, 1.0, mask(j))
+                dSBuffer(rowBase + j) =
+                    (reconBuffer(rowBase + j) - targetBuffer(rowBase + j)) * adjScale * rowWeight * columnWeight
+            Next
         Next
 
-        ' 通过 S_adj = E_act @ E_act^T
-        ' dE_act_adj = (dS_adj + dS_adj^T) @ E_act
-        Dim dS_adj_T As Tensor = dS_adj.Transpose()
-        Dim dS_adj_sum As Tensor = dS_adj + dS_adj_T
-        Dim dE_act_adj As Tensor = dS_adj_sum.MatMul(_E_act)  ' (N, H3)
+        ' dE_act_adj = (dS + dSᵀ)·E_act
+        '
+        ' 把它拆成两次 [N, H3] 乘法，而不是先构造 dSᵀ 与 (dS + dSᵀ) 两个 N×N 临时量：
+        ' 峰值内存从「约 3 份额外 N×N」降到「0 份额外 N×N」。
+        Dim dE_act_adj As Tensor =
+            dS_adj.MatMul(_E_act) + _E_act.Transpose().MatMul(dS_adj).Transpose()
 
-        ' 特征BCE梯度（通过sigmoid）
-        ' dS_feat = (X' - X) / (N * F)
+        ' 特征 BCE 梯度（通过 sigmoid）：dS_feat = (X' - X) / (N_valid · F)
         Dim dS_feat As New Tensor(N, F)
-        Dim featScale As Double = 1.0 / (N * F)
-        For i As Integer = 0 To N * F - 1
-            dS_feat.Data(i) = (reconFeat.Data(i) - features.Data(i)) * featScale
+        Dim featBuffer As Double() = dS_feat.Data
+        Dim reconFeatBuffer As Double() = reconFeat.Data
+        Dim targetFeatBuffer As Double() = features.Data
+        Dim featScale As Double = 1.0 / std.Max(1, validNodes * F)
+
+        For i As Integer = 0 To N - 1
+            Dim rowWeight As Double = If(mask Is Nothing, 1.0, mask(i))
+            Dim rowBase As Integer = i * F
+
+            For column As Integer = 0 To F - 1
+                featBuffer(rowBase + column) =
+                    (reconFeatBuffer(rowBase + column) - targetFeatBuffer(rowBase + column)) * featScale * rowWeight
+            Next
         Next
 
         ' 通过 S_feat = E_act @ Wf + bf (decFeat层)
@@ -923,57 +1104,30 @@ Public Class GraphVAE
             features = Tensor.Identity(N)
         End If
 
-        ' 编码
-        Dim normAdj As Tensor = GraphUtils.NormalizeAdjacency(adj)
-        Dim H1 As Tensor = _gcn1.Forward(normAdj, features)
-        Dim H2 As Tensor = _gcn2.Forward(normAdj, H1)
-        Dim g As Tensor = H2.Mean(0)
-        Dim mu As Tensor = _encMu.Forward(g)
+        ' 走统一前向：确定性模式（不采样 ε），因此多次调用结果完全一致
+        Dim cache As GraphForwardCache = ForwardCore(adj, features, useSampling:=False, nodeMask:=Nothing)
 
-        ' 使用μ解码（不采样）
-        Dim h As Tensor = _decEmbed.Forward(mu)
-        Dim E As New Tensor(h.ToDoubleArray(), N, _config.DecHidden)
-        Dim E_act As Tensor = GraphUtils.ApplyReLU(E)
-
-        ' 解码邻接矩阵
-        Dim S_adj As Tensor = E_act.MatMul(E_act.Transpose())
-        Dim A_pred As Tensor = GraphUtils.ApplySigmoid(S_adj)
-
-        ' 解码节点特征
-        Dim S_feat As Tensor = _decFeat.Forward(E_act)
-        Dim X_pred As Tensor = GraphUtils.ApplySigmoid(S_feat)
-
-        Return Tuple.Create(A_pred, X_pred)
+        Return Tuple.Create(cache.ReconAdjacency, cache.ReconFeatures)
     End Function
 
     ''' <summary>
     ''' 从先验分布N(0,I)生成新图
     ''' </summary>
     Public Function Generate() As Tuple(Of Tensor, Tensor)
-        Dim N As Integer = _config.NumNodes
-
-        ' 从N(0,I)采样z
         Dim z As New Tensor(1, _config.LatentDim)
+
         For i As Integer = 0 To _config.LatentDim - 1
             Dim u1 As Double = 1.0 - _rand.NextDouble()
             Dim u2 As Double = 1.0 - _rand.NextDouble()
             z.Data(i) = std.Sqrt(-2.0 * std.Log(u1)) * std.Sin(2.0 * std.PI * u2)
         Next
 
-        ' 解码
-        Dim h As Tensor = _decEmbed.Forward(z)
-        Dim E As New Tensor(h.ToDoubleArray(), N, _config.DecHidden)
-        Dim E_act As Tensor = GraphUtils.ApplyReLU(E)
+        Dim decoded As Tuple(Of Tensor, Tensor, Tensor) = DecodeSample(z)
+        Dim activated As Tensor = decoded.Item3
+        Dim adjacencyLogits As Tensor = activated.MatMul(activated.Transpose())
 
-        ' 解码邻接矩阵
-        Dim S_adj As Tensor = E_act.MatMul(E_act.Transpose())
-        Dim A_pred As Tensor = GraphUtils.ApplySigmoid(S_adj)
-
-        ' 解码节点特征
-        Dim S_feat As Tensor = _decFeat.Forward(E_act)
-        Dim X_pred As Tensor = GraphUtils.ApplySigmoid(S_feat)
-
-        Return Tuple.Create(A_pred, X_pred)
+        Return Tuple.Create(GraphUtils.ApplySigmoid(adjacencyLogits),
+                            GraphUtils.ApplySigmoid(_decFeat.Forward(activated)))
     End Function
 
 #End Region
@@ -981,33 +1135,288 @@ Public Class GraphVAE
 #Region "评估"
 
     ''' <summary>
-    ''' 评估模型在给定图上的重构质量
+    ''' 评估模型在给定图上的重构质量。
+    ''' 使用后验均值解码，不引入随机采样，因此同一模型的多次评估结果完全一致。
     ''' </summary>
     Public Function Evaluate(adj As Tensor, Optional features As Tensor = Nothing) As Tuple(Of Double, Double, Double)
-        Dim N As Integer = _config.NumNodes
+        Dim input As Tensor = If(features, Tensor.Identity(_config.NumNodes))
 
-        If features Is Nothing Then
-            features = Tensor.Identity(N)
+        Dim cache As GraphForwardCache = ForwardCore(adj, input, useSampling:=False, nodeMask:=Nothing)
+
+        Dim lossValue As Double = ComputeLoss(cache.ReconAdjacency, adj, cache.ReconFeatures, input, cache.Mu, cache.LogVar, 1.0F)
+        Dim adjacencyAccuracy As Double = GraphUtils.BinaryAccuracy(cache.ReconAdjacency, adj, 0.5)
+        Dim featureAccuracy As Double = GraphUtils.BinaryAccuracy(cache.ReconFeatures, input, 0.5)
+
+        Return Tuple.Create(lossValue, adjacencyAccuracy, featureAccuracy)
+    End Function
+
+#End Region
+
+#Region "生产化扩展"
+
+    ''' <summary>模型是否已完成训练。</summary>
+    Public ReadOnly Property IsFitted As Boolean
+        Get
+            Return _fitted
+        End Get
+    End Property
+
+    ''' <summary>节点数量（即模型配置的上界）。</summary>
+    Public ReadOnly Property NumNodes As Integer
+        Get
+            Return _config.NumNodes
+        End Get
+    End Property
+
+    ''' <summary>使用扩展选项创建模型（新增重载）。</summary>
+    Public Sub New(options As GraphVAEOptions)
+        Call InitializeCore(options.ToConfig(), options.Seed)
+
+        _options.AssumeSymmetricAdjacency = options.AssumeSymmetricAdjacency
+        _gcn1.AssumeSymmetricAdjacency = options.AssumeSymmetricAdjacency
+        _gcn2.AssumeSymmetricAdjacency = options.AssumeSymmetricAdjacency
+    End Sub
+
+    ''' <summary>
+    ''' 使用统一的训练选项训练：支持 KL 退火、梯度裁剪与早停。
+    ''' </summary>
+    public Function Train(graphs As List(Of Tuple(Of Tensor, Tensor)), options As TrainingOptions) As List(Of Double)
+        If graphs Is Nothing OrElse graphs.Count = 0 Then
+            Throw New ArgumentException("训练集不得为空", NameOf(graphs))
         End If
 
-        ' 前向传播
-        Dim result As Tuple(Of Tensor, Tensor, Tensor, Tensor, Tensor) = Forward(adj, features)
-        Dim reconAdj As Tensor = result.Item1
-        Dim reconFeat As Tensor = result.Item2
-        Dim mu As Tensor = result.Item3
-        Dim logVar As Tensor = result.Item4
+        If options Is Nothing Then
+            Throw New ArgumentNullException(NameOf(options))
+        End If
 
-        ' 计算损失
-        Dim loss As Double = ComputeLoss(reconAdj, adj, reconFeat, features, mu, logVar, 1.0F)
+        Dim epochs As Integer = std.Max(1, options.Epochs)
+        Dim observer As ITrainingObserver = options.ResolveObserver(ConsoleTrainingObserver.ForGraphVae())
+        Dim losses As New List(Of Double)
+        Dim best As Double = Double.MaxValue
+        Dim stale As Integer = 0
 
-        ' 计算邻接矩阵准确率
-        Dim acc As Double = GraphUtils.BinaryAccuracy(reconAdj, adj, 0.5)
+        For epoch As Integer = 1 To epochs
+            Dim startTick As Integer = Environment.TickCount
+            Dim beta As Single = CSng(options.BetaAt(epoch))
+            Dim epochLoss As Double = 0
 
-        ' 计算特征准确率
-        Dim featAcc As Double = GraphUtils.BinaryAccuracy(reconFeat, features, 0.5)
+            Call observer.OnEpochBegin(epoch, epochs)
 
-        Return Tuple.Create(loss, acc, featAcc)
+            For Each graph As Tuple(Of Tensor, Tensor) In graphs
+                Dim adj As Tensor = graph.Item1
+                Dim features As Tensor = graph.Item2
+                Dim result As Tuple(Of Tensor, Tensor, Tensor, Tensor, Tensor) = Forward(adj, features)
+
+                epochLoss += ComputeLoss(result.Item1, adj, result.Item2, features,
+                                         result.Item3, result.Item4, beta)
+
+                Call Backward(adj, features, result.Item1, result.Item2,
+                              result.Item3, result.Item4, result.Item5, beta)
+                Call ClipGradients(options.GradientClip)
+                Call Update(CSng(options.LearningRate))
+            Next
+
+            epochLoss /= graphs.Count
+            losses.Add(epochLoss)
+            _fitted = True
+
+            Dim metrics As New Dictionary(Of String, Double) From {{"loss", epochLoss}}
+
+            Call observer.OnEpochEnd(epoch, metrics, Environment.TickCount - startTick)
+
+            If options.Patience > 0 Then
+                If epochLoss < best - options.MinDelta Then
+                    best = epochLoss
+                    stale = 0
+                Else
+                    stale += 1
+
+                    If stale >= options.Patience Then
+                        Call observer.OnConverged(epoch, $"损失连续 {stale} 轮未改善")
+                        Exit For
+                    End If
+                End If
+            End If
+        Next
+
+        Return losses
     End Function
+
+    ''' <summary>
+    ''' 变长图训练：每个元素为 (填充后的邻接, 填充后的特征, 有效节点数)。
+    ''' 填充区域不参与损失与梯度。
+    ''' </summary>
+    public Function TrainMasked(graphs As List(Of Tuple(Of Tensor, Tensor, Integer)),
+                                options As TrainingOptions) As List(Of Double)
+        If graphs Is Nothing OrElse graphs.Count = 0 Then
+            Throw New ArgumentException("训练集不得为空", NameOf(graphs))
+        End If
+
+        If options Is Nothing Then
+            Throw New ArgumentNullException(NameOf(options))
+        End If
+
+        Dim epochs As Integer = std.Max(1, options.Epochs)
+        Dim observer As ITrainingObserver = options.ResolveObserver(ConsoleTrainingObserver.ForGraphVae())
+        Dim losses As New List(Of Double)
+
+        For epoch As Integer = 1 To epochs
+            Dim startTick As Integer = Environment.TickCount
+            Dim beta As Single = CSng(options.BetaAt(epoch))
+            Dim epochLoss As Double = 0
+
+            Call observer.OnEpochBegin(epoch, epochs)
+
+            For Each graph In graphs
+                Dim adj As Tensor = graph.Item1
+                Dim features As Tensor = graph.Item2
+                Dim nodeCount As Integer = graph.Item3
+                Dim result As Tuple(Of Tensor, Tensor, Tensor, Tensor, Tensor) = ForwardMasked(adj, features, nodeCount)
+
+                epochLoss += ComputeLoss(result.Item1, adj, result.Item2, features,
+                                         result.Item3, result.Item4, beta)
+
+                Call Backward(adj, features, result.Item1, result.Item2,
+                              result.Item3, result.Item4, result.Item5, beta)
+                Call ClipGradients(options.GradientClip)
+                Call Update(CSng(options.LearningRate))
+            Next
+
+            epochLoss /= graphs.Count
+            losses.Add(epochLoss)
+            _fitted = True
+
+            Dim metrics As New Dictionary(Of String, Double) From {{"loss", epochLoss}}
+
+            Call observer.OnEpochEnd(epoch, metrics, Environment.TickCount - startTick)
+        Next
+
+        Return losses
+    End Function
+
+    Private Sub ClipGradients(limit As Double)
+        If limit <= 0 Then
+            Return
+        End If
+
+        Call ClipLayerGradient(_gcn1.WeightGrad, limit)
+        Call ClipLayerGradient(_gcn2.WeightGrad, limit)
+        Call ClipLayerGradient(_encMu.WeightGrad, limit)
+        Call ClipLayerGradient(_encMu.BiasGrad, limit)
+        Call ClipLayerGradient(_encLogVar.WeightGrad, limit)
+        Call ClipLayerGradient(_encLogVar.BiasGrad, limit)
+        Call ClipLayerGradient(_decEmbed.WeightGrad, limit)
+        Call ClipLayerGradient(_decEmbed.BiasGrad, limit)
+        Call ClipLayerGradient(_decFeat.WeightGrad, limit)
+        Call ClipLayerGradient(_decFeat.BiasGrad, limit)
+    End Sub
+
+    Private Shared Sub ClipLayerGradient(gradient As Tensor, limit As Double)
+        If gradient Is Nothing Then
+            Return
+        End If
+
+        Call Core.Numerics.GradientCheck.ClipByNorm(gradient.Data, limit)
+        gradient.MarkHostModified()
+    End Sub
+
+    ''' <summary>把模型参数写入指定路径。</summary>
+    Public Sub Save(path As String)
+        Dim parameters As New ModelParameters("GraphVAE", ModelFileSchemaVersion)
+
+        Call parameters.Add("gcn1", _gcn1.Weights)
+        Call parameters.Add("gcn2", _gcn2.Weights)
+        Call parameters.Add("encMu_W", _encMu.Weights)
+        Call parameters.Add("encMu_b", _encMu.Bias)
+        Call parameters.Add("encLv_W", _encLogVar.Weights)
+        Call parameters.Add("encLv_b", _encLogVar.Bias)
+        Call parameters.Add("decEmbed_W", _decEmbed.Weights)
+        Call parameters.Add("decEmbed_b", _decEmbed.Bias)
+        Call parameters.Add("decFeat_W", _decFeat.Weights)
+        Call parameters.Add("decFeat_b", _decFeat.Bias)
+
+        Call parameters.AddValue("numNodes", _config.NumNodes)
+        Call parameters.AddValue("inputDim", _config.InputDim)
+        Call parameters.AddValue("hidden1", _config.Hidden1)
+        Call parameters.AddValue("hidden2", _config.Hidden2)
+        Call parameters.AddValue("latentDim", _config.LatentDim)
+        Call parameters.AddValue("decHidden", _config.DecHidden)
+        Call parameters.AddValue("band_symmetric", If(_gcn1.AssumeSymmetricAdjacency, 1.0, 0.0))
+
+        Call parameters.Save(path)
+    End Sub
+
+    ''' <summary>从指定路径还原模型参数。</summary>
+    Public Function TryLoad(path As String, ByRef errorMessage As String) As Boolean
+        errorMessage = Nothing
+
+        Try
+            Dim parameters As ModelParameters = ModelParameters.Load(path)
+
+            If Not String.Equals(parameters.ModelType, "GraphVAE", StringComparison.Ordinal) Then
+                errorMessage = $"模型类型不符: 期望 GraphVAE，实际 {parameters.ModelType}"
+                Return False
+            End If
+
+            Dim nodes As Integer = CInt(parameters.GetValue("numNodes", 0))
+            Dim inputDim As Integer = CInt(parameters.GetValue("inputDim", 0))
+            Dim hidden1 As Integer = CInt(parameters.GetValue("hidden1", 0))
+            Dim hidden2 As Integer = CInt(parameters.GetValue("hidden2", 0))
+            Dim latentDim As Integer = CInt(parameters.GetValue("latentDim", 0))
+            Dim decHidden As Integer = CInt(parameters.GetValue("decHidden", 0))
+
+            If nodes <= 0 OrElse inputDim <= 0 OrElse latentDim <= 0 Then
+                errorMessage = "模型文件缺少有效的维度信息"
+                Return False
+            End If
+
+            Dim config As New GraphVAEConfig With {
+                .NumNodes = nodes,
+                .InputDim = inputDim,
+                .Hidden1 = hidden1,
+                .Hidden2 = hidden2,
+                .LatentDim = latentDim,
+                .DecHidden = decHidden
+            }
+
+            _config = config
+            _gcn1 = New GCNLayer(config.InputDim, config.Hidden1, _seed)
+            _gcn2 = New GCNLayer(config.Hidden1, config.Hidden2, If(_seed.HasValue, _seed.Value + 2, Nothing))
+            _encMu = New LinearLayer(config.Hidden2, config.LatentDim, If(_seed.HasValue, _seed.Value + 3, Nothing))
+            _encLogVar = New LinearLayer(config.Hidden2, config.LatentDim, If(_seed.HasValue, _seed.Value + 4, Nothing))
+            _decEmbed = New LinearLayer(config.LatentDim, config.NumNodes * config.DecHidden, If(_seed.HasValue, _seed.Value + 5, Nothing))
+            _decFeat = New LinearLayer(config.DecHidden, config.InputDim, If(_seed.HasValue, _seed.Value + 6, Nothing))
+
+            Call LoadInto(_gcn1.Weights, parameters, "gcn1")
+            Call LoadInto(_gcn2.Weights, parameters, "gcn2")
+            Call LoadInto(_encMu.Weights, parameters, "encMu_W")
+            Call LoadInto(_encMu.Bias, parameters, "encMu_b")
+            Call LoadInto(_encLogVar.Weights, parameters, "encLv_W")
+            Call LoadInto(_encLogVar.Bias, parameters, "encLv_b")
+            Call LoadInto(_decEmbed.Weights, parameters, "decEmbed_W")
+            Call LoadInto(_decEmbed.Bias, parameters, "decEmbed_b")
+            Call LoadInto(_decFeat.Weights, parameters, "decFeat_W")
+            Call LoadInto(_decFeat.Bias, parameters, "decFeat_b")
+
+            Dim symmetric As Boolean = parameters.GetValue("band_symmetric", 1.0) > 0.5
+            _gcn1.AssumeSymmetricAdjacency = symmetric
+            _gcn2.AssumeSymmetricAdjacency = symmetric
+
+            _fitted = True
+
+            Return True
+        Catch ex As Exception
+            errorMessage = ex.Message
+            Return False
+        End Try
+    End Function
+
+    Private Shared Sub LoadInto(target As Tensor, parameters As ModelParameters, name As String)
+        Dim value As Tensor = parameters.RequireTensor(name, target.Shape)
+
+        Array.Copy(value.Data, target.Data, target.Data.Length)
+        target.MarkHostModified()
+    End Sub
 
 #End Region
 

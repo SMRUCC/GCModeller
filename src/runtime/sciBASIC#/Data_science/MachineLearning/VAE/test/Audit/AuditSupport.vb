@@ -67,9 +67,31 @@ Public Module AuditSupport
         Try
             Call action()
         Catch ex As Exception
-            Call DebugAudit.Test(False, $"audit case '{name}' aborted by {ex.GetType().Name}: {ex.Message}")
+            Call DebugAudit.Test(False,
+                                 $"audit case '{name}' aborted by {ex.GetType().Name}: {ex.Message} @ {TopFrame(ex)}")
         End Try
     End Sub
+
+    ''' <summary>取出堆栈中最靠近业务代码的一帧，便于定位审计中断的位置。</summary>
+    Private Function TopFrame(ex As Exception) As String
+        Dim trace As String = If(ex.StackTrace, "")
+
+        If trace.Length = 0 Then
+            Return "<no stack trace>"
+        End If
+
+        Dim lines As String() = trace.Split(New String() {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries)
+
+        For Each item As String In lines
+            If item.IndexOf("AuditSupport", StringComparison.Ordinal) >= 0 Then
+                Continue For
+            End If
+
+            Return item.Trim()
+        Next
+
+        Return lines(0).Trim()
+    End Function
 
     ''' <summary>写出审计报告并打印摘要，返回失败项数量。</summary>
     Public Function Finish() As Integer
@@ -206,12 +228,24 @@ Public Module AuditSupport
 
         Dim rng As New Random(seed)
 
+        ' 簇心构造：第 c 个簇在维度 (c Mod D) 上取 +offset，其余维度取 -offset/(D-1)。
+        ' 这保证任意两个簇心至少在一个维度上相差 2*offset，绝不会重合
+        ' （早先使用 cos(...) 的方案在 K=3,D=4 之类的组合下会产生完全相同的簇心，
+        '   使聚类准确率的天花板被压低到 (K-1)/K）。
         For c As Integer = 0 To nClusters - 1
-            ' 每个簇在每个维度上取确定性偏移，保证簇心之间彼此远离
+            Dim tier As Double = 1.0 + (c \ std.Max(1, dimensions))
+            Dim offset As Double = 4.0 * tier
             Dim center As Double() = New Double(dimensions - 1) {}
+            Dim pivot As Integer = c Mod std.Max(1, dimensions)
 
             For d As Integer = 0 To dimensions - 1
-                center(d) = 4.0 * std.Cos(2.0 * std.PI * (c + 1) * (d + 1) / (nClusters + 1))
+                If d = pivot Then
+                    center(d) = offset
+                ElseIf dimensions > 1 Then
+                    center(d) = -offset / (dimensions - 1)
+                Else
+                    center(d) = -offset
+                End If
             Next
 
             For s As Integer = 0 To perCluster - 1
