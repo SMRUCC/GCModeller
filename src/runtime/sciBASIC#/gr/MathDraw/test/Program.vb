@@ -1,11 +1,14 @@
 Imports System.Drawing
 Imports System.IO
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging
+Imports Microsoft.VisualBasic.ApplicationServices.Report
 Imports Microsoft.VisualBasic.Drawing.MathDraw
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.MIME.application.xml.MathML
+Imports Microsoft.VisualBasic.MIME.text.markdown
 Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports MarkdownHtmlRender = Microsoft.VisualBasic.MIME.text.markdown.HtmlRender
 Imports IGraphics = Microsoft.VisualBasic.Imaging.IGraphics
 Imports MathImage = Microsoft.VisualBasic.Imaging.Image
 Imports Pen = Microsoft.VisualBasic.Imaging.Pen
@@ -180,6 +183,40 @@ Module Program
                     End Using
                 End If
             End Using
+
+            Using scope = DebugAudit.Watch("formula-html-plugin")
+                Call DebugAudit.Mark("case", "formula-html-plugin")
+
+                Dim plugin As IFormulaRenderer = New MathFormulaHtmlRenderer()
+                Dim latex As String = "\frac{a}{b}=c"
+                Dim fragment As String = plugin.RenderFormula(latex, True)
+                Dim valid As Boolean = Not String.IsNullOrEmpty(fragment) AndAlso
+                                       fragment.Contains("data:image/png;base64,") AndAlso
+                                       fragment.Contains("math-formula-block")
+
+                Call DebugAudit.Test(valid, "MathDraw plugin produces an embedded PNG formula fragment")
+                Call DebugAudit.Capture("plugin.name", plugin.Name)
+                Call DebugAudit.Capture("plugin.fragmentLength", If(fragment, "").Length)
+
+                Dim source As String = "intro" & vbLf & vbLf &
+                                       "$$" & vbLf & "\frac{a}{b}=c" & vbLf & "$$" & vbLf & vbLf &
+                                       "```tex" & vbLf & "E=mc^2" & vbLf & "```" & vbLf & vbLf &
+                                       "inline $x^2$ here"
+                Dim withPlugin As New MarkdownRender(New MarkdownHtmlRender(MarkdownStyle.GitHub), plugin)
+                Dim html As String = withPlugin.Transform(source)
+                Dim formulaImages As Integer = CountOccurrences(html, "math-formula")
+
+                Call DebugAudit.Test(formulaImages >= 3, "block, fenced and inline formulas are rendered as images")
+                Call DebugAudit.Capture("markdown.formulaImages", formulaImages)
+
+                Dim withoutPlugin As New MarkdownRender(New MarkdownHtmlRender(MarkdownStyle.GitHub))
+                Dim plain As String = withoutPlugin.Transform(source)
+
+                Call DebugAudit.Test(Not plain.Contains("math-formula"), "without a plugin formula syntax is untouched")
+                Call DebugAudit.Test(plain.Contains("\frac{a}{b}=c") AndAlso plain.Contains("$x^2$"),
+                                     "without a plugin raw LaTeX remains in the output")
+                Call DebugAudit.Capture("markdown.plainLength", plain.Length)
+            End Using
         Catch ex As Exception
             Call DebugAudit.Test(False, $"unhandled exception: {ex.Message}")
             Call DebugAudit.Mark("error", ex.ToString())
@@ -190,5 +227,27 @@ Module Program
         End Try
 
         Return If(DebugAudit.FailureCount = 0, 0, 1)
+    End Function
+
+    Private Function CountOccurrences(text As String, token As String) As Integer
+        If String.IsNullOrEmpty(text) OrElse String.IsNullOrEmpty(token) Then
+            Return 0
+        End If
+
+        Dim count As Integer = 0
+        Dim pos As Integer = 0
+
+        Do
+            Dim found As Integer = text.IndexOf(token, pos, StringComparison.Ordinal)
+
+            If found < 0 Then
+                Exit Do
+            End If
+
+            count += 1
+            pos = found + token.Length
+        Loop
+
+        Return count
     End Function
 End Module
