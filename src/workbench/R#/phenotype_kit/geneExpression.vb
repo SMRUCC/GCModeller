@@ -3181,6 +3181,7 @@ Module geneExpression
                                        Optional cross_map As Double = 0.25,
                                        Optional refine_iterations As Integer = 60,
                                        Optional max_iterations As Integer = 300,
+                                       Optional rescaled_total As Boolean = True,
                                        Optional seed As Integer = -1,
                                        Optional env As Environment = Nothing) As Object
 
@@ -3196,7 +3197,7 @@ Module geneExpression
 
         Dim geneFamilies As Dictionary(Of String, String()) = asGeneGroups(families, "family_id", "gene_id", env)
         Dim homolog As UnionFind = asUnionFind(geneFamilies, strainGenes)
-        Dim opt As DecompositionOptions = createDecompositionOptions(method, cross_map, refine_iterations, max_iterations, seed)
+        Dim opt As DecompositionOptions = createDecompositionOptions(method, cross_map, refine_iterations, max_iterations, rescaled:=rescaled_total, seed:=seed)
         Dim sampleGroups As String() = asSampleGroups(groups, expr.sampleID, env)
 
         Call $"run community decomposition on {expr.size} genes x {expr.sample_count} samples, {strainGenes.Count} strain(s)".info
@@ -3639,6 +3640,7 @@ Module geneExpression
                                                 cross_map As Double,
                                                 refine_iterations As Integer,
                                                 max_iterations As Integer,
+                                                rescaled As Boolean,
                                                 seed As Integer) As DecompositionOptions
 
         Dim value As DecompositionMethod = DecompositionMethod.DNMF
@@ -3653,7 +3655,8 @@ Module geneExpression
             .RefineIterations = If(refine_iterations > 0, refine_iterations, 60),
             .MaxIterations = If(max_iterations > 0, max_iterations, 300),
             .RandomSeed = If(seed >= 0, CType(seed, Integer?), Nothing),
-            .Tqdm = False
+            .Tqdm = False,
+            .RescaleToTotal = rescaled
         }
     End Function
 

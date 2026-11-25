@@ -1908,6 +1908,26 @@ Public Class Decomposition
             Next
         Next
 
+        ' 20261125
+        ' 缩放后残差没有重算。​ reconstruction.residual 是在原始尺度上算的，缩放后与输出矩阵不再对应。在 RescaleToTotal() 末尾补：
+        ' 缩放后重算残差, 使其与输出矩阵自洽
+        For si As Integer = 0 To reconstructions.Length - 1
+            Dim num As Double = 0, den As Double = 0
+
+            For i As Integer = 0 To total.size - 1
+                Dim obs As Double() = total.expression(i).experiments
+                Dim rec As Double() = reconstructions(si).values(i)
+
+                For j As Integer = 0 To n - 1
+                    Dim d As Double = obs(j) - rec(j)
+                    num += d * d
+                    den += obs(j) * obs(j)
+                Next
+            Next
+
+            reconstructions(si).residual = std.Sqrt(num / std.Max(den, 0.000000001))
+        Next
+
         Return scaled
     End Function
 
