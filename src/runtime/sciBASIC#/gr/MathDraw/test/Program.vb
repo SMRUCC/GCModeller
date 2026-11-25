@@ -282,11 +282,16 @@ Module Program
                                                      New MathFormulaHtmlRenderer())
                     Dim html As String = reader.Transform(markdown)
 
+                    Call IO.File.WriteAllText(IO.Path.Combine(outputDir, "readme-preview.html"), html)
                     Call DebugAudit.Test(html.Contains("math-formula"), "ANFIS readme preview contains formula images")
-                    Call DebugAudit.Test(Not html.Contains("\text{Neuro-Fuzzy}"),
-                                         "Neuro-Fuzzy formula is no longer raw LaTeX in preview")
-                    Call DebugAudit.Test(Not html.Contains("\prod_{i=1}^{N}"),
-                                         "product formula is no longer raw LaTeX in preview")
+                    Call DebugAudit.Test(html.Contains("alt=""" & "\text{Neuro-Fuzzy}"),
+                                         "Neuro-Fuzzy formula is rendered as an image")
+                    Call DebugAudit.Test(Not html.Contains(">" & "\text{Neuro-Fuzzy}"),
+                                         "Neuro-Fuzzy formula is no longer raw text in preview")
+                    Call DebugAudit.Test(html.Contains("w_r = \prod_{i=1}^{N}"),
+                                         "product formula is rendered as an image")
+                    Call DebugAudit.Test(Not html.Contains(">" & "\prod_{i=1}^{N}"),
+                                         "product formula is no longer raw text in preview")
                     Call DebugAudit.Capture("readme.formulaImages", CObj(CountOccurrences(html, "math-formula")))
                 Else
                     Call DebugAudit.Test(False, "ANFIS readme not found: " & readmePath)
