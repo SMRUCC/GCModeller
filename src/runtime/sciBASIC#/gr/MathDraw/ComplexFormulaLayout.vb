@@ -169,10 +169,10 @@ Namespace Global.Microsoft.VisualBasic.Drawing.MathDraw
             Dim rightInner As Single = x + Width - bracketWidth
             Dim rightOuter As Single = x + Width
 
-            Call device.DrawLine(style.FractionRule, leftInner, top, leftInner, bottom)
-            Call device.DrawLine(style.FractionRule, leftInner, top, leftOuter, top)
-            Call device.DrawLine(style.FractionRule, leftInner, bottom, leftOuter, bottom)
-            Call device.DrawLine(style.FractionRule, rightInner, top, rightInner, bottom)
+            Call device.DrawLine(style.FractionRule, leftOuter, top, leftOuter, bottom)
+            Call device.DrawLine(style.FractionRule, leftOuter, top, leftInner, top)
+            Call device.DrawLine(style.FractionRule, leftOuter, bottom, leftInner, bottom)
+            Call device.DrawLine(style.FractionRule, rightOuter, top, rightOuter, bottom)
             Call device.DrawLine(style.FractionRule, rightInner, top, rightOuter, top)
             Call device.DrawLine(style.FractionRule, rightInner, bottom, rightOuter, bottom)
 
@@ -212,12 +212,13 @@ Namespace Global.Microsoft.VisualBasic.Drawing.MathDraw
                 Return LayoutDerivative(expression)
             End If
 
-            Dim symbolText As String = If(op, "∑")
+            Dim symbolText As String = "∑"
 
             Select Case op
                 Case "product" : symbolText = "∏"
                 Case "int", "integral" : symbolText = "∫"
                 Case "limit" : symbolText = "lim"
+                Case Else : symbolText = "∑"
             End Select
 
             Dim symbolFont As FormulaFont = If(op = "limit", Style.Font, Style.CreateBigOperatorFont())
@@ -232,18 +233,20 @@ Namespace Global.Microsoft.VisualBasic.Drawing.MathDraw
 
         Friend Function LayoutMatrix(expression As MatrixExpression) As FormulaBox
             If expression.rows Is Nothing Then
-                Return New MatrixFormulaBox(New FormulaBox() {}, Style)
+                Return New MatrixFormulaBox(New FormulaBox()() {}, Style)
             End If
 
-            Dim boxes As FormulaBox()() = expression.rows _
-                .Select(Function(row)
-                             If(row Is Nothing,
-                                New FormulaBox() {},
-                                row.Select(Function(cell) Layout(cell)).ToArray)
-                         End Function) _
-                .ToArray
+            Dim boxes As New List(Of FormulaBox())
 
-            Return New MatrixFormulaBox(boxes, Style)
+            For Each row As MathExpression() In expression.rows
+                If row Is Nothing Then
+                    Call boxes.Add(New FormulaBox() {})
+                Else
+                    Call boxes.Add(row.Select(Function(cell) Layout(cell)).ToArray)
+                End If
+            Next
+
+            Return New MatrixFormulaBox(boxes.ToArray(), Style)
         End Function
 
         Private Function LayoutDerivative(expression As BoundedOperatorExpression) As FormulaBox

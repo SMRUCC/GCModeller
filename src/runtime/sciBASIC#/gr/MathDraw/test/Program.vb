@@ -22,7 +22,7 @@ Module Program
         Dim mathDir As String = System.IO.Path.Combine(baseDir, "math")
         Dim outputDir As String = System.IO.Path.Combine(baseDir, "output")
         Dim reportPath As String = System.IO.Path.Combine(outputDir, "debug-audit.json")
-        Dim cases As String() = {"formula-quadratic.xml", "formula-fraction.xml"}
+        Dim cases As String() = {"formula-quadratic.xml", "formula-fraction.xml", "formula-complex.xml"}
 
         Call DebugAudit.Reset()
 
@@ -45,7 +45,11 @@ Module Program
 
                     Call DebugAudit.Capture(CStr($"{file}.expression"), CObj(lambda.ToString()))
 
-                    Using g As IGraphics = DriverLoad.CreateGraphicsDevice(New Size(1600, 900),
+                    Dim canvasSize As Size = If(file = "formula-complex.xml",
+                                                New Size(5200, 1400),
+                                                New Size(1600, 900))
+
+                    Using g As IGraphics = DriverLoad.CreateGraphicsDevice(canvasSize,
                                                                           Color.Transparent,
                                                                           dpi:=120,
                                                                           driver:=Drivers.GDI)
