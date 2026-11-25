@@ -495,7 +495,6 @@ d3b <- ab_long %>% mutate(strain = factor(strain, levels = STRAINS),
                           grp = ifelse(is_member, as.character(strain), "Non-member"))
 p3b <- ggplot(d3b, aes(cond_lab, factor, colour = grp, linetype = is_member,
                        group = interaction(consortium, grp))) +
-  geom_hline(yintercept = 1, linetype = "22", colour = "grey45", linewidth = 0.4) +
   stat_summary(fun = mean, geom = "line", linewidth = 0.7) +
   stat_summary(fun = mean, geom = "point", size = 2.4) +
   stat_summary(fun.data = mean_se, geom = "errorbar", width = 0.12, linewidth = 0.4) +
@@ -505,7 +504,7 @@ p3b <- ggplot(d3b, aes(cond_lab, factor, colour = grp, linetype = is_member,
   scale_linetype_manual(values = c(`TRUE` = "solid", `FALSE` = "22"), guide = "none") +
   labs(x = NULL, y = "DNMF relative abundance coefficient",
        title = "B  Strain abundance coefficients from the decomposition",
-       subtitle = "Grey dashed = members absent from that consortium; their coefficients stay at the 1.0 noise baseline") +
+       subtitle = "Grey dashed = members absent from that consortium; all values are on the rescaled scale") +
   guides(colour = guide_legend(nrow = 2, byrow = TRUE)) +
   theme(axis.text.x = element_text(size = 7.0), legend.position = "bottom",
         legend.text = element_text(size = 6.4), legend.key.size = unit(3.6, "mm"),
@@ -532,8 +531,8 @@ p3c <- ggplot(d3c, aes(total, rec)) +
   labs(x = "Counts in the original community matrix (sample R1)",
        y = "Sum of the four strain matrices",
        title = "C  Additivity of the four strain matrices against the community matrix",
-       subtitle = sprintf(paste0("All %d genes covered; per-gene r = %.3f. The matrices are not normalised to unit total, so the four strain matrices sum to ~4x the community total (%.2f; ",
-                                 "dashed line = 1:1), which is expected rather than an error."),
+       subtitle = sprintf(paste0("All %d genes covered; per-gene r = %.3f. Each sample column is rescaled to the community total, so the four strain matrices sum to %.2f x the community total ",
+                                 "(dashed line = 1:1)."),
                           nrow(total), cor(d3c$total, d3c$rec), sum(rec_sum) / sum(total[, 1])))
 
 p3 <- (p3a | p3b) / p3c + plot_layout(heights = c(1.15, 1))
@@ -1030,7 +1029,7 @@ lines <- c(
   "# SynCom DNMF + GSVA 关键数值 (由 syncom_visualization.R 自动生成)",
   sprintf("基因数 %d ; 通路数 %d ; 样本数 %d ; 家族数 %d",
           nrow(total), length(PW_LEVELS), ncol(total), nrow(fam_tab)),
-  sprintf("四矩阵之和/群落总量 = %s (未做总和归一化, 预期 ~4) ; 逐基因 r = %s",
+  sprintf("四矩阵之和/群落总量 = %s (RescaleToTotal 已启用, 逐列归一化到群落总量) ; 逐基因 r = %s",
           fmt(sum(rec_sum) / sum(total[, 1]), 4), fmt(cor(d3c$total, d3c$rec), 4)),
   sprintf("decomposed_own 与 decomposed 在本菌基因上的一致性 r = %s",
           paste(sprintf("%s:%.4f", STRAINS, own_check), collapse = "  ")),

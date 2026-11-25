@@ -108,9 +108,9 @@ Public Class DecompositionOptions
     Public Property IncludeSilentGenes As Boolean = False
 
     ''' <summary>
-    ''' 是否按列把各菌株矩阵的总量校正到总矩阵的列总量(默认 False，保留因子模型的原始重构值)
+    ''' 是否按列把各菌株矩阵的总量校正到总矩阵的列总量(默认 True，使四株之和与群落总量之比为 1)
     ''' </summary>
-    Public Property RescaleToTotal As Boolean = False
+    Public Property RescaleToTotal As Boolean = True
 
     ''' <summary>
     ''' 基因ID跨基因组重复时的行为：True = 抛出异常，False = 取首个归属并告警
