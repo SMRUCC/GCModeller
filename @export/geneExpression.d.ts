@@ -283,10 +283,11 @@ declare namespace geneExpression {
      * @param cross_map default value Is ``0.25``.
      * @param refine_iterations default value Is ``60``.
      * @param max_iterations default value Is ``300``.
+     * @param rescaled_total default value Is ``true``.
      * @param seed default value Is ``-1``.
      * @param env default value Is ``null``.
    */
-   function decompose_community(expr: object, genomes: any, families?: any, groups?: any, method?: string, cross_map?: number, refine_iterations?: object, max_iterations?: object, seed?: object, env?: object): any;
+   function decompose_community(expr: object, genomes: any, families?: any, groups?: any, method?: string, cross_map?: number, refine_iterations?: object, max_iterations?: object, rescaled_total?: boolean, seed?: object, env?: object): any;
    module deg {
       /**
        * set deg class label
