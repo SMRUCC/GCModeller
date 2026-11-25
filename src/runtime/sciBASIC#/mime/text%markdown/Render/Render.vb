@@ -59,6 +59,7 @@
 #End Region
 
 Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic.ApplicationServices.Report
 
 ''' <summary>
 ''' The different markup syntax formatter for the markdown document.
@@ -100,6 +101,37 @@ Public MustInherit Class Render
 
     Public Property CodeSyntaxHighlight As CodeHtmlSyntaxHighlight
     Public Property image_class As String
+
+    ''' <summary>
+    ''' Optional plugin that renders LaTeX formulas into html fragments.
+    ''' When it is <c>Nothing</c> the markdown parser leaves formula syntax untouched.
+    ''' </summary>
+    Public Overridable Property FormulaRenderer As IFormulaRenderer
+
+    ''' <summary>
+    ''' Render a LaTeX formula on the active markup backend.
+    ''' </summary>
+    ''' <param name="latex">LaTeX source without the surrounding delimiters.</param>
+    ''' <param name="displayMode">block-level formula when <c>True</c>, inline formula otherwise.</param>
+    ''' <returns>an html fragment, or the escaped raw LaTeX text when no plugin is available.</returns>
+    Public Overridable Function Formula(latex As String, displayMode As Boolean) As String
+        Dim source As String = If(latex, "")
+        Dim plugin As IFormulaRenderer = FormulaRenderer
+
+        If plugin IsNot Nothing Then
+            Dim html As String = plugin.RenderFormula(source, displayMode)
+
+            If Not String.IsNullOrEmpty(html) Then
+                Return html
+            End If
+        End If
+
+        If displayMode Then
+            Return "$$" & EscapeHtml(source) & "$$"
+        Else
+            Return "$" & EscapeHtml(source) & "$"
+        End If
+    End Function
 
     Protected Function router(url As String) As String
         If _router Is Nothing Then

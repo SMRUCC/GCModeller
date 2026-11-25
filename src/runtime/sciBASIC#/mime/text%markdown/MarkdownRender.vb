@@ -74,6 +74,28 @@ Public Class MarkdownRender
     End Sub
 
     ''' <summary>
+    ''' Creates a renderer with an optional LaTeX formula plugin.
+    ''' </summary>
+    ''' <param name="render">the markup backend (html, text, ...).</param>
+    ''' <param name="formulaRenderer">the formula implementation; <c>Nothing</c> keeps the original behaviour.</param>
+    Sub New(render As Render, formulaRenderer As IFormulaRenderer)
+        Me.New(render)
+        Me.FormulaRenderer = formulaRenderer
+    End Sub
+
+    ''' <summary>
+    ''' Optional LaTeX formula renderer used while parsing formulas in the markdown source.
+    ''' </summary>
+    Public Property FormulaRenderer As IFormulaRenderer
+        Get
+            Return render.FormulaRenderer
+        End Get
+        Set(value As IFormulaRenderer)
+            render.FormulaRenderer = value
+        End Set
+    End Property
+
+    ''' <summary>
     ''' Set a url router for process the image url location its target location in the
     ''' output html document.
     ''' </summary>

@@ -139,6 +139,38 @@ Public Class MarkdownParser
                 Continue While
             End If
 
+            ' 0. math formulas are only recognised when a plugin is attached
+            If render.FormulaRenderer IsNot Nothing Then
+                If t = "$$" Then
+                    Dim content As New List(Of String)
+
+                    i += 1
+
+                    While i < n AndAlso lines(i).Trim(" "c, ASCII.TAB, vbCr, vbLf) <> "$$"
+                        content.Add(lines(i))
+                        i += 1
+                    End While
+
+                    If i < n Then
+                        i += 1
+                    End If
+
+                    sb.Append(render.Formula(content.JoinBy(vbLf), True)).Append(vbLf).Append(vbLf)
+                    Continue While
+                End If
+
+                Dim mathFence = MatchFence(line)
+                If mathFence.match AndAlso IsMathLanguage(mathFence.lang) Then
+                    Dim code As String = ""
+                    Dim lang As String = ""
+                    Dim endIdx = CollectFence(lines, i, mathFence, code, lang)
+
+                    sb.Append(render.Formula(code, True)).Append(vbLf).Append(vbLf)
+                    i = endIdx + 1
+                    Continue While
+                End If
+            End If
+
             ' 1. fenced code block (``` or ~~~)
             Dim fence = MatchFence(line)
             If fence.match Then
@@ -247,6 +279,15 @@ Public Class MarkdownParser
         If MatchFence(line).match Then
             Return True
         End If
+        If render.FormulaRenderer IsNot Nothing Then
+            If t = "$$" Then
+                Return True
+            End If
+            Dim mathFence = MatchFence(line)
+            If mathFence.match AndAlso IsMathLanguage(mathFence.lang) Then
+                Return True
+            End If
+        End If
         If Regex.IsMatch(t, "^(#{1,6})\s+") Then
             Return True
         End If
@@ -292,6 +333,15 @@ Public Class MarkdownParser
             }
         End If
         Return New FenceInfo With {.match = False}
+    End Function
+
+    Private Shared Function IsMathLanguage(lang As String) As Boolean
+        Select Case LCase(If(lang, ""))
+            Case "math", "tex", "latex", "equation"
+                Return True
+            Case Else
+                Return False
+        End Select
     End Function
 
     Private Function CollectFence(lines() As String, start As Integer, fence As FenceInfo, ByRef code As String, ByRef lang As String) As Integer
@@ -616,6 +666,18 @@ Public Class MarkdownParser
                 End If
             End If
 
+            ' inline math $...$ (only when a formula plugin is attached)
+            If c = "$"c AndAlso render.FormulaRenderer IsNot Nothing Then
+                Dim math = MatchInlineMath(text, i)
+
+                If math.matched Then
+                    Flush(sb, plain)
+                    sb.Append(render.Formula(math.content, False))
+                    i = math.endIndex
+                    Continue While
+                End If
+            End If
+
             ' image ![alt](url "title")
             If c = "!"c AndAlso i + 1 < n AndAlso text(i + 1) = "["c Then
                 Dim img = MatchLink(text, i)
@@ -762,6 +824,46 @@ Public Class MarkdownParser
                 j += 1
             End If
         End While
+        Return New SpanInfo With {.matched = False}
+    End Function
+
+    ''' <summary>
+    ''' Match a single-line inline formula. Content must not begin or end with
+    ''' whitespace so that currency text such as "$5 and $10" is left untouched.
+    ''' </summary>
+    Private Function MatchInlineMath(text As String, i As Integer) As SpanInfo
+        If text(i) <> "$"c OrElse i + 1 >= text.Length OrElse text(i + 1) = "$"c Then
+            Return New SpanInfo With {.matched = False}
+        End If
+
+        Dim j = i + 1
+
+        While j < text.Length
+            If text(j) = "\"c Then
+                j += 2
+                Continue While
+            End If
+            If text(j) = vbLf OrElse text(j) = vbCr Then
+                Exit While
+            End If
+            If text(j) = "$"c Then
+                Dim content As String = text.Substring(i + 1, j - i - 1)
+
+                If Not String.IsNullOrEmpty(content) AndAlso
+                   Not Char.IsWhiteSpace(content(0)) AndAlso
+                   Not Char.IsWhiteSpace(content(content.Length - 1)) Then
+                    Return New SpanInfo With {
+                        .matched = True,
+                        .content = content,
+                        .endIndex = j + 1
+                    }
+                End If
+
+                Exit While
+            End If
+            j += 1
+        End While
+
         Return New SpanInfo With {.matched = False}
     End Function
 

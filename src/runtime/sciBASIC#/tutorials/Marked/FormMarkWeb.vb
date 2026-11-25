@@ -53,6 +53,7 @@
 
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ApplicationServices.Report
+Imports Microsoft.VisualBasic.Drawing.MathDraw
 Imports Microsoft.VisualBasic.MIME.text.markdown
 Imports Microsoft.Web.WebView2.Core
 
@@ -62,8 +63,11 @@ Imports MarkdownHtmlRender = Microsoft.VisualBasic.MIME.text.markdown.HtmlRender
 
 Public Class FormMarkWeb
 
+    ''' <summary>LaTeX 公式渲染插件，由 MathDraw 实现并在预览管线中注入。</summary>
+    Private ReadOnly _formulaRenderer As IFormulaRenderer = New MathFormulaHtmlRenderer()
+
     ''' <summary>预览使用的 markdown → html 渲染器（切换样式主题时重建）。</summary>
-    Private render As New MarkdownRender(New MarkdownHtmlRender(MarkdownStyle.GitHub))
+    Private render As MarkdownRender = CreateRender(MarkdownStyle.GitHub)
 
     Private _headings As List(Of HeadingInfo)
     Private _loading As Boolean = False
@@ -80,6 +84,16 @@ Public Class FormMarkWeb
     Private ReadOnly _imageCache As New Dictionary(Of String, String)()
 
     Private ReadOnly headingTag As New Regex("<(h[1-6])>", RegexOptions.IgnoreCase)
+
+    ''' <summary>
+    ''' 构造预览渲染器并挂接 LaTeX 公式插件；切换主题时复用同一条组装路径。
+    ''' </summary>
+    Private Function CreateRender(style As MarkdownStyle) As MarkdownRender
+        Dim backend As MarkdownHtmlRender = If(style Is Nothing,
+                                               New MarkdownHtmlRender(),
+                                               New MarkdownHtmlRender(style))
+        Return New MarkdownRender(backend, _formulaRenderer)
+    End Function
 
     Private Sub ToolStripButton1_Click(sender As Object, e As EventArgs) Handles ToolStripButton1.Click
         Using file As New OpenFileDialog With {.Filter = "Markdown 文档(*.md)|*.md"}
@@ -134,11 +148,7 @@ Public Class FormMarkWeb
     ''' </summary>
     ''' <param name="style">目标主题；<c>Nothing</c> 表示不注入 CSS（输出 html 片段）。</param>
     Private Sub ApplyTheme(style As MarkdownStyle)
-        If style Is Nothing Then
-            render = New MarkdownRender()
-        Else
-            render = New MarkdownRender(New MarkdownHtmlRender(style))
-        End If
+        render = CreateRender(style)
 
         ' 勾选状态与当前主题保持一致
         ToolStripMenuItemThemeGitHub.Checked = style Is MarkdownStyle.GitHub
