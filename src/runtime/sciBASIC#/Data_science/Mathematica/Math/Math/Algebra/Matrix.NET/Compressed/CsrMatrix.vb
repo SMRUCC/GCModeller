@@ -1,6 +1,7 @@
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language.Vectorization
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports std = System.Math
 
 Namespace LinearAlgebra.Matrix.Compressed
 
@@ -428,7 +429,7 @@ Namespace LinearAlgebra.Matrix.Compressed
             Dim sum As Double = 0.0
 
             For k As Integer = 0 To m_values.Length - 1
-                sum += Math.Abs(m_values(k))
+                sum += std.Abs(m_values(k))
             Next
 
             Return sum
@@ -847,7 +848,7 @@ Namespace LinearAlgebra.Matrix.Compressed
 
             For i As Integer = 0 To m_rows - 1
                 For k As Integer = m_indptr(i) To m_indptr(i + 1) - 1
-                    If Math.Abs(m_values(k)) > threshold Then
+                    If std.Abs(m_values(k)) > threshold Then
                         Call indices.Add(m_indices(k))
                         Call values.Add(m_values(k))
                     End If
@@ -875,7 +876,7 @@ Namespace LinearAlgebra.Matrix.Compressed
                 Throw New ArgumentException($"resize dimensions must not be negative: [{M}, {N}]")
             End If
 
-            Dim rowsToCopy As Integer = Math.Min(M, m_rows)
+            Dim rowsToCopy As Integer = std.Min(M, m_rows)
             Dim indptr As Integer() = New Integer(M) {}
             Dim indices As New List(Of Integer)(m_values.Length)
             Dim values As New List(Of Double)(m_values.Length)
