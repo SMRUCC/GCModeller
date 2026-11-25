@@ -313,11 +313,17 @@ Namespace Global.Microsoft.VisualBasic.Drawing.MathDraw
             Dim baseText As String = text.Substring(0, separator)
             Dim scriptText As String = text.Substring(separator + 1)
             Dim scriptFont As FormulaFont = Style.CreateScriptFont(Style.Font)
+            Dim scriptBox As FormulaBox
 
-            Return New ScriptFormulaBox(CreateText(baseText),
-                                        CreateText(scriptText, scriptFont),
-                                        isSubscript,
-                                        Style)
+            Try
+                Dim scriptExpression As MathExpression = LaTeXMath.ParseLatexExpression(scriptText)
+                Dim scriptContext As New FormulaLayoutContext(device, Style.CreateScriptStyle())
+                scriptBox = scriptContext.Layout(scriptExpression)
+            Catch
+                scriptBox = CreateText(scriptText, scriptFont)
+            End Try
+
+            Return New ScriptFormulaBox(CreateText(baseText), scriptBox, isSubscript, Style)
         End Function
 
         Private Function LayoutFunction([function] As MathFunctionExpression) As FormulaBox

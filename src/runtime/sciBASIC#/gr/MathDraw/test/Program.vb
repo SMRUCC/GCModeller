@@ -105,6 +105,81 @@ Module Program
                     End Using
                 End Using
             Next
+
+            Using scope = DebugAudit.Watch("latex-roundtrip")
+                Call DebugAudit.Mark("case", "latex-roundtrip")
+
+                Dim latex As String = "\Phi=\lim_{n\to\infty}\sum_{i=1}^{n}\frac{i^2}{x^i}+\frac{d^2}{dx^2}F+\int_0^x e^{-t^2}dt+\frac{\partial u}{\partial y}+\begin{matrix}a^2&1/n\\b_1&\pi^2\end{matrix}"
+                Dim lambda As LambdaExpression = LaTeXMath.ParseLatex(latex)
+                Dim parsed As Boolean = lambda IsNot Nothing AndAlso lambda.lambda IsNot Nothing
+
+                Call DebugAudit.Test(parsed, "LaTeX parsed into MathML expression object")
+                Call DebugAudit.Capture(CStr("latex.source"), CObj(latex))
+
+                If parsed Then
+                    Dim canonical As String = LaTeXMath.ToLatex(lambda)
+                    Call DebugAudit.Capture(CStr("latex.canonical"), CObj(canonical))
+                    Dim reparsed As LambdaExpression = LaTeXMath.ParseLatex(canonical)
+                    Dim canonicalAgain As String = LaTeXMath.ToLatex(reparsed)
+                    Dim hasFeatures As Boolean = canonical.Contains("\lim") AndAlso
+                                                 canonical.Contains("\sum") AndAlso
+                                                 canonical.Contains("\int") AndAlso
+                                                 canonical.Contains("\begin{matrix}")
+
+                    Call DebugAudit.Test(hasFeatures, "canonical LaTeX retains complex operators")
+                    Call DebugAudit.Test(canonical = canonicalAgain, "LaTeX round-trip is stable")
+                    Call DebugAudit.Capture(CStr("latex.canonical"), CObj(canonical))
+                    Call DebugAudit.Capture(CStr("latex.canonicalAgain"), CObj(canonicalAgain))
+
+                    Using g As IGraphics = DriverLoad.CreateGraphicsDevice(New Size(5200, 1400),
+                                                                          Color.Transparent,
+                                                                          dpi:=120,
+                                                                          driver:=Drivers.GDI)
+                        Dim style As New FormulaRenderStyle(New Font("Cambria Math", 56),
+                                                            New SolidBrush(Color.Black),
+                                                            New Pen(Color.Black, 2F))
+                        Dim canvas As New Canvas(g, style)
+                        Dim used As SizeF = canvas.Draw(lambda, New PointF(40F, 40F))
+
+                        Call canvas.Flush()
+                        Call DebugAudit.Test(used.Width > 0F AndAlso used.Height > 0F, "LaTeX formula layout has non-empty bounds")
+                        Call DebugAudit.Capture(CStr("latex.layout"), CObj(used.ToString()))
+
+                        Dim image As MathImage = DirectCast(g, GdiRasterGraphics).ImageResource
+
+                        Using buffer = image.GetMemoryBitmap()
+                            Dim alpha As Integer = If(buffer Is Nothing, -1, CInt(buffer.GetPixel(0, 0).A))
+                            Call DebugAudit.Test(alpha = 0, "LaTeX formula canvas is transparent")
+                            Call DebugAudit.Capture(CStr("latex.canvasAlpha"), CObj(alpha))
+                        End Using
+
+                        Dim cropped As MathImage = image.CorpBlank(blankColor:=Color.Transparent, margin:=20)
+                        Dim png As String = System.IO.Path.Combine(outputDir, "latex-roundtrip.png")
+
+                        If Not cropped.SaveAs(png, ImageFormats.Png) Then
+                            Call DebugAudit.Test(False, $"save LaTeX PNG: {png}")
+                            Throw New IOException($"Failed to save LaTeX PNG: {png}")
+                        End If
+
+                        Dim bytes As Byte() = System.IO.File.ReadAllBytes(png)
+                        Dim signatureOk As Boolean = bytes.Length >= 26 AndAlso
+                                                     bytes(0) = &H89 AndAlso bytes(1) = &H50 AndAlso
+                                                     bytes(2) = &H4E AndAlso bytes(3) = &H47 AndAlso
+                                                     bytes(4) = &HD AndAlso bytes(5) = &HA AndAlso
+                                                     bytes(6) = &H1A AndAlso bytes(7) = &HA AndAlso
+                                                     bytes(12) = &H49 AndAlso bytes(13) = &H48 AndAlso
+                                                     bytes(14) = &H44 AndAlso bytes(15) = &H52
+
+                        Call DebugAudit.Test(signatureOk, "LaTeX PNG signature and IHDR chunk are valid")
+                        Call DebugAudit.Test(bytes(25) = 6, "LaTeX PNG color type is RGBA")
+                        Call DebugAudit.Capture(CStr("latex.png"), CObj(png))
+                        Call DebugAudit.Capture(CStr("latex.bytes"), CObj(bytes.Length))
+                        Call DebugAudit.Mark("output", png)
+
+                        Console.WriteLine($"latex-roundtrip -> {png} ({used.Width.ToString("0.#")}x{used.Height.ToString("0.#")})")
+                    End Using
+                End If
+            End Using
         Catch ex As Exception
             Call DebugAudit.Test(False, $"unhandled exception: {ex.Message}")
             Call DebugAudit.Mark("error", ex.ToString())
