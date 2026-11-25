@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/framework/">
+    <Project Path="../../../runtime/sciBASIC#/Data_science/DataMining/DataMining/DataMining.NET5.vbproj" />
+    <Project Path="../../../runtime/sciBASIC#/Data_science/MachineLearning/DeepLearning/DeepLearning.NET6.vbproj" />
+    <Project Path="../../../runtime/sciBASIC#/Data_science/MachineLearning/TensorFlow/TensorFlow.vbproj" />
+    <Project Path="../../../runtime/sciBASIC#/Data_science/Mathematica/Math/Math.Statistics/stats-netcore5.vbproj" />
+    <Project Path="../../../runtime/sciBASIC#/Data_science/Mathematica/Math/Math/Math.NET5.vbproj" />
+    <Project Path="../../../runtime/sciBASIC#/Microsoft.VisualBasic.Core/src/Core.vbproj" />
+  </Folder>
+  <Project Path="CellularAI/CellularAI.vbproj" />
+</Solution>
