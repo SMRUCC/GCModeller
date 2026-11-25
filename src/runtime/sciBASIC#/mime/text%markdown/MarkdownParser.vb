@@ -157,6 +157,12 @@ Public Class MarkdownParser
 
                     sb.Append(render.Formula(content.JoinBy(vbLf), True)).Append(vbLf).Append(vbLf)
                     Continue While
+                ElseIf t.StartsWith("$$") AndAlso t.EndsWith("$$") AndAlso t.Length > 4 Then
+                    Dim content As String = t.Substring(2, t.Length - 4)
+
+                    sb.Append(render.Formula(content, True)).Append(vbLf).Append(vbLf)
+                    i += 1
+                    Continue While
                 End If
 
                 Dim mathFence = MatchFence(line)
@@ -280,7 +286,7 @@ Public Class MarkdownParser
             Return True
         End If
         If render.FormulaRenderer IsNot Nothing Then
-            If t = "$$" Then
+            If t = "$$" OrElse (t.StartsWith("$$") AndAlso t.EndsWith("$$") AndAlso t.Length > 4) Then
                 Return True
             End If
             Dim mathFence = MatchFence(line)

@@ -112,7 +112,14 @@ Namespace Global.Microsoft.VisualBasic.Drawing.MathDraw
 
             SyncLock initLock
                 If Not driverReady Then
-                    Call ImageDriver.Register()
+                    ' ImageDriver.Register is only compiled for Windows targets; resolve it
+                    ' reflectively so this net10.0 assembly can be hosted by a windows app.
+                    Dim register As System.Reflection.MethodInfo = GetType(ImageDriver).GetMethod("Register", Type.EmptyTypes)
+
+                    If register IsNot Nothing Then
+                        Call register.Invoke(Nothing, Nothing)
+                    End If
+
                     driverReady = True
                 End If
             End SyncLock

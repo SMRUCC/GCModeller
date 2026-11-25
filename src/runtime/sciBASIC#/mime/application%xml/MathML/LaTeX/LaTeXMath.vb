@@ -64,6 +64,10 @@ Namespace MathML
                     Return Operand(left) & " - " & Operand(right)
                 Case "times"
                     Return Operand(left) & " \times " & Operand(right)
+                Case "oplus"
+                    Return Operand(left) & " \oplus " & Operand(right)
+                Case "implicit"
+                    Return Operand(left) & " " & Operand(right)
                 Case "eq"
                     Return Operand(left) & " = " & Operand(right)
                 Case "leq"
@@ -226,15 +230,19 @@ Namespace MathML
 
         Public Property Kind As LaTeXTokenKind
         Public Property Value As String
+        ''' <summary>start offset in the original latex source, used by text arguments.</summary>
+        Public Property Start As Integer
 
     End Class
 
     Friend NotInheritable Class LaTeXParser
 
+        Private ReadOnly source As String
         Private ReadOnly tokens As LaTeXToken()
         Private index As Integer
 
         Friend Sub New(text As String)
+            Me.source = text
             Me.tokens = Tokenize(text)
         End Sub
 
@@ -267,13 +275,16 @@ Namespace MathML
             Do While Current IsNot Nothing AndAlso Not IsStop(Current)
                 If Current.Kind = LaTeXTokenKind.Symbol AndAlso Current.Value = "=" Then
                     Call Consume()
-                    left = Binary("eq", left, ParseMultiplicative())
+                    left = Binary("eq", left, ParseAdditive())
                 ElseIf Current.Kind = LaTeXTokenKind.Symbol AndAlso Current.Value = "+" Then
                     Call Consume()
                     left = Binary("plus", left, ParseMultiplicative())
                 ElseIf Current.Kind = LaTeXTokenKind.Symbol AndAlso Current.Value = "-" Then
                     Call Consume()
                     left = Binary("minus", left, ParseMultiplicative())
+                ElseIf Current.Kind = LaTeXTokenKind.Command AndAlso Current.Value = "\oplus" Then
+                    Call Consume()
+                    left = Binary("oplus", left, ParseMultiplicative())
                 Else
                     Exit Do
                 End If
@@ -299,8 +310,14 @@ Namespace MathML
                     Dim symbol As SymbolExpression = DirectCast(left, SymbolExpression)
                     symbol.text &= If(Current.Value = "\to", "→", "∞")
                     Call Consume()
+                ElseIf Current.Kind = LaTeXTokenKind.Symbol AndAlso Current.Value = "," Then
+                    ' commas inside subscripts (e.g. A_{r,i}) are literal text, not expression stops
+                    Call Consume()
+                    Dim tail As MathExpression = ParsePrimary()
+                    left = New SymbolExpression With {.text = LaTeXMath.ToLatex(left) & "," & LaTeXMath.ToLatex(tail)}
                 ElseIf CanStartPrimary(Current) Then
-                    left = Binary("times", left, ParsePrimary())
+                    ' juxtaposition is multiplication without a visible times sign
+                    left = Binary("implicit", left, ParsePrimary())
                 Else
                     Exit Do
                 End If
@@ -416,14 +433,31 @@ Namespace MathML
                 Case "\geq" : Return New SymbolExpression With {.text = "≥"}
                 Case "\neq" : Return New SymbolExpression With {.text = "≠"}
                 Case "\partial" : Return New SymbolExpression With {.text = "∂"}
-                Case "\text", "\mathrm"
-                    Dim text As String = ""
+                Case "\oplus" : Return New SymbolExpression With {.text = "⊕"}
+                Case "\mu" : Return New SymbolExpression With {.text = "μ"}
+                Case "\alpha" : Return New SymbolExpression With {.text = "α"}
+                Case "\beta" : Return New SymbolExpression With {.text = "β"}
+                Case "\gamma" : Return New SymbolExpression With {.text = "γ"}
+                Case "\delta" : Return New SymbolExpression With {.text = "δ"}
+                Case "\epsilon" : Return New SymbolExpression With {.text = "ε"}
+                Case "\theta" : Return New SymbolExpression With {.text = "θ"}
+                Case "\lambda" : Return New SymbolExpression With {.text = "λ"}
+                Case "\sigma" : Return New SymbolExpression With {.text = "σ"}
+                Case "\omega" : Return New SymbolExpression With {.text = "ω"}
+                Case "\Gamma" : Return New SymbolExpression With {.text = "Γ"}
+                Case "\Delta" : Return New SymbolExpression With {.text = "Δ"}
+                Case "\Theta" : Return New SymbolExpression With {.text = "Θ"}
+                Case "\Lambda" : Return New SymbolExpression With {.text = "Λ"}
+                Case "\Sigma" : Return New SymbolExpression With {.text = "Σ"}
+                Case "\Omega" : Return New SymbolExpression With {.text = "Ω"}
+                Case "\text", "\mathrm", "\textbf", "\mathit"
+                    Dim text As String = ReadBracedText()
 
-                    If Current IsNot Nothing AndAlso Current.Value = "{" Then
-                        text = DirectCast(ParseGroupOrAtom(), SymbolExpression)?.text
+                    If text Is Nothing Then
+                        Return New SymbolExpression With {.text = command.Substring(1)}
                     End If
 
-                    Return New SymbolExpression With {.text = If(text, command.Substring(1))}
+                    Return New SymbolExpression With {.text = text.Trim()}
                 Case "\end"
                     Return New SymbolExpression With {.text = ""}
                 Case Else
@@ -432,7 +466,7 @@ Namespace MathML
         End Function
 
         Private Function ParseBounded(command As String) As MathExpression
-            Dim op As String = If(command = "\lim", "limit", command.Substring(1))
+            Dim op As String = If(command = "\lim", "limit", If(command = "\prod", "product", command.Substring(1)))
             Dim lower As MathExpression = Nothing
             Dim upper As MathExpression = Nothing
 
@@ -515,6 +549,45 @@ Namespace MathML
             Return ParseAtom()
         End Function
 
+        ''' <summary>
+        ''' Read the raw contents of the current braced group. Unlike the math expression
+        ''' parser this keeps whitespace, CJK characters and operators such as ``+``
+        ''' verbatim, which is required by ``\text{...}`` arguments.
+        ''' </summary>
+        Private Function ReadBracedText() As String
+            If Current Is Nothing OrElse Current.Value <> "{" Then
+                Return Nothing
+            End If
+
+            Dim open As LaTeXToken = Consume()
+            Dim depth As Integer = 1
+            Dim closeIndex As Integer = -1
+
+            While index < tokens.Length
+                Dim token As LaTeXToken = tokens(index)
+
+                If token.Value = "{" Then
+                    depth += 1
+                ElseIf token.Value = "}" Then
+                    depth -= 1
+
+                    If depth = 0 Then
+                        closeIndex = token.Start
+                        index += 1
+                        Exit While
+                    End If
+                End If
+
+                index += 1
+            End While
+
+            If closeIndex < 0 Then
+                Throw New ArgumentException("Unclosed text argument in LaTeX formula.")
+            End If
+
+            Return source.Substring(open.Start + 1, closeIndex - open.Start - 1)
+        End Function
+
         Private Function ApplyScript(value As MathExpression, separator As String, script As MathExpression) As MathExpression
             Dim scriptText As String = LaTeXMath.ToLatex(script)
             Dim scriptToken As String = If(scriptText.Length = 1, scriptText, "{" & scriptText & "}")
@@ -571,7 +644,7 @@ Namespace MathML
 
         Private Shared Function IsStop(token As LaTeXToken) As Boolean
             If token.Kind = LaTeXTokenKind.Symbol Then
-                Return "}&]),".IndexOf(token.Value) >= 0 OrElse token.Value = "\\"
+                Return "}&])".IndexOf(token.Value) >= 0 OrElse token.Value = "\\"
             End If
 
             Return token.Kind = LaTeXTokenKind.Command AndAlso token.Value = "\end"
@@ -583,7 +656,7 @@ Namespace MathML
             End If
 
             If token.Kind = LaTeXTokenKind.Command Then
-                Return token.Value <> "\end"
+                Return token.Value <> "\end" AndAlso token.Value <> "\oplus"
             End If
 
             Return token.Value = "{" OrElse token.Value = "(" OrElse token.Value = "["
@@ -605,6 +678,7 @@ Namespace MathML
 
             Do While i < text.Length
                 Dim ch As Char = text(i)
+                Dim start As Integer = i
 
                 If Char.IsWhiteSpace(ch) Then
                     i += 1
@@ -613,10 +687,10 @@ Namespace MathML
 
                 If ch = "\"c Then
                     If i + 1 < text.Length AndAlso text(i + 1) = "\"c Then
-                        Call result.Add(New LaTeXToken With {.Kind = LaTeXTokenKind.Symbol, .Value = "\\"})
+                        Call result.Add(New LaTeXToken With {.Kind = LaTeXTokenKind.Symbol, .Value = "\\", .Start = start})
                         i += 2
                     ElseIf i + 1 < text.Length AndAlso Not Char.IsLetter(text(i + 1)) Then
-                        Call result.Add(New LaTeXToken With {.Kind = LaTeXTokenKind.Command, .Value = text.Substring(i, 2)})
+                        Call result.Add(New LaTeXToken With {.Kind = LaTeXTokenKind.Command, .Value = text.Substring(i, 2), .Start = start})
                         i += 2
                     Else
                         Dim j As Integer = i + 1
@@ -625,11 +699,11 @@ Namespace MathML
                             j += 1
                         Loop
 
-                        Call result.Add(New LaTeXToken With {.Kind = LaTeXTokenKind.Command, .Value = text.Substring(i, j - i)})
+                        Call result.Add(New LaTeXToken With {.Kind = LaTeXTokenKind.Command, .Value = text.Substring(i, j - i), .Start = start})
                         i = j
                     End If
                 ElseIf IsDelimiter(ch) Then
-                    Call result.Add(New LaTeXToken With {.Kind = LaTeXTokenKind.Symbol, .Value = ch.ToString})
+                    Call result.Add(New LaTeXToken With {.Kind = LaTeXTokenKind.Symbol, .Value = ch.ToString, .Start = start})
                     i += 1
                 Else
                     Dim j As Integer = i
@@ -642,7 +716,7 @@ Namespace MathML
                         j += 1
                     End If
 
-                    Call result.Add(New LaTeXToken With {.Kind = LaTeXTokenKind.Text, .Value = text.Substring(i, j - i)})
+                    Call result.Add(New LaTeXToken With {.Kind = LaTeXTokenKind.Text, .Value = text.Substring(i, j - i), .Start = start})
                     i = j
                 End If
             Loop

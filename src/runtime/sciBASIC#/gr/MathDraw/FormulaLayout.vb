@@ -272,10 +272,12 @@ Namespace Global.Microsoft.VisualBasic.Drawing.MathDraw
             End If
 
             Dim leftBox As FormulaBox = LayoutWithParentheses(binary.applyleft, op, False)
-            Dim operatorBox As TextFormulaBox = CreateText(OperatorSymbol(op))
+            Dim isImplicit As Boolean = (op = "implicit")
+            Dim operatorBox As TextFormulaBox = CreateText(If(isImplicit, "", OperatorSymbol(op)))
             Dim rightBox As FormulaBox = LayoutWithParentheses(binary.applyright, op, True)
+            Dim gap As Single = If(isImplicit, 0F, Style.OperatorGap)
 
-            Return New HorizontalFormulaBox({leftBox, operatorBox, rightBox}, Style.OperatorGap)
+            Return New HorizontalFormulaBox({leftBox, operatorBox, rightBox}, gap)
         End Function
 
         Private Function LayoutSymbol(symbol As SymbolExpression) As FormulaBox
@@ -365,7 +367,7 @@ Namespace Global.Microsoft.VisualBasic.Drawing.MathDraw
             Select Case op
                 Case "eq", "leq", "geq", "neq" : Return 0
                 Case "plus", "minus" : Return 1
-                Case "times", "divide" : Return 2
+                Case "times", "divide", "implicit" : Return 2
                 Case "power" : Return 3
                 Case Else : Return 1
             End Select
@@ -376,6 +378,8 @@ Namespace Global.Microsoft.VisualBasic.Drawing.MathDraw
                 Case "plus" : Return "+"
                 Case "minus" : Return "−"
                 Case "times" : Return "×"
+                Case "oplus" : Return "⊕"
+                Case "implicit" : Return ""
                 Case "divide" : Return "∕"
                 Case "power" : Return "^"
                 Case "eq" : Return "="

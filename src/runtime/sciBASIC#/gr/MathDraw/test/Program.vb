@@ -195,19 +195,20 @@ Module Program
                                        fragment.Contains("math-formula-block")
 
                 Call DebugAudit.Test(valid, "MathDraw plugin produces an embedded PNG formula fragment")
-                Call DebugAudit.Capture("plugin.name", plugin.Name)
-                Call DebugAudit.Capture("plugin.fragmentLength", If(fragment, "").Length)
+                Call DebugAudit.Capture("plugin.name", CObj(plugin.Name))
+                Call DebugAudit.Capture("plugin.fragmentLength", CObj(If(fragment, "").Length))
 
                 Dim source As String = "intro" & vbLf & vbLf &
                                        "$$" & vbLf & "\frac{a}{b}=c" & vbLf & "$$" & vbLf & vbLf &
                                        "```tex" & vbLf & "E=mc^2" & vbLf & "```" & vbLf & vbLf &
+                                       "$$x^2+y^2=z^2$$" & vbLf & vbLf &
                                        "inline $x^2$ here"
                 Dim withPlugin As New MarkdownRender(New MarkdownHtmlRender(MarkdownStyle.GitHub), plugin)
                 Dim html As String = withPlugin.Transform(source)
                 Dim formulaImages As Integer = CountOccurrences(html, "math-formula")
 
-                Call DebugAudit.Test(formulaImages >= 3, "block, fenced and inline formulas are rendered as images")
-                Call DebugAudit.Capture("markdown.formulaImages", formulaImages)
+                Call DebugAudit.Test(formulaImages >= 8, "block, single-line, fenced and inline formulas are rendered as images")
+                Call DebugAudit.Capture("markdown.formulaImages", CObj(formulaImages))
 
                 Dim withoutPlugin As New MarkdownRender(New MarkdownHtmlRender(MarkdownStyle.GitHub))
                 Dim plain As String = withoutPlugin.Transform(source)
@@ -215,7 +216,81 @@ Module Program
                 Call DebugAudit.Test(Not plain.Contains("math-formula"), "without a plugin formula syntax is untouched")
                 Call DebugAudit.Test(plain.Contains("\frac{a}{b}=c") AndAlso plain.Contains("$x^2$"),
                                      "without a plugin raw LaTeX remains in the output")
-                Call DebugAudit.Capture("markdown.plainLength", plain.Length)
+                Call DebugAudit.Capture("markdown.plainLength", CObj(plain.Length))
+            End Using
+
+            Using scope = DebugAudit.Watch("readme-formula-regressions")
+                Call DebugAudit.Mark("case", "readme-formula-regressions")
+
+                Dim formulas As String() = {
+                    "\text{Neuro-Fuzzy} = \text{Fuzzy Logic（知识表达 + 推理）} \oplus \text{Neural Network（学习 + 参数优化）}",
+                    "w_r = \prod_{i=1}^{N} \mu_{A_{r,i}}(x_i)"
+                }
+                Dim readmePlugin As IFormulaRenderer = New MathFormulaHtmlRenderer()
+
+                For idx As Integer = 0 To formulas.Length - 1
+                    Dim formula As String = formulas(idx)
+                    Dim parsed As LambdaExpression = Nothing
+                    Dim failure As String = ""
+
+                    Try
+                        parsed = LaTeXMath.ParseLatex(formula)
+                    Catch ex As Exception
+                        failure = ex.GetType.Name & ": " & ex.Message
+                    End Try
+
+                    Dim rendered As String = readmePlugin.RenderFormula(formula, True)
+
+                    Call DebugAudit.Capture($"formula.{idx}", CObj(formula))
+                    Call DebugAudit.Capture($"failure.{idx}", CObj(failure))
+                    Call DebugAudit.Capture($"canonical.{idx}", CObj(If(parsed Is Nothing, "", LaTeXMath.ToLatex(parsed))))
+                    Call DebugAudit.Test(parsed IsNot Nothing AndAlso parsed.lambda IsNot Nothing,
+                                         "readme formula parses: " & Left(formula, 24))
+                    Call DebugAudit.Test(Not String.IsNullOrEmpty(rendered) AndAlso rendered.Contains("data:image/png;base64,"),
+                                         "readme formula renders: " & Left(formula, 24))
+
+                    If Not String.IsNullOrEmpty(rendered) Then
+                        Dim marker As String = "base64,"
+                        Dim pos As Integer = rendered.IndexOf(marker, StringComparison.Ordinal)
+
+                        If pos >= 0 Then
+                            Dim base64 As String = rendered.Substring(pos + marker.Length)
+                            Dim quote As Integer = base64.IndexOf(""""c)
+
+                            If quote > 0 Then
+                                base64 = base64.Substring(0, quote)
+                            End If
+
+                            Dim pngPath As String = IO.Path.Combine(outputDir, $"readme-formula-{idx}.png")
+                            Call IO.File.WriteAllBytes(pngPath, Convert.FromBase64String(base64))
+                            Call DebugAudit.Capture($"png.{idx}", CObj(pngPath))
+                        End If
+                    End If
+                Next
+            End Using
+
+            Using scope = DebugAudit.Watch("readme-markdown-preview")
+                Call DebugAudit.Mark("case", "readme-markdown-preview")
+
+                Dim readmePath As String = IO.Path.GetFullPath(IO.Path.Combine(
+                    AppContext.BaseDirectory, "..", "..", "..", "..", "..", "..",
+                    "Data_science", "MachineLearning", "ANFIS", "readme.md"))
+
+                If IO.File.Exists(readmePath) Then
+                    Dim markdown As String = IO.File.ReadAllText(readmePath)
+                    Dim reader As New MarkdownRender(New MarkdownHtmlRender(MarkdownStyle.GitHub),
+                                                     New MathFormulaHtmlRenderer())
+                    Dim html As String = reader.Transform(markdown)
+
+                    Call DebugAudit.Test(html.Contains("math-formula"), "ANFIS readme preview contains formula images")
+                    Call DebugAudit.Test(Not html.Contains("\text{Neuro-Fuzzy}"),
+                                         "Neuro-Fuzzy formula is no longer raw LaTeX in preview")
+                    Call DebugAudit.Test(Not html.Contains("\prod_{i=1}^{N}"),
+                                         "product formula is no longer raw LaTeX in preview")
+                    Call DebugAudit.Capture("readme.formulaImages", CObj(CountOccurrences(html, "math-formula")))
+                Else
+                    Call DebugAudit.Test(False, "ANFIS readme not found: " & readmePath)
+                End If
             End Using
         Catch ex As Exception
             Call DebugAudit.Test(False, $"unhandled exception: {ex.Message}")
