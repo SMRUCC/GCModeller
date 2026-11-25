@@ -54,7 +54,9 @@
 
 #End Region
 
+Imports System.Collections.Generic
 Imports System.Data
+Imports System.Linq
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Linq
@@ -188,6 +190,12 @@ Namespace MathML
         ReadOnly chainableOperators As Index(Of String) =
             {"plus", "minus", "times", "divide", "power", "eq", "leq", "geq", "neq"}
 
+        ''' <summary>
+        ''' 需要 bvar/lowlimit/uplimit/degree 等限定信息的有界运算符。
+        ''' </summary>
+        ReadOnly advancedOperators As Index(Of String) =
+            {"sum", "product", "limit", "diff", "partialdiff", "int", "integral"}
+
         ''' <summary>判断元素名是否为已知的二元/n元运算符或关系符。</summary>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Private Function isChainable(name As String) As Boolean
@@ -242,6 +250,11 @@ Namespace MathML
                 [operator] = apply.elements(Scan0)
             End If
 
+            ' 有界运算符：apply(sum|limit|diff|int, bvar?, lowlimit?, uplimit?, body)
+            If [operator].name Like advancedOperators Then
+                Return parseAdvancedOperator(apply, [operator].name)
+            End If
+
             ' 标准数学函数：apply(func, args...)
             If [operator].name Like stdMathFunc Then
                 Dim args As XmlElement() = apply.elements _
@@ -284,10 +297,89 @@ Namespace MathML
             Throw New NotImplementedException($"Unsupported MathML apply operator: {[operator].name}")
         End Function
 
+        ''' <summary>
+        ''' 解析带 bvar/lowlimit/uplimit/degree 限定信息的有界运算符。
+        ''' </summary>
+        Private Function parseAdvancedOperator(apply As XmlElement, op As String) As MathExpression
+            Dim bvar As XmlElement = apply.elements.FirstOrDefault(Function(e) e.name = "bvar")
+            Dim low As XmlElement = apply.elements.FirstOrDefault(Function(e) e.name = "lowlimit")
+            Dim up As XmlElement = apply.elements.FirstOrDefault(Function(e) e.name = "uplimit")
+            Dim degreeElement As XmlElement = apply.elements.FirstOrDefault(Function(e) e.name = "degree")
+            Dim variable As String = ""
+
+            If bvar IsNot Nothing Then
+                Dim variableElement As XmlElement = bvar.getElementsByTagName("ci").FirstOrDefault
+
+                If variableElement IsNot Nothing Then
+                    variable = variableElement.text.TrimWhitespace
+                End If
+
+                If degreeElement Is Nothing Then
+                    degreeElement = bvar.getElementsByTagName("degree").FirstOrDefault
+                End If
+            End If
+
+            Dim body As MathExpression = Nothing
+
+            For Each child As XmlElement In apply.elements.Skip(1)
+                If child.name = "bvar" OrElse child.name = "lowlimit" OrElse
+                   child.name = "uplimit" OrElse child.name = "degree" Then
+                    Continue For
+                End If
+
+                body = ExpressionComponent(child)
+                Exit For
+            Next
+
+            If body Is Nothing Then
+                Throw New InvalidExpressionException($"apply/{op} requires a body expression!")
+            End If
+
+            Return New BoundedOperatorExpression With {
+                .operator = op,
+                .variable = variable,
+                .lower = If(low Is Nothing, Nothing, parseBound(low)),
+                .upper = If(up Is Nothing, Nothing, parseBound(up)),
+                .degree = If(degreeElement Is Nothing, Nothing, parseBound(degreeElement)),
+                .body = body
+            }
+        End Function
+
+        Private Function parseBound(element As XmlElement) As MathExpression
+            Dim child As XmlElement = element.elements.FirstOrDefault
+
+            If child IsNot Nothing Then
+                Return ExpressionComponent(child)
+            Else
+                Return New SymbolExpression With {
+                    .text = element.text.TrimWhitespace,
+                    .isNumericLiteral = True
+                }
+            End If
+        End Function
+
+        Private Function parseMatrix(matrix As XmlElement) As MathExpression
+            Dim rows As New List(Of MathExpression())
+
+            For Each row As XmlElement In matrix.elements.Where(Function(e) e.name = "matrixrow")
+                Dim cells As New List(Of MathExpression)
+
+                For Each cell As XmlElement In row.elements
+                    Call cells.Add(ExpressionComponent(cell))
+                Next
+
+                Call rows.Add(cells.ToArray)
+            Next
+
+            Return New MatrixExpression With {.rows = rows.ToArray}
+        End Function
+
         <Extension>
         Private Function ExpressionComponent(element As XmlElement) As MathExpression
             If element.name = "apply" Then
                 Return element.parseInternal
+            ElseIf element.name = "matrix" Then
+                Return parseMatrix(element)
             Else
                 Return element.getTextSymbol
             End If

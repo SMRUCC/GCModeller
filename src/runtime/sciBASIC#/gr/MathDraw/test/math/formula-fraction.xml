@@ -1,0 +1,31 @@
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <lambda>
+    <bvar>
+      <ci>x</ci>
+    </bvar>
+    <apply>
+      <eq/>
+      <ci>f_1</ci>
+      <apply>
+        <plus/>
+        <apply>
+          <divide/>
+          <cn type="integer">1</cn>
+          <apply>
+            <sqrt/>
+            <ci>x</ci>
+          </apply>
+        </apply>
+        <apply>
+          <times/>
+          <ci>π</ci>
+          <apply>
+            <power/>
+            <ci>r</ci>
+            <cn type="integer">2</cn>
+          </apply>
+        </apply>
+      </apply>
+    </apply>
+  </lambda>
+</math>

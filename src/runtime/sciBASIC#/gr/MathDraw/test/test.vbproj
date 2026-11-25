@@ -16,4 +16,10 @@
     <ProjectReference Include="..\MathDraw.vbproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="math\*.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
