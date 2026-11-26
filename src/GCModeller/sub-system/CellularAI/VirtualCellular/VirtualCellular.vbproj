@@ -8,6 +8,8 @@
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>Workflow for run virtual cell experiment based on the Illumina CellularAI method</Title>
+    <Platforms>AnyCPU;x64</Platforms>
+    <Configurations>Debug;Release;Rsharp_app_release</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
