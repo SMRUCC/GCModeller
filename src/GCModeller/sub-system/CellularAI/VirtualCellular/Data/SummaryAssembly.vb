@@ -14,8 +14,14 @@ Namespace Data
         ''' <summary>分层比例：取上/下各 25% 作为 high / low。</summary>
         Public Property StratifyQuantile As Double = 0.25
 
-        ''' <summary>每组最少细胞数，低于该值不做对比。</summary>
-        Public Property MinCells As Integer = 30
+        ''' <summary>
+        ''' 每组最少细胞数，低于该值不做对比。
+        ''' </summary>
+        ''' <remarks>
+        ''' 取 10 而不是 30：签名分层只取上/下四分位，30 的门限会让"每期几十个细胞"的小数据集
+        ''' 完全产不出签名面板；10 在统计上仍然够用（秩和的最小样本量），大样本不受影响。
+        ''' </remarks>
+        Public Property MinCells As Integer = 10
 
         ''' <summary>期别对比链（前一列 → 后一列，用 '|' 表示并集）。</summary>
         Public Property StageChain As String() = {"NA>II", "II>III", "III>IVB", "III>IVC", "III>IVB|IVC"}

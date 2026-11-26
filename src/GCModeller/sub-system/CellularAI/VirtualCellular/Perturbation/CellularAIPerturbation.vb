@@ -40,6 +40,16 @@ Namespace Perturbation
         ''' <summary>最近一次扰动的诊断信息。</summary>
         Public Property Diagnostics As Dictionary(Of String, Double)
 
+        ''' <summary>
+        ''' 默认合成细胞数：接口方法的 <c>nSamples</c> 传 0 时使用。
+        ''' </summary>
+        ''' <remarks>
+        ''' <c>InsilicoPerturbationExperiment</c> 的 <c>nSamples</c> 是可选的，
+        ''' 由 <c>intervention</c> 包调用时不会传值；把规模放在对象上，
+        ''' 既保持了接口签名不变，又让 R# 侧可以在 <c>as_perturbation</c> 里一次性配置。
+        ''' </remarks>
+        Public Property DefaultCells As Integer = 400
+
         Public Sub New(model As VirtualCellModel, Optional seed As Integer = 0)
             If model Is Nothing Then
                 Throw New ArgumentNullException(NameOf(model))
@@ -153,7 +163,7 @@ Namespace Perturbation
                 Return Undefined(targets, mode)
             End If
 
-            Dim cells As Integer = If(nSamples > 0, nSamples, 400)
+            Dim cells As Integer = If(nSamples > 0, nSamples, std.Max(DefaultCells, 1))
             Dim engine As SynthesisEngine = SynthesisEngine.Create(m_model.Controls, m_model.Options)
             Dim wildtype As Double() = ControlMeanCpm(engine)
             Dim wildtypeSd As Double() = ControlSd(engine)

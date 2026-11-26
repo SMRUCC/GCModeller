@@ -1,5 +1,4 @@
 [PASS] genes = 300
-[PASS] perturbations = 7
-[PASS] BATF significant = 1
-[PASS] BATF3 significant = 1
-[PASS] BATF+BATF3 significant = 4
+[PASS] perturbations = 9
+[PASS] intervention::overexpress returned = 2
+[PASS] joint significant = 2
