@@ -62,7 +62,7 @@ Namespace Evidence
             End If
 
             Dim known As New HashSet(Of String)(StringComparer.Ordinal)
-            Dim allowed As String() = Known(axis)
+            Dim allowed As String() = FactorExpression.Known(axis)
 
             For Each item As String In allowed
                 Call known.Add(item)
@@ -78,7 +78,7 @@ Namespace Evidence
                 End If
                 If Not known.Contains(name) Then
                     Throw New ArgumentException(
-                        $"{axis} op '{expr}': factor '{name}' is not supported; known: {String.Join(", ", Known(axis))}",
+                        $"{axis} op '{expr}': factor '{name}' is not supported; known: {String.Join(", ", allowed)}",
                         NameOf(expr))
                 End If
                 If names.Contains(name) Then
