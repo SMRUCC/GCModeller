@@ -86,7 +86,9 @@ extern "C" __global__ void ilcudaGemvF64Kernel(const double* __restrict__ A,
                                                double* __restrict__ y,
                                                int m, int k)
 {
-    extern __shared__ double cache[];
+    // 名字必须与 blas.cu 的 cache（float）区分：同一个编译单元里
+    // 两个 extern __shared__ 数组不能用同名不同类型
+    extern __shared__ double cacheF64[];
 
     const int row = blockIdx.x;
     const int tid = threadIdx.x;
@@ -98,19 +100,19 @@ extern "C" __global__ void ilcudaGemvF64Kernel(const double* __restrict__ A,
         acc += A[(size_t)row * (size_t)k + (size_t)p] * x[p];
     }
 
-    cache[tid] = acc;
+    cacheF64[tid] = acc;
     __syncthreads();
 
     for (int s = nth >> 1; s > 0; s >>= 1) {
         if (tid < s) {
-            cache[tid] += cache[tid + s];
+            cacheF64[tid] += cacheF64[tid + s];
         }
 
         __syncthreads();
     }
 
     if (tid == 0) {
-        y[row] = cache[0];
+        y[row] = cacheF64[0];
     }
 }
 

@@ -48,15 +48,19 @@ Namespace Audit
         End Property
 
         ''' <summary>建立审计上下文；任何失败都只记录原因并让后续用例走 CPU。</summary>
-        Public Sub Setup(cpuOnly As Boolean, deviceOrdinal As Integer, reportDir As String)
+        ''' <remarks>
+        ''' 参数不能叫 reportDir —— VB 大小写不敏感，它会遮蔽同名的属性 ReportDir，
+        ''' 结果变成"参数赋给自己"，--out 永远不生效。
+        ''' </remarks>
+        Public Sub Setup(cpuOnly As Boolean, deviceOrdinal As Integer, outputDirectory As String)
             Call DebugAudit.Reset()
 
             m_cases = 0
             m_failed = 0
             OnGpu = False
 
-            If Not String.IsNullOrWhiteSpace(reportDir) Then
-                ReportDir = reportDir
+            If Not String.IsNullOrWhiteSpace(outputDirectory) Then
+                ReportDir = outputDirectory
             End If
 
             If cpuOnly Then

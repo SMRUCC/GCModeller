@@ -55,7 +55,7 @@ Namespace Audit
                          nvrtcPath As String,
                          imagePath As String,
                          forceImage As Boolean,
-                         reportDir As String)
+                         outputDirectory As String)
 
             Call DebugAudit.Reset()
 
@@ -63,8 +63,9 @@ Namespace Audit
             m_failed = 0
             OnGpu = False
 
-            If Not String.IsNullOrWhiteSpace(reportDir) Then
-                ReportDir = reportDir
+            ' 参数不能叫 reportDir —— VB 大小写不敏感，会遮蔽同名属性 ReportDir
+            If Not String.IsNullOrWhiteSpace(outputDirectory) Then
+                ReportDir = outputDirectory
             End If
 
             If cpuOnly Then

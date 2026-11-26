@@ -163,6 +163,15 @@ Namespace Audit
                 If sum <> totals(item) Then conserved = False
             Next
 
+            If Not AuditRunner.SameIntegers(actual, expected) Then
+                For i As Integer = 0 To actual.Length - 1
+                    If actual(i) <> expected(i) Then
+                        Call AuditRunner.Note("突发散布首个差异", $"index={i}, actual={actual(i)}, expected={expected(i)}")
+                        Exit For
+                    End If
+                Next
+            End If
+
             Call AuditRunner.Record("突发散布与参考逐元素相等", AuditRunner.SameIntegers(actual, expected))
             Call AuditRunner.Record("突发散布保持总量守恒", conserved)
         End Sub

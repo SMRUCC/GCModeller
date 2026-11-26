@@ -103,6 +103,11 @@ dotnet ILCuda.Demo.dll emit-kernels kernels
 | `--no-ast` | `il` 命令不打印还原出的伪代码 |
 | `--no-source` | `il` 命令不打印生成的 CUDA 源码 |
 | `--dump-il` | `il` 命令额外打印原始 IL 与基本块 / 支配 / 循环结构（排查反编译失败用） |
+| `--out <dir>` | `audit` 命令的报告输出目录（默认 `audit`） |
+
+`audit` 命令会用 DebugAudit 生成结构化报告（JSON + Markdown），
+覆盖排序 / 随机数 / 分解 / 批量求解四类内核的 CPU 与 GPU 对拍。
+在无显卡的机器上它会自动全部走 CPU 参考路径，仍然输出同样的报告。
 
 ## 框架能力
 
@@ -161,7 +166,38 @@ Dim y = GpuBlas.Gemv(engine, a, x, m, k)               ' 矩阵-向量乘
 归约采用"两阶段"结构（每 block 一个部分结果 + 单 block 汇总），全程不需要主机端同步；
 elementwise 内核全部使用 grid-stride 循环，可处理任意长度的向量。
 
-### 5. 显存与启动配置
+### 5. 排序 / 随机数 / 分解 / 批量求解
+
+这一组内核是为"复现 CellularAI 虚拟细胞模型"补齐的：
+上游是 numpy/scipy 的向量化实现，这里需要把它们还原成设备端原语。
+
+| 源码 | 内核 | 主机封装 | 用途 |
+|---|---|---|---|
+| `sort.cu` | `ilcudaSortSegmentsF32/F64`、`ilcudaSegBoundsF32/F64`、`ilcudaSegSelectF32`、`ilcudaSegCollectF32`、`ilcudaSegTieSumF32/F64` | `GpuSort` | 每基因一段的对照细胞排序、批量二分、前 K 名、并列和 |
+| `rng.cu` | `ilcudaRngUniformF32/F64`、`ilcudaRngNormalF32/F64`、`ilcudaRngPermutation`、`ilcudaRngChoiceF64` | `GpuRandom` | 计数器式 PCG64：均匀 / 正态 / 置换 / 加权抽样 |
+| `linalg.cu` | `ilcudaGemmF64`、`ilcudaGemvF64`、`ilcudaQrHouseholderF64` | `GpuLinalg`（`GpuBlas` 有 Double 重载） | 带转置的双精度 GEMM 与 economy QR |
+| `solve.cu` | `ilcudaCholSolveSmallF64`、`ilcudaCholSolveMediumF64`、`ilcudaGramMaskedF64` | `GpuSolve` | 批量小 Cholesky 与带掩码的 Gram + 岭项 |
+
+几条实现约定：
+
+- **按键值位模式排序**。浮点转成可无符号比较的键（正数置符号位、负数取反、
+  `-0.0` 归一、NaN 沉尾），因此基数排序不依赖任何浮点比较。
+- **LSD 基数排序必须逐趟稳定**。散播用 `__match_any_sync` 求 warp 内名次，
+  再叠加前面 warp 的计数，保证"低位顺序不被破坏"；`block` 固定 256。
+- **随机数是计数器式的**：第 i 个数只由 `(seed, subsequence, offset+i)` 决定，
+  与线程划分无关。`GpuRandom.Pcg64` 是与设备逐位一致的 CPU 参考实现
+  （均匀通道完全逐位相等；正态通道因 `sqrt/log/cos` 属超越函数，按 1e-12 判据）。
+- **QR 只上卡"高瘦"部分**：`A·Ω`、`AᵀQ`、`Q` 的组装都是 GEMM 型；
+  ℓ≤168 的对称特征分解留在主机（单 block Jacobi 在 GPU 上更慢）。
+- **批量求解分两档**：`n ≤ 32` 走共享内存，`n ≤ 256` 走全局暂存；
+  主元非正时该列因子置 0，解退化为 0 而不是 NaN。
+- **双栈**：F64 与 F32 都有实现；F32 用于"与上游 float32 排序栅格一致"的场合
+  （例如每细胞 CPM 的并列判定）。
+
+> 注意：`ILCuda.vbproj` 里 `RemoveIntegerChecks` 已关闭 ——
+> PCG64 的 128 位 LCG 依赖 64 位无符号整数的模 2^64 回绕。
+
+### 6. 显存与启动配置
 
 ```vbnet
 Dim info = engine.GetMemoryInfo()                      ' 总 / 可用 / 已用
@@ -172,7 +208,7 @@ Dim block = LaunchPlanner.SuggestBlockSize(device, kernel)  ' 驱动 occupancy �
 
 `PinnedHostBuffer(Of T)` 用 `cuMemAllocHost` 申请真正的页锁定内存，是异步拷贝的主机端。
 
-### 6. 结构化诊断（框架不依赖 Console）
+### 7. 结构化诊断（框架不依赖 Console）
 
 ```vbnet
 Dim report = CudaEnvironment.Probe()                   ' EnvironmentReport：驱动版本/设备/NVRTC 候选/内核源码

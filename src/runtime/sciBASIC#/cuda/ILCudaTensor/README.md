@@ -86,6 +86,44 @@ CudaTensor.Unregister()
 
 > 提示：`Register()` 返回 `False` 通常意味着当前环境缺少可用的 CUDA 驱动或设备；此时所有算子会自动回退到 CPU 兜底实现，程序不会崩溃。
 
+## 五之二、CellularAI 融合核（`cellpool.cu` / `cellsynth.cu`）
+
+这一组内核把"虚拟细胞模型"里最重的两段计算压成单次内核调用，
+避免逐算子往返与中间矩阵物化：
+
+| 源码 | 内核 | 主机封装 | 作用 |
+|---|---|---|---|
+| `cellpool.cu` | `tcPoolStatsF64` | `CellPooling.Pool` | 跨训练行的 ∑w / ∑w·y / ∑w·y² / ∑w² / 实测行数 |
+| | `tcPoolEffectsF64` | | log2FC 加权均值 + z 的 Stouffer 合并 |
+| | `tcPoolProfileF64` | `CellPooling.Profile` | 逐基因剖面标准化 |
+| `cellsynth.cu` | `tcSynthCopulaQuantileF64` | `CellSynthesis.CopulaQuantiles` | Gaussian copula → `(i+0.5)/n` 分位与降序名次 |
+| | `tcSynthQuantileMassF64` | `CellSynthesis.QuantileMass` | 分位取值 + 整数质量守恒 |
+| | `tcSynthWilcoxonZF64` | `CellSynthesis.WilcoxonZ` | float32 栅格 + tie 校正的精确秩和 z |
+| | `tcSynthShiftBisectF64` | `CellSynthesis.ShiftBisect` | 逐基因平移二分到目标 z |
+| | `tcSynthBurstF64` | `CellSynthesis.Burst` | 低表达基因的突发散布 |
+
+设计要点：
+
+- **权重口径由主机决定**。上游的 `row × col × mat` 是"算子串求值"的结果，
+  内核只接收已展开的稠密因子（`Row[T,G]`、`Col[T,P]`、`Mat[T]`），
+  不做表达式解析，因此内核里没有分支爆炸，乘法顺序也固定。
+- **未测 ≠ 0**。`effect` 为 NaN 表示未测，按"值为 0、权重照算"计入分母
+  （上游的 `missingAsZero` 语义）；与"缺失就剔除"是两种不同口径。
+- **质量守恒是硬约束**。`QuantileMass` 保证每个基因的整数总量精确等于设计总量：
+  不足时按降序名次均摊，超出时按降序水位削平。
+- **排序自带**。段内用共享内存双调排序（`n_cells = 400` → 512 槽位），
+  不跨程序集依赖 ILCuda 的 `sort.cu`；随机数也与 `GpuRandom.Pcg64` 逐位一致。
+- **`n_cells ≤ 1024`**。超出容量时这些算子会直接走 CPU 参考实现。
+
+审计命令（`ILCudaTensor/test`）：
+
+```sh
+test.exe audit [--cpu-only] [--out <dir>] [--device <n>]
+```
+
+报告为 `audit/ilcudatensor-audit.json` 与同名 `.md`，
+判据包含"计数矩阵逐元素整数完全相等"与"与 `EvidenceCombination` 的语义交叉验证"。
+
 ## 六、与 sciBASIC# 生态的关系
 
 本节说明本包在计算栈中的位置：

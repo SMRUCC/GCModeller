@@ -104,9 +104,10 @@ __device__ __forceinline__ unsigned long long tcsSplitMix64(unsigned long long x
     return z ^ (z >> 31);
 }
 
+//! 与 ILCuda 的 Pcg64.Uniform(seed, subsequence: 0, counter) 逐位一致
 __device__ __forceinline__ double tcsUniform(unsigned long long seed, unsigned long long counter)
 {
-    unsigned long long h = tcsSplitMix64(seed ^ (counter * TCSYNTH_GOLDEN));
+    const unsigned long long h = tcsSplitMix64(seed);
     unsigned long long l = tcsSplitMix64(h ^ counter);
     const unsigned long long inc = 1ull;
 

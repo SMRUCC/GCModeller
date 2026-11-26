@@ -215,7 +215,9 @@ Namespace Runtime
             If String.IsNullOrWhiteSpace(log) Then Return String.Empty
 
             Dim text = log.Trim()
-            Const maxLength As Integer = 800
+            ' 合并编译单元（20+ 个 .cu）的失败日志里，前若干行往往只是告警，
+            ' 真正的第一条错误可能在 1–2 KB 之后，因此这里放宽到 4 KB。
+            Const maxLength As Integer = 4096
 
             If text.Length > maxLength Then text = text.Substring(0, maxLength) & " ..."
 
