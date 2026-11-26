@@ -1,6 +1,4 @@
-Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix.Compressed
 Imports Microsoft.VisualBasic.Math.Statistics.OrderStatistics
-Imports Microsoft.VisualBasic.Math.Statistics.SingleCell
 Imports sysmath = System.Math
 
 Namespace Hypothesis
