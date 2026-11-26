@@ -518,27 +518,27 @@ Namespace Ridge
                     row(j) = xi(j) - means(j)
                 Next
 
-                For a As Integer = 0 To f - 1
-                    Dim value As Double = row(a)
+                For p As Integer = 0 To f - 1
+                    Dim value As Double = row(p)
 
-                    For b As Integer = a To f - 1
-                        gram(a)(b) += value * row(b)
+                    For q As Integer = p To f - 1
+                        gram(p)(q) += value * row(q)
                     Next
 
                     Dim yi As Double() = y(i)
 
                     For c As Integer = 0 To k - 1
-                        rhs(a)(c) += value * yi(c)
+                        rhs(p)(c) += value * yi(c)
                     Next
                 Next
             Next
 
-            For a As Integer = 0 To f - 1
-                For b As Integer = a + 1 To f - 1
-                    gram(b)(a) = gram(a)(b)
+            For p As Integer = 0 To f - 1
+                For q As Integer = p + 1 To f - 1
+                    gram(q)(p) = gram(p)(q)
                 Next
 
-                gram(a)(a) += lambda
+                gram(p)(p) += lambda
             Next
 
             ' 4) 求解 (XᵀX + λI)·B = XᵀY
