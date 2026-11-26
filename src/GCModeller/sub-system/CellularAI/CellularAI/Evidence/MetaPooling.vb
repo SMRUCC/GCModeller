@@ -117,7 +117,7 @@ Namespace Evidence
                              perturbations As String(),
                              targetCpm As Double(),
                              model As CellularAiModel,
-                             Optional exclude As IEnumerable(Of String) = Nothing) As PooledEvidence
+                             Optional exclude As IEnumerable(Of String) = Nothing) As ContextEvidence
 
             If bundle Is Nothing Then
                 Throw New ArgumentNullException(NameOf(bundle))
@@ -171,7 +171,7 @@ Namespace Evidence
         End Function
 
         ''' <summary>执行池化。</summary>
-        Public Function Combine(request As PoolingRequest) As PooledEvidence
+        Public Function Combine(request As PoolingRequest) As ContextEvidence
             If request Is Nothing Then
                 Throw New ArgumentNullException(NameOf(request))
             End If
@@ -306,7 +306,7 @@ Namespace Evidence
             Call ClipMatrix(l2, request.L2AbsMax, "l2_abs_max")
             Call ClipMatrix(z, request.ZAbsMax, "z_abs_max")
 
-            Return New PooledEvidence With {
+            Return New ContextEvidence With {
                 .L2 = l2,
                 .Z = z,
                 .L2Tot = CloneMatrix(l2),
