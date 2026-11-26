@@ -3,6 +3,7 @@ Imports System.IO
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix.Compressed
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports std = System.Math
 
 Namespace Data
 
@@ -54,7 +55,8 @@ Namespace Data
         ''' <param name="verbose">是否打印 nnz / 稀疏率 / 耗时</param>
         Public Shared Function Load(exprPath As String, metaPath As String,
                                     Optional stageFilter As String() = Nothing,
-                                    Optional verbose As Boolean = True) As ExpressionStream
+                                    Optional verbose As Boolean = True,
+                                    Optional limitPerStage As Integer = 0) As ExpressionStream
             If Not File.Exists(exprPath) Then
                 Throw New FileNotFoundException($"expression matrix not found: {exprPath}", exprPath)
             End If
@@ -64,14 +66,19 @@ Namespace Data
             Dim allCells As String() = header.Skip(1).ToArray
 
             Dim keptCells As String() = allCells
-            Dim excludes As Index(Of String) = Nothing
 
             If stageFilter IsNot Nothing AndAlso stageFilter.Length > 0 Then
                 keptCells = FilterCells(allCells, metadata, stageFilter)
+            End If
+            If limitPerStage > 0 Then
+                keptCells = SamplePerStage(keptCells, metadata, limitPerStage)
+            End If
 
-                Dim dropped As String() = allCells.
-                    Where(Function(id) Array.IndexOf(keptCells, id) < 0).
-                    ToArray
+            Dim excludes As Index(Of String) = Nothing
+
+            If keptCells.Length <> allCells.Length Then
+                Dim keep As New HashSet(Of String)(keptCells, StringComparer.Ordinal)
+                Dim dropped As String() = allCells.Where(Function(id) Not keep.Contains(id)).ToArray
 
                 excludes = New Index(Of String)(dropped)
             End If
@@ -133,6 +140,53 @@ Namespace Data
             Next
 
             Return result.ToArray
+        End Function
+
+        ''' <summary>
+        ''' 按期别等距抽样（保留表内顺序与时间序，避免随机抽样引入的块效应）。
+        ''' </summary>
+        Private Shared Function SamplePerStage(cells As String(), metadata As CellMetadata,
+                                                limit As Integer) As String()
+            Dim groups As New Dictionary(Of String, List(Of String))(StringComparer.OrdinalIgnoreCase)
+
+            For Each barcode As String In cells
+                Dim stage As String = If(metadata.StageOf(barcode), "").Trim()
+
+                If Not groups.ContainsKey(stage) Then
+                    groups(stage) = New List(Of String)
+                End If
+
+                Call groups(stage).Add(barcode)
+            Next
+
+            Dim result As New List(Of String)
+
+            For Each stage As String In cells.
+                Select(Function(id) If(metadata.StageOf(id), "").Trim()).
+                Distinct()
+
+                Dim members As List(Of String) = groups(stage)
+
+                If members.Count <= limit Then
+                    Call result.AddRange(members)
+                    Continue For
+                End If
+
+                Dim stride As Double = members.Count / CDbl(limit)
+
+                For i As Integer = 0 To limit - 1
+                    Call result.Add(members(CInt(std.Floor(i * stride))))
+                Next
+            Next
+
+            ' 恢复全局顺序
+            Dim order As New Dictionary(Of String, Integer)(StringComparer.Ordinal)
+
+            For i As Integer = 0 To cells.Length - 1
+                order(cells(i)) = i
+            Next
+
+            Return result.OrderBy(Function(id) order(id)).ToArray
         End Function
 
         ''' <summary>透传迭代器：在枚举过程中记录基因名，不缓存行数据。</summary>

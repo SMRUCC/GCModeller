@@ -1,8 +1,6 @@
 Imports System
 Imports Microsoft.VisualBasic.Math
-Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix.Compressed
 Imports Microsoft.VisualBasic.Math.Statistics
-Imports CellularAI.Synthesis
 Imports std = System.Math
 
 Namespace Data
@@ -10,125 +8,110 @@ Namespace Data
     ''' <summary>一次两组对比的结果（逐基因）。</summary>
     Public Class Contrast
 
-        ''' <summary>对比名（同时作为伪扰动名）。</summary>
         Public Property Name As String
-
-        ''' <summary>基因轴。</summary>
         Public Property Genes As String()
-
-        ''' <summary>log2FC（case / control）。</summary>
         Public Property Effect As Double()
-
-        ''' <summary>秩和 z。</summary>
         Public Property Z As Double()
-
-        ''' <summary>双侧 p 值。</summary>
         Public Property PValue As Double()
-
-        ''' <summary>BH 校正后的 q 值。</summary>
         Public Property Adjusted As Double()
-
-        ''' <summary>证据概率 <c>1 - q</c>（夹在 [0,1]）。</summary>
         Public Property Probability As Double()
-
-        ''' <summary>参与对比的 case / control 细胞数。</summary>
         Public Property CaseCells As Integer
         Public Property ControlCells As Integer
 
     End Class
 
     ''' <summary>
-    ''' 两组细胞的差异表达：逐基因的 log2FC、精确秩和 p 值、BH 校正与证据概率。
+    ''' 基因主序的稀疏表达（每个基因一份 <c>(细胞, 计数)</c> 列表，一次构建、多次对比复用）。
     ''' </summary>
-    ''' <remarks>
-    ''' <para>
-    ''' 入参是"细胞 × 基因"的 CSR。逐基因取列需要按基因聚集的布局，因此调用方传入
-    ''' 一次转置好的 <see cref="CscMatrix"/>（整个 view 的所有对比共用同一份转置，避免反复转置）。
-    ''' </para>
-    ''' <para>
-    ''' <b>为什么用精确秩和而不是 t 检验</b>：单细胞计数严重右偏且存在大量并列零，
-    ''' 均值/方差推断不稳；秩和只依赖名次，配合 CellularAI 的并列校正可以直接得到可比的 z，
-    ''' 与后续合成侧的显著性口径一致。
-    ''' </para>
-    ''' <para>
-    ''' <b>自身靶不在这里剔除</b>：伪扰动的"靶"可能是签名基因本身（BATF_high），
-    ''' 保留它的上调信号正是我们要建模的效应；剔除只发生在计划层（<c>SelectCalls</c>）。
-    ''' </para>
-    ''' </remarks>
+    Public Class GeneMajor
+
+        Public Property Genes As String()
+        Public Property Cells As List(Of Integer)()
+        Public Property Values As List(Of Double)()
+        Public Property CellCount As Integer
+
+        ''' <summary>由"细胞 × 基因"的 CSR 构建（单遍，O(nnz)）。</summary>
+        Public Shared Function FromCsr(controls As Microsoft.VisualBasic.Math.LinearAlgebra.Matrix.Compressed.CsrMatrix,
+                                       genes As String()) As GeneMajor
+            Dim nGenes As Integer = If(genes, New String() {}).Length
+            Dim cells(nGenes - 1) As List(Of Integer)
+            Dim values(nGenes - 1) As List(Of Double)
+
+            For g As Integer = 0 To nGenes - 1
+                cells(g) = New List(Of Integer)
+                values(g) = New List(Of Double)
+            Next
+
+            For c As Integer = 0 To controls.RowDimension - 1
+                For k As Integer = controls.Indptr(c) To controls.Indptr(c + 1) - 1
+                    Dim gene As Integer = controls.Indices(k)
+
+                    If gene < 0 OrElse gene >= nGenes Then
+                        Continue For
+                    End If
+
+                    Call cells(gene).Add(c)
+                    Call values(gene).Add(controls.Values(k))
+                Next
+            Next
+
+            Return New GeneMajor With {
+                .Genes = genes,
+                .Cells = cells,
+                .Values = values,
+                .CellCount = controls.RowDimension
+            }
+        End Function
+
+    End Class
+
+    ''' <summary>
+    ''' 两组细胞的差异表达：逐基因 log2FC、Mann–Whitney z、双侧 p、BH 校正与证据概率。
+    ''' </summary>
     Public Module DifferentialPanel
 
-        ''' <summary>
-        ''' 计算一次两组对比。
-        ''' </summary>
-        ''' <param name="name">对比名</param>
-        ''' <param name="byGene">按基因聚集的矩阵（列 = 基因）</param>
-        ''' <param name="librarySizes">逐细胞文库大小</param>
-        ''' <param name="caseCells">实验组细胞下标</param>
-        ''' <param name="controlCells">对照组细胞下标</param>
-        ''' <param name="genes">基因轴</param>
-        ''' <param name="normalizer">CPM 归一化常数</param>
-        Public Function Contrast(name As String, byGene As CscMatrix, librarySizes As Double(),
+        ''' <summary>计算一次两组对比。</summary>
+        Public Function Contrast(name As String, major As GeneMajor, librarySizes As Double(),
                                  caseCells As Integer(), controlCells As Integer(),
-                                 genes As String(), Optional normalizer As Double = 1000000.0) As Contrast
-            Dim nGenes As Integer = If(genes Is Nothing, 0, genes.Length)
+                                 Optional normalizer As Double = 1000000.0) As Contrast
+            Dim genes As String() = major.Genes
+            Dim nGenes As Integer = genes.Length
             Dim effect(nGenes - 1) As Double
             Dim zScores(nGenes - 1) As Double
             Dim pValues(nGenes - 1) As Double
-            Dim inCase As Boolean() = Mask(byGene.RowDimension, caseCells)
-            Dim inControl As Boolean() = Mask(byGene.RowDimension, controlCells)
+            Dim inCase As Boolean() = Mask(major.CellCount, caseCells)
+            Dim positions As New Dictionary(Of Integer, Integer)
+
+            For c As Integer = 0 To controlCells.Length - 1
+                positions(controlCells(c)) = c
+            Next
 
             For g As Integer = 0 To nGenes - 1
-                Dim column As (rows As Integer(), values As Double()) = byGene.ColumnNonZero(g)
+                Dim members As List(Of Integer) = major.Cells(g)
+                Dim raw As List(Of Double) = major.Values(g)
+                Dim controlAll(controlCells.Length - 1) As Double
                 Dim caseCpm As New List(Of Double)
-                Dim caseLibrary As New List(Of Double)
-                Dim controlCpm As New List(Of Double)
+                Dim caseSum As Double = 0.0
 
-                For k As Integer = 0 To column.rows.Length - 1
-                    Dim cell As Integer = column.rows(k)
+                For k As Integer = 0 To members.Count - 1
+                    Dim cell As Integer = members(k)
+                    Dim librarySize As Double = std.Max(librarySizes(cell), 1.0E-12)
+                    Dim cpm As Double = normalizer * raw(k) / librarySize
 
                     If inCase(cell) Then
-                        Call caseCpm.Add(normalizer * column.values(k) / std.Max(librarySizes(cell), 1.0E-12))
-                        Call caseLibrary.Add(librarySizes(cell))
-                    ElseIf inControl(cell) Then
-                        Call controlCpm.Add(normalizer * column.values(k) / std.Max(librarySizes(cell), 1.0E-12))
+                        Call caseCpm.Add(cpm)
+                        caseSum += cpm
+                        Continue For
                     End If
-                Next
 
-                If caseCpm.Count = 0 OrElse controlCpm.Count = 0 Then
-                    ' 两组之一完全没有观测：效应记 0、证据记无
-                    effect(g) = 0.0
-                    pValues(g) = 1.0
-                    Continue For
-                End If
-
-                ' 对照组缺失的细胞（计数为 0）也必须计入分布，否则会系统性抬高 z
-                Dim controlAll(controlCells.Length - 1) As Double
-                Dim positions As New Dictionary(Of Integer, Integer)
-
-                For c As Integer = 0 To controlCells.Length - 1
-                    positions(controlCells(c)) = c
-                Next
-
-                For k As Integer = 0 To column.rows.Length - 1
-                    Dim cell As Integer = column.rows(k)
                     Dim at As Integer = -1
 
-                    If inControl(cell) AndAlso positions.TryGetValue(cell, at) Then
-                        controlAll(at) = normalizer * column.values(k) / std.Max(librarySizes(cell), 1.0E-12)
+                    If positions.TryGetValue(cell, at) Then
+                        controlAll(at) = cpm
                     End If
                 Next
 
-                Call Array.Sort(controlAll)
-
-                Dim tie As Double = TieSum(controlAll)
-                Dim caseValues As Double() = caseCpm.ToArray
-                Dim caseSizes As Double() = caseLibrary.ToArray
-                Dim z As Double = WilcoxonKernel.ZExact(caseValues, caseSizes, controlAll, tie)
-
-                zScores(g) = z
-                pValues(g) = NormalDistribution.TwoSidedPValue(z)
-
-                Dim meanCase As Double = caseValues.Average
+                Dim meanCase As Double = caseSum / std.Max(caseCpm.Count, 1)
                 Dim meanControl As Double = 0.0
 
                 For c As Integer = 0 To controlAll.Length - 1
@@ -136,6 +119,19 @@ Namespace Data
                 Next
 
                 meanControl /= std.Max(controlAll.Length, 1)
+
+                If caseCpm.Count = 0 OrElse controlAll.Length = 0 Then
+                    effect(g) = 0.0
+                    pValues(g) = 1.0
+                    Continue For
+                End If
+
+                Call Array.Sort(controlAll)
+
+                Dim z As Double = RankSumZ(caseCpm.ToArray, controlAll, TieSum(controlAll))
+
+                zScores(g) = z
+                pValues(g) = NormalDistribution.TwoSidedPValue(z)
                 effect(g) = std.Log((meanCase + 1.0) / (meanControl + 1.0), 2.0)
             Next
 
@@ -159,25 +155,22 @@ Namespace Data
             }
         End Function
 
-        ''' <summary>某个基因在某组细胞上的表达值（用于按表达量分层）。</summary>
-        Public Function GeneExpression(byGene As CscMatrix, gene As Integer,
-                                       librarySizes As Double(), nCells As Integer) As Double()
-            Dim result(nCells - 1) As Double
-            Dim column As (rows As Integer(), values As Double()) = byGene.ColumnNonZero(gene)
+        ''' <summary>某个基因在全部细胞上的表达（CPM）。</summary>
+        Public Function GeneExpression(major As GeneMajor, gene As Integer, librarySizes As Double()) As Double()
+            Dim result(major.CellCount - 1) As Double
+            Dim members As List(Of Integer) = major.Cells(gene)
+            Dim raw As List(Of Double) = major.Values(gene)
 
-            For k As Integer = 0 To column.rows.Length - 1
-                result(column.rows(k)) = column.values(k) / std.Max(librarySizes(column.rows(k)), 1.0E-12)
+            For k As Integer = 0 To members.Count - 1
+                Dim cell As Integer = members(k)
+
+                result(cell) = raw(k) / std.Max(librarySizes(cell), 1.0E-12)
             Next
 
             Return result
         End Function
 
-        ''' <summary>
-        ''' 按表达量取上/下分位，返回 (high, low) 两组细胞下标。
-        ''' </summary>
-        ''' <param name="values">逐细胞表达（未在组内的细胞会被排除）</param>
-        ''' <param name="members">候选细胞下标</param>
-        ''' <param name="quantile">分层比例（默认 0.25 表示上/下四分位）</param>
+        ''' <summary>按表达量取上/下分位，返回 (high, low) 两组细胞下标。</summary>
         Public Function Stratify(values As Double(), members As Integer(),
                                  Optional quantile As Double = 0.25) As (High As Integer(), Low As Integer())
             Dim ranked As Integer() = members.
@@ -190,10 +183,7 @@ Namespace Data
                 Return (ranked, ranked)
             End If
 
-            Dim low As Integer() = ranked.Take(take).ToArray
-            Dim high As Integer() = ranked.Skip(ranked.Length - take).ToArray
-
-            Return (high, low)
+            Return (ranked.Skip(ranked.Length - take).ToArray, ranked.Take(take).ToArray)
         End Function
 
         Private Function Mask(n As Integer, members As Integer()) As Boolean()
@@ -206,6 +196,86 @@ Namespace Data
             Next
 
             Return flags
+        End Function
+
+        ''' <summary>Mann–Whitney U 的 z（带并列方差校正）。</summary>
+        Private Function RankSumZ(sample As Double(), controlSorted As Double(), controlTieSum As Double) As Double
+            Dim n As Integer = sample.Length
+            Dim m As Integer = controlSorted.Length
+
+            If n = 0 OrElse m = 0 Then
+                Return 0.0
+            End If
+
+            Dim ordered As Double() = DirectCast(sample.Clone(), Double())
+
+            Call Array.Sort(ordered)
+
+            Dim u As Double = 0.0
+            Dim adjustment As Double = 0.0
+            Dim i As Integer = 0
+
+            While i < n
+                Dim j As Integer = i
+
+                While j + 1 < n AndAlso ordered(j + 1) = ordered(i)
+                    j += 1
+                End While
+
+                Dim group As Double = j - i + 1
+                Dim low As Integer = LowerBound(controlSorted, ordered(i))
+                Dim high As Integer = UpperBound(controlSorted, ordered(i))
+                Dim overlap As Double = high - low
+                Dim merged As Double = overlap + group
+
+                u += group * (low + 0.5 * overlap)
+                adjustment += (merged * merged * merged - merged) - (overlap * overlap * overlap - overlap)
+                i = j + 1
+            End While
+
+            Dim total As Double = n + m
+            Dim correction As Double = 1.0 - (controlTieSum + adjustment) / (total * total * total - total)
+            Dim variance As Double = correction * n * m * (total + 1.0) / 12.0
+
+            If variance <= 1.0E-24 Then
+                Return 0.0
+            End If
+
+            Return (u - n * m / 2.0) / std.Sqrt(variance)
+        End Function
+
+        Private Function LowerBound(sorted As Double(), value As Double) As Integer
+            Dim lo As Integer = 0
+            Dim hi As Integer = sorted.Length
+
+            While lo < hi
+                Dim mid As Integer = (lo + hi) \ 2
+
+                If sorted(mid) < value Then
+                    lo = mid + 1
+                Else
+                    hi = mid
+                End If
+            End While
+
+            Return lo
+        End Function
+
+        Private Function UpperBound(sorted As Double(), value As Double) As Integer
+            Dim lo As Integer = 0
+            Dim hi As Integer = sorted.Length
+
+            While lo < hi
+                Dim mid As Integer = (lo + hi) \ 2
+
+                If sorted(mid) <= value Then
+                    lo = mid + 1
+                Else
+                    hi = mid
+                End If
+            End While
+
+            Return lo
         End Function
 
         Private Function TieSum(sorted As Double()) As Double
