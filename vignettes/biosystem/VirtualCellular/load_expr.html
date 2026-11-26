@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>load_expr {VirtualCellular}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2></h2>
+
+        <h3>Description</h3>
+
+        
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>load_expr</strong>(<i>expr</i>, <i>meta</i>,
+    <i>stages</i> = <span style='color: blue !important;'>NULL</span>,
+    <i>limit</i> = <span style='color: green;'>0</span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>stages</dt>
+<dd><p>只保留这些期别的细胞；<code>NULL</code> 表示全量. [as string]</p></dd>
+
+
+<dt>limit</dt>
+<dd><p>每个期别最多保留的细胞数；0 表示不限制. [as integer]</p></dd>
+
+
+<dt>expr</dt>
+<dd><p>表达矩阵 CSV（行=基因，列=细胞）. [as string]</p></dd>
+
+
+<dt>meta</dt>
+<dd><p>细胞元数据 CSV（需含 ID / patient_id / stage / type 列）. [as string]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: none;">Details</h3>
+
+        
+
+        <h3 style="display: block">Authors</h3>
+
+        biosystem
+
+        <h3>Value</h3>
+
+        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Analysis/VirtualCellular/Data/ExpressionStream.html">ExpressionStream</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/VirtualCellular/Data/ExpressionStream.html">ExpressionStream</a></li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>VirtualCellular</em> version 1.0.0.0 <a
+                href="../VirtualCellular.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

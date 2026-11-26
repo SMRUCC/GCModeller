@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.Illumina.CellularAI.Summary.SummaryCatalog</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>SummaryCatalog {SMRUCC.genomics.Analysis.Illumina.CellularAI.Summary}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>SummaryCatalog</h2>
+
+        <h3>Description</h3>
+
+        <p>训练摘要的目录：按固定顺序排列的全部摘要行，以及主视图与文件顺序记录。</p>
+
+<p>池化的累加顺序就是 <a href="cref:P:SMRUCC.genomics.Analysis.Illumina.CellularAI.Summary.SummaryCatalog.Rows">SummaryCatalog.Rows</a> 的顺序（浮点加法不可交换）， 因此这里不允许在算法内部重排；需要"按视图取子集"时用 <a href="cref:M:SMRUCC.genomics.Analysis.Illumina.CellularAI.Summary.SummaryCatalog.ByView(System.String)">SummaryCatalog.ByView()</a>， 它保持原有相对顺序。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.Illumina.CellularAI.Summary
+export class SummaryCatalog {
+   # 行数。
+   Count: integer;
+   # 显式记录的文件顺序（键如 <code>effect_files</code> / <code>control_files</code>）， 由上游装配时填入；为空时退化为 <a href="cref:P:SMRUCC.genomics.Analysis.Illumina.CellularAI.Summary.SummaryCatalog.Rows">SummaryCatalog.Rows</a> 顺序。
+   Orders: list;
+   # 主视图名称（用于基因并集、相似度与控制剖面），默认 <code>view_0</code>。
+   PrimaryView: string;
+   # 全部摘要行（顺序即池化顺序）。
+   Rows: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Illumina/CellularAI/Summary/SummaryRow.html">SummaryRow[]</a>;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>Orders</code>: list</li>
+<li>use by <i>property</i> member <code>Rows</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Illumina/CellularAI/Summary/SummaryRow.html">SummaryRow</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

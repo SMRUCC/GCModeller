@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.Illumina.CellularAI.Summary.OffsetTable</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>OffsetTable {SMRUCC.genomics.Analysis.Illumina.CellularAI.Summary}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>OffsetTable</h2>
+
+        <h3>Description</h3>
+
+        <p>一条训练摘要的"逐基因中心化表"与"响应方差表"。</p>
+
+<p>上游把"每条记录的逐基因中心"（<code>effect_center</code>、<code>signed_score_center</code>）与 "该记录的噪声水平"（<code>response_variance</code>）单独存成一份 <code>.npz</code>， 池化时先减中心再合并。中心值缺失（NaN）表示该基因没有估计值，此时不做事 （直接透传原值），而不是把原值清零。</p>
+
+<p><a href="cref:P:SMRUCC.genomics.Analysis.Illumina.CellularAI.Summary.OffsetTable.EffectCount">OffsetTable.EffectCount</a> 是该基因上做过估计的扰动数量，用于诊断"这个中心是否可信"。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.Illumina.CellularAI.Summary
+export class OffsetTable {
+   # 细胞系（训练行）名称。
+   CellLine: string;
+   # 基因数。
+   Count: integer;
+   # log2FC 的逐基因中心。
+   EffectCenter: double;
+   # 中心估计所用的扰动数量（逐基因）。
+   EffectCount: double;
+   # 本表的基因轴。
+   Genes: string;
+   # 响应方差（逐基因），用作逆方差权重。
+   ResponseVariance: double;
+   # 带符号正态分数（Liptak 分数）的逐基因中心。
+   SignedScoreCenter: double;
+   # 视图名称（与摘要行的 view 一致）。
+   View: string;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        this clr type has no other .net clr type reference.
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

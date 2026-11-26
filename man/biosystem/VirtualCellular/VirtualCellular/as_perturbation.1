@@ -1,0 +1,33 @@
+.\" man page create by R# package system.
+.TH VIRTUALCELLULAR 1 2000-1月 "as_perturbation" "as_perturbation"
+.SH NAME
+as_perturbation \- 把模型包装成虚拟扰动实验对象（纯计算，不做任何 IO）。
+.SH SYNOPSIS
+\fIas_perturbation(\fBmodel\fR as <generic> VirtualCellModel, 
+\fBcells\fR as integer = 400, 
+\fBseed\fR as integer = 0);\fR
+.SH DESCRIPTION
+.PP
+把模型包装成虚拟扰动实验对象（纯计算，不做任何 IO）。
+.PP
+.SH OPTIONS
+.PP
+\fBmodel\fB \fR\- 由 `model.build` 或 `model.open` 得到的模型. 
+.PP
+.PP
+\fBcells\fB \fR\- 默认合成细胞数；`intervention` 包的 api 未显式指定时使用. 
+.PP
+.PP
+\fBseed\fB \fR\- 随机种子. 
+.PP
+.SH VALUE
+.PP
+实现了 [InsilicoPerturbationExperiment](cref:T:SMRUCC.genomics.BioSystem.InsilicoPerturbationExperiment) 的 [CellularAIPerturbation](cref:T:SMRUCC.genomics.Analysis.VirtualCellular.Perturbation.CellularAIPerturbation)，
+ 可直接传给 `intervention::overexpress` / `knockouts` / `knockdown`。
+.PP
+.SH SEE ALSO
+VirtualCellular
+.SH FILES
+.PP
+biosystem.dll
+.PP

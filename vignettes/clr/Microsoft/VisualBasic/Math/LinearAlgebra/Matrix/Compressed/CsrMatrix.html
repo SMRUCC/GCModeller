@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Microsoft.VisualBasic.Math.LinearAlgebra.Matrix.Compressed.CsrMatrix</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>CsrMatrix {Microsoft.VisualBasic.Math.LinearAlgebra.Matrix.Compressed}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>CsrMatrix</h2>
+
+        <h3>Description</h3>
+
+        <p>压缩行存储（Compressed Sparse Row, CSR）稀疏矩阵。</p>
+
+<p>内部由三个平行数组构成：<code>indptr</code>（长度 <code>rows + 1</code>）、<code>indices</code>（列下标）、 <code>values</code>（元素值）。第 <code>i</code> 行的非零元素位于 <code>indices(indptr(i)) .. indices(indptr(i + 1) - 1)</code>，且同一行内的列下标严格升序， 因此单行的列定位是 <code>O(log nnz_row)</code> 的二分查找。</p>
+
+<p>与 <a href="cref:T:Microsoft.VisualBasic.Math.LinearAlgebra.Matrix.SparseMatrix">SparseMatrix</a>（字典套字典）不同，本类型是"可计算的矩阵"： 三次稀疏矩阵-向量乘法、稀疏×稀疏、转置、行/列子集都只依赖 <code>nnz</code> 的单遍扫描， 不会把内部结构稠密化。适用于单细胞计数矩阵（1e7 以上非零元）这类规模。</p>
+
+<p>本类型是不可变容器：所有"修改类"操作（<a href="cref:M:Microsoft.VisualBasic.Math.LinearAlgebra.Matrix.Compressed.CsrMatrix.EliminateZeros(System.Double)">CsrMatrix.EliminateZeros()</a>、<a href="cref:M:Microsoft.VisualBasic.Math.LinearAlgebra.Matrix.Compressed.CsrMatrix.ScaleRows(System.Double[])">CsrMatrix.ScaleRows()</a>、 <a href="cref:M:Microsoft.VisualBasic.Math.LinearAlgebra.Matrix.Compressed.CsrMatrix.Slice(System.Collections.Generic.IEnumerable{System.Int32})">CsrMatrix.Slice()</a> 等）都返回新实例，不会改写当前实例， 因此可以安全地被多个线程共享读取（批量统计算子的并行只读前提）。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace Microsoft.VisualBasic.Math.LinearAlgebra.Matrix.Compressed
+export class CsrMatrix {
+   ColumnDimension: integer;
+   # 列数（n）
+   Columns: integer;
+   # 列下标数组（长度 = <a href="cref:P:Microsoft.VisualBasic.Math.LinearAlgebra.Matrix.Compressed.CsrMatrix.NonZeros">CsrMatrix.NonZeros</a>），每行内升序。
+   Indices: integer;
+   # 行指针数组（长度 = <a href="cref:P:Microsoft.VisualBasic.Math.LinearAlgebra.Matrix.Compressed.CsrMatrix.Rows">CsrMatrix.Rows</a> + 1）。
+   Indptr: integer;
+   # 非零元素个数（= <code>values.Length</code>）
+   NonZeros: integer;
+   RowDimension: integer;
+   # 行数（m）
+   Rows: integer;
+   # 元素值数组（长度 = <a href="cref:P:Microsoft.VisualBasic.Math.LinearAlgebra.Matrix.Compressed.CsrMatrix.NonZeros">CsrMatrix.NonZeros</a>）。
+   Values: double;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        this clr type has no other .net clr type reference.
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

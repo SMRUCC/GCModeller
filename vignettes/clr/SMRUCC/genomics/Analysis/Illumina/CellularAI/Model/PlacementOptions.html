@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.PlacementOptions</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>PlacementOptions {SMRUCC.genomics.Analysis.Illumina.CellularAI.Model}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>PlacementOptions</h2>
+
+        <h3>Description</h3>
+
+        <p>放置（把证据转成目标平均表达）的参数：对应参考配置 <code>model.placement</code> 段。</p>
+
+<p>核心是"按 |z| 分段选规则"：<a href="cref:P:SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.PlacementOptions.RuleBand">PlacementOptions.RuleBand</a> 内的基因用 <a href="cref:P:SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.PlacementOptions.Rule">PlacementOptions.Rule</a>（随 |z| 增长）， 区间外用 <a href="cref:P:SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.PlacementOptions.Frozen">PlacementOptions.Frozen</a>（冻结幅度）；<a href="cref:P:SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.PlacementOptions.BoostBand">PlacementOptions.BoostBand</a> 内再乘 <a href="cref:P:SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.PlacementOptions.Boost">PlacementOptions.Boost</a>， <a href="cref:P:SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.PlacementOptions.DampBand">PlacementOptions.DampBand</a> 内乘 <a href="cref:P:SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.PlacementOptions.Damp">PlacementOptions.Damp</a>。</p>
+
+<p><a href="cref:P:SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.PlacementOptions.EvidenceZ">PlacementOptions.EvidenceZ</a> 是"该扰动是否值得放置"的最低证据门槛； <a href="cref:P:SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.PlacementOptions.PlanFloorZ">PlacementOptions.PlanFloorZ</a> 是计划基因在方向上必须达到的最小幅度所对应的 z。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.Illumina.CellularAI.Model
+export class PlacementOptions {
+   # 抬升倍数，默认 1.88。
+   Boost: double;
+   # 幅度抬升的 |z| 区间，默认 [1, 2)。
+   BoostBand: double;
+   # 衰减倍数，默认 0.9。
+   Damp: double;
+   # 幅度衰减的 |z| 区间，默认 [3, 5)。
+   DampBand: double;
+   # 放置所需的最低证据 |z|，默认 1.0。
+   EvidenceZ: double;
+   # 强/弱证据区间的冻结规则。
+   Frozen: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Illumina/CellularAI/Model/PlacementBand.html">PlacementBand</a>;
+   # 目标文库大小的离散度指数（1 = 与对照同形），默认 0.85。
+   LibSpread: double;
+   # 排序键里 |z| 的归一化尺度，默认 0.6。
+   OrderAz: double;
+   # 相似度加权 z 的裁剪区间，默认 [-6, 12]。
+   OrderClip: double;
+   # 排序键里相似度加权 z 的归一化尺度，默认 3.0。
+   OrderZsim: double;
+   # 计划基因的最小幅度对应的 z，默认 3.0。
+   PlanFloorZ: double;
+   # 中等证据区间的规则。
+   Rule: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Illumina/CellularAI/Model/PlacementBand.html">PlacementBand</a>;
+   # <a href="cref:P:SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.PlacementOptions.Rule">PlacementOptions.Rule</a> 生效的 |z| 区间，默认 [1, 5)。
+   RuleBand: double;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>Frozen</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Illumina/CellularAI/Model/PlacementBand.html">PlacementBand</a></li>
+<li>use by <i>property</i> member <code>Rule</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Illumina/CellularAI/Model/PlacementBand.html">PlacementBand</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

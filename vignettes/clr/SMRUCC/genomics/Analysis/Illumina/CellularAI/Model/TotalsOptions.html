@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.TotalsOptions</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>TotalsOptions {SMRUCC.genomics.Analysis.Illumina.CellularAI.Model}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>TotalsOptions</h2>
+
+        <h3>Description</h3>
+
+        <p>总量设计（每个扰动每个基因的整数总量）的参数：对应参考配置 <code>model.totals</code> 段。</p>
+
+<p>信用（credit）：用对照细胞的留一法矩（delete-one jackknife）抽样， 得到"n 个细胞能承载多大的表达离散度"，作为设计目标的上界； <a href="cref:P:SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.TotalsOptions.CreditDraws">TotalsOptions.CreditDraws</a> 是抽样次数，<a href="cref:P:SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.TotalsOptions.CreditSeed">TotalsOptions.CreditSeed</a> 是固定种子。</p>
+
+<p><a href="cref:P:SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.TotalsOptions.AmpShare">TotalsOptions.AmpShare</a> 决定初始幅度设计取信用的多少；随后 <a href="cref:T:SMRUCC.genomics.Analysis.Illumina.CellularAI.Design.ProfileSpread">ProfileSpread</a> 把设计边距解到"合成后的离散度命中信用目标"，最多迭代 <a href="cref:P:SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.TotalsOptions.FixedSteps">TotalsOptions.FixedSteps</a> 轮。</p>
+
+<p><a href="cref:P:SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.TotalsOptions.ResidualRank">TotalsOptions.ResidualRank</a> / <a href="cref:P:SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.TotalsOptions.ResidualRidge">TotalsOptions.ResidualRidge</a> / <a href="cref:P:SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.TotalsOptions.ResidualMinMeasured">TotalsOptions.ResidualMinMeasured</a> / <a href="cref:P:SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.TotalsOptions.ResidualGlobal">TotalsOptions.ResidualGlobal</a> 是残差校正层的参数（低秩基的秩、岭惩罚、最少实测记录数、全局主成分数）。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.Illumina.CellularAI.Model
+export class TotalsOptions {
+   # 初始幅度设计占信用的比例，默认 0.9。
+   AmpShare: double;
+   # 控制程序平滑使用的起始主成分下标，默认 10。
+   CpJ0: integer;
+   # 控制程序平滑使用的主成分个数，默认 50。
+   CpK: integer;
+   # 控制程序平滑的强度 λ，默认 1.0。
+   CpLam: double;
+   # 参与控制程序平滑的扰动比例（按强度取前若干），默认 0.33。
+   CpTop: double;
+   # 信用抽样的次数，默认 64。
+   CreditDraws: integer;
+   # 信用抽样的随机种子，默认 7。
+   CreditSeed: integer;
+   # 固定点迭代的相对收敛阈值，默认 0.001。
+   FixedRtol: double;
+   # 固定点迭代的最大轮数，默认 3。
+   FixedSteps: integer;
+   # 控制程序平滑的作用门槛 |z|，默认 5.0。
+   GateZ: double;
+   # 总量形状与剖面效应形状的混合比例，默认 0.5。
+   Mix: double;
+   # 控制 PCA 的抽样细胞数，默认 6000。
+   PcsCells: integer;
+   # 控制 PCA 的抽样种子，默认 0。
+   PcsSeed: integer;
+   # 程序加权的特征值指数，默认 0.25。
+   PwGamma: double;
+   # 程序加权使用的主成分个数，默认 100。
+   PwK: integer;
+   # 程序加权的强度 λ，默认 1.0。
+   PwLam: double;
+   # 参与程序加权的扰动比例，默认 0.25。
+   PwTop: double;
+   # 残差修正的收缩系数 α，默认 0.25。
+   ResidualAlpha: double;
+   # 控制特征在预测时的裁剪幅度，默认 3.0。
+   ResidualClip: double;
+   # 全局控制主成分的个数，默认 5（因此特征数 f = 6）。
+   ResidualGlobal: integer;
+   # 一个基因参与拟合所需的最少实测记录数，默认 32。
+   ResidualMinMeasured: integer;
+   # 残差基拟合使用的最大扰动列数，默认 1024。
+   ResidualPerts: integer;
+   # 残差坐标投影的岭系数，默认 0.1。
+   ResidualProjRidge: double;
+   # 残差响应基的秩，默认 160。
+   ResidualRank: integer;
+   # 逐基因岭回归的惩罚 λ，默认 10.0。
+   ResidualRidge: double;
+   # 控制表达标准化的尺度下限，默认 0.1。
+   ResidualScaleFloor: double;
+   # 形状指数（<code>|l2|^gamma</code>），默认 0.8。
+   ShapeGamma: double;
+   # 形状的 z 饱和尺度，默认 16.0。
+   ShapeKz: double;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        this clr type has no other .net clr type reference.
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

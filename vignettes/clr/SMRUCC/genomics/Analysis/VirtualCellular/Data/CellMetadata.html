@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.VirtualCellular.Data.CellMetadata</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>CellMetadata {SMRUCC.genomics.Analysis.VirtualCellular.Data}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>CellMetadata</h2>
+
+        <h3>Description</h3>
+
+        <p>细胞级元数据：barcode → 患者 / 期别 / 组织类型 / 分组。</p>
+
+<p>元数据表用 <a href="cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo">SampleInfo</a> 承载（与 ExperimentDesigner 的模板一致）， 通过 <code>LoadCsv(Of SampleInfo)</code> 反序列化：<code>ID</code>/<code>sample_name</code>/<code>sample_info</code> 落到强类型属性，其余列（<code>patient_id</code>、<code>stage</code>、<code>type</code>、<code>group</code> 等） 由读取器自动收进 <a href="cref:P:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo.metadata">SampleInfo.metadata</a> 字典。</p>
+
+<p>为什么保留原始 <a href="cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo">SampleInfo</a> 而不是先拍平成 POCO：不同数据集的元数据列并不统一， 拍平会丢掉未知列；保留下字典之后，<a href="cref:M:SMRUCC.genomics.Analysis.VirtualCellular.Data.CellMetadata.ValueOf(SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo,System.String)">CellMetadata.ValueOf()</a> 可以按名字取任意列， 而强类型字段（ID / sample_name）仍然可用。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.VirtualCellular.Data
+export class CellMetadata {
+   # 记录数。
+   Count: integer;
+   # "正常对照"的判定：优先用 <code>stage</code> 的空/NA 标签，其次退回 <code>type=normal</code>。
+   NormalSelector: string;
+   # 元数据表的原始记录（顺序与 CSV 行序一致）。
+   Samples: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/SampleInfo.html">SampleInfo[]</a>;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>Samples</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/SampleInfo.html">SampleInfo</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.PlacementBand</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>PlacementBand {SMRUCC.genomics.Analysis.Illumina.CellularAI.Model}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>PlacementBand</h2>
+
+        <h3>Description</h3>
+
+        <p>单条"检测限幅度的规则"：<code>m = amp·(h0 + (1−h0)·z²/(z²+kz))·√(1/μ + φ)</code>，再截到 <code>cap</code>、 并保证不小于 <code>cl2·|l2|</code>。</p>
+
+<p>这类规则有两种用法：<a href="cref:P:SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.PlacementOptions.Rule">PlacementOptions.Rule</a> 用于"有中等证据"的基因， <a href="cref:P:SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.PlacementOptions.Frozen">PlacementOptions.Frozen</a> 用于"证据很强/很弱"的基因（不再随 z 增长，只保留一个冻结的幅度）。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.Illumina.CellularAI.Model
+export class PlacementBand {
+   # 整体幅度系数。
+   Amp: double;
+   # 幅度上限。
+   Cap: double;
+   # 幅度相对 |log2FC| 的最小倍数。
+   Cl2: double;
+   # 低 z 时的底噪比例（0~1）。
+   H0: double;
+   # z 的饱和尺度。
+   Kz: double;
+   # 深度过度离散项。
+   Phi: double;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        this clr type has no other .net clr type reference.
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.VirtualCellular.Model.VirtualCellModel</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>VirtualCellModel {SMRUCC.genomics.Analysis.VirtualCellular.Model}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>VirtualCellModel</h2>
+
+        <h3>Description</h3>
+
+        <p>可持久化的虚拟细胞模型：参数 + 三个 view 的摘要 + 对照矩阵 + 细胞元数据。</p>
+
+<p>保存的是"装配结果"，不是原始 CSV：加载之后可以直接跑 <code>ContextPipeline.Predict</code>，无需再解析 4.6 GB 表达矩阵。</p>
+
+<p>版本与基因轴指纹在加载时严格校验：换了一套基因轴却复用旧模型，会让面板与矩阵错位， 这种错误在数值上表现为"结果看起来还行但完全不对"，必须在入口处拒绝。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.VirtualCellular.Model
+export class VirtualCellModel {
+   # 训练摘要（三个 view）。
+   Bundle: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Illumina/CellularAI/Summary/SummaryBundle.html">SummaryBundle</a>;
+   CellCount: integer;
+   # 细胞轴（barcode）。
+   Cells: string;
+   # 对照矩阵（细胞 × 基因）。
+   Controls: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/LinearAlgebra/Matrix/Compressed/CsrMatrix.html">CsrMatrix</a>;
+   GeneCount: integer;
+   # 基因轴。
+   Genes: string;
+   # 构建清单。
+   Manifest: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/VirtualCellular/Model/ModelManifest.html">ModelManifest</a>;
+   # 细胞元数据。
+   Metadata: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/VirtualCellular/Data/CellMetadata.html">CellMetadata</a>;
+   # CellularAI 参数。
+   Options: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Illumina/CellularAI/Model/CellularAiModel.html">CellularAiModel</a>;
+   # 全部伪扰动名（各 view 的并集，保持首次出现顺序）。
+   Perturbations: string;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>Bundle</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Illumina/CellularAI/Summary/SummaryBundle.html">SummaryBundle</a></li>
+<li>use by <i>property</i> member <code>Controls</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/LinearAlgebra/Matrix/Compressed/CsrMatrix.html">CsrMatrix</a></li>
+<li>use by <i>property</i> member <code>Manifest</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/VirtualCellular/Model/ModelManifest.html">ModelManifest</a></li>
+<li>use by <i>property</i> member <code>Metadata</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/VirtualCellular/Data/CellMetadata.html">CellMetadata</a></li>
+<li>use by <i>property</i> member <code>Options</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Illumina/CellularAI/Model/CellularAiModel.html">CellularAiModel</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

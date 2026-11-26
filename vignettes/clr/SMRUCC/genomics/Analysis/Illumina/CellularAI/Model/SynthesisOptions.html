@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.SynthesisOptions</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>SynthesisOptions {SMRUCC.genomics.Analysis.Illumina.CellularAI.Model}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>SynthesisOptions</h2>
+
+        <h3>Description</h3>
+
+        <p>单细胞计数合成的参数：对应参考配置 <code>model.synthesis</code> 段。</p>
+
+<p><a href="cref:P:SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.SynthesisOptions.ZPlan">SynthesisOptions.ZPlan</a> 是计划基因的目标秩和 z 区间（按优先级从低到高线性插值）， <a href="cref:P:SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.SynthesisOptions.ZNudge">SynthesisOptions.ZNudge</a> 是非计划基因在微调强度 1 时的目标 z。</p>
+
+<p><a href="cref:P:SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.SynthesisOptions.Rmax">SynthesisOptions.Rmax</a> / <a href="cref:P:SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.SynthesisOptions.NBis">SynthesisOptions.NBis</a> 控制 copula 相关系数的搜索范围与二分次数； <a href="cref:P:SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.SynthesisOptions.Ztol">SynthesisOptions.Ztol</a> / <a href="cref:P:SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.SynthesisOptions.ZtolPlan">SynthesisOptions.ZtolPlan</a> 是"z 可以偏离目标多少"的容差（后者用于计划基因，更严）； <a href="cref:P:SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.SynthesisOptions.Ltol">SynthesisOptions.Ltol</a> 是"平均每细胞 CPM 可以偏离放置目标多少"（对数尺度）。</p>
+
+<p><a href="cref:P:SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.SynthesisOptions.PlannedZ">SynthesisOptions.PlannedZ</a> / <a href="cref:P:SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.SynthesisOptions.OvershootZ">SynthesisOptions.OvershootZ</a> / <a href="cref:P:SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.SynthesisOptions.RepairR">SynthesisOptions.RepairR</a> 决定"过冲修复"的触发条件与候选相关； <a href="cref:P:SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.SynthesisOptions.SolveNtop">SynthesisOptions.SolveNtop</a> / <a href="cref:P:SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.SynthesisOptions.SolveTol">SynthesisOptions.SolveTol</a> / <a href="cref:P:SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.SynthesisOptions.SolveIters">SynthesisOptions.SolveIters</a> 控制平移二分； <a href="cref:P:SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.SynthesisOptions.ShiftBand">SynthesisOptions.ShiftBand</a> 是平移的搜索区间；<a href="cref:P:SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.SynthesisOptions.SparsifyStep">SynthesisOptions.SparsifyStep</a> 是稀疏化扫描步长。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.Illumina.CellularAI.Model
+export class SynthesisOptions {
+   # 平均 CPM 的对数容差，默认 0.01。
+   Ltol: double;
+   # 相关系数二分的次数，默认 5。
+   NBis: integer;
+   # 非表达基因突发散布的每块大小，默认 4。
+   NeBurst: integer;
+   # 过冲修复的触发幅度，默认 0.4。
+   OvershootZ: double;
+   # "计划基因"的 |z| 判定门槛，默认 5.0。
+   PlannedZ: double;
+   # 过冲修复的候选相关系数，默认 (0.25, 0.5)（另加其负值与 0、±rmax）。
+   RepairR: double;
+   # copula 相关系数的搜索上界，默认 0.99。
+   Rmax: double;
+   # 平移量的搜索区间，默认 [-0.6, 1.6]。
+   ShiftBand: double;
+   # 平移二分的最大迭代次数，默认 40。
+   SolveIters: integer;
+   # 质量守恒补足时使用的降序名次个数，默认 40。
+   SolveNtop: integer;
+   # 平移二分的 z 容差，默认 0.05。
+   SolveTol: double;
+   # 稀疏化扫描的步长，默认 0.025。
+   SparsifyStep: double;
+   # 非计划基因在满强度下的目标 |z|，默认 2.0。
+   ZNudge: double;
+   # 计划基因的目标 z 区间（低优先级 → 高优先级），默认 (5.5, 9.0)。
+   ZPlan: double;
+   # 非计划基因的 z 容差，默认 1.0。
+   Ztol: double;
+   # 计划基因的 z 容差，默认 0.2。
+   ZtolPlan: double;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        this clr type has no other .net clr type reference.
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

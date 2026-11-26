@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>由加载好的表达数据装配虚拟细胞模型（纯计算，不写任何文件）。</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>model.build {VirtualCellular}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>由加载好的表达数据装配虚拟细胞模型（纯计算，不写任何文件）。</h2>
+
+        <h3>Description</h3>
+
+        
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>model.build</strong>(<i>exp</i>,
+    <i>opt</i> = <span style='color: blue !important;'>NULL</span>,
+    <i>seed</i> = <span style='color: green;'>0</span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>exp</dt>
+<dd><p>由 <code>load_expr</code> 得到的表达数据（含对照矩阵与细胞元数据）. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/VirtualCellular/Data/ExpressionStream.html">ExpressionStream</a>]</p></dd>
+
+
+<dt>opt</dt>
+<dd><p>CellularAI 参数；<code>NULL</code> 使用默认值. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Illumina/CellularAI/Model/CellularAiModel.html">CellularAiModel</a>]</p></dd>
+
+
+<dt>seed</dt>
+<dd><p>随机种子（写入模型清单，供后续扰动复现）. [as integer]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: none;">Details</h3>
+
+        
+
+        <h3 style="display: block">Authors</h3>
+
+        biosystem
+
+        <h3>Value</h3>
+
+        <p>装配好的 <a href="cref:T:SMRUCC.genomics.Analysis.VirtualCellular.Model.VirtualCellModel">VirtualCellModel</a>；需要保存时另行调用 <code>model.save</code></p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/VirtualCellular/Model/VirtualCellModel.html">VirtualCellModel</a></li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>VirtualCellular</em> version 1.0.0.0 <a
+                href="../VirtualCellular.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

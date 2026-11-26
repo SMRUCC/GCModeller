@@ -1,0 +1,32 @@
+.\" man page create by R# package system.
+.TH VIRTUALCELLULAR 1 2000-1月 "model.build" "model.build"
+.SH NAME
+model.build \- 由加载好的表达数据装配虚拟细胞模型（纯计算，不写任何文件）。
+.SH SYNOPSIS
+\fImodel.build(\fBexp\fR as <generic> ExpressionStream, 
+\fBopt\fR as <generic> CellularAiModel = \fB<NULL>\fR, 
+\fBseed\fR as integer = 0);\fR
+.SH DESCRIPTION
+.PP
+由加载好的表达数据装配虚拟细胞模型（纯计算，不写任何文件）。
+.PP
+.SH OPTIONS
+.PP
+\fBexp\fB \fR\- 由 `load_expr` 得到的表达数据（含对照矩阵与细胞元数据）. 
+.PP
+.PP
+\fBopt\fB \fR\- CellularAI 参数；`NULL` 使用默认值. 
+.PP
+.PP
+\fBseed\fB \fR\- 随机种子（写入模型清单，供后续扰动复现）. 
+.PP
+.SH VALUE
+.PP
+装配好的 [VirtualCellModel](cref:T:SMRUCC.genomics.Analysis.VirtualCellular.Model.VirtualCellModel)；需要保存时另行调用 `model.save`
+.PP
+.SH SEE ALSO
+VirtualCellular
+.SH FILES
+.PP
+biosystem.dll
+.PP

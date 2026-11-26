@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.PoolingOptions</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>PoolingOptions {SMRUCC.genomics.Analysis.Illumina.CellularAI.Model}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>PoolingOptions</h2>
+
+        <h3>Description</h3>
+
+        <p>随机效应池化的参数：对应参考配置 <code>model.pooling</code> 段。</p>
+
+<p>六个 <code>*_row / *_col / *_mat</code> 字符串是因子表达式：以 <code>*</code> 连接的因子名， 例如 <code>"inv:mad:dl"</code>（逆方差权重）、<code>"sef*kd"</code>（尺度误差 × 敲低系数）、 <code>"auxiliary*sim*pair"</code>（辅助行 × 相似度 × 配对降权）。 表达式的写法与相乘顺序都是模型定义的一部分（浮点乘法不可交换），因此这里保留为字符串， 由 <code>FactorExpression</code> 解析、由池化内核按序求值。</p>
+
+<p><a href="cref:P:SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.PoolingOptions.Views">PoolingOptions.Views</a> 决定参与池化的训练视图（按顺序），<a href="cref:P:SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.PoolingOptions.AuxiliaryWeight">PoolingOptions.AuxiliaryWeight</a> 是对 <code>role = auxiliary</code> 的整行加权倍数。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.Illumina.CellularAI.Model
+export class PoolingOptions {
+   # 辅助行的整行加权倍数，默认 2。
+   AuxiliaryWeight: double;
+   # 池化后的修正方式（保留上游字段，默认 <code>LZ</code>）。
+   Correction: string;
+   # 缺失值填充方式（保留上游字段，默认 <code>zf</code>）。
+   Fill: string;
+   # 敲低系数的下限，默认 0（允许完全敲低）。
+   KdFloor: double;
+   # 敲低系数的参考值（归一化分母），默认 0.6。
+   KdRef: double;
+   # log2FC 的列（扰动）方向因子表达式，默认 <code>sef*kd</code>。
+   L2Col: string;
+   # log2FC 的整行因子表达式，默认 <code>auxiliary*sim*pair</code>。
+   L2Mat: string;
+   # log2FC 的行（基因）方向因子表达式，默认 <code>inv:mad:dl</code>。
+   L2Row: string;
+   # 噪声比因子的幂次，默认 1.0。
+   Noise: double;
+   # 是否使用单条证据流（保留上游字段，默认 True）。
+   OneStream: boolean;
+   # 配对/交替记录的降权倍数，默认 0.5。
+   PairWeight: double;
+   # 尺度误差因子的幂次，默认 1.0。
+   Se: double;
+   # 尺度误差比值的裁剪幅度，默认 4.0。
+   SeClip: double;
+   # 相似度权重的指数系数 β，默认 0.25。
+   Sim: double;
+   # 计算相似度时使用的高变基因数，默认 2000。
+   SimHvg: integer;
+   # 参与池化的训练视图，按顺序。
+   Views: string;
+   # z 通道的列方向因子表达式，默认 <code>sef*kd</code>。
+   ZCol: string;
+   # z 通道的整行因子表达式，默认 <code>auxiliary*sim*pair</code>。
+   ZMat: string;
+   # z 通道的行方向因子表达式，默认 <code>nr</code>（噪声比）。
+   ZRow: string;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        this clr type has no other .net clr type reference.
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

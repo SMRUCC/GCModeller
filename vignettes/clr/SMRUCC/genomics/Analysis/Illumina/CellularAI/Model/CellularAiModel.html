@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.CellularAiModel</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>CellularAiModel {SMRUCC.genomics.Analysis.Illumina.CellularAI.Model}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>CellularAiModel</h2>
+
+        <h3>Description</h3>
+
+        <p>CellularAI 模型的全部超参数：七个参数对象的聚合根。</p>
+
+<p>默认值逐项对应参考配置 <code>configs/example.yaml</code> 的 <code>model</code> 段。 这些值定义的是"已发布的方法"，正常使用不应修改；测试与调参时用 <a href="cref:M:SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.CellularAiModel.Clone">CellularAiModel.Clone()</a> 派生。</p>
+
+<p>本类型只是数据容器，不含算法；算法入口接收它并保持只读语义。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.Illumina.CellularAI.Model
+export class CellularAiModel {
+   # 调用参数。
+   Calls: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Illumina/CellularAI/Model/CallOptions.html">CallOptions</a>;
+   # 护栏阈值。
+   Guards: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Illumina/CellularAI/Model/GuardOptions.html">GuardOptions</a>;
+   # 放置参数。
+   Placement: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Illumina/CellularAI/Model/PlacementOptions.html">PlacementOptions</a>;
+   # 计划参数。
+   Plan: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Illumina/CellularAI/Model/PlanOptions.html">PlanOptions</a>;
+   # 池化参数。
+   Pooling: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Illumina/CellularAI/Model/PoolingOptions.html">PoolingOptions</a>;
+   # 合成参数。
+   Synthesis: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Illumina/CellularAI/Model/SynthesisOptions.html">SynthesisOptions</a>;
+   # 总量设计参数。
+   Totals: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Illumina/CellularAI/Model/TotalsOptions.html">TotalsOptions</a>;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>Calls</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Illumina/CellularAI/Model/CallOptions.html">CallOptions</a></li>
+<li>use by <i>property</i> member <code>Guards</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Illumina/CellularAI/Model/GuardOptions.html">GuardOptions</a></li>
+<li>use by <i>property</i> member <code>Placement</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Illumina/CellularAI/Model/PlacementOptions.html">PlacementOptions</a></li>
+<li>use by <i>property</i> member <code>Plan</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Illumina/CellularAI/Model/PlanOptions.html">PlanOptions</a></li>
+<li>use by <i>property</i> member <code>Pooling</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Illumina/CellularAI/Model/PoolingOptions.html">PoolingOptions</a></li>
+<li>use by <i>property</i> member <code>Synthesis</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Illumina/CellularAI/Model/SynthesisOptions.html">SynthesisOptions</a></li>
+<li>use by <i>property</i> member <code>Totals</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Illumina/CellularAI/Model/TotalsOptions.html">TotalsOptions</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

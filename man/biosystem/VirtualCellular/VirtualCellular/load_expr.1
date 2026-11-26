@@ -1,0 +1,28 @@
+.\" man page create by R# package system.
+.TH VIRTUALCELLULAR 1 2000-1月 "load_expr" "load_expr"
+.SH NAME
+load_expr \- 
+.SH SYNOPSIS
+\fIload_expr(\fBexpr\fR as string, 
+\fBmeta\fR as string, 
+\fBstages\fR as string = \fB<NULL>\fR, 
+\fBlimit\fR as integer = 0);\fR
+.SH OPTIONS
+.PP
+\fBstages\fB \fR\- 只保留这些期别的细胞；`NULL` 表示全量. 
+.PP
+.PP
+\fBlimit\fB \fR\- 每个期别最多保留的细胞数；0 表示不限制. 
+.PP
+.PP
+\fBexpr\fB \fR\- 表达矩阵 CSV（行=基因，列=细胞）. 
+.PP
+.PP
+\fBmeta\fB \fR\- 细胞元数据 CSV（需含 ID / patient_id / stage / type 列）. 
+.PP
+.SH SEE ALSO
+VirtualCellular
+.SH FILES
+.PP
+biosystem.dll
+.PP

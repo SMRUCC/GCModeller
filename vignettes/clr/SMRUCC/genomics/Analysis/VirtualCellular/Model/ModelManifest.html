@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.VirtualCellular.Model.ModelManifest</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>ModelManifest {SMRUCC.genomics.Analysis.VirtualCellular.Model}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>ModelManifest</h2>
+
+        <h3>Description</h3>
+
+        <p>模型包的构建清单。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.VirtualCellular.Model
+export class ModelManifest {
+   CellCount: integer;
+   CreatedAt: string;
+   # 包格式版本；加载时严格比对。
+   FormatVersion: integer;
+   # 基因轴指纹（SHA256 前 16 字节的十六进制）。
+   GeneAxisHash: string;
+   GeneCount: integer;
+   NonZeros: integer;
+   # 正常对照的判定方式（<code>stage=NA</code> 或 <code>type=normal</code>）。
+   NormalSelector: string;
+   # 全部伪扰动名（并集）。
+   Perturbations: string;
+   Seed: integer;
+   # 实际使用的期别过滤。
+   StageFilter: string;
+   # 参与装配的 view 名。
+   Views: string;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        this clr type has no other .net clr type reference.
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.Illumina.CellularAI.Summary.SummaryRow</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>SummaryRow {SMRUCC.genomics.Analysis.Illumina.CellularAI.Summary}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>SummaryRow</h2>
+
+        <h3>Description</h3>
+
+        <p>一条训练摘要：某个细胞系、某个视图下的效应矩阵、概率矩阵与对照剖面。</p>
+
+<p>这里刻意保留该行自己的基因轴与扰动轴（而不是提前对齐到任务轴）： 上游的 <code>log2fc_stack</code> 要在"训练基因的并集"上算相似度与方差， 提前裁剪到任务轴会改变高变基因的选择结果。</p>
+
+<p>缺失用 <code>NaN</code> 表示（"未测"），与"测得 0"严格区分： 池化时未测项按"值为 0、权重照算"计入分母，而测得的 0 是真实观测。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.Illumina.CellularAI.Summary
+export class SummaryRow {
+   # 细胞系（训练行）名称。
+   CellLine: string;
+   # 对照表达剖面。
+   Control: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Illumina/CellularAI/Summary/ControlProfile.html">ControlProfile</a>;
+   # log2FC 效应矩阵（该行自己的基因轴 × 扰动轴）。
+   Effect: <a href="/vignettes/clr/System/Double[].html">Double[][]</a>;
+   # 效应矩阵的基因轴。
+   EffectGenes: string;
+   # 效应矩阵的扰动轴。
+   EffectPerts: string;
+   # 是否为辅助行。
+   IsAuxiliary: boolean;
+   # 行的唯一键 <code>view/cell_line</code>。
+   Key: string;
+   # 逐基因中心化表。
+   Offset: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Illumina/CellularAI/Summary/OffsetTable.html">OffsetTable</a>;
+   # 是否为配对组里的交替记录。
+   PairAlternate: boolean;
+   # 配对组名（同一实验的多个记录同名）；无配对时为 <code>Nothing</code>。
+   PairGroup: string;
+   # 双侧概率矩阵（与 <a href="cref:P:SMRUCC.genomics.Analysis.Illumina.CellularAI.Summary.SummaryRow.Effect">SummaryRow.Effect</a> 同形状）。
+   Probability: <a href="/vignettes/clr/System/Double[].html">Double[][]</a>;
+   # 角色：<code>primary</code> 或 <code>auxiliary</code>。
+   Role: string;
+   # 可选的尺度矩阵（与 <a href="cref:P:SMRUCC.genomics.Analysis.Illumina.CellularAI.Summary.SummaryRow.Effect">SummaryRow.Effect</a> 同形状，用于 sef 因子）。
+   Scale: <a href="/vignettes/clr/System/Double[].html">Double[][]</a>;
+   # 视图名称。
+   View: string;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>Control</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Illumina/CellularAI/Summary/ControlProfile.html">ControlProfile</a></li>
+<li>use by <i>property</i> member <code>Effect</code>: <a href="/vignettes/clr/System/Double[].html">Double[]</a></li>
+<li>use by <i>property</i> member <code>Offset</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Illumina/CellularAI/Summary/OffsetTable.html">OffsetTable</a></li>
+<li>use by <i>property</i> member <code>Probability</code>: <a href="/vignettes/clr/System/Double[].html">Double[]</a></li>
+<li>use by <i>property</i> member <code>Scale</code>: <a href="/vignettes/clr/System/Double[].html">Double[]</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

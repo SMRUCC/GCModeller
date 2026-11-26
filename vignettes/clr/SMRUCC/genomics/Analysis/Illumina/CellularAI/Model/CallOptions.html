@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.CallOptions</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>CallOptions {SMRUCC.genomics.Analysis.Illumina.CellularAI.Model}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>CallOptions</h2>
+
+        <h3>Description</h3>
+
+        <p>响应调用（哪些基因算作"被扰动影响"）的参数：对应参考配置 <code>model.calls</code> 段。</p>
+
+<p><a href="cref:P:SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.CallOptions.EligibleCpm">CallOptions.EligibleCpm</a> 是表达资格门槛（对照平均 CPM &gt; 5 才可能被调用）； <a href="cref:P:SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.CallOptions.MinLfc">CallOptions.MinLfc</a> 是计划基因必须达到的最小 log2 效应； <a href="cref:P:SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.CallOptions.Gamma">CallOptions.Gamma</a> 把扰动强度映射成调用数量的指数系数。</p>
+
+<p><a href="cref:P:SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.CallOptions.StrengthK">CallOptions.StrengthK</a> / <a href="cref:P:SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.CallOptions.StrengthC">CallOptions.StrengthC</a> / <a href="cref:P:SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.CallOptions.StrengthPhi">CallOptions.StrengthPhi</a> 是"检测功效"模型的参数： <code>p = Φ(k·|lfc| / √(1/μ + φ) − c)</code>，其中 μ 是该基因在该深度下的期望计数。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.Illumina.CellularAI.Model
+export class CallOptions {
+   # 表达资格门槛（对照平均 CPM），默认 5。
+   EligibleCpm: double;
+   # 调用数量对扰动强度的指数系数，默认 2.5。
+   Gamma: double;
+   # 计划基因的最小 |log2FC|，默认 0.02。
+   MinLfc: double;
+   # 每个扰动的最多调用数，默认 6000。
+   NMax: integer;
+   # 每个扰动的最少调用数，默认 5。
+   NMin: integer;
+   # 检测功效模型里的过度离散项 φ，默认 0.1。
+   Phi: double;
+   # 强度计算里功效的偏移 c，默认 4.0。
+   StrengthC: double;
+   # 强度计算里功效的斜率 k，默认 111.2。
+   StrengthK: double;
+   # 强度计算里的深度过度离散项，默认 0.05。
+   StrengthPhi: double;
+   # 强度计算里"显著 z"的门槛，默认 3.0。
+   StrengthZ: double;
+   # 功效得分在综合排序里的权重，默认 1.0。
+   WPow: double;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        this clr type has no other .net clr type reference.
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

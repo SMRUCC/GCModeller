@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.GuardOptions</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>GuardOptions {SMRUCC.genomics.Analysis.Illumina.CellularAI.Model}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>GuardOptions</h2>
+
+        <h3>Description</h3>
+
+        <p>数值护栏的阈值：对应参考配置 <code>model.guards</code> 段。</p>
+
+<p>这些阈值本身不改变算法，只决定"哪些数值退化会被记录/拦截"。 默认值全部取自已发布配置，正常情况下不要修改。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.Illumina.CellularAI.Model
+export class GuardOptions {
+   # 信用比的下界，默认 0.975。
+   CreditBandLo: double;
+   # 信用比的上折点，默认 1.001。
+   CreditKink: double;
+   # 合并后 log2FC 的绝对值上限，默认 6.25。
+   L2AbsMax: double;
+   # 设计层 log2 比例的绝对上限，默认 12.5。
+   Log2Max: double;
+   # 逐类护栏的命中率上限；键为护栏名。
+   MaxHitRate: list;
+   # 允许的缺失 readout 比例上限，默认 0.005。
+   MaxMissingReadoutFrac: double;
+   # 允许的"完全未测靶"数量，默认 0。
+   MaxUnmeasured: integer;
+   # 放置目标 log2 偏移的裁剪幅度，默认 7.5。
+   MtLsClip: double;
+   # 各阶段要求的最小有效权重数；键为阶段名。
+   NeffMin: list;
+   # 噪声比因子的裁剪上限，默认 320。
+   NrClip: double;
+   # 排序用相关系数标准差的下限，默认 0.028。
+   OrderSdMin: double;
+   # 各阶段允许的最大单项权重占比；键为阶段名（plan / sim / xsim / pooling）。
+   ShareMax: list;
+   # 相似度 z 标准化时允许的最小标准差，默认 0.04。
+   SimSdMin: double;
+   # 相似度 z 的裁剪幅度，默认 8.125。
+   SimZClip: double;
+   # 逆方差权重里"相对方差地板"的系数（乘以该基因的方差中位数），默认 0.0024。
+   VFloorRel: double;
+   # 合并后 z 的绝对值上限，默认 187.5。
+   ZAbsMax: double;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>MaxHitRate</code>: list</li>
+<li>use by <i>property</i> member <code>NeffMin</code>: list</li>
+<li>use by <i>property</i> member <code>ShareMax</code>: list</li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

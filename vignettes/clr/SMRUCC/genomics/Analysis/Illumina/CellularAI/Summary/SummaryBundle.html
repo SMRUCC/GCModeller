@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.Illumina.CellularAI.Summary.SummaryBundle</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>SummaryBundle {SMRUCC.genomics.Analysis.Illumina.CellularAI.Summary}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>SummaryBundle</h2>
+
+        <h3>Description</h3>
+
+        <p>训练摘要的内存版视图：把上游装配好的摘要行摆成算法需要的各种轴， 并提供"居中对齐 / 带符号 z / 并集堆叠 / 方差映射"这几个纯函数。</p>
+
+<p>本类型不含文件 IO：每条 <a href="cref:T:SMRUCC.genomics.Analysis.Illumina.CellularAI.Summary.SummaryRow">SummaryRow</a> 里的矩阵已经由上游从 parquet 读好。 这里只负责三件事：</p>
+
+
+<ol>
+<li>把某行的面板重索引到任务基因/扰动轴（缺失填 <code>NaN</code>，重复基因取最大值）；</li>
+<li>把双侧概率换成带符号正态分数（Liptak），并减去逐基因中心；</li>
+<li>按"训练基因并集"堆叠主视图的效应矩阵，供相似度与高变基因选择使用。</li>
+</ol>
+
+
+<p>重复基因的处理：上游读 parquet 时按 <code>feature_id</code> 分组取最大值（<code>groupby(level=0).max()</code>）， 这里保持同一语义，避免同一基因的多个探针在池化时被当成两条证据。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.Illumina.CellularAI.Summary
+export class SummaryBundle {
+   # 摘要目录（行顺序即池化顺序）。
+   Catalog: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Illumina/CellularAI/Summary/SummaryCatalog.html">SummaryCatalog</a>;
+   # 逐细胞系的响应方差（与 <a href="cref:P:SMRUCC.genomics.Analysis.Illumina.CellularAI.Summary.SummaryBundle.VarianceGenes">SummaryBundle.VarianceGenes</a> 同键、等长）。
+   Variance: list;
+   # 逐细胞系的方差表基因轴（键为细胞系名）。
+   VarianceGenes: list;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>Catalog</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Illumina/CellularAI/Summary/SummaryCatalog.html">SummaryCatalog</a></li>
+<li>use by <i>property</i> member <code>Variance</code>: list</li>
+<li>use by <i>property</i> member <code>VarianceGenes</code>: list</li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

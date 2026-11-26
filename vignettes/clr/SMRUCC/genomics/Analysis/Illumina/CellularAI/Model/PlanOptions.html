@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.PlanOptions</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>PlanOptions {SMRUCC.genomics.Analysis.Illumina.CellularAI.Model}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>PlanOptions</h2>
+
+        <h3>Description</h3>
+
+        <p>响应计划（每个扰动调用多少基因、怎么排序）的参数：对应参考配置 <code>model.plan</code> 段。</p>
+
+<p><a href="cref:P:SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.PlanOptions.CurveSlope">PlanOptions.CurveSlope</a> 把"训练数据里该扰动的响应广度"映射成调用数量 （<code>n = exp(slope·(x − median))</code>，再整体缩放到中位数等于 <code>median_degs</code>）。</p>
+
+<p><a href="cref:P:SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.PlanOptions.SimTau">PlanOptions.SimTau</a> / <a href="cref:P:SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.PlanOptions.SimNtop">PlanOptions.SimNtop</a> / <a href="cref:P:SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.PlanOptions.SimCap">PlanOptions.SimCap</a> 控制"训练细胞系与新上下文的相似度权重"： 先对相关系数做 z 标准化，再取 <code>exp(z/τ)</code>，最后用上限水位法把单项权重压到 <code>cap</code> 以下。</p>
+
+<p><a href="cref:P:SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.PlanOptions.PowerK">PlanOptions.PowerK</a> 系列是"期望可检测基因数"的功效模型；<a href="cref:P:SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.PlanOptions.ShrinkQuantile">PlanOptions.ShrinkQuantile</a> / <a href="cref:P:SMRUCC.genomics.Analysis.Illumina.CellularAI.Model.PlanOptions.ShrinkFactor">PlanOptions.ShrinkFactor</a> 把得分最低的一部分扰动的调用数量按比例收缩，把省下来的调用 分配给得分高的扰动（保证总调用量守恒）。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.Illumina.CellularAI.Model
+export class PlanOptions {
+   # 广度→调用数量的曲线斜率，默认 3.0。
+   CurveSlope: double;
+   # 计划 z 中"均匀权重"的混合比例，默认 0.5。
+   PlanZUniform: double;
+   # 功效模型的偏移 c，默认 3.0。
+   PowerC: double;
+   # 功效模型使用的参考深度，默认 20000。
+   PowerDepth: double;
+   # 功效模型的斜率 k，默认 111.0。
+   PowerK: double;
+   # 功效模型的过度离散项，默认 0.05。
+   PowerPhi: double;
+   # 功效的软截断参数（|z| 小于该值时逐步降权），默认 2.0。
+   PowerSoftZ: double;
+   # 宽带显著基因数在综合得分里的惩罚系数，默认 0.5。
+   PowerTPen: double;
+   # "宽带显著性"的门槛 |z|，默认 2.0。
+   PowerZN2: double;
+   # 收缩后保留的比例，默认 0.1。
+   ShrinkFactor: double;
+   # 需要收缩的得分分位，默认 0.2（最低的 20%）。
+   ShrinkQuantile: double;
+   # 单项相似度权重的上限，默认 0.3。
+   SimCap: double;
+   # 计算相似度时取的高变基因数，默认 3000。
+   SimNtop: integer;
+   # 相似度 softmax 的温度 τ，默认 1.0。
+   SimTau: double;
+   # 广度加权允许的最大抬升倍数，默认 2.0。
+   XsimCapFactor: double;
+   # 广度加权允许的最大总量倍数，默认 1.2。
+   XsimMaxTotal: double;
+   # 广度加权只作用于上半分位（0.5 表示中位以上），默认 0.5。
+   XsimStrength: double;
+   # 广度加权时的温度 τ，默认 0.5。
+   XsimTau: double;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        this clr type has no other .net clr type reference.
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

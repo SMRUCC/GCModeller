@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.VirtualCellular.Perturbation.CellularAIPerturbation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>CellularAIPerturbation {SMRUCC.genomics.Analysis.VirtualCellular.Perturbation}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>CellularAIPerturbation</h2>
+
+        <h3>Description</h3>
+
+        <p>基于 CellularAI 的虚拟扰动实验：把 KO / KD / OE 映射成合成作业的方向与强度。</p>
+
+<p>扰动的两个来源：</p>
+
+
+<ol>
+<li>自身靶：直接给定目标基因的 log2 变化方向与强度（OE 取正、KO 取强负、KD 取弱负）；</li>
+<li>下游响应：从模型的 <code>signature</code> view 取该基因的"高表达签名"面板，</li>
+</ol>
+
+
+<p>作为其他基因的效应方向（联合过表达时把多个签名叠加）。</p>
+
+<p>合成完全走 CellularAI 的 <a href="cref:T:SMRUCC.genomics.Analysis.Illumina.CellularAI.Synthesis.SynthesisEngine">SynthesisEngine</a> + <a href="cref:T:SMRUCC.genomics.Analysis.Illumina.CellularAI.Synthesis.CellSynthesizer">CellSynthesizer</a>， 因此计数守恒、<code>2²⁴</code> 上限、同 seed 可复现这些约束与算法层一致。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.VirtualCellular.Perturbation
+export class CellularAIPerturbation {
+   # 当前上下文对齐模式。
+   AlignmentMode: <a href="/vignettes/clr/SMRUCC/genomics/BioSystem/ContextAlignmentMode.html">ContextAlignmentMode</a>;
+   # 默认合成细胞数：接口方法的 <code>nSamples</code> 传 0 时使用。
+   DefaultCells: integer;
+   # 最近一次扰动的诊断信息。
+   Diagnostics: list;
+   # 是否已注入上下文。
+   HasContext: boolean;
+   # 模型。
+   Model: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/VirtualCellular/Model/VirtualCellModel.html">VirtualCellModel</a>;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>AlignmentMode</code>: <a href="/vignettes/clr/SMRUCC/genomics/BioSystem/ContextAlignmentMode.html">ContextAlignmentMode</a></li>
+<li>use by <i>property</i> member <code>Diagnostics</code>: list</li>
+<li>use by <i>property</i> member <code>Model</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/VirtualCellular/Model/VirtualCellModel.html">VirtualCellModel</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

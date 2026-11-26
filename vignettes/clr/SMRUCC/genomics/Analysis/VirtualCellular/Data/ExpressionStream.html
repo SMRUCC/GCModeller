@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.VirtualCellular.Data.ExpressionStream</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>ExpressionStream {SMRUCC.genomics.Analysis.VirtualCellular.Data}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>ExpressionStream</h2>
+
+        <h3>Description</h3>
+
+        <p>流式装配：把一个"基因 × 细胞"的 CSV 变成 CellularAI 需要的"细胞 × 基因"对照矩阵。</p>
+
+<p>流程只有一次磁盘扫描：先读表头拿到细胞轴，再让 <a href="cref:M:SMRUCC.genomics.Analysis.HTS.DataFrame.Document.StreamRows(System.String,Microsoft.VisualBasic.ComponentModel.Collection.Index{System.String},System.Boolean,System.Int32)">Document.StreamRows()</a> 逐行吐出基因，直接交给 <code>AsCsrMatrix</code> 转置成"细胞 × 基因"的 CSR。</p>
+
+<p>基因轴怎么来：转换函数只返回矩阵、不返回行名，因此在枚举外层套一个 "记录 + 透传"的迭代器（<a href="cref:M:SMRUCC.genomics.Analysis.VirtualCellular.Data.ExpressionStream.Trace(System.Collections.Generic.IEnumerable{SMRUCC.genomics.Analysis.HTS.DataFrame.DataFrameRow},System.Collections.Generic.List{System.String})">ExpressionStream.Trace()</a>）在同一个枚举过程中收集 <code>geneID</code>， 既不二次遍历，也不把行缓存下来。</p>
+
+<p>列过滤：<a href="cref:M:SMRUCC.genomics.Analysis.HTS.DataFrame.Document.StreamRows(System.String,Microsoft.VisualBasic.ComponentModel.Collection.Index{System.String},System.Boolean,System.Int32)">Document.StreamRows()</a> 只支持"排除列"， 因此按期别过滤时把"不保留的 barcode"整体作为 <code>excludes</code> 传进去， 行内的 <code>experiments</code> 会自动只包含保留列。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.VirtualCellular.Data
+export class ExpressionStream {
+   # 细胞轴（顺序 = 保留列顺序）。
+   Cells: string;
+   # 对照矩阵：细胞 × 基因。
+   Controls: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/LinearAlgebra/Matrix/Compressed/CsrMatrix.html">CsrMatrix</a>;
+   # 基因轴（顺序 = CSV 行序）。
+   Genes: string;
+   # 细胞元数据。
+   Metadata: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/VirtualCellular/Data/CellMetadata.html">CellMetadata</a>;
+   # 没有元数据记录的细胞。
+   MissingMetadata: string;
+   # 实际使用的期别过滤（未过滤时为空数组）。
+   StageFilter: string;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>Controls</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/LinearAlgebra/Matrix/Compressed/CsrMatrix.html">CsrMatrix</a></li>
+<li>use by <i>property</i> member <code>Metadata</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/VirtualCellular/Data/CellMetadata.html">CellMetadata</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

@@ -1,0 +1,28 @@
+.\" man page create by R# package system.
+.TH VIRTUALCELLULAR 1 2000-1月 "overexpress_genes" "overexpress_genes"
+.SH NAME
+overexpress_genes \- 联合过表达（接口只定义了单基因，多基因场景走这个入口）。
+.SH SYNOPSIS
+\fIoverexpress_genes(\fBexperiment\fR as <generic> CellularAIPerturbation, 
+\fBgenes\fR as string, 
+\fBcells\fR as integer = 0);\fR
+.SH DESCRIPTION
+.PP
+联合过表达（接口只定义了单基因，多基因场景走这个入口）。
+.PP
+.SH OPTIONS
+.PP
+\fBexperiment\fB \fR\- 由 `as_perturbation` 得到的实验对象. 
+.PP
+.PP
+\fBgenes\fB \fR\- 同时过表达的基因集合. 
+.PP
+.PP
+\fBcells\fB \fR\- 合成细胞数；0 表示使用实验对象的默认值. 
+.PP
+.SH SEE ALSO
+VirtualCellular
+.SH FILES
+.PP
+biosystem.dll
+.PP
