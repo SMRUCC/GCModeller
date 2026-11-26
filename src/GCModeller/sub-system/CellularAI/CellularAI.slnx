@@ -7,6 +7,6 @@
     <Project Path="../../../runtime/sciBASIC#/Data_science/Mathematica/Math/Math/Math.NET5.vbproj" />
     <Project Path="../../../runtime/sciBASIC#/Microsoft.VisualBasic.Core/src/Core.vbproj" />
   </Folder>
+  <Project Path="CellularAI.test/test.vbproj" />
   <Project Path="CellularAI/CellularAI.vbproj" />
-  <Project Path="CellularAI.test/CellularAI.test.vbproj" />
 </Solution>

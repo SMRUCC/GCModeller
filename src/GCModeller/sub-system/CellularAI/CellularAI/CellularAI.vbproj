@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <RootNamespace>CellularAI</RootNamespace>
+    <RootNamespace>SMRUCC.genomics.Analysis.Illumina.CellularAI</RootNamespace>
     <TargetFramework>net10.0</TargetFramework>
     <AssemblyTitle>CellularAI: Predicting single-cell responses to genetic perturbations</AssemblyTitle>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
@@ -22,8 +22,9 @@
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);1591</NoWarn>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageTags>cellularai;virtual-cell;single-cell;perturbation;transcriptome;meta-analysis;random-effects;stouffer;randomized-svd;truncated-pca;ridge-regression;copula;wilcoxon;count-synthesis;gcmodeller</PackageTags>
+    <PackageTags>Illumina;cellularai;virtual-cell;single-cell;perturbation;transcriptome;meta-analysis;random-effects;stouffer;randomized-svd;truncated-pca;ridge-regression;copula;wilcoxon;count-synthesis;gcmodeller</PackageTags>
     <PackageReleaseNotes>This cycle: first CPU release of the CellularAI reproduction. Added the seven-stage in-memory pipeline: Summary pooling (row x perturbation x record weighted DerSimonian-Laird tau2, inverse-variance weights relative floor, weighted mean log2FC, Stouffer combination, guard counters); Planning (similarity weights with softmax and a water-filling weight cap, plan z / similarity z / x_sim, curve sizes with power reshuffle and similarity lift, call selection excluding the own target); Residual correction (randomized SVD response basis with own-target replacement, per-gene multi-response ridge with row masking, bounded-ratio and sign preserving shaping); Totals design (profile spread, secant/bisection margin solver, control PCs, control-program smoothing and program weighting, largest-remainder integer totals, fixed-point credit solve); Count synthesis (seeded reproducible random source with per-perturbation CRC32 seeds, quantile builder with exact mass conservation and sparsification, exact Wilcoxon z kernel, shift bisection, copula correlation search with overshoot repair and rank-neutral demotion, burst scattering for low expression genes); Scoring (DE table with exact rank sum and BH, six VCC metrics with anchor scaling); and gating via ContextPipeline returning a CsrMatrix plus a PredictionReport. Added a sibling DebugAudit test project covering M0 to M7.</PackageReleaseNotes>
+    <AssemblyName>SMRUCC.genomics.Analysis.Illumina.CellularAI</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

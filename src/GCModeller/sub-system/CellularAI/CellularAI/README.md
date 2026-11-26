@@ -114,14 +114,16 @@ Dim total As Double = Metrics.AnchorScore(scores)
 
 | 分组 | 参数 | 默认值 |
 |---|---|---|
-| `Pooling` | `L2Row` / `L2Tot` / `Z` 因子表达式 | `inv:mad:dl` / 同类 / `sef*kd` |
-| `Calls` | `EligibleCpm` / `MinLfc` / `NMin` / `NMax` | 5 / 0.2 / 50 / 2000 |
-| `Plan` | `SimNtop` / `SimCap` / `PlanZUniform` | 3000 / 0.25 / 0 |
+| `Pooling` | `L2Row` / `L2Col` / `L2Mat` | `inv:mad:dl` / `sef*kd` / `auxiliary*sim*pair` |
+| `Pooling` | `ZRow` / `ZCol` / `ZMat` | `nr` / `sef*kd` / `auxiliary*sim*pair` |
+| `Pooling` | `Sim` / `SimHvg` / `AuxiliaryWeight` / `PairWeight` | 0.25 / 2000 / 2.0 / 0.5 |
+| `Calls` | `EligibleCpm` / `MinLfc` / `NMin` / `NMax` | 5 / 0.02 / 5 / 6000 |
+| `Plan` | `SimNtop` / `SimCap` / `PlanZUniform` | 3000 / 0.3 / 0.5 |
 | `Totals` | `ResidualRank` / `ResidualRidge` / `ResidualMinMeasured` / `PwK` | 160 / 10.0 / 32 / 100 |
 | `Totals` | `AmpShare` / `Mix` / `ShapeGamma` / `ShapeKz` / `GateZ` | 0.9 / 0.5 / 0.8 / 16 / 5 |
 | `Totals` | `CreditDraws` / `CreditSeed` / `FixedSteps` / `FixedRtol` | 64 / 7 / 3 / 1e-3 |
-| `Synthesis` | `ZPlan` / `ZNudge` / `RMax` / `NBis` / `NeBurst` | (5,12) / 2 / 0.99 / 5 / 4 |
-| `Synthesis` | `ShiftBand` / `SolveTol` / `SolveIters` / `SparsifyStep` | (−0.6, 1.6) / 0.05 / 40 / 0.025 |
+| `Synthesis` | `ZPlan` / `ZNudge` / `Rmax` / `NBis` / `NeBurst` | (5.5, 9.0) / 2.0 / 0.99 / 5 / 4 |
+| `Synthesis` | `Ztol` / `ZtolPlan` / `ShiftBand` / `SolveTol` / `SolveIters` / `SparsifyStep` | 1.0 / 0.2 / (−0.6, 1.6) / 0.05 / 40 / 0.025 |
 | `Guards` | `L2AbsMax` / `ZAbsMax` / `Log2Max` / `VFloorRel` | 6.25 / 187.5 / 12.5 / 0.0024 |
 | `Guards` | `CreditBandLo` / `CreditKink` / `MaxUnmeasured` | 0.975 / 1.001 / 0 |
 

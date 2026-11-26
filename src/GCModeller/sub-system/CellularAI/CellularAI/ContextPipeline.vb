@@ -140,7 +140,7 @@ Public Module ContextPipeline
 
                     Call jobs.Add(New SynthesisJob With {
                         .Name = perturbations(p),
-                        .Totals = Slice(totals, p),
+                        .totals = Slice(totals, p),
                         .Libraries = Enumerable.Repeat(CDbl(engine.Depth), nCells).ToArray,
                         .Targets = TargetsFromTotals(totals, p, nCells, perturbations(p)),
                         .PlanIndex = entry.Index,
@@ -148,7 +148,7 @@ Public Module ContextPipeline
                         .PlanPriority = entry.Priority,
                         .NudgeSign = entry.NudgeSign,
                         .NudgeStrength = entry.NudgeStrength,
-                        .Seed = PerturbationSeed.Combine(seed, perturbations(p))
+                        .seed = PerturbationSeed.Combine(seed, perturbations(p))
                     })
                 Next
 
