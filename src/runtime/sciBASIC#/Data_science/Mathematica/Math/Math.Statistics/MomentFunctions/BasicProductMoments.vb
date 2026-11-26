@@ -79,7 +79,15 @@ Namespace MomentFunctions
         ''' <returns></returns>
         Public ReadOnly Property SampleVariance As Double
 
-        Dim _ZAlphaForConvergence As Double = 1.96039491692453
+        ''' <summary>
+        ''' 收敛判据使用的 z 值，默认是 95% 双侧置信区间对应的 <c>Φ⁻¹(0.975) = 1.959963984540054</c>
+        ''' </summary>
+        ''' <remarks>
+        ''' 历史上这个字面量是 <c>1.96039491692453</c>——旧版 <c>Normal.GetInvCDF</c> 的逼近结果。
+        ''' 该逼近已被修正为高精度实现（见 <c>NormalDistribution.InvCDF</c>），
+        ''' 因此默认值同步为精确值，避免"默认常量与 <see cref="SetZAlphaForConvergence"/> 算出来的值不一致"。
+        ''' </remarks>
+        Dim _ZAlphaForConvergence As Double = 1.959963984540054
         Dim _ToleranceForConvergence As Double = 0.01
         Dim _MinValuesBeforeConvergenceTest As Integer = 100
 

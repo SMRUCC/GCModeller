@@ -102,140 +102,23 @@ Namespace Distributions.MethodOfMoments
         End Sub
 
         Public Overrides Function GetInvCDF(probability As Double) As Double
-            Dim i As Integer
-            Dim x As Double
-            Dim c0 As Double = 2.515517
-            Dim c1 As Double = 0.802853
-            Dim c2 As Double = 0.010328
-            Dim d1 As Double = 1.432788
-            Dim d2 As Double = 0.189269
-            Dim d3 As Double = 0.001308
-            Dim q As Double
+            If _StDev <= 0 Then Return Double.NaN
 
-            q = probability
-
-            If q = 0.5 Then Return _Mean
-            If q <= 0 Then q = 0.000000000000001
-            If q >= 1 Then q = 0.999999999999999
-
-            If q < 0.5 Then
-                i = -1
-            Else
-                i = 1
-                q = 1 - q
-            End If
-
-            Dim t As Double = std.Sqrt(std.Log(1 / std.Pow(q, 2)))
-            x = t - (c0 + c1 * t + c2 * (std.Pow(t, 2))) / (1 + d1 * t + d2 * std.Pow(t, 2) + d3 * std.Pow(t, 3))
-            x = i * x
-
-            Return (x * _StDev) + _Mean
-        End Function
-
-        Private Function TrapazoidalIntegration(y1 As Double, y2 As Double, deltax As Double) As Double
-            Dim deltay As Double = 0
-            Dim rect As Double = 0
-            If y1 > y2 Then
-                deltay = y1 - y2
-                rect = std.Abs(y2 * deltax)
-            Else
-                deltay = y2 - y1
-                rect = std.Abs(y1 * deltax)
-            End If
-            Dim tri As Double = (1 \ 2) * (deltax * deltay)
-            Return rect + std.Abs(tri)
-        End Function
-
-        Private Function FindArea(a As Double, inc As Double, x As Double) As Double
-            Dim x1 As Double = GetInvCDF(a)
-            Dim x2 As Double = GetInvCDF(a + inc)
-            Do While x2 >= x
-                x1 = x2
-                a += inc
-                x2 = GetInvCDF(a + inc)
-            Loop
-            Dim y1 As Double = GetPDF(x1)
-            Dim y2 As Double = GetPDF(x2)
-            Dim deltax As Double = std.Abs(x1 - x2)
-            Dim area As Double = TrapazoidalIntegration(y1, y2, deltax)
-            Dim interpvalue As Double = (x - x1) / (x2 - x1)
-            a += area * interpvalue
-            Return a
+            ' 见 NormalDistribution.InvCDF：Acklam 逼近 + Halley 精化，端点返回 ∓∞
+            Return _Mean + _StDev * NormalDistribution.InvCDF(probability)
         End Function
 
         Public Overrides Function GetCDF(value As Double) As Double
-            'decide which method i want to use.  errfunction, the method i came up with in vb, or something else.
-            If value = _Mean Then Return 0.5
-            Dim dist As Double = value - _Mean
-            Dim stdevs As Integer = CInt(Fix(std.Floor(std.Abs(dist / _StDev))))
-            Dim inc As Double = 1 \ 250
-            Dim a As Double = 0.5
-            Dim a1 As Double = 0.682689492137 / 2
-            Dim a2 As Double = 0.954499736104 / 2
-            Dim a3 As Double = 0.997300203937 / 2
-            Dim a4 As Double = 0.999936657516 / 2
-            Dim a5 As Double = 0.999999426687 / 2
-            Dim a6 As Double = 0.999999998027 / 2
-            Dim a7 As Double = (a - a6) / 2
+            If _StDev <= 0 Then Return Double.NaN
 
-            Select Case stdevs
-                Case 0
-                    If dist < 0 Then a += -a1
-                    Return FindArea(a, inc, value)
-                Case 1
-                    If dist < 0 Then
-                        a -= a2
-                    Else
-                        a += a1
-                    End If
-                    Return FindArea(a, inc, value)
-                Case 2
-                    If dist < 0 Then
-                        a -= a3
-                    Else
-                        a += a2
-                    End If
-                    Return FindArea(a, inc, value)
-                Case 3
-                    If dist < 0 Then
-                        a -= a4
-                    Else
-                        a += a3
-                    End If
-                    Return FindArea(a, inc, value)
-                Case 4
-                    If dist < 0 Then
-                        a -= a5
-                    Else
-                        a += a4
-                    End If
-                    Return FindArea(a, inc, value)
-                Case 5
-                    If dist < 0 Then
-                        a -= a6
-                    Else
-                        a += a5
-                    End If
-                    Return FindArea(a, inc, value)
-                Case 6
-                    If dist < 0 Then
-                        a -= a7
-                    Else
-                        a += a6
-                    End If
-                    Return FindArea(a, inc, value)
-                Case Else
-                    If dist < 0 Then
-                        Return 0
-                    Else
-                        Return 1
-                    End If
-            End Select
+            Return NormalDistribution.CDF((value - _Mean) / _StDev)
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function GetPDF(value As Double) As Double
-            Return (1 / std.Sqrt(2 * std.PI) * std.Pow(_StDev, 2.0)) * std.Exp((-(std.Pow(value - _Mean, 2) / (2 * std.Pow(_StDev, 2)))))
+            If _StDev <= 0 Then Return Double.NaN
+
+            Return NormalDistribution.PDF((value - _Mean) / _StDev) / _StDev
         End Function
 
         Public Overrides Iterator Function Validate() As IEnumerable(Of Exception)

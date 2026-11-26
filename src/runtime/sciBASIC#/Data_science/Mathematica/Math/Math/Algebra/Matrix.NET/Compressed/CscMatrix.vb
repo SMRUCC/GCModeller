@@ -1,7 +1,7 @@
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language.Vectorization
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
-Imports std = System.Math
+Imports sysmath = System.Math
 
 Namespace LinearAlgebra.Matrix.Compressed
 
@@ -236,14 +236,14 @@ Namespace LinearAlgebra.Matrix.Compressed
         ''' <summary>
         ''' 抽取一整列（稠密）
         ''' </summary>
-        ''' <param name="column">列下标</param>
+        ''' <param name="columnIndex">列下标</param>
         ''' <returns>长度 = <see cref="Rows"/></returns>
-        Public Function Column(column As Integer) As Double()
-            CheckColumn(column)
+        Public Function Column(columnIndex As Integer) As Double()
+            CheckColumn(columnIndex)
 
             Dim out As Double() = New Double(m_rows - 1) {}
 
-            For k As Integer = m_indptr(column) To m_indptr(column + 1) - 1
+            For k As Integer = m_indptr(columnIndex) To m_indptr(columnIndex + 1) - 1
                 out(m_indices(k)) = m_values(k)
             Next
 
@@ -253,20 +253,20 @@ Namespace LinearAlgebra.Matrix.Compressed
         ''' <summary>
         ''' 抽取一整行（稠密）
         ''' </summary>
-        ''' <param name="row">行下标</param>
+        ''' <param name="rowIndex">行下标</param>
         ''' <returns>长度 = <see cref="Columns"/></returns>
         ''' <remarks>复杂度 <c>O(nnz)</c>；需要反复按行访问时请先 <see cref="ToCsr"/></remarks>
-        Public Function Row(row As Integer) As Double()
-            CheckRow(row)
+        Public Function Row(rowIndex As Integer) As Double()
+            CheckRow(rowIndex)
 
             Dim out As Double() = New Double(m_columns - 1) {}
 
             For j As Integer = 0 To m_columns - 1
                 For k As Integer = m_indptr(j) To m_indptr(j + 1) - 1
-                    If m_indices(k) = row Then
+                    If m_indices(k) = rowIndex Then
                         out(j) = m_values(k)
                         Exit For
-                    ElseIf m_indices(k) > row Then
+                    ElseIf m_indices(k) > rowIndex Then
                         Exit For
                     End If
                 Next
@@ -340,7 +340,7 @@ Namespace LinearAlgebra.Matrix.Compressed
             Dim sum As Double = 0.0
 
             For k As Integer = 0 To m_values.Length - 1
-                sum += std.Abs(m_values(k))
+                sum += sysmath.Abs(m_values(k))
             Next
 
             Return sum
@@ -571,7 +571,7 @@ Namespace LinearAlgebra.Matrix.Compressed
 
             For j As Integer = 0 To m_columns - 1
                 For k As Integer = m_indptr(j) To m_indptr(j + 1) - 1
-                    If std.Abs(m_values(k)) > threshold Then
+                    If sysmath.Abs(m_values(k)) > threshold Then
                         Call indices.Add(m_indices(k))
                         Call values.Add(m_values(k))
                     End If
@@ -590,7 +590,7 @@ Namespace LinearAlgebra.Matrix.Compressed
                 Throw New ArgumentException($"resize dimensions must not be negative: [{M}, {N}]")
             End If
 
-            Dim colsToCopy As Integer = std.Min(N, m_columns)
+            Dim colsToCopy As Integer = sysmath.Min(N, m_columns)
             Dim indptr As Integer() = New Integer(N) {}
             Dim indices As New List(Of Integer)(m_values.Length)
             Dim values As New List(Of Double)(m_values.Length)
@@ -646,11 +646,26 @@ Namespace LinearAlgebra.Matrix.Compressed
         End Function
 
         ''' <summary>
-        ''' 转置，返回按行压缩的等价矩阵
+        ''' 转置：返回转置矩阵的 CSR 形式（维度互换）。
         ''' </summary>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' CSC 的第 <c>j</c> 列就是转置矩阵的第 <c>j</c> 行，且列内行下标已经升序，
+        ''' 因此转置只是"把列指针当成行指针"——两个数据数组可以整体复用，<c>O(columns)</c>。
+        ''' </remarks>
         Public Function Transpose() As GeneralMatrix Implements GeneralMatrix.Transpose
-            Return ToCsr()
+            Dim indptr As Integer() = New Integer(m_columns) {}
+            Dim indices As Integer() = New Integer(m_values.Length - 1) {}
+            Dim values As Double() = New Double(m_values.Length - 1) {}
+
+            For j As Integer = 0 To m_columns - 1
+                indptr(j + 1) = indptr(j) + (m_indptr(j + 1) - m_indptr(j))
+            Next
+
+            Call Array.ConstrainedCopy(m_indices, 0, indices, 0, m_indices.Length)
+            Call Array.ConstrainedCopy(m_values, 0, values, 0, m_values.Length)
+
+            Return New CsrMatrix(m_columns, m_rows, indptr, indices, values)
         End Function
 
         Public Function Dot(m2 As GeneralMatrix) As GeneralMatrix Implements GeneralMatrix.Dot

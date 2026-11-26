@@ -1,5 +1,3 @@
-Imports std = System.Math
-
 Namespace LinearAlgebra.Matrix.Compressed
 
     ''' <summary>

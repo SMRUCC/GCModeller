@@ -1,5 +1,5 @@
 Imports System.Runtime.CompilerServices
-Imports std = System.Math
+Imports sysmath = System.Math
 
 Namespace LinearAlgebra.Matrix.Compressed
 
@@ -43,7 +43,7 @@ Namespace LinearAlgebra.Matrix.Compressed
             Dim values As Double() = matrix.Values
 
             For k As Integer = 0 To values.Length - 1
-                Dim v As Double = std.Abs(values(k))
+                Dim v As Double = sysmath.Abs(values(k))
 
                 If v > max Then max = v
             Next
@@ -87,7 +87,7 @@ Namespace LinearAlgebra.Matrix.Compressed
                 Dim v As Double = values(k)
 
                 If v < -tolerance Then Return False
-                If std.Abs(v - std.Round(v)) > tolerance Then Return False
+                If sysmath.Abs(v - sysmath.Round(v)) > tolerance Then Return False
             Next
 
             Return True
@@ -113,7 +113,7 @@ Namespace LinearAlgebra.Matrix.Compressed
                 If v < 0.0 Then
                     Throw New ArgumentException($"{matrixName}: negative count {v} at non-zero entry #{k}", matrixName)
                 End If
-                If v <> std.Round(v) Then
+                If v <> sysmath.Round(v) Then
                     Throw New ArgumentException($"{matrixName}: non-integer count {v} at non-zero entry #{k}", matrixName)
                 End If
                 If v >= ExactIntegerLimit Then

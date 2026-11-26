@@ -14,8 +14,10 @@
     <RepositoryType>git</RepositoryType>
     <Version>10.8.9818.14504</Version>
     <AssemblyVersion>1.0.9818.14504</AssemblyVersion>
-    <Title>Statistics Toolkit: Distributions, Hypothesis Tests and SHAP</Title>
-    <Description>A statistics toolkit for sciBASIC#: probability distributions with method-of-moments and L-moment estimation, t-test, F-test, chi-square, Fisher exact, Mantel and Moran's I hypothesis tests, plus FastICA, RANSAC and Shapley/TreeSHAP feature attribution.</Description>
+    <Title>Statistics Toolkit: Distributions, Hypothesis Tests, Meta-Analysis and SHAP</Title>
+    <Description>A statistics toolkit for sciBASIC#: high precision normal distribution functions (erf/erfc, CDF/CCDF, inverse CDF), probability distributions with method-of-moments and L-moment estimation, t-test, F-test, chi-square, Fisher exact, Mantel and Moran's I hypothesis tests, Wilcoxon rank-sum (Mann-Whitney U) tests with order-statistics caching, order statistics and quantile mapping, DerSimonian-Laird random-effects meta-analysis with Stouffer/Liptak evidence combination, integer apportionment with exact mass conservation, Gaussian copula rank correlation, single-cell count statistics (chunked CPM, jackknife moments), plus FastICA, RANSAC and Shapley/TreeSHAP feature attribution.</Description>
+    <PackageTags>scibasic;statistics;hypothesis-testing;wilcoxon;rank-sum;order-statistics;meta-analysis;random-effects;copula;apportionment;sparse;single-cell;distributions;fastica;ransac;shapley-value</PackageTags>
+    <PackageReleaseNotes>This cycle: added NormalDistribution (accurate erf/erfc, CDF/CCDF, InvCDF/InvCCDF with tail-stable inversion); added Hypothesis.Wilcoxon with ControlOrderStats caching, exact small-sample p-values and BH adjustment; added OrderStatistics (OrderStatisticsTable, QuantileProfile, Quantiles); added SingleCell count statistics (chunked CPM, detection rate, library profile, jackknife moment); added MetaAnalysis (DerSimonian-Laird tau2, inverse-variance pooling, Cochran Q / I2, Stouffer/Liptak); added Apportionment (largest remainder, mass conservation); added Copula (GaussianCopula mix/ranks/find-correlation); fixed Normal.GetCDF/GetPDF/GetInvCDF (integer division and normalization constant bugs) by delegating to NormalDistribution, and aligned BasicProductMoments default z-alpha to the corrected quantile.</PackageReleaseNotes>
     <AssemblyTitle>Microsoft.VisualBasic.Math.Statistics</AssemblyTitle>
     <Authors>xieguigang &lt;I@xieguigang.me&gt;</Authors>
     <Company>sciBASIC.NET Foundation</Company>
@@ -101,6 +103,9 @@
     <Compile Remove="Example\**" />
     <EmbeddedResource Remove="Example\**" />
     <None Remove="Example\**" />
+    <Compile Remove="test\**" />
+    <EmbeddedResource Remove="test\**" />
+    <None Remove="test\**" />
     <None Include="..\..\..\..\vs_solutions\logo-knot.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>

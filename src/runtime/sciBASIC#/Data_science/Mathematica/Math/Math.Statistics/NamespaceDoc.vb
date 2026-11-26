@@ -1,59 +1,25 @@
-﻿#Region "Microsoft.VisualBasic::62f5a8f717f53cde795583e41bbbab3a, Data_science\Mathematica\Math\Math.Statistics\NamespaceDoc.vb"
-
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-    ' /********************************************************************************/
-
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 6
-    '    Code Lines: 2 (33.33%)
-    ' Comment Lines: 4 (66.67%)
-    '    - Xml Docs: 100.00%
-    ' 
-    '   Blank Lines: 0 (0.00%)
-    '     File Size: 177 B
-
-
-    ' Class NamespaceDoc
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
-
-#End Region
-
-''' <summary>
+﻿''' <summary>
 ''' The statistics library root: descriptive statistics, hypothesis testing and statistical
 ''' resampling.
 ''' </summary>
+''' <remarks>
+''' <para>
+''' 命名空间分区：
+''' </para>
+''' <list type="bullet">
+''' <item><description><c>Distributions</c>：分布模型与参数估计；</description></item>
+''' <item><description><c>Hypothesis</c>：参数检验、精确检验与 <c>Wilcoxon</c> 秩和检验；</description></item>
+''' <item><description><c>OrderStatistics</c>：序统计表、分位剖面与分位数工具；</description></item>
+''' <item><description><c>SingleCell</c>：单细胞计数包装与计数算子（CPM、Jackknife 矩）；</description></item>
+''' <item><description><c>MetaAnalysis</c>：随机效应元分析、异质性与证据合并；</description></item>
+''' <item><description><c>Apportionment</c>：整数分摊与质量守恒；</description></item>
+''' <item><description><c>Copula</c>：Gaussian copula 与秩相关反演；</description></item>
+''' <item><description><c>MomentFunctions</c>、<c>ShapleyValue</c>、<c>RANSAC</c>：描述统计与高级方法。</description></item>
+''' </list>
+''' <para>
+''' 根命名空间提供 <see cref="NormalDistribution"/>：erf/erfc、Φ/Φ⁻¹、尾概率与带符号正态分数，
+''' 是上述检验与合并算子的公共数值底座。
+''' </para>
+''' </remarks>
 Friend Class NamespaceDoc
 End Class

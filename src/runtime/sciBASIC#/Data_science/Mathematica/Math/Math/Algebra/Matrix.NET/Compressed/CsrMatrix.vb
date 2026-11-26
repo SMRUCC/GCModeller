@@ -1,7 +1,7 @@
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language.Vectorization
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
-Imports std = System.Math
+Imports sysmath = System.Math
 
 Namespace LinearAlgebra.Matrix.Compressed
 
@@ -242,7 +242,7 @@ Namespace LinearAlgebra.Matrix.Compressed
         ''' </summary>
         ''' <remarks>
         ''' <b>本类型是不可变容器，写入操作会抛出 <see cref="NotSupportedException"/>。</b>
-        ''' 需要构造新值请使用 <see cref="Slice(Integer(), Integer())"/> 或先用 <see cref="ToDense"/> 转为稠密矩阵。
+        ''' 需要构造新值请使用 <see cref="Slice"/> 或先用 <see cref="ToDense"/> 转为稠密矩阵。
         ''' </remarks>
         Default Public Property X(i As Integer, j As Integer) As Double Implements GeneralMatrix.X
             Get
@@ -308,14 +308,14 @@ Namespace LinearAlgebra.Matrix.Compressed
         ''' <summary>
         ''' 抽取一整行（稠密）
         ''' </summary>
-        ''' <param name="row">行下标</param>
+        ''' <param name="rowIndex">行下标</param>
         ''' <returns>长度为 <see cref="Columns"/> 的数组</returns>
-        Public Function Row(row As Integer) As Double()
-            CheckRow(row)
+        Public Function Row(rowIndex As Integer) As Double()
+            CheckRow(rowIndex)
 
             Dim out As Double() = New Double(m_columns - 1) {}
 
-            For k As Integer = m_indptr(row) To m_indptr(row + 1) - 1
+            For k As Integer = m_indptr(rowIndex) To m_indptr(rowIndex + 1) - 1
                 out(m_indices(k)) = m_values(k)
             Next
 
@@ -429,7 +429,7 @@ Namespace LinearAlgebra.Matrix.Compressed
             Dim sum As Double = 0.0
 
             For k As Integer = 0 To m_values.Length - 1
-                sum += std.Abs(m_values(k))
+                sum += sysmath.Abs(m_values(k))
             Next
 
             Return sum
@@ -623,32 +623,37 @@ Namespace LinearAlgebra.Matrix.Compressed
         ''' </summary>
         ''' <returns></returns>
         Public Function ToCsc() As CscMatrix
-            Dim indptr As Integer() = New Integer(m_columns) {}
+            ' 转置矩阵 B = Aᵀ 的列数 = A 的行数，因此 indptr 长度是 m_rows + 1；
+            ' B 的每一列恰好就是 A 的每一行（A 行内列下标升序 ⇒ B 列内行下标升序）
+            Dim indptr As Integer() = New Integer(m_rows) {}
             Dim indices As Integer() = New Integer(m_values.Length - 1) {}
             Dim values As Double() = New Double(m_values.Length - 1) {}
 
-            ' 计数排序：先统计每一列的非零元个数，再前缀和定位
-            For k As Integer = 0 To m_values.Length - 1
-                indptr(m_indices(k) + 1) += 1
-            Next
-            For j As Integer = 0 To m_columns - 1
-                indptr(j + 1) += indptr(j)
+            For i As Integer = 0 To m_rows - 1
+                indptr(i + 1) = indptr(i) + (m_indptr(i + 1) - m_indptr(i))
             Next
 
             Dim cursor As Integer() = DirectCast(indptr.Clone(), Integer())
 
             For i As Integer = 0 To m_rows - 1
                 For k As Integer = m_indptr(i) To m_indptr(i + 1) - 1
-                    Dim col As Integer = m_indices(k)
-                    Dim pos As Integer = cursor(col)
+                    Dim pos As Integer = cursor(i)
 
-                    indices(pos) = i
+                    indices(pos) = m_indices(k)
                     values(pos) = m_values(k)
-                    cursor(col) = pos + 1
+                    cursor(i) = pos + 1
                 Next
             Next
 
             Return New CscMatrix(m_columns, m_rows, indptr, indices, values)
+        End Function
+
+        ''' <summary>
+        ''' 转置（返回按列压缩的等价矩阵，见 <see cref="ToCsc"/>）
+        ''' </summary>
+        ''' <returns></returns>
+        Public Function Transpose() As GeneralMatrix Implements GeneralMatrix.Transpose
+            Return ToCsc()
         End Function
 
 #End Region
@@ -848,7 +853,7 @@ Namespace LinearAlgebra.Matrix.Compressed
 
             For i As Integer = 0 To m_rows - 1
                 For k As Integer = m_indptr(i) To m_indptr(i + 1) - 1
-                    If std.Abs(m_values(k)) > threshold Then
+                    If sysmath.Abs(m_values(k)) > threshold Then
                         Call indices.Add(m_indices(k))
                         Call values.Add(m_values(k))
                     End If
@@ -876,7 +881,7 @@ Namespace LinearAlgebra.Matrix.Compressed
                 Throw New ArgumentException($"resize dimensions must not be negative: [{M}, {N}]")
             End If
 
-            Dim rowsToCopy As Integer = std.Min(M, m_rows)
+            Dim rowsToCopy As Integer = sysmath.Min(M, m_rows)
             Dim indptr As Integer() = New Integer(M) {}
             Dim indices As New List(Of Integer)(m_values.Length)
             Dim values As New List(Of Double)(m_values.Length)
