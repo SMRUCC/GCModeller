@@ -135,8 +135,8 @@ Public Module M1PoolingAudit
         }
 
         Dim evidence As ContextEvidence = Combine(
-            stack:=New Double()()() {{{2.0}}, {{Double.NaN}}},
-            probability:=New Double()()() {{{0.05}}, {{Double.NaN}}},
+            stack:=Cube(Row({2.0}), Row({Double.NaN})),
+            probability:=Cube(Row({0.05}), Row({Double.NaN})),
             tables:={table, table},
             genes:={"g1"}, perts:={"g1"})
 
@@ -168,8 +168,8 @@ Public Module M1PoolingAudit
         Next
 
         Dim evidence As ContextEvidence = Combine(
-            stack:=New Double()()() {{{effects(0)}}, {{effects(1)}}, {{effects(2)}}},
-            probability:=New Double()()() {{{0.5}}, {{0.5}}, {{0.5}}},
+            stack:=Cube(Row({effects(0)}), Row({effects(1)}), Row({effects(2)})),
+            probability:=Cube(Row({0.5}), Row({0.5}), Row({0.5})),
             tables:=tables, genes:={"g1"}, perts:={"g1"},
             vFloorRel:=0.0)
 
