@@ -117,6 +117,12 @@ Public Module ProgramMilp
                     TruncatedSVDTest.Main()
 
                     Return 0
+                Case "rsvd"
+                    ' 随机化 SVD（幂迭代 + QR 重正交 + 容差秩）的 DebugAudit 审计
+                    Return RandomizedSvdAudit.RunAll()
+                Case "pca"
+                    ' 截断 PCA（基因空间载荷 + 解释方差）的 DebugAudit 审计
+                    Return TruncatedPcaAudit.RunAll()
                 Case "algebra-fix"
                     ' Algebra 准确度修正 + SIMD 化的回归验证
                     Return AlgebraFixTest.RunAll()
