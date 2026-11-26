@@ -19,6 +19,8 @@ Module Program
                 Return M1PoolingAudit.Run()
             Case "m2"
                 Return M2PlanAudit.Run()
+            Case "m3"
+                Return M3ResidualAudit.Run()
             Case Else
                 Call Console.WriteLine($"unknown audit '{selector}'; known: m0")
                 Return 2
