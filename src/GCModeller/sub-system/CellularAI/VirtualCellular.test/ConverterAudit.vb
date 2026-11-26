@@ -3,7 +3,6 @@ Imports System.IO
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix.Compressed
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
-Imports SMRUCC.genomics.Analysis.HTS.Matrix
 
 ''' <summary>
 ''' 流式稀疏矩阵转换审计：稠密对拍、CSC↔CSR 互为转置、空行/全零行、列选择、形状校验。
@@ -167,8 +166,10 @@ Public Module ConverterAudit
         Dim csr As CsrMatrix = CType(rows, IEnumerable(Of DataFrameRow)).AsCsrMatrix(samples, verbose:=False)
 
         Call DebugAudit.AreEqual(2, csr.RowDimension, "the CSR keeps only the selected samples as rows")
-        Call DebugAudit.AreEqual(7.0, csr.ValueOf(0, 0), "the first selected sample keeps its value")
-        Call DebugAudit.AreEqual(9.0, csr.ValueOf(1, 1), "the second selected sample keeps its value")
+
+        ' CSR 的行是样本、列是基因：7.0 落在 (样本 c4 = 行1, 基因 g1 = 列0)，9.0 落在 (行0, 列1)
+        Call DebugAudit.AreEqual(7.0, csr.ValueOf(1, 0), "the first selected sample keeps its value")
+        Call DebugAudit.AreEqual(9.0, csr.ValueOf(0, 1), "the second selected sample keeps its value")
         Call DebugAudit.AreEqual(2L, csr.NonZeros, "the selection does not introduce extra entries")
     End Sub
 
