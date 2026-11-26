@@ -55,6 +55,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix.Compressed
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 
 ''' <summary>
@@ -160,5 +161,16 @@ Public Module MatrixBuilder
                 .geneID = id
             }
         Next
+    End Function
+
+    <Extension>
+    Public Function AsCscMatrix(rows As IEnumerable(Of DataFrameRow), sample_ids As String()) As CscMatrix
+
+
+    End Function
+
+    <Extension>
+    Public Function AsCsrMatrix(rows As IEnumerable(Of DataFrameRow), sample_ids As String()) As CsrMatrix
+
     End Function
 End Module
