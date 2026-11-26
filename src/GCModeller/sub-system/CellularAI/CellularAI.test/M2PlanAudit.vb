@@ -72,7 +72,7 @@ Public Module M2PlanAudit
     ''' <summary>上限水位法：总和守恒、单项不越界。</summary>
     Private Sub CheckCapWeights()
         Dim input As Double() = {0.7, 0.2, 0.1}
-        Dim capped As Double() = SimilarityWeights.CapWeights(input, 0.3)
+        Dim capped As Double() = SimilarityWeights.CapWeights(input, 0.4)
 
         Call DebugAudit.Mark("m2.cap_sum", capped.Sum)
         Call DebugAudit.Test(std.Abs(capped.Sum - 1.0) < 1e-12, $"capping should preserve the total, got {capped.Sum:F12}")
@@ -80,8 +80,8 @@ Public Module M2PlanAudit
         Dim largest As Double = capped.Max
 
         Call DebugAudit.Mark("m2.cap_max", largest)
-        DebugAudit.Test(largest <= 0.3 + 1e-12, $"no weight should exceed the cap, got {largest:F12}")
-        Call DebugAudit.AreEqual(0.3, capped(0), "the oversized weight is cut to the cap")
+        DebugAudit.Test(largest <= 0.4 + 1e-12, $"no weight should exceed the cap, got {largest:F12}")
+        Call DebugAudit.Test(std.Abs(capped(0) - 0.4) < 1e-12, $"the oversized weight is cut to the cap, got {capped(0):F12}")
 
         ' 上限低于均匀水平时，所有行都被压平
         Dim impossible As Double() = SimilarityWeights.CapWeights(New Double() {0.6, 0.4}, 0.2)
@@ -94,7 +94,9 @@ Public Module M2PlanAudit
     Private Sub CheckPlanZ()
         Dim genes As String() = {"g1", "g2"}
         Dim perts As String() = {"p1"}
-        Dim z As Double()()() = {{{1.0}, {2.0}}, {{3.0}, {4.0}}}
+        Dim first As Double()() = {New Double() {1.0}, New Double() {2.0}}
+        Dim second As Double()() = {New Double() {3.0}, New Double() {4.0}}
+        Dim z As Double()()() = New Double()()() {first, second}
         Dim plan As New PlanOptions With {.PlanZUniform = 1.0}
         Dim guards As New GuardOptions
 
@@ -156,7 +158,7 @@ Public Module M2PlanAudit
 
     ''' <summary>相近度抬升：增量不超过总量的 20%，且只增不减。</summary>
     Private Sub CheckXsimSizes()
-        Dim model As CellularAiModel = Default()
+        Dim model As CellularAiModel = CellularAiModel.Default()
         Dim curve As Integer() = {20, 20, 20, 20}
         Dim xs As Double() = {1.0, 2.0, 3.0, 9.0}
         Dim score As Double() = {0.5, 0.5, 0.5, 0.5}
@@ -173,11 +175,11 @@ Public Module M2PlanAudit
 
     ''' <summary>成员选择：排除自身靶基因、尺寸准确、方向与效应一致。</summary>
     Private Sub CheckSelectCalls()
-        Dim model As CellularAiModel = Default()
+        Dim model As CellularAiModel = CellularAiModel.Default()
         Dim genes As String() = {"g1", "g2", "g3", "g4", "g5"}
         Dim perts As String() = {"g1"}
-        Dim l2 As Double()() = {{-2.0}, {1.5}, {-0.8}, {0.3}, {0.0}}
-        Dim z As Double()() = {{8.0}, {6.0}, {4.0}, {2.0}, {1.0}}
+        Dim l2 As Double()() = {New Double() {-2.0}, New Double() {1.5}, New Double() {-0.8}, New Double() {0.3}, New Double() {0.0}}
+        Dim z As Double()() = {New Double() {8.0}, New Double() {6.0}, New Double() {4.0}, New Double() {2.0}, New Double() {1.0}}
         Dim cpm As Double() = {100.0, 80.0, 60.0, 40.0, 20.0}
 
         Dim calls As Dictionary(Of String, CallEntry) = CallPlan.SelectCalls(
@@ -195,8 +197,9 @@ Public Module M2PlanAudit
             Call DebugAudit.AreEqual(expected, entry.Sign(i), $"call #{i} follows the effect sign")
         Next
 
-        ' 未计划基因的强度应当递减
-        Dim rest As Integer() = Enumerable.Range(0, genes.Length).Where(Function(g) Array.IndexOf(entry.Index, g) < 0).ToArray
+        ' 未计划基因（不含自身靶）的强度应当递减且非零
+        Dim rest As Integer() = Enumerable.Range(0, genes.Length).
+            Where(Function(g) Array.IndexOf(entry.Index, g) < 0 AndAlso g <> 0).ToArray
         Dim strengths As Double() = rest.Select(Function(g) entry.NudgeStrength(g)).OrderByDescending(Function(v) v).ToArray
 
         For i As Integer = 1 To strengths.Length - 1
