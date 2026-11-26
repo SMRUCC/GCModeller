@@ -8,4 +8,5 @@
     <Project Path="../../../runtime/sciBASIC#/Microsoft.VisualBasic.Core/src/Core.vbproj" />
   </Folder>
   <Project Path="CellularAI/CellularAI.vbproj" />
+  <Project Path="CellularAI.test/CellularAI.test.vbproj" />
 </Solution>

@@ -21,8 +21,8 @@
 		<AssemblyVersion>1.0.9818.14504</AssemblyVersion>
 		<Title>Curve Fitting and Regression Toolkit with LASSO and Levenberg-Marquardt</Title>
 		<AssemblyTitle>Microsoft.VisualBasic.Data.Bootstrapping</AssemblyTitle>
-		<PackageTags>scibasic;regression;curve-fitting;least-squares;ridge;lasso;levenberg-marquardt;loess</PackageTags>
-    <PackageReleaseNotes>This cycle: Added model save; Fixed the model file persists i/o; Implemented the COXfit.</PackageReleaseNotes>
+		<PackageTags>scibasic;regression;curve-fitting;least-squares;ridge;multi-response-ridge;lasso;levenberg-marquardt;loess</PackageTags>
+    <PackageReleaseNotes>This cycle: added MultiResponseRidge (closed-form (X'X+lambda*I)B = X'Y for k responses, row masking with masked-only centering, per-group batch solving with a minimum-row gate and degree-of-parallelism independent results, Cholesky with LU fallback, effective degrees of freedom and per-response RSS/R^2); Added model save; Fixed the model file persists i/o; Implemented the COXfit.</PackageReleaseNotes>
 		<PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
 		<RepositoryType>git</RepositoryType>
 		<PackageReadmeFile>README.md</PackageReadmeFile>

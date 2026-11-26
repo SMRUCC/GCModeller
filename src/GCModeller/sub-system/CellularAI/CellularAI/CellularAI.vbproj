@@ -3,6 +3,11 @@
   <PropertyGroup>
     <RootNamespace>CellularAI</RootNamespace>
     <TargetFramework>net10.0</TargetFramework>
+    <AssemblyTitle>CellularAI: Predicting single-cell responses to genetic perturbations</AssemblyTitle>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <IncludeSymbols>True</IncludeSymbols>
+    <Title>CellularAI: Predicting single-cell responses to genetic perturbations</Title>
+    <Description>CellularAI is an algorithm designed to predict transcriptome-wide responses to genetic perturbations in unseen cell types and is the winning method of the [Virtual Cell Challenge 2026](https://virtualcellchallenge.org/leaderboard). Given control cells from a new cellular context and a list of genetic perturbations, it estimates how those cells respond to each perturbation and synthesizes non-negative integer-count single cells for every target.</Description>
   </PropertyGroup>
 
   <ItemGroup>
