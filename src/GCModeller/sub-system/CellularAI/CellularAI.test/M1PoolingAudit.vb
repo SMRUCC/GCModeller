@@ -207,8 +207,8 @@ Public Module M1PoolingAudit
         }
 
         Dim evidence As ContextEvidence = Combine(
-            stack:=New Double()()() {{{2.0}}},
-            probability:=New Double()()() {{{0.5}}},
+            stack:=Cube(Row({2.0})),
+            probability:=Cube(Row({0.5})),
             tables:={table}, genes:={"g1"}, perts:={"g1"},
             l2AbsMax:=1.5)
 
@@ -230,13 +230,17 @@ Public Module M1PoolingAudit
         }
 
         Dim evidence As ContextEvidence = Combine(
-            stack:=New Double()()() {{{1.0, Double.NaN}}},
-            probability:=New Double()()() {{{0.5, Double.NaN}}},
+            stack:=Cube(Row({1.0, Double.NaN})),
+            probability:=Cube(Row({0.5, Double.NaN})),
             tables:={table}, genes:={"g1"}, perts:={"p1", "p2"})
 
         Call DebugAudit.AreEqual(1, evidence.Unmeasured.Length, "one perturbation has no evidence")
         Call DebugAudit.AreEqual("p2", evidence.Unmeasured(0), "the unmeasured perturbation is reported by name")
-        Call DebugAudit.Test(Double.IsNaN(evidence.L2(0)(1)), "the unmeasured column stays NaN")
+
+        ' 未测列的分母仍然由权重构成（missingAsZero），因此数值是 0 而不是 NaN；
+        ' "没有证据"这件事由 Unmeasured 列表承载，由门控单独处理
+        Call DebugAudit.AreEqual(0.0, evidence.L2(0)(1), "an unmeasured column pools to zero, not NaN")
+        Call DebugAudit.AreEqual(0.0, evidence.Z(0)(1), "an unmeasured column has no significance")
     End Sub
 
     ''' <summary>端到端：在虚构任务上跑完整的池化。</summary>
@@ -284,6 +288,16 @@ Public Module M1PoolingAudit
 
 #Region "helpers"
 
+    ''' <summary>把一行数值包装成"单行面板"。</summary>
+    Private Function Row(values As Double()) As Double()()
+        Return New Double()() {values}
+    End Function
+
+    ''' <summary>把若干"行×扰动"面板堆成 行数×基因数×扰动数 的栈。</summary>
+    Private Function Cube(ParamArray slices As Double()()()) As Double()()()
+        Return slices
+    End Function
+
     ''' <summary>构造一次池化请求（全 1 因子，便于手算）。</summary>
     Private Function Combine(stack As Double()()(),
                              probability As Double()()(),
@@ -296,6 +310,9 @@ Public Module M1PoolingAudit
 
         Dim nRows As Integer = stack.Length
         Dim multipliers(nRows - 1) As Double
+
+        ' 每个手算用例都从干净的护栏表开始，避免上一例的命中数污染比例断言
+        Call Guards.Reset()
 
         For t As Integer = 0 To nRows - 1
             multipliers(t) = 1.0
@@ -322,7 +339,7 @@ Public Module M1PoolingAudit
 
     ''' <summary>控制细胞的平均 CPM（与上游 <c>control_cpm_mean</c> 同口径）。</summary>
     Private Function ControlCpm(task As SyntheticTask) As Double()
-        Dim matrix As Compressed.CsrMatrix = task.Controls(0)
+        Dim matrix As Microsoft.VisualBasic.Math.LinearAlgebra.Matrix.Compressed.CsrMatrix = task.Controls(0)
         Dim counts As Double() = matrix.ColumnSums()
         Dim total As Double = 0.0
 
