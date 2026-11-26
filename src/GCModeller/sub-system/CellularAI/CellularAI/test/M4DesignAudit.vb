@@ -1,14 +1,12 @@
-Imports System
 Imports System.IO
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix.Compressed
-Imports CellularAI
-Imports CellularAI.Design
-Imports CellularAI.Evidence
-Imports CellularAI.Model
-Imports CellularAI.Planning
-Imports CellularAI.Synthesis
+Imports SMRUCC.genomics.Analysis.Illumina.CellularAI.Design
+Imports SMRUCC.genomics.Analysis.Illumina.CellularAI.Evidence
+Imports SMRUCC.genomics.Analysis.Illumina.CellularAI.Model
+Imports SMRUCC.genomics.Analysis.Illumina.CellularAI.Planning
+Imports SMRUCC.genomics.Analysis.Illumina.CellularAI.Synthesis
 Imports std = System.Math
 
 ''' <summary>
