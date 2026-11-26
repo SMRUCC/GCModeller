@@ -74,9 +74,29 @@ Namespace Audit
                 Engine = CudaEngine.TryCreate(options)
 
                 If Engine Is Nothing Then
+                    ' 编译失败时把完整的诊断日志打到控制台，便于定位内核语法问题
+                    For Each line As String In options.Diagnostics
+                        Call Console.WriteLine($"  [DIAG] {line}")
+                    Next
+
+                    ' 把合并后的编译单元落盘，便于用 nvcc 复现编译错误
+                    Try
+                        Dim combined As String = KernelSources.CombinedSource()
+
+                        Call Directory.CreateDirectory(ReportDir)
+                        Call File.WriteAllText(Path.Combine(ReportDir, "combined.cu"), combined)
+                        Call Console.WriteLine($"  [DIAG] 合并源码已导出: {Path.Combine(ReportDir, "combined.cu")}")
+                    Catch ex As Exception
+                        Call Console.WriteLine($"  [DIAG] 导出合并源码失败: {ex.Message}")
+                    End Try
+
+                    Dim detail As String = String.Join(" | ", options.Diagnostics)
+
+                    If detail.Length > 1200 Then detail = detail.Substring(detail.Length - 1200)
+
                     EngineNote = If(String.IsNullOrEmpty(options.ErrorMessage),
                                     "没有可用的 CUDA 引擎",
-                                    options.ErrorMessage)
+                                    options.ErrorMessage) & " :: " & detail
                 Else
                     OnGpu = True
                     EngineNote = Engine.Image.ToString()
