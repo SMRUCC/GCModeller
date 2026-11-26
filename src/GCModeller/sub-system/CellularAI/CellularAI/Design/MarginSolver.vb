@@ -155,7 +155,7 @@ Namespace Design
 
             Dim capped As Boolean = s < target
 
-            For step As Integer = 1 To 30
+            For iteration As Integer = 1 To 30
                 Dim mid As Double = 0.5 * (lo + hi)
 
                 If spread(design(mid)) < target Then

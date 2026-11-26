@@ -43,6 +43,10 @@ Namespace Synthesis
         ''' <summary>逐基因的 <c>log2(mean_cpm / (1e6·fc))</c>；非有限值取 0。</summary>
         Public ReadOnly Property Log2Cg As Double()
 
+        Private m_cpmRows As New Dictionary(Of Integer, Double())
+        Private m_tieSums As New Dictionary(Of Integer, Double)
+        Private m_libraries As Double()
+
         Private Sub New(controls As CsrMatrix, fractions As Double(), meanCpm As Double(),
                         eligible As Boolean(), depth As Integer, log2Cg As Double())
             Me.Controls = controls
@@ -64,6 +68,85 @@ Namespace Synthesis
         Public ReadOnly Property CellCount As Integer
             Get
                 Return Controls.RowDimension
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' 该基因在对照细胞上的 CPM 升序序列（float32 精度往返，惰性计算并缓存）。
+        ''' </summary>
+        ''' <remarks>
+        ''' 合成内层要对每个基因反复二分，因此这里缓存"已排序 + float32 化"的对照谱。
+        ''' 缓存按基因惰性增长：只有被真正求解到的基因才会占内存。
+        ''' 生产环境建议改为一次性按列（CSC）物化 float32 的 <c>G×n</c> 表——
+        ''' 逐基因扫描 CSR 在基因数上万时是 <c>O(G·nnz)</c>，只适合中小规模。
+        ''' </remarks>
+        Public Function SortedCpm(gene As Integer) As Double()
+            Dim cached As Double() = Nothing
+
+            If m_cpmRows.TryGetValue(gene, cached) Then
+                Return cached
+            End If
+
+            Dim n As Integer = Controls.RowDimension
+            Dim values(n - 1) As Double
+            Dim libraries As Double() = LibrarySizes
+
+            For i As Integer = 0 To n - 1
+                Dim librarySize As Double = std.Max(libraries(i), 1.0E-12)
+
+                For k As Integer = Controls.Indptr(i) To Controls.Indptr(i + 1) - 1
+                    If Controls.Indices(k) = gene Then
+                        values(i) = CDbl(CSng(1000000.0 * Controls.Values(k) / librarySize))
+                        Exit For
+                    End If
+                Next
+            Next
+
+            Call Array.Sort(values)
+
+            m_cpmRows(gene) = values
+
+            Return values
+        End Function
+
+        ''' <summary>该基因对照谱的并列和 <c>Σ(t³−t)</c>（与 <see cref="SortedCpm"/> 同步缓存）。</summary>
+        Public Function TieSum(gene As Integer) As Double
+            Dim cached As Double = 0.0
+
+            If m_tieSums.TryGetValue(gene, cached) Then
+                Return cached
+            End If
+
+            Dim values As Double() = SortedCpm(gene)
+            Dim total As Double = 0.0
+            Dim i As Integer = 0
+
+            While i < values.Length
+                Dim j As Integer = i
+
+                While j + 1 < values.Length AndAlso values(j + 1) = values(i)
+                    j += 1
+                End While
+
+                Dim group As Double = j - i + 1
+
+                total += group * group * group - group
+                i = j + 1
+            End While
+
+            m_tieSums(gene) = total
+
+            Return total
+        End Function
+
+        ''' <summary>每个对照细胞的总计数（长度 = 细胞数，缓存一次）。</summary>
+        Public ReadOnly Property LibrarySizes As Double()
+            Get
+                If m_libraries Is Nothing Then
+                    m_libraries = Controls.RowSums()
+                End If
+
+                Return m_libraries
             End Get
         End Property
 

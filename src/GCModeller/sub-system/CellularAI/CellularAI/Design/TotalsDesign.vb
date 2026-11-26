@@ -138,8 +138,8 @@ Namespace Design
 
             ' 幅度设计：amp × l2，目标是信用的一部分
             Dim amplitudeTarget As Double = m_options.AmpShare * credit
-            Dim design As Func(Of Double, Double()()) = Function(a As Double) Scale(effects.L2, a)
-            Dim solution As AmplitudeSolution = MarginSolver.BisectAmp(Me.Spread, design, amplitudeTarget)
+            Dim amplitudeDesign As Func(Of Double, Double()()) = Function(a As Double) Scale(effects.L2, a)
+            Dim solution As AmplitudeSolution = MarginSolver.BisectAmp(Me.Spread, amplitudeDesign, amplitudeTarget)
 
             Me.Amplitude = solution.Amplitude
             Me.AmplitudeCapped = solution.Capped

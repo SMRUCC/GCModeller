@@ -21,6 +21,14 @@ Module Program
                 Return M2PlanAudit.Run()
             Case "m3"
                 Return M3ResidualAudit.Run()
+            Case "m4"
+                Return M4DesignAudit.Run()
+            Case "m5"
+                Return M5SynthesisAudit.Run()
+            Case "m6"
+                Return M6ScoringAudit.Run()
+            Case "m7"
+                Return M7PipelineAudit.Run()
             Case Else
                 Call Console.WriteLine($"unknown audit '{selector}'; known: m0")
                 Return 2

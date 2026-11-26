@@ -7,8 +7,28 @@
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <IncludeSymbols>True</IncludeSymbols>
     <Title>CellularAI: Predicting single-cell responses to genetic perturbations</Title>
-    <Description>CellularAI is an algorithm designed to predict transcriptome-wide responses to genetic perturbations in unseen cell types and is the winning method of the [Virtual Cell Challenge 2026](https://virtualcellchallenge.org/leaderboard). Given control cells from a new cellular context and a list of genetic perturbations, it estimates how those cells respond to each perturbation and synthesizes non-negative integer-count single cells for every target.</Description>
+    <Description>CellularAI is an algorithm designed to predict transcriptome-wide responses to genetic perturbations in unseen cell types and is the winning method of the [Virtual Cell Challenge 2026](https://virtualcellchallenge.org/leaderboard). Given control cells from a new cellular context and a list of genetic perturbations, it estimates how those cells respond to each perturbation and synthesizes non-negative integer-count single cells for every target. This package is the pure CPU, in-memory implementation of the seven-stage pipeline (summary pooling, response plan, control-residual correction, totals design, count synthesis, scoring and gating); it performs no file IO and leaves parquet / h5ad / vcc handling to the calling application.</Description>
+    <PackageId>CellularAI</PackageId>
+    <PackageProjectUrl>https://gcmodeller.org/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/SMRUCC/GCModeller.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <Copyright>Copyright © SMRUCC genomics, GuiLin China, 2026</Copyright>
+    <Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
+    <Company>SMRUCC genomics institute</Company>
+    <Product>GCModeller</Product>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageTags>cellularai;virtual-cell;single-cell;perturbation;transcriptome;meta-analysis;random-effects;stouffer;randomized-svd;truncated-pca;ridge-regression;copula;wilcoxon;count-synthesis;gcmodeller</PackageTags>
+    <PackageReleaseNotes>This cycle: first CPU release of the CellularAI reproduction. Added the seven-stage in-memory pipeline: Summary pooling (row x perturbation x record weighted DerSimonian-Laird tau2, inverse-variance weights relative floor, weighted mean log2FC, Stouffer combination, guard counters); Planning (similarity weights with softmax and a water-filling weight cap, plan z / similarity z / x_sim, curve sizes with power reshuffle and similarity lift, call selection excluding the own target); Residual correction (randomized SVD response basis with own-target replacement, per-gene multi-response ridge with row masking, bounded-ratio and sign preserving shaping); Totals design (profile spread, secant/bisection margin solver, control PCs, control-program smoothing and program weighting, largest-remainder integer totals, fixed-point credit solve); Count synthesis (seeded reproducible random source with per-perturbation CRC32 seeds, quantile builder with exact mass conservation and sparsification, exact Wilcoxon z kernel, shift bisection, copula correlation search with overshoot repair and rank-neutral demotion, burst scattering for low expression genes); Scoring (DE table with exact rank sum and BH, six VCC metrics with anchor scaling); and gating via ContextPipeline returning a CsrMatrix plus a PredictionReport. Added a sibling DebugAudit test project covering M0 to M7.</PackageReleaseNotes>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\DataMining\DataMining\DataMining.NET5.vbproj" />

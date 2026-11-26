@@ -347,12 +347,12 @@ Namespace Design
             Next
 
             Dim design As Func(Of Double, Double()()) =
-                Function(amplitude As Double) As Double()()
+                Function(a As Double) As Double()()
                     Dim result As Double()() = RectangularArray.Matrix(Of Double)(nGenes, nPerts)
 
                     For g As Integer = 0 To nGenes - 1
                         For p As Integer = 0 To nPerts - 1
-                            result(g)(p) = lbar(g) + amplitude * (l0(g)(p) - lbar(g))
+                            result(g)(p) = lbar(g) + a * (l0(g)(p) - lbar(g))
                         Next
                     Next
 
