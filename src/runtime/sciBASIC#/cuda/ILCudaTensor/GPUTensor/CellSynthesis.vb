@@ -262,7 +262,7 @@ Namespace GPUTensor
 
                 engine.GetKernel(TensorKernelNames.CellSynthBurst).Launch(
                     New ILCudaRuntime.LaunchConfig(g, 1, 1, 1, 0),
-                    deviceTotals, deviceLibs, n, burst,
+                    deviceTotals, deviceLibs, n, burstSize,
                     ILCudaMath.GpuRandom.ToSigned(seed), counts)
 
                 Return counts.Read()
