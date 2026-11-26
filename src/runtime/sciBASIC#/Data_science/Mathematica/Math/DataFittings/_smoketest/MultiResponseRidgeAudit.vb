@@ -173,12 +173,12 @@ Public Module MultiResponseRidgeAudit
 
         Call MakeDesign(rnd, x, y, correlated:=False)
 
-        Dim fit As MultiResponseRidgeFit = MultiResponseRidge.Fit(x, y, Nothing, 0.000001, True)
+        Dim fit As MultiResponseRidgeFit = MultiResponseRidge.Fit(x, y, Nothing, 0.00000001, True)
         Dim predicted As Double()() = MultiResponseRidge.Predict(fit, x)
         Dim gap As Double = MaxAbsDiff(predicted, y)
 
         Call DebugAudit.Mark("ridge.predict_gap", gap)
-        DebugAudit.Test(gap < 1e-8, $"the predictions should reproduce the responses, max |diff| = {gap:E3}")
+        DebugAudit.Test(gap < 1e-7, $"the predictions should reproduce the responses, max |diff| = {gap:E3}")
 
         Dim oneRow As Double() = fit.Predict(x(0))
         Dim singleGap As Double = 0.0

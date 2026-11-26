@@ -54,5 +54,22 @@
 ''' <summary>
 ''' The math library root: the shared numeric types and mathematical utilities.
 ''' </summary>
+''' <remarks>
+''' <para>矩阵分解（<c>LinearAlgebra.Matrix</c>）这一层提供三种粒度的能力：</para>
+''' <list type="bullet">
+''' <item><description>
+''' <see cref="LinearAlgebra.Matrix.SingularValueDecomposition"/> 等经典分解：适合中小规模稠密矩阵的<b>全量</b>分解；
+''' </description></item>
+''' <item><description>
+''' <see cref="LinearAlgebra.Matrix.RandomizedSVD"/>：随机化截断 SVD（幂迭代 + QR 重正交 + 容差秩），
+''' 只依赖"矩阵乘向量"与"转置矩阵乘向量"，对稠密数组、<c>SparseMatrix</c> 与 <c>CsrMatrix</c> 共用同一套流程；
+''' </description></item>
+''' <item><description>
+''' <see cref="LinearAlgebra.Matrix.TruncatedPCA"/>：在随机化 SVD 之上补上"列中心化/标准化"的统计语义，
+''' 输出特征空间载荷、得分与解释方差；
+''' <see cref="LinearAlgebra.Matrix.TruncatedSVD"/> 则是同一引擎的稀疏兼容入口。
+''' </description></item>
+''' </list>
+''' </remarks>
 Friend Class NamespaceDoc
 End Class
