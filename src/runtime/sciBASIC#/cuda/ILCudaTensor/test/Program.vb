@@ -211,6 +211,15 @@ Module Program
     End Function
 
     Sub Main(args As String())
+        ' 融合核审计走独立入口，既有 demo 行为保持不变
+        If args IsNot Nothing AndAlso args.Length > 0 AndAlso
+            String.Equals(args(0), "audit", StringComparison.OrdinalIgnoreCase) Then
+
+            Environment.ExitCode = Audit.AuditEntry.Run(args)
+
+            Return
+        End If
+
         Console.WriteLine("=== ILCudaTensor demo test：SIMD CPU vs CUDA GPU（全 double）===")
         Console.WriteLine($"默认后端 : {tf.Tensor.computeKernel.Name}")
         Console.WriteLine($"SIMD 能力: {Microsoft.VisualBasic.Math.SIMD.SIMDEnvironment.Description}")
