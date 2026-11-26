@@ -272,6 +272,9 @@ Module Program
                                      options.ForceImage, options.ReportDir)
 
         Call Audit.SortAudit.Run()
+        Call Audit.RngAudit.Run()
+        Call Audit.LinalgAudit.Run()
+        Call Audit.SolveAudit.Run()
 
         Return Audit.AuditRunner.Flush()
     End Function
@@ -580,6 +583,7 @@ Module Program
         Console.WriteLine("  ILCuda.Demo emit-kernels <dir>       导出参与编译的 CUDA 内核源码")
         Console.WriteLine("  ILCuda.Demo il                       IL 反编译：AST 伪代码 + 生成的 .cu + 解释求值自检（不需要 GPU）")
         Console.WriteLine("  ILCuda.Demo il-compare               GPU 上对比「IL 生成内核」与手写 metrics.cu 的结果")
+        Console.WriteLine("  ILCuda.Demo audit [--out <dir>]      新增内核（排序/RNG/分解/批量求解）的 CPU-GPU 对拍审计")
         Console.WriteLine("  ILCuda.Demo help                     显示本帮助")
         Console.WriteLine()
         Console.WriteLine("常用参数:")
@@ -597,6 +601,7 @@ Module Program
         Console.WriteLine("  --no-source     il 命令不打印生成的 CUDA 源码")
         Console.WriteLine("  --async         用页锁定内存 + 独立流跑异步流水线")
         Console.WriteLine("  --force-image   跳过镜像/驱动版本兼容性预检（仅供调试，可能崩溃）")
+        Console.WriteLine("  --out <dir>     audit 命令的报告输出目录（默认 audit）")
         Console.WriteLine()
         Console.WriteLine("示例:")
         Console.WriteLine("  ILCuda.Demo demo --rows 1024 --cols 512")

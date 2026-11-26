@@ -142,9 +142,11 @@ Namespace Runtime
                 AddCore(New KernelInfo(KernelNames.Gemv, "blas.cu", 256, 1024, "矩阵-向量乘（每 block 一行）"))
 
                 ' ---------------- sort.cu：分段排序与查找 ----------------
-                ' 基数排序每段一个 block，共享 256 个桶的直方图（1 KB）+ 归约缓冲。
-                AddCore(New KernelInfo(KernelNames.SortSegmentsF32, "sort.cu", 256, 2048, "分段基数排序（单精度，每段升序，NaN 沉尾）"))
-                AddCore(New KernelInfo(KernelNames.SortSegmentsF64, "sort.cu", 256, 2048, "分段基数排序（双精度，8 趟）"))
+                ' 基数排序每段一个 block，共享直方图 + 桶基址 + 逐 warp 计数表
+                ' （256*4 + 256*4 + 8*257*4 = 10272 字节），按 12 KB 预留。
+                ' block 必须固定 256（计数表按 8 个 warp 分配）。
+                AddCore(New KernelInfo(KernelNames.SortSegmentsF32, "sort.cu", 256, 12288, "分段基数排序（单精度，稳定，每段升序，NaN 沉尾）"))
+                AddCore(New KernelInfo(KernelNames.SortSegmentsF64, "sort.cu", 256, 12288, "分段基数排序（双精度，稳定，8 趟）"))
                 AddCore(New KernelInfo(KernelNames.SegBoundsF32, "sort.cu", 256, 0, "批量 lower/upper bound（单精度排序段）"))
                 AddCore(New KernelInfo(KernelNames.SegBoundsF64, "sort.cu", 256, 0, "批量 lower/upper bound（双精度排序段）"))
                 AddCore(New KernelInfo(KernelNames.SegSelectF32, "sort.cu", 1024, 2048, "单段第 k 名阈值（基数选择，单 block）"))
@@ -162,6 +164,7 @@ Namespace Runtime
 
                 ' ---------------- linalg.cu：双精度线性代数 ----------------
                 AddCore(New KernelInfo(KernelNames.GemmF64, "linalg.cu", 256, 0, "16x16 分块矩阵乘（双精度，transA/transB 标志）"))
+                AddCore(New KernelInfo(KernelNames.GemvF64, "linalg.cu", 256, 2048, "矩阵-向量乘（双精度，每 block 一行）"))
                 AddCore(New KernelInfo(KernelNames.QrHouseholderF64, "linalg.cu", 512, 4096, "economy QR（Householder，m x n，m >= n）"))
 
                 ' ---------------- solve.cu：批量小线性求解 ----------------

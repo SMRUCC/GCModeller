@@ -46,7 +46,7 @@ Namespace Audit
             Dim err As Double = AuditRunner.MaxAbsError(actual, expected)
 
             Call AuditRunner.Capture("sortF64.maxAbsError", err)
-            Call AuditRunner.Case("分段排序（双精度，8 x 1024，含重复值）", err = 0.0, $"maxAbsError={err:G6}")
+            Call AuditRunner.Record("分段排序（双精度，8 x 1024，含重复值）", err = 0.0, $"maxAbsError={err:G6}")
         End Sub
 
         Private Sub RandomSegmentsSingle()
@@ -58,7 +58,7 @@ Namespace Audit
             Dim err As Double = AuditRunner.MaxAbsError(actual, expected)
 
             Call AuditRunner.Capture("sortF32.maxAbsError", err)
-            Call AuditRunner.Case("分段排序（单精度，8 x 1024，含重复值）", err = 0.0, $"maxAbsError={err:G6}")
+            Call AuditRunner.Record("分段排序（单精度，8 x 1024，含重复值）", err = 0.0, $"maxAbsError={err:G6}")
         End Sub
 
         Private Sub AllEqualSegment()
@@ -69,8 +69,8 @@ Namespace Audit
             Dim ties As Double() = GpuSort.TieSum(AuditRunner.Engine, actual, length)
             Dim expectedTie As Double = CDbl(length) * length * length - length
 
-            Call AuditRunner.Case("全等值段排序保持原值", err = 0.0, $"maxAbsError={err:G6}")
-            Call AuditRunner.Case("全等值段并列和 = n³-n",
+            Call AuditRunner.Record("全等值段排序保持原值", err = 0.0, $"maxAbsError={err:G6}")
+            Call AuditRunner.Record("全等值段并列和 = n³-n",
                                   System.Math.Abs(ties(0) - expectedTie) = 0.0 AndAlso System.Math.Abs(ties(1) - expectedTie) = 0.0,
                                   $"actual={ties(0):G0}, expected={expectedTie:G0}")
         End Sub
@@ -80,7 +80,7 @@ Namespace Audit
             Dim actual As Double() = GpuSort.SortSegments(AuditRunner.Engine, keys, 1)
             Dim err As Double = AuditRunner.MaxAbsError(actual, keys)
 
-            Call AuditRunner.Case("段长为 1 时排序是恒等变换", err = 0.0, $"maxAbsError={err:G6}")
+            Call AuditRunner.Record("段长为 1 时排序是恒等变换", err = 0.0, $"maxAbsError={err:G6}")
         End Sub
 
         Private Sub NaNAndNegativeZero()
@@ -120,7 +120,7 @@ Namespace Audit
 
             Dim ok As Boolean = nanAtTail AndAlso SameOrder(actual, expected)
 
-            Call AuditRunner.Case("NaN 沉到段尾、-0.0 与 +0.0 视为相等", ok,
+            Call AuditRunner.Record("NaN 沉到段尾、-0.0 与 +0.0 视为相等", ok,
                                   $"nanAtTail={nanAtTail}, sameOrder={SameOrder(actual, expected)}")
         End Sub
 
@@ -132,7 +132,7 @@ Namespace Audit
             Dim err As Double = AuditRunner.MaxAbsError(actual, expected)
 
             Call AuditRunner.Capture("sortF64.large.maxAbsError", err)
-            Call AuditRunner.Case("大段排序（2 x 18000，对照细胞规模）", err = 0.0, $"maxAbsError={err:G6}")
+            Call AuditRunner.Record("大段排序（2 x 18000，对照细胞规模）", err = 0.0, $"maxAbsError={err:G6}")
         End Sub
 
         Private Sub BoundsQueries()
@@ -170,8 +170,8 @@ Namespace Audit
                 Next
             Next
 
-            Call AuditRunner.Case("批量 lower bound 与线性扫描一致", lowerOk)
-            Call AuditRunner.Case("批量 upper bound 与线性扫描一致", upperOk)
+            Call AuditRunner.Record("批量 lower bound 与线性扫描一致", lowerOk)
+            Call AuditRunner.Record("批量 upper bound 与线性扫描一致", upperOk)
         End Sub
 
         Private Sub TopKSelection()
@@ -182,7 +182,7 @@ Namespace Audit
             Dim expected As Integer() = ReferenceTopK(keys, k)
             Dim ok As Boolean = AuditRunner.SameIntegers(actual, expected)
 
-            Call AuditRunner.Case($"前 {k} 名（值降序、值相同按下标升序）", ok,
+            Call AuditRunner.Record($"前 {k} 名（值降序、值相同按下标升序）", ok,
                                   $"actual={actual.Length}, expected={expected.Length}")
 
             ' 额外的语义检查：前 k 名的最小值不应小于第 k+1 名
@@ -199,7 +199,7 @@ Namespace Audit
                     If Not actual.Contains(i) AndAlso keys(i) > worst Then outside = True
                 Next
 
-                Call AuditRunner.Case("前 K 名集合之外不存在更大的值", Not outside)
+                Call AuditRunner.Record("前 K 名集合之外不存在更大的值", Not outside)
             End If
         End Sub
 
@@ -217,7 +217,7 @@ Namespace Audit
             Next
 
             Call AuditRunner.Capture("tieSum.maxAbsError", AuditRunner.MaxAbsError(actual, expected))
-            Call AuditRunner.Case("逐段并列和与参考实现一致", ok,
+            Call AuditRunner.Record("逐段并列和与参考实现一致", ok,
                                   $"maxAbsError={AuditRunner.MaxAbsError(actual, expected):G6}")
         End Sub
 

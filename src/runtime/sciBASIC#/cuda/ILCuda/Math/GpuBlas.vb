@@ -165,6 +165,22 @@ Namespace Math
             End Using
         End Function
 
+        ' ------------------------------------------------------------------
+        ' 双精度重载：统一转发到 GpuLinalg，保持"单一数学入口"不分裂
+        ' ------------------------------------------------------------------
+
+        ''' <summary>主机便捷入口：C(m x n) = A(m x k) * B(k x n)（双精度）</summary>
+        Public Function Gemm(engine As CudaEngine, a As Double(), b As Double(),
+                             m As Integer, n As Integer, k As Integer) As Double()
+            Return GpuLinalg.Gemm(engine, a, b, m, n, k)
+        End Function
+
+        ''' <summary>主机便捷入口：y(m) = A(m x k) * x(k)（双精度）</summary>
+        Public Function Gemv(engine As CudaEngine, a As Double(), x As Double(),
+                             m As Integer, k As Integer) As Double()
+            Return GpuLinalg.Gemv(engine, a, x, m, k)
+        End Function
+
         Private Sub RequireLength(name As String, buffer As DeviceBuffer(Of Single),
                                   expected As Integer, hint As String)
             If buffer Is Nothing Then Throw New ArgumentNullException(name)

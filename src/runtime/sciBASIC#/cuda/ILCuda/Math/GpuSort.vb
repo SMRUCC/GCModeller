@@ -278,6 +278,10 @@ Namespace Math
 
                 Array.Copy(buffer, result, total)
 
+                ' 内核只保证"集合"正确（按阈值收集 + 按下标扫描）；
+                ' 展示顺序在这里统一收口：值降序、值相同按下标升序。
+                Array.Sort(result, New TopKComparer(keys))
+
                 Return result
             End Using
         End Function

@@ -10,15 +10,20 @@
 //   * -0.0 归一到 +0.0，NaN 统一映射到全 1 键（沉到段尾）
 // 这样基数排序的无符号桶序与数值升序严格一致，且不依赖任何浮点比较。
 //
-// 数值口径：段内"值相同"的元素在排序后不可区分，因此散播阶段的原子偏移
-// 不会影响输出的有序数组（多重集合唯一）。需要下标的场合（TopK）另走
-// 阈值选择 + 按下标稳定收集，结果确定。
+// 关键点：LSD 基数排序的每一趟必须是**稳定**的，否则上一趟建立起来的
+// 低位顺序会被破坏。这里用"warp 投票 + 逐 warp 计数"实现稳定散播：
+//   rank = 同 warp 内同桶且线程序号更小的个数（ballot + popcount）
+//   偏移 = 桶基址 + 前面所有 warp 在该桶上的计数 + rank
+// 逐 tile 推进，因此散播顺序就是原始下标顺序。
 //
 // 宏前缀 ILCUDA_SORT_，符号前缀 ilcudaSeg / ilcudaSort。
 // ---------------------------------------------------------------------------
 
 #define ILCUDA_SORT_BUCKETS 256
-#define ILCUDA_SORT_DEFAULT_BLOCK 256
+#define ILCUDA_SORT_BLOCK 256
+#define ILCUDA_SORT_WARPS (ILCUDA_SORT_BLOCK / 32)
+// 最后一个槽位专门接收"本 tile 越界"的线程，避免污染真实桶的基址
+#define ILCUDA_SORT_SLOTS (ILCUDA_SORT_BUCKETS + 1)
 
 // ---------------------------------------------------------------------------
 // 键变换：浮点 <-> 可无符号比较的 32 / 64 位键
@@ -72,10 +77,11 @@ __device__ __forceinline__ double ilcudaSegValueF64(unsigned long long k)
 }
 
 // ---------------------------------------------------------------------------
-// 分段基数排序（值）
+// 分段基数排序（值，稳定）
 //
-// 启动形状：grid = (segmentCount, 1)，block = (256, 1)
-// 每段一个 block：先统计 256 桶直方图，再转独占前缀和，最后按桶散播。
+// 启动形状：grid = (segmentCount, 1)，block = (256, 1) —— block 必须固定 256，
+// 因为共享内存里按 ILCUDA_SORT_WARPS = 8 个 warp 分配了计数表。
+//
 // 一趟只处理一个字节（8 bit），由主机侧循环 shift = 0, 8, 16, 24（double 到 56）。
 // 主机侧用两个缓冲乒乓，因此相邻两趟之间不需要额外的拷贝。
 // ---------------------------------------------------------------------------
@@ -86,45 +92,93 @@ extern "C" __global__ void ilcudaSortSegmentsF32Kernel(const float* __restrict__
                                                        int shift)
 {
     __shared__ int hist[ILCUDA_SORT_BUCKETS];
+    __shared__ int base[ILCUDA_SORT_BUCKETS];
+    __shared__ int warpCnt[ILCUDA_SORT_WARPS][ILCUDA_SORT_SLOTS];
 
     const int tid = threadIdx.x;
-    const int nth = blockDim.x;
-    const size_t base = (size_t)blockIdx.x * (size_t)segLen;
+    const int lane = tid & 31;
+    const int warp = tid >> 5;
+    const size_t segBase = (size_t)blockIdx.x * (size_t)segLen;
+    const unsigned int lowerLanes = (1u << lane) - 1u;
 
-    for (int b = tid; b < ILCUDA_SORT_BUCKETS; b += nth) {
+    // 1) 直方图
+    for (int b = tid; b < ILCUDA_SORT_BUCKETS; b += blockDim.x) {
         hist[b] = 0;
     }
 
     __syncthreads();
 
-    for (int i = tid; i < segLen; i += nth) {
-        unsigned int k = ilcudaSegKeyF32(src[base + i]);
+    for (int i = tid; i < segLen; i += blockDim.x) {
+        unsigned int k = ilcudaSegKeyF32(src[segBase + i]);
 
-        atomicAdd(&hist[(k >> shift) & 0xFF], 1);
+        atomicAdd(&hist[(k >> shift) & 0xFFu], 1);
     }
 
     __syncthreads();
 
-    // 独占前缀和：256 项，由单线程完成（远小于一次全局访存的开销）
+    // 2) 桶基址（独占前缀和）+ 清空逐 warp 计数
     if (tid == 0) {
         int acc = 0;
 
         for (int b = 0; b < ILCUDA_SORT_BUCKETS; ++b) {
-            int count = hist[b];
-
-            hist[b] = acc;
-            acc += count;
+            base[b] = acc;
+            acc += hist[b];
         }
+    }
+
+    for (int s = tid; s < ILCUDA_SORT_WARPS * ILCUDA_SORT_SLOTS; s += blockDim.x) {
+        (&warpCnt[0][0])[s] = 0;
     }
 
     __syncthreads();
 
-    for (int i = tid; i < segLen; i += nth) {
-        float v = src[base + i];
-        unsigned int k = ilcudaSegKeyF32(v);
-        int pos = atomicAdd(&hist[(k >> shift) & 0xFF], 1);
+    // 3) 逐 tile 稳定散播
+    for (int tile = 0; tile < segLen; tile += blockDim.x) {
+        const int i = tile + tid;
+        const bool valid = i < segLen;
+        const float v = valid ? src[segBase + i] : 0.0f;
+        const int slot = valid ? (int)((ilcudaSegKeyF32(v) >> shift) & 0xFFu) : ILCUDA_SORT_BUCKETS;
 
-        dst[base + pos] = v;
+        // warp 内的同槽位名次：本 lane 之前有多少 lane 落在同一个槽
+        // __match_any_sync 返回"与本 lane 取值相同的 lane 集合"，一次指令完成
+        const unsigned int poll = __match_any_sync(0xFFFFFFFFu, slot);
+        const int rank = __popc(poll & lowerLanes);
+
+        if (rank == 0) {
+            warpCnt[warp][slot] = __popc(poll);
+        }
+
+        __syncthreads();
+
+        if (valid) {
+            int offset = base[slot];
+
+            for (int w = 0; w < warp; ++w) {
+                offset += warpCnt[w][slot];
+            }
+
+            dst[segBase + offset + rank] = v;
+        }
+
+        __syncthreads();
+
+        // 4) 推进桶基址，并清空本 tile 的 warp 计数
+        for (int b = tid; b < ILCUDA_SORT_BUCKETS; b += blockDim.x) {
+            int add = 0;
+
+            for (int w = 0; w < ILCUDA_SORT_WARPS; ++w) {
+                add += warpCnt[w][b];
+                warpCnt[w][b] = 0;
+            }
+
+            base[b] += add;
+        }
+
+        if (tid < ILCUDA_SORT_WARPS) {
+            warpCnt[tid][ILCUDA_SORT_BUCKETS] = 0;
+        }
+
+        __syncthreads();
     }
 }
 
@@ -134,21 +188,25 @@ extern "C" __global__ void ilcudaSortSegmentsF64Kernel(const double* __restrict_
                                                        int shift)
 {
     __shared__ int hist[ILCUDA_SORT_BUCKETS];
+    __shared__ int base[ILCUDA_SORT_BUCKETS];
+    __shared__ int warpCnt[ILCUDA_SORT_WARPS][ILCUDA_SORT_SLOTS];
 
     const int tid = threadIdx.x;
-    const int nth = blockDim.x;
-    const size_t base = (size_t)blockIdx.x * (size_t)segLen;
+    const int lane = tid & 31;
+    const int warp = tid >> 5;
+    const size_t segBase = (size_t)blockIdx.x * (size_t)segLen;
+    const unsigned int lowerLanes = (1u << lane) - 1u;
 
-    for (int b = tid; b < ILCUDA_SORT_BUCKETS; b += nth) {
+    for (int b = tid; b < ILCUDA_SORT_BUCKETS; b += blockDim.x) {
         hist[b] = 0;
     }
 
     __syncthreads();
 
-    for (int i = tid; i < segLen; i += nth) {
-        unsigned long long k = ilcudaSegKeyF64(src[base + i]);
+    for (int i = tid; i < segLen; i += blockDim.x) {
+        unsigned long long k = ilcudaSegKeyF64(src[segBase + i]);
 
-        atomicAdd(&hist[(k >> shift) & 0xFF], 1);
+        atomicAdd(&hist[(k >> shift) & 0xFFu], 1);
     }
 
     __syncthreads();
@@ -157,21 +215,60 @@ extern "C" __global__ void ilcudaSortSegmentsF64Kernel(const double* __restrict_
         int acc = 0;
 
         for (int b = 0; b < ILCUDA_SORT_BUCKETS; ++b) {
-            int count = hist[b];
-
-            hist[b] = acc;
-            acc += count;
+            base[b] = acc;
+            acc += hist[b];
         }
+    }
+
+    for (int s = tid; s < ILCUDA_SORT_WARPS * ILCUDA_SORT_SLOTS; s += blockDim.x) {
+        (&warpCnt[0][0])[s] = 0;
     }
 
     __syncthreads();
 
-    for (int i = tid; i < segLen; i += nth) {
-        double v = src[base + i];
-        unsigned long long k = ilcudaSegKeyF64(v);
-        int pos = atomicAdd(&hist[(k >> shift) & 0xFF], 1);
+    for (int tile = 0; tile < segLen; tile += blockDim.x) {
+        const int i = tile + tid;
+        const bool valid = i < segLen;
+        const double v = valid ? src[segBase + i] : 0.0;
+        const int slot = valid ? (int)((ilcudaSegKeyF64(v) >> shift) & 0xFFu) : ILCUDA_SORT_BUCKETS;
 
-        dst[base + pos] = v;
+        const unsigned int poll = __match_any_sync(0xFFFFFFFFu, slot);
+        const int rank = __popc(poll & lowerLanes);
+
+        if (rank == 0) {
+            warpCnt[warp][slot] = __popc(poll);
+        }
+
+        __syncthreads();
+
+        if (valid) {
+            int offset = base[slot];
+
+            for (int w = 0; w < warp; ++w) {
+                offset += warpCnt[w][slot];
+            }
+
+            dst[segBase + offset + rank] = v;
+        }
+
+        __syncthreads();
+
+        for (int b = tid; b < ILCUDA_SORT_BUCKETS; b += blockDim.x) {
+            int add = 0;
+
+            for (int w = 0; w < ILCUDA_SORT_WARPS; ++w) {
+                add += warpCnt[w][b];
+                warpCnt[w][b] = 0;
+            }
+
+            base[b] += add;
+        }
+
+        if (tid < ILCUDA_SORT_WARPS) {
+            warpCnt[tid][ILCUDA_SORT_BUCKETS] = 0;
+        }
+
+        __syncthreads();
     }
 }
 
@@ -282,6 +379,7 @@ extern "C" __global__ void ilcudaSegBoundsF64Kernel(const double* __restrict__ s
 // k 是"降序名次"（1 基）：k = 1 表示最大值。等价于升序名次 rank = n - k。
 // 从最高字节开始逐字节收窄候选集合，最后一趟结束得到精确的键。
 //
+// 选择只需要计数，不需要稳定，因此这里用普通的原子直方图。
 // 只用单段：HVG / 计划层的前 K 名筛选都作用在"基因轴"这一个段上；
 // 多段场景由主机侧循环调用。
 // ---------------------------------------------------------------------------
@@ -329,17 +427,17 @@ extern "C" __global__ void ilcudaSegSelectF32Kernel(const float* __restrict__ ke
             for (int i = tid; i < n; i += nth) {
                 unsigned int key = ilcudaSegKeyF32(keys[i]);
 
-                atomicAdd(&hist[(key >> shift) & 0xFF], 1);
+                atomicAdd(&hist[(key >> shift) & 0xFFu], 1);
             }
         } else {
-            const unsigned int known = prefix >> (shift + 8);
             const int knownBits = shift + 8;
+            const unsigned int known = prefix >> knownBits;
 
             for (int i = tid; i < n; i += nth) {
                 unsigned int key = ilcudaSegKeyF32(keys[i]);
 
                 if ((key >> knownBits) == known) {
-                    atomicAdd(&hist[(key >> shift) & 0xFF], 1);
+                    atomicAdd(&hist[(key >> shift) & 0xFFu], 1);
                 }
             }
         }
@@ -375,10 +473,14 @@ extern "C" __global__ void ilcudaSegSelectF32Kernel(const float* __restrict__ ke
 }
 
 // ---------------------------------------------------------------------------
-// 按阈值收集下标（降序前 k 名，按下标稳定）
+// 按阈值收集下标
 //
-// 先收集严格大于阈值的下标，再用"等于阈值"的下标补足到 k。
-// 单线程顺序扫描：段长在万级时约 2 万步，且结果完全确定。
+// 先收集严格大于阈值的下标，再用"等于阈值"的下标补足到 k；
+// 两趟都按下标升序扫描，因此结果是确定的。
+// 单线程顺序扫描：段长在万级时约 2 万步，代价可接受且完全可复现。
+//
+// 注：这里只保证"集合"正确；最终展示顺序由主机侧的排序统一收口
+// （值降序、值相同按下标升序）。
 // ---------------------------------------------------------------------------
 
 extern "C" __global__ void ilcudaSegCollectF32Kernel(const float* __restrict__ keys,

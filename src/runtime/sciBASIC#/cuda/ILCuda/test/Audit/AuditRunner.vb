@@ -99,8 +99,8 @@ Namespace Audit
             EngineNote = Engine.Image.ToString()
         End Sub
 
-        ''' <summary>记录一个用例的结果。</summary>
-        Public Sub Case(name As String, ok As Boolean, Optional detail As String = Nothing)
+        ''' <summary>记录一个用例的结果（Case 是 VB 保留字，这里用 Record）。</summary>
+        Public Sub Record(name As String, ok As Boolean, Optional detail As String = Nothing)
             m_cases += 1
 
             If Not ok Then m_failed += 1

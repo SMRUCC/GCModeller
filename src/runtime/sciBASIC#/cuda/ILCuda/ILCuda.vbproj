@@ -11,6 +11,12 @@
     <Nullable>disable</Nullable>
     <AssemblyName>Microsoft.VisualBasic.Computing.ILCuda</AssemblyName>
     <InvariantGlobalization>true</InvariantGlobalization>
+    <!--
+      设备端 PCG64 的 128 位 LCG 依赖 64 位无符号整数的模 2^64 回绕，
+      因此这里关闭整数溢出检查（与 Math.Statistics / HTS_matrix 等
+      兄弟项目一致；VB 默认开启溢出检查会让 ULong 乘法抛异常）。
+    -->
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
     <Platforms>AnyCPU;x64</Platforms>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
     <Description>A CUDA compute framework for sciBASIC#: zero-dependency Driver API and NVRTC interop for device, context, stream and memory management, JIT compilation of embedded .cu kernels, plus an IL emitter that translates marked .NET methods into CUDA C source.</Description>

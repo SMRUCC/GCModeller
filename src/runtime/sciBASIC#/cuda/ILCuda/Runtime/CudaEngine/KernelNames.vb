@@ -129,6 +129,8 @@ Namespace Runtime
         ' ---- Kernels\linalg.cu ----
         ''' <summary>双精度分块矩阵乘（transA / transB 用 int 标志）</summary>
         Public Const GemmF64 As String = "ilcudaGemmF64Kernel"
+        ''' <summary>双精度矩阵-向量乘（每 block 一行）</summary>
+        Public Const GemvF64 As String = "ilcudaGemvF64Kernel"
         ''' <summary>economy QR：m x n 且 m >= n，输出显式 Q(m x n) 与 R(n x n)</summary>
         Public Const QrHouseholderF64 As String = "ilcudaQrHouseholderF64Kernel"
 
