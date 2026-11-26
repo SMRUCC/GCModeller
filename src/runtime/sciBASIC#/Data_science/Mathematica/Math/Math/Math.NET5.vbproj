@@ -25,7 +25,7 @@
 		<AssemblyVersion>1.0.9818.14504</AssemblyVersion>
 		<Description>The core mathematics library for sciBASIC#: dense and sparse matrices with SVD, LU, QR and Cholesky decompositions, simplex and interior-point linear programming with MILP branch-and-bound, BigDecimal and half precision arithmetic with SIMD kernels, distributions and quantiles, Latin hypercube sampling with discrepancy metrics, splines, down-sampling and an expression scripting engine.</Description>
 		<PackageTags>scibasic;linear-algebra;matrix;milp;linear-programming;sparse-matrix;simd;half-precision;latin-hypercube</PackageTags>
-    <PackageReleaseNotes>This cycle: Implemented the DNMF method; Improved the activation function parser; Fixed the namespace reference error.</PackageReleaseNotes>
+    <PackageReleaseNotes>This cycle: added RandomizedSVD (seeded Gaussian test matrix, subspace power iterations with double QR re-orthogonalization, SmallSVD / GramEigen tail paths, tolerance-based effective rank, dense / SparseMatrix / CsrMatrix entries) and TruncatedPCA (column centering and scaling expressed as an operator, feature-space loadings, sigma^2 explained variance, Project / InverseTransform); TruncatedSVD is now a thin wrapper over RandomizedSVD while keeping its public API and exactly-k-columns contract; Implemented the DNMF method; Improved the activation function parser; Fixed the namespace reference error.</PackageReleaseNotes>
 		<PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
 		<RepositoryType>git</RepositoryType>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
