@@ -30,6 +30,12 @@
     <ProjectReference Include="..\..\..\Microsoft.VisualBasic.Core\src\Core.vbproj" />
     <ProjectReference Include="..\..\..\vs_solutions\dev\VisualStudio\VisualStudio.NET5.vbproj" />
     <ProjectReference Include="..\ILCuda.vbproj" />
+    <!--
+      审计需要 CPU 参考实现：OrderStatisticsTable（LowerBound/UpperBound/
+      CountEqual/ShiftedQuantile）、Wilcoxon.ControlOrderStats、GaussianCopula、
+      SingleCell.CountStatistics 等都在 Math.Statistics 里。
+    -->
+    <ProjectReference Include="..\..\..\Data_science\Mathematica\Math\Math.Statistics\stats-netcore5.vbproj" />
   </ItemGroup>
 
 </Project>

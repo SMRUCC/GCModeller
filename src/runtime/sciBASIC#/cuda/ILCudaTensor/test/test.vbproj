@@ -16,6 +16,12 @@
     <ProjectReference Include="..\..\..\vs_solutions\dev\VisualStudio\VisualStudio.NET5.vbproj" />
     <ProjectReference Include="..\..\ILCuda\ILCuda.vbproj" />
     <ProjectReference Include="..\ILCudaTensor.vbproj" />
+    <!--
+      审计需要 CPU 参考实现：RandomEffects / EvidenceCombination（池化）、
+      OrderStatistics / Wilcoxon（秩和）、SingleCell.CountStatistics（jackknife）、
+      Copula.GaussianCopula（分位混合）。
+    -->
+    <ProjectReference Include="..\..\..\Data_science\Mathematica\Math\Math.Statistics\stats-netcore5.vbproj" />
   </ItemGroup>
 
 </Project>

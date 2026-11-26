@@ -195,6 +195,31 @@ Namespace GPUTensor
         ''' <summary>全局最小值 - 阶段二</summary>
         Public Const FinalMin As String = "tensorReduceFinalMinKernel"
 
+        ' ---- CellularAI 三维加权池化（Kernels\cellpool.cu）----
+        '
+        ' 注意：宏前缀用 TCPOOL_ 而不是 TCX_ —— TCX_ACT_* 已被 cellaccel.cu 占用，
+        ' 因为所有 .cu 会拼进同一个 NVRTC 编译单元，宏名必须全局唯一。
+
+        ''' <summary>跨行充分统计量：S0/S1/S2/SQ/K（DerSimonian-Laird 与逆方差权重）</summary>
+        Public Const CellPoolStats As String = "tcPoolStatsF64Kernel"
+        ''' <summary>log2FC 加权均值与 z 的 Stouffer 合并（含缺失掩码）</summary>
+        Public Const CellPoolEffects As String = "tcPoolEffectsF64Kernel"
+        ''' <summary>逐基因剖面标准化（logCPM → 中心化 → 缩放），用于设计形状</summary>
+        Public Const CellPoolProfile As String = "tcPoolProfileF64Kernel"
+
+        ' ---- CellularAI 计数合成（Kernels\cellsynth.cu）----
+
+        ''' <summary>分位锚点取值 + 整数质量守恒（每基因一个 block）</summary>
+        Public Const CellSynthQuantileMass As String = "tcSynthQuantileMassF64Kernel"
+        ''' <summary>精确秩和 z（float32 栅格、tie 项、合并方差）</summary>
+        Public Const CellSynthWilcoxonZ As String = "tcSynthWilcoxonZF64Kernel"
+        ''' <summary>逐基因平移二分（核内顺序迭代）</summary>
+        Public Const CellSynthShiftBisect As String = "tcSynthShiftBisectF64Kernel"
+        ''' <summary>Gaussian copula 秩混合 → (i+0.5)/n 分位 + 降序名次</summary>
+        Public Const CellSynthCopulaQuantile As String = "tcSynthCopulaQuantileF64Kernel"
+        ''' <summary>低表达基因按目标库大小随机散布</summary>
+        Public Const CellSynthBurst As String = "tcSynthBurstF64Kernel"
+
     End Module
 
 End Namespace

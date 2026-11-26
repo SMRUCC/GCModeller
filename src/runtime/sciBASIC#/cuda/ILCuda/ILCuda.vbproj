@@ -72,6 +72,27 @@
     <EmbeddedResource Include="Kernels\reduce.cu" />
     <EmbeddedResource Include="Kernels\elementwise.cu" />
     <EmbeddedResource Include="Kernels\blas.cu" />
+    <!--
+      排序与查找原语：分段基数排序（浮点位模式变换）、批量二分查找、
+      单段第 k 名阈值选择与下标收集、并列和 Σ(t³−t)。
+      面向"每个基因一段"的对照细胞排序值（段长可达 18000）。
+    -->
+    <EmbeddedResource Include="Kernels\sort.cu" />
+    <!--
+      设备端伪随机数：PCG64 输出函数 + SplitMix64 展开的种子，
+      计数器式绘制语义（与线程划分无关），含均匀、正态、置换与加权抽样。
+    -->
+    <EmbeddedResource Include="Kernels\rng.cu" />
+    <!--
+      双精度线性代数：分块 GEMM（支持 transA/transB 标志）与
+      高瘦矩阵的 economy QR（Householder）。小规模特征分解留在主机。
+    -->
+    <EmbeddedResource Include="Kernels\linalg.cu" />
+    <!--
+      批量小线性求解：小档（n<=32，共享内存）与中档（n<=256，全局暂存）
+      的 Cholesky 求解，以及带行掩码的 Gram + 岭项融合核。
+    -->
+    <EmbeddedResource Include="Kernels\solve.cu" />
   </ItemGroup>
 
   <ItemGroup>

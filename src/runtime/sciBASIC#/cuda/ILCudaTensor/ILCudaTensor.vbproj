@@ -104,6 +104,18 @@
       配合设备常驻状态消除逐算子往返。
     -->
     <EmbeddedResource Include="Kernels\cellaccel.cu" />
+    <!--
+      CellularAI 三维加权池化融合核：把「训练行 x 基因 x 扰动」的
+      行/列/矩阵因子乘加与 DL 充分统计量压成一次内核，
+      因子表达式在主机侧求值后传入，内核不做解析。
+    -->
+    <EmbeddedResource Include="Kernels\cellpool.cu" />
+    <!--
+      CellularAI 计数合成融合核：分位质量守恒、秩和 z、逐基因平移二分、
+      copula 分位与低表达基因的突发散布。自带共享内存双调排序与
+      计数器式随机数装置，不跨文件依赖 ILCuda 的 sort.cu / rng.cu。
+    -->
+    <EmbeddedResource Include="Kernels\cellsynth.cu" />
   </ItemGroup>
 
   <ItemGroup>

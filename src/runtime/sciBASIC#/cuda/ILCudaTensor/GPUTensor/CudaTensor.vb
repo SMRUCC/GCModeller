@@ -2200,7 +2200,15 @@ Namespace GPUTensor
                 TensorKernelNames.LifUpdateFp32,
                 TensorKernelNames.CellLtcRk4,
                 TensorKernelNames.CellGraphLayer,
-                TensorKernelNames.CellGraphFeature
+                TensorKernelNames.CellGraphFeature,
+                TensorKernelNames.CellPoolStats,
+                TensorKernelNames.CellPoolEffects,
+                TensorKernelNames.CellPoolProfile,
+                TensorKernelNames.CellSynthQuantileMass,
+                TensorKernelNames.CellSynthWilcoxonZ,
+                TensorKernelNames.CellSynthShiftBisect,
+                TensorKernelNames.CellSynthCopulaQuantile,
+                TensorKernelNames.CellSynthBurst
             }
 
             Dim sb As New System.Text.StringBuilder()

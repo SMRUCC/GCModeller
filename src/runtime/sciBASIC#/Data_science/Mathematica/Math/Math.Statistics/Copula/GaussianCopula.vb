@@ -162,8 +162,8 @@ Namespace Copula
 
             Dim rankX As Double() = AverageRanks(x)
             Dim rankY As Double() = AverageRanks(y)
-            Dim meanX As Double = Mean(rankX)
-            Dim meanY As Double = Mean(rankY)
+            Dim meanX As Double = rankX.Average
+            Dim meanY As Double = rankY.Average
             Dim covariance As Double = 0.0
             Dim varianceX As Double = 0.0
             Dim varianceY As Double = 0.0
@@ -216,16 +216,5 @@ Namespace Copula
 
             Return ranks
         End Function
-
-        Private Function Mean(values As Double()) As Double
-            Dim sum As Double = 0.0
-
-            For i As Integer = 0 To values.Length - 1
-                sum += values(i)
-            Next
-
-            Return sum / values.Length
-        End Function
-
     End Module
 End Namespace
