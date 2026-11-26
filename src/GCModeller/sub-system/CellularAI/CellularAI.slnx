@@ -1,5 +1,6 @@
 <Solution>
   <Folder Name="/framework/">
+    <Project Path="../../../runtime/sciBASIC#/Data_science/Graph/graph-netcore5.vbproj" />
     <Project Path="../../../runtime/sciBASIC#/Data_science/Mathematica/Math/DataFittings/linear-netcore5.vbproj" />
     <Project Path="../../../runtime/sciBASIC#/Data_science/Mathematica/Math/Math.Statistics/stats-netcore5.vbproj" />
     <Project Path="../../../runtime/sciBASIC#/Data_science/Mathematica/Math/Math/Math.NET5.vbproj" />
@@ -9,7 +10,11 @@
     <Project Path="../../../workbench/modules/ExperimentDesigner/designer-netcore5.vbproj" />
     <Project Path="../../analysis/HTS_matrix/HTS_matrix-netcore5.vbproj" />
     <Project Path="../../core/Bio.Assembly/biocore-netcore5.vbproj" />
+    <Project Path="../../core/Bio.InteractionModel/InteractionModel.vbproj" />
   </Folder>
-  <Project Path="CellularAI/CellularAI.vbproj" />
+  <Folder Name="/vcc/">
+    <Project Path="CellularAI/CellularAI.vbproj" />
+    <Project Path="VirtualCellular/VirtualCellular.vbproj" Id="462702cc-3101-4d68-962d-a2bd65e8ef50" />
+  </Folder>
   <Project Path="CellularAI/test/test.vbproj" />
 </Solution>

@@ -2,6 +2,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix.Compressed
 Imports Microsoft.VisualBasic.Math.Statistics
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports std = System.Math
 
 Namespace Scoring

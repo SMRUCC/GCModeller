@@ -1,6 +1,6 @@
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix.Compressed
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame.SingleCell
 Imports SMRUCC.genomics.Analysis.Illumina.CellularAI.Model
-Imports SMRUCC.genomics.Analysis.Illumina.CellularAI.SingleCell
 Imports std = System.Math
 
 Namespace Design
