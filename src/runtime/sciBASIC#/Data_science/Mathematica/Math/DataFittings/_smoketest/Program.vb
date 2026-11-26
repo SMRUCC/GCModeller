@@ -329,6 +329,9 @@ Module Program
         Call Section("cox audit")
         failures += CoxAudit.Run()
 
+        Call Section("multi-response ridge audit")
+        failures += MultiResponseRidgeAudit.Run()
+
         Call Section("prediction")
         Dim predicted As NumericTable = multi.SetPrediction(mlr, withResidual:=True)
 
