@@ -223,13 +223,11 @@ Namespace Design
             Dim share As Double = 0.0
 
             For pass As Integer = 1 To std.Max(m_options.FixedSteps, 1)
-                Dim solution As MarginSolution = MarginSolver.SolveMargin(
-                    Function(m As Double) As Double
-                        Dim totals As Double()() = ProfileSpread.ToDouble(Me.Totals(Me.Shaped(m, credit).L))
+                Dim realized As Func(Of Double, Double) =
+                    Function(m As Double) ProfileSpread.FromTotals(
+                        ProfileSpread.ToDouble(Me.Totals(Me.Shaped(m, credit).L)), Me.Mask, Me.Weights)
 
-                        Return ProfileSpread.FromTotals(totals, Me.Mask, Me.Weights)
-                    End Function,
-                    target, If(margin > 0.0, margin, 1.0))
+                Dim solution As MarginSolution = MarginSolver.SolveMargin(realized, target, If(margin > 0.0, margin, 1.0))
 
                 margin = solution.Margin
                 reached = solution.Reached
