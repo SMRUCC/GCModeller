@@ -743,3 +743,4 @@ src/GCModeller/core/Bio.Assembly/Test/report/gbff-20261124-112329.json
 src/GCModeller/core/Bio.Assembly/Test/report/gbff-20261124-115647.json
 src/GCModeller/core/Bio.Assembly/Test/report/gbff-20261124-115709.json
 test/omics/community/community.zip
+test/virtualcellular-model.zip

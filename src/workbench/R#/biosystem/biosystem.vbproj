@@ -75,6 +75,7 @@
     <ProjectReference Include="..\..\..\GCModeller\sub-system\Metaboliq\Metaboliq.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\sub-system\PLAS.NET\SGrid\SGrid.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\sub-system\PLAS.NET\SSystem\SSystem.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\sub-system\CellularAI\VirtualCellular\VirtualCellular.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\sub-system\SpikingLoop\SpikingLoop.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\sub-system\Squiiff\Squiiff\Squiiff.vbproj" />
     <ProjectReference Include="..\..\..\R-sharp\R#\Rsharp-netcore5.vbproj" />
