@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>CellularAITest</RootNamespace>
+    <TargetFramework>net10.0</TargetFramework>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <WarningLevel>0</WarningLevel>
+    <StartupObject>CellularAITest.Program</StartupObject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\runtime\sciBASIC#\Data_science\DataMining\DataMining\DataMining.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\..\..\runtime\sciBASIC#\Data_science\MachineLearning\DeepLearning\DeepLearning.NET6.vbproj" />
+    <ProjectReference Include="..\..\..\..\..\runtime\sciBASIC#\Data_science\MachineLearning\TensorFlow\TensorFlow.vbproj" />
+    <ProjectReference Include="..\..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math.Statistics\stats-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\CellularAI.vbproj" />
+  </ItemGroup>
+
+</Project>

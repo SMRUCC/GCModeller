@@ -1,12 +1,11 @@
-Imports System
 Imports System.IO
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix.Compressed
-Imports CellularAI
-Imports CellularAI.Model
-Imports CellularAI.Scoring
-Imports CellularAI.Synthesis
+Imports SMRUCC.genomics.Analysis.Illumina.CellularAI
+Imports SMRUCC.genomics.Analysis.Illumina.CellularAI.Model
+Imports SMRUCC.genomics.Analysis.Illumina.CellularAI.Scoring
+Imports SMRUCC.genomics.Analysis.Illumina.CellularAI.Synthesis
 Imports std = System.Math
 
 ''' <summary>
@@ -56,16 +55,16 @@ Public Module M6ScoringAudit
 
         For Each name As String In New String() {"pds", "expr_mse", "fid", "reach", "jac"}
             Call DebugAudit.Mark($"m6.perfect_{name}", scores(name))
-            DebugAudit.Test(std.Abs(scores(name) - 1.0) < 1e-9, $"a perfect prediction scores 1 on {name}, got {scores(name):F9}")
+            DebugAudit.Test(std.Abs(scores(name) - 1.0) < 0.000000001, $"a perfect prediction scores 1 on {name}, got {scores(name):F9}")
         Next
 
         Call DebugAudit.Mark("m6.perfect_nmae", scores("nmae"))
-        DebugAudit.Test(scores("nmae") < 1e-9, $"a perfect prediction has zero nmae, got {scores("nmae"):F9}")
+        DebugAudit.Test(scores("nmae") < 0.000000001, $"a perfect prediction has zero nmae, got {scores("nmae"):F9}")
 
         Dim total As Double = Metrics.AnchorScore(scores)
 
         Call DebugAudit.Mark("m6.perfect_total", total)
-        DebugAudit.Test(std.Abs(total - 100.0) < 1e-9, $"a perfect prediction totals 100, got {total:F6}")
+        DebugAudit.Test(std.Abs(total - 100.0) < 0.000000001, $"a perfect prediction totals 100, got {total:F6}")
     End Sub
 
     ''' <summary>把预测换成另一组细胞后，剖面与表达误差必须明显变差。</summary>
@@ -134,7 +133,7 @@ Public Module M6ScoringAudit
 
         For p As Integer = 0 To task.PerturbationCount - 1
             Dim dense As Double()() = RectangularArray.Matrix(Of Double)(nCells, task.GeneCount)
-            Dim generator As New CellularAI.Randomizer.Pcg64(100 + p)
+            Dim generator As New Randomizer.Pcg64(100 + p)
 
             For c As Integer = 0 To nCells - 1
                 For g As Integer = 0 To task.GeneCount - 1
@@ -154,7 +153,7 @@ Public Module M6ScoringAudit
     ''' <summary>把基因轴整体置换（保持总量、破坏剖面形状）。</summary>
     Private Function Shuffle(blocks As CsrMatrix(), nGenes As Integer) As CsrMatrix()
         Dim result(blocks.Length - 1) As CsrMatrix
-        Dim generator As New CellularAI.Randomizer.Pcg64(7)
+        Dim generator As New Randomizer.Pcg64(7)
 
         For b As Integer = 0 To blocks.Length - 1
             Dim dense As Double()() = Metrics.ToDense(blocks(b), nGenes)

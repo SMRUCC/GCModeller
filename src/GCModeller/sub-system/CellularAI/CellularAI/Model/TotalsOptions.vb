@@ -1,3 +1,5 @@
+Imports SMRUCC.genomics.Analysis.Illumina.CellularAI.Design
+
 Namespace Model
 
     ''' <summary>

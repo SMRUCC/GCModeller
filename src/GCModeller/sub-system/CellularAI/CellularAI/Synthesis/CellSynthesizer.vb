@@ -1,8 +1,8 @@
-Imports CellularAI.Model
-Imports CellularAI.Placement
-Imports CellularAI.Randomizer
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix.Compressed
+Imports SMRUCC.genomics.Analysis.Illumina.CellularAI.Model
+Imports SMRUCC.genomics.Analysis.Illumina.CellularAI.Placement
+Imports SMRUCC.genomics.Analysis.Illumina.CellularAI.Randomizer
 Imports std = System.Math
 
 Namespace Synthesis

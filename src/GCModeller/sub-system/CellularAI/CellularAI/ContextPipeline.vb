@@ -1,17 +1,14 @@
-Imports CellularAI.Design
-Imports CellularAI.Evidence
-Imports CellularAI.Model
-Imports CellularAI.Placement
-Imports CellularAI.Planning
-Imports CellularAI.Randomizer
-Imports CellularAI.Randomizer.PerturbationSeed
-Imports CellularAI.Residual
-Imports CellularAI.Scoring
-Imports CellularAI.Summary
-Imports CellularAI.Synthesis
-Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix.Compressed
+Imports SMRUCC.genomics.Analysis.Illumina.CellularAI.Design
+Imports SMRUCC.genomics.Analysis.Illumina.CellularAI.Evidence
+Imports SMRUCC.genomics.Analysis.Illumina.CellularAI.Model
+Imports SMRUCC.genomics.Analysis.Illumina.CellularAI.Placement
+Imports SMRUCC.genomics.Analysis.Illumina.CellularAI.Planning
+Imports SMRUCC.genomics.Analysis.Illumina.CellularAI.Randomizer
+Imports SMRUCC.genomics.Analysis.Illumina.CellularAI.Residual
+Imports SMRUCC.genomics.Analysis.Illumina.CellularAI.Scoring
+Imports SMRUCC.genomics.Analysis.Illumina.CellularAI.Summary
+Imports SMRUCC.genomics.Analysis.Illumina.CellularAI.Synthesis
 Imports std = System.Math
 
 ''' <summary>
@@ -28,7 +25,7 @@ Imports std = System.Math
 ''' <b>不做文件 IO</b>：输入是上游装配好的内存对象，输出是 CSR 计数矩阵与报告对象。
 ''' </para>
 ''' <para>
-''' <b>可复现</b>：所有随机性来自 <paramref name="seed"/> 与扰动名派生的种子，
+''' <b>可复现</b>：所有随机性来自 "seed" 与扰动名派生的种子，
 ''' 因此同一组参数重跑两次得到的计数矩阵逐元素相等。
 ''' </para>
 ''' </remarks>
@@ -61,7 +58,6 @@ Public Module ContextPipeline
     ''' <param name="nCells">每个扰动的细胞数</param>
     ''' <param name="seed">任务种子</param>
     ''' <param name="reference">可选的参考侧统计（提供时会计算六项指标）</param>
-    ''' <param name="applyResidual">是否启用控制条件残差校正</param>
     Public Function Predict(controls As CsrMatrix,
                             genes As String(),
                             perturbations As String(),

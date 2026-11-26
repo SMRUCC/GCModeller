@@ -1,4 +1,4 @@
-Imports CellularAI.Model
+Imports SMRUCC.genomics.Analysis.Illumina.CellularAI.Model
 Imports std = System.Math
 
 Namespace Synthesis

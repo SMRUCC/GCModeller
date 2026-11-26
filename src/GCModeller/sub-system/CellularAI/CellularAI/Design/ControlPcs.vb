@@ -1,7 +1,7 @@
-Imports CellularAI.Model
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix.Compressed
+Imports SMRUCC.genomics.Analysis.Illumina.CellularAI.Model
 Imports std = System.Math
 
 Namespace Design

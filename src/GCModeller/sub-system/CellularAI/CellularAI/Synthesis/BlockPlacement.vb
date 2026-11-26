@@ -1,4 +1,3 @@
-Imports CellularAI.Model
 Imports std = System.Math
 
 Namespace Synthesis

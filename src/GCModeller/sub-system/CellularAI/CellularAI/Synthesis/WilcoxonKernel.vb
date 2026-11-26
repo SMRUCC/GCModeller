@@ -1,3 +1,4 @@
+Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis
 Imports std = System.Math
 
 Namespace Synthesis
@@ -8,7 +9,7 @@ Namespace Synthesis
     ''' </summary>
     ''' <remarks>
     ''' <para>
-    ''' <b>为什么不用 <see cref="Hypothesis.Wilcoxon"/> 的逐基因实现</b>：那条路径会给每个基因
+    ''' <b>为什么不用 <see cref="Wilcoxon"/> 的逐基因实现</b>：那条路径会给每个基因
     ''' 建一次 <c>Dictionary</c> 去统计并列，单次调用很便宜；但合成内层"每扰动 × 每基因 × 数十次二分"
     ''' 的量级是 <c>10⁸</c> 次调用，字典的分配与哈希会成为瓶颈。这里的实现只做三件事：
     ''' 把样本排序、按游程（相同 CPM 的连续段）合并、对每个游程在对照序列上二分定位。

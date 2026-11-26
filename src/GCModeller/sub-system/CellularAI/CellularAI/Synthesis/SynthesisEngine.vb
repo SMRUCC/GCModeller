@@ -1,8 +1,7 @@
-Imports CellularAI.Model
-Imports CellularAI.Planning
-Imports CellularAI.SingleCell
-Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix.Compressed
+Imports SMRUCC.genomics.Analysis.Illumina.CellularAI.Model
+Imports SMRUCC.genomics.Analysis.Illumina.CellularAI.Planning
+Imports SMRUCC.genomics.Analysis.Illumina.CellularAI.SingleCell
 Imports std = System.Math
 
 Namespace Synthesis
@@ -92,7 +91,7 @@ Namespace Synthesis
             Dim libraries As Double() = LibrarySizes
 
             For i As Integer = 0 To n - 1
-                Dim librarySize As Double = std.Max(libraries(i), 1.0E-12)
+                Dim librarySize As Double = std.Max(libraries(i), 0.000000000001)
 
                 For k As Integer = Controls.Indptr(i) To Controls.Indptr(i + 1) - 1
                     If Controls.Indices(k) = gene Then

@@ -1,6 +1,6 @@
-Imports CellularAI.Model
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Math.Statistics
+Imports SMRUCC.genomics.Analysis.Illumina.CellularAI.Model
 Imports std = System.Math
 
 Namespace Planning
