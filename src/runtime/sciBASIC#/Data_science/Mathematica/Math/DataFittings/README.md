@@ -20,7 +20,7 @@
 |---|---|---|
 | （根） | 线性 / 多项式最小二乘、加权与**非负**最小二乘、多元线性回归 | 参数线性、有先验约束 |
 | `...Data.Bootstrapping.LASSO` | L1 正则回归 | 特征多、需要特征选择 |
-| `...Data.Bootstrapping.Ridge` | L2 正则回归（岭回归） | 自变量共线、需要稳定解 |
+| `...Data.Bootstrapping.Ridge` | L2 正则回归（岭回归）：单响应 λ 路径 + **多响应闭式解**（行掩码 / 逐基因批量） | 自变量共线、需要稳定解；同一套特征同时解释多组响应 |
 | `...Data.Bootstrapping.LevenbergMarquardt` | 阻尼最小二乘（LM） | 任意非线性模型函数 |
 | `...Data.Bootstrapping.Multivariate` | 多元线性回归（MLR） | 多自变量线性拟合 |
 | `...Data.Bootstrapping.Logistic` | 逻辑回归 | 二分类 / S 型曲线 |
@@ -55,7 +55,13 @@ Console.WriteLine(ridge.BestCoefficients.JoinBy(", "))
 '    岭迹（正则化路径）可以直接导出成二维表
 Dim trace = ridge.toNumericTable()
 
-' 5. 非线性拟合（Levenberg-Marquardt）：三种入口
+' 5. 多响应岭回归：(X'X + lambda*I)·B = X'Y，一次解出 k 个响应
+'    支持行掩码（只有部分样本参与）与逐基因批量求解
+Dim multi = Ridge.MultiResponseRidge.Fit(x, y, mask:=usedRows, lambda:=10.0)
+Console.WriteLine($"{multi.FeatureCount} x {multi.ResponseCount}, rank={multi.Rank}, n={multi.SampleCount}")
+Dim yhat = multi.Predict(x)                        ' 每行一个样本，返回 n×k
+
+' 6. 非线性拟合（Levenberg-Marquardt）：三种入口
 '    a) 不给出模型，拟合幂律模型 y = p0 * x1^p1 * x2^p2 ...
 Dim power = inputs.NonLinearFit()
 '    b) 给出模型委托
@@ -108,6 +114,9 @@ Console.WriteLine($"lambda.min={coxCV.lambdaMin:G4}, lambda.1se={coxCV.lambda1se
 - **LOESS 为什么不是「拟合一个函数」**：它对每个预测点只用邻域数据做局部加权回归，因此能刻画非常不规则的形状，代价是无法写出一个封闭的解析式。
 - **岭回归解决的是共线性**：自变量高度相关时 `X'X` 接近奇异，最小二乘的系数会剧烈震荡甚至算不出来；加上 `n·λ·I` 之后正规方程恒为正定，代价是系数被向零收缩（有偏），用 GCV 折中偏差与方差来选 λ。
 - **岭回归必须标准化**：L2 惩罚对每个系数一视同仁，量纲不同会让惩罚效果完全不同；截距则单独估计、不参与惩罚，否则模型会依赖于 y 的原点。
+- **多响应的收益在分解次数**：`k` 个响应共享同一个 `f×f` 法方程，因此"一次 Cholesky 分解 + `k` 次回代"就够了，不必做 `k` 次独立求解。代价是 `k` 个响应必须共享同一个 λ 与同一组特征。
+- **多响应岭回归没有截距**：`MultiResponseRidge` 只做 `(x − mean)·B`。这是刻意的——它面向"逐基因残差校正"这类场景，特征与响应本身都已经中心化，额外再加截距会让同一列在训练与预测上的语义不一致。需要截距时请显式在特征里放一列常数。
+- **行掩码不是权重**：被掩码剔除的行既不进入法方程、也不参与中心化均值（相当于"先切片再拟合"，数值上逐位等价）；如果用权重 0 来表达同一件事，中心化仍会被这些行污染。
 - **泊松回归用对数链接，而不是对 y 取对数**：`log(y) = a + b·x` 的最小二乘要求 y>0 且隐含对数正态误差，遇到 0 计数就失效；泊松回归直接对条件均值建模 `log(mu) = Xβ`，保留计数分布「均值=方差」的结构，并用 IRLS / Newton-Raphson 求极大似然解。
 - **offset 不是普通自变量**：暴露量以 `log(t)` 作为系数固定为 1 的项进入线性预测子，模型拟合的是事件率 `mu/t`；调用方传原始暴露量 `t`（必须为正），库内部取对数。带 offset 时 `GetY` 返回单位暴露量的率，`Predict(x, exposure)` 与 `FittedValues` 才返回期望计数。
 - **离散比是模型诊断，不是拟合优度**：`Deviance / df ≈ 1` 才符合等散性；远大于 1（经验上 >1.5）时标准误被低估，应转向负二项 / 准泊松，零值过多则考虑零膨胀模型。`IFitted.R2` 在这里是基于偏差的伪 R²（`1 − D/D_null`），不是普通决定系数。
