@@ -1,5 +1,5 @@
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix.Compressed
-Imports std = System.Math
+Imports Microsoft.VisualBasic.Math.Statistics
 
 Namespace SingleCell
 

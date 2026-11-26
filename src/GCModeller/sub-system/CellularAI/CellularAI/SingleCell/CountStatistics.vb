@@ -1,4 +1,5 @@
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix.Compressed
+Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis
 Imports Microsoft.VisualBasic.Math.Statistics.OrderStatistics
 Imports std = System.Math
 
@@ -15,6 +16,24 @@ Namespace SingleCell
     ''' </para>
     ''' </remarks>
     Public Module CountStatistics
+
+        ''' <summary>
+        ''' 逐基因批量检验（直接给计数矩阵）：内部先按细胞换算 CPM 再检验。
+        ''' </summary>
+        ''' <param name="control">对照组序统计缓存</param>
+        ''' <param name="sampleCounts">实验组计数矩阵，形状为 [细胞, 基因]</param>
+        ''' <param name="opt">检验参数</param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' 需要一个 <c>细胞 × 基因</c> 的稠密 CPM 缓冲区（<c>n × G</c> 个 double，例如 400 × 18000 ≈ 58 MB）。
+        ''' 数据量更大时请自行分块，或先构造 <see cref="SingleCellCounts"/> 并用
+        ''' <see cref="CountStatistics.ToCpmGrid"/> 控制驻留规模。
+        ''' </remarks>
+        Public Function TestCounts(control As ControlOrderStats, sampleCounts As CsrMatrix, Optional opt As RankSumOptions = Nothing) As RankSumTable
+            If sampleCounts Is Nothing Then Throw New ArgumentNullException(NameOf(sampleCounts))
+
+            Return TestTable(control, CountStatistics.ToCpmGrid(sampleCounts), opt)
+        End Function
 
         ''' <summary>
         ''' 每个基因的平均每细胞 CPM。
