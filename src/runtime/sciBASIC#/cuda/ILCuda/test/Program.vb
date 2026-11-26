@@ -117,6 +117,8 @@ Module Program
         Public Property ShowSource As Boolean = True
         ''' <summary>il 命令是否打印原始 IL 与基本块结构</summary>
         Public Property DumpIl As Boolean = False
+        ''' <summary>audit 命令的报告输出目录（默认 audit）</summary>
+        Public Property ReportDir As String = "audit"
     End Class
 
     Function Main(args As String()) As Integer
@@ -155,6 +157,8 @@ Module Program
                 Return RunIlCompare(options)
             Case "demo"
                 Return RunDemo(options)
+            Case "audit"
+                Return RunAudit(options)
             Case Else
                 Console.WriteLine($"未知命令: {options.Command}")
                 PrintHelp()
@@ -255,6 +259,21 @@ Module Program
         Console.WriteLine()
         Console.WriteLine($"  共 {KernelCatalog.All().Count} 个内核。")
         Return 0
+    End Function
+
+    ''' <summary>
+    ''' 新增内核的 CPU / GPU 对拍审计，结果通过 DebugAudit 生成结构化报告。
+    ''' </summary>
+    Private Function RunAudit(options As CliOptions) As Integer
+        ConsoleReporter.PrintTitle("新增内核审计（排序 / 随机数 / 线性代数 / 批量求解）")
+
+        Call Audit.AuditRunner.Setup(options.CpuOnly, options.DeviceOrdinal,
+                                     options.NvrtcPath, options.ImagePath,
+                                     options.ForceImage, options.ReportDir)
+
+        Call Audit.SortAudit.Run()
+
+        Return Audit.AuditRunner.Flush()
     End Function
 
     Private Function RunSelfTest(options As CliOptions) As Integer
@@ -517,6 +536,8 @@ Module Program
                     options.Elements = Integer.Parse(value)
                 Case "preview"
                     options.Preview = Integer.Parse(value)
+                Case "out", "report"
+                    options.ReportDir = value
                 Case "cpu-only"
                     options.CpuOnly = True
                 Case "no-ast"
