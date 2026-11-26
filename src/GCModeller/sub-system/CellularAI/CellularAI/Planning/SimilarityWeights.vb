@@ -43,13 +43,13 @@ Namespace Planning
         ''' <param name="tau">softmax 温度</param>
         ''' <param name="ntop">参与相关的高变基因数</param>
         ''' <param name="sdMin">相关系数标准差的下限</param>
-        Public Function Weights(genes As String(),
-                                targetCpm As Double(),
-                                referenceCtrl As Dictionary(Of String, ControlProfile),
-                                lines As String(),
-                                tau As Double,
-                                ntop As Integer,
-                                sdMin As Double) As SimilarityResult
+        Public Function Similarity(genes As String(),
+                                   targetCpm As Double(),
+                                   referenceCtrl As Dictionary(Of String, ControlProfile),
+                                   lines As String(),
+                                   tau As Double,
+                                   ntop As Integer,
+                                   sdMin As Double) As SimilarityResult
 
             Dim nGenes As Integer = If(genes Is Nothing, 0, genes.Length)
             Dim nLines As Integer = If(lines Is Nothing, 0, lines.Length)
@@ -314,9 +314,9 @@ Namespace Planning
                 Return result
             End If
 
-            Dim similarity As SimilarityResult = Weights(genes, meanCpm, referenceCtrl, mixLines,
-                                                         plan.SimTau, plan.SimNtop, guards.OrderSdMin)
-            Dim capped As Double() = CapWeights(similarity.Weights, plan.SimCap)
+            Dim fitted As SimilarityResult = Similarity(genes, meanCpm, referenceCtrl, mixLines,
+                                                        plan.SimTau, plan.SimNtop, guards.OrderSdMin)
+            Dim capped As Double() = CapWeights(fitted.Weights, plan.SimCap)
             Dim W(nRows - 1) As Double
             Dim squareSum As Double = 0.0
 
@@ -325,7 +325,7 @@ Namespace Planning
                 squareSum += W(t) * W(t)
             Next
 
-            Call Guards.Share("plan", W, guards)
+            Call CellularAI.Guards.Share("plan", W, guards)
 
             Dim denominator As Double = std.Sqrt(std.Max(squareSum, 1.0E-300))
             Dim num(nPerts - 1) As Double
@@ -334,13 +334,11 @@ Namespace Planning
                 Call Array.Clear(num, 0, nPerts)
 
                 For t As Integer = 0 To nRows - 1
-                    Dim w As Double = W(t)
-
                     For p As Integer = 0 To nPerts - 1
                         Dim value As Double = mixZ(t)(g)(p)
 
                         If Not Double.IsNaN(value) Then
-                            num(p) += w * value
+                            num(p) += W(t) * value
                         End If
                     Next
                 Next
@@ -376,11 +374,11 @@ Namespace Planning
                 Return result
             End If
 
-            Dim similarity As SimilarityResult = Weights(genes, meanCpm, referenceCtrl, simLines,
-                                                         plan.SimTau, plan.SimNtop, guards.OrderSdMin)
-            Dim capped As Double() = CapWeights(similarity.Weights, plan.SimCap)
+            Dim fitted As SimilarityResult = Similarity(genes, meanCpm, referenceCtrl, simLines,
+                                                        plan.SimTau, plan.SimNtop, guards.OrderSdMin)
+            Dim capped As Double() = CapWeights(fitted.Weights, plan.SimCap)
 
-            Call Guards.Share("sim", capped, guards)
+            Call CellularAI.Guards.Share("sim", capped, guards)
 
             For g As Integer = 0 To nGenes - 1
                 Call Array.Clear(numerator, 0, nPerts)
@@ -457,11 +455,11 @@ Namespace Planning
             End If
 
             Dim keepLines As String() = keep.Select(Function(i) lines(i)).ToArray
-            Dim similarity As SimilarityResult = Weights(genes, meanCpm, referenceCtrl, keepLines,
-                                                         plan.XsimTau, plan.SimNtop, guards.OrderSdMin)
-            Dim capped As Double() = CapWeights(similarity.Weights, plan.SimCap)
+            Dim fitted As SimilarityResult = Similarity(genes, meanCpm, referenceCtrl, keepLines,
+                                                        plan.XsimTau, plan.SimNtop, guards.OrderSdMin)
+            Dim capped As Double() = CapWeights(fitted.Weights, plan.SimCap)
 
-            Call Guards.Share("xsim", capped, guards)
+            Call CellularAI.Guards.Share("xsim", capped, guards)
 
             For p As Integer = 0 To nPerts - 1
                 Dim weighted As Double = 0.0
